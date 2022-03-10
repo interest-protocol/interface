@@ -5,6 +5,7 @@ node_modules
 .vscode
 /.pnp
 .pnp.js
+.next
 
 
 # testing

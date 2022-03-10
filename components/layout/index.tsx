@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 
 import { View } from '../../elements';
 import { LayoutProps } from './layout.types';
@@ -7,10 +7,10 @@ import { LayoutProps } from './layout.types';
 // eslint-disable-next-line react/prop-types
 const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => (
   <View>
-    <Helmet>
+    <Head>
       <html lang="pt-PT" />
       <title>Template | {pageTitle}</title>
-    </Helmet>
+    </Head>
     <header />
     <main>{children}</main>
     <footer />

@@ -1,5 +1,5 @@
+import Link from 'next/link';
 import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
 
 import { Layout, Logo } from '../components';
 import { Routes, RoutesEnum } from '../constants/routes';
@@ -16,7 +16,7 @@ const Home: FC = () => (
     >
       <Logo />
       <h1>Home</h1>
-      <Link to={Routes[RoutesEnum.OtherPage]}>Goto To Other Page &rarr; </Link>
+      <Link href={Routes[RoutesEnum.Home]}>Goto To Other Page &rarr; </Link>
     </View>
   </Layout>
 );
