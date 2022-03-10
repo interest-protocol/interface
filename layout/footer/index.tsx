@@ -18,22 +18,43 @@ const Footer: FC = () => (
     borderColor="accent"
   >
     <Container>
-      <Box display="flex" justifyContent="space-between" py="XXXL">
+      <Box
+        py={['NONE', 'XXXL']}
+        display="flex"
+        justifyContent="space-between"
+        flexDirection={['column', 'row']}
+      >
         <Link href={Routes[RoutesEnum.Home]}>
-          <Box display="flex" alignItems="center">
-            <LogoSVG width="4rem" />
-            <Typography variant="title3" whiteSpace="nowrap" ml="L">
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            mt={['L', 'NONE']}
+            py={['L', 'NONE']}
+          >
+            <Box as="span" display={['none', 'inline']}>
+              <LogoSVG width="4rem" />
+            </Box>
+            <Box as="span" display={['inline', 'none']}>
+              <LogoSVG width="2rem" />
+            </Box>
+            <Typography
+              ml="L"
+              variant="title3"
+              whiteSpace="nowrap"
+              fontSize={['S', 'L']}
+            >
               Interest Protocol
             </Typography>
           </Box>
         </Link>
-        <Box as="nav" display="flex">
+        <Box as="nav" display="flex" py={['L', 'NONE']}>
           {SOCIAL_MEDIAS.map((socialMediaData) => (
             <SocialMediaCard {...socialMediaData} key={v4()} />
           ))}
         </Box>
       </Box>
-      <Typography variant="normal" textAlign="center" my="M">
+      <Typography variant="normal" textAlign="center" my="M" py={['L', 'NONE']}>
         {new Date().getFullYear()}. Interest Protocol. All rights is reserved.
       </Typography>
     </Container>
