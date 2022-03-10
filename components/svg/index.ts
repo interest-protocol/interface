@@ -1,9 +1,13 @@
 export { default as CheckSVG } from './check';
+export { default as CrossChainSVG } from './cross-chain';
 export { default as DiscordSVG } from './discord';
 export { default as DoorSVG } from './door';
 export { default as GithubSVG } from './github';
 export { default as LogoSVG } from './logo';
 export { default as MediumSVG } from './medium';
+export { default as NFTSVG } from './nft';
+export { default as ProfitsSVG } from './profits';
+export { default as SupportSVG } from './support';
 export { default as TelegramSVG } from './telegram';
 export { default as TimesSVG } from './times';
 export { default as TwitterSVG } from './twitter';

@@ -12,15 +12,27 @@ const title1 = css`
 `;
 
 const title2 = css`
-  font-size: 2.5rem;F
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 2.18rem;
+  line-height: 150%;
 `;
 
 const title3 = css`
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 700;
+  font-size: 24px;
+  line-height: 150%;
+`;
+
+const title4 = css`
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
   line-height: 22px;
-  font-size: 1.2rem;
 `;
 
 const normal = css`
@@ -31,5 +43,6 @@ export default {
   title1,
   title2,
   title3,
+  title4,
   normal,
 };

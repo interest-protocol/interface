@@ -40,7 +40,7 @@ const Footer: FC = () => (
             </Box>
             <Typography
               ml="L"
-              variant="title3"
+              variant="title4"
               whiteSpace="nowrap"
               fontSize={['S', 'L']}
             >

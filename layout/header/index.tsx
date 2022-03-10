@@ -15,6 +15,7 @@ const Header: FC = () => (
     zIndex={1}
     as="header"
     width="100vw"
+    color="textSoft"
     backdropFilter="blur(10px)"
     position={['sticky', 'fixed']}
     bg={['foreground', 'transparentBackground']}
@@ -27,7 +28,7 @@ const Header: FC = () => (
     >
       <Box display="flex" alignItems="center" my={['L', 'NONE']}>
         <LogoSVG width="3.233rem" />
-        <Typography variant="title3" as="h1" ml="L">
+        <Typography variant="title4" as="h1" ml="L">
           Interest Protocol
         </Typography>
       </Box>

@@ -29,7 +29,7 @@ const ModalCard: FC<ModalCardProps> = ({ children, onClose }) => (
       borderRadius="S"
       position="absolute"
       alignItems="center"
-      bg="buttonBackground"
+      bg="bottomBackground"
       justifyContent="center"
       onClick={onClose}
     >

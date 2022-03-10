@@ -12,6 +12,8 @@ import {
   TypographyProps,
 } from 'styled-system';
 
+import { MaybeArray } from '../../interface';
+
 export interface BoxProps
   extends FlexboxProps,
     GridProps,
@@ -25,9 +27,9 @@ export interface BoxProps
     SpaceProps,
     Omit<HTMLAttributes<HTMLElement>, 'color'> {
   as?: keyof JSX.IntrinsicElements;
-  cursor?: CSSProperties['cursor'];
-  filter?: CSSProperties['filter'];
-  rowGap?: CSSProperties['gap'];
-  columnGap?: CSSProperties['gap'];
-  backdropFilter?: CSSProperties['filter'];
+  cursor?: MaybeArray<CSSProperties['cursor']>;
+  filter?: MaybeArray<CSSProperties['filter']>;
+  rowGap?: MaybeArray<CSSProperties['gap']>;
+  columnGap?: MaybeArray<CSSProperties['gap']>;
+  backdropFilter?: MaybeArray<CSSProperties['filter']>;
 }

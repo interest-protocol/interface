@@ -15,7 +15,7 @@ const Advantages: FC = () => (
       px={['L', 'XXXL']}
       mx={['S', 'XXXL']}
       py={['XXL', 'XXXL']}
-      gridTemplateColumns={['1fr', '§1fr 1fr 1fr']}
+      gridTemplateColumns={['1fr', '1fr 1fr 1fr']}
     >
       {ADVANTAGES_DATA.map((advantage) => (
         <AdvantagesCard key={v4()}>{advantage}</AdvantagesCard>
