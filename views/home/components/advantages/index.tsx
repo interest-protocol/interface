@@ -10,12 +10,12 @@ const Advantages: FC = () => (
   <Container as="section">
     <Box
       display="grid"
-      px={['L', 'XXXL']}
-      mx={['L', 'XXXL']}
-      py={['L', 'XXXL']}
       rowGap="2rem"
       columnGap="3rem"
-      gridTemplateColumns="1fr 1fr 1fr"
+      px={['L', 'XXXL']}
+      mx={['S', 'XXXL']}
+      py={['XXL', 'XXXL']}
+      gridTemplateColumns={['1fr', '§1fr 1fr 1fr']}
     >
       {ADVANTAGES_DATA.map((advantage) => (
         <AdvantagesCard key={v4()}>{advantage}</AdvantagesCard>

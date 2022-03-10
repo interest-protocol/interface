@@ -8,6 +8,7 @@ const AdvantagesCard: FC = ({ children }) => (
     p="L"
     as="article"
     width="100%"
+    height="5rem"
     display="flex"
     borderRadius="L"
     alignItems="center"
