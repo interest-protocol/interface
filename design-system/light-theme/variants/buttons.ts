@@ -13,8 +13,10 @@ const primary = css`
   border-radius: 0.625rem;
   font-size: ${fontSizes.M};
   color: ${colors.foreground};
+  border: 2px solid transparent;
   padding: ${space.L} ${space.XL};
-  background: linear-gradient(180deg, #0055ff 0%, #0055ff 100%);
+  background: linear-gradient(#0055ff, #0055ff) padding-box,
+    linear-gradient(to top, #002f8e, #ffffff) border-box;
 `;
 
 const secondary = css`

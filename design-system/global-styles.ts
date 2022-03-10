@@ -17,6 +17,14 @@ const GlobalStyles = css`
   a {
     text-decoration: none;
   }
+  br {
+    display: none;
+  }
+  @media (min-width: 40em) {
+    br {
+      display: initial;
+    }
+  }
 `;
 
 export default GlobalStyles;

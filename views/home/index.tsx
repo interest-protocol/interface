@@ -1,15 +1,14 @@
 import React, { FC } from 'react';
 
 import Layout from '../../layout';
-import { Hero } from './components';
-import Advantages from './components/advantages';
-import Opportunities from './components/opportunities';
+import { Advantages, Enjoy, Hero, Opportunities } from './components';
 
 const Home: FC = () => (
   <Layout>
     <Hero />
     <Advantages />
     <Opportunities />
+    <Enjoy />
   </Layout>
 );
 

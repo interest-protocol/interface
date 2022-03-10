@@ -9,7 +9,7 @@ const OpportunitiesCard: FC<OpportunitiesCardProps> = ({
   description,
 }) => (
   <Box
-    p="XL"
+    p={['XXL', 'XL']}
     as="article"
     bg="foreground"
     borderRadius="L"
