@@ -14,12 +14,12 @@ export const SOCIAL_MEDIAS = [
   },
   {
     title: 'Twitter',
-    link: 'https://t.me/interestprotocol',
+    link: 'https://twitter.com/interest_dinero',
     Logo: TwitterSVG,
   },
   {
     title: 'Telegram',
-    link: 'https://medium.com/@interestprotocol',
+    link: 'https://t.me/interestprotocol',
     Logo: TelegramSVG,
   },
   {

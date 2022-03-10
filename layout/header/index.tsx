@@ -31,8 +31,13 @@ const Header: FC = () => (
           Interest Protocol
         </Typography>
       </Box>
-      <Box as="nav" display="flex" flexDirection={['column-reverse', 'row']}>
-        <Box display="flex" my={['L', 'NONE']}>
+      <Box
+        as="nav"
+        display="flex"
+        alignItems="center"
+        flexDirection={['column-reverse', 'row']}
+      >
+        <Box display="flex" my={['L', 'NONE']} alignItems="center">
           {SOCIAL_MEDIAS.map((socialMediaData) => (
             <SocialMediaCard {...socialMediaData} key={v4()} />
           ))}
