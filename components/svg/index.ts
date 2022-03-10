@@ -1,3 +1,4 @@
+export { default as CheckSVG } from './check';
 export { default as DiscordSVG } from './discord';
 export { default as DoorSVG } from './door';
 export { default as GithubSVG } from './github';

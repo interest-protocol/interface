@@ -33,6 +33,8 @@ const Box: FC<BoxProps> = ({ as, ...props }) => {
       system({
         cursor: true,
         filter: true,
+        rowGap: true,
+        columnGap: true,
         backdropFilter: true,
       })
     )

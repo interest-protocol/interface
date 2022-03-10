@@ -27,5 +27,7 @@ export interface BoxProps
   as?: keyof JSX.IntrinsicElements;
   cursor?: CSSProperties['cursor'];
   filter?: CSSProperties['filter'];
+  rowGap?: CSSProperties['gap'];
+  columnGap?: CSSProperties['gap'];
   backdropFilter?: CSSProperties['filter'];
 }
