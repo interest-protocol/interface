@@ -4,17 +4,25 @@ import {
   BorderProps,
   ColorProps,
   DisplayProps,
+  FlexboxProps,
   LayoutProps,
+  PositionProps,
+  ShadowProps,
   SpaceProps,
   TypographyProps,
 } from 'styled-system';
 
-export interface ViewProps
+export interface ButtonProps
   extends ColorProps,
     SpaceProps,
+    PositionProps,
     BorderProps,
     LayoutProps,
+    FlexboxProps,
     DisplayProps,
+    ShadowProps,
     BackgroundProps,
     TypographyProps,
-    Omit<HTMLAttributes<HTMLDivElement>, 'color'> {}
+    Omit<HTMLAttributes<HTMLButtonElement>, 'color'> {
+  variant: 'primary';
+}

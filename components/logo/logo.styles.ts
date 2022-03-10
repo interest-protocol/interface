@@ -1,7 +1,7 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { View } from '../../elements';
+import { Box } from '../../elements';
 
 const spin = keyframes`
   from {
@@ -12,7 +12,7 @@ const spin = keyframes`
   }
 `;
 
-export const LogoWrapper = styled(View)`
+export const LogoWrapper = styled(Box)`
   width: 15rem;
   & > svg {
     animation: ${spin} 20s infinite linear;

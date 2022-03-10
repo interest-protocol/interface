@@ -1,20 +1,19 @@
-import React, { FC } from 'react';
 import Head from 'next/head';
+import React, { FC } from 'react';
 
-import { View } from '../../elements';
+import { Box } from '../elements';
 import { LayoutProps } from './layout.types';
 
-// eslint-disable-next-line react/prop-types
 const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => (
-  <View>
+  <Box>
     <Head>
       <html lang="pt-PT" />
-      <title>Template | {pageTitle}</title>
+      <title>Protocol Interest {pageTitle && `| ${pageTitle}`}</title>
     </Head>
     <header />
     <main>{children}</main>
     <footer />
-  </View>
+  </Box>
 );
 
 export default Layout;
