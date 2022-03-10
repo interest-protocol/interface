@@ -22,4 +22,5 @@ export interface TypographyProps
   cursor?: CSSProperties['cursor'];
   variant: 'title1' | 'title2' | 'title3' | 'normal';
   textTransform?: CSSProperties['textTransform'];
+  whiteSpace?: CSSProperties['whiteSpace'];
 }

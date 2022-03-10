@@ -7,7 +7,7 @@ import SocialMediaCard from '../../components/social-media-card';
 import { LogoSVG } from '../../components/svg';
 import { Routes, RoutesEnum } from '../../constants/routes';
 import { Box, Button, Typography } from '../../elements';
-import { SOCIAL_MEDIAS } from './social-media.data';
+import { SOCIAL_MEDIAS } from '../social-media.data';
 
 const Header: FC = () => (
   <Box
@@ -20,7 +20,6 @@ const Header: FC = () => (
     bg={['foreground', 'transparentBackground']}
   >
     <Container
-      px="XL"
       display="flex"
       alignItems="center"
       justifyContent="space-between"

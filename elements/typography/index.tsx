@@ -33,6 +33,7 @@ const Typography: FC<TypographyProps> = ({ as, ...props }) => {
       system({
         cursor: true,
         textTransform: true,
+        whiteSpace: true,
       })
     )
   );
