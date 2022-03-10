@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { ButtonHTMLAttributes } from 'react';
 import {
   BackgroundProps,
   BorderProps,
@@ -23,6 +23,6 @@ export interface ButtonProps
     ShadowProps,
     BackgroundProps,
     TypographyProps,
-    Omit<HTMLAttributes<HTMLButtonElement>, 'color'> {
+    Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'> {
   variant: 'primary';
 }

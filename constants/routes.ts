@@ -4,6 +4,7 @@
  */
 export enum RoutesEnum {
   Home = 'home',
+  App = 'app',
 }
 
 /**
@@ -12,6 +13,7 @@ export enum RoutesEnum {
  */
 export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.Home]: '/',
+  [RoutesEnum.App]: '/app',
 };
 
 export const routesList = Object.keys(Routes) as ReadonlyArray<RoutesEnum>;

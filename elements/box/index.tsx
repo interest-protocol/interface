@@ -32,6 +32,8 @@ const Box: FC<BoxProps> = ({ as, ...props }) => {
       border,
       system({
         cursor: true,
+        filter: true,
+        backdropFilter: true,
       })
     )
   );

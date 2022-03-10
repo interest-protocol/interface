@@ -18,6 +18,9 @@ import { TypographyProps } from './typography.types';
 
 const Typography: FC<TypographyProps> = ({ as, ...props }) => {
   const TypographyElement = styled(as || 'p')(
+    variant({
+      scale: 'typography',
+    }),
     compose(
       space,
       color,
@@ -30,9 +33,6 @@ const Typography: FC<TypographyProps> = ({ as, ...props }) => {
       system({
         cursor: true,
         textTransform: true,
-      }),
-      variant({
-        scale: 'typography',
       })
     )
   );

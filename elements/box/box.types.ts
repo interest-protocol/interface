@@ -26,4 +26,6 @@ export interface BoxProps
     Omit<HTMLAttributes<HTMLElement>, 'color'> {
   as?: keyof JSX.IntrinsicElements;
   cursor?: CSSProperties['cursor'];
+  filter?: CSSProperties['filter'];
+  backdropFilter?: CSSProperties['filter'];
 }
