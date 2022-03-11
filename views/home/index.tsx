@@ -1,7 +1,14 @@
 import React, { FC } from 'react';
 
 import Layout from '../../layout';
-import { Advantages, Enjoy, Hero, Opportunities, RoadMap } from './components';
+import {
+  Advantages,
+  Enjoy,
+  Hero,
+  Opportunities,
+  RoadMap,
+  Subscribe,
+} from './components';
 
 const Home: FC = () => (
   <Layout>
@@ -10,6 +17,7 @@ const Home: FC = () => (
     <Opportunities />
     <Enjoy />
     <RoadMap />
+    <Subscribe />
   </Layout>
 );
 

@@ -25,6 +25,9 @@ const GlobalStyles = css`
   br {
     display: none;
   }
+  .breakMobile {
+    display: block;
+  }
   @media (min-width: 40em) {
     br {
       display: initial;

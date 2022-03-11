@@ -9,6 +9,8 @@ export { default as NFTSVG } from './nft';
 export { default as ProfitsSVG } from './profits';
 export { default as RoadMapSVG } from './road-map';
 export { default as RoadMapLogoSVG } from './road-map-logo';
+export { default as ShieldSVG } from './shield';
+export { default as SuccessSVG } from './success';
 export { default as SupportSVG } from './support';
 export { default as TelegramSVG } from './telegram';
 export { default as TimesSVG } from './times';
