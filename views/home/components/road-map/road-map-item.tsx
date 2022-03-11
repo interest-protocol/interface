@@ -96,7 +96,7 @@ const RoadMapItem: FC<RoadMapItemProps> = ({
           <Button variant="neutral" onClick={onBack} disabled={step === 0}>
             &larr;
           </Button>
-          {position === length - 1 && (
+          {position !== length - 1 && (
             <Button variant="tertiary" onClick={onNext}>
               Next
             </Button>
