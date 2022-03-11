@@ -6,11 +6,17 @@ const Document = (): ReactNode => (
     <Head>
       <meta charSet="utf-8" />
       <meta name="title" content="Interest Protocol" />
-      <meta name="description" content="Interest Protocol Description" />
+      <meta
+        name="description"
+        content="Discover the universe of lending markets for any crypto asset"
+      />
       <meta property="og:locale" content="en_US" />
       <meta property="og:title" content="Interest Protocol" />
       <meta property="og:site_name" content="Interest Protocol" />
-      <meta property="og:description" content="Interest Protocol description" />
+      <meta
+        property="og:description"
+        content="Discover the universe of lending markets for any crypto asset"
+      />
       <meta property="og:image" content="/android-chrome-256x256.png" />
       <meta
         property="og:image:secure_url"
@@ -26,15 +32,11 @@ const Document = (): ReactNode => (
       <meta name="twitter:image" content="/android-chrome-256x256.png" />
       <meta
         name="twitter:description"
-        content="Interest Protocol Description"
+        content="Discover the universe of lending markets for any crypto asset"
       />
 
       <link rel="icon" href="/favicon.ico" />
       <meta name="theme-color" content="#000000" />
-      <meta
-        name="description"
-        content="Web site created using create-react-app"
-      />
       <link
         rel="apple-touch-icon"
         sizes="180x180"
