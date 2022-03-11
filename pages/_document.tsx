@@ -8,14 +8,14 @@ const Document = (): ReactNode => (
       <meta name="title" content="Interest Protocol" />
       <meta
         name="description"
-        content="Discover the universe of lending markets for any crypto asset"
+        content="Money markets for all 9000 + Tokens on CMC"
       />
       <meta property="og:locale" content="en_US" />
       <meta property="og:title" content="Interest Protocol" />
       <meta property="og:site_name" content="Interest Protocol" />
       <meta
         property="og:description"
-        content="Discover the universe of lending markets for any crypto asset"
+        content="Money markets for all 9000 + Tokens on CMC"
       />
       <meta property="og:image" content="/android-chrome-256x256.png" />
       <meta
@@ -32,7 +32,7 @@ const Document = (): ReactNode => (
       <meta name="twitter:image" content="/android-chrome-256x256.png" />
       <meta
         name="twitter:description"
-        content="Discover the universe of lending markets for any crypto asset"
+        content="Money markets for all 9000 + Tokens on CMC"
       />
 
       <link rel="icon" href="/favicon.ico" />
