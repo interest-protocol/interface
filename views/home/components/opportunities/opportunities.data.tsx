@@ -17,7 +17,7 @@ export const OPPORTUNITIES_DATA: ReadonlyArray<OpportunitiesCardProps> = [
     ),
     description: (
       <>
-        Our multi-asset isolated lending markets <br /> provides security and
+        Our multi-asset isolated lending markets <br /> provide security and
         market for any token.
       </>
     ),
@@ -46,8 +46,7 @@ export const OPPORTUNITIES_DATA: ReadonlyArray<OpportunitiesCardProps> = [
     ),
     description: (
       <>
-        We accept LP tokens, interest-bearing
-        <br />
+        We accept LP tokens, interest-bearing <br />
         tokens, and NFTs as collateral.
       </>
     ),

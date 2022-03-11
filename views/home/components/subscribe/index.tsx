@@ -55,12 +55,12 @@ const Subscribe: FC = () => {
           <LogoSVG width="5rem" />
         </Box>
         <Typography
-          as="h2"
           mt="M"
-          fontSize={['L', 'XXL']}
+          as="h2"
           maxWidth="30rem"
           variant="title2"
           textAlign="center"
+          fontSize={['L', 'XXL']}
         >
           Subscribe for <br className="breakMobile" />
           Interest Protocol updates
