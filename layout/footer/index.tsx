@@ -54,8 +54,15 @@ const Footer: FC = () => (
           ))}
         </Box>
       </Box>
-      <Typography variant="normal" textAlign="center" my="M" py={['L', 'NONE']}>
-        {new Date().getFullYear()}. Interest Protocol. All rights is reserved.
+      <Typography
+        my="M"
+        fontSize="S"
+        variant="normal"
+        textAlign="center"
+        py={['L', 'NONE']}
+      >
+        DeFi Lda. Copyright © {new Date().getFullYear()}. All rights is
+        reserved.
       </Typography>
     </Container>
   </Box>

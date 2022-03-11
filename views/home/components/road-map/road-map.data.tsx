@@ -29,17 +29,19 @@ export const ROAD_MAP_DATA: ReadonlyArray<IRoadMapItem> = [
   {
     next: 'Q4 2022',
     title: 'Q3 2022',
-    list: [<>Launch dinero vault</>, <>Launch lending market v2</>],
+    list: [
+      <>Launch lending markets V2</>,
+      <>All dinero with capital D please</>,
+    ],
     status: 2,
   },
   {
     next: '',
     title: 'Q4 2022',
     list: [
-      <>ICO / Pre - Sale / IDO</>,
-      <>Community growth</>,
-      <>Launch multi-asset lending market</>,
-      <>Deploy polygon version</>,
+      <>Token sale instead of ICO</>,
+      <>Launch multi-asset lending markets</>,
+      <>Deploy on polygon version</>,
     ],
     status: 2,
   },

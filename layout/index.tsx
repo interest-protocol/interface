@@ -10,7 +10,7 @@ const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => (
   <Box>
     <Head>
       <html lang="pt-PT" />
-      <title>Protocol Interest {pageTitle && `| ${pageTitle}`}</title>
+      <title>Interest Protocol {pageTitle && `| ${pageTitle}`}</title>
     </Head>
     <Header />
     <main>{children}</main>

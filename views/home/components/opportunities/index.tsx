@@ -17,7 +17,6 @@ const Opportunities: FC = () => (
         display="grid"
         rowGap={['1rem', '3rem']}
         columnGap="3rem"
-        alignItems="start"
         mx={['NONE', 'XL']}
         gridTemplateColumns={['1fr', '1fr 1fr']}
       >
