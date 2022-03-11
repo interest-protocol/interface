@@ -18,7 +18,7 @@ const Advantages: FC = () => (
       gridTemplateColumns={['1fr', '1fr 1fr 1fr']}
     >
       {ADVANTAGES_DATA.map((advantage) => (
-        <AdvantagesCard key={v4()}>{advantage}</AdvantagesCard>
+        <AdvantagesCard key={v4()} {...advantage} />
       ))}
     </Box>
   </Container>

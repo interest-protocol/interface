@@ -18,8 +18,8 @@ const Hero: FC = () => (
     >
       <Box mx="XL">
         <Typography variant="title1" width={['100%', '100%', '37rem']}>
-          Borrow, lend and earn <br />
-          with low systemic risk
+          Money markets for all <br />
+          9000+ tokens on CMC
         </Typography>
         <Typography
           mt="L"
@@ -30,8 +30,7 @@ const Hero: FC = () => (
           fontSize="L"
           lineHeight="30px"
         >
-          Decentralized lending platform that offers solutions to all assets
-          classes.
+          Borrow, lend and earn with low systemic risk.
         </Typography>
         <a href="https://docs.interestprotocol.com/" target="__blank">
           <Button type="button" variant="secondary">

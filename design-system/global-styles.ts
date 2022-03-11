@@ -20,6 +20,7 @@ const GlobalStyles = css`
   }
 
   a {
+    color: inherit;
     text-decoration: none;
   }
   br {
