@@ -85,7 +85,7 @@ const RoadMapItem: FC<RoadMapItemProps> = ({
           <Box as="ul">
             {list.map((listItem) => (
               <>
-                <Typography ml="XL" my="L" as="li" variant="normal" key={v4()}>
+                <Typography my="L" as="li" variant="normal" key={v4()}>
                   {listItem}
                 </Typography>
               </>
