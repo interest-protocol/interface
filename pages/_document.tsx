@@ -5,6 +5,30 @@ const Document = (): ReactNode => (
   <Html lang="en">
     <Head>
       <meta charSet="utf-8" />
+      <meta name="title" content="Interest Protocol" />
+      <meta name="description" content="Interest Protocol Description" />
+      <meta property="og:locale" content="en_US" />
+      <meta property="og:title" content="Interest Protocol" />
+      <meta property="og:site_name" content="Interest Protocol" />
+      <meta property="og:description" content="Interest Protocol description" />
+      <meta property="og:image" content="/android-chrome-256x256.png" />
+      <meta
+        property="og:image:secure_url"
+        content="/android-chrome-256x256.png"
+      />
+      <meta property="og:image:type" content="image/png" />
+      <meta property="og:image:width" content="256" />
+      <meta property="og:image:height" content="256" />
+      <meta property="og:image:alt" content="Interest Protocol" />
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content="Interest Protocol" />
+      <meta name="twitter:site" content="https://interestprotocol.com" />
+      <meta name="twitter:image" content="/android-chrome-256x256.png" />
+      <meta
+        name="twitter:description"
+        content="Interest Protocol Description"
+      />
+
       <link rel="icon" href="/favicon.ico" />
       <meta name="theme-color" content="#000000" />
       <meta
@@ -27,27 +51,6 @@ const Document = (): ReactNode => (
         type="image/png"
         sizes="16x16"
         href="/favicon-16x16.png"
-      />
-      <meta property="og:locale" content="en_US" />
-      <meta property="og:title" content="Interest Protocol" />
-      <meta property="og:site_name" content="Interest Protocol" />
-      <meta property="og:description" content="Interest Protocol description" />
-      <meta property="og:image" content="/android-chrome-256x256.png" />
-      <meta
-        property="og:image:secure_url"
-        content="/android-chrome-256x256.png"
-      />
-      <meta property="og:image:type" content="image/png" />
-      <meta property="og:image:width" content="256" />
-      <meta property="og:image:height" content="256" />
-      <meta property="og:image:alt" content="Interest Protocol" />
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Interest Protocol" />
-      <meta name="twitter:site" content="https://interestprotocol.com" />
-      <meta name="twitter:image" content="/android-chrome-256x256.png" />
-      <meta
-        name="twitter:description"
-        content="Interest Protocol Description"
       />
       <link rel="manifest" href="/site.webmanifest" />
       <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
