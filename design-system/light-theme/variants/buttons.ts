@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 
 import fontSizes from '../../common/font-sizes';
+import radii from '../../common/radii';
 import space from '../../common/space';
 import colors from '../colors';
 
@@ -33,7 +34,33 @@ const secondary = css`
   border: 2px solid ${colors.accent};
 `;
 
+const tertiary = css`
+  border: none;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  border-radius: ${radii.S};
+  color: ${colors.foreground};
+  background: ${colors.accent};
+  padding: ${space.L} ${space.XL};
+`;
+
+const neutral = css`
+  border: none;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  color: ${colors.text};
+  display: inline-block;
+  border-radius: ${radii.S};
+  background: ${colors.outline};
+  padding: ${space.L} ${space.XL};
+`;
+
 export default {
   primary,
   secondary,
+  tertiary,
+  neutral,
 };

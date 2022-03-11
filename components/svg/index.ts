@@ -7,6 +7,8 @@ export { default as LogoSVG } from './logo';
 export { default as MediumSVG } from './medium';
 export { default as NFTSVG } from './nft';
 export { default as ProfitsSVG } from './profits';
+export { default as RoadMapSVG } from './road-map';
+export { default as RoadMapLogoSVG } from './road-map-logo';
 export { default as SupportSVG } from './support';
 export { default as TelegramSVG } from './telegram';
 export { default as TimesSVG } from './times';

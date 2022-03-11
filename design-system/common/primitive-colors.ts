@@ -8,8 +8,10 @@ const primitiveColors = {
   NEUTRAL_300: '#DEDEDE',
   NEUTRAL_400: '#253350',
   NEUTRAL_500: '#000000',
-  YELLOW_100: '#FFFF44',
-  GREEN_100: '#44FF44',
+  YELLOW_50: '#FFC4A3',
+  YELLOW_100: '#8E3300',
+  GREEN_50: '#CAFFD6',
+  GREEN_100: '#008E1F',
   RED_100: '#FF4444',
 };
 
