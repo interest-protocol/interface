@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { FC, useState } from 'react';
 
 import { ModalCard } from '../../../../components';
@@ -8,9 +9,13 @@ import { Box, Button, Input, Modal, Typography } from '../../../../elements';
 const Subscribe: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSubscribe = () => {
-    // Subscription instructions
-    setIsModalOpen(true);
+  const handleSubscribe = (event: SubmitEvent) => {
+    event.preventDefault();
+    // @ts-ignore
+    const email = event.target[0].value;
+    fetch(`/api/v1/mail/subscribe?email=${email}`).then(() =>
+      setIsModalOpen(true)
+    );
   };
   const handleCloseModal = () => setIsModalOpen(false);
   return (
@@ -67,24 +72,27 @@ const Subscribe: FC = () => {
         </Typography>
         <Box
           mt="XXL"
+          as="form"
           display="flex"
-          alignItems={['center', 'flex-start']}
+          // @ts-ignore
+          onSubmit={handleSubscribe}
           flexDirection={['column', 'row']}
+          alignItems={['center', 'flex-start']}
         >
           <Input
             p="L"
-            mb={['L', 'NONE']}
             mr="S"
-            type="text"
+            type="email"
             bg="outline"
             width="15rem"
             border="none"
             outline="none"
             borderRadius="S"
+            mb={['L', 'NONE']}
             placeholder="Drop your e-mail"
           />
           <Box display="flex" flexDirection="column" alignItems="stretch">
-            <Button variant="tertiary" ml="S" px="L" onClick={handleSubscribe}>
+            <Button ml="S" px="L" type="submit" variant="tertiary">
               Subscribe
             </Button>
             <Box display="flex" alignItems="center" mt="M" px="L">
