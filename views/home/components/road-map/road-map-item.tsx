@@ -37,6 +37,7 @@ const RoadMapItem: FC<RoadMapItemProps> = ({
   return (
     <>
       <AnimatedBox
+        key={v4()}
         left="8rem"
         right="8rem"
         position="absolute"
@@ -49,6 +50,7 @@ const RoadMapItem: FC<RoadMapItemProps> = ({
       </AnimatedBox>
       <AnimatedBox
         p="XL"
+        key={v4()}
         width="100%"
         bg="foreground"
         maxWidth="21rem"

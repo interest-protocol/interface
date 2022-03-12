@@ -61,8 +61,8 @@ const Footer: FC = () => (
         textAlign="center"
         py={['L', 'NONE']}
       >
-        Copyright © {new Date().getFullYear()}. DEFI LDA. All rights is
-        reserved.
+        Copyright © {new Date().getFullYear()}. Interest Protocol from DEFI,
+        lda. All rights is reserved.
       </Typography>
     </Container>
   </Box>
