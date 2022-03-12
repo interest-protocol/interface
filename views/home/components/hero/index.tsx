@@ -18,7 +18,7 @@ const Hero: FC = () => (
     >
       <Box mx="XL">
         <Typography variant="title1" width={['100%', '100%', '37rem']}>
-          Money markets for all <br />
+          Money Markets for all <br />
           9000+ tokens on CMC
         </Typography>
         <Typography

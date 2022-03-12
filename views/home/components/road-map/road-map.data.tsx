@@ -6,7 +6,7 @@ export const ROAD_MAP_DATA: ReadonlyArray<IRoadMapItem> = [
     title: 'Q1 2022',
     list: [
       <>
-        Lauch lending markets <br />
+        Launch lending Markets <br />
         v1 Test Net
       </>,
     ],
@@ -19,8 +19,8 @@ export const ROAD_MAP_DATA: ReadonlyArray<IRoadMapItem> = [
       <>Pre-Seed</>,
       <>Audit (Certik)</>,
       <>
-        Launch dinero lending
-        <br /> markets v1 on Main Net (BSC)
+        Launch Dinero lending
+        <br /> Markets v1 on Main Net (BSC)
       </>,
       <>Intial hires</>,
     ],
@@ -29,19 +29,16 @@ export const ROAD_MAP_DATA: ReadonlyArray<IRoadMapItem> = [
   {
     next: 'Q4 2022',
     title: 'Q3 2022',
-    list: [
-      <>Launch lending markets V2</>,
-      <>All dinero with capital D please</>,
-    ],
+    list: [<>Launch lending Markets V2</>, <>Launch Dinero vault</>],
     status: 2,
   },
   {
     next: '',
     title: 'Q4 2022',
     list: [
-      <>Token sale instead of ICO</>,
-      <>Launch multi-asset lending markets</>,
-      <>Deploy on polygon version</>,
+      <>Token sale / Pre-sale / IDO</>,
+      <>Launch multi-asset lending Markets</>,
+      <>Deploy on polygon</>,
     ],
     status: 2,
   },
