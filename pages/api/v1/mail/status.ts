@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { pingChimpy } from '../../../../api/mail';
+import { pingChimpy } from '../../../../server/mail';
 
 const status = async (
   _request: NextApiRequest,

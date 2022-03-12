@@ -9,7 +9,7 @@ import { Box, Button, Input, Modal, Typography } from '../../../../elements';
 const Subscribe: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSubscribe = (event: SubmitEvent) => {
+  const handleSubscribe = (event: Event) => {
     event.preventDefault();
     // @ts-ignore
     const email = event.target[0].value;
