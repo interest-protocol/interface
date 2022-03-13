@@ -4,12 +4,12 @@ import { Box } from '../../elements';
 import { TimesSVG } from '../svg';
 import { ModalCardProps } from './modal-card.types';
 
-const ModalCard: FC<ModalCardProps> = ({ children, onClose }) => (
+const ModalCard: FC<ModalCardProps> = ({ children, onClose, color }) => (
   <Box
     p="XL"
     width="20rem"
     display="flex"
-    color="accent"
+    color={color || 'accent'}
     bg="foreground"
     minHeight="20rem"
     position="relative"
@@ -17,7 +17,7 @@ const ModalCard: FC<ModalCardProps> = ({ children, onClose }) => (
     flexDirection="column"
     justifyContent="center"
     borderBottom="0.625rem solid"
-    borderColor="accent"
+    borderColor={color || 'accent'}
   >
     <Box
       top="1rem"

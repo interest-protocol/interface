@@ -2,6 +2,7 @@ export { default as CheckSVG } from './check';
 export { default as CrossChainSVG } from './cross-chain';
 export { default as DiscordSVG } from './discord';
 export { default as DoorSVG } from './door';
+export { default as FailSVG } from './fail';
 export { default as GithubSVG } from './github';
 export { default as LogoSVG } from './logo';
 export { default as MediumSVG } from './medium';

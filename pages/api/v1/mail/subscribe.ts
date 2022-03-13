@@ -6,10 +6,15 @@ const subscribe = async (
   request: NextApiRequest,
   response: NextApiResponse
 ): Promise<void> => {
-  if (request.method === 'GET') {
-    await subscriber(request.query.email as string)
-      .then((data) => response.status(200).json(JSON.stringify(data)))
-      .catch((error) => response.status(401).send(error));
+  try {
+    if (request.method === 'GET') {
+      const data = await subscriber(request.query.email as string);
+      const jsonData = JSON.stringify(data);
+      response.status(200).json(jsonData);
+    }
+  } catch (error: any) {
+    const errorData = JSON.parse(error.response.text);
+    response.status(error.status).send(errorData);
   }
 };
 

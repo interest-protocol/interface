@@ -3,19 +3,31 @@ import { FC, useState } from 'react';
 
 import { ModalCard } from '../../../../components';
 import Container from '../../../../components/container';
-import { LogoSVG, ShieldSVG, SuccessSVG } from '../../../../components/svg';
+import {
+  FailSVG,
+  LogoSVG,
+  ShieldSVG,
+  SuccessSVG,
+} from '../../../../components/svg';
 import { Box, Button, Input, Modal, Typography } from '../../../../elements';
 
 const Subscribe: FC = () => {
+  const [error, setError] = useState<unknown | undefined>();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSubscribe = (event: Event) => {
     event.preventDefault();
+    setError(undefined);
     // @ts-ignore
     const email = event.target[0].value;
     fetch(`/api/v1/mail/subscribe?email=${email}`)
-      .then((response) => response.status == 200 && response.json())
-      .then(() => setIsModalOpen(true));
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status >= 400) throw data;
+        if (data.status == 200) return data;
+      })
+      .catch(setError)
+      .finally(() => setIsModalOpen(true));
   };
   const handleCloseModal = () => setIsModalOpen(false);
   return (
@@ -32,12 +44,15 @@ const Subscribe: FC = () => {
           },
         }}
       >
-        <ModalCard onClose={handleCloseModal}>
+        <ModalCard
+          onClose={handleCloseModal}
+          color={error ? 'error' : undefined}
+        >
           <Box mt="XXXL">
-            <SuccessSVG width="3rem" />
+            {error ? <FailSVG width="3rem" /> : <SuccessSVG width="3rem" />}
           </Box>
           <Typography variant="normal" fontSize="XL" my="L">
-            Success!
+            {error ? 'Failed!' : 'Success!'}
           </Typography>
           <Typography
             color="text"
@@ -45,7 +60,10 @@ const Subscribe: FC = () => {
             maxWidth="12rem"
             textAlign="center"
           >
-            We will get back to you as soon as possible
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            {(error as any)?.title ||
+              'We will get back to you as soon as possible'}
+            {console.log(error)}
           </Typography>
         </ModalCard>
       </Modal>
