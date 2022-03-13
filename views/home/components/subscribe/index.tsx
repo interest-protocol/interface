@@ -13,9 +13,9 @@ const Subscribe: FC = () => {
     event.preventDefault();
     // @ts-ignore
     const email = event.target[0].value;
-    fetch(`/api/v1/mail/subscribe?email=${email}`).then(() =>
-      setIsModalOpen(true)
-    );
+    fetch(`/api/v1/mail/subscribe?email=${email}`)
+      .then((response) => response.status == 200 && response.json())
+      .then(() => setIsModalOpen(true));
   };
   const handleCloseModal = () => setIsModalOpen(false);
   return (
