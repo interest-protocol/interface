@@ -1,11 +1,11 @@
 export const ADVANTAGES_DATA = [
   {
-    description: 'Stablecoin isolated lending Markets',
-    link: 'https://docs.interestprotocol.com/faq/dinero-isolated-lending-Markets',
+    description: 'Stablecoin isolated lending markets',
+    link: 'https://docs.interestprotocol.com/faq/dinero-isolated-lending-markets',
   },
   {
-    description: 'Multi-asset isolated lending Markets',
-    link: 'https://docs.interestprotocol.com/faq/multi-asset-lending-Markets',
+    description: 'Multi-asset isolated lending markets',
+    link: 'https://docs.interestprotocol.com/faq/multi-asset-lending-markets',
   },
   {
     description: 'NFT P2P loans',

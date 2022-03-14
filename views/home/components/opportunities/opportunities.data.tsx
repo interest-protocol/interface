@@ -17,8 +17,13 @@ export const OPPORTUNITIES_DATA: ReadonlyArray<OpportunitiesCardProps> = [
     ),
     description: (
       <>
+<<<<<<< HEAD
         Our multi-asset isolated lending Markets <br />
         provide security and market for any token.
+=======
+        Our multi-asset isolated lending markets <br /> provide security and
+        market for any token.
+>>>>>>> 932b62929994195db5c10b3a4478f1b46fabb94e
       </>
     ),
   },
