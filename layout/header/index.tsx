@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
@@ -44,11 +43,11 @@ const Header: FC = () => (
           ))}
         </Box>
         <Box textAlign="center" my={['L', 'NONE']}>
-          <Link href={Routes[RoutesEnum.App]} shallow>
+          <a href={Routes[RoutesEnum.App]} target="__blank">
             <Button ml={['NONE', 'XL']} variant="primary" type="button">
-              Launch App
+              Launch
             </Button>
-          </Link>
+          </a>
         </Box>
       </Box>
     </Container>
