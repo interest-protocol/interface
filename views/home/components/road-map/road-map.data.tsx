@@ -22,7 +22,7 @@ export const ROAD_MAP_DATA: ReadonlyArray<IRoadMapItem> = [
         Launch Dinero lending
         <br /> Markets v1 on Main Net (BSC)
       </>,
-      <>Intial hires</>,
+      <>Initial hires</>,
     ],
     status: 2,
   },
