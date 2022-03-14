@@ -62,7 +62,7 @@ const Footer: FC = () => (
         py={['L', 'NONE']}
       >
         © {new Date().getFullYear()}. Interest Protocol from DEFI, lda. All
-        right is reserved.
+        rights reserved.
       </Typography>
     </Container>
   </Box>
