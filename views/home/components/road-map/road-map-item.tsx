@@ -91,9 +91,11 @@ const RoadMapItem: FC<RoadMapItemProps> = ({
           </Box>
         </Box>
         <Box display="flex" justifyContent="space-between">
-          <Button variant="neutral" onClick={onBack} disabled={step === 0}>
-            &larr;
-          </Button>
+          {position !== 0 && (
+            <Button variant="neutral" onClick={onBack} disabled={step === 0}>
+              &larr;
+            </Button>
+          )}
           {position !== length - 1 && (
             <Button variant="tertiary" onClick={onNext}>
               Next
