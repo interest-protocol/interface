@@ -29,7 +29,7 @@ export const ROAD_MAP_DATA: ReadonlyArray<IRoadMapItem> = [
   {
     next: 'Q4 2022',
     title: 'Q3 2022',
-    list: [<>Launch lending Markets V2</>, <>Launch Dinero vault</>],
+    list: [<>Launch lending markets V2</>, <>Launch Dinero vault</>],
     status: 2,
   },
   {
