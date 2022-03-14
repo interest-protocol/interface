@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { FC } from 'react';
 
 import Container from '../../../../components/container';
@@ -19,9 +20,9 @@ const Enjoy: FC = () => (
       <Typography variant="normal" my="XL">
         Long and short any asset
       </Typography>
-      <a href={Routes[RoutesEnum.App]} target="__blank">
+      <Link href={Routes[RoutesEnum.App]} shallow>
         <Button variant="primary">Launch DApp</Button>
-      </a>
+      </Link>
     </Container>
   </Box>
 );
