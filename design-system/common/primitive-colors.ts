@@ -1,0 +1,18 @@
+const primitiveColors = {
+  PRIMARY_100: '#0055FF',
+  PRIMARY_200: '#EBF0FF',
+  NEUTRAL_50: 'rgba(255, 255,255, 0.45)',
+  NEUTRAL_100: '#FFFFFF',
+  NEUTRAL_150: '#F3F3F3',
+  NEUTRAL_200: '#F1F1F1',
+  NEUTRAL_300: '#DEDEDE',
+  NEUTRAL_400: '#253350',
+  NEUTRAL_500: '#000000',
+  YELLOW_50: '#FFC4A3',
+  YELLOW_100: '#8E3300',
+  GREEN_50: '#CAFFD6',
+  GREEN_100: '#008E1F',
+  RED_100: '#FF4444',
+};
+
+export default primitiveColors;
