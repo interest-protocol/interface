@@ -1,8 +1,7 @@
-import mailchimp from '@mailchimp/mailchimp_marketing';
+import { GetResponse } from 'api-getresponse';
 
-mailchimp.setConfig({
-  apiKey: process.env.MAIL_CHIMP_API_KEY,
-  server: 'us14',
+const getResponse = new GetResponse({
+  apiKey: process.env.GETRESPONSE_API_KEY!,
 });
 
-export default mailchimp;
+export default getResponse;

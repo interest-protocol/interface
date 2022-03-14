@@ -8,13 +8,11 @@ const subscribe = async (
 ): Promise<void> => {
   try {
     if (request.method === 'GET') {
-      const data = await subscriber(request.query.email as string);
-      const jsonData = JSON.stringify(data);
-      response.status(200).json(jsonData);
+      await subscriber(request.query.email as string);
+      response.status(200).send(true);
     }
   } catch (error: any) {
-    const errorData = JSON.parse(error.response.text);
-    response.status(error.status).send(errorData);
+    response.status(error.obj.httpStatus).send(error.obj);
   }
 };
 

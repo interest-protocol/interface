@@ -1,11 +1,11 @@
-import mailchimp from './config';
+import getResponse from './config';
 
-const listId = process.env.MAIL_CHIMP_AUDIENCE_ID || '';
+const listToken = process.env.GETRESPONSE_LIST_TOKEN!;
 
 const subscriber = (email: string): Promise<void> =>
-  mailchimp.lists.addListMember(listId, {
-    email_address: email,
-    status: 'subscribed',
+  getResponse.addContact({
+    email,
+    token: listToken,
   });
 
 export default subscriber;
