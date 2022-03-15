@@ -1,3 +1,3 @@
 export interface HeaderProps {
-  empty: boolean;
+  empty?: boolean;
 }
