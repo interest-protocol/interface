@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { FC } from 'react';
 import { v4 } from 'uuid';
-
 import Container from '../../components/container';
 import SocialMediaCard from '../../components/social-media-card';
 import { LogoSVG } from '../../components/svg';
@@ -27,8 +26,13 @@ const Header: FC<HeaderProps> = ({ empty }) => (
       justifyContent="space-between"
       flexDirection={['column', 'row']}
     >
-      <Link href={Routes[RoutesEnum.App]} shallow>
-        <Box display="flex" alignItems="center" my={['L', 'NONE']}>
+      <Link href={Routes[RoutesEnum.Home]} shallow>
+        <Box
+          cursor="pointer"
+          display="flex"
+          alignItems="center"
+          my={['L', 'NONE']}
+        >
           <LogoSVG width="3.233rem" />
           <Typography variant="title4" as="h1" ml="L">
             Interest Protocol
@@ -47,10 +51,10 @@ const Header: FC<HeaderProps> = ({ empty }) => (
               <SocialMediaCard {...socialMediaData} key={v4()} />
             ))}
           </Box>
-          <Box textAlign="center" my={['L', 'NONE']}>
+          <Box textAlign="center" cursor="pointer" my={['L', 'NONE']}>
             <Link href={Routes[RoutesEnum.App]}>
               <Button ml={['NONE', 'XL']} variant="primary" type="button">
-                Launch
+                DApp
               </Button>
             </Link>
           </Box>
