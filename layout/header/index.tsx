@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { FC } from 'react';
 import { v4 } from 'uuid';
+
 import Container from '../../components/container';
 import SocialMediaCard from '../../components/social-media-card';
 import { LogoSVG } from '../../components/svg';
@@ -31,7 +32,7 @@ const Header: FC<HeaderProps> = ({ empty }) => (
           cursor="pointer"
           display="flex"
           alignItems="center"
-          my={['L', 'NONE']}
+          my={['L', 'M']}
         >
           <LogoSVG width="3.233rem" />
           <Typography variant="title4" as="h1" ml="L">
