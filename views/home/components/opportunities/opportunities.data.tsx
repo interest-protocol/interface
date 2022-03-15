@@ -32,7 +32,8 @@ export const OPPORTUNITIES_DATA: ReadonlyArray<OpportunitiesCardProps> = [
     ),
     description: (
       <>
-        Borrow and lend across different <br /> networks.
+        Borrow and lend across different <br />
+        networks.
       </>
     ),
   },
@@ -55,18 +56,16 @@ export const OPPORTUNITIES_DATA: ReadonlyArray<OpportunitiesCardProps> = [
     Icon: ProfitsSVG,
     title: (
       <>
-        Maximize your profits
-        <br />
-        with our low and fixed
-        <br />
+        Maximize your profits <br />
+        with our low and fixed <br />
         interest loans
       </>
     ),
     description: (
       <>
-        Our stablecoin, Dinero, is backed by loans&apos;
-        <br /> collateral and our leverage vault of fiat pegged
-        <br /> tokens.
+        Our stablecoin, Dinero, is backed by loans&apos; <br />
+        collateral and our leverage vault of fiat pegged <br />
+        tokens.
       </>
     ),
   },

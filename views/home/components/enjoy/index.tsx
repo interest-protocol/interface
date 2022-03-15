@@ -21,7 +21,7 @@ const Enjoy: FC = () => (
         Long and short any asset
       </Typography>
       <Link href={Routes[RoutesEnum.App]} shallow>
-        <Button variant="primary">Launch App</Button>
+        <Button variant="primary">Launch DApp</Button>
       </Link>
     </Container>
   </Box>
