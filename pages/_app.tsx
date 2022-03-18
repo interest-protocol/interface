@@ -3,8 +3,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
-
-import ContextProvider from '../context';
+import Web3Manager from '../components/web3-manager';
 import { LightTheme } from '../design-system';
 import GlobalStyles from '../design-system/global-styles';
 import colors from '../design-system/light-theme/colors';
@@ -15,39 +14,39 @@ const MyApp = ({ Component, pageProps }: AppProps): ReactNode => (
       <meta name="viewport" content="width=device-width, initial-scale=1" />
     </Head>
     <ThemeProvider theme={LightTheme}>
-      <ContextProvider>
-        <Global styles={GlobalStyles} />
-        <Toaster
-          position="bottom-right"
-          reverseOrder={false}
-          toastOptions={{
-            loading: {
-              style: {
-                borderRadius: '0',
-                borderBottom: `0.4rem solid ${colors.accent}`,
-              },
+      <Global styles={GlobalStyles} />
+      <Toaster
+        position="bottom-right"
+        reverseOrder={false}
+        toastOptions={{
+          loading: {
+            style: {
+              borderRadius: '0',
+              borderBottom: `0.4rem solid ${colors.accent}`,
             },
-            blank: {
-              style: {
-                borderRadius: '0',
-              },
+          },
+          blank: {
+            style: {
+              borderRadius: '0',
             },
-            success: {
-              style: {
-                borderRadius: '0',
-                borderBottom: `0.4rem solid ${colors.success}`,
-              },
+          },
+          success: {
+            style: {
+              borderRadius: '0',
+              borderBottom: `0.4rem solid ${colors.success}`,
             },
-            error: {
-              style: {
-                borderRadius: '0',
-                borderBottom: `0.4rem solid ${colors.error}`,
-              },
+          },
+          error: {
+            style: {
+              borderRadius: '0',
+              borderBottom: `0.4rem solid ${colors.error}`,
             },
-          }}
-        />
+          },
+        }}
+      />
+      <Web3Manager>
         <Component {...pageProps} />
-      </ContextProvider>
+      </Web3Manager>
     </ThemeProvider>
   </>
 );

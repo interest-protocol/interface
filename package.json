@@ -1,11 +1,25 @@
 {
-  "name": "react-template",
+  "name": "interest-protocol-interface",
+  "description": "The frontend to interact with Interest Protocol contracts",
+  "license": "MIT",
+  "keywords": [
+    "DeFi",
+    "smart contracts",
+    "ethereum",
+    "web3",
+    "interest protocol"
+  ],
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@lottiefiles/react-lottie-player": "^3.4.2",
+    "@web3-react/core": "8.0.19-beta.0",
+    "@web3-react/metamask": "8.0.16-beta.0",
+    "@web3-react/store": "^8.0.0-beta.0",
+    "@web3-react/types": "^8.0.10-beta.0",
+    "@web3-react/walletconnect": "8.0.23-beta.0",
     "api-getresponse": "^1.0.0",
     "next": "^12.1.0",
     "react": "^17.0.2",
@@ -43,6 +57,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "peerDependencies": {
+    "@walletconnect/ethereum-provider": "^1.7.5"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
