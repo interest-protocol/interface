@@ -2,10 +2,10 @@ import { FC, useState } from 'react';
 
 import Container from '../../../../components/container';
 import { LogoSVG } from '../../../../components/svg';
-import { Box, Dropdown, Typography } from '../../../../elements';
 import hooks from '../../../../connectors';
-import { walletConnect } from '../../../../connectors/wallet-connect';
 import { metaMask } from '../../../../connectors/meta-mask';
+import { walletConnect } from '../../../../connectors/wallet-connect';
+import { Box, Dropdown, Typography } from '../../../../elements';
 
 const { usePriorityIsActive } = hooks;
 

@@ -9,7 +9,7 @@ const {
   usePriorityIsActivating,
 } = priorityHooks;
 
-const Web3Manager = (props: { children: JSX.Element }) => {
+const Web3Manager = (props: { children: JSX.Element }): JSX.Element => {
   const connector = usePriorityConnector();
   const error = usePriorityError();
   const isActive = usePriorityIsActive();

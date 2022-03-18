@@ -3,6 +3,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
+
 import Web3Manager from '../components/web3-manager';
 import { LightTheme } from '../design-system';
 import GlobalStyles from '../design-system/global-styles';
