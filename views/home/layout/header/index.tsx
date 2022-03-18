@@ -2,11 +2,11 @@ import Link from 'next/link';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
-import Container from '../../components/container';
-import SocialMediaCard from '../../components/social-media-card';
-import { LogoSVG } from '../../components/svg';
-import { Routes, RoutesEnum } from '../../constants/routes';
-import { Box, Button, Typography } from '../../elements';
+import Container from '../../../../components/container';
+import SocialMediaCard from '../../../../components/social-media-card';
+import { LogoSVG } from '../../../../components/svg';
+import { Routes, RoutesEnum } from '../../../../constants/routes';
+import { Box, Button, Typography } from '../../../../elements';
 import { SOCIAL_MEDIAS } from '../social-media.data';
 import { HeaderProps } from './header.types';
 

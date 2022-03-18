@@ -2,7 +2,7 @@ import { Controls, Player } from '@lottiefiles/react-lottie-player';
 import { FC } from 'react';
 
 import { Box } from '../../elements';
-import Header from '../../layout/header';
+import Header from '../home/layout/header';
 
 const ComingSoon: FC = () => (
   <Box height="100vh">
@@ -16,10 +16,10 @@ const ComingSoon: FC = () => (
       backgroundImage="linear-gradient(226.51deg, #D5E0FF 34.24%, #D5E0FF 34.24%, #E7EDFF 45.58%, #EBF0FF 76.14%);"
     >
       <Player
-        autoplay
         loop
-        src="https://assets3.lottiefiles.com/packages/lf20_ypjdfhjl.json"
+        autoplay
         style={{ height: '300px', width: '300px' }}
+        src="https://assets3.lottiefiles.com/packages/lf20_ypjdfhjl.json"
       >
         <Controls visible={false} />
       </Player>

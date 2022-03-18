@@ -10,7 +10,8 @@ const GlobalStyles = css`
       sans-serif;
   }
 
-  body {
+  body,
+  html {
     overflow-x: hidden;
   }
 

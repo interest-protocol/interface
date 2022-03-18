@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 
-import { ComingSoon } from '../../components';
+import DApp from '../../views/dapp';
 
-const App: NextPage = () => <ComingSoon />;
+const App: NextPage = () => <DApp />;
 
 export default App;

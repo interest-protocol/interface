@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import SEO from '../components/SEO';
-import { Box } from '../elements';
+import SEO from '../../../components/SEO';
+import { Box } from '../../../elements';
 import Footer from './footer';
 import Header from './header';
 import { LayoutProps } from './layout.types';

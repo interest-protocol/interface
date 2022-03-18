@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { FC } from 'react';
+import React, { forwardRef } from 'react';
 import {
   background,
   border,
@@ -17,7 +17,7 @@ import {
 
 import { BoxProps } from './box.types';
 
-const Box: FC<BoxProps> = ({ as, ...props }) => {
+const Box = forwardRef(({ as, ...props }: BoxProps, ref) => {
   const BoxElement = styled(as || 'div')(
     compose(
       position,
@@ -40,7 +40,9 @@ const Box: FC<BoxProps> = ({ as, ...props }) => {
     )
   );
 
-  return <BoxElement {...props} />;
-};
+  return <BoxElement {...props} ref={ref} />;
+});
+
+Box.displayName = 'Box';
 
 export default Box;
