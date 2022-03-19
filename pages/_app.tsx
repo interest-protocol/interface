@@ -1,12 +1,11 @@
+import { LightTheme } from '@design-system';
+import GlobalStyles from '@design-system/global-styles';
+import colors from '@design-system/light-theme/colors';
 import { Global, ThemeProvider } from '@emotion/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
-
-import { LightTheme } from '../design-system';
-import GlobalStyles from '../design-system/global-styles';
-import colors from '../design-system/light-theme/colors';
 
 const MyApp = ({ Component, pageProps }: AppProps): ReactNode => (
   <>

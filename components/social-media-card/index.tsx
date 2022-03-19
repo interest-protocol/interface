@@ -1,7 +1,7 @@
+import primitiveColors from '@design-system/common/primitive-colors';
+import { Box } from '@elements';
 import { FC } from 'react';
 
-import primitiveColors from '../../design-system/common/primitive-colors';
-import { Box } from '../../elements';
 import { SocialMediaCardProps } from './social-media-card.types';
 
 const SocialMediaCard: FC<SocialMediaCardProps> = ({ title, link, Logo }) => (

@@ -1,11 +1,10 @@
+import hooks from '@connectors';
+import { Box, Button, Modal, Typography } from '@elements';
+import { useGetUserCurrencyAmount } from '@hooks/use-get-user-currency-amount';
+import { CopySVG, TimesSVG } from '@svg';
+import { shortAccount } from '@utils';
 import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
-
-import { CopySVG, TimesSVG } from '../../../../components/svg';
-import hooks from '../../../../connectors';
-import { Box, Button, Modal, Typography } from '../../../../elements';
-import { useGetUserCurrencyAmount } from '../../../../hooks/use-get-user-currency-amount';
-import { shortAccount } from '../../../../utils/string';
 
 const { useSelectedAccount, usePriorityConnector } = hooks;
 

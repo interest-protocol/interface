@@ -1,11 +1,11 @@
+import { Container } from '@components';
+import hooks from '@connectors';
+import { Routes, RoutesEnum } from '@constants/routes';
+import { Box, Dropdown, Typography } from '@elements';
+import { LogoSVG } from '@svg';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import Container from '../../../../components/container';
-import { LogoSVG } from '../../../../components/svg';
-import hooks from '../../../../connectors';
-import { Routes, RoutesEnum } from '../../../../constants/routes';
-import { Box, Dropdown, Typography } from '../../../../elements';
 import ConnectWallet from './connect-wallet';
 import ConnectedWallet from './connected-wallet';
 import MobileMenu from './mobile-menu';

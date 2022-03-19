@@ -1,10 +1,9 @@
+import priorityHooks from '@connectors';
+import { metaMask } from '@connectors/meta-mask';
+import { walletConnect } from '@connectors/wallet-connect';
+import { Box, Button, Modal, Typography } from '@elements';
+import { MetaMaskSVG, TimesSVG, WalletSVG } from '@svg';
 import { FC, SVGAttributes, useState } from 'react';
-
-import { MetaMaskSVG, TimesSVG, WalletSVG } from '../../../../components/svg';
-import priorityHooks from '../../../../connectors';
-import { metaMask } from '../../../../connectors/meta-mask';
-import { walletConnect } from '../../../../connectors/wallet-connect';
-import { Box, Button, Modal, Typography } from '../../../../elements';
 
 const { usePriorityError, usePriorityIsActive } = priorityHooks;
 

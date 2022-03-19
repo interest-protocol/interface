@@ -1,13 +1,11 @@
+import { Container, SocialMediaCard } from '@components';
+import { Routes, RoutesEnum } from '@constants/routes';
+import { SOCIAL_MEDIAS } from '@constants/social-media.data';
+import { Box, Typography } from '@elements';
+import { LogoSVG } from '@svg';
 import Link from 'next/link';
 import { FC } from 'react';
 import { v4 } from 'uuid';
-
-import Container from '../../../../components/container';
-import SocialMediaCard from '../../../../components/social-media-card';
-import { LogoSVG } from '../../../../components/svg';
-import { Routes, RoutesEnum } from '../../../../constants/routes';
-import { SOCIAL_MEDIAS } from '../../../../constants/social-media.data';
-import { Box, Typography } from '../../../../elements';
 
 const Footer: FC = () => (
   <Box

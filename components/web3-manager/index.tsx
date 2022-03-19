@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
-
-import priorityHooks from '../../connectors';
+import priorityHooks from '@connectors';
+import { FC, useEffect, useState } from 'react';
 
 const { usePriorityError, usePriorityConnector, usePriorityIsActivating } =
   priorityHooks;
 
-const Web3Manager = (props: { children: JSX.Element }): JSX.Element => {
-  const connector = usePriorityConnector();
+const Web3Manager: FC = ({ children }) => {
   const error = usePriorityError();
+  const connector = usePriorityConnector();
   const isActivating = usePriorityIsActivating();
 
   const [triedEagerly, setTriedEagerly] = useState(false);
@@ -23,7 +22,7 @@ const Web3Manager = (props: { children: JSX.Element }): JSX.Element => {
   // Make button load not the whole page
   if (!error && !triedEagerly && isActivating) return <div>loading</div>;
 
-  return props.children;
+  return <>{children}</>;
 };
 
 export default Web3Manager;

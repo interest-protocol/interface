@@ -4,7 +4,7 @@ import {
   MediumSVG,
   TelegramSVG,
   TwitterSVG,
-} from '../components/svg';
+} from '@svg';
 
 export const SOCIAL_MEDIAS = [
   {

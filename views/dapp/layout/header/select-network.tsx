@@ -1,10 +1,6 @@
 import { FC } from 'react';
 
-import {
-  ArrowSVG,
-  BinanceSVG,
-  BinanceTestSVG,
-} from '../../../../components/svg';
+import { ArrowSVG, BinanceSVG, BinanceTestSVG } from '@svg';
 import { Box, Dropdown, Typography } from '../../../../elements';
 
 const SelectNetwork: FC = () => {

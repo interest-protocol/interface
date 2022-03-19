@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { CheckSVG } from '../../../../components/svg';
+import { CheckSVG } from '@svg';
 import { Box, Typography } from '../../../../elements';
 import { AdvantagesCardProps } from './advantages.types';
 
