@@ -1,6 +1,10 @@
 import { FC } from 'react';
 
-import { ArrowSVG, BinanceSVG } from '../../../../components/svg';
+import {
+  ArrowSVG,
+  BinanceSVG,
+  BinanceTestSVG,
+} from '../../../../components/svg';
 import { Box, Dropdown, Typography } from '../../../../elements';
 
 const SelectNetwork: FC = () => {
@@ -28,7 +32,7 @@ const SelectNetwork: FC = () => {
             onSelect: doSomethingBSCTestNet,
             displayOption: (
               <Box px="L" display="flex" alignItems="center">
-                <BinanceSVG width="1.5rem" />
+                <BinanceTestSVG width="1.5rem" />
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
                   BSC Test Net
                 </Typography>
@@ -36,7 +40,7 @@ const SelectNetwork: FC = () => {
             ),
             displayTitle: (
               <Box pr={['S', 'L']} pl="S" display="flex" alignItems="center">
-                <BinanceSVG width="1.5rem" />
+                <BinanceTestSVG width="1.5rem" />
                 <Typography
                   display={['none', 'block']}
                   variant="normal"

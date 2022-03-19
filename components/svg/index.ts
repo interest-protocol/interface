@@ -1,6 +1,7 @@
 export { default as ArrowSVG } from './arrow';
 export { default as BarsSVG } from './bars';
 export { default as BinanceSVG } from './binance';
+export { default as BinanceTestSVG } from './binance-test';
 export { default as CheckSVG } from './check';
 export { default as CopySVG } from './copy';
 export { default as CrossChainSVG } from './cross-chain';
