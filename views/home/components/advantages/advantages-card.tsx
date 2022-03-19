@@ -11,6 +11,7 @@ const AdvantagesCard: FC<AdvantagesCardProps> = ({ link, description }) => (
       as="article"
       width="100%"
       height="5rem"
+      effect="hover"
       display="flex"
       borderRadius="L"
       alignItems="center"

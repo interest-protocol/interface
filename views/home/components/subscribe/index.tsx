@@ -71,7 +71,7 @@ const Subscribe: FC = () => {
           placeholder="Drop your e-mail"
         />
         <Box display="flex" flexDirection="column" alignItems="stretch">
-          <Button ml="S" px="L" type="submit" variant="tertiary">
+          <Button ml="S" px="L" type="submit" variant="tertiary" effect="hover">
             Subscribe
           </Button>
           <Box display="flex" alignItems="center" mt="M" px="L">

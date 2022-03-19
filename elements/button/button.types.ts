@@ -24,5 +24,6 @@ export interface ButtonProps
     BackgroundProps,
     TypographyProps,
     Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'> {
+  effect?: 'hover';
   variant: 'primary' | 'secondary' | 'tertiary' | 'neutral' | 'special';
 }

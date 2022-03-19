@@ -17,6 +17,7 @@ import { ButtonProps } from './button.types';
 
 const Button = styled.button<ButtonProps>(
   variant({ scale: 'buttons' }),
+  variant({ prop: 'effect', scale: 'effects' }),
   compose(
     color,
     space,

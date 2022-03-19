@@ -8,6 +8,7 @@ const SocialMediaCard: FC<SocialMediaCardProps> = ({ title, link, Logo }) => (
   <a href={link} target="__blank" title={title}>
     <Box
       mx="M"
+      effect="hover"
       display="flex"
       width="2.6rem"
       height="2.6rem"

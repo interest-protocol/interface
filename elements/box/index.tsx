@@ -13,28 +13,35 @@ import {
   space,
   system,
   typography,
+  variant,
 } from 'styled-system';
 
 import { BoxProps } from './box.types';
 
 const Box = forwardRef(({ as, ...props }: BoxProps, ref) => {
   const BoxElement = styled(as || 'div')(
+    variant({
+      prop: 'effect',
+      scale: 'effects',
+    }),
     compose(
-      position,
-      layout,
+      grid,
       space,
       color,
-      background,
-      flexbox,
-      grid,
-      typography,
-      boxShadow,
       border,
+      layout,
+      flexbox,
+      position,
+      boxShadow,
+      typography,
+      background,
       system({
         cursor: true,
         filter: true,
         rowGap: true,
         columnGap: true,
+        transform: true,
+        transition: true,
         backdropFilter: true,
       })
     )

@@ -26,10 +26,13 @@ export interface BoxProps
     BorderProps,
     SpaceProps,
     Omit<HTMLAttributes<HTMLElement>, 'color'> {
+  effect?: 'hover';
   as?: keyof JSX.IntrinsicElements;
+  rowGap?: MaybeArray<CSSProperties['gap']>;
   cursor?: MaybeArray<CSSProperties['cursor']>;
   filter?: MaybeArray<CSSProperties['filter']>;
-  rowGap?: MaybeArray<CSSProperties['gap']>;
   columnGap?: MaybeArray<CSSProperties['gap']>;
+  transform?: MaybeArray<CSSProperties['transform']>;
+  transition?: MaybeArray<CSSProperties['transition']>;
   backdropFilter?: MaybeArray<CSSProperties['filter']>;
 }

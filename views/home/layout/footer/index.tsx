@@ -48,7 +48,13 @@ const Footer: FC = () => (
             </Typography>
           </Box>
         </Link>
-        <Box as="nav" display="flex" py={['L', 'NONE']} justifyContent="center">
+        <Box
+          as="nav"
+          display="flex"
+          py={['L', 'NONE']}
+          alignItems="center"
+          justifyContent="center"
+        >
           {SOCIAL_MEDIAS.map((socialMediaData) => (
             <SocialMediaCard {...socialMediaData} key={v4()} />
           ))}
