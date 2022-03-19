@@ -9,6 +9,7 @@ export { default as DiscordSVG } from './discord';
 export { default as DoorSVG } from './door';
 export { default as EthereumSVG } from './ethereum';
 export { default as FailSVG } from './fail';
+export { default as GitBookSVG } from './git-book';
 export { default as GithubSVG } from './github';
 export { default as LogoSVG } from './logo';
 export { default as MediumSVG } from './medium';
