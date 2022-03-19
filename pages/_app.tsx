@@ -11,6 +11,7 @@ import colors from '../design-system/light-theme/colors';
 const MyApp = ({ Component, pageProps }: AppProps): ReactNode => (
   <>
     <Head>
+      <title>Interest Protocol</title>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
     </Head>
     <ThemeProvider theme={LightTheme}>

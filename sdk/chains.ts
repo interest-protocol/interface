@@ -3,6 +3,7 @@ import type { AddEthereumChainParameter } from '@web3-react/types';
 export enum CHAIN_ID {
   BSC_TEST_NET = 97,
   BSC_MAIN_MET = 56,
+  UNSUPPORTED = 0,
 }
 
 export const BNB: AddEthereumChainParameter['nativeCurrency'] = {
@@ -38,6 +39,17 @@ export const CHAINS = {
           'https://bsc-dataseed1.ninicoin.io/',
         ],
     blockExplorerUrls: ['https://bscscan.com'],
+  },
+  [CHAIN_ID.UNSUPPORTED]: {
+    chainId: CHAIN_ID.UNSUPPORTED,
+    chainName: 'Unsupported Network',
+    nativeCurrency: {
+      name: '???',
+      symbol: '???',
+      decimals: 18,
+    },
+    rpcUrls: [''],
+    blockExplorerUrls: [''],
   },
 } as Record<string, AddEthereumChainParameter>;
 

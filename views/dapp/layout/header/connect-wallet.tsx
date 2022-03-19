@@ -1,9 +1,12 @@
 import { FC, SVGAttributes, useState } from 'react';
 
 import { MetaMaskSVG, TimesSVG, WalletSVG } from '../../../../components/svg';
+import priorityHooks from '../../../../connectors';
 import { metaMask } from '../../../../connectors/meta-mask';
 import { walletConnect } from '../../../../connectors/wallet-connect';
 import { Box, Button, Modal, Typography } from '../../../../elements';
+
+const { usePriorityError, usePriorityIsActive } = priorityHooks;
 
 const WalletButton: FC<{
   name: string;
@@ -32,6 +35,30 @@ const ConnectWallet: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const toggleModal = () => setShowModal((state) => !state);
+
+  const error = usePriorityError();
+
+  const isActive = usePriorityIsActive();
+
+  // This is to check for specific MEtamask error
+  // useEffect(() => {
+  //   if (error) {
+  //     async () => {
+  //       await isMetaMaskUnlocked();
+  //     };
+  //   }
+  // }, [error]);
+  //
+  // const isMetaMaskUnlocked = async () => {
+  //   if (typeof window !== undefined && !!window.ethereum) {
+  //     return await (window.ethereum as any)?._metamask?.isUnlocked();
+  //   }
+  //
+  //   return false;
+  // };
+
+  // Show error on the modal and do not force a full refresh if there is an errpr
+  if (error && !isActive) return <div>Error try unlocking your wallet</div>;
 
   return (
     <Box>

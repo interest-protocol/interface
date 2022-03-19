@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { CopySVG, TimesSVG } from '../../../../components/svg';
 import hooks from '../../../../connectors';
 import { Box, Button, Modal, Typography } from '../../../../elements';
+import { useGetUserCurrencyAmount } from '../../../../hooks/use-get-user-currency-amount';
 import { shortAccount } from '../../../../utils/string';
 
 const { useSelectedAccount, usePriorityConnector } = hooks;
@@ -22,6 +23,8 @@ const ConnectedWallet: FC = () => {
     toast('Copied to clipboard');
   };
 
+  const currencyAmount = useGetUserCurrencyAmount();
+
   return (
     <Box p="S" borderRadius="L" bg="bottomBackground">
       <Typography
@@ -30,7 +33,7 @@ const ConnectedWallet: FC = () => {
         variant="normal"
         display={['none', 'inline-block']}
       >
-        Balance
+        {currencyAmount.toSignificant(4)}
       </Typography>
       <Box
         py="M"
