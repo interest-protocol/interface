@@ -5,13 +5,27 @@ import {
   BinanceSVG,
   BinanceTestSVG,
 } from '../../../../components/svg';
+import priorityHooks from '../../../../connectors';
 import { Box, Dropdown, Typography } from '../../../../elements';
+import { CHAIN_ID } from '../../../../sdk/chains';
+import { switchToNetwork } from '../../../../utils/web3-provider';
+const { usePriorityProvider } = priorityHooks;
 
 const SelectNetwork: FC = () => {
+  const provider = usePriorityProvider();
+
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const doSomethingBSCTestNet = () => {};
+  const doSomethingBSCTestNet = async () => {
+    if (!provider) return;
+
+    await switchToNetwork(provider, CHAIN_ID.BSC_TEST_NET);
+  };
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const doSomethingBSCMainNet = () => {};
+  const doSomethingBSCMainNet = async () => {
+    if (!provider) return;
+
+    await switchToNetwork(provider, CHAIN_ID.BSC_MAIN_MET);
+  };
 
   return (
     <Box mr={['S', 'L']}>

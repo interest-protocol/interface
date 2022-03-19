@@ -6,6 +6,20 @@ export enum CHAIN_ID {
   UNSUPPORTED = 0,
 }
 
+const CHAIN_ID_MAP = {
+  97: CHAIN_ID.BSC_TEST_NET,
+  56: CHAIN_ID.BSC_MAIN_MET,
+  0: CHAIN_ID.UNSUPPORTED,
+} as { [id: number]: CHAIN_ID };
+
+export const getChainId = (x: number) => {
+  const id = CHAIN_ID_MAP[x];
+
+  if (!id) return CHAIN_ID.UNSUPPORTED;
+
+  return id;
+};
+
 export const BNB: AddEthereumChainParameter['nativeCurrency'] = {
   name: 'Binance Coin',
   symbol: 'BNB',
