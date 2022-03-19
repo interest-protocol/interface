@@ -6,8 +6,8 @@ import Container from '../../../../components/container';
 import SocialMediaCard from '../../../../components/social-media-card';
 import { LogoSVG } from '../../../../components/svg';
 import { Routes, RoutesEnum } from '../../../../constants/routes';
+import { SOCIAL_MEDIAS } from '../../../../constants/social-media.data';
 import { Box, Typography } from '../../../../elements';
-import { SOCIAL_MEDIAS } from '../social-media.data';
 
 const Footer: FC = () => (
   <Box

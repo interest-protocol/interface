@@ -1,8 +1,10 @@
+import Link from 'next/link';
 import { FC } from 'react';
 
 import Container from '../../../../components/container';
 import { LogoSVG } from '../../../../components/svg';
 import hooks from '../../../../connectors';
+import { Routes, RoutesEnum } from '../../../../constants/routes';
 import { Box, Dropdown, Typography } from '../../../../elements';
 import ConnectWallet from './connect-wallet';
 import ConnectedWallet from './connected-wallet';
@@ -22,7 +24,9 @@ const Header: FC = () => {
         justifyContent="space-between"
       >
         <Box display="flex" alignItems="center">
-          <LogoSVG fill="white" width="2.5rem" />
+          <Link href={Routes[RoutesEnum.Home]}>
+            <LogoSVG fill="white" width="2.5rem" aria-label="Logo" />
+          </Link>
           <Box display={['none', 'flex']} alignItems="center">
             <Typography
               variant="normal"
