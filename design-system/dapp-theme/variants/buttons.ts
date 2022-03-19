@@ -35,15 +35,16 @@ const secondary = css`
 `;
 
 const tertiary = css`
-  border: none;
   outline: none;
   cursor: pointer;
   position: relative;
   display: inline-block;
-  border-radius: ${radii.S};
-  color: ${colors.foreground};
-  background: ${colors.accent};
-  padding: ${space.L} ${space.XL};
+  color: ${colors.accent};
+  background: transparent;
+  border-radius: ${radii.L};
+  padding: ${space.S} ${space.L};
+  border: 1px solid ${colors.accent};
+  box-shadow: 0 0 7px ${colors.accent}88;
 `;
 
 const neutral = css`
@@ -58,9 +59,25 @@ const neutral = css`
   padding: ${space.L} ${space.XL};
 `;
 
+const special = css`
+  border: none;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  color: ${colors.text};
+  display: inline-block;
+  border-radius: ${radii.M};
+  padding: 0.8rem ${space.XL};
+  background-image: linear-gradient(
+    ${colors.accentSecondary},
+    ${colors.accentBackground}
+  );
+`;
+
 export default {
   primary,
   secondary,
   tertiary,
   neutral,
+  special,
 };

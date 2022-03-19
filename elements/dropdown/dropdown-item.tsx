@@ -6,13 +6,14 @@ import { DropdownItemProps } from './dropdown.types';
 
 const DropdownItem: FC<DropdownItemProps> = ({
   setter,
-  displayOption,
   onSelect,
+  noAction,
   isSelected,
+  displayOption,
 }) => {
   const handleSelect = () => {
     if (!isSelected) {
-      setter();
+      if (!noAction) setter();
       onSelect?.();
     }
   };

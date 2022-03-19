@@ -20,7 +20,7 @@ const Enjoy: FC = () => (
       <Typography variant="normal" my="XL">
         Long and short any asset
       </Typography>
-      <Link href={Routes[RoutesEnum.App]} shallow>
+      <Link href={Routes[RoutesEnum.DApp]} shallow>
         <Button variant="primary">Launch DApp</Button>
       </Link>
     </Container>

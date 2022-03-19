@@ -1,7 +1,8 @@
-import { ReactNode } from 'react';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
 
 export interface IDropdownData {
   value: string;
+  noAction?: boolean;
   onSelect?: () => void;
   displayTitle?: ReactNode;
   displayOption: ReactNode;
@@ -14,6 +15,7 @@ export interface DropdownItemProps extends Omit<IDropdownData, 'value'> {
 
 export interface DropdownProps {
   title: ReactNode;
+  isOpen?: boolean;
   suffix?: ReactNode;
   header?: ReactNode;
   footer?: ReactNode;
@@ -21,4 +23,5 @@ export interface DropdownProps {
   mode: 'select' | 'menu';
   defaultValue?: ReactNode;
   data: ReadonlyArray<IDropdownData>;
+  setOpen?: Dispatch<SetStateAction<boolean>>;
 }

@@ -39,7 +39,7 @@ export const CHAINS = {
         ],
     blockExplorerUrls: ['https://bscscan.com'],
   },
-} as { [key: string]: AddEthereumChainParameter };
+} as Record<string, AddEthereumChainParameter>;
 
 export const URLS = Object.keys(CHAINS).reduce((acc, chainId) => {
   const rpcUrls = CHAINS[chainId].rpcUrls;

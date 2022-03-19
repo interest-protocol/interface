@@ -24,5 +24,5 @@ export interface ButtonProps
     BackgroundProps,
     TypographyProps,
     Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'> {
-  variant: 'primary' | 'secondary' | 'tertiary' | 'neutral';
+  variant: 'primary' | 'secondary' | 'tertiary' | 'neutral' | 'special';
 }

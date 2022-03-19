@@ -1,46 +1,18 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import Container from '../../../../components/container';
 import { LogoSVG } from '../../../../components/svg';
 import hooks from '../../../../connectors';
-import { metaMask } from '../../../../connectors/meta-mask';
-import { walletConnect } from '../../../../connectors/wallet-connect';
 import { Box, Dropdown, Typography } from '../../../../elements';
+import ConnectWallet from './connect-wallet';
+import ConnectedWallet from './connected-wallet';
+import MobileMenu from './mobile-menu';
+import SelectNetwork from './select-network';
 
 const { usePriorityIsActive } = hooks;
 
-const Modal = () => {
-  const [showModal, setShowModal] = useState(false);
-  return (
-    <div>
-      <button onClick={() => setShowModal(true)}>connect</button>
-      {showModal ? (
-        <div style={{ color: 'black', marginTop: '2rem' }}>
-          <h1>MODAL</h1>
-          <button
-            onClick={async () => {
-              await metaMask.activate();
-            }}
-          >
-            connect with meta mask
-          </button>
-          <button
-            onClick={async () => {
-              await walletConnect.activate();
-            }}
-          >
-            connect with wallet connect
-          </button>
-        </div>
-      ) : null}
-    </div>
-  );
-};
-
 const Header: FC = () => {
   const isActive = usePriorityIsActive();
-
-  if (!isActive) return <Modal />;
 
   return (
     <Box as="header" bg="foreground">
@@ -71,6 +43,11 @@ const Header: FC = () => {
               />
             </Box>
           </Box>
+        </Box>
+        <Box display="flex">
+          {isActive && <SelectNetwork />}
+          {isActive ? <ConnectedWallet /> : <ConnectWallet />}
+          <MobileMenu />
         </Box>
       </Container>
     </Box>

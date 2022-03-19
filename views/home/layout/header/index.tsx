@@ -53,7 +53,7 @@ const Header: FC<HeaderProps> = ({ empty }) => (
             ))}
           </Box>
           <Box textAlign="center" cursor="pointer" my={['L', 'NONE']}>
-            <Link href={Routes[RoutesEnum.App]}>
+            <Link href={Routes[RoutesEnum.DApp]}>
               <Button ml={['NONE', 'XL']} variant="primary" type="button">
                 DApp
               </Button>
