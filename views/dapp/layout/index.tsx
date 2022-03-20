@@ -1,8 +1,9 @@
-import { SEO } from '@components';
-import { DAppTheme } from '@design-system';
-import { Box } from '@elements';
 import { ThemeProvider } from '@emotion/react';
 import { FC } from 'react';
+
+import { SEO } from '@/components';
+import { DAppTheme } from '@/design-system';
+import { Box } from '@/elements';
 
 import Footer from './footer';
 import Header from './header';

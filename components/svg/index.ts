@@ -1,4 +1,5 @@
 export { default as ArrowSVG } from './arrow';
+export { default as BackSVG } from './back';
 export { default as BarsSVG } from './bars';
 export { default as BinanceSVG } from './binance';
 export { default as BinanceTestSVG } from './binance-test';
@@ -11,9 +12,12 @@ export { default as EthereumSVG } from './ethereum';
 export { default as FailSVG } from './fail';
 export { default as GitBookSVG } from './git-book';
 export { default as GithubSVG } from './github';
+export { default as LinkSVG } from './link';
+export { default as LoadingSVG } from './loading';
 export { default as LogoSVG } from './logo';
 export { default as MediumSVG } from './medium';
 export { default as MetaMaskSVG } from './meta-mask';
+export { default as NetworkSVG } from './network';
 export { default as NFTSVG } from './nft';
 export { default as PolygonSVG } from './polygon';
 export { default as ProfitsSVG } from './profits';

@@ -1,5 +1,6 @@
-import priorityHooks from '@connectors';
 import { FC, useEffect, useState } from 'react';
+
+import priorityHooks from '@/connectors';
 
 const { usePriorityError, usePriorityConnector, usePriorityIsActivating } =
   priorityHooks;

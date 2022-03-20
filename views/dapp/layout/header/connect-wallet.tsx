@@ -1,9 +1,11 @@
-import priorityHooks from '@connectors';
-import { metaMask } from '@connectors/meta-mask';
-import { walletConnect } from '@connectors/wallet-connect';
-import { Box, Button, Modal, Typography } from '@elements';
-import { MetaMaskSVG, TimesSVG, WalletSVG } from '@svg';
-import { FC, SVGAttributes, useState } from 'react';
+import Loading from 'components/svg/loading';
+import { FC, SVGAttributes, useMemo, useState } from 'react';
+
+import priorityHooks from '@/connectors';
+import { metaMask } from '@/connectors/meta-mask';
+import { walletConnect } from '@/connectors/wallet-connect';
+import { Box, Button, Modal, Typography } from '@/elements';
+import { BackSVG, MetaMaskSVG, TimesSVG, WalletSVG } from '@/svg';
 
 const { usePriorityError, usePriorityIsActive } = priorityHooks;
 
@@ -16,12 +18,14 @@ const WalletButton: FC<{
     p="L"
     mb="M"
     color="text"
+    effect="hover"
     display="flex"
+    cursor="pointer"
     borderRadius="M"
+    onClick={onClick}
     alignItems="center"
     bg="bottomBackground"
     justifyContent="space-between"
-    onClick={onClick}
   >
     {name}
     <Box width="2rem" height="2rem" display="flex" alignItems="center">
@@ -32,6 +36,11 @@ const WalletButton: FC<{
 
 const ConnectWallet: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalState, setModalState] = useState({
+    chooser: true,
+    metamask: false,
+    connectWallet: false,
+  });
 
   const toggleModal = () => setShowModal((state) => !state);
 
@@ -39,29 +48,24 @@ const ConnectWallet: FC = () => {
 
   const isActive = usePriorityIsActive();
 
-  // This is to check for specific MEtamask error
-  // useEffect(() => {
-  //   if (error) {
-  //     async () => {
-  //       await isMetaMaskUnlocked();
-  //     };
-  //   }
-  // }, [error]);
-  //
-  // const isMetaMaskUnlocked = async () => {
-  //   if (typeof window !== undefined && !!window.ethereum) {
-  //     return await (window.ethereum as any)?._metamask?.isUnlocked();
-  //   }
-  //
-  //   return false;
-  // };
+  const hasError = useMemo(() => !!error && !isActive, [error, isActive]);
 
-  // Show error on the modal and do not force a full refresh if there is an errpr
-  if (error && !isActive) return <div>Error try unlocking your wallet</div>;
+  const swipeToWallet = (wallet?: 'metamask' | 'connectWallet') =>
+    setModalState({
+      chooser: false,
+      metamask: false,
+      connectWallet: false,
+      [wallet ?? 'chooser']: true,
+    });
+
+  const connectToMetaMask = async () => {
+    swipeToWallet('metamask');
+    !hasError && (await metaMask.activate());
+  };
 
   return (
     <Box>
-      <Button variant="special" onClick={toggleModal}>
+      <Button variant="primary" onClick={toggleModal} effect="hover">
         Connect Wallet
       </Button>
       <Modal
@@ -73,48 +77,153 @@ const ConnectWallet: FC = () => {
           shouldCloseOnOverlayClick: true,
         }}
       >
-        <Box
-          p="L"
-          pb="NONE"
-          width="20rem"
-          border="none"
-          display="flex"
-          bg="foreground"
-          borderRadius="L"
-          maxHeight="80vh"
-          minHeight="20rem"
-          flexDirection="column"
-        >
+        {modalState.chooser && (
           <Box
+            p="L"
+            pb="NONE"
+            width="20rem"
+            border="none"
             display="flex"
-            alignItems="center"
-            justifyContent="space-between"
+            bg="foreground"
+            borderRadius="L"
+            maxHeight="80vh"
+            minHeight="20rem"
+            flexDirection="column"
           >
-            <Typography
-              as="h3"
-              color="text"
-              variant="normal"
-              fontWeight="normal"
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
             >
-              Connect Your Wallet
-            </Typography>
-            <Box onClick={toggleModal} cursor="pointer">
-              <TimesSVG width="1.8rem" />
+              <Typography
+                as="h3"
+                color="text"
+                variant="normal"
+                fontWeight="normal"
+              >
+                Connect Your Wallet
+              </Typography>
+              <Box onClick={toggleModal} cursor="pointer">
+                <TimesSVG width="1.8rem" />
+              </Box>
+            </Box>
+            <Box mt="L">
+              <WalletButton
+                name="MetaMask"
+                Icon={MetaMaskSVG}
+                onClick={connectToMetaMask}
+              />
+              <WalletButton
+                Icon={WalletSVG}
+                name="Wallet Connect"
+                onClick={async () => await walletConnect.activate()}
+              />
             </Box>
           </Box>
-          <Box mt="L">
-            <WalletButton
-              name="MetaMask"
-              Icon={MetaMaskSVG}
-              onClick={async () => await metaMask.activate()}
-            />
-            <WalletButton
-              Icon={WalletSVG}
-              name="Wallet Connect"
-              onClick={async () => await walletConnect.activate()}
-            />
+        )}
+        {modalState.metamask && (
+          <Box
+            p="L"
+            pb="NONE"
+            width="20rem"
+            border="none"
+            display="flex"
+            bg="foreground"
+            borderRadius="L"
+            maxHeight="80vh"
+            minHeight="20rem"
+            flexDirection="column"
+          >
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Box
+                color="text"
+                cursor="pointer"
+                onClick={() => swipeToWallet()}
+              >
+                <BackSVG width="1.4rem" />
+              </Box>
+              <Box onClick={toggleModal} cursor="pointer">
+                <TimesSVG width="1.8rem" />
+              </Box>
+            </Box>
+            <Box mt="L">
+              <Box
+                p="L"
+                mb="M"
+                color="text"
+                display="flex"
+                borderRadius="M"
+                border="1px solid"
+                alignItems="center"
+                borderColor={hasError ? 'error' : 'textSecondary'}
+              >
+                {!hasError && (
+                  <>
+                    <Box color="text">
+                      <Loading width="1.4rem" />
+                    </Box>
+                    <Typography variant="normal" ml="L">
+                      Initializing...
+                    </Typography>
+                  </>
+                )}
+                {hasError && (
+                  <Box
+                    width="100%"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <Box>
+                      <Typography variant="normal" color="error">
+                        Error!
+                      </Typography>
+                      <Typography
+                        as="span"
+                        variant="normal"
+                        fontSize="XS"
+                        color="textSecondary"
+                      >
+                        Try to unlock your wallet
+                      </Typography>
+                    </Box>
+                    <Button
+                      ml="L"
+                      variant="secondary"
+                      onClick={async () => metaMask.activate()}
+                    >
+                      Try Again
+                    </Button>
+                  </Box>
+                )}
+              </Box>
+              <Box
+                p="L"
+                mb="M"
+                color="text"
+                display="flex"
+                borderRadius="M"
+                alignItems="center"
+                bg="bottomBackground"
+                justifyContent="space-between"
+              >
+                MetaMask
+                <Box
+                  width="2rem"
+                  height="2rem"
+                  display="flex"
+                  alignItems="center"
+                >
+                  <MetaMaskSVG width="2rem" />
+                </Box>
+              </Box>
+            </Box>
           </Box>
-        </Box>
+        )}
       </Modal>
     </Box>
   );

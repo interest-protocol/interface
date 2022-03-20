@@ -34,12 +34,6 @@ const Dropdown: FC<DropdownProps> = ({
 
       const safeDistanceRight = screenWidth - (leftPosition + boxWidth);
 
-      console.log(
-        `${screenWidth} - (${leftPosition} + ${boxWidth}) = ${
-          screenWidth - (leftPosition + boxWidth)
-        }`
-      );
-
       safeDistanceRight < 0 && setSafeMarginRight(false);
       leftPosition < 0 && setSafeMarginLeft(false);
     }
@@ -51,7 +45,6 @@ const Dropdown: FC<DropdownProps> = ({
   };
 
   const handleSelect = (index: number) => () => {
-    console.log('> Handle Select');
     setSelectedIndex(index);
     toggleDropdown();
   };

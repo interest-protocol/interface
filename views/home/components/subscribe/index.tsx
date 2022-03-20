@@ -2,8 +2,9 @@
 import { FC } from 'react';
 import toast from 'react-hot-toast';
 
+import { LogoSVG, ShieldSVG } from '@/svg';
+
 import Container from '../../../../components/container';
-import { LogoSVG, ShieldSVG } from '@svg';
 import { Box, Button, Input, Typography } from '../../../../elements';
 
 const Subscribe: FC = () => {

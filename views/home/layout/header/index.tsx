@@ -1,11 +1,12 @@
-import { Container, SocialMediaCard } from '@components';
-import { Routes, RoutesEnum } from '@constants/routes';
-import { SOCIAL_MEDIAS } from '@constants/social-media.data';
-import { Box, Button, Typography } from '@elements';
-import { LogoSVG } from '@svg';
 import Link from 'next/link';
 import { FC } from 'react';
 import { v4 } from 'uuid';
+
+import { Container, SocialMediaCard } from '@/components';
+import { Routes, RoutesEnum } from '@/constants/routes';
+import { SOCIAL_MEDIAS } from '@/constants/social-media.data';
+import { Box, Button, Typography } from '@/elements';
+import { LogoSVG } from '@/svg';
 
 import { HeaderProps } from './header.types';
 

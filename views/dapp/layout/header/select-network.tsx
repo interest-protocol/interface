@@ -1,22 +1,23 @@
-import priorityHooks from '@connectors';
-import { Box, Dropdown, Typography } from '@elements';
-import { CHAIN_ID } from '@sdk/chains';
-import { ArrowSVG, BinanceSVG, BinanceTestSVG } from '@svg';
-import { switchToNetwork } from '@utils/web3-provider';
 import { FC } from 'react';
 
-const { usePriorityProvider } = priorityHooks;
+import priorityHooks from '@/connectors';
+import { Box, Dropdown, Typography } from '@/elements';
+import { CHAIN_ID } from '@/sdk/chains';
+import { ArrowSVG, BinanceSVG, BinanceTestSVG } from '@/svg';
+import { switchToNetwork } from '@/utils/web3-provider';
+
+const { usePriorityProvider, usePriorityChainId } = priorityHooks;
 
 const SelectNetwork: FC = () => {
+  const chainId = usePriorityChainId();
   const provider = usePriorityProvider();
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const doSomethingBSCTestNet = async () => {
     if (!provider) return;
 
     await switchToNetwork(provider, CHAIN_ID.BSC_TEST_NET);
   };
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   const doSomethingBSCMainNet = async () => {
     if (!provider) return;
 
@@ -35,10 +36,10 @@ const SelectNetwork: FC = () => {
         }
         title="Choose Network"
         header="Choose your Network:"
-        defaultValue="BSCTestNet"
+        defaultValue={`${chainId}`}
         data={[
           {
-            value: 'BSCTestNet',
+            value: `${CHAIN_ID.BSC_TEST_NET}`,
             onSelect: doSomethingBSCTestNet,
             displayOption: (
               <Box px="L" display="flex" alignItems="center">
@@ -63,7 +64,7 @@ const SelectNetwork: FC = () => {
             ),
           },
           {
-            value: 'BSCMainNet',
+            value: `${CHAIN_ID.BSC_MAIN_MET}`,
             onSelect: doSomethingBSCMainNet,
             displayOption: (
               <Box px="L" display="flex" alignItems="center">

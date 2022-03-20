@@ -12,7 +12,7 @@ const CHAIN_ID_MAP = {
   0: CHAIN_ID.UNSUPPORTED,
 } as { [id: number]: CHAIN_ID };
 
-export const getChainId = (x: number) => {
+export const getChainId = (x: number): number => {
   const id = CHAIN_ID_MAP[x];
 
   if (!id) return CHAIN_ID.UNSUPPORTED;

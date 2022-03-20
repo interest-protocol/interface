@@ -2,7 +2,7 @@ import { hexStripZeros } from '@ethersproject/bytes';
 import { Web3Provider } from '@ethersproject/providers';
 import { ethers } from 'ethers';
 
-import { CHAIN_ID, CHAINS } from '../../sdk/chains';
+import { CHAIN_ID, CHAINS } from '@/sdk/chains';
 
 export async function switchToNetwork(
   provider: Web3Provider,

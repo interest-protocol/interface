@@ -1,6 +1,7 @@
-import { LayoutProps } from '@views/home/layout/layout.types';
 import Head from 'next/head';
 import { FC } from 'react';
+
+import { LayoutProps } from '@/views/home/layout/layout.types';
 
 const SEO: FC<LayoutProps> = ({ pageTitle }) => (
   <Head>

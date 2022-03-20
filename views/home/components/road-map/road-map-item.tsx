@@ -2,7 +2,8 @@ import { animated, useSpring } from '@react-spring/web';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
-import { RoadMapSVG } from '@svg';
+import { RoadMapSVG } from '@/svg';
+
 import { Box, Button, Typography } from '../../../../elements';
 import { RoadMapItemProps } from './road-map.types';
 

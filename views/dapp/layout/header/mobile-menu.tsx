@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 
-import { BarsSVG } from '@svg';
+import { BarsSVG } from '@/svg';
+
 import { Box, Dropdown } from '../../../../elements';
 
 const MobileMenu: FC = () => {

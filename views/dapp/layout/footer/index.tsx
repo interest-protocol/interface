@@ -1,9 +1,10 @@
-import { Container, SocialMediaCard } from '@components';
-import { SOCIAL_MEDIAS } from '@constants/social-media.data';
-import { Box } from '@elements';
-import { GitBookSVG } from '@svg';
 import { FC } from 'react';
 import { v4 } from 'uuid';
+
+import { Container, SocialMediaCard } from '@/components';
+import { SOCIAL_MEDIAS } from '@/constants/social-media.data';
+import { Box } from '@/elements';
+import { GitBookSVG } from '@/svg';
 
 const Footer: FC = () => (
   <Box bg="foreground" py={['L', 'XL']}>

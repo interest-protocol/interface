@@ -1,8 +1,9 @@
-import priorityHooks from '@connectors';
-import { CHAIN_ID, CHAIN_IDS } from '@sdk/chains';
-import { CurrencyAmount } from '@sdk/entities/currency-amount';
-import { NativeCurrency } from '@sdk/entities/native-currency';
 import useSWR from 'swr';
+
+import priorityHooks from '@/connectors';
+import { CHAIN_ID, CHAIN_IDS } from '@/sdk/chains';
+import { CurrencyAmount } from '@/sdk/entities/currency-amount';
+import { NativeCurrency } from '@/sdk/entities/native-currency';
 
 import { UseGetUSerCurrencyAmount } from './use-get-user-currency-amount.types';
 

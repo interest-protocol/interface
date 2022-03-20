@@ -25,6 +25,10 @@ const GlobalStyles = css`
     color: inherit;
     text-decoration: none;
   }
+  a:hover {
+    text-decoration: underline;
+  }
+
   br {
     display: none;
   }

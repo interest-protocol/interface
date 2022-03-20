@@ -1,20 +1,25 @@
-import { Container } from '@components';
-import hooks from '@connectors';
-import { Routes, RoutesEnum } from '@constants/routes';
-import { Box, Dropdown, Typography } from '@elements';
-import { LogoSVG } from '@svg';
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+
+import { Container } from '@/components';
+import hooks from '@/connectors';
+import { Routes, RoutesEnum } from '@/constants/routes';
+import { Box, Dropdown, Typography } from '@/elements';
+import { getChainId } from '@/sdk/chains';
+import { LogoSVG } from '@/svg';
 
 import ConnectWallet from './connect-wallet';
 import ConnectedWallet from './connected-wallet';
 import MobileMenu from './mobile-menu';
 import SelectNetwork from './select-network';
 
-const { usePriorityIsActive } = hooks;
+const { usePriorityIsActive, usePriorityChainId } = hooks;
 
 const Header: FC = () => {
+  const chainId = usePriorityChainId();
   const isActive = usePriorityIsActive();
+
+  useEffect(() => console.log('Is Active :::: ', isActive), [isActive]);
 
   return (
     <Box as="header" bg="foreground">
@@ -49,7 +54,7 @@ const Header: FC = () => {
           </Box>
         </Box>
         <Box display="flex">
-          {isActive && <SelectNetwork />}
+          {isActive && getChainId(chainId ?? 0) !== 0 && <SelectNetwork />}
           {isActive ? <ConnectedWallet /> : <ConnectWallet />}
           <MobileMenu />
         </Box>

@@ -21,6 +21,7 @@ const DropdownItem: FC<DropdownItemProps> = ({
   return (
     <Box
       my="M"
+      effect="hover"
       display="flex"
       minWidth="17rem"
       cursor="pointer"
