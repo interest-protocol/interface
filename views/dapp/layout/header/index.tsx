@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 
 import { Container } from '@/components';
 import hooks from '@/connectors';
@@ -14,12 +14,9 @@ import MobileMenu from './mobile-menu';
 import SelectNetwork from './select-network';
 
 const { usePriorityIsActive, usePriorityChainId } = hooks;
-
 const Header: FC = () => {
   const chainId = usePriorityChainId();
   const isActive = usePriorityIsActive();
-
-  useEffect(() => console.log('Is Active :::: ', isActive), [isActive]);
 
   return (
     <Box as="header" bg="foreground">

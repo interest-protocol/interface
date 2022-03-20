@@ -8,11 +8,17 @@ import { getChainId } from '@/sdk/chains';
 import { CopySVG, LinkSVG, NetworkSVG, TimesSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
-const { usePriorityConnector, usePriorityAccount, usePriorityChainId } = hooks;
+const {
+  usePriorityConnector,
+  usePriorityAccount,
+  usePriorityChainId,
+  usePriorityProvider,
+} = hooks;
 
 const ConnectedWallet: FC = () => {
   const chainId = usePriorityChainId();
   const account = usePriorityAccount();
+  const provider = usePriorityProvider();
   const connector = usePriorityConnector();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showNetworkModal, setShowNetworkModal] = useState<boolean>(false);
@@ -171,7 +177,10 @@ const ConnectedWallet: FC = () => {
               justifyContent="space-between"
             >
               <Typography fontSize="S" variant="normal" color="textSecondary">
-                Connected with MetaMask
+                Connected with{' '}
+                {provider?.connection.url === 'metamask'
+                  ? 'MetaMask'
+                  : 'Wallet Connect'}
               </Typography>
               <Button
                 ml="L"

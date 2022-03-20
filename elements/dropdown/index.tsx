@@ -1,5 +1,7 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { v4 } from 'uuid';
+
+import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
 
 import Box from '../box';
 import Typography from '../typography';
@@ -18,13 +20,24 @@ const Dropdown: FC<DropdownProps> = ({
   setOpen,
   isOpen: isExternalOpen,
 }) => {
+  const dropdownWrapperId = useMemo(() => v4(), []);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [safeMarginLeft, setSafeMarginLeft] = useState(true);
   const [safeMarginRight, setSafeMarginRight] = useState(true);
-  const dropdownContainerRef = useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = useState<number>(
     data.findIndex(({ value }) => value === defaultValue)
   );
+
+  const closeDropdown = useCallback((event: any) => {
+    if (event?.path?.some((node: any) => node?.id == dropdownWrapperId)) {
+      return;
+    }
+    console.log('close');
+    setIsOpen(false);
+  }, []);
+
+  const dropdownContainerRef =
+    useClickOutsideListenerRef<HTMLDivElement>(closeDropdown);
 
   useEffect(() => {
     if (dropdownContainerRef.current) {
@@ -50,7 +63,7 @@ const Dropdown: FC<DropdownProps> = ({
   };
 
   return (
-    <Box display="flex" justifyContent="center">
+    <Box display="flex" justifyContent="center" id={dropdownWrapperId}>
       {buttonMode ? (
         <Box
           mx="S"
