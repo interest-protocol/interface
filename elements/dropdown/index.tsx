@@ -1,4 +1,5 @@
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { FC, useCallback, useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
@@ -7,6 +8,8 @@ import Box from '../box';
 import Typography from '../typography';
 import { DropdownProps } from './dropdown.types';
 import DropdownItem from './dropdown-item';
+
+const dropdownWrapperId = 'dropdown-wrapper';
 
 const Dropdown: FC<DropdownProps> = ({
   data,
@@ -20,7 +23,6 @@ const Dropdown: FC<DropdownProps> = ({
   setOpen,
   isOpen: isExternalOpen,
 }) => {
-  const dropdownWrapperId = useMemo(() => v4(), []);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [safeMarginLeft, setSafeMarginLeft] = useState(true);
   const [safeMarginRight, setSafeMarginRight] = useState(true);

@@ -29,7 +29,9 @@ const Header: FC = () => {
       >
         <Box display="flex" alignItems="center">
           <Link href={Routes[RoutesEnum.Home]}>
-            <LogoSVG fill="white" width="2.5rem" aria-label="Logo" />
+            <Box>
+              <LogoSVG fill="white" width="2.5rem" aria-label="Logo" />
+            </Box>
           </Link>
           <Box display={['none', 'flex']} alignItems="center">
             <Typography
