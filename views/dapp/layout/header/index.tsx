@@ -13,10 +13,12 @@ import ConnectedWallet from './connected-wallet';
 import MobileMenu from './mobile-menu';
 import SelectNetwork from './select-network';
 
-const { usePriorityIsActive, usePriorityChainId } = hooks;
+const { usePriorityIsActive, usePriorityChainId, usePriorityIsActivating } =
+  hooks;
 const Header: FC = () => {
   const chainId = usePriorityChainId();
   const isActive = usePriorityIsActive();
+  const isActivating = usePriorityIsActivating();
 
   return (
     <Box as="header" bg="foreground">
@@ -51,8 +53,10 @@ const Header: FC = () => {
           </Box>
         </Box>
         <Box display="flex">
-          {isActive && getChainId(chainId ?? 0) !== 0 && <SelectNetwork />}
-          {isActive ? <ConnectedWallet /> : <ConnectWallet />}
+          {(isActive || isActivating) && getChainId(chainId ?? 0) !== 0 && (
+            <SelectNetwork />
+          )}
+          {isActive || isActivating ? <ConnectedWallet /> : <ConnectWallet />}
           <MobileMenu />
         </Box>
       </Container>

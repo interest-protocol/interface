@@ -1,6 +1,5 @@
 import Loading from 'components/svg/loading';
 import { FC, SVGAttributes, useMemo, useState } from 'react';
-import { animated, useSpring } from 'react-spring';
 
 import priorityHooks from '@/connectors';
 import { metaMask } from '@/connectors/meta-mask';
@@ -10,8 +9,6 @@ import { BackSVG, MetaMaskSVG, TimesSVG, WalletSVG } from '@/svg';
 
 const { usePriorityError, usePriorityIsActive, usePriorityIsActivating } =
   priorityHooks;
-
-const AnimatedBox = animated(Box);
 
 const WalletButton: FC<{
   name: string;
@@ -60,12 +57,6 @@ const ConnectWallet: FC = () => {
   );
 
   console.log(isActivating, 'isActivating');
-
-  const { x } = useSpring({
-    from: { x: 0 },
-    x: modalState.chooser ? 1 : 0,
-    config: { duration: 500 },
-  });
 
   const swipeToWallet = (wallet?: 'metamask' | 'connectWallet') =>
     setModalState({
@@ -139,7 +130,7 @@ const ConnectWallet: FC = () => {
           </Box>
         )}
         {modalState.metamask && (
-          <AnimatedBox
+          <Box
             p="L"
             pb="NONE"
             width="20rem"
@@ -239,7 +230,7 @@ const ConnectWallet: FC = () => {
                 </Box>
               </Box>
             </Box>
-          </AnimatedBox>
+          </Box>
         )}
       </Modal>
     </Box>
