@@ -7,7 +7,8 @@ import { walletConnect } from '@/connectors/wallet-connect';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { BackSVG, MetaMaskSVG, TimesSVG, WalletSVG } from '@/svg';
 
-const { usePriorityError, usePriorityIsActive } = priorityHooks;
+const { usePriorityError, usePriorityIsActive, usePriorityIsActivating } =
+  priorityHooks;
 
 const WalletButton: FC<{
   name: string;
@@ -48,7 +49,14 @@ const ConnectWallet: FC = () => {
 
   const isActive = usePriorityIsActive();
 
-  const hasError = useMemo(() => !!error && !isActive, [error, isActive]);
+  const isActivating = usePriorityIsActivating();
+
+  const hasError = useMemo(
+    () => !!error && !isActive && !isActivating,
+    [error, isActive, isActivating]
+  );
+
+  console.log(isActivating, 'isActivating');
 
   const swipeToWallet = (wallet?: 'metamask' | 'connectWallet') =>
     setModalState({
