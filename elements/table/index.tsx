@@ -55,6 +55,7 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
   loading,
   ordinate,
   headings,
+  mobileSide,
 }) => (
   <>
     <Box
@@ -116,7 +117,8 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
         </Box>
       </Box>
     </Box>
-    <Box display={['block', 'none']}>
+    <Box display={['flex', 'none']}>
+      {mobileSide}
       {data.map((dataItems, index) => (
         <Box
           mx="L"

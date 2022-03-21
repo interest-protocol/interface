@@ -1,53 +1,52 @@
 import { hexStripZeros } from '@ethersproject/bytes';
-import { Web3Provider } from '@ethersproject/providers';
+import { MetaMask } from '@web3-react/metamask';
+import { Connector, ProviderRpcError } from '@web3-react/types';
+import { WalletConnect } from '@web3-react/walletconnect';
 import { ethers } from 'ethers';
 
-import { CHAIN_ID, CHAINS } from '@/sdk/chains';
+import { CHAIN_ID, CHAINS, getChainIdNumber } from '@/sdk/chains';
 
 export async function switchToNetwork(
-  provider: Web3Provider,
+  connector: Connector,
   chainId: CHAIN_ID
 ): Promise<null | void> {
-  if (!provider?.provider?.request) {
-    return;
-  }
-
-  const formattedChainId = hexStripZeros(
-    ethers.BigNumber.from(chainId).toHexString()
-  );
   try {
-    await provider.provider.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: formattedChainId }],
-    });
+    if (connector instanceof WalletConnect) {
+      await connector.activate(getChainIdNumber(chainId));
+    } else {
+      await connector.activate(CHAINS[chainId]);
+    }
   } catch (error) {
     // 4902 is the error code for attempting to switch to an unrecognized chainId
-    if ((error as Record<string, number>)?.code === 4902) {
-      const info = CHAINS[chainId];
+    if ((error as ProviderRpcError)?.code === 4902) {
+      const formattedChainId = hexStripZeros(
+        ethers.BigNumber.from(chainId).toHexString()
+      );
 
-      await provider.provider.request({
+      if (!connector.provider?.request) return;
+
+      await connector.provider.request({
         method: 'wallet_addEthereumChain',
-        params: [
-          {
-            chainId: formattedChainId,
-            chainName: info.chainName,
-            rpcUrls: info.rpcUrls,
-            nativeCurrency: info.nativeCurrency,
-            blockExplorerUrls: info.blockExplorerUrls,
-          },
-        ],
+        params: CHAINS[chainId],
       });
       // metamask (only known implementer) automatically switches after a network is added
       // the second call is done here because that behavior is not a part of the spec and cannot be relied upon in the future
       // metamask's behavior when switching to the current network is just to return null (a no-op)
       try {
-        await provider.provider.request({
+        await connector.provider.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: formattedChainId }],
         });
       } catch (error) {
         console.debug('Added network but could not switch chains', error);
       }
+      // Metamask is trying to change Networks
+    } else if (
+      connector instanceof MetaMask &&
+      (error as ProviderRpcError)?.code === 1013
+    ) {
+      await connector.activate();
+      return;
     } else {
       throw error;
     }

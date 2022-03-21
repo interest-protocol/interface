@@ -4,25 +4,15 @@ import priorityHooks from '@/connectors';
 import { Box, Dropdown, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk/chains';
 import { ArrowSVG, BinanceSVG, BinanceTestSVG } from '@/svg';
-import { switchToNetwork } from '@/utils/web3-provider';
 
-const { usePriorityProvider, usePriorityChainId } = priorityHooks;
+const { usePriorityChainId } = priorityHooks;
 
-const SelectNetwork: FC = () => {
+interface SelectNetworkProps {
+  switchNetwork: (x: CHAIN_ID) => Promise<void>;
+}
+
+const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
   const chainId = usePriorityChainId();
-  const provider = usePriorityProvider();
-
-  const doSomethingBSCTestNet = async () => {
-    if (!provider) return;
-
-    await switchToNetwork(provider, CHAIN_ID.BSC_TEST_NET);
-  };
-
-  const doSomethingBSCMainNet = async () => {
-    if (!provider) return;
-
-    await switchToNetwork(provider, CHAIN_ID.BSC_MAIN_MET);
-  };
 
   return (
     <Box mr={['S', 'L']}>
@@ -40,7 +30,7 @@ const SelectNetwork: FC = () => {
         data={[
           {
             value: `${CHAIN_ID.BSC_TEST_NET}`,
-            onSelect: doSomethingBSCTestNet,
+            onSelect: () => switchNetwork(CHAIN_ID.BSC_TEST_NET),
             displayOption: (
               <Box px="L" display="flex" alignItems="center">
                 <BinanceTestSVG width="1.5rem" />
@@ -65,7 +55,7 @@ const SelectNetwork: FC = () => {
           },
           {
             value: `${CHAIN_ID.BSC_MAIN_MET}`,
-            onSelect: doSomethingBSCMainNet,
+            onSelect: () => switchNetwork(CHAIN_ID.BSC_MAIN_MET),
             displayOption: (
               <Box px="L" display="flex" alignItems="center">
                 <BinanceSVG width="1.5rem" />

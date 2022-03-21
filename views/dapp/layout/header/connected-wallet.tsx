@@ -5,7 +5,7 @@ import hooks from '@/connectors';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetUserCurrencyAmount } from '@/hooks/use-get-user-currency-amount';
 import { getChainId } from '@/sdk/chains';
-import { CopySVG, LinkSVG, NetworkSVG, TimesSVG } from '@/svg';
+import { CopySVG, LinkSVG, NetworkSVG, TimesSVG, UserSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
 const {
@@ -15,7 +15,15 @@ const {
   usePriorityProvider,
 } = hooks;
 
-const ConnectedWallet: FC = () => {
+interface ConnectedWalletProps {
+  isSwitchingNetworks: boolean;
+  failedSwitchingNetwork: boolean;
+}
+
+const ConnectedWallet: FC<ConnectedWalletProps> = ({
+  isSwitchingNetworks,
+  failedSwitchingNetwork,
+}) => {
   const chainId = usePriorityChainId();
   const account = usePriorityAccount();
   const provider = usePriorityProvider();
@@ -34,6 +42,20 @@ const ConnectedWallet: FC = () => {
   };
 
   const currencyAmount = useGetUserCurrencyAmount();
+
+  if (failedSwitchingNetwork)
+    return (
+      <Button variant="primary" bg="error" type="button">
+        Error! Reload Page
+      </Button>
+    );
+
+  if (isSwitchingNetworks)
+    return (
+      <Button type="button" variant="secondary">
+        Switching Network
+      </Button>
+    );
 
   if (getChainId(chainId ?? 0) === 0)
     return (
@@ -132,11 +154,7 @@ const ConnectedWallet: FC = () => {
           overflow="hidden"
           borderRadius="50%"
         >
-          <img
-            width="100%"
-            src="https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png"
-            alt="profile"
-          />
+          <UserSVG height="100%" />
         </Box>
       </Box>
       <Modal modalProps={{ isOpen: showModal }} background="#0008">
@@ -198,11 +216,7 @@ const ConnectedWallet: FC = () => {
                 overflow="hidden"
                 borderRadius="50%"
               >
-                <img
-                  width="100%"
-                  alt="profile"
-                  src="https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png"
-                />
+                <UserSVG height="100%" />
               </Box>
               <Typography variant="normal" fontSize="L" color="text" ml="L">
                 {shortAccount(account || '')}

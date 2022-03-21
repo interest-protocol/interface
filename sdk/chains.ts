@@ -12,12 +12,26 @@ const CHAIN_ID_MAP = {
   0: CHAIN_ID.UNSUPPORTED,
 } as { [id: number]: CHAIN_ID };
 
-export const getChainId = (x: number): number => {
+const CHAIN_ID_NUMBER_MAP = {
+  [CHAIN_ID.BSC_TEST_NET]: 97,
+  [CHAIN_ID.BSC_MAIN_MET]: 56,
+  [CHAIN_ID.UNSUPPORTED]: 0,
+} as { [id: number]: number };
+
+export const getChainId = (x: number): CHAIN_ID => {
   const id = CHAIN_ID_MAP[x];
 
   if (!id) return CHAIN_ID.UNSUPPORTED;
 
   return id;
+};
+
+export const getChainIdNumber = (x: CHAIN_ID): number => {
+  const number = CHAIN_ID_NUMBER_MAP[x];
+
+  if (!number) return 0;
+
+  return number;
 };
 
 export const BNB: AddEthereumChainParameter['nativeCurrency'] = {

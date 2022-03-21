@@ -2,6 +2,7 @@ const primitiveColors = {
   PRIMARY_100: '#0055FF',
   PRIMARY_200: '#EBF0FF',
   PRIMARY_300: '#0055AA',
+  PRIMARY_400: '#0040C0',
   NEUTRAL_50: 'rgba(255, 255,255, 0.45)',
   NEUTRAL_100: '#FFFFFF',
   NEUTRAL_150: '#F3F3F3',
