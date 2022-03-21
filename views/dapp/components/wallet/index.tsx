@@ -51,7 +51,7 @@ const Wallet: FC = () => {
       (async () => {
         try {
           setIsSwitchingNetworks(true);
-          if ((error as ProviderRpcError)?.code === 1013)
+          if ((error as ProviderRpcError).code === 1013)
             await connector.activate(targetChainId);
         } catch {
           setFailedSwitchingNetwork(true);
