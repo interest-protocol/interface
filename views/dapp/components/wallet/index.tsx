@@ -1,3 +1,4 @@
+import { ProviderRpcError } from '@web3-react/types';
 import { FC, useCallback, useEffect, useState } from 'react';
 
 import hooks from '@/connectors';
@@ -50,7 +51,8 @@ const Wallet: FC = () => {
       (async () => {
         try {
           setIsSwitchingNetworks(true);
-          await connector.activate(targetChainId);
+          if ((error as ProviderRpcError)?.code === 1013)
+            await connector.activate(targetChainId);
         } catch {
           setFailedSwitchingNetwork(true);
         } finally {
