@@ -115,6 +115,9 @@ const Dropdown: FC<DropdownProps> = ({
               key={v4()}
               setter={handleSelect(index)}
               isSelected={index === selectedIndex}
+              {...(index === selectedIndex && {
+                closeDropdown: toggleDropdown,
+              })}
               {...item}
             />
           ))}

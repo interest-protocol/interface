@@ -38,7 +38,7 @@ const MobileMenu: FC = () => {
           },
           {
             value: 'loans',
-            noAction: true,
+            noSelectable: true,
             onSelect: toggleLoans,
             displayOption: 'NFTLoans',
           },

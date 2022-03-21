@@ -7,21 +7,21 @@ import { DropdownItemProps } from './dropdown.types';
 const DropdownItem: FC<DropdownItemProps> = ({
   setter,
   onSelect,
-  noAction,
   isSelected,
+  noSelectable,
+  closeDropdown,
   displayOption,
 }) => {
   const handleSelect = () => {
     if (!isSelected) {
-      if (!noAction) setter();
+      if (!noSelectable) setter();
       onSelect?.();
-    }
+    } else closeDropdown?.();
   };
 
   return (
     <Box
       my="M"
-      {...(!isSelected && { effect: 'hover' })}
       display="flex"
       minWidth="17rem"
       cursor="pointer"
@@ -29,9 +29,9 @@ const DropdownItem: FC<DropdownItemProps> = ({
       borderRadius="M"
       overflow="hidden"
       alignItems="center"
-      bg={isSelected ? 'accentBackground' : 'bottomBackground'}
       onClick={handleSelect}
       boxShadow="0px 5px 5px -5px rgba(0, 0, 0, 0.35)"
+      bg={isSelected ? 'accentBackground' : 'bottomBackground'}
     >
       {typeof displayOption == 'string' ? (
         <Typography px="L" variant="normal">
