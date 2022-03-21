@@ -4,6 +4,7 @@ import { FC, SVGAttributes, useMemo, useState } from 'react';
 import priorityHooks from '@/connectors';
 import { metaMask } from '@/connectors/meta-mask';
 import { walletConnect } from '@/connectors/wallet-connect';
+import { Wallets } from '@/constants/wallets';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { BackSVG, MetaMaskSVG, TimesSVG, WalletSVG } from '@/svg';
 
@@ -39,8 +40,8 @@ const ConnectWallet: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalState, setModalState] = useState({
     chooser: true,
-    metamask: false,
-    connectWallet: false,
+    [Wallets.MetaMask]: false,
+    [Wallets.WalletConnect]: false,
   });
 
   const toggleModal = () => setShowModal((state) => !state);
@@ -56,18 +57,16 @@ const ConnectWallet: FC = () => {
     [error, isActive, isActivating]
   );
 
-  console.log(isActivating, 'isActivating');
-
-  const swipeToWallet = (wallet?: 'metamask' | 'connectWallet') =>
+  const swipeToWallet = (wallet?: Wallets) =>
     setModalState({
       chooser: false,
-      metamask: false,
-      connectWallet: false,
+      [Wallets.MetaMask]: false,
+      [Wallets.WalletConnect]: false,
       [wallet ?? 'chooser']: true,
     });
 
   const connectToMetaMask = async () => {
-    swipeToWallet('metamask');
+    swipeToWallet(Wallets.MetaMask);
     !hasError && (await metaMask.activate());
   };
 
@@ -129,7 +128,7 @@ const ConnectWallet: FC = () => {
             </Box>
           </Box>
         )}
-        {modalState.metamask && (
+        {modalState[Wallets.MetaMask] && (
           <Box
             p="L"
             pb="NONE"

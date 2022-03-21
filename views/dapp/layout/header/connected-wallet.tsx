@@ -15,7 +15,15 @@ const {
   usePriorityProvider,
 } = hooks;
 
-const ConnectedWallet: FC = () => {
+interface ConnectedWalletProps {
+  isSwitchingNetworks: boolean;
+  failedSwitchingNetwork: boolean;
+}
+
+const ConnectedWallet: FC<ConnectedWalletProps> = ({
+  isSwitchingNetworks,
+  failedSwitchingNetwork,
+}) => {
   const chainId = usePriorityChainId();
   const account = usePriorityAccount();
   const provider = usePriorityProvider();
@@ -34,6 +42,11 @@ const ConnectedWallet: FC = () => {
   };
 
   const currencyAmount = useGetUserCurrencyAmount();
+
+  if (failedSwitchingNetwork)
+    return <div>error swithcing networks reload the page</div>;
+
+  if (isSwitchingNetworks) return <div>swithcing networks</div>;
 
   if (getChainId(chainId ?? 0) === 0)
     return (
