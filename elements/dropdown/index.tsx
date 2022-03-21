@@ -34,7 +34,6 @@ const Dropdown: FC<DropdownProps> = ({
     if (event?.path?.some((node: any) => node?.id == dropdownWrapperId)) {
       return;
     }
-    console.log('close');
     setIsOpen(false);
   }, []);
 

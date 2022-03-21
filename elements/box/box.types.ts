@@ -35,4 +35,6 @@ export interface BoxProps
   transform?: MaybeArray<CSSProperties['transform']>;
   transition?: MaybeArray<CSSProperties['transition']>;
   backdropFilter?: MaybeArray<CSSProperties['filter']>;
+  borderSpacing?: MaybeArray<CSSProperties['borderSpacing']>;
+  borderCollapse?: MaybeArray<CSSProperties['borderCollapse']>;
 }

@@ -43,6 +43,7 @@ const Box = forwardRef(({ as, ...props }: BoxProps, ref) => {
         transform: true,
         transition: true,
         backdropFilter: true,
+        borderCollapse: true,
       })
     )
   );

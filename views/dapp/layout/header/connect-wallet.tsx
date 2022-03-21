@@ -56,8 +56,6 @@ const ConnectWallet: FC = () => {
     [error, isActive, isActivating]
   );
 
-  console.log(isActivating, 'isActivating');
-
   const swipeToWallet = (wallet?: 'metamask' | 'connectWallet') =>
     setModalState({
       chooser: false,

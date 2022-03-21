@@ -18,8 +18,8 @@ const Footer: FC = () => (
   >
     <Container>
       <Box
-        py={['NONE', 'XXXL']}
         display="flex"
+        py={['NONE', 'XXXL']}
         justifyContent="space-between"
         flexDirection={['column', 'row']}
       >
