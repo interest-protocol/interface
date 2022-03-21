@@ -21,7 +21,7 @@ const DropdownItem: FC<DropdownItemProps> = ({
   return (
     <Box
       my="M"
-      effect="hover"
+      {...(!isSelected && { effect: 'hover' })}
       display="flex"
       minWidth="17rem"
       cursor="pointer"
@@ -29,7 +29,7 @@ const DropdownItem: FC<DropdownItemProps> = ({
       borderRadius="M"
       overflow="hidden"
       alignItems="center"
-      bg="bottomBackground"
+      bg={isSelected ? 'accentBackground' : 'bottomBackground'}
       onClick={handleSelect}
       boxShadow="0px 5px 5px -5px rgba(0, 0, 0, 0.35)"
     >

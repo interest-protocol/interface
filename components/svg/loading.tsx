@@ -10,7 +10,7 @@ const Loading: FC<SVGAttributes<SVGSVGElement>> = (props) => (
         strokeWidth="2.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-      ></path>
+      />
     </svg>
   </Rotate>
 );

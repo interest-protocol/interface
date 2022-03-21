@@ -27,9 +27,7 @@ const BorrowTable: FC = () => (
               Bitcoin BTC
             </Typography>
           </Box>
-          <Button variant="primary" effect="hover">
-            Borrow
-          </Button>
+          <Button variant="primary">Borrow</Button>
         </Box>
       }
       headings={[
@@ -71,12 +69,7 @@ const BorrowTable: FC = () => (
           '60%',
           '3%',
           '10%',
-          <Button
-            display={['none', 'block']}
-            variant="primary"
-            key={v4()}
-            effect="hover"
-          >
+          <Button display={['none', 'block']} variant="primary" key={v4()}>
             Borrow
           </Button>,
         ],

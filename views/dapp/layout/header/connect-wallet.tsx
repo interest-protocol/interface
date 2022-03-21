@@ -72,7 +72,7 @@ const ConnectWallet: FC = () => {
 
   return (
     <Box>
-      <Button variant="primary" onClick={toggleModal} effect="hover">
+      <Button variant="primary" onClick={toggleModal}>
         Connect Wallet
       </Button>
       <Modal

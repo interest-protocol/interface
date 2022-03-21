@@ -4,6 +4,21 @@ import radii from '../../common/radii';
 import space from '../../common/space';
 import colors from '../colors';
 
+const buttonStates = css`
+  &:hover {
+    color: ${colors.text};
+    background: ${colors.accent};
+  }
+  &:active {
+    color: ${colors.text};
+    background: ${colors.accentActive};
+  }
+  &:disabled {
+    color: ${colors.text};
+    background: ${colors.accentBackground};
+  }
+`;
+
 const primary = css`
   border: none;
   outline: none;
@@ -14,6 +29,7 @@ const primary = css`
   border-radius: ${radii.M};
   padding: 0.8rem ${space.XL};
   background: ${colors.accent};
+  ${buttonStates}
 `;
 
 const secondary = css`
@@ -26,6 +42,7 @@ const secondary = css`
   display: inline-block;
   border-radius: ${radii.M};
   background: ${colors.bottomBackground};
+  ${buttonStates}
 `;
 
 const tertiary = css`
@@ -38,6 +55,7 @@ const tertiary = css`
   border-radius: ${radii.L};
   padding: ${space.S} ${space.L};
   border: 1px solid ${colors.accent};
+  ${buttonStates}
 `;
 
 const neutral = css`
@@ -50,6 +68,7 @@ const neutral = css`
   border-radius: ${radii.S};
   background: ${colors.outline};
   padding: ${space.L} ${space.XL};
+  ${buttonStates}
 `;
 
 const special = css`

@@ -62,7 +62,6 @@ const ConnectedWallet: FC<ConnectedWalletProps> = ({
       <>
         <Button
           bg="error"
-          effect="hover"
           display="flex"
           variant="primary"
           borderRadius="L"
@@ -200,12 +199,7 @@ const ConnectedWallet: FC<ConnectedWalletProps> = ({
                   ? 'MetaMask'
                   : 'Wallet Connect'}
               </Typography>
-              <Button
-                ml="L"
-                effect="hover"
-                variant="tertiary"
-                onClick={disconnect}
-              >
+              <Button ml="L" variant="tertiary" onClick={disconnect}>
                 Disconnect
               </Button>
             </Box>
