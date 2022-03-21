@@ -4,35 +4,18 @@ import toast from 'react-hot-toast';
 import hooks from '@/connectors';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetUserCurrencyAmount } from '@/hooks/use-get-user-currency-amount';
-import { getChainId } from '@/sdk/chains';
-import { CopySVG, LinkSVG, NetworkSVG, TimesSVG, UserSVG } from '@/svg';
+import { CopySVG, LinkSVG, TimesSVG, UserSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
-const {
-  usePriorityConnector,
-  usePriorityAccount,
-  usePriorityChainId,
-  usePriorityProvider,
-} = hooks;
+const { usePriorityConnector, usePriorityAccount, usePriorityProvider } = hooks;
 
-interface ConnectedWalletProps {
-  isSwitchingNetworks: boolean;
-  failedSwitchingNetwork: boolean;
-}
-
-const ConnectedWallet: FC<ConnectedWalletProps> = ({
-  isSwitchingNetworks,
-  failedSwitchingNetwork,
-}) => {
-  const chainId = usePriorityChainId();
+const ConnectedWallet: FC = () => {
   const account = usePriorityAccount();
   const provider = usePriorityProvider();
   const connector = usePriorityConnector();
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [showNetworkModal, setShowNetworkModal] = useState<boolean>(false);
 
   const toggleModal = () => setShowModal((state) => !state);
-  const toggleNetworkModal = () => setShowNetworkModal((state) => !state);
 
   const disconnect = () => connector.deactivate();
 
@@ -42,83 +25,6 @@ const ConnectedWallet: FC<ConnectedWalletProps> = ({
   };
 
   const currencyAmount = useGetUserCurrencyAmount();
-
-  if (failedSwitchingNetwork)
-    return (
-      <Button variant="primary" bg="error" type="button">
-        Error! Reload Page
-      </Button>
-    );
-
-  if (isSwitchingNetworks)
-    return (
-      <Button type="button" variant="secondary">
-        Switching Network
-      </Button>
-    );
-
-  if (getChainId(chainId ?? 0) === 0)
-    return (
-      <>
-        <Button
-          bg="error"
-          display="flex"
-          variant="primary"
-          borderRadius="L"
-          alignItems="center"
-          onClick={toggleNetworkModal}
-        >
-          <NetworkSVG width="1rem" />
-          <Typography as="span" variant="normal" ml="M">
-            Wrong Network
-          </Typography>
-        </Button>
-        <Modal
-          modalProps={{
-            shouldCloseOnEsc: true,
-            isOpen: showNetworkModal,
-            shouldCloseOnOverlayClick: true,
-            onRequestClose: toggleNetworkModal,
-          }}
-          background="#0008"
-        >
-          <Box
-            p="L"
-            width="100%"
-            bg="foreground"
-            maxWidth="23rem"
-            borderRadius="L"
-          >
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Typography
-                as="h3"
-                color="text"
-                variant="normal"
-                fontWeight="normal"
-              >
-                Wrong Network
-              </Typography>
-              <Box onClick={toggleNetworkModal} cursor="pointer">
-                <TimesSVG width="1.8rem" />
-              </Box>
-            </Box>
-            <Typography
-              my="M"
-              fontSize="S"
-              variant="normal"
-              color="textSecondary"
-            >
-              Please connect to a supported network in the dropdown menu or in
-              your wallet.
-            </Typography>
-          </Box>
-        </Modal>
-      </>
-    );
 
   return (
     <Box p="S" borderRadius="L" bg="bottomBackground">

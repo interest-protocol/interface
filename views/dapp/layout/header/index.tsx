@@ -1,51 +1,17 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, useCallback, useState } from 'react';
+import { FC } from 'react';
 
 import { Container } from '@/components';
-import hooks from '@/connectors';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Dropdown, Typography } from '@/elements';
-import { CHAIN_ID, getChainId } from '@/sdk/chains';
 import { LogoSVG } from '@/svg';
-import { switchToNetwork } from '@/utils/web3-provider';
 
-import ConnectWallet from './connect-wallet';
-import ConnectedWallet from './connected-wallet';
+import { Wallet } from '../../components';
 import MobileMenu from './mobile-menu';
-import SelectNetwork from './select-network';
-
-const {
-  usePriorityIsActive,
-  usePriorityChainId,
-  usePriorityIsActivating,
-  usePriorityConnector,
-} = hooks;
 
 const Header: FC = () => {
   const { pathname, push } = useRouter();
-  const [isSwitchingNetworks, setIsSwitchingNetworks] = useState(false);
-  const [failedSwitchingNetwork, setFailedSwitchingNetwork] = useState(false);
-
-  const isActive = usePriorityIsActive();
-  const isActivating = usePriorityIsActivating();
-  const chainId = usePriorityChainId();
-  const connector = usePriorityConnector();
-
-  const switchNetwork = useCallback(
-    async (x: CHAIN_ID): Promise<void> => {
-      try {
-        if (!connector) return;
-        setIsSwitchingNetworks(true);
-        await switchToNetwork(connector, x);
-        setIsSwitchingNetworks(false);
-      } catch {
-        setIsSwitchingNetworks(false);
-        setFailedSwitchingNetwork(true);
-      }
-    },
-    [connector]
-  );
 
   return (
     <Box as="header" bg="foreground">
@@ -104,17 +70,7 @@ const Header: FC = () => {
           </Box>
         </Box>
         <Box display="flex">
-          {(isActive || isActivating) && getChainId(chainId ?? 0) !== 0 && (
-            <SelectNetwork switchNetwork={switchNetwork} />
-          )}
-          {isActive || isActivating ? (
-            <ConnectedWallet
-              isSwitchingNetworks={isSwitchingNetworks}
-              failedSwitchingNetwork={failedSwitchingNetwork}
-            />
-          ) : (
-            <ConnectWallet />
-          )}
+          <Wallet />
           <MobileMenu />
         </Box>
       </Container>
