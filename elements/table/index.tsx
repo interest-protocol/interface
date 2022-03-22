@@ -32,7 +32,7 @@ const TableLoading: FC<TableLoadingProps> = ({ columns }) => {
   });
 
   return (
-    <>
+    <Box>
       {Array.from({ length: rows }).map((_, index) => (
         <Box
           as="tr"
@@ -46,7 +46,7 @@ const TableLoading: FC<TableLoadingProps> = ({ columns }) => {
           ))}
         </Box>
       ))}
-    </>
+    </Box>
   );
 };
 
@@ -57,7 +57,7 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
   headings,
   mobileSide,
 }) => (
-  <>
+  <Box>
     <Box
       my="L"
       overflow="hidden"
@@ -131,7 +131,7 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
           gridTemplateColumns="auto 1fr"
         >
           {ordinate && (
-            <>
+            <Box key={v4()}>
               <Typography
                 py="M"
                 px="L"
@@ -152,10 +152,10 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
               >
                 {index + 1}
               </Box>
-            </>
+            </Box>
           )}
           {dataItems.map((item, index) => (
-            <>
+            <Box key={v4()}>
               <Typography
                 py="M"
                 px="L"
@@ -166,15 +166,15 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
               >
                 {headings[index]}
               </Typography>
-              <Box py="M" px="L" key={v4()}>
+              <Box py="M" px="L">
                 {item}
               </Box>
-            </>
+            </Box>
           ))}
         </Box>
       ))}
     </Box>
-  </>
+  </Box>
 );
 
 export default ResponsiveTable;

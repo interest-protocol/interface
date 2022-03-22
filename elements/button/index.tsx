@@ -1,22 +1,22 @@
 import styled from '@emotion/styled';
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import {
   border,
-  boxShadow,
   color,
   compose,
+  display,
+  flexbox,
   layout,
   position,
+  shadow,
   space,
-  system,
-  textShadow,
   typography,
   variant,
 } from 'styled-system';
 
-import { TypographyProps } from './typography.types';
+import { ButtonProps } from './button.types';
 
-const Typography: FC<TypographyProps> = ({ as, hover, active, ...props }) => {
+const Button: FC<ButtonProps> = ({ hover, active, ...props }) => {
   const [isHover, setIsHover] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
@@ -25,29 +25,23 @@ const Typography: FC<TypographyProps> = ({ as, hover, active, ...props }) => {
   const mouseEnter = () => setIsHover(true);
   const mouseLeave = () => setIsHover(false);
 
-  const TypographyElement = styled(as || 'p')(
-    variant({
-      scale: 'typography',
-    }),
+  const StyledButton = styled.button(
+    variant({ scale: 'buttons' }),
+    variant({ prop: 'effect', scale: 'effects' }),
     compose(
-      space,
       color,
-      layout,
+      space,
       border,
+      shadow,
+      display,
       position,
-      boxShadow,
-      typography,
-      textShadow,
-      system({
-        cursor: true,
-        textTransform: true,
-        whiteSpace: true,
-      })
+      layout,
+      flexbox,
+      typography
     )
   );
-
   return (
-    <TypographyElement
+    <StyledButton
       {...props}
       {...(isHover && hover)}
       {...(isActive && active)}
@@ -58,5 +52,4 @@ const Typography: FC<TypographyProps> = ({ as, hover, active, ...props }) => {
     />
   );
 };
-
-export default Typography;
+export default Button;

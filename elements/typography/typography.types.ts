@@ -20,7 +20,9 @@ export interface TypographyProps
     Omit<HTMLAttributes<HTMLElement>, 'color'> {
   as?: keyof JSX.IntrinsicElements;
   cursor?: CSSProperties['cursor'];
-  variant: 'title1' | 'title2' | 'title3' | 'title4' | 'normal';
-  textTransform?: CSSProperties['textTransform'];
   whiteSpace?: CSSProperties['whiteSpace'];
+  textTransform?: CSSProperties['textTransform'];
+  hover?: Omit<Omit<TypographyProps, 'as'>, 'variant'>;
+  active?: Omit<Omit<TypographyProps, 'as'>, 'variant'>;
+  variant: 'title1' | 'title2' | 'title3' | 'title4' | 'normal';
 }

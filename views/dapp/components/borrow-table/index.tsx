@@ -32,6 +32,7 @@ const BorrowTable: FC = () => (
       }
       headings={[
         <Typography
+          as="span"
           display={['none', 'block']}
           variant="normal"
           textAlign="center"
@@ -43,11 +44,11 @@ const BorrowTable: FC = () => (
         'TVL',
         'LTV',
         <>
-          <p>Interest Cost</p>
+          Interest Cost <br />
           (APR)
         </>,
         <>
-          <p>Liquidation</p>
+          Liquidation <br />
           Fee
         </>,
         '',

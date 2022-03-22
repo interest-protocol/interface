@@ -32,6 +32,8 @@ export interface BoxProps
   cursor?: MaybeArray<CSSProperties['cursor']>;
   filter?: MaybeArray<CSSProperties['filter']>;
   columnGap?: MaybeArray<CSSProperties['gap']>;
+  hover?: Omit<Omit<BoxProps, 'as'>, 'variant'>;
+  active?: Omit<Omit<BoxProps, 'as'>, 'variant'>;
   transform?: MaybeArray<CSSProperties['transform']>;
   transition?: MaybeArray<CSSProperties['transition']>;
   backdropFilter?: MaybeArray<CSSProperties['filter']>;
