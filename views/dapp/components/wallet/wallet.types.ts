@@ -1,4 +1,4 @@
-export interface WrongNetworkModalProps {
+export interface InfoModalProps {
   isOpen: boolean;
   handleClose: () => void;
 }

@@ -9,6 +9,7 @@ import { switchToNetwork } from '@/utils/web3-provider';
 import ConnectWallet from './connect-wallet';
 import ConnectedWallet from './connected-wallet';
 import SelectNetwork from './select-network';
+import SwitchingNetwork from './switching-network';
 import WrongNetwork from './wrong-network';
 
 const {
@@ -61,24 +62,12 @@ const Wallet: FC = () => {
       })();
   }, [error]);
 
-  if (isSwitchingNetworks)
-    return (
-      <Button type="button" variant="tertiary">
-        Switching Network
-      </Button>
-    );
+  if (isSwitchingNetworks) return <SwitchingNetwork />;
 
   if (failedSwitchingNetwork)
     return (
       <Button variant="primary" bg="error">
         Switch Network Manually
-      </Button>
-    );
-
-  if (error)
-    return (
-      <Button variant="primary" bg="error">
-        Something Wrong
       </Button>
     );
 
