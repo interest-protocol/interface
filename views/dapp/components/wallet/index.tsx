@@ -24,11 +24,11 @@ const Wallet: FC = () => {
   const [isSwitchingNetworks, setIsSwitchingNetworks] = useState(false);
   const [failedSwitchingNetwork, setFailedSwitchingNetwork] = useState(false);
 
-  const isActive = usePriorityIsActive();
-  const isActivating = usePriorityIsActivating();
-  const chainId = usePriorityChainId();
-  const connector = usePriorityConnector();
   const error = usePriorityError();
+  const chainId = usePriorityChainId();
+  const isActive = usePriorityIsActive();
+  const connector = usePriorityConnector();
+  const isActivating = usePriorityIsActivating();
 
   const switchNetwork = useCallback(
     async (x: CHAIN_ID): Promise<void> => {
@@ -51,7 +51,7 @@ const Wallet: FC = () => {
       (async () => {
         try {
           setIsSwitchingNetworks(true);
-          if ((error as ProviderRpcError).code === 1013)
+          if ((error as ProviderRpcError)?.code === 1013)
             await connector.activate(targetChainId);
         } catch {
           setFailedSwitchingNetwork(true);
@@ -63,22 +63,22 @@ const Wallet: FC = () => {
 
   if (isSwitchingNetworks)
     return (
-      <Button type="button" variant="secondary">
+      <Button type="button" variant="tertiary">
         Switching Network
       </Button>
     );
 
   if (failedSwitchingNetwork)
     return (
-      <Button variant="primary" bg="error" type="button">
-        Error! Reload Page
+      <Button variant="primary" bg="error">
+        Switch Network Manually
       </Button>
     );
 
   if (error)
     return (
       <Button variant="primary" bg="error">
-        Error! Check your wallet
+        Something Wrong
       </Button>
     );
 
