@@ -27,6 +27,6 @@ export interface ButtonProps
     Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'> {
   hover?: SystemStyleObject;
   active?: SystemStyleObject;
-  effects?: 'hover';
+  effect?: 'hover';
   variant: 'primary' | 'secondary' | 'tertiary' | 'neutral' | 'special';
 }
