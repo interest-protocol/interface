@@ -7,6 +7,7 @@ import { DropdownItemProps } from './dropdown.types';
 const DropdownItem: FC<DropdownItemProps> = ({
   setter,
   onSelect,
+  minWidth,
   isSelected,
   noSelectable,
   closeDropdown,
@@ -23,13 +24,13 @@ const DropdownItem: FC<DropdownItemProps> = ({
     <Box
       my="M"
       display="flex"
-      minWidth="17rem"
       cursor="pointer"
       minHeight="3rem"
       borderRadius="M"
       overflow="hidden"
       alignItems="center"
       onClick={handleSelect}
+      minWidth={minWidth || '17rem'}
       boxShadow="0px 5px 5px -5px rgba(0, 0, 0, 0.35)"
       bg={isSelected ? 'accentBackground' : 'bottomBackground'}
       {...(!isSelected && {

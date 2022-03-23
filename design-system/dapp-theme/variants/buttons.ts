@@ -14,9 +14,6 @@ const primary = css`
   border-radius: ${radii.M};
   padding: 0.8rem ${space.XL};
   background: ${colors.accent};
-  &:hover {
-    background: ${colors.accentActive};
-  }
 `;
 
 const secondary = css`
@@ -29,9 +26,6 @@ const secondary = css`
   display: inline-block;
   border-radius: ${radii.M};
   background: ${colors.bottomBackground};
-  &:hover {
-    background: ${colors.background};
-  }
 `;
 
 const tertiary = css`

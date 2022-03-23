@@ -12,7 +12,7 @@ const ReactTooltip = dynamic(() => import('react-tooltip'));
 const Cell: FC<{ as: 'td' | 'th'; tip?: string }> = ({ as, tip, children }) => (
   <Box
     py="L"
-    px="XL"
+    px="M"
     data-tip={tip}
     textAlign="left"
     fontWeight="400"
@@ -62,17 +62,18 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
   hasButton,
   mobileSide,
 }) => (
-  <Box>
+  <>
     <Box
       my="L"
       overflow="hidden"
       display={['none', 'block']}
       borderColor="textDescription"
     >
-      <Box role="table" width="100%" overflowX="auto" borderCollapse="separate">
+      <Box role="table" width="100%" overflowX="auto">
         <Box
           my="M"
           py="M"
+          px="XL"
           role="row"
           fontSize="S"
           display="grid"
@@ -103,6 +104,7 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
             data.map(({ items, button }, index) => (
               <Box
                 py="M"
+                px="XL"
                 role="row"
                 key={v4()}
                 display="grid"
@@ -204,7 +206,7 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
     </Box>
 
     <ReactTooltip place="top" type="dark" effect="solid" />
-  </Box>
+  </>
 );
 
 export default ResponsiveTable;

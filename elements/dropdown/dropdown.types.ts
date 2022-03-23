@@ -9,14 +9,17 @@ export interface IDropdownData {
 }
 
 export interface DropdownItemProps extends Omit<IDropdownData, 'value'> {
-  isSelected: boolean;
+  minWidth?: string;
   setter: () => void;
+  isSelected: boolean;
   closeDropdown?: () => void;
 }
 
 export interface DropdownProps {
+  bottom?: boolean;
   title: ReactNode;
   isOpen?: boolean;
+  minWidth?: string;
   suffix?: ReactNode;
   header?: ReactNode;
   footer?: ReactNode;

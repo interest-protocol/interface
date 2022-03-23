@@ -15,13 +15,13 @@ const Header: FC = () => {
   return (
     <Box
       py="M"
-      px="L"
+      px={['M', 'L']}
       as="header"
-      display="grid"
       bg="background"
-      gridTemplateColumns="repeat(3, 1fr)"
       alignItems="center"
+      display={['flex', 'flex', 'grid']}
       justifyContent="space-between"
+      gridTemplateColumns="repeat(3, 1fr)"
     >
       <Box display="flex" alignItems="center">
         <Link href={Routes[RoutesEnum.Home]}>
@@ -38,7 +38,7 @@ const Header: FC = () => {
       <Box
         alignItems="center"
         justifyContent="center"
-        display={['none', 'flex']}
+        display={['none', 'none', 'flex']}
       >
         <Typography
           px="XL"

@@ -16,11 +16,13 @@ const Dropdown: FC<DropdownProps> = ({
   mode,
   title,
   header,
+  bottom,
   suffix,
   footer,
+  setOpen,
+  minWidth,
   buttonMode,
   defaultValue,
-  setOpen,
   isOpen: isExternalOpen,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -64,14 +66,15 @@ const Dropdown: FC<DropdownProps> = ({
   };
 
   return (
-    <Box display="flex" justifyContent="center" id={dropdownWrapperId}>
+    <Box display="flex" id={dropdownWrapperId}>
       {buttonMode ? (
         <Box
           mx="S"
-          py="M"
-          px={['M', 'L']}
+          px="0.7rem"
+          py="0.7rem"
           cursor="pointer"
-          borderRadius="L"
+          borderRadius="M"
+          maxHeight="2.8rem"
           alignItems="center"
           display="inline-flex"
           onClick={toggleDropdown}
@@ -103,13 +106,15 @@ const Dropdown: FC<DropdownProps> = ({
       {(isExternalOpen ?? isOpen) && (
         <Box
           p="M"
-          top="4rem"
+          zIndex={1}
           bg="foreground"
           borderRadius="M"
           position="absolute"
           ref={dropdownContainerRef}
           left={safeMarginLeft ? 'unset' : '1rem'}
           right={safeMarginRight ? 'unset' : '1rem'}
+          boxShadow="0 0 1rem rgba(0,0,0,.3)"
+          {...(bottom ? { bottom: '5rem' } : { top: '4rem' })}
         >
           {header && (
             <Typography variant="normal" p="L" fontSize="S" textAlign="center">
@@ -119,6 +124,7 @@ const Dropdown: FC<DropdownProps> = ({
           {data.map((item, index) => (
             <DropdownItem
               key={v4()}
+              minWidth={minWidth}
               setter={handleSelect(index)}
               isSelected={index === selectedIndex}
               {...(index === selectedIndex && {

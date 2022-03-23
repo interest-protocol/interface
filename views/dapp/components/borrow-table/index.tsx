@@ -10,7 +10,6 @@ const BorrowTable: FC = () => (
     <Box bg="foreground">
       <Container
         dapp
-        px="L"
         py="XL"
         width="100%"
         display="flex"
@@ -23,7 +22,7 @@ const BorrowTable: FC = () => (
         </Typography>
       </Container>
     </Box>
-    <Container dapp>
+    <Container dapp px="NONE" background="specialBackground">
       <Box display={['none', 'block']}>
         <Table
           hasButton

@@ -1,65 +1,53 @@
-import { FC, useState } from 'react';
+import Link from 'next/link';
+import { FC } from 'react';
 
-import { BarsSVG } from '@/svg';
+import { SOCIAL_MEDIAS } from '@/constants/social-media.data';
+import { Box, Dropdown, Typography } from '@/elements';
+import { BarsSVG, GitBookSVG } from '@/svg';
 
-import { Box, Dropdown } from '../../../../elements';
-
-const MobileMenu: FC = () => {
-  const [showMenu, setShowMenu] = useState<boolean>(false);
-  const [showLoans, setShowLoans] = useState<boolean>(false);
-
-  const toggleShowMenu = () => setShowMenu(!showMenu);
-
-  const toggleLoans = () => setShowLoans(!showLoans);
-
-  return (
-    <Box display={['block', 'none']}>
-      <Dropdown
-        buttonMode
-        mode="menu"
-        isOpen={showMenu}
-        setOpen={setShowMenu}
-        title={
-          <Box
-            width="1.6rem"
-            height="1.6rem"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <BarsSVG width="1rem" />
-          </Box>
-        }
-        data={[
-          {
-            value: 'borrow',
-            displayOption: 'Borrow',
-            onSelect: toggleShowMenu,
-          },
-          {
-            value: 'loans',
-            noSelectable: true,
-            onSelect: toggleLoans,
-            displayOption: 'NFTLoans',
-          },
-          ...(showLoans
-            ? [
-                {
-                  value: 'borrow',
-                  displayOption: 'Borrow',
-                  onSelect: toggleShowMenu,
-                },
-                {
-                  value: 'lend',
-                  displayOption: 'Lend',
-                  onSelect: toggleShowMenu,
-                },
-              ]
-            : []),
-        ]}
-      />
-    </Box>
-  );
-};
+const MobileMenu: FC = () => (
+  <Box display={['block', 'block', 'none']}>
+    <Dropdown
+      buttonMode
+      mode="menu"
+      header="FOLLOW US:"
+      title={
+        <Box
+          width="1.6rem"
+          height="1.6rem"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <BarsSVG width="1rem" />
+        </Box>
+      }
+      data={[
+        ...SOCIAL_MEDIAS,
+        {
+          title: 'GitBook',
+          Logo: GitBookSVG,
+          link: 'https://docs.interestprotocol.com/',
+        },
+      ].map(({ title, link }) => ({
+        value: title,
+        displayOption: (
+          <Link href={link}>
+            <Typography
+              px="M"
+              py="L"
+              width="100%"
+              variant="normal"
+              textAlign="center"
+              textTransform="uppercase"
+            >
+              {title}
+            </Typography>
+          </Link>
+        ),
+      }))}
+    />
+  </Box>
+);
 
 export default MobileMenu;

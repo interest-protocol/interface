@@ -15,12 +15,12 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
   const chainId = usePriorityChainId();
 
   return (
-    <Box mr={['S', 'L']}>
+    <Box mr="S">
       <Dropdown
         buttonMode
         mode="select"
         suffix={
-          <Box display={['none', 'block']}>
+          <Box display={['none', 'none', 'none', 'block']}>
             <ArrowSVG width="0.6rem" />
           </Box>
         }
@@ -40,13 +40,18 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
               </Box>
             ),
             displayTitle: (
-              <Box pr={['S', 'L']} pl="S" display="flex" alignItems="center">
+              <Box
+                display="flex"
+                alignItems="center"
+                pl={['NONE', 'NONE', 'NONE', 'S']}
+                pr={['NONE', 'NONE', 'NONE', 'L']}
+              >
                 <BinanceTestSVG width="1.5rem" />
                 <Typography
-                  display={['none', 'block']}
-                  variant="normal"
                   mx="M"
+                  variant="normal"
                   whiteSpace="nowrap"
+                  display={['none', 'none', 'none', 'block']}
                 >
                   BSCT
                 </Typography>
@@ -65,10 +70,15 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
               </Box>
             ),
             displayTitle: (
-              <Box pr={['S', 'L']} pl="S" display="flex" alignItems="center">
+              <Box
+                display="flex"
+                alignItems="center"
+                pl={['NONE', 'NONE', 'NONE', 'S']}
+                pr={['NONE', 'NONE', 'NONE', 'L']}
+              >
                 <BinanceSVG width="1.5rem" />
                 <Typography
-                  display={['none', 'block']}
+                  display={['none', 'none', 'none', 'block']}
                   variant="normal"
                   mx="M"
                   whiteSpace="nowrap"
