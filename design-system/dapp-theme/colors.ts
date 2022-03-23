@@ -19,6 +19,7 @@ const colors = {
   successBackground: primitiveColors.GREEN_50,
   success: primitiveColors.GREEN_100,
   error: primitiveColors.RED_100,
+  specialBackground: `radial-gradient(83.95% 254.73% at 50% 0%, #0055FF 0.01%, #353B46 0.02%, #353B46 29.69%, #212427 100%)`,
 };
 
 export default colors;

@@ -1,3 +1,4 @@
+import { SystemStyleObject } from '@styled-system/css';
 import { CSSProperties, HTMLAttributes } from 'react';
 import {
   BackgroundProps,
@@ -25,15 +26,15 @@ export interface BoxProps
     BoxShadowProps,
     BorderProps,
     SpaceProps,
-    Omit<HTMLAttributes<HTMLElement>, 'color'> {
+    Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
   effect?: 'hover';
+  hover?: SystemStyleObject;
+  active?: SystemStyleObject;
   as?: keyof JSX.IntrinsicElements;
   rowGap?: MaybeArray<CSSProperties['gap']>;
   cursor?: MaybeArray<CSSProperties['cursor']>;
   filter?: MaybeArray<CSSProperties['filter']>;
   columnGap?: MaybeArray<CSSProperties['gap']>;
-  hover?: Omit<Omit<BoxProps, 'as'>, 'variant'>;
-  active?: Omit<Omit<BoxProps, 'as'>, 'variant'>;
   transform?: MaybeArray<CSSProperties['transform']>;
   transition?: MaybeArray<CSSProperties['transition']>;
   backdropFilter?: MaybeArray<CSSProperties['filter']>;

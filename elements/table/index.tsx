@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import React, { FC, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
@@ -6,10 +7,13 @@ import Box from '../box';
 import Typography from '../typography';
 import { ResponsiveTableProps, TableLoadingProps } from './table.types';
 
-const Cell: FC<{ as: 'td' | 'th' }> = ({ as, children }) => (
+const ReactTooltip = dynamic(() => import('react-tooltip'));
+
+const Cell: FC<{ as: 'td' | 'th'; tip?: string }> = ({ as, tip, children }) => (
   <Box
     py="L"
     px="XL"
+    data-tip={tip}
     textAlign="left"
     fontWeight="400"
     role={as == 'td' ? 'gridcell' : 'columnheader'}
@@ -55,6 +59,7 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
   loading,
   ordinate,
   headings,
+  hasButton,
   mobileSide,
 }) => (
   <Box>
@@ -76,21 +81,26 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
           alignItems="center"
           color="textSecondary"
           gridTemplateColumns={`repeat(${
-            headings.length + (ordinate ? 1 : 0)
+            headings.length + (ordinate ? 1 : 0) + (hasButton ? 1 : 0)
           }, 1fr)`}
         >
           {ordinate && <Cell as="th">Nº</Cell>}
-          {headings.map((heading) => (
+          {headings.map(({ item }) => (
             <Cell as="th" key={v4()}>
-              {heading}
+              {item}
             </Cell>
           ))}
+          {hasButton && <Cell as="th" />}
         </Box>
         <Box bg="foreground" borderRadius="L" my="M">
           {loading ? (
-            <TableLoading columns={headings.length + (ordinate ? 1 : 0)} />
+            <TableLoading
+              columns={
+                headings.length + (ordinate ? 1 : 0) + (hasButton ? 1 : 0)
+              }
+            />
           ) : (
-            data.map((dataItems, index) => (
+            data.map(({ items, button }, index) => (
               <Box
                 py="M"
                 role="row"
@@ -98,7 +108,7 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
                 display="grid"
                 alignItems="center"
                 gridTemplateColumns={`repeat(${
-                  headings.length + (ordinate ? 1 : 0)
+                  headings.length + (ordinate ? 1 : 0) + (hasButton ? 1 : 0)
                 }, 1fr)`}
               >
                 {ordinate && (
@@ -106,44 +116,72 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
                     {index + 1}
                   </Cell>
                 )}
-                {dataItems.map((item) => (
+                {items.map((item) => (
                   <Cell as="td" key={v4()}>
                     {item}
                   </Cell>
                 ))}
+                {button && <Cell as="td">{button}</Cell>}
               </Box>
             ))
           )}
         </Box>
       </Box>
     </Box>
-    <Box display={['flex', 'none']}>
-      {mobileSide}
-      {data.map((dataItems, index) => (
-        <Box
-          mx="L"
-          my="XL"
-          key={v4()}
-          display="grid"
-          bg="background"
-          borderRadius="M"
-          overflow="hidden"
-          gridTemplateColumns="auto 1fr"
-        >
-          {ordinate && (
-            <Box key={v4()}>
+    <Box
+      display={['block', 'none']}
+      mx="M"
+      my="XL"
+      bg="foreground"
+      p="L"
+      borderRadius="M"
+    >
+      {data.map(({ items, button }, index) => (
+        <Box key={v4()} display="flex">
+          <Box
+            my="L"
+            mx="M"
+            display="flex"
+            alignItems="center"
+            flexDirection="column"
+          >
+            {mobileSide}
+            {button}
+          </Box>
+          <Box
+            key={v4()}
+            display="grid"
+            borderRadius="M"
+            overflow="hidden"
+            gridAutoFlow="column"
+            gridTemplateRows={`repeat(${
+              headings.length + (ordinate ? 1 : 0)
+            }, 1fr)`}
+          >
+            {ordinate && (
               <Typography
                 py="M"
                 px="L"
+                fontSize="S"
                 variant="normal"
-                textAlign="right"
-                fontWeight="bold"
-                bg="textDescription"
-                borderBottom="0.1rem solid"
-                borderColor="textDescriptionHigh"
+                color="textSecondary"
               >
                 Nº
               </Typography>
+            )}
+            {headings.map(({ item }) => (
+              <Typography
+                py="M"
+                px="L"
+                key={v4()}
+                fontSize="S"
+                variant="normal"
+                color="textSecondary"
+              >
+                {item}
+              </Typography>
+            ))}
+            {ordinate && (
               <Box
                 py="M"
                 px="L"
@@ -152,28 +190,20 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
               >
                 {index + 1}
               </Box>
-            </Box>
-          )}
-          {dataItems.map((item, index) => (
-            <Box key={v4()}>
-              <Typography
-                py="M"
-                px="L"
-                key={v4()}
-                variant="normal"
-                textAlign="right"
-                fontWeight="bold"
-              >
-                {headings[index]}
-              </Typography>
-              <Box py="M" px="L">
-                {item}
+            )}
+            {items.map((item) => (
+              <Box key={v4()} display="flex">
+                <Box py="M" px="L">
+                  {item}
+                </Box>
               </Box>
-            </Box>
-          ))}
+            ))}
+          </Box>
         </Box>
       ))}
     </Box>
+
+    <ReactTooltip place="top" type="dark" effect="solid" />
   </Box>
 );
 

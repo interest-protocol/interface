@@ -1,3 +1,4 @@
+import { SystemStyleObject } from '@styled-system/css';
 import { ButtonHTMLAttributes } from 'react';
 import {
   BackgroundProps,
@@ -24,7 +25,7 @@ export interface ButtonProps
     BackgroundProps,
     TypographyProps,
     Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'> {
-  hover?: Omit<Omit<ButtonProps, 'as'>, 'variant'>;
-  active?: Omit<Omit<ButtonProps, 'as'>, 'variant'>;
+  hover?: SystemStyleObject;
+  active?: SystemStyleObject;
   variant: 'primary' | 'secondary' | 'tertiary' | 'neutral' | 'special';
 }

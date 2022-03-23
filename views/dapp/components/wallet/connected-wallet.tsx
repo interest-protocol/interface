@@ -43,11 +43,16 @@ const ConnectedWallet: FC = () => {
         fontSize="M"
         border="none"
         bg="textSoft"
-        effect="hover"
         cursor="pointer"
         borderRadius="M"
         display="inline-flex"
         onClick={toggleModal}
+        hover={{
+          bg: 'accent',
+        }}
+        active={{
+          bg: 'accentActive',
+        }}
       >
         <Typography variant="normal" color="text">
           {shortAccount(account || '')}
@@ -83,7 +88,12 @@ const ConnectedWallet: FC = () => {
             >
               Account
             </Typography>
-            <Box onClick={toggleModal} cursor="pointer">
+            <Box
+              color="textSecondary"
+              cursor="pointer"
+              onClick={toggleModal}
+              hover={{ color: 'text' }}
+            >
               <TimesSVG width="1.8rem" />
             </Box>
           </Box>
@@ -105,7 +115,12 @@ const ConnectedWallet: FC = () => {
                   ? 'MetaMask'
                   : 'Wallet Connect'}
               </Typography>
-              <Button ml="L" variant="tertiary" onClick={disconnect}>
+              <Button
+                ml="L"
+                variant="tertiary"
+                onClick={disconnect}
+                hover={{ color: 'text', bg: 'accent' }}
+              >
                 Disconnect
               </Button>
             </Box>
@@ -128,6 +143,7 @@ const ConnectedWallet: FC = () => {
                 fontSize="XS"
                 display="flex"
                 cursor="pointer"
+                hover={{ color: 'text' }}
                 onClick={copyToClipboard}
               >
                 <CopySVG width="1rem" />
@@ -140,7 +156,13 @@ const ConnectedWallet: FC = () => {
                 rel="noopener noreferrer"
                 href={`https://bscscan.io/address/${account}`}
               >
-                <Box mx="M" fontSize="XS" display="flex" cursor="pointer">
+                <Box
+                  mx="M"
+                  fontSize="XS"
+                  display="flex"
+                  cursor="pointer"
+                  hover={{ color: 'text' }}
+                >
                   <LinkSVG width="1rem" />
                   <Typography variant="normal" ml="M" fontSize="S">
                     View on Explorer

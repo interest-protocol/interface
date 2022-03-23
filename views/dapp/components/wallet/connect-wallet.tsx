@@ -20,7 +20,6 @@ const WalletButton: FC<{
     p="L"
     mb="M"
     color="text"
-    effect="hover"
     display="flex"
     cursor="pointer"
     borderRadius="M"

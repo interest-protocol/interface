@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
-import React, { FC, useState } from 'react';
+import { css } from '@styled-system/css';
+import React, { FC } from 'react';
 import {
   border,
   boxShadow,
@@ -17,15 +18,11 @@ import {
 import { TypographyProps } from './typography.types';
 
 const Typography: FC<TypographyProps> = ({ as, hover, active, ...props }) => {
-  const [isHover, setIsHover] = useState(false);
-  const [isActive, setIsActive] = useState(false);
-
-  const touchEnd = () => setIsActive(false);
-  const touchStart = () => setIsActive(true);
-  const mouseEnter = () => setIsHover(true);
-  const mouseLeave = () => setIsHover(false);
-
   const TypographyElement = styled(as || 'p')(
+    css({
+      ...(hover && { ':hover': hover }),
+      ...(active && { ':active': active }),
+    }),
     variant({
       scale: 'typography',
     }),
@@ -46,17 +43,9 @@ const Typography: FC<TypographyProps> = ({ as, hover, active, ...props }) => {
     )
   );
 
-  return (
-    <TypographyElement
-      {...props}
-      {...(isHover && hover)}
-      {...(isActive && active)}
-      onTouchEnd={touchEnd}
-      onTouchStart={touchStart}
-      onMouseEnter={mouseEnter}
-      onMouseLeave={mouseLeave}
-    />
-  );
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return <TypographyElement {...props} />;
 };
 
 export default Typography;

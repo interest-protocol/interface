@@ -44,10 +44,6 @@ const tertiary = css`
   border-radius: ${radii.L};
   padding: ${space.S} ${space.L};
   border: 1px solid ${colors.accent};
-  &:hover {
-    color: ${colors.text};
-    background: ${colors.accent};
-  }
 `;
 
 const neutral = css`
@@ -60,9 +56,6 @@ const neutral = css`
   border-radius: ${radii.S};
   background: ${colors.outline};
   padding: ${space.L} ${space.XL};
-  &:hover {
-    background: ${colors.background};
-  }
 `;
 
 const special = css`

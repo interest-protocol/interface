@@ -75,7 +75,13 @@ const Dropdown: FC<DropdownProps> = ({
           alignItems="center"
           display="inline-flex"
           onClick={toggleDropdown}
-          bg={isOpen ? 'accent' : 'bottomBackground'}
+          bg={isOpen ? 'accentActive' : 'bottomBackground'}
+          hover={{
+            bg: 'accent',
+          }}
+          active={{
+            bg: 'accentActive',
+          }}
         >
           {mode === 'select' && selectedIndex !== -1
             ? data[selectedIndex].displayTitle ||

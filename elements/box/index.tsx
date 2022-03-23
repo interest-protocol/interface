@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
-import React, { forwardRef, useState } from 'react';
+import { css } from '@styled-system/css';
+import React, { forwardRef } from 'react';
 import {
   background,
   border,
@@ -19,15 +20,11 @@ import {
 import { BoxProps } from './box.types';
 
 const Box = forwardRef(({ as, hover, active, ...props }: BoxProps, ref) => {
-  const [isHover, setIsHover] = useState(false);
-  const [isActive, setIsActive] = useState(false);
-
-  const touchEnd = () => setIsActive(false);
-  const touchStart = () => setIsActive(true);
-  const mouseEnter = () => setIsHover(true);
-  const mouseLeave = () => setIsHover(false);
-
   const BoxElement = styled(as || 'div')(
+    css({
+      ...(hover && { ':hover': hover }),
+      ...(active && { ':active': active }),
+    }),
     variant({
       prop: 'effect',
       scale: 'effects',
@@ -56,18 +53,9 @@ const Box = forwardRef(({ as, hover, active, ...props }: BoxProps, ref) => {
     )
   );
 
-  return (
-    <BoxElement
-      {...props}
-      ref={ref}
-      {...(isHover && hover)}
-      {...(isActive && active)}
-      onTouchEnd={touchEnd}
-      onTouchStart={touchStart}
-      onMouseEnter={mouseEnter}
-      onMouseLeave={mouseLeave}
-    />
-  );
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return <BoxElement {...props} ref={ref} />;
 });
 
 Box.displayName = 'Box';

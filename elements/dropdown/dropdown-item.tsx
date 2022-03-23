@@ -32,6 +32,14 @@ const DropdownItem: FC<DropdownItemProps> = ({
       onClick={handleSelect}
       boxShadow="0px 5px 5px -5px rgba(0, 0, 0, 0.35)"
       bg={isSelected ? 'accentBackground' : 'bottomBackground'}
+      {...(!isSelected && {
+        hover: {
+          bg: 'accent',
+        },
+        active: {
+          bg: 'accentActive',
+        },
+      })}
     >
       {typeof displayOption == 'string' ? (
         <Typography px="L" variant="normal">

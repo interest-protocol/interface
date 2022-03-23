@@ -28,7 +28,14 @@ const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => (
         }}
       />
       <Header />
-      <Box as="main" bg="background" flex="1">
+      <Box
+        as="main"
+        background={[
+          DAppTheme.colors.background,
+          DAppTheme.colors.specialBackground,
+        ]}
+        flex="1"
+      >
         {children}
       </Box>
       <Footer />

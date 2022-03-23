@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
-import { FC, useState } from 'react';
+import { css } from '@styled-system/css';
+import { FC } from 'react';
 import {
   border,
   color,
@@ -17,15 +18,11 @@ import {
 import { ButtonProps } from './button.types';
 
 const Button: FC<ButtonProps> = ({ hover, active, ...props }) => {
-  const [isHover, setIsHover] = useState(false);
-  const [isActive, setIsActive] = useState(false);
-
-  const touchEnd = () => setIsActive(false);
-  const touchStart = () => setIsActive(true);
-  const mouseEnter = () => setIsHover(true);
-  const mouseLeave = () => setIsHover(false);
-
-  const StyledButton = styled.button(
+  const ButtonElement = styled.button(
+    css({
+      ...(hover && { ':hover': hover }),
+      ...(active && { ':active': active }),
+    }),
     variant({ scale: 'buttons' }),
     variant({ prop: 'effect', scale: 'effects' }),
     compose(
@@ -40,16 +37,9 @@ const Button: FC<ButtonProps> = ({ hover, active, ...props }) => {
       typography
     )
   );
-  return (
-    <StyledButton
-      {...props}
-      {...(isHover && hover)}
-      {...(isActive && active)}
-      onTouchEnd={touchEnd}
-      onTouchStart={touchStart}
-      onMouseEnter={mouseEnter}
-      onMouseLeave={mouseLeave}
-    />
-  );
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return <ButtonElement {...props} />;
 };
+
 export default Button;

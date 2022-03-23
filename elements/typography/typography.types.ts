@@ -1,3 +1,4 @@
+import { SystemStyleObject } from '@styled-system/css';
 import { CSSProperties, HTMLAttributes } from 'react';
 import {
   BorderProps,
@@ -18,11 +19,11 @@ export interface TypographyProps
     PositionProps,
     TextShadowProps,
     Omit<HTMLAttributes<HTMLElement>, 'color'> {
+  hover?: SystemStyleObject;
+  active?: SystemStyleObject;
   as?: keyof JSX.IntrinsicElements;
   cursor?: CSSProperties['cursor'];
   whiteSpace?: CSSProperties['whiteSpace'];
   textTransform?: CSSProperties['textTransform'];
-  hover?: Omit<Omit<TypographyProps, 'as'>, 'variant'>;
-  active?: Omit<Omit<TypographyProps, 'as'>, 'variant'>;
   variant: 'title1' | 'title2' | 'title3' | 'title4' | 'normal';
 }
