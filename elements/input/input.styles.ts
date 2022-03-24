@@ -38,9 +38,8 @@ const InputField = styled.input<InputFieldProps>(
     layout,
     typography,
     system({
-      cursor: {
-        property: 'cursor',
-      },
+      cursor: true,
+      outline: true,
     })
   )
 );

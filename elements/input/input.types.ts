@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, ReactNode } from 'react';
+import { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
 import {
   BorderProps,
   ColorProps,
@@ -29,4 +29,5 @@ export interface InputProps extends InputFieldProps {
   shieldProps?: BoxProps;
   onClickPrefix?: () => void;
   onClickSuffix?: () => void;
+  outline: CSSProperties['outline'];
 }
