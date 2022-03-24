@@ -29,5 +29,5 @@ export interface InputProps extends InputFieldProps {
   shieldProps?: BoxProps;
   onClickPrefix?: () => void;
   onClickSuffix?: () => void;
-  outline: CSSProperties['outline'];
+  outline?: CSSProperties['outline'];
 }
