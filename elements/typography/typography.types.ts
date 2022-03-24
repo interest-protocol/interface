@@ -3,6 +3,7 @@ import { CSSProperties, HTMLAttributes } from 'react';
 import {
   BorderProps,
   ColorProps,
+  FlexboxProps,
   LayoutProps,
   PositionProps,
   SpaceProps,
@@ -16,6 +17,7 @@ export interface TypographyProps
     ColorProps,
     SpaceProps,
     BorderProps,
+    FlexboxProps,
     PositionProps,
     TextShadowProps,
     Omit<HTMLAttributes<HTMLElement>, 'color'> {

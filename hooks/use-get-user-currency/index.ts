@@ -23,7 +23,7 @@ export const useGetUserCurrency: UseGetUSerCurrency = () => {
 
   if (error || !data || !chainId || !CHAIN_IDS.includes(chainId)) {
     return {
-      symbol: NativeCurrency.from(chainId as CHAIN_ID).symbol,
+      symbol: NativeCurrency.from(CHAIN_ID.UNSUPPORTED).symbol,
       amount: CurrencyAmount.fromRawAmount(
         NativeCurrency.from(CHAIN_ID.UNSUPPORTED),
         0

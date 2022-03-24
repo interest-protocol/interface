@@ -17,7 +17,7 @@ const Header: FC = () => {
       py="M"
       px={['M', 'L']}
       as="header"
-      bg="background"
+      bg="foreground"
       alignItems="center"
       display={['flex', 'flex', 'grid']}
       justifyContent="space-between"
@@ -59,7 +59,7 @@ const Header: FC = () => {
                 as="span"
                 variant="normal"
                 color={
-                  pathname.includes(Routes[RoutesEnum.Loans])
+                  pathname.includes(Routes[RoutesEnum.NFTLoans])
                     ? 'accent'
                     : 'inherit'
                 }
@@ -74,12 +74,12 @@ const Header: FC = () => {
               {
                 value: 'borrow',
                 displayOption: 'Borrow',
-                onSelect: () => push(Routes[RoutesEnum.Borrow]),
+                onSelect: () => push(Routes[RoutesEnum.NFTBorrow]),
               },
               {
                 value: 'lend',
                 displayOption: 'Lend',
-                onSelect: () => push(Routes[RoutesEnum.Lend]),
+                onSelect: () => push(Routes[RoutesEnum.NFTLend]),
               },
             ]}
           />

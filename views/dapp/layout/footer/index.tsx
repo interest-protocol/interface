@@ -68,7 +68,7 @@ const Footer: FC = () => {
                 height="3rem"
                 variant="primary"
                 bg={
-                  pathname.includes(Routes[RoutesEnum.Loans])
+                  pathname.includes(Routes[RoutesEnum.NFTLoans])
                     ? 'accent'
                     : 'foreground'
                 }
@@ -82,12 +82,12 @@ const Footer: FC = () => {
               {
                 value: 'borrow',
                 displayOption: 'Borrow',
-                onSelect: () => push(Routes[RoutesEnum.Borrow]),
+                onSelect: () => push(Routes[RoutesEnum.NFTBorrow]),
               },
               {
                 value: 'lend',
                 displayOption: 'Lend',
-                onSelect: () => push(Routes[RoutesEnum.Lend]),
+                onSelect: () => push(Routes[RoutesEnum.NFTLend]),
               },
             ]}
           />

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { css } from '@styled-system/css';
-import { FC } from 'react';
+import { forwardRef } from 'react';
 import {
   border,
   color,
@@ -17,7 +17,7 @@ import {
 
 import { ButtonProps } from './button.types';
 
-const Button: FC<ButtonProps> = ({ hover, active, ...props }) => {
+const Button = forwardRef(({ hover, active, ...props }: ButtonProps, ref) => {
   const ButtonElement = styled.button(
     css({
       ...(hover && { ':hover': hover }),
@@ -39,7 +39,9 @@ const Button: FC<ButtonProps> = ({ hover, active, ...props }) => {
   );
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  return <ButtonElement {...props} />;
-};
+  return <ButtonElement {...props} ref={ref} />;
+});
+
+Button.displayName = 'Button';
 
 export default Button;

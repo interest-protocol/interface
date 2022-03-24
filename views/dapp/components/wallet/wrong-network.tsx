@@ -16,7 +16,6 @@ const WrongNetwork: FC = () => {
         bg="error"
         display="flex"
         variant="primary"
-        borderRadius="L"
         alignItems="center"
         onClick={toggleNetworkModal}
       >

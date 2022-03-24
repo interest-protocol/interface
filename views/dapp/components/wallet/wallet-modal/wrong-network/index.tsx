@@ -20,7 +20,12 @@ const WrongNetworkModal: FC<InfoModalProps> = ({ isOpen, handleClose }) => (
         <Typography as="h3" color="text" variant="normal" fontWeight="normal">
           Wrong Network
         </Typography>
-        <Box onClick={handleClose} cursor="pointer">
+        <Box
+          onClick={handleClose}
+          cursor="pointer"
+          color="textSecondary"
+          hover={{ color: 'text' }}
+        >
           <TimesSVG width="1.8rem" />
         </Box>
       </Box>

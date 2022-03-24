@@ -8,7 +8,7 @@ const Container: FC<ContainerProps> = ({ dapp, ...props }) => (
     py="M"
     mx="auto"
     px={['L', 'XL']}
-    maxWidth={dapp ? '984px' : '1366px'}
+    maxWidth={dapp ? ['28rem', '28rem', '28rem', '984px'] : '1366px'}
     {...props}
   />
 );

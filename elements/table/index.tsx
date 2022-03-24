@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic';
 import React, { FC, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
@@ -7,8 +6,6 @@ import Box from '../box';
 import Typography from '../typography';
 import { ResponsiveTableProps, TableLoadingProps } from './table.types';
 
-const ReactTooltip = dynamic(() => import('react-tooltip'));
-
 const Cell: FC<{ as: 'td' | 'th'; tip?: string }> = ({ as, tip, children }) => (
   <Box
     py="L"
@@ -16,6 +13,7 @@ const Cell: FC<{ as: 'td' | 'th'; tip?: string }> = ({ as, tip, children }) => (
     data-tip={tip}
     textAlign="left"
     fontWeight="400"
+    {...(tip && { cursor: 'help' })}
     role={as == 'td' ? 'gridcell' : 'columnheader'}
   >
     {children}
@@ -86,8 +84,8 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
           }, 1fr)`}
         >
           {ordinate && <Cell as="th">Nº</Cell>}
-          {headings.map(({ item }) => (
-            <Cell as="th" key={v4()}>
+          {headings.map(({ item, tip }) => (
+            <Cell as="th" key={v4()} tip={tip}>
               {item}
             </Cell>
           ))}
@@ -204,8 +202,6 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
         </Box>
       ))}
     </Box>
-
-    <ReactTooltip place="top" type="dark" effect="solid" />
   </>
 );
 

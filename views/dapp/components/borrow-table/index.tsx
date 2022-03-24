@@ -1,13 +1,15 @@
 import Container from 'components/container';
+import Link from 'next/link';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
+import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, Table, Typography } from '@/elements';
 import { BitcoinSVG, DineroSVG } from '@/svg';
 
 const BorrowTable: FC = () => (
   <Box display="flex" flexDirection="column" flex="1">
-    <Box bg="foreground">
+    <Box>
       <Container
         dapp
         py="XL"
@@ -31,11 +33,10 @@ const BorrowTable: FC = () => (
               item: (
                 <Typography
                   as="span"
-                  display={['none', 'block']}
+                  fontSize="S"
                   variant="normal"
                   textAlign="center"
-                  key={v4()}
-                  fontSize="S"
+                  display={['none', 'block']}
                 >
                   Collateral
                 </Typography>
@@ -45,11 +46,9 @@ const BorrowTable: FC = () => (
               item: (
                 <Typography
                   as="span"
-                  key={v4()}
                   cursor="help"
                   variant="normal"
                   fontSize="inherit"
-                  data-tip="TVL info"
                 >
                   TVL
                 </Typography>
@@ -59,17 +58,16 @@ const BorrowTable: FC = () => (
               item: (
                 <Typography
                   as="span"
-                  key={v4()}
                   cursor="help"
                   variant="normal"
                   fontSize="inherit"
-                  data-tip="LTV info"
                 >
                   LTV
                 </Typography>
               ),
             },
             {
+              tip: 'This fee is added to the debt every time <br />the user borrows DNR',
               item: (
                 <>
                   Interest Cost <br />
@@ -78,6 +76,7 @@ const BorrowTable: FC = () => (
               ),
             },
             {
+              tip: 'This is the discount a liquidator gets when <br />buying collateral for liquidation',
               item: (
                 <>
                   Liquidation <br />
@@ -89,9 +88,11 @@ const BorrowTable: FC = () => (
           data={[
             {
               button: (
-                <Button variant="primary" key={v4()}>
-                  Borrow
-                </Button>
+                <Link
+                  href={`${Routes[RoutesEnum.Borrow]}?mode=borrow&currency=BNB`}
+                >
+                  <Button variant="primary">Borrow</Button>
+                </Link>
               ),
               items: [
                 <Box
@@ -180,9 +181,13 @@ const BorrowTable: FC = () => (
           data={[
             {
               button: (
-                <Button variant="primary" key={v4()}>
-                  Borrow
-                </Button>
+                <Link
+                  href={`${Routes[RoutesEnum.Borrow]}?mode=borrow&currency=BNB`}
+                >
+                  <Button variant="primary" key={v4()}>
+                    Borrow
+                  </Button>
+                </Link>
               ),
               items: ['8.45K', '60%', '3%', '10%'],
             },

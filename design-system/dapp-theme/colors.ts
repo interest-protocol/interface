@@ -14,6 +14,7 @@ const colors = {
   textSoft: primitiveColors.NEUTRAL_350,
   textSecondary: primitiveColors.NEUTRAL_340,
   text: primitiveColors.NEUTRAL_100,
+  disabled: primitiveColors.NEUTRAL_345,
   warningBackground: primitiveColors.YELLOW_50,
   warning: primitiveColors.YELLOW_100,
   successBackground: primitiveColors.GREEN_50,
