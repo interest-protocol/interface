@@ -1,6 +1,6 @@
 const fontSizes = {
   XS: '0.7rem',
-  S: '0.9rem',
+  S: '0.8rem',
   M: '1rem',
   L: '1.2rem',
   XL: '1.5rem',

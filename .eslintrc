@@ -1,4 +1,23 @@
 {
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["@/components", "./components"],
+          ["@/context", "./context"],
+          ["@/connectors", "./connectors"],
+          ["@/constants", "./constants"],
+          ["@/design-system", "./design-system"],
+          ["@/elements", "./elements"],
+          ["@/hooks", "./hooks"],
+          ["@/sdk", "./sdk"],
+          ["@/utils", "./utils"],
+          ["@/views", "./views"]
+        ],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
   "env": {
     "browser": true,
     "es2021": true
@@ -9,7 +28,8 @@
     "plugin:react-hooks/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:prettier/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/jsx-runtime"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

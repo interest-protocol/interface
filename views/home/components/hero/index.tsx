@@ -33,7 +33,7 @@ const Hero: FC = () => (
           Borrow, lend and earn with low systemic risk.
         </Typography>
         <a href="https://docs.interestprotocol.com/" target="__blank">
-          <Button type="button" variant="secondary">
+          <Button type="button" variant="secondary" effect="hover">
             Docs
           </Button>
         </a>

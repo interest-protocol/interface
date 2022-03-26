@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
-import Container from '../../../../components/container';
-import { Routes, RoutesEnum } from '../../../../constants/routes';
-import { Box, Button, Typography } from '../../../../elements';
+import { Container } from '@/components';
+import { Routes, RoutesEnum } from '@/constants/routes';
+import { Box, Button, Typography } from '@/elements';
 
 const Enjoy: FC = () => (
   <Box borderBottom="0.625rem solid" borderColor="accent">
@@ -20,8 +20,10 @@ const Enjoy: FC = () => (
       <Typography variant="normal" my="XL">
         Long and short any asset
       </Typography>
-      <Link href={Routes[RoutesEnum.App]} shallow>
-        <Button variant="primary">Launch DApp</Button>
+      <Link href={Routes[RoutesEnum.DApp]} shallow>
+        <Button variant="primary" effect="hover">
+          Launch DApp
+        </Button>
       </Link>
     </Container>
   </Box>
