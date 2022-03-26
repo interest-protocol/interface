@@ -4,7 +4,6 @@ import { FC } from 'react';
 import { Toaster } from 'react-hot-toast';
 
 import { SEO } from '@/components';
-import { Web3Manager } from '@/components';
 import { DAppTheme } from '@/design-system';
 import radii from '@/design-system/common/radii';
 import colors from '@/design-system/dapp-theme/colors';

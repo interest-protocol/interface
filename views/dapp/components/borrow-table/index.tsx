@@ -70,208 +70,206 @@ const BorrowTable: FC = () => {
       </Box>
       <Container dapp px="NONE" background="specialBackground">
         <Box display={['none', 'none', 'none', 'block']}>
-          {DINERO_MARKET_CONTRACTS[CHAIN_ID.BSC_TEST_NET].map((x, index) => (
-            <Table
-              key={v4()}
-              hasButton
-              headings={[
-                {
-                  item: (
-                    <Typography
-                      as="span"
-                      fontSize="S"
-                      variant="normal"
-                      textAlign="center"
-                      display={['none', 'block']}
-                    >
-                      Collateral
+          <Table
+            hasButton
+            key={v4()}
+            headings={[
+              {
+                item: (
+                  <Typography
+                    as="span"
+                    fontSize="S"
+                    variant="normal"
+                    textAlign="center"
+                    display={['none', 'block']}
+                  >
+                    Collateral
+                  </Typography>
+                ),
+              },
+              {
+                tip: 'Total Value Locked',
+                item: (
+                  <Typography
+                    as="span"
+                    cursor="help"
+                    variant="normal"
+                    fontSize="inherit"
+                  >
+                    TVL
+                  </Typography>
+                ),
+              },
+              {
+                tip: 'Loan to Value',
+                item: (
+                  <Typography
+                    as="span"
+                    cursor="help"
+                    variant="normal"
+                    fontSize="inherit"
+                  >
+                    LTV
+                  </Typography>
+                ),
+              },
+              {
+                tip: 'This fee is added to the debt every time <br />the user borrows DNR',
+                item: (
+                  <>
+                    Interest Cost <br />
+                    (APR)
+                  </>
+                ),
+              },
+              {
+                tip: 'This is the discount a liquidator gets when <br />buying collateral for liquidation',
+                item: (
+                  <>
+                    Liquidation <br />
+                    Fee
+                  </>
+                ),
+              },
+            ]}
+            data={DINERO_MARKET_CONTRACTS[CHAIN_ID.BSC_TEST_NET].map(
+              (x, index) => ({
+                button: (
+                  <Link
+                    href={`${
+                      Routes[RoutesEnum.Borrow]
+                    }?mode=borrow&currency=BNB`}
+                  >
+                    <Button variant="primary" hover={{ bg: 'accentActive' }}>
+                      Borrow
+                    </Button>
+                  </Link>
+                ),
+                items: [
+                  <Box
+                    key={v4()}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <BitcoinSVG width="1.4rem" />
+                    <Typography variant="normal" ml="M">
+                      {`${x.collateral.name} (${x.collateral.symbol})`}
                     </Typography>
+                  </Box>,
+                  formatDollars(
+                    IntMath.from(data[index].totalCollateral)
+                      .mul(data[index].exchangeRate)
+                      .value()
+                      .toNumber()
                   ),
-                },
-                {
-                  item: (
-                    <Typography
-                      as="span"
-                      cursor="help"
-                      variant="normal"
-                      fontSize="inherit"
-                    >
-                      TVL
-                    </Typography>
-                  ),
-                },
-                {
-                  item: (
-                    <Typography
-                      as="span"
-                      cursor="help"
-                      variant="normal"
-                      fontSize="inherit"
-                    >
-                      LTV
-                    </Typography>
-                  ),
-                },
-                {
-                  tip: 'This fee is added to the debt every time <br />the user borrows DNR',
-                  item: (
-                    <>
-                      Interest Cost <br />
-                      (APR)
-                    </>
-                  ),
-                },
-                {
-                  tip: 'This is the discount a liquidator gets when <br />buying collateral for liquidation',
-                  item: (
-                    <>
-                      Liquidation <br />
-                      Fee
-                    </>
-                  ),
-                },
-              ]}
-              data={[
-                {
-                  button: (
-                    <Link
-                      href={`${
-                        Routes[RoutesEnum.Borrow]
-                      }?mode=borrow&currency=BNB`}
-                    >
-                      <Button variant="primary" hover={{ bg: 'accentActive' }}>
-                        Borrow
-                      </Button>
-                    </Link>
-                  ),
-                  items: [
-                    <Box
-                      key={v4()}
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                    >
-                      <BitcoinSVG width="1.4rem" />
-                      <Typography variant="normal" ml="M">
-                        {`${x.collateral.name} (${x.collateral.symbol})`}
-                      </Typography>
-                    </Box>,
-                    formatDollars(
-                      IntMath.from(data[index].totalCollateral)
-                        .mul(data[index].exchangeRate)
-                        .value()
-                        .toNumber()
-                    ),
-                    IntMath.from(data[index].ltv).toPercentage(0),
-                    IntMath.from(
-                      data[index].loan.INTEREST_RATE.mul(SECONDS_IN_A_YEAR)
-                    ).toPercentage(2),
-                    IntMath.from(data[index].liquidationFee).toPercentage(2),
-                  ],
-                },
-              ]}
-            />
-          ))}
+                  IntMath.from(data[index].ltv).toPercentage(0),
+                  IntMath.from(
+                    data[index].loan.INTEREST_RATE.mul(SECONDS_IN_A_YEAR)
+                  ).toPercentage(2),
+                  IntMath.from(data[index].liquidationFee).toPercentage(2),
+                ],
+              })
+            )}
+          />
         </Box>
         <Box display={['flex', 'flex', 'flex', 'none']} alignItems="center">
-          {DINERO_MARKET_CONTRACTS[CHAIN_ID.BSC_TEST_NET].map((x, index) => (
-            <Table
-              key={v4()}
-              mobileSide={
-                <Box
-                  flex="1"
-                  key={v4()}
-                  display="flex"
-                  alignItems="center"
-                  flexDirection="column"
-                  justifyContent="center"
-                >
-                  <BitcoinSVG width="1.4rem" />
-                  <Typography variant="normal" ml="M" mt="M">
-                    {`${x.collateral.name} (${x.collateral.symbol})`}
+          <Table
+            key={v4()}
+            headings={[
+              {
+                item: (
+                  <Typography
+                    as="span"
+                    key={v4()}
+                    cursor="help"
+                    variant="normal"
+                    fontSize="inherit"
+                    data-tip="TVL info"
+                  >
+                    TVL
                   </Typography>
-                </Box>
-              }
-              headings={[
-                {
-                  item: (
-                    <Typography
-                      as="span"
-                      key={v4()}
-                      cursor="help"
-                      variant="normal"
-                      fontSize="inherit"
-                      data-tip="TVL info"
-                    >
-                      TVL
+                ),
+              },
+              {
+                item: (
+                  <Typography
+                    as="span"
+                    key={v4()}
+                    cursor="help"
+                    variant="normal"
+                    fontSize="inherit"
+                    data-tip="LTV info"
+                  >
+                    LTV
+                  </Typography>
+                ),
+              },
+              {
+                item: (
+                  <>
+                    Interest Cost <br />
+                    (APR)
+                  </>
+                ),
+              },
+              {
+                item: (
+                  <>
+                    Liquidation <br />
+                    Fee
+                  </>
+                ),
+              },
+            ]}
+            data={DINERO_MARKET_CONTRACTS[CHAIN_ID.BSC_TEST_NET].map(
+              (x, index) => ({
+                mobileSide: (
+                  <Box
+                    flex="1"
+                    key={v4()}
+                    display="flex"
+                    alignItems="center"
+                    flexDirection="column"
+                    justifyContent="center"
+                  >
+                    <BitcoinSVG width="1.4rem" />
+                    <Typography variant="normal" ml="M" mt="M">
+                      {`${x.collateral.name} (${x.collateral.symbol})`}
                     </Typography>
-                  ),
-                },
-                {
-                  item: (
-                    <Typography
-                      as="span"
+                  </Box>
+                ),
+                button: (
+                  <Link
+                    href={`${
+                      Routes[RoutesEnum.Borrow]
+                    }?mode=borrow&currency=BNB`}
+                  >
+                    <Button
                       key={v4()}
-                      cursor="help"
-                      variant="normal"
-                      fontSize="inherit"
-                      data-tip="LTV info"
+                      variant="primary"
+                      hover={{ bg: 'accentActive' }}
                     >
-                      LTV
-                    </Typography>
+                      Borrow
+                    </Button>
+                  </Link>
+                ),
+                items: [
+                  formatDollars(
+                    IntMath.from(data[index].totalCollateral)
+                      .mul(data[index].exchangeRate)
+                      .value()
+                      .toNumber()
                   ),
-                },
-                {
-                  item: (
-                    <>
-                      Interest Cost <br />
-                      (APR)
-                    </>
-                  ),
-                },
-                {
-                  item: (
-                    <>
-                      Liquidation <br />
-                      Fee
-                    </>
-                  ),
-                },
-              ]}
-              data={[
-                {
-                  button: (
-                    <Link
-                      href={`${
-                        Routes[RoutesEnum.Borrow]
-                      }?mode=borrow&currency=BNB`}
-                    >
-                      <Button
-                        key={v4()}
-                        variant="primary"
-                        hover={{ bg: 'accentActive' }}
-                      >
-                        Borrow
-                      </Button>
-                    </Link>
-                  ),
-                  items: [
-                    formatDollars(
-                      IntMath.from(data[index].totalCollateral)
-                        .mul(data[index].exchangeRate)
-                        .value()
-                        .toNumber()
-                    ),
-                    IntMath.from(data[index].ltv).toPercentage(0),
-                    IntMath.from(
-                      data[index].loan.INTEREST_RATE.mul(SECONDS_IN_A_YEAR)
-                    ).toPercentage(2),
-                    IntMath.from(data[index].liquidationFee).toPercentage(2),
-                  ],
-                },
-              ]}
-            />
-          ))}
+                  IntMath.from(data[index].ltv).toPercentage(0),
+                  IntMath.from(
+                    data[index].loan.INTEREST_RATE.mul(SECONDS_IN_A_YEAR)
+                  ).toPercentage(2),
+                  IntMath.from(data[index].liquidationFee).toPercentage(2),
+                ],
+              })
+            )}
+          />
         </Box>
       </Container>
     </Box>
