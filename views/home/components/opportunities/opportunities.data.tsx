@@ -1,9 +1,5 @@
-import {
-  CrossChainSVG,
-  NFTSVG,
-  ProfitsSVG,
-  SupportSVG,
-} from '../../../../components/svg';
+import { CrossChainSVG, NFTSVG, ProfitsSVG, SupportSVG } from '@/svg';
+
 import { OpportunitiesCardProps } from './opportunities.types';
 
 export const OPPORTUNITIES_DATA: ReadonlyArray<OpportunitiesCardProps> = [

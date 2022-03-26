@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
+import { css } from '@styled-system/css';
 import React, { FC } from 'react';
 import {
   border,
   boxShadow,
   color,
   compose,
+  flexbox,
   layout,
   position,
   space,
@@ -16,8 +18,12 @@ import {
 
 import { TypographyProps } from './typography.types';
 
-const Typography: FC<TypographyProps> = ({ as, ...props }) => {
+const Typography: FC<TypographyProps> = ({ as, hover, active, ...props }) => {
   const TypographyElement = styled(as || 'p')(
+    css({
+      ...(hover && { ':hover': hover }),
+      ...(active && { ':active': active }),
+    }),
     variant({
       scale: 'typography',
     }),
@@ -26,6 +32,7 @@ const Typography: FC<TypographyProps> = ({ as, ...props }) => {
       color,
       layout,
       border,
+      flexbox,
       position,
       boxShadow,
       typography,
@@ -38,6 +45,8 @@ const Typography: FC<TypographyProps> = ({ as, ...props }) => {
     )
   );
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return <TypographyElement {...props} />;
 };
 

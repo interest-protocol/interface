@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
-import { CheckSVG } from '../../../../components/svg';
+import { CheckSVG } from '@/svg';
+
 import { Box, Typography } from '../../../../elements';
 import { AdvantagesCardProps } from './advantages.types';
 
@@ -11,6 +12,7 @@ const AdvantagesCard: FC<AdvantagesCardProps> = ({ link, description }) => (
       as="article"
       width="100%"
       height="5rem"
+      effect="hover"
       display="flex"
       borderRadius="L"
       alignItems="center"

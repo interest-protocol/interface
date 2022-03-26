@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 
-import Layout from '../../layout';
 import {
   Advantages,
   Enjoy,
@@ -9,6 +8,7 @@ import {
   RoadMap,
   Subscribe,
 } from './components';
+import Layout from './layout';
 
 const Home: FC = () => (
   <Layout>
