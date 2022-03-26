@@ -43,6 +43,7 @@ const BorrowTable: FC = () => (
               ),
             },
             {
+              tip: 'Total value locked',
               item: (
                 <Typography
                   as="span"
@@ -55,6 +56,7 @@ const BorrowTable: FC = () => (
               ),
             },
             {
+              tip: 'Loan to value',
               item: (
                 <Typography
                   as="span"

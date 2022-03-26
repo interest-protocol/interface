@@ -158,7 +158,12 @@ const Borrow: FC<BorrowProps> = ({ currency, mode }) => {
             >
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="normal" display="flex" alignItems="center">
-                  <Box as="span" display="inline-block" mr="M">
+                  <Box
+                    mr="M"
+                    as="span"
+                    display="inline-block"
+                    data-tip="Loan to value"
+                  >
                     <InfoSVG width="1rem" />
                   </Box>
                   LTV

@@ -33,9 +33,9 @@ const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
         />
         <Header />
         <Box
-          pb={['XXL', 'XXL', 'unset']}
           flex="1"
           as="main"
+          pb={['XXL', 'XXL', 'unset']}
           background={[
             DAppTheme.colors.background,
             DAppTheme.colors.specialBackground,
