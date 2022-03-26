@@ -15,7 +15,7 @@ export const useGetUserCurrency: UseGetUSerCurrency = () => {
   const account = usePriorityAccount();
   const provider = usePriorityProvider();
 
-  const { error, data } = useSWR(`${account} useNativeCurrencyBalances`, () => {
+  const { error, data } = useSWR(`${account} balance`, () => {
     if (!provider || !account || !chainId) return Promise.reject();
 
     return provider?.getBalance(account);

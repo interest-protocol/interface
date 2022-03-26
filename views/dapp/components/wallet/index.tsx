@@ -73,7 +73,8 @@ const Wallet: FC = () => {
 
   if (!isActive && !isActivating) return <ConnectWallet />;
 
-  if (getChainId(chainId ?? 0) === 0) return <WrongNetwork />;
+  if (getChainId(chainId ?? 0) === CHAIN_ID.UNSUPPORTED)
+    return <WrongNetwork />;
 
   return (
     <>
