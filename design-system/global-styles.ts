@@ -35,6 +35,9 @@ const GlobalStyles = css`
   .breakMobile {
     display: block;
   }
+  .__react_component_tooltip .multi-line {
+    text-align: left !important;
+  }
   @media (min-width: 40em) {
     br {
       display: initial;
