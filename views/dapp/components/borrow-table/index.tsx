@@ -11,10 +11,10 @@ import { Box, Button, Table, Typography } from '@/elements';
 import { useGetDineroMarketErc20Summary } from '@/hooks/use-get-dinero-market-erc20-summary';
 import { CHAIN_ID, getChainId } from '@/sdk/chains';
 import { IntMath } from '@/sdk/entities/int-math';
-import { BitcoinSVG, DineroSVG, TimesSVG } from '@/svg';
+import { BitcoinSVG, DineroSVG, MetaMaskSVG, TimesSVG } from '@/svg';
 import { formatDollars } from '@/utils';
 
-import BSCComingSoon from '../bsc-coming-soon';
+import Advertising from '../advertising';
 import Loading from '../loading';
 
 const { usePriorityChainId } = priorityHooks;
@@ -33,53 +33,38 @@ const BorrowTable: FC = () => {
 
   if (!chainId)
     return (
-      <Box
-        height="100%"
-        display="flex"
-        alignItems="center"
-        flexDirection="column"
-        justifyContent="center"
-      >
-        <Box
-          mb="L"
-          width="10rem"
-          height="10rem"
-          color="error"
-          overflow="hidden"
-          borderRadius="50%"
-          border="0.3rem solid"
-        >
-          <TimesSVG />
-        </Box>
-        <Typography variant="title3">Please, connect your wallet</Typography>
-      </Box>
+      <Advertising
+        Icon={MetaMaskSVG}
+        title="Disconnected"
+        lines={[<>Please, connect the wallet.</>]}
+      />
     );
 
   if (!!chainId && getChainId(chainId) === CHAIN_ID.BSC_MAIN_MET)
-    return <BSCComingSoon />;
+    return (
+      <Advertising
+        title="Coming Soon"
+        lines={[
+          <>
+            Sorry, we are working on <strong>BSC Main Net</strong>.
+          </>,
+          <>
+            Please, switch to <strong>BSC Test Net</strong>.
+          </>,
+        ]}
+      />
+    );
 
   if (!!chainId && getChainId(chainId) === CHAIN_ID.UNSUPPORTED)
     return (
-      <Box
-        height="100%"
-        display="flex"
-        alignItems="center"
-        flexDirection="column"
-        justifyContent="center"
-      >
-        <Box
-          mb="L"
-          width="10rem"
-          height="10rem"
-          color="error"
-          overflow="hidden"
-          borderRadius="50%"
-          border="0.3rem solid"
-        >
-          <TimesSVG />
-        </Box>
-        <Typography variant="title3">This chain is not supported</Typography>
-      </Box>
+      <Advertising
+        Icon={TimesSVG}
+        title="Not supported"
+        lines={[
+          'This chain is not supported',
+          'Please, switch a supported chain',
+        ]}
+      />
     );
 
   if (error)

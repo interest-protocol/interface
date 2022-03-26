@@ -1,11 +1,21 @@
 import { FC } from 'react';
 
-import BSCComingSoon from '../../components/bsc-coming-soon';
+import Advertising from '../../components/advertising';
 import Layout from '../../layout';
 
 const ComingSoonBSCMainNet: FC = () => (
   <Layout>
-    <BSCComingSoon />
+    <Advertising
+      title="Coming Soon"
+      lines={[
+        <>
+          Sorry, we are working on <strong>BSC Main Net</strong>.
+        </>,
+        <>
+          Please, switch to <strong>BSC Test Net</strong>.
+        </>,
+      ]}
+    />
   </Layout>
 );
 
