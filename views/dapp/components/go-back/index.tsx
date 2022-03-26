@@ -13,9 +13,10 @@ const GoBack: FC = () => {
     <Typography
       mb="XL"
       color="accent"
-      onClick={backToHome}
       variant="normal"
+      cursor="pointer"
       whiteSpace="nowrap"
+      onClick={backToHome}
       hover={{ color: 'accentActive' }}
     >
       &larr; BACK

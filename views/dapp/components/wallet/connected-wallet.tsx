@@ -4,6 +4,7 @@ import { FC, useState } from 'react';
 import hooks from '@/connectors';
 import { Box, Button, Typography } from '@/elements';
 import { useGetUserCurrency } from '@/hooks/use-get-user-currency';
+import { LoadingSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
 import AccountModal from './wallet-modal/account-modal';
@@ -33,7 +34,11 @@ const ConnectedWallet: FC = () => {
         whiteSpace="nowrap"
         display={['none', 'inline-block']}
       >
-        {amount.toSignificant(4)} {symbol}
+        {symbol !== '???' ? (
+          `${amount.toSignificant(4)} ${symbol}`
+        ) : (
+          <LoadingSVG width="1rem" />
+        )}
       </Typography>
       <Button
         px="L"

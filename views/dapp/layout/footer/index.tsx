@@ -46,11 +46,15 @@ const Footer: FC = () => {
               width="8rem"
               height="3rem"
               variant="primary"
+              boxShadow="0 0 15px rgba(0,0,0,.3)"
               bg={
-                pathname === Routes[RoutesEnum.DApp] ? 'accent' : 'foreground'
+                pathname === Routes[RoutesEnum.DApp] ||
+                pathname.includes(Routes[RoutesEnum.Borrow])
+                  ? 'accent'
+                  : 'foreground'
               }
-              hover={{ color: 'accentActive' }}
-              active={{ color: 'accentActive' }}
+              hover={{ bg: 'accent' }}
+              active={{ bg: 'accentActive' }}
             >
               Borrow
             </Button>
@@ -67,13 +71,14 @@ const Footer: FC = () => {
                 width="8rem"
                 height="3rem"
                 variant="primary"
+                boxShadow="0 0 15px rgba(0,0,0,.3)"
                 bg={
                   pathname.includes(Routes[RoutesEnum.NFTLoans])
                     ? 'accent'
                     : 'foreground'
                 }
-                hover={{ color: 'accentActive' }}
-                active={{ color: 'accentActive' }}
+                hover={{ bg: 'accent' }}
+                active={{ bg: 'accentActive' }}
               >
                 NFT Loans
               </Button>

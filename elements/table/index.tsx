@@ -64,8 +64,8 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
     <Box
       my="L"
       overflow="hidden"
-      display={['none', 'block']}
       borderColor="textDescription"
+      display={['none', 'none', 'none', 'block']}
     >
       <Box role="table" width="100%" overflowX="auto">
         <Box
@@ -129,12 +129,12 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
       </Box>
     </Box>
     <Box
-      display={['block', 'none']}
+      p="L"
       mx="M"
       my="XL"
       bg="foreground"
-      p="L"
       borderRadius="M"
+      display={['block', 'block', 'block', 'none']}
     >
       {data.map(({ items, button }, index) => (
         <Box key={v4()} display="flex">

@@ -15,6 +15,7 @@ import { LayoutProps } from './layout.types';
 
 const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
   const Tooltip = dynamic(() => import('react-tooltip'));
+
   return (
     <ThemeProvider theme={DAppTheme}>
       <Box color="text" height="100vh" display="flex" flexDirection="column">
@@ -32,7 +33,7 @@ const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
         />
         <Header />
         <Box
-          pb={['XXL', 'unset']}
+          pb={['XXL', 'XXL', 'unset']}
           flex="1"
           as="main"
           background={[

@@ -61,6 +61,7 @@ const Borrow: FC<BorrowProps> = ({ currency, mode }) => {
   const onSubmitBorrow = (data: IBorrowForm) => {
     console.log(data);
   };
+
   const onSubmitRepay = (data: IBorrowForm) => {
     console.log(data);
   };
@@ -103,7 +104,7 @@ const Borrow: FC<BorrowProps> = ({ currency, mode }) => {
                     currency,
                     CurrencySVG: BinanceSVG,
                     name: 'borrow.collateral',
-                    label: 'Deposit Collateral:',
+                    label: 'Deposit Collateral',
                     max: +amount.toSignificant(4),
                     amount: amount.toSignificant(4),
                     amountUSD: +amount.toSignificant(4),
@@ -112,7 +113,7 @@ const Borrow: FC<BorrowProps> = ({ currency, mode }) => {
                     currency: 'DNR',
                     name: 'borrow.loan',
                     CurrencySVG: DineroSVG,
-                    label: 'Borrow Dinero:',
+                    label: 'Borrow Dinero',
                     amount: amount.toSignificant(4),
                     amountUSD: +amount.toSignificant(4),
                   },
@@ -126,19 +127,19 @@ const Borrow: FC<BorrowProps> = ({ currency, mode }) => {
                 buttonText="Remove collateral and Repay loan"
                 fields={[
                   {
-                    currency,
-                    CurrencySVG: BinanceSVG,
-                    name: 'borrow.collateral',
-                    label: 'Deposit Collateral',
+                    currency: 'DNR',
+                    name: 'repay.loan',
+                    label: 'Repay Loan',
+                    CurrencySVG: DineroSVG,
                     max: +amount.toSignificant(4),
                     amount: amount.toSignificant(4),
                     amountUSD: +amount.toSignificant(4),
                   },
                   {
-                    currency: 'DNR',
-                    name: 'borrow.loan',
-                    CurrencySVG: DineroSVG,
-                    label: 'Borrow Dinero',
+                    currency,
+                    CurrencySVG: BinanceSVG,
+                    name: 'repay.collateral',
+                    label: 'Remove Collateral',
                     amount: amount.toSignificant(4),
                     amountUSD: +amount.toSignificant(4),
                   },

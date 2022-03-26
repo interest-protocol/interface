@@ -1,12 +1,20 @@
 import { FC, useEffect, useState } from 'react';
 
 import priorityHooks from '@/connectors';
+import { CHAIN_ID } from '@/sdk/chains';
+import ComingSoonBSCMainNet from '@/views/dapp/views/coming-soon-bsc-main-net';
+import Loading from '@/views/dapp/views/loading';
 
-const { usePriorityError, usePriorityConnector, usePriorityIsActivating } =
-  priorityHooks;
+const {
+  usePriorityError,
+  usePriorityConnector,
+  usePriorityIsActivating,
+  usePriorityChainId,
+} = priorityHooks;
 
 const Web3Manager: FC = ({ children }) => {
   const error = usePriorityError();
+  const chainId = usePriorityChainId();
   const connector = usePriorityConnector();
   const isActivating = usePriorityIsActivating();
 
@@ -20,8 +28,9 @@ const Web3Manager: FC = ({ children }) => {
     })();
   }, [connector]);
 
-  // Make button load not the whole page
-  if (!error && !triedEagerly && isActivating) return <div>loading</div>;
+  if (chainId === CHAIN_ID.BSC_MAIN_MET) return <ComingSoonBSCMainNet />;
+
+  if (!error && !triedEagerly && isActivating) return <Loading />;
 
   return <>{children}</>;
 };

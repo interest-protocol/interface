@@ -18,6 +18,24 @@ export const borrowFees = [
   },
 ];
 
+export const taxes = [
+  {
+    name: 'Interest cost (APR)',
+    value: 3,
+    percentual: true,
+  },
+  {
+    name: 'Liquidation price',
+    value: formatDollars(0),
+    percentual: false,
+  },
+  {
+    name: 'Collateral ratio',
+    value: 100,
+    percentual: true,
+  },
+];
+
 export const myOpenPosition = [
   {
     tip: 'Amount of Tokens Deposited as Collateral',

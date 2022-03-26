@@ -25,7 +25,7 @@ const BorrowTable: FC = () => (
       </Container>
     </Box>
     <Container dapp px="NONE" background="specialBackground">
-      <Box display={['none', 'block']}>
+      <Box display={['none', 'none', 'none', 'block']}>
         <Table
           hasButton
           headings={[
@@ -91,7 +91,9 @@ const BorrowTable: FC = () => (
                 <Link
                   href={`${Routes[RoutesEnum.Borrow]}?mode=borrow&currency=BNB`}
                 >
-                  <Button variant="primary">Borrow</Button>
+                  <Button variant="primary" hover={{ bg: 'accentActive' }}>
+                    Borrow
+                  </Button>
                 </Link>
               ),
               items: [
@@ -115,7 +117,7 @@ const BorrowTable: FC = () => (
           ]}
         />
       </Box>
-      <Box display={['flex', 'none']} alignItems="center" bg="">
+      <Box display={['flex', 'flex', 'flex', 'none']} alignItems="center" bg="">
         <Table
           mobileSide={
             <Box
@@ -184,7 +186,11 @@ const BorrowTable: FC = () => (
                 <Link
                   href={`${Routes[RoutesEnum.Borrow]}?mode=borrow&currency=BNB`}
                 >
-                  <Button variant="primary" key={v4()}>
+                  <Button
+                    key={v4()}
+                    variant="primary"
+                    hover={{ bg: 'accentActive' }}
+                  >
                     Borrow
                   </Button>
                 </Link>

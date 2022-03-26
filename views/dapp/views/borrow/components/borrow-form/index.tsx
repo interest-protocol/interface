@@ -2,38 +2,20 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Box, Button, Typography } from '@/elements';
-import { formatDollars } from '@/utils';
 
+import { taxes } from '../../borrow.data';
 import InputMoney from '../input-money';
 import { BorrowFormProps } from './borrow-form.types';
 
-const taxes = [
-  {
-    name: 'Interest cost (APR)',
-    value: 3,
-    percentual: true,
-  },
-  {
-    name: 'Liquidation price',
-    value: formatDollars(0),
-    percentual: false,
-  },
-  {
-    name: 'Collateral ratio',
-    value: 100,
-    percentual: true,
-  },
-];
-
 const BorrowForm: FC<BorrowFormProps> = ({
-  handleSubmit,
+  fields,
   onSubmit,
+  isBorrow,
+  setValue,
   register,
   getValues,
   buttonText,
-  isBorrow,
-  setValue,
-  fields,
+  handleSubmit,
 }) => (
   <Box
     p="XL"

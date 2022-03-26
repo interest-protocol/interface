@@ -46,7 +46,12 @@ const Header: FC = () => {
           variant="normal"
           borderRight="1px solid"
           borderColor="bottomBackground"
-          color={pathname === Routes[RoutesEnum.DApp] ? 'accent' : 'inherit'}
+          color={
+            pathname === Routes[RoutesEnum.DApp] ||
+            pathname.includes(Routes[RoutesEnum.Borrow])
+              ? 'accent'
+              : 'inherit'
+          }
           hover={{ color: 'accentActive' }}
         >
           Borrow
