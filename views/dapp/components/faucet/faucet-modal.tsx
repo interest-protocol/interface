@@ -48,6 +48,9 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
             textAlign="right"
             position="absolute"
             justifyContent="flex-end"
+            hover={{
+              bg: 'accentActive',
+            }}
           >
             <Button variant="primary" px="L" onClick={handleClose}>
               <TimesSVG width="1rem" />
