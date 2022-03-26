@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
+import Layout from '../../components/layout';
 import Loading from '../../components/loading';
-import Layout from '../../layout';
 
 const LoadingView: FC = () => (
   <Layout pageTitle="Loading">

@@ -1,7 +1,7 @@
 import { BigNumberish, ethers } from 'ethers';
 
 import { BaseCurrency } from './base-currency';
-import { Fraction } from './Fraction';
+import { Fraction } from './fraction';
 
 export class CurrencyAmount<T extends BaseCurrency> extends Fraction {
   public readonly currency: T;

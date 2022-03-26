@@ -62,6 +62,8 @@ const Wallet: FC = () => {
       })();
   }, [error]);
 
+  if (!isActive && !isActivating) return <ConnectWallet />;
+
   if (isSwitchingNetworks) return <SwitchingNetwork />;
 
   if (failedSwitchingNetwork)
@@ -71,9 +73,7 @@ const Wallet: FC = () => {
       </Button>
     );
 
-  if (!isActive && !isActivating) return <ConnectWallet />;
-
-  if (getChainId(chainId ?? 0) === CHAIN_ID.UNSUPPORTED)
+  if (!!chainId && getChainId(chainId ?? 0) === CHAIN_ID.UNSUPPORTED)
     return <WrongNetwork />;
 
   return (

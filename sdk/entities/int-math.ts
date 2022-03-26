@@ -1,11 +1,13 @@
 import { BigNumber, BigNumberish, utils } from 'ethers';
 
+import { Fraction } from './fraction';
 const { parseEther } = utils;
 
 const ONE_ETHER = parseEther('1');
 
 export class IntMath {
   private _value = BigNumber.from(0);
+
   protected constructor(_value: BigNumberish) {
     this._value = BigNumber.from(_value);
   }
@@ -39,8 +41,10 @@ export class IntMath {
     return this;
   }
 
-  public static toPercentage(x: BigNumber): string {
-    return `${x.div(parseEther('0.01'))} %`;
+  public toPercentage(toSignificant = 2): string {
+    const fraction = Fraction.from(this._value, parseEther('1')).multiply(100);
+
+    return `${fraction.toSignificant(toSignificant || 1)} %`;
   }
 
   public value(): BigNumber {

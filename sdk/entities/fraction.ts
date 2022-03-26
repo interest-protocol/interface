@@ -13,6 +13,13 @@ export class Fraction {
     this.denominator = ethers.BigNumber.from(denominator);
   }
 
+  public static from(
+    numerator: BigNumberish,
+    denominator: BigNumberish = 1
+  ): Fraction {
+    return new Fraction(numerator, denominator);
+  }
+
   private static tryParseFraction(
     fractionish: BigNumberish | Fraction
   ): Fraction {
@@ -31,6 +38,14 @@ export class Fraction {
     return new Fraction(
       this.numerator.mul(otherParsed.denominator),
       this.denominator.mul(otherParsed.numerator)
+    );
+  }
+
+  public multiply(other: Fraction | BigNumberish): Fraction {
+    const otherParsed = Fraction.tryParseFraction(other);
+    return new Fraction(
+      this.numerator.mul(otherParsed.numerator),
+      this.denominator.mul(otherParsed.denominator)
     );
   }
 

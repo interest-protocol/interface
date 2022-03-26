@@ -13,7 +13,7 @@ import { BinanceSVG, DineroSVG, InfoSVG } from '@/svg';
 import { formatMoney } from '@/utils';
 
 import GoBack from '../../components/go-back';
-import Layout from '../../layout';
+import Layout from '../../components/layout';
 import { borrowFees, myOpenPosition } from './borrow.data';
 import { BorrowProps, IBorrowForm } from './borrow.types';
 import BorrowForm from './components/borrow-form';

@@ -3,21 +3,17 @@ import Link from 'next/link';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
-import priorityHooks from '@/connectors';
 import { DINERO_MARKET_CONTRACTS } from '@/constants/dinero-market-contracts.data';
 import { SECONDS_IN_A_YEAR } from '@/constants/index';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, Table, Typography } from '@/elements';
 import { useGetDineroMarketErc20Summary } from '@/hooks/use-get-dinero-market-erc20-summary';
-import { CHAIN_ID, getChainId } from '@/sdk/chains';
+import { CHAIN_ID } from '@/sdk/chains';
 import { IntMath } from '@/sdk/entities/int-math';
-import { BitcoinSVG, DineroSVG, MetaMaskSVG, TimesSVG } from '@/svg';
+import { BitcoinSVG, DineroSVG, TimesSVG } from '@/svg';
 import { formatDollars } from '@/utils';
 
-import Advertising from '../advertising';
 import Loading from '../loading';
-
-const { usePriorityChainId } = priorityHooks;
 
 // Since this is a demo. We do not need to consider the other chains.
 const dineroMarketContractAddresses = DINERO_MARKET_CONTRACTS[
@@ -25,47 +21,9 @@ const dineroMarketContractAddresses = DINERO_MARKET_CONTRACTS[
 ].map((x) => x.contract);
 
 const BorrowTable: FC = () => {
-  const chainId = usePriorityChainId();
-
   const { data, error } = useGetDineroMarketErc20Summary(
     dineroMarketContractAddresses
   );
-
-  if (!chainId)
-    return (
-      <Advertising
-        Icon={MetaMaskSVG}
-        title="Disconnected"
-        lines={[<>Please, connect the wallet.</>]}
-      />
-    );
-
-  if (!!chainId && getChainId(chainId) === CHAIN_ID.BSC_MAIN_MET)
-    return (
-      <Advertising
-        title="Coming Soon"
-        lines={[
-          <>
-            Sorry, we are working on <strong>BSC Main Net</strong>.
-          </>,
-          <>
-            Please, switch to <strong>BSC Test Net</strong>.
-          </>,
-        ]}
-      />
-    );
-
-  if (!!chainId && getChainId(chainId) === CHAIN_ID.UNSUPPORTED)
-    return (
-      <Advertising
-        Icon={TimesSVG}
-        title="Not supported"
-        lines={[
-          'This chain is not supported',
-          'Please, switch a supported chain',
-        ]}
-      />
-    );
 
   if (error)
     return (
@@ -204,11 +162,11 @@ const BorrowTable: FC = () => {
                         .value()
                         .toNumber()
                     ),
-                    IntMath.toPercentage(data[index].ltv),
-                    IntMath.toPercentage(
+                    IntMath.from(data[index].ltv).toPercentage(0),
+                    IntMath.from(
                       data[index].loan.INTEREST_RATE.mul(SECONDS_IN_A_YEAR)
-                    ),
-                    IntMath.toPercentage(data[index].liquidationFee),
+                    ).toPercentage(2),
+                    IntMath.from(data[index].liquidationFee).toPercentage(2),
                   ],
                 },
               ]}
@@ -216,7 +174,6 @@ const BorrowTable: FC = () => {
           ))}
         </Box>
         <Box display={['flex', 'flex', 'flex', 'none']} alignItems="center">
-          {/* { ( */}
           {DINERO_MARKET_CONTRACTS[CHAIN_ID.BSC_TEST_NET].map((x, index) => (
             <Table
               key={v4()}
@@ -305,11 +262,11 @@ const BorrowTable: FC = () => {
                         .value()
                         .toNumber()
                     ),
-                    IntMath.toPercentage(data[index].ltv),
-                    IntMath.toPercentage(
+                    IntMath.from(data[index].ltv).toPercentage(0),
+                    IntMath.from(
                       data[index].loan.INTEREST_RATE.mul(SECONDS_IN_A_YEAR)
-                    ),
-                    IntMath.toPercentage(data[index].liquidationFee),
+                    ).toPercentage(2),
+                    IntMath.from(data[index].liquidationFee).toPercentage(2),
                   ],
                 },
               ]}

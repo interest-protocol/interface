@@ -6,7 +6,7 @@ import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Dropdown, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
-import { Wallet } from '../../components';
+import { Wallet } from '../../index';
 import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {

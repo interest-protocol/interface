@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
-import { AdvertisingProps } from './advertising.types';
+import { AdvertisingProps } from './web3-manager.type';
 
 const Advertising: FC<AdvertisingProps> = ({ Icon, lines, title }) => (
   <Box

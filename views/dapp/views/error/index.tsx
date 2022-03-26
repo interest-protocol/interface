@@ -5,7 +5,7 @@ import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, Typography } from '@/elements';
 import { TimesSVG } from '@/svg';
 
-import Layout from '../../layout';
+import Layout from '../../components/layout';
 
 const Error: FC<{ message: string }> = ({ message }) => {
   const { push } = useRouter();

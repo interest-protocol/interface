@@ -1,12 +1,12 @@
 import { FC } from 'react';
 
 import { BorrowTable } from './components';
-import Layout from './layout';
+import Web3Manager from './web3-manager';
 
 const DApp: FC = () => (
-  <Layout pageTitle="Dapp">
+  <Web3Manager>
     <BorrowTable />
-  </Layout>
+  </Web3Manager>
 );
 
 export default DApp;

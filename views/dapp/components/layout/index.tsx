@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { Toaster } from 'react-hot-toast';
 
 import { SEO } from '@/components';
+import { Web3Manager } from '@/components';
 import { DAppTheme } from '@/design-system';
 import radii from '@/design-system/common/radii';
 import colors from '@/design-system/dapp-theme/colors';
@@ -13,9 +14,9 @@ import Footer from './footer';
 import Header from './header';
 import { LayoutProps } from './layout.types';
 
-const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
-  const Tooltip = dynamic(() => import('react-tooltip'));
+const Tooltip = dynamic(() => import('react-tooltip'));
 
+const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
   return (
     <ThemeProvider theme={DAppTheme}>
       <Box color="text" height="100vh" display="flex" flexDirection="column">
