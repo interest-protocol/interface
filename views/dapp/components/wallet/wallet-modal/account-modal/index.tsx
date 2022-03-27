@@ -119,4 +119,5 @@ const AccountModal: FC<AccountModalProps> = ({
     </Modal>
   );
 };
+
 export default AccountModal;

@@ -16,18 +16,21 @@ const Dropdown: FC<DropdownProps> = ({
   mode,
   title,
   header,
+  search,
   bottom,
   suffix,
   footer,
   setOpen,
   minWidth,
   buttonMode,
+  customTitle,
+  customItems,
   defaultValue,
   isOpen: isExternalOpen,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [safeMarginLeft, setSafeMarginLeft] = useState(true);
-  const [safeMarginRight, setSafeMarginRight] = useState(true);
+  const [safeMarginLeft, setSafeMarginLeft] = useState<boolean>(false);
+  const [safeMarginRight, setSafeMarginRight] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState<number>(
     data.findIndex(({ value }) => value === defaultValue)
   );
@@ -43,16 +46,11 @@ const Dropdown: FC<DropdownProps> = ({
     useClickOutsideListenerRef<HTMLDivElement>(closeDropdown);
 
   useEffect(() => {
-    if (dropdownContainerRef.current) {
-      const leftPosition = dropdownContainerRef.current.offsetLeft;
-      const boxWidth = dropdownContainerRef.current.offsetWidth;
-      const screenWidth = document.documentElement.clientWidth;
+    const domRect = dropdownContainerRef.current?.getBoundingClientRect();
+    const screenWidth = document.documentElement.clientWidth;
 
-      const safeDistanceRight = screenWidth - (leftPosition + boxWidth);
-
-      safeDistanceRight < 0 && setSafeMarginRight(false);
-      leftPosition < 0 && setSafeMarginLeft(false);
-    }
+    setSafeMarginLeft(!!domRect && domRect.left < 0);
+    setSafeMarginRight(!!domRect && screenWidth - domRect.right < 0);
   }, [isExternalOpen, isOpen]);
 
   const toggleDropdown = () => {
@@ -66,8 +64,14 @@ const Dropdown: FC<DropdownProps> = ({
   };
 
   return (
-    <Box display="flex" id={dropdownWrapperId}>
-      {buttonMode ? (
+    <Box display="flex" id={dropdownWrapperId} position="relative">
+      {mode === 'select' && selectedIndex !== -1 && customTitle ? (
+        <Box display="inline-flex" onClick={toggleDropdown} cursor="pointer">
+          {data[selectedIndex].displayTitle ||
+            data[selectedIndex].displayOption}
+          {suffix}
+        </Box>
+      ) : buttonMode ? (
         <Box
           mx="S"
           px="0.7rem"
@@ -99,7 +103,10 @@ const Dropdown: FC<DropdownProps> = ({
           onClick={toggleDropdown}
           color={isOpen ? 'accent' : 'text'}
         >
-          {title}
+          {mode === 'select' && selectedIndex !== -1
+            ? data[selectedIndex].displayTitle ||
+              data[selectedIndex].displayOption
+            : title}
           {suffix}
         </Typography>
       )}
@@ -111,28 +118,45 @@ const Dropdown: FC<DropdownProps> = ({
           borderRadius="M"
           position="absolute"
           ref={dropdownContainerRef}
-          left={safeMarginLeft ? 'unset' : '1rem'}
-          right={safeMarginRight ? 'unset' : '1rem'}
           boxShadow="0 0 1rem rgba(0,0,0,.3)"
-          {...(bottom ? { bottom: '5rem' } : { top: '4rem' })}
+          left={safeMarginLeft ? '1rem' : 'unset'}
+          right={safeMarginRight ? '1rem' : 'unset'}
+          {...(bottom
+            ? { bottom: '5rem' }
+            : { top: customTitle ? '2rem' : '4rem' })}
         >
-          {header && (
-            <Typography variant="normal" p="L" fontSize="S" textAlign="center">
-              {header}
-            </Typography>
-          )}
-          {data.map((item, index) => (
-            <DropdownItem
-              key={v4()}
-              minWidth={minWidth}
-              setter={handleSelect(index)}
-              isSelected={index === selectedIndex}
-              {...(index === selectedIndex && {
-                closeDropdown: toggleDropdown,
-              })}
-              {...item}
-            />
-          ))}
+          {header &&
+            (typeof header === 'string' ? (
+              <Typography
+                variant="normal"
+                p="L"
+                fontSize="S"
+                textAlign="center"
+              >
+                {header}
+              </Typography>
+            ) : (
+              header
+            ))}
+          {data
+            .filter(({ value }) =>
+              value
+                .toLocaleLowerCase()
+                .match(`^${search?.toLocaleLowerCase() ?? ''}`)
+            )
+            .map((item, index) => (
+              <DropdownItem
+                key={v4()}
+                minWidth={minWidth}
+                setter={handleSelect(index)}
+                customItem={customItems}
+                isSelected={index === selectedIndex}
+                {...(index === selectedIndex && {
+                  closeDropdown: toggleDropdown,
+                })}
+                {...item}
+              />
+            ))}
           {footer && (
             <Typography
               p="L"

@@ -1,12 +1,19 @@
-import React, { FC, forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 
 import Box from '../box';
 import InputField from './input.styles';
 import { InputProps } from './input.types';
 
-const Input: FC<InputProps> = forwardRef(
+const Input = forwardRef(
   (
-    { Prefix, Suffix, shieldProps, onClickPrefix, onClickSuffix, ...props },
+    {
+      Prefix,
+      Suffix,
+      shieldProps,
+      onClickPrefix,
+      onClickSuffix,
+      ...props
+    }: InputProps,
     ref
   ) => (
     <Box display="flex" overflow="hidden" {...shieldProps}>
