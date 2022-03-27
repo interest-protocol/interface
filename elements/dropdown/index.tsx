@@ -139,7 +139,11 @@ const Dropdown: FC<DropdownProps> = ({
               header
             ))}
           {data
-            .filter(({ value }) => value.match(`^${search ?? ''}`))
+            .filter(({ value }) =>
+              value
+                .toLocaleLowerCase()
+                .match(`^${search?.toLocaleLowerCase() ?? ''}`)
+            )
             .map((item, index) => (
               <DropdownItem
                 key={v4()}
