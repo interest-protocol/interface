@@ -89,7 +89,15 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
       const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
 
       const receipt = await tx.wait(5);
-      toast(`${explorer ? explorer[0] : ''}/tx/${receipt.transactionHash}`);
+      toast(
+        <a
+          target="__black"
+          rel="noreferrer nofollow"
+          href={`${explorer ? explorer[0] : ''}/tx/${receipt.transactionHash}`}
+        >
+          Check on Explorer
+        </a>
+      );
     } catch (e) {
       throw e ?? new Error('Something went wrong');
     } finally {
