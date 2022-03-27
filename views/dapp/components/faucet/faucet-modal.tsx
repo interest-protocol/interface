@@ -1,7 +1,8 @@
 import { JsonRpcSigner } from '@ethersproject/providers';
 import { BigNumber, ContractTransaction } from 'ethers';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import useSWR from 'swr';
 import { v4 } from 'uuid';
 
@@ -15,7 +16,7 @@ import {
 import { Box, Button, Modal, Typography } from '@/elements';
 import { CHAIN_ID, CHAINS } from '@/sdk/chains';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
-import { TimesSVG } from '@/svg';
+import { LoadingSVG, TimesSVG } from '@/svg';
 import { mintBTC, mintDinero } from '@/utils/erc-20';
 import { getERC20Balance } from '@/utils/erc-20';
 
@@ -36,6 +37,7 @@ const MINT_MAP = {
 };
 
 const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
+  const [loading, setLoading] = useState(false);
   const { register, getValues, setValue } = useForm<IFaucetForm>({
     defaultValues: {
       currency: TOKEN_SYMBOL.BTC,
@@ -67,6 +69,40 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
       )
     );
   });
+
+  const handleMint = async () => {
+    setLoading(true);
+    try {
+      if (!getValues || !provider || !account) return;
+
+      const { currency, value } = getValues();
+
+      if (!currency || !value) return;
+
+      const tx = await MINT_MAP[currency](
+        BigNumber.from(value).mul(
+          BigNumber.from(10).pow(BSC_TEST_ERC_20_DATA[currency].decimals)
+        ),
+        provider.getSigner(account)
+      );
+
+      const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
+
+      const receipt = await tx.wait(5);
+      toast(`${explorer ? explorer[0] : ''}/tx/${receipt.transactionHash}`);
+    } catch (e) {
+      throw e ?? new Error('Something went wrong');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onMint = () =>
+    toast.promise(handleMint(), {
+      loading: 'Loading...',
+      success: 'Success!',
+      error: ({ message }) => message,
+    });
 
   return (
     <Modal
@@ -158,33 +194,22 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
         <Box display="flex">
           <Button
             width="100%"
+            onClick={onMint}
             variant="primary"
-            bg="accentAlternative"
+            disabled={loading}
             hover={{ bg: 'accentAlternativeActive' }}
-            onClick={async () => {
-              if (!getValues || !provider || !account) return;
-              const { currency, value } = getValues();
-
-              if (!currency || !value) return;
-
-              const tx = await MINT_MAP[currency](
-                BigNumber.from(value).mul(
-                  BigNumber.from(10).pow(
-                    BSC_TEST_ERC_20_DATA[currency].decimals
-                  )
-                ),
-                provider.getSigner(account)
-              );
-
-              const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
-
-              const receipt = await tx.wait(5);
-              window.alert(
-                `${explorer ? explorer[0] : ''}/tx/${receipt.transactionHash}`
-              );
-            }}
+            bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
           >
-            Mint
+            {loading ? (
+              <Box as="span" display="flex" justifyContent="center">
+                <LoadingSVG width="1rem" />
+                <Typography as="span" variant="normal" ml="M">
+                  Minting...
+                </Typography>
+              </Box>
+            ) : (
+              'Mint'
+            )}
           </Button>
         </Box>
       </Box>
