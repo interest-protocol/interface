@@ -1,13 +1,16 @@
 import { ReactNode } from 'react';
-import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import {
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormSetValue,
+} from 'react-hook-form';
 
 import { IFaucetForm } from './../faucet.types';
 
-export interface InputMoneyProps {
+export interface InputBalanceProps {
   max?: number;
   label: string;
-  amount: string;
-  amountUSD: number;
+  getValues: UseFormGetValues<IFaucetForm>;
   currencyPrefix: ReactNode;
   register: UseFormRegister<IFaucetForm>;
   setValue?: UseFormSetValue<IFaucetForm>;

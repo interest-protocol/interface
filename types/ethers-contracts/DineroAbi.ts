@@ -13,154 +13,154 @@ import type {
   PopulatedTransaction,
   Signer,
   utils,
-} from 'ethers';
+} from "ethers";
 import type {
   FunctionFragment,
   Result,
   EventFragment,
-} from '@ethersproject/abi';
-import type { Listener, Provider } from '@ethersproject/providers';
+} from "@ethersproject/abi";
+import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
   TypedEvent,
   TypedListener,
   OnEvent,
-} from './common';
+} from "./common";
 
 export interface DineroAbiInterface extends utils.Interface {
   functions: {
-    'BURNER_ROLE()': FunctionFragment;
-    'DEFAULT_ADMIN_ROLE()': FunctionFragment;
-    'DEVELOPER_ROLE()': FunctionFragment;
-    'DOMAIN_SEPARATOR()': FunctionFragment;
-    'MINTER_ROLE()': FunctionFragment;
-    'allowance(address,address)': FunctionFragment;
-    'approve(address,uint256)': FunctionFragment;
-    'balanceOf(address)': FunctionFragment;
-    'burn(address,uint256)': FunctionFragment;
-    'decimals()': FunctionFragment;
-    'decreaseAllowance(address,uint256)': FunctionFragment;
-    'getRoleAdmin(bytes32)': FunctionFragment;
-    'grantRole(bytes32,address)': FunctionFragment;
-    'hasRole(bytes32,address)': FunctionFragment;
-    'increaseAllowance(address,uint256)': FunctionFragment;
-    'initialize()': FunctionFragment;
-    'mint(address,uint256)': FunctionFragment;
-    'name()': FunctionFragment;
-    'nonces(address)': FunctionFragment;
-    'permit(address,address,uint256,uint256,uint8,bytes32,bytes32)': FunctionFragment;
-    'proxiableUUID()': FunctionFragment;
-    'renounceRole(bytes32,address)': FunctionFragment;
-    'revokeRole(bytes32,address)': FunctionFragment;
-    'supportsInterface(bytes4)': FunctionFragment;
-    'symbol()': FunctionFragment;
-    'totalSupply()': FunctionFragment;
-    'transfer(address,uint256)': FunctionFragment;
-    'transferFrom(address,address,uint256)': FunctionFragment;
-    'upgradeTo(address)': FunctionFragment;
-    'upgradeToAndCall(address,bytes)': FunctionFragment;
+    "BURNER_ROLE()": FunctionFragment;
+    "DEFAULT_ADMIN_ROLE()": FunctionFragment;
+    "DEVELOPER_ROLE()": FunctionFragment;
+    "DOMAIN_SEPARATOR()": FunctionFragment;
+    "MINTER_ROLE()": FunctionFragment;
+    "allowance(address,address)": FunctionFragment;
+    "approve(address,uint256)": FunctionFragment;
+    "balanceOf(address)": FunctionFragment;
+    "burn(address,uint256)": FunctionFragment;
+    "decimals()": FunctionFragment;
+    "decreaseAllowance(address,uint256)": FunctionFragment;
+    "getRoleAdmin(bytes32)": FunctionFragment;
+    "grantRole(bytes32,address)": FunctionFragment;
+    "hasRole(bytes32,address)": FunctionFragment;
+    "increaseAllowance(address,uint256)": FunctionFragment;
+    "initialize()": FunctionFragment;
+    "mint(address,uint256)": FunctionFragment;
+    "name()": FunctionFragment;
+    "nonces(address)": FunctionFragment;
+    "permit(address,address,uint256,uint256,uint8,bytes32,bytes32)": FunctionFragment;
+    "proxiableUUID()": FunctionFragment;
+    "renounceRole(bytes32,address)": FunctionFragment;
+    "revokeRole(bytes32,address)": FunctionFragment;
+    "supportsInterface(bytes4)": FunctionFragment;
+    "symbol()": FunctionFragment;
+    "totalSupply()": FunctionFragment;
+    "transfer(address,uint256)": FunctionFragment;
+    "transferFrom(address,address,uint256)": FunctionFragment;
+    "upgradeTo(address)": FunctionFragment;
+    "upgradeToAndCall(address,bytes)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | 'BURNER_ROLE'
-      | 'DEFAULT_ADMIN_ROLE'
-      | 'DEVELOPER_ROLE'
-      | 'DOMAIN_SEPARATOR'
-      | 'MINTER_ROLE'
-      | 'allowance'
-      | 'approve'
-      | 'balanceOf'
-      | 'burn'
-      | 'decimals'
-      | 'decreaseAllowance'
-      | 'getRoleAdmin'
-      | 'grantRole'
-      | 'hasRole'
-      | 'increaseAllowance'
-      | 'initialize'
-      | 'mint'
-      | 'name'
-      | 'nonces'
-      | 'permit'
-      | 'proxiableUUID'
-      | 'renounceRole'
-      | 'revokeRole'
-      | 'supportsInterface'
-      | 'symbol'
-      | 'totalSupply'
-      | 'transfer'
-      | 'transferFrom'
-      | 'upgradeTo'
-      | 'upgradeToAndCall'
+      | "BURNER_ROLE"
+      | "DEFAULT_ADMIN_ROLE"
+      | "DEVELOPER_ROLE"
+      | "DOMAIN_SEPARATOR"
+      | "MINTER_ROLE"
+      | "allowance"
+      | "approve"
+      | "balanceOf"
+      | "burn"
+      | "decimals"
+      | "decreaseAllowance"
+      | "getRoleAdmin"
+      | "grantRole"
+      | "hasRole"
+      | "increaseAllowance"
+      | "initialize"
+      | "mint"
+      | "name"
+      | "nonces"
+      | "permit"
+      | "proxiableUUID"
+      | "renounceRole"
+      | "revokeRole"
+      | "supportsInterface"
+      | "symbol"
+      | "totalSupply"
+      | "transfer"
+      | "transferFrom"
+      | "upgradeTo"
+      | "upgradeToAndCall"
   ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: 'BURNER_ROLE',
+    functionFragment: "BURNER_ROLE",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'DEFAULT_ADMIN_ROLE',
+    functionFragment: "DEFAULT_ADMIN_ROLE",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'DEVELOPER_ROLE',
+    functionFragment: "DEVELOPER_ROLE",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'DOMAIN_SEPARATOR',
+    functionFragment: "DOMAIN_SEPARATOR",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'MINTER_ROLE',
+    functionFragment: "MINTER_ROLE",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'allowance',
+    functionFragment: "allowance",
     values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'approve',
+    functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'balanceOf', values: [string]): string;
+  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'burn',
+    functionFragment: "burn",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'decimals', values?: undefined): string;
+  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'decreaseAllowance',
+    functionFragment: "decreaseAllowance",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'getRoleAdmin',
+    functionFragment: "getRoleAdmin",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: 'grantRole',
+    functionFragment: "grantRole",
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'hasRole',
+    functionFragment: "hasRole",
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'increaseAllowance',
+    functionFragment: "increaseAllowance",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'initialize',
+    functionFragment: "initialize",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'mint',
+    functionFragment: "mint",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'name', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'nonces', values: [string]): string;
+  encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  encodeFunctionData(functionFragment: "nonces", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'permit',
+    functionFragment: "permit",
     values: [
       string,
       string,
@@ -172,132 +172,132 @@ export interface DineroAbiInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: 'proxiableUUID',
+    functionFragment: "proxiableUUID",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'renounceRole',
+    functionFragment: "renounceRole",
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'revokeRole',
+    functionFragment: "revokeRole",
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'supportsInterface',
+    functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: 'symbol', values?: undefined): string;
+  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'totalSupply',
+    functionFragment: "totalSupply",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'transfer',
+    functionFragment: "transfer",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferFrom',
+    functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'upgradeTo', values: [string]): string;
+  encodeFunctionData(functionFragment: "upgradeTo", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'upgradeToAndCall',
+    functionFragment: "upgradeToAndCall",
     values: [string, BytesLike]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: 'BURNER_ROLE',
+    functionFragment: "BURNER_ROLE",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'DEFAULT_ADMIN_ROLE',
+    functionFragment: "DEFAULT_ADMIN_ROLE",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'DEVELOPER_ROLE',
+    functionFragment: "DEVELOPER_ROLE",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'DOMAIN_SEPARATOR',
+    functionFragment: "DOMAIN_SEPARATOR",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'MINTER_ROLE',
+    functionFragment: "MINTER_ROLE",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'allowance', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'approve', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'burn', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'decimals', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'decreaseAllowance',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'getRoleAdmin',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'grantRole', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'hasRole', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'increaseAllowance',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'mint', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'name', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'nonces', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'permit', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'proxiableUUID',
+    functionFragment: "decreaseAllowance",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'renounceRole',
+    functionFragment: "getRoleAdmin",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'revokeRole', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'supportsInterface',
+    functionFragment: "increaseAllowance",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'symbol', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "nonces", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "permit", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'totalSupply',
+    functionFragment: "proxiableUUID",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'transfer', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'transferFrom',
+    functionFragment: "renounceRole",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'upgradeTo', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'upgradeToAndCall',
+    functionFragment: "supportsInterface",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "totalSupply",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "transferFrom",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "upgradeToAndCall",
     data: BytesLike
   ): Result;
 
   events: {
-    'AdminChanged(address,address)': EventFragment;
-    'Approval(address,address,uint256)': EventFragment;
-    'BeaconUpgraded(address)': EventFragment;
-    'RoleAdminChanged(bytes32,bytes32,bytes32)': EventFragment;
-    'RoleGranted(bytes32,address,address)': EventFragment;
-    'RoleRevoked(bytes32,address,address)': EventFragment;
-    'Transfer(address,address,uint256)': EventFragment;
-    'Upgraded(address)': EventFragment;
+    "AdminChanged(address,address)": EventFragment;
+    "Approval(address,address,uint256)": EventFragment;
+    "BeaconUpgraded(address)": EventFragment;
+    "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
+    "RoleGranted(bytes32,address,address)": EventFragment;
+    "RoleRevoked(bytes32,address,address)": EventFragment;
+    "Transfer(address,address,uint256)": EventFragment;
+    "Upgraded(address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'AdminChanged'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Approval'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'BeaconUpgraded'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'RoleAdminChanged'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'RoleGranted'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'RoleRevoked'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Transfer'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Upgraded'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "AdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
 
 export interface AdminChangedEventObject {
@@ -808,7 +808,7 @@ export interface DineroAbi extends BaseContract {
   };
 
   filters: {
-    'AdminChanged(address,address)'(
+    "AdminChanged(address,address)"(
       previousAdmin?: null,
       newAdmin?: null
     ): AdminChangedEventFilter;
@@ -817,7 +817,7 @@ export interface DineroAbi extends BaseContract {
       newAdmin?: null
     ): AdminChangedEventFilter;
 
-    'Approval(address,address,uint256)'(
+    "Approval(address,address,uint256)"(
       owner?: string | null,
       spender?: string | null,
       value?: null
@@ -828,12 +828,12 @@ export interface DineroAbi extends BaseContract {
       value?: null
     ): ApprovalEventFilter;
 
-    'BeaconUpgraded(address)'(
+    "BeaconUpgraded(address)"(
       beacon?: string | null
     ): BeaconUpgradedEventFilter;
     BeaconUpgraded(beacon?: string | null): BeaconUpgradedEventFilter;
 
-    'RoleAdminChanged(bytes32,bytes32,bytes32)'(
+    "RoleAdminChanged(bytes32,bytes32,bytes32)"(
       role?: BytesLike | null,
       previousAdminRole?: BytesLike | null,
       newAdminRole?: BytesLike | null
@@ -844,7 +844,7 @@ export interface DineroAbi extends BaseContract {
       newAdminRole?: BytesLike | null
     ): RoleAdminChangedEventFilter;
 
-    'RoleGranted(bytes32,address,address)'(
+    "RoleGranted(bytes32,address,address)"(
       role?: BytesLike | null,
       account?: string | null,
       sender?: string | null
@@ -855,7 +855,7 @@ export interface DineroAbi extends BaseContract {
       sender?: string | null
     ): RoleGrantedEventFilter;
 
-    'RoleRevoked(bytes32,address,address)'(
+    "RoleRevoked(bytes32,address,address)"(
       role?: BytesLike | null,
       account?: string | null,
       sender?: string | null
@@ -866,7 +866,7 @@ export interface DineroAbi extends BaseContract {
       sender?: string | null
     ): RoleRevokedEventFilter;
 
-    'Transfer(address,address,uint256)'(
+    "Transfer(address,address,uint256)"(
       from?: string | null,
       to?: string | null,
       value?: null
@@ -877,7 +877,7 @@ export interface DineroAbi extends BaseContract {
       value?: null
     ): TransferEventFilter;
 
-    'Upgraded(address)'(implementation?: string | null): UpgradedEventFilter;
+    "Upgraded(address)"(implementation?: string | null): UpgradedEventFilter;
     Upgraded(implementation?: string | null): UpgradedEventFilter;
   };
 

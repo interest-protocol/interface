@@ -1,24 +1,53 @@
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
+import useSWR from 'swr';
+import { v4 } from 'uuid';
 
+import priorityHooks from '@/connectors';
+import {
+  BSC_TEST_ERC_20_DATA,
+  FAUCET_TOKENS,
+  TOKEN_SYMBOL,
+  TOKENS_SVG_MAP,
+} from '@/constants/erc-20.data';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { useGetUserCurrency } from '@/hooks/use-get-user-currency';
-import { BinanceSVG, TimesSVG } from '@/svg';
-import { formatMoney } from '@/utils';
+import { CurrencyAmount } from '@/sdk/entities/currency-amount';
+import { TimesSVG } from '@/svg';
+import { getERC20Balance } from '@/utils/erc-20';
 
 import { FaucetModalProps, IFaucetForm } from './faucet.types';
 import FaucetSelectCurrency from './faucet-select-currency';
-import InputMoney from './input-money';
+import InputBalance from './input-balance';
+
+const { usePriorityAccount, usePriorityProvider } = priorityHooks;
 
 const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
-  const { register } = useForm<IFaucetForm>({
+  const { register, getValues, setValue } = useForm<IFaucetForm>({
     defaultValues: {
-      currency: '',
+      currency: TOKEN_SYMBOL.BTC,
       value: 0,
     },
   });
 
-  const { amount } = useGetUserCurrency();
+  const account = usePriorityAccount();
+  const provider = usePriorityProvider();
+
+  const { data } = useSWR(`${account}-erc20-balances`, async () => {
+    if (!account || !provider) return Promise.reject();
+
+    const balances = await Promise.all(
+      FAUCET_TOKENS.map(({ address }) =>
+        getERC20Balance(account, address, provider)
+      )
+    );
+
+    return balances.map((x, i) =>
+      CurrencyAmount.fromRawAmount(
+        BSC_TEST_ERC_20_DATA[FAUCET_TOKENS[i].symbol],
+        x
+      )
+    );
+  });
 
   return (
     <Modal
@@ -70,30 +99,40 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
           </Typography>
         </Box>
         <Box my="XL">
-          <InputMoney
+          <InputBalance
             name="value"
             register={register}
             label="Choose token"
-            amount={amount.toSignificant(4)}
-            amountUSD={+amount.toSignificant(4)}
+            getValues={getValues}
             currencyPrefix={<FaucetSelectCurrency />}
+            setValue={setValue}
           />
         </Box>
         <Box my="XXL">
           <Typography variant="normal" textTransform="uppercase" mt="L">
             Your balance:
           </Typography>
-          <Box display="flex" justifyContent="space-between" my="L">
-            <Box display="flex">
-              <BinanceSVG width="1rem" />
-              <Typography ml="M" variant="normal">
-                Binance Coin
-              </Typography>
-            </Box>
-            <Typography variant="normal" color="textSecondary">
-              {formatMoney(+amount.toSignificant(4))}
-            </Typography>
-          </Box>
+          {data?.map((x) => {
+            const SVG = TOKENS_SVG_MAP[x.currency.symbol];
+            return (
+              <Box
+                key={v4()}
+                display="flex"
+                justifyContent="space-between"
+                my="L"
+              >
+                <Box display="flex">
+                  <SVG width="1rem" />
+                  <Typography ml="M" variant="normal">
+                    {x.toSignificant(2)}
+                  </Typography>
+                </Box>
+                <Typography variant="normal" color="textSecondary">
+                  {x.currency.symbol}
+                </Typography>
+              </Box>
+            );
+          })}
         </Box>
         <Box display="flex">
           <Button

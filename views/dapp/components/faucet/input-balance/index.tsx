@@ -1,18 +1,22 @@
 import { FC } from 'react';
 
+import { TOKEN_SYMBOL } from '@/constants/erc-20.data';
 import { Box, Button, Input, Typography } from '@/elements';
-import { formatDollars } from '@/utils';
 
-import { InputMoneyProps } from './input-money.types';
+import { InputBalanceProps } from './input-balance.types';
 
-const InputMoney: FC<InputMoneyProps> = ({
+const CURRENCY_MAX = {
+  [TOKEN_SYMBOL.BTC]: '10',
+  [TOKEN_SYMBOL.DNR]: '10000',
+} as { [key: string]: string };
+
+const InputBalance: FC<InputBalanceProps> = ({
   max,
   name,
   label,
-  amount,
+  getValues,
   register,
   setValue,
-  amountUSD,
   currencyPrefix,
 }) => (
   <Box mb="L">
@@ -24,7 +28,7 @@ const InputMoney: FC<InputMoneyProps> = ({
       max={max}
       type="number"
       step="0.0001"
-      placeholder={amount}
+      placeholder={'0'}
       {...register(name)}
       shieldProps={{
         p: 'S',
@@ -39,11 +43,6 @@ const InputMoney: FC<InputMoneyProps> = ({
           borderColor: 'accentBackground',
         },
       }}
-      Suffix={
-        <Typography fontSize="S" variant="normal" color="textSecondary">
-          {formatDollars(amountUSD)}
-        </Typography>
-      }
       Prefix={
         <>
           <Button
@@ -54,7 +53,11 @@ const InputMoney: FC<InputMoneyProps> = ({
             bg="bottomBackground"
             hover={{ bg: 'accent' }}
             active={{ bg: 'accentActive' }}
-            onClick={() => setValue?.(name, +amount)}
+            onClick={() => {
+              if (!setValue) return;
+              const currency = getValues().currency;
+              setValue(name, CURRENCY_MAX[currency]);
+            }}
           >
             max
           </Button>
@@ -73,4 +76,4 @@ const InputMoney: FC<InputMoneyProps> = ({
   </Box>
 );
 
-export default InputMoney;
+export default InputBalance;

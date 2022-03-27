@@ -1,8 +1,13 @@
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
+import {
+  FAUCET_TOKENS,
+  TOKEN_SYMBOL,
+  TOKENS_SVG_MAP,
+} from '@/constants/erc-20.data';
 import { Box, Dropdown, Input, Typography } from '@/elements';
-import { ArrowSVG, BinanceSVG, BitcoinSVG, SearchSVG } from '@/svg';
+import { ArrowSVG, SearchSVG } from '@/svg';
 
 const FaucetSelectCurrency: FC = () => {
   const { register, watch } = useForm({
@@ -13,10 +18,10 @@ const FaucetSelectCurrency: FC = () => {
     <Dropdown
       customTitle
       customItems
-      title="BNB"
+      title="Tokens"
       mode="select"
       search={watch('search')}
-      defaultValue="BNB"
+      defaultValue={TOKEN_SYMBOL.BTC}
       suffix={<ArrowSVG width="0.5rem" />}
       header={
         <Input
@@ -24,7 +29,7 @@ const FaucetSelectCurrency: FC = () => {
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
           {...register('search')}
-          placeholder="Pesquisar"
+          placeholder="Search"
           Prefix={
             <Box px="L" borderRight="1px solid" borderColor="bottomBackground">
               <SearchSVG width="0.7rem" />
@@ -38,8 +43,9 @@ const FaucetSelectCurrency: FC = () => {
           }}
         />
       }
-      data={[
-        {
+      data={FAUCET_TOKENS.map(({ symbol }) => {
+        const SVG = TOKENS_SVG_MAP[symbol];
+        return {
           displayOption: (
             <Typography
               m="M"
@@ -48,12 +54,12 @@ const FaucetSelectCurrency: FC = () => {
               hover={{ color: 'accent' }}
               active={{ color: 'accentActive' }}
             >
-              BNB
+              {symbol}
             </Typography>
           ),
           displayTitle: (
             <>
-              <BinanceSVG width="1rem" />
+              <SVG width="1rem" />
               <Typography
                 mx="S"
                 as="span"
@@ -61,41 +67,13 @@ const FaucetSelectCurrency: FC = () => {
                 hover={{ color: 'accent' }}
                 active={{ color: 'accentActive' }}
               >
-                BNB
+                {symbol}
               </Typography>
             </>
           ),
-          value: 'BNB',
-        },
-        {
-          displayOption: (
-            <Typography
-              m="M"
-              variant="normal"
-              minWidth="15rem"
-              hover={{ color: 'accent' }}
-              active={{ color: 'accentActive' }}
-            >
-              BTC
-            </Typography>
-          ),
-          displayTitle: (
-            <>
-              <BitcoinSVG width="1rem" />
-              <Typography
-                mx="S"
-                as="span"
-                variant="normal"
-                hover={{ color: 'accent' }}
-                active={{ color: 'accentActive' }}
-              >
-                BTC
-              </Typography>
-            </>
-          ),
-          value: 'BTC',
-        },
-      ]}
+          value: symbol,
+        };
+      })}
     />
   );
 };

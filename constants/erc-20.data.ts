@@ -1,10 +1,29 @@
+import { FC, SVGAttributes } from 'react';
+
 import { CHAIN_ID } from '@/sdk/chains';
 import { ERC20 } from '@/sdk/entities/erc-20';
+import { BitcoinSVG, DineroSVG } from '@/svg';
 
 export enum TOKEN_SYMBOL {
   BTC = 'BTC',
   DNR = 'DNR',
 }
+
+export const FAUCET_TOKENS = [
+  {
+    symbol: TOKEN_SYMBOL.BTC,
+    address: '0x954f3A4aeC237D311839d6E0274c0aC8Be13d1b1',
+  },
+  {
+    symbol: TOKEN_SYMBOL.DNR,
+    address: '0x57486681D2E0Bc9B0494446b8c5df35cd20D4E92',
+  },
+];
+
+export const TOKENS_SVG_MAP = {
+  [TOKEN_SYMBOL.BTC]: BitcoinSVG,
+  [TOKEN_SYMBOL.DNR]: DineroSVG,
+} as { [key: string]: FC<SVGAttributes<SVGSVGElement>> };
 
 const BSC_TEST_ERC20_ARRAY = [
   {
