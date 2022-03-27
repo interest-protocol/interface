@@ -4,15 +4,15 @@ import { Box } from '@/elements';
 
 import { BorrowTable } from './components';
 import Faucet from './components/faucet';
-import Layout from './layout';
+import Web3Manager from './web3-manager';
 
 const DApp: FC = () => (
-  <Layout pageTitle="Dapp">
+  <Web3Manager>
     <Box display="flex" flexDirection="column" height="100%">
       <BorrowTable />
       <Faucet />
     </Box>
-  </Layout>
+  </Web3Manager>
 );
 
 export default DApp;

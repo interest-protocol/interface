@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import toast from 'react-hot-toast';
 
 import hooks from '@/connectors';
@@ -10,12 +10,13 @@ import { AccountModalProps } from '../../wallet.types';
 
 const { usePriorityConnector, usePriorityProvider } = hooks;
 
-const AccountModal: FC<AccountModalProps> = ({ account }) => {
+const AccountModal: FC<AccountModalProps> = ({
+  account,
+  showModal,
+  toggleModal,
+}) => {
   const provider = usePriorityProvider();
   const connector = usePriorityConnector();
-  const [showModal, setShowModal] = useState<boolean>(false);
-
-  const toggleModal = () => setShowModal((state) => !state);
 
   const disconnect = () => connector.deactivate();
 
@@ -118,4 +119,5 @@ const AccountModal: FC<AccountModalProps> = ({ account }) => {
     </Modal>
   );
 };
+
 export default AccountModal;

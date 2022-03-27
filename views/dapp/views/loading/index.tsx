@@ -1,22 +1,12 @@
 import { FC } from 'react';
 
-import { Box } from '@/elements';
-import { LoadingSVG } from '@/svg';
+import Layout from '../../components/layout';
+import Loading from '../../components/loading';
 
-import Layout from '../../layout';
-
-const Loading: FC = () => (
+const LoadingView: FC = () => (
   <Layout pageTitle="Loading">
-    <Box
-      mx="auto"
-      width="3rem"
-      height="100%"
-      display="flex"
-      alignItems="center"
-    >
-      <LoadingSVG width="100%" />
-    </Box>
+    <Loading />
   </Layout>
 );
 
-export default Loading;
+export default LoadingView;

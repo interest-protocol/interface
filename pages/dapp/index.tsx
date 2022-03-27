@@ -1,12 +1,7 @@
 import { NextPage } from 'next';
 
-import { Web3Manager } from '@/components';
 import DApp from '@/views/dapp';
 
-const App: NextPage = () => (
-  <Web3Manager>
-    <DApp />
-  </Web3Manager>
-);
+const App: NextPage = () => <DApp />;
 
 export default App;
