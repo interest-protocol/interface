@@ -6,9 +6,9 @@ import { Box, Button, Input, Typography } from '@/elements';
 import { InputBalanceProps } from './input-balance.types';
 
 const CURRENCY_MAX = {
-  [TOKEN_SYMBOL.BTC]: '10',
-  [TOKEN_SYMBOL.DNR]: '10000',
-} as { [key: string]: string };
+  [TOKEN_SYMBOL.BTC]: 10,
+  [TOKEN_SYMBOL.DNR]: 10000,
+} as Record<TOKEN_SYMBOL, number>;
 
 const InputBalance: FC<InputBalanceProps> = ({
   name,
@@ -54,7 +54,7 @@ const InputBalance: FC<InputBalanceProps> = ({
             active={{ bg: 'accentActive' }}
             onClick={() => {
               if (!setValue) return;
-              const currency = getValues().currency;
+              const currency = getValues('currency');
               setValue(name, CURRENCY_MAX[currency]);
             }}
           >
