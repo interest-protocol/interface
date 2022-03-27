@@ -168,7 +168,10 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
             label="Choose token"
             getValues={getValues}
             currencyPrefix={
-              <FaucetSelectCurrency onSelectCurrency={onSelectCurrency} />
+              <FaucetSelectCurrency
+                defaultValue={getValues('currency')}
+                onSelectCurrency={onSelectCurrency}
+              />
             }
             setValue={setValue}
           />
