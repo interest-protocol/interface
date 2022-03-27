@@ -3377,6 +3377,16 @@ negotiator@^0.6.1:
   version "0.6.3"
   resolved "https://registry.npmjs.org/negotiator/-/negotiator-0.6.3.tgz"
 
+next-progress@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/next-progress/-/next-progress-2.0.1.tgz#465acc1e2638ffe6912a00df6b92d903f1ebaa0c"
+  integrity sha512-RGqBuv7B4V0oLVM+C2OUJDgrAKmE8UbjXW+wEZMHFlcz0eeYGbW8V7OjRAPE8ip6ZLg95swtbNoXCYVtcF0LPw==
+  dependencies:
+    next "^12.1.0"
+    nprogress "^0.2.0"
+    react "^17.0.2"
+    react-dom "^17.0.2"
+
 next@^12.1.0:
   version "12.1.0"
   resolved "https://registry.npmjs.org/next/-/next-12.1.0.tgz"
@@ -3432,6 +3442,11 @@ npm-run-path@^4.0.0, npm-run-path@^4.0.1:
   resolved "https://registry.npmjs.org/npm-run-path/-/npm-run-path-4.0.1.tgz"
   dependencies:
     path-key "^3.0.0"
+
+nprogress@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/nprogress/-/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
+  integrity sha1-y480xTIT2JVyP8urkH6UIq28r7E=
 
 object-assign@^4.1.1:
   version "4.1.1"
