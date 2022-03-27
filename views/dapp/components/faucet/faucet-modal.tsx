@@ -214,7 +214,7 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
             {loading ? (
               <Box as="span" display="flex" justifyContent="center">
                 <LoadingSVG width="1rem" />
-                <Typography as="span" variant="normal" ml="M">
+                <Typography as="span" variant="normal" ml="M" fontSize="S">
                   Minting...
                 </Typography>
               </Box>
