@@ -1,3 +1,5 @@
+import { JsonRpcSigner } from '@ethersproject/providers';
+import { BigNumber, ContractTransaction } from 'ethers';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
@@ -11,8 +13,10 @@ import {
   TOKENS_SVG_MAP,
 } from '@/constants/erc-20.data';
 import { Box, Button, Modal, Typography } from '@/elements';
+import { CHAIN_ID, CHAINS } from '@/sdk/chains';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { TimesSVG } from '@/svg';
+import { mintBTC, mintDinero } from '@/utils/erc-20';
 import { getERC20Balance } from '@/utils/erc-20';
 
 import { FaucetModalProps, IFaucetForm } from './faucet.types';
@@ -20,6 +24,16 @@ import FaucetSelectCurrency from './faucet-select-currency';
 import InputBalance from './input-balance';
 
 const { usePriorityAccount, usePriorityProvider } = priorityHooks;
+
+const MINT_MAP = {
+  [TOKEN_SYMBOL.DNR]: mintDinero,
+  [TOKEN_SYMBOL.BTC]: mintBTC,
+} as {
+  [key: string]: (
+    amount: BigNumber,
+    signer: JsonRpcSigner
+  ) => Promise<ContractTransaction>;
+};
 
 const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
   const { register, getValues, setValue } = useForm<IFaucetForm>({
@@ -147,6 +161,28 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
             variant="primary"
             bg="accentAlternative"
             hover={{ bg: 'accentAlternativeActive' }}
+            onClick={async () => {
+              if (!getValues || !provider || !account) return;
+              const { currency, value } = getValues();
+
+              if (!currency || !value) return;
+
+              const tx = await MINT_MAP[currency](
+                BigNumber.from(value).mul(
+                  BigNumber.from(10).pow(
+                    BSC_TEST_ERC_20_DATA[currency].decimals
+                  )
+                ),
+                provider.getSigner(account)
+              );
+
+              const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
+
+              const receipt = await tx.wait(5);
+              window.alert(
+                `${explorer ? explorer[0] : ''}/tx/${receipt.transactionHash}`
+              );
+            }}
           >
             Mint
           </Button>
