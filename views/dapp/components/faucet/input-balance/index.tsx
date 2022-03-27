@@ -11,7 +11,6 @@ const CURRENCY_MAX = {
 } as { [key: string]: string };
 
 const InputBalance: FC<InputBalanceProps> = ({
-  max,
   name,
   label,
   getValues,
@@ -25,11 +24,11 @@ const InputBalance: FC<InputBalanceProps> = ({
     </Typography>
     <Input
       min="0"
-      max={max}
       type="number"
       step="0.0001"
       placeholder={'0'}
       {...register(name)}
+      max={CURRENCY_MAX[getValues().currency]}
       shieldProps={{
         p: 'S',
         my: 'M',

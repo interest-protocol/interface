@@ -8,7 +8,6 @@ import {
 import { IFaucetForm } from './../faucet.types';
 
 export interface InputBalanceProps {
-  max?: number;
   label: string;
   getValues: UseFormGetValues<IFaucetForm>;
   currencyPrefix: ReactNode;

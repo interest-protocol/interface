@@ -9,7 +9,11 @@ import {
 import { Box, Dropdown, Input, Typography } from '@/elements';
 import { ArrowSVG, SearchSVG } from '@/svg';
 
-const FaucetSelectCurrency: FC = () => {
+import { FaucetSelectCurrencyProps } from './faucet.types';
+
+const FaucetSelectCurrency: FC<FaucetSelectCurrencyProps> = ({
+  onSelectCurrency,
+}) => {
   const { register, watch } = useForm({
     defaultValues: { search: '' },
   });
@@ -46,6 +50,7 @@ const FaucetSelectCurrency: FC = () => {
       data={FAUCET_TOKENS.map(({ symbol }) => {
         const SVG = TOKENS_SVG_MAP[symbol];
         return {
+          onSelect: () => onSelectCurrency(symbol),
           displayOption: (
             <Typography
               m="M"

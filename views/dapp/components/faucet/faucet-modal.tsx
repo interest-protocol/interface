@@ -29,6 +29,11 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
     },
   });
 
+  const onSelectCurrency = (currency: TOKEN_SYMBOL) => {
+    setValue('currency', currency);
+    setValue('value', 0);
+  };
+
   const account = usePriorityAccount();
   const provider = usePriorityProvider();
 
@@ -104,7 +109,9 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
             register={register}
             label="Choose token"
             getValues={getValues}
-            currencyPrefix={<FaucetSelectCurrency />}
+            currencyPrefix={
+              <FaucetSelectCurrency onSelectCurrency={onSelectCurrency} />
+            }
             setValue={setValue}
           />
         </Box>
