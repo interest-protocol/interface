@@ -1,17 +1,14 @@
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
-import {
-  FAUCET_TOKENS,
-  TOKEN_SYMBOL,
-  TOKENS_SVG_MAP,
-} from '@/constants/erc-20.data';
+import { FAUCET_TOKENS, TOKENS_SVG_MAP } from '@/constants/erc-20.data';
 import { Box, Dropdown, Input, Typography } from '@/elements';
 import { ArrowSVG, SearchSVG } from '@/svg';
 
 import { FaucetSelectCurrencyProps } from './faucet.types';
 
 const FaucetSelectCurrency: FC<FaucetSelectCurrencyProps> = ({
+  defaultValue,
   onSelectCurrency,
 }) => {
   const { register, watch } = useForm({
@@ -25,7 +22,7 @@ const FaucetSelectCurrency: FC<FaucetSelectCurrencyProps> = ({
       title="Tokens"
       mode="select"
       search={watch('search')}
-      defaultValue={TOKEN_SYMBOL.BTC}
+      defaultValue={defaultValue}
       suffix={<ArrowSVG width="0.5rem" />}
       header={
         <Input
