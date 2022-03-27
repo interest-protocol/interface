@@ -4,7 +4,7 @@ import { FC } from 'react';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
-import Layout from '../../layout';
+import Layout from '../../components/layout';
 
 const ComingSoonBSCMainNet: FC = () => (
   <Layout>
