@@ -1,16 +1,31 @@
 import { FC, SVGAttributes } from 'react';
-import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 
 import { IBorrowForm } from '../../dinero-market.types';
 
-export interface InputMoneyProps {
+export interface InputMoneyProps
+  extends Pick<
+    UseFormReturn<IBorrowForm>,
+    'register' | 'setValue' | 'control'
+  > {
   max?: number;
   label: string;
   amount: string;
   currency: string;
   amountUSD: number;
-  register: UseFormRegister<IBorrowForm>;
-  setValue?: UseFormSetValue<IBorrowForm>;
   CurrencySVG: FC<SVGAttributes<SVGSVGElement>>;
+  name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
+}
+
+export interface InputMoneySuffixProps
+  extends Pick<UseFormReturn<IBorrowForm>, 'control'> {
+  amountUSD: number;
+  name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
+}
+
+export interface InputMaxButtonProps
+  extends Pick<UseFormReturn<IBorrowForm>, 'control' | 'setValue'> {
+  max?: number;
+  amount: string;
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
 }

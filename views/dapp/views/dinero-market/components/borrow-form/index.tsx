@@ -1,25 +1,27 @@
 import { FC } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
-import { Box, Button, Typography } from '@/elements';
+import { Box, Typography } from '@/elements';
 
 import InputMoney from '../input-money';
 import { BorrowFormProps } from './borrow-form.types';
 import BorrowFormButton from './borrow-form-button';
+import BorrowFormLiquidationFee from './borrow-form-liquidation';
 
 const INFO = ['Dinero Amount', 'Expected Liquidation Price', 'Position Health'];
 
 const BorrowForm: FC<BorrowFormProps> = ({
-  watch,
   fields,
+  control,
+  loading,
+  loanData,
   onSubmit,
   isBorrow,
   setValue,
   register,
-  getValues,
-  buttonText,
+  ltvRatio,
   handleSubmit,
-  loanData,
 }) => (
   <Box
     p="XL"
@@ -30,15 +32,24 @@ const BorrowForm: FC<BorrowFormProps> = ({
     borderRadius="L"
     onSubmit={handleSubmit(onSubmit)}
   >
-    {fields.map((input) => (
-      <InputMoney
-        key={v4()}
-        register={register}
-        setValue={setValue}
-        {...input}
-      />
-    ))}
-
+    {fields.map((input) =>
+      loading ? (
+        <Box mb="L">
+          <Typography variant="normal" width="10rem" fontSize="S" mt="M" mb="L">
+            <Skeleton />
+          </Typography>
+          <Skeleton style={{ height: '2.3rem' }} />
+        </Box>
+      ) : (
+        <InputMoney
+          key={v4()}
+          control={control}
+          register={register}
+          setValue={setValue}
+          {...input}
+        />
+      )
+    )}
     <Box mt="XXL">
       {INFO.map((x, i) => (
         <Box key={v4()} display="flex" justifyContent="space-between" p="M">
@@ -48,47 +59,13 @@ const BorrowForm: FC<BorrowFormProps> = ({
       ))}
     </Box>
     {isBorrow && (
-      <Box mt="XL">
-        <Typography variant="normal" fontSize="S">
-          Liquidation price
-        </Typography>
-        <Box display="flex" justifyContent="space-between" my="L">
-          {[0, 25, 50, 75, 100].map((item) => (
-            <Button
-              key={v4()}
-              width="3rem"
-              fontSize="S"
-              height="3rem"
-              type="button"
-              display="flex"
-              borderRadius="M"
-              variant="secondary"
-              alignItems="center"
-              justifyContent="center"
-              hover={{ bg: 'accent' }}
-              active={{ bg: 'accentActive' }}
-              bg={
-                (getValues('borrow.loan') &&
-                  getValues('borrow.loan')! / getValues('borrow.collateral') >=
-                    item) ||
-                (!getValues('borrow.collateral') &&
-                  !getValues('borrow.collateral') &&
-                  item === 0)
-                  ? 'background'
-                  : 'bottomBackground'
-              }
-            >
-              {item}%
-            </Button>
-          ))}
-        </Box>
-      </Box>
+      <BorrowFormLiquidationFee
+        setValue={setValue}
+        control={control}
+        ltvRatio={ltvRatio}
+      />
     )}
-    <BorrowFormButton
-      watch={watch}
-      isBorrow={isBorrow}
-      buttonText={buttonText}
-    />
+    <BorrowFormButton control={control} isBorrow={isBorrow} />
   </Box>
 );
 

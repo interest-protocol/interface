@@ -1,13 +1,11 @@
-import Progress from 'components/svg/progress';
-import { ISwitchOption } from 'components/switch/switch.types';
 import { ethers } from 'ethers';
-import { useRouter } from 'next/router';
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Skeleton from 'react-loading-skeleton';
 import useSWR from 'swr';
 import { v4 } from 'uuid';
 
-import { Container, Switch } from '@/components';
+import { Container, Web3Manager } from '@/components';
 import priorityHooks from '@/connectors';
 import { DINERO_MARKET_CONTRACTS_MAP } from '@/constants/dinero-market-contracts.data';
 import {
@@ -16,13 +14,13 @@ import {
   TOKENS_SVG_MAP,
 } from '@/constants/erc-20.data';
 import { SECONDS_IN_A_YEAR } from '@/constants/index';
-import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Typography } from '@/elements';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { Fraction } from '@/sdk/entities/fraction';
 import { IntMath } from '@/sdk/entities/int-math';
-import { InfoSVG } from '@/svg';
-import { formatMoney } from '@/utils';
+import { InfoSVG, ProgressSVG } from '@/svg';
+import {} from '@/svg';
+import { formatDollars, formatMoney } from '@/utils';
 import {
   calculateDineroLeftToBorrow,
   calculateLiquidationPrice,
@@ -35,16 +33,23 @@ import { getERC20Balance } from '@/utils/erc-20';
 import { IBorrowFormField } from '@/views/dapp/views/dinero-market/components/borrow-form/borrow-form.types';
 
 import GoBack from '../../components/go-back';
-import Layout from '../../components/layout';
 import BorrowForm from './components/borrow-form';
-import { LOAN_INFO, MY_POSITION } from './dinero-market.data';
+import {
+  BORROW_DEFAULT_VALUES,
+  LOAN_INFO,
+  MY_POSITION,
+} from './dinero-market.data';
 import { DineroMarketProps, IBorrowForm } from './dinero-market.types';
+import DineroMarketSwitch from './dinero-market-switch';
 
 const { usePriorityAccount, usePriorityProvider, usePriorityChainId } =
   priorityHooks;
 
 const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
-  const { push } = useRouter();
+  const [isGettingData, setIsGettingData] = useState(false);
+  const form = useForm<IBorrowForm>({
+    defaultValues: BORROW_DEFAULT_VALUES,
+  });
 
   const account = usePriorityAccount();
   const provider = usePriorityProvider();
@@ -53,7 +58,11 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
   const { data } = useSWR(
     `${account}-${currency}-${chainId}-dinero-market`,
     async () => {
-      if (!account || !provider || !chainId) return Promise.reject();
+      setIsGettingData(true);
+      if (!account || !provider || !chainId) {
+        setIsGettingData(false);
+        return Promise.reject();
+      }
 
       const dineroMarketContract =
         DINERO_MARKET_CONTRACTS_MAP[chainId][currency];
@@ -72,6 +81,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
         getDineroMarketUserData(dineroMarketContract, account, provider),
       ]);
 
+      setIsGettingData(false);
       return {
         balances: [
           CurrencyAmount.fromRawAmount(
@@ -88,31 +98,85 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
     }
   );
 
-  const borrowFieldsData = useMemo(() => {
-    return data?.balances.map((x) => {
-      const SVG = TOKENS_SVG_MAP[x.currency.symbol];
-      if (x.currency.symbol === TOKEN_SYMBOL.DNR)
-        return {
-          currency: TOKEN_SYMBOL.DNR,
-          CurrencySVG: SVG,
-          name: 'borrow.collateral',
-          label: 'Deposit Collateral',
-          max: 0,
-          amount: '0',
-          amountUSD: 0,
-        } as IBorrowFormField;
+  const repayFieldsData = useMemo(
+    () =>
+      data?.balances.reduce((acc, x) => {
+        const SVG = TOKENS_SVG_MAP[x.currency.symbol];
+        if (x.currency.symbol === TOKEN_SYMBOL.DNR)
+          return [
+            ...acc,
+            {
+              amount: '0',
+              amountUSD: 1,
+              CurrencySVG: SVG,
+              name: 'repay.loan',
+              label: 'Repay Dinero',
+              max: +x.toSignificant(4),
+              currency: TOKEN_SYMBOL.DNR,
+            } as IBorrowFormField,
+          ];
 
-      return {
-        currency,
-        CurrencySVG: SVG,
-        name: 'borrow.loan',
-        label: 'Deposit Collateral',
-        max: +x.toSignificant(4),
-        amount: '0',
-        amountUSD: 0,
-      } as IBorrowFormField;
-    });
-  }, [data, currency]);
+        if (x.currency.symbol === currency)
+          return [
+            ...acc,
+            {
+              currency,
+              amount: '0',
+              CurrencySVG: SVG,
+              max: +x.toSignificant(4),
+              name: 'repay.collateral',
+              label: 'Remove Collateral',
+              amountUSD: data?.market.exchangeRate.isZero()
+                ? 0
+                : data?.market.exchangeRate
+                    .div(ethers.utils.parseEther('1'))
+                    .toNumber() || 0,
+            } as IBorrowFormField,
+          ];
+        return acc;
+      }, [] as ReadonlyArray<IBorrowFormField>),
+    [data, currency]
+  );
+
+  const borrowFieldsData = useMemo(
+    () =>
+      data?.balances.reduce((acc, x) => {
+        const SVG = TOKENS_SVG_MAP[x.currency.symbol];
+        if (x.currency.symbol === TOKEN_SYMBOL.DNR)
+          return [
+            ...acc,
+            {
+              max: 0,
+              amount: '0',
+              amountUSD: 1,
+              CurrencySVG: SVG,
+              name: 'borrow.loan',
+              label: 'Borrow Dinero',
+              currency: TOKEN_SYMBOL.DNR,
+            } as IBorrowFormField,
+          ];
+
+        if (x.currency.symbol === currency)
+          return [
+            ...acc,
+            {
+              currency,
+              amount: '0',
+              CurrencySVG: SVG,
+              max: +x.toSignificant(4),
+              name: 'borrow.collateral',
+              label: 'Deposit Collateral',
+              amountUSD: data?.market.exchangeRate.isZero()
+                ? 0
+                : data?.market.exchangeRate
+                    .div(ethers.utils.parseEther('1'))
+                    .toNumber() || 0,
+            } as IBorrowFormField,
+          ];
+        return acc;
+      }, [] as ReadonlyArray<IBorrowFormField>),
+    [data, currency]
+  );
 
   const borrowFormLoanData = useMemo(() => ['0', '0', '0'], [data]);
 
@@ -182,43 +246,6 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
     ];
   }, [data, currency]);
 
-  const form = useForm<IBorrowForm>({
-    defaultValues: {
-      borrow: {
-        collateral: 0,
-        loan: null,
-      },
-      repay: {
-        collateral: 0,
-        loan: null,
-      },
-    },
-    mode: 'onBlur',
-  });
-
-  const switchTo = (targetMode: 'borrow' | 'repay') => () =>
-    push(
-      `${Routes[RoutesEnum.Borrow]}?mode=${targetMode}&currency=${currency}`,
-      undefined,
-      {
-        shallow: true,
-      }
-    );
-
-  const options: [ISwitchOption, ISwitchOption] = useMemo(
-    () => [
-      {
-        value: 'borrow',
-        onSelect: switchTo('borrow'),
-      },
-      {
-        value: 'repay',
-        onSelect: switchTo('repay'),
-      },
-    ],
-    [currency, mode]
-  );
-
   const onSubmitBorrow = (data: IBorrowForm) => {
     console.log(data);
   };
@@ -228,7 +255,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
   };
 
   return (
-    <Layout>
+    <Web3Manager>
       <Container
         dapp
         my="XL"
@@ -245,12 +272,13 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
         </Box>
         <Box>
           <Box bg="foreground" textAlign="center" p="L" borderRadius="L">
-            <Switch defaultValue={mode} options={options} />
+            <DineroMarketSwitch currency={currency} mode={mode} />
           </Box>
           <Box
             my="L"
             rowGap="0.7rem"
             columnGap="0.7rem"
+            gridTemplateColumns="1fr 1fr"
             display={['flex', 'flex', 'flex', 'grid']}
             alignItems={['stretch', 'stretch', 'stretch', 'start']}
             flexDirection={['column', 'column', 'column', 'unset']}
@@ -258,20 +286,30 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
           >
             {mode === 'borrow' && (
               <BorrowForm
-                loanData={borrowFormLoanData}
                 isBorrow
-                buttonText="Add collateral and Borrow"
-                fields={borrowFieldsData || []}
+                loading={isGettingData}
                 onSubmit={onSubmitBorrow}
+                loanData={borrowFormLoanData}
+                fields={borrowFieldsData || []}
+                ltvRatio={
+                  +IntMath.from(data!.market.ltvRatio)
+                    .toPercentage()
+                    .replace(' %', '')
+                }
                 {...form}
               />
             )}
             {mode === 'repay' && (
               <BorrowForm
-                loanData={borrowFormLoanData}
-                buttonText="Remove collateral and Repay loan"
-                fields={borrowFieldsData || []}
+                loading={isGettingData}
                 onSubmit={onSubmitRepay}
+                loanData={borrowFormLoanData}
+                fields={repayFieldsData || []}
+                ltvRatio={
+                  +IntMath.from(data!.market.ltvRatio)
+                    .toPercentage()
+                    .replace(' %', '')
+                }
                 {...form}
               />
             )}
@@ -296,19 +334,29 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                   LTV
                 </Typography>
                 <Typography variant="normal" color="textSecondary">
-                  {data?.market
-                    ? calculateUserLTVRatio(
-                        data.market.ltvRatio,
-                        data.market.totalLoan,
-                        data.market.userCollateral,
-                        data.market.userLoan
-                      ).toPercentage()
-                    : '0'}{' '}
+                  {isGettingData ? (
+                    <Typography
+                      width="4rem"
+                      variant="normal"
+                      display="inline-block"
+                    >
+                      <Skeleton />
+                    </Typography>
+                  ) : data?.market ? (
+                    calculateUserLTVRatio(
+                      data.market.ltvRatio,
+                      data.market.totalLoan,
+                      data.market.userCollateral,
+                      data.market.userLoan
+                    ).toPercentage()
+                  ) : (
+                    '0'
+                  )}{' '}
                   of 100%
                 </Typography>
               </Box>
               <Box color="accent" mt="L">
-                <Progress
+                <ProgressSVG
                   progress={
                     data?.market
                       ? calculateUserLTVRatio(
@@ -366,7 +414,17 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                     {name}
                   </Typography>
                   <Typography variant="normal" color="textSecondary">
-                    {loanInfoData[i]}
+                    {isGettingData ? (
+                      <Typography
+                        width="3rem"
+                        variant="normal"
+                        display="inline-block"
+                      >
+                        <Skeleton />
+                      </Typography>
+                    ) : (
+                      loanInfoData[i]
+                    )}
                   </Typography>
                 </Box>
               ))}
@@ -412,17 +470,27 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
               ))}
               <Box mt="XL">
                 <Typography variant="normal" textAlign="center" mb="M">
-                  DNR: $1
+                  DNR: {formatDollars(1)}
                 </Typography>
                 <Typography variant="normal" textAlign="center" mb="M">
-                  BTC: $
-                  {`${formatMoney(
-                    data?.market.exchangeRate.isZero()
-                      ? 0
-                      : data?.market.exchangeRate
-                          .div(ethers.utils.parseEther('1'))
-                          .toNumber() || 0
-                  )}`}
+                  BTC:{' '}
+                  {isGettingData ? (
+                    <Typography
+                      width="4rem"
+                      variant="normal"
+                      display="inline-block"
+                    >
+                      <Skeleton />
+                    </Typography>
+                  ) : (
+                    `${formatDollars(
+                      data?.market.exchangeRate.isZero()
+                        ? 0
+                        : data?.market.exchangeRate
+                            .div(ethers.utils.parseEther('1'))
+                            .toNumber() || 0
+                    )}`
+                  )}
                 </Typography>
               </Box>
             </Box>
@@ -437,32 +505,44 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
               <Typography variant="normal" textTransform="uppercase" mt="L">
                 Your balance:
               </Typography>
-              {data?.balances.map((x) => {
-                const SVG = TOKENS_SVG_MAP[x.currency.symbol];
-                return (
-                  <Box
-                    key={v4()}
-                    display="flex"
-                    justifyContent="space-between"
-                    my="L"
-                  >
-                    <Box display="flex">
-                      <SVG width="1rem" />
-                      <Typography ml="M" variant="normal">
-                        {x.currency.name}
+              {isGettingData ? (
+                <Box
+                  my="XL"
+                  rowGap="0.7rem"
+                  display="grid"
+                  gridTemplateRows="1fr 1fr"
+                >
+                  <Skeleton wrapper={Box} />
+                  <Skeleton wrapper={Box} />
+                </Box>
+              ) : (
+                data?.balances.map((x) => {
+                  const SVG = TOKENS_SVG_MAP[x.currency.symbol];
+                  return (
+                    <Box
+                      key={v4()}
+                      display="flex"
+                      justifyContent="space-between"
+                      my="L"
+                    >
+                      <Box display="flex">
+                        <SVG width="1rem" />
+                        <Typography ml="M" variant="normal">
+                          {x.currency.name}
+                        </Typography>
+                      </Box>
+                      <Typography variant="normal" color="textSecondary">
+                        {formatMoney(+x.toSignificant(4))}
                       </Typography>
                     </Box>
-                    <Typography variant="normal" color="textSecondary">
-                      {x.toSignificant(4)}
-                    </Typography>
-                  </Box>
-                );
-              })}
+                  );
+                })
+              )}
             </Box>
           </Box>
         </Box>
       </Container>
-    </Layout>
+    </Web3Manager>
   );
 };
 

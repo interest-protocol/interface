@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers';
 import { FC, SVGAttributes } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
@@ -15,14 +14,19 @@ export interface IBorrowFormField {
 }
 
 export interface BorrowFormButtonProps
-  extends Pick<UseFormReturn<IBorrowForm>, 'watch'> {
+  extends Pick<UseFormReturn<IBorrowForm>, 'control'> {
   isBorrow?: boolean;
-  buttonText: string;
 }
 export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
+  loading?: boolean;
   isBorrow?: boolean;
-  buttonText: string;
+  ltvRatio: number | undefined;
+  loanData: ReadonlyArray<string>;
   onSubmit: (data: IBorrowForm) => void;
   fields: ReadonlyArray<IBorrowFormField>;
-  loanData: ReadonlyArray<string>;
+}
+
+export interface BorrowFormLiquidationProps
+  extends Pick<UseFormReturn<IBorrowForm>, 'control' | 'setValue'> {
+  ltvRatio: number | undefined;
 }

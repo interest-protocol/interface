@@ -11,6 +11,7 @@ import {
   position,
   shadow,
   space,
+  system,
   typography,
   variant,
 } from 'styled-system';
@@ -34,7 +35,10 @@ const Button = forwardRef(({ hover, active, ...props }: ButtonProps, ref) => {
       position,
       layout,
       flexbox,
-      typography
+      typography,
+      system({
+        cursor: true,
+      })
     )
   );
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

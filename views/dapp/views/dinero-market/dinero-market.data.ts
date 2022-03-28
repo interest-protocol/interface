@@ -39,3 +39,14 @@ export const MY_POSITION = [
     name: 'Withdraw amount',
   },
 ];
+
+export const BORROW_DEFAULT_VALUES = {
+  borrow: {
+    collateral: 0,
+    loan: null,
+  },
+  repay: {
+    collateral: 0,
+    loan: null,
+  },
+};
