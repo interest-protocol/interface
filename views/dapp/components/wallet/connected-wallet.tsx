@@ -4,18 +4,25 @@ import { FC, useState } from 'react';
 import hooks from '@/connectors';
 import { Box, Button, Typography } from '@/elements';
 import { useGetUserCurrency } from '@/hooks/use-get-user-currency';
+import { useIsMounted } from '@/hooks/use-is-mounted';
 import { LoadingSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
 import AccountModal from './wallet-modal/account-modal';
 
-const { usePriorityAccount } = hooks;
+const { usePriorityAccount, usePriorityProvider } = hooks;
 
 const ConnectedWallet: FC = () => {
   const account = usePriorityAccount();
+  const provider = usePriorityProvider();
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const toggleModal = () => setShowModal((state) => !state);
+  const isMounted = useIsMounted();
+
+  const toggleModal = () => {
+    if (!isMounted.current) return;
+    setShowModal((state) => !state);
+  };
 
   const { amount, symbol } = useGetUserCurrency();
 
@@ -71,6 +78,7 @@ const ConnectedWallet: FC = () => {
         </Typography>
       </Button>
       <AccountModal
+        url={provider?.connection?.url || ''}
         account={account!}
         showModal={showModal}
         toggleModal={toggleModal}

@@ -207,6 +207,23 @@
     source-map "^0.5.7"
     stylis "^4.0.3"
 
+"@emotion/babel-plugin@^11.7.2":
+  version "11.7.2"
+  resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.7.2.tgz#fec75f38a6ab5b304b0601c74e2a5e77c95e5fa0"
+  dependencies:
+    "@babel/helper-module-imports" "^7.12.13"
+    "@babel/plugin-syntax-jsx" "^7.12.13"
+    "@babel/runtime" "^7.13.10"
+    "@emotion/hash" "^0.8.0"
+    "@emotion/memoize" "^0.7.5"
+    "@emotion/serialize" "^1.0.2"
+    babel-plugin-macros "^2.6.1"
+    convert-source-map "^1.5.0"
+    escape-string-regexp "^4.0.0"
+    find-root "^1.1.0"
+    source-map "^0.5.7"
+    stylis "4.0.13"
+
 "@emotion/cache@^11.4.0":
   version "11.4.0"
   resolved "https://registry.npmjs.org/@emotion/cache/-/cache-11.4.0.tgz"
@@ -3380,7 +3397,6 @@ negotiator@^0.6.1:
 next-progress@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/next-progress/-/next-progress-2.0.1.tgz#465acc1e2638ffe6912a00df6b92d903f1ebaa0c"
-  integrity sha512-RGqBuv7B4V0oLVM+C2OUJDgrAKmE8UbjXW+wEZMHFlcz0eeYGbW8V7OjRAPE8ip6ZLg95swtbNoXCYVtcF0LPw==
   dependencies:
     next "^12.1.0"
     nprogress "^0.2.0"
@@ -3446,7 +3462,6 @@ npm-run-path@^4.0.0, npm-run-path@^4.0.1:
 nprogress@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/nprogress/-/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
-  integrity sha1-y480xTIT2JVyP8urkH6UIq28r7E=
 
 object-assign@^4.1.1:
   version "4.1.1"
@@ -4335,6 +4350,10 @@ styled-system@^5.1.5:
     "@styled-system/typography" "^5.1.2"
     "@styled-system/variant" "^5.1.5"
     object-assign "^4.1.1"
+
+stylis@4.0.13:
+  version "4.0.13"
+  resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.0.13.tgz#f5db332e376d13cc84ecfe5dace9a2a51d954c91"
 
 stylis@^4.0.3:
   version "4.0.10"
