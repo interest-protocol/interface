@@ -182,6 +182,7 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
           </Typography>
           {data?.map((x) => {
             const SVG = TOKENS_SVG_MAP[x.currency.symbol];
+
             return (
               <Box
                 key={v4()}
@@ -192,7 +193,7 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
                 <Box display="flex">
                   <SVG width="1rem" />
                   <Typography ml="M" variant="normal">
-                    {x.toSignificant(2)}
+                    {x.toSignificant(4)}
                   </Typography>
                 </Box>
                 <Typography variant="normal" color="textSecondary">

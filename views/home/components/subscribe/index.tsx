@@ -16,7 +16,6 @@ const Subscribe: FC = () => {
       fetch(`/api/v1/mail/subscribe?email=${email}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log('Data :::: ', data);
           if (data.httpStatus >= 400) throw data;
           if (data.httpStatus == 200) return data;
         }),
