@@ -17,6 +17,7 @@ const InputMoney: FC<InputMoneyProps> = ({
   setValue,
   amountUSD,
   CurrencySVG,
+  currencyDiff,
 }) => {
   return (
     <Box mb="L">
@@ -30,9 +31,7 @@ const InputMoney: FC<InputMoneyProps> = ({
       </Typography>
       <Input
         min="0"
-        max={max}
         type="number"
-        step="0.0001"
         placeholder={amount}
         {...register(name)}
         shieldProps={{
@@ -59,9 +58,9 @@ const InputMoney: FC<InputMoneyProps> = ({
             <InputMaxButton
               max={max}
               name={name}
-              amount={amount}
               control={control}
               setValue={setValue}
+              currencyDiff={currencyDiff!}
             />
             <Box
               px="L"

@@ -8,16 +8,18 @@ import { InputMaxButtonProps } from './input-money.types';
 const InputMaxButton: FC<InputMaxButtonProps> = ({
   max,
   name,
-  amount,
-  setValue,
   control,
+  setValue,
+  currencyDiff,
 }) => {
+  const collateral = useWatch({ control, name: 'borrow.collateral' });
   const liquidationFee = useWatch({ control, name: 'borrow.liquidationFee' });
   const [innerMax, setInnerMax] = useState(max);
 
   useEffect(() => {
-    if (name === 'borrow.loan') setInnerMax(liquidationFee * +amount);
-  }, [liquidationFee]);
+    if (name === 'borrow.loan')
+      setInnerMax(liquidationFee * currencyDiff * collateral);
+  }, [liquidationFee, collateral]);
 
   return (
     <Button

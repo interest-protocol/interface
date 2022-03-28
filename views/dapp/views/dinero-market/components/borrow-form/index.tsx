@@ -21,6 +21,7 @@ const BorrowForm: FC<BorrowFormProps> = ({
   setValue,
   register,
   ltvRatio,
+  currencyDiff,
   handleSubmit,
 }) => (
   <Box
@@ -46,6 +47,7 @@ const BorrowForm: FC<BorrowFormProps> = ({
           control={control}
           register={register}
           setValue={setValue}
+          currencyDiff={currencyDiff}
           {...input}
         />
       )

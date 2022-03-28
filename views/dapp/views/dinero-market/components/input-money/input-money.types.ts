@@ -13,6 +13,7 @@ export interface InputMoneyProps
   amount: string;
   currency: string;
   amountUSD: number;
+  currencyDiff?: number;
   CurrencySVG: FC<SVGAttributes<SVGSVGElement>>;
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
 }
@@ -26,6 +27,6 @@ export interface InputMoneySuffixProps
 export interface InputMaxButtonProps
   extends Pick<UseFormReturn<IBorrowForm>, 'control' | 'setValue'> {
   max?: number;
-  amount: string;
+  currencyDiff: number;
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
 }

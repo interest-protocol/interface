@@ -146,9 +146,9 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
           return [
             ...acc,
             {
-              max: 0,
-              amount: '0',
+              max: 2500,
               amountUSD: 1,
+              amount: '2500',
               CurrencySVG: SVG,
               name: 'borrow.loan',
               label: 'Borrow Dinero',
@@ -287,14 +287,23 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
             {mode === 'borrow' && (
               <BorrowForm
                 isBorrow
+                currencyDiff={
+                  (data?.market.exchangeRate.isZero()
+                    ? 0
+                    : data?.market.exchangeRate
+                        .div(ethers.utils.parseEther('1'))
+                        .toNumber() || 0) / 1
+                }
                 loading={isGettingData}
                 onSubmit={onSubmitBorrow}
                 loanData={borrowFormLoanData}
                 fields={borrowFieldsData || []}
                 ltvRatio={
-                  +IntMath.from(data!.market.ltvRatio)
-                    .toPercentage()
-                    .replace(' %', '')
+                  data
+                    ? +IntMath.from(data.market.ltvRatio)
+                        .toPercentage()
+                        .replace(' %', '')
+                    : undefined
                 }
                 {...form}
               />
@@ -305,10 +314,19 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                 onSubmit={onSubmitRepay}
                 loanData={borrowFormLoanData}
                 fields={repayFieldsData || []}
+                currencyDiff={
+                  (data?.market.exchangeRate.isZero()
+                    ? 0
+                    : data?.market.exchangeRate
+                        .div(ethers.utils.parseEther('1'))
+                        .toNumber() || 0) / 1
+                }
                 ltvRatio={
-                  +IntMath.from(data!.market.ltvRatio)
-                    .toPercentage()
-                    .replace(' %', '')
+                  data
+                    ? +IntMath.from(data.market.ltvRatio)
+                        .toPercentage()
+                        .replace(' %', '')
+                    : undefined
                 }
                 {...form}
               />

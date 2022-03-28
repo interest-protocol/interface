@@ -20,6 +20,7 @@ export interface BorrowFormButtonProps
 export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
   loading?: boolean;
   isBorrow?: boolean;
+  currencyDiff?: number;
   ltvRatio: number | undefined;
   loanData: ReadonlyArray<string>;
   onSubmit: (data: IBorrowForm) => void;
