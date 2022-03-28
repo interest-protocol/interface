@@ -6,8 +6,10 @@ import { Box, Button, Typography } from '@/elements';
 import { taxes } from '../../borrow.data';
 import InputMoney from '../input-money';
 import { BorrowFormProps } from './borrow-form.types';
+import BorrowFormButton from './borrow-form-button';
 
 const BorrowForm: FC<BorrowFormProps> = ({
+  watch,
   fields,
   onSubmit,
   isBorrow,
@@ -82,29 +84,11 @@ const BorrowForm: FC<BorrowFormProps> = ({
         </Box>
       </Box>
     )}
-    <Box display="flex" justifyContent="center" mt="XXL">
-      {(isBorrow &&
-        !getValues('borrow.loan') &&
-        !getValues('borrow.collateral')) ||
-      (!isBorrow &&
-        !getValues('repay.loan') &&
-        !getValues('repay.collateral')) ? (
-        <Box
-          py="L"
-          px="XL"
-          fontSize="S"
-          bg="disabled"
-          borderRadius="M"
-          cursor="not-allowed"
-        >
-          No Request
-        </Box>
-      ) : (
-        <Button variant="primary" hover={{ bg: 'accentActive' }}>
-          {buttonText}
-        </Button>
-      )}
-    </Box>
+    <BorrowFormButton
+      watch={watch}
+      isBorrow={isBorrow}
+      buttonText={buttonText}
+    />
   </Box>
 );
 

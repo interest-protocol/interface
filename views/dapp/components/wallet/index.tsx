@@ -48,6 +48,8 @@ const Wallet: FC = () => {
   );
 
   useEffect(() => {
+    let isMounted = true;
+    if (!isMounted) return;
     if (!isSwitchingNetworks && !failedSwitchingNetwork)
       (async () => {
         try {
@@ -60,6 +62,9 @@ const Wallet: FC = () => {
           setIsSwitchingNetworks(false);
         }
       })();
+    return () => {
+      isMounted = false;
+    };
   }, [error]);
 
   if (!isActive && !isActivating) return <ConnectWallet />;

@@ -3,6 +3,8 @@ import React, { FC, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
+import { useIsMounted } from '@/hooks/use-is-mounted';
+
 import Box from '../box';
 import Typography from '../typography';
 import { ResponsiveTableProps, TableLoadingProps } from './table.types';
@@ -61,7 +63,7 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
   hasButton,
 }) => {
   const Tooltip = dynamic(() => import('react-tooltip'));
-
+  const isMounted = useIsMounted();
   return (
     <>
       <Box
@@ -205,7 +207,9 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
           </Box>
         ))}
       </Box>
-      <Tooltip place="top" type="dark" effect="solid" multiline />
+      {isMounted.current && (
+        <Tooltip place="top" type="dark" effect="solid" multiline />
+      )}
     </>
   );
 };

@@ -9,7 +9,7 @@ import { Container, Switch } from '@/components';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Typography } from '@/elements';
 import { useGetUserCurrency } from '@/hooks/use-get-user-currency';
-import { BinanceSVG, DineroSVG, InfoSVG } from '@/svg';
+import { BitcoinSVG, DineroSVG, InfoSVG } from '@/svg';
 import { formatMoney } from '@/utils';
 
 import GoBack from '../../components/go-back';
@@ -102,7 +102,7 @@ const Borrow: FC<BorrowProps> = ({ currency, mode }) => {
                 fields={[
                   {
                     currency,
-                    CurrencySVG: BinanceSVG,
+                    CurrencySVG: BitcoinSVG,
                     name: 'borrow.collateral',
                     label: 'Deposit Collateral',
                     max: +amount.toSignificant(4),
@@ -137,7 +137,7 @@ const Borrow: FC<BorrowProps> = ({ currency, mode }) => {
                   },
                   {
                     currency,
-                    CurrencySVG: BinanceSVG,
+                    CurrencySVG: BitcoinSVG,
                     name: 'repay.collateral',
                     label: 'Remove Collateral',
                     amount: amount.toSignificant(4),
@@ -257,7 +257,7 @@ const Borrow: FC<BorrowProps> = ({ currency, mode }) => {
                   1DNR = 1USD
                 </Typography>
                 <Typography variant="normal" textAlign="center" mb="M">
-                  1BNB = 3234USD
+                  1BTC = 3234USD
                 </Typography>
               </Box>
             </Box>
@@ -274,9 +274,9 @@ const Borrow: FC<BorrowProps> = ({ currency, mode }) => {
               </Typography>
               <Box display="flex" justifyContent="space-between" my="L">
                 <Box display="flex">
-                  <BinanceSVG width="1rem" />
+                  <BitcoinSVG width="1rem" />
                   <Typography ml="M" variant="normal">
-                    Binance Coin
+                    Bitcoin
                   </Typography>
                 </Box>
                 <Typography variant="normal" color="textSecondary">

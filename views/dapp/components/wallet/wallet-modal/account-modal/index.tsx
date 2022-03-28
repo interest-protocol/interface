@@ -8,14 +8,14 @@ import { shortAccount } from '@/utils';
 
 import { AccountModalProps } from '../../wallet.types';
 
-const { usePriorityConnector, usePriorityProvider } = hooks;
+const { usePriorityConnector } = hooks;
 
 const AccountModal: FC<AccountModalProps> = ({
+  url,
   account,
   showModal,
   toggleModal,
 }) => {
-  const provider = usePriorityProvider();
   const connector = usePriorityConnector();
 
   const disconnect = () => connector.deactivate();
@@ -55,9 +55,7 @@ const AccountModal: FC<AccountModalProps> = ({
           >
             <Typography fontSize="S" variant="normal" color="textSecondary">
               Connected with{' '}
-              {provider?.connection.url === 'metamask'
-                ? 'MetaMask'
-                : 'Wallet Connect'}
+              {url === 'metamask' ? 'MetaMask' : 'Wallet Connect'}
             </Typography>
             <Button
               ml="L"

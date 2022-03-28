@@ -18,4 +18,5 @@ export interface ConnectWalletProps {
 
 export interface AccountModalProps extends ConnectWalletProps {
   account: string;
+  url: string;
 }
