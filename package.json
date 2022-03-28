@@ -48,7 +48,7 @@
     "format": "prettier --write **/*.{js,ts,tsx}",
     "lint": "eslint . --fix --ext ts --ext tsx --ext js",
     "typechain": "typechain --target=ethers-v5 './constants/abi/**/*.abi.json'",
-    "postinstall": "npm run typechain"
+    "postinstall": "yarn typechain"
   },
   "eslintConfig": {
     "extends": [
