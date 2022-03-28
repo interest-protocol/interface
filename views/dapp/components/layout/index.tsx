@@ -13,6 +13,7 @@ import Footer from './footer';
 import Header from './header';
 import { LayoutProps } from './layout.types';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Tooltip = dynamic(() => import('react-tooltip'));
 
 const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
@@ -44,7 +45,7 @@ const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
           {children}
         </Box>
         <Footer />
-        <Tooltip place="top" type="dark" effect="solid" multiline />
+        {/* <Tooltip place="top" type="dark" effect="solid" multiline /> */}
       </Box>
     </ThemeProvider>
   );

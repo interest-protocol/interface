@@ -49,6 +49,7 @@ const InputMoney: FC<InputMoneyProps> = ({
           <Button
             px="M"
             fontSize="S"
+            type="button"
             height="100%"
             variant="secondary"
             bg="bottomBackground"

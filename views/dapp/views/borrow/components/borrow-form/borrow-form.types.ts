@@ -13,6 +13,11 @@ interface IBorrowFormField {
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
 }
 
+export interface BorrowFormButtonProps
+  extends Pick<UseFormReturn<IBorrowForm>, 'watch'> {
+  isBorrow?: boolean;
+  buttonText: string;
+}
 export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
   isBorrow?: boolean;
   buttonText: string;
