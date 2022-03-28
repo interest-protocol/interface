@@ -1,7 +1,7 @@
 import { FC, SVGAttributes } from 'react';
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
-import { IBorrowForm } from '../../borrow.types';
+import { IBorrowForm } from '../../dinero-market.types';
 
 export interface InputMoneyProps {
   max?: number;

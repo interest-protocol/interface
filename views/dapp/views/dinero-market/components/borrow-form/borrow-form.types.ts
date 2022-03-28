@@ -1,9 +1,10 @@
+import { BigNumber } from 'ethers';
 import { FC, SVGAttributes } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
-import { IBorrowForm } from '../../borrow.types';
+import { IBorrowForm } from '../../dinero-market.types';
 
-interface IBorrowFormField {
+export interface IBorrowFormField {
   max?: number;
   label: string;
   amount: string;
@@ -23,4 +24,5 @@ export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
   buttonText: string;
   onSubmit: (data: IBorrowForm) => void;
   fields: ReadonlyArray<IBorrowFormField>;
+  loanData: ReadonlyArray<string>;
 }

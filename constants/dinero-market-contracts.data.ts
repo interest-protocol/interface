@@ -9,3 +9,9 @@ export const DINERO_MARKET_CONTRACTS = {
     },
   ],
 };
+
+export const DINERO_MARKET_CONTRACTS_MAP = {
+  [CHAIN_ID.BSC_TEST_NET as number]: {
+    [TOKEN_SYMBOL.BTC as string]: '0x06b4A3622410270C40621D2E8E855386c54c323f',
+  },
+};

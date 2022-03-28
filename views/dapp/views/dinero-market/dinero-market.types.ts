@@ -1,4 +1,4 @@
-export interface BorrowProps {
+export interface DineroMarketProps {
   currency: string;
   mode: 'borrow' | 'repay';
 }

@@ -12,32 +12,40 @@ export class IntMath {
     this._value = BigNumber.from(_value);
   }
 
+  private parseValue(x: BigNumberish | IntMath): BigNumberish {
+    if (x instanceof IntMath) return x.value();
+
+    return x;
+  }
+
   public static from(value: BigNumberish): IntMath {
     return new IntMath(value);
   }
 
-  public div(x: BigNumberish): IntMath {
-    this._value = this._value.mul(ONE_ETHER).div(x);
+  public div(x: BigNumberish | IntMath): IntMath {
+    this._value = this._value.mul(ONE_ETHER).div(this.parseValue(x));
     return this;
   }
 
-  public mul(x: BigNumberish): IntMath {
-    this._value = this._value.mul(x).div(ONE_ETHER);
+  public mul(x: BigNumberish | IntMath): IntMath {
+    this._value = this._value
+      .mul(this.parseValue(this.parseValue(x)))
+      .div(ONE_ETHER);
     return this;
   }
 
-  public add(x: BigNumberish): IntMath {
-    this._value = this._value.add(x);
+  public add(x: BigNumberish | IntMath): IntMath {
+    this._value = this._value.add(this.parseValue(x));
     return this;
   }
 
-  public sub(x: BigNumberish): IntMath {
-    this._value = this._value.sub(x);
+  public sub(x: BigNumberish | IntMath): IntMath {
+    this._value = this._value.sub(this.parseValue(x));
     return this;
   }
 
-  public pow(x: BigNumberish): IntMath {
-    this._value = this._value.pow(x);
+  public pow(x: BigNumberish | IntMath): IntMath {
+    this._value = this._value.pow(this.parseValue(x));
     return this;
   }
 

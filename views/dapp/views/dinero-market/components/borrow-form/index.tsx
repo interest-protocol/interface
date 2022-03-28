@@ -3,10 +3,11 @@ import { v4 } from 'uuid';
 
 import { Box, Button, Typography } from '@/elements';
 
-import { taxes } from '../../borrow.data';
 import InputMoney from '../input-money';
 import { BorrowFormProps } from './borrow-form.types';
 import BorrowFormButton from './borrow-form-button';
+
+const INFO = ['Dinero Amount', 'Expected Liquidation Price', 'Position Health'];
 
 const BorrowForm: FC<BorrowFormProps> = ({
   watch,
@@ -18,6 +19,7 @@ const BorrowForm: FC<BorrowFormProps> = ({
   getValues,
   buttonText,
   handleSubmit,
+  loanData,
 }) => (
   <Box
     p="XL"
@@ -36,14 +38,12 @@ const BorrowForm: FC<BorrowFormProps> = ({
         {...input}
       />
     ))}
+
     <Box mt="XXL">
-      {taxes.map(({ name, value, percentual }) => (
+      {INFO.map((x, i) => (
         <Box key={v4()} display="flex" justifyContent="space-between" p="M">
-          <Typography variant="normal">{name}</Typography>
-          <Typography variant="normal">
-            {value}
-            {percentual && '%'}
-          </Typography>
+          <Typography variant="normal">{x}</Typography>
+          <Typography variant="normal">{loanData[i]}</Typography>
         </Box>
       ))}
     </Box>
