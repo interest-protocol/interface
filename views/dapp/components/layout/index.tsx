@@ -8,15 +8,16 @@ import { DAppTheme } from '@/design-system';
 import radii from '@/design-system/common/radii';
 import colors from '@/design-system/dapp-theme/colors';
 import { Box } from '@/elements';
+import { useIsMounted } from '@/hooks/use-is-mounted';
 
 import Footer from './footer';
 import Header from './header';
 import { LayoutProps } from './layout.types';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const Tooltip = dynamic(() => import('react-tooltip'));
-
 const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
+  const Tooltip = dynamic(() => import('react-tooltip'));
+  const isMounted = useIsMounted();
+
   return (
     <ThemeProvider theme={DAppTheme}>
       <Box color="text" height="100vh" display="flex" flexDirection="column">
@@ -45,7 +46,9 @@ const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
           {children}
         </Box>
         <Footer />
-        {/* <Tooltip place="top" type="dark" effect="solid" multiline /> */}
+        {isMounted.current && (
+          <Tooltip place="top" type="dark" effect="solid" multiline />
+        )}
       </Box>
     </ThemeProvider>
   );

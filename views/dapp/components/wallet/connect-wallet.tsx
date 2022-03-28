@@ -1,13 +1,19 @@
 import { FC, useState } from 'react';
 
 import { Box, Button } from '@/elements';
+import { useIsMounted } from '@/hooks/use-is-mounted';
 
 import { ConnectWalletModal } from './wallet-modal';
 
 const ConnectWallet: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const toggleModal = () => setShowModal((state) => !state);
+  const isMounted = useIsMounted();
+
+  const toggleModal = () => {
+    if (!isMounted.current) return;
+    setShowModal((state) => !state);
+  };
 
   return (
     <Box>
