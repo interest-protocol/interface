@@ -1,3 +1,4 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { ethers } from 'ethers';
 import { FC, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -34,6 +35,7 @@ import { IBorrowFormField } from '@/views/dapp/views/dinero-market/components/bo
 
 import GoBack from '../../components/go-back';
 import BorrowForm from './components/borrow-form';
+import { borrowFormValidation } from './components/borrow-form/borrow-form.validator';
 import {
   BORROW_DEFAULT_VALUES,
   LOAN_INFO,
@@ -48,7 +50,10 @@ const { usePriorityAccount, usePriorityProvider, usePriorityChainId } =
 const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
   const [isGettingData, setIsGettingData] = useState(false);
   const form = useForm<IBorrowForm>({
+    resolver: yupResolver(borrowFormValidation),
     defaultValues: BORROW_DEFAULT_VALUES,
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
   });
 
   const account = usePriorityAccount();
@@ -247,11 +252,11 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
   }, [data, currency]);
 
   const onSubmitBorrow = (data: IBorrowForm) => {
-    console.log(data);
+    console.log(data.borrow);
   };
 
   const onSubmitRepay = (data: IBorrowForm) => {
-    console.log(data);
+    console.log(data.repay);
   };
 
   return (
@@ -335,9 +340,9 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
               py="XL"
               px="XXL"
               order={1}
+              gridArea="b"
               bg="foreground"
               borderRadius="L"
-              gridArea="b"
             >
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="normal" display="flex" alignItems="center">
@@ -354,6 +359,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                 <Typography variant="normal" color="textSecondary">
                   {isGettingData ? (
                     <Typography
+                      as="span"
                       width="4rem"
                       variant="normal"
                       display="inline-block"
@@ -434,6 +440,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                   <Typography variant="normal" color="textSecondary">
                     {isGettingData ? (
                       <Typography
+                        as="span"
                         width="3rem"
                         variant="normal"
                         display="inline-block"
@@ -494,6 +501,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                   BTC:{' '}
                   {isGettingData ? (
                     <Typography
+                      as="span"
                       width="4rem"
                       variant="normal"
                       display="inline-block"

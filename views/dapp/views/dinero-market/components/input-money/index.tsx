@@ -90,10 +90,10 @@ const InputMoney: FC<InputMoneyProps> = ({
       />
       {error && (
         <Typography
-          variant="normal"
-          textAlign="right"
           fontSize="S"
           color="error"
+          variant="normal"
+          textAlign="right"
         >
           {error?.message}
         </Typography>

@@ -38,8 +38,16 @@ const BorrowForm: FC<BorrowFormProps> = ({
   >
     {fields.map((input) =>
       loading ? (
-        <Box mb="L">
-          <Typography variant="normal" width="10rem" fontSize="S" mt="M" mb="L">
+        <Box mb="L" key={v4()}>
+          <Typography
+            mt="M"
+            mb="L"
+            as="span"
+            fontSize="S"
+            width="10rem"
+            variant="normal"
+            display="inline-block"
+          >
             <Skeleton />
           </Typography>
           <Skeleton style={{ height: '2.3rem' }} />
@@ -59,8 +67,12 @@ const BorrowForm: FC<BorrowFormProps> = ({
     <Box mt="XXL">
       {INFO.map((x, i) => (
         <Box key={v4()} display="flex" justifyContent="space-between" p="M">
-          <Typography variant="normal">{x}</Typography>
-          <Typography variant="normal">{loanData[i]}</Typography>
+          <Typography variant="normal" as="span">
+            {x}
+          </Typography>
+          <Typography variant="normal" as="span">
+            {loanData[i]}
+          </Typography>
         </Box>
       ))}
     </Box>
