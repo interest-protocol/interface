@@ -4,7 +4,6 @@ import { FC, useState } from 'react';
 import hooks from '@/connectors';
 import { Box, Button, Typography } from '@/elements';
 import { useGetUserCurrency } from '@/hooks/use-get-user-currency';
-import { useIsMounted } from '@/hooks/use-is-mounted';
 import { LoadingSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
@@ -17,10 +16,7 @@ const ConnectedWallet: FC = () => {
   const provider = usePriorityProvider();
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const isMounted = useIsMounted();
-
   const toggleModal = () => {
-    if (!isMounted.current) return;
     setShowModal((state) => !state);
   };
 

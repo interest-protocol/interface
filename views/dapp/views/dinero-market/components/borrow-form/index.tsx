@@ -34,7 +34,7 @@ const BorrowForm: FC<BorrowFormProps> = ({
   >
     {fields.map((input) =>
       loading ? (
-        <Box mb="L">
+        <Box mb="L" key={v4()}>
           <Typography variant="normal" width="10rem" fontSize="S" mt="M" mb="L">
             <Skeleton />
           </Typography>
