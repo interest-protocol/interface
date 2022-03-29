@@ -42,12 +42,12 @@ export const MY_POSITION = [
 
 export const BORROW_DEFAULT_VALUES = {
   borrow: {
-    loan: null,
-    collateral: 0,
+    loan: '0',
+    collateral: '0',
     liquidationFee: 0.25,
   },
   repay: {
-    collateral: 0,
-    loan: null,
+    collateral: '0',
+    loan: '0',
   },
 };

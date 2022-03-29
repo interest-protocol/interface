@@ -50,10 +50,10 @@ const { usePriorityAccount, usePriorityProvider, usePriorityChainId } =
 const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
   const [isGettingData, setIsGettingData] = useState(false);
   const form = useForm<IBorrowForm>({
-    resolver: yupResolver(borrowFormValidation),
-    defaultValues: BORROW_DEFAULT_VALUES,
     mode: 'onBlur',
     reValidateMode: 'onBlur',
+    defaultValues: BORROW_DEFAULT_VALUES,
+    resolver: yupResolver(borrowFormValidation),
   });
 
   const account = usePriorityAccount();
@@ -153,10 +153,10 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
             {
               max: 2500,
               amountUSD: 1,
-              amount: '2500',
               CurrencySVG: SVG,
               name: 'borrow.loan',
               label: 'Borrow Dinero',
+              amount: x.toSignificant(4),
               currency: TOKEN_SYMBOL.DNR,
             } as IBorrowFormField,
           ];
@@ -166,10 +166,10 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
             ...acc,
             {
               currency,
-              amount: '0',
               CurrencySVG: SVG,
               max: +x.toSignificant(4),
               name: 'borrow.collateral',
+              amount: x.toSignificant(4),
               label: 'Deposit Collateral',
               amountUSD: data?.market.exchangeRate.isZero()
                 ? 0
@@ -181,6 +181,16 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
         return acc;
       }, [] as ReadonlyArray<IBorrowFormField>),
     [data, currency]
+  );
+
+  const currencyAmount = useMemo(
+    () =>
+      +(
+        data?.balances
+          .find((x) => x.currency.symbol === currency)
+          ?.toSignificant(4) ?? 0
+      ),
+    [data]
   );
 
   const borrowFormLoanData = useMemo(() => ['0', '0', '0'], [data]);
@@ -251,12 +261,23 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
     ];
   }, [data, currency]);
 
-  const onSubmitBorrow = (data: IBorrowForm) => {
-    console.log(data.borrow);
+  const onSubmitBorrow = () => {
+    if (
+      form.formState.errors.borrow ||
+      form.formState.errors.borrow?.['loan'] ||
+      form.formState.errors.borrow?.['collateral']
+    )
+      return;
+    console.log(form.getValues('borrow'));
   };
 
-  const onSubmitRepay = (data: IBorrowForm) => {
-    console.log(data.repay);
+  const onSubmitRepay = () => {
+    if (
+      form.formState.errors.repay ||
+      form.formState.errors.repay?.['loan'] ||
+      form.formState.errors.repay?.['collateral']
+    )
+      console.log(form.getValues('repay'));
   };
 
   return (
@@ -292,6 +313,11 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
             {mode === 'borrow' && (
               <BorrowForm
                 isBorrow
+                loading={isGettingData}
+                onSubmit={onSubmitBorrow}
+                loanData={borrowFormLoanData}
+                fields={borrowFieldsData || []}
+                currencyAmount={currencyAmount}
                 currencyDiff={
                   (data?.market.exchangeRate.isZero()
                     ? 0
@@ -299,10 +325,6 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                         .div(ethers.utils.parseEther('1'))
                         .toNumber() || 0) / 1
                 }
-                loading={isGettingData}
-                onSubmit={onSubmitBorrow}
-                loanData={borrowFormLoanData}
-                fields={borrowFieldsData || []}
                 ltvRatio={
                   +IntMath.from(data?.market.ltvRatio || 0)
                     .toPercentage()
@@ -317,6 +339,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                 onSubmit={onSubmitRepay}
                 loanData={borrowFormLoanData}
                 fields={repayFieldsData || []}
+                currencyAmount={currencyAmount}
                 currencyDiff={
                   (data?.market.exchangeRate.isZero()
                     ? 0
@@ -544,10 +567,10 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                   const SVG = TOKENS_SVG_MAP[x.currency.symbol];
                   return (
                     <Box
+                      my="L"
                       key={v4()}
                       display="flex"
                       justifyContent="space-between"
-                      my="L"
                     >
                       <Box display="flex">
                         <SVG width="1rem" />

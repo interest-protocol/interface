@@ -5,12 +5,12 @@ export interface DineroMarketProps {
 
 export interface IBorrowForm {
   repay: {
-    collateral: number;
-    loan: number | null;
+    collateral: string;
+    loan: string;
   };
   borrow: {
-    collateral: number;
-    loan: number | null;
+    collateral: string;
+    loan: string;
     liquidationFee: number;
   };
 }

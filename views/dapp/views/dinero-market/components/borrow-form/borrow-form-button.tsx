@@ -11,8 +11,10 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
   isBorrow,
   ltvRatio,
   setError,
+  onSubmit,
   clearErrors,
   currencyDiff,
+  currencyAmount,
 }) => {
   const repayLoan = useWatch({ control, name: 'repay.loan' });
   const borrowLoan = useWatch({ control, name: 'borrow.loan' });
@@ -24,7 +26,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
       errors.borrow?.loan?.type !== 'max' &&
       borrowLoan &&
       ltvRatio &&
-      borrowLoan > (ltvRatio / 100) * (borrowCollateral * currencyDiff)
+      +borrowLoan > (ltvRatio / 100) * (+borrowCollateral * currencyDiff)
     )
       setError('borrow.loan', {
         type: 'max',
@@ -35,15 +37,35 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
       errors.borrow?.loan?.type === 'max' &&
       borrowLoan &&
       ltvRatio &&
-      borrowLoan <= (ltvRatio / 100) * (borrowCollateral * currencyDiff)
+      +borrowLoan <= (ltvRatio / 100) * (+borrowCollateral * currencyDiff)
     )
       clearErrors('borrow.loan');
+  }, [borrowLoan, borrowCollateral]);
+
+  useEffect(() => {
+    if (
+      errors.borrow?.collateral?.type !== 'max' &&
+      borrowCollateral &&
+      +borrowCollateral > currencyAmount
+    )
+      setError('borrow.collateral', {
+        type: 'max',
+        message: 'The Collateral must not to be more than your balance',
+      });
+
+    if (
+      errors.borrow?.loan?.type === 'max' &&
+      borrowCollateral &&
+      +borrowCollateral <= currencyAmount
+    )
+      clearErrors('borrow.collateral');
   }, [borrowLoan, borrowCollateral]);
 
   return (
     <Box display="flex" justifyContent="center" mt="XXL">
       {isBorrow &&
-        (!borrowLoan && !borrowCollateral ? (
+        ((!borrowLoan && !borrowCollateral) ||
+        (+borrowCollateral === 0 && +borrowLoan === 0) ? (
           <Box
             py="L"
             px="XL"
@@ -59,10 +81,11 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
             type="submit"
             variant="primary"
             hover={{ bg: 'accentActive' }}
+            onClick={onSubmit}
           >
             {!!borrowLoan && !!borrowCollateral
               ? 'Add Collateral and Borrow'
-              : borrowCollateral
+              : +borrowCollateral > 0
               ? 'Add Collateral'
               : 'Borrow'}
           </Button>
@@ -84,6 +107,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
             type="submit"
             variant="primary"
             hover={{ bg: 'accentActive' }}
+            onClick={onSubmit}
           >
             {!!repayLoan && !!repayCollateral
               ? 'Remove Collateral and Repay Loan'

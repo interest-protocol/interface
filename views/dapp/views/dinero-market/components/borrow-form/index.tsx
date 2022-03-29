@@ -24,18 +24,10 @@ const BorrowForm: FC<BorrowFormProps> = ({
   setError,
   clearErrors,
   currencyDiff,
-  handleSubmit,
+  currencyAmount,
   formState: { errors },
 }) => (
-  <Box
-    p="XL"
-    as="form"
-    order={2}
-    gridArea="a"
-    bg="foreground"
-    borderRadius="L"
-    onSubmit={handleSubmit(onSubmit)}
-  >
+  <Box p="XL" order={2} gridArea="a" bg="foreground" borderRadius="L">
     {fields.map((input) =>
       loading ? (
         <Box mb="L" key={v4()}>
@@ -81,8 +73,10 @@ const BorrowForm: FC<BorrowFormProps> = ({
       isBorrow={isBorrow}
       ltvRatio={ltvRatio}
       setError={setError}
+      onSubmit={onSubmit}
       clearErrors={clearErrors}
       currencyDiff={currencyDiff!}
+      currencyAmount={currencyAmount}
     />
   </Box>
 );

@@ -20,16 +20,19 @@ export interface BorrowFormButtonProps
   > {
   isBorrow?: boolean;
   currencyDiff: number;
+  onSubmit: () => void;
+  currencyAmount: number;
   ltvRatio: number | undefined;
   errors: UseFormStateReturn<IBorrowForm>['errors'];
 }
 export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
   loading?: boolean;
   isBorrow?: boolean;
+  onSubmit: () => void;
   currencyDiff?: number;
+  currencyAmount: number;
   ltvRatio: number | undefined;
   loanData: ReadonlyArray<string>;
-  onSubmit: (data: IBorrowForm) => void;
   fields: ReadonlyArray<IBorrowFormField>;
 }
 
