@@ -1,5 +1,5 @@
 import { FC, SVGAttributes } from 'react';
-import { UseFormReturn } from 'react-hook-form';
+import { UseFormReturn, UseFormStateReturn } from 'react-hook-form';
 
 import { IBorrowForm } from '../../dinero-market.types';
 
@@ -14,8 +14,14 @@ export interface IBorrowFormField {
 }
 
 export interface BorrowFormButtonProps
-  extends Pick<UseFormReturn<IBorrowForm>, 'control'> {
+  extends Pick<
+    UseFormReturn<IBorrowForm>,
+    'control' | 'setError' | 'clearErrors'
+  > {
   isBorrow?: boolean;
+  currencyDiff: number;
+  ltvRatio: number | undefined;
+  errors: UseFormStateReturn<IBorrowForm>['errors'];
 }
 export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
   loading?: boolean;

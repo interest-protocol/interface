@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 
 import { Box, Input, Typography } from '@/elements';
 
@@ -11,6 +11,7 @@ const InputMoney: FC<InputMoneyProps> = ({
   name,
   label,
   amount,
+  errors,
   control,
   register,
   currency,
@@ -19,6 +20,16 @@ const InputMoney: FC<InputMoneyProps> = ({
   CurrencySVG,
   currencyDiff,
 }) => {
+  const labels = name.split('.');
+
+  const error = useMemo(
+    () =>
+      errors?.[labels[0] as 'borrow' | 'repay']?.[
+        labels[1] as 'collateral' | 'loan'
+      ],
+    [errors]
+  );
+
   return (
     <Box mb="L">
       <Typography
@@ -41,9 +52,9 @@ const InputMoney: FC<InputMoneyProps> = ({
           bg: 'background',
           borderRadius: 'M',
           border: '1px solid',
-          borderColor: 'transparent',
+          borderColor: error ? 'error' : 'transparent',
           hover: {
-            borderColor: 'accentBackground',
+            borderColor: error ? 'error' : 'accentBackground',
           },
         }}
         Suffix={
@@ -77,6 +88,16 @@ const InputMoney: FC<InputMoneyProps> = ({
           </>
         }
       />
+      {error && (
+        <Typography
+          variant="normal"
+          textAlign="right"
+          fontSize="S"
+          color="error"
+        >
+          {error?.message}
+        </Typography>
+      )}
     </Box>
   );
 };

@@ -1,5 +1,5 @@
 import { FC, SVGAttributes } from 'react';
-import { UseFormReturn } from 'react-hook-form';
+import { UseFormReturn, UseFormStateReturn } from 'react-hook-form';
 
 import { IBorrowForm } from '../../dinero-market.types';
 
@@ -15,6 +15,7 @@ export interface InputMoneyProps
   amountUSD: number;
   currencyDiff?: number;
   CurrencySVG: FC<SVGAttributes<SVGSVGElement>>;
+  errors: UseFormStateReturn<IBorrowForm>['errors'];
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
 }
 

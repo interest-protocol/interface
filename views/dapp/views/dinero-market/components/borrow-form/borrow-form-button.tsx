@@ -1,15 +1,44 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Box, Button } from '@/elements';
 
 import { BorrowFormButtonProps } from './borrow-form.types';
 
-const BorrowFormButton: FC<BorrowFormButtonProps> = ({ control, isBorrow }) => {
-  const borrowLoan = useWatch({ control, name: 'borrow.loan' });
-  const borrowCollateral = useWatch({ control, name: 'borrow.collateral' });
+const BorrowFormButton: FC<BorrowFormButtonProps> = ({
+  errors,
+  control,
+  isBorrow,
+  ltvRatio,
+  setError,
+  clearErrors,
+  currencyDiff,
+}) => {
   const repayLoan = useWatch({ control, name: 'repay.loan' });
+  const borrowLoan = useWatch({ control, name: 'borrow.loan' });
   const repayCollateral = useWatch({ control, name: 'repay.collateral' });
+  const borrowCollateral = useWatch({ control, name: 'borrow.collateral' });
+
+  useEffect(() => {
+    if (
+      errors.borrow?.loan?.type !== 'max' &&
+      borrowLoan &&
+      ltvRatio &&
+      borrowLoan > (ltvRatio / 100) * (borrowCollateral * currencyDiff)
+    )
+      setError('borrow.loan', {
+        type: 'max',
+        message: 'The Loan must to be less than LTV',
+      });
+
+    if (
+      errors.borrow?.loan?.type === 'max' &&
+      borrowLoan &&
+      ltvRatio &&
+      borrowLoan <= (ltvRatio / 100) * (borrowCollateral * currencyDiff)
+    )
+      clearErrors('borrow.loan');
+  }, [borrowLoan, borrowCollateral]);
 
   return (
     <Box display="flex" justifyContent="center" mt="XXL">

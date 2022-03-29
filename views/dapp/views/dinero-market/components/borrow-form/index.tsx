@@ -21,8 +21,11 @@ const BorrowForm: FC<BorrowFormProps> = ({
   setValue,
   register,
   ltvRatio,
+  setError,
+  clearErrors,
   currencyDiff,
   handleSubmit,
+  formState: { errors },
 }) => (
   <Box
     p="XL"
@@ -48,6 +51,7 @@ const BorrowForm: FC<BorrowFormProps> = ({
           register={register}
           setValue={setValue}
           currencyDiff={currencyDiff}
+          errors={errors}
           {...input}
         />
       )
@@ -67,7 +71,15 @@ const BorrowForm: FC<BorrowFormProps> = ({
         ltvRatio={ltvRatio}
       />
     )}
-    <BorrowFormButton control={control} isBorrow={isBorrow} />
+    <BorrowFormButton
+      errors={errors}
+      control={control}
+      isBorrow={isBorrow}
+      ltvRatio={ltvRatio}
+      setError={setError}
+      clearErrors={clearErrors}
+      currencyDiff={currencyDiff!}
+    />
   </Box>
 );
 
