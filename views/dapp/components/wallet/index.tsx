@@ -3,6 +3,7 @@ import { FC, useCallback, useEffect, useState } from 'react';
 
 import hooks from '@/connectors';
 import { Button } from '@/elements';
+import { useIsMounted } from '@/hooks/use-is-mounted';
 import { CHAIN_ID, getChainId } from '@/sdk/chains';
 import { switchToNetwork } from '@/utils/web3-provider';
 
@@ -30,6 +31,7 @@ const Wallet: FC = () => {
   const isActive = usePriorityIsActive();
   const connector = usePriorityConnector();
   const isActivating = usePriorityIsActivating();
+  const isMounted = useIsMounted();
 
   const switchNetwork = useCallback(
     async (x: CHAIN_ID): Promise<void> => {
@@ -84,7 +86,7 @@ const Wallet: FC = () => {
   return (
     <>
       <SelectNetwork switchNetwork={switchNetwork} />
-      <ConnectedWallet />
+      {isMounted.current && <ConnectedWallet />}
     </>
   );
 };

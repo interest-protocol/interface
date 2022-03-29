@@ -39,15 +39,7 @@ const BorrowForm: FC<BorrowFormProps> = ({
     {fields.map((input) =>
       loading ? (
         <Box mb="L" key={v4()}>
-          <Typography
-            mt="M"
-            mb="L"
-            as="span"
-            fontSize="S"
-            width="10rem"
-            variant="normal"
-            display="inline-block"
-          >
+          <Typography variant="normal" width="10rem" fontSize="S" mt="M" mb="L">
             <Skeleton />
           </Typography>
           <Skeleton style={{ height: '2.3rem' }} />

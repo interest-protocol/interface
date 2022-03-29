@@ -304,11 +304,9 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                 loanData={borrowFormLoanData}
                 fields={borrowFieldsData || []}
                 ltvRatio={
-                  data
-                    ? +IntMath.from(data.market.ltvRatio)
-                        .toPercentage()
-                        .replace(' %', '')
-                    : undefined
+                  +IntMath.from(data?.market.ltvRatio || 0)
+                    .toPercentage()
+                    .replace(' %', '')
                 }
                 {...form}
               />
@@ -356,7 +354,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                   </Box>
                   LTV
                 </Typography>
-                <Typography variant="normal" color="textSecondary">
+                <Typography as="div" variant="normal" color="textSecondary">
                   {isGettingData ? (
                     <Typography
                       as="span"
@@ -437,7 +435,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                     </Box>
                     {name}
                   </Typography>
-                  <Typography variant="normal" color="textSecondary">
+                  <Typography as="div" variant="normal" color="textSecondary">
                     {isGettingData ? (
                       <Typography
                         as="span"
@@ -497,7 +495,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                 <Typography variant="normal" textAlign="center" mb="M">
                   DNR: {formatDollars(1)}
                 </Typography>
-                <Typography variant="normal" textAlign="center" mb="M">
+                <Typography as="div" variant="normal" textAlign="center" mb="M">
                   BTC:{' '}
                   {isGettingData ? (
                     <Typography
