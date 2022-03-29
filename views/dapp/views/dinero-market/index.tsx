@@ -1,5 +1,5 @@
-import { ethers } from 'ethers';
-import { FC, useMemo, useState } from 'react';
+import { BigNumber, ethers } from 'ethers';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
 import useSWR from 'swr';
@@ -13,22 +13,27 @@ import {
   TOKEN_SYMBOL,
   TOKENS_SVG_MAP,
 } from '@/constants/erc-20.data';
-import { SECONDS_IN_A_YEAR } from '@/constants/index';
+import { SECONDS_IN_A_YEAR, ZERO } from '@/constants/index';
 import { Box, Typography } from '@/elements';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { Fraction } from '@/sdk/entities/fraction';
 import { IntMath } from '@/sdk/entities/int-math';
 import { InfoSVG, ProgressSVG } from '@/svg';
-import {} from '@/svg';
 import { formatDollars, formatMoney } from '@/utils';
 import {
+  addDineroMarketCollateral,
+  calculateBorrowAmount,
   calculateDineroLeftToBorrow,
+  calculateExpectedLiquidationPrice,
   calculateLiquidationPrice,
+  calculatePositionHealth,
   calculateUserLTVRatio,
+  getDineroMarketLoan,
   getDineroMarketUserData,
   loanPrincipalToElastic,
   safeAmountToWithdraw,
 } from '@/utils/dinero-market';
+import { addAllowance } from '@/utils/erc-20';
 import { getERC20Balance } from '@/utils/erc-20';
 import { IBorrowFormField } from '@/views/dapp/views/dinero-market/components/borrow-form/borrow-form.types';
 
@@ -54,6 +59,17 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
   const account = usePriorityAccount();
   const provider = usePriorityProvider();
   const chainId = usePriorityChainId();
+  const formState = form.getValues();
+
+  const handleAddAllowance = useCallback(() => {
+    if (!account || !chainId || !provider) return;
+    return addAllowance(
+      account,
+      BSC_TEST_ERC_20_DATA[currency].address,
+      provider,
+      DINERO_MARKET_CONTRACTS_MAP[chainId][currency]
+    );
+  }, [account, currency, provider, chainId]);
 
   const { data } = useSWR(
     `${account}-${currency}-${chainId}-dinero-market`,
@@ -78,7 +94,12 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
           BSC_TEST_ERC_20_DATA[TOKEN_SYMBOL.DNR].address,
           provider
         ),
-        getDineroMarketUserData(dineroMarketContract, account, provider),
+        getDineroMarketUserData(
+          dineroMarketContract,
+          account,
+          provider,
+          BSC_TEST_ERC_20_DATA[currency].address
+        ),
       ]);
 
       setIsGettingData(false);
@@ -100,85 +121,120 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
 
   const repayFieldsData = useMemo(
     () =>
-      data?.balances.reduce((acc, x) => {
+      data?.balances.map((x) => {
         const SVG = TOKENS_SVG_MAP[x.currency.symbol];
         if (x.currency.symbol === TOKEN_SYMBOL.DNR)
-          return [
-            ...acc,
-            {
-              amount: '0',
-              amountUSD: 1,
-              CurrencySVG: SVG,
-              name: 'repay.loan',
-              label: 'Repay Dinero',
-              max: +x.toSignificant(4),
-              currency: TOKEN_SYMBOL.DNR,
-            } as IBorrowFormField,
-          ];
+          return {
+            amount: '0',
+            amountUSD: 1,
+            CurrencySVG: SVG,
+            name: 'repay.loan',
+            label: 'Repay Dinero',
+            max: +x.toSignificant(4),
+            currency: TOKEN_SYMBOL.DNR,
+          } as IBorrowFormField;
 
-        if (x.currency.symbol === currency)
-          return [
-            ...acc,
-            {
-              currency,
-              amount: '0',
-              CurrencySVG: SVG,
-              max: +x.toSignificant(4),
-              name: 'repay.collateral',
-              label: 'Remove Collateral',
-              amountUSD: data?.market.exchangeRate.isZero()
-                ? 0
-                : data?.market.exchangeRate
-                    .div(ethers.utils.parseEther('1'))
-                    .toNumber() || 0,
-            } as IBorrowFormField,
-          ];
-        return acc;
-      }, [] as ReadonlyArray<IBorrowFormField>),
+        return {
+          currency,
+          amount: '0',
+          CurrencySVG: SVG,
+          max: +x.toSignificant(4),
+          name: 'repay.collateral',
+          label: 'Remove Collateral',
+          amountUSD: data?.market.exchangeRate.isZero()
+            ? 0
+            : data?.market.exchangeRate
+                .div(ethers.utils.parseEther('1'))
+                .toNumber() || 0,
+        } as IBorrowFormField;
+      }),
     [data, currency]
   );
 
   const borrowFieldsData = useMemo(
     () =>
-      data?.balances.reduce((acc, x) => {
+      data?.balances.map((x) => {
         const SVG = TOKENS_SVG_MAP[x.currency.symbol];
         if (x.currency.symbol === TOKEN_SYMBOL.DNR)
-          return [
-            ...acc,
-            {
-              max: 0,
-              amount: '0',
-              amountUSD: 1,
-              CurrencySVG: SVG,
-              name: 'borrow.loan',
-              label: 'Borrow Dinero',
-              currency: TOKEN_SYMBOL.DNR,
-            } as IBorrowFormField,
-          ];
+          return {
+            max: data
+              ? calculateBorrowAmount(
+                  data.market.userCollateral.add(
+                    BigNumber.from(formState.borrow.collateral).mul(
+                      ethers.utils.parseEther('1')
+                    )
+                  ),
+                  data.market.userLoan,
+                  data.market.exchangeRate,
+                  data.market.ltvRatio,
+                  data.market.totalLoan
+                )
+                  .value()
+                  .div(ethers.utils.parseEther('1'))
+                  .toNumber()
+              : 0,
+            amount: '0',
+            amountUSD: 1,
+            CurrencySVG: SVG,
+            name: 'borrow.loan',
+            label: 'Borrow Dinero',
+            currency: TOKEN_SYMBOL.DNR,
+          } as IBorrowFormField;
 
-        if (x.currency.symbol === currency)
-          return [
-            ...acc,
-            {
-              currency,
-              amount: '0',
-              CurrencySVG: SVG,
-              max: +x.toSignificant(4),
-              name: 'borrow.collateral',
-              label: 'Deposit Collateral',
-              amountUSD: data?.market.exchangeRate.isZero()
-                ? 0
-                : data?.market.exchangeRate
-                    .div(ethers.utils.parseEther('1'))
-                    .toNumber() || 0,
-            } as IBorrowFormField,
-          ];
-        return acc;
-      }, [] as ReadonlyArray<IBorrowFormField>),
-    [data, currency]
+        return {
+          currency,
+          amount: '0',
+          CurrencySVG: SVG,
+          max: +x.toSignificant(4),
+          name: 'borrow.collateral',
+          label: 'Deposit Collateral',
+          amountUSD: data?.market.exchangeRate.isZero()
+            ? 0
+            : data?.market.exchangeRate
+                .div(ethers.utils.parseEther('1'))
+                .toNumber() || 0,
+        } as IBorrowFormField;
+      }),
+    [data, currency, formState.borrow.collateral]
   );
 
-  const borrowFormLoanData = useMemo(() => ['0', '0', '0'], [data]);
+  const borrowFormLoanData = useMemo(() => {
+    if (!data) return ['0', '0', '0'];
+
+    const newBorrowAmount = data.market.userLoan.add(
+      IntMath.toBigNumber(formState.borrow.loan || 0)
+    );
+
+    const expectedLiquidationPrice = calculateExpectedLiquidationPrice(
+      data.market.ltvRatio,
+      data.market.totalLoan,
+      data.market.userCollateral,
+      data.market.userLoan,
+      formState.borrow.loan ? BigNumber.from(formState.borrow.loan) : ZERO
+    );
+
+    const positionHealth = calculatePositionHealth(
+      data.market.ltvRatio,
+      data.market.totalLoan,
+      data.market.userCollateral,
+      data.market.userLoan,
+      formState.borrow.loan ? BigNumber.from(formState.borrow.loan) : ZERO
+    );
+    return [
+      Fraction.from(
+        newBorrowAmount,
+        ethers.utils.parseEther('1')
+      ).toSignificant(4),
+      Fraction.from(
+        expectedLiquidationPrice.value(),
+        ethers.utils.parseEther('1')
+      ).toSignificant(4),
+      `${Fraction.from(
+        positionHealth.value(),
+        ethers.utils.parseEther('1')
+      ).toSignificant(4)} %`,
+    ];
+  }, [data?.market.userLoan, formState.borrow.loan]);
 
   const loanInfoData = useMemo(() => {
     if (!data || !data?.market) return ['0%', '0%', '0%'];
@@ -206,8 +262,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
           data.market.ltvRatio,
           data.market.totalLoan,
           data.market.userCollateral,
-          data.market.userLoan,
-          data.market.exchangeRate
+          data.market.userLoan
         ).value(),
         ethers.utils.parseEther('1')
       ).toSignificant(1)
@@ -246,8 +301,43 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
     ];
   }, [data, currency]);
 
-  const onSubmitBorrow = (data: IBorrowForm) => {
-    console.log(data);
+  const onSubmitBorrow = async (submitData: IBorrowForm) => {
+    if (
+      !chainId ||
+      !currency ||
+      !provider ||
+      !account ||
+      !data ||
+      data?.market.allowance.isZero()
+    )
+      return;
+
+    try {
+      if (submitData.borrow.collateral) {
+        const tx = await addDineroMarketCollateral(
+          DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
+          provider,
+          account,
+          BSC_TEST_ERC_20_DATA[currency].address,
+          IntMath.toBigNumber(submitData.borrow.collateral)
+        );
+
+        await tx.wait(2);
+      }
+
+      if (submitData.borrow.loan) {
+        const tx = await getDineroMarketLoan(
+          DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
+          provider,
+          account,
+          IntMath.toBigNumber(submitData.borrow.loan)
+        );
+
+        await tx.wait(2);
+      }
+    } catch (e: unknown) {
+      console.warn((e as Error).message);
+    }
   };
 
   const onSubmitRepay = (data: IBorrowForm) => {
@@ -291,11 +381,9 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                 onSubmit={onSubmitBorrow}
                 loanData={borrowFormLoanData}
                 fields={borrowFieldsData || []}
-                ltvRatio={
-                  +IntMath.from(data?.market.ltvRatio || 0)
-                    .toPercentage()
-                    .replace(' %', '')
-                }
+                data={data?.market}
+                allowance={data?.market.allowance || ZERO}
+                handleAddAllowance={handleAddAllowance}
                 {...form}
               />
             )}
@@ -305,11 +393,9 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                 onSubmit={onSubmitRepay}
                 loanData={borrowFormLoanData}
                 fields={repayFieldsData || []}
-                ltvRatio={
-                  +IntMath.from(data!.market.ltvRatio)
-                    .toPercentage()
-                    .replace(' %', '')
-                }
+                data={data?.market}
+                allowance={data?.market.allowance || ZERO}
+                handleAddAllowance={handleAddAllowance}
                 {...form}
               />
             )}

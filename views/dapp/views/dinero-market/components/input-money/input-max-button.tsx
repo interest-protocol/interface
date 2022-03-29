@@ -1,24 +1,10 @@
-import { FC, useEffect, useState } from 'react';
-import { useWatch } from 'react-hook-form';
+import { FC } from 'react';
 
 import { Button } from '@/elements';
 
 import { InputMaxButtonProps } from './input-money.types';
 
-const InputMaxButton: FC<InputMaxButtonProps> = ({
-  max,
-  name,
-  amount,
-  setValue,
-  control,
-}) => {
-  const liquidationFee = useWatch({ control, name: 'borrow.liquidationFee' });
-  const [innerMax, setInnerMax] = useState(max);
-
-  useEffect(() => {
-    if (name === 'borrow.loan') setInnerMax(liquidationFee * +amount);
-  }, [liquidationFee]);
-
+const InputMaxButton: FC<InputMaxButtonProps> = ({ max, name, setValue }) => {
   return (
     <Button
       px="M"
@@ -29,7 +15,7 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
       bg="bottomBackground"
       hover={{ bg: 'accent' }}
       active={{ bg: 'accentActive' }}
-      onClick={() => setValue?.(name, +(innerMax ?? 0))}
+      onClick={() => setValue?.(name, +(max ?? 0))}
     >
       max
     </Button>

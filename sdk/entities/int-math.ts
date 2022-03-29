@@ -1,4 +1,4 @@
-import { BigNumber, BigNumberish, utils } from 'ethers';
+import { BigNumber, BigNumberish, ethers, utils } from 'ethers';
 
 import { Fraction } from './fraction';
 const { parseEther } = utils;
@@ -20,6 +20,10 @@ export class IntMath {
 
   public static from(value: BigNumberish): IntMath {
     return new IntMath(value);
+  }
+
+  public static toBigNumber(value: number, decimals = 18): BigNumber {
+    return BigNumber.from(value).mul(BigNumber.from(10).pow(decimals));
   }
 
   public div(x: BigNumberish | IntMath): IntMath {

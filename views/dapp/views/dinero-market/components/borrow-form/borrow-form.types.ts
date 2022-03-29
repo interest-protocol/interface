@@ -1,5 +1,8 @@
+import { BigNumber, ContractTransaction } from 'ethers';
 import { FC, SVGAttributes } from 'react';
 import { UseFormReturn } from 'react-hook-form';
+
+import { GetDineroMarketUserDataReturn } from '@/utils/dinero-market/dinero-market.types';
 
 import { IBorrowForm } from '../../dinero-market.types';
 
@@ -20,13 +23,15 @@ export interface BorrowFormButtonProps
 export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
   loading?: boolean;
   isBorrow?: boolean;
-  ltvRatio: number | undefined;
   loanData: ReadonlyArray<string>;
   onSubmit: (data: IBorrowForm) => void;
   fields: ReadonlyArray<IBorrowFormField>;
+  data: GetDineroMarketUserDataReturn | undefined;
+  allowance: BigNumber;
+  handleAddAllowance: () => Promise<ContractTransaction> | undefined;
 }
 
-export interface BorrowFormLiquidationProps
+export interface BorrowFormSelectLTVProps
   extends Pick<UseFormReturn<IBorrowForm>, 'control' | 'setValue'> {
-  ltvRatio: number | undefined;
+  data: GetDineroMarketUserDataReturn | undefined;
 }

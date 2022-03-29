@@ -1,5 +1,5 @@
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
-import { BigNumber, ethers } from 'ethers';
+import { BigNumber, ContractTransaction, ethers } from 'ethers';
 
 import DineroFaucetABI from '@/constants/abi/dinero-faucet.abi.json';
 import ERC20ABI from '@/constants/abi/erc-20.abi.json';
@@ -12,6 +12,20 @@ import {
   Erc20Abi,
   TestBtcAbi,
 } from '../../types/ethers-contracts';
+
+export const addAllowance = (
+  account: string,
+  erc20Contract: string,
+  provider: Web3Provider,
+  spender: string
+): Promise<ContractTransaction> => {
+  const erc20 = new ethers.Contract(
+    erc20Contract,
+    ERC20ABI,
+    provider.getSigner(account)
+  ) as Erc20Abi;
+  return erc20.approve(spender, ethers.constants.MaxUint256);
+};
 
 export const getERC20Balance = (
   account: string,

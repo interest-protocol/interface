@@ -56,13 +56,7 @@ const InputMoney: FC<InputMoneyProps> = ({
         }
         Prefix={
           <>
-            <InputMaxButton
-              max={max}
-              name={name}
-              amount={amount}
-              control={control}
-              setValue={setValue}
-            />
+            <InputMaxButton max={max} name={name} setValue={setValue} />
             <Box
               px="L"
               display="flex"

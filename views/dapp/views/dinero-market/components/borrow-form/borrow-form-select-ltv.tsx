@@ -1,23 +1,55 @@
-import { FC } from 'react';
+import { BigNumber, ethers } from 'ethers';
+import { FC, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
 import { Box, Button, Typography } from '@/elements';
+import { Fraction } from '@/sdk/entities/fraction';
+import { calculateBorrowAmount } from '@/utils/dinero-market';
 
-import { BorrowFormLiquidationProps } from './borrow-form.types';
+import { BorrowFormSelectLTVProps } from './borrow-form.types';
 
-const BorrowFormLiquidationFee: FC<BorrowFormLiquidationProps> = ({
+const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   control,
   setValue,
-  ltvRatio,
+  data,
 }) => {
-  const borrowLiquidationFee = useWatch({
+  const borrowCollateral = useWatch({
     control,
-    name: 'borrow.liquidationFee',
+    name: 'borrow.collateral',
   });
 
-  const handleSetFee = (fee: number) => () =>
-    setValue('borrow.liquidationFee', fee);
+  const [selectedLTV, setSelectedLTV] = useState<number>(0);
+
+  const handleSetFee = (intendedLTV: number) => () => {
+    setSelectedLTV(intendedLTV);
+    if (!data) return;
+
+    setValue(
+      'borrow.loan',
+      calculateBorrowAmount(
+        data.userCollateral.add(
+          ethers.utils.parseEther(borrowCollateral.toString())
+        ),
+        data.userLoan,
+        data.exchangeRate,
+        BigNumber.from(intendedLTV).mul(BigNumber.from(10).pow(16)),
+        data.totalLoan
+      )
+        .value()
+        .div(ethers.utils.parseEther('1'))
+        .toNumber()
+    );
+  };
+
+  const ltvRatio = useMemo(() => {
+    if (!data?.ltvRatio) return 0;
+    return (
+      +Fraction.from(data.ltvRatio, ethers.utils.parseEther('1')).toSignificant(
+        4
+      ) * 100
+    );
+  }, [data?.ltvRatio]);
 
   return (
     <Box mt="XL">
@@ -37,7 +69,7 @@ const BorrowFormLiquidationFee: FC<BorrowFormLiquidationProps> = ({
             variant="secondary"
             alignItems="center"
             justifyContent="center"
-            onClick={handleSetFee(item / 100)}
+            onClick={handleSetFee(item)}
             disabled={!!ltvRatio && item >= ltvRatio}
             cursor={!!ltvRatio && item >= ltvRatio ? 'not-allowed' : 'pointer'}
             hover={{
@@ -47,7 +79,7 @@ const BorrowFormLiquidationFee: FC<BorrowFormLiquidationProps> = ({
               bg: !!ltvRatio && item >= ltvRatio ? 'disabled' : 'accentActive',
             }}
             bg={
-              borrowLiquidationFee * 100 === item
+              selectedLTV * 100 === item
                 ? 'background'
                 : !!ltvRatio && item >= ltvRatio
                 ? 'disabled'
@@ -62,4 +94,4 @@ const BorrowFormLiquidationFee: FC<BorrowFormLiquidationProps> = ({
   );
 };
 
-export default BorrowFormLiquidationFee;
+export default BorrowFormSelectLTV;

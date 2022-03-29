@@ -1,7 +1,7 @@
 import MetaMask from 'components/svg/meta-mask';
 import { FC, useState } from 'react';
 
-import hooks from '@/connectors';
+import priorityHooks from '@/connectors';
 import { Box, Button, Typography } from '@/elements';
 import { useGetUserCurrency } from '@/hooks/use-get-user-currency';
 import { LoadingSVG } from '@/svg';
@@ -9,11 +9,14 @@ import { shortAccount } from '@/utils';
 
 import AccountModal from './wallet-modal/account-modal';
 
-const { usePriorityAccount, usePriorityProvider } = hooks;
+const { usePriorityConnector, useSelectedAccount, useSelectedProvider } =
+  priorityHooks;
 
 const ConnectedWallet: FC = () => {
-  const account = usePriorityAccount();
-  const provider = usePriorityProvider();
+  const connector = usePriorityConnector();
+  const provider = useSelectedProvider(connector);
+  const account = useSelectedAccount(connector);
+
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const toggleModal = () => {
@@ -74,7 +77,7 @@ const ConnectedWallet: FC = () => {
         </Typography>
       </Button>
       <AccountModal
-        url={provider?.connection?.url || ''}
+        url={provider?.connection.url || ''}
         account={account!}
         showModal={showModal}
         toggleModal={toggleModal}

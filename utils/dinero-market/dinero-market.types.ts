@@ -12,4 +12,5 @@ export interface GetDineroMarketUserDataReturn {
   userCollateral: BigNumber;
   userLoan: BigNumber;
   totalLoan: [BigNumber, BigNumber] & { elastic: BigNumber; base: BigNumber };
+  allowance: BigNumber;
 }

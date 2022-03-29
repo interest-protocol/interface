@@ -24,8 +24,7 @@ export interface InputMoneySuffixProps
 }
 
 export interface InputMaxButtonProps
-  extends Pick<UseFormReturn<IBorrowForm>, 'control' | 'setValue'> {
+  extends Pick<UseFormReturn<IBorrowForm>, 'setValue'> {
   max?: number;
-  amount: string;
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
 }

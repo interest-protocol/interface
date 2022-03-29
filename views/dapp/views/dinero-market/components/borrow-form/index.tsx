@@ -2,12 +2,12 @@ import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
-import { Box, Typography } from '@/elements';
+import { Box, Button, Typography } from '@/elements';
 
 import InputMoney from '../input-money';
 import { BorrowFormProps } from './borrow-form.types';
 import BorrowFormButton from './borrow-form-button';
-import BorrowFormLiquidationFee from './borrow-form-liquidation';
+import BorrowFormSelectLTV from './borrow-form-select-ltv';
 
 const INFO = ['Dinero Amount', 'Expected Liquidation Price', 'Position Health'];
 
@@ -20,8 +20,10 @@ const BorrowForm: FC<BorrowFormProps> = ({
   isBorrow,
   setValue,
   register,
-  ltvRatio,
+  data,
   handleSubmit,
+  allowance,
+  handleAddAllowance,
 }) => (
   <Box
     p="XL"
@@ -59,13 +61,19 @@ const BorrowForm: FC<BorrowFormProps> = ({
       ))}
     </Box>
     {isBorrow && (
-      <BorrowFormLiquidationFee
-        setValue={setValue}
-        control={control}
-        ltvRatio={ltvRatio}
-      />
+      <BorrowFormSelectLTV setValue={setValue} control={control} data={data} />
     )}
-    <BorrowFormButton control={control} isBorrow={isBorrow} />
+    {allowance.isZero() ? (
+      <Button
+        variant="primary"
+        hover={{ bg: 'accentActive' }}
+        onClick={handleAddAllowance}
+      >
+        Approve
+      </Button>
+    ) : (
+      <BorrowFormButton control={control} isBorrow={isBorrow} />
+    )}
   </Box>
 );
 

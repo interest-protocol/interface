@@ -21,7 +21,7 @@ export const useGetUserCurrency: UseGetUSerCurrency = () => {
     return provider?.getBalance(account);
   });
 
-  if (error || !data || !chainId || !CHAIN_IDS.includes(chainId)) {
+  if (!error || !data || !chainId || !CHAIN_IDS.includes(chainId)) {
     return {
       symbol: NativeCurrency.from(CHAIN_ID.UNSUPPORTED).symbol,
       amount: CurrencyAmount.fromRawAmount(
