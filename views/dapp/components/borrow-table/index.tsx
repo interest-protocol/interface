@@ -1,8 +1,8 @@
-import Container from 'components/container';
 import Link from 'next/link';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
+import { Container } from '@/components';
 import { DINERO_MARKET_CONTRACTS } from '@/constants/dinero-market-contracts.data';
 import { SECONDS_IN_A_YEAR } from '@/constants/index';
 import { Routes, RoutesEnum } from '@/constants/routes';

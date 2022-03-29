@@ -1,11 +1,10 @@
-import MetaMask from 'components/svg/meta-mask';
 import { FC, useState } from 'react';
 
 import hooks from '@/connectors';
 import { Box, Button, Typography } from '@/elements';
 import { useGetUserCurrency } from '@/hooks/use-get-user-currency';
 import { useIsMounted } from '@/hooks/use-is-mounted';
-import { LoadingSVG } from '@/svg';
+import { LoadingSVG, MetaMaskSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
 import AccountModal from './wallet-modal/account-modal';
@@ -71,7 +70,7 @@ const ConnectedWallet: FC = () => {
           overflow="hidden"
           borderRadius="50%"
         >
-          <MetaMask height="100%" />
+          <MetaMaskSVG height="100%" />
         </Box>
         <Typography variant="normal" color="text">
           {shortAccount(account || '')}

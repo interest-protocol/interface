@@ -17,6 +17,7 @@
     "jsx": "preserve",
     "incremental": true,
     "declaration": true,
+    "baseUrl": ".",
     "paths": {
       "@/svg": ["./components/svg"],
       "@/components": ["./components"],

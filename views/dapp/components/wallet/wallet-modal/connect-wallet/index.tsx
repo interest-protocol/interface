@@ -1,4 +1,3 @@
-import Loading from 'components/svg/loading';
 import { FC, useMemo, useState } from 'react';
 
 import priorityHooks from '@/connectors';
@@ -6,7 +5,7 @@ import { metaMask } from '@/connectors/meta-mask';
 import { walletConnect } from '@/connectors/wallet-connect';
 import { Wallets } from '@/constants/wallets';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { BackSVG, MetaMaskSVG, TimesSVG, WalletSVG } from '@/svg';
+import { BackSVG, LoadingSVG, MetaMaskSVG, TimesSVG, WalletSVG } from '@/svg';
 
 import { ConnectWalletProps, WalletButtonProps } from '../../wallet.types';
 
@@ -176,7 +175,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
               {!hasError && (
                 <>
                   <Box color="text">
-                    <Loading width="1.4rem" />
+                    <LoadingSVG width="1.4rem" />
                   </Box>
                   <Typography variant="normal" ml="L">
                     Initializing...
