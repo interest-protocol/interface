@@ -4,7 +4,7 @@ import { Global, ThemeProvider } from '@emotion/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextProgress from 'next-progress';
-import { ReactNode } from 'react';
+import { ReactNode, StrictMode } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
 
 import { LightTheme } from '@/design-system';
@@ -20,7 +20,9 @@ const MyApp = ({ Component, pageProps }: AppProps): ReactNode => (
     <ThemeProvider theme={LightTheme}>
       <SkeletonTheme baseColor="#202020" highlightColor="#444">
         <Global styles={GlobalStyles} />
-        <Component {...pageProps} />
+        <StrictMode>
+          <Component {...pageProps} />
+        </StrictMode>
       </SkeletonTheme>
     </ThemeProvider>
   </>
