@@ -10,6 +10,7 @@ import colors from '@/design-system/dapp-theme/colors';
 import { Box } from '@/elements';
 import { useIsMounted } from '@/hooks/use-is-mounted';
 
+import ErrorBoundary from '../error-boundary';
 import Footer from './footer';
 import Header from './header';
 import { LayoutProps } from './layout.types';
@@ -20,36 +21,38 @@ const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
 
   return (
     <ThemeProvider theme={DAppTheme}>
-      <Box color="text" height="100vh" display="flex" flexDirection="column">
-        <SEO pageTitle={pageTitle} />
-        <Toaster
-          position="bottom-right"
-          reverseOrder={false}
-          toastOptions={{
-            style: {
-              color: colors.text,
-              borderRadius: radii.M,
-              background: colors.foreground,
-            },
-          }}
-        />
-        <Header />
-        <Box
-          flex="1"
-          as="main"
-          pb={['XXL', 'XXL', 'unset']}
-          background={[
-            DAppTheme.colors.background,
-            DAppTheme.colors.specialBackground,
-          ]}
-        >
-          {children}
+      <ErrorBoundary>
+        <Box color="text" height="100vh" display="flex" flexDirection="column">
+          <SEO pageTitle={pageTitle} />
+          <Toaster
+            position="bottom-right"
+            reverseOrder={false}
+            toastOptions={{
+              style: {
+                color: colors.text,
+                borderRadius: radii.M,
+                background: colors.foreground,
+              },
+            }}
+          />
+          <Header />
+          <Box
+            flex="1"
+            as="main"
+            pb={['XXL', 'XXL', 'unset']}
+            background={[
+              DAppTheme.colors.background,
+              DAppTheme.colors.specialBackground,
+            ]}
+          >
+            {children}
+          </Box>
+          <Footer />
+          {isMounted.current && (
+            <Tooltip place="top" type="dark" effect="solid" multiline />
+          )}
         </Box>
-        <Footer />
-        {isMounted.current && (
-          <Tooltip place="top" type="dark" effect="solid" multiline />
-        )}
-      </Box>
+      </ErrorBoundary>
     </ThemeProvider>
   );
 };
