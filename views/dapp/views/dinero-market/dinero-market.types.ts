@@ -11,6 +11,5 @@ export interface IBorrowForm {
   borrow: {
     collateral: string;
     loan: string;
-    liquidationFee: number;
   };
 }

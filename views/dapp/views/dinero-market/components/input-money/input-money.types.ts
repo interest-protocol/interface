@@ -11,9 +11,10 @@ export interface InputMoneyProps
   max?: number;
   label: string;
   amount: string;
+  ltvRatio?: number;
   currency: string;
   amountUSD: number;
-  currencyDiff?: number;
+  currencyDiff: number;
   CurrencySVG: FC<SVGAttributes<SVGSVGElement>>;
   errors: UseFormStateReturn<IBorrowForm>['errors'];
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
@@ -26,8 +27,9 @@ export interface InputMoneySuffixProps
 }
 
 export interface InputMaxButtonProps
-  extends Pick<UseFormReturn<IBorrowForm>, 'control' | 'setValue'> {
+  extends Pick<UseFormReturn<IBorrowForm>, 'setValue' | 'control'> {
   max?: number;
+  ltvRatio?: number;
   currencyDiff: number;
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
 }

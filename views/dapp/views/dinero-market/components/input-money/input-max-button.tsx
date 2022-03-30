@@ -10,16 +10,16 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
   name,
   control,
   setValue,
+  ltvRatio,
   currencyDiff,
 }) => {
-  const collateral = useWatch({ control, name: 'borrow.collateral' });
-  const liquidationFee = useWatch({ control, name: 'borrow.liquidationFee' });
   const [innerMax, setInnerMax] = useState(max);
+  const collateral = useWatch({ control, name: 'borrow.collateral' });
 
   useEffect(() => {
-    if (name === 'borrow.loan')
-      setInnerMax(liquidationFee * currencyDiff * collateral);
-  }, [liquidationFee, collateral]);
+    if (name === 'borrow.loan' && ltvRatio && collateral)
+      setInnerMax((ltvRatio / 100) * +collateral * currencyDiff);
+  }, [ltvRatio, collateral]);
 
   return (
     <Button
@@ -31,7 +31,7 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
       bg="bottomBackground"
       hover={{ bg: 'accent' }}
       active={{ bg: 'accentActive' }}
-      onClick={() => setValue?.(name, +(innerMax ?? 0))}
+      onClick={() => setValue?.(name, `${innerMax ?? 0}`)}
     >
       max
     </Button>

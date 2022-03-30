@@ -16,6 +16,7 @@ const InputMoney: FC<InputMoneyProps> = ({
   register,
   currency,
   setValue,
+  ltvRatio,
   amountUSD,
   CurrencySVG,
   currencyDiff,
@@ -70,6 +71,7 @@ const InputMoney: FC<InputMoneyProps> = ({
               max={max}
               name={name}
               control={control}
+              ltvRatio={ltvRatio}
               setValue={setValue}
               currencyDiff={currencyDiff!}
             />

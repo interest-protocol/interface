@@ -1,3 +1,4 @@
+import { ethers } from 'ethers';
 import Link from 'next/link';
 import { FC } from 'react';
 import { v4 } from 'uuid';
@@ -161,6 +162,7 @@ const BorrowTable: FC = () => {
                     IntMath.from(data[index].totalCollateral)
                       .mul(data[index].exchangeRate)
                       .value()
+                      .div(ethers.utils.parseEther('1'))
                       .toNumber()
                   ),
                   IntMath.from(data[index].ltv).toPercentage(0),
@@ -259,6 +261,7 @@ const BorrowTable: FC = () => {
                     IntMath.from(data[index].totalCollateral)
                       .mul(data[index].exchangeRate)
                       .value()
+                      .div(ethers.utils.parseEther('1'))
                       .toNumber()
                   ),
                   IntMath.from(data[index].ltv).toPercentage(0),

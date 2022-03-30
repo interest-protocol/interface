@@ -1,46 +1,39 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ethers } from 'ethers';
-import { FC, useMemo, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Skeleton from 'react-loading-skeleton';
 import useSWR from 'swr';
-import { v4 } from 'uuid';
 
 import { Container, Web3Manager } from '@/components';
 import priorityHooks from '@/connectors';
 import { DINERO_MARKET_CONTRACTS_MAP } from '@/constants/dinero-market-contracts.data';
-import {
-  BSC_TEST_ERC_20_DATA,
-  TOKEN_SYMBOL,
-  TOKENS_SVG_MAP,
-} from '@/constants/erc-20.data';
-import { SECONDS_IN_A_YEAR } from '@/constants/index';
-import { Box, Typography } from '@/elements';
+import { BSC_TEST_ERC_20_DATA, TOKEN_SYMBOL } from '@/constants/erc-20.data';
+import { ZERO } from '@/constants/index';
+import { Box } from '@/elements';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
-import { Fraction } from '@/sdk/entities/fraction';
 import { IntMath } from '@/sdk/entities/int-math';
-import { InfoSVG, ProgressSVG } from '@/svg';
-import {} from '@/svg';
-import { formatDollars, formatMoney } from '@/utils';
 import {
-  calculateDineroLeftToBorrow,
-  calculateLiquidationPrice,
+  addDineroMarketCollateral,
   calculateUserLTVRatio,
+  getBorrowFields,
+  getCurrencyAmount,
+  getCurrencyLoanData,
+  getDineroMarketLoan,
   getDineroMarketUserData,
-  loanPrincipalToElastic,
-  safeAmountToWithdraw,
+  getLoanInfoData,
+  getMyPositionData,
+  getRepayFields,
 } from '@/utils/dinero-market';
-import { getERC20Balance } from '@/utils/erc-20';
-import { IBorrowFormField } from '@/views/dapp/views/dinero-market/components/borrow-form/borrow-form.types';
+import { addAllowance, getERC20Balance } from '@/utils/erc-20';
 
 import GoBack from '../../components/go-back';
 import BorrowForm from './components/borrow-form';
 import { borrowFormValidation } from './components/borrow-form/borrow-form.validator';
-import {
-  BORROW_DEFAULT_VALUES,
-  LOAN_INFO,
-  MY_POSITION,
-} from './dinero-market.data';
+import LoanInfo from './components/loan-info';
+import MyOpenPosition from './components/my-open-position';
+import UserLTV from './components/user-ltv';
+import YourBalance from './components/your-balance';
+import { BORROW_DEFAULT_VALUES } from './dinero-market.data';
 import { DineroMarketProps, IBorrowForm } from './dinero-market.types';
 import DineroMarketSwitch from './dinero-market-switch';
 
@@ -59,6 +52,17 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
   const account = usePriorityAccount();
   const provider = usePriorityProvider();
   const chainId = usePriorityChainId();
+  const formState = form.getValues();
+
+  const handleAddAllowance = useCallback(() => {
+    if (!account || !chainId || !provider) return;
+    return addAllowance(
+      account,
+      BSC_TEST_ERC_20_DATA[currency].address,
+      provider,
+      DINERO_MARKET_CONTRACTS_MAP[chainId][currency]
+    );
+  }, [account, currency, provider, chainId]);
 
   const { data } = useSWR(
     `${account}-${currency}-${chainId}-dinero-market`,
@@ -83,7 +87,12 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
           BSC_TEST_ERC_20_DATA[TOKEN_SYMBOL.DNR].address,
           provider
         ),
-        getDineroMarketUserData(dineroMarketContract, account, provider),
+        getDineroMarketUserData(
+          dineroMarketContract,
+          account,
+          provider,
+          BSC_TEST_ERC_20_DATA[currency].address
+        ),
       ]);
 
       setIsGettingData(false);
@@ -103,172 +112,81 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
     }
   );
 
-  const repayFieldsData = useMemo(
-    () =>
-      data?.balances.reduce((acc, x) => {
-        const SVG = TOKENS_SVG_MAP[x.currency.symbol];
-        if (x.currency.symbol === TOKEN_SYMBOL.DNR)
-          return [
-            ...acc,
-            {
-              amount: '0',
-              amountUSD: 1,
-              CurrencySVG: SVG,
-              name: 'repay.loan',
-              label: 'Repay Dinero',
-              max: +x.toSignificant(4),
-              currency: TOKEN_SYMBOL.DNR,
-            } as IBorrowFormField,
-          ];
+  const currencyAmount = useMemo(
+    () => getCurrencyAmount(data, currency as TOKEN_SYMBOL),
+    [data]
+  );
 
-        if (x.currency.symbol === currency)
-          return [
-            ...acc,
-            {
-              currency,
-              amount: '0',
-              CurrencySVG: SVG,
-              max: +x.toSignificant(4),
-              name: 'repay.collateral',
-              label: 'Remove Collateral',
-              amountUSD: data?.market.exchangeRate.isZero()
-                ? 0
-                : data?.market.exchangeRate
-                    .div(ethers.utils.parseEther('1'))
-                    .toNumber() || 0,
-            } as IBorrowFormField,
-          ];
-        return acc;
-      }, [] as ReadonlyArray<IBorrowFormField>),
+  const repayFieldsData = useMemo(
+    () => getRepayFields(data, currency as TOKEN_SYMBOL),
     [data, currency]
   );
 
   const borrowFieldsData = useMemo(
     () =>
-      data?.balances.reduce((acc, x) => {
-        const SVG = TOKENS_SVG_MAP[x.currency.symbol];
-        if (x.currency.symbol === TOKEN_SYMBOL.DNR)
-          return [
-            ...acc,
-            {
-              max: 2500,
-              amountUSD: 1,
-              CurrencySVG: SVG,
-              name: 'borrow.loan',
-              label: 'Borrow Dinero',
-              amount: x.toSignificant(4),
-              currency: TOKEN_SYMBOL.DNR,
-            } as IBorrowFormField,
-          ];
+      getBorrowFields(
+        data,
+        currency as TOKEN_SYMBOL,
+        formState.borrow.collateral
+      ),
+    [data, currency, formState.borrow.collateral]
+  );
 
-        if (x.currency.symbol === currency)
-          return [
-            ...acc,
-            {
-              currency,
-              CurrencySVG: SVG,
-              max: +x.toSignificant(4),
-              name: 'borrow.collateral',
-              amount: x.toSignificant(4),
-              label: 'Deposit Collateral',
-              amountUSD: data?.market.exchangeRate.isZero()
-                ? 0
-                : data?.market.exchangeRate
-                    .div(ethers.utils.parseEther('1'))
-                    .toNumber() || 0,
-            } as IBorrowFormField,
-          ];
-        return acc;
-      }, [] as ReadonlyArray<IBorrowFormField>),
+  const borrowFormLoanData = useMemo(
+    () => getCurrencyLoanData(data, formState.borrow.loan),
+    [data?.market.userLoan, formState.borrow.loan]
+  );
+
+  const loanInfoData = useMemo(() => getLoanInfoData(data), [data]);
+
+  const myPositionData = useMemo(
+    () => getMyPositionData(data, currency as TOKEN_SYMBOL),
     [data, currency]
   );
 
-  const currencyAmount = useMemo(
-    () =>
-      +(
-        data?.balances
-          .find((x) => x.currency.symbol === currency)
-          ?.toSignificant(4) ?? 0
-      ),
-    [data]
-  );
-
-  const borrowFormLoanData = useMemo(() => ['0', '0', '0'], [data]);
-
-  const loanInfoData = useMemo(() => {
-    if (!data || !data?.market) return ['0%', '0%', '0%'];
-    const { ltvRatio, loan, liquidationFee } = data.market;
-    return [
-      `${IntMath.from(ltvRatio).toPercentage()}`,
-      `${IntMath.from(liquidationFee).toPercentage()}`,
-      `${IntMath.from(
-        loan.INTEREST_RATE.mul(SECONDS_IN_A_YEAR)
-      ).toPercentage()}`,
-    ];
-  }, [data]);
-
-  const myPositionData = useMemo(() => {
-    if (!data || !data.market) return ['0', '$0', '0', '$0', '0', '0'];
-
-    const collateral = CurrencyAmount.fromRawAmount(
-      BSC_TEST_ERC_20_DATA[currency],
-      data.market.userCollateral
-    );
-
-    const liquidationPrice = formatMoney(
-      +Fraction.from(
-        calculateLiquidationPrice(
-          data.market.ltvRatio,
-          data.market.totalLoan,
-          data.market.userCollateral,
-          data.market.userLoan,
-          data.market.exchangeRate
-        ).value(),
-        ethers.utils.parseEther('1')
-      ).toSignificant(1)
-    );
-    return [
-      collateral.toSignificant(4),
-      formatMoney(+collateral.toSignificant(0)),
-      Fraction.from(
-        loanPrincipalToElastic(
-          data.market.totalLoan,
-          data.market.userLoan
-        ).value(),
-        ethers.utils.parseEther('1')
-      ).toSignificant(1),
-      liquidationPrice,
-      Fraction.from(
-        calculateDineroLeftToBorrow(
-          data.market.ltvRatio,
-          data.market.totalLoan,
-          data.market.userCollateral,
-          data.market.userLoan,
-          data.market.exchangeRate
-        ).value(),
-        ethers.utils.parseEther('1')
-      ).toSignificant(1),
-      Fraction.from(
-        safeAmountToWithdraw(
-          data.market.ltvRatio,
-          data.market.totalLoan,
-          data.market.userCollateral,
-          data.market.userLoan,
-          data.market.exchangeRate
-        ).value(),
-        ethers.utils.parseEther('1')
-      ).toSignificant(1),
-    ];
-  }, [data, currency]);
-
-  const onSubmitBorrow = () => {
+  const onSubmitBorrow = async () => {
     if (
       form.formState.errors.borrow ||
       form.formState.errors.borrow?.['loan'] ||
       form.formState.errors.borrow?.['collateral']
     )
       return;
-    console.log(form.getValues('borrow'));
+    if (
+      !chainId ||
+      !currency ||
+      !provider ||
+      !account ||
+      !data ||
+      data?.market.allowance.isZero()
+    )
+      return;
+
+    try {
+      if (form.getValues('borrow').collateral) {
+        const tx = await addDineroMarketCollateral(
+          DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
+          provider,
+          account,
+          BSC_TEST_ERC_20_DATA[currency].address,
+          IntMath.toBigNumber(+form.getValues('borrow').collateral)
+        );
+
+        await tx.wait(2);
+      }
+
+      if (form.getValues('borrow').loan) {
+        const tx = await getDineroMarketLoan(
+          DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
+          provider,
+          account,
+          IntMath.toBigNumber(+form.getValues('borrow').loan)
+        );
+
+        await tx.wait(2);
+      }
+    } catch (e: unknown) {
+      console.warn((e as Error).message);
+    }
   };
 
   const onSubmitRepay = () => {
@@ -330,6 +248,9 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                     .toPercentage()
                     .replace(' %', '')
                 }
+                data={data?.market}
+                allowance={data?.market.allowance || ZERO}
+                handleAddAllowance={handleAddAllowance}
                 {...form}
               />
             )}
@@ -354,238 +275,44 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                         .replace(' %', '')
                     : undefined
                 }
+                data={data?.market}
+                allowance={data?.market.allowance || ZERO}
+                handleAddAllowance={handleAddAllowance}
                 {...form}
               />
             )}
-            <Box
-              py="XL"
-              px="XXL"
-              order={1}
-              gridArea="b"
-              bg="foreground"
-              borderRadius="L"
-            >
-              <Box display="flex" justifyContent="space-between">
-                <Typography variant="normal" display="flex" alignItems="center">
-                  <Box
-                    mr="M"
-                    as="span"
-                    display="inline-block"
-                    data-tip="Loan to value"
-                  >
-                    <InfoSVG width="1rem" />
-                  </Box>
-                  LTV
-                </Typography>
-                <Typography as="div" variant="normal" color="textSecondary">
-                  {isGettingData ? (
-                    <Typography
-                      as="span"
-                      width="4rem"
-                      variant="normal"
-                      display="inline-block"
-                    >
-                      <Skeleton />
-                    </Typography>
-                  ) : data?.market ? (
-                    calculateUserLTVRatio(
+            <UserLTV
+              isLoading={isGettingData}
+              ltv={
+                data?.market
+                  ? calculateUserLTVRatio(
                       data.market.ltvRatio,
                       data.market.totalLoan,
                       data.market.userCollateral,
                       data.market.userLoan
-                    ).toPercentage()
-                  ) : (
-                    '0'
-                  )}{' '}
-                  of 100%
-                </Typography>
-              </Box>
-              <Box color="accent" mt="L">
-                <ProgressSVG
-                  progress={
-                    data?.market
-                      ? calculateUserLTVRatio(
-                          data.market.ltvRatio,
-                          data.market.totalLoan,
-                          data.market.userCollateral,
-                          data.market.userLoan
-                        )
-                          .value()
-                          .isZero()
-                        ? 0
-                        : calculateUserLTVRatio(
-                            data.market.ltvRatio,
-                            data.market.totalLoan,
-                            data.market.userCollateral,
-                            data.market.userLoan
-                          )
-                            .value()
-                            .div(ethers.utils.parseEther('1'))
-                            .toNumber()
-                      : 0
-                  }
-                />
-              </Box>
-            </Box>
-            <Box
-              py="XL"
-              px="XXL"
-              order={4}
-              gridArea="c"
-              bg="foreground"
-              borderRadius="L"
-            >
-              {LOAN_INFO.map(({ name, tip }, i) => (
-                <Box
-                  my="L"
-                  key={v4()}
-                  display="flex"
-                  justifyContent="space-between"
-                >
-                  <Typography
-                    variant="normal"
-                    display="flex"
-                    alignItems="center"
-                  >
-                    <Box
-                      mr="M"
-                      as="span"
-                      cursor="help"
-                      data-tip={tip}
-                      display="inline-block"
-                    >
-                      <InfoSVG width="1rem" />
-                    </Box>
-                    {name}
-                  </Typography>
-                  <Typography as="div" variant="normal" color="textSecondary">
-                    {isGettingData ? (
-                      <Typography
-                        as="span"
-                        width="3rem"
-                        variant="normal"
-                        display="inline-block"
-                      >
-                        <Skeleton />
-                      </Typography>
-                    ) : (
-                      loanInfoData[i]
-                    )}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
-            <Box
-              py="XL"
-              px="XXL"
-              order={5}
-              gridArea="d"
-              bg="foreground"
-              borderRadius="L"
-            >
-              <Typography variant="normal" textTransform="uppercase" mt="L">
-                My open position:
-              </Typography>
-              {MY_POSITION.map(({ name, tip }, i) => (
-                <Box
-                  my="L"
-                  key={v4()}
-                  display="flex"
-                  justifyContent="space-between"
-                >
-                  <Typography
-                    variant="normal"
-                    display="flex"
-                    alignItems="center"
-                  >
-                    <Box
-                      mr="M"
-                      as="span"
-                      cursor="help"
-                      data-tip={tip}
-                      display="inline-block"
-                    >
-                      <InfoSVG width="1rem" />
-                    </Box>
-                    {name}
-                  </Typography>
-                  <Typography variant="normal" color="textSecondary">
-                    {myPositionData[i]}
-                  </Typography>
-                </Box>
-              ))}
-              <Box mt="XL">
-                <Typography variant="normal" textAlign="center" mb="M">
-                  DNR: {formatDollars(1)}
-                </Typography>
-                <Typography as="div" variant="normal" textAlign="center" mb="M">
-                  BTC:{' '}
-                  {isGettingData ? (
-                    <Typography
-                      as="span"
-                      width="4rem"
-                      variant="normal"
-                      display="inline-block"
-                    >
-                      <Skeleton />
-                    </Typography>
-                  ) : (
-                    `${formatDollars(
-                      data?.market.exchangeRate.isZero()
-                        ? 0
-                        : data?.market.exchangeRate
-                            .div(ethers.utils.parseEther('1'))
-                            .toNumber() || 0
-                    )}`
-                  )}
-                </Typography>
-              </Box>
-            </Box>
-            <Box
-              py="XL"
-              px="XXL"
-              order={3}
-              gridArea="e"
-              bg="foreground"
-              borderRadius="L"
-            >
-              <Typography variant="normal" textTransform="uppercase" mt="L">
-                Your balance:
-              </Typography>
-              {isGettingData ? (
-                <Box
-                  my="XL"
-                  rowGap="0.7rem"
-                  display="grid"
-                  gridTemplateRows="1fr 1fr"
-                >
-                  <Skeleton wrapper={Box} />
-                  <Skeleton wrapper={Box} />
-                </Box>
-              ) : (
-                data?.balances.map((x) => {
-                  const SVG = TOKENS_SVG_MAP[x.currency.symbol];
-                  return (
-                    <Box
-                      my="L"
-                      key={v4()}
-                      display="flex"
-                      justifyContent="space-between"
-                    >
-                      <Box display="flex">
-                        <SVG width="1rem" />
-                        <Typography ml="M" variant="normal">
-                          {x.currency.name}
-                        </Typography>
-                      </Box>
-                      <Typography variant="normal" color="textSecondary">
-                        {formatMoney(+x.toSignificant(4))}
-                      </Typography>
-                    </Box>
-                  );
-                })
-              )}
-            </Box>
+                    )
+                      .value()
+                      .isZero()
+                    ? 0
+                    : calculateUserLTVRatio(
+                        data.market.ltvRatio,
+                        data.market.totalLoan,
+                        data.market.userCollateral,
+                        data.market.userLoan
+                      )
+                        .value()
+                        .div(ethers.utils.parseEther('1'))
+                        .toNumber()
+                  : 0
+              }
+            />
+            <LoanInfo loanInfoData={loanInfoData} isLoading={isGettingData} />
+            <MyOpenPosition
+              isLoading={isGettingData}
+              myPositionData={myPositionData}
+              exchangeRate={data?.market.exchangeRate}
+            />
+            <YourBalance loading={isGettingData} balances={data?.balances} />
           </Box>
         </Box>
       </Container>

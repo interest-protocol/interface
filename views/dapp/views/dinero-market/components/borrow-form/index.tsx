@@ -7,11 +7,12 @@ import { Box, Typography } from '@/elements';
 import InputMoney from '../input-money';
 import { BorrowFormProps } from './borrow-form.types';
 import BorrowFormButton from './borrow-form-button';
-import BorrowFormLiquidationFee from './borrow-form-liquidation';
+import BorrowFormSelectLTV from './borrow-form-select-ltv';
 
 const INFO = ['Dinero Amount', 'Expected Liquidation Price', 'Position Health'];
 
 const BorrowForm: FC<BorrowFormProps> = ({
+  data,
   fields,
   control,
   loading,
@@ -22,9 +23,11 @@ const BorrowForm: FC<BorrowFormProps> = ({
   register,
   ltvRatio,
   setError,
+  allowance,
   clearErrors,
   currencyDiff,
   currencyAmount,
+  handleAddAllowance,
   formState: { errors },
 }) => (
   <Box p="XL" order={2} gridArea="a" bg="foreground" borderRadius="L">
@@ -39,11 +42,12 @@ const BorrowForm: FC<BorrowFormProps> = ({
       ) : (
         <InputMoney
           key={v4()}
+          errors={errors}
           control={control}
+          ltvRatio={ltvRatio}
           register={register}
           setValue={setValue}
           currencyDiff={currencyDiff}
-          errors={errors}
           {...input}
         />
       )
@@ -61,10 +65,11 @@ const BorrowForm: FC<BorrowFormProps> = ({
       ))}
     </Box>
     {isBorrow && (
-      <BorrowFormLiquidationFee
-        setValue={setValue}
+      <BorrowFormSelectLTV
+        data={data}
         control={control}
-        ltvRatio={ltvRatio}
+        setValue={setValue}
+        currencyDiff={currencyDiff}
       />
     )}
     <BorrowFormButton
@@ -74,9 +79,11 @@ const BorrowForm: FC<BorrowFormProps> = ({
       ltvRatio={ltvRatio}
       setError={setError}
       onSubmit={onSubmit}
+      allowance={allowance}
       clearErrors={clearErrors}
       currencyDiff={currencyDiff!}
       currencyAmount={currencyAmount}
+      handleAddAllowance={handleAddAllowance}
     />
   </Box>
 );

@@ -12,9 +12,11 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
   ltvRatio,
   setError,
   onSubmit,
+  allowance,
   clearErrors,
   currencyDiff,
   currencyAmount,
+  handleAddAllowance,
 }) => {
   const repayLoan = useWatch({ control, name: 'repay.loan' });
   const borrowLoan = useWatch({ control, name: 'borrow.loan' });
@@ -63,9 +65,17 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
 
   return (
     <Box display="flex" justifyContent="center" mt="XXL">
-      {isBorrow &&
-        ((!borrowLoan && !borrowCollateral) ||
-        (+borrowCollateral === 0 && +borrowLoan === 0) ? (
+      {isBorrow ? (
+        allowance.isZero() ? (
+          <Button
+            variant="primary"
+            onClick={handleAddAllowance}
+            hover={{ bg: 'accentActive' }}
+          >
+            Approve
+          </Button>
+        ) : (!borrowLoan && !borrowCollateral) ||
+          (+borrowCollateral === 0 && +borrowLoan === 0) ? (
           <Box
             py="L"
             px="XL"
@@ -89,33 +99,40 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
               ? 'Add Collateral'
               : 'Borrow'}
           </Button>
-        ))}
-      {!isBorrow &&
-        (!repayLoan && !repayCollateral ? (
-          <Box
-            py="L"
-            px="XL"
-            fontSize="S"
-            bg="disabled"
-            borderRadius="M"
-            cursor="not-allowed"
-          >
-            No Request
-          </Box>
-        ) : (
-          <Button
-            type="submit"
-            variant="primary"
-            hover={{ bg: 'accentActive' }}
-            onClick={onSubmit}
-          >
-            {!!repayLoan && !!repayCollateral
-              ? 'Remove Collateral and Repay Loan'
-              : repayCollateral
-              ? 'Remove Collateral'
-              : 'Repay Loan'}
-          </Button>
-        ))}
+        )
+      ) : allowance.isZero() ? (
+        <Button
+          variant="primary"
+          onClick={handleAddAllowance}
+          hover={{ bg: 'accentActive' }}
+        >
+          Approve
+        </Button>
+      ) : !repayLoan && !repayCollateral ? (
+        <Box
+          py="L"
+          px="XL"
+          fontSize="S"
+          bg="disabled"
+          borderRadius="M"
+          cursor="not-allowed"
+        >
+          No Request
+        </Box>
+      ) : (
+        <Button
+          type="submit"
+          variant="primary"
+          hover={{ bg: 'accentActive' }}
+          onClick={onSubmit}
+        >
+          {!!repayLoan && !!repayCollateral
+            ? 'Remove Collateral and Repay Loan'
+            : repayCollateral
+            ? 'Remove Collateral'
+            : 'Repay Loan'}
+        </Button>
+      )}
     </Box>
   );
 };

@@ -15,7 +15,7 @@ const InputMoneySuffix: FC<InputMoneySuffixProps> = ({
 
   return (
     <Typography fontSize="S" variant="normal" color="textSecondary">
-      {formatDollars((value ?? 0) * amountUSD)}
+      {formatDollars((+value ?? 0) * amountUSD)}
     </Typography>
   );
 };

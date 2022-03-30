@@ -22,6 +22,10 @@ export class IntMath {
     return new IntMath(value);
   }
 
+  public static toBigNumber(value: number, decimals = 18): BigNumber {
+    return BigNumber.from(value).mul(BigNumber.from(10).pow(decimals));
+  }
+
   public div(x: BigNumberish | IntMath): IntMath {
     this._value = this._value.mul(ONE_ETHER).div(this.parseValue(x));
     return this;
