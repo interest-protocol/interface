@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ethers } from 'ethers';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import useSWR from 'swr';
 
 import { Container, Web3Manager } from '@/components';
@@ -10,6 +11,7 @@ import { DINERO_MARKET_CONTRACTS_MAP } from '@/constants/dinero-market-contracts
 import { BSC_TEST_ERC_20_DATA, TOKEN_SYMBOL } from '@/constants/erc-20.data';
 import { ZERO } from '@/constants/index';
 import { Box } from '@/elements';
+import { CHAIN_ID, CHAINS } from '@/sdk/chains';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { IntMath } from '@/sdk/entities/int-math';
 import {
@@ -27,6 +29,7 @@ import {
 import { addAllowance, getERC20Balance } from '@/utils/erc-20';
 
 import GoBack from '../../components/go-back';
+import ErrorPage from '../error';
 import BorrowForm from './components/borrow-form';
 import { borrowFormValidation } from './components/borrow-form/borrow-form.validator';
 import LoanInfo from './components/loan-info';
@@ -56,15 +59,23 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
 
   const handleAddAllowance = useCallback(() => {
     if (!account || !chainId || !provider) return;
-    return addAllowance(
-      account,
-      BSC_TEST_ERC_20_DATA[currency].address,
-      provider,
-      DINERO_MARKET_CONTRACTS_MAP[chainId][currency]
+
+    return toast.promise(
+      addAllowance(
+        account,
+        BSC_TEST_ERC_20_DATA[currency].address,
+        provider,
+        DINERO_MARKET_CONTRACTS_MAP[chainId][currency]
+      ),
+      {
+        loading: 'Allowing...',
+        success: 'Success!',
+        error: ({ message }) => message,
+      }
     );
   }, [account, currency, provider, chainId]);
 
-  const { data } = useSWR(
+  const { error, data } = useSWR(
     `${account}-${currency}-${chainId}-dinero-market`,
     async () => {
       setIsGettingData(true);
@@ -144,6 +155,67 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
     [data, currency]
   );
 
+  const handleBorrow = async (
+    chainId: number,
+    provider: ethers.providers.Web3Provider,
+    account: string
+  ) => {
+    try {
+      if (form.getValues('borrow').collateral) {
+        const tx = await addDineroMarketCollateral(
+          DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
+          provider,
+          account,
+          BSC_TEST_ERC_20_DATA[currency].address,
+          IntMath.toBigNumber(+form.getValues('borrow').collateral)
+        );
+
+        const receipt = await tx.wait(2);
+
+        const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
+
+        toast(
+          <a
+            target="__black"
+            rel="noreferrer nofollow"
+            href={`${explorer ? explorer[0] : ''}/tx/${
+              receipt.transactionHash
+            }`}
+          >
+            Check on Explorer
+          </a>
+        );
+      }
+
+      if (form.getValues('borrow').loan) {
+        const tx = await getDineroMarketLoan(
+          DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
+          provider,
+          account,
+          IntMath.toBigNumber(+form.getValues('borrow').loan)
+        );
+
+        const receipt = await tx.wait(2);
+
+        const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
+
+        toast(
+          <a
+            target="__black"
+            rel="noreferrer nofollow"
+            href={`${explorer ? explorer[0] : ''}/tx/${
+              receipt.transactionHash
+            }`}
+          >
+            Check on Explorer
+          </a>
+        );
+      }
+    } catch (e) {
+      throw e ?? new Error('Something went wrong');
+    }
+  };
+
   const onSubmitBorrow = async () => {
     if (
       form.formState.errors.borrow ||
@@ -161,32 +233,11 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
     )
       return;
 
-    try {
-      if (form.getValues('borrow').collateral) {
-        const tx = await addDineroMarketCollateral(
-          DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
-          provider,
-          account,
-          BSC_TEST_ERC_20_DATA[currency].address,
-          IntMath.toBigNumber(+form.getValues('borrow').collateral)
-        );
-
-        await tx.wait(2);
-      }
-
-      if (form.getValues('borrow').loan) {
-        const tx = await getDineroMarketLoan(
-          DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
-          provider,
-          account,
-          IntMath.toBigNumber(+form.getValues('borrow').loan)
-        );
-
-        await tx.wait(2);
-      }
-    } catch (e: unknown) {
-      console.warn((e as Error).message);
-    }
+    toast.promise(handleBorrow(chainId, provider, account), {
+      loading: 'Loading...',
+      success: 'Success!',
+      error: (error) => error.message,
+    });
   };
 
   const onSubmitRepay = () => {
@@ -197,6 +248,8 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
     )
       console.log(form.getValues('repay'));
   };
+
+  if (error) return <ErrorPage message="Something went wrong" />;
 
   return (
     <Web3Manager>
