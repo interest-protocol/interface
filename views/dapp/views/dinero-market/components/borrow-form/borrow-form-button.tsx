@@ -25,53 +25,51 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
   const repayCollateral = useWatch({ control, name: 'repay.collateral' });
   const borrowCollateral = useWatch({ control, name: 'borrow.collateral' });
 
-  // useEffect(() => {
-  //   if (
-  //     errors.borrow?.loan?.type !== 'max' &&
-  //     borrowLoan &&
-  //     parseEther(borrowLoan).gt(
-  //       convertCollateralToDinero(
-  //         data.market.userCollateral,
-  //         data.market.ltvRatio,
-  //         data.market.exchangeRate
-  //       )
-  //     )
-  //   )
-  //     setError('borrow.loan', {
-  //       type: 'max',
-  //       message: 'The Loan must to be less than LTV',
-  //     });
-  //
-  //   if (
-  //     errors.borrow?.loan?.type === 'max' &&
-  //     borrowLoan &&
-  //     convertCollateralToDinero(
-  //       data.market.userCollateral,
-  //       data.market.ltvRatio,
-  //       data.market.exchangeRate
-  //     ).gte(parseEther(borrowLoan))
-  //   )
-  //     clearErrors('borrow.loan');
-  // }, [borrowLoan, borrowCollateral]);
-  //
-  // useEffect(() => {
-  //   if (
-  //     errors.borrow?.collateral?.type !== 'max' &&
-  //     borrowCollateral &&
-  //     parseEther(borrowCollateral).gt(data.balances[0].numerator)
-  //   )
-  //     setError('borrow.collateral', {
-  //       type: 'max',
-  //       message: 'The Collateral must not to be more than your balance',
-  //     });
-  //
-  //   if (
-  //     errors.borrow?.loan?.type === 'max' &&
-  //     borrowCollateral &&
-  //     +borrowCollateral <= IntMath.toNumber(data.balances[0].numerator)
-  //   )
-  //     clearErrors('borrow.collateral');
-  // }, [borrowLoan, borrowCollateral]);
+  useEffect(() => {
+    if (
+      errors.borrow?.loan?.type !== 'max' &&
+      borrowLoan &&
+      parseEther(borrowLoan).gt(
+        convertCollateralToDinero(
+          data.market.userCollateral,
+          data.market.ltvRatio,
+          data.market.exchangeRate
+        )
+      )
+    )
+      setError('borrow.loan', {
+        type: 'max',
+        message: 'The Loan must to be less than LTV',
+      });
+
+    if (
+      errors.borrow?.loan?.type === 'max' &&
+      borrowLoan &&
+      convertCollateralToDinero(
+        data.market.userCollateral,
+        data.market.ltvRatio,
+        data.market.exchangeRate
+      ).gte(parseEther(borrowLoan))
+    )
+      clearErrors('borrow.loan');
+
+    if (
+      errors.borrow?.collateral?.type !== 'max' &&
+      borrowCollateral &&
+      parseEther(borrowCollateral).gt(data.balances[0].numerator)
+    )
+      setError('borrow.collateral', {
+        type: 'max',
+        message: 'The Collateral must not to be more than your balance',
+      });
+
+    if (
+      errors.borrow?.collateral?.type === 'max' &&
+      borrowCollateral &&
+      +borrowCollateral <= IntMath.toNumber(data.balances[0].numerator)
+    )
+      clearErrors('borrow.collateral');
+  }, [borrowLoan, borrowCollateral]);
 
   return (
     <Box display="flex" justifyContent="center" mt="XXL">
