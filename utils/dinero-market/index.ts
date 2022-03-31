@@ -7,6 +7,7 @@ import {
   BSC_TEST_ERC_20_DATA,
   TOKEN_SYMBOL,
   TOKENS_SVG_MAP,
+  UNKNOWN_ERC_20,
 } from '@/constants/erc-20.data';
 import { SECONDS_IN_A_YEAR, ZERO } from '@/constants/index';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
@@ -14,16 +15,53 @@ import { Fraction } from '@/sdk/entities/fraction';
 import { IntMath } from '@/sdk/entities/int-math';
 
 import { BtcDineroMarketAbi, Erc20Abi } from '../../types/ethers-contracts';
-import { formatMoney } from '../string';
+import { formatMoney, parseToStringNumber } from '../string';
 import {
   GetDineroMarketUserDataReturn,
+  MarketAndBalancesData,
   TGetBorrowFields,
-  TGetCurrencyAmount,
   TGetInfoLoanData,
   TGetLoanData,
   TGetMyPositionData,
   TGetRepayFields,
 } from './dinero-market.types';
+
+export const processData = (
+  x: MarketAndBalancesData | undefined
+): MarketAndBalancesData => {
+  if (x) return x;
+
+  return {
+    balances: [
+      CurrencyAmount.fromRawAmount(UNKNOWN_ERC_20, 0),
+      CurrencyAmount.fromRawAmount(BSC_TEST_ERC_20_DATA[TOKEN_SYMBOL.DNR], 0),
+    ],
+    market: {
+      exchangeRate: ZERO,
+      ltvRatio: ZERO,
+      loan: {
+        lastAccrued: ZERO,
+        INTEREST_RATE: ZERO,
+        feesEarned: ZERO,
+        '0': ZERO,
+        '1': ZERO,
+        '2': ZERO,
+        length: 3,
+      } as any,
+      userLoan: ZERO,
+      userCollateral: ZERO,
+      totalLoan: {
+        elastic: ZERO,
+        base: ZERO,
+        '1': ZERO,
+        '0': ZERO,
+        length: 2,
+      } as any,
+      allowance: ZERO,
+      liquidationFee: ZERO,
+    },
+  };
+};
 
 export const getDineroMarketLoan = async (
   dineroMarket: string,
@@ -204,89 +242,81 @@ export const calculateBorrowAmount = (
     .sub(userElasticLoan);
 };
 
-export const getCurrencyAmount: TGetCurrencyAmount = (data, currency) =>
-  +(
-    data?.balances
-      .find((x) => x.currency.symbol === currency)
-      ?.toSignificant(4) ?? 0
-  );
-
 export const getRepayFields: TGetRepayFields = (data, currency) =>
-  data?.balances.map((x) => {
-    const SVG = TOKENS_SVG_MAP[x.currency.symbol];
-    if (x.currency.symbol === TOKEN_SYMBOL.DNR)
-      return {
-        amount: '0',
-        amountUSD: 1,
-        CurrencySVG: SVG,
-        name: 'repay.loan',
-        label: 'Repay Dinero',
-        max: +x.toSignificant(4),
-        currency: TOKEN_SYMBOL.DNR,
-      };
+  data
+    ? data?.balances.map((x) => {
+        const SVG = TOKENS_SVG_MAP[x.currency.symbol];
+        if (x.currency.symbol === TOKEN_SYMBOL.DNR)
+          return {
+            amount: '0',
+            amountUSD: 1,
+            CurrencySVG: SVG,
+            name: 'repay.loan',
+            label: 'Repay Dinero',
+            max: +x.toSignificant(4),
+            currency: TOKEN_SYMBOL.DNR,
+          };
 
-    return {
-      currency,
-      amount: '0',
-      CurrencySVG: SVG,
-      max: +x.toSignificant(4),
-      name: 'repay.collateral',
-      label: 'Remove Collateral',
-      amountUSD: data?.market.exchangeRate.isZero()
-        ? 0
-        : data?.market.exchangeRate
-            .div(ethers.utils.parseEther('1'))
-            .toNumber() || 0,
-    };
-  });
+        return {
+          currency,
+          amount: '0',
+          CurrencySVG: SVG,
+          max: +x.toSignificant(4),
+          name: 'repay.collateral',
+          label: 'Remove Collateral',
+          amountUSD: data?.market.exchangeRate.isZero()
+            ? 0
+            : data?.market.exchangeRate
+                .div(ethers.utils.parseEther('1'))
+                .toNumber() || 0,
+        };
+      })
+    : [];
 
 export const getBorrowFields: TGetBorrowFields = (data, currency, collateral) =>
-  data?.balances.map((x) => {
-    const SVG = TOKENS_SVG_MAP[x.currency.symbol];
-    if (x.currency.symbol === TOKEN_SYMBOL.DNR)
-      return {
-        max: data
-          ? calculateBorrowAmount(
-              data.market.userCollateral.add(
-                BigNumber.from(collateral).mul(ethers.utils.parseEther('1'))
-              ),
-              data.market.userLoan,
-              data.market.exchangeRate,
-              data.market.ltvRatio,
-              data.market.totalLoan
-            )
-              .value()
-              .div(ethers.utils.parseEther('1'))
-              .toNumber()
-          : 0,
-        amount: '0',
-        amountUSD: 1,
-        CurrencySVG: SVG,
-        name: 'borrow.loan',
-        label: 'Borrow Dinero',
-        currency: TOKEN_SYMBOL.DNR,
-      };
+  data
+    ? data?.balances.map((x) => {
+        const SVG = TOKENS_SVG_MAP[x.currency.symbol];
+        if (x.currency.symbol === TOKEN_SYMBOL.DNR)
+          return {
+            max: data
+              ? calculateBorrowAmount(
+                  data.market.userCollateral.add(
+                    ethers.utils.parseEther(parseToStringNumber(collateral))
+                  ),
+                  data.market.userLoan,
+                  data.market.exchangeRate,
+                  data.market.ltvRatio,
+                  data.market.totalLoan
+                ).toNumber()
+              : 0,
+            amount: '0',
+            amountUSD: 1,
+            CurrencySVG: SVG,
+            name: 'borrow.loan',
+            label: 'Borrow Dinero',
+            currency: TOKEN_SYMBOL.DNR,
+          };
 
-    return {
-      currency,
-      amount: '0',
-      CurrencySVG: SVG,
-      max: +x.toSignificant(4),
-      name: 'borrow.collateral',
-      label: 'Deposit Collateral',
-      amountUSD: data?.market.exchangeRate.isZero()
-        ? 0
-        : data?.market.exchangeRate
-            .div(ethers.utils.parseEther('1'))
-            .toNumber() || 0,
-    };
-  });
+        return {
+          currency,
+          amount: '0',
+          CurrencySVG: SVG,
+          max: +x.toSignificant(4),
+          name: 'borrow.collateral',
+          label: 'Deposit Collateral',
+          amountUSD: data?.market.exchangeRate.isZero()
+            ? 0
+            : IntMath.toNumber(data?.market.exchangeRate),
+        };
+      })
+    : [];
 
 export const getCurrencyLoanData: TGetLoanData = (data, loan) => {
   if (!data) return ['0', '0', '0'];
 
   const newBorrowAmount = data.market.userLoan.add(
-    IntMath.toBigNumber(+loan || 0)
+    IntMath.toBigNumber(+parseToStringNumber(loan) || 0)
   );
 
   const expectedLiquidationPrice = calculateExpectedLiquidationPrice(
@@ -294,7 +324,7 @@ export const getCurrencyLoanData: TGetLoanData = (data, loan) => {
     data.market.totalLoan,
     data.market.userCollateral,
     data.market.userLoan,
-    loan ? BigNumber.from(loan) : ZERO
+    loan ? BigNumber.from(parseToStringNumber(loan)) : ZERO
   );
 
   const positionHealth = calculatePositionHealth(
@@ -302,7 +332,7 @@ export const getCurrencyLoanData: TGetLoanData = (data, loan) => {
     data.market.totalLoan,
     data.market.userCollateral,
     data.market.userLoan,
-    loan ? BigNumber.from(loan) : ZERO
+    loan ? BigNumber.from(parseToStringNumber(loan)) : ZERO
   );
 
   return [
@@ -384,3 +414,10 @@ export const getMyPositionData: TGetMyPositionData = (data, currency) => {
     ];
   }
 };
+
+export const convertCollateralToDinero = (
+  collateralAmount: BigNumber,
+  ltv: BigNumber,
+  exchangeRate: BigNumber
+): BigNumber =>
+  IntMath.from(collateralAmount).mul(ltv).mul(exchangeRate).value();

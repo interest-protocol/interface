@@ -3,5 +3,5 @@ import { ERC20 } from '@/sdk/entities/erc-20';
 
 export interface YourBalanceProps {
   loading: boolean;
-  balances: ReadonlyArray<CurrencyAmount<ERC20>> | undefined;
+  balances: ReadonlyArray<CurrencyAmount<ERC20>>;
 }

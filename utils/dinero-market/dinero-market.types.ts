@@ -20,36 +20,34 @@ export interface GetDineroMarketUserDataReturn {
   allowance: BigNumber;
 }
 
-export type TData =
-  | {
-      balances: CurrencyAmount<ERC20>[];
-      market: GetDineroMarketUserDataReturn;
-    }
-  | undefined;
+export type MarketAndBalancesData = {
+  balances: [CurrencyAmount<ERC20>, CurrencyAmount<ERC20>];
+  market: GetDineroMarketUserDataReturn;
+};
 
 export type TCurrency = TOKEN_SYMBOL;
 
-export type TGetCurrencyAmount = (data: TData, currency: TCurrency) => number;
-
 export type TGetRepayFields = (
-  data: TData,
+  data: MarketAndBalancesData,
   currency: TCurrency
-) => ReadonlyArray<IBorrowFormField> | undefined;
+) => ReadonlyArray<IBorrowFormField>;
 
 export type TGetBorrowFields = (
-  data: TData,
+  data: MarketAndBalancesData,
   currency: TCurrency,
   collateral: string
-) => ReadonlyArray<IBorrowFormField> | undefined;
+) => ReadonlyArray<IBorrowFormField>;
 
 export type TGetLoanData = (
-  data: TData,
+  data: MarketAndBalancesData,
   loan: string
 ) => [string, string, string];
 
-export type TGetInfoLoanData = (data: TData) => [string, string, string];
+export type TGetInfoLoanData = (
+  data: MarketAndBalancesData
+) => [string, string, string];
 
 export type TGetMyPositionData = (
-  data: TData,
+  data: MarketAndBalancesData,
   currency: TOKEN_SYMBOL
 ) => [string, string, string, string, string, string];

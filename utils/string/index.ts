@@ -13,3 +13,9 @@ export const formatMoney = (value: number): string =>
   })
     .format(value)
     .slice(1);
+
+export const parseToStringNumber = (x: string): string => {
+  if (isNaN(+x)) return '0';
+  if (0 > +x) return '0';
+  return x;
+};

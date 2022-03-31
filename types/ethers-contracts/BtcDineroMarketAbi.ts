@@ -37,6 +37,7 @@ export interface BtcDineroMarketAbiInterface extends utils.Interface {
     "VAULT()": FunctionFragment;
     "accrue()": FunctionFragment;
     "addCollateral(address,uint256)": FunctionFragment;
+    "addCollateralAndBorrow(address,uint256,address,uint256)": FunctionFragment;
     "approve()": FunctionFragment;
     "borrow(address,uint256)": FunctionFragment;
     "exchangeRate()": FunctionFragment;
@@ -50,6 +51,7 @@ export interface BtcDineroMarketAbiInterface extends utils.Interface {
     "proxiableUUID()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "repay(address,uint256)": FunctionFragment;
+    "repayAndWithdrawCollateral(address,uint256,address,uint256)": FunctionFragment;
     "setInterestRate(uint64)": FunctionFragment;
     "setLiquidationFee(uint256)": FunctionFragment;
     "setMaxLTVRatio(uint256)": FunctionFragment;
@@ -74,6 +76,7 @@ export interface BtcDineroMarketAbiInterface extends utils.Interface {
       | "VAULT"
       | "accrue"
       | "addCollateral"
+      | "addCollateralAndBorrow"
       | "approve"
       | "borrow"
       | "exchangeRate"
@@ -87,6 +90,7 @@ export interface BtcDineroMarketAbiInterface extends utils.Interface {
       | "proxiableUUID"
       | "renounceOwnership"
       | "repay"
+      | "repayAndWithdrawCollateral"
       | "setInterestRate"
       | "setLiquidationFee"
       | "setMaxLTVRatio"
@@ -114,6 +118,10 @@ export interface BtcDineroMarketAbiInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "addCollateral",
     values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addCollateralAndBorrow",
+    values: [string, BigNumberish, string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "approve", values?: undefined): string;
   encodeFunctionData(
@@ -169,6 +177,10 @@ export interface BtcDineroMarketAbiInterface extends utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "repayAndWithdrawCollateral",
+    values: [string, BigNumberish, string, BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setInterestRate",
     values: [BigNumberish]
   ): string;
@@ -219,6 +231,10 @@ export interface BtcDineroMarketAbiInterface extends utils.Interface {
     functionFragment: "addCollateral",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "addCollateralAndBorrow",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "borrow", data: BytesLike): Result;
   decodeFunctionResult(
@@ -250,6 +266,10 @@ export interface BtcDineroMarketAbiInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "repay", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "repayAndWithdrawCollateral",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "setInterestRate",
     data: BytesLike
@@ -485,6 +505,14 @@ export interface BtcDineroMarketAbi extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    addCollateralAndBorrow(
+      to: string,
+      amount: BigNumberish,
+      borrowTo: string,
+      borrowAmount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     approve(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -548,6 +576,14 @@ export interface BtcDineroMarketAbi extends BaseContract {
     repay(
       account: string,
       principal: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    repayAndWithdrawCollateral(
+      account: string,
+      principal: BigNumberish,
+      to: string,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -630,6 +666,14 @@ export interface BtcDineroMarketAbi extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  addCollateralAndBorrow(
+    to: string,
+    amount: BigNumberish,
+    borrowTo: string,
+    borrowAmount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   approve(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -693,6 +737,14 @@ export interface BtcDineroMarketAbi extends BaseContract {
   repay(
     account: string,
     principal: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  repayAndWithdrawCollateral(
+    account: string,
+    principal: BigNumberish,
+    to: string,
+    amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -768,6 +820,14 @@ export interface BtcDineroMarketAbi extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    addCollateralAndBorrow(
+      to: string,
+      amount: BigNumberish,
+      borrowTo: string,
+      borrowAmount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     approve(overrides?: CallOverrides): Promise<void>;
 
     borrow(
@@ -825,6 +885,14 @@ export interface BtcDineroMarketAbi extends BaseContract {
     repay(
       account: string,
       principal: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    repayAndWithdrawCollateral(
+      account: string,
+      principal: BigNumberish,
+      to: string,
+      amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -994,6 +1062,14 @@ export interface BtcDineroMarketAbi extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    addCollateralAndBorrow(
+      to: string,
+      amount: BigNumberish,
+      borrowTo: string,
+      borrowAmount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     approve(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -1049,6 +1125,14 @@ export interface BtcDineroMarketAbi extends BaseContract {
     repay(
       account: string,
       principal: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    repayAndWithdrawCollateral(
+      account: string,
+      principal: BigNumberish,
+      to: string,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1125,6 +1209,14 @@ export interface BtcDineroMarketAbi extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    addCollateralAndBorrow(
+      to: string,
+      amount: BigNumberish,
+      borrowTo: string,
+      borrowAmount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     approve(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -1180,6 +1272,14 @@ export interface BtcDineroMarketAbi extends BaseContract {
     repay(
       account: string,
       principal: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    repayAndWithdrawCollateral(
+      account: string,
+      principal: BigNumberish,
+      to: string,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

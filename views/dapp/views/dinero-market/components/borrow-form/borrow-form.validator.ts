@@ -6,7 +6,7 @@ export const borrowFormValidation = object().shape({
     loan: number().min(0, 'The minimum value is 0'),
   }),
   repay: object().shape({
-    collateral: number(),
-    loan: number().min(0),
+    collateral: number().min(0, 'The minimum value is 0'),
+    loan: number().min(0, 'The minimum value is 0'),
   }),
 });

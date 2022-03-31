@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Button } from '@/elements';
+import { calculateDineroLeftToBorrow } from '@/utils/dinero-market';
 
 import { InputMaxButtonProps } from './input-money.types';
 
@@ -10,16 +11,23 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
   name,
   control,
   setValue,
-  ltvRatio,
-  currencyDiff,
+  data,
 }) => {
-  const [innerMax, setInnerMax] = useState(max);
+  const [innerMax, setInnerMax] = useState(max || 0);
   const collateral = useWatch({ control, name: 'borrow.collateral' });
 
   useEffect(() => {
-    if (name === 'borrow.loan' && ltvRatio && collateral)
-      setInnerMax((ltvRatio / 100) * +collateral * currencyDiff);
-  }, [ltvRatio, collateral]);
+    if (name === 'borrow.loan' && collateral)
+      setInnerMax(
+        calculateDineroLeftToBorrow(
+          data.market.ltvRatio,
+          data.market.totalLoan,
+          data.market.userCollateral,
+          data.market.userLoan,
+          data.market.exchangeRate
+        ).toNumber()
+      );
+  }, [data, collateral]);
 
   return (
     <Button
@@ -37,4 +45,5 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     </Button>
   );
 };
+
 export default InputMaxButton;

@@ -5,6 +5,7 @@ import { v4 } from 'uuid';
 
 import { Box, Button, Typography } from '@/elements';
 import { Fraction } from '@/sdk/entities/fraction';
+import { IntMath } from '@/sdk/entities/int-math';
 import { calculateBorrowAmount } from '@/utils/dinero-market';
 
 import { BorrowFormSelectLTVProps } from './borrow-form.types';
@@ -13,7 +14,6 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   data,
   control,
   setValue,
-  currencyDiff,
 }) => {
   const borrowCollateral = useWatch({
     control,
@@ -30,11 +30,13 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
     setValue(
       'borrow.loan',
       `${calculateBorrowAmount(
-        data.userCollateral.add(ethers.utils.parseEther(borrowCollateral)),
-        data.userLoan,
-        data.exchangeRate,
+        data.market.userCollateral.add(
+          ethers.utils.parseEther(borrowCollateral)
+        ),
+        data.market.userLoan,
+        data.market.exchangeRate,
         BigNumber.from(intendedLTV).mul(BigNumber.from(10).pow(16)),
-        data.totalLoan
+        data.market.totalLoan
       )
         .value()
         .div(ethers.utils.parseEther('1'))
@@ -43,13 +45,14 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   };
 
   const ltvRatio = useMemo(() => {
-    if (!data?.ltvRatio) return 0;
+    if (data.market.ltvRatio.isZero()) return 0;
     return (
-      +Fraction.from(data.ltvRatio, ethers.utils.parseEther('1')).toSignificant(
-        4
-      ) * 100
+      +Fraction.from(
+        data.market.ltvRatio,
+        ethers.utils.parseEther('1')
+      ).toSignificant(4) * 100
     );
-  }, [data?.ltvRatio]);
+  }, [data.market.ltvRatio]);
 
   return (
     <Box mt="XL">
@@ -82,7 +85,9 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
               !!ltvRatio && item >= ltvRatio
                 ? 'disabled'
                 : +borrowLoan ===
-                  +borrowCollateral * (item / 100) * currencyDiff
+                  +borrowCollateral *
+                    (item / 100) *
+                    IntMath.toNumber(data.market.exchangeRate)
                 ? 'background'
                 : 'bottomBackground'
             }

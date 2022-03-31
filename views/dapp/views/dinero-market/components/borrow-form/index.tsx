@@ -21,12 +21,8 @@ const BorrowForm: FC<BorrowFormProps> = ({
   isBorrow,
   setValue,
   register,
-  ltvRatio,
   setError,
-  allowance,
   clearErrors,
-  currencyDiff,
-  currencyAmount,
   handleAddAllowance,
   formState: { errors },
 }) => (
@@ -41,13 +37,12 @@ const BorrowForm: FC<BorrowFormProps> = ({
         </Box>
       ) : (
         <InputMoney
+          data={data}
           key={v4()}
           errors={errors}
           control={control}
-          ltvRatio={ltvRatio}
           register={register}
           setValue={setValue}
-          currencyDiff={currencyDiff}
           {...input}
         />
       )
@@ -65,24 +60,16 @@ const BorrowForm: FC<BorrowFormProps> = ({
       ))}
     </Box>
     {isBorrow && (
-      <BorrowFormSelectLTV
-        data={data}
-        control={control}
-        setValue={setValue}
-        currencyDiff={currencyDiff}
-      />
+      <BorrowFormSelectLTV data={data} control={control} setValue={setValue} />
     )}
     <BorrowFormButton
+      data={data}
       errors={errors}
       control={control}
       isBorrow={isBorrow}
-      ltvRatio={ltvRatio}
       setError={setError}
       onSubmit={onSubmit}
-      allowance={allowance}
       clearErrors={clearErrors}
-      currencyDiff={currencyDiff!}
-      currencyAmount={currencyAmount}
       handleAddAllowance={handleAddAllowance}
     />
   </Box>

@@ -1,42 +1,80 @@
 import { FC, SVGAttributes } from 'react';
 
-const Etherium: FC<SVGAttributes<SVGSVGElement>> = (props) => (
+const Ethereum: FC<SVGAttributes<SVGSVGElement>> = (props) => (
   <svg
+    id="katman_1"
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 784.37 1277.39"
+    x={0}
+    y={0}
+    viewBox="0 0 1242 962"
+    style={
+      {
+        enableBackground: 'new 0 0 1242 962',
+      } as any
+    }
+    xmlSpace="preserve"
     {...props}
   >
-    <polygon
-      fill="#343434"
-      fillRule="nonzero"
-      points="392.07,0 383.5,29.11 383.5,873.74 392.07,882.29 784.13,650.54 "
-    />
-    <polygon
-      fill="#8C8C8C"
-      fillRule="nonzero"
-      points="392.07,0 -0,650.54 392.07,882.29 392.07,472.33 "
-    />
-    <polygon
-      fill="#3C3C3B"
-      fillRule="nonzero"
-      points="392.07,956.52 387.24,962.41 387.24,1263.28 392.07,1277.38 784.37,724.89 "
-    />
-    <polygon
-      fill="#8C8C8C"
-      fillRule="nonzero"
-      points="392.07,1277.38 392.07,956.52 -0,724.89 "
-    />
-    <polygon
-      fill="#141414"
-      fillRule="nonzero"
-      points="392.07,882.29 784.13,650.54 392.07,472.33 "
-    />
-    <polygon
-      fill="#393939"
-      fillRule="nonzero"
-      points="0,650.54 392.07,882.29 392.07,472.33 "
-    />
+    <style>{'.st1{fill-opacity:.602}.st1,.st2{fill:#fff}'}</style>
+    <g id="All">
+      <g id="Developer-Center" transform="translate(-1008 -2285)">
+        <g id="Group-28" transform="translate(382 2270.8)">
+          <g id="Group-29" transform="translate(0 .2)">
+            <g id="Group-10" transform="translate(0 14)">
+              <g id="Group-13">
+                <g id="Group-46" transform="translate(626.4)">
+                  <g id="Group-45">
+                    <circle
+                      id="Oval"
+                      cx={620.8}
+                      cy={481.5}
+                      r={365.8}
+                      style={{
+                        fill: '#627eea',
+                      }}
+                    />
+                    <path
+                      id="Path"
+                      className="st1"
+                      d="M632.2 207.1v202.8l171.4 76.6z"
+                    />
+                    <path
+                      id="Path_1_"
+                      className="st2"
+                      d="M632.2 207.1 460.8 486.5l171.4-76.6z"
+                    />
+                    <path
+                      id="Path_2_"
+                      className="st1"
+                      d="M632.2 617.9v137.8l171.5-237.3z"
+                    />
+                    <path
+                      id="Path_3_"
+                      className="st2"
+                      d="M632.2 755.7V617.9l-171.4-99.5z"
+                    />
+                    <path
+                      id="Path_4_"
+                      style={{
+                        fill: '#fff',
+                        fillOpacity: 0.2,
+                      }}
+                      d="m632.2 586 171.4-99.5-171.4-76.6z"
+                    />
+                  </g>
+                  <path
+                    id="Path_5_"
+                    className="st1"
+                    d="M460.8 486.5 632.2 586V409.9z"
+                  />
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
   </svg>
 );
 
-export default Etherium;
+export default Ethereum;

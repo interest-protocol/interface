@@ -7,6 +7,7 @@ import { InputMoneyProps } from './input-money.types';
 import InputMoneySuffix from './input-money-suffix';
 
 const InputMoney: FC<InputMoneyProps> = ({
+  data,
   max,
   name,
   label,
@@ -16,19 +17,16 @@ const InputMoney: FC<InputMoneyProps> = ({
   register,
   currency,
   setValue,
-  ltvRatio,
   amountUSD,
   CurrencySVG,
-  currencyDiff,
 }) => {
   const labels = name.split('.');
-
   const error = useMemo(
     () =>
       errors?.[labels[0] as 'borrow' | 'repay']?.[
         labels[1] as 'collateral' | 'loan'
       ],
-    [errors]
+    [errors, labels]
   );
 
   return (
@@ -71,9 +69,8 @@ const InputMoney: FC<InputMoneyProps> = ({
               max={max}
               name={name}
               control={control}
-              ltvRatio={ltvRatio}
+              data={data}
               setValue={setValue}
-              currencyDiff={currencyDiff!}
             />
             <Box
               px="L"

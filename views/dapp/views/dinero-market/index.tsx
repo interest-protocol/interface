@@ -9,7 +9,6 @@ import { Container, Web3Manager } from '@/components';
 import priorityHooks from '@/connectors';
 import { DINERO_MARKET_CONTRACTS_MAP } from '@/constants/dinero-market-contracts.data';
 import { BSC_TEST_ERC_20_DATA, TOKEN_SYMBOL } from '@/constants/erc-20.data';
-import { ZERO } from '@/constants/index';
 import { Box } from '@/elements';
 import { CHAIN_ID, CHAINS } from '@/sdk/chains';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
@@ -18,14 +17,15 @@ import {
   addDineroMarketCollateral,
   calculateUserLTVRatio,
   getBorrowFields,
-  getCurrencyAmount,
   getCurrencyLoanData,
   getDineroMarketLoan,
   getDineroMarketUserData,
   getLoanInfoData,
   getMyPositionData,
   getRepayFields,
+  processData,
 } from '@/utils/dinero-market';
+import { MarketAndBalancesData } from '@/utils/dinero-market/dinero-market.types';
 import { addAllowance, getERC20Balance } from '@/utils/erc-20';
 
 import GoBack from '../../components/go-back';
@@ -75,7 +75,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
     );
   }, [account, currency, provider, chainId]);
 
-  const { error, data } = useSWR(
+  const { error, data: rawData } = useSWR<MarketAndBalancesData | undefined>(
     `${account}-${currency}-${chainId}-dinero-market`,
     async () => {
       setIsGettingData(true);
@@ -123,10 +123,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
     }
   );
 
-  const currencyAmount = useMemo(
-    () => getCurrencyAmount(data, currency as TOKEN_SYMBOL),
-    [data]
-  );
+  const data = useMemo(() => processData(rawData), [rawData]);
 
   const repayFieldsData = useMemo(
     () => getRepayFields(data, currency as TOKEN_SYMBOL),
@@ -250,7 +247,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
   };
 
   if (error) return <ErrorPage message="Something went wrong" />;
-
+  console.log('rerene');
   return (
     <Web3Manager>
       <Container
@@ -287,23 +284,9 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                 loading={isGettingData}
                 onSubmit={onSubmitBorrow}
                 loanData={borrowFormLoanData}
-                fields={borrowFieldsData || []}
-                currencyAmount={currencyAmount}
-                currencyDiff={
-                  (data?.market.exchangeRate.isZero()
-                    ? 0
-                    : data?.market.exchangeRate
-                        .div(ethers.utils.parseEther('1'))
-                        .toNumber() || 0) / 1
-                }
-                ltvRatio={
-                  +IntMath.from(data?.market.ltvRatio || 0)
-                    .toPercentage()
-                    .replace(' %', '')
-                }
-                data={data?.market}
-                allowance={data?.market.allowance || ZERO}
+                fields={borrowFieldsData}
                 handleAddAllowance={handleAddAllowance}
+                data={data}
                 {...form}
               />
             )}
@@ -312,60 +295,28 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                 loading={isGettingData}
                 onSubmit={onSubmitRepay}
                 loanData={borrowFormLoanData}
-                fields={repayFieldsData || []}
-                currencyAmount={currencyAmount}
-                currencyDiff={
-                  (data?.market.exchangeRate.isZero()
-                    ? 0
-                    : data?.market.exchangeRate
-                        .div(ethers.utils.parseEther('1'))
-                        .toNumber() || 0) / 1
-                }
-                ltvRatio={
-                  data
-                    ? +IntMath.from(data.market.ltvRatio)
-                        .toPercentage()
-                        .replace(' %', '')
-                    : undefined
-                }
-                data={data?.market}
-                allowance={data?.market.allowance || ZERO}
+                fields={repayFieldsData}
                 handleAddAllowance={handleAddAllowance}
+                data={data}
                 {...form}
               />
             )}
             <UserLTV
               isLoading={isGettingData}
-              ltv={
-                data?.market
-                  ? calculateUserLTVRatio(
-                      data.market.ltvRatio,
-                      data.market.totalLoan,
-                      data.market.userCollateral,
-                      data.market.userLoan
-                    )
-                      .value()
-                      .isZero()
-                    ? 0
-                    : calculateUserLTVRatio(
-                        data.market.ltvRatio,
-                        data.market.totalLoan,
-                        data.market.userCollateral,
-                        data.market.userLoan
-                      )
-                        .value()
-                        .div(ethers.utils.parseEther('1'))
-                        .toNumber()
-                  : 0
-              }
+              ltv={calculateUserLTVRatio(
+                data.market.ltvRatio,
+                data.market.totalLoan,
+                data.market.userCollateral,
+                data.market.userLoan
+              ).toNumber()}
             />
             <LoanInfo loanInfoData={loanInfoData} isLoading={isGettingData} />
             <MyOpenPosition
               isLoading={isGettingData}
               myPositionData={myPositionData}
-              exchangeRate={data?.market.exchangeRate}
+              exchangeRate={data.market.exchangeRate}
             />
-            <YourBalance loading={isGettingData} balances={data?.balances} />
+            <YourBalance loading={isGettingData} balances={data.balances} />
           </Box>
         </Box>
       </Container>

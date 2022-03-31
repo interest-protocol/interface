@@ -25,7 +25,7 @@ const BorrowTable: FC = () => {
   const { data, error } = useGetDineroMarketErc20Summary(
     dineroMarketContractAddresses
   );
-
+  console.log(error);
   if (error)
     return (
       <Box

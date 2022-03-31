@@ -6,7 +6,7 @@ import dineroMarketERC20ABI from '@/constants/abi/btc-dinero-market.abi.json';
 import { CHAIN_ID, getChainId } from '@/sdk/chains';
 
 import { BtcDineroMarketAbi } from '../../types/ethers-contracts';
-import { SWRResponseData } from './use-get-diner-market-erc20-summary.types';
+import { SWRResponseData } from './use-get-dinero-market-erc20-summary.types';
 
 const { usePriorityChainId, usePriorityProvider } = priorityHooks;
 

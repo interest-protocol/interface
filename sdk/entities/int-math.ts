@@ -1,5 +1,7 @@
 import { BigNumber, BigNumberish, utils } from 'ethers';
 
+import { ZERO } from '@/constants/index';
+
 import { Fraction } from './fraction';
 const { parseEther } = utils;
 
@@ -18,15 +20,33 @@ export class IntMath {
     return x;
   }
 
+  private isZero(value: BigNumberish | IntMath): boolean {
+    if (value instanceof BigNumber) return value.isZero();
+    if (value === 0) return true;
+    if (value instanceof IntMath) return value.value().isZero();
+    return value === '0';
+  }
+
   public static from(value: BigNumberish): IntMath {
     return new IntMath(value);
   }
 
   public static toBigNumber(value: number, decimals = 18): BigNumber {
+    if (0 > value) return ZERO;
     return BigNumber.from(value).mul(BigNumber.from(10).pow(decimals));
   }
 
+  public static toNumber(value: BigNumber, decimals = 18): number {
+    if (value.isZero()) return 0;
+    return value.div(BigNumber.from(10).pow(decimals)).toNumber();
+  }
+
+  public toNumber(decimals = 18): number {
+    return IntMath.toNumber(this._value, decimals);
+  }
+
   public div(x: BigNumberish | IntMath): IntMath {
+    if (this.isZero(x)) return IntMath.from(0);
     this._value = this._value.mul(ONE_ETHER).div(this.parseValue(x));
     return this;
   }
