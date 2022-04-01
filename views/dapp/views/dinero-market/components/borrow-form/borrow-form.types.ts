@@ -23,6 +23,7 @@ export interface BorrowFormButtonProps
   > {
   isBorrow?: boolean;
   onSubmit: () => void;
+  isSubmitting: boolean;
   data: MarketAndBalancesData;
   errors: UseFormStateReturn<IBorrowForm>['errors'];
   handleAddAllowance: () => Promise<ContractTransaction> | undefined;
@@ -31,8 +32,9 @@ export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
   loading?: boolean;
   isBorrow?: boolean;
   onSubmit: () => void;
-  fields: ReadonlyArray<IBorrowFormField>;
+  isSubmitting: boolean;
   data: MarketAndBalancesData;
+  fields: ReadonlyArray<IBorrowFormField>;
   handleAddAllowance: () => Promise<ContractTransaction> | undefined;
 }
 

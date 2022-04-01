@@ -21,6 +21,7 @@ const BorrowForm: FC<BorrowFormProps> = ({
   register,
   setError,
   clearErrors,
+  isSubmitting,
   handleAddAllowance,
   formState: { errors },
 }) => (
@@ -52,11 +53,12 @@ const BorrowForm: FC<BorrowFormProps> = ({
     <BorrowFormButton
       data={data}
       errors={errors}
+      control={control}
       isBorrow={isBorrow}
       setError={setError}
       onSubmit={onSubmit}
-      control={control}
       clearErrors={clearErrors}
+      isSubmitting={isSubmitting}
       handleAddAllowance={handleAddAllowance}
     />
   </Box>

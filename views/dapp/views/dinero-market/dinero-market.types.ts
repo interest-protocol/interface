@@ -20,6 +20,7 @@ export interface IBorrowForm {
 
 export interface FormsProps {
   currency: string;
+  isSubmitting: boolean;
   isGettingData: boolean;
   mode: 'borrow' | 'repay';
   onSubmitRepay: () => void;

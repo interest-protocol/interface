@@ -43,6 +43,7 @@ const { usePriorityAccount, usePriorityProvider, usePriorityChainId } =
   priorityHooks;
 
 const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGettingData, setIsGettingData] = useState(false);
   const form = useForm<IBorrowForm>({
     mode: 'onChange',
@@ -55,23 +56,31 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
   const provider = usePriorityProvider();
   const chainId = usePriorityChainId();
 
-  const handleAddAllowance = useCallback(() => {
-    if (!account || !chainId || !provider) return;
+  const handleAddAllowance = useCallback(async () => {
+    setIsSubmitting(true);
+    try {
+      if (!account || !chainId || !provider)
+        throw new Error('Error! Verify your wallet connection');
 
-    return toast.promise(
-      addAllowance(
+      return await addAllowance(
         account,
         BSC_TEST_ERC_20_DATA[currency].address,
         provider,
         DINERO_MARKET_CONTRACTS_MAP[chainId][currency]
-      ),
-      {
-        loading: 'Allowing...',
-        success: 'Success!',
-        error: ({ message }) => message,
-      }
-    );
+      );
+    } catch (e) {
+      throw e ?? new Error('Something went wrong');
+    } finally {
+      setIsSubmitting(false);
+    }
   }, [account, currency, provider, chainId]);
+
+  const submitAllowance = () =>
+    toast.promise(handleAddAllowance(), {
+      loading: 'Allowing...',
+      success: 'Success!',
+      error: ({ message }) => message,
+    });
 
   const { error, data: rawData } = useSWR<MarketAndBalancesData | undefined>(
     `${account}-${currency}-${chainId}-dinero-market`,
@@ -147,6 +156,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
     provider: ethers.providers.Web3Provider,
     account: string
   ) => {
+    setIsSubmitting(true);
     try {
       const collateral = form.getValues('borrow').collateral;
       const loan = form.getValues('borrow').loan;
@@ -155,17 +165,32 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
         (!collateral || isNaN(+collateral) || collateral === '0') &&
         (!loan || isNaN(+loan) || loan === '0')
       )
-        //TODO send toast  error
-        return;
+        throw new Error('Form: Invalid Fields');
 
       if (collateral && loan) {
         // TODO send toast
-        await addCollateralAndLoan(
+        const tx = await addCollateralAndLoan(
           DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
           provider,
           account,
           IntMath.toBigNumber(collateral),
           IntMath.toBigNumber(loan)
+        );
+
+        const receipt = await tx.wait(2);
+
+        const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
+
+        toast(
+          <a
+            target="__black"
+            rel="noreferrer nofollow"
+            href={`${explorer ? explorer[0] : ''}/tx/${
+              receipt.transactionHash
+            }`}
+          >
+            Check on Explorer
+          </a>
         );
 
         return;
@@ -223,6 +248,8 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
       }
     } catch (e) {
       throw e ?? new Error('Something went wrong');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -296,10 +323,11 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
               mode={mode}
               form={form}
               currency={currency}
+              isSubmitting={isSubmitting}
               isGettingData={isGettingData}
-              onSubmitBorrow={onSubmitBorrow}
-              handleAddAllowance={handleAddAllowance}
               onSubmitRepay={onSubmitRepay}
+              onSubmitBorrow={onSubmitBorrow}
+              handleAddAllowance={submitAllowance}
             />
             <UserLTV
               isLoading={isGettingData}

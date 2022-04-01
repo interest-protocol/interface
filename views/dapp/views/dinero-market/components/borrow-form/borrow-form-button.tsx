@@ -2,8 +2,9 @@ import { ethers } from 'ethers';
 import { FC, useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { Box, Button } from '@/elements';
+import { Box, Button, Typography } from '@/elements';
 import { IntMath } from '@/sdk/entities/int-math';
+import { LoadingSVG } from '@/svg';
 import { convertCollateralToDinero } from '@/utils/dinero-market';
 
 import { BorrowFormButtonProps } from './borrow-form.types';
@@ -11,14 +12,15 @@ import { BorrowFormButtonProps } from './borrow-form.types';
 const { parseEther } = ethers.utils;
 
 const BorrowFormButton: FC<BorrowFormButtonProps> = ({
+  data,
   errors,
   control,
   isBorrow,
   setError,
   onSubmit,
   clearErrors,
+  isSubmitting,
   handleAddAllowance,
-  data,
 }) => {
   const repayLoan = useWatch({ control, name: 'repay.loan' });
   const borrowLoan = useWatch({ control, name: 'borrow.loan' });
@@ -76,11 +78,24 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
       {isBorrow ? (
         data.market.allowance.isZero() ? (
           <Button
+            display="flex"
             variant="primary"
+            alignItems="center"
+            cursor="not-allowed"
+            disabled={isSubmitting}
+            justifyContent="center"
             onClick={handleAddAllowance}
             hover={{ bg: 'accentActive' }}
+            bg={isSubmitting ? 'accentActive' : 'accent'}
           >
-            Approve
+            {isSubmitting && <LoadingSVG width="1rem" />}
+            <Typography
+              as="span"
+              variant="normal"
+              ml={isSubmitting ? 'L' : 'NONE'}
+            >
+              Approve
+            </Typography>
           </Button>
         ) : (!borrowLoan && !borrowCollateral) ||
           (+borrowCollateral === 0 && +borrowLoan === 0) ? (
@@ -98,23 +113,46 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
           <Button
             type="submit"
             variant="primary"
-            hover={{ bg: 'accentActive' }}
             onClick={onSubmit}
+            cursor="not-allowed"
+            disabled={isSubmitting}
+            hover={{ bg: 'accentActive' }}
+            bg={isSubmitting ? 'accentActive' : 'accent'}
           >
-            {!!borrowLoan && !!borrowCollateral
-              ? 'Add Collateral and Borrow'
-              : +borrowCollateral > 0
-              ? 'Add Collateral'
-              : 'Borrow'}
+            {isSubmitting && <LoadingSVG width="1rem" />}
+            <Typography
+              as="span"
+              variant="normal"
+              ml={isSubmitting ? 'L' : 'NONE'}
+            >
+              {!!borrowLoan && !!borrowCollateral
+                ? 'Add Collateral and Borrow'
+                : +borrowCollateral > 0
+                ? 'Add Collateral'
+                : 'Borrow'}
+            </Typography>
           </Button>
         )
       ) : data.market.allowance.isZero() ? (
         <Button
+          display="flex"
           variant="primary"
+          alignItems="center"
+          cursor="not-allowed"
+          disabled={isSubmitting}
+          justifyContent="center"
           onClick={handleAddAllowance}
           hover={{ bg: 'accentActive' }}
+          bg={isSubmitting ? 'accentActive' : 'accent'}
         >
-          Approve
+          {isSubmitting && <LoadingSVG width="1rem" />}
+          <Typography
+            as="span"
+            variant="normal"
+            ml={isSubmitting ? 'L' : 'NONE'}
+          >
+            Approve
+          </Typography>
         </Button>
       ) : !repayLoan && !repayCollateral ? (
         <Box
@@ -131,14 +169,24 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
         <Button
           type="submit"
           variant="primary"
-          hover={{ bg: 'accentActive' }}
           onClick={onSubmit}
+          cursor="not-allowed"
+          disabled={isSubmitting}
+          hover={{ bg: 'accentActive' }}
+          bg={isSubmitting ? 'accentActive' : 'accent'}
         >
-          {!!repayLoan && !!repayCollateral
-            ? 'Remove Collateral and Repay Loan'
-            : repayCollateral
-            ? 'Remove Collateral'
-            : 'Repay Loan'}
+          {isSubmitting && <LoadingSVG width="1rem" />}
+          <Typography
+            as="span"
+            variant="normal"
+            ml={isSubmitting ? 'L' : 'NONE'}
+          >
+            {!!repayLoan && !!repayCollateral
+              ? 'Remove Collateral and Repay Loan'
+              : repayCollateral
+              ? 'Remove Collateral'
+              : 'Repay Loan'}
+          </Typography>
         </Button>
       )}
     </Box>
