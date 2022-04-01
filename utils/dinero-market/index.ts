@@ -186,8 +186,7 @@ export const calculatePositionHealth = (
   userPrincipal: BigNumber,
   exchangeRate: BigNumber
 ): IntMath => {
-  if (userPrincipal.isZero() || userCollateral.isZero())
-    return IntMath.from(ethers.utils.parseEther('100'));
+  if (userPrincipal.isZero() || userCollateral.isZero()) return IntMath.from(0);
 
   const userElasticLoan = loanPrincipalToElastic(totalLoan, userPrincipal);
 

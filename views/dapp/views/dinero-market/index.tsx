@@ -9,6 +9,7 @@ import { Container, Web3Manager } from '@/components';
 import priorityHooks from '@/connectors';
 import { DINERO_MARKET_CONTRACTS_MAP } from '@/constants/dinero-market-contracts.data';
 import { BSC_TEST_ERC_20_DATA, TOKEN_SYMBOL } from '@/constants/erc-20.data';
+import { Rounding } from '@/constants/index';
 import { Box } from '@/elements';
 import { CHAIN_ID, CHAINS } from '@/sdk/chains';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
@@ -171,7 +172,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
         data.market.userCollateral,
         data.market.userLoan,
         data.market.exchangeRate
-      ).toNumber(data.balances[0].currency.decimals - 2),
+      ).toNumber(data.balances[0].currency.decimals - 2, Rounding.UP, 4),
     [data.market, data.balances]
   );
 

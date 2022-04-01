@@ -9,5 +9,7 @@ export const ZERO = BigNumber.from(0);
 export enum Rounding {
   Nothing,
   UP,
+  HalfUp,
+  HalfDown,
   Down,
 }

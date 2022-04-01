@@ -31,6 +31,8 @@ export class IntMath {
   private static parseRounding(x: Rounding): number {
     if (Rounding.UP === x) return 1;
     if (Rounding.Down) return -1;
+    if (Rounding.HalfUp) return 0.5;
+    if (Rounding.HalfDown) return -0.5;
     return 0;
   }
 
@@ -57,17 +59,23 @@ export class IntMath {
   public static toNumber(
     value: BigNumber,
     decimals = 18,
-    rounding = Rounding.Nothing
+    rounding = Rounding.Nothing,
+    significant = 6
   ): number {
     if (value.isZero()) return 0;
     return (
-      value.div(BigNumber.from(10).pow(decimals)).toNumber() +
-      IntMath.parseRounding(rounding)
+      +Fraction.from(value, BigNumber.from(10).pow(decimals)).toSignificant(
+        significant
+      ) + this.parseRounding(rounding)
     );
   }
 
-  public toNumber(decimals = 18): number {
-    return IntMath.toNumber(this._value, decimals);
+  public toNumber(
+    decimals = 18,
+    rounding = Rounding.Nothing,
+    significant = 6
+  ): number {
+    return IntMath.toNumber(this._value, decimals, rounding, significant);
   }
 
   public div(x: BigNumberish | IntMath): IntMath {
