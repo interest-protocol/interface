@@ -1,6 +1,6 @@
 import { BigNumber, BigNumberish, utils } from 'ethers';
 
-import { ZERO } from '@/constants/index';
+import { Rounding, ZERO } from '@/constants/index';
 import { parseToStringNumber } from '@/utils';
 
 import { Fraction } from './fraction';
@@ -28,6 +28,12 @@ export class IntMath {
     return value === '0';
   }
 
+  private static parseRounding(x: Rounding): number {
+    if (Rounding.UP === x) return 1;
+    if (Rounding.Down) return -1;
+    return 0;
+  }
+
   public static from(value: BigNumberish): IntMath {
     return new IntMath(value);
   }
@@ -48,9 +54,16 @@ export class IntMath {
     );
   }
 
-  public static toNumber(value: BigNumber, decimals = 18): number {
+  public static toNumber(
+    value: BigNumber,
+    decimals = 18,
+    rounding = Rounding.Nothing
+  ): number {
     if (value.isZero()) return 0;
-    return value.div(BigNumber.from(10).pow(decimals)).toNumber();
+    return (
+      value.div(BigNumber.from(10).pow(decimals)).toNumber() +
+      IntMath.parseRounding(rounding)
+    );
   }
 
   public toNumber(decimals = 18): number {

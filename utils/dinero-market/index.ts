@@ -63,6 +63,27 @@ export const processData = (
   };
 };
 
+export const addCollateralAndLoan = async (
+  dineroMarket: string,
+  provider: Web3Provider,
+  userAccount: string,
+  collateral: BigNumber,
+  loan: BigNumber
+): Promise<ContractTransaction> => {
+  const market = new ethers.Contract(
+    dineroMarket,
+    BTCDineroMarketABI,
+    provider.getSigner(userAccount)
+  ) as BtcDineroMarketAbi;
+
+  return market.addCollateralAndBorrow(
+    userAccount,
+    collateral,
+    userAccount,
+    loan
+  );
+};
+
 export const getDineroMarketLoan = async (
   dineroMarket: string,
   provider: Web3Provider,
@@ -82,7 +103,6 @@ export const addDineroMarketCollateral = async (
   dineroMarket: string,
   provider: Web3Provider,
   userAccount: string,
-  collateral: string,
   amount: BigNumber
 ): Promise<ContractTransaction> => {
   const market = new ethers.Contract(
@@ -144,20 +164,8 @@ export const loanPrincipalToElastic = (
   totalLoan: [BigNumber, BigNumber] & { elastic: BigNumber; base: BigNumber },
   userPrincipal: BigNumber
 ): IntMath => {
-  if (totalLoan.base.isZero()) return IntMath.from(0);
+  if (totalLoan.base.isZero()) return IntMath.from(ZERO);
   return IntMath.from(userPrincipal).mul(totalLoan.elastic).div(totalLoan.base);
-};
-
-export const calculateUserLTVRatio = (
-  ltv: BigNumber,
-  totalLoan: [BigNumber, BigNumber] & { elastic: BigNumber; base: BigNumber },
-  userCollateral: BigNumber,
-  userPrincipal: BigNumber
-): IntMath => {
-  if (userCollateral.isZero()) return IntMath.from(0);
-  const userElasticLoan = loanPrincipalToElastic(totalLoan, userPrincipal);
-  const collateral = IntMath.from(ltv).mul(userCollateral);
-  return userElasticLoan.div(collateral);
 };
 
 export const calculateExpectedLiquidationPrice = (
@@ -175,33 +183,17 @@ export const calculatePositionHealth = (
   ltv: BigNumber,
   totalLoan: [BigNumber, BigNumber] & { elastic: BigNumber; base: BigNumber },
   userCollateral: BigNumber,
-  userPrincipal: BigNumber
+  userPrincipal: BigNumber,
+  exchangeRate: BigNumber
 ): IntMath => {
-  if (userCollateral.isZero())
+  if (userPrincipal.isZero() || userCollateral.isZero())
     return IntMath.from(ethers.utils.parseEther('100'));
 
   const userElasticLoan = loanPrincipalToElastic(totalLoan, userPrincipal);
-  console.log(
-    userElasticLoan
-      .div(IntMath.from(ltv).mul(userCollateral))
-      .value()
-      .toString()
-  );
-  console.log(userCollateral.toString(), 'c');
-  return IntMath.from(ethers.utils.parseEther('1')).sub(
-    userElasticLoan.div(IntMath.from(ltv).mul(userCollateral))
-  );
-};
 
-export const calculateLiquidationPrice = (
-  ltv: BigNumber,
-  totalLoan: [BigNumber, BigNumber] & { elastic: BigNumber; base: BigNumber },
-  userCollateral: BigNumber,
-  userPrincipal: BigNumber
-): IntMath => {
-  if (userCollateral.isZero()) return IntMath.from(0);
-  const userElasticLoan = loanPrincipalToElastic(totalLoan, userPrincipal);
-  return userElasticLoan.div(IntMath.from(ltv).mul(userCollateral));
+  return userElasticLoan.div(
+    IntMath.from(userCollateral).mul(exchangeRate).mul(ltv)
+  );
 };
 
 export const calculateDineroLeftToBorrow = (
@@ -213,7 +205,7 @@ export const calculateDineroLeftToBorrow = (
 ): IntMath => {
   const userElasticLoan = loanPrincipalToElastic(totalLoan, userPrincipal);
   const collateral = IntMath.from(ltv).mul(userCollateral).mul(exchangeRate);
-  return collateral.mul(ltv).sub(userElasticLoan);
+  return collateral.sub(userElasticLoan);
 };
 
 export const safeAmountToWithdraw = (
@@ -224,7 +216,7 @@ export const safeAmountToWithdraw = (
   exchangeRate: BigNumber
 ): IntMath => {
   const userElasticLoan = loanPrincipalToElastic(totalLoan, userPrincipal);
-  const collateral = IntMath.from(ltv).mul(userCollateral).mul(exchangeRate);
+  const collateral = IntMath.from(userCollateral).mul(exchangeRate);
   return collateral.sub(userElasticLoan.div(ltv));
 };
 
@@ -323,18 +315,27 @@ export const getPositionHealthData: TGetPositionHealthData = (
   const newCollateral = data.market.userCollateral.add(
     IntMath.toBigNumber(collateral)
   );
-  const expectedLiquidationPrice = calculateExpectedLiquidationPrice(
-    data.market.ltvRatio,
-    data.market.totalLoan,
-    newCollateral,
-    newBorrowAmount
-  );
+
+  const expectedLiquidationPrice = newBorrowAmount.gte(
+    IntMath.from(newCollateral)
+      .mul(data.market.exchangeRate)
+      .mul(data.market.ltvRatio)
+      .value()
+  )
+    ? IntMath.from(data.market.exchangeRate)
+    : calculateExpectedLiquidationPrice(
+        data.market.ltvRatio,
+        data.market.totalLoan,
+        newCollateral,
+        newBorrowAmount
+      );
 
   const positionHealth = calculatePositionHealth(
     data.market.ltvRatio,
     data.market.totalLoan,
     newCollateral,
-    newBorrowAmount
+    newBorrowAmount,
+    data.market.exchangeRate
   );
 
   return [
@@ -347,10 +348,14 @@ export const getPositionHealthData: TGetPositionHealthData = (
         ethers.utils.parseEther('1')
       ).toSignificant(4)
     )}`,
-    `${Fraction.from(
-      positionHealth.value(),
-      ethers.utils.parseEther('1')
-    ).toSignificant(4)} %`,
+    `${Math.trunc(
+      (1 -
+        +Fraction.from(
+          positionHealth.value(),
+          ethers.utils.parseEther('1')
+        ).toSignificant(2)) *
+        100
+    )} %`,
   ];
 };
 
@@ -375,25 +380,32 @@ export const getMyPositionData: TGetMyPositionData = (data, currency) => {
 
     const liquidationPrice = formatMoney(
       +Fraction.from(
-        calculateLiquidationPrice(
+        calculateExpectedLiquidationPrice(
           data.market.ltvRatio,
           data.market.totalLoan,
           data.market.userCollateral,
           data.market.userLoan
         ).value(),
         ethers.utils.parseEther('1')
-      ).toSignificant(1)
+      ).toSignificant(4)
     );
     return [
       collateral.toSignificant(4),
-      formatMoney(+collateral.toSignificant(0)),
+      formatMoney(
+        +Fraction.from(
+          IntMath.from(data.market.userCollateral)
+            .mul(data.market.exchangeRate)
+            .value(),
+          BigNumber.from(10).pow(collateral.currency.decimals)
+        ).toSignificant(4)
+      ),
       Fraction.from(
         loanPrincipalToElastic(
           data.market.totalLoan,
           data.market.userLoan
         ).value(),
         ethers.utils.parseEther('1')
-      ).toSignificant(1),
+      ).toSignificant(4),
       liquidationPrice,
       Fraction.from(
         calculateDineroLeftToBorrow(
@@ -404,7 +416,7 @@ export const getMyPositionData: TGetMyPositionData = (data, currency) => {
           data.market.exchangeRate
         ).value(),
         ethers.utils.parseEther('1')
-      ).toSignificant(1),
+      ).toSignificant(4),
       Fraction.from(
         safeAmountToWithdraw(
           data.market.ltvRatio,
@@ -414,7 +426,7 @@ export const getMyPositionData: TGetMyPositionData = (data, currency) => {
           data.market.exchangeRate
         ).value(),
         ethers.utils.parseEther('1')
-      ).toSignificant(1),
+      ).toSignificant(4),
     ];
   }
 };

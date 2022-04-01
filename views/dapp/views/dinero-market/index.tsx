@@ -14,8 +14,9 @@ import { CHAIN_ID, CHAINS } from '@/sdk/chains';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { IntMath } from '@/sdk/entities/int-math';
 import {
+  addCollateralAndLoan,
   addDineroMarketCollateral,
-  calculateUserLTVRatio,
+  calculatePositionHealth,
   getBorrowFields,
   getDineroMarketLoan,
   getDineroMarketUserData,
@@ -162,18 +163,52 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
     [data, currency]
   );
 
+  const currentLTV = useMemo(
+    () =>
+      calculatePositionHealth(
+        data.market.ltvRatio,
+        data.market.totalLoan,
+        data.market.userCollateral,
+        data.market.userLoan,
+        data.market.exchangeRate
+      ).toNumber(data.balances[0].currency.decimals - 2),
+    [data.market, data.balances]
+  );
+
   const handleBorrow = async (
     chainId: number,
     provider: ethers.providers.Web3Provider,
     account: string
   ) => {
     try {
-      if (form.getValues('borrow').collateral) {
+      const collateral = form.getValues('borrow').collateral;
+      const loan = form.getValues('borrow').loan;
+
+      if (
+        (!collateral || isNaN(+collateral) || collateral === '0') &&
+        (!loan || isNaN(+loan) || loan === '0')
+      )
+        //TODO send toast  error
+        return;
+
+      if (collateral && loan) {
+        // TODO send toast
+        await addCollateralAndLoan(
+          DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
+          provider,
+          account,
+          IntMath.toBigNumber(collateral),
+          IntMath.toBigNumber(loan)
+        );
+
+        return;
+      }
+
+      if (collateral) {
         const tx = await addDineroMarketCollateral(
           DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
           provider,
           account,
-          BSC_TEST_ERC_20_DATA[currency].address,
           IntMath.toBigNumber(+form.getValues('borrow').collateral)
         );
 
@@ -192,6 +227,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
             Check on Explorer
           </a>
         );
+        return;
       }
 
       if (form.getValues('borrow').loan) {
@@ -311,15 +347,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
                 {...form}
               />
             )}
-            <UserLTV
-              isLoading={isGettingData}
-              ltv={calculateUserLTVRatio(
-                data.market.ltvRatio,
-                data.market.totalLoan,
-                data.market.userCollateral,
-                data.market.userLoan
-              ).toNumber()}
-            />
+            <UserLTV isLoading={isGettingData} ltv={currentLTV} />
             <LoanInfo loanInfoData={loanInfoData} isLoading={isGettingData} />
             <MyOpenPosition
               isLoading={isGettingData}
