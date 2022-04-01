@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ethers } from 'ethers';
 import { FC, useCallback, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
 
@@ -17,11 +17,11 @@ import {
   addDineroMarketCollateral,
   calculateUserLTVRatio,
   getBorrowFields,
-  getCurrencyLoanData,
   getDineroMarketLoan,
   getDineroMarketUserData,
   getLoanInfoData,
   getMyPositionData,
+  getPositionHealthData,
   getRepayFields,
   processData,
 } from '@/utils/dinero-market';
@@ -56,6 +56,12 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
   const provider = usePriorityProvider();
   const chainId = usePriorityChainId();
   const formState = form.getValues();
+  const control = form.control;
+
+  // const repayLoan = useWatch({ control, name: 'repay.loan' });
+  const borrowLoan = useWatch({ control, name: 'borrow.loan' });
+  // const repayCollateral = useWatch({ control, name: 'repay.collateral' });
+  const borrowCollateral = useWatch({ control, name: 'borrow.collateral' });
 
   const handleAddAllowance = useCallback(() => {
     if (!account || !chainId || !provider) return;
@@ -141,8 +147,12 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
   );
 
   const borrowFormLoanData = useMemo(
-    () => getCurrencyLoanData(data, formState.borrow.loan),
-    [data?.market.userLoan, formState.borrow.loan]
+    () =>
+      getPositionHealthData(data, {
+        collateral: borrowCollateral || '0',
+        loan: borrowLoan || '0',
+      }),
+    [data, borrowCollateral, borrowLoan]
   );
 
   const loanInfoData = useMemo(() => getLoanInfoData(data), [data]);
@@ -247,7 +257,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
   };
 
   if (error) return <ErrorPage message="Something went wrong" />;
-  console.log('rerene');
+
   return (
     <Web3Manager>
       <Container

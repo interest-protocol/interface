@@ -15,14 +15,14 @@ import { Fraction } from '@/sdk/entities/fraction';
 import { IntMath } from '@/sdk/entities/int-math';
 
 import { BtcDineroMarketAbi, Erc20Abi } from '../../types/ethers-contracts';
-import { formatMoney, parseToStringNumber } from '../string';
+import { formatMoney } from '../string';
 import {
   GetDineroMarketUserDataReturn,
   MarketAndBalancesData,
   TGetBorrowFields,
   TGetInfoLoanData,
-  TGetLoanData,
   TGetMyPositionData,
+  TGetPositionHealthData,
   TGetRepayFields,
 } from './dinero-market.types';
 
@@ -164,13 +164,10 @@ export const calculateExpectedLiquidationPrice = (
   ltv: BigNumber,
   totalLoan: [BigNumber, BigNumber] & { elastic: BigNumber; base: BigNumber },
   userCollateral: BigNumber,
-  userPrincipal: BigNumber,
-  additionalBorrow: BigNumber
+  userPrincipal: BigNumber
 ): IntMath => {
   if (userCollateral.isZero()) return IntMath.from(0);
-  const userElasticLoan = loanPrincipalToElastic(totalLoan, userPrincipal).add(
-    additionalBorrow
-  );
+  const userElasticLoan = loanPrincipalToElastic(totalLoan, userPrincipal);
   return userElasticLoan.div(IntMath.from(ltv).mul(userCollateral));
 };
 
@@ -178,16 +175,20 @@ export const calculatePositionHealth = (
   ltv: BigNumber,
   totalLoan: [BigNumber, BigNumber] & { elastic: BigNumber; base: BigNumber },
   userCollateral: BigNumber,
-  userPrincipal: BigNumber,
-  additionalBorrow: BigNumber
+  userPrincipal: BigNumber
 ): IntMath => {
   if (userCollateral.isZero())
     return IntMath.from(ethers.utils.parseEther('100'));
-  const userElasticLoan = loanPrincipalToElastic(totalLoan, userPrincipal).add(
-    additionalBorrow
-  );
 
-  return IntMath.from(ethers.utils.parseEther('100')).sub(
+  const userElasticLoan = loanPrincipalToElastic(totalLoan, userPrincipal);
+  console.log(
+    userElasticLoan
+      .div(IntMath.from(ltv).mul(userCollateral))
+      .value()
+      .toString()
+  );
+  console.log(userCollateral.toString(), 'c');
+  return IntMath.from(ethers.utils.parseEther('1')).sub(
     userElasticLoan.div(IntMath.from(ltv).mul(userCollateral))
   );
 };
@@ -282,7 +283,7 @@ export const getBorrowFields: TGetBorrowFields = (data, currency, collateral) =>
             max: data
               ? calculateBorrowAmount(
                   data.market.userCollateral.add(
-                    ethers.utils.parseEther(parseToStringNumber(collateral))
+                    IntMath.toBigNumber(collateral)
                   ),
                   data.market.userLoan,
                   data.market.exchangeRate,
@@ -312,37 +313,40 @@ export const getBorrowFields: TGetBorrowFields = (data, currency, collateral) =>
       })
     : [];
 
-export const getCurrencyLoanData: TGetLoanData = (data, loan) => {
+export const getPositionHealthData: TGetPositionHealthData = (
+  data,
+  { collateral, loan }
+) => {
   if (!data) return ['0', '0', '0'];
 
-  const newBorrowAmount = data.market.userLoan.add(
-    IntMath.toBigNumber(+parseToStringNumber(loan) || 0)
+  const newBorrowAmount = data.market.userLoan.add(IntMath.toBigNumber(loan));
+  const newCollateral = data.market.userCollateral.add(
+    IntMath.toBigNumber(collateral)
   );
-
   const expectedLiquidationPrice = calculateExpectedLiquidationPrice(
     data.market.ltvRatio,
     data.market.totalLoan,
-    data.market.userCollateral,
-    data.market.userLoan,
-    loan ? BigNumber.from(parseToStringNumber(loan)) : ZERO
+    newCollateral,
+    newBorrowAmount
   );
 
   const positionHealth = calculatePositionHealth(
     data.market.ltvRatio,
     data.market.totalLoan,
-    data.market.userCollateral,
-    data.market.userLoan,
-    loan ? BigNumber.from(parseToStringNumber(loan)) : ZERO
+    newCollateral,
+    newBorrowAmount
   );
 
   return [
     Fraction.from(newBorrowAmount, ethers.utils.parseEther('1')).toSignificant(
       4
     ),
-    Fraction.from(
-      expectedLiquidationPrice.value(),
-      ethers.utils.parseEther('1')
-    ).toSignificant(4),
+    `$${formatMoney(
+      +Fraction.from(
+        expectedLiquidationPrice.value(),
+        ethers.utils.parseEther('1')
+      ).toSignificant(4)
+    )}`,
     `${Fraction.from(
       positionHealth.value(),
       ethers.utils.parseEther('1')

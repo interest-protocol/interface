@@ -9,7 +9,11 @@ import { BorrowFormProps } from './borrow-form.types';
 import BorrowFormButton from './borrow-form-button';
 import BorrowFormSelectLTV from './borrow-form-select-ltv';
 
-const INFO = ['Dinero Amount', 'Expected Liquidation Price', 'Position Health'];
+const INFO = [
+  'Expected DNR borrowed',
+  'Expected Liquidation Price',
+  'Position Health',
+];
 
 const BorrowForm: FC<BorrowFormProps> = ({
   data,
@@ -47,6 +51,9 @@ const BorrowForm: FC<BorrowFormProps> = ({
         />
       )
     )}
+    {isBorrow && (
+      <BorrowFormSelectLTV data={data} control={control} setValue={setValue} />
+    )}
     <Box mt="XXL">
       {INFO.map((x, i) => (
         <Box key={v4()} display="flex" justifyContent="space-between" p="M">
@@ -59,9 +66,6 @@ const BorrowForm: FC<BorrowFormProps> = ({
         </Box>
       ))}
     </Box>
-    {isBorrow && (
-      <BorrowFormSelectLTV data={data} control={control} setValue={setValue} />
-    )}
     <BorrowFormButton
       data={data}
       errors={errors}

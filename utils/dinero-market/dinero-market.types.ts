@@ -38,9 +38,9 @@ export type TGetBorrowFields = (
   collateral: string
 ) => ReadonlyArray<IBorrowFormField>;
 
-export type TGetLoanData = (
+export type TGetPositionHealthData = (
   data: MarketAndBalancesData,
-  loan: string
+  borrow: { loan: string; collateral: string }
 ) => [string, string, string];
 
 export type TGetInfoLoanData = (

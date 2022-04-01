@@ -41,7 +41,7 @@ const InputMoney: FC<InputMoneyProps> = ({
       </Typography>
       <Input
         min="0"
-        type="number"
+        type="string"
         placeholder={amount}
         {...register(name)}
         shieldProps={{
