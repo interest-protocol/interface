@@ -33,3 +33,10 @@ export interface InputMaxButtonProps
   data: MarketAndBalancesData;
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
 }
+
+export type TErrorMessageLabels = ['borrow' | 'repay', 'loan' | 'collateral'];
+
+export interface InputErrorMessageProps {
+  errors: UseFormStateReturn<IBorrowForm>['errors'];
+  labels: TErrorMessageLabels;
+}

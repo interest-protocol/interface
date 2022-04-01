@@ -1,4 +1,4 @@
-import { BigNumber, ethers } from 'ethers';
+import { ethers } from 'ethers';
 import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
@@ -29,18 +29,15 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
 
     setValue(
       'borrow.loan',
-      `${calculateBorrowAmount(
-        data.market.userCollateral.add(
-          ethers.utils.parseEther(borrowCollateral)
-        ),
-        data.market.userLoan,
-        data.market.exchangeRate,
-        BigNumber.from(intendedLTV).mul(BigNumber.from(10).pow(16)),
-        data.market.totalLoan
-      )
-        .value()
-        .div(ethers.utils.parseEther('1'))
-        .toNumber()}`
+      `${
+        calculateBorrowAmount(
+          data.market.userCollateral.add(IntMath.toBigNumber(borrowCollateral)),
+          data.market.userLoan,
+          data.market.exchangeRate,
+          data.market.ltvRatio,
+          data.market.totalLoan
+        ).toNumber() * intendedLTV
+      }`
     );
   };
 

@@ -1,9 +1,10 @@
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 
 import { Box, Input, Typography } from '@/elements';
 
+import InputErrorMessage from './input-error';
 import InputMaxButton from './input-max-button';
-import { InputMoneyProps } from './input-money.types';
+import { InputMoneyProps, TErrorMessageLabels } from './input-money.types';
 import InputMoneySuffix from './input-money-suffix';
 
 const InputMoney: FC<InputMoneyProps> = ({
@@ -20,15 +21,7 @@ const InputMoney: FC<InputMoneyProps> = ({
   amountUSD,
   CurrencySVG,
 }) => {
-  const labels = name.split('.');
-  const error = useMemo(
-    () =>
-      errors?.[labels[0] as 'borrow' | 'repay']?.[
-        labels[1] as 'collateral' | 'loan'
-      ],
-    [errors, labels]
-  );
-
+  const labels = name.split('.') as TErrorMessageLabels;
   return (
     <Box mb="L">
       <Typography
@@ -51,9 +44,13 @@ const InputMoney: FC<InputMoneyProps> = ({
           bg: 'background',
           borderRadius: 'M',
           border: '1px solid',
-          borderColor: error ? 'error' : 'transparent',
+          borderColor: errors?.[labels[0]]?.[labels[1]]
+            ? 'error'
+            : 'transparent',
           hover: {
-            borderColor: error ? 'error' : 'accentBackground',
+            borderColor: errors?.[labels[0]]?.[labels[1]]
+              ? 'error'
+              : 'accentBackground',
           },
         }}
         Suffix={
@@ -87,16 +84,7 @@ const InputMoney: FC<InputMoneyProps> = ({
           </>
         }
       />
-      {error && (
-        <Typography
-          fontSize="S"
-          color="error"
-          variant="normal"
-          textAlign="right"
-        >
-          {error?.message}
-        </Typography>
-      )}
+      <InputErrorMessage errors={errors} labels={labels} />
     </Box>
   );
 };

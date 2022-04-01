@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Box, Button, Typography } from '@/elements';
@@ -27,7 +27,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
   const repayCollateral = useWatch({ control, name: 'repay.collateral' });
   const borrowCollateral = useWatch({ control, name: 'borrow.collateral' });
 
-  useEffect(() => {
+  const handleClick = (fn: () => void) => () => {
     if (
       errors.borrow?.loan?.type !== 'max' &&
       borrowLoan &&
@@ -38,11 +38,13 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
           data.market.exchangeRate
         )
       )
-    )
+    ) {
       setError('borrow.loan', {
         type: 'max',
         message: 'The Loan must to be less than LTV',
       });
+      return;
+    }
 
     if (
       errors.borrow?.loan?.type === 'max' &&
@@ -59,11 +61,13 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
       errors.borrow?.collateral?.type !== 'max' &&
       borrowCollateral &&
       parseEther(borrowCollateral).gt(data.balances[0].numerator)
-    )
+    ) {
       setError('borrow.collateral', {
         type: 'max',
         message: 'The Collateral must not to be more than your balance',
       });
+      return;
+    }
 
     if (
       errors.borrow?.collateral?.type === 'max' &&
@@ -71,7 +75,9 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
       +borrowCollateral <= IntMath.toNumber(data.balances[0].numerator)
     )
       clearErrors('borrow.collateral');
-  }, [borrowLoan, borrowCollateral]);
+
+    fn();
+  };
 
   return (
     <Box display="flex" justifyContent="center" mt="XXL">
@@ -81,15 +87,16 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
             display="flex"
             variant="primary"
             alignItems="center"
-            cursor="not-allowed"
             disabled={isSubmitting}
             justifyContent="center"
-            onClick={handleAddAllowance}
             hover={{ bg: 'accentActive' }}
+            onClick={handleClick(handleAddAllowance)}
             bg={isSubmitting ? 'accentActive' : 'accent'}
+            cursor={isSubmitting ? 'not-allowed' : 'pointer'}
           >
             {isSubmitting && <LoadingSVG width="1rem" />}
             <Typography
+              fontSize="S"
               as="span"
               variant="normal"
               ml={isSubmitting ? 'L' : 'NONE'}
@@ -113,14 +120,15 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
           <Button
             type="submit"
             variant="primary"
-            onClick={onSubmit}
-            cursor="not-allowed"
+            onClick={handleClick(onSubmit)}
             disabled={isSubmitting}
             hover={{ bg: 'accentActive' }}
             bg={isSubmitting ? 'accentActive' : 'accent'}
+            cursor={isSubmitting ? 'not-allowed' : 'pointer'}
           >
             {isSubmitting && <LoadingSVG width="1rem" />}
             <Typography
+              fontSize="S"
               as="span"
               variant="normal"
               ml={isSubmitting ? 'L' : 'NONE'}
@@ -138,15 +146,16 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
           display="flex"
           variant="primary"
           alignItems="center"
-          cursor="not-allowed"
           disabled={isSubmitting}
           justifyContent="center"
-          onClick={handleAddAllowance}
+          onClick={handleClick(handleAddAllowance)}
           hover={{ bg: 'accentActive' }}
           bg={isSubmitting ? 'accentActive' : 'accent'}
+          cursor={isSubmitting ? 'not-allowed' : 'pointer'}
         >
           {isSubmitting && <LoadingSVG width="1rem" />}
           <Typography
+            fontSize="S"
             as="span"
             variant="normal"
             ml={isSubmitting ? 'L' : 'NONE'}
@@ -169,14 +178,15 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
         <Button
           type="submit"
           variant="primary"
-          onClick={onSubmit}
-          cursor="not-allowed"
+          onClick={handleClick(onSubmit)}
           disabled={isSubmitting}
           hover={{ bg: 'accentActive' }}
           bg={isSubmitting ? 'accentActive' : 'accent'}
+          cursor={isSubmitting ? 'not-allowed' : 'pointer'}
         >
           {isSubmitting && <LoadingSVG width="1rem" />}
           <Typography
+            fontSize="S"
             as="span"
             variant="normal"
             ml={isSubmitting ? 'L' : 'NONE'}
