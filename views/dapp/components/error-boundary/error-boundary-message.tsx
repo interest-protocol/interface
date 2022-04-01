@@ -14,6 +14,7 @@ const ErrorMessageStyle = {
 const Container: FC<BoxProps> = (props) => (
   <Box
     color="text"
+    height="100vh"
     display="flex"
     bg="background"
     minWidth="31rem"
@@ -32,10 +33,15 @@ const GoHome = () => (
 
 const BoundaryMessage: FC<BoundaryMessageProps> = ({ error }) => (
   <Container>
-    <Typography as="h2" variant="title3" textTransform="capitalize">
+    <Typography
+      as="h2"
+      variant="title3"
+      maxWidth="20rem"
+      textTransform="capitalize"
+    >
       {error?.name}
     </Typography>
-    <Typography variant="normal" style={ErrorMessageStyle}>
+    <Typography variant="normal" style={ErrorMessageStyle} maxWidth="25rem">
       {error?.message}
     </Typography>
     <GoHome />

@@ -31,7 +31,6 @@ export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
   loading?: boolean;
   isBorrow?: boolean;
   onSubmit: () => void;
-  loanData: ReadonlyArray<string>;
   fields: ReadonlyArray<IBorrowFormField>;
   data: MarketAndBalancesData;
   handleAddAllowance: () => Promise<ContractTransaction> | undefined;
@@ -39,5 +38,10 @@ export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
 
 export interface BorrowFormSelectLTVProps
   extends Pick<UseFormReturn<IBorrowForm>, 'control' | 'setValue'> {
+  data: MarketAndBalancesData;
+}
+
+export interface BorrowFormLoanInfoProps
+  extends Pick<UseFormReturn<IBorrowForm>, 'control'> {
   data: MarketAndBalancesData;
 }

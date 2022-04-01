@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ethers } from 'ethers';
 import { FC, useCallback, useMemo, useState } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
 
@@ -18,13 +18,10 @@ import {
   addCollateralAndLoan,
   addDineroMarketCollateral,
   calculatePositionHealth,
-  getBorrowFields,
   getDineroMarketLoan,
   getDineroMarketUserData,
   getLoanInfoData,
   getMyPositionData,
-  getPositionHealthData,
-  getRepayFields,
   processData,
 } from '@/utils/dinero-market';
 import { MarketAndBalancesData } from '@/utils/dinero-market/dinero-market.types';
@@ -32,7 +29,6 @@ import { addAllowance, getERC20Balance } from '@/utils/erc-20';
 
 import GoBack from '../../components/go-back';
 import ErrorPage from '../error';
-import BorrowForm from './components/borrow-form';
 import { borrowFormValidation } from './components/borrow-form/borrow-form.validator';
 import LoanInfo from './components/loan-info';
 import MyOpenPosition from './components/my-open-position';
@@ -40,6 +36,7 @@ import UserLTV from './components/user-ltv';
 import YourBalance from './components/your-balance';
 import { BORROW_DEFAULT_VALUES } from './dinero-market.data';
 import { DineroMarketProps, IBorrowForm } from './dinero-market.types';
+import DineroMarketForm from './dinero-market-form';
 import DineroMarketSwitch from './dinero-market-switch';
 
 const { usePriorityAccount, usePriorityProvider, usePriorityChainId } =
@@ -48,8 +45,8 @@ const { usePriorityAccount, usePriorityProvider, usePriorityChainId } =
 const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
   const [isGettingData, setIsGettingData] = useState(false);
   const form = useForm<IBorrowForm>({
-    mode: 'onBlur',
-    reValidateMode: 'onBlur',
+    mode: 'onChange',
+    reValidateMode: 'onChange',
     defaultValues: BORROW_DEFAULT_VALUES,
     resolver: yupResolver(borrowFormValidation),
   });
@@ -57,13 +54,6 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
   const account = usePriorityAccount();
   const provider = usePriorityProvider();
   const chainId = usePriorityChainId();
-  const formState = form.getValues();
-  const control = form.control;
-
-  // const repayLoan = useWatch({ control, name: 'repay.loan' });
-  const borrowLoan = useWatch({ control, name: 'borrow.loan' });
-  // const repayCollateral = useWatch({ control, name: 'repay.collateral' });
-  const borrowCollateral = useWatch({ control, name: 'borrow.collateral' });
 
   const handleAddAllowance = useCallback(() => {
     if (!account || !chainId || !provider) return;
@@ -132,30 +122,6 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
   );
 
   const data = useMemo(() => processData(rawData), [rawData]);
-
-  const repayFieldsData = useMemo(
-    () => getRepayFields(data, currency as TOKEN_SYMBOL),
-    [data, currency]
-  );
-
-  const borrowFieldsData = useMemo(
-    () =>
-      getBorrowFields(
-        data,
-        currency as TOKEN_SYMBOL,
-        formState.borrow.collateral
-      ),
-    [data, currency, formState.borrow.collateral]
-  );
-
-  const borrowFormLoanData = useMemo(
-    () =>
-      getPositionHealthData(data, {
-        collateral: borrowCollateral || '0',
-        loan: borrowLoan || '0',
-      }),
-    [data, borrowCollateral, borrowLoan]
-  );
 
   const loanInfoData = useMemo(() => getLoanInfoData(data), [data]);
 
@@ -325,30 +291,21 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
             flexDirection={['column', 'column', 'column', 'unset']}
             gridTemplateAreas="'a b''a b''a c''a d''a d''a d''e d''e d''e d''f d'"
           >
-            {mode === 'borrow' && (
-              <BorrowForm
-                isBorrow
-                loading={isGettingData}
-                onSubmit={onSubmitBorrow}
-                loanData={borrowFormLoanData}
-                fields={borrowFieldsData}
-                handleAddAllowance={handleAddAllowance}
-                data={data}
-                {...form}
-              />
-            )}
-            {mode === 'repay' && (
-              <BorrowForm
-                loading={isGettingData}
-                onSubmit={onSubmitRepay}
-                loanData={borrowFormLoanData}
-                fields={repayFieldsData}
-                handleAddAllowance={handleAddAllowance}
-                data={data}
-                {...form}
-              />
-            )}
-            <UserLTV isLoading={isGettingData} ltv={currentLTV} />
+            <DineroMarketForm
+              data={data}
+              mode={mode}
+              form={form}
+              currency={currency}
+              isGettingData={isGettingData}
+              onSubmitBorrow={onSubmitBorrow}
+              handleAddAllowance={handleAddAllowance}
+              onSubmitRepay={onSubmitRepay}
+            />
+            <UserLTV
+              isLoading={isGettingData}
+              ltv={currentLTV}
+              maxLtv={IntMath.from(data?.market.ltvRatio ?? 0).toNumber()}
+            />
             <LoanInfo loanInfoData={loanInfoData} isLoading={isGettingData} />
             <MyOpenPosition
               isLoading={isGettingData}

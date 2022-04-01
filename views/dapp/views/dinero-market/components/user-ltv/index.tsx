@@ -6,7 +6,7 @@ import { InfoSVG, ProgressSVG } from '@/svg';
 
 import { UserLTVProps } from './user-ltv.types';
 
-const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => (
+const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv, maxLtv }) => (
   <Box py="XL" px="XXL" order={1} gridArea="b" bg="foreground" borderRadius="L">
     <Box display="flex" justifyContent="space-between">
       <Typography variant="normal" display="flex" alignItems="center">
@@ -32,7 +32,7 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => (
         of 100%
       </Typography>
     </Box>
-    <Box color="accent" mt="L">
+    <Box color={(ltv ?? 0) > maxLtv ? 'error' : 'accent'} mt="L">
       <ProgressSVG progress={ltv || 0} />
     </Box>
   </Box>
