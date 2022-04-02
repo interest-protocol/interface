@@ -119,9 +119,12 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
         ) : (
           <Button
             type="submit"
+            display="flex"
             variant="primary"
-            onClick={handleClick(onSubmit)}
+            alignItems="center"
             disabled={isSubmitting}
+            justifyContent="center"
+            onClick={handleClick(onSubmit)}
             hover={{ bg: 'accentActive' }}
             bg={isSubmitting ? 'accentActive' : 'accent'}
             cursor={isSubmitting ? 'not-allowed' : 'pointer'}
@@ -176,10 +179,12 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
         </Box>
       ) : (
         <Button
-          type="submit"
+          display="flex"
           variant="primary"
-          onClick={handleClick(onSubmit)}
+          alignItems="center"
           disabled={isSubmitting}
+          justifyContent="center"
+          onClick={handleClick(onSubmit)}
           hover={{ bg: 'accentActive' }}
           bg={isSubmitting ? 'accentActive' : 'accent'}
           cursor={isSubmitting ? 'not-allowed' : 'pointer'}
