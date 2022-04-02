@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { ProviderRpcError } from '@web3-react/types';
 import { ethers } from 'ethers';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -26,6 +27,7 @@ import {
 } from '@/utils/dinero-market';
 import { MarketAndBalancesData } from '@/utils/dinero-market/dinero-market.types';
 import { addAllowance, getERC20Balance } from '@/utils/erc-20';
+import { throwContractCallError } from '@/utils/error';
 
 import GoBack from '../../components/go-back';
 import ErrorPage from '../error';
@@ -158,17 +160,13 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
   ) => {
     setIsSubmitting(true);
     try {
-      const collateral = form.getValues('borrow').collateral;
-      const loan = form.getValues('borrow').loan;
+      const collateral = +form.getValues('borrow').collateral;
+      const loan = +form.getValues('borrow').loan;
 
-      if (
-        (!collateral || isNaN(+collateral) || collateral === '0') &&
-        (!loan || isNaN(+loan) || loan === '0')
-      )
+      if ((!collateral || isNaN(+collateral)) && (!loan || isNaN(+loan)))
         throw new Error('Form: Invalid Fields');
 
-      if (collateral && loan) {
-        // TODO send toast
+      if (!!collateral && !!loan) {
         const tx = await addCollateralAndLoan(
           DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
           provider,
@@ -201,7 +199,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
           DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
           provider,
           account,
-          IntMath.toBigNumber(+form.getValues('borrow').collateral)
+          IntMath.toBigNumber(collateral)
         );
 
         const receipt = await tx.wait(2);
@@ -222,12 +220,12 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
         return;
       }
 
-      if (form.getValues('borrow').loan) {
+      if (loan) {
         const tx = await getDineroMarketLoan(
           DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
           provider,
           account,
-          IntMath.toBigNumber(+form.getValues('borrow').loan)
+          IntMath.toBigNumber(loan)
         );
 
         const receipt = await tx.wait(2);
@@ -246,8 +244,8 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
           </a>
         );
       }
-    } catch (e) {
-      throw e ?? new Error('Something went wrong');
+    } catch (e: unknown) {
+      throwContractCallError(e);
     } finally {
       setIsSubmitting(false);
     }

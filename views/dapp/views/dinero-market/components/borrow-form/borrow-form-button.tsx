@@ -136,7 +136,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
               variant="normal"
               ml={isSubmitting ? 'L' : 'NONE'}
             >
-              {!!borrowLoan && !!borrowCollateral
+              {!!+borrowLoan && !!+borrowCollateral
                 ? 'Add Collateral and Borrow'
                 : +borrowCollateral > 0
                 ? 'Add Collateral'
