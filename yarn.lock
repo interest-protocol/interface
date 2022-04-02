@@ -658,12 +658,6 @@
     "@json-rpc-tools/types" "^1.7.6"
     "@pedrouid/environment" "^1.0.1"
 
-"@lottiefiles/react-lottie-player@^3.4.2":
-  version "3.4.2"
-  resolved "https://registry.npmjs.org/@lottiefiles/react-lottie-player/-/react-lottie-player-3.4.2.tgz"
-  dependencies:
-    lottie-web "^5.7.8"
-
 "@metamask/detect-provider@^1.2.0":
   version "1.2.0"
   resolved "https://registry.npmjs.org/@metamask/detect-provider/-/detect-provider-1.2.0.tgz"
@@ -3212,10 +3206,6 @@ loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   resolved "https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz"
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
-
-lottie-web@^5.7.8:
-  version "5.9.1"
-  resolved "https://registry.npmjs.org/lottie-web/-/lottie-web-5.9.1.tgz"
 
 lru-cache@^4.0.1:
   version "4.1.5"

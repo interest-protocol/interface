@@ -4,6 +4,7 @@ import { v4 } from 'uuid';
 
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
+import { InfoSVG } from '@/svg';
 import {
   getBorrowPositionHealthData,
   getRepayPositionHealthData,
@@ -12,9 +13,18 @@ import {
 import { BorrowFormLoanInfoProps } from './borrow-form.types';
 
 const INFO = [
-  'Expected DNR borrowed',
-  'Expected Liquidation Price',
-  'Position Health',
+  {
+    text: 'Estimated DNR borrowed',
+    tip: 'Total amount of DNR owed (principal + interest<br /> rate) including the planned transaction',
+  },
+  {
+    text: 'Estimated Liquidation Price',
+    tip: 'If the collateral token drops to this price,<br /> you are at risk of liquidation.',
+  },
+  {
+    text: 'Position Health',
+    tip: 'If this value reaches 0, you are at risk of<br /> liquidation.',
+  },
 ];
 
 const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
@@ -49,11 +59,16 @@ const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
   );
   return (
     <Box mt="XXL">
-      {INFO.map((x, i) => (
+      {INFO.map(({ text, tip }, i) => (
         <Box key={v4()} display="flex" justifyContent="space-between" p="M">
-          <Typography variant="normal" as="span">
-            {x}
-          </Typography>
+          <Box display="flex" alignItems="center">
+            <Box cursor="help" mr="M" display="flex" alignItems="center">
+              <InfoSVG width="1rem" data-tip={tip} />
+            </Box>
+            <Typography variant="normal" as="span">
+              {text}
+            </Typography>
+          </Box>
           <Typography variant="normal" as="span">
             {loanData[i]}
           </Typography>

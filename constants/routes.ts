@@ -10,6 +10,7 @@ export enum RoutesEnum {
   NFTLoans = 'nftLoads',
   NFTLend = 'nftLend',
   NFTBorrow = 'nftBorrow',
+  NoWhere = 'nowhere',
 }
 
 /**
@@ -24,6 +25,7 @@ export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.NFTLoans]: '/dapp/nft',
   [RoutesEnum.NFTLend]: '/dapp/nft/lend',
   [RoutesEnum.NFTBorrow]: '/dapp/nft/borrow',
+  [RoutesEnum.NoWhere]: '#',
 };
 
 export const routesList = Object.keys(Routes) as ReadonlyArray<RoutesEnum>;
