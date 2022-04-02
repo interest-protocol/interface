@@ -1,8 +1,9 @@
+import { ethers } from 'ethers';
 import { FC, SVGAttributes } from 'react';
 
 import { CHAIN_ID } from '@/sdk/chains';
 import { ERC20 } from '@/sdk/entities/erc-20';
-import { BitcoinSVG, DineroSVG } from '@/svg';
+import { BitcoinSVG, DineroSVG, EthereumSVG } from '@/svg';
 
 export enum TOKEN_SYMBOL {
   BTC = 'BTC',
@@ -23,6 +24,7 @@ export const FAUCET_TOKENS = [
 export const TOKENS_SVG_MAP = {
   [TOKEN_SYMBOL.BTC]: BitcoinSVG,
   [TOKEN_SYMBOL.DNR]: DineroSVG,
+  '???': EthereumSVG,
 } as { [key: string]: FC<SVGAttributes<SVGSVGElement>> };
 
 const BSC_TEST_ERC20_ARRAY = [
@@ -53,3 +55,5 @@ export const BSC_TEST_ERC_20_DATA = BSC_TEST_ERC20_ARRAY.reduce(
   }),
   {} as { [key: string]: ERC20 }
 );
+
+export const UNKNOWN_ERC_20 = ERC20.from(ethers.constants.AddressZero, 0);

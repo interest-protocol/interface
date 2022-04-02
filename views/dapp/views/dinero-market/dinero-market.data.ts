@@ -1,70 +1,52 @@
-import { formatDollars, formatMoney } from '@/utils';
-
-export const borrowFees = [
+export const LOAN_INFO = [
   {
     tip: 'Maximum collateral ratio - MCR represents<br />the maximum amount of debt a user<br />can borrow with a particular<br />collateral token.',
     name: 'Maximum collateral ratio',
-    fee: 0,
   },
   {
     tip: 'This is the discount a liquidator gets when<br />buying collateral for liquidation',
     name: 'Liquidation fee',
-    fee: 0,
   },
   {
     tip: 'This fee is added to the debt every time<br />the user borrows DNR',
     name: 'Interest',
-    fee: 0,
   },
 ];
 
-export const taxes = [
-  {
-    name: 'Interest cost (APR)',
-    value: 3,
-    percentual: true,
-  },
-  {
-    name: 'Liquidation price',
-    value: formatDollars(0),
-    percentual: false,
-  },
-  {
-    name: 'Collateral ratio',
-    value: 100,
-    percentual: true,
-  },
-];
-
-export const myOpenPosition = [
+export const MY_POSITION = [
   {
     tip: 'Amount of Tokens Deposited as Collateral',
     name: 'Collateral deposited',
-    value: formatMoney(0),
   },
   {
     tip: 'USD Value of the Collateral Deposited to<br />the loan position',
     name: 'Collateral value',
-    value: formatDollars(0),
   },
   {
-    tip: 'DNR Currently Borrowed in your Position',
-    name: 'DNR borrowed',
-    value: formatDollars(0),
+    tip: 'DNR Currently Borrowed in your Position <br/> + interest rate',
+    name: 'DNR owed',
   },
   {
     tip: 'Collateral Price at which your Loan<br />Position will be Liquidated',
     name: 'Liquidation price',
-    value: formatDollars(0),
   },
   {
     tip: 'DNR Borrowable Given the Collateral<br />Deposited',
     name: 'DNR left to borrow',
-    value: formatMoney(0),
   },
   {
-    tip: 'Maximum Current Amount of BTC<br />Withdrawable from this Loan Position ',
-    name: 'Withdrawable amount',
-    value: formatMoney(0),
+    tip: 'Maximum amount of collateral you can<br /> withdraw from this loan position ',
+    name: 'Withdraw amount',
   },
 ];
+
+export const BORROW_DEFAULT_VALUES = {
+  borrow: {
+    loan: '0',
+    collateral: '0',
+  },
+  repay: {
+    collateral: '0',
+    loan: '0',
+  },
+};

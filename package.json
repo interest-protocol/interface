@@ -14,6 +14,7 @@
   "dependencies": {
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
+    "@hookform/resolvers": "^2.8.8",
     "@lottiefiles/react-lottie-player": "^3.4.2",
     "@styled-system/css": "^5.1.5",
     "@walletconnect/ethereum-provider": "^1.7.5",
@@ -38,7 +39,8 @@
     "swr": "^1.2.2",
     "toformat": "^2.0.0",
     "uuid": "^8.3.2",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "prepare": "husky install",

@@ -21,6 +21,7 @@
     "paths": {
       "@/svg": ["./components/svg"],
       "@/components": ["./components"],
+      "@/components/*": ["./components/*"],
       "@/design-system": ["./design-system"],
       "@/design-system/*": ["./design-system/*"],
       "@/elements/*": ["./elements/*"],

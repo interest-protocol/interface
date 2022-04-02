@@ -1,8 +1,9 @@
-import Container from 'components/container';
+import { ethers } from 'ethers';
 import Link from 'next/link';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
+import { Container } from '@/components';
 import { DINERO_MARKET_CONTRACTS } from '@/constants/dinero-market-contracts.data';
 import { SECONDS_IN_A_YEAR } from '@/constants/index';
 import { Routes, RoutesEnum } from '@/constants/routes';
@@ -161,6 +162,7 @@ const BorrowTable: FC = () => {
                     IntMath.from(data[index].totalCollateral)
                       .mul(data[index].exchangeRate)
                       .value()
+                      .div(ethers.utils.parseEther('1'))
                       .toNumber()
                   ),
                   IntMath.from(data[index].ltv).toPercentage(0),
@@ -259,6 +261,7 @@ const BorrowTable: FC = () => {
                     IntMath.from(data[index].totalCollateral)
                       .mul(data[index].exchangeRate)
                       .value()
+                      .div(ethers.utils.parseEther('1'))
                       .toNumber()
                   ),
                   IntMath.from(data[index].ltv).toPercentage(0),

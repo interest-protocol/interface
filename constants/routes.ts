@@ -5,7 +5,7 @@
 export enum RoutesEnum {
   Home = 'home',
   DApp = 'dapp',
-  Borrow = 'borrow',
+  Borrow = 'dinero-market',
   Repay = 'repay',
   NFTLoans = 'nftLoads',
   NFTLend = 'nftLend',
@@ -19,8 +19,8 @@ export enum RoutesEnum {
 export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.Home]: '/',
   [RoutesEnum.DApp]: '/dapp',
-  [RoutesEnum.Borrow]: '/dapp/borrow',
-  [RoutesEnum.Repay]: '/dapp/borrow/repay',
+  [RoutesEnum.Borrow]: '/dapp/dinero-market',
+  [RoutesEnum.Repay]: '/dapp/dinero-market/repay',
   [RoutesEnum.NFTLoans]: '/dapp/nft',
   [RoutesEnum.NFTLend]: '/dapp/nft/lend',
   [RoutesEnum.NFTBorrow]: '/dapp/nft/borrow',

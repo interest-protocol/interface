@@ -1,26 +1,24 @@
-import MetaMask from 'components/svg/meta-mask';
 import { FC, useState } from 'react';
 
-import hooks from '@/connectors';
+import priorityHooks from '@/connectors';
 import { Box, Button, Typography } from '@/elements';
 import { useGetUserCurrency } from '@/hooks/use-get-user-currency';
-import { useIsMounted } from '@/hooks/use-is-mounted';
-import { LoadingSVG } from '@/svg';
+import { LoadingSVG, MetaMaskSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
 import AccountModal from './wallet-modal/account-modal';
 
-const { usePriorityAccount, usePriorityProvider } = hooks;
+const { usePriorityConnector, useSelectedAccount, useSelectedProvider } =
+  priorityHooks;
 
 const ConnectedWallet: FC = () => {
-  const account = usePriorityAccount();
-  const provider = usePriorityProvider();
+  const connector = usePriorityConnector();
+  const provider = useSelectedProvider(connector);
+  const account = useSelectedAccount(connector);
+
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const isMounted = useIsMounted();
-
   const toggleModal = () => {
-    if (!isMounted.current) return;
     setShowModal((state) => !state);
   };
 
@@ -71,14 +69,14 @@ const ConnectedWallet: FC = () => {
           overflow="hidden"
           borderRadius="50%"
         >
-          <MetaMask height="100%" />
+          <MetaMaskSVG height="100%" />
         </Box>
         <Typography variant="normal" color="text">
           {shortAccount(account || '')}
         </Typography>
       </Button>
       <AccountModal
-        url={provider?.connection?.url || ''}
+        url={provider?.connection.url || ''}
         account={account!}
         showModal={showModal}
         toggleModal={toggleModal}

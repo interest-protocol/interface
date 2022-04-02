@@ -1,8 +1,11 @@
+import 'react-loading-skeleton/dist/skeleton.css';
+
 import { Global, ThemeProvider } from '@emotion/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextProgress from 'next-progress';
-import { ReactNode } from 'react';
+import { ReactNode, StrictMode } from 'react';
+import { SkeletonTheme } from 'react-loading-skeleton';
 
 import { LightTheme } from '@/design-system';
 import GlobalStyles from '@/design-system/global-styles';
@@ -15,8 +18,12 @@ const MyApp = ({ Component, pageProps }: AppProps): ReactNode => (
     </Head>
     <NextProgress options={{ showSpinner: false }} />
     <ThemeProvider theme={LightTheme}>
-      <Global styles={GlobalStyles} />
-      <Component {...pageProps} />
+      <SkeletonTheme baseColor="#202020" highlightColor="#444">
+        <Global styles={GlobalStyles} />
+        <StrictMode>
+          <Component {...pageProps} />
+        </StrictMode>
+      </SkeletonTheme>
     </ThemeProvider>
   </>
 );

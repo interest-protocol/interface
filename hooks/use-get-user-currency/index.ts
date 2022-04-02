@@ -15,13 +15,13 @@ export const useGetUserCurrency: UseGetUSerCurrency = () => {
   const account = usePriorityAccount();
   const provider = usePriorityProvider();
 
-  const { error, data } = useSWR(`${account} balance`, () => {
+  const { data } = useSWR(`${account} balance`, () => {
     if (!provider || !account || !chainId) return Promise.reject();
 
     return provider?.getBalance(account);
   });
 
-  if (error || !data || !chainId || !CHAIN_IDS.includes(chainId)) {
+  if (!data || !chainId || !CHAIN_IDS.includes(chainId)) {
     return {
       symbol: NativeCurrency.from(CHAIN_ID.UNSUPPORTED).symbol,
       amount: CurrencyAmount.fromRawAmount(

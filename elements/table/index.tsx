@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
@@ -23,37 +23,23 @@ const Cell: FC<{ as: 'td' | 'th'; tip?: string }> = ({ as, tip, children }) => (
   </Box>
 );
 
-const TableLoading: FC<TableLoadingProps> = ({ columns }) => {
-  const [rows, setRows] = useState(0);
-
-  useEffect(() => {
-    if (rows < 10) {
-      const timer = setTimeout(
-        () => setRows(rows + Math.random() * 5),
-        Math.random() * 2000
-      );
-      return () => clearTimeout(timer);
-    }
-  });
-
-  return (
-    <Box>
-      {Array.from({ length: rows }).map((_, index) => (
-        <Box
-          as="tr"
-          key={v4()}
-          bg={index % 2 == 0 ? 'background' : 'transparent'}
-        >
-          {Array.from({ length: columns }).map(() => (
-            <Box as="td" key={v4()}>
-              <Skeleton />
-            </Box>
-          ))}
-        </Box>
-      ))}
-    </Box>
-  );
-};
+const TableLoading: FC<TableLoadingProps> = ({ columns }) => (
+  <Box
+    py="M"
+    px="XL"
+    role="row"
+    key={v4()}
+    display="grid"
+    alignItems="center"
+    gridTemplateColumns={`repeat(${columns}, 1fr)`}
+  >
+    {Array.from({ length: columns }).map(() => (
+      <Cell as="td" key={v4()}>
+        <Skeleton />
+      </Cell>
+    ))}
+  </Box>
+);
 
 const ResponsiveTable: FC<ResponsiveTableProps> = ({
   data,

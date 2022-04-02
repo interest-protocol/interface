@@ -27,9 +27,18 @@ const Input = forwardRef(
           {Prefix}
         </Box>
       )}
-      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
-      {/* @ts-ignore */}
-      <InputField px="L" color="text" ref={ref} {...props} />
+      <Box flex="1">
+        <InputField
+          px="L"
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          color="text"
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          ref={ref}
+          {...props}
+        />
+      </Box>
       {Suffix && (
         <Box
           display="flex"

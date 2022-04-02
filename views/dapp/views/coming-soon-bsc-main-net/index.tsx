@@ -1,6 +1,6 @@
-import Pulse from 'components/pulse';
 import { FC } from 'react';
 
+import { Pulse } from '@/components';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
