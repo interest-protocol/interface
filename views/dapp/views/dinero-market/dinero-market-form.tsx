@@ -17,21 +17,14 @@ const DineroMarketForm: FC<FormsProps> = ({
   onSubmitBorrow,
   handleAddAllowance,
 }) => {
-  const formState = form.getValues();
-
   const repayFieldsData = useMemo(
-    () => getRepayFields(data, currency as TOKEN_SYMBOL),
+    () => getRepayFields(data, currency as TOKEN_SYMBOL, '0'),
     [data, currency]
   );
 
   const borrowFieldsData = useMemo(
-    () =>
-      getBorrowFields(
-        data!,
-        currency as TOKEN_SYMBOL,
-        formState.borrow.collateral
-      ),
-    [data, currency, formState.borrow.collateral]
+    () => getBorrowFields(data!, currency as TOKEN_SYMBOL, '0'),
+    [data, currency]
   );
 
   return (

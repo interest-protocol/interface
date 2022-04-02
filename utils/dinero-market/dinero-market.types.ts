@@ -29,7 +29,8 @@ export type TCurrency = TOKEN_SYMBOL;
 
 export type TGetRepayFields = (
   data: MarketAndBalancesData,
-  currency: TCurrency
+  currency: TCurrency,
+  repayLoan: string
 ) => ReadonlyArray<IBorrowFormField>;
 
 export type TGetBorrowFields = (
@@ -38,7 +39,18 @@ export type TGetBorrowFields = (
   collateral: string
 ) => ReadonlyArray<IBorrowFormField>;
 
-export type TGetPositionHealthData = (
+export type TGetPositionHealthDataInternal = (
+  borrowAmount: BigNumber,
+  collateralAmount: BigNumber,
+  data: GetDineroMarketUserDataReturn
+) => [string, string, string];
+
+export type TGetBorrowPositionHealthData = (
+  data: MarketAndBalancesData,
+  borrow: { loan: string; collateral: string }
+) => [string, string, string];
+
+export type TGetRepayPositionHealthData = (
   data: MarketAndBalancesData,
   borrow: { loan: string; collateral: string }
 ) => [string, string, string];
@@ -51,3 +63,10 @@ export type TGetMyPositionData = (
   data: MarketAndBalancesData,
   currency: TOKEN_SYMBOL
 ) => [string, string, string, string, string, string];
+
+export type TCalculateDineroToRepay = (
+  totalLoan: GetDineroMarketUserDataReturn['totalLoan'],
+  userLoan: GetDineroMarketUserDataReturn['userLoan'],
+  balance: BigNumber,
+  intendedLTV?: number
+) => string;

@@ -1,8 +1,14 @@
-import { FC, useEffect, useState } from 'react';
+import { ethers } from 'ethers';
+import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Button } from '@/elements';
-import { calculateDineroLeftToBorrow } from '@/utils/dinero-market';
+import { IntMath } from '@/sdk/entities/int-math';
+import {
+  calculateDineroLeftToBorrow,
+  loanElasticToPrincipal,
+  safeAmountToWithdraw,
+} from '@/utils/dinero-market';
 
 import { InputMaxButtonProps } from './input-money.types';
 
@@ -13,21 +19,53 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
   setValue,
   data,
 }) => {
-  const [innerMax, setInnerMax] = useState(max || 0);
-  const collateral = useWatch({ control, name: 'borrow.collateral' });
+  const borrowCollateral = useWatch({ control, name: 'borrow.collateral' });
 
-  useEffect(() => {
-    if (name === 'borrow.loan' && collateral)
-      setInnerMax(
+  const repayLoan = useWatch({ control, name: 'repay.loan' });
+
+  const handleSetInnerMax = () => {
+    if (name === 'borrow.loan') {
+      setValue(
+        name,
         calculateDineroLeftToBorrow(
           data.market.ltvRatio,
           data.market.totalLoan,
-          data.market.userCollateral,
+          data.market.userCollateral.add(
+            IntMath.toBigNumber(borrowCollateral || '0')
+          ),
           data.market.userLoan,
           data.market.exchangeRate
-        ).toNumber()
+        )
+          .mul(ethers.utils.parseEther('0.9'))
+          .toNumber()
+          .toString()
       );
-  }, [data, collateral]);
+      return;
+    }
+
+    if (name === 'repay.collateral') {
+      setValue(
+        name,
+        safeAmountToWithdraw(
+          data.market.ltvRatio,
+          data.market.totalLoan,
+          data.market.userCollateral,
+          data.market.userLoan.sub(
+            loanElasticToPrincipal(
+              data.market.totalLoan,
+              IntMath.toBigNumber(repayLoan)
+            ).value()
+          ),
+          data.market.exchangeRate
+        )
+          .toNumber()
+          .toString()
+      );
+      return;
+    }
+
+    setValue(name, max ? max.toString() : '0');
+  };
 
   return (
     <Button
@@ -39,7 +77,7 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
       bg="bottomBackground"
       hover={{ bg: 'accent' }}
       active={{ bg: 'accentActive' }}
-      onClick={() => setValue?.(name, `${innerMax ?? 0}`)}
+      onClick={handleSetInnerMax}
     >
       max
     </Button>

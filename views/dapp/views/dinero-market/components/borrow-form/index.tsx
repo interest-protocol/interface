@@ -52,7 +52,7 @@ const BorrowForm: FC<BorrowFormProps> = ({
       setValue={setValue}
       isBorrow={!!isBorrow}
     />
-    <BorrowFormLoanInfo control={control} data={data} />
+    <BorrowFormLoanInfo control={control} data={data} isBorrow={!!isBorrow} />
     <BorrowFormButton
       data={data}
       errors={errors}

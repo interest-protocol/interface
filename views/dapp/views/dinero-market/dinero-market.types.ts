@@ -1,16 +1,22 @@
 import { ContractTransaction } from 'ethers';
-import { UseFormReturn } from 'react-hook-form';
+import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
 import { MarketAndBalancesData } from '@/utils/dinero-market/dinero-market.types';
+
 export interface DineroMarketProps {
   currency: string;
   mode: 'borrow' | 'repay';
+}
+
+export interface DineroMarketSwitchProps extends DineroMarketProps {
+  resetField: UseFormResetField<IBorrowForm>;
 }
 
 export interface IBorrowForm {
   repay: {
     collateral: string;
     loan: string;
+    max: boolean;
   };
   borrow: {
     collateral: string;

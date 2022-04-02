@@ -28,14 +28,6 @@ export class IntMath {
     return value === '0';
   }
 
-  private static parseRounding(x: Rounding): number {
-    if (Rounding.UP === x) return 1;
-    if (Rounding.Down) return -1;
-    if (Rounding.HalfUp) return 0.5;
-    if (Rounding.HalfDown) return -0.5;
-    return 0;
-  }
-
   public static from(value: BigNumberish): IntMath {
     return new IntMath(value);
   }
@@ -59,22 +51,18 @@ export class IntMath {
   public static toNumber(
     value: BigNumber,
     decimals = 18,
-    rounding = Rounding.Nothing,
+    significantRounding = 4,
     significant = 6
   ): number {
     if (value.isZero()) return 0;
-    return (
-      +Fraction.from(value, BigNumber.from(10).pow(decimals)).toSignificant(
-        significant
-      ) + this.parseRounding(rounding)
-    );
+
+    return +Fraction.from(
+      value,
+      BigNumber.from(10).pow(decimals)
+    ).toSignificant(significant, { groupSeparator: '' }, significantRounding);
   }
 
-  public toNumber(
-    decimals = 18,
-    rounding = Rounding.Nothing,
-    significant = 6
-  ): number {
+  public toNumber(decimals = 18, rounding = 4, significant = 6): number {
     return IntMath.toNumber(this._value, decimals, rounding, significant);
   }
 
@@ -124,6 +112,10 @@ export class IntMath {
   }
   public lte(x: BigNumberish | IntMath): boolean {
     return this._value.lte(this.parseValue(x));
+  }
+
+  public eq(x: BigNumberish | IntMath): boolean {
+    return this._value.eq(this.parseValue(x));
   }
 
   public value(): BigNumber {

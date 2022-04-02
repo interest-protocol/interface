@@ -1,9 +1,9 @@
-import { ethers } from 'ethers';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
+import { IntMath } from '@/sdk/entities/int-math';
 import { InfoSVG } from '@/svg';
 import { formatDollars } from '@/utils';
 
@@ -55,12 +55,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
           </Typography>
         ) : (
           `${
-            exchangeRate &&
-            formatDollars(
-              exchangeRate.isZero()
-                ? 0
-                : exchangeRate.div(ethers.utils.parseEther('1')).toNumber() || 0
-            )
+            exchangeRate && formatDollars(IntMath.from(exchangeRate).toNumber())
           }`
         )}
       </Typography>

@@ -1,15 +1,29 @@
 import { useRouter } from 'next/router';
 import { FC, useMemo } from 'react';
+import { FieldPath, FieldValues } from 'react-hook-form';
 
 import { Switch } from '@/components';
 import { ISwitchOption } from '@/components/switch/switch.types';
 import { Routes, RoutesEnum } from '@/constants/routes';
 
-import { DineroMarketProps } from './dinero-market.types';
+import { BORROW_DEFAULT_VALUES } from './dinero-market.data';
+import { DineroMarketSwitchProps } from './dinero-market.types';
 
-const DineroMarketSwitch: FC<DineroMarketProps> = ({ currency, mode }) => {
+const FORM_FIELDS = [
+  'borrow.loan',
+  'borrow.collateral',
+  'repay.loan',
+  'repay.collateral',
+] as ReadonlyArray<FieldPath<typeof BORROW_DEFAULT_VALUES>>;
+
+const DineroMarketSwitch: FC<DineroMarketSwitchProps> = ({
+  currency,
+  mode,
+  resetField,
+}) => {
   const { push } = useRouter();
-  const switchTo = (targetMode: 'borrow' | 'repay') => () =>
+  const switchTo = (targetMode: 'borrow' | 'repay') => () => {
+    FORM_FIELDS.forEach((name) => resetField(name));
     push(
       `${Routes[RoutesEnum.Borrow]}?mode=${targetMode}&currency=${currency}`,
       undefined,
@@ -17,6 +31,7 @@ const DineroMarketSwitch: FC<DineroMarketProps> = ({ currency, mode }) => {
         shallow: true,
       }
     );
+  };
 
   const options: [ISwitchOption, ISwitchOption] = useMemo(
     () => [

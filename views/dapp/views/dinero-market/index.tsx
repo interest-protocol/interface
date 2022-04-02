@@ -1,5 +1,4 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ProviderRpcError } from '@web3-react/types';
 import { ethers } from 'ethers';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -10,11 +9,11 @@ import { Container, Web3Manager } from '@/components';
 import priorityHooks from '@/connectors';
 import { DINERO_MARKET_CONTRACTS_MAP } from '@/constants/dinero-market-contracts.data';
 import { BSC_TEST_ERC_20_DATA, TOKEN_SYMBOL } from '@/constants/erc-20.data';
-import { Rounding } from '@/constants/index';
 import { Box } from '@/elements';
 import { CHAIN_ID, CHAINS } from '@/sdk/chains';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { IntMath } from '@/sdk/entities/int-math';
+import { closeTo } from '@/utils/big-number';
 import {
   addCollateralAndLoan,
   addDineroMarketCollateral,
@@ -23,7 +22,11 @@ import {
   getDineroMarketUserData,
   getLoanInfoData,
   getMyPositionData,
+  loanElasticToPrincipal,
   processData,
+  repayAndWithdrawCollateral,
+  repayDineroLoan,
+  withdrawDineroCollateral,
 } from '@/utils/dinero-market';
 import { MarketAndBalancesData } from '@/utils/dinero-market/dinero-market.types';
 import { addAllowance, getERC20Balance } from '@/utils/erc-20';
@@ -149,9 +152,124 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
         data.market.userCollateral,
         data.market.userLoan,
         data.market.exchangeRate
-      ).toNumber(data.balances[0].currency.decimals - 2, Rounding.UP, 4),
+      ).toNumber(data.balances[0].currency.decimals - 2, 0, 4),
     [data.market, data.balances]
   );
+
+  const handleRepay = async (
+    chainId: number,
+    provider: ethers.providers.Web3Provider,
+    account: string
+  ) => {
+    try {
+      setIsSubmitting(true);
+      const collateral = +form.getValues('repay').collateral;
+      const loan = +form.getValues('repay').loan;
+
+      if ((!collateral || isNaN(+collateral)) && (!loan || isNaN(+loan)))
+        throw new Error('Form: Invalid Fields');
+
+      const estimatedPrincipal = loanElasticToPrincipal(
+        data.market.totalLoan,
+        IntMath.toBigNumber(loan)
+      );
+
+      const tenDNRPrincipal = loanElasticToPrincipal(
+        data.market.totalLoan,
+        ethers.utils.parseEther('10')
+      );
+
+      const principal = closeTo(
+        estimatedPrincipal.value(),
+        data.market.userLoan,
+        tenDNRPrincipal.value()
+      )
+        ? data.market.userLoan
+        : estimatedPrincipal.value();
+
+      if (!!collateral && !!loan) {
+        const tx = await repayAndWithdrawCollateral(
+          DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
+          provider,
+          account,
+          IntMath.toBigNumber(collateral),
+          principal
+        );
+
+        const receipt = await tx.wait(2);
+
+        const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
+
+        toast(
+          <a
+            target="__black"
+            rel="noreferrer nofollow"
+            href={`${explorer ? explorer[0] : ''}/tx/${
+              receipt.transactionHash
+            }`}
+          >
+            Check on Explorer
+          </a>
+        );
+
+        return;
+      }
+
+      if (collateral) {
+        const tx = await withdrawDineroCollateral(
+          DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
+          provider,
+          account,
+          IntMath.toBigNumber(collateral)
+        );
+
+        const receipt = await tx.wait(2);
+
+        const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
+
+        toast(
+          <a
+            target="__black"
+            rel="noreferrer nofollow"
+            href={`${explorer ? explorer[0] : ''}/tx/${
+              receipt.transactionHash
+            }`}
+          >
+            Check on Explorer
+          </a>
+        );
+        return;
+      }
+      if (loan) {
+        const tx = await repayDineroLoan(
+          DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
+          provider,
+          account,
+          principal
+        );
+
+        const receipt = await tx.wait(2);
+
+        const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
+
+        toast(
+          <a
+            target="__black"
+            rel="noreferrer nofollow"
+            href={`${explorer ? explorer[0] : ''}/tx/${
+              receipt.transactionHash
+            }`}
+          >
+            Check on Explorer
+          </a>
+        );
+      }
+    } catch (e: unknown) {
+      throwContractCallError(e);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleBorrow = async (
     chainId: number,
@@ -256,8 +374,10 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
       form.formState.errors.borrow ||
       form.formState.errors.borrow?.['loan'] ||
       form.formState.errors.borrow?.['collateral']
-    )
+    ) {
+      toast.error('Borrow or collateral amount are wrong');
       return;
+    }
     if (
       !chainId ||
       !currency ||
@@ -268,20 +388,38 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
     )
       return;
 
-    toast.promise(handleBorrow(chainId, provider, account), {
+    await toast.promise(handleBorrow(chainId, provider, account), {
       loading: 'Loading...',
       success: 'Success!',
       error: (error) => error.message,
     });
   };
 
-  const onSubmitRepay = () => {
+  const onSubmitRepay = async () => {
     if (
       form.formState.errors.repay ||
       form.formState.errors.repay?.['loan'] ||
       form.formState.errors.repay?.['collateral']
+    ) {
+      toast.error('Borrow or collateral amount are wrong');
+      return;
+    }
+
+    if (
+      !chainId ||
+      !currency ||
+      !provider ||
+      !account ||
+      !data ||
+      data?.market.allowance.isZero()
     )
-      console.log(form.getValues('repay'));
+      return;
+
+    await toast.promise(handleRepay(chainId, provider, account), {
+      loading: 'Loading...',
+      success: 'Success!',
+      error: (error) => error.message,
+    });
   };
 
   if (error) return <ErrorPage message="Something went wrong" />;
@@ -304,7 +442,11 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
         </Box>
         <Box>
           <Box bg="foreground" textAlign="center" p="L" borderRadius="L">
-            <DineroMarketSwitch currency={currency} mode={mode} />
+            <DineroMarketSwitch
+              currency={currency}
+              mode={mode}
+              resetField={form.resetField}
+            />
           </Box>
           <Box
             my="L"

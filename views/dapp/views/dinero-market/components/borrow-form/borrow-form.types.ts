@@ -47,4 +47,5 @@ export interface BorrowFormSelectLTVProps
 export interface BorrowFormLoanInfoProps
   extends Pick<UseFormReturn<IBorrowForm>, 'control'> {
   data: MarketAndBalancesData;
+  isBorrow: boolean;
 }

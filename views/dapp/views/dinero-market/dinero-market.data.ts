@@ -23,8 +23,8 @@ export const MY_POSITION = [
     name: 'Collateral value',
   },
   {
-    tip: 'DNR Currently Borrowed in your Position',
-    name: 'DNR borrowed',
+    tip: 'DNR Currently Borrowed in your Position <br/> + interest rate',
+    name: 'DNR owed',
   },
   {
     tip: 'Collateral Price at which your Loan<br />Position will be Liquidated',
@@ -44,7 +44,6 @@ export const BORROW_DEFAULT_VALUES = {
   borrow: {
     loan: '0',
     collateral: '0',
-    liquidationFee: 0.25,
   },
   repay: {
     collateral: '0',

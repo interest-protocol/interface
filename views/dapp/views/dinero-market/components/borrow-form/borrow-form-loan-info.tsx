@@ -4,7 +4,10 @@ import { v4 } from 'uuid';
 
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
-import { getPositionHealthData } from '@/utils/dinero-market';
+import {
+  getBorrowPositionHealthData,
+  getRepayPositionHealthData,
+} from '@/utils/dinero-market';
 
 import { BorrowFormLoanInfoProps } from './borrow-form.types';
 
@@ -14,20 +17,35 @@ const INFO = [
   'Position Health',
 ];
 
-const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({ control, data }) => {
+const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
+  control,
+  data,
+  isBorrow,
+}) => {
   const borrowLoan = useWatch({ control, name: 'borrow.loan' });
   const borrowCollateral = useWatch({
     control,
     name: 'borrow.collateral',
   });
 
+  const repayLoan = useWatch({ control, name: 'repay.loan' });
+  const repayCollateral = useWatch({
+    control,
+    name: 'repay.collateral',
+  });
+
   const loanData = useMemo(
     () =>
-      getPositionHealthData(data, {
-        collateral: borrowCollateral || '0',
-        loan: borrowLoan || '0',
-      }),
-    [data, borrowCollateral, borrowLoan]
+      isBorrow
+        ? getBorrowPositionHealthData(data, {
+            collateral: borrowCollateral || '0',
+            loan: borrowLoan || '0',
+          })
+        : getRepayPositionHealthData(data, {
+            collateral: repayCollateral || '0',
+            loan: repayLoan || '0',
+          }),
+    [data, borrowCollateral, borrowLoan, isBorrow, repayLoan, repayCollateral]
   );
   return (
     <Box mt="XXL">
