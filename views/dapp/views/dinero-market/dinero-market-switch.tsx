@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { FC, useMemo } from 'react';
-import { FieldPath, FieldValues } from 'react-hook-form';
+import { FieldPath } from 'react-hook-form';
 
 import { Switch } from '@/components';
 import { ISwitchOption } from '@/components/switch/switch.types';

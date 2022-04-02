@@ -79,12 +79,12 @@ const Header: FC = () => {
               {
                 value: 'borrow',
                 displayOption: 'Borrow',
-                onSelect: () => push(Routes[RoutesEnum.NFTBorrow]),
+                onSelect: () => push(Routes[RoutesEnum.NoWhere]),
               },
               {
                 value: 'lend',
                 displayOption: 'Lend',
-                onSelect: () => push(Routes[RoutesEnum.NFTLend]),
+                onSelect: () => push(Routes[RoutesEnum.NoWhere]),
               },
             ]}
           />
