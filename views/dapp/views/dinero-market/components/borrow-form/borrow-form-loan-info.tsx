@@ -14,11 +14,11 @@ import { BorrowFormLoanInfoProps } from './borrow-form.types';
 
 const INFO = [
   {
-    text: 'Expected DNR borrowed',
+    text: 'Estimated DNR borrowed',
     tip: 'Total amount of DNR owed (principal + interest<br /> rate) including the planned transaction',
   },
   {
-    text: 'Expected Liquidation Price',
+    text: 'Estimated Liquidation Price',
     tip: 'If the collateral token drops to this price,<br /> you are at risk of liquidation.',
   },
   {
