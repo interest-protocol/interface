@@ -2,10 +2,10 @@ import { FC, useMemo, useState } from 'react';
 
 import priorityHooks from '@/connectors';
 import { metaMask } from '@/connectors/meta-mask';
-import { walletConnect } from '@/connectors/wallet-connect';
+// import { walletConnect } from '@/connectors/wallet-connect';
 import { Wallets } from '@/constants/wallets';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { BackSVG, LoadingSVG, MetaMaskSVG, TimesSVG, WalletSVG } from '@/svg';
+import { BackSVG, LoadingSVG, MetaMaskSVG, TimesSVG } from '@/svg';
 
 import { ConnectWalletProps, WalletButtonProps } from '../../wallet.types';
 
@@ -123,11 +123,11 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
               Icon={MetaMaskSVG}
               onClick={connectToMetaMask}
             />
-            <WalletButton
-              Icon={WalletSVG}
-              name="Wallet Connect"
-              onClick={async () => await walletConnect.activate()}
-            />
+            {/*<WalletButton*/}
+            {/*  Icon={WalletSVG}*/}
+            {/*  name="Wallet Connect"*/}
+            {/*  onClick={async () => await walletConnect.activate()}*/}
+            {/*/>*/}
           </Box>
         </Box>
       )}

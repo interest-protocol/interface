@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 
 import { Box, Input, Typography } from '@/elements';
 
@@ -33,10 +33,12 @@ const InputMoney: FC<InputMoneyProps> = ({
         {label}:
       </Typography>
       <Input
-        min="0"
         type="string"
         placeholder={amount}
-        {...register(name)}
+        {...register(name, {
+          onChange: (v: ChangeEvent<HTMLInputElement>) =>
+            setValue(name, isNaN(+v.target.value) ? '' : v.target.value),
+        })}
         shieldProps={{
           p: 'S',
           my: 'M',

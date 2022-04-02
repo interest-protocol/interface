@@ -28,23 +28,17 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   const handleSetFee = (intendedLTV: number) => () => {
     if (!data) return;
 
-    if (isBorrow) {
+    if (isBorrow)
       setValue(
         'borrow.loan',
-        `${
-          calculateBorrowAmount(
-            data.market.userCollateral.add(
-              IntMath.toBigNumber(borrowCollateral)
-            ),
-            data.market.userLoan,
-            data.market.exchangeRate,
-            data.market.ltvRatio,
-            data.market.totalLoan
-          ).toNumber() * intendedLTV
-        }`
+        `${calculateBorrowAmount(
+          data.market.userCollateral.add(IntMath.toBigNumber(borrowCollateral)),
+          data.market.userLoan,
+          data.market.exchangeRate,
+          IntMath.toBigNumber(intendedLTV, 16),
+          data.market.totalLoan
+        ).toNumber()}`
       );
-      return;
-    }
   };
 
   const ltvRatio = useMemo(() => {
@@ -60,7 +54,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   return (
     <Box mt="XL">
       <Typography variant="normal" fontSize="S">
-        Liquidation price
+        Select a target LTV %
       </Typography>
       <Box display="flex" justifyContent="space-between" my="L">
         {[0, 25, 50, 75, 100].map((item) => (

@@ -329,11 +329,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
               onSubmitBorrow={onSubmitBorrow}
               handleAddAllowance={submitAllowance}
             />
-            <UserLTV
-              isLoading={isGettingData}
-              ltv={currentLTV}
-              maxLtv={IntMath.from(data?.market.ltvRatio ?? 0).toNumber()}
-            />
+            <UserLTV isLoading={isGettingData} ltv={currentLTV} />
             <LoanInfo loanInfoData={loanInfoData} isLoading={isGettingData} />
             <MyOpenPosition
               isLoading={isGettingData}

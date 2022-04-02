@@ -112,6 +112,20 @@ export class IntMath {
     return `${fraction.toSignificant(toSignificant || 1)} %`;
   }
 
+  public gt(x: BigNumberish | IntMath): boolean {
+    return this._value.gt(this.parseValue(x));
+  }
+
+  public gte(x: BigNumberish | IntMath): boolean {
+    return this._value.gte(this.parseValue(x));
+  }
+  public lt(x: BigNumberish | IntMath): boolean {
+    return this._value.lt(this.parseValue(x));
+  }
+  public lte(x: BigNumberish | IntMath): boolean {
+    return this._value.lte(this.parseValue(x));
+  }
+
   public value(): BigNumber {
     return this._value;
   }

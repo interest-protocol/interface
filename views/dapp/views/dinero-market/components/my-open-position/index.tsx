@@ -15,7 +15,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
   isLoading,
   exchangeRate,
 }) => (
-  <Box py="XL" px="XXL" order={5} gridArea="d" bg="foreground" borderRadius="L">
+  <Box py="XL" px="XXL" order={5} gridArea="c" bg="foreground" borderRadius="L">
     <Typography variant="normal" textTransform="uppercase" mt="L">
       My open position:
     </Typography>
