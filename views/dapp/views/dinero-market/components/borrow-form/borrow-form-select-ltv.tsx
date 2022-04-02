@@ -13,6 +13,7 @@ import { BorrowFormSelectLTVProps } from './borrow-form.types';
 const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   data,
   control,
+  isBorrow,
   setValue,
 }) => {
   const borrowCollateral = useWatch({
@@ -27,18 +28,23 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   const handleSetFee = (intendedLTV: number) => () => {
     if (!data) return;
 
-    setValue(
-      'borrow.loan',
-      `${
-        calculateBorrowAmount(
-          data.market.userCollateral.add(IntMath.toBigNumber(borrowCollateral)),
-          data.market.userLoan,
-          data.market.exchangeRate,
-          data.market.ltvRatio,
-          data.market.totalLoan
-        ).toNumber() * intendedLTV
-      }`
-    );
+    if (isBorrow) {
+      setValue(
+        'borrow.loan',
+        `${
+          calculateBorrowAmount(
+            data.market.userCollateral.add(
+              IntMath.toBigNumber(borrowCollateral)
+            ),
+            data.market.userLoan,
+            data.market.exchangeRate,
+            data.market.ltvRatio,
+            data.market.totalLoan
+          ).toNumber() * intendedLTV
+        }`
+      );
+      return;
+    }
   };
 
   const ltvRatio = useMemo(() => {

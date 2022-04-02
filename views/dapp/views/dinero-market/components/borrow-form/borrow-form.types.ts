@@ -40,6 +40,7 @@ export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
 
 export interface BorrowFormSelectLTVProps
   extends Pick<UseFormReturn<IBorrowForm>, 'control' | 'setValue'> {
+  isBorrow: boolean;
   data: MarketAndBalancesData;
 }
 

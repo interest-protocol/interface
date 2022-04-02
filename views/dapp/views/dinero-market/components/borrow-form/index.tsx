@@ -46,9 +46,12 @@ const BorrowForm: FC<BorrowFormProps> = ({
         />
       )
     )}
-    {isBorrow && (
-      <BorrowFormSelectLTV data={data} control={control} setValue={setValue} />
-    )}
+    <BorrowFormSelectLTV
+      data={data}
+      control={control}
+      setValue={setValue}
+      isBorrow={!!isBorrow}
+    />
     <BorrowFormLoanInfo control={control} data={data} />
     <BorrowFormButton
       data={data}
