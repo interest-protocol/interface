@@ -15,7 +15,6 @@
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@hookform/resolvers": "^2.8.8",
-    "@lottiefiles/react-lottie-player": "^3.4.2",
     "@styled-system/css": "^5.1.5",
     "@walletconnect/ethereum-provider": "^1.7.5",
     "@web3-react/core": "8.0.20-beta.0",
