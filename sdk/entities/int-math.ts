@@ -1,6 +1,6 @@
 import { BigNumber, BigNumberish, utils } from 'ethers';
 
-import { Rounding, ZERO } from '@/constants/index';
+import { ZERO } from '@/constants/index';
 import { parseToStringNumber } from '@/utils';
 
 import { Fraction } from './fraction';
