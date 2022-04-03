@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 
 import priorityHooks from '@/connectors';
-import { CHAIN_ID, CHAIN_IDS } from '@/sdk/chains';
+import { CHAIN_ID, CHAIN_IDS } from '@/constants/chains';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { NativeCurrency } from '@/sdk/entities/native-currency';
 

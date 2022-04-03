@@ -7,6 +7,7 @@ import useSWR from 'swr';
 import { v4 } from 'uuid';
 
 import priorityHooks from '@/connectors';
+import { CHAIN_ID, CHAINS } from '@/constants/chains';
 import {
   BSC_TEST_ERC_20_DATA,
   FAUCET_TOKENS,
@@ -14,7 +15,6 @@ import {
   TOKENS_SVG_MAP,
 } from '@/constants/erc-20.data';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { CHAIN_ID, CHAINS } from '@/sdk/chains';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import { mintBTC, mintDinero } from '@/utils/erc-20';

@@ -2,13 +2,14 @@ import { FC } from 'react';
 import toast from 'react-hot-toast';
 
 import hooks from '@/connectors';
+import { CHAINS, getChainId } from '@/constants/chains';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { CopySVG, LinkSVG, TimesSVG, UserSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
 import { AccountModalProps } from '../../wallet.types';
 
-const { usePriorityConnector } = hooks;
+const { usePriorityConnector, usePriorityChainId } = hooks;
 
 const AccountModal: FC<AccountModalProps> = ({
   url,
@@ -17,6 +18,7 @@ const AccountModal: FC<AccountModalProps> = ({
   toggleModal,
 }) => {
   const connector = usePriorityConnector();
+  const chainId = usePriorityChainId();
 
   const disconnect = () => connector.deactivate();
 
@@ -96,7 +98,9 @@ const AccountModal: FC<AccountModalProps> = ({
             <a
               target="__blank"
               rel="noopener noreferrer"
-              href={`https://bscscan.com/address/${account}`}
+              href={`${
+                CHAINS[getChainId(chainId || 0)].blockExplorerUrls
+              }/address/${account}`}
             >
               <Box
                 mx="M"

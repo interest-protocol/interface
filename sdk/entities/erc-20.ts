@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 
-import { CHAIN_ID } from '../chains';
+import { CHAIN_ID } from '@/constants/chains';
+
 import { BaseCurrency } from './base-currency';
 
 export class ERC20 extends BaseCurrency {
