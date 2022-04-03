@@ -124,7 +124,7 @@ const BorrowTable: FC = () => {
                 ),
               },
               {
-                tip: 'The penalty fee charged to a borrower when his position is liquidated.<br />It is expressed as a percentage of the loan',
+                tip: 'A penalty fee charged to a borrower when his/her position is liquidated.<br />It is expressed as a percentage of the loan',
                 item: (
                   <>
                     Liquidation <br />
