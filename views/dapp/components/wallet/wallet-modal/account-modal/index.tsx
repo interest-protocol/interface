@@ -96,7 +96,7 @@ const AccountModal: FC<AccountModalProps> = ({
             <a
               target="__blank"
               rel="noopener noreferrer"
-              href={`https://bscscan.io/address/${account}`}
+              href={`https://bscscan.com/address/${account}`}
             >
               <Box
                 mx="M"
