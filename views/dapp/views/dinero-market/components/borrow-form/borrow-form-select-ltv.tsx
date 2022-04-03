@@ -81,9 +81,13 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
       isBorrow
         ? !!+borrowCollateral &&
           +borrowLoan ===
-            +borrowCollateral *
-              (intendedLTV / 100) *
-              IntMath.toNumber(data.market.exchangeRate)
+            calculateBorrowAmount({
+              ...data.market,
+              ltvRatio: IntMath.toBigNumber(intendedLTV, 16),
+              userCollateral: data.market.userCollateral.add(
+                IntMath.toBigNumber(borrowCollateral)
+              ),
+            }).toNumber()
         : !!+repayLoan &&
           +repayLoan ===
             (intendedLTV / 100) * IntMath.toNumber(data.balances[1].numerator),
