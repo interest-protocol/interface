@@ -1,4 +1,5 @@
-import { CHAIN_ID, CHAINS } from '../chains';
+import { CHAIN_ID, CHAINS } from '@/constants/chains';
+
 import { BaseCurrency } from './base-currency';
 
 export class NativeCurrency extends BaseCurrency {

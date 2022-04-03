@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 
 import priorityHooks from '@/connectors';
-import { CHAIN_ID, getChainId } from '@/sdk/chains';
+import { CHAIN_ID, getChainId } from '@/constants/chains';
 import { MetaMaskSVG, TimesSVG } from '@/svg';
 
 import { Layout, Loading } from '../components';

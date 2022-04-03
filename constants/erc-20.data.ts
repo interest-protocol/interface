@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import { FC, SVGAttributes } from 'react';
 
-import { CHAIN_ID } from '@/sdk/chains';
+import { CHAIN_ID } from '@/constants/chains';
 import { ERC20 } from '@/sdk/entities/erc-20';
 import { BitcoinSVG, DineroSVG, EthereumSVG } from '@/svg';
 

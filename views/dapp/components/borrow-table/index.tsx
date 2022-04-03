@@ -4,12 +4,12 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
+import { CHAIN_ID } from '@/constants/chains';
 import { DINERO_MARKET_CONTRACTS } from '@/constants/dinero-market-contracts.data';
 import { SECONDS_IN_A_YEAR } from '@/constants/index';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, Table, Typography } from '@/elements';
 import { useGetDineroMarketErc20Summary } from '@/hooks/use-get-dinero-market-erc20-summary';
-import { CHAIN_ID } from '@/sdk/chains';
 import { IntMath } from '@/sdk/entities/int-math';
 import { BitcoinSVG, DineroSVG, TimesSVG } from '@/svg';
 import { formatDollars } from '@/utils';
@@ -161,8 +161,6 @@ const BorrowTable: FC = () => {
                   formatDollars(
                     IntMath.from(data[index].totalCollateral)
                       .mul(data[index].exchangeRate)
-                      .value()
-                      .div(ethers.utils.parseEther('1'))
                       .toNumber()
                   ),
                   IntMath.from(data[index].ltv).toPercentage(0),

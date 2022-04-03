@@ -166,7 +166,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
             Approve
           </Typography>
         </Button>
-      ) : !repayLoan && !repayCollateral ? (
+      ) : !+repayLoan && !+repayCollateral ? (
         <Box
           py="L"
           px="XL"
@@ -196,9 +196,9 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
             variant="normal"
             ml={isSubmitting ? 'L' : 'NONE'}
           >
-            {!!repayLoan && !!repayCollateral
+            {!!+repayLoan && !!+repayCollateral
               ? 'Remove Collateral and Repay Loan'
-              : repayCollateral
+              : +repayCollateral
               ? 'Remove Collateral'
               : 'Repay Loan'}
           </Typography>
