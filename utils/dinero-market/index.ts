@@ -543,7 +543,7 @@ export const calculateDineroToRepay: TCalculateDineroToRepay = (
   const maxToPay = elasticLoan.gt(balance) ? balance : elasticLoan.value();
 
   const target = elasticLoan.mul(IntMath.toBigNumber(intendedLTV, 16));
-  const targetToPay = target.gt(balance) ? balance : target;
+  const targetToPay = target.gt(balance) ? IntMath.from(balance) : target;
 
   return intendedLTV === 100
     ? IntMath.from(maxToPay).toNumber().toString()
@@ -601,9 +601,7 @@ export const getRepayFields: TGetRepayFields = (
       label: 'Remove Collateral',
       amountUSD: data?.market.exchangeRate.isZero()
         ? 0
-        : data?.market.exchangeRate
-            .div(ethers.utils.parseEther('1'))
-            .toNumber() || 0,
+        : IntMath.toNumber(data?.market.exchangeRate) || 0,
     } as IBorrowFormField;
   });
 
