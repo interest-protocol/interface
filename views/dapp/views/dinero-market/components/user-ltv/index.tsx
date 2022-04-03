@@ -22,7 +22,13 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => (
         </Box>
         LTV
       </Typography>
-      <Typography as="div" variant="normal" color="textSecondary">
+      <Typography
+        as="div"
+        variant="normal"
+        textAlign="right"
+        whiteSpace="nowrap"
+        color="textSecondary"
+      >
         {isLoading ? (
           <Typography
             as="span"

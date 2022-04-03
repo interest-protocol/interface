@@ -36,7 +36,12 @@ const YourBalance: FC<YourBalanceProps> = ({ loading, balances }) => (
                 {x.currency.name}
               </Typography>
             </Box>
-            <Typography variant="normal" color="textSecondary">
+            <Typography
+              variant="normal"
+              textAlign="right"
+              whiteSpace="nowrap"
+              color="textSecondary"
+            >
               {formatMoney(+x.toSignificant(4))}
             </Typography>
           </Box>

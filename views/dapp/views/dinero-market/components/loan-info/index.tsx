@@ -31,7 +31,13 @@ const LoanInfo: FC<LoanInfoProps> = ({ isLoading, loanInfoData }) => (
           </Box>
           {name}
         </Typography>
-        <Typography as="div" variant="normal" color="textSecondary">
+        <Typography
+          as="div"
+          variant="normal"
+          textAlign="right"
+          whiteSpace="nowrap"
+          color="textSecondary"
+        >
           {isLoading ? (
             <Typography
               as="span"

@@ -10,8 +10,16 @@ import { formatDollars } from '@/utils';
 import { MY_POSITION } from '../../dinero-market.data';
 import { MyOpenPositionProps } from './my-open-position.types';
 
+const myPositionData = [
+  '999,000,000.00 BTC',
+  '$999,000,000.00',
+  '999,000,000.00 DNR',
+  '999,000,000.00 (BTC)',
+  '999,000,000.00',
+  '999,000,000.00 BTC',
+];
+
 const MyOpenPosition: FC<MyOpenPositionProps> = ({
-  myPositionData,
   isLoading,
   exchangeRate,
 }) => (
@@ -41,6 +49,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
           {name}
         </Typography>
         <Typography
+          ml="M"
           variant="normal"
           textAlign="right"
           whiteSpace="nowrap"

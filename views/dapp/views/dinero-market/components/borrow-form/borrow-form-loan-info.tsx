@@ -69,7 +69,12 @@ const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
               {text}
             </Typography>
           </Box>
-          <Typography variant="normal" as="span">
+          <Typography
+            as="span"
+            variant="normal"
+            textAlign="right"
+            whiteSpace="nowrap"
+          >
             {loanData[i]}
           </Typography>
         </Box>
