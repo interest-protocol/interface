@@ -42,7 +42,7 @@ const YourBalance: FC<YourBalanceProps> = ({ loading, balances }) => (
               whiteSpace="nowrap"
               color="textSecondary"
             >
-              {formatMoney(+x.toSignificant(4))}
+              {formatMoney(+x.toSignificant(6))}
             </Typography>
           </Box>
         );

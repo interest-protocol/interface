@@ -6,10 +6,7 @@ import { v4 } from 'uuid';
 import { Box, Button, Typography } from '@/elements';
 import { Fraction } from '@/sdk/entities/fraction';
 import { IntMath } from '@/sdk/entities/int-math';
-import {
-  calculateBorrowAmount,
-  calculateDineroToRepay,
-} from '@/utils/dinero-market';
+import { calculateBorrowAmount } from '@/utils/dinero-market';
 
 import { BorrowFormSelectLTVProps } from './borrow-form.types';
 
@@ -27,23 +24,21 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
     control,
     name: 'borrow.loan',
   });
-  const repayLoan = useWatch({
-    control,
-    name: 'repay.loan',
-  });
 
   const handleSetBorrowLoan = (intendedLTV: number) => () => {
     if (!data) return;
 
     setValue(
       'borrow.loan',
-      `${calculateBorrowAmount(
-        data.market.userCollateral.add(IntMath.toBigNumber(borrowCollateral)),
-        data.market.userLoan,
-        data.market.exchangeRate,
-        IntMath.toBigNumber(intendedLTV, 16),
-        data.market.totalLoan
-      ).toNumber()}`
+      calculateBorrowAmount({
+        ...data.market,
+        ltvRatio: IntMath.toBigNumber(intendedLTV, 16),
+        userCollateral: data.market.userCollateral.add(
+          IntMath.toBigNumber(borrowCollateral)
+        ),
+      })
+        .toNumber()
+        .toString()
     );
   };
 
@@ -52,12 +47,12 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
 
     setValue(
       'repay.loan',
-      calculateDineroToRepay(
-        data.market.totalLoan,
-        data.market.userLoan,
-        data.balances[1].numerator,
-        intendedLTV
-      )
+      intendedLTV === 100
+        ? IntMath.from(data.balances[1].numerator).toNumber().toString()
+        : IntMath.from(data.balances[1].numerator)
+            .mul(IntMath.toBigNumber(intendedLTV / 100))
+            .toNumber()
+            .toString()
     );
   };
 
@@ -73,8 +68,11 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
 
   return (
     <Box mt="XL">
-      <Typography variant="normal" fontSize="S">
-        {isBorrow ? 'Select a target LTV %' : 'Select a repay %'}
+      <Typography whiteSpace="pre-line" variant="normal" fontSize="S">
+        {isBorrow
+          ? 'Select a target LTV %'
+          : `Select a DNR balance % to repay.
+            The contract will refund the difference`}
       </Typography>
       <Box display="flex" justifyContent="space-between" my="L">
         {[0, 25, 50, 75, 100].map((item) =>
@@ -141,17 +139,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
                   : 'accentActive',
               }}
               bg={
-                data.balances[1].numerator.isZero()
-                  ? 'disabled'
-                  : repayLoan ===
-                    calculateDineroToRepay(
-                      data.market.totalLoan,
-                      data.market.userLoan,
-                      data.balances[1].numerator,
-                      item
-                    )
-                  ? 'background'
-                  : 'bottomBackground'
+                data.balances[1].numerator.isZero() ? 'disabled' : 'background'
               }
             >
               {item}%

@@ -1,13 +1,12 @@
 import { ethers } from 'ethers';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Button } from '@/elements';
 import { IntMath } from '@/sdk/entities/int-math';
 import {
   calculateDineroLeftToBorrow,
-  loanElasticToPrincipal,
-  safeAmountToWithdraw,
+  safeAmountToWithdrawRepay,
 } from '@/utils/dinero-market';
 
 import { InputMaxButtonProps } from './input-money.types';
@@ -23,19 +22,16 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
 
   const repayLoan = useWatch({ control, name: 'repay.loan' });
 
-  const handleSetInnerMax = () => {
+  const handleSetInnerMax = useCallback(() => {
     if (name === 'borrow.loan') {
       setValue(
         name,
-        calculateDineroLeftToBorrow(
-          data.market.ltvRatio,
-          data.market.totalLoan,
-          data.market.userCollateral.add(
+        calculateDineroLeftToBorrow({
+          ...data.market,
+          userCollateral: data.market.userCollateral.add(
             IntMath.toBigNumber(borrowCollateral || '0')
           ),
-          data.market.userLoan,
-          data.market.exchangeRate
-        )
+        })
           .mul(ethers.utils.parseEther('0.9'))
           .toNumber()
           .toString()
@@ -46,18 +42,7 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     if (name === 'repay.collateral') {
       setValue(
         name,
-        safeAmountToWithdraw(
-          data.market.ltvRatio,
-          data.market.totalLoan,
-          data.market.userCollateral,
-          data.market.userLoan.sub(
-            loanElasticToPrincipal(
-              data.market.totalLoan,
-              IntMath.toBigNumber(repayLoan)
-            ).value()
-          ),
-          data.market.exchangeRate
-        )
+        safeAmountToWithdrawRepay(data.market, IntMath.toBigNumber(repayLoan))
           .toNumber()
           .toString()
       );
@@ -65,7 +50,7 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     }
 
     setValue(name, max ? max.toString() : '0');
-  };
+  }, [repayLoan, borrowCollateral]);
 
   return (
     <Button

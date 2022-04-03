@@ -13,7 +13,6 @@ import { BSC_TEST_ERC_20_DATA, TOKEN_SYMBOL } from '@/constants/erc-20.data';
 import { Box } from '@/elements';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { IntMath } from '@/sdk/entities/int-math';
-import { closeTo } from '@/utils/big-number';
 import {
   addCollateralAndLoan,
   addDineroMarketCollateral,
@@ -146,13 +145,11 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
 
   const currentLTV = useMemo(
     () =>
-      calculatePositionHealth(
-        data.market.ltvRatio,
-        data.market.totalLoan,
-        data.market.userCollateral,
-        data.market.userLoan,
-        data.market.exchangeRate
-      ).toNumber(data.balances[0].currency.decimals - 2, 0, 4),
+      calculatePositionHealth(data.market).toNumber(
+        data.balances[0].currency.decimals - 2,
+        0,
+        4
+      ),
     [data.market, data.balances]
   );
 
@@ -171,19 +168,11 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
 
       const estimatedPrincipal = loanElasticToPrincipal(
         data.market.totalLoan,
-        IntMath.toBigNumber(loan)
+        IntMath.toBigNumber(loan),
+        data.market.loan
       );
 
-      const tenDNRPrincipal = loanElasticToPrincipal(
-        data.market.totalLoan,
-        ethers.utils.parseEther('10')
-      );
-
-      const principal = closeTo(
-        estimatedPrincipal.value(),
-        data.market.userLoan,
-        tenDNRPrincipal.value()
-      )
+      const principal = estimatedPrincipal.gte(data.market.userLoan)
         ? data.market.userLoan
         : estimatedPrincipal.value();
 
