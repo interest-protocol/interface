@@ -13,7 +13,6 @@ import { BSC_TEST_ERC_20_DATA, TOKEN_SYMBOL } from '@/constants/erc-20.data';
 import { Box } from '@/elements';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { IntMath } from '@/sdk/entities/int-math';
-import { closeTo } from '@/utils/big-number';
 import {
   addCollateralAndLoan,
   addDineroMarketCollateral,
@@ -22,7 +21,7 @@ import {
   getDineroMarketUserData,
   getLoanInfoData,
   getMyPositionData,
-  loanElasticToPrincipal,
+  loanPrincipalToElastic,
   processData,
   repayAndWithdrawCollateral,
   repayDineroLoan,
@@ -167,25 +166,15 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
       if ((!collateral || isNaN(+collateral)) && (!loan || isNaN(+loan)))
         throw new Error('Form: Invalid Fields');
 
-      const estimatedPrincipal = loanElasticToPrincipal(
+      const estimatedLoanPrincipal = loanPrincipalToElastic(
         data.market.totalLoan,
-        IntMath.toBigNumber(loan),
-        data.market.loan
-      );
-
-      const onePercentOfEstimated = loanElasticToPrincipal(
-        data.market.totalLoan,
-        IntMath.toBigNumber(loan).mul(ethers.utils.parseEther('0.01')),
-        data.market.loan
-      );
-
-      const principal = closeTo(
-        estimatedPrincipal.value(),
         data.market.userLoan,
-        onePercentOfEstimated.value()
-      )
+        data.market.loan
+      ).value();
+
+      const principal = IntMath.toBigNumber(loan).gte(estimatedLoanPrincipal)
         ? data.market.userLoan
-        : estimatedPrincipal.value();
+        : estimatedLoanPrincipal;
 
       if (!!collateral && !!loan) {
         const tx = await repayAndWithdrawCollateral(
