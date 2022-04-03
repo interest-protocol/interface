@@ -9,7 +9,14 @@ import { formatMoney } from '@/utils';
 import { YourBalanceProps } from './your-balance.types';
 
 const YourBalance: FC<YourBalanceProps> = ({ loading, balances }) => (
-  <Box py="XL" px="XXL" order={3} gridArea="e" bg="foreground" borderRadius="L">
+  <Box
+    py="XL"
+    order={3}
+    gridArea="e"
+    bg="foreground"
+    borderRadius="L"
+    px={['XL', 'XXL']}
+  >
     <Typography variant="normal" textTransform="uppercase" mt="L">
       Your balance:
     </Typography>

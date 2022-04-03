@@ -15,7 +15,14 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
   isLoading,
   exchangeRate,
 }) => (
-  <Box py="XL" px="XXL" order={5} gridArea="c" bg="foreground" borderRadius="L">
+  <Box
+    py="XL"
+    order={5}
+    gridArea="c"
+    bg="foreground"
+    borderRadius="L"
+    px={['XL', 'XXL']}
+  >
     <Typography variant="normal" textTransform="uppercase" mt="L">
       My open position:
     </Typography>
@@ -33,7 +40,12 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
           </Box>
           {name}
         </Typography>
-        <Typography variant="normal" color="textSecondary">
+        <Typography
+          variant="normal"
+          textAlign="right"
+          whiteSpace="nowrap"
+          color="textSecondary"
+        >
           {myPositionData[i]}
         </Typography>
       </Box>

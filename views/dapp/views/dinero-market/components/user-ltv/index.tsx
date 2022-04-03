@@ -7,7 +7,14 @@ import { InfoSVG, ProgressSVG } from '@/svg';
 import { UserLTVProps } from './user-ltv.types';
 
 const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => (
-  <Box py="XL" px="XXL" order={1} gridArea="b" bg="foreground" borderRadius="L">
+  <Box
+    py="XL"
+    order={1}
+    gridArea="b"
+    bg="foreground"
+    borderRadius="L"
+    px={['XL', 'XXL']}
+  >
     <Box display="flex" justifyContent="space-between">
       <Typography variant="normal" display="flex" alignItems="center">
         <Box mr="M" as="span" display="inline-block" data-tip="Loan to value">
