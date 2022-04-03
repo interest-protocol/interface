@@ -17,10 +17,15 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => (
   >
     <Box display="flex" justifyContent="space-between">
       <Typography variant="normal" display="flex" alignItems="center">
-        <Box mr="M" as="span" display="inline-block" data-tip="Loan to value">
+        <Box
+          mr="M"
+          as="span"
+          display="inline-block"
+          data-tip="If this value reaches 100%, you might get liquidated"
+        >
           <InfoSVG width="1rem" />
         </Box>
-        LTV
+        Risk
       </Typography>
       <Typography
         as="div"
