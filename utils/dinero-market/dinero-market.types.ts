@@ -3,6 +3,7 @@ import { BigNumber } from 'ethers';
 import { TOKEN_SYMBOL } from '@/constants/erc-20.data';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { ERC20 } from '@/sdk/entities/erc-20';
+import { IntMath } from '@/sdk/entities/int-math';
 import { IBorrowFormField } from '@/views/dapp/views/dinero-market/components/borrow-form/borrow-form.types';
 
 export interface GetDineroMarketUserDataReturn {
@@ -65,8 +66,43 @@ export type TGetMyPositionData = (
 ) => [string, string, string, string, string, string];
 
 export type TCalculateDineroToRepay = (
-  totalLoan: GetDineroMarketUserDataReturn['totalLoan'],
-  userLoan: GetDineroMarketUserDataReturn['userLoan'],
+  data: GetDineroMarketUserDataReturn,
   balance: BigNumber,
   intendedLTV?: number
 ) => string;
+
+export type TCalculateInterestAccrued = (
+  loan: GetDineroMarketUserDataReturn['loan']
+) => BigNumber;
+
+export type TLoanPrincipalToElastic = (
+  totalLoan: GetDineroMarketUserDataReturn['totalLoan'],
+  userPrincipal: GetDineroMarketUserDataReturn['userLoan'],
+  loan: GetDineroMarketUserDataReturn['loan']
+) => IntMath;
+
+export type TCalculateExpectedLiquidationPrice = (
+  data: GetDineroMarketUserDataReturn
+) => IntMath;
+
+export type TCalculatePositionHealth = (
+  data: GetDineroMarketUserDataReturn
+) => IntMath;
+
+export type TCalculateDineroLeftToBorrow = (
+  data: GetDineroMarketUserDataReturn
+) => IntMath;
+
+export type TSafeAmountToWithdraw = (
+  data: GetDineroMarketUserDataReturn
+) => IntMath;
+
+export type TCalculateBorrowAmount = (
+  data: GetDineroMarketUserDataReturn
+) => IntMath;
+
+export type TLoanElasticToPrincipal = (
+  totalLoan: GetDineroMarketUserDataReturn['totalLoan'],
+  userPrincipal: GetDineroMarketUserDataReturn['userLoan'],
+  loan: GetDineroMarketUserDataReturn['loan']
+) => IntMath;

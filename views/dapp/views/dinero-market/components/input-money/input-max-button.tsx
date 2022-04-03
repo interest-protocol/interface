@@ -6,7 +6,6 @@ import { Button } from '@/elements';
 import { IntMath } from '@/sdk/entities/int-math';
 import {
   calculateDineroLeftToBorrow,
-  loanElasticToPrincipal,
   safeAmountToWithdraw,
 } from '@/utils/dinero-market';
 
@@ -27,15 +26,12 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     if (name === 'borrow.loan') {
       setValue(
         name,
-        calculateDineroLeftToBorrow(
-          data.market.ltvRatio,
-          data.market.totalLoan,
-          data.market.userCollateral.add(
+        calculateDineroLeftToBorrow({
+          ...data.market,
+          userCollateral: data.market.userCollateral.add(
             IntMath.toBigNumber(borrowCollateral || '0')
           ),
-          data.market.userLoan,
-          data.market.exchangeRate
-        )
+        })
           .mul(ethers.utils.parseEther('0.9'))
           .toNumber()
           .toString()
@@ -46,18 +42,8 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     if (name === 'repay.collateral') {
       setValue(
         name,
-        safeAmountToWithdraw(
-          data.market.ltvRatio,
-          data.market.totalLoan,
-          data.market.userCollateral,
-          data.market.userLoan.sub(
-            loanElasticToPrincipal(
-              data.market.totalLoan,
-              IntMath.toBigNumber(repayLoan)
-            ).value()
-          ),
-          data.market.exchangeRate
-        )
+        safeAmountToWithdraw(data.market)
+          .sub(IntMath.toBigNumber(repayLoan))
           .toNumber()
           .toString()
       );

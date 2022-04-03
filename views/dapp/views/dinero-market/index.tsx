@@ -146,13 +146,11 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
 
   const currentLTV = useMemo(
     () =>
-      calculatePositionHealth(
-        data.market.ltvRatio,
-        data.market.totalLoan,
-        data.market.userCollateral,
-        data.market.userLoan,
-        data.market.exchangeRate
-      ).toNumber(data.balances[0].currency.decimals - 2, 0, 4),
+      calculatePositionHealth(data.market).toNumber(
+        data.balances[0].currency.decimals - 2,
+        0,
+        4
+      ),
     [data.market, data.balances]
   );
 
@@ -171,18 +169,20 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
 
       const estimatedPrincipal = loanElasticToPrincipal(
         data.market.totalLoan,
-        IntMath.toBigNumber(loan)
+        IntMath.toBigNumber(loan),
+        data.market.loan
       );
 
-      const tenDNRPrincipal = loanElasticToPrincipal(
+      const onePercentOfEstimated = loanElasticToPrincipal(
         data.market.totalLoan,
-        ethers.utils.parseEther('10')
+        IntMath.toBigNumber(loan).mul(ethers.utils.parseEther('0.01')),
+        data.market.loan
       );
 
       const principal = closeTo(
         estimatedPrincipal.value(),
         data.market.userLoan,
-        tenDNRPrincipal.value()
+        onePercentOfEstimated.value()
       )
         ? data.market.userLoan
         : estimatedPrincipal.value();
