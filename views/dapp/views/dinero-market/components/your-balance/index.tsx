@@ -31,7 +31,7 @@ const YourBalance: FC<YourBalanceProps> = ({ loading, balances }) => (
         return (
           <Box my="L" key={v4()} display="flex" justifyContent="space-between">
             <Box display="flex">
-              <SVG width="1rem" />
+              <SVG width="1rem" height="1rem" />
               <Typography ml="M" variant="normal">
                 {x.currency.name}
               </Typography>

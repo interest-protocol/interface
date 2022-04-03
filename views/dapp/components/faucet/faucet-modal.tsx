@@ -149,7 +149,7 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
                 bg: 'accentActive',
               }}
             >
-              <TimesSVG width="1rem" />
+              <TimesSVG width="1rem" height="1rem" />
             </Button>
           </Box>
         </Box>
@@ -191,7 +191,7 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
                 my="L"
               >
                 <Box display="flex">
-                  <SVG width="1rem" />
+                  <SVG width="1rem" height="1rem" />
                   <Typography ml="M" variant="normal">
                     {x.toSignificant(4)}
                   </Typography>
@@ -214,7 +214,7 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
           >
             {loading ? (
               <Box as="span" display="flex" justifyContent="center">
-                <LoadingSVG width="1rem" />
+                <LoadingSVG width="1rem" height="1rem" />
                 <Typography as="span" variant="normal" ml="M" fontSize="S">
                   Minting...
                 </Typography>

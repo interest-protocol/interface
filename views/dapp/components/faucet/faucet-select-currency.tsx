@@ -17,10 +17,11 @@ const FaucetSelectCurrency: FC<FaucetSelectCurrencyProps> = ({
 
   return (
     <Dropdown
+      relative
       customTitle
       customItems
-      title="Tokens"
       mode="select"
+      title="Tokens"
       search={watch('search')}
       defaultValue={defaultValue}
       suffix={<ArrowSVG width="0.5rem" />}
@@ -29,11 +30,11 @@ const FaucetSelectCurrency: FC<FaucetSelectCurrencyProps> = ({
           p="M"
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
-          {...register('search')}
           placeholder="Search"
+          {...register('search')}
           Prefix={
             <Box px="L" borderRight="1px solid" borderColor="bottomBackground">
-              <SearchSVG width="0.7rem" />
+              <SearchSVG width="0.7rem" height="0.7rem" />
             </Box>
           }
           shieldProps={{
@@ -61,7 +62,7 @@ const FaucetSelectCurrency: FC<FaucetSelectCurrencyProps> = ({
           ),
           displayTitle: (
             <>
-              <SVG width="1rem" />
+              <SVG width="1rem" height="1rem" />
               <Typography
                 mx="S"
                 as="span"

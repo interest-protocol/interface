@@ -21,7 +21,7 @@ const SocialMediaCard: FC<SocialMediaCardProps> = ({ title, link, Logo }) => (
       bg={primitiveColors.NEUTRAL_100}
       boxShadow="0px 5px 10px -5px #AEC0EA"
     >
-      <Logo width="1.1rem" />
+      <Logo width="1.1rem" height="1.1rem" />
     </Box>
   </a>
 );

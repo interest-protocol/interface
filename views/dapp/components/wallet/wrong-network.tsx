@@ -19,7 +19,7 @@ const WrongNetwork: FC = () => {
         alignItems="center"
         onClick={toggleNetworkModal}
       >
-        <NetworkSVG width="1rem" />
+        <NetworkSVG width="1rem" height="1rem" />
         <Typography as="span" variant="normal" ml="M">
           Wrong Network
         </Typography>

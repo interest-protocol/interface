@@ -33,7 +33,7 @@ const WalletButton: FC<WalletButtonProps> = ({ onClick, name, Icon }) => (
   >
     {name}
     <Box width="2rem" height="2rem" display="flex" alignItems="center">
-      <Icon width="2rem" />
+      <Icon width="2rem" height="2rem" />
     </Box>
   </Box>
 );
@@ -114,7 +114,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
               onClick={toggleModal}
               hover={{ color: 'text' }}
             >
-              <TimesSVG width="1.8rem" />
+              <TimesSVG width="1.8rem" height="1.8rem" />
             </Box>
           </Box>
           <Box mt="L">
@@ -150,7 +150,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
             justifyContent="space-between"
           >
             <Box color="text" cursor="pointer" onClick={() => swipeToWallet()}>
-              <BackSVG width="1.4rem" />
+              <BackSVG width="1.4rem" height="1.4rem" />
             </Box>
             <Box
               cursor="pointer"
@@ -158,7 +158,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
               onClick={toggleModal}
               hover={{ color: 'text' }}
             >
-              <TimesSVG width="1.8rem" />
+              <TimesSVG width="1.8rem" height="1.8rem" />
             </Box>
           </Box>
           <Box mt="L">
@@ -175,7 +175,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
               {!hasError && (
                 <>
                   <Box color="text">
-                    <LoadingSVG width="1.4rem" />
+                    <LoadingSVG width="1.4rem" height="1.4rem" />
                   </Box>
                   <Typography variant="normal" ml="L">
                     Initializing...
@@ -233,7 +233,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
                 display="flex"
                 alignItems="center"
               >
-                <MetaMaskSVG width="2rem" />
+                <MetaMaskSVG width="2rem" height="2rem" />
               </Box>
             </Box>
           </Box>

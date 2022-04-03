@@ -31,7 +31,12 @@ const Header: FC = () => {
             hover={{ color: 'accent' }}
             active={{ color: 'accentSecondary' }}
           >
-            <LogoSVG fill="currentColor" width="2.5rem" aria-label="Logo" />
+            <LogoSVG
+              width="2.5rem"
+              height="2.5rem"
+              aria-label="Logo"
+              fill="currentColor"
+            />
           </Box>
         </Link>
       </Box>

@@ -44,7 +44,7 @@ const BorrowTable: FC = () => {
           borderRadius="50%"
           border="0.3rem solid"
         >
-          <TimesSVG />
+          <TimesSVG width="100%" height="100%" />
         </Box>
         <Typography variant="title3">Error fetching the contracts</Typography>
       </Box>
@@ -63,7 +63,7 @@ const BorrowTable: FC = () => {
           alignItems="center"
           justifyContent={['center', 'flex-start']}
         >
-          <DineroSVG width="2rem" />
+          <DineroSVG width="2rem" height="2rem" />
           <Typography variant="normal" ml="M">
             Borrow Dinero
           </Typography>
@@ -153,7 +153,7 @@ const BorrowTable: FC = () => {
                     alignItems="center"
                     justifyContent="center"
                   >
-                    <BitcoinSVG width="1.4rem" />
+                    <BitcoinSVG width="1.4rem" height="1.4rem" />
                     <Typography variant="normal" ml="M">
                       {`${x.collateral.name} (${x.collateral.symbol})`}
                     </Typography>
@@ -233,7 +233,7 @@ const BorrowTable: FC = () => {
                     flexDirection="column"
                     justifyContent="center"
                   >
-                    <BitcoinSVG width="1.4rem" />
+                    <BitcoinSVG width="1.4rem" height="1.4rem" />
                     <Typography variant="normal" ml="M" mt="M">
                       {`${x.collateral.name} (${x.collateral.symbol})`}
                     </Typography>

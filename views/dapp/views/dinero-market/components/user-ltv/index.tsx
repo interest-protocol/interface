@@ -23,7 +23,7 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => (
           display="inline-block"
           data-tip="If this value reaches 100%, you might get liquidated"
         >
-          <InfoSVG width="1rem" />
+          <InfoSVG width="1rem" height="1rem" />
         </Box>
         Risk
       </Typography>
@@ -51,7 +51,7 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => (
       </Typography>
     </Box>
     <Box color={(ltv ?? 0) > 70 ? 'error' : 'accent'} mt="L">
-      <ProgressSVG progress={ltv || 0} />
+      <ProgressSVG progress={ltv || 0} width="100%" height="100%" />
     </Box>
   </Box>
 );

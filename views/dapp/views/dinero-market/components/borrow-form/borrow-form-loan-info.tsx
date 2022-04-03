@@ -62,8 +62,14 @@ const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
       {INFO.map(({ text, tip }, i) => (
         <Box key={v4()} display="flex" justifyContent="space-between" p="M">
           <Box display="flex" alignItems="center">
-            <Box cursor="help" mr="M" display="flex" alignItems="center">
-              <InfoSVG width="1rem" data-tip={tip} />
+            <Box
+              mr="M"
+              cursor="help"
+              display="flex"
+              data-tip={tip}
+              alignItems="center"
+            >
+              <InfoSVG width="1rem" height="1rem" />
             </Box>
             <Typography variant="normal" as="span">
               {text}

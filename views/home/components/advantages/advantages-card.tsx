@@ -19,7 +19,7 @@ const AdvantagesCard: FC<AdvantagesCardProps> = ({ link, description }) => (
       boxShadow="0px 1.5px 10px -5px #AEC0EA"
     >
       <Box>
-        <CheckSVG width="1.2rem" />
+        <CheckSVG width="1.2rem" height="1.2rem" />
       </Box>
       <Typography variant="normal" mx="L" fontSize="M">
         {description}

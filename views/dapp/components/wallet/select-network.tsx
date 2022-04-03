@@ -21,7 +21,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
         mode="select"
         suffix={
           <Box display={['none', 'none', 'none', 'block']}>
-            <ArrowSVG width="0.6rem" />
+            <ArrowSVG width="0.6rem" height="0.6rem" />
           </Box>
         }
         title="Choose Network"
@@ -33,7 +33,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
             onSelect: () => switchNetwork(CHAIN_ID.BSC_TEST_NET),
             displayOption: (
               <Box px="L" display="flex" alignItems="center">
-                <BinanceTestSVG width="1.5rem" />
+                <BinanceTestSVG width="1.5rem" height="1.5rem" />
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
                   BSCT
                 </Typography>
@@ -46,7 +46,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
                 pl={['NONE', 'NONE', 'NONE', 'S']}
                 pr={['NONE', 'NONE', 'NONE', 'L']}
               >
-                <BinanceTestSVG width="1.5rem" />
+                <BinanceTestSVG width="1.5rem" height="1.5rem" />
                 <Typography
                   mx="M"
                   variant="normal"
@@ -63,7 +63,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
             onSelect: () => switchNetwork(CHAIN_ID.BSC_MAIN_MET),
             displayOption: (
               <Box px="L" display="flex" alignItems="center">
-                <BinanceSVG width="1.5rem" />
+                <BinanceSVG width="1.5rem" height="1.5rem" />
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
                   BSC
                 </Typography>
@@ -76,7 +76,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
                 pl={['NONE', 'NONE', 'NONE', 'S']}
                 pr={['NONE', 'NONE', 'NONE', 'L']}
               >
-                <BinanceSVG width="1.5rem" />
+                <BinanceSVG width="1.5rem" height="1.5rem" />
                 <Typography
                   display={['none', 'none', 'none', 'block']}
                   variant="normal"
