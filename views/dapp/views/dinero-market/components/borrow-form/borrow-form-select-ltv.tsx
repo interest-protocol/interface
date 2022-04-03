@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { FC, useMemo } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
@@ -16,6 +16,10 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   isBorrow,
   setValue,
 }) => {
+  const repayLoan = useWatch({
+    control,
+    name: 'repay.loan',
+  });
   const borrowCollateral = useWatch({
     control,
     name: 'borrow.collateral',
@@ -66,6 +70,26 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
     );
   }, [data.market.ltvRatio]);
 
+  const isDisabled = useCallback(
+    (item: number): boolean =>
+      isBorrow ? !!ltvRatio && item >= ltvRatio : false,
+    [ltvRatio]
+  );
+
+  const isSelected = useCallback(
+    (intendedLTV: number): boolean =>
+      isBorrow
+        ? !!+borrowCollateral &&
+          +borrowLoan ===
+            +borrowCollateral *
+              (intendedLTV / 100) *
+              IntMath.toNumber(data.market.exchangeRate)
+        : !!+repayLoan &&
+          +repayLoan ===
+            (intendedLTV / 100) * IntMath.toNumber(data.balances[1].numerator),
+    [borrowLoan, repayLoan, borrowCollateral]
+  );
+
   return (
     <Box mt="XL">
       <Typography whiteSpace="pre-line" variant="normal" fontSize="S">
@@ -75,77 +99,40 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
             The contract will refund the difference`}
       </Typography>
       <Box display="flex" justifyContent="space-between" my="L">
-        {[0, 25, 50, 75, 100].map((item) =>
-          isBorrow ? (
-            <Button
-              key={v4()}
-              width="3rem"
-              fontSize="S"
-              height="3rem"
-              type="button"
-              display="flex"
-              borderRadius="M"
-              variant="secondary"
-              alignItems="center"
-              justifyContent="center"
-              onClick={handleSetBorrowLoan(item)}
-              disabled={!!ltvRatio && item >= ltvRatio}
-              cursor={
-                !!ltvRatio && item >= ltvRatio ? 'not-allowed' : 'pointer'
-              }
-              hover={{
-                bg: !!ltvRatio && item >= ltvRatio ? 'disabled' : 'accent',
-              }}
-              active={{
-                bg:
-                  !!ltvRatio && item >= ltvRatio ? 'disabled' : 'accentActive',
-              }}
-              bg={
-                !!ltvRatio && item >= ltvRatio
-                  ? 'disabled'
-                  : +borrowLoan ===
-                    +borrowCollateral *
-                      (item / 100) *
-                      IntMath.toNumber(data.market.exchangeRate)
-                  ? 'background'
-                  : 'bottomBackground'
-              }
-            >
-              {item}%
-            </Button>
-          ) : (
-            <Button
-              key={v4()}
-              width="3rem"
-              fontSize="S"
-              height="3rem"
-              type="button"
-              display="flex"
-              borderRadius="M"
-              variant="secondary"
-              alignItems="center"
-              justifyContent="center"
-              onClick={handleSetRepayLoan(item)}
-              disabled={data.balances[1].numerator.isZero()}
-              cursor={
-                data.balances[1].numerator.isZero() ? 'not-allowed' : 'pointer'
-              }
-              hover={{
-                bg: data.balances[1].numerator.isZero() ? 'disabled' : 'accent',
-              }}
-              active={{
-                bg: data.balances[1].numerator.isZero()
-                  ? 'disabled'
-                  : 'accentActive',
-              }}
-              bg={
-                data.balances[1].numerator.isZero() ? 'disabled' : 'background'
-              }
-            >
-              {item}%
-            </Button>
-          )
-        )}
+        {[0, 25, 50, 75, 100].map((item) => (
+          <Button
+            key={v4()}
+            width="3rem"
+            fontSize="S"
+            height="3rem"
+            type="button"
+            display="flex"
+            borderRadius="M"
+            variant="secondary"
+            alignItems="center"
+            justifyContent="center"
+            onClick={
+              isBorrow ? handleSetBorrowLoan(item) : handleSetRepayLoan(item)
+            }
+            disabled={isDisabled(item)}
+            cursor={isDisabled(item) ? 'not-allowed' : 'pointer'}
+            hover={{
+              bg: isDisabled(item) ? 'disabled' : 'accent',
+            }}
+            active={{
+              bg: isDisabled(item) ? 'disabled' : 'accentActive',
+            }}
+            bg={
+              isDisabled(item)
+                ? 'disabled'
+                : isSelected(item)
+                ? 'accentActive'
+                : 'bottomBackground'
+            }
+          >
+            {item}%
+          </Button>
+        ))}
       </Box>
     </Box>
   );
