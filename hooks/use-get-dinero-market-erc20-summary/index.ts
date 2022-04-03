@@ -3,7 +3,7 @@ import useSWR, { SWRResponse } from 'swr';
 
 import priorityHooks from '@/connectors/index';
 import dineroMarketERC20ABI from '@/constants/abi/btc-dinero-market.abi.json';
-import { CHAIN_ID, getChainId } from '@/sdk/chains';
+import { CHAIN_ID, getChainId } from '@/constants/chains';
 
 import { BtcDineroMarketAbi } from '../../types/ethers-contracts';
 import { SWRResponseData } from './use-get-dinero-market-erc20-summary.types';

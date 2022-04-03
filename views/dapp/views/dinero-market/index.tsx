@@ -7,10 +7,10 @@ import useSWR from 'swr';
 
 import { Container, Web3Manager } from '@/components';
 import priorityHooks from '@/connectors';
+import { CHAIN_ID, CHAINS } from '@/constants/chains';
 import { DINERO_MARKET_CONTRACTS_MAP } from '@/constants/dinero-market-contracts.data';
 import { BSC_TEST_ERC_20_DATA, TOKEN_SYMBOL } from '@/constants/erc-20.data';
 import { Box } from '@/elements';
-import { CHAIN_ID, CHAINS } from '@/sdk/chains';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { IntMath } from '@/sdk/entities/int-math';
 import { closeTo } from '@/utils/big-number';

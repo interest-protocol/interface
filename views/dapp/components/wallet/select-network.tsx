@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
 import priorityHooks from '@/connectors';
+import { CHAIN_ID } from '@/constants/chains';
 import { Box, Dropdown, Typography } from '@/elements';
-import { CHAIN_ID } from '@/sdk/chains';
 import { ArrowSVG, BinanceSVG, BinanceTestSVG } from '@/svg';
 
 const { usePriorityChainId } = priorityHooks;

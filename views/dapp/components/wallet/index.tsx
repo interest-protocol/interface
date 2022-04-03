@@ -2,8 +2,8 @@ import { ProviderRpcError } from '@web3-react/types';
 import { FC, useCallback, useEffect, useState } from 'react';
 
 import hooks from '@/connectors';
+import { CHAIN_ID, getChainId } from '@/constants/chains';
 import { Button } from '@/elements';
-import { CHAIN_ID, getChainId } from '@/sdk/chains';
 import { switchToNetwork } from '@/utils/web3-provider';
 
 import ConnectWallet from './connect-wallet';

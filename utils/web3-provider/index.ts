@@ -4,7 +4,7 @@ import { Connector, ProviderRpcError } from '@web3-react/types';
 import { WalletConnect } from '@web3-react/walletconnect';
 import { ethers } from 'ethers';
 
-import { CHAIN_ID, CHAINS, getChainIdNumber } from '@/sdk/chains';
+import { CHAIN_ID, CHAINS, getChainIdNumber } from '@/constants/chains';
 
 export async function switchToNetwork(
   connector: Connector,

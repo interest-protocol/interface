@@ -1,5 +1,5 @@
+import { CHAIN_ID } from '@/constants/chains';
 import { BSC_TEST_ERC_20_DATA, TOKEN_SYMBOL } from '@/constants/erc-20.data';
-import { CHAIN_ID } from '@/sdk/chains';
 
 export const DINERO_MARKET_CONTRACTS = {
   [CHAIN_ID.BSC_TEST_NET as number]: [

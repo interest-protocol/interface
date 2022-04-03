@@ -9,7 +9,14 @@ import { LOAN_INFO } from '../../dinero-market.data';
 import { LoanInfoProps } from './loan-info.types';
 
 const LoanInfo: FC<LoanInfoProps> = ({ isLoading, loanInfoData }) => (
-  <Box py="XL" px="XXL" order={4} gridArea="d" bg="foreground" borderRadius="L">
+  <Box
+    py="XL"
+    order={4}
+    gridArea="d"
+    bg="foreground"
+    borderRadius="L"
+    px={['XL', 'XXL']}
+  >
     {LOAN_INFO.map(({ name, tip }, i) => (
       <Box my="L" key={v4()} display="flex" justifyContent="space-between">
         <Typography variant="normal" display="flex" alignItems="center">
@@ -24,7 +31,13 @@ const LoanInfo: FC<LoanInfoProps> = ({ isLoading, loanInfoData }) => (
           </Box>
           {name}
         </Typography>
-        <Typography as="div" variant="normal" color="textSecondary">
+        <Typography
+          as="div"
+          variant="normal"
+          textAlign="right"
+          whiteSpace="nowrap"
+          color="textSecondary"
+        >
           {isLoading ? (
             <Typography
               as="span"
