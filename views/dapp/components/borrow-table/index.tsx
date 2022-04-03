@@ -115,7 +115,7 @@ const BorrowTable: FC = () => {
                 ),
               },
               {
-                tip: 'This fee is added to the debt every time <br />the user borrows DNR',
+                tip: 'The annual cost of a loan to a borrower, <br /> expressed as a percentage',
                 item: (
                   <>
                     Interest Cost <br />
@@ -124,7 +124,7 @@ const BorrowTable: FC = () => {
                 ),
               },
               {
-                tip: 'This is the discount a liquidator gets when <br />buying collateral for liquidation',
+                tip: 'The penalty fee charged to a borrower when his position is liquidated.<br />It is expressed as a percentage of the loan',
                 item: (
                   <>
                     Liquidation <br />
