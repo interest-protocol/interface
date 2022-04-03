@@ -24,6 +24,7 @@ export interface DropdownProps {
   suffix?: ReactNode;
   header?: ReactNode;
   footer?: ReactNode;
+  relative?: boolean;
   buttonMode?: boolean;
   customItems?: boolean;
   customTitle?: boolean;
