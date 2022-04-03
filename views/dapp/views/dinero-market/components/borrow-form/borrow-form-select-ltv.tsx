@@ -37,13 +37,10 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
 
     setValue(
       'borrow.loan',
-      `${calculateBorrowAmount(
-        data.market.userCollateral.add(IntMath.toBigNumber(borrowCollateral)),
-        data.market.userLoan,
-        data.market.exchangeRate,
-        IntMath.toBigNumber(intendedLTV, 16),
-        data.market.totalLoan
-      ).toNumber()}`
+      `${calculateBorrowAmount({
+        ...data.market,
+        ltvRatio: IntMath.toBigNumber(intendedLTV, 16),
+      }).toNumber()}`
     );
   };
 
@@ -53,8 +50,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
     setValue(
       'repay.loan',
       calculateDineroToRepay(
-        data.market.totalLoan,
-        data.market.userLoan,
+        data.market,
         data.balances[1].numerator,
         intendedLTV
       )
@@ -145,8 +141,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
                   ? 'disabled'
                   : repayLoan ===
                     calculateDineroToRepay(
-                      data.market.totalLoan,
-                      data.market.userLoan,
+                      data.market,
                       data.balances[1].numerator,
                       item
                     )
