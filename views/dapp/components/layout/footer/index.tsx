@@ -16,7 +16,7 @@ const Footer: FC = () => {
     <Box
       width="100%"
       py={['L', 'L', 'XL']}
-      bg={['transparent', 'transparent', 'foreground']}
+      bg={['background', 'background', 'foreground']}
     >
       <Container dapp>
         <Box display={['none', 'none', 'flex']} justifyContent="center">
