@@ -6,7 +6,7 @@ import { Button } from '@/elements';
 import { IntMath } from '@/sdk/entities/int-math';
 import {
   calculateDineroLeftToBorrow,
-  safeAmountToWithdraw,
+  safeAmountToWithdrawRepay,
 } from '@/utils/dinero-market';
 
 import { InputMaxButtonProps } from './input-money.types';
@@ -42,8 +42,7 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     if (name === 'repay.collateral') {
       setValue(
         name,
-        safeAmountToWithdraw(data.market)
-          .sub(IntMath.toBigNumber(repayLoan))
+        safeAmountToWithdrawRepay(data.market, IntMath.toBigNumber(repayLoan))
           .toNumber()
           .toString()
       );

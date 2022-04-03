@@ -21,6 +21,7 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => (
           mr="M"
           as="span"
           display="inline-block"
+          cursor="help"
           data-tip="If this value reaches 100%, you might get liquidated"
         >
           <InfoSVG width="1rem" />
