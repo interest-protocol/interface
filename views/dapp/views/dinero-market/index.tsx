@@ -21,7 +21,7 @@ import {
   getDineroMarketUserData,
   getLoanInfoData,
   getMyPositionData,
-  loanPrincipalToElastic,
+  loanElasticToPrincipal,
   processData,
   repayAndWithdrawCollateral,
   repayDineroLoan,
@@ -166,15 +166,15 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
       if ((!collateral || isNaN(+collateral)) && (!loan || isNaN(+loan)))
         throw new Error('Form: Invalid Fields');
 
-      const estimatedLoanPrincipal = loanPrincipalToElastic(
+      const estimatedPrincipal = loanElasticToPrincipal(
         data.market.totalLoan,
-        data.market.userLoan,
+        IntMath.toBigNumber(loan),
         data.market.loan
-      ).value();
+      );
 
-      const principal = IntMath.toBigNumber(loan).gte(estimatedLoanPrincipal)
+      const principal = estimatedPrincipal.gte(data.market.userLoan)
         ? data.market.userLoan
-        : estimatedLoanPrincipal;
+        : estimatedPrincipal.value();
 
       if (!!collateral && !!loan) {
         const tx = await repayAndWithdrawCollateral(

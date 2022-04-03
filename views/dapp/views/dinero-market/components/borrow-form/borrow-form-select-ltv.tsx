@@ -30,10 +30,15 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
 
     setValue(
       'borrow.loan',
-      `${calculateBorrowAmount({
+      calculateBorrowAmount({
         ...data.market,
         ltvRatio: IntMath.toBigNumber(intendedLTV, 16),
-      }).toNumber()}`
+        userCollateral: data.market.userCollateral.add(
+          IntMath.toBigNumber(borrowCollateral)
+        ),
+      })
+        .toNumber()
+        .toString()
     );
   };
 

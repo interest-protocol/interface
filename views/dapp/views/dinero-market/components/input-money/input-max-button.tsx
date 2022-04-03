@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Button } from '@/elements';
@@ -22,7 +22,7 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
 
   const repayLoan = useWatch({ control, name: 'repay.loan' });
 
-  const handleSetInnerMax = () => {
+  const handleSetInnerMax = useCallback(() => {
     if (name === 'borrow.loan') {
       setValue(
         name,
@@ -50,7 +50,7 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     }
 
     setValue(name, max ? max.toString() : '0');
-  };
+  }, [repayLoan, borrowCollateral]);
 
   return (
     <Button

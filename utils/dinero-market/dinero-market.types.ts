@@ -96,7 +96,7 @@ export type TCalculateBorrowAmount = (
 
 export type TLoanElasticToPrincipal = (
   totalLoan: GetDineroMarketUserDataReturn['totalLoan'],
-  userPrincipal: GetDineroMarketUserDataReturn['userLoan'],
+  userElasticLoan: GetDineroMarketUserDataReturn['userLoan'],
   loan: GetDineroMarketUserDataReturn['loan']
 ) => IntMath;
 
