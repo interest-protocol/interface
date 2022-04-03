@@ -10,18 +10,10 @@ import { formatDollars } from '@/utils';
 import { MY_POSITION } from '../../dinero-market.data';
 import { MyOpenPositionProps } from './my-open-position.types';
 
-const myPositionData = [
-  '999,000,000.00 BTC',
-  '$999,000,000.00',
-  '999,000,000.00 DNR',
-  '999,000,000.00 (BTC)',
-  '999,000,000.00',
-  '999,000,000.00 BTC',
-];
-
 const MyOpenPosition: FC<MyOpenPositionProps> = ({
   isLoading,
   exchangeRate,
+  myPositionData,
 }) => (
   <Box
     py="XL"
