@@ -81,7 +81,10 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
     (item: number): boolean => {
       if (!isBorrow) return data.balances[1].numerator.isZero();
 
-      if (isBorrow) return data.balances[0].numerator.isZero();
+      if (isBorrow)
+        return data.balances[0].numerator
+          .add(data.market.userCollateral)
+          .isZero();
 
       if (item >= ltvRatio) return true;
 
