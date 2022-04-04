@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { FC, useMemo } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
@@ -8,10 +8,17 @@ import { Fraction } from '@/sdk/entities/fraction';
 import { IntMath } from '@/sdk/entities/int-math';
 import {
   calculateBorrowAmount,
-  calculateDineroToRepay,
+  calculateUserCurrentLTV,
 } from '@/utils/dinero-market';
 
 import { BorrowFormSelectLTVProps } from './borrow-form.types';
+
+const LTV_ARRAY = [0, 25, 50, 75, 100];
+
+const INITIAL_STATE = LTV_ARRAY.reduce(
+  (acc, x) => ({ ...acc, [x]: false }),
+  {} as Record<number, boolean>
+);
 
 const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   data,
@@ -19,6 +26,8 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   isBorrow,
   setValue,
 }) => {
+  const [selectedState, setSelected] = useState(INITIAL_STATE);
+
   const borrowCollateral = useWatch({
     control,
     name: 'borrow.collateral',
@@ -27,37 +36,34 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
     control,
     name: 'borrow.loan',
   });
-  const repayLoan = useWatch({
-    control,
-    name: 'repay.loan',
-  });
 
-  const handleSetBorrowLoan = (intendedLTV: number) => () => {
+  const handleSetBorrowLoan = (intendedLTV: number) => {
     if (!data) return;
-
     setValue(
       'borrow.loan',
-      `${calculateBorrowAmount(
-        data.market.userCollateral.add(IntMath.toBigNumber(borrowCollateral)),
-        data.market.userLoan,
-        data.market.exchangeRate,
-        IntMath.toBigNumber(intendedLTV, 16),
-        data.market.totalLoan
-      ).toNumber()}`
+      calculateBorrowAmount({
+        ...data.market,
+        ltvRatio: IntMath.toBigNumber(intendedLTV, 16),
+        userCollateral: data.market.userCollateral.add(
+          IntMath.toBigNumber(borrowCollateral)
+        ),
+      })
+        .toNumber()
+        .toString()
     );
   };
 
-  const handleSetRepayLoan = (intendedLTV: number) => () => {
+  const handleSetRepayLoan = (intendedLTV: number) => {
     if (!data) return;
 
     setValue(
       'repay.loan',
-      calculateDineroToRepay(
-        data.market.totalLoan,
-        data.market.userLoan,
-        data.balances[1].numerator,
-        intendedLTV
-      )
+      intendedLTV === 100
+        ? IntMath.from(data.balances[1].numerator).toNumber().toString()
+        : IntMath.from(data.balances[1].numerator)
+            .mul(IntMath.toBigNumber(intendedLTV / 100))
+            .toNumber()
+            .toString()
     );
   };
 
@@ -71,93 +77,76 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
     );
   }, [data.market.ltvRatio]);
 
+  const isDisabled = useCallback(
+    (item: number): boolean => {
+      if (!isBorrow) return data.balances[1].numerator.isZero();
+
+      if (isBorrow) return data.balances[0].numerator.isZero();
+
+      if (item >= ltvRatio) return true;
+
+      return calculateUserCurrentLTV(
+        data.market,
+        IntMath.toBigNumber(borrowCollateral),
+        IntMath.toBigNumber(borrowLoan)
+      ).gte(data.market.ltvRatio);
+    },
+    [
+      ltvRatio,
+      isBorrow,
+      data.balances[1].numerator,
+      data.balances[0].numerator,
+      data.market,
+      borrowCollateral,
+      borrowLoan,
+    ]
+  );
+
   return (
     <Box mt="XL">
-      <Typography variant="normal" fontSize="S">
-        {isBorrow ? 'Select a target LTV %' : 'Select a repay %'}
+      <Typography whiteSpace="pre-line" variant="normal" fontSize="S">
+        {isBorrow
+          ? 'Select a target LTV %'
+          : `Select a DNR balance % to repay.
+            The contract will refund the difference`}
       </Typography>
       <Box display="flex" justifyContent="space-between" my="L">
-        {[0, 25, 50, 75, 100].map((item) =>
-          isBorrow ? (
-            <Button
-              key={v4()}
-              width="3rem"
-              fontSize="S"
-              height="3rem"
-              type="button"
-              display="flex"
-              borderRadius="M"
-              variant="secondary"
-              alignItems="center"
-              justifyContent="center"
-              onClick={handleSetBorrowLoan(item)}
-              disabled={!!ltvRatio && item >= ltvRatio}
-              cursor={
-                !!ltvRatio && item >= ltvRatio ? 'not-allowed' : 'pointer'
-              }
-              hover={{
-                bg: !!ltvRatio && item >= ltvRatio ? 'disabled' : 'accent',
-              }}
-              active={{
-                bg:
-                  !!ltvRatio && item >= ltvRatio ? 'disabled' : 'accentActive',
-              }}
-              bg={
-                !!ltvRatio && item >= ltvRatio
-                  ? 'disabled'
-                  : +borrowLoan ===
-                    +borrowCollateral *
-                      (item / 100) *
-                      IntMath.toNumber(data.market.exchangeRate)
-                  ? 'background'
-                  : 'bottomBackground'
-              }
-            >
-              {item}%
-            </Button>
-          ) : (
-            <Button
-              key={v4()}
-              width="3rem"
-              fontSize="S"
-              height="3rem"
-              type="button"
-              display="flex"
-              borderRadius="M"
-              variant="secondary"
-              alignItems="center"
-              justifyContent="center"
-              onClick={handleSetRepayLoan(item)}
-              disabled={data.balances[1].numerator.isZero()}
-              cursor={
-                data.balances[1].numerator.isZero() ? 'not-allowed' : 'pointer'
-              }
-              hover={{
-                bg: data.balances[1].numerator.isZero() ? 'disabled' : 'accent',
-              }}
-              active={{
-                bg: data.balances[1].numerator.isZero()
-                  ? 'disabled'
-                  : 'accentActive',
-              }}
-              bg={
-                data.balances[1].numerator.isZero()
-                  ? 'disabled'
-                  : repayLoan ===
-                    calculateDineroToRepay(
-                      data.market.totalLoan,
-                      data.market.userLoan,
-                      data.balances[1].numerator,
-                      item
-                    )
-                  ? 'background'
-                  : 'bottomBackground'
-              }
-            >
-              {item}%
-            </Button>
-          )
-        )}
+        {LTV_ARRAY.map((item) => (
+          <Button
+            key={v4()}
+            width="3rem"
+            fontSize="S"
+            height="3rem"
+            type="button"
+            display="flex"
+            borderRadius="M"
+            variant="secondary"
+            alignItems="center"
+            justifyContent="center"
+            onClick={() => {
+              isBorrow ? handleSetBorrowLoan(item) : handleSetRepayLoan(item);
+
+              setSelected({ ...INITIAL_STATE, [item]: true });
+            }}
+            disabled={isDisabled(item)}
+            cursor={isDisabled(item) ? 'not-allowed' : 'pointer'}
+            hover={{
+              bg: isDisabled(item) ? 'disabled' : 'accent',
+            }}
+            active={{
+              bg: isDisabled(item) ? 'disabled' : 'accentActive',
+            }}
+            bg={
+              isDisabled(item)
+                ? 'disabled'
+                : selectedState[item]
+                ? 'accentActive'
+                : 'bottomBackground'
+            }
+          >
+            {item}%
+          </Button>
+        ))}
       </Box>
     </Box>
   );

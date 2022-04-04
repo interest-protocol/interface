@@ -20,16 +20,32 @@ export interface DropdownProps {
   search?: string;
   bottom?: boolean;
   title: ReactNode;
-  isOpen?: boolean;
   minWidth?: string;
   suffix?: ReactNode;
   header?: ReactNode;
   footer?: ReactNode;
+  relative?: boolean;
   buttonMode?: boolean;
   customItems?: boolean;
   customTitle?: boolean;
   mode: 'select' | 'menu';
   defaultValue?: ReactNode;
   data: ReadonlyArray<IDropdownData>;
-  setOpen?: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface DropdownListProps {
+  search?: string;
+  isOpen: boolean;
+  bottom?: boolean;
+  minWidth?: string;
+  header?: ReactNode;
+  footer?: ReactNode;
+  customItems?: boolean;
+  customTitle?: boolean;
+  selectedIndex: number;
+  dropdownWrapperId: string;
+  toggleDropdown: () => void;
+  data: ReadonlyArray<IDropdownData>;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setSelectedIndex: Dispatch<SetStateAction<number>>;
 }

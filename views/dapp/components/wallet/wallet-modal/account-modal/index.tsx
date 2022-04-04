@@ -40,7 +40,7 @@ const AccountModal: FC<AccountModalProps> = ({
             onClick={toggleModal}
             hover={{ color: 'text' }}
           >
-            <TimesSVG width="1.8rem" />
+            <TimesSVG width="1.8rem" height="1.8rem" />
           </Box>
         </Box>
         <Box
@@ -75,7 +75,7 @@ const AccountModal: FC<AccountModalProps> = ({
               overflow="hidden"
               borderRadius="50%"
             >
-              <UserSVG height="100%" />
+              <UserSVG height="100%" width="100%" />
             </Box>
             <Typography variant="normal" fontSize="L" color="text" ml="L">
               {shortAccount(account || '')}
@@ -90,7 +90,7 @@ const AccountModal: FC<AccountModalProps> = ({
               hover={{ color: 'text' }}
               onClick={copyToClipboard}
             >
-              <CopySVG width="1rem" />
+              <CopySVG width="1rem" height="1rem" />
               <Typography variant="normal" ml="M" fontSize="S">
                 Copy Address
               </Typography>
@@ -109,7 +109,7 @@ const AccountModal: FC<AccountModalProps> = ({
                 cursor="pointer"
                 hover={{ color: 'text' }}
               >
-                <LinkSVG width="1rem" />
+                <LinkSVG width="1rem" height="1rem" />
                 <Typography variant="normal" ml="M" fontSize="S">
                   View on Explorer
                 </Typography>

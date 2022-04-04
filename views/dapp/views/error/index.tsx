@@ -28,7 +28,7 @@ const Error: FC<{ message: string }> = ({ message }) => {
           borderRadius="50%"
           border="0.3rem solid"
         >
-          <TimesSVG />
+          <TimesSVG width="100%" height="100%" />
         </Box>
         <Typography variant="title3">{message}</Typography>
         <Button variant="primary" mt="XL" onClick={goHome}>

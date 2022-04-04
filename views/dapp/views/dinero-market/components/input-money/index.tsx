@@ -78,7 +78,7 @@ const InputMoney: FC<InputMoneyProps> = ({
               borderRight="1px solid"
               borderColor="bottomBackground"
             >
-              <CurrencySVG width="1rem" />
+              <CurrencySVG width="1rem" height="1rem" />
               <Typography as="span" variant="normal" ml="S">
                 {currency}
               </Typography>

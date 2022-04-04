@@ -21,7 +21,7 @@ const SwitchingNetworkModal: FC<InfoModalProps> = ({ isOpen, handleClose }) => (
           Switching Network
         </Typography>
         <Box onClick={handleClose} cursor="pointer">
-          <TimesSVG width="1.8rem" />
+          <TimesSVG width="1.8rem" height="1.8rem" />
         </Box>
       </Box>
       <Typography my="M" fontSize="S" variant="normal" color="textSecondary">

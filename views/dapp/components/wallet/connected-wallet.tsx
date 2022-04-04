@@ -42,7 +42,7 @@ const ConnectedWallet: FC = () => {
         {symbol !== '???' ? (
           `${amount.toSignificant(4)} ${symbol}`
         ) : (
-          <LoadingSVG width="1rem" />
+          <LoadingSVG width="1rem" height="1rem" />
         )}
       </Typography>
       <Button
@@ -69,7 +69,7 @@ const ConnectedWallet: FC = () => {
           overflow="hidden"
           borderRadius="50%"
         >
-          <MetaMaskSVG height="100%" />
+          <MetaMaskSVG height="100%" width="100%" />
         </Box>
         <Typography variant="normal" color="text">
           {shortAccount(account || '')}

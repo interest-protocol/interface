@@ -21,7 +21,12 @@ import { formatMoney } from '../string';
 import {
   GetDineroMarketUserDataReturn,
   MarketAndBalancesData,
-  TCalculateDineroToRepay,
+  TCalculateBorrowAmount,
+  TCalculateDineroLeftToBorrow,
+  TCalculateExpectedLiquidationPrice,
+  TCalculateInterestAccrued,
+  TCalculatePositionHealth,
+  TCalculateUserCurrentLTV,
   TGetBorrowFields,
   TGetBorrowPositionHealthData,
   TGetInfoLoanData,
@@ -29,6 +34,10 @@ import {
   TGetPositionHealthDataInternal,
   TGetRepayFields,
   TGetRepayPositionHealthData,
+  TLoanElasticToPrincipal,
+  TLoanPrincipalToElastic,
+  TSafeAmountToWithdraw,
+  TSafeAmountToWithdrawRepay,
 } from './dinero-market.types';
 
 export const processData = (
@@ -170,6 +179,20 @@ export const addDineroMarketCollateral = async (
   return market.addCollateral(userAccount, amount);
 };
 
+export const calculateInterestAccrued: TCalculateInterestAccrued = (
+  totalLoan,
+  loan
+) => {
+  const lasAccrued = loan.lastAccrued.toNumber() * 1000;
+  const now = new Date().getTime();
+
+  const timeDelta = now - lasAccrued;
+
+  return IntMath.from(totalLoan.elastic.mul(loan.INTEREST_RATE))
+    .mul(timeDelta)
+    .value();
+};
+
 export const getDineroMarketUserData = async (
   dineroMarket: string,
   userAccount: string,
@@ -216,75 +239,103 @@ export const getDineroMarketUserData = async (
   };
 };
 
-export const loanPrincipalToElastic = (
+export const loanPrincipalToElastic: TLoanPrincipalToElastic = (
   totalLoan: [BigNumber, BigNumber] & { elastic: BigNumber; base: BigNumber },
-  userPrincipal: BigNumber
+  userPrincipal: BigNumber,
+  loan
 ): IntMath => {
   if (totalLoan.base.isZero()) return IntMath.from(ZERO);
-  return IntMath.from(userPrincipal).mul(totalLoan.elastic).div(totalLoan.base);
+  const interestAccrued = calculateInterestAccrued(totalLoan, loan);
+  return IntMath.from(userPrincipal)
+    .mul(totalLoan.elastic.add(interestAccrued))
+    .div(totalLoan.base);
 };
 
-export const loanElasticToPrincipal = (
+export const loanElasticToPrincipal: TLoanElasticToPrincipal = (
   totalLoan: [BigNumber, BigNumber] & { elastic: BigNumber; base: BigNumber },
-  userElasticLoan: BigNumber
+  userElasticLoan: BigNumber,
+  loan
 ): IntMath => {
   if (totalLoan.base.isZero()) return IntMath.from(ZERO);
   return IntMath.from(userElasticLoan)
     .mul(totalLoan.base)
-    .div(totalLoan.elastic);
+    .div(totalLoan.elastic.add(calculateInterestAccrued(totalLoan, loan)));
 };
 
-export const calculateExpectedLiquidationPrice = (
-  ltv: BigNumber,
-  totalLoan: [BigNumber, BigNumber] & { elastic: BigNumber; base: BigNumber },
-  userCollateral: BigNumber,
-  userPrincipal: BigNumber
-): IntMath => {
-  if (userCollateral.isZero()) return IntMath.from(0);
-  const userElasticLoan = loanPrincipalToElastic(totalLoan, userPrincipal);
-  return userElasticLoan.div(IntMath.from(ltv).mul(userCollateral));
-};
+export const calculateExpectedLiquidationPrice: TCalculateExpectedLiquidationPrice =
+  ({ ltvRatio, userCollateral, totalLoan, userLoan, loan }): IntMath => {
+    if (userCollateral.isZero()) return IntMath.from(0);
+    const userElasticLoan = loanPrincipalToElastic(totalLoan, userLoan, loan);
+    return userElasticLoan.div(IntMath.from(ltvRatio).mul(userCollateral));
+  };
 
-export const calculatePositionHealth = (
-  ltv: BigNumber,
-  totalLoan: [BigNumber, BigNumber] & { elastic: BigNumber; base: BigNumber },
-  userCollateral: BigNumber,
-  userPrincipal: BigNumber,
-  exchangeRate: BigNumber
-): IntMath => {
-  if (userPrincipal.isZero() || userCollateral.isZero()) return IntMath.from(0);
+export const calculatePositionHealth: TCalculatePositionHealth = ({
+  ltvRatio,
+  userCollateral,
+  userLoan,
+  totalLoan,
+  loan,
+  exchangeRate,
+}): IntMath => {
+  if (userLoan.isZero() || userCollateral.isZero()) return IntMath.from(0);
 
-  const userElasticLoan = loanPrincipalToElastic(totalLoan, userPrincipal);
+  const userElasticLoan = loanPrincipalToElastic(totalLoan, userLoan, loan);
 
   return userElasticLoan.div(
-    IntMath.from(userCollateral).mul(exchangeRate).mul(ltv)
+    IntMath.from(userCollateral).mul(exchangeRate).mul(ltvRatio)
   );
 };
 
-export const calculateDineroLeftToBorrow = (
-  ltv: BigNumber,
-  totalLoan: [BigNumber, BigNumber] & { elastic: BigNumber; base: BigNumber },
-  userCollateral: BigNumber,
-  userPrincipal: BigNumber,
-  exchangeRate: BigNumber
-): IntMath => {
-  const userElasticLoan = loanPrincipalToElastic(totalLoan, userPrincipal);
-  const collateral = IntMath.from(ltv).mul(userCollateral).mul(exchangeRate);
+export const calculateDineroLeftToBorrow: TCalculateDineroLeftToBorrow = ({
+  ltvRatio,
+  totalLoan,
+  userLoan,
+  userCollateral,
+  exchangeRate,
+  loan,
+}): IntMath => {
+  const userElasticLoan = loanPrincipalToElastic(totalLoan, userLoan, loan);
+  const collateral = IntMath.from(ltvRatio)
+    .mul(userCollateral)
+    .mul(exchangeRate);
   return collateral.sub(userElasticLoan);
 };
 
-export const safeAmountToWithdraw = (
-  ltv: BigNumber,
-  totalLoan: [BigNumber, BigNumber] & { elastic: BigNumber; base: BigNumber },
-  userCollateral: BigNumber,
-  userPrincipal: BigNumber,
-  exchangeRate: BigNumber
-): IntMath => {
-  if (userPrincipal.isZero()) return IntMath.from(userCollateral);
+export const safeAmountToWithdrawRepay: TSafeAmountToWithdrawRepay = (
+  { userCollateral, userLoan, loan, totalLoan, ltvRatio, exchangeRate },
+  repayLoan
+) => {
+  if (userLoan.isZero()) return IntMath.from(userCollateral);
+
+  const loanElastic = loanPrincipalToElastic(totalLoan, userLoan, loan);
+
+  if (repayLoan.gte(loanElastic.value())) return IntMath.from(userCollateral);
+
+  const userNeededCollateralInUSD = loanElastic.div(ltvRatio);
+
+  const collateralInUSD = IntMath.from(userCollateral).mul(exchangeRate);
+
+  const amount = userNeededCollateralInUSD.gte(collateralInUSD)
+    ? IntMath.from(ZERO)
+    : collateralInUSD.sub(userNeededCollateralInUSD).div(exchangeRate);
+
+  return amount.mul(ethers.utils.parseEther('0.95'));
+};
+
+export const safeAmountToWithdraw: TSafeAmountToWithdraw = ({
+  userCollateral,
+  userLoan,
+  loan,
+  totalLoan,
+  ltvRatio,
+  exchangeRate,
+}) => {
+  if (userLoan.isZero()) return IntMath.from(userCollateral);
   const userNeededCollateralInUSD = loanPrincipalToElastic(
     totalLoan,
-    userPrincipal
-  ).div(ltv);
+    userLoan,
+    loan
+  ).div(ltvRatio);
   const collateralInUSD = IntMath.from(userCollateral).mul(exchangeRate);
 
   const amount = userNeededCollateralInUSD.gte(collateralInUSD)
@@ -300,40 +351,32 @@ export const safeAmountToWithdraw = (
     : amount.mul(ethers.utils.parseEther('0.95'));
 };
 
-export const calculateBorrowAmount = (
-  userCollateral: BigNumber,
-  userPrincipal: BigNumber,
-  exchangeRate: BigNumber,
-  intendedLTV: BigNumber,
-  totalLoan: [BigNumber, BigNumber] & { elastic: BigNumber; base: BigNumber }
-): IntMath => {
-  const userElasticLoan = loanPrincipalToElastic(totalLoan, userPrincipal);
+export const calculateBorrowAmount: TCalculateBorrowAmount = ({
+  userCollateral,
+  userLoan,
+  totalLoan,
+  loan,
+  exchangeRate,
+  ltvRatio,
+}) => {
+  const userElasticLoan = loanPrincipalToElastic(totalLoan, userLoan, loan);
   const collateralValue = IntMath.from(userCollateral)
     .mul(exchangeRate)
-    .mul(intendedLTV);
+    .mul(ltvRatio);
 
   return userElasticLoan.gte(collateralValue)
     ? IntMath.from(ZERO)
     : collateralValue.sub(userElasticLoan);
 };
 
-export const getBorrowFields: TGetBorrowFields = (data, currency, collateral) =>
+export const getBorrowFields: TGetBorrowFields = (data, currency) =>
   data
     ? data?.balances.map((x) => {
         const SVG = TOKENS_SVG_MAP[x.currency.symbol];
+
         if (x.currency.symbol === TOKEN_SYMBOL.DNR)
           return {
-            max: data
-              ? calculateBorrowAmount(
-                  data.market.userCollateral.add(
-                    IntMath.toBigNumber(collateral)
-                  ),
-                  data.market.userLoan,
-                  data.market.exchangeRate,
-                  data.market.ltvRatio,
-                  data.market.totalLoan
-                ).toNumber()
-              : 0,
+            max: data ? calculateBorrowAmount(data.market).toNumber() : 0,
             amount: '0',
             amountUSD: 1,
             CurrencySVG: SVG,
@@ -346,7 +389,7 @@ export const getBorrowFields: TGetBorrowFields = (data, currency, collateral) =>
           currency,
           amount: '0',
           CurrencySVG: SVG,
-          max: +x.toSignificant(4),
+          max: Math.floor(IntMath.toNumber(x.numerator)),
           name: 'borrow.collateral',
           label: 'Deposit Collateral',
           amountUSD: data?.market.exchangeRate.isZero()
@@ -368,28 +411,22 @@ const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
       .value()
   )
     ? IntMath.from(data.exchangeRate)
-    : calculateExpectedLiquidationPrice(
-        data.ltvRatio,
-        data.totalLoan,
-        newCollateral,
-        newBorrowAmount
-      );
+    : calculateExpectedLiquidationPrice(data);
 
-  const positionHealth = calculatePositionHealth(
-    data.ltvRatio,
-    data.totalLoan,
-    newCollateral,
-    newBorrowAmount,
-    data.exchangeRate
-  );
-
-  const positionHealthNumber = +Fraction.from(
-    positionHealth.value(),
-    ethers.utils.parseEther('1')
-  ).toSignificant(2);
+  const positionHealth = newBorrowAmount.isZero()
+    ? ZERO
+    : calculatePositionHealth({
+        ...data,
+        userCollateral: newCollateral,
+        userLoan: loanElasticToPrincipal(
+          data.totalLoan,
+          newBorrowAmount,
+          data.loan
+        ).value(),
+      }).value();
 
   const roundPositionHealthNumber = Math.trunc(
-    Math.ceil((1 - positionHealthNumber) * 100)
+    Math.ceil((1 - IntMath.toNumber(positionHealth)) * 100)
   );
 
   return [
@@ -417,18 +454,24 @@ export const getRepayPositionHealthData: TGetRepayPositionHealthData = (
 ) => {
   if (!data) return ['0', '0', '0'];
 
-  const newBorrowAmount = loanPrincipalToElastic(
+  const repay = IntMath.from(IntMath.toBigNumber(loan));
+
+  const elasticLoan = loanPrincipalToElastic(
     data.market.totalLoan,
-    data.market.userLoan
-  )
-    .sub(IntMath.toBigNumber(loan))
-    .value();
+    data.market.userLoan,
+    data.market.loan
+  );
+
+  const newElasticLoan = repay.gte(elasticLoan)
+    ? IntMath.from(ZERO)
+    : elasticLoan.sub(repay);
+
   const newCollateral = data.market.userCollateral.sub(
     IntMath.toBigNumber(collateral)
   );
 
   return getPositionHealthDataInternal(
-    newBorrowAmount,
+    newElasticLoan.value(),
     newCollateral,
     data.market
   );
@@ -442,7 +485,8 @@ export const getBorrowPositionHealthData: TGetBorrowPositionHealthData = (
 
   const newBorrowAmount = loanPrincipalToElastic(
     data.market.totalLoan,
-    data.market.userLoan
+    data.market.userLoan,
+    data.market.loan
   )
     .add(IntMath.toBigNumber(loan))
     .value();
@@ -478,17 +522,13 @@ export const getMyPositionData: TGetMyPositionData = (data, currency) => {
 
     const liquidationPrice = formatMoney(
       +Fraction.from(
-        calculateExpectedLiquidationPrice(
-          data.market.ltvRatio,
-          data.market.totalLoan,
-          data.market.userCollateral,
-          data.market.userLoan
-        ).value(),
+        calculateExpectedLiquidationPrice(data.market).value(),
         ethers.utils.parseEther('1')
       ).toSignificant(4)
     );
+
     return [
-      `${collateral.toSignificant(4)} ${currency}`,
+      `${collateral.toSignificant(8)} ${currency}`,
       `$${formatMoney(
         +Fraction.from(
           IntMath.from(data.market.userCollateral)
@@ -501,53 +541,25 @@ export const getMyPositionData: TGetMyPositionData = (data, currency) => {
         +Fraction.from(
           loanPrincipalToElastic(
             data.market.totalLoan,
-            data.market.userLoan
+            data.market.userLoan,
+            data.market.loan
           ).value(),
           ethers.utils.parseEther('1')
-        ).toSignificant(4)
+        ).toSignificant(8)
       )} DNR`,
       `$${liquidationPrice} (${currency}) `,
       `${formatMoney(
         +Fraction.from(
-          calculateDineroLeftToBorrow(
-            data.market.ltvRatio,
-            data.market.totalLoan,
-            data.market.userCollateral,
-            data.market.userLoan,
-            data.market.exchangeRate
-          ).value(),
+          calculateDineroLeftToBorrow(data.market).value(),
           ethers.utils.parseEther('1')
         ).toSignificant(4)
       )}`,
       `${Fraction.from(
-        safeAmountToWithdraw(
-          data.market.ltvRatio,
-          data.market.totalLoan,
-          data.market.userCollateral,
-          data.market.userLoan,
-          data.market.exchangeRate
-        ).value(),
+        safeAmountToWithdraw(data.market).value(),
         ethers.utils.parseEther('1')
       ).toSignificant(4)} ${currency}`,
     ];
   }
-};
-
-export const calculateDineroToRepay: TCalculateDineroToRepay = (
-  totalLoan,
-  userLoan,
-  balance,
-  intendedLTV = 100
-) => {
-  const elasticLoan = loanPrincipalToElastic(totalLoan, userLoan);
-  const maxToPay = elasticLoan.gt(balance) ? balance : elasticLoan.value();
-
-  const target = elasticLoan.mul(IntMath.toBigNumber(intendedLTV, 16));
-  const targetToPay = target.gt(balance) ? IntMath.from(balance) : target;
-
-  return intendedLTV === 100
-    ? IntMath.from(maxToPay).toNumber().toString()
-    : targetToPay.toNumber().toString();
 };
 
 export const convertCollateralToDinero = (
@@ -557,11 +569,7 @@ export const convertCollateralToDinero = (
 ): BigNumber =>
   IntMath.from(collateralAmount).mul(ltv).mul(exchangeRate).value();
 
-export const getRepayFields: TGetRepayFields = (
-  data,
-  currency,
-  repayLoan: string
-) => {
+export const getRepayFields: TGetRepayFields = (data, currency) => {
   if (!data) return [];
 
   const result = data?.balances.map((x) => {
@@ -573,11 +581,7 @@ export const getRepayFields: TGetRepayFields = (
         CurrencySVG: SVG,
         name: 'repay.loan',
         label: 'Repay Dinero',
-        max: +calculateDineroToRepay(
-          data.market.totalLoan,
-          data.market.userLoan,
-          x.numerator
-        ),
+        max: IntMath.toNumber(data.balances[1].numerator),
         currency: TOKEN_SYMBOL.DNR,
       } as IBorrowFormField;
 
@@ -585,18 +589,7 @@ export const getRepayFields: TGetRepayFields = (
       currency,
       amount: '0',
       CurrencySVG: SVG,
-      max: safeAmountToWithdraw(
-        data.market.ltvRatio,
-        data.market.totalLoan,
-        data.market.userCollateral,
-        data.market.userLoan.sub(
-          loanElasticToPrincipal(
-            data.market.totalLoan,
-            IntMath.toBigNumber(repayLoan)
-          ).value()
-        ),
-        data.market.exchangeRate
-      ).toNumber(),
+      max: safeAmountToWithdraw(data.market).toNumber(),
       name: 'repay.collateral',
       label: 'Remove Collateral',
       amountUSD: data?.market.exchangeRate.isZero()
@@ -606,4 +599,20 @@ export const getRepayFields: TGetRepayFields = (
   });
 
   return [result[1], result[0]];
+};
+
+export const calculateUserCurrentLTV: TCalculateUserCurrentLTV = (
+  { userLoan, userCollateral, exchangeRate, loan, totalLoan },
+  borrowCollateral,
+  borrowLoan
+) => {
+  const collateralInUSD = IntMath.from(
+    userCollateral.add(borrowCollateral)
+  ).mul(exchangeRate);
+
+  const elasticLoan = loanPrincipalToElastic(totalLoan, userLoan, loan).add(
+    borrowLoan
+  );
+
+  return elasticLoan.div(collateralInUSD);
 };
