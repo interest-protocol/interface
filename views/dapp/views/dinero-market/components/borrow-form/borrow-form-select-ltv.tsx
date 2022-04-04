@@ -1,14 +1,24 @@
 import { ethers } from 'ethers';
-import { FC, useCallback, useMemo } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
 import { Box, Button, Typography } from '@/elements';
 import { Fraction } from '@/sdk/entities/fraction';
 import { IntMath } from '@/sdk/entities/int-math';
-import { calculateBorrowAmount } from '@/utils/dinero-market';
+import {
+  calculateBorrowAmount,
+  calculateUserCurrentLTV,
+} from '@/utils/dinero-market';
 
 import { BorrowFormSelectLTVProps } from './borrow-form.types';
+
+const LTV_ARRAY = [0, 25, 50, 75, 100];
+
+const INITIAL_STATE = LTV_ARRAY.reduce(
+  (acc, x) => ({ ...acc, [x]: false }),
+  {} as Record<number, boolean>
+);
 
 const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   data,
@@ -16,10 +26,8 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   isBorrow,
   setValue,
 }) => {
-  const repayLoan = useWatch({
-    control,
-    name: 'repay.loan',
-  });
+  const [selectedState, setSelected] = useState(INITIAL_STATE);
+
   const borrowCollateral = useWatch({
     control,
     name: 'borrow.collateral',
@@ -29,9 +37,8 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
     name: 'borrow.loan',
   });
 
-  const handleSetBorrowLoan = (intendedLTV: number) => () => {
+  const handleSetBorrowLoan = (intendedLTV: number) => {
     if (!data) return;
-
     setValue(
       'borrow.loan',
       calculateBorrowAmount({
@@ -46,7 +53,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
     );
   };
 
-  const handleSetRepayLoan = (intendedLTV: number) => () => {
+  const handleSetRepayLoan = (intendedLTV: number) => {
     if (!data) return;
 
     setValue(
@@ -71,27 +78,28 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   }, [data.market.ltvRatio]);
 
   const isDisabled = useCallback(
-    (item: number): boolean =>
-      isBorrow ? !!ltvRatio && item >= ltvRatio : false,
-    [ltvRatio]
-  );
+    (item: number): boolean => {
+      if (!isBorrow) return data.balances[1].numerator.isZero();
 
-  const isSelected = useCallback(
-    (intendedLTV: number): boolean =>
-      isBorrow
-        ? !!+borrowCollateral &&
-          +borrowLoan ===
-            calculateBorrowAmount({
-              ...data.market,
-              ltvRatio: IntMath.toBigNumber(intendedLTV, 16),
-              userCollateral: data.market.userCollateral.add(
-                IntMath.toBigNumber(borrowCollateral)
-              ),
-            }).toNumber()
-        : !!+repayLoan &&
-          +repayLoan ===
-            (intendedLTV / 100) * IntMath.toNumber(data.balances[1].numerator),
-    [borrowLoan, repayLoan, borrowCollateral]
+      if (isBorrow) return data.balances[0].numerator.isZero();
+
+      if (item >= ltvRatio) return true;
+
+      return calculateUserCurrentLTV(
+        data.market,
+        IntMath.toBigNumber(borrowCollateral),
+        IntMath.toBigNumber(borrowLoan)
+      ).gte(data.market.ltvRatio);
+    },
+    [
+      ltvRatio,
+      isBorrow,
+      data.balances[1].numerator,
+      data.balances[0].numerator,
+      data.market,
+      borrowCollateral,
+      borrowLoan,
+    ]
   );
 
   return (
@@ -103,7 +111,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
             The contract will refund the difference`}
       </Typography>
       <Box display="flex" justifyContent="space-between" my="L">
-        {[0, 25, 50, 75, 100].map((item) => (
+        {LTV_ARRAY.map((item) => (
           <Button
             key={v4()}
             width="3rem"
@@ -115,9 +123,11 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
             variant="secondary"
             alignItems="center"
             justifyContent="center"
-            onClick={
-              isBorrow ? handleSetBorrowLoan(item) : handleSetRepayLoan(item)
-            }
+            onClick={() => {
+              isBorrow ? handleSetBorrowLoan(item) : handleSetRepayLoan(item);
+
+              setSelected({ ...INITIAL_STATE, [item]: true });
+            }}
             disabled={isDisabled(item)}
             cursor={isDisabled(item) ? 'not-allowed' : 'pointer'}
             hover={{
@@ -129,7 +139,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
             bg={
               isDisabled(item)
                 ? 'disabled'
-                : isSelected(item)
+                : selectedState[item]
                 ? 'accentActive'
                 : 'bottomBackground'
             }

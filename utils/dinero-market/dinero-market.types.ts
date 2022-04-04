@@ -4,6 +4,7 @@ import { TOKEN_SYMBOL } from '@/constants/erc-20.data';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { ERC20 } from '@/sdk/entities/erc-20';
 import { IntMath } from '@/sdk/entities/int-math';
+import { calculateUserCurrentLTV } from '@/utils/dinero-market/index';
 import { IBorrowFormField } from '@/views/dapp/views/dinero-market/components/borrow-form/borrow-form.types';
 
 export interface GetDineroMarketUserDataReturn {
@@ -103,4 +104,10 @@ export type TLoanElasticToPrincipal = (
 export type TSafeAmountToWithdrawRepay = (
   data: GetDineroMarketUserDataReturn,
   repayLoan: BigNumber
+) => IntMath;
+
+export type TCalculateUserCurrentLTV = (
+  data: GetDineroMarketUserDataReturn,
+  borrowCollateral: BigNumber,
+  borrowLoan: BigNumber
 ) => IntMath;

@@ -26,6 +26,7 @@ import {
   TCalculateExpectedLiquidationPrice,
   TCalculateInterestAccrued,
   TCalculatePositionHealth,
+  TCalculateUserCurrentLTV,
   TGetBorrowFields,
   TGetBorrowPositionHealthData,
   TGetInfoLoanData,
@@ -388,7 +389,7 @@ export const getBorrowFields: TGetBorrowFields = (data, currency) =>
           currency,
           amount: '0',
           CurrencySVG: SVG,
-          max: +x.toSignificant(4),
+          max: Math.floor(IntMath.toNumber(x.numerator)),
           name: 'borrow.collateral',
           label: 'Deposit Collateral',
           amountUSD: data?.market.exchangeRate.isZero()
@@ -598,4 +599,20 @@ export const getRepayFields: TGetRepayFields = (data, currency) => {
   });
 
   return [result[1], result[0]];
+};
+
+export const calculateUserCurrentLTV: TCalculateUserCurrentLTV = (
+  { userLoan, userCollateral, exchangeRate, loan, totalLoan },
+  borrowCollateral,
+  borrowLoan
+) => {
+  const collateralInUSD = IntMath.from(
+    userCollateral.add(borrowCollateral)
+  ).mul(exchangeRate);
+
+  const elasticLoan = loanPrincipalToElastic(totalLoan, userLoan, loan).add(
+    borrowLoan
+  );
+
+  return elasticLoan.div(collateralInUSD);
 };
