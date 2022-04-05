@@ -28,7 +28,15 @@ const AccountModal: FC<AccountModalProps> = ({
   };
 
   return (
-    <Modal modalProps={{ isOpen: showModal }} background="#0008">
+    <Modal
+      modalProps={{
+        isOpen: showModal,
+        shouldCloseOnEsc: true,
+        onRequestClose: toggleModal,
+        shouldCloseOnOverlayClick: true,
+      }}
+      background="#0008"
+    >
       <Box p="L" width="100%" bg="foreground" maxWidth="23rem" borderRadius="L">
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Typography as="h3" color="text" variant="normal" fontWeight="normal">
