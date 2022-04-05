@@ -30,7 +30,7 @@ const AccountModal: FC<AccountModalProps> = ({
   return (
     <Modal
       modalProps={{
-        isOpen: showModa,
+        isOpen: showModal,
         shouldCloseOnEsc: true,
         onRequestClose: toggleModal,
         shouldCloseOnOverlayClick: true,
