@@ -67,7 +67,7 @@ const MobileMenu: FC = () => (
                     bg: 'warning',
                   }}
                 >
-                  Give Your Feedback
+                  Feedback
                 </Typography>
               </a>
             </Box>
