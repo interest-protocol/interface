@@ -23,29 +23,57 @@ const MobileMenu: FC = () => (
         </Box>
       }
       data={[
-        ...SOCIAL_MEDIAS,
+        ...[
+          ...SOCIAL_MEDIAS,
+          {
+            title: 'GitBook',
+            Logo: GitBookSVG,
+            link: 'https://docs.interestprotocol.com/',
+          },
+        ].map(({ title, link }) => ({
+          value: title,
+          displayOption: (
+            <Link href={link}>
+              <Typography
+                px="M"
+                py="L"
+                width="100%"
+                variant="normal"
+                textAlign="center"
+                textTransform="uppercase"
+              >
+                {title}
+              </Typography>
+            </Link>
+          ),
+        })),
         {
-          title: 'GitBook',
-          Logo: GitBookSVG,
-          link: 'https://docs.interestprotocol.com/',
+          value: 'feedback',
+          displayOption: (
+            <Box width="100%">
+              <a
+                href="https://6vbehzktcwt.typeform.com/to/nhsl8iVg"
+                target="__blank"
+              >
+                <Typography
+                  px="M"
+                  py="L"
+                  width="100%"
+                  variant="normal"
+                  textAlign="center"
+                  bg="accentAlternative"
+                  textTransform="uppercase"
+                  hover={{
+                    bg: 'warning',
+                  }}
+                >
+                  Feedback
+                </Typography>
+              </a>
+            </Box>
+          ),
         },
-      ].map(({ title, link }) => ({
-        value: title,
-        displayOption: (
-          <Link href={link}>
-            <Typography
-              px="M"
-              py="L"
-              width="100%"
-              variant="normal"
-              textAlign="center"
-              textTransform="uppercase"
-            >
-              {title}
-            </Typography>
-          </Link>
-        ),
-      }))}
+      ]}
     />
   </Box>
 );
