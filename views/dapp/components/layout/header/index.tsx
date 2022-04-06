@@ -97,13 +97,17 @@ const Header: FC = () => {
         </Box>
         <a href="https://6vbehzktcwt.typeform.com/to/nhsl8iVg" target="__blank">
           <Typography
-            px="XL"
-            color="accentAlternative"
-            cursor="pointer"
+            px="L"
+            py="M"
+            width="100%"
+            fontSize="S"
             variant="normal"
-            borderLeft="1px solid"
-            borderColor="bottomBackground"
-            hover={{ color: 'warning' }}
+            borderRadius="M"
+            textAlign="center"
+            bg="accentAlternative"
+            hover={{
+              bg: 'warning',
+            }}
           >
             Feedback
           </Typography>
