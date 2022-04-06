@@ -1,8 +1,9 @@
 import { FC, useState } from 'react';
 import { v4 } from 'uuid';
 
+import { RoadMapLogoSVG } from '@/svg';
+
 import Container from '../../../../components/container';
-import { RoadMapLogoSVG } from '../../../../components/svg';
 import { Box, Typography } from '../../../../elements';
 import { ROAD_MAP_DATA } from './road-map.data';
 import RoadMapItem from './road-map-item';

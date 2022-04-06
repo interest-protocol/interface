@@ -4,7 +4,13 @@
  */
 export enum RoutesEnum {
   Home = 'home',
-  App = 'app',
+  DApp = 'dapp',
+  Borrow = 'dinero-market',
+  Repay = 'repay',
+  NFTLoans = 'nftLoads',
+  NFTLend = 'nftLend',
+  NFTBorrow = 'nftBorrow',
+  NoWhere = 'nowhere',
 }
 
 /**
@@ -13,7 +19,13 @@ export enum RoutesEnum {
  */
 export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.Home]: '/',
-  [RoutesEnum.App]: '/app',
+  [RoutesEnum.DApp]: '/dapp',
+  [RoutesEnum.Borrow]: '/dapp/dinero-market',
+  [RoutesEnum.Repay]: '/dapp/dinero-market/repay',
+  [RoutesEnum.NFTLoans]: '/dapp/nft',
+  [RoutesEnum.NFTLend]: '/dapp/nft/lend',
+  [RoutesEnum.NFTBorrow]: '/dapp/nft/borrow',
+  [RoutesEnum.NoWhere]: '#',
 };
 
 export const routesList = Object.keys(Routes) as ReadonlyArray<RoutesEnum>;

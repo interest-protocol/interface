@@ -106,3 +106,8 @@ dist
 
 # MacOS
 .DS_Store
+
+# Typechain
+types
+
+.vercel

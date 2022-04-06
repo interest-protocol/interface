@@ -2,7 +2,8 @@ import { animated, useSpring } from '@react-spring/web';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
-import { RoadMapSVG } from '../../../../components/svg';
+import { RoadMapSVG } from '@/svg';
+
 import { Box, Button, Typography } from '../../../../elements';
 import { RoadMapItemProps } from './road-map.types';
 
@@ -39,6 +40,7 @@ const RoadMapItem: FC<RoadMapItemProps> = ({
       <AnimatedBox
         left="8rem"
         right="8rem"
+        transition="all 0ms"
         position="absolute"
         display={['none', 'none', 'block']}
         style={{
@@ -50,14 +52,15 @@ const RoadMapItem: FC<RoadMapItemProps> = ({
       <AnimatedBox
         p="XL"
         width="100%"
+        display="flex"
         bg="foreground"
         maxWidth="21rem"
         borderRadius="L"
         minHeight="28rem"
         position="absolute"
+        transition="all 0ms"
         flexDirection="column"
         justifyContent="space-between"
-        display="flex"
         boxShadow="0px 5px 10px -5px #AEC0EA"
         style={{
           scale: x,
@@ -92,12 +95,17 @@ const RoadMapItem: FC<RoadMapItemProps> = ({
         </Box>
         <Box display="flex" justifyContent="space-between">
           {position !== 0 && (
-            <Button variant="neutral" onClick={onBack} disabled={step === 0}>
+            <Button
+              effect="hover"
+              variant="neutral"
+              onClick={onBack}
+              disabled={step === 0}
+            >
               &larr;
             </Button>
           )}
           {position !== length - 1 && (
-            <Button variant="tertiary" onClick={onNext}>
+            <Button variant="tertiary" onClick={onNext} effect="hover">
               Next
             </Button>
           )}

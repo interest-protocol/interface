@@ -1,3 +1,3 @@
-const breakpoints = ['40em', '52em', '64em'];
+const breakpoints = ['42.25em', '55em', '64em', '72em'];
 
 export default breakpoints;

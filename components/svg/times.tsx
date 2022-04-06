@@ -7,7 +7,7 @@ const Times: FC<SVGAttributes<SVGSVGElement>> = (props) => (
       y1="26.1445"
       x2="25.5135"
       y2="9.881"
-      stroke="#A3A3A3"
+      stroke="currentColor"
       strokeLinecap="round"
     />
     <line
@@ -15,7 +15,7 @@ const Times: FC<SVGAttributes<SVGSVGElement>> = (props) => (
       y1="25.7207"
       x2="9.24819"
       y2="9.45725"
-      stroke="#A3A3A3"
+      stroke="currentColor"
       strokeLinecap="round"
     />
   </svg>

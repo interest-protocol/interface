@@ -2,8 +2,9 @@
 import { FC } from 'react';
 import toast from 'react-hot-toast';
 
+import { LogoSVG, ShieldSVG } from '@/svg';
+
 import Container from '../../../../components/container';
-import { LogoSVG, ShieldSVG } from '../../../../components/svg';
 import { Box, Button, Input, Typography } from '../../../../elements';
 
 const Subscribe: FC = () => {
@@ -15,7 +16,6 @@ const Subscribe: FC = () => {
       fetch(`/api/v1/mail/subscribe?email=${email}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log('Data :::: ', data);
           if (data.httpStatus >= 400) throw data;
           if (data.httpStatus == 200) return data;
         }),
@@ -70,8 +70,13 @@ const Subscribe: FC = () => {
           mb={['L', 'NONE']}
           placeholder="Drop your e-mail"
         />
-        <Box display="flex" flexDirection="column" alignItems="stretch">
-          <Button ml="S" px="L" type="submit" variant="tertiary">
+        <Box
+          display="flex"
+          mt={['L', 'NONE']}
+          alignItems="stretch"
+          flexDirection="column"
+        >
+          <Button ml="S" px="L" type="submit" variant="tertiary" effect="hover">
             Subscribe
           </Button>
           <Box display="flex" alignItems="center" mt="M" px="L">

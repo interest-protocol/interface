@@ -1,22 +1,45 @@
 {
-  "name": "react-template",
+  "name": "interest-protocol-interface",
+  "description": "The frontend to interact with Interest Protocol contracts",
+  "license": "MIT",
+  "keywords": [
+    "DeFi",
+    "smart contracts",
+    "ethereum",
+    "web3",
+    "interest protocol"
+  ],
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
-    "@lottiefiles/react-lottie-player": "^3.4.2",
+    "@hookform/resolvers": "^2.8.8",
+    "@styled-system/css": "^5.1.5",
+    "@walletconnect/ethereum-provider": "^1.7.5",
+    "@web3-react/core": "8.0.20-beta.0",
+    "@web3-react/metamask": "8.0.16-beta.0",
+    "@web3-react/types": "^8.0.10-beta.0",
+    "@web3-react/walletconnect": "8.0.21-beta.0",
     "api-getresponse": "^1.0.0",
+    "decimal.js-light": "^2.5.1",
+    "ethers": "^5.6.2",
     "next": "^12.1.0",
+    "next-progress": "^2.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-hook-form": "^7.28.1",
     "react-hot-toast": "^2.2.0",
+    "react-loading-skeleton": "^3.0.3",
     "react-modal": "^3.14.4",
     "react-spring": "^9.4.3",
+    "react-tooltip": "^4.2.21",
     "styled-system": "^5.1.5",
-    "typescript": "^4.6.2",
+    "swr": "^1.2.2",
+    "toformat": "^2.0.0",
     "uuid": "^8.3.2",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "prepare": "husky install",
@@ -24,7 +47,9 @@
     "build": "next build",
     "start": "next start",
     "format": "prettier --write **/*.{js,ts,tsx}",
-    "lint": "eslint . --ext ts --ext tsx --ext js"
+    "lint": "eslint . --fix --ext ts --ext tsx --ext js",
+    "typechain": "typechain --target=ethers-v5 './constants/abi/**/*.abi.json'",
+    "postinstall": "yarn typechain"
   },
   "eslintConfig": {
     "extends": [
@@ -44,26 +69,33 @@
       "last 1 safari version"
     ]
   },
+  "resolutions": {
+    "@walletconnect/ethereum-provider": "^1.7.5"
+  },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
+    "@emotion/babel-plugin": "^11.7.2",
     "@emotion/eslint-plugin": "^11.2.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@typechain/ethers-v5": "^10.0.0",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-modal": "^3.13.1",
     "@types/styled-system": "^5.1.11",
+    "@types/styled-system__css": "^5.0.16",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
     "@typescript-eslint/parser": "^4.22.1",
     "commitlint-config-gitmoji": "^2.2.5",
     "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.2",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.23.2",
@@ -72,6 +104,9 @@
     "husky": "^6.0.0",
     "lint-staged": ">=10",
     "prettier": "^2.3.0",
-    "pretty-quick": "^3.1.0"
+    "pretty-quick": "^3.1.0",
+    "typechain": "^8.0.0",
+    "typescript": "^4.6.2",
+    "vercel": "^24.0.1"
   }
 }

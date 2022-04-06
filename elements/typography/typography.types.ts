@@ -1,7 +1,9 @@
+import { SystemStyleObject } from '@styled-system/css';
 import { CSSProperties, HTMLAttributes } from 'react';
 import {
   BorderProps,
   ColorProps,
+  FlexboxProps,
   LayoutProps,
   PositionProps,
   SpaceProps,
@@ -15,12 +17,15 @@ export interface TypographyProps
     ColorProps,
     SpaceProps,
     BorderProps,
+    FlexboxProps,
     PositionProps,
     TextShadowProps,
     Omit<HTMLAttributes<HTMLElement>, 'color'> {
+  hover?: SystemStyleObject;
+  active?: SystemStyleObject;
   as?: keyof JSX.IntrinsicElements;
   cursor?: CSSProperties['cursor'];
-  variant: 'title1' | 'title2' | 'title3' | 'title4' | 'normal';
-  textTransform?: CSSProperties['textTransform'];
   whiteSpace?: CSSProperties['whiteSpace'];
+  textTransform?: CSSProperties['textTransform'];
+  variant: 'title1' | 'title2' | 'title3' | 'title4' | 'normal';
 }
