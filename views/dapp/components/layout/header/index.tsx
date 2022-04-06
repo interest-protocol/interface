@@ -68,6 +68,7 @@ const Header: FC = () => {
               <Typography
                 as="span"
                 variant="normal"
+                whiteSpace="nowrap"
                 color={
                   pathname.includes(Routes[RoutesEnum.NFTLoans])
                     ? 'accent'
@@ -94,6 +95,19 @@ const Header: FC = () => {
             ]}
           />
         </Box>
+        <a href="https://6vbehzktcwt.typeform.com/to/nhsl8iVg" target="__blank">
+          <Typography
+            px="XL"
+            color="accentAlternative"
+            cursor="pointer"
+            variant="normal"
+            borderLeft="1px solid"
+            borderColor="bottomBackground"
+            hover={{ color: 'warning' }}
+          >
+            Feedback
+          </Typography>
+        </a>
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <Wallet />

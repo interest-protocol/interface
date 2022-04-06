@@ -70,7 +70,12 @@ const Subscribe: FC = () => {
           mb={['L', 'NONE']}
           placeholder="Drop your e-mail"
         />
-        <Box display="flex" flexDirection="column" alignItems="stretch">
+        <Box
+          display="flex"
+          mt={['L', 'NONE']}
+          alignItems="stretch"
+          flexDirection="column"
+        >
           <Button ml="S" px="L" type="submit" variant="tertiary" effect="hover">
             Subscribe
           </Button>
