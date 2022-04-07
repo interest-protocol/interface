@@ -51,10 +51,7 @@ const MobileMenu: FC = () => (
           value: 'feedback',
           displayOption: (
             <Box width="100%">
-              <a
-                href="https://6vbehzktcwt.typeform.com/to/nhsl8iVg"
-                target="__blank"
-              >
+              <a href="https://forms.gle/aDP4wHvshLPKkKv97" target="__blank">
                 <Typography
                   px="M"
                   py="L"

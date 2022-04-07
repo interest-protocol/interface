@@ -95,7 +95,7 @@ const Header: FC = () => {
             ]}
           />
         </Box>
-        <a href="https://6vbehzktcwt.typeform.com/to/nhsl8iVg" target="__blank">
+        <a href="https://forms.gle/aDP4wHvshLPKkKv97" target="__blank">
           <Typography
             px="L"
             py="M"
