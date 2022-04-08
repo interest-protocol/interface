@@ -4,6 +4,11 @@ export const shortAccount = (account: string): string =>
 export const formatDollars = (value: number): string => {
   const valueInDollars = new Intl.NumberFormat('en-US', {
     style: 'currency',
+    maximumSignificantDigits: `${value}`.split('').length + 2,
+    minimumSignificantDigits:
+      value > 1 || value < -1 || value === 0
+        ? `${value}`.split('').length + 2
+        : 1,
     currency: 'USD',
   }).format(value);
 
@@ -12,17 +17,12 @@ export const formatDollars = (value: number): string => {
   return decimals.length > 3
     ? `${decimals.slice(0, decimals.length - 3).join(',')}B`
     : decimals.length === 3
-    ? `${decimals[0]}M`
+    ? `${decimals[0]}.${`${decimals[1]}`.charAt(0)}M`
     : decimals.join(',');
 };
 
 export const formatMoney = (value: number): string =>
-  new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  })
-    .format(value)
-    .slice(1);
+  formatDollars(value).slice(1);
 
 export const parseToStringNumber = (x: string): string => {
   if (isNaN(+x)) return '0';

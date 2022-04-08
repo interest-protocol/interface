@@ -45,22 +45,39 @@ const Header: FC = () => {
         justifyContent="center"
         display={['none', 'none', 'flex']}
       >
-        <Typography
-          px="XL"
-          cursor="pointer"
-          variant="normal"
-          borderRight="1px solid"
-          borderColor="bottomBackground"
-          color={
-            pathname === Routes[RoutesEnum.DApp] ||
-            pathname.includes(Routes[RoutesEnum.Borrow])
-              ? 'accent'
-              : 'inherit'
-          }
-          hover={{ color: 'accentActive' }}
-        >
-          Borrow
-        </Typography>
+        <Link href={Routes[RoutesEnum.Earn]}>
+          <Typography
+            px="XL"
+            cursor="pointer"
+            variant="normal"
+            borderRight="1px solid"
+            borderColor="bottomBackground"
+            color={
+              pathname.includes(Routes[RoutesEnum.Earn]) ? 'accent' : 'inherit'
+            }
+            hover={{ color: 'accentActive' }}
+          >
+            Earn
+          </Typography>
+        </Link>
+        <Link href={Routes[RoutesEnum.DApp]}>
+          <Typography
+            px="XL"
+            cursor="pointer"
+            variant="normal"
+            borderRight="1px solid"
+            borderColor="bottomBackground"
+            color={
+              pathname === Routes[RoutesEnum.DApp] ||
+              pathname.includes(Routes[RoutesEnum.Borrow])
+                ? 'accent'
+                : 'inherit'
+            }
+            hover={{ color: 'accentActive' }}
+          >
+            Borrow
+          </Typography>
+        </Link>
         <Box px="XL">
           <Dropdown
             mode="menu"
