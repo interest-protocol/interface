@@ -36,6 +36,26 @@ const Footer: FC = () => {
           justifyContent="center"
           display={['flex', 'flex', 'none']}
         >
+          <Link href={Routes[RoutesEnum.Earn]}>
+            <Button
+              p="0"
+              mx="S"
+              fontSize="M"
+              width="8rem"
+              height="3rem"
+              variant="primary"
+              boxShadow="0 0 15px rgba(0,0,0,.3)"
+              bg={
+                pathname.includes(Routes[RoutesEnum.Earn])
+                  ? 'accent'
+                  : 'foreground'
+              }
+              hover={{ bg: 'accent' }}
+              active={{ bg: 'accentActive' }}
+            >
+              Earn
+            </Button>
+          </Link>
           <Link href={Routes[RoutesEnum.DApp]}>
             <Button
               p="0"

@@ -9,6 +9,7 @@ export interface ResponsiveTableProps {
     button?: ReactNode;
     mobileSide?: ReactNode;
     items: ReadonlyArray<ReactNode>;
+    Dropdown?: ReactNode;
   }>;
 }
 

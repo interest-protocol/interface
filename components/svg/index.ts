@@ -16,6 +16,7 @@ export { default as FaucetSVG } from './faucet';
 export { default as GitBookSVG } from './git-book';
 export { default as GithubSVG } from './github';
 export { default as InfoSVG } from './info';
+export { default as InterestTokenSVG } from './interest-token';
 export { default as LinkSVG } from './link';
 export { default as LoadingSVG } from './loading';
 export { default as LogoSVG } from './logo';
