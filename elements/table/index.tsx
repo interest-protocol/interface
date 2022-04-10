@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic';
-import React, { FC, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
 
 import { useIsMounted } from '@/hooks/use-is-mounted';
@@ -50,9 +51,16 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
   headings,
   hasButton,
 }) => {
+  const ref = useRef<HTMLDivElement>(null);
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const Tooltip = dynamic(() => import('react-tooltip'));
   const isMounted = useIsMounted();
+  const AnimatedBox = animated(Box);
+
+  const { height } = useSpring({
+    from: { height: '0px' },
+    height: `${isOpenDropdown ? ref.current?.offsetHeight : 0}px`,
+  });
 
   const toggleDropdown = () => setIsOpenDropdown((state) => !state);
 
@@ -65,7 +73,7 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
         borderColor="textDescription"
         display={['none', 'none', 'none', 'block']}
       >
-        <Box role="table" width="100%" overflowX="auto">
+        <Box role="table" width="100%" overflowX="auto" overflowY="hidden">
           <Box
             my="M"
             py="M"
@@ -151,7 +159,9 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
                       </Cell>
                     )}
                   </Box>
-                  {isOpenDropdown && Dropdown}
+                  <AnimatedBox style={{ height }} overflow="hidden">
+                    <Box ref={ref}>{Dropdown}</Box>
+                  </AnimatedBox>
                 </Box>
               ))
             )}

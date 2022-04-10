@@ -21,7 +21,7 @@ import { TypographyProps } from './typography.types';
 const Typography: FC<TypographyProps> = ({ as, hover, active, ...props }) => {
   const TypographyElement = styled(as || 'p')(
     css({
-      ...(hover && { ':hover': hover }),
+      ...(hover && { transition: 'all 250ms ease-in-out', ':hover': hover }),
       ...(active && { ':active': active }),
     }),
     variant({
