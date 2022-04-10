@@ -65,7 +65,7 @@ const EarnTable: FC<EarnTableProps> = ({
     <Box display="flex" flexDirection="column" flex="1">
       <Container dapp px="NONE" width="100%">
         <Typography variant="normal" mt="L">
-          {title}
+          {title === 'STAKE' ? 'POOL' : title}
         </Typography>
         <Box display={['none', 'none', 'none', 'block']}>
           <Table
