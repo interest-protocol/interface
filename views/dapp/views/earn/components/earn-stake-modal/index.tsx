@@ -3,6 +3,7 @@ import { FC, useMemo } from 'react';
 import { v4 } from 'uuid';
 
 import { Box, Button, Modal, Typography } from '@/elements';
+import { TimesSVG } from '@/svg';
 import { formatMoney } from '@/utils';
 
 import {
@@ -21,7 +22,8 @@ const EarnStakeModal: FC = () => {
     query: { modal, token },
   } = useRouter();
 
-  const handleClose = () => push(pathname, undefined, { shallow: true });
+  const handleClose = () =>
+    push(`${pathname}?token=${token}`, undefined, { shallow: true });
 
   const { isOpen, isStake } = useMemo(
     () => ({
@@ -53,6 +55,27 @@ const EarnStakeModal: FC = () => {
         borderRadius="L"
         minWidth="20rem"
       >
+        <Box display="flex" justifyContent="flex-end">
+          <Box
+            mt="-4.5rem"
+            mr="-1em"
+            display="flex"
+            textAlign="right"
+            position="absolute"
+            justifyContent="flex-end"
+          >
+            <Button
+              px="L"
+              variant="primary"
+              onClick={handleClose}
+              hover={{
+                bg: 'accentActive',
+              }}
+            >
+              <TimesSVG width="1rem" height="1rem" />
+            </Button>
+          </Box>
+        </Box>
         <Typography variant="normal" textAlign="center" fontSize="L">
           {isStake ? 'Stake' : 'Unstake'} {token} token
         </Typography>
