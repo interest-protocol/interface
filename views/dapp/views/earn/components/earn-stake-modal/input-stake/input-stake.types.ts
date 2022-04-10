@@ -1,4 +1,6 @@
+import { ReactNode } from 'react';
+
 export interface InputStakeProps {
   label: string;
-  currencyPrefix: string;
+  currencyPrefix: ReactNode;
 }

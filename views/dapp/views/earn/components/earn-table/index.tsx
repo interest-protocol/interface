@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
@@ -10,6 +11,7 @@ import { TimesSVG } from '@/svg';
 import { formatDollars } from '@/utils';
 
 import { Loading } from '../../../../components';
+import { TToken } from '../earn-stake-modal/earn-stake-modal.types';
 import { getEarnMockData } from './earn-table.mock';
 import { EarnTableProps } from './earn-table.types';
 import EarnTableCollapsible from './earn-table-collapsible';
@@ -18,6 +20,17 @@ const EarnTable: FC<EarnTableProps> = ({
   title,
   currency: { name, Icon, symbol },
 }) => {
+  const {
+    query: { token },
+    pathname,
+    push,
+  } = useRouter();
+
+  const handleSetDropdown = (value: TToken) =>
+    push(`${pathname}?token=${value}`, undefined, { shallow: true });
+
+  const closeDropdown = () => push(pathname, undefined, { shallow: true });
+
   const { data, error } = getEarnMockData(
     title.toLowerCase() as 'stake' | 'farms'
   );
@@ -156,18 +169,23 @@ const EarnTable: FC<EarnTableProps> = ({
                   // @ts-ignore
                   data[index].earned ?? data[index].earnedFee,
                 ],
-                Dropdown: (
-                  <EarnTableCollapsible
-                    symbol={symbol}
-                    availableAmount={0.000000000001}
-                    availableAmountUSD={0.0001}
-                    stakeRequestApproval={title === 'FARMS'}
-                    stakedAmount={0.000000000001}
-                    stakedAmountUSD={0.0001}
-                    earnedAmount={title === 'FARMS' ? 0 : 0.000000000001}
-                    earnedAmountUSD={title === 'FARMS' ? 0 : 0.0001}
-                  />
-                ),
+                dropdown: {
+                  onOpen: () => handleSetDropdown(symbol as TToken),
+                  onClose: closeDropdown,
+                  isOpen: token === symbol,
+                  node: (
+                    <EarnTableCollapsible
+                      symbol={symbol}
+                      availableAmount={0.000000000001}
+                      availableAmountUSD={0.0001}
+                      stakeRequestApproval={title === 'FARMS'}
+                      stakedAmount={0.000000000001}
+                      stakedAmountUSD={0.0001}
+                      earnedAmount={title === 'FARMS' ? 0 : 0.000000000001}
+                      earnedAmountUSD={title === 'FARMS' ? 0 : 0.0001}
+                    />
+                  ),
+                },
               })
             )}
           />
@@ -227,7 +245,7 @@ const EarnTable: FC<EarnTableProps> = ({
               },
             ]}
             data={DINERO_MARKET_CONTRACTS[CHAIN_ID.BSC_TEST_NET].map(
-              (x, index) => ({
+              (_, index) => ({
                 mobileSide: (
                   <Box
                     key={v4()}
@@ -268,18 +286,23 @@ const EarnTable: FC<EarnTableProps> = ({
                   // @ts-ignore
                   data[index].earned ?? data[index].earnedFee,
                 ],
-                Dropdown: (
-                  <EarnTableCollapsible
-                    symbol={symbol}
-                    availableAmount={0.000000000001}
-                    availableAmountUSD={0.0001}
-                    stakeRequestApproval={title === 'FARMS'}
-                    stakedAmount={0.000000000001}
-                    stakedAmountUSD={0.0001}
-                    earnedAmount={title === 'FARMS' ? 0 : 0.000000000001}
-                    earnedAmountUSD={title === 'FARMS' ? 0 : 0.0001}
-                  />
-                ),
+                dropdown: {
+                  onClose: closeDropdown,
+                  isOpen: token === symbol,
+                  onOpen: () => handleSetDropdown(symbol as TToken),
+                  node: (
+                    <EarnTableCollapsible
+                      symbol={symbol}
+                      availableAmount={0.000000000001}
+                      availableAmountUSD={0.0001}
+                      stakeRequestApproval={title === 'FARMS'}
+                      stakedAmount={0.000000000001}
+                      stakedAmountUSD={0.0001}
+                      earnedAmount={title === 'FARMS' ? 0 : 0.000000000001}
+                      earnedAmountUSD={title === 'FARMS' ? 0 : 0.0001}
+                    />
+                  ),
+                },
               })
             )}
           />
