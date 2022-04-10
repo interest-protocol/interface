@@ -81,9 +81,9 @@ const Table: FC<ResponsiveTableProps> = ({
     setAnimate(true);
   }, []);
 
-  const toggleDropdown = (fn: () => void) => () => {
+  const toggleDropdown = (isOpen: boolean, fn: () => void) => () => {
     setAnimate((a) => !a);
-    setTimeout(fn, 500);
+    setTimeout(fn, isOpen ? 600 : 0);
   };
 
   return (
@@ -182,6 +182,7 @@ const Table: FC<ResponsiveTableProps> = ({
                                   width="3.3rem"
                                   variant="secondary"
                                   onClick={toggleDropdown(
+                                    dropdownOpen,
                                     dropdownOpen
                                       ? closeDropdown
                                       : handleOpenDropdown
@@ -272,6 +273,7 @@ const Table: FC<ResponsiveTableProps> = ({
                           width="3.3rem"
                           variant="secondary"
                           onClick={toggleDropdown(
+                            dropdownOpen,
                             dropdownOpen ? closeDropdown : handleOpenDropdown
                           )}
                           bg={dropdownOpen ? 'accent' : 'bottomBackground'}
