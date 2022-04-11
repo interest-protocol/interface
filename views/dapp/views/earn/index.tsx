@@ -13,7 +13,7 @@ const Earn: FC = () => (
       <EarnHeader />
       <Box mt="XL">
         <EarnTable
-          title="POOL"
+          title="STAKE"
           currency={{
             name: 'Interest Token',
             symbol: 'INT',
