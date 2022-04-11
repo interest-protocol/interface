@@ -1,13 +1,18 @@
 import { useRouter } from 'next/router';
 import { FC, useMemo } from 'react';
+import { v4 } from 'uuid';
 
 import { Box, Button, Modal, Typography } from '@/elements';
+import { TimesSVG } from '@/svg';
 import { formatMoney } from '@/utils';
 
+import {
+  TOKENS_CURRENCY,
+  TOKENS_ICONS,
+  VALID_TOKENS,
+} from './earn-stake-moda.data';
+import { TToken } from './earn-stake-modal.types';
 import InputStake from './input-stake';
-
-const VALID_TOKENS = ['INT', 'LP'];
-const TOKENS_CURRENCY = { INT: 'Interest Token', LP: 'BTC-DNR' };
 
 const EarnStakeModal: FC = () => {
   const balance = 0.00055555;
@@ -17,7 +22,8 @@ const EarnStakeModal: FC = () => {
     query: { modal, token },
   } = useRouter();
 
-  const handleClose = () => push(pathname, undefined, { shallow: true });
+  const handleClose = () =>
+    push(`${pathname}?token=${token}`, undefined, { shallow: true });
 
   const { isOpen, isStake } = useMemo(
     () => ({
@@ -27,7 +33,9 @@ const EarnStakeModal: FC = () => {
     [modal]
   );
 
-  if (isOpen && !VALID_TOKENS.includes(token as string)) handleClose();
+  if (isOpen && !VALID_TOKENS.includes(token as TToken)) handleClose();
+
+  const Icon = TOKENS_ICONS[token as TToken];
 
   return (
     <Modal
@@ -47,12 +55,54 @@ const EarnStakeModal: FC = () => {
         borderRadius="L"
         minWidth="20rem"
       >
+        <Box display="flex" justifyContent="flex-end">
+          <Box
+            mt="-4.5rem"
+            mr="-1em"
+            display="flex"
+            textAlign="right"
+            position="absolute"
+            justifyContent="flex-end"
+          >
+            <Button
+              px="L"
+              variant="primary"
+              onClick={handleClose}
+              hover={{
+                bg: 'accentActive',
+              }}
+            >
+              <TimesSVG width="1rem" height="1rem" />
+            </Button>
+          </Box>
+        </Box>
         <Typography variant="normal" textAlign="center" fontSize="L">
           {isStake ? 'Stake' : 'Unstake'} {token} token
         </Typography>
         <Box mt="XL">
           <InputStake
-            currencyPrefix={TOKENS_CURRENCY[(token as 'INT') || 'LP']}
+            currencyPrefix={
+              <Box display="flex" alignItems="center">
+                {Array.isArray(Icon) ? (
+                  <Box display="inline-flex">
+                    {Icon.map((SVG, index) => (
+                      <Box
+                        key={v4()}
+                        zIndex={Icon.length - index}
+                        ml={index != 0 ? '-0.5rem' : 'NONE'}
+                      >
+                        <SVG width="1.6rem" height="1.6rem" />
+                      </Box>
+                    ))}
+                  </Box>
+                ) : (
+                  <Icon width="1.6rem" height="1.6rem" />
+                )}
+                <Typography variant="normal" ml="M">
+                  {TOKENS_CURRENCY[token as TToken]}
+                </Typography>
+              </Box>
+            }
             label={`Amount ${isStake ? 'stake' : 'unstake'}`}
           />
         </Box>

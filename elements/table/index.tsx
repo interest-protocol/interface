@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
 
 import { useIsMounted } from '@/hooks/use-is-mounted';
@@ -43,18 +44,47 @@ const TableLoading: FC<TableLoadingProps> = ({ columns }) => (
   </Box>
 );
 
-const ResponsiveTable: FC<ResponsiveTableProps> = ({
+const Table: FC<ResponsiveTableProps> = ({
   data,
   loading,
   ordinate,
   headings,
   hasButton,
 }) => {
-  const [isOpenDropdown, setIsOpenDropdown] = useState(false);
+  const desktopDropdownRef = useRef<HTMLDivElement>(null);
+  const mobileDropdownRef = useRef<HTMLDivElement>(null);
   const Tooltip = dynamic(() => import('react-tooltip'));
   const isMounted = useIsMounted();
+  const AnimatedBox = animated(Box);
 
-  const toggleDropdown = () => setIsOpenDropdown((state) => !state);
+  const [animate, setAnimate] = useState(false);
+
+  const { dHeight, mHeight } = useSpring({
+    from: {
+      dHeight: '0px',
+      mHeight: '0px',
+    },
+    to: {
+      dHeight: `${
+        animate ? desktopDropdownRef.current?.offsetHeight ?? 0 : 0
+      }px`,
+      mHeight: `${
+        animate ? mobileDropdownRef.current?.offsetHeight ?? 0 : 0
+      }px`,
+    },
+    config: {
+      duration: 500,
+    },
+  });
+
+  useEffect(() => {
+    setAnimate(true);
+  }, []);
+
+  const toggleDropdown = (isOpen: boolean, fn: () => void) => () => {
+    setAnimate((a) => !a);
+    setTimeout(fn, isOpen ? 600 : 0);
+  };
 
   return (
     <>
@@ -65,7 +95,7 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
         borderColor="textDescription"
         display={['none', 'none', 'none', 'block']}
       >
-        <Box role="table" width="100%" overflowX="auto">
+        <Box role="table" width="100%" overflowX="auto" overflowY="hidden">
           <Box
             my="M"
             py="M"
@@ -97,63 +127,99 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
                 }
               />
             ) : (
-              data.map(({ items, button, Dropdown }, index) => (
-                <Box key={v4()}>
-                  <Box
-                    py="M"
-                    px="XL"
-                    role="row"
-                    display="grid"
-                    alignItems="center"
-                    gridTemplateColumns={`1.5fr repeat(${
-                      headings.length +
-                      (ordinate ? 1 : 0) +
-                      (hasButton ? 1 : 0) -
-                      1
-                    }, 1fr)`}
-                  >
-                    {ordinate && (
-                      <Cell as="td" key={v4()}>
-                        {index + 1}
-                      </Cell>
-                    )}
-                    {items.map((item) => (
-                      <Cell as="td" key={v4()}>
-                        {item}
-                      </Cell>
-                    ))}
-                    {(button || Dropdown) && (
-                      <Cell as="td">
-                        {Dropdown ? (
-                          <Box textAlign="right">
-                            <Button
-                              py="L"
-                              width="3.3rem"
-                              variant="secondary"
-                              onClick={toggleDropdown}
-                              bg={
-                                isOpenDropdown ? 'accent' : 'bottomBackground'
-                              }
-                              hover={{ bg: 'accentActive' }}
-                            >
-                              <Box
-                                transform={`rotate(${
-                                  isOpenDropdown ? '180deg' : '0deg'
-                                })`}
-                              >
-                                <ArrowSVG width="0.5rem" />
-                              </Box>
-                            </Button>
-                          </Box>
-                        ) : (
-                          button
+              data.map(
+                (
+                  {
+                    items,
+                    button,
+                    dropdown = {
+                      node: null,
+                      isOpen: null,
+                      onClose: null,
+                      onOpen: null,
+                    },
+                  },
+                  index
+                ) => {
+                  const {
+                    node: Dropdown,
+                    isOpen: dropdownOpen,
+                    onClose: closeDropdown,
+                    onOpen: handleOpenDropdown,
+                  } = dropdown!;
+
+                  return (
+                    <Box key={v4()}>
+                      <Box
+                        py="M"
+                        px="XL"
+                        role="row"
+                        display="grid"
+                        alignItems="center"
+                        gridTemplateColumns={`1.5fr repeat(${
+                          headings.length +
+                          (ordinate ? 1 : 0) +
+                          (hasButton ? 1 : 0) -
+                          1
+                        }, 1fr)`}
+                      >
+                        {ordinate && (
+                          <Cell as="td" key={v4()}>
+                            {index + 1}
+                          </Cell>
                         )}
-                      </Cell>
-                    )}
-                  </Box>
-                  {isOpenDropdown && Dropdown}
-                </Box>
-              ))
+                        {items.map((item) => (
+                          <Cell as="td" key={v4()}>
+                            {item}
+                          </Cell>
+                        ))}
+                        {(button || Dropdown) && (
+                          <Cell as="td">
+                            {Dropdown ? (
+                              <Box textAlign="right">
+                                <Button
+                                  py="L"
+                                  width="3.3rem"
+                                  variant="secondary"
+                                  onClick={toggleDropdown(
+                                    dropdownOpen,
+                                    dropdownOpen
+                                      ? closeDropdown
+                                      : handleOpenDropdown
+                                  )}
+                                  bg={
+                                    dropdownOpen ? 'accent' : 'bottomBackground'
+                                  }
+                                  hover={{ bg: 'accentActive' }}
+                                >
+                                  <Box
+                                    transition="transform 250ms ease-in-out"
+                                    transform={`rotate(${
+                                      dropdownOpen ? '180deg' : '0deg'
+                                    })`}
+                                  >
+                                    <ArrowSVG width="0.5rem" />
+                                  </Box>
+                                </Button>
+                              </Box>
+                            ) : (
+                              button
+                            )}
+                          </Cell>
+                        )}
+                      </Box>
+                      {dropdownOpen && (
+                        <AnimatedBox
+                          style={{ height: dHeight }}
+                          overflow="hidden"
+                        >
+                          <Box ref={desktopDropdownRef}>{Dropdown}</Box>
+                        </AnimatedBox>
+                      )}
+                    </Box>
+                  );
+                }
+              )
             )}
           </Box>
         </Box>
@@ -166,96 +232,127 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
         borderRadius="M"
         display={['block', 'block', 'block', 'none']}
       >
-        {data.map(({ items, button, mobileSide, Dropdown }, index) => (
-          <Box key={v4()}>
-            <Box display="flex" p="L">
-              <Box
-                my="L"
-                mx="M"
-                display="flex"
-                alignItems="center"
-                flexDirection="column"
-                justifyContent="space-evenly"
-              >
-                {mobileSide}
-                {(button || Dropdown) && Dropdown ? (
-                  <Box textAlign="right" mt="L">
-                    <Button
-                      py="L"
-                      width="3.3rem"
-                      variant="secondary"
-                      onClick={toggleDropdown}
-                      bg={isOpenDropdown ? 'accent' : 'bottomBackground'}
-                      hover={{ bg: 'accentActive' }}
-                    >
-                      <Box
-                        transform={`rotate(${
-                          isOpenDropdown ? '180deg' : '0deg'
-                        })`}
-                      >
-                        <ArrowSVG width="0.5rem" />
-                      </Box>
-                    </Button>
-                  </Box>
-                ) : (
-                  button
-                )}
-              </Box>
-              <Box
-                key={v4()}
-                display="grid"
-                borderRadius="M"
-                overflow="hidden"
-                gridAutoFlow="column"
-                gridTemplateRows={`repeat(${
-                  headings.length + (ordinate ? 1 : 0)
-                }, 1fr)`}
-              >
-                {ordinate && (
-                  <Typography
-                    py="M"
-                    px="M"
-                    fontSize="S"
-                    variant="normal"
-                    color="textSecondary"
-                  >
-                    Nº
-                  </Typography>
-                )}
-                {headings.map(({ item }) => (
-                  <Typography
-                    py="M"
-                    px="M"
-                    key={v4()}
-                    fontSize="S"
-                    variant="normal"
-                    color="textSecondary"
-                  >
-                    {item}
-                  </Typography>
-                ))}
-                {ordinate && (
+        {data.map(
+          (
+            {
+              items,
+              button,
+              mobileSide,
+              dropdown = {
+                node: null,
+                isOpen: null,
+                onClose: null,
+                onOpen: null,
+              },
+            },
+            index
+          ) => {
+            const {
+              isOpen: dropdownOpen,
+              node: Dropdown,
+              onOpen: handleOpenDropdown,
+              onClose: closeDropdown,
+            } = dropdown!;
+
+            return (
+              <Box key={v4()}>
+                <Box display="flex" p="L">
                   <Box
-                    py="M"
-                    px="M"
-                    borderBottom="0.1rem solid"
-                    borderColor="textDescriptionHigh"
+                    my="L"
+                    mx="M"
+                    display="flex"
+                    alignItems="center"
+                    flexDirection="column"
+                    justifyContent="space-evenly"
                   >
-                    {index + 1}
+                    {mobileSide}
+                    {(button || Dropdown) && Dropdown ? (
+                      <Box textAlign="right" mt="L">
+                        <Button
+                          py="L"
+                          width="3.3rem"
+                          variant="secondary"
+                          onClick={toggleDropdown(
+                            dropdownOpen,
+                            dropdownOpen ? closeDropdown : handleOpenDropdown
+                          )}
+                          bg={dropdownOpen ? 'accent' : 'bottomBackground'}
+                          hover={{ bg: 'accentActive' }}
+                        >
+                          <Box
+                            transform={`rotate(${
+                              dropdownOpen ? '180deg' : '0deg'
+                            })`}
+                          >
+                            <ArrowSVG width="0.5rem" />
+                          </Box>
+                        </Button>
+                      </Box>
+                    ) : (
+                      button
+                    )}
                   </Box>
+                  <Box
+                    key={v4()}
+                    display="grid"
+                    borderRadius="M"
+                    overflow="hidden"
+                    gridAutoFlow="column"
+                    gridTemplateRows={`repeat(${
+                      headings.length + (ordinate ? 1 : 0)
+                    }, 1fr)`}
+                  >
+                    {ordinate && (
+                      <Typography
+                        py="M"
+                        px="M"
+                        fontSize="S"
+                        variant="normal"
+                        color="textSecondary"
+                      >
+                        Nº
+                      </Typography>
+                    )}
+                    {headings.map(({ item }) => (
+                      <Typography
+                        py="M"
+                        px="M"
+                        key={v4()}
+                        fontSize="S"
+                        variant="normal"
+                        color="textSecondary"
+                      >
+                        {item}
+                      </Typography>
+                    ))}
+                    {ordinate && (
+                      <Box
+                        py="M"
+                        px="M"
+                        borderBottom="0.1rem solid"
+                        borderColor="textDescriptionHigh"
+                      >
+                        {index + 1}
+                      </Box>
+                    )}
+                    {items.map((item) => (
+                      <Box key={v4()} display="flex">
+                        <Box py="M" px="M">
+                          {item}
+                        </Box>
+                      </Box>
+                    ))}
+                  </Box>
+                </Box>
+                {dropdownOpen && (
+                  <AnimatedBox style={{ height: mHeight }} overflow="hidden">
+                    <Box ref={mobileDropdownRef}>{Dropdown}</Box>
+                  </AnimatedBox>
                 )}
-                {items.map((item) => (
-                  <Box key={v4()} display="flex">
-                    <Box py="M" px="M">
-                      {item}
-                    </Box>
-                  </Box>
-                ))}
               </Box>
-            </Box>
-            {isOpenDropdown && Dropdown}
-          </Box>
-        ))}
+            );
+          }
+        )}
       </Box>
       {isMounted.current && (
         <Tooltip place="top" type="dark" effect="solid" multiline />
@@ -263,4 +360,5 @@ const ResponsiveTable: FC<ResponsiveTableProps> = ({
     </>
   );
 };
-export default ResponsiveTable;
+
+export default Table;

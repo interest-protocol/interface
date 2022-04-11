@@ -22,8 +22,8 @@ import { BoxProps } from './box.types';
 const Box = forwardRef(({ as, hover, active, ...props }: BoxProps, ref) => {
   const BoxElement = styled(as || 'div')(
     css({
-      ...(hover && { ':hover': hover }),
-      ...(active && { ':active': active }),
+      ...(hover && { transition: 'all 250ms ease-in-out', ':hover': hover }),
+      ...(active && { transition: 'all 250ms ease-in-out', ':active': active }),
     }),
     variant({
       prop: 'effect',

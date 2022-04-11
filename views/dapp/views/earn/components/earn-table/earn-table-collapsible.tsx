@@ -37,7 +37,11 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         title="Available"
         amountUSD={formatDollars(availableAmountUSD)}
         amount={`${formatMoney(availableAmount)} ${symbol}`}
-        button={<Button variant="primary">Get {symbol}</Button>}
+        button={
+          <Button variant="primary" hover={{ bg: 'accentActive' }}>
+            Get {symbol}
+          </Button>
+        }
       />
       <EarnCard
         title="Staked"
@@ -45,7 +49,11 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         amount={`${formatMoney(stakedAmount)} ${symbol}`}
         button={
           !stakedApproved ? (
-            <Button variant="primary" onClick={handleApprove}>
+            <Button
+              variant="primary"
+              onClick={handleApprove}
+              hover={{ bg: 'accentActive' }}
+            >
               Enable Form
             </Button>
           ) : (
@@ -57,7 +65,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
               <Link
                 href={`${Routes[RoutesEnum.Earn]}?modal=stake&token=${symbol}`}
               >
-                <Button variant="primary" mr="S">
+                <Button variant="primary" mr="S" hover={{ bg: 'accentActive' }}>
                   +
                 </Button>
               </Link>
@@ -66,7 +74,11 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
                   Routes[RoutesEnum.Earn]
                 }?modal=unstake&token=${symbol}`}
               >
-                <Button variant="primary" bg="error">
+                <Button
+                  bg="error"
+                  variant="primary"
+                  hover={{ bg: 'errorActive' }}
+                >
                   -
                 </Button>
               </Link>
@@ -85,6 +97,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
             disabled={!earnedAmount}
             bg={earnedAmount ? 'success' : 'disabled'}
             cursor={earnedAmount ? 'pointer' : 'not-allowed'}
+            hover={{ bg: earnedAmount ? 'successActive' : 'disabled' }}
           >
             Harvest
           </Button>
