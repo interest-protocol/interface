@@ -47,7 +47,7 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => (
         ) : ltv > 100 ? (
           100
         ) : (
-          ltv || '0'
+          ltv
         )}
         {'% '}
         of 100%
