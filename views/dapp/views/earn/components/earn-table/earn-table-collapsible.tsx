@@ -1,27 +1,33 @@
-import Link from 'next/link';
 import { FC, useState } from 'react';
 
-import { Routes, RoutesEnum } from '@/constants/routes';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
 import { formatDollars, formatMoney } from '@/utils/string';
 
+import EarnStakeModal from '../earn-stake-modal';
+import { TToken } from '../earn-stake-modal/earn-stake-modal.types';
 import EarnCard from './earn-card';
 import { EarnTableCollapsibleProps } from './earn-table.types';
 
 const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
+  symbol,
   earnedAmount,
   stakedAmount,
   earnedAmountUSD,
   stakedAmountUSD,
-  stakeRequestApproval,
   availableAmount,
   availableAmountUSD,
-  symbol,
+  stakeRequestApproval,
 }) => {
+  const [modal, setModal] = useState<'stake' | 'unstake' | undefined>();
   const [stakedApproved, setStakedApproved] = useState(!stakeRequestApproval);
 
   const handleApprove = () => setStakedApproved(true);
+
+  const handleCloseModal = () => setModal(undefined);
+
+  const handleChangeModal = (target: 'stake' | 'unstake') => () =>
+    setModal(target);
 
   return (
     <Box
@@ -62,26 +68,22 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
               justifyContent="space-evenly"
               px={['NONE', 'NONE', 'NONE', 'XL']}
             >
-              <Link
-                href={`${Routes[RoutesEnum.Earn]}?modal=stake&token=${symbol}`}
+              <Button
+                variant="primary"
+                mr="S"
+                hover={{ bg: 'accentActive' }}
+                onClick={handleChangeModal('stake')}
               >
-                <Button variant="primary" mr="S" hover={{ bg: 'accentActive' }}>
-                  +
-                </Button>
-              </Link>
-              <Link
-                href={`${
-                  Routes[RoutesEnum.Earn]
-                }?modal=unstake&token=${symbol}`}
+                +
+              </Button>
+              <Button
+                bg="error"
+                variant="primary"
+                hover={{ bg: 'errorActive' }}
+                onClick={handleChangeModal('unstake')}
               >
-                <Button
-                  bg="error"
-                  variant="primary"
-                  hover={{ bg: 'errorActive' }}
-                >
-                  -
-                </Button>
-              </Link>
+                -
+              </Button>
             </Box>
           )
         }
@@ -102,6 +104,12 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
             Harvest
           </Button>
         }
+      />
+      <EarnStakeModal
+        modal={modal}
+        balance={stakedAmount}
+        token={symbol as TToken}
+        handleClose={handleCloseModal}
       />
     </Box>
   );

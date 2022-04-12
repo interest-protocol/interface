@@ -5,7 +5,7 @@ import { BitcoinSVG, DineroSVG, InterestTokenSVG } from '@/svg';
 
 import { Faucet } from '../../components';
 import Web3Manager from '../../web3-manager';
-import { EarnHeader, EarnStakeModal, EarnTable } from './components';
+import { EarnHeader, EarnTable } from './components';
 
 const Earn: FC = () => (
   <Web3Manager>
@@ -28,7 +28,6 @@ const Earn: FC = () => (
             Icon: [BitcoinSVG, DineroSVG],
           }}
         />
-        <EarnStakeModal />
       </Box>
       <Faucet />
     </Box>

@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { FC, useMemo } from 'react';
 import { v4 } from 'uuid';
 
@@ -11,19 +10,15 @@ import {
   TOKENS_ICONS,
   VALID_TOKENS,
 } from './earn-stake-moda.data';
-import { TToken } from './earn-stake-modal.types';
+import { EarnStakeModalProps, TToken } from './earn-stake-modal.types';
 import InputStake from './input-stake';
 
-const EarnStakeModal: FC = () => {
+const EarnStakeModal: FC<EarnStakeModalProps> = ({
+  modal,
+  token,
+  handleClose,
+}) => {
   const balance = 0.00055555;
-  const {
-    push,
-    pathname,
-    query: { modal, token },
-  } = useRouter();
-
-  const handleClose = () =>
-    push(`${pathname}?token=${token}`, undefined, { shallow: true });
 
   const { isOpen, isStake } = useMemo(
     () => ({
