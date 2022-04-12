@@ -208,14 +208,12 @@ const Table: FC<ResponsiveTableProps> = ({
                           </Cell>
                         )}
                       </Box>
-                      {dropdownOpen && (
-                        <AnimatedBox
-                          style={{ height: dHeight }}
-                          overflow="hidden"
-                        >
-                          <Box ref={desktopDropdownRef}>{Dropdown}</Box>
-                        </AnimatedBox>
-                      )}
+                      <AnimatedBox
+                        style={{ height: dropdownOpen ? dHeight : 0 }}
+                        overflow="hidden"
+                      >
+                        <Box ref={desktopDropdownRef}>{Dropdown}</Box>
+                      </AnimatedBox>
                     </Box>
                   );
                 }
@@ -344,11 +342,14 @@ const Table: FC<ResponsiveTableProps> = ({
                     ))}
                   </Box>
                 </Box>
-                {dropdownOpen && (
-                  <AnimatedBox style={{ height: mHeight }} overflow="hidden">
-                    <Box ref={mobileDropdownRef}>{Dropdown}</Box>
-                  </AnimatedBox>
-                )}
+                <AnimatedBox
+                  style={{
+                    height: dropdownOpen ? mHeight : 0,
+                  }}
+                  overflow="hidden"
+                >
+                  <Box ref={mobileDropdownRef}>{Dropdown}</Box>
+                </AnimatedBox>
               </Box>
             );
           }
