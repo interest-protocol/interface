@@ -11,3 +11,10 @@ export type TTokenIcons = Record<
   TToken,
   MaybeArray<FC<SVGAttributes<SVGSVGElement>>>
 >;
+
+export interface EarnStakeModalProps {
+  token: TToken;
+  balance: number;
+  handleClose: () => void;
+  modal: 'stake' | 'unstake' | undefined;
+}

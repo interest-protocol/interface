@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
@@ -11,7 +10,6 @@ import { TimesSVG } from '@/svg';
 import { formatDollars } from '@/utils';
 
 import { Loading } from '../../../../components';
-import { TToken } from '../earn-stake-modal/earn-stake-modal.types';
 import { getEarnMockData } from './earn-table.mock';
 import { EarnTableProps } from './earn-table.types';
 import EarnTableCollapsible from './earn-table-collapsible';
@@ -20,16 +18,10 @@ const EarnTable: FC<EarnTableProps> = ({
   title,
   currency: { name, Icon, symbol },
 }) => {
-  const {
-    query: { token },
-    pathname,
-    push,
-  } = useRouter();
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  const handleSetDropdown = (value: TToken) =>
-    push(`${pathname}?token=${value}`, undefined, { shallow: true });
-
-  const closeDropdown = () => push(pathname, undefined, { shallow: true });
+  const closeDropdown = () => setShowDropdown(false);
+  const handleOpenDropdown = () => setShowDropdown(true);
 
   const { data, error } = getEarnMockData(
     title.toLowerCase() as 'stake' | 'farms'
@@ -170,9 +162,9 @@ const EarnTable: FC<EarnTableProps> = ({
                   data[index].earned ?? data[index].earnedFee,
                 ],
                 dropdown: {
-                  onOpen: () => handleSetDropdown(symbol as TToken),
+                  onOpen: handleOpenDropdown,
                   onClose: closeDropdown,
-                  isOpen: token === symbol,
+                  isOpen: showDropdown,
                   node: (
                     <EarnTableCollapsible
                       symbol={symbol}
@@ -288,8 +280,8 @@ const EarnTable: FC<EarnTableProps> = ({
                 ],
                 dropdown: {
                   onClose: closeDropdown,
-                  isOpen: token === symbol,
-                  onOpen: () => handleSetDropdown(symbol as TToken),
+                  isOpen: showDropdown,
+                  onOpen: handleOpenDropdown,
                   node: (
                     <EarnTableCollapsible
                       symbol={symbol}
