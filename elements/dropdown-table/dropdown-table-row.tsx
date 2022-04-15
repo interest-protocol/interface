@@ -51,6 +51,7 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
           py="M"
           px="XL"
           display="grid"
+          alignItems="center"
           gridTemplateColumns={`1.5fr repeat(${
             headings.length + (ordinate ? 1 : 0)
           }, 1fr)`}
