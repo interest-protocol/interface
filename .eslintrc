@@ -10,6 +10,7 @@
           ["@/design-system", "./design-system"],
           ["@/elements", "./elements"],
           ["@/hooks", "./hooks"],
+          ["@/interface", "./interface"],
           ["@/sdk", "./sdk"],
           ["@/utils", "./utils"],
           ["@/views", "./views"]
