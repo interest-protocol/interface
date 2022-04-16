@@ -3,14 +3,14 @@ import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import { Routes, RoutesEnum } from '@/constants/routes';
-import { Box, Dropdown, Typography } from '@/elements';
+import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
 import { Wallet } from '../../index';
 import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {
-  const { pathname, push } = useRouter();
+  const { pathname } = useRouter();
 
   return (
     <Box
@@ -78,41 +78,7 @@ const Header: FC = () => {
             Borrow
           </Typography>
         </Link>
-        <Box px="XL">
-          <Dropdown
-            mode="menu"
-            title={
-              <Typography
-                as="span"
-                variant="normal"
-                whiteSpace="nowrap"
-                color={
-                  pathname.includes(Routes[RoutesEnum.NFTLoans])
-                    ? 'accent'
-                    : 'inherit'
-                }
-                hover={{
-                  color: 'accentActive',
-                }}
-              >
-                NFT Loans
-              </Typography>
-            }
-            data={[
-              {
-                value: 'borrow',
-                displayOption: 'Borrow',
-                onSelect: () => push(Routes[RoutesEnum.NFTBorrow]),
-              },
-              {
-                value: 'lend',
-                displayOption: 'Lend',
-                onSelect: () => push(Routes[RoutesEnum.NFTLend]),
-              },
-            ]}
-          />
-        </Box>
-        <a href="https://forms.gle/aDP4wHvshLPKkKv97" target="__blank">
+        <a href="https://6vbehzktcwt.typeform.com/to/nhsl8iVg" target="__blank">
           <Typography
             px="L"
             py="M"

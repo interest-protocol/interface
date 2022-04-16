@@ -86,10 +86,15 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
       error: ({ message }) => message,
     });
 
-  const { error, data: rawData } = useSWR<MarketAndBalancesData | undefined>(
+  const {
+    error,
+    mutate,
+    data: rawData,
+  } = useSWR<MarketAndBalancesData | undefined>(
     `${account}-${currency}-${chainId}-dinero-market`,
     async () => {
       setIsGettingData(true);
+
       if (!account || !provider || !chainId) {
         setIsGettingData(false);
         return Promise.reject();
@@ -118,6 +123,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
       ]);
 
       setIsGettingData(false);
+
       return {
         balances: [
           CurrencyAmount.fromRawAmount(
@@ -256,6 +262,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
     } catch (e: unknown) {
       throwContractCallError(e);
     } finally {
+      mutate();
       setIsSubmitting(false);
     }
   };
@@ -354,6 +361,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
     } catch (e: unknown) {
       throwContractCallError(e);
     } finally {
+      mutate();
       setIsSubmitting(false);
     }
   };

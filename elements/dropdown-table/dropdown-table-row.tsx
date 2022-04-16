@@ -51,6 +51,7 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
           py="M"
           px="XL"
           display="grid"
+          alignItems="center"
           gridTemplateColumns={`1.5fr repeat(${
             headings.length + (ordinate ? 1 : 0)
           }, 1fr)`}
@@ -113,46 +114,49 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
             display="grid"
             borderRadius="M"
             overflow="hidden"
+            gridAutoFlow="column"
             gridTemplateColumns="1fr 7rem"
+            gridTemplateRows={`repeat(${
+              headings.length + (ordinate ? 1 : 0)
+            }, 1fr)`}
           >
             {ordinate && (
-              <>
-                <Typography
-                  py="M"
-                  px="M"
-                  fontSize="S"
-                  variant="normal"
-                  color="textSecondary"
-                >
-                  Nº
-                </Typography>
-
-                <Box
-                  py="M"
-                  px="M"
-                  borderBottom="0.1rem solid"
-                  borderColor="textDescriptionHigh"
-                >
-                  {index! + 1}
-                </Box>
-              </>
+              <Typography
+                py="M"
+                px="M"
+                fontSize="S"
+                variant="normal"
+                color="textSecondary"
+              >
+                Nº
+              </Typography>
             )}
-            {items.map((item, headingIndex) => (
-              <>
-                <Typography
-                  py="M"
-                  px="M"
-                  key={v4()}
-                  fontSize="S"
-                  variant="normal"
-                  color="textSecondary"
-                >
-                  {headings[headingIndex].item}
-                </Typography>
-                <Box py="M" px="M">
-                  {item}
-                </Box>
-              </>
+            {headings.map(({ item }) => (
+              <Typography
+                py="M"
+                px="M"
+                key={v4()}
+                fontSize="S"
+                variant="normal"
+                color="textSecondary"
+              >
+                {item}
+              </Typography>
+            ))}
+            {ordinate && (
+              <Box
+                py="M"
+                px="M"
+                borderBottom="0.1rem solid"
+                borderColor="textDescriptionHigh"
+              >
+                {index! + 1}
+              </Box>
+            )}
+            {items.map((item) => (
+              <Box py="M" px="M" key={v4()}>
+                {item}
+              </Box>
             ))}
           </Box>
         </Box>

@@ -29,6 +29,7 @@
       "@/connectors": ["./connectors"],
       "@/connectors/*": ["./connectors/*"],
       "@/constants/*": ["./constants/*"],
+      "@/interface": ["./interface"],
       "@/sdk": ["./sdk"],
       "@/sdk/*": ["./sdk/*"],
       "@/hooks/*": ["./hooks/*"],

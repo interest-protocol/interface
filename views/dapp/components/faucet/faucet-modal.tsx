@@ -53,7 +53,7 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
   const account = usePriorityAccount();
   const provider = usePriorityProvider();
 
-  const { data } = useSWR(`${account}-erc20-balances`, async () => {
+  const { data, mutate } = useSWR(`${account}-erc20-balances`, async () => {
     if (!account || !provider) return Promise.reject();
 
     const balances = await Promise.all(
@@ -101,6 +101,7 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
     } catch (e) {
       throw e ?? new Error('Something went wrong');
     } finally {
+      mutate();
       setLoading(false);
     }
   };
