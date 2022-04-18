@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import Box from '@/elements/box';
 import Button from '@/elements/button';
@@ -19,8 +19,18 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
   availableAmountUSD,
   stakeRequestApproval,
 }) => {
+  // TODO: replace loading state to real loading controller
+  const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState<'stake' | 'unstake' | undefined>();
   const [stakedApproved, setStakedApproved] = useState(!stakeRequestApproval);
+
+  // TODO: replace loading setter to real loading controller
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoading(false);
+      clearTimeout(timeout);
+    }, 4000);
+  });
 
   const handleApprove = () => setStakedApproved(true);
 
@@ -40,6 +50,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
       flexDirection={['column', 'column', 'column', 'unset']}
     >
       <EarnCard
+        loading={loading}
         title="Available"
         amountUSD={formatDollars(availableAmountUSD)}
         amount={`${formatMoney(availableAmount)} ${symbol}`}
@@ -51,6 +62,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
       />
       <EarnCard
         title="Staked"
+        loading={loading}
         amountUSD={formatDollars(stakedAmountUSD)}
         amount={`${formatMoney(stakedAmount)} ${symbol}`}
         button={
@@ -90,6 +102,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
       />
       <EarnCard
         title="Earned"
+        loading={loading}
         shadow={!!earnedAmount}
         amountUSD={formatDollars(earnedAmountUSD)}
         amount={`${formatMoney(earnedAmount)} ${symbol}`}

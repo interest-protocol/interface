@@ -62,18 +62,20 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
             </DropdownTableCell>
           ))}
           <Box textAlign="right">
-            <Button
-              py="L"
-              width="3.3rem"
-              variant="secondary"
-              onClick={toggleDropdown}
-              hover={{ bg: 'accentActive' }}
-              bg={isOpenDropdown ? 'accent' : 'bottomBackground'}
-            >
-              <AnimatedBox style={{ transform: arrowInvert }}>
-                <ArrowSVG width="0.5rem" />
-              </AnimatedBox>
-            </Button>
+            {!!dropdown && (
+              <Button
+                py="L"
+                width="3.3rem"
+                variant="secondary"
+                onClick={toggleDropdown}
+                hover={{ bg: 'accentActive' }}
+                bg={isOpenDropdown ? 'accent' : 'bottomBackground'}
+              >
+                <AnimatedBox style={{ transform: arrowInvert }}>
+                  <ArrowSVG width="0.5rem" />
+                </AnimatedBox>
+              </Button>
+            )}
           </Box>
         </Box>
         <AnimatedBox style={{ height: dHeight }} overflow="hidden">
@@ -97,18 +99,21 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
             justifyContent="space-evenly"
           >
             {sideContent}
-            <Button
-              py="L"
-              width="3.3rem"
-              variant="secondary"
-              onClick={toggleDropdown}
-              hover={{ bg: 'accentActive' }}
-              bg={isOpenDropdown ? 'accent' : 'bottomBackground'}
-            >
-              <AnimatedBox style={{ transform: arrowInvert }}>
-                <ArrowSVG width="0.5rem" />
-              </AnimatedBox>
-            </Button>
+            {!!dropdown && (
+              <Button
+                py="M"
+                width="2.5rem"
+                height="2.5rem"
+                variant="secondary"
+                onClick={toggleDropdown}
+                hover={{ bg: 'accentActive' }}
+                bg={isOpenDropdown ? 'accent' : 'bottomBackground'}
+              >
+                <AnimatedBox style={{ transform: arrowInvert }}>
+                  <ArrowSVG width="0.5rem" />
+                </AnimatedBox>
+              </Button>
+            )}
           </Box>
           <Box
             display="grid"

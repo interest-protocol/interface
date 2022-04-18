@@ -8,8 +8,9 @@ import {
 } from '@/constants/contracts';
 import { FARMS, PoolId, PoolType } from '@/constants/farms';
 import { ZERO } from '@/constants/index';
-import { Box } from '@/elements';
+import { Box, Typography } from '@/elements';
 import { FarmV2 } from '@/sdk/entities/farm-v2';
+import { TimesSVG } from '@/svg';
 import { getCasaDePapelMintData, getPoolData } from '@/utils/casa-de-papel';
 import { getBTCPrice } from '@/utils/price';
 import { getReserves } from '@/utils/uniswap-v2';
@@ -67,6 +68,30 @@ const Earn: FC = () => {
     };
   });
 
+  if (error)
+    return (
+      <Box
+        height="100%"
+        display="flex"
+        alignItems="center"
+        flexDirection="column"
+        justifyContent="center"
+      >
+        <Box
+          mb="L"
+          width="10rem"
+          height="10rem"
+          color="error"
+          overflow="hidden"
+          borderRadius="50%"
+          border="0.3rem solid"
+        >
+          <TimesSVG width="100%" height="100%" />
+        </Box>
+        <Typography variant="title3">Error fetching the contracts</Typography>
+      </Box>
+    );
+
   return (
     <Box display="flex" flexDirection="column" height="100%">
       <EarnHeader />
@@ -76,14 +101,14 @@ const Earn: FC = () => {
           farms={data?.intPool || []}
           intPerBlock={data?.intPerBlock || ZERO}
           baseTokenPrice={data?.btcPrice || ZERO}
-          error={error}
+          loading={!data?.intPool.length && !error}
         />
         <EarnTable
           type={PoolType.Farm}
           farms={data?.farms || []}
           intPerBlock={data?.intPerBlock || ZERO}
           baseTokenPrice={data?.btcPrice || ZERO}
-          error={error}
+          loading={!data?.farms.length && !error}
         />
       </Box>
       <Faucet />

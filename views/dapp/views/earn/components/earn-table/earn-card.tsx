@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Skeleton from 'react-loading-skeleton';
 
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
@@ -10,6 +11,7 @@ const EarnCard: FC<EarnCardProps> = ({
   amount,
   shadow,
   button,
+  loading,
   amountUSD,
 }) => (
   <Box
@@ -27,23 +29,28 @@ const EarnCard: FC<EarnCardProps> = ({
   >
     <Box>
       <Typography
+        width={['10rem', '10rem', '10rem', '14rem']}
         variant="title4"
         fontWeight="400"
         mb={['L', 'L', 'L', 'XXL']}
         textAlign={['left', 'left', 'left', 'center']}
       >
-        {title}
+        {loading ? <Skeleton height="1.2rem" width="100%" /> : title}
       </Typography>
       <Box
         mb={['L', 'L', 'L', 'XL']}
         textAlign={['left', 'left', 'left', 'center']}
       >
-        <Typography variant="normal">{amount}</Typography>
-        <Typography variant="normal">{amountUSD}</Typography>
+        <Typography variant="normal" width="100%">
+          {loading ? <Skeleton height="1rem" width="100%" /> : amount}
+        </Typography>
+        <Typography variant="normal" width="100%">
+          {loading ? <Skeleton height="1rem" width="100%" /> : amountUSD}
+        </Typography>
       </Box>
     </Box>
     <Box textAlign="center" display="inline-block" ml={['M', 'M', 'M', 'NONE']}>
-      {button}
+      {loading ? <Skeleton height="2.5rem" width="8rem" /> : button}
     </Box>
   </Box>
 );

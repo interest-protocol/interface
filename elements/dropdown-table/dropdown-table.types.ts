@@ -14,7 +14,7 @@ type TItems = ReadonlyArray<ReactNode>;
 
 interface IRow {
   items: TItems;
-  dropdown: ReactNode;
+  dropdown?: ReactNode;
   sideContent?: ReactNode;
 }
 
