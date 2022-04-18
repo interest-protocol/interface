@@ -13,7 +13,7 @@ import {
   TypographyProps,
 } from 'styled-system';
 
-import { MaybeArray } from '../../interface';
+import { MaybeArray } from '@/interface';
 
 export interface BoxProps
   extends FlexboxProps,

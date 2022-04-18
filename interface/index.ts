@@ -19,3 +19,5 @@ export interface ICasaDePapelMinting {
   totalAllocationPoints: BigNumber;
   interestTokenPerBlock: BigNumber;
 }
+
+export type MaybeArray<T> = T | Array<T>;
