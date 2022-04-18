@@ -1,6 +1,6 @@
 import { FC, useMemo } from 'react';
 
-import { TOKEN_SYMBOL } from '@/constants/erc-20.data';
+import { TOKEN_SYMBOL } from '@/constants/erc-20';
 import { getBorrowFields, getRepayFields } from '@/utils/dinero-market';
 
 import BorrowForm from './components/borrow-form';

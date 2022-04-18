@@ -5,7 +5,7 @@ import DineroFaucetABI from '@/constants/abi/dinero-faucet.abi.json';
 import ERC20ABI from '@/constants/abi/erc-20.abi.json';
 import BTCABI from '@/constants/abi/test-btc.abi.json';
 import { DINERO_FAUCET } from '@/constants/contracts';
-import { BSC_TEST_ERC_20_DATA, TOKEN_SYMBOL } from '@/constants/erc-20.data';
+import { BSC_TEST_ERC_20_DATA, TOKEN_SYMBOL } from '@/constants/erc-20';
 
 import {
   DineroFaucetAbi,

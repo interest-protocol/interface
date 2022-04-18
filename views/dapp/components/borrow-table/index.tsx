@@ -5,7 +5,7 @@ import { v4 } from 'uuid';
 
 import { Container } from '@/components';
 import { CHAIN_ID } from '@/constants/chains';
-import { DINERO_MARKET_CONTRACTS } from '@/constants/dinero-market-contracts.data';
+import { DINERO_MARKET_CONTRACTS } from '@/constants/dinero-market-contracts';
 import { SECONDS_IN_A_YEAR } from '@/constants/index';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, Table, Typography } from '@/elements';

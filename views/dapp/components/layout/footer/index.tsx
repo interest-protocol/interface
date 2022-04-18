@@ -5,7 +5,7 @@ import { v4 } from 'uuid';
 
 import { Container, SocialMediaCard } from '@/components';
 import { Routes, RoutesEnum } from '@/constants/routes';
-import { SOCIAL_MEDIAS } from '@/constants/social-media.data';
+import { SOCIAL_MEDIAS } from '@/constants/social-media';
 import { Box, Button } from '@/elements';
 import { GitBookSVG } from '@/svg';
 

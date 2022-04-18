@@ -13,7 +13,7 @@ import {
   FAUCET_TOKENS,
   TOKEN_SYMBOL,
   TOKENS_SVG_MAP,
-} from '@/constants/erc-20.data';
+} from '@/constants/erc-20';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { LoadingSVG, TimesSVG } from '@/svg';

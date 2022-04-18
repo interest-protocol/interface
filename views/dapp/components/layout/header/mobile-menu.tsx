@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { SOCIAL_MEDIAS } from '@/constants/social-media.data';
+import { SOCIAL_MEDIAS } from '@/constants/social-media';
 import { Box, Dropdown, Typography } from '@/elements';
 import { BarsSVG, GitBookSVG } from '@/svg';
 

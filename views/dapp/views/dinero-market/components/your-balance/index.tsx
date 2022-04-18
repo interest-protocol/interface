@@ -2,7 +2,7 @@ import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
-import { TOKENS_SVG_MAP } from '@/constants/erc-20.data';
+import { TOKENS_SVG_MAP } from '@/constants/erc-20';
 import { Box, Typography } from '@/elements';
 import { formatMoney } from '@/utils';
 

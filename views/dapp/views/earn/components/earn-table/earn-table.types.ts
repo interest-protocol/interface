@@ -1,16 +1,16 @@
-import { FC, ReactNode, SVGAttributes } from 'react';
+import { BigNumber } from 'ethers';
+import { ReactNode } from 'react';
+import { SWRResponse } from 'swr';
 
-import { MaybeArray } from './../../../../../../interface/index';
-
-interface TCurrency {
-  name: string;
-  symbol: string;
-  Icon: MaybeArray<FC<SVGAttributes<SVGSVGElement>>>;
-}
+import { PoolType } from '@/constants/farms';
+import { FarmV2 } from '@/sdk/entities/farm-v2';
 
 export interface EarnTableProps {
-  title: 'FARMS' | 'STAKE';
-  currency: TCurrency;
+  type: PoolType;
+  farms: ReadonlyArray<FarmV2>;
+  error: SWRResponse['error'];
+  baseTokenPrice: BigNumber;
+  intPerBlock: BigNumber;
 }
 
 export interface EarnCardProps {
@@ -31,21 +31,3 @@ export interface EarnTableCollapsibleProps {
   earnedAmount: number;
   earnedAmountUSD: number;
 }
-
-export type TTableDataMock = (contract: 'stake' | 'farms') => {
-  error: null | Error;
-  data: ReadonlyArray<
-    | {
-        tvl: number;
-        apy: number;
-        apr: number;
-        earned: string;
-      }
-    | {
-        tvl: number;
-        apy: number;
-        apr: number;
-        earnedFee: string;
-      }
-  >;
-};

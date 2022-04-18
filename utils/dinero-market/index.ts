@@ -8,7 +8,7 @@ import {
   TOKEN_SYMBOL,
   TOKENS_SVG_MAP,
   UNKNOWN_ERC_20,
-} from '@/constants/erc-20.data';
+} from '@/constants/erc-20';
 import { SECONDS_IN_A_YEAR, ZERO } from '@/constants/index';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { Fraction } from '@/sdk/entities/fraction';

@@ -1,27 +1,36 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
-import { CHAIN_ID } from '@/constants/chains';
-import { DINERO_MARKET_CONTRACTS } from '@/constants/dinero-market-contracts.data';
+import {
+  BSC_TEST_ERC_20_DATA,
+  getFarmsSVG,
+  TOKEN_SYMBOL,
+} from '@/constants/erc-20';
+import { PoolType } from '@/constants/farms';
 import { Box, DropdownTable, Typography } from '@/elements';
 import { TimesSVG } from '@/svg';
-import { formatDollars } from '@/utils';
+import {
+  calculateAllocation,
+  calculateFarmBaseAPR,
+  calculateTVL,
+} from '@/utils/casa-de-papel';
 
 import { Loading } from '../../../../components';
-import { getEarnMockData } from './earn-table.mock';
 import { EarnTableProps } from './earn-table.types';
 import EarnTableCollapsible from './earn-table-collapsible';
 
 const EarnTable: FC<EarnTableProps> = ({
-  title,
-  currency: { name, Icon, symbol },
+  type,
+  farms,
+  error,
+  intPerBlock,
+  baseTokenPrice,
 }) => {
-  const { data, error } = getEarnMockData(
-    title.toLowerCase() as 'stake' | 'farms'
-  );
+  // TODO make tables with react skeleton
+  if (!farms.length && !error) return <Loading />;
 
+  // TODO Needs fixing when box boxes throw
   if (error)
     return (
       <Box
@@ -46,13 +55,13 @@ const EarnTable: FC<EarnTableProps> = ({
       </Box>
     );
 
-  if (!data) return <Loading />;
+  const isFarm = type === PoolType.Farm;
 
   return (
     <Box display="flex" flexDirection="column" flex="1">
       <Container dapp px="M" width="100%">
         <Typography variant="normal" mt="L">
-          {title === 'STAKE' ? 'POOL' : title}
+          {type === PoolType.Farm ? 'FARM' : 'POOL'}
         </Typography>
         <Box display={['none', 'none', 'none', 'block']}>
           <DropdownTable
@@ -66,12 +75,14 @@ const EarnTable: FC<EarnTableProps> = ({
                     textAlign="center"
                     display={['none', 'block']}
                   >
-                    Collateral
+                    Token
                   </Typography>
                 ),
               },
               {
-                tip: 'Total Value Locked',
+                tip: isFarm
+                  ? `Liquidity available in this market`
+                  : 'Total Value Locked',
                 item: (
                   <Typography
                     as="span"
@@ -79,12 +90,12 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    TVL
+                    {isFarm ? 'Liquidity' : 'TVL'}
                   </Typography>
                 ),
               },
               {
-                tip: 'Annual Percentage Yield<br/> (Compounded rate of return)',
+                tip: 'Annual Percentage Rate<br/> yearly interest generated',
                 item: (
                   <Typography
                     as="span"
@@ -92,82 +103,64 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    APY
+                    APR
                   </Typography>
                 ),
               },
               {
-                tip: 'The annual cost of a loan to a borrower, <br /> expressed as a percentage',
-                item: (
-                  <>
-                    Interest Cost <br />
-                    (APR)
-                  </>
-                ),
-              },
-              {
-                tip: 'A penalty fee charged to a borrower when his/her position is liquidated.<br />It is expressed as a percentage of the loan',
-                item: (
-                  <>
-                    Earned
-                    {title === 'FARMS' && (
-                      <>
-                        <br />
-                        Fee
-                      </>
-                    )}
-                  </>
-                ),
+                tip: 'It represents the % of Interest Token minted compared to to others pools.',
+                item: <>Allocation</>,
               },
             ]}
-            data={DINERO_MARKET_CONTRACTS[CHAIN_ID.BSC_TEST_NET].map(
-              (_, index) => ({
-                items: [
-                  <Box
-                    key={v4()}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                  >
-                    {Array.isArray(Icon) ? (
-                      <Box display="inline-flex">
-                        {Icon.map((SVG, index) => (
-                          <Box
-                            key={v4()}
-                            zIndex={Icon.length - index}
-                            ml={index != 0 ? '-0.5rem' : 'NONE'}
-                          >
-                            <SVG width="1.4rem" height="1.4rem" />
-                          </Box>
-                        ))}
+            data={farms.map((farm) => ({
+              items: [
+                <Box
+                  key={v4()}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Box display="inline-flex">
+                    {getFarmsSVG(farm.id).map((SVG, index) => (
+                      <Box
+                        key={v4()}
+                        zIndex={getFarmsSVG(farm.id).length - index}
+                        ml={index != 0 ? '-0.5rem' : 'NONE'}
+                      >
+                        <SVG width="1.6rem" height="1.6rem" />
                       </Box>
-                    ) : (
-                      <Icon width="1.4rem" height="1.4rem" />
-                    )}
-                    <Typography variant="normal" ml="M">
-                      {name}
-                    </Typography>
-                  </Box>,
-                  formatDollars(data[index].tvl),
-                  `${data[index].apy}%`,
-                  `${data[index].apr}%`,
-                  // @ts-ignore
-                  data[index].earned ?? data[index].earnedFee,
-                ],
-                dropdown: (
-                  <EarnTableCollapsible
-                    symbol={symbol}
-                    availableAmount={0.000000000001}
-                    availableAmountUSD={0.0001}
-                    stakeRequestApproval={title === 'FARMS'}
-                    stakedAmount={0.000000000001}
-                    stakedAmountUSD={0.0001}
-                    earnedAmount={title === 'FARMS' ? 0 : 0.000000000001}
-                    earnedAmountUSD={title === 'FARMS' ? 0 : 0.0001}
-                  />
+                    ))}
+                  </Box>
+                  <Typography variant="normal" ml="M">
+                    {farm.name}
+                  </Typography>
+                </Box>,
+                calculateTVL(
+                  baseTokenPrice,
+                  BSC_TEST_ERC_20_DATA[TOKEN_SYMBOL.BTC].address,
+                  farm
                 ),
-              })
-            )}
+                calculateFarmBaseAPR(
+                  intPerBlock,
+                  baseTokenPrice,
+                  BSC_TEST_ERC_20_DATA[TOKEN_SYMBOL.BTC].address,
+                  farm
+                ),
+                calculateAllocation(farm),
+              ],
+              dropdown: (
+                <EarnTableCollapsible
+                  symbol={farm.symbol}
+                  availableAmount={0.000000000001}
+                  availableAmountUSD={0.0001}
+                  stakeRequestApproval
+                  stakedAmount={0.000000000001}
+                  stakedAmountUSD={0.0001}
+                  earnedAmount={0}
+                  earnedAmountUSD={0}
+                />
+              ),
+            }))}
           />
         </Box>
         <Box display={['flex', 'flex', 'flex', 'none']} alignItems="center">
@@ -175,7 +168,9 @@ const EarnTable: FC<EarnTableProps> = ({
             key={v4()}
             headings={[
               {
-                tip: 'Total Value Locked',
+                tip: isFarm
+                  ? `Liquidity available in this market`
+                  : 'Total Value Locked',
                 item: (
                   <Typography
                     as="span"
@@ -183,12 +178,12 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    TVL
+                    {isFarm ? 'Liquidity' : 'TVL'}
                   </Typography>
                 ),
               },
               {
-                tip: 'Annual Percentage Yield<br/> (Compounded rate of return)',
+                tip: 'Annual Percentage Rate<br/> yearly interest generated',
                 item: (
                   <Typography
                     as="span"
@@ -196,90 +191,72 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    APY
+                    APR
                   </Typography>
                 ),
               },
               {
-                tip: 'The annual cost of a loan to a borrower, <br /> expressed as a percentage',
-                item: (
-                  <>
-                    Interest Cost <br />
-                    (APR)
-                  </>
-                ),
-              },
-              {
-                tip: 'A penalty fee charged to a borrower when his/her position is liquidated.<br />It is expressed as a percentage of the loan',
-                item: (
-                  <>
-                    Earned
-                    {title === 'FARMS' && (
-                      <>
-                        <br />
-                        Fee
-                      </>
-                    )}
-                  </>
-                ),
+                tip: 'It represents the % of Interest Token minted compared to to others pools.',
+                item: <>Allocation</>,
               },
             ]}
-            data={DINERO_MARKET_CONTRACTS[CHAIN_ID.BSC_TEST_NET].map(
-              (_, index) => ({
-                sideContent: (
-                  <Box
-                    key={v4()}
-                    display="flex"
-                    alignItems="center"
-                    flexDirection="column"
-                    justifyContent="center"
-                  >
-                    {Array.isArray(Icon) ? (
-                      <Box display="inline-flex">
-                        {Icon.map((SVG, index) => (
-                          <Box
-                            key={v4()}
-                            zIndex={Icon.length - index}
-                            ml={index != 0 ? '-0.5rem' : 'NONE'}
-                          >
-                            <SVG width="1.6rem" height="1.6rem" />
-                          </Box>
-                        ))}
+            data={farms.map((farm) => ({
+              sideContent: (
+                <Box
+                  key={v4()}
+                  display="flex"
+                  alignItems="center"
+                  flexDirection="column"
+                  justifyContent="center"
+                >
+                  <Box display="inline-flex">
+                    {getFarmsSVG(farm.id).map((SVG, index) => (
+                      <Box
+                        key={v4()}
+                        zIndex={getFarmsSVG(farm.id).length - index}
+                        ml={index != 0 ? '-0.5rem' : 'NONE'}
+                      >
+                        <SVG width="1.6rem" height="1.6rem" />
                       </Box>
-                    ) : (
-                      <Icon width="1.6rem" height="1.6rem" />
-                    )}
-                    <Typography
-                      mt="M"
-                      variant="normal"
-                      textAlign="center"
-                      whiteSpace="nowrap"
-                    >
-                      {name}
-                    </Typography>
+                    ))}
                   </Box>
+                  <Typography
+                    mt="M"
+                    variant="normal"
+                    textAlign="center"
+                    whiteSpace="nowrap"
+                  >
+                    {farm.name}
+                  </Typography>
+                </Box>
+              ),
+              items: [
+                calculateTVL(
+                  baseTokenPrice,
+                  BSC_TEST_ERC_20_DATA[TOKEN_SYMBOL.BTC].address,
+                  farm
                 ),
-                items: [
-                  formatDollars(data[index].tvl),
-                  `${data[index].apy}%`,
-                  `${data[index].apr}%`,
-                  // @ts-ignore
-                  data[index].earned ?? data[index].earnedFee,
-                ],
-                dropdown: (
-                  <EarnTableCollapsible
-                    symbol={symbol}
-                    availableAmount={0.000000000001}
-                    availableAmountUSD={0.0001}
-                    stakeRequestApproval={title === 'FARMS'}
-                    stakedAmount={0.000000000001}
-                    stakedAmountUSD={0.0001}
-                    earnedAmount={title === 'FARMS' ? 0 : 0.000000000001}
-                    earnedAmountUSD={title === 'FARMS' ? 0 : 0.0001}
-                  />
+                calculateFarmBaseAPR(
+                  intPerBlock,
+                  baseTokenPrice,
+                  BSC_TEST_ERC_20_DATA[TOKEN_SYMBOL.BTC].address,
+                  farm
                 ),
-              })
-            )}
+                calculateAllocation(farm),
+              ],
+              dropdown: (
+                <EarnTableCollapsible
+                  symbol={farm.symbol}
+                  availableAmount={0.000000000001}
+                  availableAmountUSD={0.0001}
+                  stakeRequestApproval
+                  stakedAmount={0.000000000001}
+                  stakedAmountUSD={0.0001}
+                  earnedAmount={0}
+                  earnedAmountUSD={0}
+                />
+              ),
+            }))}
           />
         </Box>
       </Container>
