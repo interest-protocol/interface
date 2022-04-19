@@ -127,14 +127,8 @@ const EarnTable: FC<EarnTableProps> = ({
                     ],
                     dropdown: (
                       <EarnTableCollapsible
-                        symbol={farm.symbol}
-                        availableAmount={0.000000000001}
-                        availableAmountUSD={0.0001}
-                        stakeRequestApproval
-                        stakedAmount={0.000000000001}
-                        stakedAmountUSD={0.0001}
-                        earnedAmount={0}
-                        earnedAmountUSD={0}
+                        farm={farm}
+                        baseTokenPrice={baseTokenPrice}
                       />
                     ),
                   }))
@@ -228,14 +222,8 @@ const EarnTable: FC<EarnTableProps> = ({
                     ],
                     dropdown: (
                       <EarnTableCollapsible
-                        symbol={farm.symbol}
-                        availableAmount={0.000000000001}
-                        availableAmountUSD={0.0001}
-                        stakeRequestApproval
-                        stakedAmount={0.000000000001}
-                        stakedAmountUSD={0.0001}
-                        earnedAmount={0}
-                        earnedAmountUSD={0}
+                        farm={farm}
+                        baseTokenPrice={baseTokenPrice}
                       />
                     ),
                   }))

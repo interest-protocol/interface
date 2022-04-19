@@ -22,12 +22,18 @@ export interface EarnCardProps {
 }
 
 export interface EarnTableCollapsibleProps {
-  symbol: string;
-  availableAmount: number;
-  availableAmountUSD: number;
-  stakedAmount: number;
-  stakedAmountUSD: number;
-  stakeRequestApproval?: boolean;
-  earnedAmount: number;
-  earnedAmountUSD: number;
+  baseTokenPrice: EarnTableProps['baseTokenPrice'];
+  farm: FarmV2;
+}
+
+interface IUserData {
+  stakingAmount: BigNumber;
+  pendingRewards: BigNumber;
+}
+
+export interface IEarnTableData {
+  lpBalance: BigNumber;
+  totalSupply: BigNumber;
+  userData: IUserData;
+  allowance: BigNumber;
 }

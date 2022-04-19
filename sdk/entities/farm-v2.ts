@@ -89,6 +89,9 @@ export class FarmV2 {
     if (getAddress(address) === getAddress(this.token0.address))
       return this.reserve0;
 
-    return this.reserve1;
+    if (getAddress(address) === getAddress(this.token1.address))
+      return this.reserve1;
+
+    return BigNumber.from(0);
   }
 }

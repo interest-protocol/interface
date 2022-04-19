@@ -1,25 +1,21 @@
 import { FC, useMemo } from 'react';
 import { v4 } from 'uuid';
 
+import { getFarmsSVG } from '@/constants/erc-20';
 import { Box, Button, Modal, Typography } from '@/elements';
+import { IntMath } from '@/sdk/entities/int-math';
 import { TimesSVG } from '@/svg';
-import { formatMoney } from '@/utils';
 
-import {
-  TOKENS_CURRENCY,
-  TOKENS_ICONS,
-  VALID_TOKENS,
-} from './earn-stake-moda.data';
-import { EarnStakeModalProps, TToken } from './earn-stake-modal.types';
+import { EarnStakeModalProps } from './earn-stake-modal.types';
 import InputStake from './input-stake';
 
 const EarnStakeModal: FC<EarnStakeModalProps> = ({
   modal,
-  token,
+  symbol,
   handleClose,
+  id,
+  balance,
 }) => {
-  const balance = 0.00055555;
-
   const { isOpen, isStake } = useMemo(
     () => ({
       isOpen: modal === 'stake' || modal === 'unstake',
@@ -28,9 +24,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
     [modal]
   );
 
-  if (isOpen && !VALID_TOKENS.includes(token as TToken)) handleClose();
-
-  const Icon = TOKENS_ICONS[token as TToken];
+  const Icon = getFarmsSVG(id);
 
   return (
     <Modal
@@ -72,29 +66,25 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
           </Box>
         </Box>
         <Typography variant="normal" textAlign="center" fontSize="L">
-          {isStake ? 'Stake' : 'Unstake'} {token} token
+          {isStake ? 'Stake' : 'Unstake'} {symbol} token
         </Typography>
         <Box mt="XL">
           <InputStake
             currencyPrefix={
               <Box display="flex" alignItems="center">
-                {Array.isArray(Icon) ? (
-                  <Box display="inline-flex">
-                    {Icon.map((SVG, index) => (
-                      <Box
-                        key={v4()}
-                        zIndex={Icon.length - index}
-                        ml={index != 0 ? '-0.5rem' : 'NONE'}
-                      >
-                        <SVG width="1.6rem" height="1.6rem" />
-                      </Box>
-                    ))}
-                  </Box>
-                ) : (
-                  <Icon width="1.6rem" height="1.6rem" />
-                )}
+                <Box display="inline-flex">
+                  {Icon.map((SVG, index) => (
+                    <Box
+                      key={v4()}
+                      zIndex={Icon.length - index}
+                      ml={index != 0 ? '-0.5rem' : 'NONE'}
+                    >
+                      <SVG width="1.6rem" height="1.6rem" />
+                    </Box>
+                  ))}
+                </Box>
                 <Typography variant="normal" ml="M">
-                  {TOKENS_CURRENCY[token as TToken]}
+                  {symbol}
                 </Typography>
               </Box>
             }
@@ -107,10 +97,10 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
           </Typography>
           <Box display="flex" justifyContent="space-between">
             <Typography variant="normal" my="L">
-              {token} Token
+              {symbol} Token
             </Typography>
             <Typography variant="normal" my="L">
-              {formatMoney(balance)} {token}
+              {IntMath.toNumber(balance)} {symbol}
             </Typography>
           </Box>
         </Box>

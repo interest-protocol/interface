@@ -1,9 +1,8 @@
 import { Web3Provider } from '@ethersproject/providers';
-import { BigNumber } from 'ethers';
+import { BigNumber, ContractTransaction } from 'ethers';
 
 import { FarmV2 } from '@/sdk/entities/farm-v2';
 import { IntMath } from '@/sdk/entities/int-math';
-import { calculateAllocation } from '@/utils/casa-de-papel/index';
 
 export type TGetCasaDePapelMintData = (provider: Web3Provider) => Promise<{
   totalAllocationPoints: BigNumber;
@@ -42,3 +41,22 @@ export type TCalculateFarmBaseAPR = (
 ) => string;
 
 export type TCalculateAllocation = (farm: FarmV2) => string;
+
+export type TCalculateFarmTokenPrice = (
+  basePrice: BigNumber,
+  farm: FarmV2,
+  totalSupply: BigNumber
+) => IntMath;
+
+export type TGetRewards = (
+  provider: Web3Provider,
+  account: string,
+  id: number
+) => Promise<ContractTransaction>;
+
+export type TManageLP = (
+  provider: Web3Provider,
+  account: string,
+  id: number,
+  amount: BigNumber
+) => Promise<ContractTransaction>;

@@ -13,6 +13,20 @@ import {
   TestBtcAbi,
 } from '../../types/ethers-contracts';
 
+export const getAllowance = (
+  account: string,
+  spender: string,
+  erc20Contract: string,
+  provider: Web3Provider
+): Promise<BigNumber> => {
+  const erc20 = new ethers.Contract(
+    erc20Contract,
+    ERC20ABI,
+    provider
+  ) as Erc20Abi;
+  return erc20.allowance(account, spender);
+};
+
 export const addAllowance = (
   account: string,
   erc20Contract: string,
@@ -25,6 +39,19 @@ export const addAllowance = (
     provider.getSigner(account)
   ) as Erc20Abi;
   return erc20.approve(spender, ethers.constants.MaxUint256);
+};
+
+export const getERC20TotalSupply = (
+  erc20Contract: string,
+  provider: Web3Provider
+): Promise<BigNumber> => {
+  const erc20 = new ethers.Contract(
+    erc20Contract,
+    ERC20ABI,
+    provider
+  ) as Erc20Abi;
+
+  return erc20.totalSupply();
 };
 
 export const getERC20Balance = (

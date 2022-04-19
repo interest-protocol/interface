@@ -1,20 +1,11 @@
-import { MaybeArray } from 'interface';
-import { FC, SVGAttributes } from 'react';
+import { BigNumber } from 'ethers';
 
-export type TToken = 'INT' | 'LP';
-
-export type TValidTokens = ReadonlyArray<TToken>;
-
-export type TTokenCurrency = Record<TToken, string>;
-
-export type TTokenIcons = Record<
-  TToken,
-  MaybeArray<FC<SVGAttributes<SVGSVGElement>>>
->;
+import { PoolId } from '@/constants/farms';
 
 export interface EarnStakeModalProps {
-  token: TToken;
-  balance: number;
+  symbol: string;
+  balance: BigNumber;
   handleClose: () => void;
   modal: 'stake' | 'unstake' | undefined;
+  id: PoolId;
 }
