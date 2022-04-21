@@ -1,8 +1,10 @@
 import { BigNumber } from 'ethers';
 import { FC, useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 import useSWR from 'swr';
 
 import priorityHooks from '@/connectors/index';
+import { CHAIN_ID, CHAINS } from '@/constants/chains';
 import { CASA_DE_PAPEL } from '@/constants/contracts';
 import { ZERO } from '@/constants/index';
 import Box from '@/elements/box';
@@ -48,9 +50,9 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
   const account = usePriorityAccount();
 
   const [modal, setModal] = useState<'stake' | 'unstake' | undefined>();
-  const [stakedApproved, setStakedApproved] = useState(false);
+  const [stakedApproved, setStakedApproved] = useState(true);
 
-  const { data, error } = useSWR(
+  const { data, error, mutate } = useSWR(
     `EarnTableCollapsible-${account}`,
     async () => {
       if (!provider || !account) return;
@@ -75,62 +77,119 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
     }
   );
 
-  const handleApprove = async () => {
-    if (!account || !provider) return;
-    try {
-      const tx = await addAllowance(
-        account,
-        farm.stakingToken.address,
-        provider,
-        CASA_DE_PAPEL
-      );
+  const loading = useMemo(() => !error && !data, [error, data]);
 
-      await tx.wait(2);
+  const processedData = useMemo(() => processData(data), [data]);
 
-      // send modal with bsc scan test net
-      setStakedApproved(true);
-    } catch {
-      // handle error modal etc...
-    }
-  };
+  const handleApprove = () =>
+    toast.promise(
+      (async () => {
+        if (!account || !provider) return;
+        try {
+          const tx = await addAllowance(
+            account,
+            farm.stakingToken.address,
+            provider,
+            CASA_DE_PAPEL
+          );
 
-  const handleHarvest = async () => {
-    if (!account || !provider || processedData.userData.pendingRewards.isZero())
-      return;
+          const receipt = await tx.wait(2);
 
-    try {
-      const tx = await getRewards(provider, account, farm.id);
+          // send modal with bsc scan test net
+          const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
 
-      await tx.wait(2);
+          toast(
+            <a
+              target="__black"
+              rel="noreferrer nofollow"
+              href={`${explorer ? explorer[0] : ''}/tx/${
+                receipt.transactionHash
+              }`}
+            >
+              Check on Explorer
+            </a>
+          );
+          mutate();
+          setStakedApproved(true);
+        } catch (e) {
+          throw e || new Error('Something went wrong');
+        }
+      })(),
+      {
+        loading: 'Loading...',
+        success: 'Success',
+        error: (e) => e.message,
+      }
+    );
 
-      // show modal with bsc test net link
-    } catch {
-      // handle error modal etc...
-    }
-  };
+  const handleHarvest = () =>
+    toast.promise(
+      (async () => {
+        if (
+          !account ||
+          !provider ||
+          processedData.userData.pendingRewards.isZero()
+        )
+          return;
+
+        try {
+          const tx = await getRewards(provider, account, farm.id);
+
+          const receipt = await tx.wait(2);
+
+          const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
+
+          toast(
+            <a
+              target="__black"
+              rel="noreferrer nofollow"
+              href={`${explorer ? explorer[0] : ''}/tx/${
+                receipt.transactionHash
+              }`}
+            >
+              Check on Explorer
+            </a>
+          );
+          mutate();
+        } catch (e) {
+          throw e || new Error('Something went wrong');
+        }
+      })(),
+      {
+        loading: 'Loading...',
+        success: 'Success',
+        error: (e) => e.message,
+      }
+    );
 
   const handleCloseModal = () => setModal(undefined);
 
   const handleChangeModal = (target: 'stake' | 'unstake') => () =>
     setModal(target);
 
-  // TODO need to take care of error case
-
-  const loading = !error && !data;
-
-  const processedData = useMemo(() => processData(data), [data]);
-
-  // Amount needs to come from the input or press max button i assume
   const handleDepositTokens = async (amount: BigNumber) => {
     if (!account || !provider || processedData.lpBalance.isZero()) return;
 
     try {
       const tx = await depositLP(provider, account, farm.id, amount);
 
-      await tx.wait(2);
+      const receipt = await tx.wait(2);
 
-      // send Modal
-    } catch (e) {}
+      const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
+
+      toast(
+        <a
+          target="__black"
+          rel="noreferrer nofollow"
+          href={`${explorer ? explorer[0] : ''}/tx/${receipt.transactionHash}`}
+        >
+          Check on Explorer
+        </a>
+      );
+      mutate();
+    } catch (e) {
+      throw e || new Error('Something Went Wrong');
+    }
   };
 
   // Amount needs to come from the input or press max button i assume
@@ -141,11 +200,38 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
     try {
       const tx = await withdrawLP(provider, account, farm.id, amount);
 
-      await tx.wait(2);
+      const receipt = await tx.wait(2);
 
-      // send Modal
-    } catch (e) {}
+      const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
+
+      toast(
+        <a
+          target="__black"
+          rel="noreferrer nofollow"
+          href={`${explorer ? explorer[0] : ''}/tx/${receipt.transactionHash}`}
+        >
+          Check on Explorer
+        </a>
+      );
+      mutate();
+    } catch (e) {
+      throw e || new Error('Something Went Wrong');
+    }
   };
+
+  const handleUnstake = (value: BigNumber) =>
+    toast.promise(handleWithdrawTokens(value), {
+      loading: 'Loading...',
+      success: 'Success!',
+      error: (e) => e.message,
+    });
+
+  const handleStake = (value: BigNumber) =>
+    toast.promise(handleDepositTokens(value), {
+      loading: 'Loading...',
+      success: 'Success!',
+      error: (e) => e.message,
+    });
 
   return (
     <Box
@@ -244,7 +330,11 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         }`}
         button={
           <Button
-            onClick={handleHarvest}
+            onClick={
+              !processedData.userData.pendingRewards.isZero()
+                ? handleHarvest
+                : undefined
+            }
             variant="primary"
             disabled={processedData.userData.pendingRewards.isZero()}
             bg={
@@ -269,6 +359,8 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
       />
       <EarnStakeModal
         modal={modal}
+        onStake={handleStake}
+        onUnstake={handleUnstake}
         balance={processedData.lpBalance}
         handleClose={handleCloseModal}
         symbol={farm.symbol}

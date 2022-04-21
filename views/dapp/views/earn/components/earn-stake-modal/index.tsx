@@ -1,4 +1,5 @@
 import { FC, useMemo } from 'react';
+import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
 
 import { getFarmsSVG } from '@/constants/erc-20';
@@ -10,12 +11,20 @@ import { EarnStakeModalProps } from './earn-stake-modal.types';
 import InputStake from './input-stake';
 
 const EarnStakeModal: FC<EarnStakeModalProps> = ({
+  id,
   modal,
   symbol,
-  handleClose,
-  id,
   balance,
+  onStake,
+  onUnstake,
+  handleClose,
 }) => {
+  const { handleSubmit, setValue, register } = useForm({
+    defaultValues: {
+      value: 0,
+    },
+  });
+
   const { isOpen, isStake } = useMemo(
     () => ({
       isOpen: modal === 'stake' || modal === 'unstake',
@@ -25,6 +34,12 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
   );
 
   const Icon = getFarmsSVG(id);
+
+  const onSubmit = ({ value }: { value: number }) => {
+    isStake
+      ? onStake(IntMath.toBigNumber(value))
+      : onUnstake(IntMath.toBigNumber(value));
+  };
 
   return (
     <Modal
@@ -39,10 +54,12 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
       <Box
         py="L"
         px="XL"
+        as="form"
         color="text"
         bg="foreground"
         borderRadius="L"
         minWidth="20rem"
+        onSubmit={handleSubmit(onSubmit)}
       >
         <Box display="flex" justifyContent="flex-end">
           <Box
@@ -70,6 +87,9 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
         </Typography>
         <Box mt="XL">
           <InputStake
+            register={register}
+            setValue={setValue}
+            balance={balance.toNumber()}
             currencyPrefix={
               <Box display="flex" alignItems="center">
                 <Box display="inline-flex">

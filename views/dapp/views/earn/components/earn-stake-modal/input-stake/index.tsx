@@ -4,7 +4,13 @@ import { Box, Button, Input, Typography } from '@/elements';
 
 import { InputStakeProps } from './input-stake.types';
 
-const InputStake: FC<InputStakeProps> = ({ label, currencyPrefix }) => (
+const InputStake: FC<InputStakeProps> = ({
+  label,
+  balance,
+  register,
+  setValue,
+  currencyPrefix,
+}) => (
   <Box mb="L">
     <Typography as="label" fontSize="S" variant="normal" display="inline-block">
       {label}:
@@ -13,6 +19,7 @@ const InputStake: FC<InputStakeProps> = ({ label, currencyPrefix }) => (
       min="0"
       type="number"
       step="0.0001"
+      {...register('value')}
       placeholder={'0'}
       shieldProps={{
         p: 'S',
@@ -37,6 +44,7 @@ const InputStake: FC<InputStakeProps> = ({ label, currencyPrefix }) => (
             bg="bottomBackground"
             hover={{ bg: 'accent' }}
             active={{ bg: 'accentActive' }}
+            onClick={() => setValue('value', balance)}
           >
             max
           </Button>
