@@ -168,7 +168,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
 
       const estimatedPrincipal = loanElasticToPrincipal(
         data.market.totalLoan,
-        IntMath.toBigNumber(loan),
+        IntMath.toBigNumber(`${loan}`),
         data.market.loan
       );
 
@@ -181,7 +181,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
           DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
           provider,
           account,
-          IntMath.toBigNumber(collateral),
+          IntMath.toBigNumber(`${collateral}`),
           principal
         );
 
@@ -209,7 +209,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
           DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
           provider,
           account,
-          IntMath.toBigNumber(collateral)
+          IntMath.toBigNumber(`${collateral}}`)
         );
 
         const receipt = await tx.wait(2);
@@ -278,8 +278,8 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
           DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
           provider,
           account,
-          IntMath.toBigNumber(collateral),
-          IntMath.toBigNumber(loan)
+          IntMath.toBigNumber(`${collateral}`),
+          IntMath.toBigNumber(`${loan}`)
         );
 
         const receipt = await tx.wait(2);
@@ -306,7 +306,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
           DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
           provider,
           account,
-          IntMath.toBigNumber(collateral)
+          IntMath.toBigNumber(`${collateral}`)
         );
 
         const receipt = await tx.wait(2);
@@ -332,7 +332,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ currency, mode }) => {
           DINERO_MARKET_CONTRACTS_MAP[chainId][currency],
           provider,
           account,
-          IntMath.toBigNumber(loan)
+          IntMath.toBigNumber(`${loan}`)
         );
 
         const receipt = await tx.wait(2);

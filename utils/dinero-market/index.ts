@@ -454,7 +454,7 @@ export const getRepayPositionHealthData: TGetRepayPositionHealthData = (
 ) => {
   if (!data) return ['0', '0', '0'];
 
-  const repay = IntMath.from(IntMath.toBigNumber(loan));
+  const repay = IntMath.from(IntMath.toBigNumber(`${loan}`));
 
   const elasticLoan = loanPrincipalToElastic(
     data.market.totalLoan,
@@ -467,7 +467,7 @@ export const getRepayPositionHealthData: TGetRepayPositionHealthData = (
     : elasticLoan.sub(repay);
 
   const newCollateral = data.market.userCollateral.sub(
-    IntMath.toBigNumber(collateral)
+    IntMath.toBigNumber(`${collateral}`)
   );
 
   return getPositionHealthDataInternal(
@@ -488,10 +488,10 @@ export const getBorrowPositionHealthData: TGetBorrowPositionHealthData = (
     data.market.userLoan,
     data.market.loan
   )
-    .add(IntMath.toBigNumber(loan))
+    .add(IntMath.toBigNumber(`${loan}`))
     .value();
   const newCollateral = data.market.userCollateral.add(
-    IntMath.toBigNumber(collateral)
+    IntMath.toBigNumber(`${collateral}`)
   );
 
   return getPositionHealthDataInternal(
