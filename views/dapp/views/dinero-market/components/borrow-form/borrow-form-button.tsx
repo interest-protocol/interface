@@ -33,9 +33,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
       borrowLoan &&
       parseEther(borrowLoan).gt(
         convertCollateralToDinero(
-          data.market.userCollateral.add(
-            IntMath.toBigNumber(`${borrowCollateral}`)
-          ),
+          data.market.userCollateral.add(IntMath.toBigNumber(borrowCollateral)),
           data.market.ltvRatio,
           data.market.exchangeRate
         )

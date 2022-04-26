@@ -43,9 +43,9 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
       'borrow.loan',
       calculateBorrowAmount({
         ...data.market,
-        ltvRatio: IntMath.toBigNumber(`${intendedLTV}`, 16),
+        ltvRatio: IntMath.toBigNumber(intendedLTV, 16),
         userCollateral: data.market.userCollateral.add(
-          IntMath.toBigNumber(`${borrowCollateral}`)
+          IntMath.toBigNumber(borrowCollateral)
         ),
       })
         .toNumber()
@@ -61,7 +61,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
       intendedLTV === 100
         ? IntMath.from(data.balances[1].numerator).toNumber().toString()
         : IntMath.from(data.balances[1].numerator)
-            .mul(IntMath.toBigNumber(`${intendedLTV / 100}`))
+            .mul(IntMath.toBigNumber(intendedLTV / 100))
             .toNumber()
             .toString()
     );
@@ -91,8 +91,8 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
 
       return calculateUserCurrentLTV(
         data.market,
-        IntMath.toBigNumber(`${borrowCollateral}`),
-        IntMath.toBigNumber(`${borrowLoan}`)
+        IntMath.toBigNumber(borrowCollateral),
+        IntMath.toBigNumber(borrowLoan)
       ).gte(data.market.ltvRatio);
     },
     [
