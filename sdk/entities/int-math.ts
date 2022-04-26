@@ -43,7 +43,7 @@ export class IntMath {
       return ZERO;
     if (value == null || isNaN(+value)) return ZERO;
 
-    return BigNumber.from(BigInt(value) * BigInt(factor)).mul(
+    return BigNumber.from(BigInt(value.toString()) * BigInt(factor)).mul(
       BigNumber.from(10).pow(decimals - significant)
     );
   }
