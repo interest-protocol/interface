@@ -2,18 +2,18 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
+import { Box, DropdownTable, Typography } from '@/elements';
 import {
   BSC_TEST_ERC_20_DATA,
   getFarmsSVG,
   TOKEN_SYMBOL,
-} from '@/constants/erc-20';
-import { PoolType } from '@/constants/farms';
-import { Box, DropdownTable, Typography } from '@/elements';
+} from '@/sdk/../../../../../../constants/erc-20';
+import { PoolType } from '@/sdk/../../../../../../constants/farms';
 import {
   calculateAllocation,
   calculateFarmBaseAPR,
   calculateTVL,
-} from '@/utils/casa-de-papel';
+} from '@/sdk/../../../../../../utils/casa-de-papel';
 
 import {
   DesktopEarnSkeletonRow,

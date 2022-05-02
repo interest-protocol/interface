@@ -3,9 +3,9 @@ import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
+import { formatDollars } from '@/sdk/../../../../../../utils';
 import { IntMath } from '@/sdk/entities/int-math';
 import { InfoSVG } from '@/svg';
-import { formatDollars } from '@/utils';
 
 import { MY_POSITION } from '../../dinero-market.data';
 import { MyOpenPositionProps } from './my-open-position.types';

@@ -1,9 +1,9 @@
 import { ethers } from 'ethers';
 
-import BTCDineroMarketABI from '@/constants/abi/btc-dinero-market.abi.json';
-import { CHAIN_ID } from '@/constants/chains';
-import { DINERO_MARKET_CONTRACTS_MAP } from '@/constants/dinero-market-contracts';
-import { TOKEN_SYMBOL } from '@/constants/erc-20';
+import { CHAIN_ID } from '@/sdk/../../../constants/chains';
+import { DINERO_MARKET_CONTRACTS_MAP } from '@/sdk/../../../constants/dinero-market-contracts';
+import { TOKEN_SYMBOL } from '@/sdk/../../../constants/erc-20';
+import BTCDineroMarketABI from '@/sdk/abi/btc-dinero-market.abi.json';
 
 import { BtcDineroMarketAbi } from '../../types/ethers-contracts';
 import { TGetBTCPrice } from './price.types';

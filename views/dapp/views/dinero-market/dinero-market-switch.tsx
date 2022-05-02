@@ -4,7 +4,7 @@ import { FieldPath } from 'react-hook-form';
 
 import { Switch } from '@/components';
 import { ISwitchOption } from '@/components/switch/switch.types';
-import { Routes, RoutesEnum } from '@/constants/routes';
+import { Routes, RoutesEnum } from '@/sdk/../../../../constants/routes';
 
 import { BORROW_DEFAULT_VALUES } from './dinero-market.data';
 import { DineroMarketSwitchProps } from './dinero-market.types';

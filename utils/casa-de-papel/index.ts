@@ -1,10 +1,13 @@
 import { ethers } from 'ethers';
 
-import CasaDePapelABI from '@/constants/abi/casa-de-papel.abi.json';
-import { CHAIN_ID } from '@/constants/chains';
-import { CASA_DE_PAPEL } from '@/constants/contracts';
-import { BSC_TEST_ERC_20_DATA, TOKEN_SYMBOL } from '@/constants/erc-20';
-import { BLOCKS_PER_YEAR } from '@/constants/index';
+import { CHAIN_ID } from '@/sdk/../../../constants/chains';
+import { CASA_DE_PAPEL } from '@/sdk/../../../constants/contracts';
+import {
+  BSC_TEST_ERC_20_DATA,
+  TOKEN_SYMBOL,
+} from '@/sdk/../../../constants/erc-20';
+import { BLOCKS_PER_YEAR } from '@/sdk/../../../constants/index';
+import CasaDePapelABI from '@/sdk/abi/casa-de-papel.abi.json';
 import { IntMath } from '@/sdk/entities/int-math';
 import { formatDollars } from '@/utils';
 

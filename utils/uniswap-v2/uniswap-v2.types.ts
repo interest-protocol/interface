@@ -9,9 +9,3 @@ export type TGetReserves = (
   reserve1: BigNumber;
   blockTimestampLast: number;
 }>;
-
-export type TQuote = (
-  amountA: BigNumber,
-  reserveA: BigNumber,
-  reserveB: BigNumber
-) => BigNumber;

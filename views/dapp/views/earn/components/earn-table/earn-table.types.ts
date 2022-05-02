@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers';
 import { ReactNode } from 'react';
 
-import { PoolType } from '@/constants/farms';
+import { PoolType } from '@/sdk/../../../../../../constants/farms';
 import { FarmV2 } from '@/sdk/entities/farm-v2';
 
 export interface EarnTableProps {

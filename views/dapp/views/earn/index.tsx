@@ -2,18 +2,21 @@ import { FC } from 'react';
 import useSWR from 'swr';
 
 import priorityHooks from '@/connectors/index';
+import { Box, Typography } from '@/elements';
 import {
   PCS_V2_PAIR_BTC_DNR,
   PCS_V2_PAIR_BTC_INT,
-} from '@/constants/contracts';
-import { FARMS, PoolId, PoolType } from '@/constants/farms';
-import { ZERO } from '@/constants/index';
-import { Box, Typography } from '@/elements';
+} from '@/sdk/../../../../constants/contracts';
+import { FARMS, PoolId, PoolType } from '@/sdk/../../../../constants/farms';
+import { ZERO } from '@/sdk/../../../../constants/index';
+import {
+  getCasaDePapelMintData,
+  getPoolData,
+} from '@/sdk/../../../../utils/casa-de-papel';
+import { getBTCPrice } from '@/sdk/../../../../utils/price';
+import { getReserves } from '@/sdk/../../../../utils/uniswap-v2';
 import { FarmV2 } from '@/sdk/entities/farm-v2';
 import { TimesSVG } from '@/svg';
-import { getCasaDePapelMintData, getPoolData } from '@/utils/casa-de-papel';
-import { getBTCPrice } from '@/utils/price';
-import { getReserves } from '@/utils/uniswap-v2';
 
 import { Faucet } from '../../components';
 import Web3Manager from '../../web3-manager';

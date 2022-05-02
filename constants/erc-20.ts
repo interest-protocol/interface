@@ -1,24 +1,19 @@
 import { ethers } from 'ethers';
 import { FC, SVGAttributes } from 'react';
 
-import { CHAIN_ID } from '@/constants/chains';
+import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk/constants';
 import { ERC20 } from '@/sdk/entities/erc-20';
 import { BitcoinSVG, DineroSVG, EthereumSVG, InterestTokenSVG } from '@/svg';
-
-export enum TOKEN_SYMBOL {
-  BTC = 'BTC',
-  DNR = 'DNR',
-  INT = 'Int',
-}
+import { getBTCAddress, getDNRAddress, getIntAddress } from '@/utils/contracts';
 
 export const FAUCET_TOKENS = [
   {
     symbol: TOKEN_SYMBOL.BTC,
-    address: '0x954f3A4aeC237D311839d6E0274c0aC8Be13d1b1',
+    address: getBTCAddress(CHAIN_ID.BSC_TEST_NET),
   },
   {
     symbol: TOKEN_SYMBOL.DNR,
-    address: '0x57486681D2E0Bc9B0494446b8c5df35cd20D4E92',
+    address: getDNRAddress(CHAIN_ID.BSC_TEST_NET),
   },
 ];
 
@@ -49,32 +44,26 @@ const BSC_TEST_ERC20_ARRAY = [
     symbol: TOKEN_SYMBOL.BTC,
     decimals: 18,
     name: 'Bitcoin',
-    address: '0x954f3A4aeC237D311839d6E0274c0aC8Be13d1b1',
+    address: getBTCAddress(CHAIN_ID.BSC_TEST_NET),
   },
   {
     symbol: TOKEN_SYMBOL.DNR,
     decimals: 18,
     name: 'Dinero',
-    address: '0x57486681D2E0Bc9B0494446b8c5df35cd20D4E92',
+    address: getDNRAddress(CHAIN_ID.BSC_TEST_NET),
   },
   {
     symbol: TOKEN_SYMBOL.INT,
     decimals: 18,
     name: 'Interest Token',
-    address: '0x0D7747F1686d67824dc5a299AAc09F438dD6aef2',
-  },
-  {
-    symbol: TOKEN_SYMBOL.INT,
-    decimals: 18,
-    name: 'Interest Token',
-    address: '0x0D7747F1686d67824dc5a299AAc09F438dD6aef2',
+    address: getIntAddress(CHAIN_ID.BSC_TEST_NET),
   },
 ];
 
-export const BSC_TEST_ERC_20_DATA = BSC_TEST_ERC20_ARRAY.reduce(
+const BSC_TEST_ERC_20_DATA = BSC_TEST_ERC20_ARRAY.reduce(
   (acc, data) => ({
     ...acc,
-    [data.symbol]: ERC20.from(
+    [ethers.utils.getAddress(data.address)]: ERC20.from(
       data.address,
       CHAIN_ID.BSC_TEST_NET,
       data.name,
@@ -85,7 +74,8 @@ export const BSC_TEST_ERC_20_DATA = BSC_TEST_ERC20_ARRAY.reduce(
   {} as { [key: string]: ERC20 }
 );
 
-export const UNKNOWN_ERC_20 = ERC20.from(ethers.constants.AddressZero, 0);
+export const ERC_20_DATA = {
+  [CHAIN_ID.BSC_TEST_NET]: BSC_TEST_ERC_20_DATA,
+};
 
-export const makePCSLpToken = (address: string): ERC20 =>
-  ERC20.from(address, CHAIN_ID.BSC_TEST_NET, 'Pancake LPs', 'Cake-LP', 18);
+export const UNKNOWN_ERC_20 = ERC20.from(ethers.constants.AddressZero, 0);

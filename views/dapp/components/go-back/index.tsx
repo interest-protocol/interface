@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
-import { Routes, RoutesEnum } from '@/constants/routes';
 import { Typography } from '@/elements';
+import { Routes, RoutesEnum } from '@/sdk/../../../../constants/routes';
 
 const GoBack: FC = () => {
   const { pathname, push } = useRouter();

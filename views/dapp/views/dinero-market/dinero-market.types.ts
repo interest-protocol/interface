@@ -1,7 +1,7 @@
 import { ContractTransaction } from 'ethers';
 import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
-import { MarketAndBalancesData } from '@/utils/dinero-market/dinero-market.types';
+import { MarketAndBalancesData } from '@/sdk/../../../../utils/dinero-market/dinero-market.types';
 
 export interface DineroMarketProps {
   currency: string;

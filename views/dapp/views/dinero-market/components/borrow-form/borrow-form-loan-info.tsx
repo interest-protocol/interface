@@ -4,11 +4,11 @@ import { v4 } from 'uuid';
 
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
-import { InfoSVG } from '@/svg';
 import {
   getBorrowPositionHealthData,
   getRepayPositionHealthData,
-} from '@/utils/dinero-market';
+} from '@/sdk/../../../../../../utils/dinero-market';
+import { InfoSVG } from '@/svg';
 
 import { BorrowFormLoanInfoProps } from './borrow-form.types';
 

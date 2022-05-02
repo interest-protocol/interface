@@ -4,26 +4,26 @@ import toast from 'react-hot-toast';
 import useSWR from 'swr';
 
 import priorityHooks from '@/connectors/index';
-import { CHAIN_ID, CHAINS } from '@/constants/chains';
-import { CASA_DE_PAPEL } from '@/constants/contracts';
-import { ZERO } from '@/constants/index';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
-import { IntMath } from '@/sdk/entities/int-math';
+import { CHAIN_ID, CHAINS } from '@/sdk/../../../../../../constants/chains';
+import { CASA_DE_PAPEL } from '@/sdk/../../../../../../constants/contracts';
+import { ZERO } from '@/sdk/../../../../../../constants/index';
 import {
   calculateFarmTokenPrice,
   depositLP,
   getRewards,
   getUserPoolData,
   withdrawLP,
-} from '@/utils/casa-de-papel';
+} from '@/sdk/../../../../../../utils/casa-de-papel';
 import {
   addAllowance,
   getAllowance,
   getERC20Balance,
   getERC20TotalSupply,
-} from '@/utils/erc-20';
-import { formatDollars } from '@/utils/string';
+} from '@/sdk/../../../../../../utils/erc-20';
+import { formatDollars } from '@/sdk/../../../../../../utils/string';
+import { IntMath } from '@/sdk/entities/int-math';
 
 import EarnStakeModal from '../earn-stake-modal';
 import EarnCard from './earn-card';

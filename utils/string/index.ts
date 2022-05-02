@@ -1,3 +1,6 @@
+import { Rounding } from '@/sdk/constants';
+import { Fraction } from '@/sdk/entities/fraction';
+
 export const shortAccount = (account: string): string =>
   `${account.slice(0, 6)}...${account.slice(-5, -1)}`;
 
@@ -24,8 +27,11 @@ export const formatDollars = (value: number): string => {
 export const formatMoney = (value: number): string =>
   formatDollars(value).slice(1);
 
-export const parseToStringNumber = (x: string): string => {
-  if (isNaN(+x)) return '0';
-  if (0 > +x) return '0';
-  return x;
-};
+export const toSignificant = (
+  x: string,
+  decimalHouses: number,
+  denominator = 1,
+  format?: Record<string, string>,
+  rounding?: Rounding
+): string =>
+  new Fraction(x, denominator).toSignificant(decimalHouses, format, rounding);

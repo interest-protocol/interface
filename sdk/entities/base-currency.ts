@@ -4,9 +4,8 @@ export abstract class BaseCurrency {
   abstract readonly isToken: boolean;
 
   protected constructor(
-    public readonly chainId: number,
-    readonly decimals: number,
+    readonly name: string,
     readonly symbol: string,
-    readonly name: string
+    readonly decimals: number
   ) {}
 }

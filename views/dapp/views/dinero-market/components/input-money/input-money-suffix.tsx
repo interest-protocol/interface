@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Typography } from '@/elements';
-import { formatDollars } from '@/utils';
+import { formatDollars } from '@/sdk/../../../../../../utils';
 
 import { InputMoneySuffixProps } from './input-money.types';
 

@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers';
 
-import { TOKEN_SYMBOL } from '@/constants/erc-20';
+import { TOKEN_SYMBOL } from '@/sdk/../../../constants/erc-20';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { ERC20 } from '@/sdk/entities/erc-20';
 import { IntMath } from '@/sdk/entities/int-math';

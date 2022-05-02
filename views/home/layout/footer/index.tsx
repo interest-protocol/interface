@@ -3,9 +3,9 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container, SocialMediaCard } from '@/components';
-import { Routes, RoutesEnum } from '@/constants/routes';
-import { SOCIAL_MEDIAS } from '@/constants/social-media';
 import { Box, Typography } from '@/elements';
+import { Routes, RoutesEnum } from '@/sdk/../../../../constants/routes';
+import { SOCIAL_MEDIAS } from '@/sdk/../../../../constants/social-media';
 import { LogoSVG } from '@/svg';
 
 const Footer: FC = () => (

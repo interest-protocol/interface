@@ -2,9 +2,9 @@ import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
-import { TOKENS_SVG_MAP } from '@/constants/erc-20';
 import { Box, Typography } from '@/elements';
-import { formatMoney } from '@/utils';
+import { TOKENS_SVG_MAP } from '@/sdk/../../../../../../constants/erc-20';
+import { formatMoney } from '@/sdk/../../../../../../utils';
 
 import { YourBalanceProps } from './your-balance.types';
 

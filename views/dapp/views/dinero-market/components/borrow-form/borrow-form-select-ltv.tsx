@@ -4,12 +4,12 @@ import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
 import { Box, Button, Typography } from '@/elements';
-import { Fraction } from '@/sdk/entities/fraction';
-import { IntMath } from '@/sdk/entities/int-math';
 import {
   calculateBorrowAmount,
   calculateUserCurrentLTV,
-} from '@/utils/dinero-market';
+} from '@/sdk/../../../../../../utils/dinero-market';
+import { Fraction } from '@/sdk/entities/fraction';
+import { IntMath } from '@/sdk/entities/int-math';
 
 import { BorrowFormSelectLTVProps } from './borrow-form.types';
 

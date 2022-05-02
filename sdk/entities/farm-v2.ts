@@ -1,11 +1,10 @@
 import { BigNumber } from 'ethers';
 import { ethers } from 'ethers';
 
-import { ZERO } from '@/constants/index';
-
 import { ERC20 } from './erc-20';
 
 const { getAddress } = ethers.utils;
+import { ZERO_BIG_NUMBER } from '../utils';
 
 interface IConstructor {
   stakingToken: ERC20;
@@ -76,12 +75,12 @@ export class FarmV2 {
   }
 
   public quote1(amount0: BigNumber): BigNumber {
-    if (this.reserve0.isZero()) return ZERO;
+    if (this.reserve0.isZero()) return ZERO_BIG_NUMBER;
     return amount0.mul(this.reserve1).div(this.reserve0);
   }
 
   public quote0(amount1: BigNumber): BigNumber {
-    if (this.reserve0.isZero()) return ZERO;
+    if (this.reserve0.isZero()) return ZERO_BIG_NUMBER;
     return amount1.mul(this.reserve0).div(this.reserve1);
   }
 

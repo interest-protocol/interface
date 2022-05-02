@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { Container } from '@/components';
-import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, Typography } from '@/elements';
+import { Routes, RoutesEnum } from '@/sdk/../../../../constants/routes';
 
 const Enjoy: FC = () => (
   <Box borderBottom="0.625rem solid" borderColor="accent">

@@ -1,19 +1,19 @@
 import { Web3Provider } from '@ethersproject/providers';
 import { BigNumber, ContractTransaction, ethers } from 'ethers';
 
-import BTCDineroMarketABI from '@/constants/abi/btc-dinero-market.abi.json';
-import ERC20ABI from '@/constants/abi/erc-20.abi.json';
 import {
   BSC_TEST_ERC_20_DATA,
   TOKEN_SYMBOL,
   TOKENS_SVG_MAP,
   UNKNOWN_ERC_20,
-} from '@/constants/erc-20';
-import { SECONDS_IN_A_YEAR, ZERO } from '@/constants/index';
+} from '@/sdk/../../../constants/erc-20';
+import { SECONDS_IN_A_YEAR, ZERO } from '@/sdk/../../../constants/index';
+import BTCDineroMarketABI from '@/sdk/abi/btc-dinero-market.abi.json';
+import ERC20ABI from '@/sdk/abi/erc-20.abi.json';
 import { CurrencyAmount } from '@/sdk/entities/currency-amount';
 import { Fraction } from '@/sdk/entities/fraction';
 import { IntMath } from '@/sdk/entities/int-math';
-import { closeTo } from '@/utils/big-number';
+import { closeTo } from '@/sdk/utils';
 import { IBorrowFormField } from '@/views/dapp/views/dinero-market/components/borrow-form/borrow-form.types';
 
 import { BtcDineroMarketAbi, Erc20Abi } from '../../types/ethers-contracts';

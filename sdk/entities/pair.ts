@@ -1,13 +1,102 @@
-export class Pair<T = unknown, K = unknown> {
-  public readonly first;
-  public readonly second;
+import { BigNumber, ethers } from 'ethers';
 
-  protected constructor(first: T, second: K) {
-    this.first = first;
-    this.second = second;
+import { CONTRACTS, INIT_CODE_HASH } from '../constants';
+import { isBNBChain, quote, sortTokens } from '../utils';
+import { ERC20 } from './erc-20';
+
+const LOCAL_CACHE = new Map();
+
+const composeKey = (token0: ERC20, token1: ERC20) =>
+  `${token0.chainId}-${token0.address}-${token1.address}`;
+
+const getInitCodeHash = (chainId: number) => {
+  if (isBNBChain(chainId)) return INIT_CODE_HASH.PCS_PAIR[chainId];
+
+  return ethers.constants.HashZero;
+};
+
+export const getFactoryContract = (chainId: number) => {
+  if (isBNBChain(chainId)) return CONTRACTS.PCS_FACTORY[chainId];
+
+  return ethers.constants.AddressZero;
+};
+
+export class PairV2 extends ERC20 {
+  protected constructor(
+    name: string,
+    symbol: string,
+    decimals: number,
+    address: string,
+    chainId: number,
+    public readonly token0: ERC20,
+    public readonly token1: ERC20,
+    public readonly reserves0: BigNumber,
+    public readonly reserves1: BigNumber
+  ) {
+    super(name, symbol, decimals, address, chainId);
   }
 
-  public static from<T = unknown, K = unknown>(x: T, y: K): Pair {
-    return new Pair(x, y);
+  public static getV2Address(tokenA: ERC20, tokenB: ERC20): string {
+    const sortedAddresses = sortTokens(tokenA.address, tokenB.address);
+
+    if (
+      tokenA.chainId !== tokenB.chainId ||
+      tokenA.address.toLowerCase() === tokenB.address.toLowerCase()
+    )
+      return ethers.constants.AddressZero;
+
+    const [token0, token1] =
+      sortedAddresses[0] === tokenA.address
+        ? [tokenA, tokenB]
+        : [tokenB, tokenA];
+
+    const key = composeKey(token0, token1);
+
+    if (!LOCAL_CACHE.has(key)) {
+      LOCAL_CACHE.set(
+        key,
+        ethers.utils.getCreate2Address(
+          CONTRACTS.PCS_FACTORY[tokenA.chainId],
+          ethers.utils.solidityKeccak256(
+            ['bytes'],
+            [
+              ethers.utils.solidityPack(
+                ['address', 'address'],
+                [token0.address, token1.address]
+              ),
+            ]
+          ),
+          getInitCodeHash(token0.chainId)
+        )
+      );
+    }
+
+    return LOCAL_CACHE.get(key);
+  }
+
+  public hasToken(token: ERC20): boolean {
+    const x = ethers.utils.getAddress(token.address);
+    if (token.chainId !== this.chainId) return false;
+    return (
+      x === ethers.utils.getAddress(this.token0.address) ||
+      x === ethers.utils.getAddress(this.token1.address)
+    );
+  }
+
+  public quoteToken0(amount0: BigNumber): BigNumber {
+    return quote(amount0, this.reserves0, this.reserves1);
+  }
+
+  public quoteToken1(amount1: BigNumber): BigNumber {
+    return quote(amount1, this.reserves1, this.reserves0);
+  }
+
+  public getReserve(token: ERC20): BigNumber {
+    if (!this.hasToken(token)) return BigNumber.from(0);
+
+    return ethers.utils.getAddress(token.address) ===
+      ethers.utils.getAddress(this.token0.address)
+      ? this.reserves0
+      : this.reserves1;
   }
 }

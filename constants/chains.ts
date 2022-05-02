@@ -1,38 +1,16 @@
 import type { AddEthereumChainParameter } from '@web3-react/types';
+import {
+  __,
+  always,
+  dissoc,
+  identity,
+  ifElse,
+  includes,
+  pathOr,
+  values,
+} from 'ramda';
 
-export enum CHAIN_ID {
-  BSC_TEST_NET = 97,
-  BSC_MAIN_MET = 56,
-  UNSUPPORTED = 0,
-}
-
-const CHAIN_ID_MAP = {
-  97: CHAIN_ID.BSC_TEST_NET,
-  56: CHAIN_ID.BSC_MAIN_MET,
-  0: CHAIN_ID.UNSUPPORTED,
-} as { [id: number]: CHAIN_ID };
-
-const CHAIN_ID_NUMBER_MAP = {
-  [CHAIN_ID.BSC_TEST_NET]: 97,
-  [CHAIN_ID.BSC_MAIN_MET]: 56,
-  [CHAIN_ID.UNSUPPORTED]: 0,
-} as { [id: number]: number };
-
-export const getChainId = (x: number): CHAIN_ID => {
-  const id = CHAIN_ID_MAP[x];
-
-  if (!id) return CHAIN_ID.UNSUPPORTED;
-
-  return id;
-};
-
-export const getChainIdNumber = (x: CHAIN_ID): number => {
-  const number = CHAIN_ID_NUMBER_MAP[x];
-
-  if (!number) return 0;
-
-  return number;
-};
+import { CHAIN_ID } from '@/sdk/constants';
 
 export const BNB: AddEthereumChainParameter['nativeCurrency'] = {
   name: 'Binance Coin',
@@ -45,23 +23,35 @@ export const CHAINS = {
     chainId: CHAIN_ID.BSC_TEST_NET,
     chainName: 'Binance Smart Chain Test Net',
     nativeCurrency: BNB,
-    rpcUrls: [
-      process.env.NEXT_PUBLIC_BSC_TEST_NET_JSON_RPC ||
-        'https://data-seed-prebsc-2-s1.binance.org:8545/',
-      'https://data-seed-prebsc-1-s1.binance.org:8545/',
-      'https://data-seed-prebsc-1-s2.binance.org:8545/',
-      'https://data-seed-prebsc-2-s2.binance.org:8545/',
-      'https://data-seed-prebsc-1-s3.binance.org:8545/',
-      'https://data-seed-prebsc-2-s3.binance.org:8545/',
-    ],
+    rpcUrls: process.env.NEXT_PUBLIC_BSC_TEST_NET_JSON_RPC
+      ? [process.env.NEXT_PUBLIC_BSC_TEST_NET_JSON_RPC].concat([
+          'https://data-seed-prebsc-2-s1.binance.org:8545/',
+          'https://data-seed-prebsc-1-s1.binance.org:8545/',
+          'https://data-seed-prebsc-1-s2.binance.org:8545/',
+          'https://data-seed-prebsc-2-s2.binance.org:8545/',
+          'https://data-seed-prebsc-1-s3.binance.org:8545/',
+          'https://data-seed-prebsc-2-s3.binance.org:8545/',
+        ])
+      : [
+          'https://data-seed-prebsc-2-s1.binance.org:8545/',
+          'https://data-seed-prebsc-1-s1.binance.org:8545/',
+          'https://data-seed-prebsc-1-s2.binance.org:8545/',
+          'https://data-seed-prebsc-2-s2.binance.org:8545/',
+          'https://data-seed-prebsc-1-s3.binance.org:8545/',
+          'https://data-seed-prebsc-2-s3.binance.org:8545/',
+        ],
     blockExplorerUrls: ['https://testnet.bscscan.com'],
   },
   [CHAIN_ID.BSC_MAIN_MET]: {
     chainId: CHAIN_ID.BSC_MAIN_MET,
     chainName: 'Binance Smart Chain',
     nativeCurrency: BNB,
-    rpcUrls: process.env.NEXT_PUBLIC_IS_PROD
-      ? [process.env.NEXT_PUBLIC_BSC_RPC_URL]
+    rpcUrls: process.env.NEXT_PUBLIC_BSC_RPC_URL
+      ? [process.env.NEXT_PUBLIC_BSC_RPC_URL].concat([
+          'https://bsc-dataseed.binance.org/',
+          'https://bsc-dataseed1.defibit.io/',
+          'https://bsc-dataseed1.ninicoin.io/',
+        ])
       : [
           'https://bsc-dataseed.binance.org/',
           'https://bsc-dataseed1.defibit.io/',
@@ -90,4 +80,15 @@ export const URLS = Object.keys(CHAINS).reduce((acc, chainId) => {
   return { ...acc, [+chainId]: rpcUrls };
 }, {});
 
-export const CHAIN_IDS = Object.keys(CHAINS).map(Number);
+export const CHAIN_ID_ARRAY = values(dissoc('UNSUPPORTED', CHAIN_ID));
+
+export const isChainIdSupported = includes(__, CHAIN_ID_ARRAY);
+
+export const verifyChainId = ifElse(
+  isChainIdSupported,
+  identity,
+  always(CHAIN_ID.UNSUPPORTED)
+);
+
+export const getNativeCurrencySymbol = (chainId: number): string =>
+  pathOr('???', [chainId.toString(), 'nativeCurrency', 'symbol'], CHAINS);

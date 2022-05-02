@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers';
 
-import { PoolId } from '@/constants/farms';
+import { PoolId } from '@/sdk/../../../../../../constants/farms';
 
 export interface EarnStakeModalProps {
   id: PoolId;

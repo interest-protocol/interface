@@ -1,7 +1,7 @@
 import { FC, SVGAttributes } from 'react';
 import { UseFormReturn, UseFormStateReturn } from 'react-hook-form';
 
-import { MarketAndBalancesData } from '@/utils/dinero-market/dinero-market.types';
+import { MarketAndBalancesData } from '@/sdk/../../../../../../utils/dinero-market/dinero-market.types';
 
 import { IBorrowForm } from '../../dinero-market.types';
 

@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, Typography } from '@/elements';
 import { BoxProps } from '@/elements/box/box.types';
+import { Routes, RoutesEnum } from '@/sdk/../../../../constants/routes';
 
 import { BoundaryMessageProps } from './error-boundary.types';
 

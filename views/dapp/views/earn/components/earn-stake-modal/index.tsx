@@ -2,8 +2,8 @@ import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import { getFarmsSVG } from '@/constants/erc-20';
 import { Box, Button, Modal, Typography } from '@/elements';
+import { getFarmsSVG } from '@/sdk/../../../../../../constants/erc-20';
 import { IntMath } from '@/sdk/entities/int-math';
 import { TimesSVG } from '@/svg';
 

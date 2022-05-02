@@ -1,13 +1,19 @@
-import { BigNumber } from 'ethers';
+export * from './chains';
+export * from './erc-20';
+export * from './farms';
+export * from './routes';
+export * from './social-media';
+export * from './wallets';
 
-import { CHAIN_ID } from '@/constants/chains';
+export const isDevelopment = process.env.NODE_ENV === 'development';
 
-export const SECONDS_IN_A_YEAR = BigNumber.from(3.154e7);
+export enum LoadingState {
+  Idle,
+  Fetching,
+  Submitting,
+  Updating,
+}
 
-export const ZERO = BigNumber.from(0);
+export const NO_STATE_ERROR = '';
 
-export const BLOCKS_PER_YEAR = {
-  [CHAIN_ID.BSC_TEST_NET]: 28583 * 365,
-  [CHAIN_ID.BSC_MAIN_MET]: 28583 * 365,
-  [CHAIN_ID.UNSUPPORTED]: 0,
-};
+export const NO_SWR_DATA = 'no/data';

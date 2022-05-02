@@ -3,9 +3,9 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Box, Button, Typography } from '@/elements';
+import { convertCollateralToDinero } from '@/sdk/../../../../../../utils/dinero-market';
 import { IntMath } from '@/sdk/entities/int-math';
 import { LoadingSVG } from '@/svg';
-import { convertCollateralToDinero } from '@/utils/dinero-market';
 
 import { BorrowFormButtonProps } from './borrow-form.types';
 

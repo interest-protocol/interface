@@ -1,8 +1,6 @@
 import { BigNumber, BigNumberish, utils } from 'ethers';
 
-import { ZERO } from '@/constants/index';
-import { parseToStringNumber } from '@/utils';
-
+import { parseToPositiveStringNumber, ZERO_BIG_NUMBER } from '../utils';
 import { Fraction } from './fraction';
 const { parseEther } = utils;
 
@@ -38,10 +36,13 @@ export class IntMath {
     significant = 6
   ): BigNumber {
     const factor = 10 ** significant;
-    if (typeof value === 'number' && 0 > value * factor) return ZERO;
-    if (typeof value === 'string' && 0 > +parseToStringNumber(value) * factor)
-      return ZERO;
-    if (value == null || isNaN(+value)) return ZERO;
+    if (typeof value === 'number' && 0 > value * factor) return ZERO_BIG_NUMBER;
+    if (
+      typeof value === 'string' &&
+      0 > +parseToPositiveStringNumber(value) * factor
+    )
+      return ZERO_BIG_NUMBER;
+    if (value == null || isNaN(+value)) return ZERO_BIG_NUMBER;
 
     return BigNumber.from(BigInt(value.toString()) * BigInt(factor)).mul(
       BigNumber.from(10).pow(decimals - significant)

@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
-import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, Typography } from '@/elements';
+import { Routes, RoutesEnum } from '@/sdk/../../../../constants/routes';
 import { TimesSVG } from '@/svg';
 
 import Layout from '../../components/layout';

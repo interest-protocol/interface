@@ -1,17 +1,29 @@
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
 import { BigNumber, ContractTransaction, ethers } from 'ethers';
 
-import DineroFaucetABI from '@/constants/abi/dinero-faucet.abi.json';
-import ERC20ABI from '@/constants/abi/erc-20.abi.json';
-import BTCABI from '@/constants/abi/test-btc.abi.json';
-import { DINERO_FAUCET } from '@/constants/contracts';
-import { BSC_TEST_ERC_20_DATA, TOKEN_SYMBOL } from '@/constants/erc-20';
+import { ERC_20_DATA } from '@/constants/erc-20';
+import { CurrencyAmount } from '@/sdk';
+import DineroFaucetABI from '@/sdk/abi/dinero-faucet.abi.json';
+import ERC20ABI from '@/sdk/abi/erc-20.abi.json';
+import BTCABI from '@/sdk/abi/test-btc.abi.json';
+import { TOKEN_SYMBOL } from '@/sdk/constants';
+import { ERC20 } from '@/sdk/entities/erc-20';
 
 import {
   DineroFaucetAbi,
   Erc20Abi,
   TestBtcAbi,
 } from '../../types/ethers-contracts';
+
+export const getERC20Data = (chainId: number, address: string): ERC20 =>
+  ERC_20_DATA[chainId][ethers.utils.getAddress(address)];
+
+export const getERC20CurrencyAmount = (
+  chainId: number,
+  address: string,
+  amount: string
+): CurrencyAmount<ERC20> =>
+  CurrencyAmount.fromRawAmount(getERC20Data(chainId, address), amount);
 
 export const getAllowance = (
   account: string,
@@ -65,30 +77,4 @@ export const getERC20Balance = (
     provider
   ) as Erc20Abi;
   return erc20.balanceOf(account);
-};
-
-export const mintBTC = (
-  amount: BigNumber,
-  signer: JsonRpcSigner
-): Promise<ethers.ContractTransaction> => {
-  const btc = new ethers.Contract(
-    BSC_TEST_ERC_20_DATA[TOKEN_SYMBOL.BTC].address,
-    BTCABI,
-    signer
-  ) as TestBtcAbi;
-
-  return btc.mint(amount);
-};
-
-export const mintDinero = (
-  amount: BigNumber,
-  signer: JsonRpcSigner
-): Promise<ethers.ContractTransaction> => {
-  const dineroMinter = new ethers.Contract(
-    DINERO_FAUCET,
-    DineroFaucetABI,
-    signer
-  ) as DineroFaucetAbi;
-
-  return dineroMinter.mint(amount);
 };
