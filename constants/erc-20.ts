@@ -70,6 +70,13 @@ const BSC_TEST_ERC_20_DATA = BSC_TEST_ERC20_ARRAY.reduce(
       data.symbol,
       data.decimals
     ),
+    [data.symbol]: ERC20.from(
+      data.address,
+      CHAIN_ID.BSC_TEST_NET,
+      data.name,
+      data.symbol,
+      data.decimals
+    ),
   }),
   {} as { [key: string]: ERC20 }
 );

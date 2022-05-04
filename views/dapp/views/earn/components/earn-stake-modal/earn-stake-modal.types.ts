@@ -1,13 +1,13 @@
 import { BigNumber } from 'ethers';
 
-import { PoolId } from '@/sdk/../../../../../../constants/farms';
+import { StakeState } from '@/constants';
 
 export interface EarnStakeModalProps {
-  id: PoolId;
+  poolId: number;
   symbol: string;
   balance: BigNumber;
   handleClose: () => void;
-  modal: 'stake' | 'unstake' | undefined;
+  modal: StakeState | undefined;
   onStake: (value: BigNumber) => Promise<void>;
   onUnstake: (value: BigNumber) => Promise<void>;
 }

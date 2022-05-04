@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
+import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Typography } from '@/elements';
-import { Routes, RoutesEnum } from '@/sdk/../../../../../constants/routes';
 import { LogoSVG } from '@/svg';
 
 import { Wallet } from '../../index';

@@ -4,7 +4,7 @@ import { BaseCurrency } from './base-currency';
 
 export class ERC20 extends BaseCurrency {
   readonly isNative = false;
-  readonly isToken = true;
+  readonly isERC20 = true;
   readonly address;
   readonly chainId;
 

@@ -17,11 +17,8 @@ export enum TOKEN_SYMBOL {
   DNR = 'DNR',
   INT = 'Int',
   Unknown = '???',
-}
-
-export enum PoolType {
-  Farm,
-  Pool,
+  WBNB = 'WBNB',
+  BNB = 'BNB',
 }
 
 export enum PoolId {
@@ -44,24 +41,38 @@ export const INIT_CODE_HASH = {
     [CHAIN_ID.BSC_MAIN_MET]:
       '0x00fb7f630766e6a796048ea87d01acd3068e8ff67d078148a3fa3f4a84f69bd5',
     [CHAIN_ID.BSC_TEST_NET]:
-      '0xd0d4c4cd0848c93cb4fd1f498d7013ee6bfb25783ea21593d5834f5d250ece66',
+      '0xd0d4c4cd0848c93cb4fd1f498d7013ee6bfb25783ea21593d583)4f5d250ece66',
   },
 };
 
 export const DINERO_MARKET_CONTRACTS = {
   [CHAIN_ID.BSC_TEST_NET]: [
     {
-      address: '0x926f8FB78f5769a3D724A8ffC7058528C86939E1',
+      marketAddress: ethers.utils.getAddress(
+        '0x926f8FB78f5769a3D724A8ffC7058528C86939E1'
+      ),
       collateralSymbol: TOKEN_SYMBOL.BTC,
+      collateralAddress: ethers.utils.getAddress(
+        '0x954f3A4aeC237D311839d6E0274c0aC8Be13d1b1'
+      ),
     },
   ],
   [CHAIN_ID.BSC_MAIN_MET]: [
     {
-      address: ethers.constants.AddressZero,
+      marketAddress: ethers.constants.AddressZero,
       collateralSymbol: TOKEN_SYMBOL.Unknown,
+      collateralAddress: ethers.constants.AddressZero,
     },
   ],
 };
+
+export const DINERO_MARKET_CONTRACT_MAP = {
+  [CHAIN_ID.BSC_TEST_NET]: {
+    [TOKEN_SYMBOL.BTC]: ethers.utils.getAddress(
+      '0x926f8FB78f5769a3D724A8ffC7058528C86939E1'
+    ),
+  },
+} as { [key: number]: Record<TOKEN_SYMBOL, string> };
 
 export const CONTRACTS = {
   DINERO_FAUCET: {
@@ -90,7 +101,7 @@ export const CONTRACTS = {
   },
   INTEREST_VIEW: {
     [CHAIN_ID.BSC_MAIN_MET]: ethers.constants.AddressZero,
-    [CHAIN_ID.BSC_TEST_NET]: '0xC64983A2160bBf57A63DF4FcF32260111238Ea00',
+    [CHAIN_ID.BSC_TEST_NET]: '0xD6AAb456738a0d01D902fB000FE73Ef10b7D237f',
   },
   BTC: {
     [CHAIN_ID.BSC_MAIN_MET]: ethers.constants.AddressZero,

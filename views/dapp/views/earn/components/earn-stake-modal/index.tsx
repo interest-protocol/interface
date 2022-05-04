@@ -2,16 +2,17 @@ import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
 
+import { getFarmsSVG, StakeState } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { getFarmsSVG } from '@/sdk/../../../../../../constants/erc-20';
 import { IntMath } from '@/sdk/entities/int-math';
 import { TimesSVG } from '@/svg';
+import { safeToBigNumber } from '@/utils';
 
 import { EarnStakeModalProps } from './earn-stake-modal.types';
 import InputStake from './input-stake';
 
 const EarnStakeModal: FC<EarnStakeModalProps> = ({
-  id,
+  poolId,
   modal,
   symbol,
   balance,
@@ -27,18 +28,18 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
 
   const { isOpen, isStake } = useMemo(
     () => ({
-      isOpen: modal === 'stake' || modal === 'unstake',
-      isStake: modal === 'stake',
+      isOpen: modal === StakeState.Stake || modal === StakeState.Unstake,
+      isStake: modal === StakeState.Stake,
     }),
     [modal]
   );
 
-  const Icon = getFarmsSVG(id);
+  const Icon = getFarmsSVG(poolId);
 
   const onSubmit = ({ value }: { value: number }) => {
     isStake
-      ? onStake(IntMath.toBigNumber(value))
-      : onUnstake(IntMath.toBigNumber(value));
+      ? onStake(safeToBigNumber(value))
+      : onUnstake(safeToBigNumber(value));
   };
 
   return (

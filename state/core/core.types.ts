@@ -1,4 +1,4 @@
-import { LoadingState } from '@/constants/index';
+import { LoadingState } from '@/constants';
 
 export interface CoreState {
   chainId: number | null;

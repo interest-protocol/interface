@@ -1,7 +1,7 @@
 import { EntityState, PayloadAction } from '@reduxjs/toolkit';
 import { WritableDraft } from 'immer/dist/types/types-external';
 
-import { LoadingState } from '@/constants/index';
+import { LoadingState } from '@/constants';
 
 export interface IUserBalance {
   id: string;

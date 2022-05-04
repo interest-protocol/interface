@@ -3,9 +3,9 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Box, Button, Typography } from '@/elements';
-import { convertCollateralToDinero } from '@/sdk/../../../../../../utils/dinero-market';
 import { IntMath } from '@/sdk/entities/int-math';
 import { LoadingSVG } from '@/svg';
+import { convertCollateralToDinero } from '@/utils/dinero-market';
 
 import { BorrowFormButtonProps } from './borrow-form.types';
 
@@ -34,7 +34,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
       parseEther(borrowLoan).gt(
         convertCollateralToDinero(
           data.market.userCollateral.add(IntMath.toBigNumber(borrowCollateral)),
-          data.market.ltvRatio,
+          data.market.maxLTVRatio,
           data.market.exchangeRate
         )
       )
@@ -51,7 +51,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
       borrowLoan &&
       convertCollateralToDinero(
         data.market.userCollateral,
-        data.market.ltvRatio,
+        data.market.maxLTVRatio,
         data.market.exchangeRate
       ).gte(parseEther(borrowLoan))
     )
@@ -60,7 +60,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
     if (
       errors.borrow?.collateral?.type !== 'max' &&
       borrowCollateral &&
-      parseEther(borrowCollateral).gt(data.balances[0].numerator)
+      parseEther(borrowCollateral).gt(data.dineroPair.getCollateralBalance())
     ) {
       setError('borrow.collateral', {
         type: 'max',
@@ -72,7 +72,8 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
     if (
       errors.borrow?.collateral?.type === 'max' &&
       borrowCollateral &&
-      +borrowCollateral <= IntMath.toNumber(data.balances[0].numerator)
+      +borrowCollateral <=
+        IntMath.toNumber(data.dineroPair.getCollateralBalance())
     )
       clearErrors('borrow.collateral');
 
@@ -82,7 +83,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
   return (
     <Box display="flex" justifyContent="center" mt="XXL">
       {isBorrow ? (
-        data.market.allowance.isZero() ? (
+        data.dineroPair.getCollateralAllowance().isZero() ? (
           <Button
             display="flex"
             variant="primary"
@@ -144,28 +145,6 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
             </Typography>
           </Button>
         )
-      ) : data.market.allowance.isZero() ? (
-        <Button
-          display="flex"
-          variant="primary"
-          alignItems="center"
-          disabled={isSubmitting}
-          justifyContent="center"
-          onClick={handleClick(handleAddAllowance)}
-          hover={{ bg: 'accentActive' }}
-          bg={isSubmitting ? 'accentActive' : 'accent'}
-          cursor={isSubmitting ? 'not-allowed' : 'pointer'}
-        >
-          {isSubmitting && <LoadingSVG width="1rem" height="1rem" />}
-          <Typography
-            fontSize="S"
-            as="span"
-            variant="normal"
-            ml={isSubmitting ? 'L' : 'NONE'}
-          >
-            Approve
-          </Typography>
-        </Button>
       ) : !+repayLoan && !+repayCollateral ? (
         <Box
           py="L"

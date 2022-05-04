@@ -1,3 +1,4 @@
+import { not } from 'ramda';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -8,12 +9,12 @@ import {
   isChainIdSupported,
 } from '@/constants/chains';
 import { Box, Button, Typography } from '@/elements';
-import { ZERO_ADDRESS } from '@/sdk';
+import { IntMath, ZERO_ADDRESS } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import { getCoreData } from '@/state/core/core.selectors';
 import { CoreState } from '@/state/core/core.types';
 import { LoadingSVG, MetaMaskSVG } from '@/svg';
-import { shortAccount, toSignificant } from '@/utils';
+import { shortAccount } from '@/utils';
 
 import AccountModal from './wallet-modal/account-modal';
 
@@ -40,7 +41,7 @@ const ConnectedWallet: FC = () => {
   }, [chainId, account]);
 
   const toggleModal = () => {
-    setShowModal((state) => !state);
+    setShowModal(not);
   };
 
   return (
@@ -59,10 +60,9 @@ const ConnectedWallet: FC = () => {
         display={['none', 'inline-block']}
       >
         {coreData.loading !== LoadingState.Fetching ? (
-          `${toSignificant(
-            coreData.nativeBalance,
-            4
-          )} ${getNativeCurrencySymbol(chainId || 0)}`
+          `${IntMath.from(
+            coreData.nativeBalance
+          ).toNumber()} ${getNativeCurrencySymbol(chainId || 0)}`
         ) : (
           <LoadingSVG width="1rem" height="1rem" />
         )}

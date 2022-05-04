@@ -1,6 +1,6 @@
 import { EntityState } from '@reduxjs/toolkit';
 import { createSelector } from '@reduxjs/toolkit';
-import { curry, flip, identity, pathOr, prop } from 'ramda';
+import { identity, pathOr, prop } from 'ramda';
 
 import { LoadingState, NO_STATE_ERROR } from '@/constants';
 
@@ -22,6 +22,6 @@ export const getUserBalanceError = createSelector(
   identity
 );
 
-export const userBalanceSelectById = curry(
-  flip(userBalanceEntitySelectors.selectById)
-);
+export const userBalanceSelectById =
+  (id: string) => (entity: Record<string, EntityState<IUserBalance>>) =>
+    userBalanceEntitySelectors.selectById(entity, id);

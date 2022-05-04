@@ -1,118 +1,72 @@
 import { BigNumber } from 'ethers';
 import { FC, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
-import useSWR from 'swr';
+import { useSelector } from 'react-redux';
 
-import priorityHooks from '@/connectors/index';
+import { addAllowance, depositLP, withdrawLP } from '@/api';
+import { StakeState } from '@/constants';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
-import { CHAIN_ID, CHAINS } from '@/sdk/../../../../../../constants/chains';
-import { CASA_DE_PAPEL } from '@/sdk/../../../../../../constants/contracts';
-import { ZERO } from '@/sdk/../../../../../../constants/index';
-import {
-  calculateFarmTokenPrice,
-  depositLP,
-  getRewards,
-  getUserPoolData,
-  withdrawLP,
-} from '@/sdk/../../../../../../utils/casa-de-papel';
-import {
-  addAllowance,
-  getAllowance,
-  getERC20Balance,
-  getERC20TotalSupply,
-} from '@/sdk/../../../../../../utils/erc-20';
-import { formatDollars } from '@/sdk/../../../../../../utils/string';
+import { useGetUserFarmData } from '@/hooks';
+import { ZERO_BIG_NUMBER } from '@/sdk';
 import { IntMath } from '@/sdk/entities/int-math';
+import { getAccount, getChainId } from '@/state/core/core.selectors';
+import {
+  formatDollars,
+  getCasaDePapelAddress,
+  showTXSuccessToast,
+  throwError,
+  throwIfInvalidAccountAndChainId,
+} from '@/utils';
 
 import EarnStakeModal from '../earn-stake-modal';
 import EarnCard from './earn-card';
-import { EarnTableCollapsibleProps, IEarnTableData } from './earn-table.types';
+import { EarnTableCollapsibleProps } from './earn-table.types';
 
-const { usePriorityAccount, usePriorityProvider } = priorityHooks;
-
-const processData = (data: IEarnTableData | undefined) => {
-  if (data) return data;
-
-  return {
-    totalSupply: ZERO,
-    lpBalance: ZERO,
-    userData: { stakingAmount: ZERO, pendingRewards: ZERO },
-    allowance: ZERO,
-  };
+const safeData = {
+  allowance: ZERO_BIG_NUMBER,
+  balance: ZERO_BIG_NUMBER,
+  stakingAmount: ZERO_BIG_NUMBER,
+  pendingRewards: ZERO_BIG_NUMBER,
 };
 
 const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
-  baseTokenPrice,
+  farmTokenPrice,
   farm,
 }) => {
-  const provider = usePriorityProvider();
-  const account = usePriorityAccount();
-
-  const [modal, setModal] = useState<'stake' | 'unstake' | undefined>();
+  const [modal, setModal] = useState<StakeState | undefined>();
   const [stakedApproved, setStakedApproved] = useState(true);
 
-  const { data, error, mutate } = useSWR(
-    `EarnTableCollapsible-${account}`,
-    async () => {
-      if (!provider || !account) return;
+  const account = useSelector(getAccount) as string;
+  const chainId = useSelector(getChainId) as number | null;
 
-      const [lpBalance, totalSupply, userData, allowance] = await Promise.all([
-        getERC20Balance(account, farm.stakingToken.address, provider),
-        getERC20TotalSupply(farm.stakingToken.address, provider),
-        getUserPoolData(provider, account, farm.id),
-        getAllowance(
-          account,
-          CASA_DE_PAPEL,
-          farm.stakingToken.address,
-          provider
-        ),
-      ]);
-
-      return { lpBalance, totalSupply, userData, allowance };
-    },
-    {
-      revalidateOnFocus: false,
-      revalidateOnMount: false,
-    }
+  const { data, error, mutate } = useGetUserFarmData(
+    farm.stakingToken.address,
+    farm.id
   );
 
   const loading = useMemo(() => !error && !data, [error, data]);
 
-  const processedData = useMemo(() => processData(data), [data]);
+  const processedData = useMemo(() => (data ? data : safeData), [data]);
 
   const handleApprove = () =>
     toast.promise(
       (async () => {
-        if (!account || !provider) return;
+        const validId = throwIfInvalidAccountAndChainId([account], chainId);
+
         try {
           const tx = await addAllowance(
+            validId,
             account,
             farm.stakingToken.address,
-            provider,
-            CASA_DE_PAPEL
+            getCasaDePapelAddress(validId)
           );
 
-          const receipt = await tx.wait(2);
-
-          // send modal with bsc scan test net
-          const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
-
-          toast(
-            <a
-              target="__black"
-              rel="noreferrer nofollow"
-              href={`${explorer ? explorer[0] : ''}/tx/${
-                receipt.transactionHash
-              }`}
-            >
-              Check on Explorer
-            </a>
-          );
-          mutate();
+          await showTXSuccessToast(tx);
+          await mutate();
           setStakedApproved(true);
         } catch (e) {
-          throw e || new Error('Something went wrong');
+          throwError('Failed to approve', e);
         }
       })(),
       {
@@ -125,34 +79,22 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
   const handleHarvest = () =>
     toast.promise(
       (async () => {
-        if (
-          !account ||
-          !provider ||
-          processedData.userData.pendingRewards.isZero()
-        )
-          return;
+        if (processedData.pendingRewards.isZero()) return;
+
+        const validId = throwIfInvalidAccountAndChainId([account], chainId);
 
         try {
-          const tx = await getRewards(provider, account, farm.id);
-
-          const receipt = await tx.wait(2);
-
-          const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
-
-          toast(
-            <a
-              target="__black"
-              rel="noreferrer nofollow"
-              href={`${explorer ? explorer[0] : ''}/tx/${
-                receipt.transactionHash
-              }`}
-            >
-              Check on Explorer
-            </a>
+          const tx = await depositLP(
+            validId,
+            account,
+            farm.id,
+            ZERO_BIG_NUMBER
           );
-          mutate();
+
+          await showTXSuccessToast(tx);
+          await mutate();
         } catch (e) {
-          throw e || new Error('Something went wrong');
+          throwError('Failed to harvest rewards', e);
         }
       })(),
       {
@@ -164,56 +106,31 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
 
   const handleCloseModal = () => setModal(undefined);
 
-  const handleChangeModal = (target: 'stake' | 'unstake') => () =>
-    setModal(target);
+  const handleChangeModal = (target: StakeState) => () => setModal(target);
 
   const handleDepositTokens = async (amount: BigNumber) => {
-    if (!account || !provider || processedData.lpBalance.isZero()) return;
+    if (processedData.balance.isZero()) return;
 
     try {
-      const tx = await depositLP(provider, account, farm.id, amount);
+      const validId = throwIfInvalidAccountAndChainId([account], chainId);
+      const tx = await depositLP(validId, account, farm.id, amount);
 
-      const receipt = await tx.wait(2);
-
-      const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
-
-      toast(
-        <a
-          target="__black"
-          rel="noreferrer nofollow"
-          href={`${explorer ? explorer[0] : ''}/tx/${receipt.transactionHash}`}
-        >
-          Check on Explorer
-        </a>
-      );
-      mutate();
+      await showTXSuccessToast(tx);
+      await mutate();
     } catch (e) {
-      throw e || new Error('Something Went Wrong');
+      throwError('Failed to deposit', e);
     }
   };
 
-  // Amount needs to come from the input or press max button i assume
   const handleWithdrawTokens = async (amount: BigNumber) => {
-    if (!account || !provider || processedData.userData.stakingAmount.isZero())
-      return;
+    if (processedData.balance.isZero()) return;
 
     try {
-      const tx = await withdrawLP(provider, account, farm.id, amount);
+      const validId = throwIfInvalidAccountAndChainId([account], chainId);
+      const tx = await withdrawLP(validId, account, farm.id, amount);
 
-      const receipt = await tx.wait(2);
-
-      const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
-
-      toast(
-        <a
-          target="__black"
-          rel="noreferrer nofollow"
-          href={`${explorer ? explorer[0] : ''}/tx/${receipt.transactionHash}`}
-        >
-          Check on Explorer
-        </a>
-      );
-      mutate();
+      await showTXSuccessToast(tx);
+      await mutate();
     } catch (e) {
       throw e || new Error('Something Went Wrong');
     }
@@ -246,36 +163,20 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
       <EarnCard
         loading={loading}
         title="Available"
-        amountUSD={formatDollars(
-          calculateFarmTokenPrice(
-            baseTokenPrice,
-            farm,
-            processedData.totalSupply
-          )
-            .mul(processedData.lpBalance)
-            .toNumber()
-        )}
-        amount={`${IntMath.toNumber(processedData.lpBalance)} ${farm.symbol}`}
+        amountUSD={formatDollars(IntMath.toNumber(farmTokenPrice.numerator))}
+        amount={`${IntMath.toNumber(processedData.balance)} ${farm.farmSymbol}`}
         button={
           <Button variant="primary" hover={{ bg: 'accentActive' }}>
-            Get {farm.symbol}
+            Get {farm.farmSymbol}
           </Button>
         }
       />
       <EarnCard
         title="Staked"
         loading={loading}
-        amountUSD={formatDollars(
-          calculateFarmTokenPrice(
-            baseTokenPrice,
-            farm,
-            processedData.totalSupply
-          )
-            .mul(processedData.userData.stakingAmount)
-            .toNumber()
-        )}
-        amount={`${IntMath.toNumber(processedData.userData.stakingAmount)} ${
-          farm.symbol
+        amountUSD={formatDollars(IntMath.toNumber(farmTokenPrice.numerator))}
+        amount={`${IntMath.toNumber(processedData.stakingAmount)} ${
+          farm.farmSymbol
         }`}
         button={
           !stakedApproved ? (
@@ -296,7 +197,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
                 variant="primary"
                 mr="S"
                 hover={{ bg: 'accentActive' }}
-                onClick={handleChangeModal('stake')}
+                onClick={handleChangeModal(StakeState.Stake)}
               >
                 +
               </Button>
@@ -304,7 +205,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
                 bg="error"
                 variant="primary"
                 hover={{ bg: 'errorActive' }}
-                onClick={handleChangeModal('unstake')}
+                onClick={handleChangeModal(StakeState.Unstake)}
               >
                 -
               </Button>
@@ -315,40 +216,24 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
       <EarnCard
         title="Earned"
         loading={loading}
-        shadow={!processedData.userData.pendingRewards.isZero()}
-        amountUSD={formatDollars(
-          calculateFarmTokenPrice(
-            baseTokenPrice,
-            farm,
-            processedData.totalSupply
-          )
-            .mul(processedData.userData.pendingRewards)
-            .toNumber()
-        )}
-        amount={`${IntMath.toNumber(processedData.userData.pendingRewards)} ${
-          farm.symbol
+        shadow={!processedData.pendingRewards.isZero()}
+        amountUSD={formatDollars(IntMath.toNumber(farmTokenPrice.numerator))}
+        amount={`${IntMath.toNumber(processedData.pendingRewards)} ${
+          farm.farmSymbol
         }`}
         button={
           <Button
             onClick={
-              !processedData.userData.pendingRewards.isZero()
-                ? handleHarvest
-                : undefined
+              !processedData.pendingRewards.isZero() ? handleHarvest : undefined
             }
             variant="primary"
-            disabled={processedData.userData.pendingRewards.isZero()}
-            bg={
-              !processedData.userData.pendingRewards.isZero()
-                ? 'success'
-                : 'disabled'
-            }
+            disabled={processedData.pendingRewards.isZero()}
+            bg={!processedData.pendingRewards.isZero() ? 'success' : 'disabled'}
             cursor={
-              !processedData.userData.pendingRewards.isZero()
-                ? 'pointer'
-                : 'not-allowed'
+              !processedData.pendingRewards.isZero() ? 'pointer' : 'not-allowed'
             }
             hover={{
-              bg: !processedData.userData.pendingRewards.isZero()
+              bg: !processedData.pendingRewards.isZero()
                 ? 'successActive'
                 : 'disabled',
             }}
@@ -361,10 +246,10 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         modal={modal}
         onStake={handleStake}
         onUnstake={handleUnstake}
-        balance={processedData.lpBalance}
+        balance={processedData.balance}
         handleClose={handleCloseModal}
-        symbol={farm.symbol}
-        id={farm.id}
+        symbol={farm.farmSymbol}
+        poolId={farm.id}
       />
     </Box>
   );

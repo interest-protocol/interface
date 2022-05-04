@@ -1,96 +1,150 @@
 import { BigNumber } from 'ethers';
-import { ethers } from 'ethers';
 
-import { ERC20 } from './erc-20';
+import { ERC_20_DATA } from '@/constants';
+import { ERC20 } from '@/sdk/entities/erc-20';
 
-const { getAddress } = ethers.utils;
-import { ZERO_BIG_NUMBER } from '../utils';
+import { TOKEN_SYMBOL } from '../constants';
+import { LPPairV2 } from './lp-pair';
 
-interface IConstructor {
-  stakingToken: ERC20;
+interface IConstructor<T> {
+  stakingToken: T;
   id: number;
-  farmName: string;
-  farmSymbol: string;
-  token0: ERC20;
-  token1: ERC20;
-  reserve0: BigNumber;
-  reserve1: BigNumber;
   allocationPoints: BigNumber;
   totalAllocationPoints: BigNumber;
+  farmName: string;
+  farmSymbol: string;
+  totalStakedAmount: BigNumber;
+  isPool: boolean;
 }
 
-interface IFromPancakeSwapArgs {
-  stakingToken: IConstructor['stakingToken'];
-  id: IConstructor['id'];
-  farmName: IConstructor['farmName'];
-  farmSymbol: IConstructor['farmSymbol'];
-  token0: IConstructor['token0'];
-  token1: IConstructor['token1'];
-  reserve0: IConstructor['reserve0'];
-  reserve1: IConstructor['reserve1'];
-  allocationPoints: IConstructor['allocationPoints'];
-  totalAllocationPoints: IConstructor['totalAllocationPoints'];
+interface createPCS {
+  address: string;
+  chainId: number;
+  token0: ERC20;
+  token1: ERC20;
+  reserves0: BigNumber;
+  reserves1: BigNumber;
+  id: IConstructor<unknown>['id'];
+  allocationPoints: IConstructor<unknown>['allocationPoints'];
+  totalAllocationPoints: IConstructor<unknown>['totalAllocationPoints'];
+  totalStakedAmount: BigNumber;
 }
 
-export class FarmV2 {
-  public readonly stakingToken: ERC20;
+interface CreateIntPool {
+  chainId: number;
+  allocationPoints: IConstructor<unknown>['allocationPoints'];
+  totalAllocationPoints: IConstructor<unknown>['totalAllocationPoints'];
+  totalStakedAmount: BigNumber;
+}
+
+export class FarmV2<T> {
+  public readonly stakingToken: T;
   public readonly id: number;
-  public readonly name: string;
-  public readonly symbol: string;
-
-  public readonly token0: ERC20;
-  public readonly token1: ERC20;
-  public readonly reserve0: BigNumber;
-  public readonly reserve1: BigNumber;
+  public readonly farmName: string;
+  public readonly farmSymbol: string;
 
   public readonly allocationPoints: BigNumber;
   public readonly totalAllocationPoints: BigNumber;
+  public readonly totalStakedAmount: BigNumber;
+  public readonly isPool: boolean;
 
   protected constructor({
     allocationPoints,
     totalAllocationPoints,
+    id,
+    stakingToken,
     farmName,
     farmSymbol,
-    id,
-    token0,
-    token1,
-    reserve1,
-    reserve0,
-    stakingToken,
-  }: IConstructor) {
-    this.stakingToken = stakingToken;
+    totalStakedAmount,
+    isPool,
+  }: IConstructor<T>) {
     this.id = id;
-    this.name = farmName;
-    this.symbol = farmSymbol;
-    this.token0 = token0;
-    this.token1 = token1;
-    this.reserve0 = reserve0;
-    this.reserve1 = reserve1;
+    this.stakingToken = stakingToken;
     this.allocationPoints = allocationPoints;
     this.totalAllocationPoints = totalAllocationPoints;
+    this.farmSymbol = farmSymbol;
+    this.farmName = farmName;
+    this.totalStakedAmount = totalStakedAmount;
+    this.isPool = isPool;
   }
 
-  public static fromPancakeSwap(args: IFromPancakeSwapArgs): FarmV2 {
-    return new FarmV2(args);
+  public static createIntPool({
+    chainId,
+    allocationPoints,
+    totalAllocationPoints,
+    totalStakedAmount,
+  }: CreateIntPool): FarmV2<ERC20> {
+    const stakingToken = ERC_20_DATA[chainId][TOKEN_SYMBOL.INT];
+
+    return new FarmV2({
+      allocationPoints,
+      totalAllocationPoints,
+      id: 0,
+      farmSymbol: 'Int',
+      farmName: 'Interest Token',
+      stakingToken,
+      totalStakedAmount,
+      isPool: true,
+    });
   }
 
-  public quote1(amount0: BigNumber): BigNumber {
-    if (this.reserve0.isZero()) return ZERO_BIG_NUMBER;
-    return amount0.mul(this.reserve1).div(this.reserve0);
+  public static createPCSFarmV2({
+    token0,
+    token1,
+    id,
+    allocationPoints,
+    totalAllocationPoints,
+    chainId,
+    reserves0,
+    reserves1,
+    address,
+    totalStakedAmount,
+  }: createPCS): FarmV2<LPPairV2> {
+    const stakingToken = LPPairV2.createPCSPair(
+      address,
+      chainId,
+      token0,
+      token1,
+      reserves0,
+      reserves1
+    );
+
+    const isToken1 = stakingToken.token1.symbol === TOKEN_SYMBOL.WBNB;
+
+    const farmName = isToken1
+      ? `${stakingToken.token1.name} | ${stakingToken.token0.name}`
+      : `${stakingToken.token0.name} | ${stakingToken.token0.name}`;
+
+    const farmSymbol = isToken1
+      ? `${stakingToken.token1.symbol}/${stakingToken.token0.symbol}`
+      : `${stakingToken.token1.symbol}/${stakingToken.token0.symbol}`;
+
+    return new FarmV2({
+      allocationPoints,
+      totalAllocationPoints,
+      id,
+      farmSymbol,
+      farmName,
+      totalStakedAmount,
+      isPool: false,
+      stakingToken: LPPairV2.createPCSPair(
+        address,
+        chainId,
+        token0,
+        token1,
+        reserves0,
+        reserves1
+      ),
+    });
   }
 
-  public quote0(amount1: BigNumber): BigNumber {
-    if (this.reserve0.isZero()) return ZERO_BIG_NUMBER;
-    return amount1.mul(this.reserve0).div(this.reserve1);
+  // Getters to convert to a specific type
+
+  public getFarm(): FarmV2<LPPairV2> | null {
+    return this.isPool ? null : (this as unknown as FarmV2<LPPairV2>);
   }
 
-  public getTokenReserve(address: string): BigNumber {
-    if (getAddress(address) === getAddress(this.token0.address))
-      return this.reserve0;
-
-    if (getAddress(address) === getAddress(this.token1.address))
-      return this.reserve1;
-
-    return BigNumber.from(0);
+  public getPool(): FarmV2<ERC20> | null {
+    return this.isPool ? (this as unknown as FarmV2<ERC20>) : null;
   }
 }

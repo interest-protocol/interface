@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
+import { SOCIAL_MEDIAS } from '@/constants/social-media';
 import { Box, Dropdown, Typography } from '@/elements';
-import { SOCIAL_MEDIAS } from '@/sdk/../../../../../constants/social-media';
 import { BarsSVG, GitBookSVG } from '@/svg';
 
 const MobileMenu: FC = () => (

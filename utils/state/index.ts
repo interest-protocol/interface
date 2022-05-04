@@ -1,12 +1,6 @@
-import { cond, equals, F, ifElse, T } from 'ramda';
-
 import { LoadingState } from '@/constants';
 
-export const isLoading = cond([
-  [equals(LoadingState.Updating), T],
-  [equals(LoadingState.Fetching), T],
-  [equals(LoadingState.Updating), T],
-  [T, F],
-]);
+export const isLoading = (x: LoadingState) =>
+  x === LoadingState.Updating || LoadingState.Fetching;
 
-export const isSubmitting = ifElse(equals(LoadingState.Submitting), T, F);
+export const isSubmitting = (x: LoadingState) => x === LoadingState.Submitting;

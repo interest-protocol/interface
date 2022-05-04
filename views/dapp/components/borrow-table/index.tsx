@@ -132,7 +132,7 @@ const BorrowTable: FC = () => {
               },
             ]}
             data={DINERO_MARKET_CONTRACTS[chainId].map((x, index) => {
-              const erc20 = getERC20Data(chainId, x.collateralSymbol);
+              const erc20 = getERC20Data(chainId, x.collateralAddress);
 
               return {
                 button: (
@@ -224,7 +224,7 @@ const BorrowTable: FC = () => {
             ]}
             data={DINERO_MARKET_CONTRACTS[CHAIN_ID.BSC_TEST_NET].map(
               (x, index) => {
-                const erc20 = getERC20Data(chainId, x.collateralSymbol);
+                const erc20 = getERC20Data(chainId, x.collateralAddress);
 
                 return {
                   mobileSide: (

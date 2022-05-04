@@ -1,5 +1,6 @@
 import { ChangeEvent, FC } from 'react';
 
+import { MAX_NUMBER_INPUT_VALUE } from '@/constants';
 import { Box, Input, Typography } from '@/elements';
 
 import InputErrorMessage from './input-error';
@@ -37,7 +38,14 @@ const InputMoney: FC<InputMoneyProps> = ({
         placeholder={amount}
         {...register(name, {
           onChange: (v: ChangeEvent<HTMLInputElement>) =>
-            setValue(name, isNaN(+v.target.value) ? '' : v.target.value),
+            setValue(
+              name,
+              isNaN(+v.target.value)
+                ? ''
+                : +v.target.value >= MAX_NUMBER_INPUT_VALUE
+                ? MAX_NUMBER_INPUT_VALUE.toString()
+                : v.target.value
+            ),
         })}
         shieldProps={{
           p: 'S',

@@ -14,6 +14,11 @@ export enum LoadingState {
   Updating,
 }
 
+export enum StakeState {
+  Stake,
+  Unstake,
+}
+
 export const NO_STATE_ERROR = '';
 
-export const NO_SWR_DATA = 'no/data';
+export const MAX_NUMBER_INPUT_VALUE = 9000000000000000;

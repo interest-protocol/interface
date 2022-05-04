@@ -1,14 +1,48 @@
-import { PoolId, TOKEN_SYMBOL } from '@/sdk/constants';
+import { ethers } from 'ethers';
 
-import { BSC_TEST_ERC_20_DATA, UNKNOWN_ERC_20 } from './erc-20';
+import { CHAIN_ID, CONTRACTS, sortERC20, TOKEN_SYMBOL } from '@/sdk';
+import { getBTCAddress } from '@/utils';
 
-export const FARMS = {
-  [PoolId.Int]: {
-    farmName: 'Interest Token',
-    farmSymbol: 'INT',
-    id: 0,
-    stakingToken: BSC_TEST_ERC_20_DATA[TOKEN_SYMBOL.INT],
-    token0: BSC_TEST_ERC_20_DATA[TOKEN_SYMBOL.INT],
-    token1: UNKNOWN_ERC_20,
+import { ERC_20_DATA } from './erc-20';
+
+export const CASA_DE_PAPEL_FARM_RESPONSE_MAP = {
+  [CHAIN_ID.BSC_TEST_NET]: {
+    baseTokens: [ERC_20_DATA[CHAIN_ID.BSC_TEST_NET][TOKEN_SYMBOL.BTC]],
+    pools: [
+      {
+        pair: sortERC20(
+          ERC_20_DATA[CHAIN_ID.BSC_TEST_NET][TOKEN_SYMBOL.BTC],
+          ERC_20_DATA[CHAIN_ID.BSC_TEST_NET][TOKEN_SYMBOL.INT]
+        ),
+        address: ethers.utils.getAddress(
+          '0x3FB23255BcC69cC9eC9dCa611ff872991B993C6C'
+        ),
+      },
+      {
+        pair: sortERC20(
+          ERC_20_DATA[CHAIN_ID.BSC_TEST_NET][TOKEN_SYMBOL.BTC],
+          ERC_20_DATA[CHAIN_ID.BSC_TEST_NET][TOKEN_SYMBOL.DNR]
+        ),
+        address: ethers.utils.getAddress(
+          '0x5F0A85e0f35bC4cBAFbcba7fd5f64B4cc41D0Aab'
+        ),
+      },
+    ],
+  },
+};
+
+/**
+ * @desc The first item on pairs is to get the reserves to calculate Int Price. It needs to be added again for a specific pool.
+ */
+export const CASA_DE_PAPEL_FARM_MAP = {
+  [CHAIN_ID.BSC_TEST_NET]: {
+    // Only need to know the price of BTC
+    baseTokens: [getBTCAddress(CHAIN_ID.BSC_TEST_NET)],
+    poolIds: [0, 1],
+    // [ BTC/INT no Pool id ,BTC/DNR poolId 1]
+    pairs: [
+      ethers.utils.getAddress('0x3FB23255BcC69cC9eC9dCa611ff872991B993C6C'),
+      ethers.utils.getAddress('0x5F0A85e0f35bC4cBAFbcba7fd5f64B4cc41D0Aab'),
+    ],
   },
 };

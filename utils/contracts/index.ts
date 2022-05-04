@@ -1,12 +1,37 @@
 import { ethers } from 'ethers';
-import { __, always, compose, cond, equals, propOr, T, toString } from 'ramda';
+import {
+  __,
+  always,
+  compose,
+  cond,
+  equals,
+  pathOr,
+  propOr,
+  T,
+  toString,
+} from 'ramda';
 
+import CasaDePapelABI from '@/sdk/abi/casa-de-papel.abi.json';
+import InterestERC20MarketABI from '@/sdk/abi/interest-erc-20-market.abi.json';
 import InterestViewABI from '@/sdk/abi/interest-view.abi.json';
 import MultiCallV2ABI from '@/sdk/abi/multi-call-v2.abi.json';
-import { CONTRACTS, TOKEN_SYMBOL } from '@/sdk/constants';
+import {
+  CONTRACTS,
+  DINERO_MARKET_CONTRACT_MAP,
+  TOKEN_SYMBOL,
+} from '@/sdk/constants';
 
-import { InterestViewAbi, MultiCallV2Abi } from '../../types/ethers-contracts';
-import { GetContractAddress, GetViewContract } from './contracts.types';
+import {
+  BtcDineroMarketAbi,
+  CasaDePapelAbi,
+  InterestViewAbi,
+  MultiCallV2Abi,
+} from '../../types/ethers-contracts';
+import {
+  GetContractAddress,
+  GetDineroSignerContract,
+  GetViewContract,
+} from './contracts.types';
 
 const makeGetAddress = (x: Record<number, string>) =>
   compose(
@@ -23,6 +48,20 @@ export const getInterestViewAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.INTEREST_VIEW
 );
 
+export const getCasaDePapelAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.CASA_DE_PAPEL
+);
+
+export const getDineroMarketAddress = (
+  chainId: number,
+  symbol: TOKEN_SYMBOL
+): string =>
+  pathOr(
+    ethers.constants.AddressZero,
+    [chainId, symbol],
+    DINERO_MARKET_CONTRACT_MAP
+  );
+
 export const getBTCAddress: GetContractAddress = makeGetAddress(CONTRACTS.BTC);
 
 export const getIntAddress: GetContractAddress = makeGetAddress(CONTRACTS.INT);
@@ -36,6 +75,16 @@ export const getAddressWithSymbol = (chainId: number) =>
     [equals(TOKEN_SYMBOL.INT), always(getIntAddress(chainId))],
     [T, always(ethers.constants.AddressZero)],
   ]);
+
+export const getCasaDePapelContract: GetViewContract<CasaDePapelAbi> = (
+  chainId,
+  provider
+) =>
+  new ethers.Contract(
+    getCasaDePapelAddress(chainId),
+    CasaDePapelABI,
+    provider
+  ) as CasaDePapelAbi;
 
 export const getMultiCallV2Contract: GetViewContract<MultiCallV2Abi> = (
   chainId,
@@ -56,3 +105,11 @@ export const getInterestViewContract: GetViewContract<InterestViewAbi> = (
     InterestViewABI,
     provider
   ) as InterestViewAbi;
+
+export const getERC20InterestMarket: GetDineroSignerContract<BtcDineroMarketAbi> =
+  (chainId, tokenSymbol, signer) =>
+    new ethers.Contract(
+      getDineroMarketAddress(chainId, tokenSymbol),
+      InterestERC20MarketABI,
+      signer
+    ) as BtcDineroMarketAbi;

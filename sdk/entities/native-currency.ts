@@ -2,7 +2,7 @@ import { BaseCurrency } from './base-currency';
 
 export class NativeCurrency extends BaseCurrency {
   readonly isNative = true;
-  readonly isToken = false;
+  readonly isERC20 = false;
   readonly chainId;
 
   protected constructor(

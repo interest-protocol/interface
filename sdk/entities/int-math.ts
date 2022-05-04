@@ -1,3 +1,4 @@
+import { isBigNumberish } from '@ethersproject/bignumber/lib/bignumber';
 import { BigNumber, BigNumberish, utils } from 'ethers';
 
 import { parseToPositiveStringNumber, ZERO_BIG_NUMBER } from '../utils';
@@ -10,7 +11,8 @@ export class IntMath {
   private _value = BigNumber.from(0);
 
   protected constructor(_value: BigNumberish) {
-    this._value = BigNumber.from(_value);
+    const parsed = isBigNumberish(_value) ? _value.toString() : 0;
+    this._value = BigNumber.from(parsed);
   }
 
   private parseValue(x: BigNumberish | IntMath): BigNumberish {

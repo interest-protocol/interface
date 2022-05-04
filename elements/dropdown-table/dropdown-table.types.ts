@@ -1,4 +1,4 @@
-import { ReactNode /*, RefObject */ } from 'react';
+import { ReactNode } from 'react';
 
 interface ITableHeading {
   tip?: string;
@@ -31,8 +31,4 @@ export interface DropdownTableRowProps {
   dropdown: ReactNode;
   sideContent?: ReactNode;
   headings: ReadonlyArray<ITableHeading>;
-}
-
-export interface TableLoadingProps {
-  columns: number;
 }

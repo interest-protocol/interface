@@ -1,17 +1,15 @@
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
+import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, Typography } from '@/elements';
-import { Routes, RoutesEnum } from '@/sdk/../../../../constants/routes';
 import { TimesSVG } from '@/svg';
-
-import Layout from '../../components/layout';
 
 const Error: FC<{ message: string }> = ({ message }) => {
   const { push } = useRouter();
   const goHome = () => push(Routes[RoutesEnum.DApp]);
   return (
-    <Layout pageTitle="Dapp">
+    <>
       <Box
         height="100%"
         display="flex"
@@ -35,7 +33,7 @@ const Error: FC<{ message: string }> = ({ message }) => {
           &larr; Back To Home
         </Button>
       </Box>
-    </Layout>
+    </>
   );
 };
 

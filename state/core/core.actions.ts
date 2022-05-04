@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { LoadingState } from '@/constants/index';
+import { LoadingState } from '@/constants';
 
 import { ConnectWalletPayload, SetDataPayload } from './core.types';
 
@@ -9,14 +9,14 @@ export const CoreActionTypes = {
   setNativeBalance: 'core/setNativeBalance',
   setLoading: 'core/setLoading',
   setError: 'core/setError',
-  setAccount: 'core/account',
+  setAccount: 'core/setAccount',
   setData: 'core/setData',
   connectWallet: 'core/connectWallet',
 };
 
 const setChainId = createAction<number | null>(CoreActionTypes.setChainId);
 
-const setNativeBalance = createAction<string>(CoreActionTypes.setChainId);
+const setNativeBalance = createAction<string>(CoreActionTypes.setNativeBalance);
 
 const setLoading = createAction<LoadingState>(CoreActionTypes.setLoading);
 

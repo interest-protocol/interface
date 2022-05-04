@@ -2,13 +2,13 @@ import { FC } from 'react';
 
 import priorityHooks from '@/connectors';
 import { Box, Dropdown, Typography } from '@/elements';
-import { CHAIN_ID } from '@/sdk/../../../../constants/chains';
+import { CHAIN_ID } from '@/sdk';
 import { ArrowSVG, BinanceSVG, BinanceTestSVG } from '@/svg';
 
 const { usePriorityChainId } = priorityHooks;
 
 interface SelectNetworkProps {
-  switchNetwork: (x: CHAIN_ID) => Promise<void>;
+  switchNetwork: (x: number) => Promise<void>;
 }
 
 const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {

@@ -1,7 +1,6 @@
-import { CurrencyAmount } from '@/sdk/entities/currency-amount';
-import { ERC20 } from '@/sdk/entities/erc-20';
+import { SafeDineroMarketUserData } from '@/utils/dinero-market/dinero-market.types';
 
 export interface YourBalanceProps {
   loading: boolean;
-  balances: ReadonlyArray<CurrencyAmount<ERC20>>;
+  dineroPair: SafeDineroMarketUserData['dineroPair'];
 }

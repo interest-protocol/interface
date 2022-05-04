@@ -3,11 +3,11 @@ import { FC, useCallback } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Button } from '@/elements';
+import { IntMath } from '@/sdk/entities/int-math';
 import {
   calculateDineroLeftToBorrow,
   safeAmountToWithdrawRepay,
-} from '@/sdk/../../../../../../utils/dinero-market';
-import { IntMath } from '@/sdk/entities/int-math';
+} from '@/utils/dinero-market';
 
 import { InputMaxButtonProps } from './input-money.types';
 

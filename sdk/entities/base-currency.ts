@@ -1,7 +1,7 @@
 export abstract class BaseCurrency {
   abstract readonly isNative: boolean;
 
-  abstract readonly isToken: boolean;
+  abstract readonly isERC20: boolean;
 
   protected constructor(
     readonly name: string,

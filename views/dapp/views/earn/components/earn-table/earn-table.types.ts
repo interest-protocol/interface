@@ -1,15 +1,14 @@
 import { BigNumber } from 'ethers';
 import { ReactNode } from 'react';
 
-import { PoolType } from '@/sdk/../../../../../../constants/farms';
+import { CurrencyAmount, ERC20, LPPairV2 } from '@/sdk';
 import { FarmV2 } from '@/sdk/entities/farm-v2';
+import { SafeFarmData } from '@/utils/farms/farms.types';
 
 export interface EarnTableProps {
-  type: PoolType;
-  farms: ReadonlyArray<FarmV2>;
+  data: ReadonlyArray<SafeFarmData<ERC20 | LPPairV2>>;
+  isPools?: boolean;
   loading: boolean;
-  baseTokenPrice: BigNumber;
-  intPerBlock: BigNumber;
 }
 
 export interface EarnCardProps {
@@ -22,8 +21,8 @@ export interface EarnCardProps {
 }
 
 export interface EarnTableCollapsibleProps {
-  baseTokenPrice: EarnTableProps['baseTokenPrice'];
-  farm: FarmV2;
+  farmTokenPrice: CurrencyAmount<ERC20 | LPPairV2>;
+  farm: FarmV2<ERC20 | LPPairV2>;
 }
 
 interface IUserData {
