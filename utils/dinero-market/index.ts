@@ -416,7 +416,7 @@ export const getMyPositionData: TGetMyPositionData = (data) => {
     );
 
     return [
-      `${collateral.toSignificant(8)} ${symbol}`,
+      `${formatMoney(+collateral.toSignificant(8))} ${symbol}`,
       `$${formatMoney(
         +Fraction.from(
           IntMath.from(data.market.userCollateral)

@@ -40,6 +40,8 @@ const YourBalance: FC<YourBalanceProps> = ({ loading, dineroPair }) => (
             </Box>
             <Typography
               variant="normal"
+              maxWidth="10rem"
+              overflow="hidden"
               textAlign="right"
               whiteSpace="nowrap"
               color="textSecondary"

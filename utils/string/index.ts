@@ -6,20 +6,28 @@ import { Fraction } from '@/sdk/entities/fraction';
 export const shortAccount = (account: string): string =>
   `${account.slice(0, 6)}...${account.slice(-5, -1)}`;
 
-export const formatDollars = (value: number): string => {
+export const formatDollars = (money: number): string => {
+  const value = money.toString();
   const valueInDollars = new Intl.NumberFormat('en-US', {
     style: 'currency',
-    maximumSignificantDigits: `${value}`.split('').length + 2,
+    maximumSignificantDigits:
+      value.split('').length + 2 > 20 ? 20 : value.split('').length + 2,
     minimumSignificantDigits:
-      value > 1 || value < -1 || value === 0
-        ? `${value}`.split('').length + 2
+      +value > 1 || +value < -1 || +value === 0
+        ? value.split('').length + 2 > 20
+          ? 20
+          : value.split('').length + 2
         : 1,
     currency: 'USD',
-  }).format(value);
+  }).format(+value);
 
   const decimals = valueInDollars.split(',');
 
-  return decimals.length > 3
+  return decimals.length > 6
+    ? `${decimals[0]}.${decimals[1].split('').slice(0, 2).join('')}e${
+        (decimals.length - 1) * 3
+      }`
+    : decimals.length > 3
     ? `${decimals.slice(0, decimals.length - 3).join(',')}B`
     : decimals.length === 3
     ? `${decimals[0]}.${`${decimals[1]}`.charAt(0)}M`
