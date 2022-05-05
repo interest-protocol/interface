@@ -18,11 +18,21 @@ export const useGetFarmsSummary = () => {
     CASA_DE_PAPEL_FARM_MAP
   );
 
-  return useCallContract(chainId, getFarmsSummary, [
+  return useCallContract(
     chainId,
-    prop('pairs', data),
-    prop('poolIds', data),
-    prop('baseTokens', data),
-    {},
-  ]);
+    getFarmsSummary,
+    [
+      chainId,
+      prop('pairs', data),
+      prop('poolIds', data),
+      prop('baseTokens', data),
+      {},
+    ],
+    {
+      refreshWhenHidden: true,
+      revalidateIfStale: true,
+      revalidateOnMount: true,
+      revalidateOnFocus: false,
+    }
+  );
 };

@@ -10,6 +10,8 @@ import Typography from '../typography';
 import { DropdownTableRowProps } from './dropdown-table.types';
 import DropdownTableCell from './dropdown-table-cell';
 
+const AnimatedBox = animated(Box);
+
 const DropdownTableRow: FC<DropdownTableRowProps> = ({
   items,
   index,
@@ -21,8 +23,6 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
   const mobileRef = useRef<HTMLDivElement>(null);
   const desktopRef = useRef<HTMLDivElement>(null);
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
-
-  const AnimatedBox = animated(Box);
 
   const { mHeight, dHeight, arrowInvert } = useSpring({
     from: {
