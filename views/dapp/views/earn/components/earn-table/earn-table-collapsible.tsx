@@ -232,7 +232,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
                 variant="primary"
                 disabled={processedData.balance.isZero()}
                 onClick={handleChangeModal(StakeState.Stake)}
-                bg={processedData.balance.isZero() ? 'disabled' : 'inherit'}
+                bg={processedData.balance.isZero() ? 'disabled' : 'accent'}
                 cursor={
                   processedData.balance.isZero() ? 'not-allowed' : 'pointer'
                 }
