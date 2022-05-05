@@ -3,7 +3,7 @@ import { FC, useCallback } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Button } from '@/elements';
-import { IntMath } from '@/sdk/entities/int-math';
+import { safeToBigNumber } from '@/utils';
 import {
   calculateDineroLeftToBorrow,
   safeAmountToWithdrawRepay,
@@ -29,7 +29,7 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
         calculateDineroLeftToBorrow({
           ...data.market,
           userCollateral: data.market.userCollateral.add(
-            IntMath.toBigNumber(borrowCollateral || '0')
+            safeToBigNumber(+borrowCollateral || 0)
           ),
         })
           .mul(ethers.utils.parseEther('0.9'))
@@ -42,7 +42,7 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     if (name === 'repay.collateral') {
       setValue(
         name,
-        safeAmountToWithdrawRepay(data.market, IntMath.toBigNumber(repayLoan))
+        safeAmountToWithdrawRepay(data.market, safeToBigNumber(+repayLoan))
           .toNumber()
           .toString()
       );

@@ -1,4 +1,4 @@
-import { BoxProps } from '../../elements/box/box.types';
+import { BoxProps } from '@/elements/box/box.types';
 
 export interface ContainerProps
   extends Omit<

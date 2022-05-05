@@ -18,7 +18,7 @@ const Faucet: FC = () => {
 
   return (
     <>
-      <Box position="sticky" bottom="0" right="0">
+      <Box position="sticky" bottom="0" right="0" zIndex={1}>
         <Box
           mb="L"
           mr="L"

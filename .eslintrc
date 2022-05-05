@@ -10,9 +10,12 @@
           ["@/design-system", "./design-system"],
           ["@/elements", "./elements"],
           ["@/hooks", "./hooks"],
+          ["@/interface", "./interface"],
           ["@/sdk", "./sdk"],
           ["@/utils", "./utils"],
-          ["@/views", "./views"]
+          ["@/views", "./views"],
+          ["@/api", "./api"],
+          ["@/state", "./state"]
         ],
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }

@@ -1,7 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 
 import priorityHooks from '@/connectors';
-import { CHAIN_ID, getChainId } from '@/constants/chains';
+import { isChainIdSupported } from '@/constants/chains';
+import { CHAIN_ID } from '@/sdk/constants';
 import { MetaMaskSVG, TimesSVG } from '@/svg';
 
 import { Layout, Loading } from '../components';
@@ -54,7 +55,7 @@ const Web3Manager: FC = ({ children }) => {
       </Layout>
     );
 
-  if (!!chainId && getChainId(chainId) === CHAIN_ID.UNSUPPORTED)
+  if (!!chainId && !isChainIdSupported(chainId))
     return (
       <Layout>
         <Advertising

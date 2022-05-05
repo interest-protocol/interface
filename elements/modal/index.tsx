@@ -10,6 +10,7 @@ const Modal: FC<ModalProps> = ({ modalProps, children, background }) => (
     {...modalProps}
     style={{
       overlay: {
+        zIndex: 99999,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

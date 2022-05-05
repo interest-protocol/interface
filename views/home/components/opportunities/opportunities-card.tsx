@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
-import { Box, Typography } from '../../../../elements';
+import { Box, Typography } from '@/elements';
+
 import { OpportunitiesCardProps } from './opportunities.types';
 
 const OpportunitiesCard: FC<OpportunitiesCardProps> = ({

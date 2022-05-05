@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
-import Container from '../../../../components/container';
-import { Box } from '../../../../elements';
+import Container from '@/components/container';
+import { Box } from '@/elements';
+
 import { ADVANTAGES_DATA } from './advantages.data';
 import AdvantagesCard from './advantages-card';
 

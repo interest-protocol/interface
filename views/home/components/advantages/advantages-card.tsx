@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
+import { Box, Typography } from '@/elements';
 import { CheckSVG } from '@/svg';
 
-import { Box, Typography } from '../../../../elements';
 import { AdvantagesCardProps } from './advantages.types';
 
 const AdvantagesCard: FC<AdvantagesCardProps> = ({ link, description }) => (

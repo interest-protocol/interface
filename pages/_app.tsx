@@ -6,9 +6,11 @@ import Head from 'next/head';
 import NextProgress from 'next-progress';
 import { ReactNode, StrictMode } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
+import { Provider as ReduxProvider } from 'react-redux';
 
 import { LightTheme } from '@/design-system';
 import GlobalStyles from '@/design-system/global-styles';
+import { store } from '@/state/index';
 
 const MyApp = ({ Component, pageProps }: AppProps): ReactNode => (
   <>
@@ -21,7 +23,9 @@ const MyApp = ({ Component, pageProps }: AppProps): ReactNode => (
       <SkeletonTheme baseColor="#202020" highlightColor="#444">
         <Global styles={GlobalStyles} />
         <StrictMode>
-          <Component {...pageProps} />
+          <ReduxProvider store={store}>
+            <Component {...pageProps} />
+          </ReduxProvider>
         </StrictMode>
       </SkeletonTheme>
     </ThemeProvider>

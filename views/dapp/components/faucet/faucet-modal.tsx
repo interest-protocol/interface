@@ -1,43 +1,49 @@
-import { JsonRpcSigner } from '@ethersproject/providers';
-import { BigNumber, ContractTransaction } from 'ethers';
-import { FC, useState } from 'react';
+import { prop } from 'ramda';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import useSWR from 'swr';
+import { useDispatch, useSelector } from 'react-redux';
 import { v4 } from 'uuid';
 
-import priorityHooks from '@/connectors';
-import { CHAIN_ID, CHAINS } from '@/constants/chains';
-import {
-  BSC_TEST_ERC_20_DATA,
-  FAUCET_TOKENS,
-  TOKEN_SYMBOL,
-  TOKENS_SVG_MAP,
-} from '@/constants/erc-20.data';
+import { mintBTC, mintDinero } from '@/api';
+import { MintFaucetToken } from '@/api/faucet/faucet.types';
+import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { CurrencyAmount } from '@/sdk/entities/currency-amount';
+import { useGetSigner } from '@/hooks';
+import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk';
+import { userBalanceEntityActions } from '@/state/user-balances';
+import { userBalanceSelectById } from '@/state/user-balances/user-balances.selectors';
+import { IUserBalance } from '@/state/user-balances/user-balances.types';
 import { LoadingSVG, TimesSVG } from '@/svg';
-import { mintBTC, mintDinero } from '@/utils/erc-20';
-import { getERC20Balance } from '@/utils/erc-20';
+import {
+  getAddressWithSymbol,
+  getBTCAddress,
+  getDNRAddress,
+  getERC20CurrencyAmount,
+  showTXSuccessToast,
+  to18Decimals,
+  tryCatch,
+} from '@/utils';
 
 import { FaucetModalProps, IFaucetForm } from './faucet.types';
 import FaucetSelectCurrency from './faucet-select-currency';
 import InputBalance from './input-balance';
 
-const { usePriorityAccount, usePriorityProvider } = priorityHooks;
-
 const MINT_MAP = {
   [TOKEN_SYMBOL.DNR]: mintDinero,
   [TOKEN_SYMBOL.BTC]: mintBTC,
 } as {
-  [key: string]: (
-    amount: BigNumber,
-    signer: JsonRpcSigner
-  ) => Promise<ContractTransaction>;
+  [key: string]: MintFaucetToken;
 };
+
+const getTestNetAddressWithSymbol = getAddressWithSymbol(CHAIN_ID.BSC_TEST_NET);
 
 const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  const { signer } = useGetSigner();
+
   const { register, getValues, setValue } = useForm<IFaucetForm>({
     defaultValues: {
       currency: TOKEN_SYMBOL.BTC,
@@ -50,67 +56,67 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
     setValue('value', 0);
   };
 
-  const account = usePriorityAccount();
-  const provider = usePriorityProvider();
+  const btcEntity = useSelector(
+    userBalanceSelectById(getBTCAddress(CHAIN_ID.BSC_TEST_NET))
+  ) as IUserBalance | undefined;
 
-  const { data } = useSWR(`${account}-erc20-balances`, async () => {
-    if (!account || !provider) return Promise.reject();
+  const dnrEntity = useSelector(
+    userBalanceSelectById(getDNRAddress(CHAIN_ID.BSC_TEST_NET))
+  ) as IUserBalance | undefined;
 
-    const balances = await Promise.all(
-      FAUCET_TOKENS.map(({ address }) =>
-        getERC20Balance(account, address, provider)
-      )
-    );
+  const data = useMemo(() => {
+    if (!btcEntity?.id || !dnrEntity?.id) return [];
 
-    return balances.map((x, i) =>
-      CurrencyAmount.fromRawAmount(
-        BSC_TEST_ERC_20_DATA[FAUCET_TOKENS[i].symbol],
-        x
-      )
-    );
-  });
+    return [
+      getERC20CurrencyAmount(
+        CHAIN_ID.BSC_TEST_NET,
+        btcEntity.id,
+        btcEntity.balance
+      ),
+      getERC20CurrencyAmount(
+        CHAIN_ID.BSC_TEST_NET,
+        dnrEntity.id,
+        dnrEntity.balance
+      ),
+    ];
+  }, [btcEntity, dnrEntity]);
 
-  const handleMint = async () => {
+  const onMint = useCallback(async () => {
+    if (!signer) return;
+
+    const { currency, value } = getValues();
+
+    if (!currency || !value) return;
+
     setLoading(true);
-    try {
-      if (!getValues || !provider || !account) return;
 
-      const { currency, value } = getValues();
+    const parsedValue = to18Decimals(value);
 
-      if (!currency || !value) return;
+    const promise = tryCatch(
+      MINT_MAP[currency](signer, parsedValue).then(showTXSuccessToast),
+      (e) => {
+        throw e ?? new Error('Something went wrong');
+      },
+      () => {
+        setLoading(false);
+      }
+    );
 
-      const tx = await MINT_MAP[currency](
-        BigNumber.from(value).mul(
-          BigNumber.from(10).pow(BSC_TEST_ERC_20_DATA[currency].decimals)
-        ),
-        provider.getSigner(account)
-      );
+    await toast
+      .promise(promise, {
+        loading: 'Loading...',
+        success: 'Success!',
+        error: prop('message'),
+      })
+      .catch(console.log);
 
-      const explorer = CHAINS[CHAIN_ID.BSC_TEST_NET]?.blockExplorerUrls;
-
-      const receipt = await tx.wait(5);
-      toast(
-        <a
-          target="__black"
-          rel="noreferrer nofollow"
-          href={`${explorer ? explorer[0] : ''}/tx/${receipt.transactionHash}`}
-        >
-          Check on Explorer
-        </a>
-      );
-    } catch (e) {
-      throw e ?? new Error('Something went wrong');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const onMint = () =>
-    toast.promise(handleMint(), {
-      loading: 'Loading...',
-      success: 'Success!',
-      error: ({ message }) => message,
-    });
+    dispatch(
+      userBalanceEntityActions.addUserBalance({
+        id: getTestNetAddressWithSymbol(currency),
+        balance: parsedValue.toString(),
+      })
+    );
+  }, [signer, getValues().value, getValues().currency]);
 
   return (
     <Modal
@@ -180,7 +186,7 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
           <Typography variant="normal" textTransform="uppercase" mt="L">
             Your balance:
           </Typography>
-          {data?.map((x) => {
+          {data.map((x) => {
             const SVG = TOKENS_SVG_MAP[x.currency.symbol];
 
             return (

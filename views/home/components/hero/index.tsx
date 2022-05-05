@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import Container from '../../../../components/container';
-import { Box, Button, Typography } from '../../../../elements';
+import Container from '@/components/container';
+import { Box, Button, Typography } from '@/elements';
 
 const Hero: FC = () => (
   <Box

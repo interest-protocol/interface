@@ -21,7 +21,7 @@ import { ButtonProps } from './button.types';
 const Button = forwardRef(({ hover, active, ...props }: ButtonProps, ref) => {
   const ButtonElement = styled.button(
     css({
-      ...(hover && { ':hover': hover }),
+      ...(hover && { transition: 'all 250ms ease-in-out', ':hover': hover }),
       ...(active && { ':active': active }),
     }),
     variant({ scale: 'buttons' }),

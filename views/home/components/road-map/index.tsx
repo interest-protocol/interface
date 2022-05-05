@@ -1,18 +1,19 @@
+import { dec, inc } from 'ramda';
 import { FC, useState } from 'react';
 import { v4 } from 'uuid';
 
+import Container from '@/components/container';
+import { Box, Typography } from '@/elements';
 import { RoadMapLogoSVG } from '@/svg';
 
-import Container from '../../../../components/container';
-import { Box, Typography } from '../../../../elements';
 import { ROAD_MAP_DATA } from './road-map.data';
 import RoadMapItem from './road-map-item';
 
 const RoadMap: FC = () => {
   const [step, setStep] = useState(0);
 
-  const handleBack = () => setStep((i) => i - 1);
-  const handleForward = () => setStep((i) => i + 1);
+  const handleBack = () => setStep(dec);
+  const handleForward = () => setStep(inc);
 
   return (
     <Box as="section" bg="bottomBackground">

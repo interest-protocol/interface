@@ -1,12 +1,11 @@
 export abstract class BaseCurrency {
   abstract readonly isNative: boolean;
 
-  abstract readonly isToken: boolean;
+  abstract readonly isERC20: boolean;
 
   protected constructor(
-    public readonly chainId: number,
-    readonly decimals: number,
+    readonly name: string,
     readonly symbol: string,
-    readonly name: string
+    readonly decimals: number
   ) {}
 }

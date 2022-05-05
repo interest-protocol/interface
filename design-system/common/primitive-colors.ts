@@ -22,7 +22,9 @@ const primitiveColors = {
   YELLOW_100: '#8E3300',
   GREEN_50: '#CAFFD6',
   GREEN_100: '#008E1F',
+  GREEN_200: '#1C5E2B',
   RED_100: '#FF4444',
+  RED_200: '#B70E0E',
 };
 
 export default primitiveColors;

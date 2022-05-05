@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { FAUCET_TOKENS, TOKENS_SVG_MAP } from '@/constants/erc-20.data';
+import { FAUCET_TOKENS, TOKENS_SVG_MAP } from '@/constants/erc-20';
 import { Box, Dropdown, Input, Typography } from '@/elements';
 import { ArrowSVG, SearchSVG } from '@/svg';
 

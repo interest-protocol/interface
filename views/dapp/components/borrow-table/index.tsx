@@ -1,30 +1,28 @@
 import { ethers } from 'ethers';
 import Link from 'next/link';
 import { FC } from 'react';
+import { useSelector } from 'react-redux';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
-import { CHAIN_ID } from '@/constants/chains';
-import { DINERO_MARKET_CONTRACTS } from '@/constants/dinero-market-contracts.data';
-import { SECONDS_IN_A_YEAR } from '@/constants/index';
-import { Routes, RoutesEnum } from '@/constants/routes';
+import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
-import { useGetDineroMarketErc20Summary } from '@/hooks/use-get-dinero-market-erc20-summary';
-import { IntMath } from '@/sdk/entities/int-math';
+import { useGetDineroMarketErc20Summary } from '@/hooks';
+import {
+  CHAIN_ID,
+  DINERO_MARKET_CONTRACTS,
+  IntMath,
+  SECONDS_IN_A_YEAR,
+} from '@/sdk';
+import { getChainId } from '@/state/core/core.selectors';
 import { BitcoinSVG, DineroSVG, TimesSVG } from '@/svg';
-import { formatDollars } from '@/utils';
+import { formatDollars, getERC20Data } from '@/utils';
 
 import Loading from '../loading';
 
-// Since this is a demo. We do not need to consider the other chains.
-const dineroMarketContractAddresses = DINERO_MARKET_CONTRACTS[
-  CHAIN_ID.BSC_TEST_NET
-].map((x) => x.contract);
-
 const BorrowTable: FC = () => {
-  const { data, error } = useGetDineroMarketErc20Summary(
-    dineroMarketContractAddresses
-  );
+  const { data, error } = useGetDineroMarketErc20Summary();
+  const chainId = useSelector(getChainId) as number | null;
 
   if (error)
     return (
@@ -50,7 +48,7 @@ const BorrowTable: FC = () => {
       </Box>
     );
 
-  if (!data) return <Loading />;
+  if (!data || !chainId) return <Loading />;
 
   return (
     <Box display="flex" flexDirection="column" flex="1">
@@ -133,12 +131,14 @@ const BorrowTable: FC = () => {
                 ),
               },
             ]}
-            data={DINERO_MARKET_CONTRACTS[CHAIN_ID.BSC_TEST_NET].map(
-              (x, index) => ({
+            data={DINERO_MARKET_CONTRACTS[chainId].map((x, index) => {
+              const erc20 = getERC20Data(chainId, x.collateralAddress);
+
+              return {
                 button: (
                   <Link
                     href={`${Routes[RoutesEnum.Borrow]}?mode=borrow&currency=${
-                      x.collateral.symbol
+                      erc20.symbol
                     }`}
                   >
                     <Button variant="primary" hover={{ bg: 'accentActive' }}>
@@ -155,7 +155,7 @@ const BorrowTable: FC = () => {
                   >
                     <BitcoinSVG width="1.4rem" height="1.4rem" />
                     <Typography variant="normal" ml="M">
-                      {`${x.collateral.name} (${x.collateral.symbol})`}
+                      {`${erc20.name} (${erc20.symbol})`}
                     </Typography>
                   </Box>,
                   formatDollars(
@@ -163,14 +163,14 @@ const BorrowTable: FC = () => {
                       .mul(data[index].exchangeRate)
                       .toNumber()
                   ),
-                  IntMath.from(data[index].ltv).toPercentage(0),
+                  IntMath.from(data[index].maxLTVRatio).toPercentage(0),
                   IntMath.from(
-                    data[index].loan.INTEREST_RATE.mul(SECONDS_IN_A_YEAR)
+                    data[index].interestRate.mul(SECONDS_IN_A_YEAR)
                   ).toPercentage(2),
                   IntMath.from(data[index].liquidationFee).toPercentage(2),
                 ],
-              })
-            )}
+              };
+            })}
           />
         </Box>
         <Box display={['flex', 'flex', 'flex', 'none']} alignItems="center">
@@ -223,52 +223,56 @@ const BorrowTable: FC = () => {
               },
             ]}
             data={DINERO_MARKET_CONTRACTS[CHAIN_ID.BSC_TEST_NET].map(
-              (x, index) => ({
-                mobileSide: (
-                  <Box
-                    flex="1"
-                    key={v4()}
-                    display="flex"
-                    alignItems="center"
-                    flexDirection="column"
-                    justifyContent="center"
-                  >
-                    <BitcoinSVG width="1.4rem" height="1.4rem" />
-                    <Typography variant="normal" ml="M" mt="M">
-                      {`${x.collateral.name} (${x.collateral.symbol})`}
-                    </Typography>
-                  </Box>
-                ),
-                button: (
-                  <Link
-                    href={`${Routes[RoutesEnum.Borrow]}?mode=borrow&currency=${
-                      x.collateral.symbol
-                    }`}
-                  >
-                    <Button
+              (x, index) => {
+                const erc20 = getERC20Data(chainId, x.collateralAddress);
+
+                return {
+                  mobileSide: (
+                    <Box
+                      flex="1"
                       key={v4()}
-                      variant="primary"
-                      hover={{ bg: 'accentActive' }}
+                      display="flex"
+                      alignItems="center"
+                      flexDirection="column"
+                      justifyContent="center"
                     >
-                      Borrow
-                    </Button>
-                  </Link>
-                ),
-                items: [
-                  formatDollars(
-                    IntMath.from(data[index].totalCollateral)
-                      .mul(data[index].exchangeRate)
-                      .value()
-                      .div(ethers.utils.parseEther('1'))
-                      .toNumber()
+                      <BitcoinSVG width="1.4rem" height="1.4rem" />
+                      <Typography variant="normal" ml="M" mt="M">
+                        {`${erc20.name} (${erc20.symbol})`}
+                      </Typography>
+                    </Box>
                   ),
-                  IntMath.from(data[index].ltv).toPercentage(0),
-                  IntMath.from(
-                    data[index].loan.INTEREST_RATE.mul(SECONDS_IN_A_YEAR)
-                  ).toPercentage(2),
-                  IntMath.from(data[index].liquidationFee).toPercentage(2),
-                ],
-              })
+                  button: (
+                    <Link
+                      href={`${
+                        Routes[RoutesEnum.Borrow]
+                      }?mode=borrow&currency=${erc20.symbol}`}
+                    >
+                      <Button
+                        key={v4()}
+                        variant="primary"
+                        hover={{ bg: 'accentActive' }}
+                      >
+                        Borrow
+                      </Button>
+                    </Link>
+                  ),
+                  items: [
+                    formatDollars(
+                      IntMath.from(data[index].totalCollateral)
+                        .mul(data[index].exchangeRate)
+                        .value()
+                        .div(ethers.utils.parseEther('1'))
+                        .toNumber()
+                    ),
+                    IntMath.from(data[index].maxLTVRatio).toPercentage(0),
+                    IntMath.from(
+                      data[index].interestRate.mul(SECONDS_IN_A_YEAR)
+                    ).toPercentage(2),
+                    IntMath.from(data[index].liquidationFee).toPercentage(2),
+                  ],
+                };
+              }
             )}
           />
         </Box>

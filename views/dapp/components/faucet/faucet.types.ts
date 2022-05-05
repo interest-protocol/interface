@@ -1,4 +1,4 @@
-import { TOKEN_SYMBOL } from '@/constants/erc-20.data';
+import { TOKEN_SYMBOL } from '@/sdk';
 
 export interface FaucetModalProps {
   isOpen: boolean;

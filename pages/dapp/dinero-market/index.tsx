@@ -1,6 +1,9 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 
+import { Web3Manager } from '@/components';
+import { TOKEN_SYMBOL } from '@/sdk';
+import { Layout } from '@/views/dapp/components';
 import DineroMarket from '@/views/dapp/views/dinero-market';
 import Error from '@/views/dapp/views/error';
 import Loading from '@/views/dapp/views/loading';
@@ -11,13 +14,19 @@ const DineroMarketPage: NextPage = () => {
   if (currency === undefined && mode === undefined) return <Loading />;
 
   if (currency === null || mode === null)
-    return <Error message="Wrong params" />;
+    return (
+      <Layout pageTitle="dapp">
+        <Error message="Wrong params" />
+      </Layout>
+    );
 
   return (
-    <DineroMarket
-      currency={currency as string}
-      mode={mode as 'borrow' | 'repay'}
-    />
+    <Web3Manager>
+      <DineroMarket
+        tokenSymbol={currency as TOKEN_SYMBOL}
+        mode={mode as 'borrow' | 'repay'}
+      />
+    </Web3Manager>
   );
 };
 
