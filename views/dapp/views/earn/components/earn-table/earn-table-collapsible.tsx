@@ -189,9 +189,15 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
           farm.stakingToken.decimals
         )} ${farm.farmSymbol}`}
         button={
-          <Button variant="primary" hover={{ bg: 'accentActive' }}>
-            Get {farm.farmSymbol}
-          </Button>
+          <a
+            href="https://pancake.kiemtienonline360.com/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button variant="primary" hover={{ bg: 'accentActive' }}>
+              Get {farm.farmSymbol}
+            </Button>
+          </a>
         }
       />
       <EarnCard
@@ -222,20 +228,37 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
               px={['NONE', 'NONE', 'NONE', 'XL']}
             >
               <Button
-                variant="primary"
                 mr="S"
-                hover={{ bg: 'accentActive' }}
+                variant="primary"
                 disabled={processedData.balance.isZero()}
                 onClick={handleChangeModal(StakeState.Stake)}
+                bg={processedData.balance.isZero() ? 'disabled' : 'inherit'}
+                cursor={
+                  processedData.balance.isZero() ? 'not-allowed' : 'pointer'
+                }
+                hover={{
+                  bg: processedData.balance.isZero()
+                    ? 'disabled'
+                    : 'accentActive',
+                }}
               >
                 +
               </Button>
               <Button
-                bg="error"
                 variant="primary"
-                hover={{ bg: 'errorActive' }}
                 disabled={processedData.stakingAmount.isZero()}
                 onClick={handleChangeModal(StakeState.Unstake)}
+                bg={processedData.stakingAmount.isZero() ? 'disabled' : 'error'}
+                cursor={
+                  processedData.stakingAmount.isZero()
+                    ? 'not-allowed'
+                    : 'pointer'
+                }
+                hover={{
+                  bg: processedData.stakingAmount.isZero()
+                    ? 'disabled'
+                    : 'errorActive',
+                }}
               >
                 -
               </Button>

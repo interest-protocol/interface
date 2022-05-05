@@ -40,6 +40,7 @@ const InputStake: FC<InputStakeProps> = ({
             px="M"
             fontSize="S"
             height="100%"
+            type="button"
             variant="secondary"
             bg="bottomBackground"
             hover={{ bg: 'accent' }}
