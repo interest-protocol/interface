@@ -1,7 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 
-import { MAX_NUMBER_INPUT_VALUE } from '@/constants';
 import { Box, Input, Typography } from '@/elements';
+import { MAX_NUMBER_INPUT_VALUE } from '@/sdk';
 
 import InputErrorMessage from './input-error';
 import InputMaxButton from './input-max-button';
