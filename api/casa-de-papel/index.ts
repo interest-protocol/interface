@@ -1,17 +1,16 @@
+import { JsonRpcSigner } from '@ethersproject/providers';
 import { BigNumber } from 'ethers';
 
-import { getCasaDePapelContract, getStaticWeb3Provider } from '@/utils';
+import { getCasaDePapelContract } from '@/utils';
 
 export const depositLP = (
   chainId: number,
+  signer: JsonRpcSigner,
   account: string,
   poolId: number,
   amount: BigNumber
 ) => {
-  const casaDePapel = getCasaDePapelContract(
-    chainId,
-    getStaticWeb3Provider(chainId)
-  ).connect(getStaticWeb3Provider(chainId).getSigner(account));
+  const casaDePapel = getCasaDePapelContract(chainId, signer);
 
   if (poolId === 0) return casaDePapel.stake(amount);
 
@@ -20,14 +19,12 @@ export const depositLP = (
 
 export const withdrawLP = (
   chainId: number,
+  signer: JsonRpcSigner,
   account: string,
   poolId: number,
   amount: BigNumber
 ) => {
-  const casaDePapel = getCasaDePapelContract(
-    chainId,
-    getStaticWeb3Provider(chainId)
-  ).connect(getStaticWeb3Provider(chainId).getSigner(account));
+  const casaDePapel = getCasaDePapelContract(chainId, signer);
 
   if (poolId === 0) return casaDePapel.unstake(account, account, amount);
 

@@ -135,10 +135,10 @@ const calculateIntUSDPrice = (
   const baseTokenPrice = CASA_DE_PAPEL_FARM_RESPONSE_MAP[
     chainId
   ].baseTokens.reduce((acc, x, i) => {
-    if (isIntToken0 && isSameAddress(x.address, pair[1].address))
-      return prices[i];
-
-    if (!isIntToken0 && isSameAddress(x.address, pair[0].address))
+    if (
+      isSameAddress(x.address, pair[0].address) ||
+      isSameAddress(x.address, pair[1].address)
+    )
       return prices[i];
 
     return acc;
@@ -157,10 +157,11 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
 ) => {
   if (!data || !chainId)
     return {
+      intUSDPrice: ZERO_BIG_NUMBER,
       pools: [
         {
           farm: FarmV2.createIntPool({
-            chainId: CHAIN_ID.UNSUPPORTED,
+            int: UNKNOWN_ERC_20,
             totalStakedAmount: ZERO_BIG_NUMBER,
             totalAllocationPoints: ZERO_BIG_NUMBER,
             allocationPoints: ZERO_BIG_NUMBER,
@@ -176,7 +177,7 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
       ],
       farms: [
         {
-          farm: FarmV2.createPCSFarmV2({
+          farm: FarmV2.createPCSPairFarmV2({
             totalAllocationPoints: ZERO_BIG_NUMBER,
             allocationPoints: ZERO_BIG_NUMBER,
             chainId: CHAIN_ID.UNSUPPORTED,
@@ -207,13 +208,14 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
   );
 
   const intPool = FarmV2.createIntPool({
-    chainId,
+    int: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT],
     allocationPoints: data.poolsData[0].allocationPoints,
     totalAllocationPoints: data.mintData.totalAllocationPoints,
     totalStakedAmount: data.poolsData[0].totalStakingAmount,
   });
 
   return {
+    intUSDPrice,
     pools: [
       {
         farmTokenPrice: CurrencyAmount.fromRawAmount(
@@ -244,7 +246,7 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
         const reserves = data.reserves[index + 1];
         const totalSupply = data.totalSupplies[index + 1];
 
-        const farm = FarmV2.createPCSFarmV2({
+        const farm = FarmV2.createPCSPairFarmV2({
           token0,
           token1,
           chainId,

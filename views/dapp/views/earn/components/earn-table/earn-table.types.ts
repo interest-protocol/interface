@@ -9,6 +9,7 @@ export interface EarnTableProps {
   data: ReadonlyArray<SafeFarmData<ERC20 | LPPairV2>>;
   isPools?: boolean;
   loading: boolean;
+  intUSDPrice: BigNumber;
 }
 
 export interface EarnCardProps {
@@ -23,6 +24,7 @@ export interface EarnCardProps {
 export interface EarnTableCollapsibleProps {
   farmTokenPrice: CurrencyAmount<ERC20 | LPPairV2>;
   farm: FarmV2<ERC20 | LPPairV2>;
+  intUSDPrice: BigNumber;
 }
 
 interface IUserData {

@@ -4,6 +4,7 @@ import { BigNumber, BigNumberish, utils } from 'ethers';
 import { parseToPositiveStringNumber, ZERO_BIG_NUMBER } from '../utils';
 import { Fraction } from './fraction';
 const { parseEther } = utils;
+import { MAX_NUMBER_INPUT_VALUE } from '../constants';
 
 const ONE_ETHER = parseEther('1');
 
@@ -37,18 +38,22 @@ export class IntMath {
     decimals = 18,
     significant = 6
   ): BigNumber {
+    if (value == null || isNaN(+value)) return ZERO_BIG_NUMBER;
+
     const factor = 10 ** significant;
+
     if (typeof value === 'number' && 0 > value * factor) return ZERO_BIG_NUMBER;
     if (
       typeof value === 'string' &&
       0 > +parseToPositiveStringNumber(value) * factor
     )
       return ZERO_BIG_NUMBER;
-    if (value == null || isNaN(+value)) return ZERO_BIG_NUMBER;
 
-    return BigNumber.from(BigInt(value.toString()) * BigInt(factor)).mul(
-      BigNumber.from(10).pow(decimals - significant)
-    );
+    const x = Math.floor(+value * factor);
+
+    return BigNumber.from(
+      x >= MAX_NUMBER_INPUT_VALUE ? MAX_NUMBER_INPUT_VALUE : x
+    ).mul(BigNumber.from(10).pow(decimals - significant));
   }
 
   public static toNumber(

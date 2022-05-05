@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { LoadingState, NO_STATE_ERROR } from '@/constants/index';
+import { LoadingState, NO_STATE_ERROR } from '@/constants';
 
 import { coreActions } from './core.actions';
 import { CoreState } from './core.types';

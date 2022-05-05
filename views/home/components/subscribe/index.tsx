@@ -12,19 +12,21 @@ const Subscribe: FC = () => {
     event.preventDefault();
     // @ts-ignore
     const email = event.target[0].value;
-    toast.promise(
-      fetch(`/api/v1/mail/subscribe?email=${email}`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.httpStatus >= 400) throw data;
-          if (data.httpStatus == 200) return data;
-        }),
-      {
-        loading: 'Subscribing',
-        success: 'Success!',
-        error: (error) => `${error.code} - ${error.message}`,
-      }
-    );
+    toast
+      .promise(
+        fetch(`/api/v1/mail/subscribe?email=${email}`)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.httpStatus >= 400) throw data;
+            if (data.httpStatus == 200) return data;
+          }),
+        {
+          loading: 'Subscribing',
+          success: 'Success!',
+          error: (error) => `${error.code} - ${error.message}`,
+        }
+      )
+      .catch(console.log);
   };
 
   return (

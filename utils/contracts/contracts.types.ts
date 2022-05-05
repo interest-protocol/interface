@@ -4,14 +4,9 @@ import { TOKEN_SYMBOL } from '@/sdk';
 
 export type GetContractAddress = (chainId: number) => string;
 
-export type GetViewContract<T> = (
+export type GetContract<T> = (
   chainId: number,
-  provider: StaticJsonRpcProvider
-) => T;
-
-export type GetSignerContract<T> = (
-  chainId: number,
-  provider: JsonRpcSigner
+  provider: StaticJsonRpcProvider | JsonRpcSigner
 ) => T;
 
 export type GetDineroSignerContract<T> = (

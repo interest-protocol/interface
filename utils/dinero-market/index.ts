@@ -267,6 +267,22 @@ export const getBorrowFields: TGetBorrowFields = (data) => {
 
   return [
     {
+      currency: data.dineroPair.getCollateral().symbol,
+      amount: '0',
+      CurrencySVG: TOKENS_SVG_MAP[data.dineroPair.getCollateral().symbol],
+      max: Math.floor(
+        IntMath.toNumber(
+          data.dineroPair.getCollateralBalance(),
+          data.dineroPair.getCollateral().decimals
+        )
+      ),
+      name: 'borrow.collateral',
+      label: 'Deposit Collateral',
+      amountUSD: data?.market.exchangeRate.isZero()
+        ? 0
+        : IntMath.toNumber(data?.market.exchangeRate),
+    },
+    {
       max: calculateBorrowAmount(data.market).toNumber(),
       amount: '0',
       amountUSD: 1,
@@ -274,17 +290,6 @@ export const getBorrowFields: TGetBorrowFields = (data) => {
       name: 'borrow.loan',
       label: 'Borrow Dinero',
       currency: TOKEN_SYMBOL.DNR,
-    },
-    {
-      currency: data.dineroPair.getCollateral().symbol,
-      amount: '0',
-      CurrencySVG: TOKENS_SVG_MAP[data.dineroPair.getCollateral().symbol],
-      max: Math.floor(IntMath.toNumber(data.dineroPair.getCollateralBalance())),
-      name: 'borrow.collateral',
-      label: 'Deposit Collateral',
-      amountUSD: data?.market.exchangeRate.isZero()
-        ? 0
-        : IntMath.toNumber(data?.market.exchangeRate),
     },
   ];
 };

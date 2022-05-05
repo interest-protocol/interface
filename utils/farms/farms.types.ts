@@ -40,6 +40,7 @@ export interface SafeFarmSummaryData {
   pools: ReadonlyArray<SafeFarmData<ERC20>>;
   farms: ReadonlyArray<SafeFarmData<LPPairV2>>;
   loading: boolean;
+  intUSDPrice: BigNumber;
 }
 
 export type GetSafeFarmSummaryData = (

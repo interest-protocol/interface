@@ -3,6 +3,7 @@ import { ProviderRpcError } from '@web3-react/types';
 import { isChainIdSupported } from '@/constants';
 import { isValidAccount } from '@/utils/address';
 
+import { ThrowIfInvalidSigner } from './error.types';
 export const throwContractCallError = (e: unknown): void => {
   if ((e as ProviderRpcError).code === -32603) {
     const message = ((e as ProviderRpcError)?.data as Record<string, string>)
@@ -20,11 +21,11 @@ export const throwIfInvalidAccount = (accounts: ReadonlyArray<string>) => {
   });
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const throwIfInvalidAccountAndChainId = (
-  accounts: ReadonlyArray<string>,
-  chainId: number | null
-): number => {
+export const throwIfInvalidSigner: ThrowIfInvalidSigner = (
+  accounts,
+  chainId,
+  signer
+) => {
   throwIfInvalidAccount(accounts);
 
   if (!chainId) throw new Error(`No chain id detected`);
@@ -32,7 +33,9 @@ export const throwIfInvalidAccountAndChainId = (
   if (!isChainIdSupported(chainId))
     throw new Error(`Invalid chain id: ${chainId}`);
 
-  return chainId;
+  if (!signer) throw new Error('No JsonRpcSigner detected');
+
+  return { validId: chainId, validSigner: signer };
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

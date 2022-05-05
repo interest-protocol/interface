@@ -1,5 +1,5 @@
 import { hexStripZeros } from '@ethersproject/bytes';
-import { JsonRpcSigner, StaticJsonRpcProvider } from '@ethersproject/providers';
+import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { MetaMask } from '@web3-react/metamask';
 import { Connector, ProviderRpcError } from '@web3-react/types';
 import { WalletConnect } from '@web3-react/walletconnect';
@@ -56,6 +56,3 @@ export async function switchToNetwork(
 
 export const getStaticWeb3Provider = (chainId: number): StaticJsonRpcProvider =>
   new StaticJsonRpcProvider(CHAINS[chainId].rpcUrls[0]);
-
-export const getSigner = (chainId: number, account: string): JsonRpcSigner =>
-  getStaticWeb3Provider(chainId).getSigner(ethers.utils.getAddress(account));

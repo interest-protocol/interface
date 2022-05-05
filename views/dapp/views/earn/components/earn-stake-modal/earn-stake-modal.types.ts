@@ -5,7 +5,7 @@ import { StakeState } from '@/constants';
 export interface EarnStakeModalProps {
   poolId: number;
   symbol: string;
-  balance: BigNumber;
+  balance: number;
   handleClose: () => void;
   modal: StakeState | undefined;
   onStake: (value: BigNumber) => Promise<void>;

@@ -26,6 +26,8 @@ export enum PoolId {
   BtcDnr,
 }
 
+export const MAX_NUMBER_INPUT_VALUE = 9000000000000000;
+
 export const SECONDS_IN_A_YEAR = BigNumber.from(3.154e7);
 
 export const ZERO_ADDRESS = ethers.constants.AddressZero;
@@ -101,7 +103,7 @@ export const CONTRACTS = {
   },
   INTEREST_VIEW: {
     [CHAIN_ID.BSC_MAIN_MET]: ethers.constants.AddressZero,
-    [CHAIN_ID.BSC_TEST_NET]: '0xD6AAb456738a0d01D902fB000FE73Ef10b7D237f',
+    [CHAIN_ID.BSC_TEST_NET]: '0xa9E4424702b6bc840aeF379302175AB7fa78042C',
   },
   BTC: {
     [CHAIN_ID.BSC_MAIN_MET]: ethers.constants.AddressZero,

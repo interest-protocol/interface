@@ -26,7 +26,7 @@ export const TOKENS_SVG_MAP = {
 
 const FARMS_SVG_MAP = {
   0: [InterestTokenSVG],
-  1: [BitcoinSVG, DineroSVG],
+  1: [DineroSVG, BitcoinSVG],
 } as Record<number, ReadonlyArray<FC<SVGAttributes<SVGSVGElement>>>>;
 
 export const getFarmsSVG = (

@@ -1,8 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FC, useCallback, useMemo, useState } from 'react';
-import { useForm, UseFormReturn } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useSelector } from 'react-redux';
 
 import {
   addAllowance,
@@ -16,16 +15,17 @@ import {
 import { Container } from '@/components';
 import { ERC_20_DATA } from '@/constants';
 import { Box } from '@/elements';
-import { useGetUserDineroMarketData } from '@/hooks';
-import { CHAIN_ID, DINERO_MARKET_CONTRACT_MAP } from '@/sdk/constants';
-import { IntMath } from '@/sdk/entities/int-math';
-import { getAccount, getChainId } from '@/state/core/core.selectors';
+import { useGetSigner, useGetUserDineroMarketData } from '@/hooks';
+import { CHAIN_ID, DINERO_MARKET_CONTRACT_MAP } from '@/sdk';
 import {
   getBTCAddress,
   getDNRAddress,
+  safeToBigNumber,
+  showToast,
   showTXSuccessToast,
+  throwContractCallError,
   throwError,
-  throwIfInvalidAccountAndChainId,
+  throwIfInvalidSigner,
 } from '@/utils';
 import {
   calculatePositionHealth,
@@ -34,7 +34,6 @@ import {
   loanElasticToPrincipal,
   processDineroMarketUserData,
 } from '@/utils/dinero-market';
-import { throwContractCallError } from '@/utils/error';
 
 import GoBack from '../../components/go-back';
 import ErrorPage from '../error';
@@ -45,18 +44,9 @@ import UserLTV from './components/user-ltv';
 import YourBalance from './components/your-balance';
 import { BORROW_DEFAULT_VALUES } from './dinero-market.data';
 import { DineroMarketProps, IBorrowForm } from './dinero-market.types';
+import { isFormBorrowEmpty, isFormRepayEmpty } from './dinero-market.utils';
 import DineroMarketForm from './dinero-market-form';
 import DineroMarketSwitch from './dinero-market-switch';
-
-const isFormBorrowEmpty = (form: UseFormReturn<IBorrowForm, any>) =>
-  form.formState.errors.borrow ||
-  form.formState.errors.borrow?.['loan'] ||
-  form.formState.errors.borrow?.['collateral'];
-
-const isFormRepayEmpty = (form: UseFormReturn<IBorrowForm, any>) =>
-  form.formState.errors.repay ||
-  form.formState.errors.repay?.['loan'] ||
-  form.formState.errors.repay?.['collateral'];
 
 const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -68,16 +58,20 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
     resolver: yupResolver(borrowFormValidation),
   });
 
-  const chainId = useSelector(getChainId) as number | null;
-  const account = useSelector(getAccount) as string;
+  const { signer, account, chainId } = useGetSigner();
 
   const handleAddAllowance = useCallback(async () => {
     setIsSubmitting(true);
     try {
-      const validId = throwIfInvalidAccountAndChainId([account], chainId);
+      const { validId, validSigner } = throwIfInvalidSigner(
+        [account],
+        chainId,
+        signer
+      );
 
       const tx = await addAllowance(
         validId,
+        validSigner,
         account,
         ERC_20_DATA[validId][tokenSymbol].address,
         DINERO_MARKET_CONTRACT_MAP[validId][tokenSymbol]
@@ -89,14 +83,15 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
     } finally {
       setIsSubmitting(false);
     }
-  }, [account, chainId, tokenSymbol]);
+  }, [account, chainId, tokenSymbol, signer]);
 
   const submitAllowance = () =>
-    toast.promise(handleAddAllowance(), {
+    showToast(handleAddAllowance(), {
       loading: 'Allowing...',
       success: 'Success!',
       error: ({ message }) => message,
     });
+
   const {
     data: rawData,
     mutate,
@@ -137,11 +132,15 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       if ((!collateral || isNaN(+collateral)) && (!loan || isNaN(+loan)))
         throwError('Form: Invalid Fields');
 
-      const validId = throwIfInvalidAccountAndChainId([account], chainId);
+      const { validId, validSigner } = throwIfInvalidSigner(
+        [account],
+        chainId,
+        signer
+      );
 
       const estimatedPrincipal = loanElasticToPrincipal(
         data.market.totalLoan,
-        IntMath.toBigNumber(loan),
+        safeToBigNumber(loan),
         data.market.loan
       );
 
@@ -152,9 +151,10 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       if (!!collateral && !!loan) {
         const tx = await repayAndWithdrawCollateral(
           validId,
+          validSigner,
           tokenSymbol,
           account,
-          IntMath.toBigNumber(collateral),
+          safeToBigNumber(collateral),
           principal
         );
 
@@ -166,9 +166,10 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       if (collateral) {
         const tx = await withdrawDineroCollateral(
           validId,
+          validSigner,
           tokenSymbol,
           account,
-          IntMath.toBigNumber(collateral)
+          safeToBigNumber(collateral)
         );
 
         await showTXSuccessToast(tx);
@@ -178,6 +179,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       if (loan) {
         const tx = await repayDineroLoan(
           validId,
+          validSigner,
           tokenSymbol,
           account,
           principal
@@ -191,7 +193,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       setIsSubmitting(false);
       await mutate();
     }
-  }, [chainId, account, form.getValues(), tokenSymbol]);
+  }, [chainId, account, form.getValues(), tokenSymbol, signer]);
 
   const handleBorrow = useCallback(async () => {
     setIsSubmitting(true);
@@ -202,15 +204,20 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       if ((!collateral || isNaN(+collateral)) && (!loan || isNaN(+loan)))
         throwError('Form: Invalid Fields');
 
-      const validId = throwIfInvalidAccountAndChainId([account], chainId);
+      const { validId, validSigner } = throwIfInvalidSigner(
+        [account],
+        chainId,
+        signer
+      );
 
       if (!!collateral && !!loan) {
         const tx = await addCollateralAndLoan(
           validId,
+          validSigner,
           tokenSymbol,
           account,
-          IntMath.toBigNumber(collateral),
-          IntMath.toBigNumber(loan)
+          safeToBigNumber(collateral),
+          safeToBigNumber(loan)
         );
 
         await showTXSuccessToast(tx);
@@ -221,9 +228,10 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       if (collateral) {
         const tx = await addDineroMarketCollateral(
           validId,
+          validSigner,
           tokenSymbol,
           account,
-          IntMath.toBigNumber(collateral)
+          safeToBigNumber(collateral)
         );
 
         await showTXSuccessToast(tx);
@@ -233,9 +241,10 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       if (loan) {
         const tx = await getDineroMarketLoan(
           validId,
+          validSigner,
           tokenSymbol,
           account,
-          IntMath.toBigNumber(loan)
+          safeToBigNumber(loan)
         );
 
         await showTXSuccessToast(tx);
@@ -246,7 +255,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       setIsSubmitting(false);
       await mutate();
     }
-  }, [account, chainId, form.getValues(), tokenSymbol]);
+  }, [account, chainId, form.getValues(), tokenSymbol, signer]);
 
   const onSubmitBorrow = async () => {
     if (isFormBorrowEmpty(form)) {
@@ -262,11 +271,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
     )
       return;
 
-    await toast.promise(handleBorrow(), {
-      loading: 'Loading...',
-      success: 'Success!',
-      error: (error) => error.message,
-    });
+    await showToast(handleBorrow());
   };
 
   const onSubmitRepay = async () => {
@@ -275,20 +280,9 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       return;
     }
 
-    if (
-      !chainId ||
-      !tokenSymbol ||
-      !account ||
-      !data ||
-      data?.dineroPair.getDineroAllowance().isZero()
-    )
-      return;
+    if (!chainId || !tokenSymbol || !account || !data) return;
 
-    await toast.promise(handleRepay(), {
-      loading: 'Loading...',
-      success: 'Success!',
-      error: (error) => error.message,
-    });
+    await showToast(handleRepay());
   };
 
   if (error) return <ErrorPage message="Something went wrong" />;

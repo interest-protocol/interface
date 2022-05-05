@@ -1,6 +1,7 @@
+import { JsonRpcSigner } from '@ethersproject/providers';
 import { BigNumber, ethers } from 'ethers';
 
 export type MintFaucetToken = (
-  amount: BigNumber,
-  account: string
+  signer: JsonRpcSigner,
+  amount: BigNumber
 ) => Promise<ethers.ContractTransaction>;

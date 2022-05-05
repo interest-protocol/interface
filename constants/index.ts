@@ -20,5 +20,3 @@ export enum StakeState {
 }
 
 export const NO_STATE_ERROR = '';
-
-export const MAX_NUMBER_INPUT_VALUE = 9000000000000000;

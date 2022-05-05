@@ -9,8 +9,8 @@ import { mintBTC, mintDinero } from '@/api';
 import { MintFaucetToken } from '@/api/faucet/faucet.types';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
+import { useGetSigner } from '@/hooks';
 import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk';
-import { getAccount } from '@/state/core/core.selectors';
 import { userBalanceEntityActions } from '@/state/user-balances';
 import { userBalanceSelectById } from '@/state/user-balances/user-balances.selectors';
 import { IUserBalance } from '@/state/user-balances/user-balances.types';
@@ -20,7 +20,6 @@ import {
   getBTCAddress,
   getDNRAddress,
   getERC20CurrencyAmount,
-  isValidAccount,
   showTXSuccessToast,
   to18Decimals,
   tryCatch,
@@ -43,6 +42,8 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const { signer } = useGetSigner();
+
   const { register, getValues, setValue } = useForm<IFaucetForm>({
     defaultValues: {
       currency: TOKEN_SYMBOL.BTC,
@@ -63,8 +64,6 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
     userBalanceSelectById(getDNRAddress(CHAIN_ID.BSC_TEST_NET))
   ) as IUserBalance | undefined;
 
-  const account = useSelector(getAccount) as string;
-
   const data = useMemo(() => {
     if (!btcEntity?.id || !dnrEntity?.id) return [];
 
@@ -83,7 +82,7 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
   }, [btcEntity, dnrEntity]);
 
   const onMint = useCallback(async () => {
-    if (!isValidAccount(account)) return;
+    if (!signer) return;
 
     const { currency, value } = getValues();
 
@@ -94,7 +93,7 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
     const parsedValue = to18Decimals(value);
 
     const promise = tryCatch(
-      MINT_MAP[currency](parsedValue, account).then(showTXSuccessToast),
+      MINT_MAP[currency](signer, parsedValue).then(showTXSuccessToast),
       (e) => {
         throw e ?? new Error('Something went wrong');
       },
@@ -103,11 +102,13 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
       }
     );
 
-    await toast.promise(promise, {
-      loading: 'Loading...',
-      success: 'Success!',
-      error: prop('message'),
-    });
+    await toast
+      .promise(promise, {
+        loading: 'Loading...',
+        success: 'Success!',
+        error: prop('message'),
+      })
+      .catch(console.log);
 
     dispatch(
       userBalanceEntityActions.addUserBalance({
@@ -115,7 +116,7 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
         balance: parsedValue.toString(),
       })
     );
-  }, [account, getValues().value, getValues().currency]);
+  }, [signer, getValues().value, getValues().currency]);
 
   return (
     <Modal

@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 
 import { getFarmsSVG, StakeState } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { IntMath } from '@/sdk/entities/int-math';
+import { IntMath } from '@/sdk';
 import { TimesSVG } from '@/svg';
 import { safeToBigNumber } from '@/utils';
 
@@ -90,7 +90,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
           <InputStake
             register={register}
             setValue={setValue}
-            balance={balance.toNumber()}
+            balance={balance}
             currencyPrefix={
               <Box display="flex" alignItems="center">
                 <Box display="inline-flex">
@@ -121,7 +121,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
               {symbol} Token
             </Typography>
             <Typography variant="normal" my="L">
-              {IntMath.toNumber(balance)} {symbol}
+              {balance} {symbol}
             </Typography>
           </Box>
         </Box>

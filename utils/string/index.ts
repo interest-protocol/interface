@@ -1,37 +1,19 @@
-import { always, ifElse, isNil } from 'ramda';
+import { always, ifElse, isNil, toString } from 'ramda';
 
-import { Rounding } from '@/sdk/constants';
-import { Fraction } from '@/sdk/entities/fraction';
+import { Fraction, Rounding } from '@/sdk';
 
 export const shortAccount = (account: string): string =>
   `${account.slice(0, 6)}...${account.slice(-5, -1)}`;
 
 export const formatDollars = (money: number): string => {
-  const value = money.toString();
-  const valueInDollars = new Intl.NumberFormat('en-US', {
+  const [integralPart] = money.toString().split('.');
+  const length = integralPart.length;
+  return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    maximumSignificantDigits:
-      value.split('').length + 2 > 20 ? 20 : value.split('').length + 2,
-    minimumSignificantDigits:
-      +value > 1 || +value < -1 || +value === 0
-        ? value.split('').length + 2 > 20
-          ? 20
-          : value.split('').length + 2
-        : 1,
+    maximumSignificantDigits: length > 20 ? 20 : length + 4,
+    minimumSignificantDigits: length > 20 ? 20 : length + 2,
     currency: 'USD',
-  }).format(+value);
-
-  const decimals = valueInDollars.split(',');
-
-  return decimals.length > 6
-    ? `${decimals[0]}.${decimals[1].split('').slice(0, 2).join('')}e${
-        (decimals.length - 1) * 3
-      }`
-    : decimals.length > 3
-    ? `${decimals.slice(0, decimals.length - 3).join(',')}B`
-    : decimals.length === 3
-    ? `${decimals[0]}.${`${decimals[1]}`.charAt(0)}M`
-    : decimals.join(',');
+  }).format(money);
 };
 
 export const formatMoney = (value: number): string =>

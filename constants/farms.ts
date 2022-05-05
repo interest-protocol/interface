@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 
-import { CHAIN_ID, CONTRACTS, sortERC20, TOKEN_SYMBOL } from '@/sdk';
+import { CHAIN_ID, sortERC20, TOKEN_SYMBOL } from '@/sdk';
 import { getBTCAddress } from '@/utils';
 
 import { ERC_20_DATA } from './erc-20';

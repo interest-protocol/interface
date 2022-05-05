@@ -12,7 +12,12 @@ import {
 import { EarnTableProps } from './earn-table.types';
 import EarnTableCollapsible from './earn-table-collapsible';
 
-const EarnTable: FC<EarnTableProps> = ({ data, isPools, loading }) => (
+const EarnTable: FC<EarnTableProps> = ({
+  data,
+  isPools,
+  intUSDPrice,
+  loading,
+}) => (
   <Box display="flex" flexDirection="column" flex="1">
     <Container dapp px="M" width="100%">
       <Typography variant="normal" mt="L">
@@ -98,6 +103,7 @@ const EarnTable: FC<EarnTableProps> = ({ data, isPools, loading }) => (
                     ],
                     dropdown: (
                       <EarnTableCollapsible
+                        intUSDPrice={intUSDPrice}
                         farm={farm}
                         farmTokenPrice={farmTokenPrice}
                       />
@@ -183,6 +189,7 @@ const EarnTable: FC<EarnTableProps> = ({ data, isPools, loading }) => (
                     <EarnTableCollapsible
                       farm={farm}
                       farmTokenPrice={farmTokenPrice}
+                      intUSDPrice={intUSDPrice}
                     />
                   ),
                 }))

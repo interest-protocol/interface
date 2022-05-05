@@ -1,6 +1,5 @@
 import { BigNumber } from 'ethers';
 
-import { ERC_20_DATA } from '@/constants';
 import { ERC20 } from '@/sdk/entities/erc-20';
 
 import { TOKEN_SYMBOL } from '../constants';
@@ -31,7 +30,7 @@ interface createPCS {
 }
 
 interface CreateIntPool {
-  chainId: number;
+  int: ERC20;
   allocationPoints: IConstructor<unknown>['allocationPoints'];
   totalAllocationPoints: IConstructor<unknown>['totalAllocationPoints'];
   totalStakedAmount: BigNumber;
@@ -69,26 +68,24 @@ export class FarmV2<T> {
   }
 
   public static createIntPool({
-    chainId,
+    int,
     allocationPoints,
     totalAllocationPoints,
     totalStakedAmount,
   }: CreateIntPool): FarmV2<ERC20> {
-    const stakingToken = ERC_20_DATA[chainId][TOKEN_SYMBOL.INT];
-
     return new FarmV2({
       allocationPoints,
       totalAllocationPoints,
       id: 0,
       farmSymbol: 'Int',
       farmName: 'Interest Token',
-      stakingToken,
+      stakingToken: int,
       totalStakedAmount,
       isPool: true,
     });
   }
 
-  public static createPCSFarmV2({
+  public static createPCSPairFarmV2({
     token0,
     token1,
     id,
@@ -113,11 +110,11 @@ export class FarmV2<T> {
 
     const farmName = isToken1
       ? `${stakingToken.token1.name} | ${stakingToken.token0.name}`
-      : `${stakingToken.token0.name} | ${stakingToken.token0.name}`;
+      : `${stakingToken.token0.name} | ${stakingToken.token1.name}`;
 
     const farmSymbol = isToken1
       ? `${stakingToken.token1.symbol}/${stakingToken.token0.symbol}`
-      : `${stakingToken.token1.symbol}/${stakingToken.token0.symbol}`;
+      : `${stakingToken.token0.symbol}/${stakingToken.token1.symbol}`;
 
     return new FarmV2({
       allocationPoints,
@@ -146,5 +143,13 @@ export class FarmV2<T> {
 
   public getPool(): FarmV2<ERC20> | null {
     return this.isPool ? (this as unknown as FarmV2<ERC20>) : null;
+  }
+
+  public getRewardTokenMetaData() {
+    return {
+      name: 'Interest Token',
+      decimals: 18,
+      symbol: 'Int',
+    };
   }
 }

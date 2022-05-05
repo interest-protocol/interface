@@ -31,7 +31,7 @@ export const sortTokens = (
   if (ethers.utils.getAddress(tokenB) > ethers.utils.getAddress(tokenA))
     return [tokenA, tokenB];
 
-  return [tokenA, tokenB];
+  return [tokenB, tokenA];
 };
 
 export const sortERC20 = (tokenA: ERC20, tokenB: ERC20): [ERC20, ERC20] =>
