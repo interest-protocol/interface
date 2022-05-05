@@ -303,7 +303,9 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         onStake={handleStake}
         onUnstake={handleUnstake}
         balance={IntMath.toNumber(
-          processedData.balance,
+          modal === StakeState.Stake
+            ? processedData.balance
+            : processedData.stakingAmount,
           farm.stakingToken.decimals
         )}
         handleClose={handleCloseModal}
