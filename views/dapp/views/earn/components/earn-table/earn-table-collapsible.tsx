@@ -34,6 +34,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
   intUSDPrice,
 }) => {
   const [modal, setModal] = useState<StakeState | undefined>();
+  const [modalLoading, setModalLoading] = useState<boolean>(false);
 
   const { signer, chainId, account } = useGetSigner();
 
@@ -106,6 +107,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
     async (amount: BigNumber) => {
       if (processedData.balance.isZero()) return;
 
+      setModalLoading(true);
       try {
         const { validId, validSigner } = throwIfInvalidSigner(
           [account],
@@ -124,6 +126,9 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         await mutate();
       } catch (e) {
         throwError('Failed to deposit', e);
+      } finally {
+        setModalLoading(false);
+        handleCloseModal();
       }
     },
     [chainId, signer, processedData.balance.toString()]
@@ -133,6 +138,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
     async (amount: BigNumber) => {
       if (processedData.stakingAmount.isZero()) return;
 
+      setModalLoading(true);
       try {
         const { validId, validSigner } = throwIfInvalidSigner(
           [account],
@@ -151,6 +157,9 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         await mutate();
       } catch (e) {
         throw e || new Error('Something Went Wrong');
+      } finally {
+        setModalLoading(false);
+        handleCloseModal();
       }
     },
     [processedData.stakingAmount.toString(), chainId, signer]
@@ -300,6 +309,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
       />
       <EarnStakeModal
         modal={modal}
+        loading={modalLoading}
         onStake={handleStake}
         onUnstake={handleUnstake}
         balance={IntMath.toNumber(
