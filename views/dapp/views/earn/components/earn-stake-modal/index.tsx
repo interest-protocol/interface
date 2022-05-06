@@ -4,7 +4,6 @@ import { v4 } from 'uuid';
 
 import { getFarmsSVG, StakeState } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { IntMath } from '@/sdk';
 import { TimesSVG } from '@/svg';
 import { safeToBigNumber } from '@/utils';
 
@@ -12,10 +11,9 @@ import { EarnStakeModalProps } from './earn-stake-modal.types';
 import InputStake from './input-stake';
 
 const EarnStakeModal: FC<EarnStakeModalProps> = ({
-  poolId,
+  farm,
   modal,
-  symbol,
-  balance,
+  amount,
   onStake,
   onUnstake,
   handleClose,
@@ -34,12 +32,12 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
     [modal]
   );
 
-  const Icon = getFarmsSVG(poolId);
+  const Icon = getFarmsSVG(farm.id);
 
   const onSubmit = ({ value }: { value: number }) => {
     isStake
-      ? onStake(safeToBigNumber(value))
-      : onUnstake(safeToBigNumber(value));
+      ? onStake(safeToBigNumber(value, farm.stakingToken.decimals))
+      : onUnstake(safeToBigNumber(value, farm.stakingToken.decimals));
   };
 
   return (
@@ -84,13 +82,13 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
           </Box>
         </Box>
         <Typography variant="normal" textAlign="center" fontSize="L">
-          {isStake ? 'Stake' : 'Unstake'} {symbol} token
+          {isStake ? 'Stake' : 'Unstake'} {farm.farmSymbol} token
         </Typography>
         <Box mt="XL">
           <InputStake
-            register={register}
             setValue={setValue}
-            balance={balance}
+            register={register}
+            amount={amount}
             currencyPrefix={
               <Box display="flex" alignItems="center">
                 <Box display="inline-flex">
@@ -105,7 +103,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
                   ))}
                 </Box>
                 <Typography variant="normal" ml="M">
-                  {symbol}
+                  {farm.farmSymbol}
                 </Typography>
               </Box>
             }
@@ -118,10 +116,10 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
           </Typography>
           <Box display="flex" justifyContent="space-between">
             <Typography variant="normal" my="L">
-              {symbol} Token
+              {farm.farmSymbol} Token
             </Typography>
             <Typography variant="normal" my="L">
-              {balance} {symbol}
+              {amount} {farm.farmSymbol}
             </Typography>
           </Box>
         </Box>

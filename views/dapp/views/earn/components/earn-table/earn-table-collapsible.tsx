@@ -117,7 +117,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
           validSigner,
           account,
           farm.id,
-          amount
+          amount.gt(processedData.balance) ? processedData.balance : amount
         );
 
         await showTXSuccessToast(tx);
@@ -144,7 +144,9 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
           validSigner,
           account,
           farm.id,
-          amount
+          amount.gt(processedData.stakingAmount)
+            ? processedData.stakingAmount
+            : amount
         );
 
         await showTXSuccessToast(tx);
@@ -178,7 +180,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
     >
       <EarnCard
         loading={loading}
-        title="Available"
+        title="Your balance"
         amountUSD={formatDollars(
           IntMath.from(farmTokenPrice.numerator)
             .mul(processedData.balance)
@@ -302,15 +304,14 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         modal={modal}
         onStake={handleStake}
         onUnstake={handleUnstake}
-        balance={IntMath.toNumber(
+        amount={IntMath.toNumber(
           modal === StakeState.Stake
             ? processedData.balance
             : processedData.stakingAmount,
           farm.stakingToken.decimals
         )}
         handleClose={handleCloseModal}
-        symbol={farm.farmSymbol}
-        poolId={farm.id}
+        farm={farm}
       />
     </Box>
   );
