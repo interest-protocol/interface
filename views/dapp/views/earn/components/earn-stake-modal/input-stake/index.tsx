@@ -1,12 +1,13 @@
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
+import { MAX_NUMBER_INPUT_VALUE } from '@/sdk';
 
 import { InputStakeProps } from './input-stake.types';
 
 const InputStake: FC<InputStakeProps> = ({
   label,
-  balance,
+  amount,
   register,
   setValue,
   currencyPrefix,
@@ -19,7 +20,15 @@ const InputStake: FC<InputStakeProps> = ({
       min="0"
       type="number"
       step="0.0001"
-      {...register('value')}
+      {...register('value', {
+        onChange: (v: ChangeEvent<HTMLInputElement>) =>
+          setValue(
+            'value',
+            +v.target.value > MAX_NUMBER_INPUT_VALUE
+              ? MAX_NUMBER_INPUT_VALUE
+              : +v.target.value
+          ),
+      })}
       placeholder={'0'}
       shieldProps={{
         p: 'S',
@@ -45,7 +54,7 @@ const InputStake: FC<InputStakeProps> = ({
             bg="bottomBackground"
             hover={{ bg: 'accent' }}
             active={{ bg: 'accentActive' }}
-            onClick={() => setValue('value', balance)}
+            onClick={() => setValue('value', amount)}
           >
             max
           </Button>
