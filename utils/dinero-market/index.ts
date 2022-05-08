@@ -478,7 +478,9 @@ export const getRepayFields: TGetRepayFields = (data) => {
       label: 'Repay Dinero',
       max: IntMath.toNumber(data.dineroPair.getDineroBalance()),
       currency: TOKEN_SYMBOL.DNR,
-      disabled: data.market.userLoan.isZero(),
+      disabled:
+        data.market.userLoan.isZero() ||
+        data.dineroPair.getDineroBalance().isZero(),
     },
     {
       currency: data.dineroPair.getCollateral().symbol,
