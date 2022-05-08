@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 
 import { getFarmsSVG, StakeState } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { TimesSVG } from '@/svg';
+import { LoadingSVG, TimesSVG } from '@/svg';
 import { safeToBigNumber } from '@/utils';
 
 import { EarnStakeModalProps } from './earn-stake-modal.types';
@@ -14,6 +14,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
   farm,
   modal,
   amount,
+  loading,
   onStake,
   onUnstake,
   handleClose,
@@ -135,10 +136,19 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
           <Button
             ml="L"
             flex="1"
+            display="flex"
             variant="primary"
+            alignItems="center"
+            justifyContent="center"
+            bg={loading ? 'accentActive' : 'accent'}
             hover={{ bg: 'accentActive' }}
           >
-            Confirm
+            {loading && (
+              <Box mr="M">
+                <LoadingSVG width="1rem" />
+              </Box>
+            )}
+            {loading ? 'Confirming...' : 'Confirm'}
           </Button>
         </Box>
       </Box>
