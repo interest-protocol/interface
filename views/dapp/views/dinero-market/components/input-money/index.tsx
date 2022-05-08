@@ -21,6 +21,7 @@ const InputMoney: FC<InputMoneyProps> = ({
   setValue,
   amountUSD,
   CurrencySVG,
+  disabled,
 }) => {
   const labels = name.split('.') as TErrorMessageLabels;
   return (
@@ -36,6 +37,7 @@ const InputMoney: FC<InputMoneyProps> = ({
       <Input
         type="string"
         placeholder={amount}
+        disabled={disabled}
         {...register(name, {
           onChange: (v: ChangeEvent<HTMLInputElement>) =>
             setValue(

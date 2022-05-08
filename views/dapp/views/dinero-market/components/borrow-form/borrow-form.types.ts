@@ -12,6 +12,7 @@ export interface IBorrowFormField {
   currency: string;
   amountUSD: number;
   CurrencySVG: FC<SVGAttributes<SVGSVGElement>>;
+  disabled: boolean;
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
 }
 

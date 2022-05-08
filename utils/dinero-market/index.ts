@@ -281,6 +281,7 @@ export const getBorrowFields: TGetBorrowFields = (data) => {
       amountUSD: data?.market.exchangeRate.isZero()
         ? 0
         : IntMath.toNumber(data?.market.exchangeRate),
+      disabled: data.dineroPair.getCollateralBalance().isZero(),
     },
     {
       max: calculateBorrowAmount(data.market).toNumber(),
@@ -290,6 +291,9 @@ export const getBorrowFields: TGetBorrowFields = (data) => {
       name: 'borrow.loan',
       label: 'Borrow Dinero',
       currency: TOKEN_SYMBOL.DNR,
+      disabled:
+        data.dineroPair.getCollateralBalance().isZero() &&
+        data.market.userCollateral.isZero(),
     },
   ];
 };
@@ -474,6 +478,7 @@ export const getRepayFields: TGetRepayFields = (data) => {
       label: 'Repay Dinero',
       max: IntMath.toNumber(data.dineroPair.getDineroBalance()),
       currency: TOKEN_SYMBOL.DNR,
+      disabled: data.market.userLoan.isZero(),
     },
     {
       currency: data.dineroPair.getCollateral().symbol,
@@ -485,6 +490,7 @@ export const getRepayFields: TGetRepayFields = (data) => {
       amountUSD: data?.market.exchangeRate.isZero()
         ? 0
         : IntMath.toNumber(data?.market.exchangeRate) || 0,
+      disabled: data.market.userCollateral.isZero(),
     },
   ] as ReadonlyArray<IBorrowFormField>;
 };
