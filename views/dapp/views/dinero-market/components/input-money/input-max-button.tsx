@@ -50,7 +50,7 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     }
 
     setValue(name, max ? max.toString() : '0');
-  }, [repayLoan, borrowCollateral]);
+  }, [repayLoan, borrowCollateral, data.market]);
 
   return (
     <Button

@@ -123,13 +123,15 @@ export const calculateInterestAccrued: TCalculateInterestAccrued = (
   loan
 ) => {
   const lasAccrued = loan.lastAccrued.toNumber() * 1000;
+
   const now = new Date().getTime();
 
   const timeDelta = now - lasAccrued;
 
   return IntMath.from(totalLoan.elastic.mul(loan.interestRate))
     .mul(timeDelta)
-    .value();
+    .value()
+    .div(1000);
 };
 
 export const loanPrincipalToElastic: TLoanPrincipalToElastic = (
@@ -188,6 +190,7 @@ export const calculateDineroLeftToBorrow: TCalculateDineroLeftToBorrow = ({
   loan,
 }): IntMath => {
   const userElasticLoan = loanPrincipalToElastic(totalLoan, userLoan, loan);
+
   const collateral = IntMath.from(maxLTVRatio)
     .mul(userCollateral)
     .mul(exchangeRate);
