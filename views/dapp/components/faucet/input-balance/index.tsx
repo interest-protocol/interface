@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import { TOKEN_SYMBOL } from '@/constants/erc-20.data';
 import { Box, Button, Input, Typography } from '@/elements';
+import { TOKEN_SYMBOL } from '@/sdk';
 
 import { InputBalanceProps } from './input-balance.types';
 

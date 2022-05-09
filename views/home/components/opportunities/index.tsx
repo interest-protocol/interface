@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
-import Container from '../../../../components/container';
-import { Box, Typography } from '../../../../elements';
+import Container from '@/components/container';
+import { Box, Typography } from '@/elements';
+
 import { OPPORTUNITIES_DATA } from './opportunities.data';
 import OpportunitiesCard from './opportunities-card';
 

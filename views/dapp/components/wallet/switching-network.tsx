@@ -1,3 +1,4 @@
+import { not } from 'ramda';
 import { FC, useState } from 'react';
 
 import { Box, Button, Typography } from '@/elements';
@@ -8,7 +9,7 @@ import { SwitchingNetworkModal } from './wallet-modal';
 const SwitchingNetwork: FC = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const toggleModal = () => setIsOpenModal((state) => !state);
+  const toggleModal = () => setIsOpenModal(not);
 
   return (
     <>

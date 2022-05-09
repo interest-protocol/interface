@@ -1,113 +1,122 @@
 import { BigNumber } from 'ethers';
 
-import { TOKEN_SYMBOL } from '@/constants/erc-20.data';
-import { CurrencyAmount } from '@/sdk/entities/currency-amount';
-import { ERC20 } from '@/sdk/entities/erc-20';
+import { DineroMarketPair, ERC20, TOKEN_SYMBOL } from '@/sdk';
 import { IntMath } from '@/sdk/entities/int-math';
-import { calculateUserCurrentLTV } from '@/utils/dinero-market/index';
 import { IBorrowFormField } from '@/views/dapp/views/dinero-market/components/borrow-form/borrow-form.types';
 
-export interface GetDineroMarketUserDataReturn {
-  exchangeRate: BigNumber;
-  loan: [BigNumber, BigNumber, BigNumber] & {
-    lastAccrued: BigNumber;
-    INTEREST_RATE: BigNumber;
-    feesEarned: BigNumber;
+import { DineroMarketUserDataStructOutput } from '../../types/ethers-contracts/InterestViewAbi';
+
+export interface SafeDineroMarketUserData {
+  dineroPair: DineroMarketPair;
+  market: {
+    totalLoan: {
+      elastic: BigNumber;
+      base: BigNumber;
+    };
+    loan: {
+      lastAccrued: BigNumber;
+      interestRate: BigNumber;
+      feesEarned: BigNumber;
+    };
+    exchangeRate: BigNumber;
+    liquidationFee: BigNumber;
+    maxLTVRatio: BigNumber;
+    userCollateral: BigNumber;
+    userLoan: BigNumber;
   };
-  liquidationFee: BigNumber;
-  ltvRatio: BigNumber;
-  userCollateral: BigNumber;
-  userLoan: BigNumber;
-  totalLoan: [BigNumber, BigNumber] & { elastic: BigNumber; base: BigNumber };
-  allowance: BigNumber;
 }
 
-export type MarketAndBalancesData = {
-  balances: [CurrencyAmount<ERC20>, CurrencyAmount<ERC20>];
-  market: GetDineroMarketUserDataReturn;
-};
+type ProcessedMarketData = SafeDineroMarketUserData['market'];
+
+export type DineroMarketUserData =
+  | ([DineroMarketUserDataStructOutput, BigNumber[], BigNumber[]] & {
+      returnData: DineroMarketUserDataStructOutput;
+      balances: BigNumber[];
+      allowances: BigNumber[];
+    })
+  | undefined;
 
 export type TCurrency = TOKEN_SYMBOL;
 
 export type TGetRepayFields = (
-  data: MarketAndBalancesData,
-  currency: TCurrency
+  data: SafeDineroMarketUserData
 ) => ReadonlyArray<IBorrowFormField>;
 
 export type TGetBorrowFields = (
-  data: MarketAndBalancesData,
-  currency: TCurrency
+  data: SafeDineroMarketUserData
 ) => ReadonlyArray<IBorrowFormField>;
 
 export type TGetPositionHealthDataInternal = (
   borrowAmount: BigNumber,
   collateralAmount: BigNumber,
-  data: GetDineroMarketUserDataReturn
+  data: SafeDineroMarketUserData['market']
 ) => [string, string, string];
 
 export type TGetBorrowPositionHealthData = (
-  data: MarketAndBalancesData,
+  data: SafeDineroMarketUserData,
   borrow: { loan: string; collateral: string }
 ) => [string, string, string];
 
 export type TGetRepayPositionHealthData = (
-  data: MarketAndBalancesData,
+  data: SafeDineroMarketUserData,
   borrow: { loan: string; collateral: string }
 ) => [string, string, string];
 
 export type TGetInfoLoanData = (
-  data: MarketAndBalancesData
+  data: SafeDineroMarketUserData
 ) => [string, string, string];
 
 export type TGetMyPositionData = (
-  data: MarketAndBalancesData,
-  currency: TOKEN_SYMBOL
+  data: SafeDineroMarketUserData
 ) => [string, string, string, string, string, string];
 
 export type TCalculateInterestAccrued = (
-  totalLoan: GetDineroMarketUserDataReturn['totalLoan'],
-  loan: GetDineroMarketUserDataReturn['loan']
+  totalLoan: ProcessedMarketData['totalLoan'],
+  loan: ProcessedMarketData['loan']
 ) => BigNumber;
 
 export type TLoanPrincipalToElastic = (
-  totalLoan: GetDineroMarketUserDataReturn['totalLoan'],
-  userPrincipal: GetDineroMarketUserDataReturn['userLoan'],
-  loan: GetDineroMarketUserDataReturn['loan']
+  totalLoan: ProcessedMarketData['totalLoan'],
+  userPrincipal: ProcessedMarketData['userLoan'],
+  loan: ProcessedMarketData['loan']
 ) => IntMath;
 
 export type TCalculateExpectedLiquidationPrice = (
-  data: GetDineroMarketUserDataReturn
+  data: ProcessedMarketData
 ) => IntMath;
 
-export type TCalculatePositionHealth = (
-  data: GetDineroMarketUserDataReturn
-) => IntMath;
+export type TCalculatePositionHealth = (data: ProcessedMarketData) => IntMath;
 
 export type TCalculateDineroLeftToBorrow = (
-  data: GetDineroMarketUserDataReturn
+  data: ProcessedMarketData
 ) => IntMath;
 
-export type TSafeAmountToWithdraw = (
-  data: GetDineroMarketUserDataReturn
-) => IntMath;
+export type TSafeAmountToWithdraw = (data: ProcessedMarketData) => IntMath;
 
-export type TCalculateBorrowAmount = (
-  data: GetDineroMarketUserDataReturn
-) => IntMath;
+export type TCalculateBorrowAmount = (data: ProcessedMarketData) => IntMath;
 
 export type TLoanElasticToPrincipal = (
-  totalLoan: GetDineroMarketUserDataReturn['totalLoan'],
-  userElasticLoan: GetDineroMarketUserDataReturn['userLoan'],
-  loan: GetDineroMarketUserDataReturn['loan']
+  totalLoan: ProcessedMarketData['totalLoan'],
+  userElasticLoan: ProcessedMarketData['userLoan'],
+  loan: ProcessedMarketData['loan']
 ) => IntMath;
 
 export type TSafeAmountToWithdrawRepay = (
-  data: GetDineroMarketUserDataReturn,
+  data: ProcessedMarketData,
   repayLoan: BigNumber
 ) => IntMath;
 
 export type TCalculateUserCurrentLTV = (
-  data: GetDineroMarketUserDataReturn,
+  data: ProcessedMarketData,
   borrowCollateral: BigNumber,
   borrowLoan: BigNumber
 ) => IntMath;
+
+export type MakeDineroMarketPair = (
+  collateralBalance: BigNumber,
+  collateralAllowance: BigNumber,
+  collateral: ERC20,
+  dineroBalance: BigNumber,
+  dineroAllowance: BigNumber,
+  dinero: ERC20
+) => DineroMarketPair;

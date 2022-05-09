@@ -1,10 +1,10 @@
-import { ContractTransaction } from 'ethers';
 import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
-import { MarketAndBalancesData } from '@/utils/dinero-market/dinero-market.types';
+import { TOKEN_SYMBOL } from '@/sdk';
+import { SafeDineroMarketUserData } from '@/utils/dinero-market/dinero-market.types';
 
 export interface DineroMarketProps {
-  currency: string;
+  tokenSymbol: TOKEN_SYMBOL;
   mode: 'borrow' | 'repay';
 }
 
@@ -25,13 +25,12 @@ export interface IBorrowForm {
 }
 
 export interface FormsProps {
-  currency: string;
   isSubmitting: boolean;
   isGettingData: boolean;
   mode: 'borrow' | 'repay';
   onSubmitRepay: () => void;
   onSubmitBorrow: () => void;
-  data: MarketAndBalancesData;
+  data: SafeDineroMarketUserData;
   form: UseFormReturn<IBorrowForm>;
-  handleAddAllowance: () => Promise<ContractTransaction> | undefined;
+  handleAddAllowance: () => Promise<void>;
 }

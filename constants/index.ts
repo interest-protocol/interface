@@ -1,7 +1,22 @@
-import { BigNumber } from 'ethers';
+export * from './chains';
+export * from './erc-20';
+export * from './farms';
+export * from './routes';
+export * from './social-media';
+export * from './wallets';
 
-export const NetworkContextName = 'NETWORK';
+export const isDevelopment = process.env.NODE_ENV === 'development';
 
-export const SECONDS_IN_A_YEAR = BigNumber.from(3.154e7);
+export enum LoadingState {
+  Idle,
+  Fetching,
+  Submitting,
+  Updating,
+}
 
-export const ZERO = BigNumber.from(0);
+export enum StakeState {
+  Stake,
+  Unstake,
+}
+
+export const NO_STATE_ERROR = '';

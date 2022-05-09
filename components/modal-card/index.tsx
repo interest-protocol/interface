@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
-import { Box } from '../../elements';
+import { Box } from '@/elements';
+
 import { TimesSVG } from '../svg';
 import { ModalCardProps } from './modal-card.types';
 

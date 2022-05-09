@@ -43,7 +43,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
       'borrow.loan',
       calculateBorrowAmount({
         ...data.market,
-        ltvRatio: IntMath.toBigNumber(intendedLTV, 16),
+        maxLTVRatio: IntMath.toBigNumber(intendedLTV, 16),
         userCollateral: data.market.userCollateral.add(
           IntMath.toBigNumber(borrowCollateral)
         ),
@@ -59,8 +59,8 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
     setValue(
       'repay.loan',
       intendedLTV === 100
-        ? IntMath.from(data.balances[1].numerator).toNumber().toString()
-        : IntMath.from(data.balances[1].numerator)
+        ? IntMath.from(data.dineroPair.getDineroBalance()).toNumber().toString()
+        : IntMath.from(data.dineroPair.getDineroBalance())
             .mul(IntMath.toBigNumber(intendedLTV / 100))
             .toNumber()
             .toString()
@@ -68,22 +68,22 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   };
 
   const ltvRatio = useMemo(() => {
-    if (data.market.ltvRatio.isZero()) return 0;
+    if (data.market.maxLTVRatio.isZero()) return 0;
     return (
       +Fraction.from(
-        data.market.ltvRatio,
+        data.market.maxLTVRatio,
         ethers.utils.parseEther('1')
       ).toSignificant(4) * 100
     );
-  }, [data.market.ltvRatio]);
+  }, [data.market.maxLTVRatio]);
 
   const isDisabled = useCallback(
     (item: number): boolean => {
-      if (!isBorrow) return data.balances[1].numerator.isZero();
+      if (!isBorrow) return data.dineroPair.getDineroBalance().isZero();
 
-      const collateralBalance = data.balances[0].numerator.add(
-        data.market.userCollateral
-      );
+      const collateralBalance = data.dineroPair
+        .getCollateralBalance()
+        .add(data.market.userCollateral);
 
       if (isBorrow && collateralBalance.isZero()) return true;
 
@@ -93,13 +93,13 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
         data.market,
         IntMath.toBigNumber(borrowCollateral),
         IntMath.toBigNumber(borrowLoan)
-      ).gte(data.market.ltvRatio);
+      ).gte(data.market.maxLTVRatio);
     },
     [
       ltvRatio,
       isBorrow,
-      data.balances[1].numerator,
-      data.balances[0].numerator,
+      data.dineroPair.getDineroBalance().toString(),
+      data.dineroPair.getCollateralBalance().toString(),
       data.market,
       borrowCollateral,
       borrowLoan,
@@ -111,7 +111,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
       <Typography whiteSpace="pre-line" variant="normal" fontSize="S">
         {isBorrow
           ? 'Select a target LTV %'
-          : `Select a DNR balance % to repay.
+          : `Select a DNR balance % to repay
             The contract will refund the difference`}
       </Typography>
       <Box display="flex" justifyContent="space-between" my="L">

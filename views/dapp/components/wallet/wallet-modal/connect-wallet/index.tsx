@@ -3,7 +3,7 @@ import { FC, useMemo, useState } from 'react';
 import priorityHooks from '@/connectors';
 import { metaMask } from '@/connectors/meta-mask';
 // import { walletConnect } from '@/connectors/wallet-connect';
-import { Wallets } from '@/constants/wallets';
+import { Wallets } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { BackSVG, LoadingSVG, MetaMaskSVG, TimesSVG } from '@/svg';
 

@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
-import { Box } from '../../elements';
+import { Box } from '@/elements';
+
 import { ContainerProps } from './container.types';
 
 const Container: FC<ContainerProps> = ({ dapp, ...props }) => (

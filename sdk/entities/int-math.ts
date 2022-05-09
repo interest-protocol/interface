@@ -1,10 +1,10 @@
+import { isBigNumberish } from '@ethersproject/bignumber/lib/bignumber';
 import { BigNumber, BigNumberish, utils } from 'ethers';
 
-import { ZERO } from '@/constants/index';
-import { parseToStringNumber } from '@/utils';
-
+import { parseToPositiveStringNumber, ZERO_BIG_NUMBER } from '../utils';
 import { Fraction } from './fraction';
 const { parseEther } = utils;
+import { MAX_NUMBER_INPUT_VALUE } from '../constants';
 
 const ONE_ETHER = parseEther('1');
 
@@ -12,7 +12,8 @@ export class IntMath {
   private _value = BigNumber.from(0);
 
   protected constructor(_value: BigNumberish) {
-    this._value = BigNumber.from(_value);
+    const parsed = isBigNumberish(_value) ? _value.toString() : 0;
+    this._value = BigNumber.from(parsed);
   }
 
   private parseValue(x: BigNumberish | IntMath): BigNumberish {
@@ -37,15 +38,22 @@ export class IntMath {
     decimals = 18,
     significant = 6
   ): BigNumber {
-    const factor = 10 ** significant;
-    if (typeof value === 'number' && 0 > value * factor) return ZERO;
-    if (typeof value === 'string' && 0 > +parseToStringNumber(value) * factor)
-      return ZERO;
-    if (value == null || isNaN(+value)) return ZERO;
+    if (value == null || isNaN(+value)) return ZERO_BIG_NUMBER;
 
-    return BigNumber.from(Math.trunc(+value * factor)).mul(
-      BigNumber.from(10).pow(decimals - significant)
-    );
+    const factor = 10 ** significant;
+
+    if (typeof value === 'number' && 0 > value * factor) return ZERO_BIG_NUMBER;
+    if (
+      typeof value === 'string' &&
+      0 > +parseToPositiveStringNumber(value) * factor
+    )
+      return ZERO_BIG_NUMBER;
+
+    const x = Math.floor(+value * factor);
+
+    return BigNumber.from(
+      x >= MAX_NUMBER_INPUT_VALUE ? MAX_NUMBER_INPUT_VALUE : x
+    ).mul(BigNumber.from(10).pow(decimals - significant));
   }
 
   public static toNumber(

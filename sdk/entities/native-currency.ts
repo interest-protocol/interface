@@ -1,23 +1,27 @@
-import { CHAIN_ID, CHAINS } from '@/constants/chains';
-
 import { BaseCurrency } from './base-currency';
 
 export class NativeCurrency extends BaseCurrency {
   readonly isNative = true;
-  readonly isToken = false;
+  readonly isERC20 = false;
+  readonly chainId;
 
-  protected constructor(chainId: CHAIN_ID) {
-    const nativeCurrency = CHAINS[chainId].nativeCurrency;
+  protected constructor(
+    name: string,
+    symbol: string,
+    decimals: number,
+    chainId: number
+  ) {
+    super(name, symbol, decimals);
 
-    super(
-      chainId,
-      nativeCurrency.decimals,
-      nativeCurrency.symbol,
-      nativeCurrency.name
-    );
+    this.chainId = chainId;
   }
 
-  public static from(chainId: CHAIN_ID): NativeCurrency {
-    return new NativeCurrency(chainId);
+  public static from(
+    name: string,
+    symbol: string,
+    decimals: number,
+    chainId: number
+  ): NativeCurrency {
+    return new NativeCurrency(name, symbol, decimals, chainId);
   }
 }

@@ -28,13 +28,19 @@
       "@/elements": ["./elements"],
       "@/connectors": ["./connectors"],
       "@/connectors/*": ["./connectors/*"],
+      "@/constants": ["./constants"],
       "@/constants/*": ["./constants/*"],
+      "@/interface": ["./interface"],
       "@/sdk": ["./sdk"],
       "@/sdk/*": ["./sdk/*"],
+      "@/hooks": ["./hooks"],
       "@/hooks/*": ["./hooks/*"],
       "@/utils": ["./utils"],
       "@/utils/*": ["./utils/*"],
-      "@/views/*": ["./views/*"]
+      "@/views/*": ["./views/*"],
+      "@/api/*": ["./api/*"],
+      "@/api": ["./api"],
+      "@/state/*": ["./state/*"]
     }
   },
   "exclude": ["node_modules"],

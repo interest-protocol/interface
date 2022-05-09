@@ -2,7 +2,7 @@ import { ProviderRpcError } from '@web3-react/types';
 import { FC, useCallback, useEffect, useState } from 'react';
 
 import hooks from '@/connectors';
-import { CHAIN_ID, getChainId } from '@/constants/chains';
+import { isChainIdSupported } from '@/constants/chains';
 import { Button } from '@/elements';
 import { switchToNetwork } from '@/utils/web3-provider';
 
@@ -32,7 +32,7 @@ const Wallet: FC = () => {
   const isActivating = usePriorityIsActivating();
 
   const switchNetwork = useCallback(
-    async (x: CHAIN_ID): Promise<void> => {
+    async (x: number): Promise<void> => {
       setTargetChainId(x);
       try {
         if (!connector) return;
@@ -78,8 +78,7 @@ const Wallet: FC = () => {
       </Button>
     );
 
-  if (!!chainId && getChainId(chainId ?? 0) === CHAIN_ID.UNSUPPORTED)
-    return <WrongNetwork />;
+  if (!!chainId && !isChainIdSupported(chainId)) return <WrongNetwork />;
 
   return (
     <>

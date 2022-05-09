@@ -1,28 +1,48 @@
-import { FC, useState } from 'react';
+import { not } from 'ramda';
+import { FC, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import priorityHooks from '@/connectors';
+import { LoadingState } from '@/constants';
+import {
+  getNativeCurrencySymbol,
+  isChainIdSupported,
+} from '@/constants/chains';
 import { Box, Button, Typography } from '@/elements';
-import { useGetUserCurrency } from '@/hooks/use-get-user-currency';
+import { IntMath, ZERO_ADDRESS } from '@/sdk';
+import { coreActions } from '@/state/core/core.actions';
+import { getCoreData } from '@/state/core/core.selectors';
+import { CoreState } from '@/state/core/core.types';
 import { LoadingSVG, MetaMaskSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
 import AccountModal from './wallet-modal/account-modal';
 
-const { usePriorityConnector, useSelectedAccount, useSelectedProvider } =
-  priorityHooks;
+const {
+  usePriorityConnector,
+  useSelectedAccount,
+  useSelectedProvider,
+  usePriorityChainId,
+} = priorityHooks;
 
 const ConnectedWallet: FC = () => {
   const connector = usePriorityConnector();
   const provider = useSelectedProvider(connector);
   const account = useSelectedAccount(connector);
+  const chainId = usePriorityChainId();
+  const dispatch = useDispatch();
+  const coreData = useSelector(getCoreData) as CoreState;
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const toggleModal = () => {
-    setShowModal((state) => !state);
-  };
+  useEffect(() => {
+    if (chainId && isChainIdSupported(chainId) && account)
+      dispatch(coreActions.connectWallet({ chainId, account }));
+  }, [chainId, account]);
 
-  const { amount, symbol } = useGetUserCurrency();
+  const toggleModal = () => {
+    setShowModal(not);
+  };
 
   return (
     <Box
@@ -39,8 +59,10 @@ const ConnectedWallet: FC = () => {
         whiteSpace="nowrap"
         display={['none', 'inline-block']}
       >
-        {symbol !== '???' ? (
-          `${amount.toSignificant(4)} ${symbol}`
+        {coreData.loading !== LoadingState.Fetching ? (
+          `${IntMath.from(
+            coreData.nativeBalance
+          ).toNumber()} ${getNativeCurrencySymbol(chainId || 0)}`
         ) : (
           <LoadingSVG width="1rem" height="1rem" />
         )}
@@ -72,12 +94,12 @@ const ConnectedWallet: FC = () => {
           <MetaMaskSVG height="100%" width="100%" />
         </Box>
         <Typography variant="normal" color="text">
-          {shortAccount(account || '')}
+          {shortAccount(coreData.account || ZERO_ADDRESS)}
         </Typography>
       </Button>
       <AccountModal
         url={provider?.connection.url || ''}
-        account={account!}
+        account={coreData.account}
         showModal={showModal}
         toggleModal={toggleModal}
       />

@@ -2,13 +2,13 @@ import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
-import { TOKENS_SVG_MAP } from '@/constants/erc-20.data';
+import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { formatMoney } from '@/utils';
 
 import { YourBalanceProps } from './your-balance.types';
 
-const YourBalance: FC<YourBalanceProps> = ({ loading, balances }) => (
+const YourBalance: FC<YourBalanceProps> = ({ loading, dineroPair }) => (
   <Box
     py="XL"
     order={3}
@@ -26,23 +26,27 @@ const YourBalance: FC<YourBalanceProps> = ({ loading, balances }) => (
         <Skeleton wrapper={Box} />
       </Box>
     ) : (
-      balances?.map((x) => {
-        const SVG = TOKENS_SVG_MAP[x.currency.symbol];
+      dineroPair?.toArray().map((x) => {
+        const erc20 = x.currencyAmount.currency;
+        const SVG = TOKENS_SVG_MAP[erc20.symbol];
+
         return (
           <Box my="L" key={v4()} display="flex" justifyContent="space-between">
             <Box display="flex">
               <SVG width="1rem" height="1rem" />
               <Typography ml="M" variant="normal">
-                {x.currency.name}
+                {erc20.name}
               </Typography>
             </Box>
             <Typography
               variant="normal"
+              maxWidth="10rem"
+              overflow="hidden"
               textAlign="right"
               whiteSpace="nowrap"
               color="textSecondary"
             >
-              {formatMoney(+x.toSignificant(6))}
+              {formatMoney(+x.currencyAmount.toSignificant(6))}
             </Typography>
           </Box>
         );

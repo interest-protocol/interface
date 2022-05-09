@@ -17,7 +17,7 @@ const FORM_FIELDS = [
 ] as ReadonlyArray<FieldPath<typeof BORROW_DEFAULT_VALUES>>;
 
 const DineroMarketSwitch: FC<DineroMarketSwitchProps> = ({
-  currency,
+  tokenSymbol,
   mode,
   resetField,
 }) => {
@@ -25,7 +25,7 @@ const DineroMarketSwitch: FC<DineroMarketSwitchProps> = ({
   const switchTo = (targetMode: 'borrow' | 'repay') => () => {
     FORM_FIELDS.forEach((name) => resetField(name));
     push(
-      `${Routes[RoutesEnum.Borrow]}?mode=${targetMode}&currency=${currency}`,
+      `${Routes[RoutesEnum.Borrow]}?mode=${targetMode}&currency=${tokenSymbol}`,
       undefined,
       {
         shallow: true,
@@ -44,7 +44,7 @@ const DineroMarketSwitch: FC<DineroMarketSwitchProps> = ({
         onSelect: switchTo('repay'),
       },
     ],
-    [currency, mode]
+    [mode, tokenSymbol]
   );
 
   return <Switch defaultValue={mode} options={options} />;

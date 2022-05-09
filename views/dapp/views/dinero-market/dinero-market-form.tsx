@@ -1,6 +1,5 @@
 import { FC, useMemo } from 'react';
 
-import { TOKEN_SYMBOL } from '@/constants/erc-20.data';
 import { getBorrowFields, getRepayFields } from '@/utils/dinero-market';
 
 import BorrowForm from './components/borrow-form';
@@ -10,22 +9,15 @@ const DineroMarketForm: FC<FormsProps> = ({
   mode,
   data,
   form,
-  currency,
   isSubmitting,
   isGettingData,
   onSubmitRepay,
   onSubmitBorrow,
   handleAddAllowance,
 }) => {
-  const repayFieldsData = useMemo(
-    () => getRepayFields(data, currency as TOKEN_SYMBOL),
-    [data, currency]
-  );
+  const repayFieldsData = useMemo(() => getRepayFields(data), [data]);
 
-  const borrowFieldsData = useMemo(
-    () => getBorrowFields(data!, currency as TOKEN_SYMBOL),
-    [data, currency]
-  );
+  const borrowFieldsData = useMemo(() => getBorrowFields(data), [data]);
 
   return (
     <>

@@ -3,14 +3,14 @@ import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import { Routes, RoutesEnum } from '@/constants/routes';
-import { Box, Dropdown, Typography } from '@/elements';
+import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
 import { Wallet } from '../../index';
 import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {
-  const { pathname, push } = useRouter();
+  const { pathname } = useRouter();
 
   return (
     <Box
@@ -45,56 +45,39 @@ const Header: FC = () => {
         justifyContent="center"
         display={['none', 'none', 'flex']}
       >
-        <Typography
-          px="XL"
-          cursor="pointer"
-          variant="normal"
-          borderRight="1px solid"
-          borderColor="bottomBackground"
-          color={
-            pathname === Routes[RoutesEnum.DApp] ||
-            pathname.includes(Routes[RoutesEnum.Borrow])
-              ? 'accent'
-              : 'inherit'
-          }
-          hover={{ color: 'accentActive' }}
-        >
-          Borrow
-        </Typography>
-        <Box px="XL">
-          <Dropdown
-            mode="menu"
-            title={
-              <Typography
-                as="span"
-                variant="normal"
-                whiteSpace="nowrap"
-                color={
-                  pathname.includes(Routes[RoutesEnum.NFTLoans])
-                    ? 'accent'
-                    : 'inherit'
-                }
-                hover={{
-                  color: 'accentActive',
-                }}
-              >
-                NFT Loans
-              </Typography>
+        <Link href={Routes[RoutesEnum.Earn]}>
+          <Typography
+            px="XL"
+            cursor="pointer"
+            variant="normal"
+            borderRight="1px solid"
+            borderColor="bottomBackground"
+            color={
+              pathname.includes(Routes[RoutesEnum.Earn]) ? 'accent' : 'inherit'
             }
-            data={[
-              {
-                value: 'borrow',
-                displayOption: 'Borrow',
-                onSelect: () => push(Routes[RoutesEnum.NFTBorrow]),
-              },
-              {
-                value: 'lend',
-                displayOption: 'Lend',
-                onSelect: () => push(Routes[RoutesEnum.NFTLend]),
-              },
-            ]}
-          />
-        </Box>
+            hover={{ color: 'accentActive' }}
+          >
+            Earn
+          </Typography>
+        </Link>
+        <Link href={Routes[RoutesEnum.DApp]}>
+          <Typography
+            px="XL"
+            cursor="pointer"
+            variant="normal"
+            borderRight="1px solid"
+            borderColor="bottomBackground"
+            color={
+              pathname === Routes[RoutesEnum.DApp] ||
+              pathname.includes(Routes[RoutesEnum.Borrow])
+                ? 'accent'
+                : 'inherit'
+            }
+            hover={{ color: 'accentActive' }}
+          >
+            Borrow
+          </Typography>
+        </Link>
         <a href="https://forms.gle/aDP4wHvshLPKkKv97" target="__blank">
           <Typography
             px="L"

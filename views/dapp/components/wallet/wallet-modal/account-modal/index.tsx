@@ -1,15 +1,18 @@
 import { FC } from 'react';
 import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 
 import hooks from '@/connectors';
-import { CHAINS, getChainId } from '@/constants/chains';
+import { CHAINS } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
+import { CHAIN_ID } from '@/sdk';
+import { getChainId } from '@/state/core/core.selectors';
 import { CopySVG, LinkSVG, TimesSVG, UserSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
 import { AccountModalProps } from '../../wallet.types';
 
-const { usePriorityConnector, usePriorityChainId } = hooks;
+const { usePriorityConnector } = hooks;
 
 const AccountModal: FC<AccountModalProps> = ({
   url,
@@ -18,7 +21,7 @@ const AccountModal: FC<AccountModalProps> = ({
   toggleModal,
 }) => {
   const connector = usePriorityConnector();
-  const chainId = usePriorityChainId();
+  const chainId = useSelector(getChainId) as number | null;
 
   const disconnect = () => connector.deactivate();
 
@@ -107,7 +110,7 @@ const AccountModal: FC<AccountModalProps> = ({
               target="__blank"
               rel="noopener noreferrer"
               href={`${
-                CHAINS[getChainId(chainId || 0)].blockExplorerUrls
+                CHAINS[chainId || CHAIN_ID.UNSUPPORTED].blockExplorerUrls
               }/address/${account}`}
             >
               <Box

@@ -21,7 +21,9 @@ const colors = {
   warning: primitiveColors.YELLOW_100,
   successBackground: primitiveColors.GREEN_50,
   success: primitiveColors.GREEN_100,
+  successActive: primitiveColors.GREEN_200,
   error: primitiveColors.RED_100,
+  errorActive: primitiveColors.RED_200,
   specialBackground: `radial-gradient(83.95% 254.73% at 50% 0%, #0055FF 0.01%, #353B46 0.02%, #353B46 29.69%, #212427 100%)`,
 };
 
