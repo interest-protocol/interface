@@ -20,9 +20,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
   handleClose,
 }) => {
   const { handleSubmit, setValue, register } = useForm({
-    defaultValues: {
-      value: 0,
-    },
+    defaultValues: { value: '0' },
   });
 
   const { isOpen, isStake } = useMemo(
@@ -35,7 +33,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
 
   const Icon = getFarmsSVG(farm.id);
 
-  const onSubmit = ({ value }: { value: number }) => {
+  const onSubmit = ({ value }: { value: string }) => {
     isStake
       ? onStake(safeToBigNumber(value, farm.stakingToken.decimals))
       : onUnstake(safeToBigNumber(value, farm.stakingToken.decimals));
