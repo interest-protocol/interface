@@ -149,13 +149,22 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
         : estimatedPrincipal.value();
 
       if (!!collateral && !!loan) {
+        const bnCollateral = safeToBigNumber(
+          collateral,
+          data.dineroPair.getCollateral().decimals,
+          8
+        );
         const tx = await repayAndWithdrawCollateral(
           validId,
           validSigner,
           tokenSymbol,
           account,
-          safeToBigNumber(collateral),
-          principal
+          bnCollateral.gt(data.market.userCollateral)
+            ? data.market.userCollateral
+            : bnCollateral,
+          bnCollateral.gte(data.market.userCollateral)
+            ? data.market.userLoan
+            : principal
         );
 
         await showTXSuccessToast(tx);
@@ -164,12 +173,19 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       }
 
       if (collateral) {
+        const bnCollateral = safeToBigNumber(
+          collateral,
+          data.dineroPair.getCollateral().decimals,
+          8
+        );
         const tx = await withdrawDineroCollateral(
           validId,
           validSigner,
           tokenSymbol,
           account,
-          safeToBigNumber(collateral)
+          bnCollateral.gt(data.market.userCollateral)
+            ? data.market.userCollateral
+            : bnCollateral
         );
 
         await showTXSuccessToast(tx);
@@ -193,7 +209,14 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       setIsSubmitting(false);
       await mutate();
     }
-  }, [chainId, account, form.getValues(), tokenSymbol, signer]);
+  }, [
+    chainId,
+    account,
+    form.getValues(),
+    tokenSymbol,
+    signer,
+    data.market.userCollateral.toString(),
+  ]);
 
   const handleBorrow = useCallback(async () => {
     setIsSubmitting(true);
@@ -210,13 +233,22 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
         signer
       );
 
+      const currentCollateralBalance = data.dineroPair.getCollateralBalance();
+
       if (!!collateral && !!loan) {
+        const bnCollateral = safeToBigNumber(
+          collateral,
+          data.dineroPair.getCollateral().decimals,
+          8
+        );
         const tx = await addCollateralAndLoan(
           validId,
           validSigner,
           tokenSymbol,
           account,
-          safeToBigNumber(collateral),
+          bnCollateral.gt(currentCollateralBalance)
+            ? currentCollateralBalance
+            : bnCollateral,
           safeToBigNumber(loan)
         );
 
@@ -226,12 +258,19 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       }
 
       if (collateral) {
+        const bnCollateral = safeToBigNumber(
+          collateral,
+          data.dineroPair.getCollateral().decimals,
+          8
+        );
         const tx = await addDineroMarketCollateral(
           validId,
           validSigner,
           tokenSymbol,
           account,
-          safeToBigNumber(collateral)
+          bnCollateral.gt(currentCollateralBalance)
+            ? currentCollateralBalance
+            : bnCollateral
         );
 
         await showTXSuccessToast(tx);
@@ -255,7 +294,14 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       setIsSubmitting(false);
       await mutate();
     }
-  }, [account, chainId, form.getValues(), tokenSymbol, signer]);
+  }, [
+    account,
+    chainId,
+    form.getValues(),
+    tokenSymbol,
+    signer,
+    data.dineroPair.getCollateralBalance().toString(),
+  ]);
 
   const onSubmitBorrow = async () => {
     if (isFormBorrowEmpty(form)) {

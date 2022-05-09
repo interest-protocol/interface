@@ -5,7 +5,7 @@ import {
   TOKENS_SVG_MAP,
   UNKNOWN_ERC_20,
 } from '@/constants/erc-20';
-import { DineroMarketPair, SECONDS_IN_A_YEAR } from '@/sdk';
+import { CurrencyAmount, DineroMarketPair, SECONDS_IN_A_YEAR } from '@/sdk';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { Fraction } from '@/sdk/entities/fraction';
 import { IntMath } from '@/sdk/entities/int-math';
@@ -123,13 +123,15 @@ export const calculateInterestAccrued: TCalculateInterestAccrued = (
   loan
 ) => {
   const lasAccrued = loan.lastAccrued.toNumber() * 1000;
+
   const now = new Date().getTime();
 
   const timeDelta = now - lasAccrued;
 
   return IntMath.from(totalLoan.elastic.mul(loan.interestRate))
     .mul(timeDelta)
-    .value();
+    .value()
+    .div(1000);
 };
 
 export const loanPrincipalToElastic: TLoanPrincipalToElastic = (
@@ -188,6 +190,7 @@ export const calculateDineroLeftToBorrow: TCalculateDineroLeftToBorrow = ({
   loan,
 }): IntMath => {
   const userElasticLoan = loanPrincipalToElastic(totalLoan, userLoan, loan);
+
   const collateral = IntMath.from(maxLTVRatio)
     .mul(userCollateral)
     .mul(exchangeRate);
@@ -281,6 +284,7 @@ export const getBorrowFields: TGetBorrowFields = (data) => {
       amountUSD: data?.market.exchangeRate.isZero()
         ? 0
         : IntMath.toNumber(data?.market.exchangeRate),
+      disabled: data.dineroPair.getCollateralBalance().isZero(),
     },
     {
       max: calculateBorrowAmount(data.market).toNumber(),
@@ -290,6 +294,9 @@ export const getBorrowFields: TGetBorrowFields = (data) => {
       name: 'borrow.loan',
       label: 'Borrow Dinero',
       currency: TOKEN_SYMBOL.DNR,
+      disabled:
+        data.dineroPair.getCollateralBalance().isZero() &&
+        data.market.userCollateral.isZero(),
     },
   ];
 };
@@ -410,8 +417,12 @@ export const getMyPositionData: TGetMyPositionData = (data) => {
   {
     if (!data || !data.market) return ['0', '$0', '0', '$0', '0', '0'];
 
-    const collateral = data.dineroPair.getCollateralCurrencyAmount();
+    const collateralERC20 = data.dineroPair.getCollateral();
     const symbol = data.dineroPair.getCollateral().symbol;
+    const collateral = CurrencyAmount.fromRawAmount(
+      collateralERC20,
+      data.market.userCollateral
+    );
 
     const liquidationPrice = formatMoney(
       +Fraction.from(
@@ -427,7 +438,7 @@ export const getMyPositionData: TGetMyPositionData = (data) => {
           IntMath.from(data.market.userCollateral)
             .mul(data.market.exchangeRate)
             .value(),
-          BigNumber.from(10).pow(collateral.currency.decimals)
+          BigNumber.from(10).pow(collateralERC20.decimals)
         ).toSignificant(4)
       )}`,
       `${formatMoney(
@@ -474,6 +485,9 @@ export const getRepayFields: TGetRepayFields = (data) => {
       label: 'Repay Dinero',
       max: IntMath.toNumber(data.dineroPair.getDineroBalance()),
       currency: TOKEN_SYMBOL.DNR,
+      disabled:
+        data.market.userLoan.isZero() ||
+        data.dineroPair.getDineroBalance().isZero(),
     },
     {
       currency: data.dineroPair.getCollateral().symbol,
@@ -485,6 +499,7 @@ export const getRepayFields: TGetRepayFields = (data) => {
       amountUSD: data?.market.exchangeRate.isZero()
         ? 0
         : IntMath.toNumber(data?.market.exchangeRate) || 0,
+      disabled: data.market.userCollateral.isZero(),
     },
   ] as ReadonlyArray<IBorrowFormField>;
 };

@@ -19,6 +19,7 @@ export interface InputMoneyProps
   CurrencySVG: FC<SVGAttributes<SVGSVGElement>>;
   errors: UseFormStateReturn<IBorrowForm>['errors'];
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
+  disabled: boolean;
 }
 
 export interface InputMoneySuffixProps

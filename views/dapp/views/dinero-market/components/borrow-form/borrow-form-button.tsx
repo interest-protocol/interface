@@ -5,6 +5,7 @@ import { useWatch } from 'react-hook-form';
 import { Box, Button, Typography } from '@/elements';
 import { IntMath } from '@/sdk/entities/int-math';
 import { LoadingSVG } from '@/svg';
+import { safeToBigNumber } from '@/utils';
 import { convertCollateralToDinero } from '@/utils/dinero-market';
 
 import { BorrowFormButtonProps } from './borrow-form.types';
@@ -60,7 +61,9 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
     if (
       errors.borrow?.collateral?.type !== 'max' &&
       borrowCollateral &&
-      parseEther(borrowCollateral).gt(data.dineroPair.getCollateralBalance())
+      safeToBigNumber(borrowCollateral).gt(
+        data.dineroPair.getCollateralBalance()
+      )
     ) {
       setError('borrow.collateral', {
         type: 'max',
