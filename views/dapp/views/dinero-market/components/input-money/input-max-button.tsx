@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Button } from '@/elements';
@@ -52,6 +52,25 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     setValue(name, max ? max.toString() : '0');
   }, [repayLoan, borrowCollateral, data.market]);
 
+  const isDisabled = useMemo(() => {
+    if (name === 'repay.collateral') {
+      return data.market.userCollateral.isZero();
+    }
+
+    if (name === 'repay.loan') {
+      return (
+        data.market.userLoan.isZero() ||
+        data.dineroPair.getDineroBalance().isZero()
+      );
+    }
+
+    if (name === 'borrow.collateral') {
+      return data.dineroPair.getCollateralBalance().isZero();
+    }
+
+    return false;
+  }, [data]);
+
   return (
     <Button
       px="M"
@@ -59,9 +78,10 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
       type="button"
       height="100%"
       variant="secondary"
-      bg="bottomBackground"
+      bg={isDisabled ? 'disabled' : 'bottomBackground'}
       hover={{ bg: 'accent' }}
       active={{ bg: 'accentActive' }}
+      disabled={isDisabled}
       onClick={handleSetInnerMax}
     >
       max

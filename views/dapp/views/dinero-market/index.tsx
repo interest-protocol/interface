@@ -149,17 +149,22 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
         : estimatedPrincipal.value();
 
       if (!!collateral && !!loan) {
+        const bnCollateral = safeToBigNumber(
+          collateral,
+          data.dineroPair.getCollateral().decimals,
+          8
+        );
         const tx = await repayAndWithdrawCollateral(
           validId,
           validSigner,
           tokenSymbol,
           account,
-          safeToBigNumber(
-            collateral,
-            data.dineroPair.getCollateral().decimals,
-            8
-          ),
-          principal
+          bnCollateral.gt(data.market.userCollateral)
+            ? data.market.userCollateral
+            : bnCollateral,
+          bnCollateral.gte(data.market.userCollateral)
+            ? data.market.userLoan
+            : principal
         );
 
         await showTXSuccessToast(tx);
@@ -168,16 +173,19 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       }
 
       if (collateral) {
+        const bnCollateral = safeToBigNumber(
+          collateral,
+          data.dineroPair.getCollateral().decimals,
+          8
+        );
         const tx = await withdrawDineroCollateral(
           validId,
           validSigner,
           tokenSymbol,
           account,
-          safeToBigNumber(
-            collateral,
-            data.dineroPair.getCollateral().decimals,
-            8
-          )
+          bnCollateral.gt(data.market.userCollateral)
+            ? data.market.userCollateral
+            : bnCollateral
         );
 
         await showTXSuccessToast(tx);
@@ -201,7 +209,14 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       setIsSubmitting(false);
       await mutate();
     }
-  }, [chainId, account, form.getValues(), tokenSymbol, signer]);
+  }, [
+    chainId,
+    account,
+    form.getValues(),
+    tokenSymbol,
+    signer,
+    data.market.userCollateral.toString(),
+  ]);
 
   const handleBorrow = useCallback(async () => {
     setIsSubmitting(true);
