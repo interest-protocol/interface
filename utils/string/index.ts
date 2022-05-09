@@ -1,6 +1,6 @@
 import { always, ifElse, isNil, toString } from 'ramda';
 
-import { Fraction, Rounding } from '@/sdk';
+import { Fraction, MAX_NUMBER_INPUT_VALUE, Rounding } from '@/sdk';
 
 export const shortAccount = (account: string): string =>
   `${account.slice(0, 6)}...${account.slice(-5, -1)}`;
@@ -36,3 +36,10 @@ export const makeSWRKey = (
     .map(ifElse(isNil, always(''), toString))
     .concat([methodName])
     .join('|');
+
+export const parseToSafeStringNumber = (x: string): string =>
+  isNaN(+x)
+    ? ''
+    : +x >= MAX_NUMBER_INPUT_VALUE
+    ? MAX_NUMBER_INPUT_VALUE.toString()
+    : x;

@@ -1,7 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
-import { MAX_NUMBER_INPUT_VALUE } from '@/sdk';
+import { parseToSafeStringNumber } from '@/utils';
 
 import { InputStakeProps } from './input-stake.types';
 
@@ -17,19 +17,12 @@ const InputStake: FC<InputStakeProps> = ({
       {label}:
     </Typography>
     <Input
-      min="0"
-      type="number"
-      step="0.0001"
+      type="string"
       {...register('value', {
-        onChange: (v: ChangeEvent<HTMLInputElement>) =>
-          setValue(
-            'value',
-            +v.target.value > MAX_NUMBER_INPUT_VALUE
-              ? MAX_NUMBER_INPUT_VALUE
-              : +v.target.value
-          ),
+        onChange: (v: ChangeEvent<HTMLInputElement>) => {
+          setValue('value', parseToSafeStringNumber(v.target.value));
+        },
       })}
-      placeholder={'0'}
       shieldProps={{
         p: 'S',
         my: 'M',
@@ -54,7 +47,9 @@ const InputStake: FC<InputStakeProps> = ({
             bg="bottomBackground"
             hover={{ bg: 'accent' }}
             active={{ bg: 'accentActive' }}
-            onClick={() => setValue('value', amount)}
+            onClick={() =>
+              setValue('value', parseToSafeStringNumber(amount.toString()))
+            }
           >
             max
           </Button>
