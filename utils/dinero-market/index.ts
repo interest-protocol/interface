@@ -5,7 +5,7 @@ import {
   TOKENS_SVG_MAP,
   UNKNOWN_ERC_20,
 } from '@/constants/erc-20';
-import { DineroMarketPair, SECONDS_IN_A_YEAR } from '@/sdk';
+import { CurrencyAmount, DineroMarketPair, SECONDS_IN_A_YEAR } from '@/sdk';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { Fraction } from '@/sdk/entities/fraction';
 import { IntMath } from '@/sdk/entities/int-math';
@@ -414,8 +414,12 @@ export const getMyPositionData: TGetMyPositionData = (data) => {
   {
     if (!data || !data.market) return ['0', '$0', '0', '$0', '0', '0'];
 
-    const collateral = data.dineroPair.getCollateralCurrencyAmount();
+    const collateralERC20 = data.dineroPair.getCollateral();
     const symbol = data.dineroPair.getCollateral().symbol;
+    const collateral = CurrencyAmount.fromRawAmount(
+      collateralERC20,
+      data.market.userCollateral
+    );
 
     const liquidationPrice = formatMoney(
       +Fraction.from(
@@ -431,7 +435,7 @@ export const getMyPositionData: TGetMyPositionData = (data) => {
           IntMath.from(data.market.userCollateral)
             .mul(data.market.exchangeRate)
             .value(),
-          BigNumber.from(10).pow(collateral.currency.decimals)
+          BigNumber.from(10).pow(collateralERC20.decimals)
         ).toSignificant(4)
       )}`,
       `${formatMoney(

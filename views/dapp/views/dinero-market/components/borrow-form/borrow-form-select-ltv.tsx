@@ -111,7 +111,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
       <Typography whiteSpace="pre-line" variant="normal" fontSize="S">
         {isBorrow
           ? 'Select a target LTV %'
-          : `Select a DNR balance % to repay.
+          : `Select a DNR balance % to repay
             The contract will refund the difference`}
       </Typography>
       <Box display="flex" justifyContent="space-between" my="L">
