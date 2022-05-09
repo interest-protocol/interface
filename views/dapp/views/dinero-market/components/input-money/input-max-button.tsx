@@ -69,7 +69,13 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     }
 
     return false;
-  }, [data]);
+  }, [
+    data.market.userCollateral.toString(),
+    data.market.userLoan.toString(),
+    data.dineroPair.getDineroBalance().toString(),
+    data.dineroPair.getCollateralBalance().toString(),
+    name,
+  ]);
 
   return (
     <Button
