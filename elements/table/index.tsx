@@ -46,16 +46,24 @@ const TableLoading: FC<TableLoadingProps> = ({ columns }) => (
 );
 
 const TableRow: FC<TableRowProps> = ({
-  headings,
-  hasButton,
   index,
+  items,
   button,
   ordinate,
-  items,
+  headings,
+  hasButton,
   mobileSide,
+  handleClick,
 }) => (
   <>
-    <Box display={['none', 'none', 'none', 'block']}>
+    <Box
+      onClick={handleClick}
+      display={['none', 'none', 'none', 'block']}
+      cursor={handleClick ? 'pointer' : 'normal'}
+      hover={{
+        bg: handleClick ? 'bottomBackground' : 'transparent',
+      }}
+    >
       <Box
         py="M"
         px="XL"
@@ -79,7 +87,16 @@ const TableRow: FC<TableRowProps> = ({
         {button && <Cell as="td">{button}</Cell>}
       </Box>
     </Box>
-    <Box display={['block', 'block', 'block', 'none']}>
+    <Box
+      mt="M"
+      bg="foreground"
+      borderRadius="M"
+      onClick={handleClick}
+      display={['block', 'block', 'block', 'none']}
+      hover={{
+        bg: handleClick ? 'bottomBackground' : 'transparent',
+      }}
+    >
       <Box display="flex" p="L">
         <Box
           my="L"
@@ -191,7 +208,7 @@ const Table: FC<ResponsiveTableProps> = ({
             ))}
             {hasButton && <Cell as="th" />}
           </Box>
-          <Box bg="foreground" borderRadius="L" my="M">
+          <Box bg="foreground" borderRadius="L" my="M" overflow="hidden">
             {loading ? (
               <TableLoading
                 columns={
@@ -199,7 +216,7 @@ const Table: FC<ResponsiveTableProps> = ({
                 }
               />
             ) : (
-              data.map(({ items, button }, index) => (
+              data.map(({ items, button, handleClick }, index) => (
                 <TableRow
                   key={v4()}
                   index={index}
@@ -209,6 +226,7 @@ const Table: FC<ResponsiveTableProps> = ({
                   headings={headings}
                   mobileSide={undefined}
                   hasButton={!!hasButton}
+                  handleClick={handleClick}
                 />
               ))
             )}
@@ -219,11 +237,9 @@ const Table: FC<ResponsiveTableProps> = ({
         mx="M"
         my="XL"
         width="100%"
-        bg="foreground"
-        borderRadius="M"
         display={['block', 'block', 'block', 'none']}
       >
-        {data.map(({ items, button, mobileSide }, index) => (
+        {data.map(({ items, button, mobileSide, handleClick }, index) => (
           <TableRow
             key={v4()}
             index={index}
@@ -233,6 +249,7 @@ const Table: FC<ResponsiveTableProps> = ({
             headings={headings}
             hasButton={!!hasButton}
             mobileSide={mobileSide}
+            handleClick={handleClick}
           />
         ))}
       </Box>

@@ -11,7 +11,9 @@ interface IRow {
   items: TItems;
   button?: ReactNode;
   mobileSide?: ReactNode;
+  handleClick?: () => void;
 }
+
 export interface ResponsiveTableProps {
   loading?: boolean;
   ordinate?: boolean;
@@ -27,6 +29,7 @@ export interface TableRowProps {
   ordinate?: boolean;
   hasButton: boolean;
   mobileSide: ReactNode;
+  handleClick?: () => void;
   headings: ReadonlyArray<IHeading>;
 }
 
