@@ -158,10 +158,21 @@ export const loanElasticToPrincipal: TLoanElasticToPrincipal = (
 };
 
 export const calculateExpectedLiquidationPrice: TCalculateExpectedLiquidationPrice =
-  ({ maxLTVRatio, userCollateral, totalLoan, userLoan, loan }): IntMath => {
-    if (userCollateral.isZero()) return IntMath.from(0);
-    const userElasticLoan = loanPrincipalToElastic(totalLoan, userLoan, loan);
-    return userElasticLoan.div(IntMath.from(maxLTVRatio).mul(userCollateral));
+  (
+    { maxLTVRatio, userCollateral, totalLoan, userLoan, loan },
+    additionalCollateral,
+    additionalPrincipal
+  ): IntMath => {
+    const collateral = userCollateral.add(additionalCollateral);
+
+    if (collateral.isZero()) return IntMath.from(0);
+    const userElasticLoan = loanPrincipalToElastic(
+      totalLoan,
+      userLoan.add(additionalPrincipal),
+      loan
+    );
+
+    return userElasticLoan.div(IntMath.from(maxLTVRatio).mul(collateral));
   };
 
 export const calculatePositionHealth: TCalculatePositionHealth = ({
@@ -313,7 +324,7 @@ const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
       .value()
   )
     ? IntMath.from(data.exchangeRate)
-    : calculateExpectedLiquidationPrice(data);
+    : calculateExpectedLiquidationPrice(data, newCollateral, newBorrowAmount);
 
   const positionHealth = newBorrowAmount.isZero()
     ? ZERO_BIG_NUMBER
@@ -392,6 +403,7 @@ export const getBorrowPositionHealthData: TGetBorrowPositionHealthData = (
   )
     .add(IntMath.toBigNumber(loan))
     .value();
+
   const newCollateral = data.market.userCollateral.add(
     IntMath.toBigNumber(collateral)
   );
@@ -426,7 +438,11 @@ export const getMyPositionData: TGetMyPositionData = (data) => {
 
     const liquidationPrice = formatMoney(
       +Fraction.from(
-        calculateExpectedLiquidationPrice(data.market).value(),
+        calculateExpectedLiquidationPrice(
+          data.market,
+          ZERO_BIG_NUMBER,
+          ZERO_BIG_NUMBER
+        ).value(),
         ethers.utils.parseEther('1')
       ).toSignificant(4)
     );
