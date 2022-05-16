@@ -5,7 +5,7 @@ import { Connector, ProviderRpcError } from '@web3-react/types';
 import { WalletConnect } from '@web3-react/walletconnect';
 import { ethers } from 'ethers';
 
-import { CHAINS } from '@/constants/chains';
+import { CHAINS, RPC_URL } from '@/constants/chains';
 
 export async function switchToNetwork(
   connector: Connector,
@@ -55,4 +55,4 @@ export async function switchToNetwork(
 }
 
 export const getStaticWeb3Provider = (chainId: number): StaticJsonRpcProvider =>
-  new StaticJsonRpcProvider(CHAINS[chainId].rpcUrls[0]);
+  new StaticJsonRpcProvider(RPC_URL[chainId]);

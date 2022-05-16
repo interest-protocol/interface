@@ -78,7 +78,13 @@ const Wallet: FC = () => {
       </Button>
     );
 
-  if (!!chainId && !isChainIdSupported(chainId)) return <WrongNetwork />;
+  if (!!chainId && !isChainIdSupported(chainId))
+    return (
+      <>
+        <SelectNetwork switchNetwork={switchNetwork} />
+        <WrongNetwork />
+      </>
+    );
 
   return (
     <>
