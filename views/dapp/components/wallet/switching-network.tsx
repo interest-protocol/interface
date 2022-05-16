@@ -17,8 +17,9 @@ const SwitchingNetwork: FC = () => {
         py="M"
         px="XL"
         type="button"
-        variant="secondary"
         display="flex"
+        alignItems="center"
+        variant="secondary"
         onClick={toggleModal}
       >
         <Box my="S">
