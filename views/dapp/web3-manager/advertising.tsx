@@ -1,12 +1,12 @@
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
-import { Box, Typography } from '@/elements';
+import { Box, Button, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
 import { AdvertisingProps } from './web3-manager.type';
 
-const Advertising: FC<AdvertisingProps> = ({ Icon, lines, title }) => (
+const Advertising: FC<AdvertisingProps> = ({ Icon, lines, title, button }) => (
   <Box
     width="100vw"
     height="100%"
@@ -28,6 +28,16 @@ const Advertising: FC<AdvertisingProps> = ({ Icon, lines, title }) => (
           {item}
         </Typography>
       ))}
+      {button && (
+        <Button
+          mt="XL"
+          variant="primary"
+          onClick={button.action}
+          hover={{ bg: 'accentActive' }}
+        >
+          {button.text}
+        </Button>
+      )}
     </Box>
   </Box>
 );

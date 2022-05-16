@@ -4,4 +4,8 @@ export interface AdvertisingProps {
   title: string;
   lines: ReadonlyArray<ReactNode>;
   Icon?: FC<SVGAttributes<SVGSVGElement>>;
+  button?: {
+    text: string;
+    action: () => void;
+  };
 }

@@ -4,6 +4,7 @@ import priorityHooks from '@/connectors';
 import { isChainIdSupported } from '@/constants/chains';
 import { CHAIN_ID } from '@/sdk/constants';
 import { MetaMaskSVG, TimesSVG } from '@/svg';
+import { switchToNetwork } from '@/utils';
 
 import { Layout, Loading } from '../components';
 import Advertising from './advertising';
@@ -22,6 +23,9 @@ const Web3Manager: FC = ({ children }) => {
   const isActivating = usePriorityIsActivating();
 
   const [triedEagerly, setTriedEagerly] = useState(false);
+
+  const switchToBSCTestNet = () =>
+    switchToNetwork(connector, CHAIN_ID.BSC_TEST_NET);
 
   useEffect(() => {
     if (triedEagerly) return;
@@ -65,6 +69,10 @@ const Web3Manager: FC = ({ children }) => {
             'This chain is not supported',
             'Please, switch to a supported chain',
           ]}
+          button={{
+            text: 'Switch to BSC Test Net',
+            action: switchToBSCTestNet,
+          }}
         />
       </Layout>
     );
