@@ -18,45 +18,39 @@ export const BNB: AddEthereumChainParameter['nativeCurrency'] = {
   decimals: 18,
 };
 
+export const RPC_URL = {
+  [CHAIN_ID.BSC_TEST_NET]: process.env.NEXT_PUBLIC_BSC_TEST_NET_JSON_RPC
+    ? process.env.NEXT_PUBLIC_BSC_TEST_NET_JSON_RPC
+    : 'https://data-seed-prebsc-2-s1.binance.org:8545/',
+  [CHAIN_ID.BSC_MAIN_MET]: process.env.NEXT_PUBLIC_BSC_RPC_URL
+    ? process.env.NEXT_PUBLIC_BSC_RPC_URL
+    : 'https://bsc-dataseed.binance.org/',
+};
+
 export const CHAINS = {
   [CHAIN_ID.BSC_TEST_NET]: {
     chainId: CHAIN_ID.BSC_TEST_NET,
     chainName: 'Binance Smart Chain Test Net',
     nativeCurrency: BNB,
-    rpcUrls: process.env.NEXT_PUBLIC_BSC_TEST_NET_JSON_RPC
-      ? [process.env.NEXT_PUBLIC_BSC_TEST_NET_JSON_RPC].concat([
-          'https://data-seed-prebsc-2-s1.binance.org:8545/',
-          'https://data-seed-prebsc-1-s1.binance.org:8545/',
-          'https://data-seed-prebsc-1-s2.binance.org:8545/',
-          'https://data-seed-prebsc-2-s2.binance.org:8545/',
-          'https://data-seed-prebsc-1-s3.binance.org:8545/',
-          'https://data-seed-prebsc-2-s3.binance.org:8545/',
-        ])
-      : [
-          'https://data-seed-prebsc-2-s1.binance.org:8545/',
-          'https://data-seed-prebsc-1-s1.binance.org:8545/',
-          'https://data-seed-prebsc-1-s2.binance.org:8545/',
-          'https://data-seed-prebsc-2-s2.binance.org:8545/',
-          'https://data-seed-prebsc-1-s3.binance.org:8545/',
-          'https://data-seed-prebsc-2-s3.binance.org:8545/',
-        ],
+    rpcUrls: [
+      'https://data-seed-prebsc-1-s1.binance.org:8545/',
+      'https://data-seed-prebsc-2-s1.binance.org:8545/',
+      'https://data-seed-prebsc-1-s2.binance.org:8545/',
+      'https://data-seed-prebsc-2-s2.binance.org:8545/',
+      'https://data-seed-prebsc-1-s3.binance.org:8545/',
+      'https://data-seed-prebsc-2-s3.binance.org:8545/',
+    ],
     blockExplorerUrls: ['https://testnet.bscscan.com'],
   },
   [CHAIN_ID.BSC_MAIN_MET]: {
     chainId: CHAIN_ID.BSC_MAIN_MET,
     chainName: 'Binance Smart Chain',
     nativeCurrency: BNB,
-    rpcUrls: process.env.NEXT_PUBLIC_BSC_RPC_URL
-      ? [process.env.NEXT_PUBLIC_BSC_RPC_URL].concat([
-          'https://bsc-dataseed.binance.org/',
-          'https://bsc-dataseed1.defibit.io/',
-          'https://bsc-dataseed1.ninicoin.io/',
-        ])
-      : [
-          'https://bsc-dataseed.binance.org/',
-          'https://bsc-dataseed1.defibit.io/',
-          'https://bsc-dataseed1.ninicoin.io/',
-        ],
+    rpcUrls: [
+      'https://bsc-dataseed.binance.org/',
+      'https://bsc-dataseed1.defibit.io/',
+      'https://bsc-dataseed1.ninicoin.io/',
+    ],
     blockExplorerUrls: ['https://bscscan.com'],
   },
   [CHAIN_ID.UNSUPPORTED]: {
