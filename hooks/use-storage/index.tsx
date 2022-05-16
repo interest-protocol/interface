@@ -5,12 +5,15 @@ import { LocalStorageKeys } from './use-local-storage.types';
 const useLocalStorage = (
   key: LocalStorageKeys,
   dependencies: DependencyList
-) => {
+): unknown => {
   const [data, setData] = useState<unknown>();
 
   const updateLocalStorage = () => {
-    console.log('>> storage update');
-    setData(JSON.parse(window.localStorage.getItem(key) ?? '') || null);
+    setData(
+      window.localStorage.getItem(key)
+        ? JSON.parse(window.localStorage.getItem(key) ?? '')
+        : null
+    );
   };
 
   useEffect(() => {

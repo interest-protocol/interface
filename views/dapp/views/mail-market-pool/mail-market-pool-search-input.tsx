@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { Box, Input } from '@/elements';
 
-import { MAILMarketSearchInputProps } from './mail-market.types';
+import { MAILMarketSearchInputProps } from './mail-market-pool.types';
 
 const MAILMarketSearchInput: FC<MAILMarketSearchInputProps> = ({
   register,
@@ -15,7 +15,7 @@ const MAILMarketSearchInput: FC<MAILMarketSearchInputProps> = ({
       border="1px solid"
       {...register('search')}
       borderColor="textSecondary"
-      placeholder="Search Pool by name, symbol or address..."
+      placeholder="Search Token by name, symbol or address..."
     />
   </Box>
 );

@@ -1,4 +1,4 @@
-import { IMailMarketData, TMailMarketData } from './mail-market.types';
+import { IMailMarketData, TMailMarketData } from './mail-market-pool.types';
 
 export const mapFetchMarketData = (
   data: ReadonlyArray<Omit<IMailMarketData, 'imgUrl'>>

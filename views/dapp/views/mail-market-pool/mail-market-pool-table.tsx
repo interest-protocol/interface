@@ -1,24 +1,27 @@
-import { useRouter } from 'next/router';
 import { FC, MouseEvent as ReactMouseEvent } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import { Routes, RoutesEnum } from '@/constants';
 import { Box, Table, Typography } from '@/elements';
 import useRerender from '@/hooks/use-rerender';
 import useLocalStorage from '@/hooks/use-storage';
 import { shortAccount } from '@/utils';
 
-import { MAIL_MARKET_DATA, MAIL_MARKET_HEADINGS } from './mail-market.data';
-import { IMailMarketData, MAILMarketTableProps } from './mail-market.types';
-import { addressMatch, mapFetchMarketData } from './mail-market.utils';
+import {
+  MAIL_MARKET_HEADINGS,
+  MAIL_MARKET_POOL_DATA,
+} from './mail-market-pool.data';
+import {
+  IMailMarketData,
+  MAILMarketTableProps,
+} from './mail-market-pool.types';
+import { addressMatch, mapFetchMarketData } from './mail-market-pool.utils';
 
 const MAILMarketTable: FC<MAILMarketTableProps> = ({ control, popular }) => {
-  const { push } = useRouter();
   const query = useWatch({ control, name: 'search' });
   const { fireRerender } = useRerender();
 
-  const localAssets = useLocalStorage('localAssets', []) as ReadonlyArray<
+  const localCoin = useLocalStorage('localCoin', []) as ReadonlyArray<
     Omit<IMailMarketData, 'imgUrl'>
   > | null;
 
@@ -26,8 +29,8 @@ const MAILMarketTable: FC<MAILMarketTableProps> = ({ control, popular }) => {
     (data: Omit<IMailMarketData, 'imgUrl'>) =>
     (e: ReactMouseEvent<HTMLElement, MouseEvent>): void => {
       e.stopPropagation();
-      const assets = JSON.parse(localStorage.getItem('localAssets') ?? '[]');
-      localStorage.setItem('localAssets', JSON.stringify([...assets, data]));
+      const assets = JSON.parse(localStorage.getItem('localCoin') ?? '[]');
+      localStorage.setItem('localCoin', JSON.stringify([...assets, data]));
 
       fireRerender();
     };
@@ -37,11 +40,11 @@ const MAILMarketTable: FC<MAILMarketTableProps> = ({ control, popular }) => {
     (e: ReactMouseEvent<HTMLElement, MouseEvent>): void => {
       e.stopPropagation();
       const newAssets = (
-        JSON.parse(
-          localStorage.getItem('localAssets') ?? '[]'
-        ) as ReadonlyArray<Omit<IMailMarketData, 'imgUrl'>>
+        JSON.parse(localStorage.getItem('localCoin') ?? '[]') as ReadonlyArray<
+          Omit<IMailMarketData, 'imgUrl'>
+        >
       ).filter(({ address }) => address !== target);
-      localStorage.setItem('localAssets', JSON.stringify(newAssets));
+      localStorage.setItem('localCoin', JSON.stringify(newAssets));
 
       fireRerender();
     };
@@ -54,17 +57,17 @@ const MAILMarketTable: FC<MAILMarketTableProps> = ({ control, popular }) => {
     },
   ].filter(
     ({ address }) =>
-      !addressMatch(address, [localAssets ?? [], MAIL_MARKET_DATA])
+      !addressMatch(address, [localCoin ?? [], MAIL_MARKET_POOL_DATA])
   );
   return (
     <Table
       headings={MAIL_MARKET_HEADINGS}
       data={(popular
-        ? (!localAssets?.length
+        ? (!localCoin?.length
             ? mapFetchMarketData(queryFetchResult)
             : []
-          ).concat(MAIL_MARKET_DATA)
-        : mapFetchMarketData(queryFetchResult.concat(localAssets ?? []))
+          ).concat(MAIL_MARKET_POOL_DATA)
+        : mapFetchMarketData(queryFetchResult.concat(localCoin ?? []))
       )
         .filter(({ symbol, name, address }) =>
           [symbol, name, address].some((item) =>
@@ -72,17 +75,9 @@ const MAILMarketTable: FC<MAILMarketTableProps> = ({ control, popular }) => {
           )
         )
         .map(({ imgUrl, symbol, name, address }) => ({
-          handleClick: () =>
-            push(
-              {
-                pathname: Routes[RoutesEnum.MAILMarketPool],
-                query: { pool: symbol },
-              },
-              undefined,
-              {
-                shallow: true,
-              }
-            ),
+          handleClick: () => {
+            console.log(symbol);
+          },
           items: [
             <Box key={v4()} display="flex" alignItems="center">
               <Box as="span" mr="M" display="inline-block" width="1.5rem">
@@ -91,22 +86,25 @@ const MAILMarketTable: FC<MAILMarketTableProps> = ({ control, popular }) => {
               <Typography variant="normal" fontWeight="500">
                 {symbol}
               </Typography>
-              {!addressMatch(address, [localAssets ?? [], MAIL_MARKET_DATA]) ? (
+              {!addressMatch(address, [
+                localCoin ?? [],
+                MAIL_MARKET_POOL_DATA,
+              ]) ? (
                 <Typography
                   ml="L"
                   fontSize="S"
                   variant="normal"
                   hover={{ color: 'accent' }}
                   onClick={addTokenToLocalStorage({
-                    name,
                     symbol,
+                    name,
                     address,
                   })}
                 >
-                  (ADD)
+                  (Remove)
                 </Typography>
               ) : (
-                addressMatch(address, [localAssets ?? []]) && (
+                addressMatch(address, [localCoin ?? []]) && (
                   <Typography
                     ml="L"
                     fontSize="S"
@@ -114,7 +112,7 @@ const MAILMarketTable: FC<MAILMarketTableProps> = ({ control, popular }) => {
                     hover={{ color: 'accent' }}
                     onClick={removeTokenFromLocalStorage(address)}
                   >
-                    (Remove)
+                    (ADD)
                   </Typography>
                 )
               )}
