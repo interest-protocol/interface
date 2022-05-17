@@ -20,9 +20,9 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => (
         <Box
           mr="M"
           as="span"
-          display="inline-block"
           cursor="help"
-          data-tip="If this value reaches 100%, you might get liquidated"
+          display="inline-block"
+          data-tip="If this value reaches 100%, <br />you might get liquidated"
         >
           <InfoSVG width="1rem" height="1rem" />
         </Box>
