@@ -31,6 +31,7 @@ export { default as RoadMapSVG } from './road-map';
 export { default as RoadMapLogoSVG } from './road-map-logo';
 export { default as SearchSVG } from './search';
 export { default as ShieldSVG } from './shield';
+export { default as StarSVG } from './star';
 export { default as SuccessSVG } from './success';
 export { default as SupportSVG } from './support';
 export { default as TelegramSVG } from './telegram';

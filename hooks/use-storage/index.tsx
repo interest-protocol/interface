@@ -1,28 +1,35 @@
-import { DependencyList, useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { LocalStorageKeys } from './use-local-storage.types';
+import { LocalStorageKeys } from './use-storage.types';
 
-const useLocalStorage = (
-  key: LocalStorageKeys,
-  dependencies: DependencyList
-): unknown => {
-  const [data, setData] = useState<unknown>();
+function useLocalStorage<T>(
+  keyName: LocalStorageKeys,
+  defaultValue: T
+): [T, (value: T) => void] {
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const value = window.localStorage.getItem(keyName);
 
-  const updateLocalStorage = () => {
-    setData(
-      window.localStorage.getItem(key)
-        ? JSON.parse(window.localStorage.getItem(key) ?? '')
-        : null
-    );
+      if (value) {
+        return JSON.parse(value);
+      } else {
+        window.localStorage.setItem(keyName, JSON.stringify(defaultValue));
+        return defaultValue;
+      }
+    } catch (err) {
+      return defaultValue;
+    }
+  });
+
+  const setValue = (newValue: unknown) => {
+    try {
+      window.localStorage.setItem(keyName, JSON.stringify(newValue));
+    } finally {
+      setStoredValue(newValue);
+    }
   };
 
-  useEffect(() => {
-    updateLocalStorage();
-    window.addEventListener('storage', updateLocalStorage);
-    return () => window.removeEventListener('storage', updateLocalStorage);
-  }, dependencies);
-
-  return data;
-};
+  return [storedValue, setValue];
+}
 
 export default useLocalStorage;

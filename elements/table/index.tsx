@@ -54,15 +54,25 @@ const TableRow: FC<TableRowProps> = ({
   hasButton,
   mobileSide,
   handleClick,
+  specialRowHover,
 }) => (
   <>
     <Box
+      transition="none"
       onClick={handleClick}
       display={['none', 'none', 'none', 'block']}
       cursor={handleClick ? 'pointer' : 'normal'}
-      hover={{
-        bg: handleClick ? 'bottomBackground' : 'transparent',
-      }}
+      hover={
+        specialRowHover
+          ? {
+              borderRadius: 'L',
+              border: '1px solid',
+              borderColor: 'accent',
+            }
+          : {
+              bg: handleClick ? 'bottomBackground' : 'transparent',
+            }
+      }
     >
       <Box
         py="M"
@@ -153,7 +163,12 @@ const TableRow: FC<TableRowProps> = ({
             </Box>
           )}
           {items.map((item) => (
-            <Box key={v4()} display="flex">
+            <Box
+              key={v4()}
+              display="flex"
+              alignItems="stretch"
+              flexDirection="column"
+            >
               <Box py="M" px="M">
                 {item}
               </Box>
@@ -171,6 +186,7 @@ const Table: FC<ResponsiveTableProps> = ({
   ordinate,
   headings,
   hasButton,
+  specialRowHover,
 }) => {
   const Tooltip = dynamic(() => import('react-tooltip'));
   const isMounted = useIsMounted();
@@ -210,11 +226,7 @@ const Table: FC<ResponsiveTableProps> = ({
           </Box>
           <Box bg="foreground" borderRadius="L" my="M" overflow="hidden">
             {loading ? (
-              <TableLoading
-                columns={
-                  headings.length + (ordinate ? 1 : 0) + (hasButton ? 1 : 0)
-                }
-              />
+              <TableLoading columns={headings.length + (ordinate ? 1 : 0)} />
             ) : (
               data.map(({ items, button, handleClick }, index) => (
                 <TableRow
@@ -227,6 +239,7 @@ const Table: FC<ResponsiveTableProps> = ({
                   mobileSide={undefined}
                   hasButton={!!hasButton}
                   handleClick={handleClick}
+                  specialRowHover={specialRowHover}
                 />
               ))
             )}

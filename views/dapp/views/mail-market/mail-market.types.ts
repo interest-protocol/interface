@@ -5,6 +5,7 @@ export interface IMailMarketData {
   symbol: string;
   imgUrl: string;
   address: string;
+  currenciesCost: ReadonlyArray<[string, string]>;
 }
 
 export interface IMAILMarketForm {

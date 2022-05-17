@@ -1,7 +1,6 @@
 import 'react-loading-skeleton/dist/skeleton.css';
 
 import { Global, ThemeProvider } from '@emotion/react';
-import { RerenderProvider } from 'context/rerender';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextProgress from 'next-progress';
@@ -25,9 +24,7 @@ const MyApp = ({ Component, pageProps }: AppProps): ReactNode => (
         <Global styles={GlobalStyles} />
         <StrictMode>
           <ReduxProvider store={store}>
-            <RerenderProvider>
-              <Component {...pageProps} />
-            </RerenderProvider>
+            <Component {...pageProps} />
           </ReduxProvider>
         </StrictMode>
       </SkeletonTheme>

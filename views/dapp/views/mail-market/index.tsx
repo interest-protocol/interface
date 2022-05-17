@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
-import useRerender from '@/hooks/use-rerender';
 import useLocalStorage from '@/hooks/use-storage';
 
 import Web3Manager from '../../web3-manager';
@@ -12,12 +11,11 @@ import MAILMarketSearchInput from './mail-market-search-input';
 import MAILMarketTable from './mail-market-table';
 
 const MAILMarket: FC = () => {
-  const { rerender } = useRerender();
   const { register, control } = useForm({ defaultValues: { search: '' } });
 
-  const localAssets = useLocalStorage('localAssets', [
-    rerender,
-  ]) as ReadonlyArray<Omit<IMailMarketData, 'imgUrl'>>;
+  const [localAssets] = useLocalStorage<
+    ReadonlyArray<Omit<IMailMarketData, 'imgUrl'>>
+  >('localAssets', []);
 
   return (
     <Web3Manager>
@@ -30,7 +28,7 @@ const MAILMarket: FC = () => {
         >
           <Box mt="XL" display="flex" justifyContent="space-between">
             <Typography variant="normal" ml="M">
-              MAIL Pool
+              Multi-asset Isolated Lending Markets
             </Typography>
             {!!localAssets?.length && (
               <a href="#popular">
@@ -55,6 +53,9 @@ const MAILMarket: FC = () => {
               gridTemplateColumns: ['1fr', '1fr', '1fr', '1fr 1fr'],
             })}
           >
+            <Box id="recommended" mt="XL">
+              Recommended
+            </Box>
             <MAILMarketTable control={control} popular />
             {!!localAssets?.length && (
               <>
