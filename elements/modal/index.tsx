@@ -3,7 +3,7 @@ import ReactModal from 'react-modal';
 
 import { ModalProps } from './modal.types';
 
-ReactModal.setAppElement('#__next');
+if (process.env.NODE_ENV === 'test') ReactModal.setAppElement('#__next');
 
 const Modal: FC<ModalProps> = ({ modalProps, children, background }) => (
   <ReactModal

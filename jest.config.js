@@ -15,6 +15,8 @@ module.exports = {
     "@/constants": "<rootDir>/constants/index",
     "@/svg/(.*)$": "<rootDir>/components/svg/$1",
     "@/svg": "<rootDir>/components/svg/index",
+    "@/utils/(.*)$": "<rootDir>/utils/$1",
+    "@/utils": "<rootDir>/utils/index",
     "@/elements/(.*)$": "<rootDir>/elements/$1",
     "@/elements": "<rootDir>/elements/index",
     "@/hooks/(.*)$": "<rootDir>/hooks/$1",
