@@ -7,7 +7,6 @@ describe(isLoading.name, () => {
     const result = isLoading(LoadingState.Updating);
     expect(result).toEqual(true);
   });
-
   it('Should be passed if loading state is no updating', () => {
     const result = isLoading(LoadingState.Fetching);
     expect(result).not.toEqual(true);

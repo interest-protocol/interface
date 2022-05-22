@@ -1,27 +1,51 @@
-import { ethers } from 'ethers';
+import { CHAIN_ID, CONTRACTS, CurrencyAmount, ERC20 } from '@/sdk';
 
-import { CHAIN_ID, CurrencyAmount, ERC20 } from '@/sdk';
-
-import { getERC20CurrencyAmount, getERC20Data } from '..';
+import { getERC20CurrencyAmount } from '..';
 
 describe(getERC20CurrencyAmount.name, () => {
   it('Should be a passed because get a real ERC20', () => {
-    const address = '0x0D7747F1686d67824dc5a299AAc09F438dD6aef2';
-    let resultERC20, resultCA;
-    try {
-      ethers.utils.getAddress(address);
-      resultERC20 = getERC20Data(CHAIN_ID.BSC_TEST_NET, address);
-      expect(resultERC20).toBeInstanceOf(ERC20);
-      resultCA = getERC20CurrencyAmount(
-        CHAIN_ID.BSC_TEST_NET,
-        address,
+    const result = getERC20CurrencyAmount(
+      CHAIN_ID.BSC_TEST_NET,
+      CONTRACTS.INT[CHAIN_ID.BSC_TEST_NET],
+      '3000000000000000000'
+    );
+    expect(result).toBeInstanceOf(CurrencyAmount);
+    expect(result.currency).toBeInstanceOf(ERC20);
+    expect(result.numerator.toString()).toEqual('3000000000000000000');
+  });
+  it('Should be a passed because chain id is wrong', () => {
+    expect(() =>
+      getERC20CurrencyAmount(
+        10,
+        CONTRACTS.INT[CHAIN_ID.BSC_TEST_NET],
         '3000000000000000000'
-      );
-      expect(resultCA).toBeInstanceOf(CurrencyAmount);
-      expect(resultCA.currency).toBeInstanceOf(ERC20);
-      expect(resultCA.numerator.toString()).toEqual('3000000000000000000');
-    } catch (error) {
-      fail('Something didnt curring when expected please review your test');
-    }
+      )
+    ).toThrow(
+      "Cannot read property '" +
+        CONTRACTS.INT[CHAIN_ID.BSC_TEST_NET] +
+        "' of undefined"
+    );
+  });
+  it('Should be a passed because not an address', () => {
+    expect(() =>
+      getERC20CurrencyAmount(
+        CHAIN_ID.BSC_TEST_NET,
+        'not an address',
+        '3000000000000000000'
+      )
+    ).toThrow(
+      'invalid address (argument="address", value="not an address", code=INVALID_ARGUMENT, version=address/5.6.0)'
+    );
+  });
+  it('Should be a passed because not a correct big number', () => {
+    expect(() =>
+      getERC20CurrencyAmount(
+        CHAIN_ID.BSC_TEST_NET,
+        CONTRACTS.INT[CHAIN_ID.BSC_TEST_NET],
+        'not a bigNumber'
+      )
+    ).toThrow(
+      'invalid BigNumber string (argument="value", value="not a bigNumber", code=INVALID_ARGUMENT, version=bignumber/5.6.0)'
+    );
   });
 });
