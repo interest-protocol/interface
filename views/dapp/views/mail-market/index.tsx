@@ -7,14 +7,16 @@ import useLocalStorage from '@/hooks/use-storage';
 
 import Web3Manager from '../../web3-manager';
 import { MAILMarketTable } from './components';
+import { MAIL_MARKET_DATA } from './mail-market.data';
 import { IMailMarketData } from './mail-market.types';
+import { addressMatch } from './mail-market.utils';
 import MAILMarketSearchInput from './mail-market-search-input';
 
 const MAILMarket: FC = () => {
   const { register, control } = useForm({ defaultValues: { search: '' } });
 
-  const [localAssets] = useLocalStorage<
-    ReadonlyArray<Omit<IMailMarketData, 'Icon'>>
+  const [localAssets, setLocalAssets] = useLocalStorage<
+    ReadonlyArray<Omit<IMailMarketData, 'Icon' | 'currenciesCost'>>
   >('localAssets', []);
 
   return (
@@ -41,26 +43,33 @@ const MAILMarket: FC = () => {
             )}
           </Box>
           <MAILMarketSearchInput register={register} />
-          <Box
-            display="grid"
-            columnGap="1rem"
-            {...(!!localAssets?.length && {
-              gridTemplateColumns: ['1fr', '1fr', '1fr', '1fr 1fr'],
-            })}
-          >
-            <Box id="recommended" mt="XL">
-              Recommended
+          {!!localAssets?.length && (
+            <Box display="grid" columnGap="1rem">
+              <Box id="favorites" mt="XL">
+                Favorites
+              </Box>
+              <MAILMarketTable
+                control={control}
+                localAssets={localAssets}
+                setLocalAssets={setLocalAssets}
+                favorite
+              />
             </Box>
-            <MAILMarketTable control={control} popular />
-            {!!localAssets?.length && (
-              <>
-                <Box id="local" display={['block', 'block', 'block', 'none']}>
-                  Popular
-                </Box>
-                <MAILMarketTable control={control} />
-              </>
-            )}
-          </Box>
+          )}
+          {!!MAIL_MARKET_DATA.filter(
+            ({ address }) => !addressMatch(address, [localAssets])
+          )?.length && (
+            <Box display="grid" columnGap="1rem">
+              <Box id="recommended" mt="XL">
+                Recommended
+              </Box>
+              <MAILMarketTable
+                control={control}
+                localAssets={localAssets}
+                setLocalAssets={setLocalAssets}
+              />
+            </Box>
+          )}
         </Container>
       </Box>
     </Web3Manager>

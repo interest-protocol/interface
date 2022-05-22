@@ -46,7 +46,7 @@ export const MAIL_MARKET_DATA: TMailMarketDefaultData = [
     Icon: ShibaInuSVG,
     symbol: 'SHIB',
     name: 'Shiba Inu',
-    address: '0x4d224452801aced8b2f0aebe155379bb5d594381',
+    address: '0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce',
   },
   {
     Icon: ChainLinkSVG,

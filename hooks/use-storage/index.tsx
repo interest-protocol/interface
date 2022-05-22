@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { LocalStorageKeys } from './use-storage.types';
 
@@ -21,13 +21,16 @@ function useLocalStorage<T>(
     }
   });
 
-  const setValue = (newValue: unknown) => {
-    try {
-      window.localStorage.setItem(keyName, JSON.stringify(newValue));
-    } finally {
-      setStoredValue(newValue);
-    }
-  };
+  const setValue = useCallback(
+    (newValue: T) => {
+      try {
+        window.localStorage.setItem(keyName, JSON.stringify(newValue));
+      } finally {
+        setStoredValue(newValue);
+      }
+    },
+    [storedValue]
+  );
 
   return [storedValue, setValue];
 }
