@@ -61,7 +61,6 @@ const Header: FC = () => {
           </Typography>
         </Link>
         <Box>
-          {/*  */}
           <Dropdown
             title={
               <Typography

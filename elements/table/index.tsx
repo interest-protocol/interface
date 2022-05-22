@@ -195,7 +195,6 @@ const Table: FC<ResponsiveTableProps> = ({
     <>
       <Box
         my="L"
-        width="100%"
         overflow="hidden"
         borderColor="textDescription"
         display={['none', 'none', 'none', 'block']}

@@ -6,26 +6,21 @@ import { Box, Typography } from '@/elements';
 import useLocalStorage from '@/hooks/use-storage';
 
 import Web3Manager from '../../web3-manager';
+import { MAILMarketTable } from './components';
 import { IMailMarketData } from './mail-market.types';
 import MAILMarketSearchInput from './mail-market-search-input';
-import MAILMarketTable from './mail-market-table';
 
 const MAILMarket: FC = () => {
   const { register, control } = useForm({ defaultValues: { search: '' } });
 
   const [localAssets] = useLocalStorage<
-    ReadonlyArray<Omit<IMailMarketData, 'imgUrl'>>
+    ReadonlyArray<Omit<IMailMarketData, 'Icon'>>
   >('localAssets', []);
 
   return (
     <Web3Manager>
       <Box flex="1" display="flex" flexDirection="column">
-        <Container
-          dapp
-          px="NONE"
-          background="specialBackground"
-          width={['100%', '100%', '100%', localAssets?.length ? '100%' : '50%']}
-        >
+        <Container dapp px="M" background="specialBackground" width="100%">
           <Box mt="XL" display="flex" justifyContent="space-between">
             <Typography variant="normal" ml="M">
               Multi-asset Isolated Lending Markets

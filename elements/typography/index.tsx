@@ -40,8 +40,8 @@ const Typography = forwardRef(
         textShadow,
         system({
           cursor: true,
-          textTransform: true,
           whiteSpace: true,
+          textTransform: true,
         })
       )
     );
