@@ -9,11 +9,25 @@ const MAILMarketPoolBalance: FC<MAILMarketPoolBalanceProps> = ({
   type,
   balance,
 }) => (
-  <Box display="flex" flexDirection="column" my="M" textAlign="center">
-    <Typography variant="normal" textTransform="uppercase" mb="L">
-      {type} Balance
+  <Box
+    p="XL"
+    display="flex"
+    bg="foreground"
+    borderRadius="L"
+    textAlign="center"
+    flexDirection="column"
+    justifyContent="center"
+  >
+    <Typography
+      mb="M"
+      fontSize="S"
+      variant="normal"
+      color="textSecondary"
+      textTransform="uppercase"
+    >
+      My {type} Balance
     </Typography>
-    <Typography variant="normal" fontWeight="500" fontSize="L">
+    <Typography variant="normal" fontWeight="500" fontSize="XL">
       {formatDollars(+balance)}
     </Typography>
   </Box>

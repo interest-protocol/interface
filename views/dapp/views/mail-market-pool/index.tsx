@@ -6,7 +6,10 @@ import { Box, Typography } from '@/elements';
 
 import GoBack from '../../components/go-back';
 import Web3Manager from '../../web3-manager';
-import { MAILMarketPoolTable } from './components';
+import { MAILMarketPoolBalance, MAILMarketPoolTable } from './components';
+import MAILMarketPoolInfo from './components/mail-market-pool-info';
+import MAILMarketPoolNetApr from './components/mail-market-pool-net-apr';
+import MAILMarketPoolRisk from './components/mail-market-pool-risk';
 import { MAILMarketPoolProps } from './mail-market-pool.types';
 
 const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => (
@@ -14,23 +17,15 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => (
     <Box flex="1" display="flex" flexDirection="column">
       <Container
         dapp
-        mt="XL"
+        large
         px="M"
+        mt="XL"
         width="100%"
         position="relative"
         background="specialBackground"
       >
-        <Box
-          textAlign={['center', 'center', 'center', 'left']}
-          left={['unset', 'unset', '-5rem', 'unset', '-5rem']}
-          position={['static', 'static', 'absolute', 'static', 'absolute']}
-        >
-          <GoBack route={RoutesEnum.MAILMarket} />
-        </Box>
         <Box display="flex" justifyContent="space-between">
-          <Typography variant="normal" ml="M">
-            {pool} Pool
-          </Typography>
+          <GoBack route={RoutesEnum.MAILMarket} />
           <a href="#popular">
             <Typography
               color="accent"
@@ -43,6 +38,24 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => (
               See Popular
             </Typography>
           </a>
+        </Box>
+        <Box
+          mt="XL"
+          display="grid"
+          gridGap="1rem"
+          gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
+        >
+          <MAILMarketPoolInfo pool={pool} />
+          <Box
+            display="grid"
+            gridColumnGap="1rem"
+            gridTemplateColumns="1fr 1fr"
+          >
+            <MAILMarketPoolBalance type="supply" balance="0928" />
+            <MAILMarketPoolBalance type="borrow" balance="0928" />
+          </Box>
+          <MAILMarketPoolNetApr />
+          <MAILMarketPoolRisk />
         </Box>
         <Box
           display="grid"

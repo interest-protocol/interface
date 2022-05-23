@@ -1,17 +1,22 @@
+import { FC, SVGAttributes } from 'react';
 import { Control, UseFormRegister } from 'react-hook-form';
 
-export interface IMailMarketData {
+export interface IMailMarketPoolData {
+  apr: number;
   name: string;
   symbol: string;
-  imgUrl: string;
   address: string;
+  Icon: FC<SVGAttributes<SVGSVGElement>>;
 }
 
 export interface IMAILMarketForm {
   search: string;
 }
 
-export type TMailMarketData = ReadonlyArray<IMailMarketData>;
+export interface IMailMarketPoolTypeData {
+  supply: ReadonlyArray<IMailMarketPoolData>;
+  borrow: ReadonlyArray<IMailMarketPoolData>;
+}
 
 export interface MAILMarketSearchInputProps {
   register: UseFormRegister<IMAILMarketForm>;
