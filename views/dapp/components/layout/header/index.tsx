@@ -15,9 +15,9 @@ const Header: FC = () => {
   return (
     <Box
       py="M"
-      px={['M', 'L']}
       as="header"
       bg="foreground"
+      px={['M', 'L']}
       alignItems="center"
       justifyContent="space-between"
       display={['flex', 'flex', 'grid']}
@@ -26,6 +26,7 @@ const Header: FC = () => {
       <Box display="flex" alignItems="center">
         <Link href={Routes[RoutesEnum.Home]}>
           <Box
+            mr="XL"
             color="text"
             cursor="pointer"
             hover={{ color: 'accent' }}
@@ -39,6 +40,23 @@ const Header: FC = () => {
             />
           </Box>
         </Link>
+        <a href="https://forms.gle/aDP4wHvshLPKkKv97" target="__blank">
+          <Typography
+            px="L"
+            py="M"
+            width="100%"
+            fontSize="S"
+            variant="normal"
+            borderRadius="M"
+            textAlign="center"
+            bg="accentAlternative"
+            hover={{
+              bg: 'warning',
+            }}
+          >
+            Feedback
+          </Typography>
+        </a>
       </Box>
       <Box
         alignItems="center"
@@ -101,23 +119,6 @@ const Header: FC = () => {
             ]}
           />
         </Box>
-        <a href="https://forms.gle/aDP4wHvshLPKkKv97" target="__blank">
-          <Typography
-            px="L"
-            py="M"
-            width="100%"
-            fontSize="S"
-            variant="normal"
-            borderRadius="M"
-            textAlign="center"
-            bg="accentAlternative"
-            hover={{
-              bg: 'warning',
-            }}
-          >
-            Feedback
-          </Typography>
-        </a>
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <Wallet />

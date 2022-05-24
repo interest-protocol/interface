@@ -2,32 +2,45 @@ import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
 
+import { Switch } from '@/components';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
-import { LoadingSVG, TimesSVG } from '@/svg';
+import { InterestTokenSVG, LoadingSVG, TimesSVG } from '@/svg';
+import { formatDollars, formatMoney } from '@/utils';
 
-import { FaucetModalProps, IFaucetForm } from './faucet.types';
 import InputBalance from './input-balance';
+import { getSwitchDefaultData } from './mail-market-pool-modal.data';
+import {
+  IMAILMarketPoolForm,
+  MAILMarketPoolModalProps,
+} from './mail-market-pool-modal.types';
 
-const MAILMarketPoolModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
+const data = [
+  {
+    currency: {
+      symbol: 'INT',
+    },
+    value: Math.random() * 10000,
+  },
+];
+
+const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
+  type,
+  isOpen,
+  handleClose,
+}) => {
+  const [base, setBase] = useState(false);
   const [loading] = useState(false);
 
-  const { register, getValues, setValue } = useForm<IFaucetForm>({
+  const SWITCH_DEFAULT_DATA = getSwitchDefaultData(setBase);
+
+  const { register, getValues, setValue } = useForm<IMAILMarketPoolForm>({
     defaultValues: {
       currency: TOKEN_SYMBOL.BTC,
       value: 0,
     },
   });
-
-  const data = [
-    {
-      currency: {
-        symbol: 'INT',
-      },
-      value: '80979',
-    },
-  ];
 
   return (
     <Modal
@@ -71,40 +84,45 @@ const MAILMarketPoolModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
           </Box>
         </Box>
         <Box display="flex" justifyContent="space-between">
-          <Typography variant="title3" fontWeight="normal">
-            FAUCET
-          </Typography>
-          <Typography variant="normal" color="textSecondary" mt="S">
-            Get test tokens
+          <Typography
+            variant="title3"
+            fontWeight="normal"
+            textTransform="uppercase"
+          >
+            {type}
           </Typography>
         </Box>
-        <Box my="XL">
-          <InputBalance
-            name="value"
-            register={register}
-            label="Choose token"
-            setValue={setValue}
-            getValues={getValues}
+        <Box display="flex" justifyContent="center" my="L">
+          <Switch
+            defaultValue={base ? type : SWITCH_DEFAULT_DATA[type][1].value}
+            options={SWITCH_DEFAULT_DATA[type]}
           />
         </Box>
-        <Box my="XXL">
-          <Typography variant="normal" textTransform="uppercase" mt="L">
-            Your balance:
+        <Box my="XL" bg="background" p="L" borderRadius="M">
+          <Typography variant="normal" textTransform="capitalize">
+            {(base && type === 'borrow') || (!base && type === 'supply')
+              ? `current ${type}ing`
+              : 'your balance'}
+            :
           </Typography>
           {data.map((x) => {
             const SVG = TOKENS_SVG_MAP[x.currency.symbol];
 
             return (
               <Box
+                mt="L"
                 key={v4()}
                 display="flex"
                 justifyContent="space-between"
-                my="L"
               >
                 <Box display="flex">
-                  <SVG width="1rem" height="1rem" />
+                  {SVG ? (
+                    <SVG width="1rem" height="1rem" />
+                  ) : (
+                    <InterestTokenSVG width="1rem" />
+                  )}
                   <Typography ml="M" variant="normal">
-                    {x.value}
+                    {formatMoney(x.value)}
                   </Typography>
                 </Box>
                 <Typography variant="normal" color="textSecondary">
@@ -113,6 +131,81 @@ const MAILMarketPoolModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
               </Box>
             );
           })}
+        </Box>
+        <Box my="XL">
+          <InputBalance
+            name="value"
+            register={register}
+            label="Type quantity"
+            setValue={setValue}
+            getValues={getValues}
+          />
+        </Box>
+        <Typography variant="normal" textTransform="capitalize">
+          {type} Rates
+        </Typography>
+        <Box my="L" bg="background" p="L" borderRadius="M">
+          <Box
+            py="M"
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography
+              fontSize="S"
+              variant="normal"
+              color="textSecondary"
+              textTransform="uppercase"
+            >
+              {type === 'borrow' ? 'Borrow Risk' : 'Supply APR'}
+            </Typography>
+            <Typography variant="normal">
+              {type === 'borrow' ? <>0% &rarr; 0%</> : '3.09%'}
+            </Typography>
+          </Box>
+        </Box>
+        <Typography variant="normal">Borrow Limit</Typography>
+        <Box mt="L" mb="XL" bg="background" p="L" borderRadius="M">
+          <Box
+            py="M"
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography
+              fontSize="S"
+              variant="normal"
+              color="textSecondary"
+              textTransform="uppercase"
+            >
+              {type === 'borrow' ? 'Borrow Risk' : 'limit'}
+            </Typography>
+            <Typography variant="normal">
+              {type === 'borrow' ? (
+                <>0% &rarr; 0%</>
+              ) : (
+                <>
+                  {formatDollars(0)} &rarr; {formatDollars(0)}
+                </>
+              )}
+            </Typography>
+          </Box>
+          <Box
+            py="M"
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography
+              fontSize="S"
+              variant="normal"
+              color="textSecondary"
+              textTransform="uppercase"
+            >
+              Limit used
+            </Typography>
+            <Typography variant="normal">0% &rarr; 0%</Typography>
+          </Box>
         </Box>
         <Box display="flex">
           <Button

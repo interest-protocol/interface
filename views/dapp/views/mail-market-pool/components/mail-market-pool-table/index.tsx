@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { v4 } from 'uuid';
 
-import { Box, Modal, Table, Typography } from '@/elements';
+import { Box, Table, Typography } from '@/elements';
 import { USDCoinSVG } from '@/svg';
 import { formatDollars, formatMoney } from '@/utils';
 
@@ -82,23 +82,18 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({ type, favorite }) => {
                   ]
                 : []),
               ...(type === 'borrow'
-                ? [favorite ? '15%' : formatMoney(45543)]
+                ? [favorite ? '15%' : formatMoney(45543).split('.')[0]]
                 : []),
             ],
           }))}
         />
       </Box>
-      <Modal
-        modalProps={{
-          isOpen: showModal,
-          shouldCloseOnEsc: true,
-          onRequestClose: toggleModal,
-          shouldCloseOnOverlayClick: true,
-        }}
-        background="#0008"
-      >
-        <MAILMarketPoolModal type={type} address={modalAddress} />
-      </Modal>
+      <MAILMarketPoolModal
+        type={type}
+        isOpen={showModal}
+        address={modalAddress}
+        handleClose={toggleModal}
+      />
     </>
   );
 };

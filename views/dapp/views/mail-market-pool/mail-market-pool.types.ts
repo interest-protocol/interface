@@ -1,6 +1,8 @@
 import { FC, SVGAttributes } from 'react';
 import { Control, UseFormRegister } from 'react-hook-form';
 
+export type MAILMarketPoolOperation = 'supply' | 'borrow';
+
 export interface IMailMarketPoolData {
   apr: number;
   name: string;
@@ -13,10 +15,10 @@ export interface IMAILMarketForm {
   search: string;
 }
 
-export interface IMailMarketPoolTypeData {
-  supply: ReadonlyArray<IMailMarketPoolData>;
-  borrow: ReadonlyArray<IMailMarketPoolData>;
-}
+export type IMailMarketPoolTypeData = Record<
+  MAILMarketPoolOperation,
+  ReadonlyArray<IMailMarketPoolData>
+>;
 
 export interface MAILMarketSearchInputProps {
   register: UseFormRegister<IMAILMarketForm>;

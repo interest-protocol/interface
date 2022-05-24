@@ -1,9 +1,10 @@
+import { MAILMarketPoolOperation } from './../../mail-market-pool.types';
 export interface MAILMarketPoolTableProps {
   favorite?: boolean;
-  type: 'borrow' | 'supply';
+  type: MAILMarketPoolOperation;
 }
 
 export interface MAILMarketPoolModalProps {
   address: string;
-  type: 'borrow' | 'supply';
+  type: MAILMarketPoolOperation;
 }
