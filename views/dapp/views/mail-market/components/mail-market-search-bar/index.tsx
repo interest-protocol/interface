@@ -2,12 +2,14 @@ import { FC } from 'react';
 
 import { Box, Input } from '@/elements';
 
-import { MAILMarketSearchInputProps } from './mail-market.types';
+import { MAILMarketSearchBarProps } from '../../mail-market.types';
+import MAILMarketSearchBarResults from './mail-market-search-bar-results';
 
-const MAILMarketSearchInput: FC<MAILMarketSearchInputProps> = ({
+const MAILMarketSearchInput: FC<MAILMarketSearchBarProps> = ({
   register,
+  control,
 }) => (
-  <Box bg="foreground" p="L" borderRadius="L" mt="XL">
+  <Box bg="foreground" p="L" borderRadius="L" mt="XL" position="relative">
     <Input
       py="L"
       color="text"
@@ -17,6 +19,7 @@ const MAILMarketSearchInput: FC<MAILMarketSearchInputProps> = ({
       borderColor="textSecondary"
       placeholder="Search Pool by name, symbol or address..."
     />
+    <MAILMarketSearchBarResults control={control} />
   </Box>
 );
 

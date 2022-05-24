@@ -1,3 +1,4 @@
+import { IHeading } from '@/elements/table/table.types';
 import {
   ApeCoinSVG,
   ChainLinkSVG,
@@ -8,12 +9,17 @@ import {
 
 import { TMailMarketDefaultData } from './mail-market.types';
 
-export const MAIL_MARKET_HEADINGS = [
+export const MAIL_MARKET_HEADINGS = (
+  symbol: string
+): ReadonlyArray<IHeading> => [
   {
     item: 'Market',
   },
   {
     item: '',
+  },
+  {
+    item: symbol,
   },
   {
     item: 'BTC',

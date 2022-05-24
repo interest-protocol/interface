@@ -30,7 +30,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
     <Table
       hasButton
       specialRowHover
-      headings={MAIL_MARKET_HEADINGS}
+      headings={MAIL_MARKET_HEADINGS(symbol)}
       data={[
         {
           button: (

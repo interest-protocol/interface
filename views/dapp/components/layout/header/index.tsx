@@ -85,8 +85,6 @@ const Header: FC = () => {
                 px="XL"
                 cursor="pointer"
                 variant="normal"
-                borderRight="1px solid"
-                borderColor="bottomBackground"
                 color={
                   pathname === Routes[RoutesEnum.DApp] ||
                   pathname.includes(Routes[RoutesEnum.Borrow])

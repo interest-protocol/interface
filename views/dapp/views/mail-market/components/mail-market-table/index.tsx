@@ -5,7 +5,7 @@ import { v4 } from 'uuid';
 import { MAIL_MARKET_DATA } from '../../mail-market.data';
 import { MAILMarketTableProps, TMailMarketData } from '../../mail-market.types';
 import { addressMatch } from '../../mail-market.utils';
-import MAILMarketTableItem from './item';
+import MAILMarketTableItem from './mail-market-table-item';
 
 const MAILMarketTable: FC<MAILMarketTableProps> = ({
   control,
@@ -47,6 +47,10 @@ const MAILMarketTable: FC<MAILMarketTableProps> = ({
             `${Math.round(Math.random() * 100)}%`,
             `${Math.round(Math.random() * 100)}%`,
           ],
+          [
+            `${Math.round(Math.random() * 100)}%`,
+            `${Math.round(Math.random() * 100)}%`,
+          ],
         ],
       })) as TMailMarketData,
     [localAssets]
@@ -64,9 +68,9 @@ const MAILMarketTable: FC<MAILMarketTableProps> = ({
           <MAILMarketTableItem
             {...item}
             key={v4()}
+            data={data}
             localAssets={localAssets}
             setLocalAssets={setLocalAssets}
-            data={data}
           />
         ))}
     </>

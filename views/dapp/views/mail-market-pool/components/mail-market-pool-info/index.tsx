@@ -23,7 +23,7 @@ const MAILMarketPoolInfo: FC<MAILMarketPoolProps> = ({ pool }) => {
       {data ? (
         <Box display="flex" alignItems="center">
           <Box width="5rem" mr="L">
-            <data.Icon width="100%" />
+            {data.Icon && <data.Icon width="100%" />}
           </Box>
           <Box>
             <Typography variant="normal" my="M">

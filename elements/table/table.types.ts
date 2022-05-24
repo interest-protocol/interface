@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-interface IHeading {
+export interface IHeading {
   tip?: string;
   item: ReactNode;
 }

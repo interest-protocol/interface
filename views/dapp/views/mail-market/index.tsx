@@ -7,10 +7,10 @@ import useLocalStorage from '@/hooks/use-storage';
 
 import Web3Manager from '../../web3-manager';
 import { MAILMarketTable } from './components';
+import MAILMarketSearchInput from './components/mail-market-search-bar';
 import { MAIL_MARKET_DATA } from './mail-market.data';
 import { IMailMarketData } from './mail-market.types';
 import { addressMatch } from './mail-market.utils';
-import MAILMarketSearchInput from './mail-market-search-input';
 
 const MAILMarket: FC = () => {
   const { register, control } = useForm({ defaultValues: { search: '' } });
@@ -42,7 +42,7 @@ const MAILMarket: FC = () => {
               </a>
             )}
           </Box>
-          <MAILMarketSearchInput register={register} />
+          <MAILMarketSearchInput register={register} control={control} />
           {!!localAssets?.length && (
             <Box display="grid" columnGap="1rem">
               <Box id="favorites" mt="XL">

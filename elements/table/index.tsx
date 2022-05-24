@@ -59,14 +59,17 @@ const TableRow: FC<TableRowProps> = ({
   <>
     <Box
       transition="none"
+      border="1px solid"
       onClick={handleClick}
+      borderColor="transparent"
       display={['none', 'none', 'none', 'block']}
       cursor={handleClick ? 'pointer' : 'normal'}
+      {...(specialRowHover && {
+        borderRadius: 'L',
+      })}
       hover={
         specialRowHover
           ? {
-              borderRadius: 'L',
-              border: '1px solid',
               borderColor: 'accent',
             }
           : {

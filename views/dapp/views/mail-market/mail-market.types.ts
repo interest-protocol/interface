@@ -4,8 +4,8 @@ import { Control, UseFormRegister } from 'react-hook-form';
 export interface IMailMarketData {
   name: string;
   symbol: string;
-  Icon?: FC<SVGAttributes<SVGSVGElement>>;
   address: string;
+  Icon?: FC<SVGAttributes<SVGSVGElement>>;
   currenciesCost: ReadonlyArray<[string, string]>;
 }
 
@@ -19,8 +19,12 @@ export type TMailMarketDefaultData = ReadonlyArray<
   Omit<IMailMarketData, 'currenciesCost'>
 >;
 
-export interface MAILMarketSearchInputProps {
+export interface MAILMarketSearchBarProps {
   register: UseFormRegister<IMAILMarketForm>;
+  control: Control<IMAILMarketForm>;
+}
+export interface MAILMarketSearchBarResultsProps {
+  control: Control<IMAILMarketForm>;
 }
 
 export interface MAILMarketTableProps {
