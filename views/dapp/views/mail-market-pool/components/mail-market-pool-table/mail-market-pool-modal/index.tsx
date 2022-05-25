@@ -1,5 +1,6 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Switch } from '@/components';
@@ -32,7 +33,14 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
 }) => {
   const [base, setBase] = useState(false);
   const [loading] = useState(false);
+  const [dataLoading, setDataLoading] = useState(true);
 
+  useEffect(() => {
+    dataLoading &&
+      setTimeout(() => {
+        setDataLoading(!dataLoading);
+      }, 3000);
+  }, []);
   const SWITCH_DEFAULT_DATA = getSwitchDefaultData(setBase);
 
   const { register, getValues, setValue } = useForm<IMAILMarketPoolForm>({
@@ -41,7 +49,6 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
       value: 0,
     },
   });
-
   return (
     <Modal
       modalProps={{
@@ -160,7 +167,13 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
               {type === 'borrow' ? 'Borrow Risk' : 'Supply APR'}
             </Typography>
             <Typography variant="normal">
-              {type === 'borrow' ? <>0% &rarr; 0%</> : '3.09%'}
+              {dataLoading ? (
+                <Skeleton width="3rem" />
+              ) : type === 'borrow' ? (
+                <>0% &rarr; 0%</>
+              ) : (
+                '3.09%'
+              )}
             </Typography>
           </Box>
         </Box>

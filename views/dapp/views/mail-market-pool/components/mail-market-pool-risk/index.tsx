@@ -1,9 +1,12 @@
 import { FC } from 'react';
+import Skeleton from 'react-loading-skeleton';
 
 import { Box, Typography } from '@/elements';
 import { ProgressSVG } from '@/svg';
 
-const MAILMarketPoolRisk: FC = () => (
+import { MAILMarketLoadingProps } from '../../mail-market-pool.types';
+
+const MAILMarketPoolRisk: FC<MAILMarketLoadingProps> = ({ loading }) => (
   <Box bg="foreground" p="XL" borderRadius="L">
     <Typography
       mb="XL"
@@ -16,7 +19,7 @@ const MAILMarketPoolRisk: FC = () => (
     </Typography>
     <Box display="flex" alignItems="center">
       <Typography variant="normal" mr="XL">
-        20%
+        {loading ? <Skeleton width="3rem" /> : '20%'}
       </Typography>
       <ProgressSVG width="100%" progress={20} custom height={10} />
       <Typography variant="normal" ml="XL">

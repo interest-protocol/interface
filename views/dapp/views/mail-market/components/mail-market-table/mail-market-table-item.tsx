@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Routes, RoutesEnum } from '@/constants';
@@ -24,7 +25,15 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
   setLocalAssets,
   data,
 }) => {
+  const [loading, setLoading] = useState(true);
   const { push } = useRouter();
+
+  useEffect(() => {
+    loading &&
+      setTimeout(() => {
+        setLoading(!loading);
+      }, 1500);
+  }, []);
 
   return (
     <Table
@@ -134,8 +143,12 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                 display="grid"
                 gridTemplateColumns={['50% 50%', '50% 50%', '50% 50%', '1fr']}
               >
-                <Typography variant="normal">{borrow}</Typography>
-                <Typography variant="normal">{supply}</Typography>
+                <Typography variant="normal">
+                  {loading ? <Skeleton /> : borrow}
+                </Typography>
+                <Typography variant="normal">
+                  {loading ? <Skeleton /> : supply}
+                </Typography>
               </Box>
             )),
           ],

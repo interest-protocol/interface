@@ -32,3 +32,7 @@ export interface MAILMarketTableProps {
 export interface MAILMarketPoolProps {
   pool: string;
 }
+
+export interface MAILMarketLoadingProps {
+  loading: boolean;
+}

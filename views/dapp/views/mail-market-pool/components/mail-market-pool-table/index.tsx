@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Box, Table, Typography } from '@/elements';
@@ -13,7 +14,11 @@ import {
 import MAILMarketPoolModal from './mail-market-pool-modal';
 import { MAILMarketPoolTableProps } from './mail-market-pool-table.types';
 
-const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({ type, favorite }) => {
+const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
+  type,
+  favorite,
+  loading,
+}) => {
   const [showModal, setShowModal] = useState(false);
   const [modalAddress, setModalAddress] = useState('');
 
@@ -62,7 +67,11 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({ type, favorite }) => {
                   {symbol}
                 </Typography>
               </Box>,
-              `${type == 'borrow' ? '-' : ''} ${apr}%`,
+              loading ? (
+                <Skeleton width="3rem" />
+              ) : (
+                `${type == 'borrow' ? '-' : ''} ${apr}%`
+              ),
               ...(favorite
                 ? [
                     <Box key={v4()}>
