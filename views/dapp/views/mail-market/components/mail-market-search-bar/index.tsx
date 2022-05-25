@@ -6,8 +6,10 @@ import { MAILMarketSearchBarProps } from '../../mail-market.types';
 import MAILMarketSearchBarResults from './mail-market-search-bar-results';
 
 const MAILMarketSearchInput: FC<MAILMarketSearchBarProps> = ({
-  register,
   control,
+  register,
+  localAssets,
+  setLocalAssets,
 }) => (
   <Box bg="foreground" p="L" borderRadius="L" mt="XL" position="relative">
     <Input
@@ -19,7 +21,11 @@ const MAILMarketSearchInput: FC<MAILMarketSearchBarProps> = ({
       borderColor="textSecondary"
       placeholder="Search Pool by name, symbol or address..."
     />
-    <MAILMarketSearchBarResults control={control} />
+    <MAILMarketSearchBarResults
+      control={control}
+      localAssets={localAssets}
+      setLocalAssets={setLocalAssets}
+    />
   </Box>
 );
 
