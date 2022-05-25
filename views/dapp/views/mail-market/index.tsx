@@ -42,7 +42,12 @@ const MAILMarket: FC = () => {
               </a>
             )}
           </Box>
-          <MAILMarketSearchInput register={register} control={control} />
+          <MAILMarketSearchInput
+            register={register}
+            control={control}
+            localAssets={localAssets}
+            setLocalAssets={setLocalAssets}
+          />
           {!!localAssets?.length && (
             <Box display="grid" columnGap="1rem">
               <Box id="favorites" mt="XL">

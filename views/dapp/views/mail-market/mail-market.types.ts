@@ -22,9 +22,17 @@ export type TMailMarketDefaultData = ReadonlyArray<
 export interface MAILMarketSearchBarProps {
   register: UseFormRegister<IMAILMarketForm>;
   control: Control<IMAILMarketForm>;
+  localAssets: ReadonlyArray<Omit<IMailMarketData, 'Icon' | 'currenciesCost'>>;
+  setLocalAssets: (
+    localAssets: ReadonlyArray<Omit<IMailMarketData, 'Icon' | 'currenciesCost'>>
+  ) => void;
 }
 export interface MAILMarketSearchBarResultsProps {
   control: Control<IMAILMarketForm>;
+  localAssets: ReadonlyArray<Omit<IMailMarketData, 'Icon' | 'currenciesCost'>>;
+  setLocalAssets: (
+    localAssets: ReadonlyArray<Omit<IMailMarketData, 'Icon' | 'currenciesCost'>>
+  ) => void;
 }
 
 export interface MAILMarketTableProps {
@@ -42,4 +50,15 @@ export interface MAILMarketTableItemProps extends IMailMarketData {
     localAssets: ReadonlyArray<Omit<IMailMarketData, 'Icon' | 'currenciesCost'>>
   ) => void;
   data: TMailMarketData;
+}
+
+export interface IMailMarketSearchItemData {
+  name: string;
+  symbol: string;
+  address: string;
+  existent: boolean;
+  localAssets: ReadonlyArray<Omit<IMailMarketData, 'Icon' | 'currenciesCost'>>;
+  setLocalAssets: (
+    localAssets: ReadonlyArray<Omit<IMailMarketData, 'Icon' | 'currenciesCost'>>
+  ) => void;
 }

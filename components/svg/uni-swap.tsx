@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 const id = v4();
 
 const UniSwap: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 120 120" fill="none" {...props}>
+  <svg viewBox="17 17 86 86" fill="none" {...props}>
     <path
       d="M90 30C106.569 46.5685 106.569 73.4315 90 90V90C73.4315 106.569 46.5685 106.569 30 90V90C13.4315 73.4315 13.4315 46.5685 30 30V30C46.5685 13.4315 73.4315 13.4315 90 30V30Z"
       fill={`url(#${id})`}
