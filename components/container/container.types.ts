@@ -9,4 +9,5 @@ export interface ContainerProps
     'mx'
   > {
   dapp?: boolean;
+  large?: boolean;
 }

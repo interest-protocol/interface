@@ -6,9 +6,10 @@ export enum RoutesEnum {
   Home = 'home',
   DApp = 'dapp',
   Borrow = 'dinero-market',
+  MAILMarket = 'mail-market',
+  MAILMarketPool = 'mail-market-pool',
   Repay = 'repay',
   Earn = 'earn',
-  NoWhere = 'nowhere',
 }
 
 /**
@@ -19,9 +20,10 @@ export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.Home]: '/',
   [RoutesEnum.DApp]: '/dapp',
   [RoutesEnum.Borrow]: '/dapp/dinero-market',
+  [RoutesEnum.MAILMarket]: '/dapp/mail-market',
+  [RoutesEnum.MAILMarketPool]: '/dapp/mail-market/[pool]',
   [RoutesEnum.Repay]: '/dapp/dinero-market/repay',
   [RoutesEnum.Earn]: '/dapp/earn',
-  [RoutesEnum.NoWhere]: '#',
 };
 
 export const routesList = Object.keys(Routes) as ReadonlyArray<RoutesEnum>;

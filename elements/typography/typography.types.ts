@@ -2,6 +2,7 @@ import { SystemStyleObject } from '@styled-system/css';
 import { CSSProperties, HTMLAttributes } from 'react';
 import {
   BorderProps,
+  BoxShadowProps,
   ColorProps,
   FlexboxProps,
   LayoutProps,
@@ -19,6 +20,7 @@ export interface TypographyProps
     BorderProps,
     FlexboxProps,
     PositionProps,
+    BoxShadowProps,
     TextShadowProps,
     Omit<HTMLAttributes<HTMLElement>, 'color'> {
   hover?: SystemStyleObject;

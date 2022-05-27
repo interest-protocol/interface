@@ -346,7 +346,8 @@
 
 "@ethersproject/address@5.6.0", "@ethersproject/address@^5.6.0":
   version "5.6.0"
-  resolved "https://registry.npmjs.org/@ethersproject/address/-/address-5.6.0.tgz"
+  resolved "https://registry.yarnpkg.com/@ethersproject/address/-/address-5.6.0.tgz#13c49836d73e7885fc148ad633afad729da25012"
+  integrity sha512-6nvhYXjbXsHPS+30sHZ+U4VMagFC/9zAk6Gd/h3S21YW4+yfb0WfRtaAIZ4kfM4rrVwqiy284LP0GtL5HXGLxQ==
   dependencies:
     "@ethersproject/bignumber" "^5.6.0"
     "@ethersproject/bytes" "^5.6.0"
@@ -4233,6 +4234,13 @@ react-spring@^9.4.3:
     "@react-spring/three" "~9.4.3-beta.0"
     "@react-spring/web" "~9.4.3-beta.0"
     "@react-spring/zdog" "~9.4.3-beta.0"
+
+react-switch@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/react-switch/-/react-switch-6.0.0.tgz#bd4a2dea08f211b8a32e55e8314fd44bc1ec947e"
+  integrity sha512-QV3/6eRK5/5epdQzIqvDAHRoGLbCv/wDpHUi6yBMXY1Xco5XGuIZxvB49PHoV1v/SpEgOCJLD/Zo43iic+aEIw==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-tooltip@^4.2.21:
   version "4.2.21"

@@ -4,10 +4,13 @@ import { FC } from 'react';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Typography } from '@/elements';
 
-const GoBack: FC = () => {
-  const { pathname, push } = useRouter();
+import { GoBackProps } from './go-back.types';
 
-  const backToHome = () => push(Routes[RoutesEnum.DApp]);
+const GoBack: FC<GoBackProps> = ({ route, routeBack }) => {
+  const { pathname, push, back } = useRouter();
+
+  const backToHome = () =>
+    routeBack ? back() : push(Routes[route ?? RoutesEnum.DApp]);
 
   return pathname != Routes[RoutesEnum.DApp] ? (
     <Typography

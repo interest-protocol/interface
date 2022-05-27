@@ -46,16 +46,37 @@ const TableLoading: FC<TableLoadingProps> = ({ columns }) => (
 );
 
 const TableRow: FC<TableRowProps> = ({
-  headings,
-  hasButton,
   index,
+  items,
   button,
   ordinate,
-  items,
+  headings,
+  hasButton,
   mobileSide,
+  handleClick,
+  specialRowHover,
 }) => (
   <>
-    <Box display={['none', 'none', 'none', 'block']}>
+    <Box
+      transition="none"
+      border="1px solid"
+      onClick={handleClick}
+      borderColor="transparent"
+      display={['none', 'none', 'none', 'block']}
+      cursor={handleClick ? 'pointer' : 'normal'}
+      {...(specialRowHover && {
+        borderRadius: 'L',
+      })}
+      hover={
+        specialRowHover
+          ? {
+              borderColor: 'accent',
+            }
+          : {
+              bg: handleClick ? 'bottomBackground' : 'transparent',
+            }
+      }
+    >
       <Box
         py="M"
         px="XL"
@@ -79,7 +100,16 @@ const TableRow: FC<TableRowProps> = ({
         {button && <Cell as="td">{button}</Cell>}
       </Box>
     </Box>
-    <Box display={['block', 'block', 'block', 'none']}>
+    <Box
+      mt="M"
+      bg="foreground"
+      borderRadius="M"
+      onClick={handleClick}
+      display={['block', 'block', 'block', 'none']}
+      hover={{
+        bg: handleClick ? 'bottomBackground' : 'transparent',
+      }}
+    >
       <Box display="flex" p="L">
         <Box
           my="L"
@@ -136,7 +166,12 @@ const TableRow: FC<TableRowProps> = ({
             </Box>
           )}
           {items.map((item) => (
-            <Box key={v4()} display="flex">
+            <Box
+              key={v4()}
+              display="flex"
+              alignItems="stretch"
+              flexDirection="column"
+            >
               <Box py="M" px="M">
                 {item}
               </Box>
@@ -154,6 +189,7 @@ const Table: FC<ResponsiveTableProps> = ({
   ordinate,
   headings,
   hasButton,
+  specialRowHover,
 }) => {
   const Tooltip = dynamic(() => import('react-tooltip'));
   const isMounted = useIsMounted();
@@ -162,7 +198,6 @@ const Table: FC<ResponsiveTableProps> = ({
     <>
       <Box
         my="L"
-        width="100%"
         overflow="hidden"
         borderColor="textDescription"
         display={['none', 'none', 'none', 'block']}
@@ -191,15 +226,11 @@ const Table: FC<ResponsiveTableProps> = ({
             ))}
             {hasButton && <Cell as="th" />}
           </Box>
-          <Box bg="foreground" borderRadius="L" my="M">
+          <Box bg="foreground" borderRadius="L" my="M" overflow="hidden">
             {loading ? (
-              <TableLoading
-                columns={
-                  headings.length + (ordinate ? 1 : 0) + (hasButton ? 1 : 0)
-                }
-              />
+              <TableLoading columns={headings.length + (ordinate ? 1 : 0)} />
             ) : (
-              data.map(({ items, button }, index) => (
+              data.map(({ items, button, handleClick }, index) => (
                 <TableRow
                   key={v4()}
                   index={index}
@@ -209,21 +240,16 @@ const Table: FC<ResponsiveTableProps> = ({
                   headings={headings}
                   mobileSide={undefined}
                   hasButton={!!hasButton}
+                  handleClick={handleClick}
+                  specialRowHover={specialRowHover}
                 />
               ))
             )}
           </Box>
         </Box>
       </Box>
-      <Box
-        mx="M"
-        my="XL"
-        width="100%"
-        bg="foreground"
-        borderRadius="M"
-        display={['block', 'block', 'block', 'none']}
-      >
-        {data.map(({ items, button, mobileSide }, index) => (
+      <Box mx="M" my="XL" display={['block', 'block', 'block', 'none']}>
+        {data.map(({ items, button, mobileSide, handleClick }, index) => (
           <TableRow
             key={v4()}
             index={index}
@@ -233,6 +259,7 @@ const Table: FC<ResponsiveTableProps> = ({
             headings={headings}
             hasButton={!!hasButton}
             mobileSide={mobileSide}
+            handleClick={handleClick}
           />
         ))}
       </Box>
