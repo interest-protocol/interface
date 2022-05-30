@@ -9,7 +9,7 @@ import { MintFaucetToken } from './faucet.types';
 
 export const mintBTC: MintFaucetToken = (signer, amount) => {
   const btc = new ethers.Contract(
-    CONTRACTS.BTC[CHAIN_ID.BSC_TEST_NET],
+    CONTRACTS.BTC[CHAIN_ID.BNB_TEST_NET],
     BTCABI,
     signer
   ) as TestBtcAbi;
@@ -19,7 +19,7 @@ export const mintBTC: MintFaucetToken = (signer, amount) => {
 
 export const mintDinero: MintFaucetToken = (signer, amount) => {
   const dineroMinter = new ethers.Contract(
-    CONTRACTS.DINERO_FAUCET[CHAIN_ID.BSC_TEST_NET],
+    CONTRACTS.DINERO_FAUCET[CHAIN_ID.BNB_TEST_NET],
     DineroFaucetABI,
     signer
   ) as DineroFaucetAbi;

@@ -4,9 +4,10 @@ import { FC } from 'react';
 import { Box, Button, Typography } from '@/elements';
 import { FaucetSVG } from '@/svg';
 
+import { FaucetProps } from './faucet.types';
 import FaucetModal from './faucet-modal';
 
-const Faucet: FC = () => {
+const Faucet: FC<FaucetProps> = ({ customAction }) => {
   const {
     pathname,
     query: { modal },
@@ -18,7 +19,7 @@ const Faucet: FC = () => {
 
   return (
     <>
-      <Box position="sticky" bottom="0" right="0" zIndex={1}>
+      <Box position="sticky" bottom="1rem" right="0" zIndex={1}>
         <Box
           mb="L"
           mr="L"
@@ -31,8 +32,8 @@ const Faucet: FC = () => {
             variant="primary"
             alignItems="center"
             borderRadius="2rem"
-            onClick={toggleModal}
             bg="accentAlternative"
+            onClick={customAction ?? toggleModal}
             hover={{ bg: 'accentAlternativeActive' }}
           >
             <FaucetSVG width="1rem" height="1rem" />

@@ -25,7 +25,7 @@ const Web3Manager: FC = ({ children }) => {
   const [triedEagerly, setTriedEagerly] = useState(false);
 
   const switchToBSCTestNet = () =>
-    switchToNetwork(connector, CHAIN_ID.BSC_TEST_NET);
+    switchToNetwork(connector, CHAIN_ID.BNB_TEST_NET);
 
   useEffect(() => {
     if (triedEagerly) return;

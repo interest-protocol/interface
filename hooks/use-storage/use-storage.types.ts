@@ -1,1 +1,1 @@
-export type LocalStorageKeys = 'localAssets' | 'localCoin';
+export type LocalStorageKeys = 'localAssets' | 'localTokens';

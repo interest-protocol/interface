@@ -103,8 +103,8 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
     mutate,
     error,
   } = useGetUserDineroMarketData(
-    DINERO_MARKET_CONTRACT_MAP[CHAIN_ID.BSC_TEST_NET][tokenSymbol],
-    [getBTCAddress(CHAIN_ID.BSC_TEST_NET), getDNRAddress(CHAIN_ID.BSC_TEST_NET)]
+    DINERO_MARKET_CONTRACT_MAP[CHAIN_ID.BNB_TEST_NET][tokenSymbol],
+    [getBTCAddress(CHAIN_ID.BNB_TEST_NET), getDNRAddress(CHAIN_ID.BNB_TEST_NET)]
   );
 
   const data = useMemo(
@@ -112,8 +112,8 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       processDineroMarketUserData(
         chainId,
         [
-          getBTCAddress(CHAIN_ID.BSC_TEST_NET),
-          getDNRAddress(CHAIN_ID.BSC_TEST_NET),
+          getBTCAddress(CHAIN_ID.BNB_TEST_NET),
+          getDNRAddress(CHAIN_ID.BNB_TEST_NET),
         ],
         rawData
       ),

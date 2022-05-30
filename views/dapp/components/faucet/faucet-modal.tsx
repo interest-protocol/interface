@@ -36,7 +36,7 @@ const MINT_MAP = {
   [key: string]: MintFaucetToken;
 };
 
-const getTestNetAddressWithSymbol = getAddressWithSymbol(CHAIN_ID.BSC_TEST_NET);
+const getTestNetAddressWithSymbol = getAddressWithSymbol(CHAIN_ID.BNB_TEST_NET);
 
 const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
   const [loading, setLoading] = useState(false);
@@ -57,11 +57,11 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
   };
 
   const btcEntity = useSelector(
-    userBalanceSelectById(getBTCAddress(CHAIN_ID.BSC_TEST_NET))
+    userBalanceSelectById(getBTCAddress(CHAIN_ID.BNB_TEST_NET))
   ) as IUserBalance | undefined;
 
   const dnrEntity = useSelector(
-    userBalanceSelectById(getDNRAddress(CHAIN_ID.BSC_TEST_NET))
+    userBalanceSelectById(getDNRAddress(CHAIN_ID.BNB_TEST_NET))
   ) as IUserBalance | undefined;
 
   const data = useMemo(() => {
@@ -69,12 +69,12 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
 
     return [
       getERC20CurrencyAmount(
-        CHAIN_ID.BSC_TEST_NET,
+        CHAIN_ID.BNB_TEST_NET,
         btcEntity.id,
         btcEntity.balance
       ),
       getERC20CurrencyAmount(
-        CHAIN_ID.BSC_TEST_NET,
+        CHAIN_ID.BNB_TEST_NET,
         dnrEntity.id,
         dnrEntity.balance
       ),

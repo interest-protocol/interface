@@ -1,8 +1,7 @@
 import { FC, SVGAttributes } from 'react';
 
-const Ether: FC<SVGAttributes<SVGSVGElement>> = (props) => (
+const EthereumNetwork: FC<SVGAttributes<SVGSVGElement>> = (props) => (
   <svg viewBox="0 0 731.58 731.58" {...props}>
-    <circle id="Oval" fill="#627eea" cx="365.79" cy="365.79" r="365.79" />
     <polygon
       id="Path"
       fillOpacity="0.6"
@@ -47,4 +46,4 @@ const Ether: FC<SVGAttributes<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-export default Ether;
+export default EthereumNetwork;
