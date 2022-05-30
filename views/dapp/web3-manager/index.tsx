@@ -55,10 +55,10 @@ const Web3Manager: FC<Web3ManagerProps> = ({ children, supportedChains }) => {
             'This chain is not supported',
             'Please, switch to a supported chain',
           ]}
-          button={{
-            text: `Switch to ${CHAINS[supportedChains[0]].chainName}`,
-            action: handleSwitchToNetwork(supportedChains[0]),
-          }}
+          buttons={supportedChains.map((supportedChainId) => ({
+            text: `Switch to ${CHAINS[supportedChainId].chainName}`,
+            action: handleSwitchToNetwork(supportedChainId),
+          }))}
         />
       </Layout>
     );
