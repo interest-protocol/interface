@@ -82,7 +82,9 @@ export type TLoanPrincipalToElastic = (
 ) => IntMath;
 
 export type TCalculateExpectedLiquidationPrice = (
-  data: ProcessedMarketData
+  data: ProcessedMarketData,
+  additionalCollateral: BigNumber,
+  additionalPrincipal: BigNumber
 ) => IntMath;
 
 export type TCalculatePositionHealth = (data: ProcessedMarketData) => IntMath;

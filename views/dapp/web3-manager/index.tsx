@@ -4,6 +4,7 @@ import priorityHooks from '@/connectors';
 import { isChainIdSupported } from '@/constants/chains';
 import { CHAIN_ID } from '@/sdk/constants';
 import { MetaMaskSVG, TimesSVG } from '@/svg';
+import { switchToNetwork } from '@/utils';
 
 import { Layout, Loading } from '../components';
 import Advertising from './advertising';
@@ -23,6 +24,9 @@ const Web3Manager: FC = ({ children }) => {
 
   const [triedEagerly, setTriedEagerly] = useState(false);
 
+  const switchToBSCTestNet = () =>
+    switchToNetwork(connector, CHAIN_ID.BNB_TEST_NET);
+
   useEffect(() => {
     if (triedEagerly) return;
     (async () => {
@@ -30,23 +34,6 @@ const Web3Manager: FC = ({ children }) => {
       setTriedEagerly(true);
     })();
   }, [connector]);
-
-  if (chainId === CHAIN_ID.BNB_MAIN_MET)
-    return (
-      <Layout>
-        <Advertising
-          title="Coming Soon"
-          lines={[
-            <>
-              The <strong>BNB Main Net</strong> is under development.
-            </>,
-            <>
-              Please, switch to <strong>BNB Test Net</strong>.
-            </>,
-          ]}
-        />
-      </Layout>
-    );
 
   if (!error && !triedEagerly && isActivating)
     return (
@@ -65,6 +52,10 @@ const Web3Manager: FC = ({ children }) => {
             'This chain is not supported',
             'Please, switch to a supported chain',
           ]}
+          button={{
+            text: 'Switch to BSC Test Net',
+            action: switchToBSCTestNet,
+          }}
         />
       </Layout>
     );
