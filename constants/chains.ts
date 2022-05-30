@@ -1,20 +1,17 @@
 import type { AddEthereumChainParameter } from '@web3-react/types';
-import {
-  __,
-  always,
-  dissoc,
-  identity,
-  ifElse,
-  includes,
-  pathOr,
-  values,
-} from 'ramda';
+import { __, always, identity, ifElse, includes, pathOr } from 'ramda';
 
 import { CHAIN_ID } from '@/sdk/constants';
 
 export const BNB: AddEthereumChainParameter['nativeCurrency'] = {
   name: 'Binance Coin',
   symbol: 'BNB',
+  decimals: 18,
+};
+
+const ETH: AddEthereumChainParameter['nativeCurrency'] = {
+  name: 'Ether',
+  symbol: 'ETH',
   decimals: 18,
 };
 
@@ -25,6 +22,9 @@ export const RPC_URL = {
   [CHAIN_ID.BSC_MAIN_MET]: process.env.NEXT_PUBLIC_BSC_RPC_URL
     ? process.env.NEXT_PUBLIC_BSC_RPC_URL
     : 'https://bsc-dataseed.binance.org/',
+  [CHAIN_ID.RINKEBY]: process.env.NEXT_PUBLIC_RINKEBY_URL
+    ? process.env.NEXT_PUBLIC_RINKEBY_URL
+    : 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
 };
 
 export const CHAINS = {
@@ -53,6 +53,13 @@ export const CHAINS = {
     ],
     blockExplorerUrls: ['https://bscscan.com'],
   },
+  [CHAIN_ID.RINKEBY]: {
+    chainId: CHAIN_ID.RINKEBY,
+    chainName: 'Rinkeby',
+    nativeCurrency: ETH,
+    rpcUrls: ['https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'],
+    blockExplorerUrls: ['https://rinkey.etherscan.io'],
+  },
   [CHAIN_ID.UNSUPPORTED]: {
     chainId: CHAIN_ID.UNSUPPORTED,
     chainName: 'Unsupported Network',
@@ -74,9 +81,10 @@ export const URLS = Object.keys(CHAINS).reduce((acc, chainId) => {
   return { ...acc, [+chainId]: rpcUrls };
 }, {});
 
-export const CHAIN_ID_ARRAY = values(dissoc('UNSUPPORTED', CHAIN_ID));
-
-export const isChainIdSupported = includes(__, CHAIN_ID_ARRAY);
+export const isChainIdSupported = includes(__, [
+  CHAIN_ID.BSC_TEST_NET,
+  CHAIN_ID.RINKEBY,
+]);
 
 export const verifyChainId = ifElse(
   isChainIdSupported,
@@ -86,3 +94,7 @@ export const verifyChainId = ifElse(
 
 export const getNativeCurrencySymbol = (chainId: number): string =>
   pathOr('???', [chainId.toString(), 'nativeCurrency', 'symbol'], CHAINS);
+
+export const supportsMAILMarkets = includes(__, [CHAIN_ID.RINKEBY]);
+
+export const supportsDINEROMarkets = includes(__, [CHAIN_ID.BSC_TEST_NET]);

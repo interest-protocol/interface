@@ -4,6 +4,7 @@ export const CHAIN_ID = {
   BSC_TEST_NET: 97,
   BSC_MAIN_MET: 56,
   UNSUPPORTED: 0,
+  RINKEBY: 4,
 };
 
 export enum Rounding {
@@ -19,6 +20,11 @@ export enum TOKEN_SYMBOL {
   Unknown = '???',
   WBNB = 'WBNB',
   BNB = 'BNB',
+  UNI = 'UNI',
+  APE = 'APE',
+  WETH = 'WETH',
+  USDC = 'USDC',
+  USDT = 'USDT',
 }
 
 export enum PoolId {
@@ -35,6 +41,7 @@ export const ZERO_ADDRESS = ethers.constants.AddressZero;
 export const BLOCKS_PER_YEAR = {
   [CHAIN_ID.BSC_TEST_NET]: 28583 * 365,
   [CHAIN_ID.BSC_MAIN_MET]: 28583 * 365,
+  [CHAIN_ID.RINKEBY]: 6092 * 365,
   [CHAIN_ID.UNSUPPORTED]: 0,
 };
 
@@ -68,10 +75,44 @@ export const DINERO_MARKET_CONTRACTS = {
   ],
 };
 
+export const MAIL_MARKET_CONTRACTS = {
+  [CHAIN_ID.RINKEBY]: [
+    {
+      marketAddress: ethers.utils.getAddress(
+        '0xB2b946223Fbf94FA82D93857Cb195c4Ffeb60360'
+      ),
+      riskyTokenSymbol: TOKEN_SYMBOL.UNI,
+      riskyTokenAddress: ethers.utils.getAddress(
+        '0xc17A30Db808A7926E76F5AC81352A214FfFDC334'
+      ),
+    },
+    {
+      marketAddress: ethers.utils.getAddress(
+        '0xdda4B7c7218eC16905cA98c07de9Cc08f4bA6a55'
+      ),
+      riskyTokenSymbol: TOKEN_SYMBOL.APE,
+      riskyTokenAddress: ethers.utils.getAddress(
+        '0xBAe5a5b6ecF2de7424eA8723e3be2A692dCB0637'
+      ),
+    },
+  ],
+};
+
 export const DINERO_MARKET_CONTRACT_MAP = {
   [CHAIN_ID.BSC_TEST_NET]: {
     [TOKEN_SYMBOL.BTC]: ethers.utils.getAddress(
       '0x926f8FB78f5769a3D724A8ffC7058528C86939E1'
+    ),
+  },
+} as { [key: number]: Record<TOKEN_SYMBOL, string> };
+
+export const MAIL_MARKET_CONTRACT_MAP = {
+  [CHAIN_ID.RINKEBY]: {
+    [TOKEN_SYMBOL.UNI]: ethers.utils.getAddress(
+      '0xB2b946223Fbf94FA82D93857Cb195c4Ffeb60360'
+    ),
+    [TOKEN_SYMBOL.APE]: ethers.utils.getAddress(
+      '0xdda4B7c7218eC16905cA98c07de9Cc08f4bA6a55'
     ),
   },
 } as { [key: number]: Record<TOKEN_SYMBOL, string> };
@@ -105,9 +146,13 @@ export const CONTRACTS = {
     [CHAIN_ID.BSC_MAIN_MET]: ethers.constants.AddressZero,
     [CHAIN_ID.BSC_TEST_NET]: '0xa9E4424702b6bc840aeF379302175AB7fa78042C',
   },
+  INTEREST_MAIL_VIEW: {
+    [CHAIN_ID.RINKEBY]: '0x52627EaF6FA652666b613e1102E364848E30F2d1',
+  },
   BTC: {
     [CHAIN_ID.BSC_MAIN_MET]: ethers.constants.AddressZero,
     [CHAIN_ID.BSC_TEST_NET]: '0x954f3A4aeC237D311839d6E0274c0aC8Be13d1b1',
+    [CHAIN_ID.RINKEBY]: '0xbdBFEBE240a4606119bC950Eec3e0Ed05719d739',
   },
   DNR: {
     [CHAIN_ID.BSC_TEST_NET]: '0x57486681D2E0Bc9B0494446b8c5df35cd20D4E92',
@@ -116,5 +161,26 @@ export const CONTRACTS = {
   INT: {
     [CHAIN_ID.BSC_TEST_NET]: '0x0D7747F1686d67824dc5a299AAc09F438dD6aef2',
     [CHAIN_ID.BSC_MAIN_MET]: ethers.constants.AddressZero,
+  },
+  WETH: {
+    [CHAIN_ID.RINKEBY]: '0xbA8d9f4d5c14f2CC644CcC06bB298FbD6DaC349C',
+  },
+  USDC: {
+    [CHAIN_ID.RINKEBY]: '0xf3706E14c4aE1bd94f65909f9aB9e30D8C1b7B16',
+  },
+  USDT: {
+    [CHAIN_ID.RINKEBY]: '0xb306ee3d2092166cb942D1AE2210A7641f73c11F',
+  },
+  UNI: {
+    [CHAIN_ID.RINKEBY]: '0xc17A30Db808A7926E76F5AC81352A214FfFDC334',
+  },
+  APE: {
+    [CHAIN_ID.RINKEBY]: '0xBAe5a5b6ecF2de7424eA8723e3be2A692dCB0637',
+  },
+  TOKEN_MINTER: {
+    [CHAIN_ID.RINKEBY]: '0x52cdaec4E208F96144A54Fc5d700a145Ea731Fe9',
+  },
+  MAIL_DEPLOYER: {
+    [CHAIN_ID.RINKEBY]: '0x29B66E6a41eF5B07d9348e59c09EE855f214e3D0',
   },
 };

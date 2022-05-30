@@ -35,23 +35,6 @@ const Web3Manager: FC = ({ children }) => {
     })();
   }, [connector]);
 
-  if (chainId === CHAIN_ID.BSC_MAIN_MET)
-    return (
-      <Layout>
-        <Advertising
-          title="Coming Soon"
-          lines={[
-            <>
-              The <strong>BSC Main Net</strong> is under development.
-            </>,
-            <>
-              Please, switch to <strong>BSC Test Net</strong>.
-            </>,
-          ]}
-        />
-      </Layout>
-    );
-
   if (!error && !triedEagerly && isActivating)
     return (
       <Layout>
