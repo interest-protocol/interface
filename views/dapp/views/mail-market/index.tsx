@@ -8,7 +8,6 @@ import { Box, Typography } from '@/elements';
 import useLocalStorage from '@/hooks/use-storage';
 
 import { Faucet } from '../../components';
-import Web3Manager from '../../web3-manager';
 import { MAILMarketTable } from './components';
 import MAILMarketSearchInput from './components/mail-market-search-bar';
 import { MAIL_MARKET_DATA } from './mail-market.data';
@@ -24,7 +23,7 @@ const MAILMarket: FC = () => {
   >('localAssets', []);
 
   return (
-    <Web3Manager>
+    <>
       <Box flex="1" display="flex" flexDirection="column">
         <Container dapp px="M" background="specialBackground" width="100%">
           <Box mt="XL" display="flex" justifyContent="space-between">
@@ -88,7 +87,7 @@ const MAILMarket: FC = () => {
           })
         }
       />
-    </Web3Manager>
+    </>
   );
 };
 

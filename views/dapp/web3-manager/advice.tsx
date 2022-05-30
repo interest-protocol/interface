@@ -4,9 +4,9 @@ import { v4 } from 'uuid';
 import { Box, Button, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
-import { AdvertisingProps } from './web3-manager.type';
+import { AdviceProps } from './web3-manager.type';
 
-const Advertising: FC<AdvertisingProps> = ({ Icon, lines, title, button }) => (
+const Advice: FC<AdviceProps> = ({ Icon, lines, title, button }) => (
   <Box
     width="100vw"
     height="100%"
@@ -42,4 +42,4 @@ const Advertising: FC<AdvertisingProps> = ({ Icon, lines, title, button }) => (
   </Box>
 );
 
-export default Advertising;
+export default Advice;

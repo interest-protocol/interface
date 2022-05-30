@@ -1,5 +1,3 @@
-import { ethers } from 'ethers';
-
 import { getInterestViewContract, getStaticWeb3Provider } from '@/utils';
 
 import {

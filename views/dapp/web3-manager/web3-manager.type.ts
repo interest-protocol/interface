@@ -1,6 +1,6 @@
 import { FC, ReactNode, SVGAttributes } from 'react';
 
-export interface AdvertisingProps {
+export interface AdviceProps {
   title: string;
   lines: ReadonlyArray<ReactNode>;
   Icon?: FC<SVGAttributes<SVGSVGElement>>;
@@ -8,4 +8,8 @@ export interface AdvertisingProps {
     text: string;
     action: () => void;
   };
+}
+
+export interface Web3ManagerProps {
+  supportedChains: ReadonlyArray<number>;
 }
