@@ -31,17 +31,17 @@ const Web3Manager: FC = ({ children }) => {
     })();
   }, [connector]);
 
-  if (chainId === CHAIN_ID.BSC_MAIN_MET)
+  if (chainId === CHAIN_ID.BNB_MAIN_MET)
     return (
       <Layout>
         <Advertising
           title="Coming Soon"
           lines={[
             <>
-              The <strong>BSC Main Net</strong> is under development.
+              The <strong>BNB Main Net</strong> is under development.
             </>,
             <>
-              Please, switch to <strong>BSC Test Net</strong>.
+              Please, switch to <strong>BNB Test Net</strong>.
             </>,
           ]}
         />

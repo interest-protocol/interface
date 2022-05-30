@@ -1,10 +1,13 @@
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
+import { Routes, RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
 import useLocalStorage from '@/hooks/use-storage';
 
+import { Faucet } from '../../components';
 import Web3Manager from '../../web3-manager';
 import { MAILMarketTable } from './components';
 import MAILMarketSearchInput from './components/mail-market-search-bar';
@@ -13,6 +16,7 @@ import { IMailMarketData } from './mail-market.types';
 import { addressMatch } from './mail-market.utils';
 
 const MAILMarket: FC = () => {
+  const { push } = useRouter();
   const { register, control } = useForm({ defaultValues: { search: '' } });
 
   const [localAssets, setLocalAssets] = useLocalStorage<
@@ -77,6 +81,13 @@ const MAILMarket: FC = () => {
           )}
         </Container>
       </Box>
+      <Faucet
+        customAction={() =>
+          push(Routes[RoutesEnum.Faucet], undefined, {
+            shallow: true,
+          })
+        }
+      />
     </Web3Manager>
   );
 };

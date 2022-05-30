@@ -68,6 +68,18 @@ export const getIntAddress: GetContractAddress = makeGetAddress(CONTRACTS.INT);
 
 export const getDNRAddress: GetContractAddress = makeGetAddress(CONTRACTS.DNR);
 
+export const getWETHAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.WETH
+);
+
+export const getUSDCAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.USDC
+);
+
+export const getUSDTAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.USDT
+);
+
 export const getAddressWithSymbol = (chainId: number) =>
   cond([
     [equals(TOKEN_SYMBOL.BTC), always(getBTCAddress(chainId))],

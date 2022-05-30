@@ -38,6 +38,7 @@ const Dropdown: FC<DropdownProps> = ({
     >
       {mode === 'select' && selectedIndex !== -1 && customTitle ? (
         <Box
+          width="100%"
           cursor="pointer"
           alignItems="center"
           display="inline-flex"
@@ -52,6 +53,7 @@ const Dropdown: FC<DropdownProps> = ({
           mx="S"
           px="0.7rem"
           py="0.7rem"
+          width="100%"
           cursor="pointer"
           borderRadius="M"
           maxHeight="2.8rem"
@@ -74,6 +76,7 @@ const Dropdown: FC<DropdownProps> = ({
         </Box>
       ) : (
         <Typography
+          width="100%"
           variant="normal"
           cursor="pointer"
           onClick={toggleDropdown}
