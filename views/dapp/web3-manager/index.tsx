@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 
 import priorityHooks from '@/connectors';
-import { CHAINS, isChainIdSupported } from '@/constants/chains';
+import { CHAINS } from '@/constants/chains';
 import { MetaMaskSVG, TimesSVG } from '@/svg';
 import { switchToNetwork } from '@/utils';
 
@@ -42,10 +42,7 @@ const Web3Manager: FC<Web3ManagerProps> = ({ children, supportedChains }) => {
       </Layout>
     );
 
-  if (
-    !!chainId &&
-    (!isChainIdSupported(chainId) || !supportedChains.includes(chainId))
-  )
+  if (!!chainId && !supportedChains.includes(chainId))
     return (
       <Layout>
         <Advice

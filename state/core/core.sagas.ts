@@ -9,7 +9,7 @@ import {
   takeLatest,
 } from 'redux-saga/effects';
 
-import { isChainIdSupported } from '@/constants/chains';
+import { isChainIdSupported, supportsMAILMarkets } from '@/constants/chains';
 import { ConnectWalletPayload } from '@/state/core/core.types';
 import { userBalancesSlice } from '@/state/user-balances';
 import { userBalanceActions } from '@/state/user-balances/user-balances.actions';
@@ -32,11 +32,14 @@ function* connectWallet(action: PayloadAction<ConnectWalletPayload>) {
       userBalanceActions.getUserBalancesStart({
         chainId,
         user: account,
-        tokens: [
-          getIntAddress(chainId),
-          getDNRAddress(chainId),
-          getBTCAddress(chainId),
-        ],
+        // TODO Improve the logic when more chains are added
+        tokens: supportsMAILMarkets(chainId)
+          ? []
+          : [
+              getIntAddress(chainId),
+              getDNRAddress(chainId),
+              getBTCAddress(chainId),
+            ],
       })
     );
   }
