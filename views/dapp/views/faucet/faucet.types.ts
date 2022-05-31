@@ -1,4 +1,5 @@
-import { Control } from 'react-hook-form';
+import { ReactNode } from 'react';
+import { Control, UseFormRegister } from 'react-hook-form';
 
 export interface IToken {
   name?: string;
@@ -43,4 +44,16 @@ export interface FaucetProps {
 
 export interface CurrencyIdentifierProps {
   control: Control<IFaucetForm>;
+}
+export interface FaucetCurrencyDropdownProps {
+  local?: boolean;
+  Input: ReactNode;
+  defaultValue: string;
+  tokens: ReadonlyArray<IToken>;
+  control: Control<{ search: string }>;
+  onSelectCurrency: (currency: string) => void;
+}
+
+export interface FaucetSearchTokenProps {
+  register: UseFormRegister<{ search: string }>;
 }

@@ -24,8 +24,7 @@ const BorrowTable: FC = () => {
   const { data, error } = useGetDineroMarketErc20Summary();
   const chainId = useSelector(getChainId) as number | null;
 
-  if (error) {
-    console.log('>> Error ::: ', error);
+  if (error)
     return (
       <Box
         height="100%"
@@ -48,7 +47,7 @@ const BorrowTable: FC = () => {
         <Typography variant="title3">Error fetching the contracts</Typography>
       </Box>
     );
-  }
+
   if (!data || !chainId) return <Loading />;
 
   return (

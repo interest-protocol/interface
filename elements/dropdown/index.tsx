@@ -21,6 +21,7 @@ const Dropdown: FC<DropdownProps> = ({
   buttonMode,
   customTitle,
   customItems,
+  emptyMessage,
   defaultValue,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -99,6 +100,7 @@ const Dropdown: FC<DropdownProps> = ({
         minWidth={minWidth}
         setIsOpen={setIsOpen}
         customItems={customItems}
+        emptyMessage={emptyMessage}
         selectedIndex={selectedIndex}
         toggleDropdown={toggleDropdown}
         setSelectedIndex={setSelectedIndex}

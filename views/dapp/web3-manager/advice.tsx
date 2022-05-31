@@ -6,7 +6,7 @@ import { LogoSVG } from '@/svg';
 
 import { AdviceProps } from './web3-manager.type';
 
-const Advice: FC<AdviceProps> = ({ Icon, lines, title, button }) => (
+const Advice: FC<AdviceProps> = ({ Icon, lines, title, buttons }) => (
   <Box
     width="100vw"
     height="100%"
@@ -28,16 +28,19 @@ const Advice: FC<AdviceProps> = ({ Icon, lines, title, button }) => (
           {item}
         </Typography>
       ))}
-      {button && (
-        <Button
-          mt="XL"
-          variant="primary"
-          onClick={button.action}
-          hover={{ bg: 'accentActive' }}
-        >
-          {button.text}
-        </Button>
-      )}
+      <Box display="flex" flexDirection="column">
+        {buttons?.map(({ action, text }) => (
+          <Button
+            key={v4()}
+            mt="XL"
+            onClick={action}
+            variant="primary"
+            hover={{ bg: 'accentActive' }}
+          >
+            {text}
+          </Button>
+        ))}
+      </Box>
     </Box>
   </Box>
 );

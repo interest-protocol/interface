@@ -26,6 +26,7 @@ export interface DropdownProps {
   footer?: ReactNode;
   relative?: boolean;
   buttonMode?: boolean;
+  emptyMessage?: string;
   customItems?: boolean;
   customTitle?: boolean;
   mode: 'select' | 'menu';
@@ -40,6 +41,7 @@ export interface DropdownListProps {
   minWidth?: string;
   header?: ReactNode;
   footer?: ReactNode;
+  emptyMessage?: string;
   customItems?: boolean;
   customTitle?: boolean;
   selectedIndex: number;

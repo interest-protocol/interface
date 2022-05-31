@@ -4,10 +4,10 @@ export interface AdviceProps {
   title: string;
   lines: ReadonlyArray<ReactNode>;
   Icon?: FC<SVGAttributes<SVGSVGElement>>;
-  button?: {
+  buttons?: ReadonlyArray<{
     text: string;
     action: () => void;
-  };
+  }>;
 }
 
 export interface Web3ManagerProps {
