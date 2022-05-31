@@ -1,19 +1,20 @@
-import { getInterestViewContract, getStaticWeb3Provider } from '@/utils';
+import { getInterestViewDineroContract, getStaticWeb3Provider } from '@/utils';
 
 import {
   GetDineroMarketSummary,
   GetUserDineroMarketData,
-} from './interest-view.types';
+} from './interest-view-dinero.types';
 
 export const getDineroMarketSummary: GetDineroMarketSummary = (
   chainId,
   dineroMarkets
 ) => {
-  const contract = getInterestViewContract(
+  const contract = getInterestViewDineroContract(
     chainId,
     getStaticWeb3Provider(chainId)
   );
-
+  console.log(chainId, 'aa');
+  console.log(contract);
   return contract.getDineroMarketsSummary(dineroMarkets);
 };
 
@@ -24,7 +25,7 @@ export const getUserDineroMarketData: GetUserDineroMarketData = (
   tokens,
   overrides
 ) => {
-  const contract = getInterestViewContract(
+  const contract = getInterestViewDineroContract(
     chainId,
     getStaticWeb3Provider(chainId)
   );
@@ -43,7 +44,7 @@ export const getFarmsSummary = (
   poolIds: Array<number>,
   tokens: Array<string>
 ) => {
-  const interestView = getInterestViewContract(
+  const interestView = getInterestViewDineroContract(
     chainId,
     getStaticWeb3Provider(chainId)
   );
@@ -57,7 +58,7 @@ export const getUserFarmData = (
   user: string,
   poolId: number
 ) => {
-  const interestView = getInterestViewContract(
+  const interestView = getInterestViewDineroContract(
     chainId,
     getStaticWeb3Provider(chainId)
   );

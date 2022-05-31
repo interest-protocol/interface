@@ -13,8 +13,9 @@ import {
 
 import CasaDePapelABI from '@/sdk/abi/casa-de-papel.abi.json';
 import InterestERC20MarketABI from '@/sdk/abi/interest-erc-20-market.abi.json';
-import InterestViewABI from '@/sdk/abi/interest-mail-view.abi.json';
-import InterestMAILViewABI from '@/sdk/abi/interest-view.abi.json';
+import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
+import InterestViewDineroABI from '@/sdk/abi/interest-view-dinero.abi.json';
+import InterestViewMAILABI from '@/sdk/abi/interest-view-MAIL.abi.json';
 import MultiCallV2ABI from '@/sdk/abi/multi-call-v2.abi.json';
 import {
   CONTRACTS,
@@ -25,8 +26,9 @@ import {
 import {
   CasaDePapelAbi,
   InterestErc20MarketAbi,
-  InterestMailViewAbi,
-  InterestViewAbi,
+  InterestViewBalancesAbi,
+  InterestViewDineroAbi,
+  InterestViewMAILAbi,
   MultiCallV2Abi,
 } from '../../types/ethers-contracts';
 import {
@@ -46,8 +48,15 @@ export const getMultiCallV2Address: GetContractAddress = makeGetAddress(
   CONTRACTS.MULTI_CALL
 );
 
-export const getInterestViewAddress: GetContractAddress = makeGetAddress(
-  CONTRACTS.INTEREST_VIEW
+export const getInterestViewMAILAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.INTEREST_VIEW_MAIL
+);
+
+export const getInterestViewBalancesAddress: GetContractAddress =
+  makeGetAddress(CONTRACTS.INTEREST_VIEW_BALANCES);
+
+export const getInterestViewDineroAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.INTEREST_VIEW_DINERO
 );
 
 export const getCasaDePapelAddress: GetContractAddress = makeGetAddress(
@@ -119,15 +128,13 @@ export const getMultiCallV2Contract: GetContract<MultiCallV2Abi> = (
     provider
   ) as MultiCallV2Abi;
 
-export const getInterestViewContract: GetContract<InterestViewAbi> = (
-  chainId,
-  provider
-) =>
-  new ethers.Contract(
-    getInterestViewAddress(chainId),
-    InterestViewABI,
-    provider
-  ) as InterestViewAbi;
+export const getInterestViewBalancesContract: GetContract<InterestViewBalancesAbi> =
+  (chainId, provider) =>
+    new ethers.Contract(
+      getInterestViewBalancesAddress(chainId),
+      InterestViewBalancesABI,
+      provider
+    ) as InterestViewBalancesAbi;
 
 export const getERC20InterestMarket: GetDineroSignerContract<InterestErc20MarketAbi> =
   (chainId, tokenSymbol, signer) =>
@@ -137,12 +144,20 @@ export const getERC20InterestMarket: GetDineroSignerContract<InterestErc20Market
       signer
     ) as InterestErc20MarketAbi;
 
-export const getInterestMAILViewContract: GetContract<InterestMailViewAbi> = (
+export const getInterestViewMAILContract: GetContract<InterestViewMAILAbi> = (
   chainId,
   provider
 ) =>
   new ethers.Contract(
-    getInterestViewAddress(chainId),
-    InterestMAILViewABI,
+    getInterestViewMAILAddress(chainId),
+    InterestViewMAILABI,
     provider
-  ) as InterestMailViewAbi;
+  ) as InterestViewMAILAbi;
+
+export const getInterestViewDineroContract: GetContract<InterestViewDineroAbi> =
+  (chainId, provider) =>
+    new ethers.Contract(
+      getInterestViewDineroAddress(chainId),
+      InterestViewDineroABI,
+      provider
+    ) as InterestViewDineroAbi;

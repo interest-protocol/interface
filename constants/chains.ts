@@ -98,4 +98,4 @@ export const getNativeCurrencySymbol = (chainId: number): string =>
 
 export const supportsMAILMarkets = includes(__, [CHAIN_ID.RINKEBY]);
 
-export const supportsDINEROMarkets = includes(__, [CHAIN_ID.BNB_TEST_NET]);
+export const supportsDineroMarkets = includes(__, [CHAIN_ID.BNB_TEST_NET]);

@@ -4,7 +4,7 @@ import EthereumNetwork from '@/components/svg/ethereum-network';
 import priorityHooks from '@/connectors';
 import { Box, Dropdown, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
-import { ArrowSVG, BinanceSVG, BinanceTestSVG } from '@/svg';
+import { ArrowSVG, BinanceTestSVG } from '@/svg';
 
 const { usePriorityChainId } = priorityHooks;
 
@@ -55,36 +55,6 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
                   display={['none', 'none', 'none', 'block']}
                 >
                   BNBT
-                </Typography>
-              </Box>
-            ),
-          },
-          {
-            value: `${CHAIN_ID.BNB_MAIN_MET}`,
-            onSelect: () => switchNetwork(CHAIN_ID.BNB_MAIN_MET),
-            displayOption: (
-              <Box px="L" display="flex" alignItems="center">
-                <BinanceSVG width="1.5rem" height="1.5rem" />
-                <Typography variant="normal" mx="M" whiteSpace="nowrap">
-                  BNB
-                </Typography>
-              </Box>
-            ),
-            displayTitle: (
-              <Box
-                display="flex"
-                alignItems="center"
-                pl={['NONE', 'NONE', 'NONE', 'S']}
-                pr={['NONE', 'NONE', 'NONE', 'L']}
-              >
-                <BinanceSVG width="1.5rem" height="1.5rem" />
-                <Typography
-                  display={['none', 'none', 'none', 'block']}
-                  variant="normal"
-                  mx="M"
-                  whiteSpace="nowrap"
-                >
-                  BNB
                 </Typography>
               </Box>
             ),
