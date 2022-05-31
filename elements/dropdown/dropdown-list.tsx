@@ -20,6 +20,7 @@ const DropdownList: FC<DropdownListProps> = ({
   setIsOpen,
   customItems,
   customTitle,
+  emptyMessage,
   selectedIndex,
   toggleDropdown,
   setSelectedIndex,
@@ -51,6 +52,10 @@ const DropdownList: FC<DropdownListProps> = ({
     setSafeMarginRight(!!domRect && screenWidth - domRect.right < 0);
   }, [isOpen]);
 
+  const target = data.filter(({ value }) =>
+    value.toLocaleLowerCase().match(`^${search?.toLocaleLowerCase() ?? ''}`)
+  );
+
   return isOpen ? (
     <Box
       p="M"
@@ -74,25 +79,25 @@ const DropdownList: FC<DropdownListProps> = ({
         ) : (
           header
         ))}
-      {data
-        .filter(({ value }) =>
-          value
-            .toLocaleLowerCase()
-            .match(`^${search?.toLocaleLowerCase() ?? ''}`)
-        )
-        .map((item, index) => (
-          <DropdownItem
-            key={v4()}
-            minWidth={minWidth}
-            setter={handleSelect(index)}
-            customItem={customItems}
-            isSelected={index === selectedIndex}
-            {...(index === selectedIndex && {
-              closeDropdown: toggleDropdown,
-            })}
-            {...item}
-          />
-        ))}
+      {target.length
+        ? target.map((item, index) => (
+            <DropdownItem
+              key={v4()}
+              minWidth={minWidth}
+              setter={handleSelect(index)}
+              customItem={customItems}
+              isSelected={index === selectedIndex}
+              {...(index === selectedIndex && {
+                closeDropdown: toggleDropdown,
+              })}
+              {...item}
+            />
+          ))
+        : emptyMessage && (
+            <Typography variant="normal" fontSize="S" my="L" textAlign="center">
+              {emptyMessage}
+            </Typography>
+          )}
       {footer && (
         <Typography
           p="L"

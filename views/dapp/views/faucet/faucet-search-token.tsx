@@ -1,19 +1,22 @@
 import { FC } from 'react';
-import { UseFormRegister } from 'react-hook-form';
 
 import { Input } from '@/elements';
 
-const FaucetSearchToken: FC<{ register: UseFormRegister<{ search: string }> }> =
-  ({ register }) => (
-    <Input
-      {...register('search')}
-      placeholder="type the address"
-      shieldProps={{
-        py: 'M',
-        bg: 'background',
-        borderRadius: 'S',
-      }}
-    />
-  );
+import { FaucetSearchTokenProps } from './faucet.types';
+
+const FaucetSearchToken: FC<FaucetSearchTokenProps> = ({ register }) => (
+  <Input
+    // eslint-disable-next-line jsx-a11y/no-autofocus
+    autoFocus
+    {...register('search')}
+    placeholder="Type the address"
+    shieldProps={{
+      py: 'M',
+      width: '25rem',
+      bg: 'background',
+      borderRadius: 'S',
+    }}
+  />
+);
 
 export default FaucetSearchToken;

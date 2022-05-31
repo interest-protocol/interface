@@ -37,7 +37,7 @@ export const CHAINS = {
   },
   [CHAIN_ID.BNB_TEST_NET]: {
     chainId: CHAIN_ID.BNB_TEST_NET,
-    chainName: 'Build And Build Test Net',
+    chainName: 'BNBT',
     nativeCurrency: BNB,
     rpcUrls: [
       'https://data-seed-prebsc-1-s1.binance.org:8545/',
@@ -51,7 +51,7 @@ export const CHAINS = {
   },
   [CHAIN_ID.BNB_MAIN_MET]: {
     chainId: CHAIN_ID.BNB_MAIN_MET,
-    chainName: 'Build And Build',
+    chainName: 'BNB',
     nativeCurrency: BNB,
     rpcUrls: [
       'https://bsc-dataseed.binance.org/',
@@ -61,6 +61,7 @@ export const CHAINS = {
     blockExplorerUrls: ['https://bscscan.com'],
   },
   [CHAIN_ID.UNSUPPORTED]: {
+    symbol: '???',
     chainId: CHAIN_ID.UNSUPPORTED,
     chainName: 'Unsupported Network',
     nativeCurrency: {
