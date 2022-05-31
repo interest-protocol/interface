@@ -4,3 +4,4 @@ export * from './erc20';
 export * from './faucet';
 export * from './interest-view-balances';
 export * from './interest-view-dinero';
+export * from './interest-view-mail';

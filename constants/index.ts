@@ -1,6 +1,7 @@
 export * from './chains';
 export * from './erc-20';
 export * from './farms';
+export * from './mail-markets';
 export * from './routes';
 export * from './social-media';
 export * from './wallets';

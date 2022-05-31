@@ -1,26 +1,42 @@
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { prop } from 'ramda';
+import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
+import { useGetManyMailSummaryData } from '@/hooks';
 import useLocalStorage from '@/hooks/use-storage';
+import { LocalMAILMarketData } from '@/interface';
+import { getChainId } from '@/state/core/core.selectors';
+import { processManyMailSummaryData } from '@/utils/mail-markets';
 
 import { Faucet } from '../../components';
 import { MAILMarketTable } from './components';
 import MAILMarketSearchInput from './components/mail-market-search-bar';
-import { MAIL_MARKET_DATA } from './mail-market.data';
-import { IMailMarketData } from './mail-market.types';
-import { addressMatch } from './mail-market.utils';
 
 const MAILMarket: FC = () => {
   const { push } = useRouter();
   const { register, control } = useForm({ defaultValues: { search: '' } });
+  const chainId = useSelector(getChainId) as null | number;
 
   const [localAssets, setLocalAssets] = useLocalStorage<
-    ReadonlyArray<Omit<IMailMarketData, 'Icon' | 'currenciesCost'>>
-  >('localAssets', []);
+    ReadonlyArray<LocalMAILMarketData>
+  >(`${chainId || ''}-mail-markets`, []);
+
+  const { data, error } = useGetManyMailSummaryData(
+    localAssets.map(prop('address'))
+  );
+
+  const { recommendedMarkets, localMarkets } = useMemo(
+    () => processManyMailSummaryData(data, localAssets, chainId),
+    [data, localAssets, chainId]
+  );
+
+  if (error) return <div>error</div>;
+  if (!error && !data) return <div>loading</div>;
 
   return (
     <>
@@ -30,7 +46,7 @@ const MAILMarket: FC = () => {
             <Typography variant="normal" ml="M">
               Multi-asset Isolated Lending Markets
             </Typography>
-            {!!localAssets?.length && (
+            {localMarkets.length && (
               <a href="#popular">
                 <Typography
                   color="accent"
@@ -51,7 +67,7 @@ const MAILMarket: FC = () => {
             localAssets={localAssets}
             setLocalAssets={setLocalAssets}
           />
-          {!!localAssets?.length && (
+          {localMarkets.length && (
             <Box display="grid" columnGap="1rem">
               <Box id="favorites" mt="XL">
                 Favorites
@@ -61,12 +77,11 @@ const MAILMarket: FC = () => {
                 localAssets={localAssets}
                 setLocalAssets={setLocalAssets}
                 favorite
+                data={localMarkets}
               />
             </Box>
           )}
-          {!!MAIL_MARKET_DATA.filter(
-            ({ address }) => !addressMatch(address, [localAssets])
-          )?.length && (
+          {recommendedMarkets.length && (
             <Box display="grid" columnGap="1rem">
               <Box id="recommended" mt="XL">
                 Recommended
@@ -75,6 +90,7 @@ const MAILMarket: FC = () => {
                 control={control}
                 localAssets={localAssets}
                 setLocalAssets={setLocalAssets}
+                data={recommendedMarkets}
               />
             </Box>
           )}

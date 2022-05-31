@@ -9,20 +9,6 @@ import {
   MAILMarketSearchBarResultsProps,
 } from '../../mail-market.types';
 
-const EXISTENT_ADDRESSES_ON_BLOCKCHAIN = [
-  {
-    name: 'Interest Protocol',
-    symbol: 'INT',
-    address: '0x3FB23255BcC69cC9eC9dCa611ff872991B993C6C',
-  },
-  {
-    name: 'Binance Main Net',
-    symbol: 'BNB',
-    address:
-      '0x00fb7f630766e6a796048ea87d01acd3068e8ff67d078148a3fa3f4a84f69bd5',
-  },
-];
-
 const SearchItem: FC<IMailMarketSearchItemData> = ({
   name,
   symbol,
@@ -94,8 +80,11 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
   const query = useWatch({ control, name: 'search' });
 
   const searchResults = useMemo(
-    () =>
-      EXISTENT_ADDRESSES_ON_BLOCKCHAIN.find(({ address }) => address == query),
+    () => ({
+      address: query,
+      name: '???',
+      symbol: '???',
+    }),
     [query]
   );
 
@@ -115,11 +104,7 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
         localAssets={localAssets}
         existent={!!searchResults}
         setLocalAssets={setLocalAssets}
-        {...(searchResults ?? {
-          address: query,
-          name: '???',
-          symbol: '???',
-        })}
+        {...searchResults}
       />
     </Box>
   ) : null;

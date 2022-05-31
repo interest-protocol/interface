@@ -1,9 +1,7 @@
 import { useCallback, useState } from 'react';
 
-import { LocalStorageKeys } from './use-storage.types';
-
 function useLocalStorage<T>(
-  keyName: LocalStorageKeys,
+  keyName: string,
   defaultValue: T
 ): [T, (value: T) => void] {
   const [storedValue, setStoredValue] = useState(() => {

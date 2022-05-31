@@ -76,26 +76,40 @@ export const DINERO_MARKET_CONTRACTS = {
   ],
 };
 
-export const MAIL_MARKET_CONTRACTS = {
-  [CHAIN_ID.RINKEBY]: [
-    {
+export const MAIL_MARKET_CONTRACTS_MAP = {
+  [CHAIN_ID.RINKEBY]: {
+    [TOKEN_SYMBOL.UNI]: {
       marketAddress: ethers.utils.getAddress(
         '0xB2b946223Fbf94FA82D93857Cb195c4Ffeb60360'
       ),
-      riskyTokenSymbol: TOKEN_SYMBOL.UNI,
       riskyTokenAddress: ethers.utils.getAddress(
         '0xc17A30Db808A7926E76F5AC81352A214FfFDC334'
       ),
     },
-    {
+    [TOKEN_SYMBOL.APE]: {
       marketAddress: ethers.utils.getAddress(
         '0xdda4B7c7218eC16905cA98c07de9Cc08f4bA6a55'
       ),
-      riskyTokenSymbol: TOKEN_SYMBOL.APE,
       riskyTokenAddress: ethers.utils.getAddress(
         '0xBAe5a5b6ecF2de7424eA8723e3be2A692dCB0637'
       ),
     },
+  },
+};
+
+export const MAIL_MARKET_RISKY_TOKENS_ARRAY = {
+  [CHAIN_ID.RINKEBY]: [
+    ethers.utils.getAddress('0xc17A30Db808A7926E76F5AC81352A214FfFDC334'), // UNI
+    ethers.utils.getAddress('0xBAe5a5b6ecF2de7424eA8723e3be2A692dCB0637'), // APE
+  ],
+};
+
+export const MAIL_MARKET_BRIDGE_TOKENS = {
+  [CHAIN_ID.RINKEBY]: [
+    '0xbdBFEBE240a4606119bC950Eec3e0Ed05719d739', // BTC
+    '0xbA8d9f4d5c14f2CC644CcC06bB298FbD6DaC349C', // WETH
+    '0xf3706E14c4aE1bd94f65909f9aB9e30D8C1b7B16', // USDC
+    '0xb306ee3d2092166cb942D1AE2210A7641f73c11F', // USDT
   ],
 };
 
@@ -154,7 +168,7 @@ export const CONTRACTS = {
     [CHAIN_ID.BNB_TEST_NET]: '0xaB852f3c3c926bd2430E7d6358441ee1ddbc2cF1',
   },
   INTEREST_VIEW_MAIL: {
-    [CHAIN_ID.RINKEBY]: '0x52627EaF6FA652666b613e1102E364848E30F2d1',
+    [CHAIN_ID.RINKEBY]: '0xF050f5Fd2d645aDb63c682aE8Ba6BDb09a8b3259',
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
   },
