@@ -1,5 +1,6 @@
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
+import { not, o, propEq } from 'ramda';
 import { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { v4 } from 'uuid';
@@ -13,12 +14,21 @@ import { StarSVG } from '@/svg';
 
 import { MAIL_MARKET_HEADINGS } from '../../mail-market.data';
 import { MAILMarketTableItemProps } from '../../mail-market.types';
-import {
-  isOnLocalStorage,
-  removeFromLocalStorage,
-} from '../../mail-market.utils';
+import { isOnLocalStorage } from '../../mail-market.utils';
 
-const MAIL_MARKET_ASSET_ARRAY = [0, 1, 2, 3, 4];
+/**
+ * @name MAIL_MARKET_ASSET_ARRAY
+ * @description
+ * This array indicate the order to get the borrow and supply rate values.
+ * Last index (4 in this case) comes first because we want to render first
+ * the pool main token where in my response it comes last
+ * @example
+ * // the api returns values like [BTC, WETH, USDC, USDT, MainToken]
+ * APIResponse = [12, 11, 13, 14, 18]
+ * // after iterate MAIL_MARKET_ASSET_ASSET and use each value as index we will get [MainToken, BTC, WETH, USDC, USDT]
+ * result = [18, 12, 11, 13, 14]
+ * */
+const MAIL_MARKET_ASSET_ARRAY = [4, 0, 1, 2, 3];
 
 const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
   localAssets,
@@ -27,6 +37,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
 }) => {
   const { push } = useRouter();
   const chainId = useSelector(getChainId) as number;
+
   return (
     <Table
       hasButton
@@ -46,16 +57,20 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                   e.stopPropagation();
                   isOnLocalStorage(data.market, localAssets)
                     ? setLocalAssets(
-                        removeFromLocalStorage(data.market, localAssets)
+                        localAssets.filter(
+                          o(not, propEq('address', data.market))
+                        )
                       )
                     : setLocalAssets(
-                        localAssets.concat([
-                          {
-                            name: data.name,
-                            symbol: data.symbol,
-                            address: data.market,
-                          },
-                        ])
+                        localAssets
+                          .filter(o(not, propEq('address', data.market)))
+                          .concat([
+                            {
+                              name: data.name,
+                              symbol: data.symbol,
+                              address: data.market,
+                            },
+                          ])
                       );
                 }}
               >
@@ -125,7 +140,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                 Borrow
               </Typography>
             </Box>,
-            MAIL_MARKET_ASSET_ARRAY.map((index) => (
+            ...MAIL_MARKET_ASSET_ARRAY.map((index) => (
               <Box
                 key={v4()}
                 gridGap="L"

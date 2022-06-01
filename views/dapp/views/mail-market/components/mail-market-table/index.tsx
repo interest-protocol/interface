@@ -9,10 +9,10 @@ import { MAILMarketTableProps } from '../../mail-market.types';
 import MAILMarketTableItem from './mail-market-table-item';
 
 const MAILMarketTable: FC<MAILMarketTableProps> = ({
+  data,
   control,
   localAssets,
   setLocalAssets,
-  data,
 }) => {
   const query = useWatch({ control, name: 'search' });
 

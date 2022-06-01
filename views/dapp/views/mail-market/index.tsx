@@ -14,6 +14,8 @@ import { getChainId } from '@/state/core/core.selectors';
 import { processManyMailSummaryData } from '@/utils/mail-markets';
 
 import { Faucet } from '../../components';
+import ErrorView from '../error';
+import LoadingView from '../loading';
 import { MAILMarketTable } from './components';
 import MAILMarketSearchInput from './components/mail-market-search-bar';
 
@@ -35,8 +37,9 @@ const MAILMarket: FC = () => {
     [data, localAssets, chainId]
   );
 
-  if (error) return <div>error</div>;
-  if (!error && !data) return <div>loading</div>;
+  if (error) return <ErrorView message="Error fetching data" />;
+
+  if (!error && !data) return <LoadingView />;
 
   return (
     <>
@@ -73,11 +76,11 @@ const MAILMarket: FC = () => {
                 Favorites
               </Box>
               <MAILMarketTable
+                favorite
                 control={control}
+                data={localMarkets}
                 localAssets={localAssets}
                 setLocalAssets={setLocalAssets}
-                favorite
-                data={localMarkets}
               />
             </Box>
           )}
