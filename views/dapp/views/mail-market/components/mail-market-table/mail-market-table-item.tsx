@@ -52,7 +52,12 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
               justifyContent={['center', 'center', 'center', 'flex-end']}
             >
               <Box
-                width="1.2rem"
+                p="L"
+                width="3rem"
+                height="3rem"
+                borderRadius="50%"
+                bg="bottomBackground"
+                hover={{ bg: 'accent' }}
                 onClick={(e) => {
                   e.stopPropagation();
                   isOnLocalStorage(data.market, localAssets)
@@ -97,25 +102,6 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
               <Typography variant="normal" fontWeight="500">
                 {data.symbol}
               </Typography>
-              {!isOnLocalStorage(data.market, localAssets) ? (
-                <Typography
-                  ml="L"
-                  fontSize="S"
-                  variant="normal"
-                  hover={{ color: 'accent' }}
-                >
-                  (ADD)
-                </Typography>
-              ) : (
-                <Typography
-                  ml="L"
-                  fontSize="S"
-                  variant="normal"
-                  hover={{ color: 'accent' }}
-                >
-                  (Remove)
-                </Typography>
-              )}
             </Box>,
             <Box
               key={v4()}

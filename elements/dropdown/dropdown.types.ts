@@ -2,6 +2,7 @@ import { Dispatch, ReactNode, SetStateAction } from 'react';
 
 export interface IDropdownData {
   value: string;
+  disabled?: boolean;
   noSelectable?: boolean;
   onSelect?: () => void;
   displayTitle?: ReactNode;

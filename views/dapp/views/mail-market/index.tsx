@@ -49,7 +49,7 @@ const MAILMarket: FC = () => {
             <Typography variant="normal" ml="M">
               Multi-asset Isolated Lending Markets
             </Typography>
-            {localMarkets.length && (
+            {!!localMarkets.length && (
               <a href="#popular">
                 <Typography
                   color="accent"
@@ -70,7 +70,7 @@ const MAILMarket: FC = () => {
             localAssets={localAssets}
             setLocalAssets={setLocalAssets}
           />
-          {localMarkets.length && (
+          {!!localMarkets.length && (
             <Box display="grid" columnGap="1rem">
               <Box id="favorites" mt="XL">
                 Favorites

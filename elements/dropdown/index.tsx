@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 
 import Box from '../box';
-import Typography from '../typography';
 import { DropdownProps } from './dropdown.types';
 import DropdownList from './dropdown-list';
 
@@ -76,9 +75,8 @@ const Dropdown: FC<DropdownProps> = ({
           {suffix}
         </Box>
       ) : (
-        <Typography
+        <Box
           width="100%"
-          variant="normal"
           cursor="pointer"
           onClick={toggleDropdown}
           color={isOpen ? 'accent' : 'text'}
@@ -88,7 +86,7 @@ const Dropdown: FC<DropdownProps> = ({
               data[selectedIndex].displayOption
             : title}
           {suffix}
-        </Typography>
+        </Box>
       )}
       <DropdownList
         data={data}
