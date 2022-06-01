@@ -13,8 +13,7 @@ export const getDineroMarketSummary: GetDineroMarketSummary = (
     chainId,
     getStaticWeb3Provider(chainId)
   );
-  console.log(chainId, 'aa');
-  console.log(contract);
+
   return contract.getDineroMarketsSummary(dineroMarkets);
 };
 

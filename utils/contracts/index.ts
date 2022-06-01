@@ -16,6 +16,7 @@ import InterestERC20MarketABI from '@/sdk/abi/interest-erc-20-market.abi.json';
 import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
 import InterestViewDineroABI from '@/sdk/abi/interest-view-dinero.abi.json';
 import InterestViewMAILABI from '@/sdk/abi/interest-view-MAIL.abi.json';
+import MAILDeployerABI from '@/sdk/abi/mail-deployer.abi.json';
 import MultiCallV2ABI from '@/sdk/abi/multi-call-v2.abi.json';
 import {
   CONTRACTS,
@@ -29,12 +30,14 @@ import {
   InterestViewBalancesAbi,
   InterestViewDineroAbi,
   InterestViewMAILAbi,
+  MailDeployerAbi,
   MultiCallV2Abi,
 } from '../../types/ethers-contracts';
 import {
   GetContract,
   GetContractAddress,
   GetDineroSignerContract,
+  GetSignerContract,
 } from './contracts.types';
 
 const makeGetAddress = (x: Record<number, string>) =>
@@ -94,6 +97,10 @@ export const getUSDTAddress: GetContractAddress = makeGetAddress(
 export const getAPEAddress: GetContractAddress = makeGetAddress(CONTRACTS.APE);
 
 export const getUNIAddress: GetContractAddress = makeGetAddress(CONTRACTS.UNI);
+
+export const getMAILDeployerAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.MAIL_DEPLOYER
+);
 
 export const getAddressWithSymbol = (chainId: number) =>
   cond([
@@ -161,3 +168,11 @@ export const getInterestViewDineroContract: GetContract<InterestViewDineroAbi> =
       InterestViewDineroABI,
       provider
     ) as InterestViewDineroAbi;
+
+export const getMAILDeployerSignerContract: GetSignerContract<MailDeployerAbi> =
+  (chainId, signer) =>
+    new ethers.Contract(
+      getMAILDeployerAddress(chainId),
+      MAILDeployerABI,
+      signer
+    ) as MailDeployerAbi;

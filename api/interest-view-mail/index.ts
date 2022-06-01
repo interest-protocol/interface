@@ -10,8 +10,15 @@ export const getManyMAILSummaryData: GetManyMAILSummaryData = (
     chainId,
     getStaticWeb3Provider(chainId)
   );
-  console.log(chainId, 'chainid');
-  console.log(contract.address);
-  console.log(...rest);
+
   return contract.getManyMailSummaryData(...rest);
+};
+
+export const getMAILMarketMetadata = (chainId: number, token: string) => {
+  const contract = getInterestViewMAILContract(
+    chainId,
+    getStaticWeb3Provider(chainId)
+  );
+
+  return contract.getMAILMarketMetadata(token);
 };

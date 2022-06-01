@@ -24,7 +24,8 @@ export interface ICasaDePapelMinting {
 export type MaybeArray<T> = T | Array<T>;
 
 export interface LocalMAILMarketData {
-  address: string;
+  market: string;
+  token: string;
   symbol: string;
   name: string;
 }
@@ -33,6 +34,7 @@ export interface MailMarketsSummaryData {
   Icon: FC<SVGAttributes<SVGSVGElement>>;
   symbol: string;
   market: string;
+  token: string;
   name: string;
   borrowRates: BigNumber[];
   supplyRates: BigNumber[];

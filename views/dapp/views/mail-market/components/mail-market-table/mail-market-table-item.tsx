@@ -58,17 +58,18 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                   isOnLocalStorage(data.market, localAssets)
                     ? setLocalAssets(
                         localAssets.filter(
-                          o(not, propEq('address', data.market))
+                          o(not, propEq('market', data.market))
                         )
                       )
                     : setLocalAssets(
                         localAssets
-                          .filter(o(not, propEq('address', data.market)))
+                          .filter(o(not, propEq('market', data.market)))
                           .concat([
                             {
                               name: data.name,
                               symbol: data.symbol,
-                              address: data.market,
+                              market: data.market,
+                              token: data.token,
                             },
                           ])
                       );
@@ -97,16 +98,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
               <Typography variant="normal" fontWeight="500">
                 {data.symbol}
               </Typography>
-              {!isOnLocalStorage(data.market, localAssets) ? (
-                <Typography
-                  ml="L"
-                  fontSize="S"
-                  variant="normal"
-                  hover={{ color: 'accent' }}
-                >
-                  (ADD)
-                </Typography>
-              ) : (
+              {isOnLocalStorage(data.market, localAssets) ?? (
                 <Typography
                   ml="L"
                   fontSize="S"

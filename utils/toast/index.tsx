@@ -6,6 +6,7 @@ import { CHAINS } from '@/constants';
 import { tryCatch } from '@/utils/promise';
 
 import { ToastMsgs, ToastOpts } from './toast.types';
+
 export const showTXSuccessToast = async (
   tx: ContractTransaction
 ): Promise<void> => {

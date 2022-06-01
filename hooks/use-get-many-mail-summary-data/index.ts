@@ -24,8 +24,7 @@ export const useGetManyMailSummaryData = (
     chainId && supportsMAILMarkets(chainId)
       ? MAIL_MARKET_RISKY_TOKENS_ARRAY[chainId].concat(additionalRiskyTokens)
       : [];
-  console.log(tokens, 'tokens');
-  console.log(riskyAssets, 'risky assets');
+
   return useCallContract(chainId, getManyMAILSummaryData, [
     chainId,
     tokens,

@@ -19,11 +19,11 @@ const MAILMarketTable: FC<MAILMarketTableProps> = ({
   return (
     <>
       {data
-        .filter(({ symbol, market, name }) =>
+        .filter(({ symbol, market, name, token }) =>
           ethers.utils.isAddress(query)
-            ? isSameAddress(query, market)
-            : symbol.toLowerCase().startsWith(query.toLowerCase()) ||
-              name.toLowerCase().startsWith(query.toLowerCase())
+            ? isSameAddress(query, market) || isSameAddress(query, token)
+            : symbol.toLowerCase().startsWith(query.trim().toLowerCase()) ||
+              name.toLowerCase().startsWith(query.trim().toLowerCase())
         )
         .map((item) => (
           <MAILMarketTableItem

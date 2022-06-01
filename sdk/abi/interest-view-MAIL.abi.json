@@ -20,6 +20,21 @@
   },
   {
     "inputs": [
+      { "internalType": "address", "name": "token", "type": "address" }
+    ],
+    "name": "getMAILMarketMetadata",
+    "outputs": [
+      { "internalType": "bool", "name": "", "type": "bool" },
+      { "internalType": "string", "name": "", "type": "string" },
+      { "internalType": "string", "name": "", "type": "string" },
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "address", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
       { "internalType": "address[]", "name": "tokens", "type": "address[]" },
       {
         "internalType": "address[]",

@@ -9,6 +9,11 @@ export type GetContract<T> = (
   provider: StaticJsonRpcProvider | JsonRpcSigner
 ) => T;
 
+export type GetSignerContract<T> = (
+  chainId: number,
+  signer: JsonRpcSigner
+) => T;
+
 export type GetDineroSignerContract<T> = (
   chainId: number,
   tokenSymbol: TOKEN_SYMBOL,
