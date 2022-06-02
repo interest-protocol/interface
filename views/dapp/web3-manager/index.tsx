@@ -40,15 +40,26 @@ const Web3Manager: FC<Web3ManagerProps> = ({ children, supportedChains }) => {
   useEffect(() => {
     if (triedSwitchToRightNetwork) return;
 
-    if (!!chainId && !supportedChains.includes(chainId)) {
+    if (!!chainId && !supportedChains.includes(chainId))
       (async () => {
         await handleSwitchToNetwork(supportedChains[0])();
         setTriedSwitchToRightNetwork(true);
       })();
-    }
   }, [supportedChains, chainId, triedSwitchToRightNetwork]);
 
-  if (!error && ((!triedEagerly && isActivating) || !triedSwitchToRightNetwork))
+  if (!error && !triedEagerly && isActivating)
+    return (
+      <Layout>
+        <Loading />
+      </Layout>
+    );
+
+  if (
+    !error &&
+    chainId &&
+    !triedSwitchToRightNetwork &&
+    !supportedChains.includes(chainId)
+  )
     return (
       <Layout>
         <Loading />

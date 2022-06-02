@@ -109,7 +109,9 @@ const FaucetForm: FC<FaucetFormProps> = ({ tokens, local }) => {
             )
           : data
         ).map((x) => {
-          const SVG = TOKENS_SVG_MAP[x.currency.symbol];
+          const SVG =
+            TOKENS_SVG_MAP[x.currency.symbol] ??
+            TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
           return (
             <Box
