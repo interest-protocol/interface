@@ -1,3 +1,5 @@
+import { ethers } from 'ethers';
+import { compose, map, sort, uniq } from 'ramda';
 import { useSelector } from 'react-redux';
 
 import { getManyMAILSummaryData } from '@/api';
@@ -9,6 +11,17 @@ import {
 import { getChainId } from '@/state/core/core.selectors';
 
 import { useCallContract } from '../use-call-contract';
+
+const makeUniqueRiskyAssets = compose<
+  any[],
+  ReadonlyArray<string>,
+  ReadonlyArray<string>,
+  ReadonlyArray<string>
+>(
+  uniq,
+  sort((a, b) => (a > b ? 1 : -1)),
+  map(ethers.utils.getAddress)
+);
 
 export const useGetManyMailSummaryData = (
   additionalRiskyTokens: ReadonlyArray<string> = []
@@ -28,6 +41,6 @@ export const useGetManyMailSummaryData = (
   return useCallContract(chainId, getManyMAILSummaryData, [
     chainId,
     tokens,
-    riskyAssets,
+    makeUniqueRiskyAssets(riskyAssets),
   ]);
 };

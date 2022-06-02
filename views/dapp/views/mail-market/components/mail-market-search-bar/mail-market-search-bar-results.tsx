@@ -75,10 +75,6 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
   // data = [isDeployed, name, symbol, token, market address]
   const { data, error } = useGetMailMarketMetadata(address);
 
-  // DO not use the default error page.
-  // say failed to fetch market data because the rest of the page should work properly
-  // Error message should say make sure the address is a ERC20 token
-
   if (error)
     return (
       <Box display="flex" alignItems="center" color="error">
@@ -124,7 +120,7 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
     push(
       {
         pathname: Routes[RoutesEnum.MAILMarketPool],
-        query: { pool: getSymbol(data) as string },
+        query: { pool: getMarketAddress(data) as string },
       },
       undefined,
       {
@@ -139,7 +135,6 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
     TOKENS_SVG_MAP[getSymbol(data) as string] ??
     TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
-  // nice metadata card with the info
   return (
     <Box
       p="L"
@@ -218,9 +213,13 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
           ? isSameAddress(trimmedQuery, market.market) ||
             isSameAddress(trimmedQuery, market.token)
           : market.name.toLowerCase().startsWith(trimmedQuery.toLowerCase()) ||
-            market.symbol.toLowerCase().startsWith(trimmedQuery.toLowerCase())
+            market.symbol
+              .toLowerCase()
+              .startsWith(trimmedQuery.toLowerCase()) ||
+            market.symbol.toLowerCase().includes(query.trim().toLowerCase()) ||
+            market.name.toLowerCase().includes(query.trim().toLowerCase())
       ),
-    [trimmedQuery]
+    [trimmedQuery, allMarkets]
   );
 
   if (doesMarketExist || !trimmedQuery) return null;

@@ -63,14 +63,12 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                 hover={{ bg: 'accent' }}
                 onClick={(e) => {
                   e.stopPropagation();
-                  isOnLocalStorage(data.market, localAssets)
-                    ? setLocalAssets(
-                        localAssets.filter(
+                  setLocalAssets(
+                    isOnLocalStorage(data.market, localAssets)
+                      ? localAssets.filter(
                           o(not, propEq('market', data.market))
                         )
-                      )
-                    : setLocalAssets(
-                        localAssets
+                      : localAssets
                           .filter(o(not, propEq('market', data.market)))
                           .concat([
                             {
@@ -80,7 +78,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                               token: data.token,
                             },
                           ])
-                      );
+                  );
                 }}
               >
                 <StarSVG filled={isOnLocalStorage(data.market, localAssets)} />

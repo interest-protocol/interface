@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
@@ -18,11 +18,17 @@ const MAILMarketTable: FC<MAILMarketTableProps> = ({
 }) => {
   const query = useWatch({ control, name: 'search' });
 
-  const filteredData = data.filter(({ symbol, market, name, token }) =>
-    ethers.utils.isAddress(query)
-      ? isSameAddress(query, market) || isSameAddress(query, token)
-      : symbol.toLowerCase().startsWith(query.trim().toLowerCase()) ||
-        name.toLowerCase().startsWith(query.trim().toLowerCase())
+  const filteredData = useMemo(
+    () =>
+      data.filter(({ symbol, market, name, token }) =>
+        ethers.utils.isAddress(query)
+          ? isSameAddress(query, market) || isSameAddress(query, token)
+          : symbol.toLowerCase().startsWith(query.trim().toLowerCase()) ||
+            name.toLowerCase().startsWith(query.trim().toLowerCase()) ||
+            symbol.toLowerCase().includes(query.trim().toLowerCase()) ||
+            name.toLowerCase().includes(query.trim().toLowerCase())
+      ),
+    [data, query]
   );
 
   return filteredData.length ? (
