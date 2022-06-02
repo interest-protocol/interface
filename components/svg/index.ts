@@ -7,6 +7,7 @@ export { default as BinanceTestSVG } from './binance-test';
 export { default as BitcoinSVG } from './bitcoin';
 export { default as ChainLinkSVG } from './chain-link';
 export { default as CheckSVG } from './check';
+export { default as CogsSVG } from './cogs';
 export { default as CopySVG } from './copy';
 export { default as CrossChainSVG } from './cross-chain';
 export { default as DineroSVG } from './dinero';

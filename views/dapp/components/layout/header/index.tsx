@@ -63,6 +63,21 @@ const Header: FC = () => {
         justifyContent="center"
         display={['none', 'none', 'flex']}
       >
+        <Link href={Routes[RoutesEnum.Swap]}>
+          <Typography
+            px="XL"
+            cursor="pointer"
+            variant="normal"
+            borderRight="1px solid"
+            borderColor="bottomBackground"
+            color={
+              pathname.includes(Routes[RoutesEnum.Swap]) ? 'accent' : 'inherit'
+            }
+            hover={{ color: 'accentActive' }}
+          >
+            Swap
+          </Typography>
+        </Link>
         <Link href={Routes[RoutesEnum.Earn]}>
           <Typography
             px="XL"
