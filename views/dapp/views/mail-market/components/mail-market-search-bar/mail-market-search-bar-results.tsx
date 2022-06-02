@@ -3,13 +3,14 @@ import { useRouter } from 'next/router';
 import { head, nth } from 'ramda';
 import { FC, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 import { createMailMarket } from '@/api';
 import { Routes, RoutesEnum, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useGetMailMarketMetadata, useGetSigner } from '@/hooks';
 import { TOKEN_SYMBOL } from '@/sdk';
-import { LoadingSVG, TimesSVG } from '@/svg';
+import { CopySVG, LoadingSVG, TimesSVG } from '@/svg';
 import {
   isSameAddress,
   isZeroAddress,
@@ -135,10 +136,16 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
     TOKENS_SVG_MAP[getSymbol(data) as string] ??
     TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
+  const copyToClipboard = (address: string) => () => {
+    window.navigator.clipboard.writeText(address || '');
+    toast('Copied to clipboard');
+  };
+
   return (
     <Box
       p="L"
       display="flex"
+      flexWrap="wrap"
       alignItems="center"
       justifyContent="space-between"
     >
@@ -158,41 +165,82 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
           <Typography variant="normal" fontWeight="800">{`${getName(
             data
           )} (${getSymbol(data)})`}</Typography>
-          <Typography variant="normal">{shortAccount(address)}</Typography>
-          <Typography variant="normal">
-            {shortAccount(getMarketAddress(data) as string)}
-          </Typography>
+          <Box display="flex" alignItems="center" my="S">
+            <Typography
+              mr="M"
+              fontSize="S"
+              variant="normal"
+              color="textSecondary"
+            >
+              Token Address:
+            </Typography>
+            <Typography variant="normal">{shortAccount(address)}</Typography>
+            <Box
+              ml="M"
+              cursor="pointer"
+              hover={{ color: 'accent' }}
+              onClick={copyToClipboard(address)}
+            >
+              <CopySVG width="1rem" />
+            </Box>
+          </Box>
+          <Box display="flex" alignItems="center">
+            <Typography
+              mr="M"
+              fontSize="S"
+              variant="normal"
+              color="textSecondary"
+            >
+              Market Address:
+            </Typography>
+            <Typography variant="normal">
+              {shortAccount(getMarketAddress(data) as string)}
+            </Typography>
+            <Box
+              ml="M"
+              cursor="pointer"
+              hover={{ color: 'accent' }}
+              onClick={copyToClipboard(getMarketAddress(data) as string)}
+            >
+              <CopySVG width="1rem" />
+            </Box>
+          </Box>
         </Box>
       </Box>
-      {getIsDeployed(data) ? (
-        <Button
-          variant="primary"
-          hover={{
-            bg: 'accentActive',
-          }}
-          onClick={handleClick}
-        >
-          Enter
-        </Button>
-      ) : (
-        <Button
-          variant="primary"
-          onClick={handleCreateToken}
-          disabled={createMarketLoading}
-          bg={createMarketLoading ? 'disabled' : 'accent'}
-        >
-          {createMarketLoading ? (
-            <Box display="flex">
-              <LoadingSVG width="1rem" />
-              <Typography ml="M" variant="normal">
-                Creating
-              </Typography>
-            </Box>
-          ) : (
-            'Create pool'
-          )}
-        </Button>
-      )}
+      <Box
+        mt={['XL', 'XL', 'XL', 'NONE']}
+        mx={['auto', 'auto', 'auto', 'NONE']}
+      >
+        {getIsDeployed(data) ? (
+          <Button
+            variant="primary"
+            hover={{
+              bg: 'accentActive',
+            }}
+            onClick={handleClick}
+          >
+            Enter
+          </Button>
+        ) : (
+          <Button
+            variant="primary"
+            onClick={handleCreateToken}
+            disabled={createMarketLoading}
+            bg={createMarketLoading ? 'disabled' : 'accent'}
+          >
+            {createMarketLoading ? (
+              <Box display="flex">
+                <LoadingSVG width="1rem" />
+                <Typography ml="M" variant="normal">
+                  Creating
+                </Typography>
+              </Box>
+            ) : (
+              'Create pool'
+            )}
+          </Button>
+        )}
+      </Box>
     </Box>
   );
 };

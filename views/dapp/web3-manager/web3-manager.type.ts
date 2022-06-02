@@ -6,7 +6,7 @@ export interface AdviceProps {
   Icon?: FC<SVGAttributes<SVGSVGElement>>;
   buttons?: ReadonlyArray<{
     text: string;
-    action: () => void;
+    action: Promise<() => void>;
   }>;
 }
 
