@@ -8,6 +8,7 @@ import { TimesSVG } from '@/svg';
 const ErrorView: FC<{ message: string }> = ({ message }) => {
   const { push } = useRouter();
   const goHome = () => push(Routes[RoutesEnum.DApp]);
+
   return (
     <>
       <Box

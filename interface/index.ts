@@ -1,5 +1,4 @@
 import { BigNumber } from 'ethers';
-import { FC, SVGAttributes } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IEmptyObject {}
@@ -31,11 +30,10 @@ export interface LocalMAILMarketData {
 }
 
 export interface MailMarketsSummaryData {
-  Icon: FC<SVGAttributes<SVGSVGElement>>;
+  name: string;
+  token: string;
   symbol: string;
   market: string;
-  token: string;
-  name: string;
   borrowRates: BigNumber[];
   supplyRates: BigNumber[];
 }

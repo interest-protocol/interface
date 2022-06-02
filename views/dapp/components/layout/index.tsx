@@ -39,6 +39,9 @@ const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
           <Box
             flex="1"
             as="main"
+            display="flex"
+            flexDirection="column"
+            justifyContent="stretch"
             background={[
               DAppTheme.colors.background,
               DAppTheme.colors.specialBackground,

@@ -1,11 +1,15 @@
 import { ethers } from 'ethers';
+import { useRouter } from 'next/router';
 import { head, nth } from 'ramda';
 import { FC, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { createMailMarket } from '@/api';
+import { Routes, RoutesEnum, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useGetMailMarketMetadata, useGetSigner } from '@/hooks';
+import { TOKEN_SYMBOL } from '@/sdk';
+import { LoadingSVG, TimesSVG } from '@/svg';
 import {
   isSameAddress,
   isZeroAddress,
@@ -32,6 +36,7 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
   address,
   addLocalAsset,
 }) => {
+  const { push } = useRouter();
   const { signer, chainId, account } = useGetSigner();
 
   // handle only in the creating button
@@ -53,15 +58,17 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
       await showTXSuccessToast(tx);
     } catch (error) {
       throwError('Something went wrong', error);
-    } finally {
-      setCreateMarketLoading(false);
     }
   };
 
-  const createMarket = () =>
+  const createMarket = async (callback: () => void) =>
     showToast(handleCreateMarket(), {
       loading: 'Creating...',
-      success: 'Success!',
+      success: () => {
+        setCreateMarketLoading(false);
+        callback();
+        return 'Success!';
+      },
       error: ({ message }) => message,
     });
 
@@ -72,9 +79,65 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
   // say failed to fetch market data because the rest of the page should work properly
   // Error message should say make sure the address is a ERC20 token
 
-  if (error) return <div>error</div>;
+  if (error)
+    return (
+      <Box display="flex" alignItems="center" color="error">
+        <Box
+          width="1.2rem"
+          height="1.2rem"
+          border="1px solid"
+          borderRadius="50%"
+          alignItems="center"
+          display="inline-flex"
+          justifyContent="center"
+        >
+          <TimesSVG width="1rem" />
+        </Box>
+        <Box ml="M">
+          <Typography variant="normal" fontWeight="600">
+            Something went wrong!
+          </Typography>
+          <Typography variant="normal" fontSize="S" color="textSecondary">
+            Make sure the address is a ERC20 token
+          </Typography>
+        </Box>
+      </Box>
+    );
 
-  if (!data) return <div>loading</div>;
+  if (!data)
+    return (
+      <Box display="flex" alignItems="center">
+        <LoadingSVG width="1.2rem" />
+        <Typography variant="normal" ml="M">
+          Loading...
+        </Typography>
+      </Box>
+    );
+
+  const handleClick = () => {
+    addLocalAsset({
+      market: getMarketAddress(data) as string,
+      name: getName(data) as string,
+      symbol: getSymbol(data) as string,
+      token: address,
+    });
+    push(
+      {
+        pathname: Routes[RoutesEnum.MAILMarketPool],
+        query: { pool: getSymbol(data) as string },
+      },
+      undefined,
+      {
+        shallow: true,
+      }
+    );
+  };
+
+  const handleCreateToken = async () => await createMarket(handleClick);
+
+  const SVG =
+    TOKENS_SVG_MAP[getSymbol(data) as string] ??
+    TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
   // nice metadata card with the info
   return (
@@ -88,17 +151,18 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
         <Box
           mr="L"
           width="2rem"
-          bg="warning"
           height="2rem"
           display="flex"
-          fontWeight="800"
           borderRadius="50%"
           alignItems="center"
           justifyContent="center"
         >
-          {`${getName(data)} (${getSymbol(data)})`}
+          <SVG width="2rem" />
         </Box>
         <Box>
+          <Typography variant="normal" fontWeight="800">{`${getName(
+            data
+          )} (${getSymbol(data)})`}</Typography>
           <Typography variant="normal">{shortAccount(address)}</Typography>
           <Typography variant="normal">
             {shortAccount(getMarketAddress(data) as string)}
@@ -111,34 +175,27 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
           hover={{
             bg: 'accentActive',
           }}
-          onClick={() => {
-            addLocalAsset({
-              market: getMarketAddress(data) as string,
-              name: getName(data) as string,
-              symbol: getSymbol(data) as string,
-              token: address,
-            });
-            // then route to the mail market page
-          }}
+          onClick={handleClick}
         >
           Enter
         </Button>
       ) : (
         <Button
-          disabled={createMarketLoading}
           variant="primary"
-          onClick={async () => {
-            await createMarket();
-            addLocalAsset({
-              market: getMarketAddress(data) as string,
-              name: getName(data) as string,
-              symbol: getSymbol(data) as string,
-              token: address,
-            });
-            // route
-          }}
+          onClick={handleCreateToken}
+          disabled={createMarketLoading}
+          bg={createMarketLoading ? 'disabled' : 'accent'}
         >
-          {createMarketLoading ? 'loading' : 'create pool'}
+          {createMarketLoading ? (
+            <Box display="flex">
+              <LoadingSVG width="1rem" />
+              <Typography ml="M" variant="normal">
+                Creating
+              </Typography>
+            </Box>
+          ) : (
+            'Create pool'
+          )}
         </Button>
       )}
     </Box>
@@ -153,7 +210,6 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
   const query = useWatch({ control, name: 'search' });
 
   const trimmedQuery = useMemo(() => query.trim(), [query]);
-  console.log(trimmedQuery, 'trimmedquery');
 
   const doesMarketExist = useMemo(
     () =>
@@ -167,16 +223,24 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
     [trimmedQuery]
   );
 
-  console.log(doesMarketExist, 'does');
-
   if (doesMarketExist || !trimmedQuery) return null;
 
   if (!ethers.utils.isAddress(trimmedQuery))
     return (
-      <div>
+      <Box
+        p="XL"
+        left="0"
+        top="5.5rem"
+        zIndex={1}
+        width="100%"
+        boxShadow="0 0 0.6rem #0003"
+        bg="foreground"
+        borderRadius="L"
+        position="absolute"
+      >
         Market not found: Please write a token address to find or create a new
         market
-      </div>
+      </Box>
     );
 
   return (

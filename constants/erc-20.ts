@@ -4,11 +4,16 @@ import { FC, SVGAttributes } from 'react';
 import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk/constants';
 import { ERC20 } from '@/sdk/entities/erc-20';
 import {
+  ApeCoinSVG,
   BitcoinSVG,
+  ChainLinkSVG,
   DineroSVG,
   EtherSVG,
   InterestTokenSVG,
+  ManaSVG,
+  ShibaInuSVG,
   TetherSVG,
+  UniSwapSVG,
   UnknownCoinSVG,
   USDCoinSVG,
 } from '@/svg';
@@ -50,6 +55,11 @@ export const TOKENS_SVG_MAP = {
   [TOKEN_SYMBOL.USDT]: TetherSVG,
   [TOKEN_SYMBOL.BTC]: BitcoinSVG,
   [TOKEN_SYMBOL.USDC]: USDCoinSVG,
+  [TOKEN_SYMBOL.UNI]: UniSwapSVG,
+  [TOKEN_SYMBOL.APE]: ApeCoinSVG,
+  [TOKEN_SYMBOL.MANA]: ManaSVG,
+  [TOKEN_SYMBOL.LINK]: ChainLinkSVG,
+  [TOKEN_SYMBOL.SHIB]: ShibaInuSVG,
   [TOKEN_SYMBOL.INT]: InterestTokenSVG,
   [TOKEN_SYMBOL.Unknown]: UnknownCoinSVG,
 } as { [key: string]: FC<SVGAttributes<SVGSVGElement>> };

@@ -10,6 +10,10 @@ const GlobalStyles = css`
       sans-serif;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body,
   html {
     overflow-x: hidden;

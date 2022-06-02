@@ -8,7 +8,7 @@ import { MAIL_MARKET_DATA } from '../../../mail-market/mail-market.data';
 import { MAILMarketPoolProps } from '../../mail-market-pool.types';
 
 const MAILMarketPoolInfo: FC<MAILMarketPoolProps> = ({ pool }) => {
-  const data = MAIL_MARKET_DATA.find(({ symbol }) => symbol == pool);
+  const data = MAIL_MARKET_DATA.find(({ address }) => address == pool);
 
   return (
     <Box

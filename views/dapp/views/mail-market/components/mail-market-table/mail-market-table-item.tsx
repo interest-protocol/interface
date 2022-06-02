@@ -5,9 +5,9 @@ import { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { v4 } from 'uuid';
 
-import { Routes, RoutesEnum } from '@/constants';
+import { Routes, RoutesEnum, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Table, Typography } from '@/elements';
-import { Fraction } from '@/sdk';
+import { Fraction, TOKEN_SYMBOL } from '@/sdk';
 import { BLOCKS_PER_YEAR } from '@/sdk';
 import { getChainId } from '@/state/core/core.selectors';
 import { StarSVG } from '@/svg';
@@ -31,12 +31,15 @@ import { isOnLocalStorage } from '../../mail-market.utils';
 const MAIL_MARKET_ASSET_ARRAY = [4, 0, 1, 2, 3];
 
 const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
+  data,
   localAssets,
   setLocalAssets,
-  data,
 }) => {
   const { push } = useRouter();
   const chainId = useSelector(getChainId) as number;
+
+  const Icon =
+    TOKENS_SVG_MAP[data.symbol] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
   return (
     <Table
@@ -98,7 +101,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
           items: [
             <Box key={v4()} display="flex" alignItems="center">
               <Box as="span" mr="M" display="inline-block" width="1.5rem">
-                <data.Icon width="1.5rem" />
+                <Icon width="1.5rem" />
               </Box>
               <Typography variant="normal" fontWeight="500">
                 {data.symbol}

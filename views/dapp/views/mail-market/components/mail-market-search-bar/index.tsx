@@ -20,6 +20,9 @@ const MAILMarketSearchInput: FC<MAILMarketSearchBarProps> = ({
       {...register('search')}
       borderColor="textSecondary"
       placeholder="Search Pool by name, symbol or address..."
+      focus={{
+        borderColor: 'accent',
+      }}
     />
     <MAILMarketSearchBarResults
       control={control}

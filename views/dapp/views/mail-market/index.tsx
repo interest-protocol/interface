@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { append, curryN, flip, prop } from 'ramda';
+import { append, curryN, flip, o, prop } from 'ramda';
 import { FC, useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -35,9 +35,10 @@ const MAILMarket: FC = () => {
     localAssets.map(prop('token'))
   );
 
-  const addLocalAsset: AddLocalAsset = useCallback(flippedAppend(localAssets), [
-    localAssets,
-  ]);
+  const addLocalAsset: AddLocalAsset = useCallback(
+    o(setLocalAssets, flippedAppend(localAssets)),
+    [localAssets]
+  );
 
   const { recommendedMarkets, localMarkets } = useMemo(
     () => processManyMailSummaryData(data, localAssets, chainId),
@@ -57,53 +58,36 @@ const MAILMarket: FC = () => {
               Multi-asset Isolated Lending Markets
             </Typography>
             {!!localMarkets.length && (
-              <a href="#popular">
-                <Typography
-                  color="accent"
-                  variant="normal"
-                  display={['block', 'block', 'block', 'none']}
-                  hover={{
-                    color: 'accentActive',
-                  }}
-                >
-                  See recommended
-                </Typography>
-              </a>
+              <Typography
+                color="accent"
+                variant="normal"
+                hover={{
+                  color: 'accentActive',
+                }}
+              >
+                <a href="#recommended">See recommended</a>
+              </Typography>
             )}
           </Box>
           <MAILMarketSearchInput
-            register={register}
             control={control}
-            allMarkets={recommendedMarkets.concat(localMarkets)}
+            register={register}
             addLocalAsset={addLocalAsset}
+            allMarkets={recommendedMarkets.concat(localMarkets)}
           />
-          {!!localMarkets.length && (
-            <Box display="grid" columnGap="1rem">
-              <Box id="favorites" mt="XL">
-                Favorites
-              </Box>
-              <MAILMarketTable
-                favorite
-                control={control}
-                data={localMarkets}
-                localAssets={localAssets}
-                setLocalAssets={setLocalAssets}
-              />
-            </Box>
-          )}
-          {!!recommendedMarkets.length && (
-            <Box display="grid" columnGap="1rem">
-              <Box id="recommended" mt="XL">
-                Recommended
-              </Box>
-              <MAILMarketTable
-                control={control}
-                localAssets={localAssets}
-                setLocalAssets={setLocalAssets}
-                data={recommendedMarkets}
-              />
-            </Box>
-          )}
+          <MAILMarketTable
+            favorite
+            control={control}
+            data={localMarkets}
+            localAssets={localAssets}
+            setLocalAssets={setLocalAssets}
+          />
+          <MAILMarketTable
+            control={control}
+            localAssets={localAssets}
+            setLocalAssets={setLocalAssets}
+            data={recommendedMarkets}
+          />
         </Container>
       </Box>
       <Faucet
