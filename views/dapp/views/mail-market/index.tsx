@@ -57,7 +57,7 @@ const MAILMarket: FC = () => {
             <Typography variant="normal" ml="M">
               Multi-asset Isolated Lending Markets
             </Typography>
-            {!!localMarkets.length && (
+            {!!recommendedMarkets.length && (
               <Typography
                 color="accent"
                 variant="normal"
