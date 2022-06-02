@@ -5,3 +5,4 @@ export * from './faucet';
 export * from './interest-view-balances';
 export * from './interest-view-dinero';
 export * from './interest-view-mail';
+export * from './mail-deployer';

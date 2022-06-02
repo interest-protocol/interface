@@ -9,14 +9,14 @@ export interface IMAILMarketForm {
 export interface MAILMarketSearchBarProps {
   register: UseFormRegister<IMAILMarketForm>;
   control: Control<IMAILMarketForm>;
-  localAssets: ReadonlyArray<LocalMAILMarketData>;
-  setLocalAssets: (localAssets: ReadonlyArray<LocalMAILMarketData>) => void;
+  allMarkets: ReadonlyArray<MailMarketsSummaryData>;
+  addLocalAsset: AddLocalAsset;
 }
 
 export interface MAILMarketSearchBarResultsProps {
   control: Control<IMAILMarketForm>;
-  localAssets: ReadonlyArray<LocalMAILMarketData>;
-  setLocalAssets: (localAssets: ReadonlyArray<LocalMAILMarketData>) => void;
+  allMarkets: MAILMarketSearchBarProps['allMarkets'];
+  addLocalAsset: MAILMarketSearchBarProps['addLocalAsset'];
 }
 
 export interface MAILMarketTableProps {
@@ -34,10 +34,8 @@ export interface MAILMarketTableItemProps {
 }
 
 export interface IMailMarketSearchItemData {
-  name: string;
-  symbol: string;
   address: string;
-  existent: boolean;
-  localAssets: ReadonlyArray<LocalMAILMarketData>;
-  setLocalAssets: (localAssets: ReadonlyArray<LocalMAILMarketData>) => void;
+  addLocalAsset: MAILMarketSearchBarProps['addLocalAsset'];
 }
+
+export type AddLocalAsset = (item: LocalMAILMarketData) => void;

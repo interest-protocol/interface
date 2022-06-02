@@ -42,18 +42,19 @@ export const processManyMailSummaryData: ProcessManyMailSummaryData = (
   );
 
   const localMarkets = localMailData.map(
-    ({ address, symbol, name }, index) => ({
+    ({ market, symbol, name, token }, index) => ({
       Icon: UnknownCoinSVG,
       symbol,
       name,
-      market: address,
+      market,
       borrowRates: localBorrowRates[index],
       supplyRates: localSupplyRates[index],
+      token,
     })
   );
 
   const localAddresses = localMailData.map(
-    o(ethers.utils.getAddress, prop('address'))
+    o(ethers.utils.getAddress, prop('market'))
   );
 
   return {

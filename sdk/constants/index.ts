@@ -168,7 +168,7 @@ export const CONTRACTS = {
     [CHAIN_ID.BNB_TEST_NET]: '0xaB852f3c3c926bd2430E7d6358441ee1ddbc2cF1',
   },
   INTEREST_VIEW_MAIL: {
-    [CHAIN_ID.RINKEBY]: '0xF050f5Fd2d645aDb63c682aE8Ba6BDb09a8b3259',
+    [CHAIN_ID.RINKEBY]: '0x4C66920Dd1528A99DF904d9bE45279AEC388377C',
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
   },
@@ -233,8 +233,12 @@ export const CONTRACTS = {
   },
   TOKEN_MINTER: {
     [CHAIN_ID.RINKEBY]: '0x52cdaec4E208F96144A54Fc5d700a145Ea731Fe9',
+    [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
   },
   MAIL_DEPLOYER: {
     [CHAIN_ID.RINKEBY]: '0x29B66E6a41eF5B07d9348e59c09EE855f214e3D0',
+    [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
   },
 };

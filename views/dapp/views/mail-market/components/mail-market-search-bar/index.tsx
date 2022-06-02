@@ -8,8 +8,8 @@ import MAILMarketSearchBarResults from './mail-market-search-bar-results';
 const MAILMarketSearchInput: FC<MAILMarketSearchBarProps> = ({
   control,
   register,
-  localAssets,
-  setLocalAssets,
+  allMarkets,
+  addLocalAsset,
 }) => (
   <Box bg="foreground" p="L" borderRadius="L" mt="XL" position="relative">
     <Input
@@ -23,8 +23,8 @@ const MAILMarketSearchInput: FC<MAILMarketSearchBarProps> = ({
     />
     <MAILMarketSearchBarResults
       control={control}
-      localAssets={localAssets}
-      setLocalAssets={setLocalAssets}
+      allMarkets={allMarkets}
+      addLocalAsset={addLocalAsset}
     />
   </Box>
 );

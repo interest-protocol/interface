@@ -12,14 +12,20 @@ export const MAIL_MARKET_METADATA_MAP = {
       market:
         MAIL_MARKET_CONTRACTS_MAP[CHAIN_ID.RINKEBY][TOKEN_SYMBOL.UNI]
           .marketAddress,
+      token:
+        MAIL_MARKET_CONTRACTS_MAP[CHAIN_ID.RINKEBY][TOKEN_SYMBOL.UNI]
+          .riskyTokenAddress,
     },
     [CONTRACTS.APE[CHAIN_ID.RINKEBY]]: {
       Icon: ApeCoinSVG,
       symbol: TOKEN_SYMBOL.APE,
-      name: 'Ape coin',
+      name: 'ApeCoin',
       market:
         MAIL_MARKET_CONTRACTS_MAP[CHAIN_ID.RINKEBY][TOKEN_SYMBOL.APE]
           .marketAddress,
+      token:
+        MAIL_MARKET_CONTRACTS_MAP[CHAIN_ID.RINKEBY][TOKEN_SYMBOL.APE]
+          .riskyTokenAddress,
     },
   },
 } as Record<number, Record<string, MailMarketsSummaryData>>;

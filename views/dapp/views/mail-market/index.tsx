@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import { prop } from 'ramda';
-import { FC, useMemo } from 'react';
+import { append, curryN, flip, prop } from 'ramda';
+import { FC, useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
@@ -14,10 +14,13 @@ import { getChainId } from '@/state/core/core.selectors';
 import { processManyMailSummaryData } from '@/utils/mail-markets';
 
 import { Faucet } from '../../components';
+import Loading from '../../components/loading';
 import ErrorView from '../error';
-import LoadingView from '../loading';
 import { MAILMarketTable } from './components';
 import MAILMarketSearchInput from './components/mail-market-search-bar';
+import { AddLocalAsset } from './mail-market.types';
+
+const flippedAppend = curryN(2, flip(append));
 
 const MAILMarket: FC = () => {
   const { push } = useRouter();
@@ -26,11 +29,15 @@ const MAILMarket: FC = () => {
 
   const [localAssets, setLocalAssets] = useLocalStorage<
     ReadonlyArray<LocalMAILMarketData>
-  >(`${chainId || ''}-mail-markets`, []);
+  >(`${chainId || ''}-interest-protocol-mail-markets`, []);
 
   const { data, error } = useGetManyMailSummaryData(
-    localAssets.map(prop('address'))
+    localAssets.map(prop('token'))
   );
+
+  const addLocalAsset: AddLocalAsset = useCallback(flippedAppend(localAssets), [
+    localAssets,
+  ]);
 
   const { recommendedMarkets, localMarkets } = useMemo(
     () => processManyMailSummaryData(data, localAssets, chainId),
@@ -39,7 +46,7 @@ const MAILMarket: FC = () => {
 
   if (error) return <ErrorView message="Error fetching data" />;
 
-  if (!error && !data) return <LoadingView />;
+  if (!data) return <Loading />;
 
   return (
     <>
@@ -59,7 +66,7 @@ const MAILMarket: FC = () => {
                     color: 'accentActive',
                   }}
                 >
-                  See Popular
+                  See recommended
                 </Typography>
               </a>
             )}
@@ -67,8 +74,8 @@ const MAILMarket: FC = () => {
           <MAILMarketSearchInput
             register={register}
             control={control}
-            localAssets={localAssets}
-            setLocalAssets={setLocalAssets}
+            allMarkets={recommendedMarkets.concat(localMarkets)}
+            addLocalAsset={addLocalAsset}
           />
           {!!localMarkets.length && (
             <Box display="grid" columnGap="1rem">
@@ -84,7 +91,7 @@ const MAILMarket: FC = () => {
               />
             </Box>
           )}
-          {recommendedMarkets.length && (
+          {!!recommendedMarkets.length && (
             <Box display="grid" columnGap="1rem">
               <Box id="recommended" mt="XL">
                 Recommended
