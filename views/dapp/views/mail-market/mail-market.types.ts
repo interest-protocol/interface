@@ -33,9 +33,15 @@ export interface MAILMarketTableItemProps {
   data: MailMarketsSummaryData;
 }
 
-export interface IMailMarketSearchItemData {
+export interface SearchItemWrapperProps {
   address: string;
   addLocalAsset: MAILMarketSearchBarProps['addLocalAsset'];
+}
+
+export interface SearchItemProps {
+  address: SearchItemWrapperProps['address'];
+  addLocalAsset: SearchItemWrapperProps['addLocalAsset'];
+  data: [boolean, string, string, string, string];
 }
 
 export type AddLocalAsset = (item: LocalMAILMarketData) => void;

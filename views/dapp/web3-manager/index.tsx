@@ -1,4 +1,3 @@
-import { inc } from 'ramda';
 import { FC, useEffect, useState } from 'react';
 
 import priorityHooks from '@/connectors';
@@ -23,10 +22,11 @@ const Web3Manager: FC<Web3ManagerProps> = ({ children, supportedChains }) => {
   const connector = usePriorityConnector();
   const isActivating = usePriorityIsActivating();
 
-  const [triedSwitchToRightNetwork, setTriedSwitchToRightNetwork] = useState(0);
+  const [triedSwitchToRightNetwork, setTriedSwitchToRightNetwork] =
+    useState(false);
   const [triedEagerly, setTriedEagerly] = useState(false);
 
-  const handleSwitchToNetwork = async (targetChainId: number) => () =>
+  const handleSwitchToNetwork = (targetChainId: number) => () =>
     switchToNetwork(connector, targetChainId);
 
   useEffect(() => {
@@ -38,16 +38,17 @@ const Web3Manager: FC<Web3ManagerProps> = ({ children, supportedChains }) => {
   }, [connector]);
 
   useEffect(() => {
-    if (triedSwitchToRightNetwork > 2) return;
+    if (triedSwitchToRightNetwork) return;
+
     if (!!chainId && !supportedChains.includes(chainId)) {
       (async () => {
-        await handleSwitchToNetwork(supportedChains[0]);
-        setTriedSwitchToRightNetwork(inc);
+        await handleSwitchToNetwork(supportedChains[0])();
+        setTriedSwitchToRightNetwork(true);
       })();
     }
   }, [supportedChains, chainId, triedSwitchToRightNetwork]);
 
-  if (!error && !triedEagerly && isActivating)
+  if (!error && ((!triedEagerly && isActivating) || !triedSwitchToRightNetwork))
     return (
       <Layout>
         <Loading />
@@ -56,7 +57,7 @@ const Web3Manager: FC<Web3ManagerProps> = ({ children, supportedChains }) => {
 
   if (
     !!chainId &&
-    triedSwitchToRightNetwork > 2 &&
+    triedSwitchToRightNetwork &&
     !supportedChains.includes(chainId)
   )
     return (
