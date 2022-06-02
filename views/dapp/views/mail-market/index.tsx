@@ -48,7 +48,7 @@ const MAILMarket: FC = () => {
     [data, localAssets, chainId]
   );
 
-  if (error) return <ErrorView message="Error fetching data" />;
+  if (true || error) return <ErrorView message="Error fetching data" />;
 
   if (!data) return <Loading />;
 

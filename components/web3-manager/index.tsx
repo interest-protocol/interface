@@ -1,8 +1,10 @@
+import { ThemeProvider } from '@emotion/react';
 import { FC, useEffect, useState } from 'react';
 
 import priorityHooks from '@/connectors';
 import { Routes } from '@/constants';
 import { CHAINS } from '@/constants/chains';
+import { DAppTheme, LightTheme } from '@/design-system';
 import { usePrevious } from '@/hooks';
 import { CHAIN_ID } from '@/sdk';
 import { MetaMaskSVG, TimesSVG } from '@/svg';
@@ -147,15 +149,17 @@ const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
   const prevPathName = usePrevious(pathname);
 
   return pathname !== Routes.home ? (
-    <Web3Manager
-      pathname={pathname}
-      supportedChains={SUPPORTED_CHAINS[pathname]}
-      prevPathName={prevPathName}
-    >
-      {children}
-    </Web3Manager>
+    <ThemeProvider theme={DAppTheme}>
+      <Web3Manager
+        pathname={pathname}
+        supportedChains={SUPPORTED_CHAINS[pathname]}
+        prevPathName={prevPathName}
+      >
+        {children}
+      </Web3Manager>
+    </ThemeProvider>
   ) : (
-    <>{children}</>
+    <ThemeProvider theme={LightTheme}>{children}</ThemeProvider>
   );
 };
 
