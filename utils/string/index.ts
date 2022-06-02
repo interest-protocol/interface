@@ -3,7 +3,7 @@ import { always, ifElse, isNil, toString } from 'ramda';
 import { Fraction, MAX_NUMBER_INPUT_VALUE, Rounding } from '@/sdk';
 
 export const shortAccount = (account: string): string =>
-  `${account.slice(0, 6)}...${account.slice(-5, -1)}`;
+  `${account.slice(0, 6)}...${account.slice(-4)}`;
 
 export const formatDollars = (money: number): string => {
   const [integralPart] = money.toString().split('.');
