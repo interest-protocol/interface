@@ -10,11 +10,7 @@ const MAILMarketPoolPage: NextPage = () => {
     query: { pool },
   } = useRouter();
 
-  return (
-    <Web3Manager supportedChains={[CHAIN_ID.RINKEBY]}>
-      <MAILMarketPool pool={pool as string} />
-    </Web3Manager>
-  );
+  return <MAILMarketPool pool={pool as string} />;
 };
 
 export default MAILMarketPoolPage;

@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
 
 import {
   addAllowance,
@@ -22,6 +23,7 @@ import {
   useIsMounted,
 } from '@/hooks';
 import { CHAIN_ID, DINERO_MARKET_CONTRACT_MAP } from '@/sdk';
+import { coreActions } from '@/state/core/core.actions';
 import {
   getBTCAddress,
   getDNRAddress,
@@ -57,6 +59,8 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
   const isMounted = useIsMounted();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const dispatch = useDispatch();
+
   const form = useForm<IBorrowForm>({
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -88,6 +92,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       throwError('Something went wrong', e);
     } finally {
       setIsSubmitting(false);
+      dispatch(coreActions.updateNativeBalance());
     }
   }, [account, chainId, tokenSymbol, signer]);
 
@@ -214,6 +219,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
     } finally {
       setIsSubmitting(false);
       await mutate();
+      dispatch(coreActions.updateNativeBalance());
     }
   }, [
     chainId,
@@ -299,6 +305,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
     } finally {
       setIsSubmitting(false);
       await mutate();
+      dispatch(coreActions.updateNativeBalance());
     }
   }, [
     account,

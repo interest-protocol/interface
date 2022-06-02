@@ -11,6 +11,7 @@ import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetSigner } from '@/hooks';
 import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk';
+import { coreActions } from '@/state/core/core.actions';
 import { userBalanceEntityActions } from '@/state/user-balances';
 import { userBalanceSelectById } from '@/state/user-balances/user-balances.selectors';
 import { IUserBalance } from '@/state/user-balances/user-balances.types';
@@ -99,6 +100,7 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
       },
       () => {
         setLoading(false);
+        dispatch(coreActions.updateNativeBalance());
       }
     );
 

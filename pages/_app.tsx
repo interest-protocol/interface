@@ -8,11 +8,12 @@ import { ReactNode, StrictMode } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import { Provider as ReduxProvider } from 'react-redux';
 
+import { Web3Manager } from '@/components';
 import { LightTheme } from '@/design-system';
 import GlobalStyles from '@/design-system/global-styles';
 import { store } from '@/state/index';
 
-const MyApp = ({ Component, pageProps }: AppProps): ReactNode => (
+const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
   <>
     <Head>
       <title>Interest Protocol</title>
@@ -24,7 +25,9 @@ const MyApp = ({ Component, pageProps }: AppProps): ReactNode => (
         <Global styles={GlobalStyles} />
         <StrictMode>
           <ReduxProvider store={store}>
-            <Component {...pageProps} />
+            <Web3Manager pathname={router.pathname}>
+              <Component {...pageProps} />
+            </Web3Manager>
           </ReduxProvider>
         </StrictMode>
       </SkeletonTheme>
