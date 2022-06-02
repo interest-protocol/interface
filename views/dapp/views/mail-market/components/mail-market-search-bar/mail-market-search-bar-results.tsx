@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
-import { head, nth } from 'ramda';
+import { head, nth, prop } from 'ramda';
 import { FC, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -21,8 +21,9 @@ import {
 } from '@/utils';
 
 import {
-  IMailMarketSearchItemData,
   MAILMarketSearchBarResultsProps,
+  SearchItemProps,
+  SearchItemWrapperProps,
 } from '../../mail-market.types';
 
 const [getIsDeployed, getName, getSymbol, getMarketAddress] = [
@@ -32,10 +33,7 @@ const [getIsDeployed, getName, getSymbol, getMarketAddress] = [
   nth(4),
 ];
 
-const SearchItem: FC<IMailMarketSearchItemData> = ({
-  address,
-  addLocalAsset,
-}) => {
+const SearchItem: FC<SearchItemProps> = ({ address, addLocalAsset, data }) => {
   const { push } = useRouter();
   const { signer, chainId, account } = useGetSigner();
 
@@ -54,10 +52,11 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
       if (isZeroAddress(address)) return;
 
       const tx = await createMailMarket(validId, validSigner, address);
-
       await showTXSuccessToast(tx);
     } catch (error) {
       throwError('Something went wrong', error);
+    } finally {
+      setCreateMarketLoading(false);
     }
   };
 
@@ -65,50 +64,11 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
     showToast(handleCreateMarket(), {
       loading: 'Creating...',
       success: () => {
-        setCreateMarketLoading(false);
         callback();
         return 'Success!';
       },
-      error: ({ message }) => message,
+      error: prop('message'),
     });
-
-  // data = [isDeployed, name, symbol, token, market address]
-  const { data, error } = useGetMailMarketMetadata(address);
-
-  if (error)
-    return (
-      <Box display="flex" alignItems="center" color="error">
-        <Box
-          width="1.2rem"
-          height="1.2rem"
-          border="1px solid"
-          borderRadius="50%"
-          alignItems="center"
-          display="inline-flex"
-          justifyContent="center"
-        >
-          <TimesSVG width="1rem" />
-        </Box>
-        <Box ml="M">
-          <Typography variant="normal" fontWeight="600">
-            Something went wrong!
-          </Typography>
-          <Typography variant="normal" fontSize="S" color="textSecondary">
-            Make sure the address is a ERC20 token
-          </Typography>
-        </Box>
-      </Box>
-    );
-
-  if (!data)
-    return (
-      <Box display="flex" alignItems="center">
-        <LoadingSVG width="1.2rem" />
-        <Typography variant="normal" ml="M">
-          Loading...
-        </Typography>
-      </Box>
-    );
 
   const handleClick = () => {
     addLocalAsset({
@@ -129,7 +89,7 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
     );
   };
 
-  const handleCreateToken = async () => await createMarket(handleClick);
+  const handleCreateToken = async () => createMarket(handleClick);
 
   const SVG =
     TOKENS_SVG_MAP[getSymbol(data) as string] ??
@@ -197,6 +157,53 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
   );
 };
 
+const SearchItemWrapper: FC<SearchItemWrapperProps> = ({
+  address,
+  addLocalAsset,
+}) => {
+  // data = [isDeployed, name, symbol, token, market address]
+  const { data, error } = useGetMailMarketMetadata(address);
+
+  if (error)
+    return (
+      <Box display="flex" alignItems="center" color="error">
+        <Box
+          width="1.2rem"
+          height="1.2rem"
+          border="1px solid"
+          borderRadius="50%"
+          alignItems="center"
+          display="inline-flex"
+          justifyContent="center"
+        >
+          <TimesSVG width="1rem" />
+        </Box>
+        <Box ml="M">
+          <Typography variant="normal" fontWeight="600">
+            Something went wrong!
+          </Typography>
+          <Typography variant="normal" fontSize="S" color="textSecondary">
+            Make sure the address is a ERC20 token
+          </Typography>
+        </Box>
+      </Box>
+    );
+
+  if (!data)
+    return (
+      <Box display="flex" alignItems="center">
+        <LoadingSVG width="1.2rem" />
+        <Typography variant="normal" ml="M">
+          Loading...
+        </Typography>
+      </Box>
+    );
+
+  return (
+    <SearchItem address={address} addLocalAsset={addLocalAsset} data={data} />
+  );
+};
+
 const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
   control,
   allMarkets,
@@ -254,7 +261,7 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
       borderRadius="L"
       position="absolute"
     >
-      <SearchItem
+      <SearchItemWrapper
         addLocalAsset={addLocalAsset}
         address={ethers.utils.getAddress(trimmedQuery)}
       />

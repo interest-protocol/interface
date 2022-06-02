@@ -8,5 +8,8 @@ import { useCallContract } from '../use-call-contract';
 export const useGetMailMarketMetadata = (token: string) => {
   const chainId = useSelector(getChainId) as number | null;
 
-  return useCallContract(chainId, getMAILMarketMetadata, [chainId, token]);
+  return useCallContract(chainId, getMAILMarketMetadata, [chainId, token], {
+    revalidateOnFocus: false,
+    refreshWhenHidden: false,
+  });
 };

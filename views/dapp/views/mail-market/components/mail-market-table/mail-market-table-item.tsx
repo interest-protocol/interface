@@ -74,8 +74,8 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                             {
                               name: data.name,
                               symbol: data.symbol,
-                              market: data.market,
-                              token: data.token,
+                              market: ethers.utils.getAddress(data.market),
+                              token: ethers.utils.getAddress(data.token),
                             },
                           ])
                   );
@@ -128,25 +128,27 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                 Borrow
               </Typography>
             </Box>,
-            ...MAIL_MARKET_ASSET_ARRAY.map((index) => (
-              <Box
-                key={v4()}
-                gridGap="L"
-                display="grid"
-                gridTemplateColumns={['50% 50%', '50% 50%', '50% 50%', '1fr']}
-              >
-                <Typography variant="normal">
-                  {`${Fraction.from(
-                    data.supplyRates[index].mul(BLOCKS_PER_YEAR[chainId]),
+            ...MAIL_MARKET_ASSET_ARRAY.map((index) =>
+              data.supplyRates[index] ? (
+                <Box
+                  key={v4()}
+                  gridGap="L"
+                  display="grid"
+                  gridTemplateColumns={['50% 50%', '50% 50%', '50% 50%', '1fr']}
+                >
+                  <Typography variant="normal">
+                    {`${Fraction.from(
+                      data.supplyRates[index].mul(BLOCKS_PER_YEAR[chainId]),
+                      ethers.utils.parseEther('0.01')
+                    ).toSignificant(4)}%`}
+                  </Typography>
+                  <Typography variant="normal">{`${Fraction.from(
+                    data.borrowRates[index].mul(BLOCKS_PER_YEAR[chainId]),
                     ethers.utils.parseEther('0.01')
-                  ).toSignificant(4)}%`}
-                </Typography>
-                <Typography variant="normal">{`${Fraction.from(
-                  data.borrowRates[index].mul(BLOCKS_PER_YEAR[chainId]),
-                  ethers.utils.parseEther('0.01')
-                ).toSignificant(4)}%`}</Typography>
-              </Box>
-            )),
+                  ).toSignificant(4)}%`}</Typography>
+                </Box>
+              ) : null
+            ),
           ],
         },
       ]}

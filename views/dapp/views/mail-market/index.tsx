@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { append, curryN, flip, o, prop } from 'ramda';
+import { append, compose, curryN, flip, prop, uniqBy } from 'ramda';
 import { FC, useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -35,8 +35,12 @@ const MAILMarket: FC = () => {
     localAssets.map(prop('token'))
   );
 
-  const addLocalAsset: AddLocalAsset = useCallback(
-    o(setLocalAssets, flippedAppend(localAssets)),
+  const addLocalAsset = useCallback(
+    compose(
+      setLocalAssets,
+      uniqBy(prop('token')),
+      flippedAppend(localAssets)
+    ) as AddLocalAsset,
     [localAssets]
   );
 
@@ -57,7 +61,7 @@ const MAILMarket: FC = () => {
             <Typography variant="normal" ml="M">
               Multi-asset Isolated Lending Markets
             </Typography>
-            {!!recommendedMarkets.length && (
+            {!!recommendedMarkets.length && localMarkets.length > 6 && (
               <Typography
                 color="accent"
                 variant="normal"

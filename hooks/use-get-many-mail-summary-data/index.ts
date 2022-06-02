@@ -38,9 +38,13 @@ export const useGetManyMailSummaryData = (
       ? MAIL_MARKET_RISKY_TOKENS_ARRAY[chainId].concat(additionalRiskyTokens)
       : [];
 
-  return useCallContract(chainId, getManyMAILSummaryData, [
+  return useCallContract(
     chainId,
-    tokens,
-    makeUniqueRiskyAssets(riskyAssets),
-  ]);
+    getManyMAILSummaryData,
+    [chainId, tokens, makeUniqueRiskyAssets(riskyAssets)],
+    {
+      revalidateOnFocus: false,
+      refreshWhenHidden: false,
+    }
+  );
 };
