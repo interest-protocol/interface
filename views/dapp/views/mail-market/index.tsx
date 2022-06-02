@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { append, curryN, flip, o, prop } from 'ramda';
+import { o, prop } from 'ramda';
 import { FC, useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { useGetManyMailSummaryData } from '@/hooks';
 import useLocalStorage from '@/hooks/use-storage';
 import { LocalMAILMarketData } from '@/interface';
 import { getChainId } from '@/state/core/core.selectors';
+import { flippedAppend } from '@/utils';
 import { processManyMailSummaryData } from '@/utils/mail-markets';
 
 import { Faucet } from '../../components';
@@ -19,8 +20,6 @@ import ErrorView from '../error';
 import { MAILMarketTable } from './components';
 import MAILMarketSearchInput from './components/mail-market-search-bar';
 import { AddLocalAsset } from './mail-market.types';
-
-const flippedAppend = curryN(2, flip(append));
 
 const MAILMarket: FC = () => {
   const { push } = useRouter();

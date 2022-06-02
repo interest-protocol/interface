@@ -23,9 +23,10 @@ const FaucetForm: FC<FaucetFormProps> = ({ tokens, local }) => {
     },
   });
 
-  const onSelectCurrency = (currency: string) => {
+  const onSelectCurrency = (currency: string, callback?: () => void) => {
     setValue('currency', currency);
     setValue('value', 0);
+    callback?.();
   };
 
   const data = tokens.map(({ symbol }) => ({
@@ -61,7 +62,7 @@ const FaucetForm: FC<FaucetFormProps> = ({ tokens, local }) => {
         justifyContent="space-evenly"
       >
         <FaucetSelectCurrency
-          local={!!local}
+          local={local}
           tokens={tokens}
           label="Choose Token"
           onSelectCurrency={onSelectCurrency}

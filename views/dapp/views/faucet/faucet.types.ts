@@ -19,7 +19,9 @@ export interface IFaucetForm {
 
 export interface FaucetSelectCurrencyProps {
   label: string;
-  local?: boolean;
+  local?: {
+    addLocalToken: AddLocalToken;
+  };
   defaultValue: string;
   tokens: ReadonlyArray<IToken>;
   onSelectCurrency: (currency: string) => void;
@@ -27,13 +29,7 @@ export interface FaucetSelectCurrencyProps {
 
 export interface FaucetFormProps {
   local?: {
-    setLocalTokens: (
-      token: ReadonlyArray<{
-        name: string;
-        symbol: string;
-        address: string;
-      }>
-    ) => void;
+    addLocalToken: AddLocalToken;
   };
   tokens: ReadonlyArray<IToken>;
 }
@@ -46,13 +42,16 @@ export interface CurrencyIdentifierProps {
   control: Control<IFaucetForm>;
 }
 export interface FaucetCurrencyDropdownProps {
-  local?: boolean;
+  local?: {
+    addLocalToken: AddLocalToken;
+  };
   Input: ReactNode;
   defaultValue: string;
   tokens: ReadonlyArray<IToken>;
   control: Control<{ search: string }>;
-  onSelectCurrency: (currency: string) => void;
+  onSelectCurrency: (currency: string, addLocalToken?: () => void) => void;
 }
+export type AddLocalToken = (item: IToken) => void;
 
 export interface FaucetSearchTokenProps {
   register: UseFormRegister<{ search: string }>;

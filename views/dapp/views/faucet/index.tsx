@@ -1,17 +1,24 @@
-import { FC } from 'react';
+import { o } from 'ramda';
+import { FC, useCallback } from 'react';
 
 import { Container } from '@/components';
 import { ETH_FAUCET_TOKENS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import useLocalStorage from '@/hooks/use-storage';
+import { flippedAppend } from '@/utils';
 
-import { IToken } from './faucet.types';
+import { AddLocalToken, IToken } from './faucet.types';
 import FaucetForm from './faucet-form';
 
 const Faucet: FC = () => {
   const [localTokens, setLocalTokens] = useLocalStorage<ReadonlyArray<IToken>>(
-    'localTokens',
+    'interest-protocol-tokens',
     []
+  );
+
+  const addLocalToken: AddLocalToken = useCallback(
+    o(setLocalTokens, flippedAppend(localTokens)),
+    [localTokens]
   );
 
   return (
@@ -30,7 +37,7 @@ const Faucet: FC = () => {
         <Typography variant="normal" mt="S">
           Local tokens
         </Typography>
-        <FaucetForm local={{ setLocalTokens }} tokens={localTokens} />
+        <FaucetForm local={{ addLocalToken }} tokens={localTokens} />
       </Container>
     </Box>
   );
