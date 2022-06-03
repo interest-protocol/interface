@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Control, UseFormRegister } from 'react-hook-form';
 
 export interface IToken {
-  name?: string;
+  name: string;
   symbol: string;
   address: string;
 }
@@ -13,24 +13,20 @@ export interface FaucetModalProps {
 }
 
 export interface IFaucetForm {
-  value: number;
-  currency: string;
+  amount: number;
+  token: string;
 }
 
 export interface FaucetSelectCurrencyProps {
   label: string;
-  local?: {
-    addLocalToken: AddLocalToken;
-  };
+  addLocalToken?: AddLocalToken;
   defaultValue: string;
   tokens: ReadonlyArray<IToken>;
   onSelectCurrency: (currency: string) => void;
 }
 
 export interface FaucetFormProps {
-  local?: {
-    addLocalToken: AddLocalToken;
-  };
+  addLocalToken?: AddLocalToken;
   tokens: ReadonlyArray<IToken>;
 }
 
@@ -40,11 +36,10 @@ export interface FaucetProps {
 
 export interface CurrencyIdentifierProps {
   control: Control<IFaucetForm>;
+  chainId: number;
 }
 export interface FaucetCurrencyDropdownProps {
-  local?: {
-    addLocalToken: AddLocalToken;
-  };
+  addLocalToken?: AddLocalToken;
   Input: ReactNode;
   defaultValue: string;
   tokens: ReadonlyArray<IToken>;

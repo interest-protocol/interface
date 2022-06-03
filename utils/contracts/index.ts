@@ -102,6 +102,18 @@ export const getMAILDeployerAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.MAIL_DEPLOYER
 );
 
+export const getLINKAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.LINK
+);
+
+export const getMANAAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.MANA
+);
+
+export const getSHIBAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.SHIB
+);
+
 export const getAddressWithSymbol = (chainId: number) =>
   cond([
     [equals(TOKEN_SYMBOL.BTC), always(getBTCAddress(chainId))],

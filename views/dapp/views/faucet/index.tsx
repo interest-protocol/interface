@@ -1,19 +1,29 @@
 import { o } from 'ramda';
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
 import { Container } from '@/components';
-import { ETH_FAUCET_TOKENS } from '@/constants';
+import { MAIL_FAUCET_TOKENS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import useLocalStorage from '@/hooks/use-storage';
+import { getChainId } from '@/state/core/core.selectors';
 import { flippedAppend } from '@/utils';
 
 import { AddLocalToken, IToken } from './faucet.types';
 import FaucetForm from './faucet-form';
 
 const Faucet: FC = () => {
+  const chainId = useSelector(getChainId) as number;
+
   const [localTokens, setLocalTokens] = useLocalStorage<ReadonlyArray<IToken>>(
-    'interest-protocol-tokens',
+    `${chainId}-interest-protocol-faucet-tokens`,
     []
+  );
+
+  const MAIL_TOKENS = useMemo(
+    () =>
+      chainId && MAIL_FAUCET_TOKENS[chainId] ? MAIL_FAUCET_TOKENS[chainId] : [],
+    [chainId]
   );
 
   const addLocalToken: AddLocalToken = useCallback(
@@ -33,11 +43,11 @@ const Faucet: FC = () => {
         <Typography variant="normal" mt="S">
           Recommended tokens
         </Typography>
-        <FaucetForm tokens={ETH_FAUCET_TOKENS} />
-        <Typography variant="normal" mt="S">
-          Local tokens
-        </Typography>
-        <FaucetForm local={{ addLocalToken }} tokens={localTokens} />
+        <FaucetForm tokens={MAIL_TOKENS} />
+        {/*<Typography variant="normal" mt="S">*/}
+        {/*  Local tokens*/}
+        {/*</Typography>*/}
+        {/*<FaucetForm addLocalToken={addLocalToken} tokens={localTokens} />*/}
       </Container>
     </Box>
   );

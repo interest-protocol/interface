@@ -53,7 +53,7 @@ const SearchItem: FC<SearchItemProps> = ({ address, addLocalAsset, data }) => {
       if (isZeroAddress(address)) return;
 
       const tx = await createMailMarket(validId, validSigner, address);
-      await showTXSuccessToast(tx);
+      await showTXSuccessToast(tx, validId);
     } catch (error) {
       throwError('Something went wrong', error);
     } finally {

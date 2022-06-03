@@ -8,10 +8,13 @@ import { tryCatch } from '@/utils/promise';
 import { ToastMsgs, ToastOpts } from './toast.types';
 
 export const showTXSuccessToast = async (
-  tx: ContractTransaction
+  tx: ContractTransaction,
+  chainId: number
 ): Promise<void> => {
   const receipt = await tx.wait(2);
-  const explorer = CHAINS[tx.chainId].blockExplorerUrls;
+
+  const explorer = CHAINS[chainId].blockExplorerUrls;
+
   toast(
     <a
       target="__black"

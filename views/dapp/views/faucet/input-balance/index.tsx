@@ -1,19 +1,14 @@
 import { FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
-import { TOKEN_SYMBOL } from '@/sdk';
 
 import { InputBalanceProps } from './input-balance.types';
 
-const CURRENCY_MAX = {
-  [TOKEN_SYMBOL.BTC]: 10,
-  [TOKEN_SYMBOL.DNR]: 10000,
-} as Record<TOKEN_SYMBOL, number>;
+const CURRENCY_MAX = 10000;
 
 const InputBalance: FC<InputBalanceProps> = ({
   name,
   label,
-  getValues,
   register,
   setValue,
   currencyPrefix,
@@ -28,7 +23,7 @@ const InputBalance: FC<InputBalanceProps> = ({
       step="0.0001"
       placeholder={'0'}
       {...register(name)}
-      max={CURRENCY_MAX[getValues().currency as TOKEN_SYMBOL]}
+      max={CURRENCY_MAX}
       shieldProps={{
         p: 'S',
         my: 'M',
@@ -54,8 +49,7 @@ const InputBalance: FC<InputBalanceProps> = ({
             active={{ bg: 'accentActive' }}
             onClick={() => {
               if (!setValue) return;
-              const currency = getValues('currency');
-              setValue(name, CURRENCY_MAX[currency as TOKEN_SYMBOL]);
+              setValue(name, CURRENCY_MAX);
             }}
           >
             max

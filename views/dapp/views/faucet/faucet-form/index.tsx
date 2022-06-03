@@ -1,47 +1,107 @@
-import { FC, useCallback, useState } from 'react';
+import { ethers } from 'ethers';
+import { pathOr, prop } from 'ramda';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { v4 } from 'uuid';
 
-import { TOKENS_SVG_MAP } from '@/constants';
+import { mintMAILFaucetToken } from '@/api';
+import {
+  DEFAULT_ERC_20_DECIMALS,
+  ERC_20_DATA,
+  TOKENS_SVG_MAP,
+} from '@/constants';
 import { Box, Button, Typography } from '@/elements';
+import { useGetSigner, useGetUserBalances } from '@/hooks';
+import { IntMath } from '@/sdk';
 import { TOKEN_SYMBOL } from '@/sdk';
+import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG } from '@/svg';
-import { formatMoney } from '@/utils';
+import {
+  formatMoney,
+  isSameAddress,
+  showToast,
+  showTXSuccessToast,
+  throwError,
+  throwIfInvalidSigner,
+} from '@/utils';
 
 import { FaucetFormProps, IFaucetForm } from '../faucet.types';
 import CurrencyIdentifier from '../faucet-currency-identidier';
 import FaucetSelectCurrency from '../faucet-select-currency';
 import InputBalance from '../input-balance';
+import { processGetUserBalances } from '../utilts';
 
-const FaucetForm: FC<FaucetFormProps> = ({ tokens, local }) => {
+const FaucetForm: FC<FaucetFormProps> = ({ tokens, addLocalToken }) => {
   const [loading, setLoading] = useState(false);
+  const { chainId, account, signer } = useGetSigner();
+  const { error, data } = useGetUserBalances(tokens.map(prop('address')));
+  const dispatch = useDispatch();
 
   const { register, getValues, setValue, control } = useForm<IFaucetForm>({
     defaultValues: {
-      currency: tokens?.[0]?.symbol ?? TOKEN_SYMBOL.Unknown,
-      value: 0,
+      token: tokens?.[0]?.address ?? ethers.constants.AddressZero,
+      amount: 0,
     },
   });
 
-  const onSelectCurrency = (currency: string, callback?: () => void) => {
-    setValue('currency', currency);
-    setValue('value', 0);
-    callback?.();
+  const onSelectCurrency = (token: string) => {
+    setValue('token', token);
+    setValue('amount', 0);
   };
 
-  const data = tokens.map(({ symbol }) => ({
-    currency: { symbol },
-    balance: 97842,
-  }));
+  const processedData = useMemo(
+    () => processGetUserBalances(tokens, data),
+    [tokens, data]
+  );
 
-  const onMint = useCallback(async () => {
-    setLoading(true);
-    console.log('>> Mint');
-    const timeout = setTimeout(() => {
+  const handleOnMint = useCallback(async () => {
+    try {
+      setLoading(true);
+
+      const amount = getValues('amount');
+      const token = getValues('token');
+
+      if (!amount || isSameAddress(token, ethers.constants.AddressZero)) return;
+
+      const { validSigner, validId } = throwIfInvalidSigner(
+        [account],
+        chainId,
+        signer
+      );
+
+      const decimals = pathOr(
+        DEFAULT_ERC_20_DECIMALS,
+        [validId, ethers.utils.getAddress(token), 'decimals'],
+        ERC_20_DATA
+      );
+
+      const tx = await mintMAILFaucetToken(
+        validSigner,
+        token,
+        account,
+        IntMath.toBigNumber(amount, decimals)
+      );
+
+      await showTXSuccessToast(tx, validId);
+    } catch (error) {
+      throwError('Something went wrong', error);
+    } finally {
       setLoading(false);
-      clearTimeout(timeout);
-    }, Math.random() * 3000);
-  }, []);
+      dispatch(coreActions.updateNativeBalance());
+    }
+  }, [chainId, signer, account]);
+
+  const onMint = () =>
+    showToast(handleOnMint(), {
+      loading: 'Minting...',
+      success: 'Success!',
+      error: prop('message'),
+    });
+
+  if (error) return <div>error</div>;
+
+  if (!data) return <div>loading</div>;
 
   return (
     <Box
@@ -62,21 +122,21 @@ const FaucetForm: FC<FaucetFormProps> = ({ tokens, local }) => {
         justifyContent="space-evenly"
       >
         <FaucetSelectCurrency
-          local={local}
+          addLocalToken={addLocalToken}
           tokens={tokens}
           label="Choose Token"
           onSelectCurrency={onSelectCurrency}
-          defaultValue={getValues('currency')}
+          defaultValue={getValues('token')}
         />
         <InputBalance
-          name="value"
+          name="amount"
           register={register}
           label="Type Amount"
           setValue={setValue}
-          getValues={getValues}
-          currencyPrefix={<CurrencyIdentifier control={control} />}
+          currencyPrefix={
+            <CurrencyIdentifier control={control} chainId={chainId || 0} />
+          }
         />
-
         <Box display="flex">
           <Button
             width="100%"
@@ -103,15 +163,15 @@ const FaucetForm: FC<FaucetFormProps> = ({ tokens, local }) => {
         <Typography variant="normal" textTransform="uppercase" mt="L">
           Your balance:
         </Typography>
-        {(local
-          ? data.filter(
-              ({ currency }) => currency.symbol === getValues('currency')
-            )
-          : data
-        ).map((x) => {
+        {processedData.map((x) => {
           const SVG =
-            TOKENS_SVG_MAP[x.currency.symbol] ??
-            TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+            TOKENS_SVG_MAP[x.symbol] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+
+          const decimals = pathOr(
+            DEFAULT_ERC_20_DECIMALS,
+            [chainId || 0, ethers.utils.getAddress(x.address), 'decimals'],
+            ERC_20_DATA
+          );
 
           return (
             <Box
@@ -123,11 +183,11 @@ const FaucetForm: FC<FaucetFormProps> = ({ tokens, local }) => {
               <Box display="flex">
                 <SVG width="1rem" height="1rem" />
                 <Typography ml="M" variant="normal">
-                  {formatMoney(x.balance)}
+                  {formatMoney(IntMath.toNumber(x.balance, decimals))}
                 </Typography>
               </Box>
               <Typography variant="normal" color="textSecondary">
-                {x.currency.symbol}
+                {x.symbol}
               </Typography>
             </Box>
           );

@@ -67,7 +67,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         getCasaDePapelAddress(validId)
       );
 
-      await showTXSuccessToast(tx);
+      await showTXSuccessToast(tx, validId);
       await mutate();
     } catch (e) {
       throwError('Failed to approve', e);
@@ -96,7 +96,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         ZERO_BIG_NUMBER
       );
 
-      await showTXSuccessToast(tx);
+      await showTXSuccessToast(tx, validId);
       await mutate();
     } catch (e) {
       throwError('Failed to harvest rewards', e);
@@ -130,7 +130,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
           amount.gt(processedData.balance) ? processedData.balance : amount
         );
 
-        await showTXSuccessToast(tx);
+        await showTXSuccessToast(tx, validId);
         await mutate();
       } catch (e) {
         throwError('Failed to deposit', e);
@@ -164,7 +164,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
             : amount
         );
 
-        await showTXSuccessToast(tx);
+        await showTXSuccessToast(tx, validId);
         await mutate();
       } catch (e) {
         throw e || new Error('Something Went Wrong');

@@ -28,13 +28,13 @@ const BLOCKCHAIN_DATA = [
 
 const renderData = (
   data: ReadonlyArray<IToken>,
-  onSelectCurrency: (symbol: string) => void
+  onSelectCurrency: (address: string) => void
 ): ReadonlyArray<IDropdownData> =>
-  data.map(({ symbol }) => {
+  data.map(({ symbol, address }) => {
     const SVG = TOKENS_SVG_MAP[symbol] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
     return {
-      onSelect: () => onSelectCurrency(symbol),
+      onSelect: () => onSelectCurrency(address),
       displayOption: symbol,
       displayTitle: (
         <Box
@@ -67,7 +67,7 @@ const renderData = (
 
 const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
   Input,
-  local,
+  addLocalToken,
   tokens,
   control,
   defaultValue,
@@ -96,7 +96,7 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
     onSelectCurrency(
       currency,
       !isLocal
-        ? () => local?.addLocalToken(data.find(propEq('symbol', currency))!)
+        ? () => addLocalToken?.(data.find(propEq('symbol', currency))!)
         : undefined
     );
 
@@ -130,7 +130,7 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
           <ArrowSVG width="0.5rem" />
         </Box>
       }
-      header={local ? Input : undefined}
+      header={addLocalToken ? Input : undefined}
       data={renderData(data, handleSelectCurrency)}
     />
   );

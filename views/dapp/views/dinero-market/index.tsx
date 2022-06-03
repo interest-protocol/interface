@@ -87,7 +87,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
         DINERO_MARKET_CONTRACT_MAP[validId][tokenSymbol]
       );
 
-      await showTXSuccessToast(tx);
+      await showTXSuccessToast(tx, validId);
     } catch (e) {
       throwError('Something went wrong', e);
     } finally {
@@ -178,7 +178,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
             : principal
         );
 
-        await showTXSuccessToast(tx);
+        await showTXSuccessToast(tx, validId);
 
         return;
       }
@@ -199,7 +199,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
             : bnCollateral
         );
 
-        await showTXSuccessToast(tx);
+        await showTXSuccessToast(tx, validId);
         return;
       }
 
@@ -212,7 +212,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
           principal
         );
 
-        await showTXSuccessToast(tx);
+        await showTXSuccessToast(tx, validId);
       }
     } catch (e: unknown) {
       throwContractCallError(e);
@@ -264,7 +264,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
           safeToBigNumber(loan)
         );
 
-        await showTXSuccessToast(tx);
+        await showTXSuccessToast(tx, validId);
 
         return;
       }
@@ -285,7 +285,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
             : bnCollateral
         );
 
-        await showTXSuccessToast(tx);
+        await showTXSuccessToast(tx, validId);
         return;
       }
 
@@ -298,7 +298,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
           safeToBigNumber(loan)
         );
 
-        await showTXSuccessToast(tx);
+        await showTXSuccessToast(tx, validId);
       }
     } catch (e: unknown) {
       throwContractCallError(e);

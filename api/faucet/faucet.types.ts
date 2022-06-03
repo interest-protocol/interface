@@ -5,3 +5,10 @@ export type MintFaucetToken = (
   signer: JsonRpcSigner,
   amount: BigNumber
 ) => Promise<ethers.ContractTransaction>;
+
+export type MintMAILFaucetToken = (
+  signer: JsonRpcSigner,
+  token: string,
+  account: string,
+  amount: BigNumber
+) => Promise<ethers.ContractTransaction>;
