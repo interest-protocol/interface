@@ -1,7 +1,10 @@
 import { ethers } from 'ethers';
+import dynamic from 'next/dynamic';
 import { pathOr, prop } from 'ramda';
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import Skeleton from 'react-loading-skeleton';
 import { useDispatch } from 'react-redux';
 import { v4 } from 'uuid';
 
@@ -12,11 +15,11 @@ import {
   TOKENS_SVG_MAP,
 } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
-import { useGetSigner, useGetUserBalances } from '@/hooks';
+import { useGetSigner, useIsMounted } from '@/hooks';
 import { IntMath } from '@/sdk';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
-import { LoadingSVG } from '@/svg';
+import { CopySVG, LoadingSVG, TimesSVG } from '@/svg';
 import {
   formatMoney,
   isSameAddress,
@@ -30,13 +33,19 @@ import { FaucetFormProps, IFaucetForm } from '../faucet.types';
 import CurrencyIdentifier from '../faucet-currency-identidier';
 import FaucetSelectCurrency from '../faucet-select-currency';
 import InputBalance from '../input-balance';
-import { processGetUserBalances } from '../utilts';
 
-const FaucetForm: FC<FaucetFormProps> = ({ tokens, addLocalToken }) => {
+const Tooltip = dynamic(() => import('react-tooltip'));
+
+const FaucetForm: FC<FaucetFormProps> = ({
+  tokens,
+  isLoadingData,
+  addLocalToken,
+  removeLocalToken,
+}) => {
+  const dispatch = useDispatch();
+  const isMounted = useIsMounted();
   const [loading, setLoading] = useState(false);
   const { chainId, account, signer } = useGetSigner();
-  const { error, data } = useGetUserBalances(tokens.map(prop('address')));
-  const dispatch = useDispatch();
 
   const { register, getValues, setValue, control } = useForm<IFaucetForm>({
     defaultValues: {
@@ -45,15 +54,11 @@ const FaucetForm: FC<FaucetFormProps> = ({ tokens, addLocalToken }) => {
     },
   });
 
-  const onSelectCurrency = (token: string) => {
+  const onSelectCurrency = (token: string, callback?: () => void) => {
     setValue('token', token);
     setValue('amount', 0);
+    callback?.();
   };
-
-  const processedData = useMemo(
-    () => processGetUserBalances(tokens, data),
-    [tokens, data]
-  );
 
   const handleOnMint = useCallback(async () => {
     try {
@@ -99,101 +104,174 @@ const FaucetForm: FC<FaucetFormProps> = ({ tokens, addLocalToken }) => {
       error: prop('message'),
     });
 
-  if (error) return <div>error</div>;
-
-  if (!data) return <div>loading</div>;
+  const copyToClipboard = (address: string) => () => {
+    window.navigator.clipboard.writeText(address || '');
+    toast('Copied to clipboard');
+  };
 
   return (
-    <Box
-      color="text"
-      width="100%"
-      display="grid"
-      gridGap="1rem"
-      gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
-    >
+    <>
       <Box
-        py="L"
-        my="XL"
-        display="flex"
-        bg="foreground"
-        px={['L', 'XL']}
-        borderRadius="M"
-        flexDirection="column"
-        justifyContent="space-evenly"
+        color="text"
+        width="100%"
+        height="22rem"
+        display="grid"
+        gridGap="1rem"
+        gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
       >
-        <FaucetSelectCurrency
-          addLocalToken={addLocalToken}
-          tokens={tokens}
-          label="Choose Token"
-          onSelectCurrency={onSelectCurrency}
-          defaultValue={getValues('token')}
-        />
-        <InputBalance
-          name="amount"
-          register={register}
-          label="Type Amount"
-          setValue={setValue}
-          currencyPrefix={
-            <CurrencyIdentifier control={control} chainId={chainId || 0} />
-          }
-        />
-        <Box display="flex">
-          <Button
-            width="100%"
-            onClick={onMint}
-            variant="primary"
-            disabled={loading}
-            hover={{ bg: 'accentAlternativeActive' }}
-            bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
-          >
-            {loading ? (
-              <Box as="span" display="flex" justifyContent="center">
-                <LoadingSVG width="1rem" height="1rem" />
-                <Typography as="span" variant="normal" ml="M" fontSize="S">
-                  Minting...
-                </Typography>
-              </Box>
-            ) : (
-              'Mint'
-            )}
-          </Button>
+        <Box
+          py="L"
+          my="XL"
+          display="flex"
+          bg="foreground"
+          px={['L', 'XL']}
+          borderRadius="M"
+          flexDirection="column"
+          justifyContent="space-evenly"
+        >
+          <FaucetSelectCurrency
+            tokens={tokens}
+            label="Choose Token"
+            addLocalToken={addLocalToken}
+            defaultValue={getValues('token')}
+            onSelectCurrency={onSelectCurrency}
+          />
+          <InputBalance
+            name="amount"
+            register={register}
+            label="Type Amount"
+            setValue={setValue}
+            currencyPrefix={
+              isLoadingData ? (
+                <Skeleton width="4rem" />
+              ) : (
+                <CurrencyIdentifier tokens={tokens} control={control} />
+              )
+            }
+          />
+          <Box display="flex">
+            <Button
+              width="100%"
+              onClick={onMint}
+              variant="primary"
+              disabled={loading}
+              hover={{ bg: 'accentAlternativeActive' }}
+              bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
+            >
+              {loading ? (
+                <Box as="span" display="flex" justifyContent="center">
+                  <LoadingSVG width="1rem" height="1rem" />
+                  <Typography as="span" variant="normal" ml="M" fontSize="S">
+                    Minting...
+                  </Typography>
+                </Box>
+              ) : (
+                'Mint'
+              )}
+            </Button>
+          </Box>
+        </Box>
+        <Box
+          py="L"
+          my="XL"
+          display="flex"
+          bg="foreground"
+          px={['L', 'XL']}
+          borderRadius="M"
+          overflowY="hidden"
+          flexDirection="column"
+        >
+          <Typography variant="normal" textTransform="uppercase" my="L">
+            Your balance:
+          </Typography>
+          <Box overflowY="auto" flex="1">
+            {isLoadingData
+              ? Array.from({ length: 5 }).map(() => (
+                  <Box mb="L" key={v4()}>
+                    <Skeleton height="1rem" />
+                  </Box>
+                ))
+              : tokens.map(({ symbol, address, balance }) => {
+                  const SVG =
+                    TOKENS_SVG_MAP[symbol] ??
+                    TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+
+                  const decimals = pathOr(
+                    DEFAULT_ERC_20_DECIMALS,
+                    [
+                      chainId || 0,
+                      ethers.utils.getAddress(address),
+                      'decimals',
+                    ],
+                    ERC_20_DATA
+                  );
+
+                  return (
+                    <Box
+                      mb="L"
+                      mr="M"
+                      key={v4()}
+                      display="flex"
+                      justifyContent="space-between"
+                    >
+                      <Box display="flex" alignItems="center">
+                        <SVG width="1rem" height="1rem" />
+                        <Typography ml="M" variant="normal">
+                          {formatMoney(IntMath.toNumber(balance, decimals))}
+                        </Typography>
+                      </Box>
+                      <Box
+                        display="grid"
+                        alignItems="center"
+                        gridTemplateColumns={`4rem 2rem ${
+                          addLocalToken ? '2rem' : ''
+                        }`}
+                      >
+                        <Typography variant="normal" color="textSecondary">
+                          {symbol}
+                        </Typography>
+                        <Box
+                          mr="M"
+                          as="span"
+                          cursor="pointer"
+                          color="textSecondary"
+                          data-tip="Copy Address"
+                          hover={{ color: 'accent' }}
+                          onClick={copyToClipboard(address)}
+                        >
+                          <CopySVG width="1rem" />
+                        </Box>
+                        {removeLocalToken && (
+                          <Box
+                            color="error"
+                            display="flex"
+                            width="1.3rem"
+                            height="1.3rem"
+                            cursor="pointer"
+                            borderRadius="S"
+                            border="1px solid"
+                            alignItems="center"
+                            justifyContent="center"
+                            hover={{
+                              color: 'errorActive',
+                            }}
+                            onClick={() => removeLocalToken(address)}
+                          >
+                            <TimesSVG width="1rem" />
+                          </Box>
+                        )}
+                      </Box>
+                    </Box>
+                  );
+                })}
+          </Box>
         </Box>
       </Box>
-      <Box py="L" my="XL" bg="foreground" px={['L', 'XL']} borderRadius="M">
-        <Typography variant="normal" textTransform="uppercase" mt="L">
-          Your balance:
-        </Typography>
-        {processedData.map((x) => {
-          const SVG =
-            TOKENS_SVG_MAP[x.symbol] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
-
-          const decimals = pathOr(
-            DEFAULT_ERC_20_DECIMALS,
-            [chainId || 0, ethers.utils.getAddress(x.address), 'decimals'],
-            ERC_20_DATA
-          );
-
-          return (
-            <Box
-              key={v4()}
-              display="flex"
-              justifyContent="space-between"
-              my="L"
-            >
-              <Box display="flex">
-                <SVG width="1rem" height="1rem" />
-                <Typography ml="M" variant="normal">
-                  {formatMoney(IntMath.toNumber(x.balance, decimals))}
-                </Typography>
-              </Box>
-              <Typography variant="normal" color="textSecondary">
-                {x.symbol}
-              </Typography>
-            </Box>
-          );
-        })}
-      </Box>
-    </Box>
+      {isMounted.current && (
+        <Tooltip place="top" type="dark" effect="solid" multiline />
+      )}
+    </>
   );
 };
+
 export default FaucetForm;

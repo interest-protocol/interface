@@ -67,10 +67,10 @@ const renderData = (
 
 const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
   Input,
-  addLocalToken,
   tokens,
   control,
   defaultValue,
+  addLocalToken,
   onSelectCurrency,
 }) => {
   const search = useWatch({ control, name: 'search' });
@@ -85,6 +85,7 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
     return data.length
       ? { data, isLocal: true }
       : {
+          // TODO: get token from blockchain,
           data: BLOCKCHAIN_DATA.filter(
             ({ address }) => isAddress(search) && address == search
           ),
@@ -92,11 +93,14 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
         };
   }, [search]);
 
-  const handleSelectCurrency = (currency: string) =>
+  const handleSelectCurrency = (address: string) =>
     onSelectCurrency(
-      currency,
+      address,
       !isLocal
-        ? () => addLocalToken?.(data.find(propEq('symbol', currency))!)
+        ? () => {
+            const token = data.find(propEq('address', address));
+            if (token) addLocalToken?.(token);
+          }
         : undefined
     );
 

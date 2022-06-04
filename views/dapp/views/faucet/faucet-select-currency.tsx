@@ -9,9 +9,9 @@ import FaucetTokensDropdown from './faucet-tokens.dropdown';
 
 const FaucetSelectCurrency: FC<FaucetSelectCurrencyProps> = ({
   label,
-  addLocalToken,
   tokens,
   defaultValue,
+  addLocalToken,
   onSelectCurrency,
 }) => {
   const { control, register } = useForm({
@@ -33,10 +33,10 @@ const FaucetSelectCurrency: FC<FaucetSelectCurrencyProps> = ({
       </Typography>
       <Box my="M" display="flex" flexDirection="column" alignItems="stretch">
         <FaucetTokensDropdown
-          addLocalToken={addLocalToken}
           tokens={tokens}
           control={control}
           defaultValue={defaultValue}
+          addLocalToken={addLocalToken}
           onSelectCurrency={onSelectCurrency}
           Input={<FaucetSearchToken register={register} />}
         />

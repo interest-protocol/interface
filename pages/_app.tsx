@@ -19,16 +19,16 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
       <meta name="viewport" content="width=device-width, initial-scale=1" />
     </Head>
     <NextProgress options={{ showSpinner: false }} />
-    <SkeletonTheme baseColor="#202020" highlightColor="#444">
-      <Global styles={GlobalStyles} />
-      <StrictMode>
-        <ReduxProvider store={store}>
-          <Web3Manager pathname={router.pathname}>
+    <ReduxProvider store={store}>
+      <SkeletonTheme baseColor="#202020" highlightColor="#444">
+        <Global styles={GlobalStyles} />
+        <Web3Manager pathname={router.pathname}>
+          <StrictMode>
             <Component {...pageProps} />
-          </Web3Manager>
-        </ReduxProvider>
-      </StrictMode>
-    </SkeletonTheme>
+          </StrictMode>
+        </Web3Manager>
+      </SkeletonTheme>
+    </ReduxProvider>
   </>
 );
 

@@ -199,7 +199,7 @@ const BNB_TEST_ERC20_ARRAY = [
   },
 ];
 
-const makeERC20Record = reduce(
+export const makeERC20Record = reduce(
   (acc, data: typeof BNB_TEST_ERC20_ARRAY[0]) => ({
     ...acc,
     [ethers.utils.getAddress(data.address)]: ERC20.from(

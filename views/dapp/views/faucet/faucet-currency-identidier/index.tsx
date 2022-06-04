@@ -1,34 +1,34 @@
-import { ethers } from 'ethers';
-import { pathOr } from 'ramda';
+import { getAddress } from 'ethers/lib/utils';
+import { find, pathOr, propEq } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { ERC_20_DATA, TOKENS_SVG_MAP } from '@/constants';
-import Box from '@/elements/box';
+import { TOKENS_SVG_MAP } from '@/constants';
+import { Box, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 
 import { CurrencyIdentifierProps } from '../faucet.types';
 
 const CurrencyIdentifier: FC<CurrencyIdentifierProps> = ({
+  tokens,
   control,
-  chainId,
 }) => {
   const tokenAddress = useWatch({ control, name: 'token' });
 
   const symbol = pathOr(
-    '???',
-    [chainId || 0, ethers.utils.getAddress(tokenAddress), 'symbol'],
-    ERC_20_DATA
+    TOKEN_SYMBOL.Unknown,
+    ['symbol'],
+    find(propEq('address', getAddress(tokenAddress)), tokens)
   );
 
   const Icon = TOKENS_SVG_MAP[symbol] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
   return (
     <Box display="flex" alignItems="center">
-      <Box mr="M">
-        <Icon width="1rem" />
-      </Box>
-      {symbol}
+      <Icon width="1rem" />
+      <Typography variant="normal" ml="M">
+        {symbol}
+      </Typography>
     </Box>
   );
 };

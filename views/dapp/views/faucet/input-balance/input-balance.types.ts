@@ -1,9 +1,5 @@
 import { ReactNode } from 'react';
-import {
-  UseFormGetValues,
-  UseFormRegister,
-  UseFormSetValue,
-} from 'react-hook-form';
+import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
 import { IFaucetForm } from './../faucet.types';
 

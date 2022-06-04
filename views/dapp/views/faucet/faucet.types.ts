@@ -1,3 +1,4 @@
+import { BigNumber } from 'ethers';
 import { ReactNode } from 'react';
 import { Control, UseFormRegister } from 'react-hook-form';
 
@@ -22,12 +23,14 @@ export interface FaucetSelectCurrencyProps {
   addLocalToken?: AddLocalToken;
   defaultValue: string;
   tokens: ReadonlyArray<IToken>;
-  onSelectCurrency: (currency: string) => void;
+  onSelectCurrency: (currency: string, callback?: () => void) => void;
 }
 
 export interface FaucetFormProps {
+  isLoadingData: boolean;
   addLocalToken?: AddLocalToken;
-  tokens: ReadonlyArray<IToken>;
+  removeLocalToken?: RemoveLocalToken;
+  tokens: ReadonlyArray<IToken & { balance: BigNumber }>;
 }
 
 export interface FaucetProps {
@@ -36,7 +39,7 @@ export interface FaucetProps {
 
 export interface CurrencyIdentifierProps {
   control: Control<IFaucetForm>;
-  chainId: number;
+  tokens: ReadonlyArray<IToken & { balance: BigNumber }>;
 }
 export interface FaucetCurrencyDropdownProps {
   addLocalToken?: AddLocalToken;
@@ -48,6 +51,13 @@ export interface FaucetCurrencyDropdownProps {
 }
 export type AddLocalToken = (item: IToken) => void;
 
+export type RemoveLocalToken = (address: string) => void;
+
 export interface FaucetSearchTokenProps {
   register: UseFormRegister<{ search: string }>;
+}
+
+export interface CreateTokenFormProps {
+  handleClose: () => void;
+  addLocalToken: AddLocalToken;
 }
