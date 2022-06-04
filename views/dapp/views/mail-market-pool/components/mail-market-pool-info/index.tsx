@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import toast from 'react-hot-toast';
 
 import { Box, Typography } from '@/elements';
 import { CopySVG, InfoSVG, InterestTokenSVG, UniSwapSVG } from '@/svg';
@@ -6,12 +7,17 @@ import { shortAccount } from '@/utils';
 
 import { MAILMarketPoolProps } from '../../mail-market-pool.types';
 
-const MAILMarketPoolInfo: FC<MAILMarketPoolProps> = ({ pool }) => {
+const MAILMarketPoolInfo: FC<MAILMarketPoolProps> = () => {
   const data = {
     Icon: UniSwapSVG,
     name: 'Uni Swap',
     symbol: 'UNI',
     address: '0x9Bec2E1FFeF1F35e1F13c1E4ec290Ac39B88e235',
+  };
+
+  const copyToClipboard = () => {
+    window.navigator.clipboard.writeText(data.address || '');
+    toast('Copied to clipboard');
   };
 
   return (
@@ -39,6 +45,7 @@ const MAILMarketPoolInfo: FC<MAILMarketPoolProps> = ({ pool }) => {
               <Box
                 display="flex"
                 alignItems="center"
+                onClick={copyToClipboard}
                 hover={{ color: 'hover' }}
               >
                 <CopySVG width="1rem" />
