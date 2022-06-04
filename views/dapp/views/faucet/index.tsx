@@ -44,7 +44,7 @@ const Faucet: FC = () => {
 
   const addLocalToken: AddLocalToken = useCallback(
     o(setLocalTokens, flippedAppend(localTokens)),
-    [localTokens]
+    [localTokens, setLocalTokens]
   );
   const removeLocalToken: RemoveLocalToken = useCallback(
     (address: string) =>
