@@ -12,8 +12,12 @@ const MAILMarketPoolNetApr: FC<MAILMarketLoadingProps> = ({ loading }) => {
       <Typography mb="M" variant="normal" pb="L">
         My Net APR
       </Typography>
-      <Box display="grid" gridTemplateColumns="1fr 1fr 1fr">
-        <Box>
+      <Box display="grid" gridTemplateColumns="1fr 1fr 1fr" gridGap="1rem">
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="space-between"
+        >
           <Typography
             mb="M"
             fontSize="S"
@@ -27,7 +31,11 @@ const MAILMarketPoolNetApr: FC<MAILMarketLoadingProps> = ({ loading }) => {
             {loading ? <Skeleton width="80%" /> : '20%'}
           </Typography>
         </Box>
-        <Box>
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="space-between"
+        >
           <Typography
             mb="M"
             fontSize="S"
@@ -46,7 +54,11 @@ const MAILMarketPoolNetApr: FC<MAILMarketLoadingProps> = ({ loading }) => {
             {loading ? <Skeleton width="80%" /> : '20%'}
           </Typography>
         </Box>
-        <Box>
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="space-between"
+        >
           <Typography
             mb="M"
             fontSize="S"

@@ -1,19 +1,22 @@
 import { FC } from 'react';
 
 import { Box, Typography } from '@/elements';
-import { InfoSVG, InterestTokenSVG } from '@/svg';
+import { CopySVG, InfoSVG, InterestTokenSVG, UniSwapSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
-import { MAIL_MARKET_DATA } from '../../../mail-market/mail-market.data';
 import { MAILMarketPoolProps } from '../../mail-market-pool.types';
 
 const MAILMarketPoolInfo: FC<MAILMarketPoolProps> = ({ pool }) => {
-  const data = MAIL_MARKET_DATA.find(({ address }) => address == pool);
+  const data = {
+    Icon: UniSwapSVG,
+    name: 'Uni Swap',
+    symbol: 'UNI',
+    address: '0x9Bec2E1FFeF1F35e1F13c1E4ec290Ac39B88e235',
+  };
 
   return (
     <Box
-      p="L"
-      px="XXL"
+      p="XL"
       display="flex"
       bg="foreground"
       borderRadius="L"
@@ -29,9 +32,18 @@ const MAILMarketPoolInfo: FC<MAILMarketPoolProps> = ({ pool }) => {
             <Typography variant="normal" my="M">
               {data.name} ({data.symbol})
             </Typography>
-            <Typography variant="normal" my="M" color="textSecondary">
-              {shortAccount(data.address)}
-            </Typography>
+            <Box display="flex" alignItems="center">
+              <Typography variant="normal" my="M" color="textSecondary" mr="M">
+                {shortAccount(data.address)}
+              </Typography>
+              <Box
+                display="flex"
+                alignItems="center"
+                hover={{ color: 'hover' }}
+              >
+                <CopySVG width="1rem" />
+              </Box>
+            </Box>
           </Box>
         </Box>
       ) : (

@@ -62,13 +62,12 @@ const Faucet: FC = () => {
         <Container
           dapp
           px="M"
-          py="XXL"
           width="100%"
           position="relative"
+          py={['XL', 'XL', 'XL', 'XXL']}
           background="specialBackground"
         >
           <Box
-            textAlign={['center', 'center', 'center', 'left']}
             left={['unset', 'unset', '-5rem', 'unset', '-5rem']}
             position={['static', 'static', 'absolute', 'static', 'absolute']}
           >

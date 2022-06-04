@@ -12,9 +12,10 @@ const FaucetSearchToken: FC<FaucetSearchTokenProps> = ({ register }) => (
     placeholder="Type the address"
     shieldProps={{
       py: 'M',
-      width: '25rem',
+      width: '100%',
       bg: 'background',
       borderRadius: 'S',
+      minWidth: ['15rem', '15rem', '15rem', '25rem'],
     }}
   />
 );

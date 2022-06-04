@@ -112,16 +112,16 @@ const FaucetForm: FC<FaucetFormProps> = ({
   return (
     <>
       <Box
+        py="XL"
         color="text"
         width="100%"
-        height="22rem"
         display="grid"
         gridGap="1rem"
+        height={['auto', 'auto', 'auto', '22rem']}
         gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
       >
         <Box
           py="L"
-          my="XL"
           display="flex"
           bg="foreground"
           px={['L', 'XL']}
@@ -173,11 +173,11 @@ const FaucetForm: FC<FaucetFormProps> = ({
         </Box>
         <Box
           py="L"
-          my="XL"
           display="flex"
           bg="foreground"
           px={['L', 'XL']}
           borderRadius="M"
+          maxHeight="22rem"
           overflowY="hidden"
           flexDirection="column"
         >

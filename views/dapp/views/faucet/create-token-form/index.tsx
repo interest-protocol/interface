@@ -87,7 +87,7 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
     });
 
   return (
-    <Box>
+    <Box width={['90vw', '70vw', '50vw', '30rem']}>
       <Box display="flex" justifyContent="flex-end">
         <Button
           px="L"
