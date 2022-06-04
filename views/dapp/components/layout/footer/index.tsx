@@ -95,7 +95,7 @@ const Footer: FC = () => {
                   boxShadow="0 0 15px rgba(0,0,0,.3)"
                   color={
                     pathname === Routes[RoutesEnum.DApp] ||
-                    pathname.includes(Routes[RoutesEnum.Borrow])
+                    pathname.includes(Routes[RoutesEnum.DineroMarket])
                       ? 'accent'
                       : 'inherit'
                   }

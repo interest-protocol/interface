@@ -25,7 +25,9 @@ const DineroMarketSwitch: FC<DineroMarketSwitchProps> = ({
   const switchTo = (targetMode: 'borrow' | 'repay') => () => {
     FORM_FIELDS.forEach((name) => resetField(name));
     push(
-      `${Routes[RoutesEnum.Borrow]}?mode=${targetMode}&currency=${tokenSymbol}`,
+      `${
+        Routes[RoutesEnum.DineroMarket]
+      }?mode=${targetMode}&currency=${tokenSymbol}`,
       undefined,
       {
         shallow: true,

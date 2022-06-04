@@ -102,7 +102,7 @@ const Header: FC = () => {
                 variant="normal"
                 color={
                   pathname === Routes[RoutesEnum.DApp] ||
-                  pathname.includes(Routes[RoutesEnum.Borrow])
+                  pathname.includes(Routes[RoutesEnum.DineroMarket])
                     ? 'accent'
                     : 'inherit'
                 }

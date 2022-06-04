@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { Box, Input, Typography } from '@/elements';
 
-import { FieldProps } from './configuration.types';
+import { FieldProps } from './settings.types';
 
 const Field: FC<FieldProps> = ({
   label,

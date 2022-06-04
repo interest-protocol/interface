@@ -2,7 +2,7 @@ import { ThemeProvider } from '@emotion/react';
 import { FC, useEffect, useState } from 'react';
 
 import priorityHooks from '@/connectors';
-import { Routes } from '@/constants';
+import { Routes, RoutesEnum } from '@/constants';
 import { CHAINS } from '@/constants/chains';
 import { DAppTheme, LightTheme } from '@/design-system';
 import { usePrevious } from '@/hooks';
@@ -26,13 +26,14 @@ const {
 } = priorityHooks;
 
 const SUPPORTED_CHAINS = {
-  [Routes.dapp]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes.earn]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes.faucet]: [CHAIN_ID.RINKEBY],
-  [Routes.repay]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes['dinero-market']]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes['mail-market']]: [CHAIN_ID.RINKEBY],
-  [Routes['mail-market-pool']]: [CHAIN_ID.RINKEBY],
+  [Routes[RoutesEnum.DApp]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.Earn]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.Faucet]]: [CHAIN_ID.RINKEBY],
+  [Routes[RoutesEnum.DineroMarketRepay]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.DineroMarket]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.MAILMarket]]: [CHAIN_ID.RINKEBY],
+  [Routes[RoutesEnum.MAILMarketPool]]: [CHAIN_ID.RINKEBY],
+  [Routes[RoutesEnum.Swap]]: [CHAIN_ID.RINKEBY],
 };
 
 const Content: FC<ContentProps> = ({
@@ -152,8 +153,8 @@ const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
     <ThemeProvider theme={DAppTheme}>
       <Web3Manager
         pathname={pathname}
-        supportedChains={SUPPORTED_CHAINS[pathname]}
         prevPathName={prevPathName}
+        supportedChains={SUPPORTED_CHAINS[pathname]}
       >
         {children}
       </Web3Manager>

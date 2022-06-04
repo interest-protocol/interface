@@ -25,45 +25,45 @@ const BLOCKCHAIN_DATA = [
 
 const renderData = (
   tokens: ReadonlyArray<IToken>,
-  onSelectCurrency: (symbol: string) => void,
-  search: string
+  onSelectCurrency: (symbol: string) => void
 ): ReadonlyArray<IDropdownData> => {
   const DefaultTokenSVG = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
   return tokens
-    .filter(({ address }) => address.includes(search))
-    .map(({ symbol }) => {
-      const SVG = TOKENS_SVG_MAP[symbol] ?? DefaultTokenSVG;
-      return {
-        onSelect: () => onSelectCurrency(symbol),
-        displayOption: symbol,
-        displayTitle: (
-          <Box
-            px="L"
-            display="flex"
-            bg="background"
-            borderRadius="M"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Box my="M" display="flex" alignItems="center">
-              <SVG width="1rem" height="1rem" />
-              <Typography
-                mx="M"
-                as="span"
-                variant="normal"
-                hover={{ color: 'accent' }}
-                active={{ color: 'accentActive' }}
-              >
-                {symbol}
-              </Typography>
+    ? tokens.map(({ symbol }) => {
+        const SVG = TOKENS_SVG_MAP[symbol] ?? DefaultTokenSVG;
+
+        return {
+          onSelect: () => onSelectCurrency(symbol),
+          displayOption: symbol,
+          displayTitle: (
+            <Box
+              px="L"
+              display="flex"
+              bg="background"
+              borderRadius="M"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Box my="M" display="flex" alignItems="center">
+                <SVG width="1rem" height="1rem" />
+                <Typography
+                  mx="M"
+                  as="span"
+                  variant="normal"
+                  hover={{ color: 'accent' }}
+                  active={{ color: 'accentActive' }}
+                >
+                  {symbol}
+                </Typography>
+              </Box>
+              <ArrowSVG width="0.5rem" />
             </Box>
-            <ArrowSVG width="0.5rem" />
-          </Box>
-        ),
-        value: symbol,
-      };
-    });
+          ),
+          value: symbol,
+        };
+      })
+    : [];
 };
 
 const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
@@ -76,9 +76,10 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
 }) => {
   const search = useWatch({ control, name: 'search' });
 
-  const searchResult = useMemo(() => {
-    return BLOCKCHAIN_DATA.filter(({ address }) => search === address);
-  }, [search]);
+  const searchResult = useMemo(
+    () => BLOCKCHAIN_DATA.filter(({ address }) => search === address),
+    [search]
+  );
 
   return (
     <Dropdown
@@ -90,8 +91,7 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
       header={local ? Input : undefined}
       data={renderData(
         searchResult?.length ? searchResult : tokens,
-        onSelectCurrency,
-        search
+        onSelectCurrency
       )}
     />
   );

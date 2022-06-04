@@ -5,12 +5,12 @@ import { Container } from '@/components';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { TimesSVG } from '@/svg';
 
-import SwapHeader from '../swap-header';
-import { SwapModalProps } from './configuration.types';
 import Field from './field';
+import { SwapModalProps } from './settings.types';
 
-const ConfigurationModal: FC<SwapModalProps> = ({ isOpen, handleClose }) => {
+const SettingsModal: FC<SwapModalProps> = ({ isOpen, handleClose }) => {
   const { register } = useForm();
+
   return (
     <Modal
       modalProps={{
@@ -31,7 +31,6 @@ const ConfigurationModal: FC<SwapModalProps> = ({ isOpen, handleClose }) => {
           px={['L', 'L']}
         >
           <Box display="flex">
-            <SwapHeader description="Configurações de transação" />
             <Button
               my="auto"
               width="3rem"
@@ -84,4 +83,4 @@ const ConfigurationModal: FC<SwapModalProps> = ({ isOpen, handleClose }) => {
   );
 };
 
-export default ConfigurationModal;
+export default SettingsModal;
