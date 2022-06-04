@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers';
 import { o, prop } from 'ramda';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -9,7 +8,7 @@ import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetUserBalances } from '@/hooks';
 import useLocalStorage from '@/hooks/use-storage';
 import { getChainId } from '@/state/core/core.selectors';
-import { flippedAppend } from '@/utils';
+import { flippedAppend, isSameAddress } from '@/utils';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
@@ -34,20 +33,13 @@ const Faucet: FC = () => {
     [chainId]
   );
 
-  const { error: recommendedError, data: recommendedData } = useGetUserBalances(
-    MAIL_TOKENS.map(prop('address'))
+  const { error, data } = useGetUserBalances(
+    MAIL_TOKENS.map(prop('address')).concat(localTokens.map(prop('address')))
   );
-  const { error: localError, data: processedLocalData } = {
-    error: undefined,
-    data: localTokens.map((localToken) => ({
-      ...localToken,
-      balance: BigNumber.from((Math.random() * 1000 * 10 ** 18).toFixed(0)),
-    })),
-  };
 
-  const processedRecommendedData = useMemo(
-    () => processGetUserBalances(MAIL_TOKENS, recommendedData),
-    [MAIL_TOKENS, recommendedData]
+  const { recommendedData, localData } = useMemo(
+    () => processGetUserBalances(MAIL_TOKENS, localTokens, data),
+    [MAIL_TOKENS, data]
   );
 
   const addLocalToken: AddLocalToken = useCallback(
@@ -56,12 +48,13 @@ const Faucet: FC = () => {
   );
   const removeLocalToken: RemoveLocalToken = useCallback(
     (address: string) =>
-      setLocalTokens(localTokens.filter((item) => item.address !== address)),
-    [localTokens]
+      setLocalTokens(
+        localTokens.filter((item) => !isSameAddress(item.address, address))
+      ),
+    [localTokens, setLocalTokens]
   );
 
-  if (recommendedError || localError)
-    return <ErrorView message="Error fetching contracts" />;
+  if (error) return <ErrorView message="Error fetching balances" />;
 
   return (
     <>
@@ -88,13 +81,13 @@ const Faucet: FC = () => {
             </Button>
           </Box>
           <FaucetForm
-            tokens={processedRecommendedData}
-            isLoadingData={!recommendedData}
+            tokens={recommendedData}
+            isLoadingData={!recommendedData.length}
           />
           <Typography variant="normal">My tokens</Typography>
           <FaucetForm
-            isLoadingData={false}
-            tokens={processedLocalData}
+            isLoadingData={!recommendedData.length}
+            tokens={localData}
             addLocalToken={addLocalToken}
             removeLocalToken={removeLocalToken}
           />

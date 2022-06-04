@@ -7,3 +7,4 @@ export * from './interest-view-dinero';
 export * from './interest-view-mail';
 export * from './mail-deployer';
 export * from './provider';
+export * from './token-minter';

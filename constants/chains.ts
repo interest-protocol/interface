@@ -33,7 +33,7 @@ export const CHAINS = {
     chainName: 'Rinkeby',
     nativeCurrency: ETH,
     rpcUrls: ['https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'],
-    blockExplorerUrls: ['https://rinkey.etherscan.io'],
+    blockExplorerUrls: ['https://rinkeby.etherscan.io/'],
   },
   [CHAIN_ID.BNB_TEST_NET]: {
     chainId: CHAIN_ID.BNB_TEST_NET,

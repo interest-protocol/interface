@@ -1,9 +1,22 @@
+import { ethers } from 'ethers';
+import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { v4 } from 'uuid';
+import { useDispatch } from 'react-redux';
 
+import { createToken } from '@/api';
 import { Box, Button, Typography } from '@/elements';
+import { useGetSigner } from '@/hooks';
+import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG, TimesSVG } from '@/svg';
+import { extractCreateTokenEvent } from '@/utils';
+import {
+  safeToBigNumber,
+  showToast,
+  showTXSuccessToast,
+  throwError,
+  throwIfInvalidSigner,
+} from '@/utils';
 
 import { CreateTokenFormProps } from '../faucet.types';
 import CreateTokenField from './create-token-field';
@@ -15,6 +28,7 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
   addLocalToken,
 }) => {
   const [loading, setLoading] = useState(false);
+  const { chainId, signer, account } = useGetSigner();
   const { setValue, register, getValues } = useForm<TCreateTokenForm>({
     defaultValues: {
       name: '',
@@ -23,17 +37,54 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
     },
   });
 
-  const handleCreateToken = () => {
-    setLoading(true);
-    // TODO: replace to token address
-    const address = v4();
-    addLocalToken({
-      address,
-      name: getValues('name'),
-      symbol: getValues('name'),
-    });
-    setLoading(false);
+  const dispatch = useDispatch();
+
+  const handleCreateToken = async () => {
+    try {
+      setLoading(true);
+      const [name, symbol, amount] = [
+        getValues('name'),
+        getValues('symbol'),
+        getValues('amount'),
+      ];
+
+      if (!name || !symbol || !amount || amount === '0') return;
+
+      const { validId, validSigner } = throwIfInvalidSigner(
+        [account],
+        chainId,
+        signer
+      );
+
+      const tx = await createToken(
+        validId,
+        validSigner,
+        name,
+        symbol,
+        safeToBigNumber(amount)
+      );
+
+      await showTXSuccessToast(tx, validId);
+
+      const receipt = await tx.wait();
+
+      const { token } = extractCreateTokenEvent(receipt);
+
+      addLocalToken({ symbol, name, address: ethers.utils.getAddress(token) });
+    } catch (error) {
+      throwError('Something went wrong', error);
+    } finally {
+      setLoading(false);
+      dispatch(coreActions.updateNativeBalance());
+    }
   };
+
+  const safeCreateToken = () =>
+    showToast(handleCreateToken(), {
+      loading: 'Creating token...',
+      success: 'Success!',
+      error: prop('message'),
+    });
 
   return (
     <Box>
@@ -77,7 +128,7 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
           width="100%"
           variant="primary"
           disabled={loading}
-          onClick={handleCreateToken}
+          onClick={safeCreateToken}
           hover={{ bg: 'accentAlternativeActive' }}
           bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
         >

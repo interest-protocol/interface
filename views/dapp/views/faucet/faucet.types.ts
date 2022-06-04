@@ -27,7 +27,7 @@ export interface FaucetSelectCurrencyProps {
 }
 
 export interface FaucetFormProps {
-  isLoadingData: boolean;
+  isLoadingData?: boolean;
   addLocalToken?: AddLocalToken;
   removeLocalToken?: RemoveLocalToken;
   tokens: ReadonlyArray<IToken & { balance: BigNumber }>;
