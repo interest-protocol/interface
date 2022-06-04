@@ -184,7 +184,13 @@ const FaucetForm: FC<FaucetFormProps> = ({
           <Typography variant="normal" textTransform="uppercase" my="L">
             Your balance:
           </Typography>
-          <Box overflowY="auto" flex="1">
+          <Box
+            flex="1"
+            display="grid"
+            overflowY="auto"
+            gridGap="0.25rem"
+            alignItems="start"
+          >
             {isLoadingData
               ? Array.from({ length: 5 }).map(() => (
                   <Box mb="L" key={v4()}>
@@ -208,7 +214,6 @@ const FaucetForm: FC<FaucetFormProps> = ({
 
                   return (
                     <Box
-                      mb="L"
                       mr="M"
                       key={v4()}
                       display="flex"
