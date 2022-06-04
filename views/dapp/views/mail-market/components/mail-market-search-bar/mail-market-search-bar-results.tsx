@@ -1,15 +1,16 @@
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
-import { head, nth } from 'ramda';
+import { head, nth, prop } from 'ramda';
 import { FC, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 import { createMailMarket } from '@/api';
 import { Routes, RoutesEnum, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useGetMailMarketMetadata, useGetSigner } from '@/hooks';
 import { TOKEN_SYMBOL } from '@/sdk';
-import { LoadingSVG, TimesSVG } from '@/svg';
+import { CopySVG, LoadingSVG, TimesSVG } from '@/svg';
 import {
   isSameAddress,
   isZeroAddress,
@@ -21,8 +22,9 @@ import {
 } from '@/utils';
 
 import {
-  IMailMarketSearchItemData,
   MAILMarketSearchBarResultsProps,
+  SearchItemProps,
+  SearchItemWrapperProps,
 } from '../../mail-market.types';
 
 const [getIsDeployed, getName, getSymbol, getMarketAddress] = [
@@ -32,10 +34,7 @@ const [getIsDeployed, getName, getSymbol, getMarketAddress] = [
   nth(4),
 ];
 
-const SearchItem: FC<IMailMarketSearchItemData> = ({
-  address,
-  addLocalAsset,
-}) => {
+const SearchItem: FC<SearchItemProps> = ({ address, addLocalAsset, data }) => {
   const { push } = useRouter();
   const { signer, chainId, account } = useGetSigner();
 
@@ -54,10 +53,11 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
       if (isZeroAddress(address)) return;
 
       const tx = await createMailMarket(validId, validSigner, address);
-
-      await showTXSuccessToast(tx);
+      await showTXSuccessToast(tx, validId);
     } catch (error) {
       throwError('Something went wrong', error);
+    } finally {
+      setCreateMarketLoading(false);
     }
   };
 
@@ -65,19 +65,152 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
     showToast(handleCreateMarket(), {
       loading: 'Creating...',
       success: () => {
-        setCreateMarketLoading(false);
         callback();
         return 'Success!';
       },
-      error: ({ message }) => message,
+      error: prop('message'),
     });
 
+  const handleClick = () => {
+    addLocalAsset({
+      market: getMarketAddress(data) as string,
+      name: getName(data) as string,
+      symbol: getSymbol(data) as string,
+      token: address,
+    });
+    push(
+      {
+        pathname: Routes[RoutesEnum.MAILMarketPool],
+        query: { pool: getMarketAddress(data) as string },
+      },
+      undefined,
+      {
+        shallow: true,
+      }
+    );
+  };
+
+  const handleCreateToken = async () => createMarket(handleClick);
+
+  const SVG =
+    TOKENS_SVG_MAP[getSymbol(data) as string] ??
+    TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+
+  const copyToClipboard = (address: string) => () => {
+    window.navigator.clipboard.writeText(address || '');
+    toast('Copied to clipboard');
+  };
+
+  return (
+    <Box
+      p="L"
+      display="flex"
+      flexWrap="wrap"
+      alignItems="center"
+      justifyContent="space-between"
+    >
+      <Box display="flex" alignItems="center">
+        <Box
+          mr="L"
+          width="2rem"
+          height="2rem"
+          display="flex"
+          borderRadius="50%"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <SVG width="2rem" />
+        </Box>
+        <Box>
+          <Typography variant="normal" fontWeight="800">{`${getName(
+            data
+          )} (${getSymbol(data)})`}</Typography>
+          <Box display="flex" alignItems="center" my="S">
+            <Typography
+              mr="M"
+              fontSize="S"
+              variant="normal"
+              color="textSecondary"
+            >
+              Token Address:
+            </Typography>
+            <Typography variant="normal">{shortAccount(address)}</Typography>
+            <Box
+              ml="M"
+              cursor="pointer"
+              hover={{ color: 'accent' }}
+              onClick={copyToClipboard(address)}
+            >
+              <CopySVG width="1rem" />
+            </Box>
+          </Box>
+          <Box display="flex" alignItems="center">
+            <Typography
+              mr="M"
+              fontSize="S"
+              variant="normal"
+              color="textSecondary"
+            >
+              Market Address:
+            </Typography>
+            <Typography variant="normal">
+              {shortAccount(getMarketAddress(data) as string)}
+            </Typography>
+            <Box
+              ml="M"
+              cursor="pointer"
+              hover={{ color: 'accent' }}
+              onClick={copyToClipboard(getMarketAddress(data) as string)}
+            >
+              <CopySVG width="1rem" />
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+      <Box
+        mt={['XL', 'XL', 'XL', 'NONE']}
+        mx={['auto', 'auto', 'auto', 'NONE']}
+      >
+        {getIsDeployed(data) ? (
+          <Button
+            variant="primary"
+            hover={{
+              bg: 'accentActive',
+            }}
+            onClick={handleClick}
+          >
+            Enter
+          </Button>
+        ) : (
+          <Button
+            variant="primary"
+            onClick={handleCreateToken}
+            disabled={createMarketLoading}
+            bg={createMarketLoading ? 'disabled' : 'accent'}
+          >
+            {createMarketLoading ? (
+              <Box display="flex">
+                <LoadingSVG width="1rem" />
+                <Typography ml="M" variant="normal">
+                  Creating
+                </Typography>
+              </Box>
+            ) : (
+              'Create pool'
+            )}
+          </Button>
+        )}
+      </Box>
+    </Box>
+  );
+};
+
+const SearchItemWrapper: FC<SearchItemWrapperProps> = ({
+  address,
+  addLocalAsset,
+}) => {
   // data = [isDeployed, name, symbol, token, market address]
   const { data, error } = useGetMailMarketMetadata(address);
-
-  // DO not use the default error page.
-  // say failed to fetch market data because the rest of the page should work properly
-  // Error message should say make sure the address is a ERC20 token
 
   if (error)
     return (
@@ -114,91 +247,8 @@ const SearchItem: FC<IMailMarketSearchItemData> = ({
       </Box>
     );
 
-  const handleClick = () => {
-    addLocalAsset({
-      market: getMarketAddress(data) as string,
-      name: getName(data) as string,
-      symbol: getSymbol(data) as string,
-      token: address,
-    });
-    push(
-      {
-        pathname: Routes[RoutesEnum.MAILMarketPool],
-        query: { pool: getSymbol(data) as string },
-      },
-      undefined,
-      {
-        shallow: true,
-      }
-    );
-  };
-
-  const handleCreateToken = async () => await createMarket(handleClick);
-
-  const SVG =
-    TOKENS_SVG_MAP[getSymbol(data) as string] ??
-    TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
-
-  // nice metadata card with the info
   return (
-    <Box
-      p="L"
-      display="flex"
-      alignItems="center"
-      justifyContent="space-between"
-    >
-      <Box display="flex" alignItems="center">
-        <Box
-          mr="L"
-          width="2rem"
-          height="2rem"
-          display="flex"
-          borderRadius="50%"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <SVG width="2rem" />
-        </Box>
-        <Box>
-          <Typography variant="normal" fontWeight="800">{`${getName(
-            data
-          )} (${getSymbol(data)})`}</Typography>
-          <Typography variant="normal">{shortAccount(address)}</Typography>
-          <Typography variant="normal">
-            {shortAccount(getMarketAddress(data) as string)}
-          </Typography>
-        </Box>
-      </Box>
-      {getIsDeployed(data) ? (
-        <Button
-          variant="primary"
-          hover={{
-            bg: 'accentActive',
-          }}
-          onClick={handleClick}
-        >
-          Enter
-        </Button>
-      ) : (
-        <Button
-          variant="primary"
-          onClick={handleCreateToken}
-          disabled={createMarketLoading}
-          bg={createMarketLoading ? 'disabled' : 'accent'}
-        >
-          {createMarketLoading ? (
-            <Box display="flex">
-              <LoadingSVG width="1rem" />
-              <Typography ml="M" variant="normal">
-                Creating
-              </Typography>
-            </Box>
-          ) : (
-            'Create pool'
-          )}
-        </Button>
-      )}
-    </Box>
+    <SearchItem address={address} addLocalAsset={addLocalAsset} data={data} />
   );
 };
 
@@ -218,9 +268,13 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
           ? isSameAddress(trimmedQuery, market.market) ||
             isSameAddress(trimmedQuery, market.token)
           : market.name.toLowerCase().startsWith(trimmedQuery.toLowerCase()) ||
-            market.symbol.toLowerCase().startsWith(trimmedQuery.toLowerCase())
+            market.symbol
+              .toLowerCase()
+              .startsWith(trimmedQuery.toLowerCase()) ||
+            market.symbol.toLowerCase().includes(query.trim().toLowerCase()) ||
+            market.name.toLowerCase().includes(query.trim().toLowerCase())
       ),
-    [trimmedQuery]
+    [trimmedQuery, allMarkets]
   );
 
   if (doesMarketExist || !trimmedQuery) return null;
@@ -255,7 +309,7 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
       borderRadius="L"
       position="absolute"
     >
-      <SearchItem
+      <SearchItemWrapper
         addLocalAsset={addLocalAsset}
         address={ethers.utils.getAddress(trimmedQuery)}
       />

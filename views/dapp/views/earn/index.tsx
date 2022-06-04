@@ -3,13 +3,11 @@ import { useSelector } from 'react-redux';
 
 import { Box, Typography } from '@/elements';
 import { useGetFarmsSummary } from '@/hooks';
-import { CHAIN_ID } from '@/sdk';
 import { getChainId } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
 import { getSafeFarmSummaryData } from '@/utils';
 
 import { Faucet } from '../../components';
-import Web3Manager from '../../web3-manager';
 import { EarnHeader, EarnTable } from './components';
 
 const Earn: FC = () => {
@@ -66,10 +64,4 @@ const Earn: FC = () => {
   );
 };
 
-const EarnPage: FC = () => (
-  <Web3Manager supportedChains={[CHAIN_ID.BNB_TEST_NET]}>
-    <Earn />
-  </Web3Manager>
-);
-
-export default EarnPage;
+export default Earn;

@@ -4,6 +4,8 @@ export * from './use-get-farms-summary';
 export * from './use-get-mail-market-metadata';
 export * from './use-get-many-mail-summary-data';
 export * from './use-get-signer';
+export * from './use-get-user-balances';
 export * from './use-get-user-dinero-market-data';
 export * from './use-get-user-farm-data';
 export * from './use-is-mounted';
+export * from './use-previous';

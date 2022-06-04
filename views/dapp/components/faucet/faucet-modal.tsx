@@ -11,6 +11,7 @@ import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetSigner } from '@/hooks';
 import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk';
+import { coreActions } from '@/state/core/core.actions';
 import { userBalanceEntityActions } from '@/state/user-balances';
 import { userBalanceSelectById } from '@/state/user-balances/user-balances.selectors';
 import { IUserBalance } from '@/state/user-balances/user-balances.types';
@@ -42,7 +43,7 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const { signer } = useGetSigner();
+  const { signer, chainId } = useGetSigner();
 
   const { register, getValues, setValue } = useForm<IFaucetForm>({
     defaultValues: {
@@ -86,19 +87,22 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
 
     const { currency, value } = getValues();
 
-    if (!currency || !value) return;
+    if (!currency || !value || !chainId) return;
 
     setLoading(true);
 
     const parsedValue = to18Decimals(value);
 
     const promise = tryCatch(
-      MINT_MAP[currency](signer, parsedValue).then(showTXSuccessToast),
+      MINT_MAP[currency](signer, parsedValue).then((x) =>
+        showTXSuccessToast(x, chainId)
+      ),
       (e) => {
         throw e ?? new Error('Something went wrong');
       },
       () => {
         setLoading(false);
+        dispatch(coreActions.updateNativeBalance());
       }
     );
 

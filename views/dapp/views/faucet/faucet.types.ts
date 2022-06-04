@@ -1,8 +1,9 @@
+import { BigNumber } from 'ethers';
 import { ReactNode } from 'react';
 import { Control, UseFormRegister } from 'react-hook-form';
 
 export interface IToken {
-  name?: string;
+  name: string;
   symbol: string;
   address: string;
 }
@@ -13,29 +14,23 @@ export interface FaucetModalProps {
 }
 
 export interface IFaucetForm {
-  value: number;
-  currency: string;
+  amount: number;
+  token: string;
 }
 
 export interface FaucetSelectCurrencyProps {
   label: string;
-  local?: boolean;
+  addLocalToken?: AddLocalToken;
   defaultValue: string;
   tokens: ReadonlyArray<IToken>;
-  onSelectCurrency: (currency: string) => void;
+  onSelectCurrency: (currency: string, callback?: () => void) => void;
 }
 
 export interface FaucetFormProps {
-  local?: {
-    setLocalTokens: (
-      token: ReadonlyArray<{
-        name: string;
-        symbol: string;
-        address: string;
-      }>
-    ) => void;
-  };
-  tokens: ReadonlyArray<IToken>;
+  isLoadingData: boolean;
+  addLocalToken?: AddLocalToken;
+  removeLocalToken?: RemoveLocalToken;
+  tokens: ReadonlyArray<IToken & { balance: BigNumber }>;
 }
 
 export interface FaucetProps {
@@ -44,16 +39,25 @@ export interface FaucetProps {
 
 export interface CurrencyIdentifierProps {
   control: Control<IFaucetForm>;
+  tokens: ReadonlyArray<IToken & { balance: BigNumber }>;
 }
 export interface FaucetCurrencyDropdownProps {
-  local?: boolean;
+  addLocalToken?: AddLocalToken;
   Input: ReactNode;
   defaultValue: string;
   tokens: ReadonlyArray<IToken>;
   control: Control<{ search: string }>;
-  onSelectCurrency: (currency: string) => void;
+  onSelectCurrency: (currency: string, addLocalToken?: () => void) => void;
 }
+export type AddLocalToken = (item: IToken) => void;
+
+export type RemoveLocalToken = (address: string) => void;
 
 export interface FaucetSearchTokenProps {
   register: UseFormRegister<{ search: string }>;
+}
+
+export interface CreateTokenFormProps {
+  handleClose: () => void;
+  addLocalToken: AddLocalToken;
 }

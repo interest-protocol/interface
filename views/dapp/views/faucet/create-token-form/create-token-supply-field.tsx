@@ -2,16 +2,14 @@ import { FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
 
-import { InputBalanceProps } from './input-balance.types';
+import { CreateTokenSupplyFieldProps } from './create-token-form.types';
 
 const CURRENCY_MAX = 10000;
 
-const InputBalance: FC<InputBalanceProps> = ({
-  name,
+const CreateTokenSupplyField: FC<CreateTokenSupplyFieldProps> = ({
   label,
   register,
   setValue,
-  currencyPrefix,
 }) => (
   <Box mb="L">
     <Typography as="label" fontSize="S" variant="normal" display="inline-block">
@@ -22,7 +20,7 @@ const InputBalance: FC<InputBalanceProps> = ({
       type="number"
       step="0.0001"
       placeholder={'0'}
-      {...register(name)}
+      {...register('amount')}
       max={CURRENCY_MAX}
       shieldProps={{
         p: 'S',
@@ -49,24 +47,15 @@ const InputBalance: FC<InputBalanceProps> = ({
             active={{ bg: 'accentActive' }}
             onClick={() => {
               if (!setValue) return;
-              setValue(name, CURRENCY_MAX);
+              setValue('amount', CURRENCY_MAX.toString());
             }}
           >
             max
           </Button>
-          <Box
-            px="L"
-            display="flex"
-            alignItems="center"
-            borderRight="1px solid"
-            borderColor="bottomBackground"
-          >
-            {currencyPrefix}
-          </Box>
         </>
       }
     />
   </Box>
 );
 
-export default InputBalance;
+export default CreateTokenSupplyField;

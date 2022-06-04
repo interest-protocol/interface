@@ -1,8 +1,7 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 
-import { Web3Manager } from '@/components';
-import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk';
+import { TOKEN_SYMBOL } from '@/sdk';
 import { Layout } from '@/views/dapp/components';
 import DineroMarket from '@/views/dapp/views/dinero-market';
 import Error from '@/views/dapp/views/error';
@@ -21,12 +20,10 @@ const DineroMarketPage: NextPage = () => {
     );
 
   return (
-    <Web3Manager supportedChains={[CHAIN_ID.BNB_TEST_NET]}>
-      <DineroMarket
-        tokenSymbol={currency as TOKEN_SYMBOL}
-        mode={mode as 'borrow' | 'repay'}
-      />
-    </Web3Manager>
+    <DineroMarket
+      tokenSymbol={currency as TOKEN_SYMBOL}
+      mode={mode as 'borrow' | 'repay'}
+    />
   );
 };
 

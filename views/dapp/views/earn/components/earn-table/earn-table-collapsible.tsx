@@ -1,5 +1,6 @@
 import { BigNumber } from 'ethers';
 import { FC, useCallback, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { addAllowance, depositLP, withdrawLP } from '@/api';
 import { StakeState } from '@/constants';
@@ -8,6 +9,7 @@ import Button from '@/elements/button';
 import { useGetSigner, useGetUserFarmData } from '@/hooks';
 import { ZERO_BIG_NUMBER } from '@/sdk';
 import { IntMath } from '@/sdk/entities/int-math';
+import { coreActions } from '@/state/core/core.actions';
 import {
   formatDollars,
   getCasaDePapelAddress,
@@ -38,6 +40,8 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
 
   const { signer, chainId, account } = useGetSigner();
 
+  const dispatch = useDispatch();
+
   const { data, error, mutate } = useGetUserFarmData(
     farm.stakingToken.address,
     farm.id
@@ -63,10 +67,12 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         getCasaDePapelAddress(validId)
       );
 
-      await showTXSuccessToast(tx);
+      await showTXSuccessToast(tx, validId);
       await mutate();
     } catch (e) {
       throwError('Failed to approve', e);
+    } finally {
+      dispatch(coreActions.updateNativeBalance());
     }
   }, [chainId, signer]);
 
@@ -90,10 +96,12 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         ZERO_BIG_NUMBER
       );
 
-      await showTXSuccessToast(tx);
+      await showTXSuccessToast(tx, validId);
       await mutate();
     } catch (e) {
       throwError('Failed to harvest rewards', e);
+    } finally {
+      dispatch(coreActions.updateNativeBalance());
     }
   }, [signer, chainId]);
 
@@ -122,13 +130,14 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
           amount.gt(processedData.balance) ? processedData.balance : amount
         );
 
-        await showTXSuccessToast(tx);
+        await showTXSuccessToast(tx, validId);
         await mutate();
       } catch (e) {
         throwError('Failed to deposit', e);
       } finally {
         setModalLoading(false);
         handleCloseModal();
+        dispatch(coreActions.updateNativeBalance());
       }
     },
     [chainId, signer, processedData.balance.toString()]
@@ -155,13 +164,14 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
             : amount
         );
 
-        await showTXSuccessToast(tx);
+        await showTXSuccessToast(tx, validId);
         await mutate();
       } catch (e) {
         throw e || new Error('Something Went Wrong');
       } finally {
         setModalLoading(false);
         handleCloseModal();
+        dispatch(coreActions.updateNativeBalance());
       }
     },
     [processedData.stakingAmount.toString(), chainId, signer]

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { append, curryN, flip, o, prop } from 'ramda';
+import { compose, prop, uniqBy } from 'ramda';
 import { FC, useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { useGetManyMailSummaryData } from '@/hooks';
 import useLocalStorage from '@/hooks/use-storage';
 import { LocalMAILMarketData } from '@/interface';
 import { getChainId } from '@/state/core/core.selectors';
+import { flippedAppend } from '@/utils';
 import { processManyMailSummaryData } from '@/utils/mail-markets';
 
 import { Faucet } from '../../components';
@@ -19,8 +20,6 @@ import ErrorView from '../error';
 import { MAILMarketTable } from './components';
 import MAILMarketSearchInput from './components/mail-market-search-bar';
 import { AddLocalAsset } from './mail-market.types';
-
-const flippedAppend = curryN(2, flip(append));
 
 const MAILMarket: FC = () => {
   const { push } = useRouter();
@@ -35,8 +34,12 @@ const MAILMarket: FC = () => {
     localAssets.map(prop('token'))
   );
 
-  const addLocalAsset: AddLocalAsset = useCallback(
-    o(setLocalAssets, flippedAppend(localAssets)),
+  const addLocalAsset = useCallback(
+    compose(
+      setLocalAssets,
+      uniqBy(prop('token')),
+      flippedAppend(localAssets)
+    ) as AddLocalAsset,
     [localAssets]
   );
 
@@ -57,7 +60,7 @@ const MAILMarket: FC = () => {
             <Typography variant="normal" ml="M">
               Multi-asset Isolated Lending Markets
             </Typography>
-            {!!localMarkets.length && (
+            {!!recommendedMarkets.length && localMarkets.length > 6 && (
               <Typography
                 color="accent"
                 variant="normal"

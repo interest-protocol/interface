@@ -1,4 +1,3 @@
-import { ThemeProvider } from '@emotion/react';
 import dynamic from 'next/dynamic';
 import { FC } from 'react';
 import { Toaster } from 'react-hot-toast';
@@ -20,42 +19,40 @@ const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
   const isMounted = useIsMounted();
 
   return (
-    <ThemeProvider theme={DAppTheme}>
-      <ErrorBoundary>
-        <Box color="text" height="100vh" display="flex" flexDirection="column">
-          <SEO pageTitle={pageTitle} />
-          <Toaster
-            position="bottom-right"
-            reverseOrder={false}
-            toastOptions={{
-              style: {
-                color: colors.text,
-                borderRadius: radii.M,
-                background: colors.foreground,
-              },
-            }}
-          />
-          <Header />
-          <Box
-            flex="1"
-            as="main"
-            display="flex"
-            flexDirection="column"
-            justifyContent="stretch"
-            background={[
-              DAppTheme.colors.background,
-              DAppTheme.colors.specialBackground,
-            ]}
-          >
-            {children}
-          </Box>
-          <Footer />
-          {isMounted.current && (
-            <Tooltip place="top" type="dark" effect="solid" multiline />
-          )}
+    <ErrorBoundary>
+      <Box color="text" height="100vh" display="flex" flexDirection="column">
+        <SEO pageTitle={pageTitle} />
+        <Toaster
+          position="bottom-right"
+          reverseOrder={false}
+          toastOptions={{
+            style: {
+              color: colors.text,
+              borderRadius: radii.M,
+              background: colors.foreground,
+            },
+          }}
+        />
+        <Header />
+        <Box
+          flex="1"
+          as="main"
+          display="flex"
+          flexDirection="column"
+          justifyContent="stretch"
+          background={[
+            DAppTheme.colors.background,
+            DAppTheme.colors.specialBackground,
+          ]}
+        >
+          {children}
         </Box>
-      </ErrorBoundary>
-    </ThemeProvider>
+        <Footer />
+        {isMounted.current && (
+          <Tooltip place="top" type="dark" effect="solid" multiline />
+        )}
+      </Box>
+    </ErrorBoundary>
   );
 };
 

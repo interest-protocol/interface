@@ -36,8 +36,14 @@ const ConnectedWallet: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
-    if (chainId && isChainIdSupported(chainId) && account)
+    if (
+      chainId &&
+      isChainIdSupported(chainId) &&
+      account &&
+      chainId !== coreData.chainId
+    ) {
       dispatch(coreActions.connectWallet({ chainId, account }));
+    }
   }, [chainId, account]);
 
   const toggleModal = () => {

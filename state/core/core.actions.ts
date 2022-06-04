@@ -12,7 +12,10 @@ export const CoreActionTypes = {
   setAccount: 'core/setAccount',
   setData: 'core/setData',
   connectWallet: 'core/connectWallet',
+  updateNativeBalance: 'core/updateNativeBalance',
 };
+
+const updateNativeBalance = createAction(CoreActionTypes.updateNativeBalance);
 
 const setChainId = createAction<number | null>(CoreActionTypes.setChainId);
 
@@ -38,4 +41,5 @@ export const coreActions = {
   setAccount,
   setData,
   connectWallet,
+  updateNativeBalance,
 };

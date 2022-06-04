@@ -1,3 +1,5 @@
+import { isAddress } from 'ethers/lib/utils';
+import { propEq } from 'ramda';
 import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -6,6 +8,7 @@ import { Box, Dropdown, Typography } from '@/elements';
 import { IDropdownData } from '@/elements/dropdown/dropdown.types';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { ArrowSVG } from '@/svg';
+import { isSameAddress } from '@/utils';
 
 import { FaucetCurrencyDropdownProps, IToken } from './faucet.types';
 
@@ -24,69 +27,82 @@ const BLOCKCHAIN_DATA = [
 ];
 
 const renderData = (
-  tokens: ReadonlyArray<IToken>,
-  onSelectCurrency: (symbol: string) => void,
-  search: string
-): ReadonlyArray<IDropdownData> => {
-  const DefaultTokenSVG = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+  data: ReadonlyArray<IToken>,
+  onSelectCurrency: (address: string) => void
+): ReadonlyArray<IDropdownData> =>
+  data.map(({ symbol, address }) => {
+    const SVG = TOKENS_SVG_MAP[symbol] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
-  return tokens
-    .filter(({ address }) => address.includes(search))
-    .map(({ symbol }) => {
-      const SVG = TOKENS_SVG_MAP[symbol] ?? DefaultTokenSVG;
-      return {
-        onSelect: () => onSelectCurrency(symbol),
-        displayOption: symbol,
-        displayTitle: (
-          <Box
-            py="M"
-            px="L"
-            display="flex"
-            bg="background"
-            borderRadius="M"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Box my="M" display="flex" alignItems="center">
-              <SVG width="1rem" height="1rem" />
-              <Typography
-                mx="M"
-                as="span"
-                variant="normal"
-                hover={{ color: 'accent' }}
-                active={{ color: 'accentActive' }}
-              >
-                {symbol}
-              </Typography>
-            </Box>
-            <ArrowSVG width="0.5rem" />
+    return {
+      onSelect: () => onSelectCurrency(address),
+      displayOption: symbol,
+      displayTitle: (
+        <Box
+          py="M"
+          px="L"
+          display="flex"
+          bg="background"
+          borderRadius="M"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Box my="M" display="flex" alignItems="center">
+            <SVG width="1rem" height="1rem" />
+            <Typography
+              mx="M"
+              as="span"
+              variant="normal"
+              hover={{ color: 'accent' }}
+              active={{ color: 'accentActive' }}
+            >
+              {symbol}
+            </Typography>
           </Box>
-        ),
-        value: symbol,
-      };
-    });
-};
+          <ArrowSVG width="0.5rem" />
+        </Box>
+      ),
+      value: symbol,
+    };
+  });
 
 const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
   Input,
-  local,
   tokens,
   control,
   defaultValue,
+  addLocalToken,
   onSelectCurrency,
 }) => {
   const search = useWatch({ control, name: 'search' });
 
-  const searchResult = useMemo(() => {
-    // handleLoading(true);
-
-    // const timeout: NodeJS.Timeout = setTimeout(() => {
-    //   handleLoading(false);
-    //   clearTimeout(timeout);
-    // }, Math.random() * 4000);
-
-    return BLOCKCHAIN_DATA.filter(({ address }) => search === address);
+  const { data, isLocal } = useMemo(() => {
+    const data = tokens.filter(
+      ({ name, address, symbol }) =>
+        name?.toLocaleLowerCase().startsWith(search.toLocaleLowerCase()) ||
+        symbol?.toLocaleLowerCase().startsWith(search.toLocaleLowerCase()) ||
+        isSameAddress(address, search)
+    );
+    return data.length
+      ? { data, isLocal: true }
+      : {
+          // TODO: get token from blockchain,
+          data: BLOCKCHAIN_DATA.filter(
+            ({ address }) => isAddress(search) && address == search
+          ),
+          isLocal: false,
+        };
   }, [search]);
+
+  const handleSelectCurrency = (address: string) =>
+    onSelectCurrency(
+      address,
+      !isLocal
+        ? () => {
+            const token = data.find(propEq('address', address));
+            if (token) addLocalToken?.(token);
+          }
+        : undefined
+    );
 
   return (
     <Dropdown
@@ -118,12 +134,8 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
           <ArrowSVG width="0.5rem" />
         </Box>
       }
-      header={local ? Input : undefined}
-      data={renderData(
-        searchResult?.length ? searchResult : tokens,
-        onSelectCurrency,
-        search
-      )}
+      header={addLocalToken ? Input : undefined}
+      data={renderData(data, handleSelectCurrency)}
     />
   );
 };

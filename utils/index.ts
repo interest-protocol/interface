@@ -1,4 +1,5 @@
 export * from './address';
+export * from './array';
 export * from './big-number';
 export * from './contracts';
 export * from './dinero-market';
