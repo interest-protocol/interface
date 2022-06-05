@@ -5,12 +5,11 @@ import {
   UseFormSetValue,
 } from 'react-hook-form';
 
-import { IFaucetForm } from './../faucet.types';
-
+import { ISwapForm } from '../swap.types';
 export interface InputBalanceProps {
-  getValues: UseFormGetValues<IFaucetForm>;
-  register: UseFormRegister<IFaucetForm>;
-  setValue?: UseFormSetValue<IFaucetForm>;
+  getValues: UseFormGetValues<ISwapForm>;
+  register: UseFormRegister<ISwapForm>;
+  setValue?: UseFormSetValue<ISwapForm>;
   name: 'value' | 'currency';
   suffix: ReactNode;
   disabled?: boolean;

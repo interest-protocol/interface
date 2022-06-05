@@ -2,9 +2,9 @@ import { FC } from 'react';
 
 import { Input } from '@/elements';
 
-import { FaucetSearchTokenProps } from './faucet.types';
+import { SwapSearchTokenProps } from './swap.types';
 
-const FaucetSearchToken: FC<FaucetSearchTokenProps> = ({ register }) => (
+const SwapSearchToken: FC<SwapSearchTokenProps> = ({ register }) => (
   <Input
     // eslint-disable-next-line jsx-a11y/no-autofocus
     autoFocus
@@ -19,4 +19,4 @@ const FaucetSearchToken: FC<FaucetSearchTokenProps> = ({ register }) => (
   />
 );
 
-export default FaucetSearchToken;
+export default SwapSearchToken;

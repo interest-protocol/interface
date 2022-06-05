@@ -11,24 +11,25 @@ export interface SwapHeaderProps {
   description: string;
 }
 
-export interface FaucetModalProps {
+export interface SwapModalProps {
   isOpen: boolean;
   handleClose: () => void;
 }
 
-export interface IFaucetForm {
+export interface ISwapForm {
   value: number;
   currency: string;
 }
 
-export interface FaucetSelectCurrencyProps {
+export interface SwapSelectCurrencyProps {
   local?: boolean;
   defaultValue: string;
+  label?: string;
   tokens: ReadonlyArray<IToken>;
   onSelectCurrency: (currency: string) => void;
 }
 
-export interface FaucetFormProps {
+export interface SwapFormProps {
   local?: {
     setLocalTokens: (
       token: ReadonlyArray<{
@@ -41,14 +42,14 @@ export interface FaucetFormProps {
   tokens: ReadonlyArray<IToken>;
 }
 
-export interface FaucetProps {
+export interface SwapProps {
   customAction: () => void;
 }
 
 export interface CurrencyIdentifierProps {
-  control: Control<IFaucetForm>;
+  control: Control<ISwapForm>;
 }
-export interface FaucetCurrencyDropdownProps {
+export interface SwapCurrencyDropdownProps {
   local?: boolean;
   Input: ReactNode;
   defaultValue: string;
@@ -57,6 +58,6 @@ export interface FaucetCurrencyDropdownProps {
   onSelectCurrency: (currency: string) => void;
 }
 
-export interface FaucetSearchTokenProps {
+export interface SwapSearchTokenProps {
   register: UseFormRegister<{ search: string }>;
 }

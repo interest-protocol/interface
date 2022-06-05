@@ -7,7 +7,7 @@ import { IDropdownData } from '@/elements/dropdown/dropdown.types';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { ArrowSVG } from '@/svg';
 
-import { FaucetCurrencyDropdownProps, IToken } from './faucet.types';
+import { IToken, SwapCurrencyDropdownProps } from './swap.types';
 
 const BLOCKCHAIN_DATA = [
   {
@@ -66,7 +66,7 @@ const renderData = (
     : [];
 };
 
-const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
+const FaucetTokensDropdown: FC<SwapCurrencyDropdownProps> = ({
   Input,
   local,
   tokens,

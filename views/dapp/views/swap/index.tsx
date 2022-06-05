@@ -6,8 +6,9 @@ import { MAIL_FAUCET_TOKENS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { CogsSVG } from '@/svg';
 
-import FaucetForm from './components/faucet-form';
 import SettingsModal from './components/settings';
+import SwapForm from './components/swap-form';
+import LiquidationView from './liquidation';
 
 const Swap: FC = () => {
   const {
@@ -53,7 +54,7 @@ const Swap: FC = () => {
             <CogsSVG width="1.5rem" />
           </Box>
         </Box>
-        <FaucetForm tokens={MAIL_FAUCET_TOKENS[4]} />
+        <SwapForm tokens={MAIL_FAUCET_TOKENS[4]} />
       </Box>
       <SettingsModal
         isOpen={!!modal && (modal as string) === 'swap'}
@@ -77,7 +78,7 @@ const SwapView: FC = () => {
           ]}
         />
       </Box>
-      {isSwap ? <Swap /> : null}
+      {isSwap ? <Swap /> : <LiquidationView />}
     </Container>
   );
 };

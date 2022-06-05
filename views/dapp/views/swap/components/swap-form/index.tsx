@@ -5,14 +5,14 @@ import { Box, Button, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { LoadingSVG } from '@/svg';
 
-import { FaucetFormProps, IFaucetForm } from '../faucet.types';
-import FaucetSelectCurrency from '../faucet-select-currency';
 import InputBalance from '../input-balance';
+import { ISwapForm, SwapFormProps } from '../swap.types';
+import SwapSelectCurrency from '../swap-select-currency';
 
-const FaucetForm: FC<FaucetFormProps> = ({ tokens, local }) => {
+const SwapForm: FC<SwapFormProps> = ({ tokens, local }) => {
   const [loading, setLoading] = useState(false);
 
-  const { register, getValues, setValue } = useForm<IFaucetForm>({
+  const { register, getValues, setValue } = useForm<ISwapForm>({
     defaultValues: {
       currency: tokens?.[0]?.symbol ?? TOKEN_SYMBOL.Unknown,
       value: 0,
@@ -49,7 +49,7 @@ const FaucetForm: FC<FaucetFormProps> = ({ tokens, local }) => {
           setValue={setValue}
           getValues={getValues}
           suffix={
-            <FaucetSelectCurrency
+            <SwapSelectCurrency
               local={!!local}
               tokens={tokens}
               onSelectCurrency={onSelectCurrency}
@@ -65,7 +65,7 @@ const FaucetForm: FC<FaucetFormProps> = ({ tokens, local }) => {
           setValue={setValue}
           getValues={getValues}
           suffix={
-            <FaucetSelectCurrency
+            <SwapSelectCurrency
               local={!!local}
               tokens={tokens}
               onSelectCurrency={onSelectCurrency}
@@ -98,4 +98,4 @@ const FaucetForm: FC<FaucetFormProps> = ({ tokens, local }) => {
     </Box>
   );
 };
-export default FaucetForm;
+export default SwapForm;
