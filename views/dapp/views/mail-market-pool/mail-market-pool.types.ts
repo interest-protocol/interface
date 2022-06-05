@@ -1,3 +1,4 @@
+import { BigNumber } from 'ethers';
 import { FC, SVGAttributes } from 'react';
 import { Control, UseFormRegister } from 'react-hook-form';
 
@@ -31,6 +32,30 @@ export interface MAILMarketTableProps {
 
 export interface MAILMarketPoolProps {
   pool: string;
+}
+
+export interface MAILMarketPoolInfoProps {
+  metadata: {
+    isDeployed: boolean;
+    name: string;
+    symbol: string;
+    token: string;
+    predictedAddress: string;
+  };
+}
+
+interface APRData {
+  mySupplyRate: BigNumber;
+  myBorrowRate: BigNumber;
+  net: {
+    isPositive: boolean;
+    rate: BigNumber;
+  };
+}
+
+export interface MAILMarketPoolNetAprProps {
+  loading: boolean;
+  data: APRData;
 }
 
 export interface MAILMarketLoadingProps {

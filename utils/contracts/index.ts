@@ -17,7 +17,6 @@ import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
 import InterestViewDineroABI from '@/sdk/abi/interest-view-dinero.abi.json';
 import InterestViewMAILABI from '@/sdk/abi/interest-view-MAIL.abi.json';
 import MAILDeployerABI from '@/sdk/abi/mail-deployer.abi.json';
-import MultiCallV2ABI from '@/sdk/abi/multi-call-v2.abi.json';
 import TokenMinterABI from '@/sdk/abi/token-minter.abi.json';
 import {
   CONTRACTS,
@@ -32,7 +31,6 @@ import {
   InterestViewDineroAbi,
   InterestViewMAILAbi,
   MailDeployerAbi,
-  MultiCallV2Abi,
   TokenMinterAbi,
 } from '../../types/ethers-contracts';
 import {
@@ -143,16 +141,6 @@ export const getCasaDePapelContract: GetContract<CasaDePapelAbi> = (
     CasaDePapelABI,
     provider
   ) as CasaDePapelAbi;
-
-export const getMultiCallV2Contract: GetContract<MultiCallV2Abi> = (
-  chainId,
-  provider
-) =>
-  new ethers.Contract(
-    getMultiCallV2Address(chainId),
-    MultiCallV2ABI,
-    provider
-  ) as MultiCallV2Abi;
 
 export const getInterestViewBalancesContract: GetContract<InterestViewBalancesAbi> =
   (chainId, provider) =>

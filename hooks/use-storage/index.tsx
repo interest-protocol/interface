@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { safeStringify } from '@/utils';
+
 function useLocalStorage<T>(
   keyName: string,
   defaultValue: T
@@ -24,7 +26,7 @@ function useLocalStorage<T>(
   const setValue = useCallback(
     (newValue: T) => {
       try {
-        window.localStorage.setItem(keyName, JSON.stringify(newValue));
+        window.localStorage.setItem(keyName, safeStringify(newValue));
       } finally {
         setStoredValue(newValue);
       }

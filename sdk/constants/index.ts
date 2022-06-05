@@ -83,7 +83,7 @@ export const MAIL_MARKET_CONTRACTS_MAP = {
   [CHAIN_ID.RINKEBY]: {
     [TOKEN_SYMBOL.UNI]: {
       marketAddress: ethers.utils.getAddress(
-        '0xB2b946223Fbf94FA82D93857Cb195c4Ffeb60360'
+        '0x7FbA296D2FB1e8e46039784c00aDfbDdF0CCDb62'
       ),
       riskyTokenAddress: ethers.utils.getAddress(
         '0xc17A30Db808A7926E76F5AC81352A214FfFDC334'
@@ -91,7 +91,7 @@ export const MAIL_MARKET_CONTRACTS_MAP = {
     },
     [TOKEN_SYMBOL.APE]: {
       marketAddress: ethers.utils.getAddress(
-        '0xdda4B7c7218eC16905cA98c07de9Cc08f4bA6a55'
+        '0x739c966c9774e79022754f33bfa0f304f17b4ab7'
       ),
       riskyTokenAddress: ethers.utils.getAddress(
         '0xBAe5a5b6ecF2de7424eA8723e3be2A692dCB0637'
@@ -120,17 +120,6 @@ export const DINERO_MARKET_CONTRACT_MAP = {
   [CHAIN_ID.BNB_TEST_NET]: {
     [TOKEN_SYMBOL.BTC]: ethers.utils.getAddress(
       '0x926f8FB78f5769a3D724A8ffC7058528C86939E1'
-    ),
-  },
-} as { [key: number]: Record<TOKEN_SYMBOL, string> };
-
-export const MAIL_MARKET_CONTRACT_MAP = {
-  [CHAIN_ID.RINKEBY]: {
-    [TOKEN_SYMBOL.UNI]: ethers.utils.getAddress(
-      '0xB2b946223Fbf94FA82D93857Cb195c4Ffeb60360'
-    ),
-    [TOKEN_SYMBOL.APE]: ethers.utils.getAddress(
-      '0xdda4B7c7218eC16905cA98c07de9Cc08f4bA6a55'
     ),
   },
 } as { [key: number]: Record<TOKEN_SYMBOL, string> };
@@ -171,7 +160,7 @@ export const CONTRACTS = {
     [CHAIN_ID.BNB_TEST_NET]: '0xaB852f3c3c926bd2430E7d6358441ee1ddbc2cF1',
   },
   INTEREST_VIEW_MAIL: {
-    [CHAIN_ID.RINKEBY]: '0x4C66920Dd1528A99DF904d9bE45279AEC388377C',
+    [CHAIN_ID.RINKEBY]: '0x68C4E8f7D82db0F37d7D79078489a46C7FAAe766',
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
   },
@@ -240,7 +229,7 @@ export const CONTRACTS = {
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
   },
   MAIL_DEPLOYER: {
-    [CHAIN_ID.RINKEBY]: '0x29B66E6a41eF5B07d9348e59c09EE855f214e3D0',
+    [CHAIN_ID.RINKEBY]: '0xDD02a8A5630b4fD156e5311550746965E17279a3',
     [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
   },

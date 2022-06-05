@@ -11,6 +11,7 @@ import { Fraction, TOKEN_SYMBOL } from '@/sdk';
 import { BLOCKS_PER_YEAR } from '@/sdk';
 import { getChainId } from '@/state/core/core.selectors';
 import { StarSVG } from '@/svg';
+import { safeParse, safeStringify } from '@/utils';
 
 import { MAIL_MARKET_HEADINGS } from '../../mail-market.data';
 import { MAILMarketTableItemProps } from '../../mail-market.types';
@@ -89,7 +90,9 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
             push(
               {
                 pathname: Routes[RoutesEnum.MAILMarketPool],
-                query: { pool: data.market },
+                query: {
+                  pool: data.market,
+                },
               },
               undefined,
               {

@@ -2,7 +2,6 @@ import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 
 import { Box, Typography } from '@/elements';
-import { formatDollars } from '@/utils';
 
 import { MAILMarketPoolBalanceProps } from './mail-market-pool-balance.types';
 
@@ -30,7 +29,7 @@ const MAILMarketPoolBalance: FC<MAILMarketPoolBalanceProps> = ({
       My {type} Balance
     </Typography>
     <Typography variant="normal" fontWeight="500" fontSize="XL">
-      {loading ? <Skeleton /> : formatDollars(+balance)}
+      {loading ? <Skeleton /> : balance}
     </Typography>
   </Box>
 );

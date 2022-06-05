@@ -1,6 +1,7 @@
 export * from './use-click-outside-listener-ref';
 export * from './use-get-dinero-market-erc20-summary';
 export * from './use-get-farms-summary';
+export * from './use-get-mail-market-data';
 export * from './use-get-mail-market-metadata';
 export * from './use-get-many-mail-summary-data';
 export * from './use-get-signer';

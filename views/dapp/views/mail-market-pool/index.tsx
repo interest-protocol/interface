@@ -1,8 +1,13 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
 import { Container } from '@/components';
 import { RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
+import { useGetMailMarketData } from '@/hooks';
+import { IntMath } from '@/sdk';
+import { getChainId } from '@/state/core/core.selectors';
+import { formatDollars } from '@/utils';
 
 import GoBack from '../../components/go-back';
 import { MAILMarketPoolBalance, MAILMarketPoolTable } from './components';
@@ -10,16 +15,29 @@ import MAILMarketPoolInfo from './components/mail-market-pool-info';
 import MAILMarketPoolNetApr from './components/mail-market-pool-net-apr';
 import MAILMarketPoolRisk from './components/mail-market-pool-risk';
 import { MAILMarketPoolProps } from './mail-market-pool.types';
+import {
+  calculateAPRs,
+  calculateMySupplyAndBorrow,
+  processMAILMarketData,
+} from './utilts';
 
 const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
-  const [loading, setLoading] = useState(true);
+  const { data: rawData, error } = useGetMailMarketData(pool);
+  const chainId = useSelector(getChainId) as number | null;
 
-  useEffect(() => {
-    loading &&
-      setTimeout(() => {
-        setLoading(!loading);
-      }, 6000);
-  }, []);
+  const { loading, data, metadata, validId } = useMemo(
+    () => processMAILMarketData(rawData, chainId),
+    [rawData, chainId]
+  );
+
+  const { mySupply, myBorrow } = useMemo(
+    () => calculateMySupplyAndBorrow(data),
+    [data]
+  );
+
+  const aprData = useMemo(() => calculateAPRs(data, validId), [validId, data]);
+
+  if (error) return <div>error getting mail market data</div>;
 
   return (
     <Box flex="1" display="flex" flexDirection="column">
@@ -34,7 +52,7 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
       >
         <Box display="flex" justifyContent="space-between">
           <GoBack route={RoutesEnum.MAILMarket} />
-          <a href="#popular">
+          <a href="#mail-supply-borrow-markets">
             <Typography
               color="accent"
               variant="normal"
@@ -43,7 +61,7 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
                 color: 'accentActive',
               }}
             >
-              See Popular
+              See Markets
             </Typography>
           </a>
         </Box>
@@ -53,7 +71,7 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
           gridGap="1rem"
           gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
         >
-          <MAILMarketPoolInfo pool={pool} />
+          <MAILMarketPoolInfo metadata={metadata} />
           <Box
             display="grid"
             gridColumnGap="1rem"
@@ -61,19 +79,20 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
           >
             <MAILMarketPoolBalance
               type="supply"
-              balance="0928"
+              balance={formatDollars(IntMath.toNumber(mySupply))}
               loading={loading}
             />
             <MAILMarketPoolBalance
               type="borrow"
-              balance="0928"
+              balance={formatDollars(IntMath.toNumber(myBorrow))}
               loading={loading}
             />
           </Box>
-          <MAILMarketPoolNetApr loading={loading} />
+          <MAILMarketPoolNetApr data={aprData} loading={loading} />
           <MAILMarketPoolRisk loading={loading} />
         </Box>
         <Box
+          id="mail-supply-borrow-markets"
           display="grid"
           columnGap="1rem"
           gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}

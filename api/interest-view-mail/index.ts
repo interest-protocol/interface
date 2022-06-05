@@ -22,3 +22,16 @@ export const getMAILMarketMetadata = (chainId: number, token: string) => {
 
   return contract.getMAILMarketMetadata(token);
 };
+
+export const getMAILMarketData = (
+  chainId: number,
+  mailMarket: string,
+  account: string
+) => {
+  const contract = getInterestViewMAILContract(
+    chainId,
+    getStaticWeb3Provider(chainId)
+  );
+
+  return contract.getMAILPoolData(mailMarket, account);
+};
