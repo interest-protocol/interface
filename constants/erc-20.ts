@@ -108,8 +108,7 @@ export const getFarmsSVG = (
 
   return svgArray;
 };
-
-const RINKEBY_ERC20_ARRAY = [
+const RINKEBY_RECOMMENDED_ERC20_ARRAY = [
   {
     symbol: TOKEN_SYMBOL.BTC,
     decimals: 18,
@@ -138,6 +137,10 @@ const RINKEBY_ERC20_ARRAY = [
     address: getUSDTAddress(CHAIN_ID.RINKEBY),
     chainId: CHAIN_ID.RINKEBY,
   },
+];
+
+const RINKEBY_ERC20_ARRAY = [
+  ...RINKEBY_RECOMMENDED_ERC20_ARRAY,
   {
     symbol: TOKEN_SYMBOL.LINK,
     decimals: 18,
@@ -175,7 +178,7 @@ const RINKEBY_ERC20_ARRAY = [
   },
 ];
 
-const BNB_TEST_ERC20_ARRAY = [
+const BNB_TEST_RECOMMENDED_ERC20_ARRAY = [
   {
     symbol: TOKEN_SYMBOL.BTC,
     decimals: 18,
@@ -190,6 +193,10 @@ const BNB_TEST_ERC20_ARRAY = [
     address: getDNRAddress(CHAIN_ID.BNB_TEST_NET),
     chainId: CHAIN_ID.BNB_TEST_NET,
   },
+];
+
+const BNB_TEST_ERC20_ARRAY = [
+  ...BNB_TEST_RECOMMENDED_ERC20_ARRAY,
   {
     symbol: TOKEN_SYMBOL.INT,
     decimals: 18,
@@ -224,9 +231,22 @@ const BNB_TEST_ERC_20_DATA = makeERC20Record(BNB_TEST_ERC20_ARRAY);
 
 const RINKEBY_ERC_20_DATA = makeERC20Record(RINKEBY_ERC20_ARRAY);
 
+const BNB_TEST_RECOMMENDED_ERC_20_DATA = makeERC20Record(
+  BNB_TEST_RECOMMENDED_ERC20_ARRAY
+);
+
+export const RINKEBY_RECOMMENDED_ERC_20_DATA = makeERC20Record(
+  RINKEBY_RECOMMENDED_ERC20_ARRAY
+);
+
 export const ERC_20_DATA = {
   [CHAIN_ID.BNB_TEST_NET]: BNB_TEST_ERC_20_DATA,
   [CHAIN_ID.RINKEBY]: RINKEBY_ERC_20_DATA,
+};
+
+export const RECOMMENDED_ERC_20_DATA = {
+  [CHAIN_ID.BNB_TEST_NET]: BNB_TEST_RECOMMENDED_ERC_20_DATA,
+  [CHAIN_ID.RINKEBY]: RINKEBY_RECOMMENDED_ERC_20_DATA,
 };
 
 export const UNKNOWN_ERC_20 = ERC20.from(ethers.constants.AddressZero, 0);

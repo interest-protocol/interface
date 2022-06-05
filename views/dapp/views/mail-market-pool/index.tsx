@@ -1,15 +1,17 @@
+import { compose, join, map, values } from 'ramda';
 import { FC, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Container } from '@/components';
-import { RoutesEnum } from '@/constants';
+import { RECOMMENDED_ERC_20_DATA, RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useGetMailMarketData } from '@/hooks';
 import { IntMath } from '@/sdk';
 import { getChainId } from '@/state/core/core.selectors';
-import { formatDollars } from '@/utils';
+import { formatDollars, getArrayWithUniqueValues } from '@/utils';
 
 import GoBack from '../../components/go-back';
+import ErrorView from '../error';
 import { MAILMarketPoolBalance, MAILMarketPoolTable } from './components';
 import MAILMarketPoolInfo from './components/mail-market-pool-info';
 import MAILMarketPoolNetApr from './components/mail-market-pool-net-apr';
@@ -19,7 +21,7 @@ import {
   calculateAPRs,
   calculateMySupplyAndBorrow,
   processMAILMarketData,
-} from './utilts';
+} from './utils';
 
 const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
   const { data: rawData, error } = useGetMailMarketData(pool);
@@ -37,7 +39,7 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
 
   const aprData = useMemo(() => calculateAPRs(data, validId), [validId, data]);
 
-  if (error) return <div>error getting mail market data</div>;
+  if (error) return <ErrorView message="error getting mail market data" />;
 
   return (
     <Box flex="1" display="flex" flexDirection="column">
@@ -65,6 +67,17 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             </Typography>
           </a>
         </Box>
+        <Typography variant="normal" ml="M">
+          Borrow & Lend &rarr;{' '}
+          {chainId &&
+            compose(
+              join(' | '),
+              getArrayWithUniqueValues,
+              map(({ symbol }) => symbol),
+              values
+            )(RECOMMENDED_ERC_20_DATA[chainId])}{' '}
+          | {metadata.symbol}
+        </Typography>
         <Box
           mt="XL"
           display="grid"
