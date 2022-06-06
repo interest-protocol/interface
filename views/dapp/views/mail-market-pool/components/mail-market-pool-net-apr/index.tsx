@@ -30,7 +30,7 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
             cursor="help"
             data-tip={`Percentage in USD you are ${
               data.net.isPositive ? 'earning' : 'paying'
-            } annually <br /> Formula: (rewards - debt) / amount supplied`}
+            } annually <br /> Formula: (rewards - debt) / (amount supplied - amount borrowed)`}
             display="inline-block"
             ml="M"
           >

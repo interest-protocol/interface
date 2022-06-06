@@ -37,3 +37,13 @@ export interface MailMarketsSummaryData {
   borrowRates: BigNumber[];
   supplyRates: BigNumber[];
 }
+
+export interface ERC20Metadata {
+  name: string;
+  symbol: string;
+  decimals: BigNumber;
+}
+
+export interface ERC20MetadataWithAddress extends ERC20Metadata {
+  address: string;
+}

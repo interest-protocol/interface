@@ -22,6 +22,27 @@
     "inputs": [
       { "internalType": "address", "name": "token", "type": "address" }
     ],
+    "name": "getERC20Metada",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "address", "name": "token", "type": "address" },
+          { "internalType": "string", "name": "name", "type": "string" },
+          { "internalType": "string", "name": "symbol", "type": "string" },
+          { "internalType": "uint256", "name": "decimals", "type": "uint256" }
+        ],
+        "internalType": "struct ERC20Metada",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "token", "type": "address" }
+    ],
     "name": "getMAILMarketMetadata",
     "outputs": [
       {
@@ -53,22 +74,18 @@
     "outputs": [
       {
         "components": [
-          { "internalType": "bool", "name": "isDeployed", "type": "bool" },
+          { "internalType": "address", "name": "token", "type": "address" },
           { "internalType": "string", "name": "name", "type": "string" },
           { "internalType": "string", "name": "symbol", "type": "string" },
-          { "internalType": "address", "name": "token", "type": "address" },
-          {
-            "internalType": "address",
-            "name": "predictedAddress",
-            "type": "address"
-          }
+          { "internalType": "uint256", "name": "decimals", "type": "uint256" }
         ],
-        "internalType": "struct MailMetadata",
+        "internalType": "struct ERC20Metada",
         "name": "",
         "type": "tuple"
       },
       {
         "components": [
+          { "internalType": "uint256", "name": "ltv", "type": "uint256" },
           { "internalType": "uint128", "name": "usdPrice", "type": "uint128" },
           { "internalType": "uint128", "name": "supply", "type": "uint128" },
           { "internalType": "uint128", "name": "borrow", "type": "uint128" },
