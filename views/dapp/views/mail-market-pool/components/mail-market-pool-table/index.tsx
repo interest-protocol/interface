@@ -116,6 +116,7 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
                         </Box>,
                       ]
                     : []),
+                  ...(type == 'borrow' && !active ? [0] : []),
                 ],
               };
             }
