@@ -75,7 +75,11 @@ const Faucet: FC = () => {
           </Box>
           <Box display="flex" justifyContent="space-between">
             <Typography variant="normal">Recommended tokens</Typography>
-            <Button variant="primary" onClick={toggleCreateToken}>
+            <Button
+              variant="primary"
+              onClick={toggleCreateToken}
+              hover={{ bg: 'accentActive' }}
+            >
               Create Token
             </Button>
           </Box>

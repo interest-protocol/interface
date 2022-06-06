@@ -3,14 +3,14 @@ import { useRouter } from 'next/router';
 import { head, nth, prop } from 'ramda';
 import { FC, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
-import toast from 'react-hot-toast';
 
 import { createMailMarket } from '@/api';
+import { CopyToClipboard } from '@/components';
 import { Routes, RoutesEnum, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useGetMailMarketMetadata, useGetSigner } from '@/hooks';
 import { TOKEN_SYMBOL } from '@/sdk';
-import { CopySVG, LoadingSVG, TimesSVG } from '@/svg';
+import { LoadingSVG, TimesSVG } from '@/svg';
 import {
   isSameAddress,
   isZeroAddress,
@@ -96,11 +96,6 @@ const SearchItem: FC<SearchItemProps> = ({ address, addLocalAsset, data }) => {
     TOKENS_SVG_MAP[getSymbol(data) as string] ??
     TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
-  const copyToClipboard = (address: string) => () => {
-    window.navigator.clipboard.writeText(address || '');
-    toast('Copied to clipboard');
-  };
-
   return (
     <Box
       p="L"
@@ -135,14 +130,7 @@ const SearchItem: FC<SearchItemProps> = ({ address, addLocalAsset, data }) => {
               Token Address:
             </Typography>
             <Typography variant="normal">{shortAccount(address)}</Typography>
-            <Box
-              ml="M"
-              cursor="pointer"
-              hover={{ color: 'accent' }}
-              onClick={copyToClipboard(address)}
-            >
-              <CopySVG width="1rem" />
-            </Box>
+            <CopyToClipboard ml="M" address={address} />
           </Box>
           <Box display="flex" alignItems="center">
             <Typography
@@ -156,14 +144,10 @@ const SearchItem: FC<SearchItemProps> = ({ address, addLocalAsset, data }) => {
             <Typography variant="normal">
               {shortAccount(getMarketAddress(data) as string)}
             </Typography>
-            <Box
+            <CopyToClipboard
               ml="M"
-              cursor="pointer"
-              hover={{ color: 'accent' }}
-              onClick={copyToClipboard(getMarketAddress(data) as string)}
-            >
-              <CopySVG width="1rem" />
-            </Box>
+              address={getMarketAddress(data) as string}
+            />
           </Box>
         </Box>
       </Box>

@@ -3,12 +3,12 @@ import dynamic from 'next/dynamic';
 import { pathOr, prop } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import Skeleton from 'react-loading-skeleton';
 import { useDispatch } from 'react-redux';
 import { v4 } from 'uuid';
 
 import { mintMAILFaucetToken } from '@/api';
+import { CopyToClipboard } from '@/components';
 import {
   DEFAULT_ERC_20_DECIMALS,
   ERC_20_DATA,
@@ -16,10 +16,9 @@ import {
 } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useGetSigner, useIsMounted } from '@/hooks';
-import { IntMath } from '@/sdk';
-import { TOKEN_SYMBOL } from '@/sdk';
+import { IntMath, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
-import { CopySVG, LoadingSVG, TimesSVG } from '@/svg';
+import { LoadingSVG, TimesSVG } from '@/svg';
 import {
   formatMoney,
   isSameAddress,
@@ -103,11 +102,6 @@ const FaucetForm: FC<FaucetFormProps> = ({
       success: 'Success!',
       error: prop('message'),
     });
-
-  const copyToClipboard = (address: string) => () => {
-    window.navigator.clipboard.writeText(address || '');
-    toast('Copied to clipboard');
-  };
 
   return (
     <>
@@ -235,17 +229,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
                         <Typography variant="normal" color="textSecondary">
                           {symbol}
                         </Typography>
-                        <Box
-                          mr="M"
-                          as="span"
-                          cursor="pointer"
-                          color="textSecondary"
-                          data-tip="Copy Address"
-                          hover={{ color: 'accent' }}
-                          onClick={copyToClipboard(address)}
-                        >
-                          <CopySVG width="1rem" />
-                        </Box>
+                        <CopyToClipboard address={address} />
                         {removeLocalToken && (
                           <Box
                             color="error"

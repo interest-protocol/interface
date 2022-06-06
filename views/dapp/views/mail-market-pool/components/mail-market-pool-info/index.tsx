@@ -1,20 +1,14 @@
 import { FC } from 'react';
-import toast from 'react-hot-toast';
 
+import { CopyToClipboard } from '@/components';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { CopySVG, InfoSVG, UnknownCoinSVG } from '@/svg';
+import { InfoSVG, UnknownCoinSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
 import { MAILMarketPoolInfoProps } from '../../mail-market-pool.types';
 
 const MAILMarketPoolInfo: FC<MAILMarketPoolInfoProps> = ({ metadata }) => {
-  // return null;
-  const copyToClipboard = () => {
-    window.navigator.clipboard.writeText(metadata.token || '');
-    toast('Copied to clipboard');
-  };
-
   const Icon = TOKENS_SVG_MAP[metadata.symbol];
 
   return (
@@ -38,14 +32,11 @@ const MAILMarketPoolInfo: FC<MAILMarketPoolInfoProps> = ({ metadata }) => {
             <Typography variant="normal" my="M" color="textSecondary" mr="M">
               {shortAccount(metadata.token)}
             </Typography>
-            <Box
+            <CopyToClipboard
               display="flex"
               alignItems="center"
-              onClick={copyToClipboard}
-              hover={{ color: 'hover' }}
-            >
-              <CopySVG width="1rem" />
-            </Box>
+              address={metadata.token}
+            />
           </Box>
         </Box>
       </Box>
