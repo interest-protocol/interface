@@ -1,5 +1,4 @@
 import { ethers } from 'ethers';
-import dynamic from 'next/dynamic';
 import { pathOr, prop } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -8,14 +7,14 @@ import { useDispatch } from 'react-redux';
 import { v4 } from 'uuid';
 
 import { mintMAILFaucetToken } from '@/api';
-import { CopyToClipboard } from '@/components';
+import { CopyToClipboard, Tooltip } from '@/components';
 import {
   DEFAULT_ERC_20_DECIMALS,
   ERC_20_DATA,
   TOKENS_SVG_MAP,
 } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
-import { useGetSigner, useIsMounted } from '@/hooks';
+import { useGetSigner } from '@/hooks';
 import { IntMath, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG, TimesSVG } from '@/svg';
@@ -33,8 +32,6 @@ import CurrencyIdentifier from '../faucet-currency-identidier';
 import FaucetSelectCurrency from '../faucet-select-currency';
 import InputBalance from '../input-balance';
 
-const Tooltip = dynamic(() => import('react-tooltip'));
-
 const FaucetForm: FC<FaucetFormProps> = ({
   tokens,
   isLoadingData,
@@ -42,7 +39,6 @@ const FaucetForm: FC<FaucetFormProps> = ({
   removeLocalToken,
 }) => {
   const dispatch = useDispatch();
-  const isMounted = useIsMounted();
   const [loading, setLoading] = useState(false);
   const { chainId, account, signer } = useGetSigner();
 
@@ -256,9 +252,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
           </Box>
         </Box>
       </Box>
-      {isMounted.current && (
-        <Tooltip place="top" type="dark" effect="solid" multiline />
-      )}
+      <Tooltip />
     </>
   );
 };
