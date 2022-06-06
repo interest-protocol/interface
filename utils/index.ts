@@ -8,6 +8,7 @@ export * from './error';
 export * from './farms';
 export * from './parse';
 export * from './promise';
+export * from './rebase';
 export * from './state';
 export * from './string';
 export * from './toast';

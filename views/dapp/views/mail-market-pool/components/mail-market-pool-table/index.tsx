@@ -7,7 +7,7 @@ import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Table, Typography } from '@/elements';
 import { IntMath } from '@/sdk';
 import { UnknownCoinSVG } from '@/svg';
-import { formatDollars, formatMoney } from '@/utils';
+import { formatDollars, formatMoney, principalToElastic } from '@/utils';
 
 import {
   ACTIVE_MARKET_POOL_HEADINGS,
@@ -60,6 +60,9 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
               borrow,
               supply,
               usdPrice,
+              totalSupply,
+              totalElastic,
+              totalBase,
             }) => {
               const Icon = TOKENS_SVG_MAP[symbol]
                 ? TOKENS_SVG_MAP[symbol]
@@ -69,12 +72,18 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
                 IntMath.toNumber(type === 'borrow' ? borrowRate : supplyRate) *
                 100;
 
+              const borrowElastic = principalToElastic(
+                totalElastic,
+                totalBase,
+                borrow
+              );
+
               const balance = IntMath.toNumber(
-                type === 'borrow' ? borrow : supply
+                type === 'borrow' ? borrowElastic : supply
               );
 
               const balanceInUSD = IntMath.from(
-                type === 'borrow' ? borrow : supply
+                type === 'borrow' ? borrowElastic : supply
               )
                 .mul(usdPrice)
                 .toNumber();
@@ -116,7 +125,9 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
                         </Box>,
                       ]
                     : []),
-                  ...(type == 'borrow' && !active ? [0] : []),
+                  ...(type == 'borrow' && !active
+                    ? [formatMoney(IntMath.toNumber(totalSupply))]
+                    : []),
                 ],
               };
             }
