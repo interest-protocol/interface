@@ -1,14 +1,14 @@
-import { compose, join, map, values } from 'ramda';
+import { compose, join, map, prepend, prop, propOr } from 'ramda';
 import { FC, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Container } from '@/components';
-import { RECOMMENDED_ERC_20_DATA, RoutesEnum } from '@/constants';
+import { MAIL_BRIDGE_TOKENS_ARRAY, RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useGetMailMarketData } from '@/hooks';
 import { IntMath } from '@/sdk';
 import { getChainId } from '@/state/core/core.selectors';
-import { formatDollars, getArrayWithUniqueValues } from '@/utils';
+import { formatDollars } from '@/utils';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
@@ -20,7 +20,9 @@ import { MAILMarketPoolProps } from './mail-market-pool.types';
 import {
   calculateAPRs,
   calculateMySupplyAndBorrow,
+  calculatePoolRisk,
   processMAILMarketData,
+  processMarkets,
 } from './utils';
 
 const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
@@ -35,6 +37,16 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
   const { mySupply, myBorrow } = useMemo(
     () => calculateMySupplyAndBorrow(data),
     [data]
+  );
+
+  const bridgeTokens = useMemo(
+    () => propOr([], validId.toString(), MAIL_BRIDGE_TOKENS_ARRAY),
+    [validId]
+  );
+
+  const markets = useMemo(
+    () => processMarkets(data, metadata, validId),
+    [data, metadata, validId]
   );
 
   const aprData = useMemo(() => calculateAPRs(data, validId), [validId, data]);
@@ -69,14 +81,12 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
         </Box>
         <Typography variant="normal" ml="M">
           Borrow & Lend &rarr;{' '}
-          {chainId &&
+          {!loading &&
             compose(
-              join(' | '),
-              getArrayWithUniqueValues,
-              map(({ symbol }) => symbol),
-              values
-            )(RECOMMENDED_ERC_20_DATA[chainId])}{' '}
-          | {metadata.symbol}
+              join(' - '),
+              prepend(metadata.symbol),
+              map(prop('symbol'))
+            )(bridgeTokens)}
         </Typography>
         <Box
           mt="XL"
@@ -102,7 +112,10 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             />
           </Box>
           <MAILMarketPoolNetApr data={aprData} loading={loading} />
-          <MAILMarketPoolRisk loading={loading} />
+          <MAILMarketPoolRisk
+            loading={loading}
+            risk={calculatePoolRisk(data)}
+          />
         </Box>
         <Box
           id="mail-supply-borrow-markets"
@@ -110,10 +123,28 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
           columnGap="1rem"
           gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
         >
-          <MAILMarketPoolTable loading={loading} favorite type="supply" />
-          <MAILMarketPoolTable loading={loading} favorite type="borrow" />
-          <MAILMarketPoolTable loading={loading} type="supply" />
-          <MAILMarketPoolTable loading={loading} type="borrow" />
+          <MAILMarketPoolTable
+            loading={loading}
+            markets={markets.activeSupplyMarkets}
+            active
+            type="supply"
+          />
+          <MAILMarketPoolTable
+            loading={loading}
+            markets={markets.activeBorrowMarkets}
+            active
+            type="borrow"
+          />
+          <MAILMarketPoolTable
+            loading={loading}
+            markets={markets.supplyMarkets}
+            type="supply"
+          />
+          <MAILMarketPoolTable
+            loading={loading}
+            markets={markets.borrowMarkets}
+            type="borrow"
+          />
         </Box>
       </Container>
     </Box>

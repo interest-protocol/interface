@@ -2,6 +2,10 @@ import { BigNumber } from 'ethers';
 import { FC, SVGAttributes } from 'react';
 import { Control, UseFormRegister } from 'react-hook-form';
 
+import { ERC20MetadataWithAddress } from '@/interface';
+import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk';
+import { getBTCAddress } from '@/utils';
+
 export type MAILMarketPoolOperation = 'supply' | 'borrow';
 
 export interface IMailMarketPoolData {
@@ -35,13 +39,7 @@ export interface MAILMarketPoolProps {
 }
 
 export interface MAILMarketPoolInfoProps {
-  metadata: {
-    isDeployed: boolean;
-    name: string;
-    symbol: string;
-    token: string;
-    predictedAddress: string;
-  };
+  metadata: ERC20MetadataWithAddress;
 }
 
 interface APRData {
@@ -53,6 +51,11 @@ interface APRData {
   };
 }
 
+export interface MAILMarketPoolRiskProps {
+  loading: boolean;
+  risk: number;
+}
+
 export interface MAILMarketPoolNetAprProps {
   loading: boolean;
   data: APRData;
@@ -60,4 +63,11 @@ export interface MAILMarketPoolNetAprProps {
 
 export interface MAILMarketLoadingProps {
   loading: boolean;
+}
+
+export interface MarketMetadata {
+  symbol: string | TOKEN_SYMBOL;
+  decimals: number;
+  name: string;
+  tokenAddress: string;
 }

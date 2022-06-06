@@ -13,13 +13,13 @@ function useLocalStorage<T>(
       const value = window.localStorage.getItem(keyName);
 
       if (value) {
-        return JSON.parse(value);
+        setStoredValue(JSON.parse(value));
       } else {
         window.localStorage.setItem(keyName, JSON.stringify(defaultValue));
-        return defaultValue;
+        setStoredValue(defaultValue);
       }
     } catch (err) {
-      return defaultValue;
+      setStoredValue(defaultValue);
     }
   }, [keyName]);
 

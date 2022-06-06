@@ -30,12 +30,12 @@ const MAILMarketPoolInfo: FC<MAILMarketPoolInfoProps> = ({ metadata }) => {
           </Typography>
           <Box display="flex" alignItems="center">
             <Typography variant="normal" my="M" color="textSecondary" mr="M">
-              {shortAccount(metadata.token)}
+              {shortAccount(metadata.address)}
             </Typography>
             <CopyToClipboard
               display="flex"
               alignItems="center"
-              address={metadata.token}
+              address={metadata.address}
             />
           </Box>
         </Box>
