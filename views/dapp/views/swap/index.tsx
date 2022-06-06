@@ -8,7 +8,7 @@ import { CogsSVG } from '@/svg';
 
 import SettingsModal from './components/settings';
 import SwapForm from './components/swap-form';
-import LiquidationView from './liquidation';
+import LiquidationView from './pool';
 
 const Swap: FC = () => {
   const {
@@ -28,7 +28,7 @@ const Swap: FC = () => {
         color="text"
         width="100%"
         bg="foreground"
-        minWidth="22rem"
+        minWidth="40rem"
         borderRadius="M"
       >
         <Box
@@ -71,10 +71,10 @@ const SwapView: FC = () => {
     <Container>
       <Box bg="foreground" textAlign="center" mt="XL" p="L" borderRadius="L">
         <Switch
-          defaultValue={isSwap ? 'swap' : 'liquidation'}
+          defaultValue={isSwap ? 'swap' : 'pool'}
           options={[
             { value: 'swap', onSelect: () => setIsSwap(true) },
-            { value: 'liquidation', onSelect: () => setIsSwap(false) },
+            { value: 'pool', onSelect: () => setIsSwap(false) },
           ]}
         />
       </Box>

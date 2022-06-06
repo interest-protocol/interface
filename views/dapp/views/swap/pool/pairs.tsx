@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { Box, Typography } from '@/elements';
 import { CheckSVG } from '@/svg';
 
-import { PairsProps } from './liquidation.types';
+import { PairsProps } from './pool.type';
 
 const Pairs: FC<PairsProps> = ({
   perceptual,
