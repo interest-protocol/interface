@@ -14,7 +14,7 @@ import { ISwapForm } from '../components/swap.types';
 import SwapSelectCurrency from '../components/swap-select-currency';
 import Pairs from './pairs';
 
-const CreatePoolView: FC<SwapModalProps> = ({ isOpen, handleClose }) => {
+const AddLiquidity: FC<SwapModalProps> = ({ isOpen, handleClose }) => {
   const [editHide, setEditHide] = useState(false);
   const [typeSelected, setTypeSelected] = useState('stable');
   const DefaultTokenSVG = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
@@ -211,4 +211,4 @@ const CreatePoolView: FC<SwapModalProps> = ({ isOpen, handleClose }) => {
   );
 };
 
-export default CreatePoolView;
+export default AddLiquidity;

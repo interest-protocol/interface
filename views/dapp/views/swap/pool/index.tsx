@@ -6,7 +6,7 @@ import { Box, Button, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 
 import Liquidity from './liquidity';
-import CreatePoolView from './modal-create-pool';
+import AddLiquidity from './modal-add-liquidity';
 import NonHasPool from './non-has-pool';
 
 const PoolView: FC = () => {
@@ -21,7 +21,7 @@ const PoolView: FC = () => {
   const toggleModal = () =>
     push(
       `${pathname}${
-        !modal && modal !== 'create-pool' ? '?modal=create-pool' : ''
+        !modal && modal !== 'add-liquidity' ? '?modal=add-liquidity' : ''
       }`
     );
 
@@ -54,7 +54,7 @@ const PoolView: FC = () => {
             type="button"
             onClick={toggleModal}
           >
-            Create pool
+            Add Liquidity
           </Button>
         </Box>
         <Typography variant="normal" as="hr" color="#33373B" mb="L" />
@@ -80,8 +80,8 @@ const PoolView: FC = () => {
         />
         {false && <NonHasPool />}
       </Box>
-      <CreatePoolView
-        isOpen={!!modal && (modal as string) === 'create-pool'}
+      <AddLiquidity
+        isOpen={!!modal && (modal as string) === 'add-liquidity'}
         handleClose={toggleModal}
       />
     </>
