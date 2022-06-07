@@ -9,3 +9,13 @@ export const principalToElastic = (
 
   return principal.mul(totalElastic).div(totalBase);
 };
+
+export const elasticToPrincipal = (
+  totalElastic: BigNumber,
+  totalBase: BigNumber,
+  elastic: BigNumber
+) => {
+  if (totalElastic.isZero()) return elastic;
+
+  return elastic.mul(totalBase).div(totalElastic);
+};

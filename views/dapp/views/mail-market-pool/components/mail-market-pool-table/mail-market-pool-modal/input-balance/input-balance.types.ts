@@ -8,8 +8,8 @@ import { IMAILMarketPoolForm } from '../mail-market-pool-modal.types';
 
 export interface InputBalanceProps {
   label: string;
-  name: 'value' | 'currency';
+  name: 'value';
   register: UseFormRegister<IMAILMarketPoolForm>;
   setValue?: UseFormSetValue<IMAILMarketPoolForm>;
-  getValues: UseFormGetValues<IMAILMarketPoolForm>;
+  max: number;
 }

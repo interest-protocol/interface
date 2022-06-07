@@ -41,9 +41,9 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
           {loading ? (
             <Skeleton width="80%" />
           ) : (
-            `${data.net.isPositive ? '' : '-'}${IntMath.from(
-              data.net.rate
-            ).toPercentage()}`
+            `${data.net.isPositive ? '' : '-'}${(
+              IntMath.from(data.net.rate).toNumber(16, 4, 4) * 100
+            ).toFixed(2)}`
           )}
         </Typography>
       </Box>
@@ -72,7 +72,9 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
           {loading ? (
             <Skeleton width="80%" />
           ) : (
-            IntMath.from(data.mySupplyRate).toPercentage()
+            `${(
+              IntMath.from(data.mySupplyRate).toNumber(16, 4, 4) * 100
+            ).toFixed(2)}%`
           )}
         </Typography>
       </Box>
@@ -101,7 +103,9 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
           {loading ? (
             <Skeleton width="80%" />
           ) : (
-            IntMath.from(data.myBorrowRate).toPercentage()
+            `${(
+              IntMath.from(data.myBorrowRate).toNumber(16, 4, 4) * 100
+            ).toFixed(2)}%`
           )}
         </Typography>
       </Box>

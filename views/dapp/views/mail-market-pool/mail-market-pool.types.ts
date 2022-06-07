@@ -3,7 +3,7 @@ import { FC, SVGAttributes } from 'react';
 import { Control, UseFormRegister } from 'react-hook-form';
 
 import { ERC20MetadataWithAddress } from '@/interface';
-import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk';
+import { CHAIN_ID, TOKEN_SYMBOL, ZERO_BIG_NUMBER } from '@/sdk';
 import { getBTCAddress } from '@/utils';
 
 export type MAILMarketPoolOperation = 'supply' | 'borrow';
@@ -70,4 +70,9 @@ export interface MarketMetadata {
   decimals: number;
   name: string;
   tokenAddress: string;
+}
+
+export interface TotalBorrowRiskyInUSDRecord {
+  totalMaxBorrowAmountInUSD: BigNumber;
+  totalBorrowInUSD: BigNumber;
 }

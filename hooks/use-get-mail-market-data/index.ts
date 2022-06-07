@@ -9,10 +9,14 @@ export const useGetMailMarketData = (mailMarketAddress: string) => {
   const chainId = useSelector(getChainId) as null | number;
   const account = useSelector(getAccount) as string;
 
-  return useCallContract(chainId, getMAILMarketData, [
+  return useCallContract(
     chainId,
-    mailMarketAddress,
-    account,
-    {},
-  ]);
+    getMAILMarketData,
+    [chainId, mailMarketAddress, account, {}],
+    {
+      refreshWhenHidden: false,
+      revalidateOnFocus: false,
+      revalidateOnMount: true,
+    }
+  );
 };

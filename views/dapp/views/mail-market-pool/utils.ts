@@ -7,7 +7,10 @@ import {
   ERC20MetadaStructOutput,
   MailDataStructOutput,
 } from '../../../../types/ethers-contracts/InterestViewMAILAbi';
-import { MarketMetadata } from './mail-market-pool.types';
+import {
+  MarketMetadata,
+  TotalBorrowRiskyInUSDRecord,
+} from './mail-market-pool.types';
 
 export const processMAILMarketData = (
   rawData:
@@ -57,8 +60,10 @@ export const calculateMySupplyAndBorrow = (data: MailDataStructOutput[]) =>
     }
   );
 
-export const calculatePoolRisk = (data: MailDataStructOutput[]) => {
-  const { totalBorrowInUSD, totalMaxBorrowAmountInUSD } = data.reduce(
+export const calculateTotalBorrowsInUSD = (
+  data: MailDataStructOutput[]
+): TotalBorrowRiskyInUSDRecord =>
+  data.reduce(
     (acc, item) => ({
       totalMaxBorrowAmountInUSD: acc.totalMaxBorrowAmountInUSD.add(
         IntMath.from(item.supply).mul(item.usdPrice).mul(item.ltv).value()
@@ -73,11 +78,14 @@ export const calculatePoolRisk = (data: MailDataStructOutput[]) => {
     }
   );
 
-  return Math.ceil(
+export const calculatePoolRisk = ({
+  totalBorrowInUSD,
+  totalMaxBorrowAmountInUSD,
+}: TotalBorrowRiskyInUSDRecord) =>
+  Math.ceil(
     IntMath.from(totalBorrowInUSD).div(totalMaxBorrowAmountInUSD).toNumber() *
       100
   );
-};
 
 const getTotalsInUSD = (data: MailDataStructOutput[], chainId: number) =>
   data.reduce(

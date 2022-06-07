@@ -160,7 +160,7 @@ export const CONTRACTS = {
     [CHAIN_ID.BNB_TEST_NET]: '0xaB852f3c3c926bd2430E7d6358441ee1ddbc2cF1',
   },
   INTEREST_VIEW_MAIL: {
-    [CHAIN_ID.RINKEBY]: '0xAbbeFCc2122EE6253F95706263c643F785f991d3',
+    [CHAIN_ID.RINKEBY]: '0xa0AC0Fdc2873C8BAE627d1E8B13b1f2f1590928D',
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
   },

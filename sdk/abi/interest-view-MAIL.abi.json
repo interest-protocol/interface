@@ -20,6 +20,18 @@
   },
   {
     "inputs": [
+      { "internalType": "address", "name": "mail", "type": "address" },
+      { "internalType": "address", "name": "token", "type": "address" },
+      { "internalType": "uint256", "name": "amount", "type": "uint256" },
+      { "internalType": "bool", "name": "isRiskyToken", "type": "bool" }
+    ],
+    "name": "getBorrowRate",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
       { "internalType": "address", "name": "token", "type": "address" }
     ],
     "name": "getERC20Metada",
@@ -85,7 +97,10 @@
       },
       {
         "components": [
-          { "internalType": "uint256", "name": "ltv", "type": "uint256" },
+          { "internalType": "uint256", "name": "allowance", "type": "uint256" },
+          { "internalType": "uint256", "name": "cash", "type": "uint256" },
+          { "internalType": "uint128", "name": "balance", "type": "uint128" },
+          { "internalType": "uint128", "name": "ltv", "type": "uint128" },
           { "internalType": "uint128", "name": "usdPrice", "type": "uint128" },
           { "internalType": "uint128", "name": "supply", "type": "uint128" },
           { "internalType": "uint128", "name": "borrow", "type": "uint128" },
@@ -145,6 +160,18 @@
       { "internalType": "address", "name": "riskyToken", "type": "address" }
     ],
     "name": "getRiskyTokenUSDPrice",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "mail", "type": "address" },
+      { "internalType": "address", "name": "token", "type": "address" },
+      { "internalType": "uint256", "name": "amount", "type": "uint256" },
+      { "internalType": "bool", "name": "isRiskyToken", "type": "bool" }
+    ],
+    "name": "getSupplyRate",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"

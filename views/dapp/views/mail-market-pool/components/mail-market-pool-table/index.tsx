@@ -8,7 +8,9 @@ import { Box, Table, Typography } from '@/elements';
 import { IntMath } from '@/sdk';
 import { UnknownCoinSVG } from '@/svg';
 import { formatDollars, formatMoney, principalToElastic } from '@/utils';
+import { MarketMetadata } from '@/views/dapp/views/mail-market-pool/mail-market-pool.types';
 
+import { MailDataStructOutput } from '../../../../../../types/ethers-contracts/InterestViewMAILAbi';
 import {
   ACTIVE_MARKET_POOL_HEADINGS,
   MAIL_MARKET_POOL_HEADINGS,
@@ -21,9 +23,13 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
   active,
   loading,
   markets,
+  totalBorrowsInUSDRecord,
+  pool,
+  refreshData,
 }) => {
   const [showModal, setShowModal] = useState(false);
-  const [modalAddress, setModalAddress] = useState('');
+  const [modalData, setModalData] =
+    useState<(MailDataStructOutput & MarketMetadata) | null>(null);
 
   const toggleModal = () => setShowModal(!showModal);
 
@@ -51,9 +57,8 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
               type
             ]
           }
-          data={organizedData.map(
-            ({
-              tokenAddress,
+          data={organizedData.map((marketData) => {
+            const {
               symbol,
               borrowRate,
               supplyRate,
@@ -63,82 +68,85 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
               totalSupply,
               totalElastic,
               totalBase,
-            }) => {
-              const Icon = TOKENS_SVG_MAP[symbol]
-                ? TOKENS_SVG_MAP[symbol]
-                : UnknownCoinSVG;
+            } = marketData;
 
-              const apr =
-                IntMath.toNumber(type === 'borrow' ? borrowRate : supplyRate) *
-                100;
+            const Icon = TOKENS_SVG_MAP[symbol]
+              ? TOKENS_SVG_MAP[symbol]
+              : UnknownCoinSVG;
 
-              const borrowElastic = principalToElastic(
-                totalElastic,
-                totalBase,
-                borrow
-              );
+            const apr =
+              IntMath.toNumber(type === 'borrow' ? borrowRate : supplyRate) *
+              100;
 
-              const balance = IntMath.toNumber(
-                type === 'borrow' ? borrowElastic : supply
-              );
+            const borrowElastic = principalToElastic(
+              totalElastic,
+              totalBase,
+              borrow
+            );
 
-              const balanceInUSD = IntMath.from(
-                type === 'borrow' ? borrowElastic : supply
-              )
-                .mul(usdPrice)
-                .toNumber();
+            const balance = IntMath.toNumber(
+              type === 'borrow' ? borrowElastic : supply
+            );
 
-              return {
-                handleClick: () => {
-                  toggleModal();
-                  setModalAddress(tokenAddress);
-                },
-                items: [
-                  <Box key={v4()} display="flex" alignItems="center">
-                    <Box as="span" mr="M" display="inline-block" width="1.5rem">
-                      <Icon width="100%" />
-                    </Box>
-                    <Typography variant="normal" fontWeight="500">
-                      {symbol}
-                    </Typography>
-                  </Box>,
-                  loading ? (
-                    <Skeleton width="3rem" />
-                  ) : (
-                    `${type == 'borrow' ? '-' : ''} ${apr}%`
-                  ),
-                  ...(active
-                    ? [
-                        <Box key={v4()}>
-                          <Typography variant="normal">
-                            {formatMoney(balance)}
-                          </Typography>
-                          <Typography
-                            mt="S"
-                            fontSize="S"
-                            color="success"
-                            fontWeight="500"
-                            variant="normal"
-                          >
-                            {formatDollars(balanceInUSD)}
-                          </Typography>
-                        </Box>,
-                      ]
-                    : []),
-                  ...(type == 'borrow' && !active
-                    ? [formatMoney(IntMath.toNumber(totalSupply))]
-                    : []),
-                ],
-              };
-            }
-          )}
+            const balanceInUSD = IntMath.from(
+              type === 'borrow' ? borrowElastic : supply
+            )
+              .mul(usdPrice)
+              .toNumber();
+
+            return {
+              handleClick: () => {
+                toggleModal();
+                setModalData(marketData);
+              },
+              items: [
+                <Box key={v4()} display="flex" alignItems="center">
+                  <Box as="span" mr="M" display="inline-block" width="1.5rem">
+                    <Icon width="100%" />
+                  </Box>
+                  <Typography variant="normal" fontWeight="500">
+                    {symbol}
+                  </Typography>
+                </Box>,
+                loading ? (
+                  <Skeleton width="3rem" />
+                ) : (
+                  `${type == 'borrow' ? '-' : ''} ${apr}%`
+                ),
+                ...(active
+                  ? [
+                      <Box key={v4()}>
+                        <Typography variant="normal">
+                          {formatMoney(balance)}
+                        </Typography>
+                        <Typography
+                          mt="S"
+                          fontSize="S"
+                          color="success"
+                          fontWeight="500"
+                          variant="normal"
+                        >
+                          {formatDollars(balanceInUSD)}
+                        </Typography>
+                      </Box>,
+                    ]
+                  : []),
+                ...(type == 'borrow' && !active
+                  ? [formatMoney(IntMath.toNumber(totalSupply))]
+                  : []),
+              ],
+            };
+          })}
         />
       </Box>
       <MAILMarketPoolModal
+        pool={pool}
         type={type}
         isOpen={showModal}
-        address={modalAddress}
+        data={modalData}
         handleClose={toggleModal}
+        totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
+        refreshData={refreshData}
       />
     </>
   );

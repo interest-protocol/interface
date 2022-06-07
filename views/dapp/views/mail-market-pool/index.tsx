@@ -1,5 +1,5 @@
 import { compose, join, map, prepend, prop, propOr } from 'ramda';
-import { FC, useMemo } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Container } from '@/components';
@@ -21,12 +21,13 @@ import {
   calculateAPRs,
   calculateMySupplyAndBorrow,
   calculatePoolRisk,
+  calculateTotalBorrowsInUSD,
   processMAILMarketData,
   processMarkets,
 } from './utils';
 
 const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
-  const { data: rawData, error } = useGetMailMarketData(pool);
+  const { data: rawData, error, mutate } = useGetMailMarketData(pool);
   const chainId = useSelector(getChainId) as number | null;
 
   const { loading, data, metadata, validId } = useMemo(
@@ -50,6 +51,18 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
   );
 
   const aprData = useMemo(() => calculateAPRs(data, validId), [validId, data]);
+
+  const totalBorrowsInUSDRecord = useMemo(
+    () => calculateTotalBorrowsInUSD(data),
+    [data]
+  );
+
+  const refreshData = useCallback(async () => {
+    try {
+      await mutate();
+      // eslint-disable-next-line no-empty
+    } catch {}
+  }, [mutate]);
 
   if (error) return <ErrorView message="error getting mail market data" />;
 
@@ -114,7 +127,7 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
           <MAILMarketPoolNetApr data={aprData} loading={loading} />
           <MAILMarketPoolRisk
             loading={loading}
-            risk={calculatePoolRisk(data)}
+            risk={calculatePoolRisk(totalBorrowsInUSDRecord)}
           />
         </Box>
         <Box
@@ -126,24 +139,36 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
           <MAILMarketPoolTable
             loading={loading}
             markets={markets.activeSupplyMarkets}
+            totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
             active
             type="supply"
+            pool={pool}
+            refreshData={refreshData}
           />
           <MAILMarketPoolTable
             loading={loading}
             markets={markets.activeBorrowMarkets}
+            totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
             active
             type="borrow"
+            pool={pool}
+            refreshData={refreshData}
           />
           <MAILMarketPoolTable
             loading={loading}
             markets={markets.supplyMarkets}
+            totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
             type="supply"
+            pool={pool}
+            refreshData={refreshData}
           />
           <MAILMarketPoolTable
             loading={loading}
             markets={markets.borrowMarkets}
+            totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
             type="borrow"
+            pool={pool}
+            refreshData={refreshData}
           />
         </Box>
       </Container>
