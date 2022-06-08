@@ -19,7 +19,7 @@ import {
 } from '@/sdk';
 import { FarmV2 } from '@/sdk';
 
-import { ReservesStructOutput } from '../../types/ethers-contracts/InterestViewAbi';
+import { ReservesStructOutput } from '../../types/ethers-contracts/InterestViewDineroAbi';
 import { formatDollars, getIntAddress, isSameAddress } from '..';
 import {
   GetSafeFarmSummaryData,
