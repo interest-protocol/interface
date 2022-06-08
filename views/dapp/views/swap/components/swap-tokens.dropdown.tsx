@@ -7,7 +7,7 @@ import { IDropdownData } from '@/elements/dropdown/dropdown.types';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { ArrowSVG } from '@/svg';
 
-import { IToken, SwapCurrencyDropdownProps } from './swap.types';
+import { IToken, SwapCurrencyDropdownProps } from '../swap.types';
 
 const BLOCKCHAIN_DATA = [
   {
@@ -30,19 +30,25 @@ const renderData = (
   const DefaultTokenSVG = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
   return tokens
-    ? tokens.map(({ symbol }) => {
+    ? tokens.map(({ address, symbol }) => {
         const SVG = TOKENS_SVG_MAP[symbol] ?? DefaultTokenSVG;
 
+        console.log('>> Address ::: ', address);
+
         return {
-          onSelect: () => onSelectCurrency(symbol),
+          value: address,
+          onSelect: () => onSelectCurrency(address),
           displayOption: symbol,
           displayTitle: (
             <Box
-              px="L"
+              mx="M"
+              px="M"
+              py="S"
+              width="7.6rem"
               display="flex"
-              bg="background"
               borderRadius="M"
               alignItems="center"
+              bg="bottomBackground"
               justifyContent="space-between"
             >
               <Box my="M" display="flex" alignItems="center">
@@ -60,15 +66,13 @@ const renderData = (
               <ArrowSVG width="0.5rem" />
             </Box>
           ),
-          value: symbol,
         };
       })
     : [];
 };
 
-const FaucetTokensDropdown: FC<SwapCurrencyDropdownProps> = ({
+const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   Input,
-  local,
   tokens,
   control,
   defaultValue,
@@ -81,14 +85,16 @@ const FaucetTokensDropdown: FC<SwapCurrencyDropdownProps> = ({
     [search]
   );
 
+  console.log('>> default value ::: ', defaultValue);
+
   return (
     <Dropdown
+      title=""
       relative
       mode="select"
+      header={Input}
       defaultValue={defaultValue}
       emptyMessage="Not found Tokens"
-      title={<></>}
-      header={local ? Input : undefined}
       data={renderData(
         searchResult?.length ? searchResult : tokens,
         onSelectCurrency
@@ -97,4 +103,4 @@ const FaucetTokensDropdown: FC<SwapCurrencyDropdownProps> = ({
   );
 };
 
-export default FaucetTokensDropdown;
+export default SwapCurrencyDropdown;

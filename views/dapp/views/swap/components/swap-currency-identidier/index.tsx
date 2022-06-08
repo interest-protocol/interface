@@ -4,7 +4,7 @@ import { useWatch } from 'react-hook-form';
 import { TOKENS_SVG_MAP } from '@/constants';
 import Box from '@/elements/box';
 
-import { CurrencyIdentifierProps } from '../swap.types';
+import { CurrencyIdentifierProps } from '../../swap.types';
 
 const CurrencyIdentifier: FC<CurrencyIdentifierProps> = ({ control }) => {
   const currency = useWatch({ control, name: 'currency' });

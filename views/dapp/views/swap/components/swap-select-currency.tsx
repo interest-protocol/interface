@@ -1,15 +1,11 @@
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Box, Typography } from '@/elements';
-
-import { SwapSelectCurrencyProps } from './swap.types';
+import { SwapSelectCurrencyProps } from '../swap.types';
 import SwapSearchToken from './swap-search-token';
 import SwapTokensDropdown from './swap-tokens.dropdown';
 
 const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
-  local,
-  label,
   tokens,
   defaultValue,
   onSelectCurrency,
@@ -22,26 +18,13 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
   });
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="stretch" width="48%">
-      {label && (
-        <Typography
-          as="label"
-          fontSize="S"
-          variant="normal"
-          display="inline-block"
-        >
-          {label}:
-        </Typography>
-      )}
-      <SwapTokensDropdown
-        local={local}
-        tokens={tokens}
-        control={control}
-        defaultValue={defaultValue}
-        onSelectCurrency={onSelectCurrency}
-        Input={<SwapSearchToken register={register} />}
-      />
-    </Box>
+    <SwapTokensDropdown
+      tokens={tokens}
+      control={control}
+      defaultValue={defaultValue}
+      onSelectCurrency={onSelectCurrency}
+      Input={<SwapSearchToken register={register} />}
+    />
   );
 };
 

@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
-import { FieldValues, UseFormRegister } from 'react-hook-form';
+import { UseFormRegister } from 'react-hook-form';
+
+import { ISwapForm } from '../../swap.types';
 
 export interface FieldProps {
   label: string;
@@ -8,10 +10,10 @@ export interface FieldProps {
   placeholder: string;
   suffix?: ReactNode;
   prefix?: ReactNode;
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<ISwapForm>;
 }
 
-export interface SwapModalProps {
-  isOpen: boolean;
-  handleClose: () => void;
+export interface SwapSettingsProps {
+  toggle: () => void;
+  register: UseFormRegister<ISwapForm>;
 }

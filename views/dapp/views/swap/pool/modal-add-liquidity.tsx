@@ -10,8 +10,8 @@ import {
   TOKENS_SVG_MAP,
 } from '../../../../../constants/erc-20';
 import { SwapModalProps } from '../components/settings/settings.types';
-import { ISwapForm } from '../components/swap.types';
 import SwapSelectCurrency from '../components/swap-select-currency';
+import { ISwapForm } from '../swap.types';
 import Pairs from './pairs';
 
 const AddLiquidity: FC<SwapModalProps> = ({ isOpen, handleClose }) => {

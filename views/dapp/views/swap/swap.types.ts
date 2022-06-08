@@ -1,5 +1,10 @@
 import { ReactNode } from 'react';
-import { Control, UseFormRegister } from 'react-hook-form';
+import {
+  Control,
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormSetValue,
+} from 'react-hook-form';
 
 export interface IToken {
   name?: string;
@@ -16,13 +21,19 @@ export interface SwapModalProps {
   handleClose: () => void;
 }
 
-export interface ISwapForm {
+interface ICurrencyField {
   value: number;
-  currency: string;
+  address: string;
+}
+
+export interface ISwapForm {
+  slippage: number;
+  deadline: number;
+  origin: ICurrencyField;
+  target: ICurrencyField;
 }
 
 export interface SwapSelectCurrencyProps {
-  local?: boolean;
   defaultValue: string;
   label?: string;
   tokens: ReadonlyArray<IToken>;
@@ -30,16 +41,10 @@ export interface SwapSelectCurrencyProps {
 }
 
 export interface SwapFormProps {
-  local?: {
-    setLocalTokens: (
-      token: ReadonlyArray<{
-        name: string;
-        symbol: string;
-        address: string;
-      }>
-    ) => void;
-  };
   tokens: ReadonlyArray<IToken>;
+  register: UseFormRegister<ISwapForm>;
+  setValue: UseFormSetValue<ISwapForm>;
+  getValues: UseFormGetValues<ISwapForm>;
 }
 
 export interface SwapProps {
@@ -50,7 +55,6 @@ export interface CurrencyIdentifierProps {
   control: Control<ISwapForm>;
 }
 export interface SwapCurrencyDropdownProps {
-  local?: boolean;
   Input: ReactNode;
   defaultValue: string;
   tokens: ReadonlyArray<IToken>;

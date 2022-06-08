@@ -75,7 +75,7 @@ const Header: FC = () => {
             }
             hover={{ color: 'accentActive' }}
           >
-            Swap
+            Exchange
           </Typography>
         </Link>
         <Link href={Routes[RoutesEnum.Earn]}>

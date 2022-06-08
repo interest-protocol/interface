@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { Input } from '@/elements';
 
-import { SwapSearchTokenProps } from './swap.types';
+import { SwapSearchTokenProps } from '../swap.types';
 
 const SwapSearchToken: FC<SwapSearchTokenProps> = ({ register }) => (
   <Input

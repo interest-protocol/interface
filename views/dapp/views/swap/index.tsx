@@ -1,24 +1,35 @@
-import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { Container, Switch } from '@/components';
 import { MAIL_FAUCET_TOKENS } from '@/constants';
-import { Box, Typography } from '@/elements';
+import { Box } from '@/elements';
 import { CogsSVG } from '@/svg';
 
-import SettingsModal from './components/settings';
+import Settings from './components/settings';
 import SwapForm from './components/swap-form';
 import LiquidationView from './pool';
+import { ISwapForm } from './swap.types';
 
 const Swap: FC = () => {
-  const {
-    pathname,
-    query: { modal },
-    push,
-  } = useRouter();
+  const { register, setValue, getValues } = useForm<ISwapForm>({
+    defaultValues: {
+      origin: {
+        address: MAIL_FAUCET_TOKENS[4][0].address,
+        value: 0,
+      },
+      target: {
+        address: MAIL_FAUCET_TOKENS[4][1].address,
+        value: 0,
+      },
+      slippage: 0.1,
+      deadline: 30,
+    },
+  });
 
-  const toggleModal = () =>
-    push(`${pathname}${!modal && modal !== 'swap' ? '?modal=swap' : ''}`);
+  const [showSettings, setShowSettings] = useState(false);
+
+  const toggleSettings = () => setShowSettings(!showSettings);
 
   return (
     <>
@@ -35,31 +46,36 @@ const Swap: FC = () => {
           pt="L"
           display="flex"
           alignItems="center"
-          justifyContent="space-between"
+          justifyContent="flex-end"
         >
-          <Typography variant="normal">Swap</Typography>
-          <Box
-            display="flex"
-            cursor="pointer"
-            alignItems="center"
-            onClick={toggleModal}
-            justifyContent="center"
-            transform="rotate(0deg)"
-            transition="all 300ms ease-in-out"
-            hover={{
-              color: 'accent',
-              transform: 'rotate(90deg)',
-            }}
-          >
-            <CogsSVG width="1.5rem" />
+          <Box display="flex" flexDirection="column" alignItems="flex-end">
+            <Box
+              display="flex"
+              cursor="pointer"
+              alignItems="center"
+              justifyContent="center"
+              transform="rotate(0deg)"
+              onClick={toggleSettings}
+              transition="all 300ms ease-in-out"
+              hover={{
+                color: 'accent',
+                transform: 'rotate(90deg)',
+              }}
+            >
+              <CogsSVG width="1.5rem" />
+            </Box>
+            {showSettings && (
+              <Settings toggle={toggleSettings} register={register} />
+            )}
           </Box>
         </Box>
-        <SwapForm tokens={MAIL_FAUCET_TOKENS[4]} />
+        <SwapForm
+          getValues={getValues}
+          setValue={setValue}
+          register={register}
+          tokens={MAIL_FAUCET_TOKENS[4]}
+        />
       </Box>
-      <SettingsModal
-        isOpen={!!modal && (modal as string) === 'swap'}
-        handleClose={toggleModal}
-      />
     </>
   );
 };
