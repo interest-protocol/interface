@@ -21,6 +21,7 @@ const {
   setAccount,
   setData,
   connectWallet,
+  setDefaultData,
 } = coreActions;
 
 export const coreReducer = createReducer<CoreState>(initialState, (builder) => {
@@ -58,5 +59,11 @@ export const coreReducer = createReducer<CoreState>(initialState, (builder) => {
     .addCase(connectWallet, (state) => {
       state.loading = LoadingState.Fetching;
       state.error = NO_STATE_ERROR;
+    })
+    .addCase(setDefaultData, (state) => {
+      state.loading = initialState.loading;
+      state.account = initialState.account;
+      state.chainId = initialState.chainId;
+      state.nativeBalance = initialState.nativeBalance;
     });
 });

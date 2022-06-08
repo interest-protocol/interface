@@ -4,7 +4,7 @@ import {
   MintDataStructOutput,
   PoolDataStructOutput,
   ReservesStructOutput,
-} from '../../types/ethers-contracts/InterestViewAbi';
+} from '../../types/ethers-contracts/InterestViewDineroAbi';
 
 export type GetFarmSummaryReturn = [
   ReservesStructOutput[],

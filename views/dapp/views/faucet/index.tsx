@@ -1,14 +1,12 @@
 import { o, prop } from 'ramda';
 import { FC, useCallback, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { Container } from '@/components';
 import { MAIL_FAUCET_TOKENS } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetUserBalances } from '@/hooks';
+import { useIdAccount } from '@/hooks/use-id-account';
 import useLocalStorage from '@/hooks/use-storage';
-import useSupportedChain from '@/hooks/use-supported-chain';
-import { getChainId } from '@/state/core/core.selectors';
 import { flippedAppend, isSameAddress } from '@/utils';
 
 import GoBack from '../../components/go-back';
@@ -19,7 +17,7 @@ import FaucetForm from './faucet-form';
 import { processGetUserBalances } from './utilts';
 
 const Faucet: FC = () => {
-  const chainId = useSupportedChain(useSelector(getChainId) as number);
+  const { chainId } = useIdAccount();
   const [isCreatingToken, setIsCreatingToken] = useState(false);
   const [localTokens, setLocalTokens] = useLocalStorage<ReadonlyArray<IToken>>(
     `${chainId}-interest-protocol-faucet-tokens`,

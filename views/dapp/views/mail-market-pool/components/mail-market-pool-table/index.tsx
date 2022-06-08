@@ -8,7 +8,12 @@ import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Modal, Table, Typography } from '@/elements';
 import { IntMath } from '@/sdk';
 import { UnknownCoinSVG } from '@/svg';
-import { formatDollars, formatMoney, principalToElastic } from '@/utils';
+import {
+  formatDollars,
+  formatMoney,
+  principalToElastic,
+  toFixedToPrecision,
+} from '@/utils';
 
 import {
   ACTIVE_MARKET_POOL_HEADINGS,
@@ -146,9 +151,7 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
                 loading ? (
                   <Skeleton width="3rem" />
                 ) : (
-                  `${type == 'borrow' ? '-' : ''} ${(+apr.toFixed(
-                    2
-                  )).toPrecision(2)}%`
+                  `${type == 'borrow' ? '-' : ''} ${toFixedToPrecision(apr)}%`
                 ),
                 ...(active
                   ? [

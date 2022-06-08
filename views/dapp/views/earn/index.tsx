@@ -1,10 +1,8 @@
 import { FC, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
 import { Box, Typography } from '@/elements';
 import { useGetFarmsSummary } from '@/hooks';
-import useSupportedChain from '@/hooks/use-supported-chain';
-import { getChainId } from '@/state/core/core.selectors';
+import { useIdAccount } from '@/hooks/use-id-account';
 import { TimesSVG } from '@/svg';
 import { getSafeFarmSummaryData } from '@/utils';
 
@@ -13,7 +11,7 @@ import { EarnHeader, EarnTable } from './components';
 
 const Earn: FC = () => {
   const { error, data: rawData } = useGetFarmsSummary();
-  const chainId = useSupportedChain(useSelector(getChainId) as number | null);
+  const { chainId } = useIdAccount();
 
   const data = useMemo(
     () => getSafeFarmSummaryData(chainId, rawData),

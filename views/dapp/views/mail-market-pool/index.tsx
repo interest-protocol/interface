@@ -1,14 +1,12 @@
 import { compose, join, map, prepend, prop, propOr } from 'ramda';
 import { FC, useCallback, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
 import { Container } from '@/components';
 import { MAIL_BRIDGE_TOKENS_ARRAY, RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useGetMailMarketData } from '@/hooks';
-import useSupportedChain from '@/hooks/use-supported-chain';
+import { useIdAccount } from '@/hooks/use-id-account';
 import { IntMath } from '@/sdk';
-import { getChainId } from '@/state/core/core.selectors';
 import { formatDollars } from '@/utils';
 
 import GoBack from '../../components/go-back';
@@ -29,7 +27,7 @@ import {
 
 const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
   const { data: rawData, error, mutate } = useGetMailMarketData(pool);
-  const chainId = useSupportedChain(useSelector(getChainId) as number | null);
+  const { chainId } = useIdAccount();
 
   const { loading, data, metadata, validId } = useMemo(
     () => processMAILMarketData(rawData, chainId),

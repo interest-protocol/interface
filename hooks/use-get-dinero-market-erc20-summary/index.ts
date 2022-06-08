@@ -1,16 +1,14 @@
 import { prop } from 'ramda';
-import { useSelector } from 'react-redux';
 
 import { getDineroMarketSummary } from '@/api';
 import { supportsDineroMarkets } from '@/constants';
 import { DINERO_MARKET_CONTRACTS } from '@/sdk/constants';
-import { getChainId } from '@/state/core/core.selectors';
 
 import { useCallContract } from '../use-call-contract';
-import useSupportedChain from '../use-supported-chain';
+import { useIdAccount } from '../use-id-account';
 
 export const useGetDineroMarketErc20Summary = () => {
-  const chainId = useSupportedChain(useSelector(getChainId) as number | null);
+  const { chainId } = useIdAccount();
 
   const addressArray =
     chainId && supportsDineroMarkets(chainId)
