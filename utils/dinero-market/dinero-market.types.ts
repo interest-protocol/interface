@@ -40,11 +40,11 @@ export type TCurrency = TOKEN_SYMBOL;
 
 export type TGetRepayFields = (
   data: SafeDineroMarketUserData
-) => ReadonlyArray<IBorrowFormField>;
+) => ReadonlyArray<Omit<IBorrowFormField, 'account'>>;
 
 export type TGetBorrowFields = (
   data: SafeDineroMarketUserData
-) => ReadonlyArray<IBorrowFormField>;
+) => ReadonlyArray<Omit<IBorrowFormField, 'account'>>;
 
 export type TGetPositionHealthDataInternal = (
   borrowAmount: BigNumber,
