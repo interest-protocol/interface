@@ -140,15 +140,17 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                   gridTemplateColumns={['50% 50%', '50% 50%', '50% 50%', '1fr']}
                 >
                   <Typography variant="normal">
-                    {`${Fraction.from(
+                    {`${(+(+Fraction.from(
                       data.supplyRates[index].mul(BLOCKS_PER_YEAR[chainId]),
                       ethers.utils.parseEther('0.01')
-                    ).toSignificant(4)}%`}
+                    ).toSignificant(4)).toFixed(2)).toPrecision(2)}%`}
                   </Typography>
-                  <Typography variant="normal">{`${Fraction.from(
+                  <Typography variant="normal">{`${(+(+Fraction.from(
                     data.borrowRates[index].mul(BLOCKS_PER_YEAR[chainId]),
                     ethers.utils.parseEther('0.01')
-                  ).toSignificant(4)}%`}</Typography>
+                  ).toSignificant(4)).toFixed(2)).toPrecision(
+                    2
+                  )}%`}</Typography>
                 </Box>
               ) : null
             ),
