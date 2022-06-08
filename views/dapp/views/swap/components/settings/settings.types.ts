@@ -6,7 +6,7 @@ import { ISwapForm } from '../../swap.types';
 export interface FieldProps {
   label: string;
   step: string;
-  name: string;
+  name: 'slippage' | 'deadline';
   placeholder: string;
   suffix?: ReactNode;
   prefix?: ReactNode;

@@ -34,10 +34,10 @@ const SettingsModal: FC<SwapSettingsProps> = ({ toggle, register }) => (
     </Box>
     <Box pb="L" px="L">
       <Field
-        label="Slippage tolerance?"
         step="0.01"
         name="slippage"
         placeholder="25.00"
+        label="Slippage tolerance?"
         register={register}
         prefix={
           <Button
@@ -60,7 +60,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({ toggle, register }) => (
         placeholder="30"
         register={register}
         label="Transação deadline?"
-        suffix={<Typography variant="normal">minutos</Typography>}
+        suffix={<Typography variant="normal">minutes</Typography>}
       />
     </Box>
   </Box>
