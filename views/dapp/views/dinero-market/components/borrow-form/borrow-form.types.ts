@@ -9,11 +9,10 @@ export interface IBorrowFormField {
   max?: number;
   label: string;
   amount: string;
-  account: string;
   currency: string;
   amountUSD: number;
-  CurrencySVG: FC<SVGAttributes<SVGSVGElement>>;
   disabled: boolean;
+  CurrencySVG: FC<SVGAttributes<SVGSVGElement>>;
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
 }
 

@@ -517,7 +517,7 @@ export const getRepayFields: TGetRepayFields = (data) => {
         : IntMath.toNumber(data?.market.exchangeRate) || 0,
       disabled: data.market.userCollateral.isZero(),
     },
-  ] as ReadonlyArray<Omit<IBorrowFormField, 'account'>>;
+  ] as ReadonlyArray<IBorrowFormField>;
 };
 
 export const calculateUserCurrentLTV: TCalculateUserCurrentLTV = (
