@@ -17,6 +17,7 @@ import {
   throwError,
   throwIfInvalidSigner,
 } from '@/utils';
+import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
 import { CreateTokenFormProps } from '../faucet.types';
 import CreateTokenField from './create-token-field';
@@ -123,26 +124,32 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
           register={register}
           setValue={setValue}
         />
-        <Button
-          mt="L"
-          width="100%"
-          variant="primary"
-          disabled={loading}
-          onClick={safeCreateToken}
-          hover={{ bg: 'accentAlternativeActive' }}
-          bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
-        >
-          {loading ? (
-            <Box display="flex" alignItems="center" justifyContent="center">
-              <LoadingSVG width="1rem" />
-              <Typography fontSize="S" variant="normal" ml="M">
-                Creating Token
-              </Typography>
-            </Box>
-          ) : (
-            'Create Token'
-          )}
-        </Button>
+        {account ? (
+          <Button
+            mt="L"
+            width="100%"
+            variant="primary"
+            disabled={loading}
+            onClick={safeCreateToken}
+            hover={{ bg: 'accentAlternativeActive' }}
+            bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
+          >
+            {loading ? (
+              <Box display="flex" alignItems="center" justifyContent="center">
+                <LoadingSVG width="1rem" />
+                <Typography fontSize="S" variant="normal" ml="M">
+                  Creating Token
+                </Typography>
+              </Box>
+            ) : (
+              'Create Token'
+            )}
+          </Button>
+        ) : (
+          <Box display="flex" justifyContent="center">
+            <ConnectWallet />
+          </Box>
+        )}
       </Box>
     </Box>
   );

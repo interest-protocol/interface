@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
 import priorityHooks from '@/connectors';
-import { Routes, SUPPORTED_CHAINS_RECORD } from '@/constants';
+import { Routes, RoutesEnum, SUPPORTED_CHAINS_RECORD } from '@/constants';
 import { CHAINS } from '@/constants/chains';
 import { DAppTheme, LightTheme } from '@/design-system';
 import { usePrevious } from '@/hooks';
@@ -14,11 +14,10 @@ import { TimesSVG } from '@/svg';
 import { switchToNetwork } from '@/utils';
 import { Layout, Loading } from '@/views/dapp/components';
 
-const GUARDED_ROUTES_ARRAY = [
-  Routes.faucet,
-  Routes.earn,
-  Routes['mail-market-pool'],
-  Routes['dinero-market'],
+export const GUARDED_ROUTES_ARRAY = [
+  Routes[RoutesEnum.Faucet],
+  Routes[RoutesEnum.MAILMarketPool],
+  Routes[RoutesEnum.Borrow],
 ];
 
 import Advice from './advice';
@@ -37,14 +36,14 @@ const {
 
 const Content: FC<ContentProps> = ({
   error,
+  chainId,
+  children,
+  reduxChainId,
   triedEagerly,
   isActivating,
-  chainId,
-  triedSwitchToRightNetwork,
   supportedChains,
   handleSwitchToNetwork,
-  reduxChainId,
-  children,
+  triedSwitchToRightNetwork,
 }) => {
   if (!error && !triedEagerly && isActivating) return <Loading />;
 
@@ -128,22 +127,20 @@ const Web3Manager: FC<Web3ManagerProps> = ({
 
     if (!triedSwitchToRightNetwork) return;
 
-    if (!reduxChainId) return;
-
     if (!chainId) dispatch(coreActions.setDefaultData());
   }, [triedEagerly, triedSwitchToRightNetwork, chainId, reduxChainId]);
 
   return (
     <Layout>
       <Content
-        supportedChains={supportedChains}
-        isActivating={isActivating}
         error={error}
         chainId={chainId}
+        isActivating={isActivating}
         triedEagerly={triedEagerly}
+        reduxChainId={reduxChainId}
+        supportedChains={supportedChains}
         triedSwitchToRightNetwork={triedSwitchToRightNetwork}
         handleSwitchToNetwork={handleSwitchToNetwork}
-        reduxChainId={reduxChainId}
       >
         {children}
       </Content>
@@ -161,8 +158,8 @@ const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
     <ThemeProvider theme={DAppTheme}>
       <Web3Manager
         pathname={pathname}
-        supportedChains={SUPPORTED_CHAINS_RECORD[pathname]}
         prevPathName={prevPathName}
+        supportedChains={SUPPORTED_CHAINS_RECORD[pathname]}
       >
         {children}
       </Web3Manager>

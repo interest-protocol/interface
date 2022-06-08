@@ -23,3 +23,5 @@ export enum StakeState {
 export const NO_STATE_ERROR = '';
 
 export const DEFAULT_ERC_20_DECIMALS = 18;
+
+export const DEFAULT_ACCOUNT = '0x000000000000000000000000000000000000dEaD';

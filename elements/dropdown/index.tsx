@@ -42,6 +42,7 @@ const Dropdown: FC<DropdownProps> = ({
           cursor="pointer"
           alignItems="center"
           display="inline-flex"
+          whiteSpace="nowrap"
           onClick={toggleDropdown}
         >
           {data[selectedIndex].displayTitle ||

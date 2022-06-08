@@ -17,6 +17,7 @@ import { Container, Tooltip } from '@/components';
 import { ERC_20_DATA } from '@/constants';
 import { Box } from '@/elements';
 import { useGetSigner, useGetUserDineroMarketData } from '@/hooks';
+import { useIdAccount } from '@/hooks/use-id-account';
 import { CHAIN_ID, DINERO_MARKET_CONTRACT_MAP } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import {
@@ -52,6 +53,8 @@ import DineroMarketSwitch from './dinero-market-switch';
 
 const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { signer } = useGetSigner();
+  const { chainId, account } = useIdAccount();
 
   const dispatch = useDispatch();
 
@@ -61,8 +64,6 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
     defaultValues: BORROW_DEFAULT_VALUES,
     resolver: yupResolver(borrowFormValidation),
   });
-
-  const { signer, account, chainId } = useGetSigner();
 
   const handleAddAllowance = useCallback(async () => {
     setIsSubmitting(true);
@@ -338,6 +339,8 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
     await showToast(handleRepay());
   };
 
+  console.log('>> error ::: ', error);
+
   if (error) return <ErrorPage message="Something went wrong" />;
 
   return (
@@ -377,6 +380,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
             data={data}
             mode={mode}
             form={form}
+            account={account}
             isSubmitting={isSubmitting}
             isGettingData={data.market.exchangeRate.isZero() && !error}
             onSubmitRepay={onSubmitRepay}

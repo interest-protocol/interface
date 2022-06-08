@@ -14,6 +14,7 @@ import { Switch } from '@/components';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useGetSigner } from '@/hooks';
+import { useIdAccount } from '@/hooks/use-id-account';
 import { IntMath } from '@/sdk';
 import { LoadingSVG, TimesSVG, UnknownCoinSVG } from '@/svg';
 import {
@@ -24,6 +25,7 @@ import {
   throwError,
   throwIfInvalidSigner,
 } from '@/utils';
+import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
 import BorrowRateImpact from './borrow-rate-impact';
 import Details from './details';
@@ -54,7 +56,8 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
 }) => {
   const [base, setBase] = useState(true);
   const [loading, setLoading] = useState(false);
-  const { chainId, signer, account } = useGetSigner();
+  const { signer } = useGetSigner();
+  const { chainId, account } = useIdAccount();
 
   const SWITCH_DEFAULT_DATA = getSwitchDefaultData(setBase);
 
@@ -412,50 +415,56 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
         totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
         base={base}
       />
-      {data.allowance.isZero() &&
-      (isSupplying(base, type) || isRepaying(base, type)) ? (
-        <Box display="flex">
-          <Button
-            width="100%"
-            variant="primary"
-            disabled={loading}
-            onClick={toastAddAllowance}
-            hover={{ bg: 'accentActive' }}
-            bg={loading ? 'accentActive' : 'accent'}
-          >
-            {loading ? (
-              <Box as="span" display="flex" justifyContent="center">
-                <LoadingSVG width="1rem" height="1rem" />
-                <Typography as="span" variant="normal" ml="M" fontSize="S">
-                  Requesting allowance...
-                </Typography>
-              </Box>
-            ) : (
-              'Request allowance'
-            )}
-          </Button>
-        </Box>
+      {account ? (
+        data.allowance.isZero() &&
+        (isSupplying(base, type) || isRepaying(base, type)) ? (
+          <Box display="flex">
+            <Button
+              width="100%"
+              variant="primary"
+              disabled={loading}
+              onClick={toastAddAllowance}
+              hover={{ bg: 'accentActive' }}
+              bg={loading ? 'accentActive' : 'accent'}
+            >
+              {loading ? (
+                <Box as="span" display="flex" justifyContent="center">
+                  <LoadingSVG width="1rem" height="1rem" />
+                  <Typography as="span" variant="normal" ml="M" fontSize="S">
+                    Requesting allowance...
+                  </Typography>
+                </Box>
+              ) : (
+                'Request allowance'
+              )}
+            </Button>
+          </Box>
+        ) : (
+          <Box display="flex">
+            <Button
+              width="100%"
+              variant="primary"
+              disabled={loading}
+              hover={{ bg: 'accentAlternativeActive' }}
+              bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
+              onClick={action}
+            >
+              {loading ? (
+                <Box as="span" display="flex" justifyContent="center">
+                  <LoadingSVG width="1rem" height="1rem" />
+                  <Typography as="span" variant="normal" ml="M" fontSize="S">
+                    {processLoadingMessage(base, type, data.symbol)}
+                  </Typography>
+                </Box>
+              ) : (
+                processButtonText(base, type, data.symbol)
+              )}
+            </Button>
+          </Box>
+        )
       ) : (
-        <Box display="flex">
-          <Button
-            width="100%"
-            variant="primary"
-            disabled={loading}
-            hover={{ bg: 'accentAlternativeActive' }}
-            bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
-            onClick={action}
-          >
-            {loading ? (
-              <Box as="span" display="flex" justifyContent="center">
-                <LoadingSVG width="1rem" height="1rem" />
-                <Typography as="span" variant="normal" ml="M" fontSize="S">
-                  {processLoadingMessage(base, type, data.symbol)}
-                </Typography>
-              </Box>
-            ) : (
-              processButtonText(base, type, data.symbol)
-            )}
-          </Button>
+        <Box display="flex" justifyContent="center">
+          <ConnectWallet />
         </Box>
       )}
     </Box>

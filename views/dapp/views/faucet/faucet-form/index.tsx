@@ -15,6 +15,7 @@ import {
 } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useGetSigner } from '@/hooks';
+import { useIdAccount } from '@/hooks/use-id-account';
 import { IntMath, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG, TimesSVG } from '@/svg';
@@ -26,6 +27,7 @@ import {
   throwError,
   throwIfInvalidSigner,
 } from '@/utils';
+import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
 import { FaucetFormProps, IFaucetForm } from '../faucet.types';
 import CurrencyIdentifier from '../faucet-currency-identidier';
@@ -40,7 +42,8 @@ const FaucetForm: FC<FaucetFormProps> = ({
 }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const { chainId, account, signer } = useGetSigner();
+  const { chainId, account } = useIdAccount();
+  const { signer } = useGetSigner();
 
   const { register, getValues, setValue, control } = useForm<IFaucetForm>({
     defaultValues: {
@@ -139,26 +142,30 @@ const FaucetForm: FC<FaucetFormProps> = ({
               )
             }
           />
-          <Box display="flex">
-            <Button
-              width="100%"
-              onClick={onMint}
-              variant="primary"
-              disabled={loading}
-              hover={{ bg: 'accentAlternativeActive' }}
-              bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
-            >
-              {loading ? (
-                <Box as="span" display="flex" justifyContent="center">
-                  <LoadingSVG width="1rem" height="1rem" />
-                  <Typography as="span" variant="normal" ml="M" fontSize="S">
-                    Minting...
-                  </Typography>
-                </Box>
-              ) : (
-                'Mint'
-              )}
-            </Button>
+          <Box display="flex" justifyContent="center">
+            {account ? (
+              <Button
+                width="100%"
+                onClick={onMint}
+                variant="primary"
+                disabled={loading}
+                hover={{ bg: 'accentAlternativeActive' }}
+                bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
+              >
+                {loading ? (
+                  <Box as="span" display="flex" justifyContent="center">
+                    <LoadingSVG width="1rem" height="1rem" />
+                    <Typography as="span" variant="normal" ml="M" fontSize="S">
+                      Minting...
+                    </Typography>
+                  </Box>
+                ) : (
+                  'Mint'
+                )}
+              </Button>
+            ) : (
+              <ConnectWallet />
+            )}
           </Box>
         </Box>
         <Box

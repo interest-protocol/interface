@@ -43,20 +43,28 @@ const Earn: FC = () => {
     );
 
   return (
-    <Box display="flex" flexDirection="column" height="100%">
-      <EarnHeader />
-      <Box mt="XL">
-        <EarnTable
-          isPools
-          data={data.pools}
-          loading={data.loading}
-          intUSDPrice={data.intUSDPrice}
-        />
-        <EarnTable
-          data={data.farms}
-          loading={data.loading}
-          intUSDPrice={data.intUSDPrice}
-        />
+    <Box
+      height="100%"
+      display="flex"
+      position="relative"
+      flexDirection="column"
+      justifyContent="space-between"
+    >
+      <Box>
+        <EarnHeader />
+        <Box mt="XL">
+          <EarnTable
+            isPools
+            data={data.pools}
+            loading={data.loading}
+            intUSDPrice={data.intUSDPrice}
+          />
+          <EarnTable
+            data={data.farms}
+            loading={data.loading}
+            intUSDPrice={data.intUSDPrice}
+          />
+        </Box>
       </Box>
       <Faucet />
     </Box>

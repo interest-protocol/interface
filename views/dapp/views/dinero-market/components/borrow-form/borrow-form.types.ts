@@ -9,6 +9,7 @@ export interface IBorrowFormField {
   max?: number;
   label: string;
   amount: string;
+  account: string;
   currency: string;
   amountUSD: number;
   CurrencySVG: FC<SVGAttributes<SVGSVGElement>>;
@@ -29,6 +30,7 @@ export interface BorrowFormButtonProps
   handleAddAllowance: () => Promise<void>;
 }
 export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
+  account: string;
   loading?: boolean;
   isBorrow?: boolean;
   onSubmit: () => void;

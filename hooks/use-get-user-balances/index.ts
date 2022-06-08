@@ -1,17 +1,15 @@
-import { useSelector } from 'react-redux';
-
 import { getUserBalances } from '@/api';
-import { getAccount, getChainId } from '@/state/core/core.selectors';
 
 import { useCallContract } from '../use-call-contract';
+import { DEFAULT_ACCOUNT } from './../../constants/index';
+import { useIdAccount } from './../use-id-account/index';
 
 export const useGetUserBalances = (tokens: ReadonlyArray<string>) => {
-  const chainId = useSelector(getChainId) as number | null;
-  const account = useSelector(getAccount) as string;
+  const { chainId, account } = useIdAccount();
 
   return useCallContract(chainId, getUserBalances, [
     chainId,
-    account,
+    account || DEFAULT_ACCOUNT,
     tokens,
     {},
   ]);

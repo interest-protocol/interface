@@ -1,18 +1,16 @@
-import { useSelector } from 'react-redux';
-
 import { getMAILMarketData } from '@/api';
-import { getAccount, getChainId } from '@/state/core/core.selectors';
+import { DEFAULT_ACCOUNT } from '@/constants';
 
 import { useCallContract } from '../use-call-contract';
+import { useIdAccount } from './../use-id-account/index';
 
 export const useGetMailMarketData = (mailMarketAddress: string) => {
-  const chainId = useSelector(getChainId) as null | number;
-  const account = useSelector(getAccount) as string;
+  const { chainId, account } = useIdAccount();
 
   return useCallContract(
     chainId,
     getMAILMarketData,
-    [chainId, mailMarketAddress, account, {}],
+    [chainId, mailMarketAddress, account || DEFAULT_ACCOUNT, {}],
     {
       refreshWhenHidden: false,
       revalidateOnFocus: false,
