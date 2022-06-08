@@ -8,7 +8,7 @@ import { MAIL_BRIDGE_TOKENS_ARRAY } from '@/constants';
 import { Typography } from '@/elements';
 import { useDebounce } from '@/hooks';
 import { BLOCKS_PER_YEAR, IntMath } from '@/sdk';
-import { isSameAddress } from '@/utils';
+import { isSameAddress, toFixedToPrecision } from '@/utils';
 
 import { BorrowRateImpactProps } from './borrow-rate-impact.types';
 
@@ -58,20 +58,17 @@ const BorrowRateImpact: FC<BorrowRateImpactProps> = ({
     <Typography variant="normal">
       {type === 'borrow' ? (
         <>
-          {`${(+(IntMath.toNumber(data.borrowRate) * 100).toFixed(
-            2
-          )).toPrecision(2)}% → 
-                  ${(+(
-                    newBorrowRate === null
-                      ? IntMath.toNumber(data.borrowRate) * 100
-                      : IntMath.toNumber(newBorrowRate) * 100
-                  ).toFixed(2)).toPrecision(2)}%
+          {`${toFixedToPrecision(
+            IntMath.toNumber(data.borrowRate) * 100
+          )}% → ${toFixedToPrecision(
+            newBorrowRate === null
+              ? IntMath.toNumber(data.borrowRate) * 100
+              : IntMath.toNumber(newBorrowRate) * 100
+          )}%
                   `}
         </>
       ) : (
-        `${(+(IntMath.toNumber(data.supplyRate) * 100).toFixed(2)).toPrecision(
-          2
-        )}%`
+        `${toFixedToPrecision(IntMath.toNumber(data.supplyRate) * 100)}%`
       )}
     </Typography>
   );

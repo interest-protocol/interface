@@ -1,15 +1,25 @@
 import { ThemeProvider } from '@emotion/react';
 import { FC, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import priorityHooks from '@/connectors';
-import { Routes } from '@/constants';
+import { Routes, SUPPORTED_CHAINS_RECORD } from '@/constants';
 import { CHAINS } from '@/constants/chains';
 import { DAppTheme, LightTheme } from '@/design-system';
 import { usePrevious } from '@/hooks';
-import { CHAIN_ID } from '@/sdk';
+import { coreActions } from '@/state/core/core.actions';
+import { getChainId } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
 import { switchToNetwork } from '@/utils';
 import { Layout, Loading } from '@/views/dapp/components';
+
+const GUARDED_ROUTES_ARRAY = [
+  Routes.faucet,
+  Routes.earn,
+  Routes['mail-market-pool'],
+  Routes['dinero-market'],
+];
 
 import Advice from './advice';
 import {
@@ -25,16 +35,6 @@ const {
   usePriorityChainId,
 } = priorityHooks;
 
-export const SUPPORTED_CHAINS = {
-  [Routes.dapp]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes.earn]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes.faucet]: [CHAIN_ID.RINKEBY],
-  [Routes.repay]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes['dinero-market']]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes['mail-market']]: [CHAIN_ID.RINKEBY],
-  [Routes['mail-market-pool']]: [CHAIN_ID.RINKEBY],
-};
-
 const Content: FC<ContentProps> = ({
   error,
   triedEagerly,
@@ -43,6 +43,7 @@ const Content: FC<ContentProps> = ({
   triedSwitchToRightNetwork,
   supportedChains,
   handleSwitchToNetwork,
+  reduxChainId,
   children,
 }) => {
   if (!error && !triedEagerly && isActivating) return <Loading />;
@@ -56,9 +57,12 @@ const Content: FC<ContentProps> = ({
     return <Loading />;
 
   if (
-    !!chainId &&
-    triedSwitchToRightNetwork &&
-    !supportedChains.includes(chainId)
+    (!!chainId &&
+      triedSwitchToRightNetwork &&
+      !supportedChains.includes(chainId)) ||
+    (!!reduxChainId &&
+      triedSwitchToRightNetwork &&
+      !supportedChains.includes(reduxChainId))
   )
     return (
       <Advice
@@ -88,6 +92,7 @@ const Web3Manager: FC<Web3ManagerProps> = ({
   const chainId = usePriorityChainId();
   const connector = usePriorityConnector();
   const isActivating = usePriorityIsActivating();
+  const reduxChainId = useSelector(getChainId) as null | number;
 
   const [triedSwitchToRightNetwork, setTriedSwitchToRightNetwork] =
     useState(false);
@@ -95,6 +100,8 @@ const Web3Manager: FC<Web3ManagerProps> = ({
 
   const handleSwitchToNetwork = (targetChainId: number) => () =>
     switchToNetwork(connector, targetChainId);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (triedEagerly) return;
@@ -116,6 +123,16 @@ const Web3Manager: FC<Web3ManagerProps> = ({
       })();
   }, [supportedChains, chainId, triedEagerly, pathname, prevPathName]);
 
+  useEffect(() => {
+    if (!triedEagerly) return;
+
+    if (!triedSwitchToRightNetwork) return;
+
+    if (!reduxChainId) return;
+
+    if (!chainId) dispatch(coreActions.setDefaultData());
+  }, [triedEagerly, triedSwitchToRightNetwork, chainId, reduxChainId]);
+
   return (
     <Layout>
       <Content
@@ -126,6 +143,7 @@ const Web3Manager: FC<Web3ManagerProps> = ({
         triedEagerly={triedEagerly}
         triedSwitchToRightNetwork={triedSwitchToRightNetwork}
         handleSwitchToNetwork={handleSwitchToNetwork}
+        reduxChainId={reduxChainId}
       >
         {children}
       </Content>
@@ -143,7 +161,7 @@ const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
     <ThemeProvider theme={DAppTheme}>
       <Web3Manager
         pathname={pathname}
-        supportedChains={SUPPORTED_CHAINS[pathname]}
+        supportedChains={SUPPORTED_CHAINS_RECORD[pathname]}
         prevPathName={prevPathName}
       >
         {children}

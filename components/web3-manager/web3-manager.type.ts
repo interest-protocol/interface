@@ -24,6 +24,7 @@ export interface ContentProps {
   triedSwitchToRightNetwork: boolean;
   supportedChains: ReadonlyArray<number>;
   handleSwitchToNetwork: (x: number) => () => Promise<void | null>;
+  reduxChainId: number | null;
 }
 
 export interface Web3ManagerWrapperProps {

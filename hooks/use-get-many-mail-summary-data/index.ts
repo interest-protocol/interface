@@ -1,6 +1,5 @@
 import { ethers } from 'ethers';
 import { compose, map, sort, uniq } from 'ramda';
-import { useSelector } from 'react-redux';
 
 import { getManyMAILSummaryData } from '@/api';
 import { supportsMAILMarkets } from '@/constants';
@@ -8,10 +7,9 @@ import {
   MAIL_MARKET_BRIDGE_TOKENS,
   MAIL_MARKET_RISKY_TOKENS_ARRAY,
 } from '@/sdk/constants';
-import { getChainId } from '@/state/core/core.selectors';
 
 import { useCallContract } from '../use-call-contract';
-import useSupportedChain from '../use-supported-chain';
+import { useIdAccount } from '../use-id-account';
 
 const makeUniqueRiskyAssets = compose<
   any[],
@@ -27,7 +25,7 @@ const makeUniqueRiskyAssets = compose<
 export const useGetManyMailSummaryData = (
   additionalRiskyTokens: ReadonlyArray<string> = []
 ) => {
-  const chainId = useSupportedChain(useSelector(getChainId) as number | null);
+  const { chainId } = useIdAccount();
 
   const tokens =
     chainId && supportsMAILMarkets(chainId)
