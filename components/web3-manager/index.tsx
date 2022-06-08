@@ -105,8 +105,11 @@ const Web3Manager: FC<Web3ManagerProps> = ({
   useEffect(() => {
     if (triedEagerly) return;
     (async () => {
-      if (connector.connectEagerly) await connector?.connectEagerly();
-      setTriedEagerly(true);
+      try {
+        if (connector.connectEagerly) await connector?.connectEagerly();
+        setTriedEagerly(true);
+        // eslint-disable-next-line no-empty
+      } catch {}
     })();
   }, [connector]);
 
@@ -117,8 +120,11 @@ const Web3Manager: FC<Web3ManagerProps> = ({
 
     if (!!chainId && !supportedChains.includes(chainId))
       (async () => {
-        await handleSwitchToNetwork(supportedChains[0])();
-        setTriedSwitchToRightNetwork(true);
+        try {
+          await handleSwitchToNetwork(supportedChains[0])();
+          setTriedSwitchToRightNetwork(true);
+          // eslint-disable-next-line no-empty
+        } catch {}
       })();
   }, [supportedChains, chainId, triedEagerly, pathname, prevPathName]);
 

@@ -339,8 +339,6 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
     await showToast(handleRepay());
   };
 
-  console.log('>> error ::: ', error);
-
   if (error) return <ErrorPage message="Something went wrong" />;
 
   return (
