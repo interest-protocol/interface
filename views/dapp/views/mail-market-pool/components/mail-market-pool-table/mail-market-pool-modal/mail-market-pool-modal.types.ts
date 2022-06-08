@@ -5,7 +5,6 @@ import {
 } from '../../../mail-market-pool.types';
 
 export interface MAILMarketPoolModalProps {
-  isOpen: boolean;
   data: (MailDataStructOutput & MarketMetadata) | null;
   handleClose: () => void;
   type: 'borrow' | 'supply';

@@ -11,7 +11,6 @@ export interface MAILMarketPoolTableProps extends MAILMarketLoadingProps {
   type: MAILMarketPoolOperation;
   markets: ReadonlyArray<MailDataStructOutput & MarketMetadata>;
   totalBorrowsInUSDRecord: TotalBorrowRiskyInUSDRecord;
-  pool: string;
   refreshData: () => Promise<void>;
 }
 

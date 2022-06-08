@@ -1,16 +1,15 @@
-import { prepend, take } from 'ramda';
-import { FC, useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
+import { find, prepend, propEq, take } from 'ramda';
+import { FC, useMemo } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { TOKENS_SVG_MAP } from '@/constants';
-import { Box, Table, Typography } from '@/elements';
+import { Box, Modal, Table, Typography } from '@/elements';
 import { IntMath } from '@/sdk';
 import { UnknownCoinSVG } from '@/svg';
 import { formatDollars, formatMoney, principalToElastic } from '@/utils';
-import { MarketMetadata } from '@/views/dapp/views/mail-market-pool/mail-market-pool.types';
 
-import { MailDataStructOutput } from '../../../../../../types/ethers-contracts/InterestViewMAILAbi';
 import {
   ACTIVE_MARKET_POOL_HEADINGS,
   MAIL_MARKET_POOL_HEADINGS,
@@ -23,15 +22,14 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
   active,
   loading,
   markets,
-  totalBorrowsInUSDRecord,
-  pool,
   refreshData,
+  totalBorrowsInUSDRecord,
 }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [modalData, setModalData] =
-    useState<(MailDataStructOutput & MarketMetadata) | null>(null);
-
-  const toggleModal = () => setShowModal(!showModal);
+  const {
+    push,
+    pathname,
+    query: { modal, pool, token },
+  } = useRouter();
 
   const organizedData = useMemo(
     () =>
@@ -43,6 +41,45 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
         : [],
     [markets]
   );
+
+  const modalData = useMemo(
+    () =>
+      organizedData
+        ? find(propEq('tokenAddress', token), organizedData) ?? null
+        : null,
+    [organizedData, token]
+  );
+
+  const closeModal = () =>
+    push(
+      {
+        pathname,
+      },
+      {
+        pathname: pathname.replace('[pool]', pool as string),
+      },
+      {
+        shallow: true,
+      }
+    );
+
+  const openModal = (token: string) =>
+    push(
+      {
+        pathname,
+        query: {
+          modal: type,
+          token: token,
+        },
+      },
+      {
+        pathname: pathname.replace('[pool]', pool as string),
+        query: {
+          modal: type,
+          token: token,
+        },
+      }
+    );
 
   return (
     <>
@@ -59,6 +96,7 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
           }
           data={organizedData.map((marketData) => {
             const {
+              tokenAddress,
               symbol,
               borrowRate,
               supplyRate,
@@ -95,10 +133,7 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
               .toNumber();
 
             return {
-              handleClick: () => {
-                toggleModal();
-                setModalData(marketData);
-              },
+              handleClick: () => openModal(tokenAddress),
               items: [
                 <Box key={v4()} display="flex" alignItems="center">
                   <Box as="span" mr="M" display="inline-block" width="1.5rem">
@@ -111,7 +146,9 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
                 loading ? (
                   <Skeleton width="3rem" />
                 ) : (
-                  `${type == 'borrow' ? '-' : ''} ${apr}%`
+                  `${type == 'borrow' ? '-' : ''} ${(+apr.toFixed(
+                    2
+                  )).toPrecision(2)}%`
                 ),
                 ...(active
                   ? [
@@ -139,15 +176,27 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
           })}
         />
       </Box>
-      <MAILMarketPoolModal
-        pool={pool}
-        type={type}
-        isOpen={showModal}
-        data={modalData}
-        handleClose={toggleModal}
-        totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
-        refreshData={refreshData}
-      />
+      <Modal
+        modalProps={{
+          shouldCloseOnEsc: true,
+          onRequestClose: closeModal,
+          shouldCloseOnOverlayClick: true,
+          isOpen:
+            !!modal &&
+            (modal as string) === type &&
+            modalData?.tokenAddress === token,
+        }}
+        background="#0008"
+      >
+        <MAILMarketPoolModal
+          type={type}
+          data={modalData}
+          handleClose={closeModal}
+          refreshData={refreshData}
+          pool={pool as string}
+          totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
+        />
+      </Modal>
     </>
   );
 };

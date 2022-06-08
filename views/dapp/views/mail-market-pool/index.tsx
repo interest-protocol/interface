@@ -142,7 +142,6 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
             active
             type="supply"
-            pool={pool}
             refreshData={refreshData}
           />
           <MAILMarketPoolTable
@@ -151,7 +150,6 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
             active
             type="borrow"
-            pool={pool}
             refreshData={refreshData}
           />
           <MAILMarketPoolTable
@@ -159,7 +157,6 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             markets={markets.supplyMarkets}
             totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
             type="supply"
-            pool={pool}
             refreshData={refreshData}
           />
           <MAILMarketPoolTable
@@ -167,7 +164,6 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             markets={markets.borrowMarkets}
             totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
             type="borrow"
-            pool={pool}
             refreshData={refreshData}
           />
         </Box>
