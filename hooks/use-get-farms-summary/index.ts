@@ -6,11 +6,12 @@ import { CASA_DE_PAPEL_FARM_MAP } from '@/constants';
 import { getChainId } from '@/state/core/core.selectors';
 
 import { useCallContract } from '../use-call-contract';
+import useSupportedChain from '../use-supported-chain';
 
 const prop = propOr([]);
 
 export const useGetFarmsSummary = () => {
-  const chainId = useSelector(getChainId) as number | null;
+  const chainId = useSupportedChain(useSelector(getChainId) as number | null);
 
   const data = propOr(
     {},

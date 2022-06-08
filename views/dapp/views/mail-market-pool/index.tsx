@@ -6,6 +6,7 @@ import { Container } from '@/components';
 import { MAIL_BRIDGE_TOKENS_ARRAY, RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useGetMailMarketData } from '@/hooks';
+import useSupportedChain from '@/hooks/use-supported-chain';
 import { IntMath } from '@/sdk';
 import { getChainId } from '@/state/core/core.selectors';
 import { formatDollars } from '@/utils';
@@ -28,7 +29,7 @@ import {
 
 const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
   const { data: rawData, error, mutate } = useGetMailMarketData(pool);
-  const chainId = useSelector(getChainId) as number | null;
+  const chainId = useSupportedChain(useSelector(getChainId) as number | null);
 
   const { loading, data, metadata, validId } = useMemo(
     () => processMAILMarketData(rawData, chainId),

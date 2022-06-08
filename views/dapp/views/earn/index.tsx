@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { Box, Typography } from '@/elements';
 import { useGetFarmsSummary } from '@/hooks';
+import useSupportedChain from '@/hooks/use-supported-chain';
 import { getChainId } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
 import { getSafeFarmSummaryData } from '@/utils';
@@ -12,7 +13,7 @@ import { EarnHeader, EarnTable } from './components';
 
 const Earn: FC = () => {
   const { error, data: rawData } = useGetFarmsSummary();
-  const chainId = useSelector(getChainId) as number | null;
+  const chainId = useSupportedChain(useSelector(getChainId) as number | null);
 
   const data = useMemo(
     () => getSafeFarmSummaryData(chainId, rawData),

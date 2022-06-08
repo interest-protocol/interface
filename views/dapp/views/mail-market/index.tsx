@@ -9,6 +9,7 @@ import { Routes, RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useGetManyMailSummaryData } from '@/hooks';
 import useLocalStorage from '@/hooks/use-storage';
+import useSupportedChain from '@/hooks/use-supported-chain';
 import { LocalMAILMarketData } from '@/interface';
 import { getChainId } from '@/state/core/core.selectors';
 import { flippedAppend } from '@/utils';
@@ -24,11 +25,11 @@ import { AddLocalAsset } from './mail-market.types';
 const MAILMarket: FC = () => {
   const { push } = useRouter();
   const { register, control } = useForm({ defaultValues: { search: '' } });
-  const chainId = useSelector(getChainId) as null | number;
+  const chainId = useSupportedChain(useSelector(getChainId) as null | number);
 
   const [localAssets, setLocalAssets] = useLocalStorage<
     ReadonlyArray<LocalMAILMarketData>
-  >(`${chainId || ''}-interest-protocol-mail-markets`, []);
+  >(`${chainId}-interest-protocol-mail-markets`, []);
 
   const { data, error } = useGetManyMailSummaryData(
     localAssets.map(prop('token'))

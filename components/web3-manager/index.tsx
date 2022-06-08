@@ -7,7 +7,7 @@ import { CHAINS } from '@/constants/chains';
 import { DAppTheme, LightTheme } from '@/design-system';
 import { usePrevious } from '@/hooks';
 import { CHAIN_ID } from '@/sdk';
-import { MetaMaskSVG, TimesSVG } from '@/svg';
+import { TimesSVG } from '@/svg';
 import { switchToNetwork } from '@/utils';
 import { Layout, Loading } from '@/views/dapp/components';
 
@@ -25,7 +25,7 @@ const {
   usePriorityChainId,
 } = priorityHooks;
 
-const SUPPORTED_CHAINS = {
+export const SUPPORTED_CHAINS = {
   [Routes.dapp]: [CHAIN_ID.BNB_TEST_NET],
   [Routes.earn]: [CHAIN_ID.BNB_TEST_NET],
   [Routes.faucet]: [CHAIN_ID.RINKEBY],
@@ -72,15 +72,6 @@ const Content: FC<ContentProps> = ({
           text: `Switch to ${CHAINS[supportedChainId].chainName}`,
           action: handleSwitchToNetwork(supportedChainId),
         }))}
-      />
-    );
-
-  if (!chainId)
-    return (
-      <Advice
-        Icon={MetaMaskSVG}
-        title="Disconnected"
-        lines={[<>Please, connect the wallet.</>]}
       />
     );
 

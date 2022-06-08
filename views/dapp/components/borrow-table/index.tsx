@@ -8,6 +8,7 @@ import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
 import { useGetDineroMarketErc20Summary } from '@/hooks';
+import useSupportedChain from '@/hooks/use-supported-chain';
 import {
   CHAIN_ID,
   DINERO_MARKET_CONTRACTS,
@@ -22,7 +23,7 @@ import Loading from '../loading';
 
 const BorrowTable: FC = () => {
   const { data, error } = useGetDineroMarketErc20Summary();
-  const chainId = useSelector(getChainId) as number | null;
+  const chainId = useSupportedChain(useSelector(getChainId) as number | null);
 
   if (error)
     return (

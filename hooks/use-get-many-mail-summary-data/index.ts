@@ -11,6 +11,7 @@ import {
 import { getChainId } from '@/state/core/core.selectors';
 
 import { useCallContract } from '../use-call-contract';
+import useSupportedChain from '../use-supported-chain';
 
 const makeUniqueRiskyAssets = compose<
   any[],
@@ -26,7 +27,7 @@ const makeUniqueRiskyAssets = compose<
 export const useGetManyMailSummaryData = (
   additionalRiskyTokens: ReadonlyArray<string> = []
 ) => {
-  const chainId = useSelector(getChainId) as number | null;
+  const chainId = useSupportedChain(useSelector(getChainId) as number | null);
 
   const tokens =
     chainId && supportsMAILMarkets(chainId)

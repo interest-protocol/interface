@@ -7,11 +7,11 @@ import { v4 } from 'uuid';
 
 import { Routes, RoutesEnum, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Table, Typography } from '@/elements';
+import useSupportedChain from '@/hooks/use-supported-chain';
 import { Fraction, TOKEN_SYMBOL } from '@/sdk';
 import { BLOCKS_PER_YEAR } from '@/sdk';
 import { getChainId } from '@/state/core/core.selectors';
 import { StarSVG } from '@/svg';
-import { safeParse, safeStringify } from '@/utils';
 
 import { MAIL_MARKET_HEADINGS } from '../../mail-market.data';
 import { MAILMarketTableItemProps } from '../../mail-market.types';
@@ -37,7 +37,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
   setLocalAssets,
 }) => {
   const { push } = useRouter();
-  const chainId = useSelector(getChainId) as number;
+  const chainId = useSupportedChain(useSelector(getChainId) as number);
 
   const Icon =
     TOKENS_SVG_MAP[data.symbol] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];

@@ -7,6 +7,7 @@ import { MAIL_FAUCET_TOKENS } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetUserBalances } from '@/hooks';
 import useLocalStorage from '@/hooks/use-storage';
+import useSupportedChain from '@/hooks/use-supported-chain';
 import { getChainId } from '@/state/core/core.selectors';
 import { flippedAppend, isSameAddress } from '@/utils';
 
@@ -18,7 +19,7 @@ import FaucetForm from './faucet-form';
 import { processGetUserBalances } from './utilts';
 
 const Faucet: FC = () => {
-  const chainId = useSelector(getChainId) as number;
+  const chainId = useSupportedChain(useSelector(getChainId) as number);
   const [isCreatingToken, setIsCreatingToken] = useState(false);
   const [localTokens, setLocalTokens] = useLocalStorage<ReadonlyArray<IToken>>(
     `${chainId}-interest-protocol-faucet-tokens`,
