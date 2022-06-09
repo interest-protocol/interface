@@ -9,7 +9,7 @@ import {
   takeLatest,
 } from 'redux-saga/effects';
 
-import { getUserBalances } from '@/api/balances';
+import { getUserBalances } from '@/api';
 import { LoadingState } from '@/constants';
 import { isChainIdSupported } from '@/constants/chains';
 

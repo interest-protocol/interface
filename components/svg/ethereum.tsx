@@ -2,17 +2,13 @@ import { FC, SVGAttributes } from 'react';
 
 const Ethereum: FC<SVGAttributes<SVGSVGElement>> = (props) => (
   <svg
-    id="katman_1"
     xmlns="http://www.w3.org/2000/svg"
-    x={0}
-    y={0}
     viewBox="0 0 1242 962"
     style={
       {
         enableBackground: 'new 0 0 1242 962',
       } as any
     }
-    xmlSpace="preserve"
     {...props}
   >
     <style>{'.st1{fill-opacity:.602}.st1,.st2{fill:#fff}'}</style>

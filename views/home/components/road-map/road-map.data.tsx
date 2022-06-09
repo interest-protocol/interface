@@ -20,7 +20,7 @@ export const ROAD_MAP_DATA: ReadonlyArray<IRoadMapItem> = [
       <>Audit (Certik)</>,
       <>
         Launch Dinero lending
-        <br /> markets v1 on Main Net (BSC)
+        <br /> markets v1 on Main Net (BNB)
       </>,
       <>Initial hires</>,
     ],

@@ -5,9 +5,10 @@ import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, Typography } from '@/elements';
 import { TimesSVG } from '@/svg';
 
-const Error: FC<{ message: string }> = ({ message }) => {
+const ErrorView: FC<{ message: string }> = ({ message }) => {
   const { push } = useRouter();
   const goHome = () => push(Routes[RoutesEnum.DApp]);
+
   return (
     <>
       <Box
@@ -37,4 +38,4 @@ const Error: FC<{ message: string }> = ({ message }) => {
   );
 };
 
-export default Error;
+export default ErrorView;

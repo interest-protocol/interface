@@ -25,11 +25,13 @@ export async function switchToNetwork(
       );
 
       if (!connector.provider?.request) return;
-
-      await connector.provider.request({
-        method: 'wallet_addEthereumChain',
-        params: CHAINS[chainId],
-      });
+      try {
+        await connector.provider.request({
+          method: 'wallet_addEthereumChain',
+          params: CHAINS[chainId],
+        });
+        // eslint-disable-next-line no-empty
+      } catch {}
       // metamask (only known implementer) automatically switches after a network is added
       // the second call is done here because that behavior is not a part of the spec and cannot be relied upon in the future
       // metamask's behavior when switching to the current network is just to return null (a no-op)
@@ -46,7 +48,10 @@ export async function switchToNetwork(
       connector instanceof MetaMask &&
       (error as ProviderRpcError)?.code === 1013
     ) {
-      await connector.activate();
+      try {
+        await connector.activate();
+        // eslint-disable-next-line no-empty
+      } catch {}
       return;
     } else {
       throw error;

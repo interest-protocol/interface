@@ -8,6 +8,7 @@ const DropdownItem: FC<DropdownItemProps> = ({
   setter,
   onSelect,
   minWidth,
+  disabled,
   isSelected,
   customItem,
   noSelectable,
@@ -32,18 +33,23 @@ const DropdownItem: FC<DropdownItemProps> = ({
         overflow: 'hidden',
         minWidth: minWidth || '17rem',
         boxShadow: '0px 5px 5px -5px rgba(0, 0, 0, 0.35)',
-        bg: isSelected ? 'accentBackground' : 'bottomBackground',
-        ...(!isSelected && {
-          hover: {
-            bg: 'accent',
-          },
-          active: {
-            bg: 'accentActive',
-          },
-        }),
+        bg: disabled
+          ? 'disabled'
+          : isSelected
+          ? 'accentBackground'
+          : 'bottomBackground',
+        ...(!isSelected &&
+          !disabled && {
+            hover: {
+              bg: 'accent',
+            },
+            active: {
+              bg: 'accentActive',
+            },
+          }),
       })}
-      cursor="pointer"
-      onClick={handleSelect}
+      cursor={disabled ? 'not-allowed' : 'pointer'}
+      onClick={disabled ? undefined : handleSelect}
     >
       {typeof displayOption == 'string' ? (
         <Typography px="L" variant="normal">

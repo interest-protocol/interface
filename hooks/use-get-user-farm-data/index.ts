@@ -1,18 +1,16 @@
-import { useSelector } from 'react-redux';
-
 import { getUserFarmData } from '@/api';
-import { getAccount, getChainId } from '@/state/core/core.selectors';
+import { useIdAccount } from '@/hooks/use-id-account';
 
 import { useCallContract } from '../use-call-contract';
+import { DEFAULT_ACCOUNT } from './../../constants/index';
 
 export const useGetUserFarmData = (lpToken: string, poolId: number) => {
-  const chainId = useSelector(getChainId) as number | null;
-  const account = useSelector(getAccount) as string;
+  const { chainId, account } = useIdAccount();
 
   return useCallContract(chainId, getUserFarmData, [
     chainId,
     lpToken,
-    account,
+    account || DEFAULT_ACCOUNT,
     poolId,
     {},
   ]);

@@ -1,8 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import dynamic from 'next/dynamic';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
 
 import {
   addAllowance,
@@ -13,15 +13,13 @@ import {
   repayDineroLoan,
   withdrawDineroCollateral,
 } from '@/api';
-import { Container } from '@/components';
+import { Container, Tooltip } from '@/components';
 import { ERC_20_DATA } from '@/constants';
 import { Box } from '@/elements';
-import {
-  useGetSigner,
-  useGetUserDineroMarketData,
-  useIsMounted,
-} from '@/hooks';
+import { useGetSigner, useGetUserDineroMarketData } from '@/hooks';
+import { useIdAccount } from '@/hooks/use-id-account';
 import { CHAIN_ID, DINERO_MARKET_CONTRACT_MAP } from '@/sdk';
+import { coreActions } from '@/state/core/core.actions';
 import {
   getBTCAddress,
   getDNRAddress,
@@ -54,8 +52,11 @@ import DineroMarketForm from './dinero-market-form';
 import DineroMarketSwitch from './dinero-market-switch';
 
 const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
-  const isMounted = useIsMounted();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { signer } = useGetSigner();
+  const { chainId, account } = useIdAccount();
+
+  const dispatch = useDispatch();
 
   const form = useForm<IBorrowForm>({
     mode: 'onChange',
@@ -63,8 +64,6 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
     defaultValues: BORROW_DEFAULT_VALUES,
     resolver: yupResolver(borrowFormValidation),
   });
-
-  const { signer, account, chainId } = useGetSigner();
 
   const handleAddAllowance = useCallback(async () => {
     setIsSubmitting(true);
@@ -83,11 +82,12 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
         DINERO_MARKET_CONTRACT_MAP[validId][tokenSymbol]
       );
 
-      await showTXSuccessToast(tx);
+      await showTXSuccessToast(tx, validId);
     } catch (e) {
       throwError('Something went wrong', e);
     } finally {
       setIsSubmitting(false);
+      dispatch(coreActions.updateNativeBalance());
     }
   }, [account, chainId, tokenSymbol, signer]);
 
@@ -103,8 +103,8 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
     mutate,
     error,
   } = useGetUserDineroMarketData(
-    DINERO_MARKET_CONTRACT_MAP[CHAIN_ID.BSC_TEST_NET][tokenSymbol],
-    [getBTCAddress(CHAIN_ID.BSC_TEST_NET), getDNRAddress(CHAIN_ID.BSC_TEST_NET)]
+    DINERO_MARKET_CONTRACT_MAP[CHAIN_ID.BNB_TEST_NET][tokenSymbol],
+    [getBTCAddress(CHAIN_ID.BNB_TEST_NET), getDNRAddress(CHAIN_ID.BNB_TEST_NET)]
   );
 
   const data = useMemo(
@@ -112,8 +112,8 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
       processDineroMarketUserData(
         chainId,
         [
-          getBTCAddress(CHAIN_ID.BSC_TEST_NET),
-          getDNRAddress(CHAIN_ID.BSC_TEST_NET),
+          getBTCAddress(CHAIN_ID.BNB_TEST_NET),
+          getDNRAddress(CHAIN_ID.BNB_TEST_NET),
         ],
         rawData
       ),
@@ -173,7 +173,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
             : principal
         );
 
-        await showTXSuccessToast(tx);
+        await showTXSuccessToast(tx, validId);
 
         return;
       }
@@ -194,7 +194,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
             : bnCollateral
         );
 
-        await showTXSuccessToast(tx);
+        await showTXSuccessToast(tx, validId);
         return;
       }
 
@@ -207,13 +207,14 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
           principal
         );
 
-        await showTXSuccessToast(tx);
+        await showTXSuccessToast(tx, validId);
       }
     } catch (e: unknown) {
       throwContractCallError(e);
     } finally {
       setIsSubmitting(false);
       await mutate();
+      dispatch(coreActions.updateNativeBalance());
     }
   }, [
     chainId,
@@ -258,7 +259,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
           safeToBigNumber(loan)
         );
 
-        await showTXSuccessToast(tx);
+        await showTXSuccessToast(tx, validId);
 
         return;
       }
@@ -279,7 +280,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
             : bnCollateral
         );
 
-        await showTXSuccessToast(tx);
+        await showTXSuccessToast(tx, validId);
         return;
       }
 
@@ -292,13 +293,14 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
           safeToBigNumber(loan)
         );
 
-        await showTXSuccessToast(tx);
+        await showTXSuccessToast(tx, validId);
       }
     } catch (e: unknown) {
       throwContractCallError(e);
     } finally {
       setIsSubmitting(false);
       await mutate();
+      dispatch(coreActions.updateNativeBalance());
     }
   }, [
     account,
@@ -339,8 +341,6 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
 
   if (error) return <ErrorPage message="Something went wrong" />;
 
-  const Tooltip = dynamic(() => import('react-tooltip'));
-
   return (
     <Container
       dapp
@@ -378,6 +378,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
             data={data}
             mode={mode}
             form={form}
+            account={account}
             isSubmitting={isSubmitting}
             isGettingData={data.market.exchangeRate.isZero() && !error}
             onSubmitRepay={onSubmitRepay}
@@ -403,10 +404,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
           />
         </Box>
       </Box>
-
-      {isMounted.current && (
-        <Tooltip place="top" type="dark" effect="solid" multiline />
-      )}
+      <Tooltip />
     </Container>
   );
 };

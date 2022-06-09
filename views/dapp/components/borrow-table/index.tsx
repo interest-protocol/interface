@@ -1,20 +1,19 @@
 import { ethers } from 'ethers';
 import Link from 'next/link';
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
 import { useGetDineroMarketErc20Summary } from '@/hooks';
+import { useIdAccount } from '@/hooks/use-id-account';
 import {
   CHAIN_ID,
   DINERO_MARKET_CONTRACTS,
   IntMath,
   SECONDS_IN_A_YEAR,
 } from '@/sdk';
-import { getChainId } from '@/state/core/core.selectors';
 import { BitcoinSVG, DineroSVG, TimesSVG } from '@/svg';
 import { formatDollars, getERC20Data } from '@/utils';
 
@@ -22,7 +21,7 @@ import Loading from '../loading';
 
 const BorrowTable: FC = () => {
   const { data, error } = useGetDineroMarketErc20Summary();
-  const chainId = useSelector(getChainId) as number | null;
+  const { chainId } = useIdAccount();
 
   if (error)
     return (
@@ -222,7 +221,7 @@ const BorrowTable: FC = () => {
                 ),
               },
             ]}
-            data={DINERO_MARKET_CONTRACTS[CHAIN_ID.BSC_TEST_NET].map(
+            data={DINERO_MARKET_CONTRACTS[CHAIN_ID.BNB_TEST_NET].map(
               (x, index) => {
                 const erc20 = getERC20Data(chainId, x.collateralAddress);
 

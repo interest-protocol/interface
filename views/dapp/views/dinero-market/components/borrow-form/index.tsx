@@ -3,6 +3,7 @@ import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
+import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
 import InputMoney from '../input-money';
 import { BorrowFormProps } from './borrow-form.types';
@@ -13,6 +14,7 @@ import BorrowFormSelectLTV from './borrow-form-select-ltv';
 const BorrowForm: FC<BorrowFormProps> = ({
   data,
   fields,
+  account,
   control,
   loading,
   onSubmit,
@@ -53,17 +55,23 @@ const BorrowForm: FC<BorrowFormProps> = ({
       isBorrow={!!isBorrow}
     />
     <BorrowFormLoanInfo control={control} data={data} isBorrow={!!isBorrow} />
-    <BorrowFormButton
-      data={data}
-      errors={errors}
-      control={control}
-      isBorrow={isBorrow}
-      onSubmit={onSubmit}
-      setError={setError}
-      clearErrors={clearErrors}
-      isSubmitting={isSubmitting}
-      handleAddAllowance={handleAddAllowance}
-    />
+    {account ? (
+      <BorrowFormButton
+        data={data}
+        errors={errors}
+        control={control}
+        isBorrow={isBorrow}
+        onSubmit={onSubmit}
+        setError={setError}
+        clearErrors={clearErrors}
+        isSubmitting={isSubmitting}
+        handleAddAllowance={handleAddAllowance}
+      />
+    ) : (
+      <Box display="flex" justifyContent="center" mt="L">
+        <ConnectWallet />
+      </Box>
+    )}
   </Box>
 );
 

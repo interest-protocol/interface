@@ -14,3 +14,7 @@ export interface FaucetSelectCurrencyProps {
   defaultValue: TOKEN_SYMBOL;
   onSelectCurrency: (currency: TOKEN_SYMBOL) => void;
 }
+
+export interface FaucetProps {
+  customAction?: () => void;
+}

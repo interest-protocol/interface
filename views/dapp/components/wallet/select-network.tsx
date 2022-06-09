@@ -1,9 +1,10 @@
 import { FC } from 'react';
 
+import EthereumNetwork from '@/components/svg/ethereum-network';
 import priorityHooks from '@/connectors';
 import { Box, Dropdown, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
-import { ArrowSVG, BinanceSVG, BinanceTestSVG } from '@/svg';
+import { ArrowSVG, BinanceTestSVG } from '@/svg';
 
 const { usePriorityChainId } = priorityHooks;
 
@@ -29,13 +30,13 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
         defaultValue={`${chainId}`}
         data={[
           {
-            value: `${CHAIN_ID.BSC_TEST_NET}`,
-            onSelect: () => switchNetwork(CHAIN_ID.BSC_TEST_NET),
+            value: `${CHAIN_ID.BNB_TEST_NET}`,
+            onSelect: () => switchNetwork(CHAIN_ID.BNB_TEST_NET),
             displayOption: (
               <Box px="L" display="flex" alignItems="center">
                 <BinanceTestSVG width="1.5rem" height="1.5rem" />
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
-                  BSCT
+                  BNBT
                 </Typography>
               </Box>
             ),
@@ -53,19 +54,19 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
                   whiteSpace="nowrap"
                   display={['none', 'none', 'none', 'block']}
                 >
-                  BSCT
+                  BNBT
                 </Typography>
               </Box>
             ),
           },
           {
-            value: `${CHAIN_ID.BSC_MAIN_MET}`,
-            onSelect: () => switchNetwork(CHAIN_ID.BSC_MAIN_MET),
+            value: `${CHAIN_ID.RINKEBY}`,
+            onSelect: () => switchNetwork(CHAIN_ID.RINKEBY),
             displayOption: (
               <Box px="L" display="flex" alignItems="center">
-                <BinanceSVG width="1.5rem" height="1.5rem" />
+                <EthereumNetwork width="1.5rem" height="1.5rem" />
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
-                  BSC
+                  Rinkeby
                 </Typography>
               </Box>
             ),
@@ -76,14 +77,14 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
                 pl={['NONE', 'NONE', 'NONE', 'S']}
                 pr={['NONE', 'NONE', 'NONE', 'L']}
               >
-                <BinanceSVG width="1.5rem" height="1.5rem" />
+                <EthereumNetwork width="1.5rem" height="1.5rem" />
                 <Typography
-                  display={['none', 'none', 'none', 'block']}
-                  variant="normal"
                   mx="M"
+                  variant="normal"
                   whiteSpace="nowrap"
+                  display={['none', 'none', 'none', 'block']}
                 >
-                  BSC
+                  Rinkeby
                 </Typography>
               </Box>
             ),

@@ -10,6 +10,10 @@ const GlobalStyles = css`
       sans-serif;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body,
   html {
     overflow-x: hidden;
@@ -31,12 +35,50 @@ const GlobalStyles = css`
   br {
     display: none;
   }
+
   .breakMobile {
     display: block;
   }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+    padding: 2rem;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    border-radius: 0.5rem;
+    background: transparent;
+    transition: all 300ms ease-in-out;
+  }
+
+  /* Track on hover */
+  ::-webkit-scrollbar-track:hover {
+    background: #fff1;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 0.5rem;
+    border: 5px solid transparent;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #0040c0;
+  }
+
+  /* Handle on active */
+  ::-webkit-scrollbar-thumb:active {
+    background: #0055ff;
+  }
+
   .__react_component_tooltip .multi-line {
     text-align: left !important;
   }
+
   @media (min-width: 40em) {
     br {
       display: initial;

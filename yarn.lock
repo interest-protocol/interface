@@ -346,7 +346,7 @@
 
 "@ethersproject/address@5.6.0", "@ethersproject/address@^5.6.0":
   version "5.6.0"
-  resolved "https://registry.npmjs.org/@ethersproject/address/-/address-5.6.0.tgz"
+  resolved "https://registry.yarnpkg.com/@ethersproject/address/-/address-5.6.0.tgz#13c49836d73e7885fc148ad633afad729da25012"
   dependencies:
     "@ethersproject/bignumber" "^5.6.0"
     "@ethersproject/bytes" "^5.6.0"
@@ -4234,6 +4234,12 @@ react-spring@^9.4.3:
     "@react-spring/web" "~9.4.3-beta.0"
     "@react-spring/zdog" "~9.4.3-beta.0"
 
+react-switch@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/react-switch/-/react-switch-6.0.0.tgz#bd4a2dea08f211b8a32e55e8314fd44bc1ec947e"
+  dependencies:
+    prop-types "^15.7.2"
+
 react-tooltip@^4.2.21:
   version "4.2.21"
   resolved "https://registry.npmjs.org/react-tooltip/-/react-tooltip-4.2.21.tgz"
@@ -4434,7 +4440,7 @@ reusify@^1.0.4:
 
 rimraf@^3.0.2:
   version "3.0.2"
-  resolved "https://registry.npmjs.org/rimraf/-/rimraf-3.0.2.tgz"
+  resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-3.0.2.tgz#f1a5402ba6220ad52cc1282bac1ae3aa49fd061a"
   dependencies:
     glob "^7.1.3"
 
