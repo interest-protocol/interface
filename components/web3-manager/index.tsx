@@ -9,7 +9,7 @@ import { CHAINS } from '@/constants/chains';
 import { DAppTheme, LightTheme } from '@/design-system';
 import { usePrevious } from '@/hooks';
 import { coreActions } from '@/state/core/core.actions';
-import { getChainId } from '@/state/core/core.selectors';
+import { getAccount, getChainId } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
 import { switchToNetwork } from '@/utils';
 import { Layout, Loading } from '@/views/dapp/components';
@@ -32,6 +32,7 @@ const {
   usePriorityConnector,
   usePriorityIsActivating,
   usePriorityChainId,
+  usePriorityAccount,
 } = priorityHooks;
 
 const Content: FC<ContentProps> = ({
@@ -92,6 +93,8 @@ const Web3Manager: FC<Web3ManagerProps> = ({
   const connector = usePriorityConnector();
   const isActivating = usePriorityIsActivating();
   const reduxChainId = useSelector(getChainId) as null | number;
+  const account = usePriorityAccount();
+  const reduxAccount = useSelector(getAccount);
 
   const [triedSwitchToRightNetwork, setTriedSwitchToRightNetwork] =
     useState(false);
@@ -135,6 +138,11 @@ const Web3Manager: FC<Web3ManagerProps> = ({
 
     if (!chainId) dispatch(coreActions.setDefaultData());
   }, [triedEagerly, triedSwitchToRightNetwork, chainId, reduxChainId]);
+
+  useEffect(() => {
+    if (account !== reduxAccount)
+      dispatch(coreActions.setAccount(account || ''));
+  }, [account]);
 
   return (
     <Layout>

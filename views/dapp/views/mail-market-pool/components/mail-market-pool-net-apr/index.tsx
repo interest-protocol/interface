@@ -4,6 +4,7 @@ import Skeleton from 'react-loading-skeleton';
 import { Box, Typography } from '@/elements';
 import { IntMath } from '@/sdk';
 import { InfoSVG } from '@/svg';
+import { toFixedToPrecision } from '@/utils';
 
 import { MAILMarketPoolNetAprProps } from '../../mail-market-pool.types';
 
@@ -41,9 +42,11 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
           {loading ? (
             <Skeleton width="80%" />
           ) : (
-            `${data.net.isPositive ? '' : '-'}${(
-              IntMath.from(data.net.rate).toNumber(16, 4, 4) * 100
-            ).toFixed(2)}`
+            `${data.net.isPositive ? '' : '-'}${toFixedToPrecision(
+              IntMath.from(data.net.rate).toNumber(16, 4, 4),
+              4,
+              3
+            )}%`
           )}
         </Typography>
       </Box>
@@ -72,9 +75,11 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
           {loading ? (
             <Skeleton width="80%" />
           ) : (
-            `${(
-              IntMath.from(data.mySupplyRate).toNumber(16, 4, 4) * 100
-            ).toFixed(2)}%`
+            `${toFixedToPrecision(
+              IntMath.from(data.mySupplyRate).toNumber(16, 4, 4),
+              4,
+              3
+            )}%`
           )}
         </Typography>
       </Box>
@@ -103,9 +108,11 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
           {loading ? (
             <Skeleton width="80%" />
           ) : (
-            `${(
-              IntMath.from(data.myBorrowRate).toNumber(16, 4, 4) * 100
-            ).toFixed(2)}%`
+            `${toFixedToPrecision(
+              IntMath.from(data.myBorrowRate).toNumber(16, 4, 4),
+              4,
+              3
+            )}%`
           )}
         </Typography>
       </Box>

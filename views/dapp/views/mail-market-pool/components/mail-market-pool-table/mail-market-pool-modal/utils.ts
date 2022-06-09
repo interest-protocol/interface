@@ -28,7 +28,7 @@ export const calculateTokenValue = (
     );
 
   if (isRepaying(base, type) || isSupplying(base, type))
-    return IntMath.toNumber(data.balance);
+    return IntMath.toNumber(data.balance, data.decimals);
 
   if (isRedeeming(base, type)) return IntMath.toNumber(data.supply);
 
@@ -58,10 +58,8 @@ export const calculateMax = (
     return IntMath.toNumber(amount.gt(data.cash) ? data.cash : amount.value());
   }
 
-  if (isRepaying(base, type) || isSupplying(base, type)) {
-    if (data.borrow.isZero()) return 0;
-    return IntMath.toNumber(data.balance);
-  }
+  if (isRepaying(base, type) || isSupplying(base, type))
+    return IntMath.toNumber(data.balance, data.decimals);
 
   if (isRedeeming(base, type)) {
     if (totalBorrowInUSD.isZero()) return IntMath.toNumber(data.supply);

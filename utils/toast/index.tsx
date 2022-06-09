@@ -11,22 +11,19 @@ export const showTXSuccessToast = async (
   tx: ContractTransaction,
   chainId: number
 ): Promise<void> => {
-  try {
-    const receipt = await tx.wait(2);
+  const receipt = await tx.wait(2);
 
-    const explorer = CHAINS[chainId].blockExplorerUrls;
+  const explorer = CHAINS[chainId].blockExplorerUrls;
 
-    toast(
-      <a
-        target="__black"
-        rel="noreferrer nofollow"
-        href={`${explorer ? explorer[0] : ''}/tx/${receipt.transactionHash}`}
-      >
-        Check on Explorer
-      </a>
-    );
-    // eslint-disable-next-line no-empty
-  } catch {}
+  toast(
+    <a
+      target="__black"
+      rel="noreferrer nofollow"
+      href={`${explorer ? explorer[0] : ''}/tx/${receipt.transactionHash}`}
+    >
+      Check on Explorer
+    </a>
+  );
 };
 
 export function showToast<T>(

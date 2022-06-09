@@ -99,11 +99,13 @@ const getTotalsInUSD = (data: MailDataStructOutput[], chainId: number) =>
       totalOwedInUSD: acc.totalOwedInUSD.add(
         IntMath.from(item.borrow)
           .mul(item.borrowRate.mul(BLOCKS_PER_YEAR[chainId] || 0))
+          .mul(item.usdPrice)
           .value()
       ),
       totalRewardsInUSD: acc.totalRewardsInUSD.add(
         IntMath.from(item.supply)
           .mul(item.supplyRate.mul(BLOCKS_PER_YEAR[chainId] || 0))
+          .mul(item.usdPrice)
           .value()
       ),
     }),
