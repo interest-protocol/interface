@@ -18,7 +18,10 @@ import { useIdAccount } from '@/hooks/use-id-account';
 import { IntMath } from '@/sdk';
 import { LoadingSVG, TimesSVG, UnknownCoinSVG } from '@/svg';
 import {
+  adjustTo18Decimals,
+  elasticToPrincipal,
   formatMoney,
+  loanElasticToPrincipal,
   safeToBigNumber,
   showToast,
   showTXSuccessToast,
@@ -174,12 +177,22 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
 
       const safeAmount = amount.gt(data.balance) ? data.balance : amount;
 
+      const adjustedAmount = adjustTo18Decimals(safeAmount, data.decimals);
+
+      const principal = elasticToPrincipal(
+        data.totalElastic,
+        data.totalBase,
+        adjustedAmount
+      );
+
+      const safePrincipal = principal.gt(data.borrow) ? data.borrow : principal;
+
       const tx = await mailRepay(
         validId,
         validSigner,
         pool,
         data.tokenAddress,
-        safeAmount,
+        safePrincipal,
         account
       );
 
