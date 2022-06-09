@@ -56,7 +56,7 @@ export const mailBorrow = (
   return contract.borrow(token, amount, to);
 };
 
-export const mailRepay = async (
+export const mailRepay = (
   chainId: number,
   signer: JsonRpcSigner,
   pool: string,
