@@ -16,7 +16,7 @@ const CurrencyIdentifier: FC<CurrencyIdentifierProps> = ({
   const tokenAddress = useWatch({ control, name: 'token' });
 
   const symbol =
-    isAddress(tokenAddress) && tokenAddress
+    tokenAddress && isAddress(tokenAddress)
       ? pathOr(
           TOKEN_SYMBOL.Unknown,
           ['symbol'],
