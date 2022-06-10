@@ -62,14 +62,13 @@ export const calculateMax = (
     return IntMath.toNumber(data.balance, data.decimals);
 
   if (isRedeeming(base, type)) {
-    if (totalBorrowInUSD.isZero()) return IntMath.toNumber(data.supply);
+    if (totalBorrowInUSD.isZero()) return IntMath.toNumber(data.cash);
 
     const safeAmountOfTokens = IntMath.from(totalMaxBorrowAmountInUSD)
       .sub(totalBorrowInUSD)
       .div(data.usdPrice);
 
-    if (safeAmountOfTokens.gte(data.supply))
-      return IntMath.toNumber(data.supply);
+    if (safeAmountOfTokens.gte(data.cash)) return IntMath.toNumber(data.cash);
 
     return safeAmountOfTokens.mul(ethers.utils.parseEther('0.95')).toNumber();
   }
@@ -149,10 +148,9 @@ export const processDetailsInfo = (
   type: MAILMarketPoolModalProps['type'],
   symbol: string
 ) => {
-  if (isSupplying(base, type) || isRedeeming(base, type))
-    return `My ${symbol} deposit`;
+  if (isSupplying(base, type)) return `My ${symbol} deposit`;
 
-  if (isBorrowing(base, type)) return `Cash`;
+  if (isBorrowing(base, type) || isRedeeming(base, type)) return `Cash`;
 
   if (isRepaying(base, type) || isBorrowing(base, type))
     return `My ${symbol} loan`;
@@ -186,13 +184,13 @@ export const calculateDetails = (
     )}`;
 
   if (isRedeeming(base, type)) {
-    if (value.gt(data.supply))
-      return `${formatMoney(
-        IntMath.toNumber(data.supply)
-      )} \u2192 ${formatMoney(0)}`;
+    if (value.gte(data.cash))
+      return `${formatMoney(IntMath.toNumber(data.cash))} \u2192 ${formatMoney(
+        0
+      )}`;
 
-    return `${formatMoney(IntMath.toNumber(data.supply))} \u2192 ${formatMoney(
-      IntMath.toNumber(data.supply.sub(value))
+    return `${formatMoney(IntMath.toNumber(data.cash))} \u2192 ${formatMoney(
+      IntMath.toNumber(data.cash.sub(value))
     )}`;
   }
 
