@@ -51,6 +51,8 @@ export const calculateMax = (
   ).mul(ethers.utils.parseEther('0.9'));
 
   if (isBorrowing(base, type)) {
+    if (totalBorrowInUSD.gte(safeTotalMaxBorrowAmountInUSD.value())) return 0;
+
     const amount = safeTotalMaxBorrowAmountInUSD
       .sub(totalBorrowInUSD)
       .div(data.usdPrice);
@@ -62,15 +64,27 @@ export const calculateMax = (
     return IntMath.toNumber(data.balance, data.decimals);
 
   if (isRedeeming(base, type)) {
-    if (totalBorrowInUSD.isZero()) return IntMath.toNumber(data.cash);
+    if (totalBorrowInUSD.isZero()) {
+      return IntMath.toNumber(
+        data.supply.gt(data.cash) ? data.cash : data.supply
+      );
+    }
+
+    if (
+      totalBorrowInUSD.gte(totalMaxBorrowAmountInUSD) ||
+      totalBorrowInUSD.gte(safeTotalMaxBorrowAmountInUSD.value())
+    )
+      return 0;
 
     const safeAmountOfTokens = IntMath.from(totalMaxBorrowAmountInUSD)
       .sub(totalBorrowInUSD)
-      .div(data.usdPrice);
+      .div(data.usdPrice)
+      .div(data.ltv)
+      .mul(ethers.utils.parseEther('0.95'));
 
     if (safeAmountOfTokens.gte(data.cash)) return IntMath.toNumber(data.cash);
 
-    return safeAmountOfTokens.mul(ethers.utils.parseEther('0.95')).toNumber();
+    return safeAmountOfTokens.toNumber();
   }
 
   return 0;

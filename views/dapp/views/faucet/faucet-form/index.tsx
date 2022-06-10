@@ -31,8 +31,8 @@ import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
 import { FaucetFormProps, IFaucetForm } from '../faucet.types';
 import InputBalance from '../input-balance';
+import CurrencyIdentifier from './faucet-currency-identifier';
 import FaucetSelectCurrency from './faucet-select-currency';
-import CurrencyIdentifier from './fucet-currency-identifier';
 
 const FaucetForm: FC<FaucetFormProps> = ({
   tokens,
@@ -52,10 +52,9 @@ const FaucetForm: FC<FaucetFormProps> = ({
     },
   });
 
-  const onSelectCurrency = (token: string, callback?: () => void) => {
+  const onSelectCurrency = (token: string) => {
     setValue('token', token);
     setValue('amount', 0);
-    callback?.();
   };
 
   const handleOnMint = useCallback(async () => {
@@ -126,7 +125,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
             tokens={tokens}
             label="Choose Token"
             addLocalToken={addLocalToken}
-            defaultValue={getValues('token')}
+            defaultValue={tokens?.[0]?.address ?? ethers.constants.AddressZero}
             onSelectCurrency={onSelectCurrency}
           />
           <InputBalance

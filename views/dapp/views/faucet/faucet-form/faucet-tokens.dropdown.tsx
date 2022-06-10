@@ -1,5 +1,4 @@
 import { ethers } from 'ethers';
-import { propEq } from 'ramda';
 import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -63,20 +62,19 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
 
   const data = useMemo(
     () =>
-      tokens.filter(
-        ({ name, address, symbol }) =>
-          name?.toLocaleLowerCase().startsWith(search.toLocaleLowerCase()) ||
-          symbol?.toLocaleLowerCase().startsWith(search.toLocaleLowerCase()) ||
-          (ethers.utils.isAddress(search) && isSameAddress(address, search))
-      ),
+      search
+        ? tokens.filter(({ name, address, symbol }) =>
+            name.toLocaleLowerCase().startsWith(search.toLocaleLowerCase()) ||
+            symbol.toLocaleLowerCase().startsWith(search.toLocaleLowerCase())
+              ? true
+              : ethers.utils.isAddress(search) &&
+                ethers.utils.isAddress(address)
+              ? isSameAddress(address, search)
+              : false
+          )
+        : tokens,
     [search, tokens]
   );
-
-  const handleSelectCurrency = (address: string) =>
-    onSelectCurrency(address, () => {
-      const token = data.find(propEq('address', address));
-      if (token) addLocalToken?.(token);
-    });
 
   return (
     <Dropdown
@@ -109,7 +107,7 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
         </Box>
       }
       header={addLocalToken ? Input : undefined}
-      data={renderData(data, handleSelectCurrency)}
+      data={renderData(data, onSelectCurrency)}
     />
   );
 };

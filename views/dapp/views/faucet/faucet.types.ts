@@ -33,6 +33,10 @@ export interface FaucetFormProps {
   tokens: ReadonlyArray<IToken & { balance: BigNumber }>;
 }
 
+export interface FaucetSelectCurrencyForm {
+  search: string;
+}
+
 export interface FaucetProps {
   customAction: () => void;
 }
@@ -47,7 +51,7 @@ export interface FaucetCurrencyDropdownProps {
   defaultValue: string;
   tokens: ReadonlyArray<IToken>;
   control: Control<{ search: string }>;
-  onSelectCurrency: (currency: string, addLocalToken?: () => void) => void;
+  onSelectCurrency: (currency: string) => void;
 }
 export type AddLocalToken = (item: IToken) => void;
 

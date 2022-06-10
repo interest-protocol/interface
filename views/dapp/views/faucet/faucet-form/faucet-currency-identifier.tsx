@@ -1,4 +1,4 @@
-import { getAddress } from 'ethers/lib/utils';
+import { getAddress, isAddress } from 'ethers/lib/utils';
 import { find, pathOr, propEq } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
@@ -15,11 +15,14 @@ const CurrencyIdentifier: FC<CurrencyIdentifierProps> = ({
 }) => {
   const tokenAddress = useWatch({ control, name: 'token' });
 
-  const symbol = pathOr(
-    TOKEN_SYMBOL.Unknown,
-    ['symbol'],
-    find(propEq('address', getAddress(tokenAddress)), tokens)
-  );
+  const symbol =
+    isAddress(tokenAddress) && tokenAddress
+      ? pathOr(
+          TOKEN_SYMBOL.Unknown,
+          ['symbol'],
+          find(propEq('address', getAddress(tokenAddress)), tokens)
+        )
+      : TOKEN_SYMBOL.Unknown;
 
   const Icon = TOKENS_SVG_MAP[symbol] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 

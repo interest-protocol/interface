@@ -2,12 +2,13 @@ import { FC } from 'react';
 
 import { Input } from '@/elements';
 
-import { FaucetSearchTokenProps } from './faucet.types';
+import { FaucetSearchTokenProps } from '../faucet.types';
 
 const FaucetSearchToken: FC<FaucetSearchTokenProps> = ({ register }) => (
   <Input
     // eslint-disable-next-line jsx-a11y/no-autofocus
     autoFocus
+    type="string"
     {...register('search')}
     placeholder="Type the address"
     shieldProps={{
