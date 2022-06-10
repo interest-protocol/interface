@@ -8,6 +8,7 @@ import { MAILMarketPoolOperation } from './../../mail-market-pool.types';
 
 export interface MAILMarketPoolTableProps extends MAILMarketLoadingProps {
   active?: boolean;
+  doubleActive?: boolean;
   type: MAILMarketPoolOperation;
   markets: ReadonlyArray<MailDataStructOutput & MarketMetadata>;
   totalBorrowsInUSDRecord: TotalBorrowRiskyInUSDRecord;
