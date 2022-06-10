@@ -15,7 +15,9 @@ export const store = configureStore({
   preloadedState,
   devTools: isDevelopment,
   middleware: (getDefaultMiddleware) => {
-    const extraMiddleware = isDevelopment ? [sagaMiddleware] : [sagaMiddleware];
+    const extraMiddleware = isDevelopment
+      ? [logger, sagaMiddleware]
+      : [sagaMiddleware];
     return getDefaultMiddleware({ thunk: false }).concat(extraMiddleware);
   },
 });
