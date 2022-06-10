@@ -144,7 +144,7 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
         validSigner,
         pool,
         data.tokenAddress,
-        safeAmount,
+        safeAmount.gte(data.cash) ? data.cash : safeAmount,
         account
       );
 
