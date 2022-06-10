@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
 import priorityHooks from '@/connectors';
-import { Routes, RoutesEnum, SUPPORTED_CHAINS_RECORD } from '@/constants';
+import { Routes, SUPPORTED_CHAINS_RECORD } from '@/constants';
 import { CHAINS } from '@/constants/chains';
 import { DAppTheme, LightTheme } from '@/design-system';
 import { usePrevious } from '@/hooks';
@@ -13,12 +13,6 @@ import { getAccount, getChainId } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
 import { switchToNetwork } from '@/utils';
 import { Layout, Loading } from '@/views/dapp/components';
-
-export const GUARDED_ROUTES_ARRAY = [
-  Routes[RoutesEnum.Faucet],
-  Routes[RoutesEnum.MAILMarketPool],
-  Routes[RoutesEnum.Borrow],
-];
 
 import Advice from './advice';
 import {
@@ -99,9 +93,17 @@ const Web3Manager: FC<Web3ManagerProps> = ({
   const [triedSwitchToRightNetwork, setTriedSwitchToRightNetwork] =
     useState(false);
   const [triedEagerly, setTriedEagerly] = useState(false);
+  const [isSwitching, setSwitching] = useState(false);
 
-  const handleSwitchToNetwork = (targetChainId: number) => () =>
-    switchToNetwork(connector, targetChainId);
+  const handleSwitchToNetwork = (targetChainId: number) => async () => {
+    try {
+      if (isSwitching) return;
+      setSwitching(true);
+      await switchToNetwork(connector, targetChainId);
+    } finally {
+      setSwitching(false);
+    }
+  };
 
   const dispatch = useDispatch();
 
