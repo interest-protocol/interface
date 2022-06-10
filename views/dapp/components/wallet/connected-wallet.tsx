@@ -9,13 +9,14 @@ import {
   isChainIdSupported,
 } from '@/constants/chains';
 import { Box, Button, Typography } from '@/elements';
-import { IntMath, ZERO_ADDRESS } from '@/sdk';
+import { IntMath } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import { getCoreData } from '@/state/core/core.selectors';
 import { CoreState } from '@/state/core/core.types';
 import { LoadingSVG, MetaMaskSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
+import ConnectWallet from './connect-wallet';
 import AccountModal from './wallet-modal/account-modal';
 
 const {
@@ -50,7 +51,7 @@ const ConnectedWallet: FC = () => {
     setShowModal(not);
   };
 
-  return (
+  return coreData.account ? (
     <Box
       bg="textSoft"
       display="flex"
@@ -100,7 +101,7 @@ const ConnectedWallet: FC = () => {
           <MetaMaskSVG height="100%" width="100%" />
         </Box>
         <Typography variant="normal" color="text">
-          {shortAccount(coreData.account || ZERO_ADDRESS)}
+          {shortAccount(coreData.account)}
         </Typography>
       </Button>
       <AccountModal
@@ -110,6 +111,8 @@ const ConnectedWallet: FC = () => {
         toggleModal={toggleModal}
       />
     </Box>
+  ) : (
+    <ConnectWallet />
   );
 };
 

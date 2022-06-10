@@ -28,6 +28,7 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
   loading,
   markets,
   refreshData,
+  doubleActive,
   totalBorrowsInUSDRecord,
 }) => {
   const {
@@ -86,9 +87,22 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
       }
     );
 
+  const activeMobileDisplay = !active || markets.length ? 'block' : 'none';
+
+  const activeDesktopDisplay =
+    !active || doubleActive || markets.length ? 'block' : 'none';
+
   return (
     <>
-      <Box mt="XL">
+      <Box
+        mt="XL"
+        display={[
+          activeMobileDisplay,
+          activeMobileDisplay,
+          activeMobileDisplay,
+          activeDesktopDisplay,
+        ]}
+      >
         <Typography pt="L" variant="normal" textTransform="capitalize">
           {active && 'Active '}
           {type} Market

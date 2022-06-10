@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 
-import { Box, Button } from '@/elements';
+import { Box, Button, Typography } from '@/elements';
 import { useIsMounted } from '@/hooks/use-is-mounted';
 
 import { ConnectWalletModal } from './wallet-modal';
@@ -24,7 +24,9 @@ const ConnectWallet: FC = () => {
         hover={{ bg: 'accent' }}
         active={{ bg: 'accentActive' }}
       >
-        Connect Wallet
+        <Typography as="span" variant="normal" whiteSpace="nowrap" fontSize="S">
+          Connect Wallet
+        </Typography>
       </Button>
       <ConnectWalletModal showModal={showModal} toggleModal={toggleModal} />
     </Box>
