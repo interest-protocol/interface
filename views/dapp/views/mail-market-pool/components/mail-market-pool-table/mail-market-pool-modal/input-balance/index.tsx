@@ -47,10 +47,7 @@ const InputBalance: FC<InputBalanceProps> = ({
             bg="bottomBackground"
             hover={{ bg: 'accent' }}
             active={{ bg: 'accentActive' }}
-            onClick={() => {
-              if (!setValue) return;
-              setValue('value', max);
-            }}
+            onClick={() => setValue?.('value', max.toString())}
           >
             Safe max
           </Button>
