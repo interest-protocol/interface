@@ -37,7 +37,6 @@ import FaucetSelectCurrency from './faucet-select-currency';
 const FaucetForm: FC<FaucetFormProps> = ({
   tokens,
   isLoadingData,
-  addLocalToken,
   removeLocalToken,
 }) => {
   const dispatch = useDispatch();
@@ -124,7 +123,6 @@ const FaucetForm: FC<FaucetFormProps> = ({
           <FaucetSelectCurrency
             tokens={tokens}
             label="Choose Token"
-            addLocalToken={addLocalToken}
             defaultValue={tokens?.[0]?.address ?? ethers.constants.AddressZero}
             onSelectCurrency={onSelectCurrency}
           />
@@ -225,7 +223,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
                         display="grid"
                         alignItems="center"
                         gridTemplateColumns={`4rem 2rem ${
-                          addLocalToken ? '2rem' : ''
+                          removeLocalToken ? '2rem' : ''
                         }`}
                       >
                         <Typography variant="normal" color="textSecondary">

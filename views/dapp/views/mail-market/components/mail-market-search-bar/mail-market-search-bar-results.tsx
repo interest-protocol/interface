@@ -19,17 +19,23 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
 
   const doesMarketExist = useMemo(
     () =>
-      allMarkets.some((market) =>
-        ethers.utils.isAddress(trimmedQuery)
-          ? isSameAddress(trimmedQuery, market.market) ||
-            isSameAddress(trimmedQuery, market.token)
-          : market.name.toLowerCase().startsWith(trimmedQuery.toLowerCase()) ||
-            market.symbol
-              .toLowerCase()
-              .startsWith(trimmedQuery.toLowerCase()) ||
-            market.symbol.toLowerCase().includes(query.trim().toLowerCase()) ||
-            market.name.toLowerCase().includes(query.trim().toLowerCase())
-      ),
+      trimmedQuery
+        ? allMarkets.some((market) =>
+            ethers.utils.isAddress(trimmedQuery)
+              ? isSameAddress(trimmedQuery, market.market) ||
+                isSameAddress(trimmedQuery, market.token)
+              : market.name
+                  .toLowerCase()
+                  .startsWith(trimmedQuery.toLowerCase()) ||
+                market.symbol
+                  .toLowerCase()
+                  .startsWith(trimmedQuery.toLowerCase()) ||
+                market.symbol
+                  .toLowerCase()
+                  .includes(query.trim().toLowerCase()) ||
+                market.name.toLowerCase().includes(query.trim().toLowerCase())
+          )
+        : allMarkets,
     [trimmedQuery, allMarkets]
   );
 

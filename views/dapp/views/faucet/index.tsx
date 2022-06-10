@@ -90,7 +90,6 @@ const Faucet: FC = () => {
           <FaucetForm
             isLoadingData={!recommendedData.length}
             tokens={localData}
-            addLocalToken={addLocalToken}
             removeLocalToken={removeLocalToken}
           />
         </Container>

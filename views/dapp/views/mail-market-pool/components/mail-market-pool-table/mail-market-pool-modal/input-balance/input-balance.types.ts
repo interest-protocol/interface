@@ -1,8 +1,4 @@
-import {
-  UseFormGetValues,
-  UseFormRegister,
-  UseFormSetValue,
-} from 'react-hook-form';
+import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
 import { IMAILMarketPoolForm } from '../mail-market-pool-modal.types';
 
