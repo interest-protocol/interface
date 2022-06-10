@@ -66,7 +66,7 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
   const { register, setValue, getValues, control } =
     useForm<IMAILMarketPoolForm>({
       defaultValues: {
-        value: 0,
+        value: '',
       },
     });
 

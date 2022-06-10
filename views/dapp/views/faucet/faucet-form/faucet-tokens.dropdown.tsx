@@ -1,3 +1,4 @@
+import { ethers } from 'ethers';
 import { propEq } from 'ramda';
 import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
@@ -66,7 +67,7 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
         ({ name, address, symbol }) =>
           name?.toLocaleLowerCase().startsWith(search.toLocaleLowerCase()) ||
           symbol?.toLocaleLowerCase().startsWith(search.toLocaleLowerCase()) ||
-          isSameAddress(address, search)
+          (ethers.utils.isAddress(search) && isSameAddress(address, search))
       ),
     [search, tokens]
   );
