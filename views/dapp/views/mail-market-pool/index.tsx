@@ -136,20 +136,22 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
           gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
         >
           <MAILMarketPoolTable
-            loading={loading}
-            markets={markets.activeSupplyMarkets}
-            totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
             active
             type="supply"
+            loading={loading}
             refreshData={refreshData}
+            markets={markets.activeSupplyMarkets}
+            totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
+            showOnDesktop={!!markets.activeBorrowMarkets.length}
           />
           <MAILMarketPoolTable
-            loading={loading}
-            markets={markets.activeBorrowMarkets}
-            totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
             active
             type="borrow"
+            loading={loading}
             refreshData={refreshData}
+            markets={markets.activeBorrowMarkets}
+            totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
+            showOnDesktop={!!markets.activeSupplyMarkets.length}
           />
           <MAILMarketPoolTable
             loading={loading}

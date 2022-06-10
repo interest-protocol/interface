@@ -21,7 +21,6 @@ import {
   adjustTo18Decimals,
   elasticToPrincipal,
   formatMoney,
-  loanElasticToPrincipal,
   safeToBigNumber,
   showToast,
   showTXSuccessToast,
@@ -320,24 +319,13 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
 
   return (
     <Box
-      py="L"
-      color="text"
-      width="100%"
-      bg="foreground"
-      minWidth="28rem"
-      maxWidth="90vw"
-      borderRadius="M"
-      px={['L', 'XL']}
+      display="flex"
+      maxHeight="95vh"
+      overflow="hidden"
+      flexDirection="column"
     >
       <Box display="flex" justifyContent="flex-end">
-        <Box
-          mt="-4.5rem"
-          mr="-1em"
-          display="flex"
-          textAlign="right"
-          position="absolute"
-          justifyContent="flex-end"
-        >
+        <Box display="flex" textAlign="right" justifyContent="flex-end" mb="M">
           <Button
             px="L"
             variant="primary"
@@ -350,136 +338,148 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
           </Button>
         </Box>
       </Box>
-      <Box display="flex" justifyContent="space-between">
-        <Typography
-          variant="title3"
-          fontWeight="normal"
-          textTransform="uppercase"
-        >
-          {type}
-        </Typography>
-      </Box>
-      <Box display="flex" justifyContent="center" my="L">
-        <Switch
-          defaultValue={base ? type : SWITCH_DEFAULT_DATA[type][1].value}
-          options={SWITCH_DEFAULT_DATA[type]}
-        />
-      </Box>
-      <Box my="XL" bg="background" p="L" borderRadius="M">
-        <Typography variant="normal" textTransform="capitalize">
-          {(base && type === 'borrow') || (!base && type === 'supply')
-            ? `current ${type}ing`
-            : 'your balance'}
-          :
-        </Typography>
-        <Box mt="L" key={v4()} display="flex" justifyContent="space-between">
-          <Box display="flex">
-            <SVG width="1rem" height="1rem" />
-            <Typography ml="M" variant="normal">
-              {formatMoney(tokenValue)}
-            </Typography>
-          </Box>
-          <Typography variant="normal" color="textSecondary">
-            {data.symbol}
-          </Typography>
-        </Box>
-      </Box>
-      <Box my="XL">
-        <InputBalance
-          name="value"
-          max={max}
-          register={register}
-          label="Type quantity"
-          setValue={setValue}
-        />
-      </Box>
-      <Typography variant="normal" textTransform="capitalize">
-        Rate
-      </Typography>
-      <Box my="L" bg="background" p="L" borderRadius="M">
-        <Box
-          py="M"
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-        >
+      <Box
+        py="L"
+        color="text"
+        height="100%"
+        width="28rem"
+        bg="foreground"
+        maxWidth="90vw"
+        overflow="auto"
+        borderRadius="M"
+        px={['L', 'XL']}
+      >
+        <Box display="flex" justifyContent="space-between">
           <Typography
-            fontSize="S"
-            variant="normal"
-            color="textSecondary"
+            variant="title3"
+            fontWeight="normal"
             textTransform="uppercase"
           >
-            {type === 'borrow' ? 'Borrow Rate Impact' : 'Supply APR'}
+            {type}
           </Typography>
-          <BorrowRateImpact
-            control={control}
-            chainId={chainId}
-            pool={pool}
-            type={type}
-            data={data}
+        </Box>
+        <Box display="flex" justifyContent="center" my="L">
+          <Switch
+            defaultValue={base ? type : SWITCH_DEFAULT_DATA[type][1].value}
+            options={SWITCH_DEFAULT_DATA[type]}
           />
         </Box>
-      </Box>
-      <Typography variant="normal">Details</Typography>
-      <Details
-        data={data}
-        type={type}
-        control={control}
-        totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
-        base={base}
-      />
-      {account ? (
-        data.allowance.isZero() &&
-        (isSupplying(base, type) || isRepaying(base, type)) ? (
-          <Box display="flex">
-            <Button
-              width="100%"
-              variant="primary"
-              disabled={loading}
-              onClick={toastAddAllowance}
-              hover={{ bg: 'accentActive' }}
-              bg={loading ? 'accentActive' : 'accent'}
-            >
-              {loading ? (
-                <Box as="span" display="flex" justifyContent="center">
-                  <LoadingSVG width="1rem" height="1rem" />
-                  <Typography as="span" variant="normal" ml="M" fontSize="S">
-                    Requesting allowance...
-                  </Typography>
-                </Box>
-              ) : (
-                'Request allowance'
-              )}
-            </Button>
+        <Box my="XL" bg="background" p="L" borderRadius="M">
+          <Typography variant="normal" textTransform="capitalize">
+            {(base && type === 'borrow') || (!base && type === 'supply')
+              ? `current ${type}ing`
+              : 'your balance'}
+            :
+          </Typography>
+          <Box mt="L" key={v4()} display="flex" justifyContent="space-between">
+            <Box display="flex">
+              <SVG width="1rem" height="1rem" />
+              <Typography ml="M" variant="normal">
+                {formatMoney(tokenValue)}
+              </Typography>
+            </Box>
+            <Typography variant="normal" color="textSecondary">
+              {data.symbol}
+            </Typography>
           </Box>
-        ) : (
-          <Box display="flex">
-            <Button
-              width="100%"
-              variant="primary"
-              disabled={loading}
-              hover={{ bg: 'accentAlternativeActive' }}
-              bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
-              onClick={action}
-            >
-              {loading ? (
-                <Box as="span" display="flex" justifyContent="center">
-                  <LoadingSVG width="1rem" height="1rem" />
-                  <Typography as="span" variant="normal" ml="M" fontSize="S">
-                    {processLoadingMessage(base, type, data.symbol)}
-                  </Typography>
-                </Box>
-              ) : (
-                processButtonText(base, type, data.symbol)
-              )}
-            </Button>
-          </Box>
-        )
-      ) : (
-        <Box display="flex" justifyContent="center">
-          <ConnectWallet />
         </Box>
-      )}
+        <Box my="XL">
+          <InputBalance
+            name="value"
+            max={max}
+            register={register}
+            label="Type quantity"
+            setValue={setValue}
+          />
+        </Box>
+        <Typography variant="normal" textTransform="capitalize">
+          Rate
+        </Typography>
+        <Box my="L" bg="background" p="L" borderRadius="M">
+          <Box
+            py="M"
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography
+              fontSize="S"
+              variant="normal"
+              color="textSecondary"
+              textTransform="uppercase"
+            >
+              {type === 'borrow' ? 'Borrow Rate Impact' : 'Supply APR'}
+            </Typography>
+            <BorrowRateImpact
+              control={control}
+              chainId={chainId}
+              pool={pool}
+              type={type}
+              data={data}
+            />
+          </Box>
+        </Box>
+        <Typography variant="normal">Details</Typography>
+        <Details
+          data={data}
+          type={type}
+          control={control}
+          totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
+          base={base}
+        />
+        {account ? (
+          data.allowance.isZero() &&
+          (isSupplying(base, type) || isRepaying(base, type)) ? (
+            <Box display="flex">
+              <Button
+                width="100%"
+                variant="primary"
+                disabled={loading}
+                onClick={toastAddAllowance}
+                hover={{ bg: 'accentActive' }}
+                bg={loading ? 'accentActive' : 'accent'}
+              >
+                {loading ? (
+                  <Box as="span" display="flex" justifyContent="center">
+                    <LoadingSVG width="1rem" height="1rem" />
+                    <Typography as="span" variant="normal" ml="M" fontSize="S">
+                      Requesting allowance...
+                    </Typography>
+                  </Box>
+                ) : (
+                  'Request allowance'
+                )}
+              </Button>
+            </Box>
+          ) : (
+            <Box display="flex">
+              <Button
+                width="100%"
+                variant="primary"
+                disabled={loading}
+                hover={{ bg: 'accentAlternativeActive' }}
+                bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
+                onClick={action}
+              >
+                {loading ? (
+                  <Box as="span" display="flex" justifyContent="center">
+                    <LoadingSVG width="1rem" height="1rem" />
+                    <Typography as="span" variant="normal" ml="M" fontSize="S">
+                      {processLoadingMessage(base, type, data.symbol)}
+                    </Typography>
+                  </Box>
+                ) : (
+                  processButtonText(base, type, data.symbol)
+                )}
+              </Button>
+            </Box>
+          )
+        ) : (
+          <Box display="flex" justifyContent="center">
+            <ConnectWallet />
+          </Box>
+        )}
+      </Box>
     </Box>
   );
 };

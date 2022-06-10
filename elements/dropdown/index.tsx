@@ -79,6 +79,7 @@ const Dropdown: FC<DropdownProps> = ({
         <Box
           width="100%"
           cursor="pointer"
+          whiteSpace="nowrap"
           onClick={toggleDropdown}
           color={isOpen ? 'accent' : 'text'}
         >
