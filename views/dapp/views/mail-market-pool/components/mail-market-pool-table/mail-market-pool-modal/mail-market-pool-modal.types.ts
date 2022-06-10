@@ -14,5 +14,5 @@ export interface MAILMarketPoolModalProps {
 }
 
 export interface IMAILMarketPoolForm {
-  value: number;
+  value: string;
 }

@@ -82,11 +82,11 @@ export const calculateLiquidationRisk = (
   base: boolean,
   type: MAILMarketPoolModalProps['type'],
   totalBorrowsInUSDRecord: MAILMarketPoolModalProps['totalBorrowsInUSDRecord'],
-  amount: number
+  amount: string
 ) => {
   if (!data) return '';
 
-  if (data.borrow.isZero() && amount === 0) return '0% \u2192 0%';
+  if (data.borrow.isZero() && amount === '0') return '0% \u2192 0%';
 
   const value = safeToBigNumber(amount);
   const valueInUSD = IntMath.from(value).mul(data.usdPrice).value();
@@ -165,7 +165,7 @@ export const calculateDetails = (
   base: boolean,
   type: MAILMarketPoolModalProps['type'],
   totalBorrowsInUSDRecord: MAILMarketPoolModalProps['totalBorrowsInUSDRecord'],
-  amount: number
+  amount: string
 ) => {
   if (!data) return '';
 

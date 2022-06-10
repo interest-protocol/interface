@@ -1,4 +1,4 @@
-import { isAddress } from 'ethers/lib/utils';
+import { ethers } from 'ethers';
 import { propEq } from 'ramda';
 import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
@@ -10,21 +10,7 @@ import { TOKEN_SYMBOL } from '@/sdk';
 import { ArrowSVG } from '@/svg';
 import { isSameAddress } from '@/utils';
 
-import { FaucetCurrencyDropdownProps, IToken } from './faucet.types';
-
-const BLOCKCHAIN_DATA = [
-  {
-    name: 'Interest Protocol',
-    symbol: 'INT',
-    address: '0x3FB23255BcC69cC9eC9dCa611ff872991B993C6C',
-  },
-  {
-    name: 'Binance Main Net',
-    symbol: 'BNB',
-    address:
-      '0x00fb7f630766e6a796048ea87d01acd3068e8ff67d078148a3fa3f4a84f69bd5',
-  },
-];
+import { FaucetCurrencyDropdownProps, IToken } from '../faucet.types';
 
 const renderData = (
   data: ReadonlyArray<IToken>,
@@ -75,34 +61,22 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
 }) => {
   const search = useWatch({ control, name: 'search' });
 
-  const { data, isLocal } = useMemo(() => {
-    const data = tokens.filter(
-      ({ name, address, symbol }) =>
-        name?.toLocaleLowerCase().startsWith(search.toLocaleLowerCase()) ||
-        symbol?.toLocaleLowerCase().startsWith(search.toLocaleLowerCase()) ||
-        isSameAddress(address, search)
-    );
-    return data.length
-      ? { data, isLocal: true }
-      : {
-          // TODO: get token from blockchain,
-          data: BLOCKCHAIN_DATA.filter(
-            ({ address }) => isAddress(search) && address == search
-          ),
-          isLocal: false,
-        };
-  }, [search]);
+  const data = useMemo(
+    () =>
+      tokens.filter(
+        ({ name, address, symbol }) =>
+          name?.toLocaleLowerCase().startsWith(search.toLocaleLowerCase()) ||
+          symbol?.toLocaleLowerCase().startsWith(search.toLocaleLowerCase()) ||
+          (ethers.utils.isAddress(search) && isSameAddress(address, search))
+      ),
+    [search, tokens]
+  );
 
   const handleSelectCurrency = (address: string) =>
-    onSelectCurrency(
-      address,
-      !isLocal
-        ? () => {
-            const token = data.find(propEq('address', address));
-            if (token) addLocalToken?.(token);
-          }
-        : undefined
-    );
+    onSelectCurrency(address, () => {
+      const token = data.find(propEq('address', address));
+      if (token) addLocalToken?.(token);
+    });
 
   return (
     <Dropdown

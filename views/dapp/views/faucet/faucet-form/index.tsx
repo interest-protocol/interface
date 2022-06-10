@@ -30,9 +30,9 @@ import {
 import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
 import { FaucetFormProps, IFaucetForm } from '../faucet.types';
-import CurrencyIdentifier from '../faucet-currency-identidier';
-import FaucetSelectCurrency from '../faucet-select-currency';
 import InputBalance from '../input-balance';
+import FaucetSelectCurrency from './faucet-select-currency';
+import CurrencyIdentifier from './fucet-currency-identifier';
 
 const FaucetForm: FC<FaucetFormProps> = ({
   tokens,
