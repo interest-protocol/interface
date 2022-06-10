@@ -64,14 +64,14 @@ export const calculateMax = (
   if (isRedeeming(base, type)) {
     if (totalBorrowInUSD.isZero()) return IntMath.toNumber(data.supply);
 
-    const safeAmountOfTokens = safeTotalMaxBorrowAmountInUSD
+    const safeAmountOfTokens = IntMath.from(totalMaxBorrowAmountInUSD)
       .sub(totalBorrowInUSD)
       .div(data.usdPrice);
 
     if (safeAmountOfTokens.gte(data.supply))
       return IntMath.toNumber(data.supply);
 
-    return safeAmountOfTokens.toNumber();
+    return safeAmountOfTokens.mul(ethers.utils.parseEther('0.95')).toNumber();
   }
 
   return 0;

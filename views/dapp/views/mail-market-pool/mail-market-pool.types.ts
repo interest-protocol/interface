@@ -3,8 +3,7 @@ import { FC, SVGAttributes } from 'react';
 import { Control, UseFormRegister } from 'react-hook-form';
 
 import { ERC20MetadataWithAddress } from '@/interface';
-import { CHAIN_ID, TOKEN_SYMBOL, ZERO_BIG_NUMBER } from '@/sdk';
-import { getBTCAddress } from '@/utils';
+import { TOKEN_SYMBOL } from '@/sdk';
 
 export type MAILMarketPoolOperation = 'supply' | 'borrow';
 
@@ -19,11 +18,6 @@ export interface IMailMarketPoolData {
 export interface IMAILMarketForm {
   search: string;
 }
-
-export type IMailMarketPoolTypeData = Record<
-  MAILMarketPoolOperation,
-  ReadonlyArray<IMailMarketPoolData>
->;
 
 export interface MAILMarketSearchInputProps {
   register: UseFormRegister<IMAILMarketForm>;

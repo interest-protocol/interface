@@ -122,18 +122,19 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
               borrow,
               supply,
               usdPrice,
-              totalSupply,
               totalElastic,
               totalBase,
+              cash,
             } = marketData;
 
             const Icon = TOKENS_SVG_MAP[symbol]
               ? TOKENS_SVG_MAP[symbol]
               : UnknownCoinSVG;
 
+            const isBorrow = type === 'borrow';
+
             const apr =
-              IntMath.toNumber(type === 'borrow' ? borrowRate : supplyRate) *
-              100;
+              IntMath.toNumber(isBorrow ? borrowRate : supplyRate) * 100;
 
             const borrowElastic = principalToElastic(
               totalElastic,
@@ -141,13 +142,9 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
               borrow
             );
 
-            const balance = IntMath.toNumber(
-              type === 'borrow' ? borrowElastic : supply
-            );
+            const balance = IntMath.toNumber(isBorrow ? borrowElastic : supply);
 
-            const balanceInUSD = IntMath.from(
-              type === 'borrow' ? borrowElastic : supply
-            )
+            const balanceInUSD = IntMath.from(isBorrow ? borrowElastic : supply)
               .mul(usdPrice)
               .toNumber();
 
@@ -165,13 +162,13 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
                 loading ? (
                   <Skeleton width="3rem" />
                 ) : (
-                  `${type == 'borrow' ? '-' : ''} ${toFixedToPrecision(apr)}%`
+                  `${isBorrow ? '-' : ''}${toFixedToPrecision(apr)}%`
                 ),
                 ...(active
                   ? [
                       <Box key={v4()}>
                         <Typography variant="normal">
-                          {formatMoney(balance)}
+                          {`${isBorrow ? '-' : ''}${formatMoney(balance)}`}
                         </Typography>
                         <Typography
                           mt="S"
@@ -180,13 +177,15 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
                           fontWeight="500"
                           variant="normal"
                         >
-                          {formatDollars(balanceInUSD)}
+                          {`${isBorrow ? '-' : ''}${formatDollars(
+                            balanceInUSD
+                          )}`}
                         </Typography>
                       </Box>,
                     ]
                   : []),
                 ...(type == 'borrow' && !active
-                  ? [formatMoney(IntMath.toNumber(totalSupply))]
+                  ? [formatMoney(IntMath.toNumber(cash))]
                   : []),
               ],
             };
