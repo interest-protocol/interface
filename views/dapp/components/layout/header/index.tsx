@@ -50,6 +50,7 @@ const Header: FC = () => {
             borderRadius="M"
             textAlign="center"
             bg="accentAlternative"
+            display={['none', 'none', 'none', 'block']}
             hover={{
               bg: 'warning',
             }}
@@ -145,7 +146,7 @@ const Header: FC = () => {
           />
         </Box>
       </Box>
-      <Box display="flex" justifyContent="flex-end">
+      <Box display="flex" justifyContent="flex-end" alignItems="center">
         <Wallet />
         <MobileMenu />
       </Box>
