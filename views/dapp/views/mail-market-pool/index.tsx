@@ -142,7 +142,7 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             refreshData={refreshData}
             markets={markets.activeSupplyMarkets}
             totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
-            doubleActive={!!markets.activeBorrowMarkets.length}
+            showOnDesktop={!!markets.activeBorrowMarkets.length}
           />
           <MAILMarketPoolTable
             active
@@ -151,7 +151,7 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             refreshData={refreshData}
             markets={markets.activeBorrowMarkets}
             totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
-            doubleActive={!!markets.activeSupplyMarkets.length}
+            showOnDesktop={!!markets.activeSupplyMarkets.length}
           />
           <MAILMarketPoolTable
             loading={loading}
