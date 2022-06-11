@@ -9,7 +9,11 @@ import { Box, Button, Typography } from '@/elements';
 import { useGetSigner } from '@/hooks';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG, TimesSVG } from '@/svg';
-import { extractCreateTokenEvent } from '@/utils';
+import {
+  extractCreateTokenEvent,
+  isValidAccount,
+  safeGetAddress,
+} from '@/utils';
 import {
   safeToBigNumber,
   showToast,
@@ -71,7 +75,12 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
 
       const { token } = extractCreateTokenEvent(receipt);
 
-      addLocalToken({ symbol, name, address: ethers.utils.getAddress(token) });
+      if (isValidAccount(token))
+        addLocalToken({
+          symbol,
+          name,
+          address: safeGetAddress(token),
+        });
     } catch (error) {
       throwError('Something went wrong', error);
     } finally {

@@ -3,7 +3,7 @@ import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Box } from '@/elements';
-import { isSameAddress } from '@/utils';
+import { isSameAddress, safeGetAddress } from '@/utils';
 
 import { MAILMarketSearchBarResultsProps } from '../../mail-market.types';
 import SearchItemWrapper from './mail-market-search-item-wrapper';
@@ -73,7 +73,7 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
     >
       <SearchItemWrapper
         addLocalAsset={addLocalAsset}
-        address={ethers.utils.getAddress(trimmedQuery)}
+        address={safeGetAddress(trimmedQuery)}
       />
     </Box>
   );

@@ -21,7 +21,8 @@ import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import {
   formatMoney,
-  isSameAddress,
+  isValidAccount,
+  safeGetAddress,
   showToast,
   showTXSuccessToast,
   throwError,
@@ -63,7 +64,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
       const amount = getValues('amount');
       const token = getValues('token');
 
-      if (!amount || isSameAddress(token, ethers.constants.AddressZero)) return;
+      if (!amount || !isValidAccount(token)) return;
 
       const { validSigner, validId } = throwIfInvalidSigner(
         [account],
@@ -73,7 +74,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
 
       const decimals = pathOr(
         DEFAULT_ERC_20_DECIMALS,
-        [validId, ethers.utils.getAddress(token), 'decimals'],
+        [validId, safeGetAddress(token), 'decimals'],
         ERC_20_DATA
       );
 
@@ -198,11 +199,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
 
                   const decimals = pathOr(
                     DEFAULT_ERC_20_DECIMALS,
-                    [
-                      chainId || 0,
-                      ethers.utils.getAddress(address),
-                      'decimals',
-                    ],
+                    [chainId || 0, safeGetAddress(address), 'decimals'],
                     ERC_20_DATA
                   );
 

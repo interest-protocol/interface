@@ -23,13 +23,19 @@ export const processGetUserBalances = (
   );
 
   return {
-    recommendedData: recommendedBalances.map((balance, index) => ({
-      ...mailTokens[index],
-      balance,
-    })),
-    localData: localBalances.map((balance, index) => ({
-      ...localTokens[index],
-      balance,
-    })),
+    recommendedData:
+      mailTokensLength === recommendedBalances.length
+        ? mailTokens.map((x, index) => ({
+            ...x,
+            balance: recommendedBalances[index],
+          }))
+        : [],
+    localData:
+      localTokens.length === localBalances.length
+        ? localTokens.map((x, index) => ({
+            ...x,
+            balance: localBalances[index],
+          }))
+        : [],
   };
 };

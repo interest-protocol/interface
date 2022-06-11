@@ -23,6 +23,7 @@ import {
   DINERO_MARKET_CONTRACT_MAP,
   TOKEN_SYMBOL,
 } from '@/sdk/constants';
+import { safeGetAddress } from '@/utils/address';
 
 import {
   CasaDePapelAbi,
@@ -43,7 +44,7 @@ import {
 
 const makeGetAddress = (x: Record<number, string>) =>
   compose(
-    ethers.utils.getAddress,
+    safeGetAddress,
     propOr(ethers.constants.AddressZero, __, x),
     toString
   );
