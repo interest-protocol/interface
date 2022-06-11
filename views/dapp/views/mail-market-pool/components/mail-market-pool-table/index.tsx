@@ -125,6 +125,7 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
               totalElastic,
               totalBase,
               cash,
+              ltv,
             } = marketData;
 
             const Icon = TOKENS_SVG_MAP[symbol]
@@ -166,6 +167,9 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
                 ),
                 ...(active
                   ? [
+                      ...(!isBorrow
+                        ? [`${toFixedToPrecision(IntMath.toNumber(ltv, 16))}%`]
+                        : []),
                       <Box key={v4()}>
                         <Typography variant="normal">
                           {`${isBorrow ? '-' : ''}${formatMoney(balance)}`}
@@ -182,11 +186,13 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
                           )}`}
                         </Typography>
                       </Box>,
+                      ...(isBorrow
+                        ? [formatMoney(IntMath.toNumber(cash))]
+                        : []),
                     ]
-                  : []),
-                ...(type == 'borrow' && !active
+                  : isBorrow
                   ? [formatMoney(IntMath.toNumber(cash))]
-                  : []),
+                  : [`${toFixedToPrecision(IntMath.toNumber(ltv, 16))}%`]),
               ],
             };
           })}

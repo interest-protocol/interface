@@ -7,6 +7,9 @@ export const ACTIVE_MARKET_POOL_HEADINGS = {
       item: 'APR',
     },
     {
+      item: 'LTV',
+    },
+    {
       item: 'Balance',
     },
   ],
@@ -18,7 +21,10 @@ export const ACTIVE_MARKET_POOL_HEADINGS = {
       item: 'APR',
     },
     {
-      item: 'Balance',
+      item: 'Loan',
+    },
+    {
+      item: 'Liquidity',
     },
   ],
 };
@@ -29,6 +35,9 @@ export const MAIL_MARKET_POOL_HEADINGS = {
     },
     {
       item: 'APR',
+    },
+    {
+      item: 'LTV',
     },
   ],
   borrow: [
