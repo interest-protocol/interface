@@ -233,20 +233,23 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
             )
           : ZERO_BIG_NUMBER;
 
-      const safeAmount = amountInUSD.gt(leftAmountToBorrowInUSD)
-        ? IntMath.from(leftAmountToBorrowInUSD).div(data.usdPrice).value()
+      const safeAmount = amountInUSD.gt(
+        IntMath.from(leftAmountToBorrowInUSD)
+          .mul(ethers.utils.parseEther('0.975'))
+          .value()
+      )
+        ? IntMath.from(leftAmountToBorrowInUSD)
+            .div(data.usdPrice)
+            .mul(ethers.utils.parseEther('0.95'))
+            .value()
         : amount;
-
-      const reducedSafeAmount = IntMath.from(safeAmount)
-        .mul(ethers.utils.parseEther('0.95'))
-        .value();
 
       const tx = await mailBorrow(
         validId,
         validSigner,
         pool,
         data.tokenAddress,
-        reducedSafeAmount.gt(data.cash) ? data.cash : reducedSafeAmount,
+        safeAmount.gt(data.cash) ? data.cash : safeAmount,
         account
       );
 
