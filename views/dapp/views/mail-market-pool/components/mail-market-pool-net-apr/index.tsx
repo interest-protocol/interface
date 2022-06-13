@@ -108,7 +108,7 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
           {loading ? (
             <Skeleton width="80%" />
           ) : (
-            `${toFixedToPrecision(
+            `-${toFixedToPrecision(
               IntMath.from(data.myBorrowRate).toNumber(16, 4, 4),
               4,
               3

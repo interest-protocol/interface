@@ -21,7 +21,8 @@ import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import {
   formatMoney,
-  isSameAddress,
+  isValidAccount,
+  safeGetAddress,
   showToast,
   showTXSuccessToast,
   throwError,
@@ -31,13 +32,12 @@ import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
 import { FaucetFormProps, IFaucetForm } from '../faucet.types';
 import InputBalance from '../input-balance';
+import CurrencyIdentifier from './faucet-currency-identifier';
 import FaucetSelectCurrency from './faucet-select-currency';
-import CurrencyIdentifier from './fucet-currency-identifier';
 
 const FaucetForm: FC<FaucetFormProps> = ({
   tokens,
   isLoadingData,
-  addLocalToken,
   removeLocalToken,
 }) => {
   const dispatch = useDispatch();
@@ -52,10 +52,9 @@ const FaucetForm: FC<FaucetFormProps> = ({
     },
   });
 
-  const onSelectCurrency = (token: string, callback?: () => void) => {
+  const onSelectCurrency = (token: string) => {
     setValue('token', token);
     setValue('amount', 0);
-    callback?.();
   };
 
   const handleOnMint = useCallback(async () => {
@@ -65,7 +64,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
       const amount = getValues('amount');
       const token = getValues('token');
 
-      if (!amount || isSameAddress(token, ethers.constants.AddressZero)) return;
+      if (!amount || !isValidAccount(token)) return;
 
       const { validSigner, validId } = throwIfInvalidSigner(
         [account],
@@ -75,7 +74,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
 
       const decimals = pathOr(
         DEFAULT_ERC_20_DECIMALS,
-        [validId, ethers.utils.getAddress(token), 'decimals'],
+        [validId, safeGetAddress(token), 'decimals'],
         ERC_20_DATA
       );
 
@@ -125,8 +124,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
           <FaucetSelectCurrency
             tokens={tokens}
             label="Choose Token"
-            addLocalToken={addLocalToken}
-            defaultValue={getValues('token')}
+            defaultValue={tokens?.[0]?.address ?? ethers.constants.AddressZero}
             onSelectCurrency={onSelectCurrency}
           />
           <InputBalance
@@ -201,11 +199,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
 
                   const decimals = pathOr(
                     DEFAULT_ERC_20_DECIMALS,
-                    [
-                      chainId || 0,
-                      ethers.utils.getAddress(address),
-                      'decimals',
-                    ],
+                    [chainId || 0, safeGetAddress(address), 'decimals'],
                     ERC_20_DATA
                   );
 
@@ -226,7 +220,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
                         display="grid"
                         alignItems="center"
                         gridTemplateColumns={`4rem 2rem ${
-                          addLocalToken ? '2rem' : ''
+                          removeLocalToken ? '2rem' : ''
                         }`}
                       >
                         <Typography variant="normal" color="textSecondary">

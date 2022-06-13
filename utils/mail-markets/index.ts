@@ -5,11 +5,12 @@ import { MAIL_MARKET_METADATA_MAP } from '@/constants/mail-markets';
 import { LocalMAILMarketData, MailMarketsSummaryData } from '@/interface';
 import { MAIL_MARKET_RISKY_TOKENS_ARRAY } from '@/sdk/constants';
 import { UnknownCoinSVG } from '@/svg';
+import { safeGetAddress } from '@/utils';
 
 import { ProcessManyMailSummaryData } from './mail-markets.types';
 
 const getAddressArray = map<LocalMAILMarketData, string>(
-  o(ethers.utils.getAddress, prop('token'))
+  o(safeGetAddress, prop('token'))
 );
 
 const makeUniqTokenArray = o<
@@ -35,7 +36,7 @@ export const processManyMailSummaryData: ProcessManyMailSummaryData = (
   const localMailDataRecord = localMailData.reduce(
     (acc, data) => ({
       ...acc,
-      [ethers.utils.getAddress(data.token)]: data,
+      [safeGetAddress(data.token)]: data,
     }),
     {} as Record<string, LocalMAILMarketData>
   );

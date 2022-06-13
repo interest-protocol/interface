@@ -38,7 +38,7 @@ const Faucet: FC = () => {
 
   const { recommendedData, localData } = useMemo(
     () => processGetUserBalances(MAIL_TOKENS, localTokens, data),
-    [MAIL_TOKENS, data]
+    [MAIL_TOKENS, data, localTokens]
   );
 
   const addLocalToken: AddLocalToken = useCallback(
@@ -90,7 +90,6 @@ const Faucet: FC = () => {
           <FaucetForm
             isLoadingData={!recommendedData.length}
             tokens={localData}
-            addLocalToken={addLocalToken}
             removeLocalToken={removeLocalToken}
           />
         </Container>

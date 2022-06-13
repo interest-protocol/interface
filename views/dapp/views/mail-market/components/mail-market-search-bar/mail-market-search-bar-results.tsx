@@ -3,7 +3,7 @@ import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Box } from '@/elements';
-import { isSameAddress } from '@/utils';
+import { isSameAddress, safeGetAddress } from '@/utils';
 
 import { MAILMarketSearchBarResultsProps } from '../../mail-market.types';
 import SearchItemWrapper from './mail-market-search-item-wrapper';
@@ -19,17 +19,23 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
 
   const doesMarketExist = useMemo(
     () =>
-      allMarkets.some((market) =>
-        ethers.utils.isAddress(trimmedQuery)
-          ? isSameAddress(trimmedQuery, market.market) ||
-            isSameAddress(trimmedQuery, market.token)
-          : market.name.toLowerCase().startsWith(trimmedQuery.toLowerCase()) ||
-            market.symbol
-              .toLowerCase()
-              .startsWith(trimmedQuery.toLowerCase()) ||
-            market.symbol.toLowerCase().includes(query.trim().toLowerCase()) ||
-            market.name.toLowerCase().includes(query.trim().toLowerCase())
-      ),
+      trimmedQuery
+        ? allMarkets.some((market) =>
+            ethers.utils.isAddress(trimmedQuery)
+              ? isSameAddress(trimmedQuery, market.market) ||
+                isSameAddress(trimmedQuery, market.token)
+              : market.name
+                  .toLowerCase()
+                  .startsWith(trimmedQuery.toLowerCase()) ||
+                market.symbol
+                  .toLowerCase()
+                  .startsWith(trimmedQuery.toLowerCase()) ||
+                market.symbol
+                  .toLowerCase()
+                  .includes(query.trim().toLowerCase()) ||
+                market.name.toLowerCase().includes(query.trim().toLowerCase())
+          )
+        : allMarkets,
     [trimmedQuery, allMarkets]
   );
 
@@ -67,7 +73,7 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
     >
       <SearchItemWrapper
         addLocalAsset={addLocalAsset}
-        address={ethers.utils.getAddress(trimmedQuery)}
+        address={safeGetAddress(trimmedQuery)}
       />
     </Box>
   );

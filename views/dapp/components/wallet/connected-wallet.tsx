@@ -14,7 +14,7 @@ import { coreActions } from '@/state/core/core.actions';
 import { getCoreData } from '@/state/core/core.selectors';
 import { CoreState } from '@/state/core/core.types';
 import { LoadingSVG, MetaMaskSVG } from '@/svg';
-import { shortAccount } from '@/utils';
+import { isValidAccount, shortAccount } from '@/utils';
 
 import ConnectWallet from './connect-wallet';
 import AccountModal from './wallet-modal/account-modal';
@@ -41,6 +41,7 @@ const ConnectedWallet: FC = () => {
       chainId &&
       isChainIdSupported(chainId) &&
       account &&
+      isValidAccount(account) &&
       chainId !== coreData.chainId
     ) {
       dispatch(coreActions.connectWallet({ chainId, account }));

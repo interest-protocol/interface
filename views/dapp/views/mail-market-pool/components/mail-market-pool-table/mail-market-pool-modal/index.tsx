@@ -1,3 +1,4 @@
+import { ethers } from 'ethers';
 import { prop } from 'ramda';
 import { FC, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -15,7 +16,7 @@ import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useGetSigner } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
-import { IntMath } from '@/sdk';
+import { IntMath, ZERO_BIG_NUMBER } from '@/sdk';
 import { LoadingSVG, TimesSVG, UnknownCoinSVG } from '@/svg';
 import {
   adjustTo18Decimals,
@@ -144,7 +145,7 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
         validSigner,
         pool,
         data.tokenAddress,
-        safeAmount,
+        safeAmount.gte(data.cash) ? data.cash : safeAmount,
         account
       );
 
@@ -224,12 +225,23 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
       const amountInUSD = IntMath.from(amount).mul(data.usdPrice).value();
 
       const leftAmountToBorrowInUSD =
-        totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD.sub(
+        totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD.gte(
           totalBorrowsInUSDRecord.totalBorrowInUSD
-        );
+        )
+          ? totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD.sub(
+              totalBorrowsInUSDRecord.totalBorrowInUSD
+            )
+          : ZERO_BIG_NUMBER;
 
-      const safeAmount = amountInUSD.gt(leftAmountToBorrowInUSD)
-        ? IntMath.from(leftAmountToBorrowInUSD).div(data.usdPrice).value()
+      const safeAmount = amountInUSD.gt(
+        IntMath.from(leftAmountToBorrowInUSD)
+          .mul(ethers.utils.parseEther('0.975'))
+          .value()
+      )
+        ? IntMath.from(leftAmountToBorrowInUSD)
+            .div(data.usdPrice)
+            .mul(ethers.utils.parseEther('0.95'))
+            .value()
         : amount;
 
       const tx = await mailBorrow(
