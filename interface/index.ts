@@ -21,3 +21,29 @@ export interface ICasaDePapelMinting {
 }
 
 export type MaybeArray<T> = T | Array<T>;
+
+export interface LocalMAILMarketData {
+  market: string;
+  token: string;
+  symbol: string;
+  name: string;
+}
+
+export interface MailMarketsSummaryData {
+  name: string;
+  token: string;
+  symbol: string;
+  market: string;
+  borrowRates: BigNumber[];
+  supplyRates: BigNumber[];
+}
+
+export interface ERC20Metadata {
+  name: string;
+  symbol: string;
+  decimals: BigNumber;
+}
+
+export interface ERC20MetadataWithAddress extends ERC20Metadata {
+  address: string;
+}

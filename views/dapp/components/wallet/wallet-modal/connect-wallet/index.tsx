@@ -68,8 +68,11 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
     });
 
   const connectToMetaMask = async () => {
-    swipeToWallet(Wallets.MetaMask);
-    !hasError && (await metaMask.activate());
+    try {
+      swipeToWallet(Wallets.MetaMask);
+      !hasError && (await metaMask.activate());
+      // eslint-disable-next-line no-empty
+    } catch {}
   };
 
   return (
@@ -123,11 +126,6 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
               Icon={MetaMaskSVG}
               onClick={connectToMetaMask}
             />
-            {/*<WalletButton*/}
-            {/*  Icon={WalletSVG}*/}
-            {/*  name="Wallet Connect"*/}
-            {/*  onClick={async () => await walletConnect.activate()}*/}
-            {/*/>*/}
           </Box>
         </Box>
       )}

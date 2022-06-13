@@ -6,7 +6,7 @@ import { LogoSVG } from '@/svg';
 
 import Layout from '../../components/layout';
 
-const ComingSoonBSCMainNet: FC = () => (
+const ComingSoonBNBMainNet: FC = () => (
   <Layout>
     <Box
       width="100vw"
@@ -22,10 +22,10 @@ const ComingSoonBSCMainNet: FC = () => (
             Coming Soon
           </Typography>
           <Typography variant="normal" mt="M">
-            Sorry, we are working on <strong>BSC Main Net</strong>.
+            Sorry, we are working on <strong>BNB Main Net</strong>.
           </Typography>
           <Typography variant="normal" mt="M">
-            Please, switch to <strong>BSC Test Net</strong>.
+            Please, switch to <strong>BNB Test Net</strong>.
           </Typography>
         </Box>
       </Pulse>
@@ -33,4 +33,4 @@ const ComingSoonBSCMainNet: FC = () => (
   </Layout>
 );
 
-export default ComingSoonBSCMainNet;
+export default ComingSoonBNBMainNet;

@@ -2,6 +2,7 @@ import { Dispatch, ReactNode, SetStateAction } from 'react';
 
 export interface IDropdownData {
   value: string;
+  disabled?: boolean;
   noSelectable?: boolean;
   onSelect?: () => void;
   displayTitle?: ReactNode;
@@ -26,6 +27,7 @@ export interface DropdownProps {
   footer?: ReactNode;
   relative?: boolean;
   buttonMode?: boolean;
+  emptyMessage?: string;
   customItems?: boolean;
   customTitle?: boolean;
   mode: 'select' | 'menu';
@@ -40,6 +42,7 @@ export interface DropdownListProps {
   minWidth?: string;
   header?: ReactNode;
   footer?: ReactNode;
+  emptyMessage?: string;
   customItems?: boolean;
   customTitle?: boolean;
   selectedIndex: number;

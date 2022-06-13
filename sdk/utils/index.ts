@@ -50,4 +50,4 @@ export const quote = (
 };
 
 export const isBNBChain = (chainId: number) =>
-  CHAIN_ID.BSC_TEST_NET === chainId || CHAIN_ID.BSC_MAIN_MET === chainId;
+  CHAIN_ID.BNB_TEST_NET === chainId || CHAIN_ID.BNB_MAIN_MET === chainId;

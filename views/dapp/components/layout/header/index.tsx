@@ -3,29 +3,30 @@ import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import { Routes, RoutesEnum } from '@/constants/routes';
-import { Box, Typography } from '@/elements';
+import { Box, Dropdown, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
 import { Wallet } from '../../index';
 import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
 
   return (
     <Box
       py="M"
-      px={['M', 'L']}
       as="header"
       bg="foreground"
+      px={['M', 'L']}
       alignItems="center"
-      display={['flex', 'flex', 'grid']}
       justifyContent="space-between"
+      display={['flex', 'flex', 'grid']}
       gridTemplateColumns="repeat(3, 1fr)"
     >
       <Box display="flex" alignItems="center">
         <Link href={Routes[RoutesEnum.Home]}>
           <Box
+            mr="XL"
             color="text"
             cursor="pointer"
             hover={{ color: 'accent' }}
@@ -39,6 +40,24 @@ const Header: FC = () => {
             />
           </Box>
         </Link>
+        <a href="https://forms.gle/aDP4wHvshLPKkKv97" target="__blank">
+          <Typography
+            px="L"
+            py="M"
+            width="100%"
+            fontSize="S"
+            variant="normal"
+            borderRadius="M"
+            textAlign="center"
+            bg="accentAlternative"
+            display={['none', 'none', 'none', 'block']}
+            hover={{
+              bg: 'warning',
+            }}
+          >
+            Feedback
+          </Typography>
+        </a>
       </Box>
       <Box
         alignItems="center"
@@ -60,43 +79,74 @@ const Header: FC = () => {
             Earn
           </Typography>
         </Link>
-        <Link href={Routes[RoutesEnum.DApp]}>
-          <Typography
-            px="XL"
-            cursor="pointer"
-            variant="normal"
-            borderRight="1px solid"
-            borderColor="bottomBackground"
-            color={
-              pathname === Routes[RoutesEnum.DApp] ||
-              pathname.includes(Routes[RoutesEnum.Borrow])
-                ? 'accent'
-                : 'inherit'
+        <Box>
+          <Dropdown
+            title={
+              <Typography
+                px="XL"
+                cursor="pointer"
+                variant="normal"
+                color={
+                  pathname === Routes[RoutesEnum.DApp] ||
+                  pathname.includes(Routes[RoutesEnum.Borrow])
+                    ? 'accent'
+                    : 'inherit'
+                }
+                hover={{ color: 'accentActive' }}
+              >
+                Borrow
+              </Typography>
             }
-            hover={{ color: 'accentActive' }}
-          >
-            Borrow
-          </Typography>
-        </Link>
-        <a href="https://forms.gle/aDP4wHvshLPKkKv97" target="__blank">
-          <Typography
-            px="L"
-            py="M"
-            width="100%"
-            fontSize="S"
-            variant="normal"
-            borderRadius="M"
-            textAlign="center"
-            bg="accentAlternative"
-            hover={{
-              bg: 'warning',
-            }}
-          >
-            Feedback
-          </Typography>
-        </a>
+            mode="menu"
+            data={[
+              {
+                value: 'dinero-market',
+                displayOption: 'Dinero Market',
+                onSelect: () =>
+                  push(Routes[RoutesEnum.DApp], undefined, {
+                    shallow: true,
+                  }),
+              },
+              {
+                value: 'mail-market',
+                displayOption: 'MAIL Market',
+                onSelect: () =>
+                  push(Routes[RoutesEnum.MAILMarket], undefined, {
+                    shallow: true,
+                  }),
+              },
+              {
+                disabled: true,
+                value: 'pair-market',
+                displayOption: (
+                  <Box
+                    px="L"
+                    width="100%"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <Typography variant="normal">Pair Market</Typography>
+                    <Typography
+                      py="S"
+                      px="M"
+                      fontSize="S"
+                      borderRadius="L"
+                      variant="normal"
+                      fontWeight="500"
+                      bg="accentAlternative"
+                      textTransform="uppercase"
+                    >
+                      Soon
+                    </Typography>
+                  </Box>
+                ),
+              },
+            ]}
+          />
+        </Box>
       </Box>
-      <Box display="flex" justifyContent="flex-end">
+      <Box display="flex" justifyContent="flex-end" alignItems="center">
         <Wallet />
         <MobileMenu />
       </Box>

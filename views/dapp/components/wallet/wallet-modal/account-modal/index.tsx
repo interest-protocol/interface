@@ -1,13 +1,13 @@
 import { FC } from 'react';
-import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 
+import { CopyToClipboard } from '@/components';
 import hooks from '@/connectors';
 import { CHAINS } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
 import { getChainId } from '@/state/core/core.selectors';
-import { CopySVG, LinkSVG, TimesSVG, UserSVG } from '@/svg';
+import { LinkSVG, TimesSVG, UserSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
 import { AccountModalProps } from '../../wallet.types';
@@ -24,11 +24,6 @@ const AccountModal: FC<AccountModalProps> = ({
   const chainId = useSelector(getChainId) as number | null;
 
   const disconnect = () => connector.deactivate();
-
-  const copyToClipboard = () => {
-    window.navigator.clipboard.writeText(account || '');
-    toast('Copied to clipboard');
-  };
 
   return (
     <Modal
@@ -93,19 +88,15 @@ const AccountModal: FC<AccountModalProps> = ({
             </Typography>
           </Box>
           <Box display="flex" color="textSecondary" mb="L" mt="XL">
-            <Box
-              mx="M"
-              fontSize="XS"
+            <CopyToClipboard
               display="flex"
-              cursor="pointer"
+              address={account}
               hover={{ color: 'text' }}
-              onClick={copyToClipboard}
             >
-              <CopySVG width="1rem" height="1rem" />
               <Typography variant="normal" ml="M" fontSize="S">
                 Copy Address
               </Typography>
-            </Box>
+            </CopyToClipboard>
             <a
               target="__blank"
               rel="noopener noreferrer"

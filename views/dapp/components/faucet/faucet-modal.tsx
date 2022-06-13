@@ -10,7 +10,9 @@ import { MintFaucetToken } from '@/api/faucet/faucet.types';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetSigner } from '@/hooks';
+import { useIdAccount } from '@/hooks/use-id-account';
 import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk';
+import { coreActions } from '@/state/core/core.actions';
 import { userBalanceEntityActions } from '@/state/user-balances';
 import { userBalanceSelectById } from '@/state/user-balances/user-balances.selectors';
 import { IUserBalance } from '@/state/user-balances/user-balances.types';
@@ -25,6 +27,7 @@ import {
   tryCatch,
 } from '@/utils';
 
+import ConnectWallet from '../wallet/connect-wallet';
 import { FaucetModalProps, IFaucetForm } from './faucet.types';
 import FaucetSelectCurrency from './faucet-select-currency';
 import InputBalance from './input-balance';
@@ -36,12 +39,13 @@ const MINT_MAP = {
   [key: string]: MintFaucetToken;
 };
 
-const getTestNetAddressWithSymbol = getAddressWithSymbol(CHAIN_ID.BSC_TEST_NET);
+const getTestNetAddressWithSymbol = getAddressWithSymbol(CHAIN_ID.BNB_TEST_NET);
 
 const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const { chainId, account } = useIdAccount();
   const { signer } = useGetSigner();
 
   const { register, getValues, setValue } = useForm<IFaucetForm>({
@@ -57,11 +61,11 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
   };
 
   const btcEntity = useSelector(
-    userBalanceSelectById(getBTCAddress(CHAIN_ID.BSC_TEST_NET))
+    userBalanceSelectById(getBTCAddress(CHAIN_ID.BNB_TEST_NET))
   ) as IUserBalance | undefined;
 
   const dnrEntity = useSelector(
-    userBalanceSelectById(getDNRAddress(CHAIN_ID.BSC_TEST_NET))
+    userBalanceSelectById(getDNRAddress(CHAIN_ID.BNB_TEST_NET))
   ) as IUserBalance | undefined;
 
   const data = useMemo(() => {
@@ -69,12 +73,12 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
 
     return [
       getERC20CurrencyAmount(
-        CHAIN_ID.BSC_TEST_NET,
+        CHAIN_ID.BNB_TEST_NET,
         btcEntity.id,
         btcEntity.balance
       ),
       getERC20CurrencyAmount(
-        CHAIN_ID.BSC_TEST_NET,
+        CHAIN_ID.BNB_TEST_NET,
         dnrEntity.id,
         dnrEntity.balance
       ),
@@ -86,19 +90,22 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
 
     const { currency, value } = getValues();
 
-    if (!currency || !value) return;
+    if (!currency || !value || !chainId) return;
 
     setLoading(true);
 
     const parsedValue = to18Decimals(value);
 
     const promise = tryCatch(
-      MINT_MAP[currency](signer, parsedValue).then(showTXSuccessToast),
+      MINT_MAP[currency](signer, parsedValue).then((x) =>
+        showTXSuccessToast(x, chainId)
+      ),
       (e) => {
         throw e ?? new Error('Something went wrong');
       },
       () => {
         setLoading(false);
+        dispatch(coreActions.updateNativeBalance());
       }
     );
 
@@ -209,26 +216,30 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
             );
           })}
         </Box>
-        <Box display="flex">
-          <Button
-            width="100%"
-            onClick={onMint}
-            variant="primary"
-            disabled={loading}
-            hover={{ bg: 'accentAlternativeActive' }}
-            bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
-          >
-            {loading ? (
-              <Box as="span" display="flex" justifyContent="center">
-                <LoadingSVG width="1rem" height="1rem" />
-                <Typography as="span" variant="normal" ml="M" fontSize="S">
-                  Minting...
-                </Typography>
-              </Box>
-            ) : (
-              'Mint'
-            )}
-          </Button>
+        <Box display="flex" justifyContent="center">
+          {account ? (
+            <Button
+              width="100%"
+              onClick={onMint}
+              variant="primary"
+              disabled={loading}
+              hover={{ bg: 'accentAlternativeActive' }}
+              bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
+            >
+              {loading ? (
+                <Box as="span" display="flex" justifyContent="center">
+                  <LoadingSVG width="1rem" height="1rem" />
+                  <Typography as="span" variant="normal" ml="M" fontSize="S">
+                    Minting...
+                  </Typography>
+                </Box>
+              ) : (
+                'Mint'
+              )}
+            </Button>
+          ) : (
+            <ConnectWallet />
+          )}
         </Box>
       </Box>
     </Modal>

@@ -1,16 +1,15 @@
 import { propOr } from 'ramda';
-import { useSelector } from 'react-redux';
 
 import { getFarmsSummary } from '@/api';
 import { CASA_DE_PAPEL_FARM_MAP } from '@/constants';
-import { getChainId } from '@/state/core/core.selectors';
 
 import { useCallContract } from '../use-call-contract';
+import { useIdAccount } from '../use-id-account';
 
 const prop = propOr([]);
 
 export const useGetFarmsSummary = () => {
-  const chainId = useSelector(getChainId) as number | null;
+  const { chainId } = useIdAccount();
 
   const data = propOr(
     {},

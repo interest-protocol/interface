@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-interface IHeading {
+export interface IHeading {
   tip?: string;
   item: ReactNode;
 }
@@ -11,12 +11,15 @@ interface IRow {
   items: TItems;
   button?: ReactNode;
   mobileSide?: ReactNode;
+  handleClick?: () => void;
 }
+
 export interface ResponsiveTableProps {
   loading?: boolean;
   ordinate?: boolean;
-  hasButton?: boolean;
+  specialRowHover?: boolean;
   data: ReadonlyArray<IRow>;
+  hasButton?: string | boolean;
   headings: ReadonlyArray<IHeading>;
 }
 
@@ -27,6 +30,8 @@ export interface TableRowProps {
   ordinate?: boolean;
   hasButton: boolean;
   mobileSide: ReactNode;
+  handleClick?: () => void;
+  specialRowHover?: boolean;
   headings: ReadonlyArray<IHeading>;
 }
 

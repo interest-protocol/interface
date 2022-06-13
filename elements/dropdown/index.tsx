@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 
 import Box from '../box';
-import Typography from '../typography';
 import { DropdownProps } from './dropdown.types';
 import DropdownList from './dropdown-list';
 
@@ -21,6 +20,7 @@ const Dropdown: FC<DropdownProps> = ({
   buttonMode,
   customTitle,
   customItems,
+  emptyMessage,
   defaultValue,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -38,9 +38,11 @@ const Dropdown: FC<DropdownProps> = ({
     >
       {mode === 'select' && selectedIndex !== -1 && customTitle ? (
         <Box
+          width="100%"
           cursor="pointer"
           alignItems="center"
           display="inline-flex"
+          whiteSpace="nowrap"
           onClick={toggleDropdown}
         >
           {data[selectedIndex].displayTitle ||
@@ -52,6 +54,7 @@ const Dropdown: FC<DropdownProps> = ({
           mx="S"
           px="0.7rem"
           py="0.7rem"
+          width="100%"
           cursor="pointer"
           borderRadius="M"
           maxHeight="2.8rem"
@@ -73,9 +76,10 @@ const Dropdown: FC<DropdownProps> = ({
           {suffix}
         </Box>
       ) : (
-        <Typography
-          variant="normal"
+        <Box
+          width="100%"
           cursor="pointer"
+          whiteSpace="nowrap"
           onClick={toggleDropdown}
           color={isOpen ? 'accent' : 'text'}
         >
@@ -84,7 +88,7 @@ const Dropdown: FC<DropdownProps> = ({
               data[selectedIndex].displayOption
             : title}
           {suffix}
-        </Typography>
+        </Box>
       )}
       <DropdownList
         data={data}
@@ -96,6 +100,7 @@ const Dropdown: FC<DropdownProps> = ({
         minWidth={minWidth}
         setIsOpen={setIsOpen}
         customItems={customItems}
+        emptyMessage={emptyMessage}
         selectedIndex={selectedIndex}
         toggleDropdown={toggleDropdown}
         setSelectedIndex={setSelectedIndex}

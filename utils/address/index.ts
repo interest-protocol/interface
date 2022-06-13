@@ -1,13 +1,19 @@
 import { ethers } from 'ethers';
-import { and, equals, not, useWith as rUseWith } from 'ramda';
+import { always, curryN, equals, not, tryCatch } from 'ramda';
 
 export const isValidAccount = (x: string): boolean =>
-  and(
-    ethers.utils.isAddress(x),
-    not(equals(ethers.constants.AddressZero, ethers.utils.getAddress(x)))
-  );
+  ethers.utils.isAddress(x)
+    ? not(equals(ethers.constants.AddressZero, ethers.utils.getAddress(x)))
+    : false;
 
-export const isSameAddress = rUseWith<string, string, string, string, boolean>(
-  equals,
-  [ethers.utils.getAddress, ethers.utils.getAddress]
+export const safeGetAddress = tryCatch(
+  ethers.utils.getAddress,
+  always(ethers.constants.AddressZero)
 );
+
+export const isSameAddress = curryN(2, (x: string, y: string) => {
+  if (!isValidAccount(x) || !isValidAccount(y)) return false;
+  return ethers.utils.getAddress(x) === ethers.utils.getAddress(y);
+});
+
+export const isZeroAddress = isSameAddress(ethers.constants.AddressZero);
