@@ -113,21 +113,32 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             gridTemplateColumns="1fr 1fr"
           >
             <MAILMarketPoolBalance
-              type="supply"
+              text=" My supply balance"
               balance={formatDollars(IntMath.toNumber(mySupply))}
               loading={loading}
             />
             <MAILMarketPoolBalance
-              type="borrow"
+              text="my borrow balance"
               balance={formatDollars(IntMath.toNumber(myBorrow))}
               loading={loading}
             />
           </Box>
           <MAILMarketPoolNetApr data={aprData} loading={loading} />
-          <MAILMarketPoolRisk
-            loading={loading}
-            risk={calculatePoolRisk(totalBorrowsInUSDRecord)}
-          />
+          <Box
+            display="grid"
+            gridColumnGap="1rem"
+            gridTemplateColumns="1fr 1fr"
+          >
+            <MAILMarketPoolBalance
+              text="max loan value"
+              balance={formatDollars(IntMath.toNumber(myBorrow))}
+              loading={loading}
+            />
+            <MAILMarketPoolRisk
+              loading={loading}
+              risk={calculatePoolRisk(totalBorrowsInUSDRecord)}
+            />
+          </Box>
         </Box>
         <Box
           id="mail-supply-borrow-markets"

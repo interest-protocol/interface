@@ -22,7 +22,7 @@ const Details: FC<DetailsProps> = ({
     name: 'value',
   });
 
-  const liquidationRisk = useMemo(
+  const { currentRisk, poolRisk } = useMemo(
     () =>
       calculateLiquidationRisk(
         data,
@@ -71,7 +71,23 @@ const Details: FC<DetailsProps> = ({
         >
           Liquidation Risk
         </Typography>
-        <Typography variant="normal">{liquidationRisk}</Typography>
+        <Typography variant="normal">
+          <Typography
+            as="span"
+            variant="normal"
+            color={currentRisk && poolRisk >= 80 ? 'error' : 'text'}
+          >
+            {currentRisk ?? ''}%
+          </Typography>{' '}
+          &rarr;{' '}
+          <Typography
+            as="span"
+            variant="normal"
+            color={poolRisk && poolRisk >= 80 ? 'error' : 'text'}
+          >
+            {poolRisk ?? ''}%
+          </Typography>
+        </Typography>
       </Box>
     </Box>
   );
