@@ -130,7 +130,8 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             gridTemplateColumns="1fr 1fr"
           >
             <MAILMarketPoolBalance
-              text="max loan value"
+              text="Max borrowable amount"
+              // TODO: change to max borrowable amount
               balance={formatDollars(IntMath.toNumber(myBorrow))}
               loading={loading}
             />
