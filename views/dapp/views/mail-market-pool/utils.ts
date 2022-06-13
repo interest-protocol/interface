@@ -44,20 +44,11 @@ export const processMAILMarketData = (
         loading: true,
       };
 
-export const calculateMySupplyAndBorrow = (data: MailDataStructOutput[]) =>
+export const calculateMySupply = (data: MailDataStructOutput[]) =>
   data.reduce(
-    (acc, data) => ({
-      mySupply: acc.mySupply.add(
-        IntMath.from(data.supply).mul(data.usdPrice).value()
-      ),
-      myBorrow: acc.myBorrow.add(
-        IntMath.from(data.borrow).mul(data.usdPrice).value()
-      ),
-    }),
-    {
-      mySupply: ZERO_BIG_NUMBER,
-      myBorrow: ZERO_BIG_NUMBER,
-    }
+    (acc, data) =>
+      acc.add(IntMath.from(data.supply).mul(data.usdPrice).value()),
+    ZERO_BIG_NUMBER
   );
 
 export const calculateTotalBorrowsInUSD = (

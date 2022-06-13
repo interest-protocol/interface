@@ -6,7 +6,7 @@ import { Box, Typography } from '@/elements';
 import { MAILMarketPoolBalanceProps } from './mail-market-pool-balance.types';
 
 const MAILMarketPoolBalance: FC<MAILMarketPoolBalanceProps> = ({
-  type,
+  text,
   balance,
   loading,
 }) => (
@@ -26,7 +26,7 @@ const MAILMarketPoolBalance: FC<MAILMarketPoolBalanceProps> = ({
       color="textSecondary"
       textTransform="uppercase"
     >
-      My {type} Balance
+      {text}
     </Typography>
     <Typography variant="normal" fontWeight="500" fontSize="XL">
       {loading ? <Skeleton /> : balance}
