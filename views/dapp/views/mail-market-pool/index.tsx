@@ -18,7 +18,7 @@ import MAILMarketPoolRisk from './components/mail-market-pool-risk';
 import { MAILMarketPoolProps } from './mail-market-pool.types';
 import {
   calculateAPRs,
-  calculateMySupplyAndBorrow,
+  calculateMySupply,
   calculatePoolRisk,
   calculateTotalBorrowsInUSD,
   processMAILMarketData,
@@ -34,10 +34,7 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
     [rawData, chainId]
   );
 
-  const { mySupply, myBorrow } = useMemo(
-    () => calculateMySupplyAndBorrow(data),
-    [data]
-  );
+  const mySupply = useMemo(() => calculateMySupply(data), [data]);
 
   const bridgeTokens = useMemo(
     () => propOr([], validId.toString(), MAIL_BRIDGE_TOKENS_ARRAY),
@@ -119,7 +116,9 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             />
             <MAILMarketPoolBalance
               text="my borrow balance"
-              balance={formatDollars(IntMath.toNumber(myBorrow))}
+              balance={formatDollars(
+                IntMath.toNumber(totalBorrowsInUSDRecord.totalBorrowInUSD)
+              )}
               loading={loading}
             />
           </Box>
@@ -131,8 +130,11 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
           >
             <MAILMarketPoolBalance
               text="Max borrowable amount"
-              // TODO: change to max borrowable amount
-              balance={formatDollars(IntMath.toNumber(myBorrow))}
+              balance={formatDollars(
+                IntMath.toNumber(
+                  totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD
+                )
+              )}
               loading={loading}
             />
             <MAILMarketPoolRisk
