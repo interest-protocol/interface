@@ -23,3 +23,13 @@ export const safeToBigNumber = (
     decimals,
     significant
   );
+
+export const adjustTo18Decimals = (x: BigNumber, decimals: number) => {
+  const k = 18;
+
+  if (decimals == k) return x;
+
+  if (decimals < k) return x.mul(BigNumber.from(10).pow(k - decimals));
+
+  return x.div(BigNumber.from(10).pow(decimals - k));
+};

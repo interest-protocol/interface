@@ -19,7 +19,7 @@ import {
 } from '@/sdk';
 import { FarmV2 } from '@/sdk';
 
-import { ReservesStructOutput } from '../../types/ethers-contracts/InterestViewAbi';
+import { ReservesStructOutput } from '../../types/ethers-contracts/InterestViewDineroAbi';
 import { formatDollars, getIntAddress, isSameAddress } from '..';
 import {
   GetSafeFarmSummaryData,
@@ -111,9 +111,10 @@ export const calculateFarmTokenPrice: TCalculateFarmTokenPrice = (
   totalSupply
 ) => {
   // Base token is token 0
-  const isToken0 =
-    ethers.utils.getAddress(farm.stakingToken.token0.address) ===
-    ethers.utils.getAddress(baseTokenAddress);
+  const isToken0 = isSameAddress(
+    farm.stakingToken.token0.address,
+    baseTokenAddress
+  );
 
   // LP Token  logic
   const reserve = isToken0

@@ -4,9 +4,9 @@ import Skeleton from 'react-loading-skeleton';
 import { Box, Typography } from '@/elements';
 import { ProgressSVG } from '@/svg';
 
-import { MAILMarketLoadingProps } from '../../mail-market-pool.types';
+import { MAILMarketPoolRiskProps } from '../../mail-market-pool.types';
 
-const MAILMarketPoolRisk: FC<MAILMarketLoadingProps> = ({ loading }) => (
+const MAILMarketPoolRisk: FC<MAILMarketPoolRiskProps> = ({ loading, risk }) => (
   <Box bg="foreground" p="XL" borderRadius="L">
     <Typography
       mb="XL"
@@ -15,16 +15,22 @@ const MAILMarketPoolRisk: FC<MAILMarketLoadingProps> = ({ loading }) => (
       color="textSecondary"
       textTransform="uppercase"
     >
-      Borrow Risk
+      Liquidation Risk
     </Typography>
-    <Box display="flex" alignItems="center">
+    <Box display="flex" alignItems="center" justifyContent="space-between">
       <Typography variant="normal" mr="XL">
-        {loading ? <Skeleton width="3rem" /> : '20%'}
+        {loading ? <Skeleton width="3rem" /> : `${risk}%`}
       </Typography>
-      <ProgressSVG width="100%" progress={20} custom height={10} />
       <Typography variant="normal" ml="XL">
         100%
       </Typography>
+    </Box>
+    <Box
+      mt="M"
+      width="100%"
+      color={risk >= 80 ? 'error' : risk >= 60 ? 'accentAlternative' : 'accent'}
+    >
+      <ProgressSVG width="100%" progress={risk} custom height={10} />
     </Box>
   </Box>
 );

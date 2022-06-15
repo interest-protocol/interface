@@ -19,20 +19,31 @@ export async function switchToNetwork(
     }
   } catch (error) {
     // 4902 is the error code for attempting to switch to an unrecognized chainId
-    if ((error as ProviderRpcError)?.code === 4902) {
+    if (
+      (error as ProviderRpcError)?.code === 4902 ||
+      (error as ProviderRpcError)?.code === -32603
+    ) {
       const formattedChainId = hexStripZeros(
         ethers.BigNumber.from(chainId).toHexString()
       );
 
       if (!connector.provider?.request) return;
-
-      await connector.provider.request({
-        method: 'wallet_addEthereumChain',
-        params: CHAINS[chainId],
-      });
+      try {
+        await connector.provider.request({
+          method: 'wallet_addEthereumChain',
+          params: CHAINS[chainId],
+        });
+        // eslint-disable-next-line no-empty
+      } catch {}
       // metamask (only known implementer) automatically switches after a network is added
       // the second call is done here because that behavior is not a part of the spec and cannot be relied upon in the future
       // metamask's behavior when switching to the current network is just to return null (a no-op)
+      const currentChainId = await connector.provider.request({
+        method: 'eth_chainId',
+      });
+
+      if (currentChainId === formattedChainId) return;
+
       try {
         await connector.provider.request({
           method: 'wallet_switchEthereumChain',
@@ -46,7 +57,10 @@ export async function switchToNetwork(
       connector instanceof MetaMask &&
       (error as ProviderRpcError)?.code === 1013
     ) {
-      await connector.activate();
+      try {
+        await connector.activate();
+        // eslint-disable-next-line no-empty
+      } catch {}
       return;
     } else {
       throw error;

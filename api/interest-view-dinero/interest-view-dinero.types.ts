@@ -3,7 +3,7 @@ import { BigNumber, CallOverrides } from 'ethers';
 import {
   DineroMarketSummaryStructOutput,
   DineroMarketUserDataStructOutput,
-} from '../../types/ethers-contracts/InterestViewAbi';
+} from '../../types/ethers-contracts/InterestViewDineroAbi';
 
 export type GetDineroMarketSummary = (
   chainId: number,

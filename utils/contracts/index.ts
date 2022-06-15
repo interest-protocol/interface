@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { ContractReceipt, ethers } from 'ethers';
 import {
   __,
   always,
@@ -17,12 +17,13 @@ import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
 import InterestViewDineroABI from '@/sdk/abi/interest-view-dinero.abi.json';
 import InterestViewMAILABI from '@/sdk/abi/interest-view-MAIL.abi.json';
 import MAILDeployerABI from '@/sdk/abi/mail-deployer.abi.json';
-import MultiCallV2ABI from '@/sdk/abi/multi-call-v2.abi.json';
+import TokenMinterABI from '@/sdk/abi/token-minter.abi.json';
 import {
   CONTRACTS,
   DINERO_MARKET_CONTRACT_MAP,
   TOKEN_SYMBOL,
 } from '@/sdk/constants';
+import { safeGetAddress } from '@/utils/address';
 
 import {
   CasaDePapelAbi,
@@ -31,9 +32,10 @@ import {
   InterestViewDineroAbi,
   InterestViewMAILAbi,
   MailDeployerAbi,
-  MultiCallV2Abi,
+  TokenMinterAbi,
 } from '../../types/ethers-contracts';
 import {
+  CreateTokenEventArgs,
   GetContract,
   GetContractAddress,
   GetDineroSignerContract,
@@ -42,7 +44,7 @@ import {
 
 const makeGetAddress = (x: Record<number, string>) =>
   compose(
-    ethers.utils.getAddress,
+    safeGetAddress,
     propOr(ethers.constants.AddressZero, __, x),
     toString
   );
@@ -114,6 +116,10 @@ export const getSHIBAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.SHIB
 );
 
+export const getTokenMinterAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.TOKEN_MINTER
+);
+
 export const getAddressWithSymbol = (chainId: number) =>
   cond([
     [equals(TOKEN_SYMBOL.BTC), always(getBTCAddress(chainId))],
@@ -136,16 +142,6 @@ export const getCasaDePapelContract: GetContract<CasaDePapelAbi> = (
     CasaDePapelABI,
     provider
   ) as CasaDePapelAbi;
-
-export const getMultiCallV2Contract: GetContract<MultiCallV2Abi> = (
-  chainId,
-  provider
-) =>
-  new ethers.Contract(
-    getMultiCallV2Address(chainId),
-    MultiCallV2ABI,
-    provider
-  ) as MultiCallV2Abi;
 
 export const getInterestViewBalancesContract: GetContract<InterestViewBalancesAbi> =
   (chainId, provider) =>
@@ -188,3 +184,21 @@ export const getMAILDeployerSignerContract: GetSignerContract<MailDeployerAbi> =
       MAILDeployerABI,
       signer
     ) as MailDeployerAbi;
+
+export const getTokenMinterSignerContract: GetSignerContract<TokenMinterAbi> = (
+  chainId,
+  signer
+) =>
+  new ethers.Contract(
+    getTokenMinterAddress(chainId),
+    TokenMinterABI,
+    signer
+  ) as TokenMinterAbi;
+
+export const extractCreateTokenEvent = (
+  receipt: ContractReceipt
+): CreateTokenEventArgs => {
+  const iFace = new ethers.utils.Interface(TokenMinterABI);
+  const log = iFace.parseLog(receipt.logs[1]);
+  return <CreateTokenEventArgs>log.args;
+};

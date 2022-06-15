@@ -2,15 +2,14 @@ import { useRouter } from 'next/router';
 import { compose, prop, uniqBy } from 'ramda';
 import { FC, useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useGetManyMailSummaryData } from '@/hooks';
+import { useIdAccount } from '@/hooks/use-id-account';
 import useLocalStorage from '@/hooks/use-storage';
 import { LocalMAILMarketData } from '@/interface';
-import { getChainId } from '@/state/core/core.selectors';
 import { flippedAppend } from '@/utils';
 import { processManyMailSummaryData } from '@/utils/mail-markets';
 
@@ -24,11 +23,11 @@ import { AddLocalAsset } from './mail-market.types';
 const MAILMarket: FC = () => {
   const { push } = useRouter();
   const { register, control } = useForm({ defaultValues: { search: '' } });
-  const chainId = useSelector(getChainId) as null | number;
+  const { chainId } = useIdAccount();
 
   const [localAssets, setLocalAssets] = useLocalStorage<
     ReadonlyArray<LocalMAILMarketData>
-  >(`${chainId || ''}-interest-protocol-mail-markets`, []);
+  >(`${chainId}-interest-protocol-mail-markets`, []);
 
   const { data, error } = useGetManyMailSummaryData(
     localAssets.map(prop('token'))

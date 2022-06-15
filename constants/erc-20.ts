@@ -109,7 +109,7 @@ export const getFarmsSVG = (
   return svgArray;
 };
 
-const RINKEBY_ERC20_ARRAY = [
+const RINKEBY_MAIL_BRIDGE_ERC20_ARRAY = [
   {
     symbol: TOKEN_SYMBOL.BTC,
     decimals: 18,
@@ -138,6 +138,10 @@ const RINKEBY_ERC20_ARRAY = [
     address: getUSDTAddress(CHAIN_ID.RINKEBY),
     chainId: CHAIN_ID.RINKEBY,
   },
+];
+
+const RINKEBY_ERC20_ARRAY = [
+  ...RINKEBY_MAIL_BRIDGE_ERC20_ARRAY,
   {
     symbol: TOKEN_SYMBOL.LINK,
     decimals: 18,
@@ -227,6 +231,11 @@ const RINKEBY_ERC_20_DATA = makeERC20Record(RINKEBY_ERC20_ARRAY);
 export const ERC_20_DATA = {
   [CHAIN_ID.BNB_TEST_NET]: BNB_TEST_ERC_20_DATA,
   [CHAIN_ID.RINKEBY]: RINKEBY_ERC_20_DATA,
+};
+
+export const MAIL_BRIDGE_TOKENS_ARRAY = {
+  [CHAIN_ID.RINKEBY]: RINKEBY_MAIL_BRIDGE_ERC20_ARRAY,
+  [CHAIN_ID.BNB_TEST_NET]: [],
 };
 
 export const UNKNOWN_ERC_20 = ERC20.from(ethers.constants.AddressZero, 0);

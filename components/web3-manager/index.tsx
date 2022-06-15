@@ -1,13 +1,16 @@
 import { ThemeProvider } from '@emotion/react';
 import { FC, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import priorityHooks from '@/connectors';
-import { Routes, RoutesEnum } from '@/constants';
+import { Routes, SUPPORTED_CHAINS_RECORD } from '@/constants';
 import { CHAINS } from '@/constants/chains';
 import { DAppTheme, LightTheme } from '@/design-system';
 import { usePrevious } from '@/hooks';
-import { CHAIN_ID } from '@/sdk';
-import { MetaMaskSVG, TimesSVG } from '@/svg';
+import { coreActions } from '@/state/core/core.actions';
+import { getAccount, getChainId } from '@/state/core/core.selectors';
+import { TimesSVG } from '@/svg';
 import { switchToNetwork } from '@/utils';
 import { Layout, Loading } from '@/views/dapp/components';
 
@@ -23,28 +26,19 @@ const {
   usePriorityConnector,
   usePriorityIsActivating,
   usePriorityChainId,
+  usePriorityAccount,
 } = priorityHooks;
-
-const SUPPORTED_CHAINS = {
-  [Routes[RoutesEnum.DApp]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.Earn]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.Faucet]]: [CHAIN_ID.RINKEBY],
-  [Routes[RoutesEnum.DineroMarketRepay]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.DineroMarket]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.MAILMarket]]: [CHAIN_ID.RINKEBY],
-  [Routes[RoutesEnum.MAILMarketPool]]: [CHAIN_ID.RINKEBY],
-  [Routes[RoutesEnum.Swap]]: [CHAIN_ID.RINKEBY],
-};
 
 const Content: FC<ContentProps> = ({
   error,
+  chainId,
+  children,
+  reduxChainId,
   triedEagerly,
   isActivating,
-  chainId,
-  triedSwitchToRightNetwork,
   supportedChains,
   handleSwitchToNetwork,
-  children,
+  triedSwitchToRightNetwork,
 }) => {
   if (!error && !triedEagerly && isActivating) return <Loading />;
 
@@ -57,9 +51,12 @@ const Content: FC<ContentProps> = ({
     return <Loading />;
 
   if (
-    !!chainId &&
-    triedSwitchToRightNetwork &&
-    !supportedChains.includes(chainId)
+    (!!chainId &&
+      triedSwitchToRightNetwork &&
+      !supportedChains.includes(chainId)) ||
+    (!!reduxChainId &&
+      triedSwitchToRightNetwork &&
+      !supportedChains.includes(reduxChainId))
   )
     return (
       <Advice
@@ -76,15 +73,6 @@ const Content: FC<ContentProps> = ({
       />
     );
 
-  if (!chainId)
-    return (
-      <Advice
-        Icon={MetaMaskSVG}
-        title="Disconnected"
-        lines={[<>Please, connect the wallet.</>]}
-      />
-    );
-
   return <>{children}</>;
 };
 
@@ -98,19 +86,35 @@ const Web3Manager: FC<Web3ManagerProps> = ({
   const chainId = usePriorityChainId();
   const connector = usePriorityConnector();
   const isActivating = usePriorityIsActivating();
+  const reduxChainId = useSelector(getChainId) as null | number;
+  const account = usePriorityAccount();
+  const reduxAccount = useSelector(getAccount);
 
   const [triedSwitchToRightNetwork, setTriedSwitchToRightNetwork] =
     useState(false);
   const [triedEagerly, setTriedEagerly] = useState(false);
+  const [isSwitching, setSwitching] = useState(false);
 
-  const handleSwitchToNetwork = (targetChainId: number) => () =>
-    switchToNetwork(connector, targetChainId);
+  const handleSwitchToNetwork = (targetChainId: number) => async () => {
+    try {
+      if (isSwitching) return;
+      setSwitching(true);
+      await switchToNetwork(connector, targetChainId);
+    } finally {
+      setSwitching(false);
+    }
+  };
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (triedEagerly) return;
     (async () => {
-      if (connector.connectEagerly) await connector?.connectEagerly();
-      setTriedEagerly(true);
+      try {
+        if (connector.connectEagerly) await connector?.connectEagerly();
+        setTriedEagerly(true);
+        // eslint-disable-next-line no-empty
+      } catch {}
     })();
   }, [connector]);
 
@@ -121,19 +125,36 @@ const Web3Manager: FC<Web3ManagerProps> = ({
 
     if (!!chainId && !supportedChains.includes(chainId))
       (async () => {
-        await handleSwitchToNetwork(supportedChains[0])();
-        setTriedSwitchToRightNetwork(true);
+        try {
+          await handleSwitchToNetwork(supportedChains[0])();
+          setTriedSwitchToRightNetwork(true);
+          // eslint-disable-next-line no-empty
+        } catch {}
       })();
   }, [supportedChains, chainId, triedEagerly, pathname, prevPathName]);
+
+  useEffect(() => {
+    if (!triedEagerly) return;
+
+    if (!triedSwitchToRightNetwork) return;
+
+    if (!chainId) dispatch(coreActions.setDefaultData());
+  }, [triedEagerly, triedSwitchToRightNetwork, chainId, reduxChainId]);
+
+  useEffect(() => {
+    if (account !== reduxAccount)
+      dispatch(coreActions.setAccount(account || ''));
+  }, [account]);
 
   return (
     <Layout>
       <Content
-        supportedChains={supportedChains}
-        isActivating={isActivating}
         error={error}
         chainId={chainId}
+        isActivating={isActivating}
         triedEagerly={triedEagerly}
+        reduxChainId={reduxChainId}
+        supportedChains={supportedChains}
         triedSwitchToRightNetwork={triedSwitchToRightNetwork}
         handleSwitchToNetwork={handleSwitchToNetwork}
       >
@@ -154,7 +175,7 @@ const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
       <Web3Manager
         pathname={pathname}
         prevPathName={prevPathName}
-        supportedChains={SUPPORTED_CHAINS[pathname]}
+        supportedChains={SUPPORTED_CHAINS_RECORD[pathname]}
       >
         {children}
       </Web3Manager>

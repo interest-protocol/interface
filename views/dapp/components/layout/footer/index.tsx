@@ -55,26 +55,6 @@ const Footer: FC = () => {
               Swap
             </Button>
           </Link>
-          <Link href={Routes[RoutesEnum.Earn]}>
-            <Button
-              p="0"
-              mx="S"
-              fontSize="M"
-              width="8rem"
-              height="3rem"
-              variant="primary"
-              boxShadow="0 0 15px rgba(0,0,0,.3)"
-              bg={
-                pathname.includes(Routes[RoutesEnum.Earn])
-                  ? 'accent'
-                  : 'foreground'
-              }
-              hover={{ bg: 'accent' }}
-              active={{ bg: 'accentActive' }}
-            >
-              Earn
-            </Button>
-          </Link>
           <Box>
             <Dropdown
               bottom
@@ -95,7 +75,7 @@ const Footer: FC = () => {
                   boxShadow="0 0 15px rgba(0,0,0,.3)"
                   color={
                     pathname === Routes[RoutesEnum.DApp] ||
-                    pathname.includes(Routes[RoutesEnum.DineroMarket])
+                    pathname.includes(Routes[RoutesEnum.Borrow])
                       ? 'accent'
                       : 'inherit'
                   }
@@ -157,4 +137,5 @@ const Footer: FC = () => {
     </Box>
   );
 };
+
 export default Footer;

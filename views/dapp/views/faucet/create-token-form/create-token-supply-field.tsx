@@ -1,6 +1,7 @@
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
+import { parseToSafeStringNumber } from '@/utils';
 
 import { CreateTokenSupplyFieldProps } from './create-token-form.types';
 
@@ -16,12 +17,12 @@ const CreateTokenSupplyField: FC<CreateTokenSupplyFieldProps> = ({
       {label}:
     </Typography>
     <Input
-      min="0"
-      type="number"
-      step="0.0001"
+      type="string"
       placeholder={'0'}
-      {...register('amount')}
-      max={CURRENCY_MAX}
+      {...register('amount', {
+        onChange: (v: ChangeEvent<HTMLInputElement>) =>
+          setValue?.('amount', parseToSafeStringNumber(v.target.value)),
+      })}
       shieldProps={{
         p: 'S',
         my: 'M',

@@ -3,6 +3,18 @@ import { __, always, identity, ifElse, includes, pathOr } from 'ramda';
 
 import { CHAIN_ID } from '@/sdk/constants';
 
+import { Routes } from './routes';
+
+export const SUPPORTED_CHAINS_RECORD = {
+  [Routes.dapp]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes.earn]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes.faucet]: [CHAIN_ID.RINKEBY],
+  [Routes.repay]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes['dinero-market']]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes['mail-market']]: [CHAIN_ID.RINKEBY],
+  [Routes['mail-market-pool']]: [CHAIN_ID.RINKEBY],
+};
+
 export const BNB: AddEthereumChainParameter['nativeCurrency'] = {
   name: 'Binance Coin',
   symbol: 'BNB',
@@ -33,7 +45,7 @@ export const CHAINS = {
     chainName: 'Rinkeby',
     nativeCurrency: ETH,
     rpcUrls: ['https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'],
-    blockExplorerUrls: ['https://rinkey.etherscan.io'],
+    blockExplorerUrls: ['https://rinkeby.etherscan.io/'],
   },
   [CHAIN_ID.BNB_TEST_NET]: {
     chainId: CHAIN_ID.BNB_TEST_NET,

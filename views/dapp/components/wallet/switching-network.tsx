@@ -15,17 +15,17 @@ const SwitchingNetwork: FC = () => {
     <>
       <Button
         py="M"
-        px="XL"
         type="button"
         display="flex"
         alignItems="center"
         variant="secondary"
         onClick={toggleModal}
+        px={['L', 'L', 'L', 'XL']}
       >
         <Box my="S">
           <LoadingSVG width="1rem" />
         </Box>
-        <Typography variant="normal" ml="M" my="S">
+        <Typography variant="normal" ml="M" my="S" whiteSpace="nowrap">
           Switching Network
         </Typography>
       </Button>

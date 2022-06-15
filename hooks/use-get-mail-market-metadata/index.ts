@@ -1,12 +1,10 @@
-import { useSelector } from 'react-redux';
-
 import { getMAILMarketMetadata } from '@/api';
-import { getChainId } from '@/state/core/core.selectors';
 
 import { useCallContract } from '../use-call-contract';
+import { useIdAccount } from '../use-id-account';
 
 export const useGetMailMarketMetadata = (token: string) => {
-  const chainId = useSelector(getChainId) as number | null;
+  const { chainId } = useIdAccount();
 
   return useCallContract(chainId, getMAILMarketMetadata, [chainId, token], {
     revalidateOnFocus: false,

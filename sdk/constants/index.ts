@@ -83,7 +83,7 @@ export const MAIL_MARKET_CONTRACTS_MAP = {
   [CHAIN_ID.RINKEBY]: {
     [TOKEN_SYMBOL.UNI]: {
       marketAddress: ethers.utils.getAddress(
-        '0xB2b946223Fbf94FA82D93857Cb195c4Ffeb60360'
+        '0xAF2060F90FFa67e4597cEb8170Cf2cc2CAA523f4'
       ),
       riskyTokenAddress: ethers.utils.getAddress(
         '0xc17A30Db808A7926E76F5AC81352A214FfFDC334'
@@ -91,7 +91,7 @@ export const MAIL_MARKET_CONTRACTS_MAP = {
     },
     [TOKEN_SYMBOL.APE]: {
       marketAddress: ethers.utils.getAddress(
-        '0xdda4B7c7218eC16905cA98c07de9Cc08f4bA6a55'
+        '0x17a8a0b27788755b46db9d855a37215f7db03a65'
       ),
       riskyTokenAddress: ethers.utils.getAddress(
         '0xBAe5a5b6ecF2de7424eA8723e3be2A692dCB0637'
@@ -171,7 +171,7 @@ export const CONTRACTS = {
     [CHAIN_ID.BNB_TEST_NET]: '0xaB852f3c3c926bd2430E7d6358441ee1ddbc2cF1',
   },
   INTEREST_VIEW_MAIL: {
-    [CHAIN_ID.RINKEBY]: '0x4C66920Dd1528A99DF904d9bE45279AEC388377C',
+    [CHAIN_ID.RINKEBY]: '0x80AE8DD1d0CA6Fd6465B7fB8B9774573d7072d3c',
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
   },
@@ -240,7 +240,7 @@ export const CONTRACTS = {
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
   },
   MAIL_DEPLOYER: {
-    [CHAIN_ID.RINKEBY]: '0x29B66E6a41eF5B07d9348e59c09EE855f214e3D0',
+    [CHAIN_ID.RINKEBY]: '0x1F233204B0681e4D95ace0c4165D6D1FcE058012',
     [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
   },

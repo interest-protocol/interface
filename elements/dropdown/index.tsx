@@ -42,6 +42,7 @@ const Dropdown: FC<DropdownProps> = ({
           cursor="pointer"
           alignItems="center"
           display="inline-flex"
+          whiteSpace="nowrap"
           onClick={toggleDropdown}
         >
           {data[selectedIndex].displayTitle ||
@@ -78,6 +79,7 @@ const Dropdown: FC<DropdownProps> = ({
         <Box
           width="100%"
           cursor="pointer"
+          whiteSpace="nowrap"
           onClick={toggleDropdown}
           color={isOpen ? 'accent' : 'text'}
         >

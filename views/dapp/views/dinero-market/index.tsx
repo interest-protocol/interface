@@ -1,5 +1,4 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import dynamic from 'next/dynamic';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -14,14 +13,11 @@ import {
   repayDineroLoan,
   withdrawDineroCollateral,
 } from '@/api';
-import { Container } from '@/components';
+import { Container, Tooltip } from '@/components';
 import { ERC_20_DATA } from '@/constants';
 import { Box } from '@/elements';
-import {
-  useGetSigner,
-  useGetUserDineroMarketData,
-  useIsMounted,
-} from '@/hooks';
+import { useGetSigner, useGetUserDineroMarketData } from '@/hooks';
+import { useIdAccount } from '@/hooks/use-id-account';
 import { CHAIN_ID, DINERO_MARKET_CONTRACT_MAP } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import {
@@ -56,8 +52,11 @@ import DineroMarketForm from './dinero-market-form';
 import DineroMarketSwitch from './dinero-market-switch';
 
 const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
-  const isMounted = useIsMounted();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { signer } = useGetSigner();
+  const { chainId, account } = useIdAccount();
+
+  const dispatch = useDispatch();
 
   const dispatch = useDispatch();
 
@@ -67,8 +66,6 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
     defaultValues: BORROW_DEFAULT_VALUES,
     resolver: yupResolver(borrowFormValidation),
   });
-
-  const { signer, account, chainId } = useGetSigner();
 
   const handleAddAllowance = useCallback(async () => {
     setIsSubmitting(true);
@@ -346,8 +343,6 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
 
   if (error) return <ErrorPage message="Something went wrong" />;
 
-  const Tooltip = dynamic(() => import('react-tooltip'));
-
   return (
     <Container
       dapp
@@ -385,6 +380,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
             data={data}
             mode={mode}
             form={form}
+            account={account}
             isSubmitting={isSubmitting}
             isGettingData={data.market.exchangeRate.isZero() && !error}
             onSubmitRepay={onSubmitRepay}
@@ -410,10 +406,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
           />
         </Box>
       </Box>
-
-      {isMounted.current && (
-        <Tooltip place="top" type="dark" effect="solid" multiline />
-      )}
+      <Tooltip />
     </Container>
   );
 };

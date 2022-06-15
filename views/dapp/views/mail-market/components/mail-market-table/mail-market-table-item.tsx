@@ -2,15 +2,15 @@ import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import { not, o, propEq } from 'ramda';
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
 import { v4 } from 'uuid';
 
 import { Routes, RoutesEnum, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Table, Typography } from '@/elements';
+import { useIdAccount } from '@/hooks/use-id-account';
 import { Fraction, TOKEN_SYMBOL } from '@/sdk';
 import { BLOCKS_PER_YEAR } from '@/sdk';
-import { getChainId } from '@/state/core/core.selectors';
 import { StarSVG } from '@/svg';
+import { toFixedToPrecision } from '@/utils';
 
 import { MAIL_MARKET_HEADINGS } from '../../mail-market.data';
 import { MAILMarketTableItemProps } from '../../mail-market.types';
@@ -36,7 +36,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
   setLocalAssets,
 }) => {
   const { push } = useRouter();
-  const chainId = useSelector(getChainId) as number;
+  const { chainId } = useIdAccount();
 
   const Icon =
     TOKENS_SVG_MAP[data.symbol] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
@@ -89,7 +89,9 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
             push(
               {
                 pathname: Routes[RoutesEnum.MAILMarketPool],
-                query: { pool: data.market },
+                query: {
+                  pool: data.market,
+                },
               },
               undefined,
               {
@@ -137,15 +139,19 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                   gridTemplateColumns={['50% 50%', '50% 50%', '50% 50%', '1fr']}
                 >
                   <Typography variant="normal">
-                    {`${Fraction.from(
-                      data.supplyRates[index].mul(BLOCKS_PER_YEAR[chainId]),
-                      ethers.utils.parseEther('0.01')
-                    ).toSignificant(4)}%`}
+                    {`${toFixedToPrecision(
+                      Fraction.from(
+                        data.supplyRates[index].mul(BLOCKS_PER_YEAR[chainId]),
+                        ethers.utils.parseEther('0.01')
+                      ).toSignificant(4)
+                    )}%`}
                   </Typography>
-                  <Typography variant="normal">{`${Fraction.from(
-                    data.borrowRates[index].mul(BLOCKS_PER_YEAR[chainId]),
-                    ethers.utils.parseEther('0.01')
-                  ).toSignificant(4)}%`}</Typography>
+                  <Typography variant="normal">{`${toFixedToPrecision(
+                    Fraction.from(
+                      data.borrowRates[index].mul(BLOCKS_PER_YEAR[chainId]),
+                      ethers.utils.parseEther('0.01')
+                    ).toSignificant(4)
+                  )}%`}</Typography>
                 </Box>
               ) : null
             ),

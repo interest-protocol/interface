@@ -1,21 +1,16 @@
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
-import { TOKEN_SYMBOL } from '@/sdk';
+import { parseToSafeStringNumber } from '@/utils';
 
 import { InputBalanceProps } from './input-balance.types';
-
-const CURRENCY_MAX = {
-  [TOKEN_SYMBOL.BTC]: 10,
-  [TOKEN_SYMBOL.DNR]: 10000,
-} as Record<TOKEN_SYMBOL, number>;
 
 const InputBalance: FC<InputBalanceProps> = ({
   name,
   label,
-  getValues,
   register,
   setValue,
+  max,
 }) => (
   <Box mb="L">
     <Typography as="label" fontSize="S" variant="normal" display="inline-block">
@@ -23,11 +18,12 @@ const InputBalance: FC<InputBalanceProps> = ({
     </Typography>
     <Input
       min="0"
-      type="number"
-      step="0.0001"
+      type="string"
       placeholder={'0'}
-      {...register(name)}
-      max={CURRENCY_MAX[getValues().currency]}
+      {...register(name, {
+        onChange: (v: ChangeEvent<HTMLInputElement>) =>
+          setValue?.(name, parseToSafeStringNumber(v.target.value)),
+      })}
       shieldProps={{
         p: 'S',
         my: 'M',
@@ -51,13 +47,9 @@ const InputBalance: FC<InputBalanceProps> = ({
             bg="bottomBackground"
             hover={{ bg: 'accent' }}
             active={{ bg: 'accentActive' }}
-            onClick={() => {
-              if (!setValue) return;
-              const currency = getValues('currency');
-              setValue(name, CURRENCY_MAX[currency]);
-            }}
+            onClick={() => setValue?.('value', max.toString())}
           >
-            max
+            Safe max
           </Button>
         </>
       }

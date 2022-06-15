@@ -25,6 +25,7 @@ export interface IBorrowForm {
 }
 
 export interface FormsProps {
+  account: string;
   isSubmitting: boolean;
   isGettingData: boolean;
   mode: 'borrow' | 'repay';

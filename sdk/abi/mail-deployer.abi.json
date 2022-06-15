@@ -9,7 +9,6 @@
         "name": "_reserveFactor",
         "type": "uint256"
       },
-      { "internalType": "bytes", "name": "tokenData", "type": "bytes" },
       { "internalType": "bytes", "name": "modelData", "type": "bytes" }
     ],
     "stateMutability": "nonpayable",
@@ -152,13 +151,6 @@
   },
   {
     "inputs": [],
-    "name": "BTC",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "ORACLE",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
@@ -167,27 +159,6 @@
   {
     "inputs": [],
     "name": "ROUTER",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "USDC",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "USDT",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "WETH",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"

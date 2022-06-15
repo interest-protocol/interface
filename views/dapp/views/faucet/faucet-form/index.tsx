@@ -1,51 +1,49 @@
 import { ethers } from 'ethers';
-import dynamic from 'next/dynamic';
 import { pathOr, prop } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import Skeleton from 'react-loading-skeleton';
 import { useDispatch } from 'react-redux';
 import { v4 } from 'uuid';
 
 import { mintMAILFaucetToken } from '@/api';
+import { CopyToClipboard, Tooltip } from '@/components';
 import {
   DEFAULT_ERC_20_DECIMALS,
   ERC_20_DATA,
   TOKENS_SVG_MAP,
 } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
-import { useGetSigner, useIsMounted } from '@/hooks';
-import { IntMath } from '@/sdk';
-import { TOKEN_SYMBOL } from '@/sdk';
+import { useGetSigner } from '@/hooks';
+import { useIdAccount } from '@/hooks/use-id-account';
+import { IntMath, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
-import { CopySVG, LoadingSVG, TimesSVG } from '@/svg';
+import { LoadingSVG, TimesSVG } from '@/svg';
 import {
   formatMoney,
-  isSameAddress,
+  isValidAccount,
+  safeGetAddress,
   showToast,
   showTXSuccessToast,
   throwError,
   throwIfInvalidSigner,
 } from '@/utils';
+import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
 import { FaucetFormProps, IFaucetForm } from '../faucet.types';
-import CurrencyIdentifier from '../faucet-currency-identidier';
-import FaucetSelectCurrency from '../faucet-select-currency';
 import InputBalance from '../input-balance';
-
-const Tooltip = dynamic(() => import('react-tooltip'));
+import CurrencyIdentifier from './faucet-currency-identifier';
+import FaucetSelectCurrency from './faucet-select-currency';
 
 const FaucetForm: FC<FaucetFormProps> = ({
   tokens,
   isLoadingData,
-  addLocalToken,
   removeLocalToken,
 }) => {
   const dispatch = useDispatch();
-  const isMounted = useIsMounted();
   const [loading, setLoading] = useState(false);
-  const { chainId, account, signer } = useGetSigner();
+  const { chainId, account } = useIdAccount();
+  const { signer } = useGetSigner();
 
   const { register, getValues, setValue, control } = useForm<IFaucetForm>({
     defaultValues: {
@@ -54,10 +52,9 @@ const FaucetForm: FC<FaucetFormProps> = ({
     },
   });
 
-  const onSelectCurrency = (token: string, callback?: () => void) => {
+  const onSelectCurrency = (token: string) => {
     setValue('token', token);
     setValue('amount', 0);
-    callback?.();
   };
 
   const handleOnMint = useCallback(async () => {
@@ -67,7 +64,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
       const amount = getValues('amount');
       const token = getValues('token');
 
-      if (!amount || isSameAddress(token, ethers.constants.AddressZero)) return;
+      if (!amount || !isValidAccount(token)) return;
 
       const { validSigner, validId } = throwIfInvalidSigner(
         [account],
@@ -77,7 +74,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
 
       const decimals = pathOr(
         DEFAULT_ERC_20_DECIMALS,
-        [validId, ethers.utils.getAddress(token), 'decimals'],
+        [validId, safeGetAddress(token), 'decimals'],
         ERC_20_DATA
       );
 
@@ -104,24 +101,19 @@ const FaucetForm: FC<FaucetFormProps> = ({
       error: prop('message'),
     });
 
-  const copyToClipboard = (address: string) => () => {
-    window.navigator.clipboard.writeText(address || '');
-    toast('Copied to clipboard');
-  };
-
   return (
     <>
       <Box
+        py="XL"
         color="text"
         width="100%"
-        height="22rem"
         display="grid"
         gridGap="1rem"
+        height={['auto', 'auto', 'auto', '22rem']}
         gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
       >
         <Box
           py="L"
-          my="XL"
           display="flex"
           bg="foreground"
           px={['L', 'XL']}
@@ -132,8 +124,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
           <FaucetSelectCurrency
             tokens={tokens}
             label="Choose Token"
-            addLocalToken={addLocalToken}
-            defaultValue={getValues('token')}
+            defaultValue={tokens?.[0]?.address ?? ethers.constants.AddressZero}
             onSelectCurrency={onSelectCurrency}
           />
           <InputBalance
@@ -149,35 +140,39 @@ const FaucetForm: FC<FaucetFormProps> = ({
               )
             }
           />
-          <Box display="flex">
-            <Button
-              width="100%"
-              onClick={onMint}
-              variant="primary"
-              disabled={loading}
-              hover={{ bg: 'accentAlternativeActive' }}
-              bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
-            >
-              {loading ? (
-                <Box as="span" display="flex" justifyContent="center">
-                  <LoadingSVG width="1rem" height="1rem" />
-                  <Typography as="span" variant="normal" ml="M" fontSize="S">
-                    Minting...
-                  </Typography>
-                </Box>
-              ) : (
-                'Mint'
-              )}
-            </Button>
+          <Box display="flex" justifyContent="center">
+            {account ? (
+              <Button
+                width="100%"
+                onClick={onMint}
+                variant="primary"
+                disabled={loading}
+                hover={{ bg: 'accentAlternativeActive' }}
+                bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
+              >
+                {loading ? (
+                  <Box as="span" display="flex" justifyContent="center">
+                    <LoadingSVG width="1rem" height="1rem" />
+                    <Typography as="span" variant="normal" ml="M" fontSize="S">
+                      Minting...
+                    </Typography>
+                  </Box>
+                ) : (
+                  'Mint'
+                )}
+              </Button>
+            ) : (
+              <ConnectWallet />
+            )}
           </Box>
         </Box>
         <Box
           py="L"
-          my="XL"
           display="flex"
           bg="foreground"
           px={['L', 'XL']}
           borderRadius="M"
+          maxHeight="22rem"
           overflowY="hidden"
           flexDirection="column"
         >
@@ -204,11 +199,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
 
                   const decimals = pathOr(
                     DEFAULT_ERC_20_DECIMALS,
-                    [
-                      chainId || 0,
-                      ethers.utils.getAddress(address),
-                      'decimals',
-                    ],
+                    [chainId || 0, safeGetAddress(address), 'decimals'],
                     ERC_20_DATA
                   );
 
@@ -229,23 +220,13 @@ const FaucetForm: FC<FaucetFormProps> = ({
                         display="grid"
                         alignItems="center"
                         gridTemplateColumns={`4rem 2rem ${
-                          addLocalToken ? '2rem' : ''
+                          removeLocalToken ? '2rem' : ''
                         }`}
                       >
                         <Typography variant="normal" color="textSecondary">
                           {symbol}
                         </Typography>
-                        <Box
-                          mr="M"
-                          as="span"
-                          cursor="pointer"
-                          color="textSecondary"
-                          data-tip="Copy Address"
-                          hover={{ color: 'accent' }}
-                          onClick={copyToClipboard(address)}
-                        >
-                          <CopySVG width="1rem" />
-                        </Box>
+                        <CopyToClipboard address={address} />
                         {removeLocalToken && (
                           <Box
                             color="error"
@@ -272,9 +253,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
           </Box>
         </Box>
       </Box>
-      {isMounted.current && (
-        <Tooltip place="top" type="dark" effect="solid" multiline />
-      )}
+      <Tooltip />
     </>
   );
 };

@@ -50,6 +50,7 @@ const Header: FC = () => {
             borderRadius="M"
             textAlign="center"
             bg="accentAlternative"
+            display={['none', 'none', 'none', 'block']}
             hover={{
               bg: 'warning',
             }}
@@ -78,21 +79,6 @@ const Header: FC = () => {
             DEX
           </Typography>
         </Link>
-        <Link href={Routes[RoutesEnum.Earn]}>
-          <Typography
-            px="XL"
-            cursor="pointer"
-            variant="normal"
-            borderRight="1px solid"
-            borderColor="bottomBackground"
-            color={
-              pathname.includes(Routes[RoutesEnum.Earn]) ? 'accent' : 'inherit'
-            }
-            hover={{ color: 'accentActive' }}
-          >
-            Earn
-          </Typography>
-        </Link>
         <Box>
           <Dropdown
             title={
@@ -102,7 +88,7 @@ const Header: FC = () => {
                 variant="normal"
                 color={
                   pathname === Routes[RoutesEnum.DApp] ||
-                  pathname.includes(Routes[RoutesEnum.DineroMarket])
+                  pathname.includes(Routes[RoutesEnum.Borrow])
                     ? 'accent'
                     : 'inherit'
                 }
@@ -160,7 +146,7 @@ const Header: FC = () => {
           />
         </Box>
       </Box>
-      <Box display="flex" justifyContent="flex-end">
+      <Box display="flex" justifyContent="flex-end" alignItems="center">
         <Wallet />
         <MobileMenu />
       </Box>

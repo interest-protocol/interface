@@ -9,6 +9,7 @@ const DineroMarketForm: FC<FormsProps> = ({
   mode,
   data,
   form,
+  account,
   isSubmitting,
   isGettingData,
   onSubmitRepay,
@@ -25,6 +26,7 @@ const DineroMarketForm: FC<FormsProps> = ({
         <BorrowForm
           isBorrow
           data={data}
+          account={account}
           loading={isGettingData}
           onSubmit={onSubmitBorrow}
           fields={borrowFieldsData}
@@ -36,6 +38,7 @@ const DineroMarketForm: FC<FormsProps> = ({
       {mode === 'repay' && (
         <BorrowForm
           data={data}
+          account={account}
           loading={isGettingData}
           onSubmit={onSubmitRepay}
           fields={repayFieldsData}

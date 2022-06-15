@@ -11,8 +11,8 @@ export interface IBorrowFormField {
   amount: string;
   currency: string;
   amountUSD: number;
-  CurrencySVG: FC<SVGAttributes<SVGSVGElement>>;
   disabled: boolean;
+  CurrencySVG: FC<SVGAttributes<SVGSVGElement>>;
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
 }
 
@@ -29,6 +29,7 @@ export interface BorrowFormButtonProps
   handleAddAllowance: () => Promise<void>;
 }
 export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
+  account: string;
   loading?: boolean;
   isBorrow?: boolean;
   onSubmit: () => void;

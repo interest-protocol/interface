@@ -1,45 +1,52 @@
 import { FC } from 'react';
 
+import { CopyToClipboard } from '@/components';
+import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { InfoSVG, InterestTokenSVG } from '@/svg';
+import { InfoSVG, UnknownCoinSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
-import { MAIL_MARKET_DATA } from '../../../mail-market/mail-market.data';
-import { MAILMarketPoolProps } from '../../mail-market-pool.types';
+import { MAILMarketPoolInfoProps } from '../../mail-market-pool.types';
 
-const MAILMarketPoolInfo: FC<MAILMarketPoolProps> = ({ pool }) => {
-  const data = MAIL_MARKET_DATA.find(({ address }) => address == pool);
+const MAILMarketPoolInfo: FC<MAILMarketPoolInfoProps> = ({ metadata }) => {
+  const Icon = TOKENS_SVG_MAP[metadata.symbol];
 
   return (
     <Box
-      p="L"
-      px="XXL"
+      p="XL"
       display="flex"
       bg="foreground"
       borderRadius="L"
       alignItems="center"
       justifyContent="space-between"
     >
-      {data ? (
-        <Box display="flex" alignItems="center">
-          <Box width="5rem" mr="L">
-            {data.Icon && <data.Icon width="100%" />}
-          </Box>
-          <Box>
-            <Typography variant="normal" my="M">
-              {data.name} ({data.symbol})
-            </Typography>
-            <Typography variant="normal" my="M" color="textSecondary">
-              {shortAccount(data.address)}
-            </Typography>
-          </Box>
+      <Box display="flex" alignItems="center">
+        <Box width="5rem" mr="L">
+          {Icon ? <Icon /> : <UnknownCoinSVG />}
         </Box>
-      ) : (
         <Box>
-          <InterestTokenSVG width="5rem" />
+          <Typography variant="normal" my="M">
+            {metadata.name && `${metadata.name} (${metadata.symbol})`}
+          </Typography>
+          <Box display="flex" alignItems="center">
+            <Typography variant="normal" my="M" color="textSecondary" mr="M">
+              {shortAccount(metadata.address)}
+            </Typography>
+            <CopyToClipboard
+              display="flex"
+              alignItems="center"
+              address={metadata.address}
+            />
+          </Box>
         </Box>
-      )}
-      <Box color="textSecondary">
+      </Box>
+
+      <Box
+        color="textSecondary"
+        as="span"
+        cursor="help"
+        data-tip={`The riskiest token of this market is ${metadata.symbol}`}
+      >
         <InfoSVG width="1.2rem" />
       </Box>
     </Box>

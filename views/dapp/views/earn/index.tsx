@@ -1,9 +1,8 @@
 import { FC, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
 import { Box, Typography } from '@/elements';
 import { useGetFarmsSummary } from '@/hooks';
-import { getChainId } from '@/state/core/core.selectors';
+import { useIdAccount } from '@/hooks/use-id-account';
 import { TimesSVG } from '@/svg';
 import { getSafeFarmSummaryData } from '@/utils';
 
@@ -12,7 +11,7 @@ import { EarnHeader, EarnTable } from './components';
 
 const Earn: FC = () => {
   const { error, data: rawData } = useGetFarmsSummary();
-  const chainId = useSelector(getChainId) as number | null;
+  const { chainId } = useIdAccount();
 
   const data = useMemo(
     () => getSafeFarmSummaryData(chainId, rawData),
@@ -44,20 +43,28 @@ const Earn: FC = () => {
     );
 
   return (
-    <Box display="flex" flexDirection="column" height="100%">
-      <EarnHeader />
-      <Box mt="XL">
-        <EarnTable
-          isPools
-          data={data.pools}
-          loading={data.loading}
-          intUSDPrice={data.intUSDPrice}
-        />
-        <EarnTable
-          data={data.farms}
-          loading={data.loading}
-          intUSDPrice={data.intUSDPrice}
-        />
+    <Box
+      height="100%"
+      display="flex"
+      position="relative"
+      flexDirection="column"
+      justifyContent="space-between"
+    >
+      <Box>
+        <EarnHeader />
+        <Box mt="XL">
+          <EarnTable
+            isPools
+            data={data.pools}
+            loading={data.loading}
+            intUSDPrice={data.intUSDPrice}
+          />
+          <EarnTable
+            data={data.farms}
+            loading={data.loading}
+            intUSDPrice={data.intUSDPrice}
+          />
+        </Box>
       </Box>
       <Faucet />
     </Box>

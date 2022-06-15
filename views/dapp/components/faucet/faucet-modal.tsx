@@ -10,6 +10,7 @@ import { MintFaucetToken } from '@/api/faucet/faucet.types';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetSigner } from '@/hooks';
+import { useIdAccount } from '@/hooks/use-id-account';
 import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import { userBalanceEntityActions } from '@/state/user-balances';
@@ -26,6 +27,7 @@ import {
   tryCatch,
 } from '@/utils';
 
+import ConnectWallet from '../wallet/connect-wallet';
 import { FaucetModalProps, IFaucetForm } from './faucet.types';
 import FaucetSelectCurrency from './faucet-select-currency';
 import InputBalance from './input-balance';
@@ -43,7 +45,8 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const { signer, chainId } = useGetSigner();
+  const { chainId, account } = useIdAccount();
+  const { signer } = useGetSigner();
 
   const { register, getValues, setValue } = useForm<IFaucetForm>({
     defaultValues: {
@@ -213,26 +216,30 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
             );
           })}
         </Box>
-        <Box display="flex">
-          <Button
-            width="100%"
-            onClick={onMint}
-            variant="primary"
-            disabled={loading}
-            hover={{ bg: 'accentAlternativeActive' }}
-            bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
-          >
-            {loading ? (
-              <Box as="span" display="flex" justifyContent="center">
-                <LoadingSVG width="1rem" height="1rem" />
-                <Typography as="span" variant="normal" ml="M" fontSize="S">
-                  Minting...
-                </Typography>
-              </Box>
-            ) : (
-              'Mint'
-            )}
-          </Button>
+        <Box display="flex" justifyContent="center">
+          {account ? (
+            <Button
+              width="100%"
+              onClick={onMint}
+              variant="primary"
+              disabled={loading}
+              hover={{ bg: 'accentAlternativeActive' }}
+              bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
+            >
+              {loading ? (
+                <Box as="span" display="flex" justifyContent="center">
+                  <LoadingSVG width="1rem" height="1rem" />
+                  <Typography as="span" variant="normal" ml="M" fontSize="S">
+                    Minting...
+                  </Typography>
+                </Box>
+              ) : (
+                'Mint'
+              )}
+            </Button>
+          ) : (
+            <ConnectWallet />
+          )}
         </Box>
       </Box>
     </Modal>

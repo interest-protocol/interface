@@ -1,9 +1,8 @@
-import dynamic from 'next/dynamic';
 import React, { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
-import { useIsMounted } from '@/hooks/use-is-mounted';
+import { Tooltip } from '@/components';
 
 import Box from '../box';
 import Typography from '../typography';
@@ -190,84 +189,77 @@ const Table: FC<ResponsiveTableProps> = ({
   headings,
   hasButton,
   specialRowHover,
-}) => {
-  const Tooltip = dynamic(() => import('react-tooltip'));
-  const isMounted = useIsMounted();
-
-  return (
-    <>
-      <Box
-        my="L"
-        overflow="hidden"
-        borderColor="textDescription"
-        display={['none', 'none', 'none', 'block']}
-      >
-        <Box role="table" width="100%" overflowX="auto" overflowY="hidden">
-          <Box
-            my="M"
-            py="M"
-            px="XL"
-            role="row"
-            fontSize="S"
-            display="grid"
-            bg="foreground"
-            borderRadius="L"
-            alignItems="center"
-            color="textSecondary"
-            gridTemplateColumns={`1.5fr repeat(${
-              headings.length + (ordinate ? 1 : 0) + (hasButton ? 1 : 0) - 1
-            }, 1fr)`}
-          >
-            {ordinate && <Cell as="th">Nº</Cell>}
-            {headings.map(({ item, tip }) => (
-              <Cell as="th" key={v4()} tip={tip}>
-                {item}
-              </Cell>
-            ))}
-            {hasButton && <Cell as="th" />}
-          </Box>
-          <Box bg="foreground" borderRadius="L" my="M" overflow="hidden">
-            {loading ? (
-              <TableLoading columns={headings.length + (ordinate ? 1 : 0)} />
-            ) : (
-              data.map(({ items, button, handleClick }, index) => (
-                <TableRow
-                  key={v4()}
-                  index={index}
-                  items={items}
-                  button={button}
-                  ordinate={ordinate}
-                  headings={headings}
-                  mobileSide={undefined}
-                  hasButton={!!hasButton}
-                  handleClick={handleClick}
-                  specialRowHover={specialRowHover}
-                />
-              ))
-            )}
-          </Box>
+}) => (
+  <>
+    <Box
+      my="L"
+      overflow="hidden"
+      borderColor="textDescription"
+      display={['none', 'none', 'none', 'block']}
+    >
+      <Box role="table" width="100%" overflowX="auto" overflowY="hidden">
+        <Box
+          my="M"
+          py="M"
+          px="XL"
+          role="row"
+          fontSize="S"
+          display="grid"
+          bg="foreground"
+          borderRadius="L"
+          alignItems="center"
+          color="textSecondary"
+          gridTemplateColumns={`1.5fr repeat(${
+            headings.length + (ordinate ? 1 : 0) + (hasButton ? 1 : 0) - 1
+          }, 1fr)`}
+        >
+          {ordinate && <Cell as="th">Nº</Cell>}
+          {headings.map(({ item, tip }) => (
+            <Cell as="th" key={v4()} tip={tip}>
+              {item}
+            </Cell>
+          ))}
+          {hasButton && <Cell as="th" />}
+        </Box>
+        <Box bg="foreground" borderRadius="L" my="M" overflow="hidden">
+          {loading ? (
+            <TableLoading columns={headings.length + (ordinate ? 1 : 0)} />
+          ) : (
+            data.map(({ items, button, handleClick }, index) => (
+              <TableRow
+                key={v4()}
+                index={index}
+                items={items}
+                button={button}
+                ordinate={ordinate}
+                headings={headings}
+                mobileSide={undefined}
+                hasButton={!!hasButton}
+                handleClick={handleClick}
+                specialRowHover={specialRowHover}
+              />
+            ))
+          )}
         </Box>
       </Box>
-      <Box mx="M" my="XL" display={['block', 'block', 'block', 'none']}>
-        {data.map(({ items, button, mobileSide, handleClick }, index) => (
-          <TableRow
-            key={v4()}
-            index={index}
-            items={items}
-            button={button}
-            ordinate={ordinate}
-            headings={headings}
-            hasButton={!!hasButton}
-            mobileSide={mobileSide}
-            handleClick={handleClick}
-          />
-        ))}
-      </Box>
-      {isMounted.current && (
-        <Tooltip place="top" type="dark" effect="solid" multiline />
-      )}
-    </>
-  );
-};
+    </Box>
+    <Box mx="M" my="XL" display={['block', 'block', 'block', 'none']}>
+      {data.map(({ items, button, mobileSide, handleClick }, index) => (
+        <TableRow
+          key={v4()}
+          index={index}
+          items={items}
+          button={button}
+          ordinate={ordinate}
+          headings={headings}
+          hasButton={!!hasButton}
+          mobileSide={mobileSide}
+          handleClick={handleClick}
+        />
+      ))}
+    </Box>
+    <Tooltip />
+  </>
+);
 
 export default Table;
