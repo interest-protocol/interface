@@ -58,8 +58,6 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
 
   const dispatch = useDispatch();
 
-  const dispatch = useDispatch();
-
   const form = useForm<IBorrowForm>({
     mode: 'onChange',
     reValidateMode: 'onChange',
