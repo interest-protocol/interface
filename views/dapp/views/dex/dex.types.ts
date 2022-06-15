@@ -21,7 +21,7 @@ export interface SwapModalProps {
   handleClose: () => void;
 }
 
-interface ICurrencyField {
+export interface ICurrencyField {
   value: number;
   address: string;
 }
@@ -34,8 +34,9 @@ export interface ISwapForm {
 }
 
 export interface SwapSelectCurrencyProps {
-  defaultValue: string;
   label?: string;
+  fromRight?: boolean;
+  defaultValue: string;
   tokens: ReadonlyArray<IToken>;
   onSelectCurrency: (currency: string) => void;
 }
@@ -54,8 +55,10 @@ export interface SwapProps {
 export interface CurrencyIdentifierProps {
   control: Control<ISwapForm>;
 }
+
 export interface SwapCurrencyDropdownProps {
   Input: ReactNode;
+  fromRight?: boolean;
   defaultValue: string;
   tokens: ReadonlyArray<IToken>;
   control: Control<{ search: string }>;

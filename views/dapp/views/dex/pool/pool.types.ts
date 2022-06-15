@@ -1,4 +1,7 @@
-import { Dispatch, SetStateAction, SVGAttributes } from 'react';
+import { Dispatch, SetStateAction } from 'react';
+import { Control } from 'react-hook-form';
+
+import { ICurrencyField } from '../dex.types';
 
 export interface PairsProps {
   perceptual: string;
@@ -9,20 +12,15 @@ export interface PairsProps {
 }
 
 export interface LiquidityProps {
-  Par1TokenSVG: React.FC<SVGAttributes<SVGSVGElement>>;
-  Par2TokenSVG: React.FC<SVGAttributes<SVGSVGElement>>;
-  symbol1: string;
-  symbol2: string;
-  perceptual: string;
-  minValue: string;
-  maxValue: string;
+  amount: string;
+  amountUSD: string;
   hasWarning?: boolean;
+  symbols: [string, string];
 }
 
 export interface LiquidityDetailsCardLineProps {
-  TokenSVG: React.FC<SVGAttributes<SVGSVGElement>>;
-  symbol: string;
   value: string;
+  symbol: string;
   perceptual: string;
 }
 
@@ -35,5 +33,16 @@ export interface LiquidityDetailsCardPriceProps {
 
 export interface LiquidityDetailsCardProps {
   title: string;
+  totalDeposits: string;
   lines: ReadonlyArray<LiquidityDetailsCardLineProps>;
+}
+
+export interface ILiquidityForm {
+  pairItem1: ICurrencyField;
+  pairItem2: ICurrencyField;
+}
+
+export interface LiquidityDepositAmountProps {
+  control: Control<ILiquidityForm>;
+  name: 'pairItem1' | 'pairItem2';
 }

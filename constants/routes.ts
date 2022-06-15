@@ -11,6 +11,8 @@ export enum RoutesEnum {
   Repay = 'repay',
   Earn = 'earn',
   DEX = 'dex',
+  DEXPool = 'dex-pool',
+  DEXPoolDetails = 'dex-pool-details',
   Faucet = 'faucet',
 }
 
@@ -28,6 +30,8 @@ export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.Earn]: '/dapp/earn',
   [RoutesEnum.Faucet]: '/dapp/faucet',
   [RoutesEnum.DEX]: '/dapp/dex',
+  [RoutesEnum.DEXPool]: '/dapp/dex/pool',
+  [RoutesEnum.DEXPoolDetails]: '/dapp/dex/pool/[token1]/[token2]',
 };
 
 export const routesList = Object.keys(Routes) as ReadonlyArray<RoutesEnum>;

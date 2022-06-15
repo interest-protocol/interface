@@ -3,15 +3,15 @@ import { FC, useCallback, useState } from 'react';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 
-import { SwapFormProps } from '../../swap.types';
+import { SwapFormProps } from '../../dex.types';
 import InputBalance from '../input-balance';
 import SwapSelectCurrency from '../swap-select-currency';
 
 const SwapForm: FC<SwapFormProps> = ({
   tokens,
   setValue,
-  getValues,
   register,
+  getValues,
 }) => {
   const [loading, setLoading] = useState(false);
 

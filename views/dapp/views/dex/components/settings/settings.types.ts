@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 
-import { ISwapForm } from '../../swap.types';
+import { ISwapForm } from '../../dex.types';
 
 export interface FieldProps {
   label: string;

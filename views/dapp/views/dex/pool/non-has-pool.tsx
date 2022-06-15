@@ -15,7 +15,7 @@ const NonHasPool: FC = () => (
       textAlign="center"
       mt="M"
     >
-      Your active V3 liquidity positions will appear here.
+      Your liquidity pools will appear here.
     </Typography>
   </>
 );

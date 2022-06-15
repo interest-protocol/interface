@@ -1,15 +1,13 @@
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Container, Switch } from '@/components';
 import { MAIL_FAUCET_TOKENS } from '@/constants';
 import { Box } from '@/elements';
 import { CogsSVG } from '@/svg';
 
-import Settings from './components/settings';
-import SwapForm from './components/swap-form';
-import LiquidationView from './pool';
-import { ISwapForm } from './swap.types';
+import Settings from '../components/settings';
+import SwapForm from '../components/swap-form';
+import { ISwapForm } from '../dex.types';
 
 const Swap: FC = () => {
   const { register, setValue, getValues } = useForm<ISwapForm>({
@@ -70,9 +68,9 @@ const Swap: FC = () => {
           </Box>
         </Box>
         <SwapForm
-          getValues={getValues}
           setValue={setValue}
           register={register}
+          getValues={getValues}
           tokens={MAIL_FAUCET_TOKENS[4]}
         />
       </Box>
@@ -80,23 +78,4 @@ const Swap: FC = () => {
   );
 };
 
-const SwapView: FC = () => {
-  const [isSwap, setIsSwap] = useState(true);
-
-  return (
-    <Container>
-      <Box bg="foreground" textAlign="center" mt="XL" p="L" borderRadius="L">
-        <Switch
-          defaultValue={isSwap ? 'swap' : 'pool'}
-          options={[
-            { value: 'swap', onSelect: () => setIsSwap(true) },
-            { value: 'pool', onSelect: () => setIsSwap(false) },
-          ]}
-        />
-      </Box>
-      {isSwap ? <Swap /> : <LiquidationView />}
-    </Container>
-  );
-};
-
-export default SwapView;
+export default Swap;

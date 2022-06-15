@@ -2,6 +2,6 @@ import { NextPage } from 'next';
 
 import DEXView from '@/views/dapp/views/dex';
 
-const DEXPage: NextPage = () => <DEXView />;
+const DEXPoolPage: NextPage = () => <DEXView />;
 
-export default DEXPage;
+export default DEXPoolPage;

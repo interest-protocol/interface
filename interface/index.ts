@@ -47,3 +47,8 @@ export interface ERC20Metadata {
 export interface ERC20MetadataWithAddress extends ERC20Metadata {
   address: string;
 }
+
+export interface ModalProps {
+  isOpen: boolean;
+  handleClose: () => void;
+}

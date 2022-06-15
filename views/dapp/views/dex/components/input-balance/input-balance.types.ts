@@ -5,7 +5,7 @@ import {
   UseFormSetValue,
 } from 'react-hook-form';
 
-import { ISwapForm } from '../../swap.types';
+import { ISwapForm } from '../../dex.types';
 export interface InputBalanceProps {
   getValues: UseFormGetValues<ISwapForm>;
   register: UseFormRegister<ISwapForm>;

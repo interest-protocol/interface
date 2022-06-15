@@ -7,7 +7,7 @@ import { IDropdownData } from '@/elements/dropdown/dropdown.types';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { ArrowSVG } from '@/svg';
 
-import { IToken, SwapCurrencyDropdownProps } from '../swap.types';
+import { IToken, SwapCurrencyDropdownProps } from '../dex.types';
 
 const BLOCKCHAIN_DATA = [
   {
@@ -32,8 +32,6 @@ const renderData = (
   return tokens
     ? tokens.map(({ address, symbol }) => {
         const SVG = TOKENS_SVG_MAP[symbol] ?? DefaultTokenSVG;
-
-        console.log('>> Address ::: ', address);
 
         return {
           value: address,
@@ -75,17 +73,17 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   Input,
   tokens,
   control,
+  fromRight,
   defaultValue,
   onSelectCurrency,
 }) => {
   const search = useWatch({ control, name: 'search' });
 
   const searchResult = useMemo(
+    // Change to blockchain search
     () => BLOCKCHAIN_DATA.filter(({ address }) => search === address),
     [search]
   );
-
-  console.log('>> default value ::: ', defaultValue);
 
   return (
     <Dropdown
@@ -93,6 +91,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
       relative
       mode="select"
       header={Input}
+      fromRight={fromRight}
       defaultValue={defaultValue}
       emptyMessage="Not found Tokens"
       data={renderData(
