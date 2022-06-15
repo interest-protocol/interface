@@ -64,7 +64,7 @@ const Header: FC = () => {
         justifyContent="center"
         display={['none', 'none', 'flex']}
       >
-        <Link href={Routes[RoutesEnum.Swap]}>
+        <Link href={Routes[RoutesEnum.DEX]}>
           <Typography
             px="XL"
             cursor="pointer"
@@ -72,11 +72,26 @@ const Header: FC = () => {
             borderRight="1px solid"
             borderColor="bottomBackground"
             color={
-              pathname.includes(Routes[RoutesEnum.Swap]) ? 'accent' : 'inherit'
+              pathname.includes(Routes[RoutesEnum.DEX]) ? 'accent' : 'inherit'
             }
             hover={{ color: 'accentActive' }}
           >
             DEX
+          </Typography>
+        </Link>
+        <Link href={Routes[RoutesEnum.Earn]}>
+          <Typography
+            px="XL"
+            cursor="pointer"
+            variant="normal"
+            borderRight="1px solid"
+            borderColor="bottomBackground"
+            color={
+              pathname.includes(Routes[RoutesEnum.Earn]) ? 'accent' : 'inherit'
+            }
+            hover={{ color: 'accentActive' }}
+          >
+            Earn
           </Typography>
         </Link>
         <Box>
@@ -88,7 +103,7 @@ const Header: FC = () => {
                 variant="normal"
                 color={
                   pathname === Routes[RoutesEnum.DApp] ||
-                  pathname.includes(Routes[RoutesEnum.Borrow])
+                  pathname.includes(Routes[RoutesEnum.DineroMarket])
                     ? 'accent'
                     : 'inherit'
                 }

@@ -2,6 +2,6 @@ import { NextPage } from 'next';
 
 import Swap from '@/views/dapp/views/swap';
 
-const SwapPage: NextPage = () => <Swap />;
+const DEXPage: NextPage = () => <Swap />;
 
-export default SwapPage;
+export default DEXPage;
