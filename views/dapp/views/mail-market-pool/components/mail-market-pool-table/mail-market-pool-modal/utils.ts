@@ -82,12 +82,14 @@ export const calculateMax = (
       .div(data.ltv)
       .mul(ethers.utils.parseEther('0.95'));
 
-    if (safeAmountOfTokens.gte(data.cash)) return IntMath.toNumber(data.cash);
-
     if (safeAmountOfTokens.gte(data.supply))
-      return IntMath.toNumber(data.supply);
+      return IntMath.toNumber(
+        data.supply.gte(data.cash) ? data.cash : data.supply
+      );
 
-    return safeAmountOfTokens.toNumber();
+    return safeAmountOfTokens.gt(data.cash)
+      ? IntMath.toNumber(data.cash)
+      : safeAmountOfTokens.toNumber();
   }
 
   return 0;

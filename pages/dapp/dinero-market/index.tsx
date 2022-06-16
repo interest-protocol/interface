@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 
-import DApp from '@/views/dapp';
+import DineroMarket from '@/views/dapp/dinero-market';
 
-const App: NextPage = () => <DApp />;
+const DineroMarketPage: NextPage = () => <DineroMarket />;
 
-export default App;
+export default DineroMarketPage;
