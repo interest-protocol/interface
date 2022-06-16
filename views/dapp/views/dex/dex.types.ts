@@ -42,6 +42,7 @@ export interface SwapSelectCurrencyProps {
 }
 
 export interface SwapFormProps {
+  control: Control<ISwapForm>;
   tokens: ReadonlyArray<IToken>;
   register: UseFormRegister<ISwapForm>;
   setValue: UseFormSetValue<ISwapForm>;

@@ -15,8 +15,10 @@ const InputBalance: FC<InputBalanceProps> = ({
     min="0"
     type="number"
     step="0.0001"
-    placeholder={'0'}
     fontSize="L"
+    placeholder={'0'}
+    // eslint-disable-next-line jsx-a11y/no-autofocus
+    autoFocus={name === 'origin.value'}
     disabled={disabled || false}
     {...register(name)}
     max={1000}

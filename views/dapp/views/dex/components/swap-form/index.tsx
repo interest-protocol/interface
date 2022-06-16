@@ -1,4 +1,5 @@
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
+import { useWatch } from 'react-hook-form';
 
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
@@ -11,12 +12,31 @@ const SwapForm: FC<SwapFormProps> = ({
   tokens,
   setValue,
   register,
+  control,
   getValues,
 }) => {
   const [loading, setLoading] = useState(false);
+  const originAddress = useWatch({ control, name: 'origin.address' });
+  const targetAddress = useWatch({ control, name: 'target.address' });
+  const originValue = useWatch({ control, name: 'origin.value' });
+  const targetValue = useWatch({ control, name: 'target.value' });
 
   const onSelectCurrency = (name: 'origin' | 'target') => (address: string) =>
     setValue(`${name}.address`, address);
+
+  const changeOrigin = () => {
+    const oldTargetValue = targetValue;
+    const oldTargetAddress = targetAddress;
+    const oldOriginAddress = originAddress;
+
+    setValue('origin.value', oldTargetValue);
+    setValue('origin.address', oldTargetAddress);
+    setValue('target.address', oldOriginAddress);
+  };
+
+  useEffect(() => {
+    setValue('target.value', originValue * (Math.random() * 2));
+  }, [originValue]);
 
   const onMint = useCallback(async () => {
     setLoading(true);
@@ -44,7 +64,7 @@ const SwapForm: FC<SwapFormProps> = ({
           currencySelector={
             <SwapSelectCurrency
               tokens={tokens}
-              defaultValue={getValues('origin.address')}
+              defaultValue={originAddress}
               onSelectCurrency={onSelectCurrency('origin')}
             />
           }
@@ -62,6 +82,7 @@ const SwapForm: FC<SwapFormProps> = ({
           position="relative"
           alignItems="center"
           borderColor="accent"
+          onClick={changeOrigin}
           justifyContent="center"
           hover={{
             boxShadow: '0 0 0.5rem #0055FF',

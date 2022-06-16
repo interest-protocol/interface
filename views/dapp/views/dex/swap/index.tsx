@@ -10,7 +10,7 @@ import SwapForm from '../components/swap-form';
 import { ISwapForm } from '../dex.types';
 
 const Swap: FC = () => {
-  const { register, setValue, getValues } = useForm<ISwapForm>({
+  const { register, control, setValue, getValues } = useForm<ISwapForm>({
     defaultValues: {
       origin: {
         address: MAIL_FAUCET_TOKENS[4][0].address,
@@ -68,6 +68,7 @@ const Swap: FC = () => {
           </Box>
         </Box>
         <SwapForm
+          control={control}
           setValue={setValue}
           register={register}
           getValues={getValues}
