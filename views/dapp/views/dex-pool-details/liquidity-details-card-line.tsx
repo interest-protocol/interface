@@ -16,8 +16,8 @@ const LiquidityDetailsCardLine: FC<LiquidityDetailsCardLineProps> = ({
 
   return (
     <Box display="flex" justifyContent="space-between" my="M">
-      <Box>
-        <TokenSVG width="1rem" height="1rem" />
+      <Box display="flex" alignItems="center">
+        <TokenSVG width="1.2rem" />
         <Typography
           mx="M"
           as="span"
@@ -33,11 +33,11 @@ const LiquidityDetailsCardLine: FC<LiquidityDetailsCardLineProps> = ({
           {value}
         </Typography>
         <Typography
-          fontSize="0.8rem"
-          variant="normal"
-          bg="background"
           p="M"
+          bg="background"
+          variant="normal"
           borderRadius="L"
+          fontSize="0.8rem"
         >
           {perceptual}%
         </Typography>

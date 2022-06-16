@@ -7,7 +7,7 @@ import { Box, Input, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { formatMoney } from '@/utils';
 
-import { LiquidityDepositAmountProps } from '../../pool.types';
+import { LiquidityDepositAmountProps } from '../../pool/pool.types';
 
 const LiquidityDepositAmount: FC<LiquidityDepositAmountProps> = ({
   control,

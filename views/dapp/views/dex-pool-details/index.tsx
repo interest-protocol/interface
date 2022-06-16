@@ -59,13 +59,12 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
         <FirstIcon width="2rem" />
         <SecondIcon width="2rem" />
         <Typography variant="normal" ml="L">
-          Pool Details
+          {firstToken} - {secondToken} Pool Details
         </Typography>
       </Box>
       <Box
-        my="L"
+        mt="XL"
         color="text"
-        width="100%"
         display="grid"
         gridGap="1rem"
         gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
@@ -73,7 +72,6 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
         {CARDS.map((card) => (
           <LiquidityDetailsCard key={v4()} {...card} />
         ))}
-        {}
       </Box>
     </Container>
   );

@@ -11,8 +11,8 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
   lines,
   totalDeposits,
 }) => (
-  <Box bg="foreground" pb="XL" px="L" borderRadius="M" width="100%">
-    <Box py="L">
+  <Box bg="foreground" p="L" borderRadius="M" width="100%">
+    <Box mb="L">
       <Typography
         width="100%"
         fontSize="S"
@@ -26,13 +26,12 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
       </Typography>
     </Box>
     <Box
-      py="L"
-      px="M"
-      borderRadius="M"
+      py="M"
+      px="L"
+      borderRadius="L"
       color="textSecondary"
       bg="bottomBackground"
       border="0.09rem solid"
-      borderColor="textSecondary"
     >
       {lines.map((line) => (
         <LiquidityDetailsCardLine

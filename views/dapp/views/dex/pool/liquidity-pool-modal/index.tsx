@@ -6,9 +6,9 @@ import { MAIL_FAUCET_TOKENS } from '@/constants/erc-20';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { ModalProps } from '@/interface';
 
+import LiquidityDepositAmount from '../../components/liquidity-desposit-amount';
 import SwapSelectCurrency from '../../components/swap-select-currency';
 import { ILiquidityForm } from '../pool.types';
-import LiquidityDepositAmount from './liquidity-desposit-amount';
 
 const AddLiquidity: FC<ModalProps> = ({ isOpen, handleClose }) => {
   const { getValues, setValue, control } = useForm<ILiquidityForm>({
