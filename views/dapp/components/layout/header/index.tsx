@@ -102,8 +102,9 @@ const Header: FC = () => {
                 cursor="pointer"
                 variant="normal"
                 color={
-                  pathname === Routes[RoutesEnum.DApp] ||
-                  pathname.includes(Routes[RoutesEnum.DineroMarket])
+                  pathname === Routes[RoutesEnum.DineroMarket] ||
+                  pathname.includes(Routes[RoutesEnum.DineroMarketBorrow]) ||
+                  pathname.includes(Routes[RoutesEnum.DineroMarketRepay])
                     ? 'accent'
                     : 'inherit'
                 }
@@ -118,7 +119,7 @@ const Header: FC = () => {
                 value: 'dinero-market',
                 displayOption: 'Dinero Market',
                 onSelect: () =>
-                  push(Routes[RoutesEnum.DApp], undefined, {
+                  push(Routes[RoutesEnum.DineroMarket], undefined, {
                     shallow: true,
                   }),
               },

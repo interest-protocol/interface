@@ -26,7 +26,7 @@ const Container: FC<BoxProps> = (props) => (
 );
 
 const GoHome = () => (
-  <Link href={Routes[RoutesEnum.DApp]}>
+  <Link href={Routes[RoutesEnum.DineroMarket]}>
     <Button variant="primary">Voltar</Button>
   </Link>
 );

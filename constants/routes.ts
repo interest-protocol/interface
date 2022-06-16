@@ -6,9 +6,10 @@ export enum RoutesEnum {
   Home = 'home',
   DApp = 'dapp',
   DineroMarket = 'dinero-market',
+  DineroMarketBorrow = 'dinero-market-borrow',
   MAILMarket = 'mail-market',
   MAILMarketPool = 'mail-market-pool',
-  Repay = 'repay',
+  DineroMarketRepay = 'dinero-market-repay',
   Earn = 'earn',
   DEX = 'dex',
   DEXPool = 'dex-pool',
@@ -22,16 +23,17 @@ export enum RoutesEnum {
  */
 export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.Home]: '/',
-  [RoutesEnum.DApp]: '/dapp',
-  [RoutesEnum.DineroMarket]: '/dapp/dinero-market',
-  [RoutesEnum.MAILMarket]: '/dapp/mail-market',
-  [RoutesEnum.MAILMarketPool]: '/dapp/mail-market/[pool]',
-  [RoutesEnum.Repay]: '/dapp/dinero-market/repay',
-  [RoutesEnum.Earn]: '/dapp/earn',
-  [RoutesEnum.Faucet]: '/dapp/faucet',
+  [RoutesEnum.DApp]: '/dapp/dex',
   [RoutesEnum.DEX]: '/dapp/dex',
   [RoutesEnum.DEXPool]: '/dapp/dex/pool',
   [RoutesEnum.DEXPoolDetails]: '/dapp/dex/pool/[tokens]',
+  [RoutesEnum.DineroMarket]: '/dapp/dinero-market',
+  [RoutesEnum.DineroMarketBorrow]: '/dapp/dinero-market/borrow',
+  [RoutesEnum.DineroMarketRepay]: '/dapp/dinero-market/repay',
+  [RoutesEnum.MAILMarket]: '/dapp/mail-market',
+  [RoutesEnum.MAILMarketPool]: '/dapp/mail-market/[pool]',
+  [RoutesEnum.Earn]: '/dapp/earn',
+  [RoutesEnum.Faucet]: '/dapp/faucet',
 };
 
 export const routesList = Object.keys(Routes) as ReadonlyArray<RoutesEnum>;

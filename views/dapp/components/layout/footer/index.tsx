@@ -94,8 +94,8 @@ const Footer: FC = () => {
                   justifyContent="center"
                   boxShadow="0 0 15px rgba(0,0,0,.3)"
                   color={
-                    pathname === Routes[RoutesEnum.DApp] ||
-                    pathname.includes(Routes[RoutesEnum.DineroMarket])
+                    pathname === Routes[RoutesEnum.DineroMarket] ||
+                    pathname.includes(Routes[RoutesEnum.DineroMarketBorrow])
                       ? 'accent'
                       : 'inherit'
                   }
@@ -110,7 +110,7 @@ const Footer: FC = () => {
                   value: 'dinero-market',
                   displayOption: 'Dinero Market',
                   onSelect: () =>
-                    push(Routes[RoutesEnum.DApp], undefined, {
+                    push(Routes[RoutesEnum.DineroMarket], undefined, {
                       shallow: true,
                     }),
                 },

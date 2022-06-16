@@ -136,9 +136,9 @@ const BorrowTable: FC = () => {
               return {
                 button: (
                   <Link
-                    href={`${
-                      Routes[RoutesEnum.DineroMarket]
-                    }?mode=borrow&currency=${erc20.symbol}`}
+                    href={`${Routes[RoutesEnum.DineroMarketBorrow]}?currency=${
+                      erc20.symbol
+                    }`}
                   >
                     <Button variant="primary" hover={{ bg: 'accentActive' }}>
                       Borrow
@@ -243,9 +243,9 @@ const BorrowTable: FC = () => {
                   ),
                   button: (
                     <Link
-                      href={`${
-                        Routes[RoutesEnum.DineroMarket]
-                      }?mode=borrow&currency=${erc20.symbol}`}
+                      href={`${Routes[RoutesEnum.DineroMarketBorrow]}currency=${
+                        erc20.symbol
+                      }`}
                     >
                       <Button
                         key={v4()}

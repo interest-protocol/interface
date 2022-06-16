@@ -7,13 +7,13 @@ import { CHAIN_ID } from '@/sdk/constants';
 import { Routes } from './routes';
 
 export const SUPPORTED_CHAINS_RECORD = {
-  [Routes.dapp]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes.earn]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes.faucet]: [CHAIN_ID.RINKEBY],
-  [Routes.repay]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes['dinero-market']]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes['mail-market']]: [CHAIN_ID.RINKEBY],
-  [Routes['mail-market-pool']]: [CHAIN_ID.RINKEBY],
+  [Routes[RoutesEnum.Earn]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.Faucet]]: [CHAIN_ID.RINKEBY],
+  [Routes[RoutesEnum.DineroMarket]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.DineroMarketRepay]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.DineroMarketBorrow]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.MAILMarket]]: [CHAIN_ID.RINKEBY],
+  [Routes[RoutesEnum.MAILMarketPool]]: [CHAIN_ID.RINKEBY],
   [Routes[RoutesEnum.DEX]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DEXPool]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DEXPoolDetails]]: [CHAIN_ID.BNB_TEST_NET],
