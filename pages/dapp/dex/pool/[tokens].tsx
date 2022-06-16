@@ -8,11 +8,9 @@ const DEXPoolDetailsPage: NextPage = () => {
     query: { tokens },
   } = useRouter();
 
-  return (
-    <LiquidityPool
-      tokens={[(tokens?.[0] as string) ?? '', (tokens?.[1] as string) ?? '']}
-    />
-  );
+  const tokenPair = (tokens as string)?.split('-') ?? ['', ''];
+
+  return <LiquidityPool tokens={tokenPair as [string, string]} />;
 };
 
 export default DEXPoolDetailsPage;

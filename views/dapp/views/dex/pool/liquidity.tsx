@@ -23,7 +23,7 @@ const Liquidity: FC<LiquidityProps> = ({
     <Link
       shallow
       href={Routes[RoutesEnum.DEXPoolDetails]}
-      as={`${Routes[RoutesEnum.DEXPool]}/${symbols[0]}/${symbols[1]}/`}
+      as={`${Routes[RoutesEnum.DEXPool]}/${symbols[0]}-${symbols[1]}/`}
     >
       <Box
         py="M"

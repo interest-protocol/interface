@@ -1,6 +1,7 @@
 import type { AddEthereumChainParameter } from '@web3-react/types';
 import { __, always, identity, ifElse, includes, pathOr } from 'ramda';
 
+import { RoutesEnum } from '@/constants/routes';
 import { CHAIN_ID } from '@/sdk/constants';
 
 import { Routes } from './routes';
@@ -13,6 +14,9 @@ export const SUPPORTED_CHAINS_RECORD = {
   [Routes['dinero-market']]: [CHAIN_ID.BNB_TEST_NET],
   [Routes['mail-market']]: [CHAIN_ID.RINKEBY],
   [Routes['mail-market-pool']]: [CHAIN_ID.RINKEBY],
+  [Routes[RoutesEnum.DEX]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.DEXPool]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.DEXPoolDetails]]: [CHAIN_ID.BNB_TEST_NET],
 };
 
 export const BNB: AddEthereumChainParameter['nativeCurrency'] = {

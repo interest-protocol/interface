@@ -31,7 +31,7 @@ export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.Faucet]: '/dapp/faucet',
   [RoutesEnum.DEX]: '/dapp/dex',
   [RoutesEnum.DEXPool]: '/dapp/dex/pool',
-  [RoutesEnum.DEXPoolDetails]: '/dapp/dex/pool/[token1]/[token2]',
+  [RoutesEnum.DEXPoolDetails]: '/dapp/dex/pool/[tokens]',
 };
 
 export const routesList = Object.keys(Routes) as ReadonlyArray<RoutesEnum>;
