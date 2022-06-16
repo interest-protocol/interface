@@ -84,7 +84,7 @@ export const calculateMax = (
 
     if (safeAmountOfTokens.gte(data.supply))
       return IntMath.toNumber(
-        data.supply.gte(data.cash) ? data.supply : data.cash
+        data.supply.gte(data.cash) ? data.cash : data.supply
       );
 
     return safeAmountOfTokens.gt(data.cash)
