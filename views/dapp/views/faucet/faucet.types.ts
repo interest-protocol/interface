@@ -40,7 +40,6 @@ export interface CurrencyIdentifierProps {
 }
 export interface FaucetCurrencyDropdownProps {
   defaultValue: string;
-  control: Control<IFaucetForm>;
   tokens: ReadonlyArray<IToken>;
   onSelectCurrency: (currency: string) => void;
 }
