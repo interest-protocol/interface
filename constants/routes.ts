@@ -26,7 +26,7 @@ export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.DApp]: '/dapp',
   [RoutesEnum.DEX]: '/dapp/dex',
   [RoutesEnum.DEXPool]: '/dapp/dex/pool',
-  [RoutesEnum.DEXPoolDetails]: '/dapp/dex/pool/[tokens]',
+  [RoutesEnum.DEXPoolDetails]: '/dapp/dex/pool/[pairAddress]',
   [RoutesEnum.DineroMarket]: '/dapp/dinero-market',
   [RoutesEnum.DineroMarketBorrow]: '/dapp/dinero-market/borrow',
   [RoutesEnum.DineroMarketRepay]: '/dapp/dinero-market/repay',

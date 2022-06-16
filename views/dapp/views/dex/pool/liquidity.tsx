@@ -1,7 +1,13 @@
 import Link from 'next/link';
+import { compose, find, propEq, propOr } from 'ramda';
 import { FC } from 'react';
 
-import { Routes, RoutesEnum, TOKENS_SVG_MAP } from '@/constants';
+import {
+  MAIL_FAUCET_TOKENS,
+  Routes,
+  RoutesEnum,
+  TOKENS_SVG_MAP,
+} from '@/constants';
 import { Box, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 
@@ -14,6 +20,17 @@ const Liquidity: FC<LiquidityProps> = ({
   amountUSD,
   hasWarning,
 }) => {
+  const [address1, address2] = [
+    compose(
+      propOr('', 'address'),
+      find(propEq('symbol', symbols[0]))
+    )(MAIL_FAUCET_TOKENS[4]),
+    compose(
+      propOr('', 'address'),
+      find(propEq('symbol', symbols[1]))
+    )(MAIL_FAUCET_TOKENS[4]),
+  ];
+
   const FirstIcon =
     TOKENS_SVG_MAP[symbols[0]] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
   const SecondIcon =
@@ -23,7 +40,7 @@ const Liquidity: FC<LiquidityProps> = ({
     <Link
       shallow
       href={Routes[RoutesEnum.DEXPoolDetails]}
-      as={`${Routes[RoutesEnum.DEXPool]}/${symbols[0]}-${symbols[1]}/`}
+      as={`${Routes[RoutesEnum.DEXPool]}/${address1}-${address2}/`}
     >
       <Box
         py="M"

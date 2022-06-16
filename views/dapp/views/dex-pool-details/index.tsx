@@ -1,8 +1,9 @@
+import { compose, find, propEq, propOr } from 'ramda';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
-import { TOKENS_SVG_MAP } from '@/constants';
+import { MAIL_FAUCET_TOKENS, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { formatDollars, formatMoney } from '@/utils';
@@ -12,8 +13,19 @@ import { DEXPoolDetailsViewProps } from './dex-pool-details.types';
 import LiquidityDetailsCard from './liquidity-details-card';
 
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
-  tokens: [firstToken, secondToken],
+  tokens: [firstAddress, secondAddress],
 }) => {
+  const [firstToken, secondToken] = [
+    compose(
+      propOr('', 'symbol'),
+      find(propEq('address', firstAddress))
+    )(MAIL_FAUCET_TOKENS[4]),
+    compose(
+      propOr('', 'symbol'),
+      find(propEq('address', secondAddress))
+    )(MAIL_FAUCET_TOKENS[4]),
+  ] as [string, string];
+
   const CARDS: ReadonlyArray<LiquidityDetailsCardProps> = [
     {
       title: 'Liquidity',

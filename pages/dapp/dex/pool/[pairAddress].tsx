@@ -5,12 +5,15 @@ import LiquidityPool from '@/views/dapp/views/dex-pool-details';
 
 const DEXPoolDetailsPage: NextPage = () => {
   const {
-    query: { tokens },
+    query: { pairAddress },
   } = useRouter();
 
-  const tokenPair = (tokens as string)?.split('-') ?? ['', ''];
+  const pairAddressList = ((pairAddress as string)?.split('-') ?? ['', '']) as [
+    string,
+    string
+  ];
 
-  return <LiquidityPool tokens={tokenPair as [string, string]} />;
+  return <LiquidityPool tokens={pairAddressList} />;
 };
 
 export default DEXPoolDetailsPage;
