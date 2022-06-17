@@ -72,6 +72,7 @@ const MAILMarket: FC = () => {
             )}
           </Box>
           <MAILMarketSearchInput
+            chainId={chainId}
             control={control}
             register={register}
             addLocalAsset={addLocalAsset}
