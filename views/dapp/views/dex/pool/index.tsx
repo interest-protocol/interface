@@ -61,7 +61,7 @@ const PoolView: FC = () => {
             Add Liquidity
           </Button>
         </Box>
-        <Box py="L" my="L" px="L" bg="foreground" borderRadius="M">
+        <Box py="L" mb="L" px="L" bg="foreground" borderRadius="M">
           <Typography variant="normal" width="100%" my="L">
             My Pools
           </Typography>
@@ -69,7 +69,6 @@ const PoolView: FC = () => {
             pools.map(() => (
               <Liquidity
                 key={v4()}
-                hasWarning
                 amount={formatMoney(Math.random() * 89746)}
                 amountUSD={formatDollars(Math.random() * 89746)}
                 symbols={[
@@ -87,7 +86,7 @@ const PoolView: FC = () => {
           )}
         </Box>
 
-        <Box py="L" my="L" px="L" bg="foreground" borderRadius="M">
+        <Box py="L" mb="L" px="L" bg="foreground" borderRadius="M">
           <Typography variant="normal" width="100%" my="L">
             Recommended Pools
           </Typography>
@@ -96,7 +95,6 @@ const PoolView: FC = () => {
               key={v4()}
               amount={formatMoney(Math.random() * 23345)}
               amountUSD={formatDollars(Math.random() * 89746)}
-              hasWarning
               symbols={[
                 values(TOKEN_SYMBOL)[
                   ~~(Math.random() * values(TOKEN_SYMBOL).length)

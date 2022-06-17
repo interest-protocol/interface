@@ -11,15 +11,9 @@ import {
 import { Box, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 
-import OutOfRange from './out-of-range';
 import { LiquidityProps } from './pool.types';
 
-const Liquidity: FC<LiquidityProps> = ({
-  amount,
-  symbols,
-  amountUSD,
-  hasWarning,
-}) => {
+const Liquidity: FC<LiquidityProps> = ({ amount, symbols, amountUSD }) => {
   const [address1, address2] = [
     compose(
       propOr('', 'address'),
@@ -63,8 +57,6 @@ const Liquidity: FC<LiquidityProps> = ({
               </Typography>
             </Box>
           </Box>
-
-          {hasWarning && <OutOfRange />}
         </Box>
         <Box>
           <Typography variant="normal" fontSize="0.8rem" fontWeight="500">

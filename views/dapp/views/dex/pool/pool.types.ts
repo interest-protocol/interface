@@ -14,7 +14,6 @@ export interface PairsProps {
 export interface LiquidityProps {
   amount: string;
   amountUSD: string;
-  hasWarning?: boolean;
   symbols: [string, string];
 }
 
