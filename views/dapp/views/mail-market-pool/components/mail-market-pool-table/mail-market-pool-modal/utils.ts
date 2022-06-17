@@ -82,12 +82,14 @@ export const calculateMax = (
       .div(data.ltv)
       .mul(ethers.utils.parseEther('0.95'));
 
-    if (safeAmountOfTokens.gte(data.cash)) return IntMath.toNumber(data.cash);
-
     if (safeAmountOfTokens.gte(data.supply))
-      return IntMath.toNumber(data.supply);
+      return IntMath.toNumber(
+        data.supply.gte(data.cash) ? data.cash : data.supply
+      );
 
-    return safeAmountOfTokens.toNumber();
+    return safeAmountOfTokens.gt(data.cash)
+      ? IntMath.toNumber(data.cash)
+      : safeAmountOfTokens.toNumber();
   }
 
   return 0;
@@ -100,9 +102,17 @@ export const calculateLiquidationRisk = (
   totalBorrowsInUSDRecord: MAILMarketPoolModalProps['totalBorrowsInUSDRecord'],
   amount: string
 ) => {
-  if (!data) return '';
+  if (!data)
+    return {
+      currentRisk: null,
+      poolRisk: null,
+    };
 
-  if (data.borrow.isZero() && amount === '0') return '0% \u2192 0%';
+  if (data.borrow.isZero() && amount === '0')
+    return {
+      currentRisk: 0,
+      poolRisk: 0,
+    };
 
   const value = safeToBigNumber(amount);
   const valueInUSD = IntMath.from(value).mul(data.usdPrice).value();
@@ -111,53 +121,74 @@ export const calculateLiquidationRisk = (
   const currentRisk = calculatePoolRisk(totalBorrowsInUSDRecord);
 
   if (isSupplying(base, type))
-    return `${currentRisk}% \u2192 ${calculatePoolRisk({
-      totalBorrowInUSD: totalBorrowsInUSDRecord.totalBorrowInUSD,
-      totalMaxBorrowAmountInUSD:
-        totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD.add(valueInUSDLTV),
-    })}%`;
+    return {
+      currentRisk,
+      poolRisk: calculatePoolRisk({
+        totalBorrowInUSD: totalBorrowsInUSDRecord.totalBorrowInUSD,
+        totalMaxBorrowAmountInUSD:
+          totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD.add(valueInUSDLTV),
+      }),
+    };
 
   if (isRedeeming(base, type)) {
     if (valueInUSDLTV.gt(totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD))
-      return `${currentRisk}% \u2192 -${calculatePoolRisk({
-        totalBorrowInUSD: totalBorrowsInUSDRecord.totalBorrowInUSD,
-        totalMaxBorrowAmountInUSD: valueInUSDLTV.sub(
-          totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD
-        ),
-      })}%`;
+      return {
+        currentRisk,
+        poolRisk: -calculatePoolRisk({
+          totalBorrowInUSD: totalBorrowsInUSDRecord.totalBorrowInUSD,
+          totalMaxBorrowAmountInUSD: valueInUSDLTV.sub(
+            totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD
+          ),
+        }),
+      };
 
-    return `${currentRisk}% \u2192 ${calculatePoolRisk({
-      totalBorrowInUSD: totalBorrowsInUSDRecord.totalBorrowInUSD,
-      totalMaxBorrowAmountInUSD:
-        totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD.sub(valueInUSDLTV),
-    })}%`;
+    return {
+      currentRisk,
+      poolRisk: calculatePoolRisk({
+        totalBorrowInUSD: totalBorrowsInUSDRecord.totalBorrowInUSD,
+        totalMaxBorrowAmountInUSD:
+          totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD.sub(valueInUSDLTV),
+      }),
+    };
   }
 
   if (isBorrowing(base, type))
-    return `${currentRisk}% \u2192 ${calculatePoolRisk({
-      totalBorrowInUSD:
-        totalBorrowsInUSDRecord.totalBorrowInUSD.add(valueInUSD),
-      totalMaxBorrowAmountInUSD:
-        totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD,
-    })}%`;
+    return {
+      currentRisk,
+      poolRisk: calculatePoolRisk({
+        totalBorrowInUSD:
+          totalBorrowsInUSDRecord.totalBorrowInUSD.add(valueInUSD),
+        totalMaxBorrowAmountInUSD:
+          totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD,
+      }),
+    };
 
   if (isRepaying(base, type)) {
     if (valueInUSD.gte(totalBorrowsInUSDRecord.totalBorrowInUSD))
-      return `${currentRisk}% \u2192 ${calculatePoolRisk({
-        totalBorrowInUSD: ZERO_BIG_NUMBER,
+      return {
+        currentRisk,
+        poolRisk: calculatePoolRisk({
+          totalBorrowInUSD: ZERO_BIG_NUMBER,
+          totalMaxBorrowAmountInUSD:
+            totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD,
+        }),
+      };
+
+    return {
+      currentRisk,
+      poolRisk: calculatePoolRisk({
+        totalBorrowInUSD:
+          totalBorrowsInUSDRecord.totalBorrowInUSD.sub(valueInUSD),
         totalMaxBorrowAmountInUSD:
           totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD,
-      })}%`;
-
-    return `${currentRisk}% \u2192 ${calculatePoolRisk({
-      totalBorrowInUSD:
-        totalBorrowsInUSDRecord.totalBorrowInUSD.sub(valueInUSD),
-      totalMaxBorrowAmountInUSD:
-        totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD,
-    })}%`;
+      }),
+    };
   }
 
-  return '';
+  return {
+    currentRisk: null,
+    poolRisk: null,
+  };
 };
 
 export const processDetailsInfo = (

@@ -10,6 +10,7 @@ const MAILMarketSearchInput: FC<MAILMarketSearchBarProps> = ({
   register,
   allMarkets,
   addLocalAsset,
+  chainId,
 }) => (
   <Box bg="foreground" p="L" borderRadius="L" mt="XL" position="relative">
     <Input
@@ -28,6 +29,7 @@ const MAILMarketSearchInput: FC<MAILMarketSearchBarProps> = ({
       control={control}
       allMarkets={allMarkets}
       addLocalAsset={addLocalAsset}
+      chainId={chainId}
     />
   </Box>
 );

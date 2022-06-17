@@ -109,10 +109,10 @@ export const MAIL_MARKET_RISKY_TOKENS_ARRAY = {
 
 export const MAIL_MARKET_BRIDGE_TOKENS = {
   [CHAIN_ID.RINKEBY]: [
-    '0xbdBFEBE240a4606119bC950Eec3e0Ed05719d739', // BTC
-    '0xbA8d9f4d5c14f2CC644CcC06bB298FbD6DaC349C', // WETH
-    '0xf3706E14c4aE1bd94f65909f9aB9e30D8C1b7B16', // USDC
-    '0xb306ee3d2092166cb942D1AE2210A7641f73c11F', // USDT
+    ethers.utils.getAddress('0xbdBFEBE240a4606119bC950Eec3e0Ed05719d739'), // BTC
+    ethers.utils.getAddress('0xbA8d9f4d5c14f2CC644CcC06bB298FbD6DaC349C'), // WETH
+    ethers.utils.getAddress('0xf3706E14c4aE1bd94f65909f9aB9e30D8C1b7B16'), // USDC
+    ethers.utils.getAddress('0xb306ee3d2092166cb942D1AE2210A7641f73c11F'), // USDT
   ],
 };
 

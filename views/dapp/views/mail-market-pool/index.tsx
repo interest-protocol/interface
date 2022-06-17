@@ -18,7 +18,7 @@ import MAILMarketPoolRisk from './components/mail-market-pool-risk';
 import { MAILMarketPoolProps } from './mail-market-pool.types';
 import {
   calculateAPRs,
-  calculateMySupplyAndBorrow,
+  calculateMySupply,
   calculatePoolRisk,
   calculateTotalBorrowsInUSD,
   processMAILMarketData,
@@ -34,10 +34,7 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
     [rawData, chainId]
   );
 
-  const { mySupply, myBorrow } = useMemo(
-    () => calculateMySupplyAndBorrow(data),
-    [data]
-  );
+  const mySupply = useMemo(() => calculateMySupply(data), [data]);
 
   const bridgeTokens = useMemo(
     () => propOr([], validId.toString(), MAIL_BRIDGE_TOKENS_ARRAY),
@@ -113,21 +110,38 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             gridTemplateColumns="1fr 1fr"
           >
             <MAILMarketPoolBalance
-              type="supply"
+              text=" My supply balance"
               balance={formatDollars(IntMath.toNumber(mySupply))}
               loading={loading}
             />
             <MAILMarketPoolBalance
-              type="borrow"
-              balance={formatDollars(IntMath.toNumber(myBorrow))}
+              text="my borrow balance"
+              balance={formatDollars(
+                IntMath.toNumber(totalBorrowsInUSDRecord.totalBorrowInUSD)
+              )}
               loading={loading}
             />
           </Box>
           <MAILMarketPoolNetApr data={aprData} loading={loading} />
-          <MAILMarketPoolRisk
-            loading={loading}
-            risk={calculatePoolRisk(totalBorrowsInUSDRecord)}
-          />
+          <Box
+            display="grid"
+            gridColumnGap="1rem"
+            gridTemplateColumns="1fr 1fr"
+          >
+            <MAILMarketPoolBalance
+              text="Max borrowable amount"
+              balance={formatDollars(
+                IntMath.toNumber(
+                  totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD
+                )
+              )}
+              loading={loading}
+            />
+            <MAILMarketPoolRisk
+              loading={loading}
+              risk={calculatePoolRisk(totalBorrowsInUSDRecord)}
+            />
+          </Box>
         </Box>
         <Box
           id="mail-supply-borrow-markets"
