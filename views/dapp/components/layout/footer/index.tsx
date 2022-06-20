@@ -49,8 +49,8 @@ const Footer: FC = () => {
                   ? 'accent'
                   : 'foreground'
               }
-              hover={{ bg: 'accent' }}
-              active={{ bg: 'accentActive' }}
+              hover={{ bg: 'accent', color: 'text' }}
+              active={{ bg: 'accentActive', color: 'text' }}
             >
               Earn
             </Button>
@@ -79,8 +79,8 @@ const Footer: FC = () => {
                       ? 'accent'
                       : 'inherit'
                   }
-                  hover={{ bg: 'accent' }}
-                  active={{ bg: 'accentActive' }}
+                  hover={{ bg: 'accent', color: 'text' }}
+                  active={{ bg: 'accentActive', color: 'text' }}
                 >
                   Borrow
                 </Typography>
