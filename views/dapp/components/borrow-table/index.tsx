@@ -236,7 +236,7 @@ const BorrowTable: FC = () => {
                       justifyContent="center"
                     >
                       <BitcoinSVG width="1.4rem" height="1.4rem" />
-                      <Typography variant="normal" ml="M" mt="M">
+                      <Typography variant="normal" textAlign="center" mt="M">
                         {`${erc20.name} (${erc20.symbol})`}
                       </Typography>
                     </Box>
