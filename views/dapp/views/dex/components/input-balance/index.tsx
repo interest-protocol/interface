@@ -13,15 +13,15 @@ const InputBalance: FC<InputBalanceProps> = ({
 }) => (
   <Input
     min="0"
+    max={1000}
+    fontSize="L"
     type="number"
     step="0.0001"
-    fontSize="L"
     placeholder={'0'}
+    disabled={disabled || false}
     // eslint-disable-next-line jsx-a11y/no-autofocus
     autoFocus={name === 'origin.value'}
-    disabled={disabled || false}
     {...register(name)}
-    max={1000}
     shieldProps={{
       px: 'S',
       py: 'L',

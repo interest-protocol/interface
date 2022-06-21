@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import { SwapSelectCurrencyProps } from '../dex.types';
 import SwapSearchToken from './swap-search-token';
-import SwapTokensDropdown from './swap-tokens.dropdown';
+import SwapTokensModal from './swap-tokens-modal';
 
 const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
   tokens,
@@ -19,7 +19,7 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
   });
 
   return (
-    <SwapTokensDropdown
+    <SwapTokensModal
       tokens={tokens}
       control={control}
       fromRight={fromRight}

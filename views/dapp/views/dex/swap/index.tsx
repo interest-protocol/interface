@@ -37,7 +37,7 @@ const Swap: FC = () => {
         color="text"
         width="100%"
         bg="foreground"
-        minWidth="40rem"
+        minWidth={['20rem', '40rem']}
         borderRadius="M"
       >
         <Box
