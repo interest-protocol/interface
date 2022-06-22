@@ -31,6 +31,7 @@ export interface ISwapForm {
   deadline: number;
   origin: ICurrencyField;
   target: ICurrencyField;
+  volatility: 'auto' | 'stable' | 'volatile';
 }
 
 export interface SwapSelectCurrencyProps {

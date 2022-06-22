@@ -6,7 +6,7 @@ import { Box, Typography } from '@/elements';
 
 import { SwitchProps } from './switch.types';
 
-const Switch: FC<SwitchProps> = ({ defaultValue, options }) => {
+const Switch: FC<SwitchProps> = ({ defaultValue, options, thin }) => {
   const [selected, setSelected] = useState(defaultValue);
 
   const switcher = (value: string) => () => setSelected(value);
@@ -14,21 +14,22 @@ const Switch: FC<SwitchProps> = ({ defaultValue, options }) => {
   return (
     <Box
       p="S"
-      height="3rem"
       bg="background"
       display="inline-flex"
       borderRadius="1.5rem"
+      height={thin ? '2.5rem' : '3rem'}
     >
       {options.map(({ value, onSelect }) => (
         <Typography
-          py="M"
-          px="XL"
           key={v4()}
+          px={thin ? 'L' : 'XL'}
+          py={thin ? 'S' : 'M'}
           display="flex"
           variant="normal"
           cursor="pointer"
           alignItems="center"
           borderRadius="1.5rem"
+          fontSize="S"
           justifyContent="center"
           hover={{ color: 'text' }}
           textTransform="capitalize"

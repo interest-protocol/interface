@@ -22,6 +22,7 @@ const Swap: FC = () => {
       },
       slippage: 0.1,
       deadline: 30,
+      volatility: 'auto',
     },
   });
 
@@ -63,7 +64,12 @@ const Swap: FC = () => {
               <CogsSVG width="1.5rem" />
             </Box>
             {showSettings && (
-              <Settings toggle={toggleSettings} register={register} />
+              <Settings
+                control={control}
+                register={register}
+                setValue={setValue}
+                toggle={toggleSettings}
+              />
             )}
           </Box>
         </Box>
