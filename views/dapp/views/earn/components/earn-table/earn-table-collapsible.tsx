@@ -211,7 +211,11 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         )} ${farm.farmSymbol}`}
         button={
           <a
-            href="https://pancake.kiemtienonline360.com/"
+            href={
+              farm.farmSymbol === 'Int'
+                ? 'https://pancake.kiemtienonline360.com/'
+                : 'https://pancake.kiemtienonline360.com/#/add/0x57486681D2E0Bc9B0494446b8c5df35cd20D4E92/0x954f3A4aeC237D311839d6E0274c0aC8Be13d1b1'
+            }
             target="_blank"
             rel="noreferrer"
           >
