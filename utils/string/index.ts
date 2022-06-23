@@ -63,4 +63,6 @@ export const parseToSafeStringNumber = (x: string): string =>
     ? ''
     : +x >= MAX_NUMBER_INPUT_VALUE
     ? MAX_NUMBER_INPUT_VALUE.toString()
-    : String(Number(x));
+    : x.charAt(0) == '0' && !x.startsWith('0.')
+    ? String(Number(x))
+    : x;
