@@ -5,15 +5,36 @@ import { Fraction, MAX_NUMBER_INPUT_VALUE, Rounding } from '@/sdk';
 export const shortAccount = (account: string): string =>
   `${account.slice(0, 6)}...${account.slice(-4)}`;
 
+const treatDecimals = (money: number) => {
+  const [integerPart, decimalPart] = money.toString().split('.');
+  const digits = integerPart.toString().length;
+
+  const newMoney = Number(
+    digits > 9
+      ? `${integerPart.slice(0, -9)}.${integerPart.slice(-9, -7)}`
+      : digits > 6
+      ? `${integerPart.slice(0, -6)}.${integerPart.slice(-6, -4)}`
+      : `${integerPart}.${decimalPart?.slice(0, 2) ?? 0}`
+  );
+
+  const { length: integerLength } = newMoney.toString().split('.')[0];
+
+  return {
+    digits,
+    newMoney,
+    integerLength,
+  };
+};
+
 export const formatDollars = (money: number): string => {
-  const [integralPart] = money.toString().split('.');
-  const length = integralPart.length;
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    maximumSignificantDigits: length > 20 ? 20 : length + 4,
-    minimumSignificantDigits: length > 20 ? 20 : length + 2,
+  const { digits, newMoney, integerLength } = treatDecimals(money);
+
+  return `${new Intl.NumberFormat('en-US', {
     currency: 'USD',
-  }).format(money);
+    style: 'currency',
+    maximumSignificantDigits: integerLength > 20 ? 20 : integerLength + 4,
+    minimumSignificantDigits: integerLength > 20 ? 20 : integerLength + 2,
+  }).format(newMoney)} ${digits > 9 ? 'B' : digits > 6 ? 'M' : ''}`;
 };
 
 export const formatMoney = (value: number): string =>
