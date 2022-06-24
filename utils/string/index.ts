@@ -34,7 +34,7 @@ export const formatDollars = (money: number): string => {
     style: 'currency',
     maximumSignificantDigits: integerLength > 20 ? 20 : integerLength + 4,
     minimumSignificantDigits: integerLength > 20 ? 20 : integerLength + 2,
-  }).format(newMoney)} ${digits > 9 ? 'B' : digits > 6 ? 'M' : ''}`;
+  }).format(newMoney)} ${digits > 9 ? 'B' : digits > 6 ? 'M' : ''}`.trim();
 };
 
 export const formatMoney = (value: number): string =>

@@ -5,7 +5,7 @@ import { isValidAccount } from '../index';
 describe(isValidAccount.name, () => {
   it('Should be passed because this a real address', () => {
     expect(
-      isValidAccount(CONTRACTS.DINERO_FAUCET[CHAIN_ID.BSC_TEST_NET])
+      isValidAccount(CONTRACTS.DINERO_FAUCET[CHAIN_ID.BNB_TEST_NET])
     ).toBeTruthy();
   });
   it('should throw because throw', () => {

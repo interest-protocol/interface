@@ -11,6 +11,7 @@ module.exports = {
     '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/__test__/__mocks__/fileMock.js',
     "@/sdk/(.*)$": "<rootDir>/sdk/$1",
     "@/sdk": "<rootDir>/sdk/index",
+    "@/components": "<rootDir>/components",
     "@/constants/(.*)$": "<rootDir>/constants/$1",
     "@/constants": "<rootDir>/constants/index",
     "@/svg/(.*)$": "<rootDir>/components/svg/$1",

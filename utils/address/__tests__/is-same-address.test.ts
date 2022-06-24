@@ -8,7 +8,7 @@ describe(isSameAddress.name, () => {
   it('Should be passed because this function is case sensitive or one address doesnt exist', () => {
     expect(() =>
       isSameAddress(
-        CONTRACTS.PCS_V2_PAIR_BTC_DNR[CHAIN_ID.BSC_TEST_NET],
+        CONTRACTS.PCS_V2_PAIR_BTC_DNR[CHAIN_ID.BNB_TEST_NET],
         addressFake
       )
     ).toThrow(
@@ -20,16 +20,16 @@ describe(isSameAddress.name, () => {
   it('Should be passed because the address are equal', () => {
     expect(
       isSameAddress(
-        CONTRACTS.DINERO_FAUCET[CHAIN_ID.BSC_TEST_NET],
-        CONTRACTS.DINERO_FAUCET[CHAIN_ID.BSC_TEST_NET]
+        CONTRACTS.DINERO_FAUCET[CHAIN_ID.BNB_TEST_NET],
+        CONTRACTS.DINERO_FAUCET[CHAIN_ID.BNB_TEST_NET]
       )
     ).toBeTruthy();
   });
   it('Should be passed because the address are different', () => {
     expect(
       isSameAddress(
-        CONTRACTS.DINERO_FAUCET[CHAIN_ID.BSC_TEST_NET],
-        CONTRACTS.PCS_V2_PAIR_BTC_DNR[CHAIN_ID.BSC_TEST_NET]
+        CONTRACTS.DINERO_FAUCET[CHAIN_ID.BNB_TEST_NET],
+        CONTRACTS.PCS_V2_PAIR_BTC_DNR[CHAIN_ID.BNB_TEST_NET]
       )
     ).toBeFalsy();
   });
@@ -37,7 +37,7 @@ describe(isSameAddress.name, () => {
     expect(() =>
       isSameAddress(
         'not an address',
-        CONTRACTS.DINERO_FAUCET[CHAIN_ID.BSC_TEST_NET]
+        CONTRACTS.DINERO_FAUCET[CHAIN_ID.BNB_TEST_NET]
       )
     ).toThrow(
       'invalid address (argument="address", value="not an address", code=INVALID_ARGUMENT, version=address/5.6.0)'
