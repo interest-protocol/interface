@@ -2,43 +2,85 @@ import { always, ifElse, isNil, toString } from 'ramda';
 
 import { Fraction, MAX_NUMBER_INPUT_VALUE, Rounding } from '@/sdk';
 
+const isExponential = (number: number) => number.toString().includes('e');
+
 export const shortAccount = (account: string): string =>
   `${account.slice(0, 6)}...${account.slice(-4)}`;
 
-const treatDecimals = (money: number) => {
-  const [integerPart, decimalPart] = money.toString().split('.');
-  const digits = integerPart.toString().length;
+const removeZero = (array: ReadonlyArray<string>): string => {
+  if (!array.length) return '';
+
+  if (array[array.length - 1] == '0') return removeZero(array.slice(0, -1));
+
+  return array.join('');
+};
+
+export const removeUnnecessaryZeros = (string: string): string =>
+  string.includes('.') ? removeZero(string.split('')) : string;
+
+const treatDecimals = (money: number, maxDecimals: number) => {
+  const [integralPart, decimalPart] = (
+    isExponential(money)
+      ? removeUnnecessaryZeros(money.toFixed(maxDecimals))
+      : money.toString()
+  ).split('.');
+
+  const integralDigits = integralPart.toString().length;
 
   const newMoney = Number(
-    digits > 9
-      ? `${integerPart.slice(0, -9)}.${integerPart.slice(-9, -7)}`
-      : digits > 6
-      ? `${integerPart.slice(0, -6)}.${integerPart.slice(-6, -4)}`
-      : `${integerPart}.${decimalPart?.slice(0, 2) ?? 0}`
+    integralDigits > 9
+      ? `${integralPart.slice(0, -9)}.${integralPart.slice(-9, -7)}`
+      : integralDigits > 6
+      ? `${integralPart.slice(0, -6)}.${integralPart.slice(-6, -4)}`
+      : `${integralPart}.${
+          +integralPart >= 10 ? decimalPart?.slice(0, 2) ?? 0 : decimalPart ?? 0
+        }`
   );
 
-  const { length: integerLength } = newMoney.toString().split('.')[0];
+  const newMoneyString = isExponential(newMoney)
+    ? removeUnnecessaryZeros(newMoney.toFixed(maxDecimals - integralDigits))
+    : newMoney.toPrecision();
+
+  const baseDecimals = integralDigits > 6 ? 0 : 2;
+
+  const decimalDigits =
+    integralDigits <= 6 && +integralPart >= 10
+      ? 2
+      : newMoneyString.split('.')[1]?.length ?? baseDecimals;
 
   return {
-    digits,
     newMoney,
-    integerLength,
+    decimalDigits,
+    integralDigits,
   };
 };
 
-export const formatDollars = (money: number): string => {
-  const { digits, newMoney, integerLength } = treatDecimals(money);
+export const formatMoney = (money: number, maxFractionDigits = 20): string => {
+  const { integralDigits, newMoney, decimalDigits } = treatDecimals(
+    money,
+    maxFractionDigits
+  );
+
+  const maximumFractionDigits =
+    decimalDigits < maxFractionDigits ? decimalDigits : maxFractionDigits;
+
+  const minimumFractionDigits =
+    decimalDigits > maximumFractionDigits
+      ? maximumFractionDigits
+      : decimalDigits;
 
   return `${new Intl.NumberFormat('en-US', {
     currency: 'USD',
     style: 'currency',
-    maximumSignificantDigits: integerLength > 20 ? 20 : integerLength + 4,
-    minimumSignificantDigits: integerLength > 20 ? 20 : integerLength + 2,
-  }).format(newMoney)} ${digits > 9 ? 'B' : digits > 6 ? 'M' : ''}`.trim();
+    maximumFractionDigits,
+    minimumFractionDigits,
+  }).format(newMoney)}${
+    integralDigits > 9 ? 'B' : integralDigits > 6 ? 'M' : ''
+  }`.slice(1);
 };
 
-export const formatMoney = (value: number): string =>
-  formatDollars(value).slice(1);
+export const formatDollars = (money: number): string =>
+  '$' + formatMoney(money, 6);
 
 export const toSignificant = (
   x: string,
