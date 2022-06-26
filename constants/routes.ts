@@ -10,7 +10,7 @@ export enum RoutesEnum {
   MAILMarketPool = 'mail-market-pool',
   Repay = 'repay',
   Earn = 'earn',
-  ETHFaucet = 'eth-faucet',
+  ETHFaucet = 'faucet',
 }
 
 /**
