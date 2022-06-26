@@ -5,7 +5,7 @@ import { Box, Button, Typography } from '@/elements';
 import { FaucetSVG } from '@/svg';
 
 import { ZapProps } from './zap.types';
-import FaucetModal from './zap-modal';
+import ZapModal from './zap-modal';
 
 const ZAP: FC<ZapProps> = ({ customAction }) => {
   const {
@@ -52,7 +52,7 @@ const ZAP: FC<ZapProps> = ({ customAction }) => {
           </Button>
         </Box>
       </Box>
-      <FaucetModal
+      <ZapModal
         isOpen={!!modal && (modal as string) === 'vault-zap'}
         handleClose={toggleModal}
       />
