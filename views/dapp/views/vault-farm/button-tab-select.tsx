@@ -1,37 +1,24 @@
 import { FC, useState } from 'react';
 
-import { Box, Button } from '@/elements';
+import { Switch } from '@/components';
+import { Box } from '@/elements';
+
+import { getSwitchDefaultData } from './vault-farm.helpers';
 
 const ButtonTabSelect: FC = () => {
-  const [select, setSelect] = useState('stake');
+  const [select, setSelect] = useState('Stake');
+  const SWITCH_DEFAULT_DATA = getSwitchDefaultData(setSelect);
+
   return (
-    <Box>
-      <Button
-        variant="primary"
-        width="50%"
-        borderBottomLeftRadius="unset"
-        borderBottomRightRadius="unset"
-        bg={select == 'stake' ? 'foreground' : 'transparent'}
-        fontSize="1rem"
-        fontWeight={select == 'stake' ? '500' : '400'}
-        color={select == 'stake' ? 'text' : 'textSecondary'}
-        onClick={() => setSelect('stake')}
-      >
-        Stake
-      </Button>
-      <Button
-        variant="primary"
-        width="50%"
-        borderBottomLeftRadius="unset"
-        borderBottomRightRadius="unset"
-        bg={select != 'stake' ? 'foreground' : 'transparent'}
-        fontSize="1rem"
-        fontWeight={select != 'stake' ? '500' : '400'}
-        color={select != 'stake' ? 'text' : 'textSecondary'}
-        onClick={() => setSelect('unstake')}
-      >
-        Unstake
-      </Button>
+    <Box
+      bg="foreground"
+      py="L"
+      display="flex"
+      justifyContent="center"
+      borderTopLeftRadius="M"
+      borderTopRightRadius="M"
+    >
+      <Switch defaultValue={select} options={SWITCH_DEFAULT_DATA['farm']} />
     </Box>
   );
 };
