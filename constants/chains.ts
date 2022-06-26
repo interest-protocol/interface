@@ -8,6 +8,8 @@ import { Routes } from './routes';
 export const SUPPORTED_CHAINS_RECORD = {
   [Routes.dapp]: [CHAIN_ID.BNB_TEST_NET],
   [Routes.earn]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes.vault]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes['vault-farm']]: [CHAIN_ID.BNB_TEST_NET],
   [Routes.faucet]: [CHAIN_ID.RINKEBY],
   [Routes.repay]: [CHAIN_ID.BNB_TEST_NET],
   [Routes['dinero-market']]: [CHAIN_ID.BNB_TEST_NET],

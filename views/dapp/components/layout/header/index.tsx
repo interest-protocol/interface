@@ -64,6 +64,21 @@ const Header: FC = () => {
         justifyContent="center"
         display={['none', 'none', 'flex']}
       >
+        <Link href={Routes[RoutesEnum.Vault]}>
+          <Typography
+            px="XL"
+            cursor="pointer"
+            variant="normal"
+            borderRight="1px solid"
+            borderColor="bottomBackground"
+            color={
+              pathname.includes(Routes[RoutesEnum.Vault]) ? 'accent' : 'inherit'
+            }
+            hover={{ color: 'accentActive' }}
+          >
+            Vault
+          </Typography>
+        </Link>
         <Link href={Routes[RoutesEnum.Earn]}>
           <Typography
             px="XL"

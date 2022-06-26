@@ -244,6 +244,7 @@ const Table: FC<ResponsiveTableProps> = ({
       </Box>
     </Box>
     <Box mx="M" my="XL" display={['block', 'block', 'block', 'none']}>
+      retrte
       {data.map(({ items, button, mobileSide, handleClick }, index) => (
         <TableRow
           key={v4()}

@@ -36,6 +36,7 @@ const MAILMarketTable: FC<MAILMarketTableProps> = ({
       <Box id={favorite ? 'favorites' : 'recommended'} mt="XL">
         {favorite ? 'Favorites' : 'Recommended'}
       </Box>
+
       {filteredData.map((item) => (
         <MAILMarketTableItem
           key={v4()}
