@@ -15,11 +15,21 @@ const Faucet: FC<FaucetProps> = ({ customAction }) => {
   } = useRouter();
 
   const toggleModal = () =>
-    push(`${pathname}${!modal && modal !== 'faucet' ? '?modal=faucet' : ''}`);
+    push(
+      customAction === 'modal'
+        ? `${pathname}${!modal && modal !== 'faucet' ? '?modal=faucet' : ''}`
+        : customAction
+    );
 
   return (
     <>
-      <Box position="sticky" bottom="1rem" right="0" zIndex={1}>
+      <Box
+        right="0"
+        zIndex={1}
+        position="sticky"
+        bottom={['3rem', '3rem', '3rem', '0']}
+        display={['none', 'none', 'none', 'block']}
+      >
         <Box
           mb="L"
           mr="L"
@@ -32,16 +42,36 @@ const Faucet: FC<FaucetProps> = ({ customAction }) => {
             variant="primary"
             alignItems="center"
             borderRadius="2rem"
+            onClick={toggleModal}
             bg="accentAlternative"
-            onClick={customAction ?? toggleModal}
             hover={{ bg: 'accentAlternativeActive' }}
           >
             <FaucetSVG width="1rem" height="1rem" />
-            <Typography variant="normal" fontSize="S" ml="M" as="span">
+            <Typography ml="M" as="span" fontSize="S" variant="normal">
               Faucet
             </Typography>
           </Button>
         </Box>
+      </Box>
+      <Box
+        mx="M"
+        display={['inline-block', 'inline-block', 'inline-block', 'none']}
+      >
+        <Button
+          p="NONE"
+          width="3rem"
+          height="3rem"
+          display="flex"
+          variant="primary"
+          alignItems="center"
+          borderRadius="2rem"
+          onClick={toggleModal}
+          bg="accentAlternative"
+          justifyContent="center"
+          hover={{ bg: 'accentAlternativeActive' }}
+        >
+          <FaucetSVG width="1rem" height="1rem" />
+        </Button>
       </Box>
       <FaucetModal
         isOpen={!!modal && (modal as string) === 'faucet'}
@@ -50,4 +80,5 @@ const Faucet: FC<FaucetProps> = ({ customAction }) => {
     </>
   );
 };
+
 export default Faucet;
