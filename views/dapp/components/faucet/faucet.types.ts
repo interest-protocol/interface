@@ -16,5 +16,5 @@ export interface FaucetSelectCurrencyProps {
 }
 
 export interface FaucetProps {
-  customAction?: () => void;
+  customAction: string;
 }

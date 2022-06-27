@@ -141,7 +141,7 @@ const BorrowTable: FC = () => {
                     }`}
                   >
                     <Button variant="primary" hover={{ bg: 'accentActive' }}>
-                      Borrow
+                      Enter
                     </Button>
                   </Link>
                 ),
@@ -252,7 +252,7 @@ const BorrowTable: FC = () => {
                         variant="primary"
                         hover={{ bg: 'accentActive' }}
                       >
-                        Borrow
+                        Enter
                       </Button>
                     </Link>
                   ),
