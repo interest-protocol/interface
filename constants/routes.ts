@@ -14,7 +14,7 @@ export enum RoutesEnum {
   DEX = 'dex',
   DEXPool = 'dex-pool',
   DEXPoolDetails = 'dex-pool-details',
-  Faucet = 'faucet',
+  ETHFaucet = 'faucet',
 }
 
 /**
@@ -33,7 +33,13 @@ export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.MAILMarket]: '/dapp/mail-market',
   [RoutesEnum.MAILMarketPool]: '/dapp/mail-market/[pool]',
   [RoutesEnum.Earn]: '/dapp/earn',
-  [RoutesEnum.Faucet]: '/dapp/faucet',
+  [RoutesEnum.ETHFaucet]: '/dapp/faucet',
+};
+
+export const RoutesWithFaucet = {
+  [Routes[RoutesEnum.Earn]]: 'modal',
+  [Routes[RoutesEnum.DineroMarket]]: 'modal',
+  [Routes[RoutesEnum.MAILMarket]]: RoutesEnum.ETHFaucet,
 };
 
 export const routesList = Object.keys(Routes) as ReadonlyArray<RoutesEnum>;

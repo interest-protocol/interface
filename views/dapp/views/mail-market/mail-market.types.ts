@@ -11,12 +11,14 @@ export interface MAILMarketSearchBarProps {
   control: Control<IMAILMarketForm>;
   allMarkets: ReadonlyArray<MailMarketsSummaryData>;
   addLocalAsset: AddLocalAsset;
+  chainId: number;
 }
 
 export interface MAILMarketSearchBarResultsProps {
   control: Control<IMAILMarketForm>;
   allMarkets: MAILMarketSearchBarProps['allMarkets'];
   addLocalAsset: MAILMarketSearchBarProps['addLocalAsset'];
+  chainId: MAILMarketSearchBarProps['chainId'];
 }
 
 export interface MAILMarketTableProps {

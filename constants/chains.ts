@@ -8,7 +8,7 @@ import { Routes } from './routes';
 
 export const SUPPORTED_CHAINS_RECORD = {
   [Routes[RoutesEnum.Earn]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.Faucet]]: [CHAIN_ID.RINKEBY],
+  [Routes[RoutesEnum.ETHFaucet]]: [CHAIN_ID.RINKEBY],
   [Routes[RoutesEnum.DineroMarket]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DineroMarketRepay]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DineroMarketBorrow]]: [CHAIN_ID.BNB_TEST_NET],
