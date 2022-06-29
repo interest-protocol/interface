@@ -6,7 +6,7 @@ export interface FaucetModalProps {
 }
 
 export interface IFaucetForm {
-  value: number;
+  value: string;
   currency: TOKEN_SYMBOL;
 }
 

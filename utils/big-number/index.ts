@@ -1,23 +1,6 @@
 import { BigNumber } from 'ethers';
-import { curry } from 'ramda';
 
-import { IntMath, MAX_NUMBER_INPUT_VALUE, ZERO_BIG_NUMBER } from '@/sdk';
-
-export const fromPositiveNumber = curry(
-  (decimals: number, value: number): BigNumber => {
-    if (
-      0 > value ||
-      value >= MAX_NUMBER_INPUT_VALUE ||
-      0 > decimals ||
-      decimals > 50
-    )
-      return ZERO_BIG_NUMBER;
-
-    return BigNumber.from(value).mul(BigNumber.from(10).pow(decimals));
-  }
-);
-
-export const to18Decimals = fromPositiveNumber(18);
+import { IntMath, MAX_NUMBER_INPUT_VALUE } from '@/sdk';
 
 export const addPositiveNumberStrings = (x: string, y: string): string => {
   if (isNaN(+x) || isNaN(+y) || 0 > +x || 0 > +y) return '0';
