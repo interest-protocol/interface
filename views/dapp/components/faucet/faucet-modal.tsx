@@ -92,7 +92,6 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
     setLoading(true);
 
     const parsedValue = safeToBigNumber(value);
-    console.log(parsedValue.toString(), 'parsed value');
 
     try {
       const tx = await MINT_MAP[currency](signer, parsedValue);
