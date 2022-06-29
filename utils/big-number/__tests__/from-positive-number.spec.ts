@@ -4,8 +4,9 @@ import { fromPositiveNumber } from '..';
 
 describe(fromPositiveNumber.name, () => {
   it('should be have a 18 zeros', () => {
-    const positiveNumber = fromPositiveNumber(18)(10);
-    expect(positiveNumber.toString()).toEqual('10000000000000000000');
+    expect(fromPositiveNumber(18)(10).toString()).toEqual(
+      '10000000000000000000'
+    );
 
     expect(fromPositiveNumber(18)(10000000).toString()).toEqual(
       '10000000000000000000000000'
