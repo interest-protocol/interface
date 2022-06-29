@@ -172,6 +172,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
               onSelectCurrency
             )}
           </Box>
+          <Box></Box>
         </Box>
       </Modal>
     </>

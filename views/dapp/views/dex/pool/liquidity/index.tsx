@@ -11,7 +11,7 @@ import {
 import { Box, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 
-import { LiquidityProps } from './pool.types';
+import { LiquidityProps } from '../pool.types';
 
 const Liquidity: FC<LiquidityProps> = ({ amount, symbols, amountUSD }) => {
   const [address1, address2] = [
