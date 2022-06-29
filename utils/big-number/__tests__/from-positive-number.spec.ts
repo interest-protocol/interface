@@ -22,15 +22,19 @@ describe(fromPositiveNumber.name, () => {
     );
   });
 
-  it('returns 0 if x is negative', () => {
+  it('returns 0 if value is negative', () => {
     expect(fromPositiveNumber(10, -Math.random())).toEqual(ZERO_BIG_NUMBER);
   });
 
-  it('returns 0 if y is negative', () => {
+  it('returns 0 if decimals is negative', () => {
     expect(fromPositiveNumber(100, -Math.random())).toEqual(ZERO_BIG_NUMBER);
   });
 
-  it('returns 0 if y is higher than 50', () => {
+  it('returns 0 if decimals is higher than 50', () => {
     expect(fromPositiveNumber(51, 100)).toEqual(ZERO_BIG_NUMBER);
+  });
+
+  it('returns 0 if the decimals is negative', () => {
+    expect(fromPositiveNumber(-Math.random(), 100)).toEqual(ZERO_BIG_NUMBER);
   });
 });
