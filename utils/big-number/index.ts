@@ -3,12 +3,19 @@ import { curry } from 'ramda';
 
 import { IntMath, MAX_NUMBER_INPUT_VALUE, ZERO_BIG_NUMBER } from '@/sdk';
 
-export const fromPositiveNumber = curry((x: number, y: number): BigNumber => {
-  if (0 > x || x >= MAX_NUMBER_INPUT_VALUE || 0 > y || y > 50)
-    return ZERO_BIG_NUMBER;
+export const fromPositiveNumber = curry(
+  (decimals: number, value: number): BigNumber => {
+    if (
+      0 > value ||
+      value >= MAX_NUMBER_INPUT_VALUE ||
+      0 > decimals ||
+      decimals > 50
+    )
+      return ZERO_BIG_NUMBER;
 
-  return BigNumber.from(y).mul(BigNumber.from(10).pow(x));
-});
+    return BigNumber.from(value).mul(BigNumber.from(10).pow(decimals));
+  }
+);
 
 export const to18Decimals = fromPositiveNumber(18);
 
