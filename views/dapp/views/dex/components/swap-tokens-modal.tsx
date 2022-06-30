@@ -33,7 +33,7 @@ const renderData = (
   return tokens
     ? tokens.map(({ address, symbol }) => {
         const SVG = TOKENS_SVG_MAP[symbol] ?? DefaultTokenSVG;
-
+        const handleSelectCurrency = () => onSelectCurrency(address);
         return (
           <Box
             m="XS"
@@ -49,7 +49,7 @@ const renderData = (
             bg="bottomBackground"
             borderColor="transparent"
             justifyContent="space-between"
-            onClick={() => onSelectCurrency(address)}
+            onClick={handleSelectCurrency}
             hover={{
               borderColor: 'accent',
             }}
@@ -79,7 +79,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   const toggleOpen = () => setIsOpen(!isOpen);
 
   const searchResult = useMemo(
-    // Change to blockchain search
+    // TODO: Change to blockchain search
     () => BLOCKCHAIN_DATA.filter(({ address }) => search === address),
     [search]
   );
