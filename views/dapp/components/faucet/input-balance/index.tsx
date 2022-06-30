@@ -1,7 +1,8 @@
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
+import { parseToSafeStringNumber } from '@/utils';
 
 import { InputBalanceProps } from './input-balance.types';
 
@@ -23,11 +24,18 @@ const InputBalance: FC<InputBalanceProps> = ({
       {label}:
     </Typography>
     <Input
-      min="0"
-      type="number"
-      step="0.0001"
+      type="string"
       placeholder={'0'}
-      {...register(name)}
+      {...register(name, {
+        onChange: (v: ChangeEvent<HTMLInputElement>) =>
+          setValue?.(
+            name,
+            parseToSafeStringNumber(
+              v.target.value,
+              CURRENCY_MAX[getValues().currency]
+            )
+          ),
+      })}
       max={CURRENCY_MAX[getValues().currency]}
       shieldProps={{
         p: 'S',
@@ -55,7 +63,7 @@ const InputBalance: FC<InputBalanceProps> = ({
             onClick={() => {
               if (!setValue) return;
               const currency = getValues('currency');
-              setValue(name, CURRENCY_MAX[currency]);
+              setValue(name, CURRENCY_MAX[currency].toString());
             }}
           >
             max
