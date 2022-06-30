@@ -42,6 +42,7 @@ const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
           display="flex"
           position="relative"
           flexDirection="column"
+          pb="calc(env(safe-area-inset-bottom) + 4rem)"
           justifyContent="stretch"
           background={[
             DAppTheme.colors.background,
