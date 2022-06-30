@@ -17,25 +17,6 @@ export interface LiquidityProps {
   symbols: [string, string];
 }
 
-export interface LiquidityDetailsCardLineProps {
-  value: string;
-  symbol: string;
-  perceptual: string;
-}
-
-export interface LiquidityDetailsCardPriceProps {
-  title: string;
-  price: string;
-  symbol1: string;
-  symbol2: string;
-}
-
-export interface LiquidityDetailsCardProps {
-  title: string;
-  totalDeposits: string;
-  lines: ReadonlyArray<LiquidityDetailsCardLineProps>;
-}
-
 export interface ILiquidityForm {
   pairItem1: ICurrencyField;
   pairItem2: ICurrencyField;
@@ -44,4 +25,11 @@ export interface ILiquidityForm {
 export interface LiquidityDepositAmountProps {
   control: Control<ILiquidityForm>;
   name: 'pairItem1' | 'pairItem2';
+}
+
+export interface AddLiquidityCurrencyChooserProps {
+  control: Control<ILiquidityForm>;
+  onSelectCurrency: (
+    name: 'pairItem1' | 'pairItem2'
+  ) => (address: string) => void;
 }

@@ -8,9 +8,13 @@ import { Box, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { formatDollars, formatMoney } from '@/utils';
 
-import { LiquidityDetailsCardProps } from '../dex/pool/pool.types';
-import { DEXPoolDetailsViewProps } from './dex-pool-details.types';
-import LiquidityDetailsCard from './liquidity-details-card';
+import GoBack from '../../components/go-back';
+import { ClaimForm, LiquidityForm } from './components';
+import LiquidityDetailsCard from './components/liquidity-details-card';
+import {
+  DEXPoolDetailsViewProps,
+  LiquidityDetailsCardProps,
+} from './dex-pool-details.types';
 
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
   tokens: [firstAddress, secondAddress],
@@ -67,6 +71,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
 
   return (
     <Container dapp mt="XXL" width="100%">
+      <GoBack routeBack />
       <Box display="flex" alignItems="center">
         <FirstIcon width="2rem" />
         <SecondIcon width="2rem" />
@@ -84,6 +89,22 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
         {CARDS.map((card) => (
           <LiquidityDetailsCard key={v4()} {...card} />
         ))}
+        <LiquidityForm
+          balances={[10000, 10]}
+          Icons={[
+            <FirstIcon width="1rem" key={v4()} />,
+            <SecondIcon width="1rem" key={v4()} />,
+          ]}
+          symbols={[firstToken, secondToken]}
+        />
+        <ClaimForm
+          balances={[10000, 10]}
+          Icons={[
+            <FirstIcon width="1rem" key={v4()} />,
+            <SecondIcon width="1rem" key={v4()} />,
+          ]}
+          symbols={[firstToken, secondToken]}
+        />
       </Box>
     </Container>
   );

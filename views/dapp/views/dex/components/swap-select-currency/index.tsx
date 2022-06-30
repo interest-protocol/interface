@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { SwapSelectCurrencyProps } from '../dex.types';
+import { SwapSelectCurrencyProps } from '../../dex.types';
 import SwapSearchToken from './swap-search-token';
 import SwapTokensModal from './swap-tokens-modal';
 

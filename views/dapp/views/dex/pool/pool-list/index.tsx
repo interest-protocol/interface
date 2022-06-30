@@ -7,7 +7,7 @@ import { Box, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { formatDollars, formatMoney } from '@/utils';
 
-import Liquidity from '../liquidity';
+import Liquidity from '../liquidity-item';
 import NonHasPool from '../non-has-pool';
 import { PoolListProps } from './pool-list.types';
 
@@ -16,7 +16,7 @@ const PoolList: FC<PoolListProps> = ({ isLocal, pools }) => {
 
   return pools.length ? (
     <Box py="L" mb="L" px="L" bg="foreground" borderRadius="M">
-      <Box display="grid" gridTemplateColumns="repeat(3, 1fr)">
+      <Box display="grid" gridTemplateColumns="repeat(3, 1fr)" mb="L">
         <Typography variant="normal" width="100%" my="L">
           {isLocal ? 'My' : 'Recommended'} Pools
         </Typography>

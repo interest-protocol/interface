@@ -13,7 +13,7 @@ import { TOKEN_SYMBOL } from '@/sdk';
 
 import { LiquidityProps } from '../pool.types';
 
-const Liquidity: FC<LiquidityProps> = ({ amount, symbols, amountUSD }) => {
+const Liquidity: FC<LiquidityProps> = ({ symbols }) => {
   const [address1, address2] = [
     compose(
       propOr('', 'address'),
@@ -57,21 +57,6 @@ const Liquidity: FC<LiquidityProps> = ({ amount, symbols, amountUSD }) => {
               </Typography>
             </Box>
           </Box>
-        </Box>
-        <Box>
-          <Typography variant="normal" fontSize="0.8rem" fontWeight="500">
-            <Typography
-              variant="normal"
-              as="span"
-              fontSize="0.8rem"
-              color="textSecondary"
-            >
-              Total Deposits:{' '}
-            </Typography>
-            {amount}
-            {' ⟷ '}
-            {amountUSD}
-          </Typography>
         </Box>
       </Box>
     </Link>

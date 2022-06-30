@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import { Box, Button, Typography } from '@/elements';
 
-import AddLiquidity from './liquidity-pool-modal';
+import AddLiquidity from './add-liquidity-modal';
 import PoolList from './pool-list';
 
 const PoolView: FC = () => {

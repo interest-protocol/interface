@@ -6,9 +6,9 @@ import { v4 } from 'uuid';
 import { MAIL_FAUCET_TOKENS, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Modal, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
-import { ArrowSVG } from '@/svg';
+import { ArrowSVG, TimesSVG } from '@/svg';
 
-import { IToken, SwapCurrencyDropdownProps } from '../dex.types';
+import { IToken, SwapCurrencyDropdownProps } from '../../../dex.types';
 
 const BLOCKCHAIN_DATA = [
   {
@@ -26,7 +26,8 @@ const BLOCKCHAIN_DATA = [
 
 const renderData = (
   tokens: ReadonlyArray<IToken>,
-  onSelectCurrency: (symbol: string) => void
+  onSelectCurrency: (symbol: string) => void,
+  isLocal: boolean
 ): ReadonlyArray<ReactNode> => {
   const DefaultTokenSVG = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
@@ -60,6 +61,11 @@ const renderData = (
                 {symbol}
               </Typography>
             </Box>
+            {isLocal && (
+              <Box color="error">
+                <TimesSVG width="1rem" />
+              </Box>
+            )}
           </Box>
         );
       })
@@ -131,26 +137,31 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
       >
         <Box bg="foreground" p="L" borderRadius="M" maxWidth="27rem">
           {Input}
-          <Typography
-            mt="L"
-            fontSize="S"
-            variant="normal"
-            color="textSecondary"
-            textTransform="uppercase"
-          >
-            Recommended Tokens
-          </Typography>
-          <Box
-            mt="M"
-            display="flex"
-            flexWrap="wrap"
-            justifyContent="flex-start"
-          >
-            {renderData(
-              searchResult?.length ? searchResult : tokens,
-              onSelectCurrency
-            )}
-          </Box>
+          {!searchResult.length && (
+            <>
+              <Typography
+                mt="L"
+                fontSize="S"
+                variant="normal"
+                color="textSecondary"
+                textTransform="uppercase"
+              >
+                Recommended Tokens
+              </Typography>
+              <Box
+                mt="M"
+                display="flex"
+                flexWrap="wrap"
+                justifyContent="flex-start"
+              >
+                {renderData(
+                  searchResult?.length ? searchResult : tokens,
+                  onSelectCurrency,
+                  false
+                )}
+              </Box>
+            </>
+          )}
           <Typography
             mt="L"
             fontSize="S"
@@ -169,7 +180,8 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
           >
             {renderData(
               searchResult?.length ? searchResult : tokens,
-              onSelectCurrency
+              onSelectCurrency,
+              true
             )}
           </Box>
           <Box></Box>

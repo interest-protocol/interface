@@ -4,7 +4,7 @@ import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 
-import { LiquidityDetailsCardLineProps } from '../dex/pool/pool.types';
+import { LiquidityDetailsCardLineProps } from '../../dex-pool-details.types';
 
 const LiquidityDetailsCardLine: FC<LiquidityDetailsCardLineProps> = ({
   value,

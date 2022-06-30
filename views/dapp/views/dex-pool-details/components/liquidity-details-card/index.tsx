@@ -3,8 +3,8 @@ import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
 
-import { LiquidityDetailsCardProps } from '../dex/pool/pool.types';
-import LiquidityDetailsCardLine from './liquidity-details-card-line';
+import { LiquidityDetailsCardProps } from '../../dex-pool-details.types';
+import LiquidityDetailsCardLine from '../liquidity-details-card-line';
 
 const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
   title,

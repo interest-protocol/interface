@@ -3,6 +3,7 @@ import { useWatch } from 'react-hook-form';
 
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
+import { WalletGuardButton } from '@/views/dapp/components';
 
 import { SwapFormProps } from '../../dex.types';
 import InputBalance from '../input-balance';
@@ -104,26 +105,28 @@ const SwapForm: FC<SwapFormProps> = ({
             />
           }
         />
-        <Button
-          mt="L"
-          width="100%"
-          onClick={onMint}
-          variant="primary"
-          disabled={loading}
-          hover={{ bg: 'accentAlternativeActive' }}
-          bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
-        >
-          {loading ? (
-            <Box as="span" display="flex" justifyContent="center">
-              <LoadingSVG width="1rem" height="1rem" />
-              <Typography as="span" variant="normal" ml="M" fontSize="S">
-                Swapping...
-              </Typography>
-            </Box>
-          ) : (
-            'Swap'
-          )}
-        </Button>
+        <WalletGuardButton>
+          <Button
+            mt="L"
+            width="100%"
+            onClick={onMint}
+            variant="primary"
+            disabled={loading}
+            hover={{ bg: 'accentAlternativeActive' }}
+            bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
+          >
+            {loading ? (
+              <Box as="span" display="flex" justifyContent="center">
+                <LoadingSVG width="1rem" height="1rem" />
+                <Typography as="span" variant="normal" ml="M" fontSize="S">
+                  Swapping...
+                </Typography>
+              </Box>
+            ) : (
+              'Swap'
+            )}
+          </Button>
+        </WalletGuardButton>
       </Box>
     </Box>
   );
