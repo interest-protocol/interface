@@ -16,7 +16,10 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
   <>
     <Head>
       <title>Interest Protocol</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1, viewport-fit=cover"
+      />
     </Head>
     <NextProgress options={{ showSpinner: false }} />
     <ReduxProvider store={store}>

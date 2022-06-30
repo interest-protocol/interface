@@ -115,33 +115,6 @@ const Header: FC = () => {
                     shallow: true,
                   }),
               },
-              {
-                disabled: true,
-                value: 'pair-market',
-                displayOption: (
-                  <Box
-                    px="L"
-                    width="100%"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="space-between"
-                  >
-                    <Typography variant="normal">Pair Market</Typography>
-                    <Typography
-                      py="S"
-                      px="M"
-                      fontSize="S"
-                      borderRadius="L"
-                      variant="normal"
-                      fontWeight="500"
-                      bg="accentAlternative"
-                      textTransform="uppercase"
-                    >
-                      Soon
-                    </Typography>
-                  </Box>
-                ),
-              },
             ]}
           />
         </Box>

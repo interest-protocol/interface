@@ -4,20 +4,40 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container, SocialMediaCard } from '@/components';
-import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
+import {
+  Routes,
+  RoutesEnum,
+  RoutesWithFaucet,
+  SOCIAL_MEDIAS,
+} from '@/constants';
 import { Box, Button, Dropdown, Typography } from '@/elements';
 import { GitBookSVG } from '@/svg';
+
+import Faucet from '../../faucet';
 
 const Footer: FC = () => {
   const { pathname, push } = useRouter();
 
+  const customAction = RoutesWithFaucet[pathname];
+
   return (
     <Box
+      zIndex={2}
+      as="footer"
       width="100%"
-      py={['L', 'L', 'XL']}
-      bg={['background', 'background', 'foreground']}
+      boxShadow="0 0 0.5rem #0003"
+      bottom={['0', '0', '0', 'unset']}
+      pt={['NONE', 'NONE', 'NONE', 'XL']}
+      pb={[
+        'env(safe-area-inset-bottom)',
+        'env(safe-area-inset-bottom)',
+        'env(safe-area-inset-bottom)',
+        'XL',
+      ]}
+      position={['fixed', 'fixed', 'fixed', 'static']}
+      bg={['foreground', 'foreground', 'foreground', 'foreground']}
     >
-      <Container dapp>
+      <Container dapp width="100%">
         <Box display={['none', 'none', 'flex']} justifyContent="center">
           {[
             ...SOCIAL_MEDIAS,
@@ -47,7 +67,7 @@ const Footer: FC = () => {
               bg={
                 pathname.includes(Routes[RoutesEnum.Earn])
                   ? 'accent'
-                  : 'foreground'
+                  : 'textSoft'
               }
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
@@ -63,11 +83,11 @@ const Footer: FC = () => {
                 <Typography
                   p="0"
                   mx="S"
+                  px="XL"
+                  bg="textSoft"
                   fontSize="M"
-                  width="8rem"
                   height="3rem"
                   display="flex"
-                  bg="foreground"
                   variant="normal"
                   borderRadius="M"
                   alignItems="center"
@@ -102,39 +122,14 @@ const Footer: FC = () => {
                       shallow: true,
                     }),
                 },
-                {
-                  disabled: true,
-                  value: 'pair-market',
-                  displayOption: (
-                    <Box
-                      px="L"
-                      width="100%"
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="space-between"
-                    >
-                      <Typography variant="normal">Pair Market</Typography>
-                      <Typography
-                        py="S"
-                        px="M"
-                        fontSize="S"
-                        borderRadius="L"
-                        variant="normal"
-                        fontWeight="500"
-                        bg="accentAlternative"
-                        textTransform="uppercase"
-                      >
-                        Soon
-                      </Typography>
-                    </Box>
-                  ),
-                },
               ]}
             />
           </Box>
+          {!!customAction && <Faucet customAction={customAction} />}
         </Box>
       </Container>
     </Box>
   );
 };
+
 export default Footer;

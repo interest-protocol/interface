@@ -1,10 +1,8 @@
-import { useRouter } from 'next/router';
 import { compose, prop, uniqBy } from 'ramda';
 import { FC, useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
-import { Routes, RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useGetManyMailSummaryData } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
@@ -13,7 +11,6 @@ import { LocalMAILMarketData } from '@/interface';
 import { flippedAppend } from '@/utils';
 import { processManyMailSummaryData } from '@/utils/mail-markets';
 
-import { Faucet } from '../../components';
 import Loading from '../../components/loading';
 import ErrorView from '../error';
 import { MAILMarketTable } from './components';
@@ -21,7 +18,6 @@ import MAILMarketSearchInput from './components/mail-market-search-bar';
 import { AddLocalAsset } from './mail-market.types';
 
 const MAILMarket: FC = () => {
-  const { push } = useRouter();
   const { register, control } = useForm({ defaultValues: { search: '' } });
   const { chainId } = useIdAccount();
 
@@ -93,13 +89,6 @@ const MAILMarket: FC = () => {
           />
         </Container>
       </Box>
-      <Faucet
-        customAction={() =>
-          push(Routes[RoutesEnum.Faucet], undefined, {
-            shallow: true,
-          })
-        }
-      />
     </>
   );
 };

@@ -6,7 +6,6 @@ import { useIdAccount } from '@/hooks/use-id-account';
 import { TimesSVG } from '@/svg';
 import { getSafeFarmSummaryData } from '@/utils';
 
-import { Faucet } from '../../components';
 import { EarnHeader, EarnTable } from './components';
 
 const Earn: FC = () => {
@@ -66,7 +65,6 @@ const Earn: FC = () => {
           />
         </Box>
       </Box>
-      <Faucet />
     </Box>
   );
 };

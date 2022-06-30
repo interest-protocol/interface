@@ -1,17 +1,12 @@
 import { BigNumber } from 'ethers';
-import { curry } from 'ramda';
 
 import { IntMath, MAX_NUMBER_INPUT_VALUE } from '@/sdk';
 
-export const fromPositiveNumber = curry(
-  (x: number, y: number): BigNumber =>
-    BigNumber.from(y).mul(BigNumber.from(10).pow(x))
-);
+export const addPositiveNumberStrings = (x: string, y: string): string => {
+  if (isNaN(+x) || isNaN(+y) || 0 > +x || 0 > +y) return '0';
 
-export const to18Decimals = fromPositiveNumber(18);
-
-export const addPositiveNumberStrings = (x: string, y: string): string =>
-  BigNumber.from(x).add(BigNumber.from(y)).toString();
+  return BigNumber.from(x).add(BigNumber.from(y)).toString();
+};
 
 export const safeToBigNumber = (
   x: number | string,
