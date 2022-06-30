@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Box, Button, Typography } from '@/elements';
+import { WalletGuardButton } from '@/views/dapp/components';
 
 import InputBalance from './input-balance';
 import { ILiquidityForm, LiquidityFormProps } from './liquidity-form.types';
@@ -72,14 +73,21 @@ const LiquidityForm: FC<LiquidityFormProps> = ({
           </Box>
         }
       />
-      <Box display="grid" gridColumnGap="1rem" gridTemplateColumns="1fr 1fr">
-        <Button variant="primary" bg="error" width="100%">
-          Remove
-        </Button>
-        <Button variant="primary" width="100%">
-          Add
-        </Button>
-      </Box>
+      <WalletGuardButton>
+        <Box display="grid" gridColumnGap="1rem" gridTemplateColumns="1fr 1fr">
+          <Button
+            bg="error"
+            width="100%"
+            variant="primary"
+            hover={{ bg: 'errorActive' }}
+          >
+            Remove
+          </Button>
+          <Button width="100%" variant="primary" hover={{ bg: 'accentActive' }}>
+            Add
+          </Button>
+        </Box>
+      </WalletGuardButton>
     </Box>
   );
 };

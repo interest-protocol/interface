@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Box, Button, Typography } from '@/elements';
+import { WalletGuardButton } from '@/views/dapp/components';
 
 import { ClaimFormProps, IClaimForm } from './claim-form.types';
 import InputBalance from './input-balance';
@@ -68,9 +69,11 @@ const ClaimForm: FC<ClaimFormProps> = ({ Icons, symbols, balances }) => {
           </Box>
         }
       />
-      <Button variant="primary" width="100%">
-        Add
-      </Button>
+      <WalletGuardButton>
+        <Button variant="primary" width="100%" hover={{ bg: 'accentActive' }}>
+          Claim
+        </Button>
+      </WalletGuardButton>
     </Box>
   );
 };
