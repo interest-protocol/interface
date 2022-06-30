@@ -100,11 +100,14 @@ export const makeSWRKey = (
     .concat([methodName])
     .join('|');
 
-export const parseToSafeStringNumber = (x: string): string =>
+export const parseToSafeStringNumber = (
+  x: string,
+  max: number = MAX_NUMBER_INPUT_VALUE
+): string =>
   isNaN(+x)
     ? ''
-    : +x >= MAX_NUMBER_INPUT_VALUE
-    ? MAX_NUMBER_INPUT_VALUE.toString()
+    : +x >= max
+    ? max.toString()
     : x.charAt(0) == '0' && !x.startsWith('0.')
     ? String(Number(x))
     : x;

@@ -1,7 +1,5 @@
-import { prop } from 'ramda';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 } from 'uuid';
 
@@ -22,9 +20,8 @@ import {
   getBTCAddress,
   getDNRAddress,
   getERC20CurrencyAmount,
+  safeToBigNumber,
   showTXSuccessToast,
-  to18Decimals,
-  tryCatch,
 } from '@/utils';
 
 import ConnectWallet from '../wallet/connect-wallet';
@@ -51,13 +48,13 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
   const { register, getValues, setValue } = useForm<IFaucetForm>({
     defaultValues: {
       currency: TOKEN_SYMBOL.BTC,
-      value: 0,
+      value: '0',
     },
   });
 
   const onSelectCurrency = (currency: TOKEN_SYMBOL) => {
     setValue('currency', currency);
-    setValue('value', 0);
+    setValue('value', '0');
   };
 
   const btcEntity = useSelector(
@@ -90,39 +87,29 @@ const FaucetModal: FC<FaucetModalProps> = ({ isOpen, handleClose }) => {
 
     const { currency, value } = getValues();
 
-    if (!currency || !value || !chainId) return;
+    if (!currency.length || !Number(value) || !chainId) return;
 
     setLoading(true);
 
-    const parsedValue = to18Decimals(value);
+    const parsedValue = safeToBigNumber(value);
 
-    const promise = tryCatch(
-      MINT_MAP[currency](signer, parsedValue).then((x) =>
-        showTXSuccessToast(x, chainId)
-      ),
-      (e) => {
-        throw e ?? new Error('Something went wrong');
-      },
-      () => {
-        setLoading(false);
-        dispatch(coreActions.updateNativeBalance());
-      }
-    );
+    try {
+      const tx = await MINT_MAP[currency](signer, parsedValue);
 
-    await toast
-      .promise(promise, {
-        loading: 'Loading...',
-        success: 'Success!',
-        error: prop('message'),
-      })
-      .catch(console.log);
+      await showTXSuccessToast(tx, chainId);
 
-    dispatch(
-      userBalanceEntityActions.addUserBalance({
-        id: getTestNetAddressWithSymbol(currency),
-        balance: parsedValue.toString(),
-      })
-    );
+      dispatch(
+        userBalanceEntityActions.addUserBalance({
+          id: getTestNetAddressWithSymbol(currency),
+          balance: parsedValue.toString(),
+        })
+      );
+    } catch (e) {
+      throw e ?? new Error('Something went wrong');
+    } finally {
+      setLoading(false);
+      dispatch(coreActions.updateNativeBalance());
+    }
   }, [signer, getValues().value, getValues().currency]);
 
   return (
