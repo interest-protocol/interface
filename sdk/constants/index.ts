@@ -124,6 +124,17 @@ export const DINERO_MARKET_CONTRACT_MAP = {
   },
 } as { [key: number]: Record<TOKEN_SYMBOL, string> };
 
+export const MAIL_MARKET_CONTRACT_MAP = {
+  [CHAIN_ID.RINKEBY]: {
+    [TOKEN_SYMBOL.UNI]: ethers.utils.getAddress(
+      '0xB2b946223Fbf94FA82D93857Cb195c4Ffeb60360'
+    ),
+    [TOKEN_SYMBOL.APE]: ethers.utils.getAddress(
+      '0xdda4B7c7218eC16905cA98c07de9Cc08f4bA6a55'
+    ),
+  },
+} as { [key: number]: Record<TOKEN_SYMBOL, string> };
+
 export const CONTRACTS = {
   DINERO_FAUCET: {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,

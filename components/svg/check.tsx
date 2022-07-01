@@ -7,7 +7,7 @@ const Check: FC<SVGAttributes<SVGSVGElement>> = (props) => (
       y1="4.60735"
       x2="7.77817"
       y2="11.6784"
-      stroke="#0055FF"
+      stroke={props.stroke || '#0055FF'}
       strokeWidth="2"
     />
     <line
@@ -15,7 +15,7 @@ const Check: FC<SVGAttributes<SVGSVGElement>> = (props) => (
       y1="12.6073"
       x2="18.6066"
       y2="1.29364"
-      stroke="#0055FF"
+      stroke={props.stroke || '#0055FF'}
       strokeWidth="2"
     />
   </svg>

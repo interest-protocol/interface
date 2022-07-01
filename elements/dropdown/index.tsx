@@ -17,6 +17,7 @@ const Dropdown: FC<DropdownProps> = ({
   footer,
   relative,
   minWidth,
+  fromRight,
   buttonMode,
   customTitle,
   customItems,
@@ -98,6 +99,7 @@ const Dropdown: FC<DropdownProps> = ({
         bottom={bottom}
         footer={footer}
         minWidth={minWidth}
+        fromRight={fromRight}
         setIsOpen={setIsOpen}
         customItems={customItems}
         emptyMessage={emptyMessage}

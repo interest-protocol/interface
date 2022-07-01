@@ -5,6 +5,7 @@ export interface ISwitchOption {
 }
 
 export interface SwitchProps {
+  thin?: boolean;
   defaultValue: string;
-  options: [ISwitchOption, ISwitchOption];
+  options: ReadonlyArray<ISwitchOption>;
 }
