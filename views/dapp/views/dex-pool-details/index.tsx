@@ -75,7 +75,6 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
             <FirstIcon width="1rem" key={v4()} />,
             <SecondIcon width="1rem" key={v4()} />,
           ]}
-          symbols={[firstToken, secondToken]}
         />
       </Box>
     </Container>
