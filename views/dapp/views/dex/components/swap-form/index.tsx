@@ -36,7 +36,7 @@ const SwapForm: FC<SwapFormProps> = ({
   };
 
   useEffect(() => {
-    setValue('target.value', originValue * (Math.random() * 2));
+    setValue('target.value', String(+originValue * (Math.random() * 2)));
   }, [originValue]);
 
   const onMint = useCallback(async () => {
