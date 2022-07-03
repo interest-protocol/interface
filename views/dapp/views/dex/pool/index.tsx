@@ -6,7 +6,7 @@ import { Box, Button, Typography } from '@/elements';
 import AddLiquidity from './add-liquidity-modal';
 import PoolList from './pool-list';
 
-const PoolView: FC = () => {
+const Pool: FC = () => {
   const {
     pathname,
     query: { modal },
@@ -57,4 +57,4 @@ const PoolView: FC = () => {
   );
 };
 
-export default PoolView;
+export default Pool;

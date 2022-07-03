@@ -5,8 +5,10 @@ import { ILiquidityForm } from '../liquidity-form.types';
 
 export interface InputBalanceProps {
   max: number;
+  ratio: number;
   currencyPrefix: ReactNode;
   name: keyof ILiquidityForm;
+  changeTarget: keyof ILiquidityForm;
   register: UseFormRegister<ILiquidityForm>;
-  setValue?: UseFormSetValue<ILiquidityForm>;
+  setValue: UseFormSetValue<ILiquidityForm>;
 }

@@ -1,17 +1,19 @@
 import { find, propEq } from 'ramda';
-import { FC, useMemo } from 'react';
+import { ChangeEvent, FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { MAIL_FAUCET_TOKENS, TOKENS_SVG_MAP } from '@/constants';
-import { Box, Input, Typography } from '@/elements';
+import { Box, Button, Input, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
-import { formatMoney } from '@/utils';
+import { formatMoney, parseToSafeStringNumber } from '@/utils';
 
 import { LiquidityDepositAmountProps } from '../../pool/pool.types';
 
 const LiquidityDepositAmount: FC<LiquidityDepositAmountProps> = ({
-  control,
   name,
+  control,
+  register,
+  setValue,
 }) => {
   const address = useWatch({ control, name: `${name}.address` });
 
@@ -28,12 +30,12 @@ const LiquidityDepositAmount: FC<LiquidityDepositAmountProps> = ({
 
   return (
     <Box
-      pb="XL"
-      pt="M"
+      py="M"
       my="M"
       bg="background"
       borderRadius="1.1rem"
       border="0.02rem solid"
+      opacity={address ? 1 : 0.7}
       borderColor="bottomBackground"
       hover={{
         borderColor: 'textSoft',
@@ -41,10 +43,17 @@ const LiquidityDepositAmount: FC<LiquidityDepositAmountProps> = ({
     >
       <Input
         min="0"
-        type="number"
-        step="0.0001"
-        placeholder={'0.0'}
+        type="string"
         fontSize="XL"
+        placeholder={'0.0'}
+        disabled={address ? false : true}
+        {...register(`${name}.value`, {
+          onChange: (v: ChangeEvent<HTMLInputElement>) =>
+            setValue?.(
+              `${name}.value`,
+              parseToSafeStringNumber(v.target.value, balance)
+            ),
+        })}
         shieldProps={{
           my: 'M',
           height: '3rem',
@@ -53,40 +62,56 @@ const LiquidityDepositAmount: FC<LiquidityDepositAmountProps> = ({
         }}
         Suffix={
           <Box
+            mr="L"
             px="L"
+            height="100%"
             display="flex"
+            cursor="pointer"
             borderRadius="2rem"
             alignItems="center"
-            justifyContent="space-between"
-            height="100%"
             bg="bottomBackground"
-            mr="L"
-            cursor="pointer"
+            justifyContent="space-between"
           >
             <Box my="M" display="flex" alignItems="center">
               <Icon width="1rem" />
-              <Typography
-                mx="M"
-                as="span"
-                variant="normal"
-                hover={{ color: 'accent' }}
-                active={{ color: 'accentActive' }}
-              >
-                {token?.symbol || ''}
-              </Typography>
+              {token?.symbol && (
+                <Typography
+                  mx="M"
+                  as="span"
+                  variant="normal"
+                  hover={{ color: 'accent' }}
+                  active={{ color: 'accentActive' }}
+                >
+                  {token?.symbol || ''}
+                </Typography>
+              )}
             </Box>
           </Box>
         }
       />
-      <Typography
-        variant="normal"
-        textAlign="end"
-        mr="L"
-        color="textSecondary"
-        fontSize="0.9rem"
+      <Box
+        mx="L"
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
       >
-        Balance: {formatMoney(balance)}
-      </Typography>
+        <Button
+          height="2.4rem"
+          variant="secondary"
+          disabled={address ? false : true}
+          onClick={() => setValue(`${name}.value`, String(balance))}
+        >
+          max
+        </Button>
+        <Typography
+          variant="normal"
+          textAlign="end"
+          color="textSecondary"
+          fontSize="0.9rem"
+        >
+          Balance: {formatMoney(balance)}
+        </Typography>
+      </Box>
     </Box>
   );
 };

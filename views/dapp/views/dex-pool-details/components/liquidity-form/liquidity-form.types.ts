@@ -6,7 +6,6 @@ export interface ILiquidityForm {
 }
 
 export interface LiquidityFormProps {
-  symbols: [string, string];
   balances: [number, number];
   Icons: [ReactNode, ReactNode];
 }

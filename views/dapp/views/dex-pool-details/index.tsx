@@ -9,7 +9,7 @@ import { TOKEN_SYMBOL } from '@/sdk';
 import { formatDollars, formatMoney } from '@/utils';
 
 import GoBack from '../../components/go-back';
-import { ClaimForm, LiquidityForm } from './components';
+import { LiquidityForm } from './components';
 import LiquidityDetailsCard from './components/liquidity-details-card';
 import {
   DEXPoolDetailsViewProps,
@@ -30,40 +30,22 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
     )(MAIL_FAUCET_TOKENS[4]),
   ] as [string, string];
 
-  const CARDS: ReadonlyArray<LiquidityDetailsCardProps> = [
-    {
-      title: 'Liquidity',
-      totalDeposits: formatDollars(Math.random() * 7643432),
-      lines: [
-        {
-          perceptual: '0',
-          symbol: firstToken,
-          value: formatMoney(Math.random() * 65823.0),
-        },
-        {
-          perceptual: '100',
-          symbol: secondToken,
-          value: formatMoney(Math.random() * 65823.0),
-        },
-      ],
-    },
-    {
-      title: 'Unclaimed fees',
-      totalDeposits: formatDollars(Math.random() * 76432732),
-      lines: [
-        {
-          perceptual: '0',
-          symbol: firstToken,
-          value: formatMoney(Math.random() * 65823.0),
-        },
-        {
-          perceptual: '100',
-          symbol: secondToken,
-          value: formatMoney(Math.random() * 65823.0),
-        },
-      ],
-    },
-  ];
+  const CARD: LiquidityDetailsCardProps = {
+    title: 'Liquidity',
+    totalDeposits: formatDollars(Math.random() * 7643432),
+    lines: [
+      {
+        perceptual: '0',
+        symbol: firstToken,
+        value: formatMoney(Math.random() * 65823.0),
+      },
+      {
+        perceptual: '100',
+        symbol: secondToken,
+        value: formatMoney(Math.random() * 65823.0),
+      },
+    ],
+  };
 
   const DefaultIcon = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
   const FirstIcon = TOKENS_SVG_MAP[firstToken] ?? DefaultIcon;
@@ -86,18 +68,8 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
         gridGap="1rem"
         gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
       >
-        {CARDS.map((card) => (
-          <LiquidityDetailsCard key={v4()} {...card} />
-        ))}
+        <LiquidityDetailsCard {...CARD} />
         <LiquidityForm
-          balances={[10000, 10]}
-          Icons={[
-            <FirstIcon width="1rem" key={v4()} />,
-            <SecondIcon width="1rem" key={v4()} />,
-          ]}
-          symbols={[firstToken, secondToken]}
-        />
-        <ClaimForm
           balances={[10000, 10]}
           Icons={[
             <FirstIcon width="1rem" key={v4()} />,

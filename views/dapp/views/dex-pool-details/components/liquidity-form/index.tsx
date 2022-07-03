@@ -7,14 +7,12 @@ import { WalletGuardButton } from '@/views/dapp/components';
 import InputBalance from './input-balance';
 import { ILiquidityForm, LiquidityFormProps } from './liquidity-form.types';
 
-const LiquidityForm: FC<LiquidityFormProps> = ({
-  Icons,
-  symbols,
-  balances,
-}) => {
+const LiquidityForm: FC<LiquidityFormProps> = ({ Icons, balances }) => {
   const { register, setValue } = useForm<ILiquidityForm>({
     defaultValues: { pairMember1Amount: '0', pairMember2Amount: '0' },
   });
+
+  const ratio = Math.random();
 
   return (
     <Box bg="foreground" p="L" borderRadius="M" width="100%">
@@ -29,15 +27,27 @@ const LiquidityForm: FC<LiquidityFormProps> = ({
         </Typography>
       </Box>
       <InputBalance
+        ratio={ratio}
         max={balances[0]}
         register={register}
         setValue={setValue}
         name="pairMember1Amount"
+        changeTarget="pairMember2Amount"
         currencyPrefix={
           <Box display="flex">
-            {Icons[0]}
+            <Typography
+              bg="accentAlternative"
+              width="1rem"
+              height="1rem"
+              fontSize="S"
+              variant="normal"
+              textAlign="center"
+              borderRadius="50%"
+            >
+              $
+            </Typography>
             <Typography variant="normal" ml="M">
-              {symbols[0]}
+              USD
             </Typography>
           </Box>
         }
@@ -60,15 +70,18 @@ const LiquidityForm: FC<LiquidityFormProps> = ({
         +
       </Box>
       <InputBalance
+        ratio={1 / ratio}
         max={balances[1]}
         register={register}
         setValue={setValue}
         name="pairMember2Amount"
+        changeTarget="pairMember1Amount"
         currencyPrefix={
           <Box display="flex">
+            {Icons[0]}
             {Icons[1]}
             <Typography variant="normal" ml="M">
-              {symbols[1]}
+              LP
             </Typography>
           </Box>
         }

@@ -11,20 +11,26 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
   lines,
   totalDeposits,
 }) => (
-  <Box bg="foreground" p="L" borderRadius="M" width="100%">
-    <Box mb="L">
-      <Typography
-        width="100%"
-        fontSize="S"
-        variant="normal"
-        textTransform="uppercase"
-      >
-        {title}
-      </Typography>
-      <Typography mt="M" variant="normal" fontWeight="500" fontSize="XL">
-        {totalDeposits}
-      </Typography>
-    </Box>
+  <Box
+    p="L"
+    width="100%"
+    display="flex"
+    bg="foreground"
+    borderRadius="M"
+    flexDirection="column"
+    justifyContent="space-between"
+  >
+    <Typography
+      width="100%"
+      fontSize="S"
+      variant="normal"
+      textTransform="uppercase"
+    >
+      {title}
+    </Typography>
+    <Typography mt="M" variant="normal" fontWeight="500" fontSize="XL">
+      {totalDeposits}
+    </Typography>
     <Box
       py="M"
       px="L"
