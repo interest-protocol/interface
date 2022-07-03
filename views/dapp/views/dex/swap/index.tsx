@@ -14,11 +14,11 @@ const Swap: FC = () => {
     defaultValues: {
       origin: {
         address: MAIL_FAUCET_TOKENS[4][0].address,
-        value: 0,
+        value: '0',
       },
       target: {
         address: MAIL_FAUCET_TOKENS[4][1].address,
-        value: 0,
+        value: '0',
       },
       slippage: 0.1,
       deadline: 30,
