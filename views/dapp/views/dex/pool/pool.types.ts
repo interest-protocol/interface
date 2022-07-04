@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Control } from 'react-hook-form';
+import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
 import { ICurrencyField } from '../dex.types';
 
@@ -23,8 +23,10 @@ export interface ILiquidityForm {
 }
 
 export interface LiquidityDepositAmountProps {
-  control: Control<ILiquidityForm>;
   name: 'pairItem1' | 'pairItem2';
+  control: Control<ILiquidityForm>;
+  register: UseFormRegister<ILiquidityForm>;
+  setValue: UseFormSetValue<ILiquidityForm>;
 }
 
 export interface AddLiquidityCurrencyChooserProps {

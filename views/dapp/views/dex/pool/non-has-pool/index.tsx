@@ -10,10 +10,10 @@ const NonHasPool: FC = () => (
     </Box>
     <Typography
       as="p"
-      variant="normal"
-      color="textSecondary"
-      textAlign="center"
       mt="M"
+      variant="normal"
+      textAlign="center"
+      color="textSecondary"
     >
       Your liquidity pools will appear here.
     </Typography>

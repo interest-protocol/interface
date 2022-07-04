@@ -22,7 +22,7 @@ export interface SwapModalProps {
 }
 
 export interface ICurrencyField {
-  value: number;
+  value: string;
   address: string;
 }
 

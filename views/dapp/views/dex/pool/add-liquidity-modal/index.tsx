@@ -2,7 +2,6 @@ import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import { MAIL_FAUCET_TOKENS } from '@/constants/erc-20';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { ModalProps } from '@/interface';
 import { WalletGuardButton } from '@/views/dapp/components';
@@ -12,15 +11,15 @@ import { ILiquidityForm } from '../pool.types';
 import AddLiquidityCurrencyChooser from './add-liquidity-currency-chooser';
 
 const AddLiquidity: FC<ModalProps> = ({ isOpen, handleClose }) => {
-  const { setValue, control } = useForm<ILiquidityForm>({
+  const { setValue, control, register } = useForm<ILiquidityForm>({
     defaultValues: {
       pairItem1: {
-        address: MAIL_FAUCET_TOKENS[4][0].address,
-        value: 0,
+        address: '',
+        value: '0.0',
       },
       pairItem2: {
-        address: MAIL_FAUCET_TOKENS[4][1].address,
-        value: 0,
+        address: '',
+        value: '0.0',
       },
     },
   });
@@ -72,6 +71,8 @@ const AddLiquidity: FC<ModalProps> = ({ isOpen, handleClose }) => {
             <LiquidityDepositAmount
               key={v4()}
               control={control}
+              setValue={setValue}
+              register={register}
               name={`pairItem${index ? '2' : '1'}`}
             />
           ))}

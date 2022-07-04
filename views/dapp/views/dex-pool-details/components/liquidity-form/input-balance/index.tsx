@@ -8,8 +8,10 @@ import { InputBalanceProps } from './input-balance.types';
 const InputBalance: FC<InputBalanceProps> = ({
   max,
   name,
+  ratio,
   register,
   setValue,
+  changeTarget,
   currencyPrefix,
 }) => (
   <Box mb="L">
@@ -17,8 +19,13 @@ const InputBalance: FC<InputBalanceProps> = ({
       type="string"
       placeholder={'0'}
       {...register(name, {
-        onChange: (v: ChangeEvent<HTMLInputElement>) =>
-          setValue?.(name, parseToSafeStringNumber(v.target.value, max)),
+        onChange: (v: ChangeEvent<HTMLInputElement>) => {
+          setValue(name, parseToSafeStringNumber(v.target.value, max));
+          setValue(
+            changeTarget,
+            String(Number(parseToSafeStringNumber(v.target.value, max)) * ratio)
+          );
+        },
       })}
       max={max}
       shieldProps={{

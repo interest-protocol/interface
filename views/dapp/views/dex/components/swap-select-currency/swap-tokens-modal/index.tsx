@@ -104,25 +104,33 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
         mx="M"
         px="M"
         py="S"
-        width="7.6rem"
         display="flex"
         borderRadius="M"
+        cursor="pointer"
         alignItems="center"
+        onClick={toggleOpen}
         bg="bottomBackground"
         justifyContent="space-between"
-        onClick={toggleOpen}
       >
         <Box my="M" display="flex" alignItems="center">
-          <SVG width="1rem" height="1rem" />
-          <Typography
-            mx="M"
-            as="span"
-            variant="normal"
-            hover={{ color: 'accent' }}
-            active={{ color: 'accentActive' }}
-          >
-            {symbol}
-          </Typography>
+          {symbol ? (
+            <>
+              <SVG width="1rem" height="1rem" />
+              <Typography
+                mx="M"
+                as="span"
+                variant="normal"
+                hover={{ color: 'accent' }}
+                active={{ color: 'accentActive' }}
+              >
+                {symbol}
+              </Typography>
+            </>
+          ) : (
+            <Typography mx="M" as="span" variant="normal">
+              Choose Token
+            </Typography>
+          )}
         </Box>
         <ArrowSVG width="0.5rem" />
       </Box>
