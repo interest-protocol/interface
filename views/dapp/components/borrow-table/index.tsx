@@ -139,6 +139,7 @@ const BorrowTable: FC = () => {
                     href={`${Routes[RoutesEnum.DineroMarketBorrow]}?currency=${
                       erc20.symbol
                     }`}
+                    legacyBehavior
                   >
                     <Button variant="primary" hover={{ bg: 'accentActive' }}>
                       Enter
@@ -246,6 +247,7 @@ const BorrowTable: FC = () => {
                       href={`${Routes[RoutesEnum.DineroMarketBorrow]}currency=${
                         erc20.symbol
                       }`}
+                      legacyBehavior
                     >
                       <Button
                         key={v4()}

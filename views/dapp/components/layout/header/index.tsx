@@ -24,7 +24,7 @@ const Header: FC = () => {
       gridTemplateColumns="repeat(3, 1fr)"
     >
       <Box display="flex" alignItems="center">
-        <Link href={Routes[RoutesEnum.Home]}>
+        <Link href={Routes[RoutesEnum.Home]} legacyBehavior>
           <Box
             mr="XL"
             color="text"
@@ -64,7 +64,7 @@ const Header: FC = () => {
         justifyContent="center"
         display={['none', 'none', 'flex']}
       >
-        <Link href={Routes[RoutesEnum.DEX]}>
+        <Link href={Routes[RoutesEnum.DEX]} legacyBehavior>
           <Typography
             px="XL"
             cursor="pointer"
@@ -79,7 +79,7 @@ const Header: FC = () => {
             DEX
           </Typography>
         </Link>
-        <Link href={Routes[RoutesEnum.Earn]}>
+        <Link href={Routes[RoutesEnum.Earn]} legacyBehavior>
           <Typography
             px="XL"
             cursor="pointer"

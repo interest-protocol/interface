@@ -26,7 +26,7 @@ const Header: FC<HeaderProps> = ({ empty }) => (
       justifyContent="space-between"
       flexDirection={['column', 'row']}
     >
-      <Link href={Routes[RoutesEnum.Home]} shallow>
+      <Link href={Routes[RoutesEnum.Home]} shallow legacyBehavior>
         <Box
           cursor="pointer"
           display="flex"
@@ -52,7 +52,7 @@ const Header: FC<HeaderProps> = ({ empty }) => (
             ))}
           </Box>
           <Box textAlign="center" cursor="pointer" my={['L', 'NONE']}>
-            <Link href={Routes[RoutesEnum.DApp]}>
+            <Link href={Routes[RoutesEnum.DApp]} legacyBehavior>
               <Button
                 ml={['NONE', 'XL']}
                 variant="primary"
