@@ -2,72 +2,38 @@ import Link from 'next/link';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
-import { Container, SocialMediaCard } from '@/components';
+import { Container } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
-import { Box, Typography } from '@/elements';
+import { Box } from '@/elements';
 import { LogoSVG } from '@/svg';
 
+import SocialMediaCard from '../../components/social-media-card';
+
 const Footer: FC = () => (
-  <Box
-    as="footer"
-    color="textSoft"
-    bg="accentSecondary"
-    borderTop="0.625rem solid"
-    borderColor="accent"
-  >
-    <Container>
+  <Box as="footer" bg="text" py={['L', 'M']}>
+    <Container
+      display="flex"
+      alignItems="center"
+      flexDirection={['column', 'row']}
+      justifyContent={['center', 'space-between']}
+    >
+      <Link href={Routes[RoutesEnum.Home]}>
+        <LogoSVG width="2.5rem" fill="white" />
+      </Link>
       <Box
+        as="nav"
         display="flex"
-        py={['NONE', 'XXXL']}
-        justifyContent="space-between"
-        flexDirection={['column', 'row']}
+        width={['100%', 'auto']}
+        mb={['L', 'NONE']}
+        mt={['XL', 'NONE']}
+        alignItems="center"
+        color="textInverted"
+        justifyContent="space-around"
       >
-        <Link href={Routes[RoutesEnum.Home]}>
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            mt={['L', 'NONE']}
-            py={['L', 'NONE']}
-          >
-            <Box as="span" display={['none', 'inline']}>
-              <LogoSVG width="4rem" />
-            </Box>
-            <Box as="span" display={['inline', 'none']}>
-              <LogoSVG width="2rem" />
-            </Box>
-            <Typography
-              ml="L"
-              variant="title4"
-              whiteSpace="nowrap"
-              fontSize={['S', 'L']}
-            >
-              Interest Protocol
-            </Typography>
-          </Box>
-        </Link>
-        <Box
-          as="nav"
-          display="flex"
-          py={['L', 'NONE']}
-          alignItems="center"
-          justifyContent="center"
-        >
-          {SOCIAL_MEDIAS.map((socialMediaData) => (
-            <SocialMediaCard {...socialMediaData} key={v4()} />
-          ))}
-        </Box>
+        {SOCIAL_MEDIAS.map((socialMediaData) => (
+          <SocialMediaCard {...socialMediaData} key={v4()} />
+        ))}
       </Box>
-      <Typography
-        my="M"
-        fontSize="S"
-        variant="normal"
-        textAlign="center"
-        py={['L', 'NONE']}
-      >
-        © {new Date().getFullYear()}. Interest Protocol from DEFI, lda. All
-        rights reserved.
-      </Typography>
     </Container>
   </Box>
 );

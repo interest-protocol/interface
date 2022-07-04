@@ -6,39 +6,66 @@ import { Box, Button, Typography } from '@/elements';
 const Hero: FC = () => (
   <Box
     as="section"
-    backgroundImage="linear-gradient(226.51deg, #D5E0FF 34.24%, #D5E0FF 34.24%, #E7EDFF 45.58%, #EBF0FF 76.14%);"
+    backgroundImage={[
+      'linear-gradient(105.71deg, #EEEEEE -1.51%, #E8E8E8 20.1%, #DBDBDA 72.59%);',
+      'none',
+    ]}
   >
     <Container
+      px="S"
       py="XXL"
+      pt="XXXL"
+      pb="20rem"
       height="100%"
       display="flex"
       minHeight="100vh"
       alignItems="center"
-      pt={['XXL', 'XXXL']}
+      justifyContent="center"
+      flexDirection={['column', 'row']}
     >
       <Box mx="XL">
-        <Typography variant="title1" width={['100%', '100%', '37rem']}>
-          Money Markets for all <br />
-          9000+ tokens on CMC
+        <Typography variant="title1" as="h2">
+          <Typography
+            as="span"
+            display="block"
+            variant="title1"
+            whiteSpace="nowrap"
+          >
+            Lend, Borrow,
+          </Typography>
+          <Typography
+            as="span"
+            variant="title1"
+            display={['block', 'inline-block']}
+          >
+            Swap And
+          </Typography>{' '}
+          <Typography
+            as="span"
+            variant="title1"
+            whiteSpace={['normal', 'nowrap']}
+            display={['block', 'inline-block']}
+          >
+            Earn
+          </Typography>
         </Typography>
         <Typography
           mt="L"
           pb="L"
           mb="XL"
-          variant="normal"
-          width={['100%', '100%', '22rem']}
           fontSize="L"
+          variant="normal"
           lineHeight="30px"
         >
-          Borrow, lend and earn with low systemic risk.
+          Permissionless lending and trading protocol
         </Typography>
         <a href="https://docs.interestprotocol.com/" target="__blank">
-          <Button type="button" variant="secondary" effect="hover">
-            Docs
+          <Button type="button" variant="primary" effect="hover">
+            Learn More
           </Button>
         </a>
       </Box>
-      <Box width="100%" display={['none', 'none', 'block']}>
+      <Box width={['100%', '50%']}>
         <img
           loading="lazy"
           src="/hero-illustration.svg"

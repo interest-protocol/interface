@@ -32,10 +32,6 @@ const GlobalStyles = css`
     text-decoration: underline;
   }
 
-  br {
-    display: none;
-  }
-
   .breakMobile {
     display: block;
   }
