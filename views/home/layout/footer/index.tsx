@@ -22,7 +22,7 @@ const Footer: FC = () => (
         justifyContent="space-between"
         flexDirection={['column', 'row']}
       >
-        <Link href={Routes[RoutesEnum.Home]} legacyBehavior>
+        <Link href={Routes[RoutesEnum.Home]}>
           <Box
             display="flex"
             justifyContent="center"

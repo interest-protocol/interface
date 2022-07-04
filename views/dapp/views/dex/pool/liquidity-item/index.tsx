@@ -35,7 +35,6 @@ const Liquidity: FC<LiquidityProps> = ({ symbols }) => {
       shallow
       href={Routes[RoutesEnum.DEXPoolDetails]}
       as={`${Routes[RoutesEnum.DEXPool]}/${address1}-${address2}/`}
-      legacyBehavior
     >
       <Box
         py="M"

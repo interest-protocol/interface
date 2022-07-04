@@ -55,8 +55,9 @@ const Footer: FC = () => {
           justifyContent="center"
           display={['flex', 'flex', 'none']}
         >
-          <Link href={Routes[RoutesEnum.Earn]} legacyBehavior>
+          <Link href={Routes[RoutesEnum.Earn]}>
             <Button
+              as="div"
               p="0"
               mx="S"
               fontSize="M"

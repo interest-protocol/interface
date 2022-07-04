@@ -33,7 +33,7 @@ const MobileMenu: FC = () => (
         ].map(({ title, link }) => ({
           value: title,
           displayOption: (
-            <Link href={link} legacyBehavior>
+            <Link href={link}>
               <Typography
                 px="M"
                 py="L"

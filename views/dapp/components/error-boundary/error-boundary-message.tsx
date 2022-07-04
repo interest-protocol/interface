@@ -26,8 +26,10 @@ const Container: FC<BoxProps> = (props) => (
 );
 
 const GoHome = () => (
-  <Link href={Routes[RoutesEnum.DineroMarket]} legacyBehavior>
-    <Button variant="primary">Back Home</Button>
+  <Link href={Routes[RoutesEnum.DineroMarket]}>
+    <Button as="div" variant="primary">
+      Back Home
+    </Button>
   </Link>
 );
 
