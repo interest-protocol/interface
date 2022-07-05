@@ -1,6 +1,7 @@
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 
 import { Button, Input } from '@/elements';
+import { parseToSafeStringNumber } from '@/utils';
 
 import { InputBalanceProps } from './input-balance.types';
 
@@ -13,15 +14,16 @@ const InputBalance: FC<InputBalanceProps> = ({
 }) => (
   <Input
     min="0"
-    max={1000}
     fontSize="L"
-    type="number"
-    step="0.0001"
+    type="string"
     placeholder={'0'}
     disabled={disabled || false}
     // eslint-disable-next-line jsx-a11y/no-autofocus
-    autoFocus={name === 'origin.value'}
-    {...register(name)}
+    autoFocus={name === 'tokenIn.value'}
+    {...register(name, {
+      onChange: (v: ChangeEvent<HTMLInputElement>) =>
+        setValue?.(name, parseToSafeStringNumber(v.target.value)),
+    })}
     shieldProps={{
       px: 'S',
       py: 'L',

@@ -6,11 +6,12 @@ import { FieldProps } from './settings.types';
 
 const Field: FC<FieldProps> = ({
   label,
-  name,
   prefix,
-  register,
+  setRegister,
   step,
   suffix,
+  placeholder,
+  max,
 }) => {
   return (
     <Box mt="L">
@@ -21,9 +22,9 @@ const Field: FC<FieldProps> = ({
         min="0"
         type="number"
         step={step}
-        placeholder={'25.00'}
-        {...register(name)}
-        max="100"
+        placeholder={placeholder}
+        {...setRegister()}
+        max={max}
         textAlign="right"
         shieldProps={{
           p: 'S',

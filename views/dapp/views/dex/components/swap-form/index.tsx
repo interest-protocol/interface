@@ -1,7 +1,14 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { DEFAULT_ACCOUNT } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
+import { useIdAccount } from '@/hooks';
+import { getNativeBalance } from '@/state/core/core.selectors';
+import { userBalanceActions } from '@/state/user-balances/user-balances.actions';
+import { userBalanceSelectById } from '@/state/user-balances/user-balances.selectors';
+import { userBalanceEntitySelectors } from '@/state/user-balances/user-balances.selectors';
 import { LoadingSVG } from '@/svg';
 import { WalletGuardButton } from '@/views/dapp/components';
 
@@ -9,44 +16,51 @@ import { SwapFormProps } from '../../dex.types';
 import InputBalance from '../input-balance';
 import SwapSelectCurrency from '../swap-select-currency';
 
-const SwapForm: FC<SwapFormProps> = ({
-  tokens,
-  setValue,
-  register,
-  control,
-  getValues,
-}) => {
-  const [loading, setLoading] = useState(false);
-  const originAddress = useWatch({ control, name: 'origin.address' });
-  const targetAddress = useWatch({ control, name: 'target.address' });
-  const originValue = useWatch({ control, name: 'origin.value' });
-  const targetValue = useWatch({ control, name: 'target.value' });
-
-  const onSelectCurrency = (name: 'origin' | 'target') => (address: string) =>
-    setValue(`${name}.address`, address);
-
-  const changeOrigin = () => {
-    const oldTargetValue = targetValue;
-    const oldTargetAddress = targetAddress;
-    const oldOriginAddress = originAddress;
-
-    setValue('origin.value', oldTargetValue);
-    setValue('origin.address', oldTargetAddress);
-    setValue('target.address', oldOriginAddress);
-  };
+const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
+  const [isSwapping, setIsSwapping] = useState(false);
+  const dispatch = useDispatch();
+  const { chainId, account } = useIdAccount();
+  const tokenInAddress = useWatch({ control, name: 'tokenIn.address' });
+  const tokenOutAddress = useWatch({ control, name: 'tokenOut.address' });
+  const tokenInValue = useWatch({ control, name: 'tokenIn.value' });
+  const tokenOutValue = useWatch({ control, name: 'tokenOut.value' });
+  const nativeBalance = useSelector(getNativeBalance);
+  const tokenInBalance = useSelector(userBalanceSelectById(tokenInAddress));
+  const tokenOutBalance = useSelector(userBalanceSelectById(tokenOutAddress));
+  const tokenIds = useSelector(userBalanceEntitySelectors.selectIds);
 
   useEffect(() => {
-    setValue('target.value', String(+originValue * (Math.random() * 2)));
-  }, [originValue]);
+    const tokensToFetch: Array<string> = [];
+    if (!tokenIds.includes(tokenInAddress)) tokensToFetch.push(tokenInAddress);
 
-  const onMint = useCallback(async () => {
-    setLoading(true);
-    console.log('>> Mint');
-    const timeout = setTimeout(() => {
-      setLoading(false);
-      clearTimeout(timeout);
-    }, Math.random() * 3000);
-  }, []);
+    if (!tokenIds.includes(tokenOutAddress))
+      tokensToFetch.push(tokenOutAddress);
+
+    if (tokensToFetch.length)
+      dispatch(
+        userBalanceActions.addUserBalancesStart({
+          chainId,
+          user: account || DEFAULT_ACCOUNT,
+          tokens: tokensToFetch,
+        })
+      );
+  }, [tokenIds, tokenInAddress, tokenOutAddress, dispatch, chainId, account]);
+
+  const onSelectCurrency =
+    (name: 'tokenIn' | 'tokenOut') => (address: string) =>
+      setValue(`${name}.address`, address);
+
+  const flipTokens = () => {
+    setValue('tokenIn.address', tokenOutAddress);
+    setValue('tokenIn.value', tokenOutValue);
+    setValue('tokenOut.address', tokenInAddress);
+    setValue('tokenOut.value', '0');
+  };
+
+  const swap = async () => {};
+
+  console.log(tokenInBalance, 'tokenInBalance');
+  console.log(tokenOutBalance, 'tokenOutBalance');
 
   return (
     <Box color="text" width="100%" display="grid" gridGap="1rem" pb="L">
@@ -58,15 +72,13 @@ const SwapForm: FC<SwapFormProps> = ({
         justifyContent="space-evenly"
       >
         <InputBalance
-          name="origin.value"
+          name="tokenIn.value"
           register={register}
           setValue={setValue}
-          getValues={getValues}
           currencySelector={
             <SwapSelectCurrency
-              tokens={tokens}
-              defaultValue={originAddress}
-              onSelectCurrency={onSelectCurrency('origin')}
+              currentToken={tokenInAddress}
+              onSelectCurrency={onSelectCurrency('tokenIn')}
             />
           }
         />
@@ -83,7 +95,7 @@ const SwapForm: FC<SwapFormProps> = ({
           position="relative"
           alignItems="center"
           borderColor="accent"
-          onClick={changeOrigin}
+          onClick={flipTokens}
           justifyContent="center"
           hover={{
             boxShadow: '0 0 0.5rem #0055FF',
@@ -93,15 +105,13 @@ const SwapForm: FC<SwapFormProps> = ({
         </Box>
         <InputBalance
           disabled
-          name="target.value"
+          name="tokenOut.value"
           register={register}
           setValue={setValue}
-          getValues={getValues}
           currencySelector={
             <SwapSelectCurrency
-              tokens={tokens}
-              defaultValue={getValues('target.address')}
-              onSelectCurrency={onSelectCurrency('target')}
+              currentToken={tokenOutAddress}
+              onSelectCurrency={onSelectCurrency('tokenOut')}
             />
           }
         />
@@ -109,13 +119,13 @@ const SwapForm: FC<SwapFormProps> = ({
           <Button
             mt="L"
             width="100%"
-            onClick={onMint}
+            onClick={swap}
             variant="primary"
-            disabled={loading}
+            disabled={isSwapping}
             hover={{ bg: 'accentAlternativeActive' }}
-            bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
+            bg={isSwapping ? 'accentAlternativeActive' : 'accentAlternative'}
           >
-            {loading ? (
+            {isSwapping ? (
               <Box as="span" display="flex" justifyContent="center">
                 <LoadingSVG width="1rem" height="1rem" />
                 <Typography as="span" variant="normal" ml="M" fontSize="S">

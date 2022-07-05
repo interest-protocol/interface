@@ -1,15 +1,24 @@
 import { ReactNode } from 'react';
-import {
-  Control,
-  UseFormGetValues,
-  UseFormRegister,
-  UseFormSetValue,
-} from 'react-hook-form';
+import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
-export interface IToken {
-  name?: string;
+export enum Volatility {
+  Auto,
+  Stable,
+  Volatile,
+}
+
+export interface LocalSwapSettings {
+  slippage: number; // 20 equals 20%
+  volatility: Volatility;
+  deadline: number; // minutes
+}
+
+export interface SwapTokenModalMetadata {
+  name: string;
   symbol: string;
   address: string;
+  decimals: number;
+  chainId?: number;
 }
 
 export interface SwapHeaderProps {
@@ -21,7 +30,7 @@ export interface SwapModalProps {
   handleClose: () => void;
 }
 
-export interface ICurrencyField {
+export interface SwapFormTokenData {
   value: string;
   address: string;
 }
@@ -29,25 +38,22 @@ export interface ICurrencyField {
 export interface ISwapForm {
   slippage: number;
   deadline: number;
-  origin: ICurrencyField;
-  target: ICurrencyField;
-  volatility: 'auto' | 'stable' | 'volatile';
+  tokenIn: SwapFormTokenData;
+  tokenOut: SwapFormTokenData;
+  volatility: Volatility;
 }
 
 export interface SwapSelectCurrencyProps {
   label?: string;
   fromRight?: boolean;
-  defaultValue: string;
-  tokens: ReadonlyArray<IToken>;
+  currentToken: string;
   onSelectCurrency: (currency: string) => void;
 }
 
 export interface SwapFormProps {
   control: Control<ISwapForm>;
-  tokens: ReadonlyArray<IToken>;
   register: UseFormRegister<ISwapForm>;
   setValue: UseFormSetValue<ISwapForm>;
-  getValues: UseFormGetValues<ISwapForm>;
 }
 
 export interface SwapProps {
@@ -61,8 +67,7 @@ export interface CurrencyIdentifierProps {
 export interface SwapCurrencyDropdownProps {
   Input: ReactNode;
   fromRight?: boolean;
-  defaultValue: string;
-  tokens: ReadonlyArray<IToken>;
+  currentToken: string;
   control: Control<{ search: string }>;
   onSelectCurrency: (currency: string) => void;
 }

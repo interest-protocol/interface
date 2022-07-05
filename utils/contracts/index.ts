@@ -120,6 +120,10 @@ export const getTokenMinterAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.TOKEN_MINTER
 );
 
+export const getETHERC20Address: GetContractAddress = makeGetAddress(
+  CONTRACTS.ERC20_ETH
+);
+
 export const getAddressWithSymbol = (chainId: number) =>
   cond([
     [equals(TOKEN_SYMBOL.BTC), always(getBTCAddress(chainId))],

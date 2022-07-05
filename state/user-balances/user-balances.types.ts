@@ -31,3 +31,15 @@ export interface GetUserBalancesStartPayload {
   user: string;
   tokens: Array<string>;
 }
+
+export interface AddUserBalancesStartPayload {
+  chainId: number;
+  user: string;
+  tokens: Array<string>;
+}
+
+export interface UpdateUserBalancesStartPayload {
+  chainId: number;
+  user: string;
+  tokens: Array<string>;
+}

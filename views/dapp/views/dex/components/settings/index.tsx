@@ -1,18 +1,27 @@
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Switch } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { TimesSVG } from '@/svg';
+import { Volatility } from '@/views/dapp/views/dex/dex.types';
 
 import Field from './field';
 import { SwapSettingsProps } from './settings.types';
 
+const VOLATILITY_NAME_RECORD = {
+  [Volatility.Volatile]: 'Volatile',
+  [Volatility.Auto]: 'Auto',
+  [Volatility.Stable]: 'Stable',
+};
+
 const SettingsModal: FC<SwapSettingsProps> = ({
   toggle,
   control,
-  setValue,
   register,
+  setVolatility,
+  setDeadline,
+  setSlippage,
 }) => {
   const volatility = useWatch({ control, name: 'volatility' });
   return (
@@ -54,11 +63,16 @@ const SettingsModal: FC<SwapSettingsProps> = ({
       </Box>
       <Box px="L">
         <Field
-          step="0.01"
-          name="slippage"
-          placeholder="25.00"
+          step="0.1"
+          max="30"
+          placeholder="0.5"
           label="Slippage tolerance?"
-          register={register}
+          setRegister={() =>
+            register('slippage', {
+              onChange: (v: ChangeEvent<HTMLInputElement>) =>
+                setSlippage(isNaN(+v.target.value) ? 0 : +v.target.value),
+            })
+          }
           prefix={
             <Button
               px="M"
@@ -76,10 +90,15 @@ const SettingsModal: FC<SwapSettingsProps> = ({
         />
         <Field
           step="1"
-          name="deadline"
-          placeholder="30"
-          register={register}
-          label="Transação deadline?"
+          placeholder="5"
+          max="30"
+          setRegister={() =>
+            register('deadline', {
+              onChange: (v: ChangeEvent<HTMLInputElement>) =>
+                setDeadline(isNaN(+v.target.value) ? 0 : +v.target.value),
+            })
+          }
+          label="Transaction deadline"
           suffix={<Typography variant="normal">minutes</Typography>}
         />
       </Box>
@@ -101,16 +120,19 @@ const SettingsModal: FC<SwapSettingsProps> = ({
         </Typography>
         <Switch
           thin
-          defaultValue={volatility}
+          defaultValue={VOLATILITY_NAME_RECORD[volatility]}
           options={[
-            { value: 'auto', onSelect: () => setValue('volatility', 'auto') },
+            {
+              value: 'auto',
+              onSelect: () => setVolatility(Volatility.Auto),
+            },
             {
               value: 'volatile',
-              onSelect: () => setValue('volatility', 'volatile'),
+              onSelect: () => setVolatility(Volatility.Volatile),
             },
             {
               value: 'stable',
-              onSelect: () => setValue('volatility', 'stable'),
+              onSelect: () => setVolatility(Volatility.Stable),
             },
           ]}
         />

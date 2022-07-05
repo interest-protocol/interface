@@ -2,11 +2,12 @@ import { ethers } from 'ethers';
 import { reduce } from 'ramda';
 import { FC, SVGAttributes } from 'react';
 
-import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk/constants';
+import { CHAIN_ID, NativeCurrency, TOKEN_SYMBOL } from '@/sdk';
 import { ERC20 } from '@/sdk/entities/erc-20';
 import {
   ApeCoinSVG,
   BitcoinSVG,
+  BNBSVG,
   ChainLinkSVG,
   DineroSVG,
   EtherSVG,
@@ -22,6 +23,7 @@ import {
   getAPEAddress,
   getBTCAddress,
   getDNRAddress,
+  getETHERC20Address,
   getIntAddress,
   getLINKAddress,
   getMANAAddress,
@@ -92,6 +94,8 @@ export const TOKENS_SVG_MAP = {
   [TOKEN_SYMBOL.SHIB]: ShibaInuSVG,
   [TOKEN_SYMBOL.INT]: InterestTokenSVG,
   [TOKEN_SYMBOL.Unknown]: UnknownCoinSVG,
+  [TOKEN_SYMBOL.BNB]: BNBSVG,
+  [TOKEN_SYMBOL.WBNB]: BNBSVG,
 } as { [key: string]: FC<SVGAttributes<SVGSVGElement>> };
 
 const FARMS_SVG_MAP = {
@@ -201,6 +205,34 @@ const BNB_TEST_ERC20_ARRAY = [
     address: getIntAddress(CHAIN_ID.BNB_TEST_NET),
     chainId: CHAIN_ID.BNB_TEST_NET,
   },
+  {
+    symbol: TOKEN_SYMBOL.USDC,
+    decimals: 6,
+    name: 'USD Coin',
+    address: getUSDCAddress(CHAIN_ID.BNB_TEST_NET),
+    chainId: CHAIN_ID.BNB_TEST_NET,
+  },
+  {
+    symbol: TOKEN_SYMBOL.USDT,
+    decimals: 6,
+    name: 'USD Tether',
+    address: getUSDTAddress(CHAIN_ID.BNB_TEST_NET),
+    chainId: CHAIN_ID.BNB_TEST_NET,
+  },
+  {
+    symbol: TOKEN_SYMBOL.ETH,
+    decimals: 18,
+    name: 'Ether',
+    address: getETHERC20Address(CHAIN_ID.BNB_TEST_NET),
+    chainId: CHAIN_ID.BNB_TEST_NET,
+  },
+  {
+    symbol: TOKEN_SYMBOL.WBNB,
+    decimals: 18,
+    address: getWETHAddress(CHAIN_ID.BNB_TEST_NET),
+    chainId: CHAIN_ID.BNB_TEST_NET,
+    name: 'Wrapped BNB',
+  },
 ];
 
 export const makeERC20Record = reduce(
@@ -228,6 +260,11 @@ const BNB_TEST_ERC_20_DATA = makeERC20Record(BNB_TEST_ERC20_ARRAY);
 
 const RINKEBY_ERC_20_DATA = makeERC20Record(RINKEBY_ERC20_ARRAY);
 
+export const TOKEN_META_DATA_ARRAY = {
+  [CHAIN_ID.BNB_TEST_NET]: BNB_TEST_ERC20_ARRAY,
+  [CHAIN_ID.RINKEBY]: RINKEBY_ERC20_ARRAY,
+};
+
 export const ERC_20_DATA = {
   [CHAIN_ID.BNB_TEST_NET]: BNB_TEST_ERC_20_DATA,
   [CHAIN_ID.RINKEBY]: RINKEBY_ERC_20_DATA,
@@ -236,6 +273,21 @@ export const ERC_20_DATA = {
 export const MAIL_BRIDGE_TOKENS_ARRAY = {
   [CHAIN_ID.RINKEBY]: RINKEBY_MAIL_BRIDGE_ERC20_ARRAY,
   [CHAIN_ID.BNB_TEST_NET]: [],
+};
+
+export const NATIVE_TOKENS = {
+  [CHAIN_ID.RINKEBY]: NativeCurrency.from(
+    'Ether',
+    TOKEN_SYMBOL.ETH,
+    18,
+    CHAIN_ID.RINKEBY
+  ),
+  [CHAIN_ID.BNB_TEST_NET]: NativeCurrency.from(
+    'Binance Coin',
+    TOKEN_SYMBOL.BNB,
+    18,
+    CHAIN_ID.BNB_TEST_NET
+  ),
 };
 
 export const UNKNOWN_ERC_20 = ERC20.from(ethers.constants.AddressZero, 0);

@@ -5,12 +5,7 @@ import { SwapSelectCurrencyProps } from '../../dex.types';
 import SwapSearchToken from './swap-search-token';
 import SwapTokensModal from './swap-tokens-modal';
 
-const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
-  tokens,
-  fromRight,
-  defaultValue,
-  onSelectCurrency,
-}) => {
+const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = (props) => {
   const { control, register } = useForm({
     defaultValues: {
       search: '',
@@ -20,11 +15,8 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
 
   return (
     <SwapTokensModal
-      tokens={tokens}
+      {...props}
       control={control}
-      fromRight={fromRight}
-      defaultValue={defaultValue}
-      onSelectCurrency={onSelectCurrency}
       Input={<SwapSearchToken register={register} />}
     />
   );

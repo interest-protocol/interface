@@ -1,21 +1,27 @@
 import { ReactNode } from 'react';
-import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import {
+  Control,
+  UseFormRegister,
+  UseFormRegisterReturn,
+} from 'react-hook-form';
 
-import { ISwapForm } from '../../dex.types';
+import { ISwapForm, Volatility } from '../../dex.types';
 
 export interface FieldProps {
   label: string;
   step: string;
-  name: 'slippage' | 'deadline';
   placeholder: string;
   suffix?: ReactNode;
   prefix?: ReactNode;
-  register: UseFormRegister<ISwapForm>;
+  setRegister: () => UseFormRegisterReturn;
+  max: string;
 }
 
 export interface SwapSettingsProps {
   toggle: () => void;
   control: Control<ISwapForm>;
-  setValue: UseFormSetValue<ISwapForm>;
+  setSlippage: (x: number) => void;
+  setDeadline: (x: number) => void;
+  setVolatility: (x: Volatility) => void;
   register: UseFormRegister<ISwapForm>;
 }

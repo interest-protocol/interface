@@ -1,31 +1,28 @@
-import { find, propEq, propOr } from 'ramda';
-import { FC, ReactNode, useMemo, useState } from 'react';
+import { FC, ReactNode, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import { MAIL_FAUCET_TOKENS, TOKENS_SVG_MAP } from '@/constants';
+import {
+  ERC_20_DATA,
+  NATIVE_TOKENS,
+  TOKEN_META_DATA_ARRAY,
+  TOKENS_SVG_MAP,
+} from '@/constants';
 import { Box, Modal, Typography } from '@/elements';
+import { useIdAccount } from '@/hooks';
+import { useLocalStorage } from '@/hooks';
+import { ZERO_ADDRESS } from '@/sdk';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { ArrowSVG, TimesSVG } from '@/svg';
+import { isSameAddress, isZeroAddress, safeGetAddress } from '@/utils';
 
-import { IToken, SwapCurrencyDropdownProps } from '../../../dex.types';
-
-const BLOCKCHAIN_DATA = [
-  {
-    name: 'Interest Protocol',
-    symbol: 'INT',
-    address: '0x3FB23255BcC69cC9eC9dCa611ff872991B993C6C',
-  },
-  {
-    name: 'Binance Main Net',
-    symbol: 'BNB',
-    address:
-      '0x00fb7f630766e6a796048ea87d01acd3068e8ff67d078148a3fa3f4a84f69bd5',
-  },
-];
+import {
+  SwapCurrencyDropdownProps,
+  SwapTokenModalMetadata,
+} from '../../../dex.types';
 
 const renderData = (
-  tokens: ReadonlyArray<IToken>,
+  tokens: ReadonlyArray<SwapTokenModalMetadata>,
   onSelectCurrency: (symbol: string) => void,
   isLocal: boolean
 ): ReadonlyArray<ReactNode> => {
@@ -74,29 +71,31 @@ const renderData = (
 
 const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   Input,
-  tokens,
   control,
-  defaultValue,
+  currentToken,
   onSelectCurrency,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const search = useWatch({ control, name: 'search' });
+  const searchResult: string | any[] | readonly SwapTokenModalMetadata[] = [];
+  const { chainId } = useIdAccount();
+
+  const [tokensAddedByUser, addTokenAddedByUser] = useLocalStorage<
+    ReadonlyArray<SwapTokenModalMetadata>
+  >(`${chainId}-interest-dex-custom-tokens`, []);
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
-  const searchResult = useMemo(
-    // TODO: Change to blockchain search
-    () => BLOCKCHAIN_DATA.filter(({ address }) => search === address),
-    [search]
-  );
+  const nativeToken = NATIVE_TOKENS[chainId];
 
-  const symbol = propOr(
-    '',
-    'symbol',
-    find(propEq('address', defaultValue), MAIL_FAUCET_TOKENS[4])
-  ) as string;
+  const symbol = isZeroAddress(currentToken)
+    ? nativeToken.symbol
+    : ERC_20_DATA[chainId][safeGetAddress(currentToken)].symbol;
 
   const SVG = TOKENS_SVG_MAP[symbol || TOKEN_SYMBOL.Unknown];
+
+  const recommendedTokens = [];
 
   return (
     <>
@@ -145,7 +144,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
       >
         <Box bg="foreground" p="L" borderRadius="M" maxWidth="27rem">
           {Input}
-          {!searchResult.length && (
+          {!tokensAddedByUser.length && (
             <>
               <Typography
                 mt="L"
@@ -154,7 +153,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                 color="textSecondary"
                 textTransform="uppercase"
               >
-                Recommended Tokens
+                Added by you
               </Typography>
               <Box
                 mt="M"
@@ -162,11 +161,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                 flexWrap="wrap"
                 justifyContent="flex-start"
               >
-                {renderData(
-                  searchResult?.length ? searchResult : tokens,
-                  onSelectCurrency,
-                  false
-                )}
+                {renderData(tokensAddedByUser, onSelectCurrency, false)}
               </Box>
             </>
           )}
@@ -177,7 +172,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
             color="textSecondary"
             textTransform="uppercase"
           >
-            More Tokens
+            Recommended Tokens
           </Typography>
           <Box
             mt="M"
@@ -187,12 +182,22 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
             maxHeight="20rem"
           >
             {renderData(
-              searchResult?.length ? searchResult : tokens,
+              [
+                {
+                  name: nativeToken.name,
+                  symbol: nativeToken.symbol as TOKEN_SYMBOL,
+                  address: ZERO_ADDRESS,
+                  decimals: nativeToken.decimals,
+                  chainId: chainId,
+                },
+                ...TOKEN_META_DATA_ARRAY[chainId],
+              ].filter(
+                (x) => !isSameAddress(currentToken, x.address)
+              ) as ReadonlyArray<SwapTokenModalMetadata>,
               onSelectCurrency,
               true
             )}
           </Box>
-          <Box></Box>
         </Box>
       </Modal>
     </>
