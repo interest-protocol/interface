@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { FC } from 'react';
+import { AnimationOnScroll } from 'react-animation-on-scroll';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
@@ -12,28 +13,37 @@ const Enjoy: FC = () => {
   const { push } = useRouter();
 
   return (
-    <Box borderBottom="0.625rem solid" borderColor="accent">
+    <Box bg="background">
       <Container as="section" py="XXXL" textAlign="center">
-        <Typography as="h2" textAlign="center" variant="title1">
-          Earn
-        </Typography>
-        <Typography variant="normal">
-          Maximize your profits through automated strategies.
-        </Typography>
+        <AnimationOnScroll animateIn="animate__flipInX">
+          <Typography as="h2" textAlign="center" variant="title1">
+            Earn
+          </Typography>
+        </AnimationOnScroll>
+        <AnimationOnScroll delay={100} animateIn="animate__flipInX">
+          <Typography variant="normal">
+            Maximize your profits through automated strategies.
+          </Typography>
+        </AnimationOnScroll>
         <Box
           mt="XXL"
           display="flex"
           justifyContent="space-around"
           flexDirection={['column', 'row']}
         >
-          {EARN_TYPES.map((type) => (
+          {EARN_TYPES.map((type, index) => (
             <Box key={v4()} textAlign="center">
-              <Typography variant="large" as="h3" textTransform="capitalize">
-                {type}
-              </Typography>
-              <Box width="100%" mx="auto">
-                <img width="100%" src={`/${type}.png`} alt={type} />
-              </Box>
+              <AnimationOnScroll
+                delay={index * 200 + 300}
+                animateIn="animate__zoomInDown"
+              >
+                <Typography variant="large" as="h3" textTransform="capitalize">
+                  {type}
+                </Typography>
+                <Box width="100%" mx="auto">
+                  <img width="100%" src={`/${type}.png`} alt={type} />
+                </Box>
+              </AnimationOnScroll>
             </Box>
           ))}
         </Box>

@@ -28,6 +28,7 @@ const DEX: FC = () => {
           <Button
             mt="XL"
             width="145px"
+            effect="hover"
             variant="primary"
             onClick={() => push(Routes[RoutesEnum.DApp])}
           >
@@ -36,9 +37,10 @@ const DEX: FC = () => {
         </Box>
       </Container>
       <Box
+        bg="background"
         display="grid"
         position="relative"
-        mb={['NONE', '10rem']}
+        pb={['NONE', '10rem']}
         gridTemplateRows={['1fr 0 1fr', '1fr']}
         gridTemplateColumns={['1fr', '1fr 0 1fr']}
       >

@@ -19,6 +19,7 @@ const primary = css`
   font-size: ${fontSizes.button};
   color: ${colors.foreground};
   background: ${colors.accent};
+  transition: all 0.3s ease-in-out;
   padding: ${space.L};
 `;
 
@@ -35,6 +36,7 @@ const secondary = css`
   font-size: ${fontSizes.button};
   color: ${colors.foreground};
   background: ${colors.text};
+  transition: all 0.3s ease-in-out;
   padding-left: calc(${space.L} + ${space.S});
   padding-right: calc(${space.L} + ${space.S});
 `;

@@ -33,6 +33,7 @@ const DineroMarkets: FC = () => {
           </Typography>
           <Button
             mt="L"
+            effect="hover"
             variant="primary"
             onClick={() => push(Routes[RoutesEnum.Borrow])}
           >
@@ -40,9 +41,9 @@ const DineroMarkets: FC = () => {
           </Button>
         </Box>
         <Box
+          mt={['XL', 'NONE']}
           maxWidth={['100%', '50%']}
           height={['35rem', '55rem']}
-          mt={['XL', 'NONE']}
         >
           <img
             height="100%"
