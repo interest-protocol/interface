@@ -3,17 +3,18 @@ import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 
-import { Container } from '@/components';
+import { Container, SocialMediaCard } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
-import { BarsLPSVG, LogoSVG } from '@/svg';
+import { BarsLPSVG, LogoSVG, TimesSVG } from '@/svg';
 
-import SocialMediaCard from '../../components/social-media-card';
 import { HeaderProps } from './header.types';
+import MenuList from './menu-list';
 
 const Header: FC<HeaderProps> = ({ empty }) => {
   const { push } = useRouter();
   const [scrollPercentage, setScrollPercentage] = useState(0);
+  const [mobileMenu, setMobileMenu] = useState(false);
 
   const handleChangeScrollPercentage = () =>
     setScrollPercentage(
@@ -88,14 +89,23 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                 </Button>
               </Box>
             </Box>
-            <Box display={['block', 'none']}>
+            <Box
+              display={['block', 'none']}
+              cursor="pointer"
+              onClick={() => setMobileMenu(!mobileMenu)}
+            >
               <Box width="2rem" p="S">
-                <BarsLPSVG width="100%" />
+                {mobileMenu ? (
+                  <TimesSVG width="100%" />
+                ) : (
+                  <BarsLPSVG width="100%" />
+                )}
               </Box>
             </Box>
           </>
         )}
       </Container>
+      {mobileMenu && <MenuList />}
     </Box>
   );
 };
