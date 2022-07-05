@@ -2,7 +2,8 @@ import { css } from '@emotion/react';
 
 const hover = css`
   &:hover {
-    transform: translateY(-0.2rem);
+    transform: scale(1.01);
+    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.3);
   }
 `;
 
