@@ -95,8 +95,6 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
 
   const SVG = TOKENS_SVG_MAP[symbol || TOKEN_SYMBOL.Unknown];
 
-  const recommendedTokens = [];
-
   return (
     <>
       <Box
@@ -112,24 +110,18 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
         justifyContent="space-between"
       >
         <Box my="M" display="flex" alignItems="center">
-          {symbol ? (
-            <>
-              <SVG width="1rem" height="1rem" />
-              <Typography
-                mx="M"
-                as="span"
-                variant="normal"
-                hover={{ color: 'accent' }}
-                active={{ color: 'accentActive' }}
-              >
-                {symbol}
-              </Typography>
-            </>
-          ) : (
-            <Typography mx="M" as="span" variant="normal">
-              Choose Token
+          <>
+            <SVG width="1rem" height="1rem" />
+            <Typography
+              mx="M"
+              as="span"
+              variant="normal"
+              hover={{ color: 'accent' }}
+              active={{ color: 'accentActive' }}
+            >
+              {symbol}
             </Typography>
-          )}
+          </>
         </Box>
         <ArrowSVG width="0.5rem" />
       </Box>
@@ -144,6 +136,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
       >
         <Box bg="foreground" p="L" borderRadius="M" maxWidth="27rem">
           {Input}
+          {search && <div>searching...</div>}
           {!tokensAddedByUser.length && (
             <>
               <Typography

@@ -1,3 +1,4 @@
+import { BigNumber } from 'ethers';
 import { FC, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -5,55 +6,68 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DEFAULT_ACCOUNT } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useIdAccount } from '@/hooks';
+import { IntMath, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
 import { getNativeBalance } from '@/state/core/core.selectors';
 import { userBalanceActions } from '@/state/user-balances/user-balances.actions';
 import { userBalanceSelectById } from '@/state/user-balances/user-balances.selectors';
 import { userBalanceEntitySelectors } from '@/state/user-balances/user-balances.selectors';
 import { LoadingSVG } from '@/svg';
+import { isSameAddress } from '@/utils';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import { SwapFormProps } from '../../dex.types';
 import InputBalance from '../input-balance';
 import SwapSelectCurrency from '../swap-select-currency';
+import { handleTokenBalance } from './utils';
 
 const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
   const [isSwapping, setIsSwapping] = useState(false);
   const dispatch = useDispatch();
   const { chainId, account } = useIdAccount();
-  const tokenInAddress = useWatch({ control, name: 'tokenIn.address' });
-  const tokenOutAddress = useWatch({ control, name: 'tokenOut.address' });
-  const tokenInValue = useWatch({ control, name: 'tokenIn.value' });
-  const tokenOutValue = useWatch({ control, name: 'tokenOut.value' });
-  const nativeBalance = useSelector(getNativeBalance);
-  const tokenInBalance = useSelector(userBalanceSelectById(tokenInAddress));
-  const tokenOutBalance = useSelector(userBalanceSelectById(tokenOutAddress));
+  const tokenIn = useWatch({ control, name: 'tokenIn' });
+  const tokenOut = useWatch({ control, name: 'tokenOut' });
+  const nativeBalance = useSelector(getNativeBalance) as string;
+  const tokenInBalance = useSelector(userBalanceSelectById(tokenIn.address));
+  const tokenOutBalance = useSelector(userBalanceSelectById(tokenOut.address));
+
+  const parsedTokenInBalance = handleTokenBalance(
+    tokenInBalance,
+    nativeBalance
+  );
+
+  const parsedTokenOutBalance = handleTokenBalance(
+    tokenOutBalance,
+    nativeBalance
+  );
+
   const tokenIds = useSelector(userBalanceEntitySelectors.selectIds);
 
   useEffect(() => {
     const tokensToFetch: Array<string> = [];
-    if (!tokenIds.includes(tokenInAddress)) tokensToFetch.push(tokenInAddress);
+    if (!tokenIds.includes(tokenIn.address))
+      tokensToFetch.push(tokenOut.address);
 
-    if (!tokenIds.includes(tokenOutAddress))
-      tokensToFetch.push(tokenOutAddress);
+    if (!tokenIds.includes(tokenOut.address))
+      tokensToFetch.push(tokenOut.address);
 
     if (tokensToFetch.length)
       dispatch(
         userBalanceActions.addUserBalancesStart({
           chainId,
           user: account || DEFAULT_ACCOUNT,
-          tokens: tokensToFetch,
+          tokens: tokensToFetch.filter((x) => !isSameAddress(ZERO_ADDRESS, x)),
         })
       );
-  }, [tokenIds, tokenInAddress, tokenOutAddress, dispatch, chainId, account]);
+  }, [tokenIds, tokenIn.address, tokenOut.address, dispatch, chainId, account]);
 
   const onSelectCurrency =
     (name: 'tokenIn' | 'tokenOut') => (address: string) =>
       setValue(`${name}.address`, address);
 
   const flipTokens = () => {
-    setValue('tokenIn.address', tokenOutAddress);
-    setValue('tokenIn.value', tokenOutValue);
-    setValue('tokenOut.address', tokenInAddress);
+    setValue('tokenIn.address', tokenOut.address);
+    setValue('tokenIn.value', tokenOut.value);
+    setValue('tokenOut.address', tokenIn.address);
     setValue('tokenOut.value', '0');
   };
 
@@ -75,9 +89,15 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
           name="tokenIn.value"
           register={register}
           setValue={setValue}
+          max={IntMath.toNumber(
+            parsedTokenInBalance,
+            tokenIn.decimals,
+            0,
+            12
+          ).toString()}
           currencySelector={
             <SwapSelectCurrency
-              currentToken={tokenInAddress}
+              currentToken={tokenIn.address}
               onSelectCurrency={onSelectCurrency('tokenIn')}
             />
           }
@@ -110,7 +130,7 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
           setValue={setValue}
           currencySelector={
             <SwapSelectCurrency
-              currentToken={tokenOutAddress}
+              currentToken={tokenOut.address}
               onSelectCurrency={onSelectCurrency('tokenOut')}
             />
           }

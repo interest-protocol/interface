@@ -11,13 +11,14 @@ const InputBalance: FC<InputBalanceProps> = ({
   setValue,
   disabled,
   currencySelector,
+  max,
 }) => (
   <Input
     min="0"
     fontSize="L"
     type="string"
     placeholder={'0'}
-    disabled={disabled || false}
+    disabled={!!disabled}
     // eslint-disable-next-line jsx-a11y/no-autofocus
     autoFocus={name === 'tokenIn.value'}
     {...register(name, {
@@ -39,7 +40,7 @@ const InputBalance: FC<InputBalanceProps> = ({
     }}
     Prefix={currencySelector}
     Suffix={
-      !disabled && (
+      !!max && (
         <Button
           px="M"
           fontSize="S"
@@ -48,7 +49,7 @@ const InputBalance: FC<InputBalanceProps> = ({
           bg="bottomBackground"
           hover={{ bg: 'accent' }}
           active={{ bg: 'accentActive' }}
-          onClick={() => setValue?.(name, String(100))}
+          onClick={() => setValue?.(name, max)}
         >
           max
         </Button>

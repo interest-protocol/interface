@@ -33,6 +33,7 @@ export interface SwapModalProps {
 export interface SwapFormTokenData {
   value: string;
   address: string;
+  decimals: number;
 }
 
 export interface ISwapForm {

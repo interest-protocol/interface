@@ -24,10 +24,12 @@ const Swap: FC = () => {
       tokenIn: {
         address: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].address,
         value: '0',
+        decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].decimals,
       },
       tokenOut: {
         address: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].address,
         value: '0',
+        decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].decimals,
       },
       slippage: localSettings.slippage,
       deadline: localSettings.deadline,
@@ -37,7 +39,7 @@ const Swap: FC = () => {
 
   const [showSettings, setShowSettings] = useState(false);
 
-  const toggleSettings = () => setShowSettings(not);
+  const toggleSettings = () => setShowSettings((x) => !x);
 
   const setVolatility = (x: Volatility) => {
     setValue('volatility', x);
@@ -53,7 +55,7 @@ const Swap: FC = () => {
     setValue('slippage', x);
     setLocalSettings({ ...localSettings, slippage: x });
   };
-
+  console.log(showSettings, 'aa');
   return (
     <>
       <Box
@@ -83,6 +85,7 @@ const Swap: FC = () => {
                 color: 'accent',
                 transform: 'rotate(90deg)',
               }}
+              onClick={toggleSettings}
             >
               <CogsSVG width="1.5rem" />
             </Box>

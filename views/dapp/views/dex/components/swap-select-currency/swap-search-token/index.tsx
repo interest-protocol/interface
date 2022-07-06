@@ -9,7 +9,7 @@ const SwapSearchToken: FC<SwapSearchTokenProps> = ({ register }) => (
     // eslint-disable-next-line jsx-a11y/no-autofocus
     autoFocus
     {...register('search')}
-    placeholder="Type the address"
+    placeholder="Type an address, name or symbol"
     shieldProps={{
       py: 'M',
       width: '25rem',
