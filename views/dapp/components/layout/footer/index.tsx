@@ -57,13 +57,16 @@ const Footer: FC = () => {
         >
           <Link href={Routes[RoutesEnum.Earn]}>
             <Button
-              as="div"
               p="0"
               mx="S"
+              as="div"
               fontSize="M"
               width="8rem"
               height="3rem"
+              display="flex"
               variant="primary"
+              alignItems="center"
+              justifyContent="center"
               boxShadow="0 0 15px rgba(0,0,0,.3)"
               bg={
                 pathname.includes(Routes[RoutesEnum.Earn])

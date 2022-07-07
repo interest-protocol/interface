@@ -14,7 +14,7 @@ const DEXView: FC = () => {
   const isSwap = !pathname.includes(Routes[RoutesEnum.DEXPool]);
 
   return (
-    <Container>
+    <Container width={['100%', '100%', '100%', 'auto']}>
       <Box bg="foreground" textAlign="center" mt="XL" p="L" borderRadius="L">
         <Switch
           defaultValue={isSwap ? 'swap' : 'pool'}

@@ -55,11 +55,28 @@ const renderData = (
             <Box my="M" display="flex" alignItems="center">
               <SVG width="1rem" height="1rem" />
               <Typography mx="M" as="span" variant="normal">
-                {symbol}
+                {symbol?.toUpperCase()}
               </Typography>
             </Box>
             {isLocal && (
-              <Box color="error">
+              <Box
+                width="1rem"
+                height="1rem"
+                color="error"
+                display="flex"
+                borderRadius="S"
+                alignItems="center"
+                border="0.5px solid"
+                justifyContent="center"
+                hover={{
+                  bg: 'error',
+                  color: 'text',
+                  border: 'none',
+                }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
                 <TimesSVG width="1rem" />
               </Box>
             )}
@@ -91,7 +108,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
 
   const symbol = isZeroAddress(currentToken)
     ? nativeToken.symbol
-    : ERC_20_DATA[chainId][safeGetAddress(currentToken)].symbol;
+    : ERC_20_DATA[chainId][safeGetAddress(currentToken)]?.symbol;
 
   const SVG = TOKENS_SVG_MAP[symbol || TOKEN_SYMBOL.Unknown];
 
@@ -119,7 +136,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
               hover={{ color: 'accent' }}
               active={{ color: 'accentActive' }}
             >
-              {symbol}
+              {symbol?.toUpperCase()}
             </Typography>
           </>
         </Box>

@@ -28,7 +28,7 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
     >
       {title}
     </Typography>
-    <Typography mt="M" variant="normal" fontWeight="500" fontSize="XL">
+    <Typography mt="M" variant="normal" fontWeight="500" fontSize="XL" my="L">
       {totalDeposits}
     </Typography>
     <Box

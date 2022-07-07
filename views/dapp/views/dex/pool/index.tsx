@@ -24,7 +24,7 @@ const Pool: FC = () => {
 
   return (
     <>
-      <Box color="text" width="100%" minWidth="40rem">
+      <Box color="text" width="100%" minWidth={['100%', '40rem']}>
         <Box
           py="L"
           my="L"
@@ -37,11 +37,12 @@ const Pool: FC = () => {
         >
           <Typography variant="normal">Pools Overview</Typography>
           <Button
+            ml="XL"
             px="L"
             type="button"
-            width="10rem"
             variant="primary"
             onClick={toggleModal}
+            width={['auto', 'auto', 'auto', '10rem']}
           >
             Add Liquidity
           </Button>

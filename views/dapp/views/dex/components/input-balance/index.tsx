@@ -6,12 +6,12 @@ import { parseToSafeStringNumber } from '@/utils';
 import { InputBalanceProps } from './input-balance.types';
 
 const InputBalance: FC<InputBalanceProps> = ({
+  max,
   name,
   register,
   setValue,
   disabled,
   currencySelector,
-  max,
 }) => (
   <Input
     min="0"
@@ -29,11 +29,13 @@ const InputBalance: FC<InputBalanceProps> = ({
       px: 'S',
       py: 'L',
       my: 'M',
+      display: 'grid',
       bg: 'background',
       borderRadius: 'M',
       overflow: 'visible',
       border: '1px solid',
       borderColor: 'transparent',
+      gridTemplateColumns: '6.5rem 1fr auto',
       hover: {
         borderColor: 'accentBackground',
       },
