@@ -35,7 +35,7 @@ const InputBalance: FC<InputBalanceProps> = ({
       overflow: 'visible',
       border: '1px solid',
       borderColor: 'transparent',
-      gridTemplateColumns: '6.5rem 1fr auto',
+      gridTemplateColumns: '6.9rem 1fr auto',
       hover: {
         borderColor: 'accentBackground',
       },
