@@ -3,6 +3,7 @@ import { FC, ReactNode, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
+import { Switch } from '@/components';
 import {
   ERC_20_DATA,
   NATIVE_TOKENS,
@@ -96,6 +97,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   onSelectCurrency,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showLocal, setShowLocal] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const search = useWatch({ control, name: 'search' });
   const { chainId } = useIdAccount();
@@ -181,15 +183,24 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
               false
             )}
           </Box>
-          <Typography
-            mt="L"
-            fontSize="S"
-            variant="normal"
-            color="textSecondary"
-            textTransform="uppercase"
-          >
-            Recommended Tokens
-          </Typography>
+          <Box mt="L" display="flex" justifyContent="center">
+            <Switch
+              thin
+              defaultValue={showLocal ? 'local' : 'recommended'}
+              options={[
+                {
+                  value: 'recommended',
+                  displayValue: 'Recommended',
+                  onSelect: () => setShowLocal(false),
+                },
+                {
+                  value: 'local',
+                  displayValue: 'Added by me',
+                  onSelect: () => setShowLocal(true),
+                },
+              ]}
+            />
+          </Box>
           <Box
             mt="M"
             display="grid"
@@ -198,16 +209,19 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
             maxHeight="20rem"
           >
             {renderData(
-              [
-                {
-                  name: nativeToken.name,
-                  symbol: nativeToken.symbol as TOKEN_SYMBOL,
-                  address: ZERO_ADDRESS,
-                  decimals: nativeToken.decimals,
-                  chainId: chainId,
-                },
-                ...TOKEN_META_DATA_ARRAY[chainId],
-              ].filter(
+              (showLocal
+                ? tokensAddedByUser
+                : [
+                    {
+                      name: nativeToken.name,
+                      symbol: nativeToken.symbol as TOKEN_SYMBOL,
+                      address: ZERO_ADDRESS,
+                      decimals: nativeToken.decimals,
+                      chainId: chainId,
+                    },
+                    ...TOKEN_META_DATA_ARRAY[chainId],
+                  ]
+              ).filter(
                 ({ symbol, address }) =>
                   !isSameAddress(currentToken, address) &&
                   (search == '' ||
@@ -215,7 +229,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                     address == search)
               ) as ReadonlyArray<SwapTokenModalMetadata>,
               onSelectCurrency,
-              true
+              showLocal
             )}
           </Box>
         </Box>

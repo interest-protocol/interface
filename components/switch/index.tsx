@@ -19,7 +19,7 @@ const Switch: FC<SwitchProps> = ({ defaultValue, options, thin }) => {
       borderRadius="1.5rem"
       height={thin ? '2.5rem' : '3rem'}
     >
-      {options.map(({ value, onSelect }) => (
+      {options.map(({ value, onSelect, displayValue }) => (
         <Typography
           key={v4()}
           px={thin ? 'L' : 'XL'}
@@ -42,7 +42,7 @@ const Switch: FC<SwitchProps> = ({ defaultValue, options, thin }) => {
           }}
           bg={value === selected ? 'bottomBackground' : 'transparent'}
         >
-          {value}
+          {displayValue ?? value}
         </Typography>
       ))}
     </Box>
