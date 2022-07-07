@@ -224,6 +224,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
               ).filter(
                 ({ symbol, address }) =>
                   !isSameAddress(currentToken, address) &&
+                  !SWAP_BASES[chainId].includes(address) &&
                   (search == '' ||
                     symbol.toLowerCase().startsWith(search.toLowerCase()) ||
                     address == search)

@@ -53,3 +53,4 @@ export { default as UnknownCoinSVG } from './unknown-coin';
 export { default as USDCoinSVG } from './usd-coin';
 export { default as UserSVG } from './user';
 export { default as WalletSVG } from './wallet';
+export { default as WBNBCoinSVG } from './wbnb-coin';

@@ -18,6 +18,7 @@ import {
   UniSwapSVG,
   UnknownCoinSVG,
   USDCoinSVG,
+  WBNBCoinSVG,
 } from '@/svg';
 import {
   getAPEAddress,
@@ -95,7 +96,7 @@ export const TOKENS_SVG_MAP = {
   [TOKEN_SYMBOL.INT]: InterestTokenSVG,
   [TOKEN_SYMBOL.Unknown]: UnknownCoinSVG,
   [TOKEN_SYMBOL.BNB]: BNBSVG,
-  [TOKEN_SYMBOL.WBNB]: BNBSVG,
+  [TOKEN_SYMBOL.WBNB]: WBNBCoinSVG,
 } as { [key: string]: FC<SVGAttributes<SVGSVGElement>> };
 
 const FARMS_SVG_MAP = {
