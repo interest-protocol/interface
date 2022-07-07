@@ -23,6 +23,7 @@ export interface SwapFormTokenData {
   address: string;
   decimals: number;
   symbol: string;
+  setByUser: boolean;
 }
 
 export interface SwapSelectCurrencyProps {

@@ -19,19 +19,21 @@ const Swap: FC = () => {
     { slippage: 1, deadline: 5 }
   );
 
-  const { register, control, setValue } = useForm<ISwapForm>({
+  const { register, control, setValue, getValues } = useForm<ISwapForm>({
     defaultValues: {
       tokenIn: {
         address: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].address,
         value: '0',
         decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].decimals,
         symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].symbol,
+        setByUser: false,
       },
       tokenOut: {
         address: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].address,
         value: '0',
         decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].decimals,
         symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].symbol,
+        setByUser: false,
       },
       slippage: localSettings.slippage,
       deadline: localSettings.deadline,
@@ -96,7 +98,12 @@ const Swap: FC = () => {
             )}
           </Box>
         </Box>
-        <SwapForm control={control} setValue={setValue} register={register} />
+        <SwapForm
+          control={control}
+          setValue={setValue}
+          register={register}
+          getValues={getValues}
+        />
       </Box>
     </>
   );

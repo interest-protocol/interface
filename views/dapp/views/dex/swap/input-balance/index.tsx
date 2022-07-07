@@ -20,10 +20,12 @@ const InputBalance: FC<InputBalanceProps> = ({
     placeholder={'0'}
     disabled={!!disabled}
     // eslint-disable-next-line jsx-a11y/no-autofocus
-    autoFocus={name === 'tokenIn.value'}
-    {...register(name, {
-      onChange: (v: ChangeEvent<HTMLInputElement>) =>
-        setValue?.(name, parseToSafeStringNumber(v.target.value)),
+    autoFocus={`${name}.value` === 'tokenIn.value'}
+    {...register(`${name}.value`, {
+      onChange: (v: ChangeEvent<HTMLInputElement>) => {
+        setValue?.(`${name}.value`, parseToSafeStringNumber(v.target.value));
+        setValue?.(`${name}.setByUser`, true);
+      },
     })}
     shieldProps={{
       px: 'S',
@@ -51,7 +53,7 @@ const InputBalance: FC<InputBalanceProps> = ({
           bg="bottomBackground"
           hover={{ bg: 'accent' }}
           active={{ bg: 'accentActive' }}
-          onClick={() => setValue?.(name, max)}
+          onClick={() => setValue?.(`${name}.value`, max)}
         >
           max
         </Button>
