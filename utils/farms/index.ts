@@ -198,6 +198,27 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
             ZERO_BIG_NUMBER
           ),
         },
+        {
+          farm: FarmV2.createPCSPairFarmV2({
+            totalAllocationPoints: ZERO_BIG_NUMBER,
+            allocationPoints: ZERO_BIG_NUMBER,
+            chainId: CHAIN_ID.UNSUPPORTED,
+            reserves0: ZERO_BIG_NUMBER,
+            reserves1: ZERO_BIG_NUMBER,
+            address: ethers.constants.AddressZero,
+            id: 1,
+            token1: UNKNOWN_ERC_20,
+            token0: UNKNOWN_ERC_20,
+            totalStakedAmount: ZERO_BIG_NUMBER,
+          }),
+          allocation: '',
+          tvl: '',
+          apr: '',
+          farmTokenPrice: CurrencyAmount.fromRawAmount(
+            UNKNOWN_ERC_20,
+            ZERO_BIG_NUMBER
+          ),
+        },
       ],
       loading: true,
     };
@@ -218,6 +239,27 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
   return {
     intUSDPrice,
     pools: [
+      {
+        farmTokenPrice: CurrencyAmount.fromRawAmount(
+          ERC_20_DATA[chainId][TOKEN_SYMBOL.INT],
+          intUSDPrice
+        ),
+        farm: intPool,
+        allocation: calculateAllocation(intPool),
+        apr: calculateFarmBaseAPR(
+          chainId,
+          intPool,
+          data.mintData.interestPerBlock,
+          intUSDPrice,
+          data.poolsData[0].totalStakingAmount,
+          intUSDPrice
+        ),
+        tvl: formatDollars(
+          IntMath.from(data.poolsData[0].totalStakingAmount)
+            .mul(intUSDPrice)
+            .toNumber()
+        ),
+      },
       {
         farmTokenPrice: CurrencyAmount.fromRawAmount(
           ERC_20_DATA[chainId][TOKEN_SYMBOL.INT],

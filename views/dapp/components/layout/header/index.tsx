@@ -64,7 +64,14 @@ const Header: FC = () => {
         justifyContent="center"
         display={['none', 'none', 'flex']}
       >
-        <Link href={Routes[RoutesEnum.Earn]}>
+        <Link
+          href={{
+            pathname: Routes[RoutesEnum.Earn],
+            query: {
+              type: 'farms',
+            },
+          }}
+        >
           <Typography
             px="XL"
             cursor="pointer"
