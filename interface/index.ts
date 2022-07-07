@@ -52,3 +52,8 @@ export interface ModalProps {
   isOpen: boolean;
   handleClose: () => void;
 }
+
+export interface InterestDexRoute {
+  from: string;
+  to: string;
+}

@@ -8,15 +8,15 @@ import { useIdAccount, useLocalStorage } from '@/hooks';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { CogsSVG } from '@/svg';
 
-import Settings from './components/settings';
-import SwapForm from './components/swap-form';
-import { ISwapForm, LocalSwapSettings, Volatility } from './dex.types';
+import Settings from './settings';
+import { ISwapForm, LocalSwapSettings } from './swap.types';
+import SwapForm from './swap-form';
 
 const Swap: FC = () => {
   const { chainId } = useIdAccount();
   const [localSettings, setLocalSettings] = useLocalStorage<LocalSwapSettings>(
     'interest-swap-settings',
-    { slippage: 1, deadline: 5, volatility: Volatility.Auto }
+    { slippage: 1, deadline: 5 }
   );
 
   const { register, control, setValue } = useForm<ISwapForm>({
@@ -25,26 +25,22 @@ const Swap: FC = () => {
         address: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].address,
         value: '0',
         decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].decimals,
+        symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].symbol,
       },
       tokenOut: {
         address: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].address,
         value: '0',
         decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].decimals,
+        symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].symbol,
       },
       slippage: localSettings.slippage,
       deadline: localSettings.deadline,
-      volatility: localSettings.volatility,
     },
   });
 
   const [showSettings, setShowSettings] = useState(false);
 
-  const toggleSettings = () => setShowSettings((x) => !x);
-
-  const setVolatility = (x: Volatility) => {
-    setValue('volatility', x);
-    setLocalSettings({ ...localSettings, volatility: x });
-  };
+  const toggleSettings = () => setShowSettings(not);
 
   const setDeadline = (x: number) => {
     setValue('deadline', x);
@@ -55,7 +51,7 @@ const Swap: FC = () => {
     setValue('slippage', x);
     setLocalSettings({ ...localSettings, slippage: x });
   };
-  console.log(showSettings, 'aa');
+
   return (
     <>
       <Box
@@ -96,7 +92,6 @@ const Swap: FC = () => {
                 register={register}
                 setDeadline={setDeadline}
                 setSlippage={setSlippage}
-                setVolatility={setVolatility}
               />
             )}
           </Box>

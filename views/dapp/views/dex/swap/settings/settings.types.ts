@@ -5,7 +5,7 @@ import {
   UseFormRegisterReturn,
 } from 'react-hook-form';
 
-import { ISwapForm, Volatility } from '../../dex.types';
+import { ISwapForm } from '../swap.types';
 
 export interface FieldProps {
   label: string;
@@ -22,6 +22,5 @@ export interface SwapSettingsProps {
   control: Control<ISwapForm>;
   setSlippage: (x: number) => void;
   setDeadline: (x: number) => void;
-  setVolatility: (x: Volatility) => void;
   register: UseFormRegister<ISwapForm>;
 }

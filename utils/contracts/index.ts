@@ -12,8 +12,10 @@ import {
 } from 'ramda';
 
 import CasaDePapelABI from '@/sdk/abi/casa-de-papel.abi.json';
+import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
 import InterestERC20MarketABI from '@/sdk/abi/interest-erc-20-market.abi.json';
 import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
+import InterestViewDexABI from '@/sdk/abi/interest-view-dex.abi.json';
 import InterestViewDineroABI from '@/sdk/abi/interest-view-dinero.abi.json';
 import InterestViewMAILABI from '@/sdk/abi/interest-view-MAIL.abi.json';
 import MAILDeployerABI from '@/sdk/abi/mail-deployer.abi.json';
@@ -27,8 +29,10 @@ import { safeGetAddress } from '@/utils/address';
 
 import {
   CasaDePapelAbi,
+  InterestDexRouterAbi,
   InterestErc20MarketAbi,
   InterestViewBalancesAbi,
+  InterestViewDexAbi,
   InterestViewDineroAbi,
   InterestViewMAILAbi,
   MailDeployerAbi,
@@ -66,6 +70,14 @@ export const getInterestViewDineroAddress: GetContractAddress = makeGetAddress(
 
 export const getCasaDePapelAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.CASA_DE_PAPEL
+);
+
+export const getInterestDexRouterAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.INT_DEX_ROUTER
+);
+
+export const getInterestViewDexAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.INTEREST_VIEW_DEX
 );
 
 export const getDineroMarketAddress = (
@@ -206,3 +218,23 @@ export const extractCreateTokenEvent = (
   const log = iFace.parseLog(receipt.logs[1]);
   return <CreateTokenEventArgs>log.args;
 };
+
+export const getInterestDexRouterContract: GetContract<InterestDexRouterAbi> = (
+  chainId,
+  provider
+) =>
+  new ethers.Contract(
+    getInterestDexRouterAddress(chainId),
+    InterestDexRouterABI,
+    provider
+  ) as InterestDexRouterAbi;
+
+export const getInterestViewDexContract: GetContract<InterestViewDexAbi> = (
+  chainId,
+  provider
+) =>
+  new ethers.Contract(
+    getInterestViewDexAddress(chainId),
+    InterestViewDexABI,
+    provider
+  ) as InterestViewDexAbi;
