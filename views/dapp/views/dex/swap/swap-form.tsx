@@ -277,7 +277,23 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
           }
         />
         {isFetchingAmountOutTokenIn ||
-          (isFetchingAmountOutTokenOut && <div>Fetching amount out...</div>)}
+          (isFetchingAmountOutTokenOut && (
+            <Box
+              p="L"
+              my="M"
+              display="flex"
+              bg="background"
+              borderRadius="M"
+              alignItems="center"
+            >
+              <Box mr="M">
+                <LoadingSVG width="1rem" />
+              </Box>
+              <Typography variant="normal" fontSize="S">
+                Fetching amount out...
+              </Typography>
+            </Box>
+          ))}
         <WalletGuardButton>
           <Button
             mt="L"

@@ -1,10 +1,12 @@
-import { FC, ReactNode, useState } from 'react';
+import { isAddress } from 'ethers/lib/utils';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
 import {
   ERC_20_DATA,
   NATIVE_TOKENS,
+  SWAP_BASES,
   TOKEN_META_DATA_ARRAY,
   TOKENS_SVG_MAP,
 } from '@/constants';
@@ -13,7 +15,7 @@ import { useIdAccount } from '@/hooks';
 import { useLocalStorage } from '@/hooks';
 import { ZERO_ADDRESS } from '@/sdk';
 import { TOKEN_SYMBOL } from '@/sdk';
-import { ArrowSVG, TimesSVG } from '@/svg';
+import { ArrowSVG, LineLoaderSVG, TimesSVG } from '@/svg';
 import { isSameAddress, isZeroAddress, safeGetAddress } from '@/utils';
 
 import {
@@ -32,6 +34,7 @@ const renderData = (
     ? tokens.map(({ address, symbol }) => {
         const SVG = TOKENS_SVG_MAP[symbol] ?? DefaultTokenSVG;
         const handleSelectCurrency = () => onSelectCurrency(address);
+
         return (
           <Box
             m="XS"
@@ -93,9 +96,8 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   onSelectCurrency,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const search = useWatch({ control, name: 'search' });
-  const searchResult: string | any[] | readonly SwapTokenModalMetadata[] = [];
   const { chainId } = useIdAccount();
 
   const [tokensAddedByUser, addTokenAddedByUser] = useLocalStorage<
@@ -111,6 +113,16 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
     : ERC_20_DATA[chainId][safeGetAddress(currentToken)]?.symbol;
 
   const SVG = TOKENS_SVG_MAP[symbol || TOKEN_SYMBOL.Unknown];
+
+  // able to search on blockchain or no
+  useEffect(() => {
+    setIsSearching(
+      isAddress(search) &&
+        TOKEN_META_DATA_ARRAY[chainId].some(({ address }) =>
+          isSameAddress(search, address)
+        )
+    );
+  }, [search]);
 
   return (
     <>
@@ -153,28 +165,23 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
       >
         <Box bg="foreground" p="L" borderRadius="M" maxWidth="27rem">
           {Input}
-          {search && <div>searching...</div>}
-          {!tokensAddedByUser.length && (
-            <>
-              <Typography
-                mt="L"
-                fontSize="S"
-                variant="normal"
-                color="textSecondary"
-                textTransform="uppercase"
-              >
-                Added by you
-              </Typography>
-              <Box
-                mt="M"
-                display="flex"
-                flexWrap="wrap"
-                justifyContent="flex-start"
-              >
-                {renderData(tokensAddedByUser, onSelectCurrency, false)}
-              </Box>
-            </>
-          )}
+          {isSearching && <LineLoaderSVG width="100%" />}
+          <Box
+            mt="M"
+            display="flex"
+            flexWrap="wrap"
+            justifyContent="flex-start"
+          >
+            {renderData(
+              SWAP_BASES[chainId].map((baseAddress) =>
+                TOKEN_META_DATA_ARRAY[chainId].find(({ address }) =>
+                  isSameAddress(baseAddress, address)
+                )
+              ) as ReadonlyArray<SwapTokenModalMetadata>,
+              onSelectCurrency,
+              false
+            )}
+          </Box>
           <Typography
             mt="L"
             fontSize="S"
@@ -202,7 +209,11 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                 },
                 ...TOKEN_META_DATA_ARRAY[chainId],
               ].filter(
-                (x) => !isSameAddress(currentToken, x.address)
+                ({ symbol, address }) =>
+                  !isSameAddress(currentToken, address) &&
+                  (search == '' ||
+                    symbol.toLowerCase().startsWith(search.toLowerCase()) ||
+                    address == search)
               ) as ReadonlyArray<SwapTokenModalMetadata>,
               onSelectCurrency,
               true
