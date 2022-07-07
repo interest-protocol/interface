@@ -107,12 +107,11 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   const toggleOpen = () => setIsOpen(!isOpen);
 
   const nativeToken = NATIVE_TOKENS[chainId];
-
   const symbol = isZeroAddress(currentToken)
     ? nativeToken.symbol
     : ERC_20_DATA[chainId][safeGetAddress(currentToken)]?.symbol;
 
-  const SVG = TOKENS_SVG_MAP[symbol || TOKEN_SYMBOL.Unknown];
+  const SVG = TOKENS_SVG_MAP[symbol] || TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
   // able to search on blockchain or no
   useEffect(() => {

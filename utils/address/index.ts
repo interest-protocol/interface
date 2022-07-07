@@ -16,4 +16,5 @@ export const isSameAddress = curryN(2, (x: string, y: string) => {
   return ethers.utils.getAddress(x) === ethers.utils.getAddress(y);
 });
 
-export const isZeroAddress = isSameAddress(ethers.constants.AddressZero);
+export const isZeroAddress = (x: string) =>
+  safeGetAddress(x) === safeGetAddress(ethers.constants.AddressZero);
