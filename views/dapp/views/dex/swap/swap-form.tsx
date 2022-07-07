@@ -1,76 +1,76 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getAmountsOut } from '@/api';
-import { DEFAULT_ACCOUNT, SWAP_BASES } from '@/constants';
+import { addAllowance, getAmountsOut } from '@/api';
+import { SWAP_BASES } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
-import { useIdAccount } from '@/hooks';
-import { useDebounce } from '@/hooks';
-import { IntMath, ZERO_ADDRESS } from '@/sdk';
+import { useDebounce, useGetSigner, useIdAccount } from '@/hooks';
+import { IntMath } from '@/sdk';
+import { coreActions } from '@/state/core/core.actions';
 import { getNativeBalance } from '@/state/core/core.selectors';
-import { userBalanceActions } from '@/state/user-balances/user-balances.actions';
-import { userBalanceSelectById } from '@/state/user-balances/user-balances.selectors';
-import { userBalanceEntitySelectors } from '@/state/user-balances/user-balances.selectors';
 import { LoadingSVG } from '@/svg';
-import { isSameAddress, isZeroAddress, safeToBigNumber } from '@/utils';
+import {
+  getInterestDexRouterAddress,
+  isZeroAddress,
+  safeToBigNumber,
+  showTXSuccessToast,
+  throwError,
+  throwIfInvalidSigner,
+} from '@/utils';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import InputBalance from '../components/input-balance';
 import SwapSelectCurrency from '../components/swap-select-currency';
 import { AmountCacheValue, SwapFormProps } from './swap.types';
-import { handleTokenBalance } from './utils';
+import { handleTokenBalance, useGetDexAllowancesAndBalances } from './utils';
 
 const AMOUNT_OUT_CACHE = new Map<string, AmountCacheValue>();
 
 const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
-  const [isSwapping, setIsSwapping] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [isFetchingAmountOutTokenIn, setFetchingAmountOutTokenIn] =
     useState(false);
   const [isFetchingAmountOutTokenOut, setFetchingAmountOutTokenOut] =
     useState(false);
+
   const [hasNoMarket, setHasNoMarket] = useState(false);
   const [swapBase, setSwapBase] = useState<string | null>(null);
   const [amountOutError, setAmountOutError] = useState<null | string>(null);
-  const dispatch = useDispatch();
   const { chainId, account } = useIdAccount();
+  const { signer } = useGetSigner();
   const tokenIn = useWatch({ control, name: 'tokenIn' });
   const tokenOut = useWatch({ control, name: 'tokenOut' });
   const nativeBalance = useSelector(getNativeBalance) as string;
-  const tokenInBalance = useSelector(userBalanceSelectById(tokenIn.address));
-  const tokenOutBalance = useSelector(userBalanceSelectById(tokenOut.address));
-  const tokenIds = useSelector(userBalanceEntitySelectors.selectIds);
+  const dispatch = useDispatch();
 
+  // Handle error case
+  const { balancesError, balancesData, mutate } =
+    useGetDexAllowancesAndBalances(
+      account,
+      chainId,
+      tokenIn.address,
+      tokenOut.address
+    );
+  console.log(tokenIn);
   const parsedTokenInBalance = handleTokenBalance(
-    tokenInBalance,
+    tokenIn.address,
+    balancesData.tokenInBalance,
     nativeBalance
   );
 
   const parsedTokenOutBalance = handleTokenBalance(
-    tokenOutBalance,
+    tokenOut.address,
+    balancesData.tokenOutBalance,
     nativeBalance
   );
 
-  useEffect(() => {
-    const tokensToFetch: Array<string> = [];
-    if (!tokenIds.includes(tokenIn.address))
-      tokensToFetch.push(tokenOut.address);
-
-    if (!tokenIds.includes(tokenOut.address))
-      tokensToFetch.push(tokenOut.address);
-
-    if (tokensToFetch.length)
-      dispatch(
-        userBalanceActions.addUserBalancesStart({
-          chainId,
-          user: account || DEFAULT_ACCOUNT,
-          tokens: tokensToFetch.filter((x) => !isSameAddress(ZERO_ADDRESS, x)),
-        })
-      );
-  }, [tokenIds, tokenIn.address, tokenOut.address, dispatch, chainId, account]);
-
   const debouncedTokenInValue = useDebounce(tokenIn.value, 1500);
   const debouncedTokenOutValue = useDebounce(tokenOut.value, 1500);
+
+  // Need to show approval button
+  const needsApproval =
+    !isZeroAddress(tokenIn.address) && balancesData.tokenInAllowance.isZero();
 
   useEffect(() => {
     if (hasNoMarket) setHasNoMarket(false);
@@ -204,16 +204,49 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
     chainId,
   ]);
 
+  console.log(parsedTokenInBalance.toString(), 'tokenin');
+  console.log(parsedTokenOutBalance.toString(), 'tokenout');
+
   const onSelectCurrency =
     (name: 'tokenIn' | 'tokenOut') => (address: string) =>
       setValue(`${name}.address`, address);
 
   const flipTokens = () => {
-    setValue('tokenIn.address', tokenOut.address);
-    setValue('tokenIn.value', tokenOut.value);
-    setValue('tokenOut.address', tokenIn.address);
+    const prevTokenOut = tokenOut;
+    const prevTokenIn = tokenIn;
+    setValue('tokenIn.address', prevTokenOut.address);
+    setValue('tokenIn.value', prevTokenOut.value);
+    setValue('tokenOut.address', prevTokenIn.address);
     setValue('tokenOut.value', '0');
   };
+
+  const handleAddAllowance = useCallback(async () => {
+    if (isZeroAddress(tokenIn.address)) return;
+    setLoading(true);
+    try {
+      const { validId, validSigner } = throwIfInvalidSigner(
+        [account],
+        chainId,
+        signer
+      );
+
+      const tx = await addAllowance(
+        validId,
+        validSigner,
+        account,
+        tokenIn.address,
+        getInterestDexRouterAddress(validId)
+      );
+
+      await showTXSuccessToast(tx, validId);
+    } catch (e) {
+      throwError('Something went wrong', e);
+    } finally {
+      setLoading(false);
+      dispatch(coreActions.updateNativeBalance());
+      await mutate();
+    }
+  }, [account, chainId, signer, tokenIn.address]);
 
   const swap = async () => {};
 
@@ -284,11 +317,12 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
             width="100%"
             onClick={swap}
             variant="primary"
-            disabled={isSwapping}
+            disabled={loading}
             hover={{ bg: 'accentAlternativeActive' }}
-            bg={isSwapping ? 'accentAlternativeActive' : 'accentAlternative'}
+            bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
           >
-            {isSwapping ? (
+            {/*need approve button here as well*/}
+            {loading ? (
               <Box as="span" display="flex" justifyContent="center">
                 <LoadingSVG width="1rem" height="1rem" />
                 <Typography as="span" variant="normal" ml="M" fontSize="S">
