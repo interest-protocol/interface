@@ -1,4 +1,5 @@
 import { isAddress } from 'ethers/lib/utils';
+import { prop } from 'ramda';
 import { FC, ReactNode, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
@@ -12,7 +13,7 @@ import {
   TOKENS_SVG_MAP,
 } from '@/constants';
 import { Box, Modal, Typography } from '@/elements';
-import { useIdAccount } from '@/hooks';
+import { useDebounce, useIdAccount } from '@/hooks';
 import { useLocalStorage } from '@/hooks';
 import { ZERO_ADDRESS } from '@/sdk';
 import { TOKEN_SYMBOL } from '@/sdk';
@@ -23,21 +24,22 @@ import {
   SwapCurrencyDropdownProps,
   SwapTokenModalMetadata,
 } from '../../../dex.types';
-
-const EXPECTED_TIMEOUT_MILLISECONDS = 5000;
+import { OnSelectCurrencyData } from '../../../swap/swap.types';
 
 const renderData = (
   tokens: ReadonlyArray<SwapTokenModalMetadata>,
-  onSelectCurrency: (symbol: string) => void,
-  isLocal: boolean
+  onSelectCurrency: (data: OnSelectCurrencyData) => void,
+  isLocal: boolean,
+  currentToken: string
 ): ReadonlyArray<ReactNode> => {
   const DefaultTokenSVG = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
   return tokens
-    ? tokens.map(({ address, symbol }) => {
+    ? tokens.map(({ address, symbol, decimals }) => {
         const SVG = TOKENS_SVG_MAP[symbol] ?? DefaultTokenSVG;
-        const handleSelectCurrency = () => onSelectCurrency(address);
-
+        const isDisabled = isSameAddress(address, currentToken);
+        const handleSelectCurrency = () =>
+          isDisabled ? {} : onSelectCurrency({ address, symbol, decimals });
         return (
           <Box
             m="XS"
@@ -46,16 +48,16 @@ const renderData = (
             key={v4()}
             color="text"
             display="flex"
-            cursor="pointer"
+            cursor={isDisabled ? 'not-allowed' : 'pointer'}
             borderRadius="M"
             border="1px solid"
             alignItems="center"
-            bg="bottomBackground"
+            bg={isDisabled ? 'disabled' : 'bottomBackground'}
             borderColor="transparent"
             justifyContent="space-between"
             onClick={handleSelectCurrency}
             hover={{
-              borderColor: 'accent',
+              borderColor: isDisabled ? 'transparent' : 'accent',
             }}
           >
             <Box my="M" display="flex" alignItems="center">
@@ -106,8 +108,8 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   const { chainId } = useIdAccount();
   const [showLocal, setShowLocal] = useState(false);
   const search = useWatch({ control, name: 'search' });
-  const [readyToSearch, setReadyToSearch] = useState(true);
-
+  const [searchedToken, setSearchedToken] =
+    useState<null | SwapTokenModalMetadata>(null);
   const [tokensAddedByUser, addTokenAddedByUser] = useLocalStorage<
     ReadonlyArray<SwapTokenModalMetadata>
   >(`${chainId}-interest-dex-custom-tokens`, []);
@@ -119,29 +121,31 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
 
   const SVG = TOKENS_SVG_MAP[symbol] || TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
-  // able to search on blockchain or no
-  useEffect(() => {
-    if (
-      readyToSearch &&
-      isAddress(search) &&
-      !TOKEN_META_DATA_ARRAY[chainId].some(({ address }) =>
-        isSameAddress(search, address)
-      )
-    )
-      setIsSearching(true);
-  }, [search]);
+  const debouncedSearch = useDebounce(search, 800);
+
+  const tokenMedataArray = TOKEN_META_DATA_ARRAY[chainId];
 
   // is searching debounce
   useEffect(() => {
-    if (readyToSearch && isSearching) {
-      setReadyToSearch(false);
-      const timeout = setTimeout(() => {
-        setReadyToSearch(true);
-        setIsSearching(false);
-        clearTimeout(timeout);
-      }, EXPECTED_TIMEOUT_MILLISECONDS);
+    if (isSearching || !debouncedSearch) return;
+    const parsedDebouncedSearch = debouncedSearch.trim().toLowerCase();
+    if (!isAddress(parsedDebouncedSearch)) {
+      const token = tokensAddedByUser
+        .concat(tokenMedataArray)
+        .find(
+          ({ symbol, name }) =>
+            symbol.toLowerCase().startsWith(parsedDebouncedSearch) ||
+            name.toLowerCase().startsWith(parsedDebouncedSearch) ||
+            name.toLowerCase().includes(parsedDebouncedSearch) ||
+            symbol.toLowerCase().includes(parsedDebouncedSearch)
+        );
+
+      setSearchedToken(token ? token : null);
     }
-  }, [isSearching]);
+
+    if (isAddress(parsedDebouncedSearch)) {
+    }
+  }, [debouncedSearch, tokensAddedByUser, tokenMedataArray]);
 
   return (
     <>
@@ -193,65 +197,74 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
             justifyContent="flex-start"
           >
             {renderData(
-              SWAP_BASES[chainId].map((baseAddress) =>
-                TOKEN_META_DATA_ARRAY[chainId].find(({ address }) =>
-                  isSameAddress(baseAddress, address)
-                )
-              ) as ReadonlyArray<SwapTokenModalMetadata>,
+              [
+                {
+                  name: nativeToken.name,
+                  symbol: nativeToken.symbol as TOKEN_SYMBOL,
+                  address: ZERO_ADDRESS,
+                  decimals: nativeToken.decimals,
+                  chainId: chainId,
+                },
+                ...SWAP_BASES[chainId],
+              ] as ReadonlyArray<SwapTokenModalMetadata>,
               onSelectCurrency,
-              false
+              false,
+              currentToken
             )}
           </Box>
-          <Box mt="L" display="flex" justifyContent="center">
-            <Switch
-              thin
-              defaultValue={showLocal ? 'local' : 'recommended'}
-              options={[
-                {
-                  value: 'recommended',
-                  displayValue: 'Recommended',
-                  onSelect: () => setShowLocal(false),
-                },
-                {
-                  value: 'local',
-                  displayValue: 'Added by me',
-                  onSelect: () => setShowLocal(true),
-                },
-              ]}
-            />
-          </Box>
-          <Box
-            mt="M"
-            display="grid"
-            overflowY="auto"
-            gridGap="0.3rem"
-            maxHeight="20rem"
-          >
-            {renderData(
-              (showLocal
-                ? tokensAddedByUser
-                : [
+          {debouncedSearch ? (
+            searchedToken ? (
+              renderData(
+                [searchedToken],
+                onSelectCurrency,
+                showLocal,
+                currentToken
+              )
+            ) : (
+              'Token not found'
+            )
+          ) : (
+            <>
+              <Box mt="L" display="flex" justifyContent="center">
+                <Switch
+                  thin
+                  defaultValue={showLocal ? 'local' : 'recommended'}
+                  options={[
                     {
-                      name: nativeToken.name,
-                      symbol: nativeToken.symbol as TOKEN_SYMBOL,
-                      address: ZERO_ADDRESS,
-                      decimals: nativeToken.decimals,
-                      chainId: chainId,
+                      value: 'recommended',
+                      displayValue: 'Recommended',
+                      onSelect: () => setShowLocal(false),
                     },
-                    ...TOKEN_META_DATA_ARRAY[chainId],
-                  ]
-              ).filter(
-                ({ symbol, address }) =>
-                  !isSameAddress(currentToken, address) &&
-                  !SWAP_BASES[chainId].includes(address) &&
-                  (search == '' ||
-                    symbol.toLowerCase().startsWith(search.toLowerCase()) ||
-                    address == search)
-              ) as ReadonlyArray<SwapTokenModalMetadata>,
-              onSelectCurrency,
-              showLocal
-            )}
-          </Box>
+                    {
+                      value: 'local',
+                      displayValue: 'Added by me',
+                      onSelect: () => setShowLocal(true),
+                    },
+                  ]}
+                />
+              </Box>
+              <Box
+                mt="M"
+                display="grid"
+                overflowY="auto"
+                gridGap="0.3rem"
+                maxHeight="20rem"
+              >
+                {renderData(
+                  (showLocal ? tokensAddedByUser : tokenMedataArray).filter(
+                    ({ address }) =>
+                      !isSameAddress(currentToken, address) &&
+                      !SWAP_BASES[chainId]
+                        .map(prop('address'))
+                        .includes(address)
+                  ) as ReadonlyArray<SwapTokenModalMetadata>,
+                  onSelectCurrency,
+                  showLocal,
+                  currentToken
+                )}
+              </Box>
+            </>
+          )}
         </Box>
       </Modal>
     </>

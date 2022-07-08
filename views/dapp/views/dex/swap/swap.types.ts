@@ -76,3 +76,9 @@ export interface SwapViewButtonProps {
   loadingText: string;
   text: string;
 }
+
+export interface OnSelectCurrencyData {
+  address: string;
+  symbol: string;
+  decimals: number;
+}

@@ -1,6 +1,8 @@
 import { Dispatch, ReactNode, SetStateAction } from 'react';
 import { Control, UseFormRegister } from 'react-hook-form';
 
+import { OnSelectCurrencyData } from '@/views/dapp/views/dex/swap/swap.types';
+
 export interface SwapTokenModalMetadata {
   name: string;
   symbol: string;
@@ -31,7 +33,7 @@ export interface SwapSelectCurrencyProps {
   disabled?: boolean;
   fromRight?: boolean;
   currentToken: string;
-  onSelectCurrency: (currency: string) => void;
+  onSelectCurrency: (data: OnSelectCurrencyData) => void;
 }
 
 export interface SwapProps {
@@ -44,10 +46,10 @@ export interface SwapCurrencyDropdownProps {
   fromRight?: boolean;
   isSearching: boolean;
   isOpenModal: boolean;
-  currentToken: string;
+  currentToken: SwapSelectCurrencyProps['currentToken'];
   toggleModal: () => void;
   control: Control<{ search: string }>;
-  onSelectCurrency: (currency: string) => void;
+  onSelectCurrency: SwapSelectCurrencyProps['onSelectCurrency'];
   setIsSearching: Dispatch<SetStateAction<boolean>>;
 }
 

@@ -9,12 +9,16 @@ import { useIdAccount, useLocalStorage } from '@/hooks';
 import { IntMath, TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
 import { getNativeBalance } from '@/state/core/core.selectors';
 import { CogsSVG } from '@/svg';
-import { isZeroAddress } from '@/utils';
+import { isSameAddress, isZeroAddress } from '@/utils';
 
 import SwapSelectCurrency from '../components/swap-select-currency';
 import InputBalance from './input-balance';
 import Settings from './settings';
-import { ISwapForm, LocalSwapSettings } from './swap.types';
+import {
+  ISwapForm,
+  LocalSwapSettings,
+  OnSelectCurrencyData,
+} from './swap.types';
 import SwapButton from './swap-button';
 import SwapErrorMessage from './swap-error';
 import SwapFetchingAmount from './swap-fetching-amount';
@@ -103,8 +107,10 @@ const Swap: FC = () => {
   // TODO need to update decimals as well
   // symbol
   const onSelectCurrency =
-    (name: 'tokenIn' | 'tokenOut') => (address: string) => {
-      setValue(`${name}.address`, address);
+    (name: 'tokenIn' | 'tokenOut') => (data: OnSelectCurrencyData) => {
+      setValue(`${name}.address`, data.address);
+      setValue(`${name}.decimals`, data.decimals);
+      setValue(`${name}.symbol`, data.symbol);
       setValue('tokenOut.value', '0');
       setValue('tokenIn.value', '0');
       setHasNoMarket(false);
@@ -239,6 +245,19 @@ const Swap: FC = () => {
         </Box>
         <SwapFetchingAmount
           fetching={isFetchingAmountOutTokenOut || isFetchingAmountOutTokenIn}
+        />
+        <SwapErrorMessage
+          errorMessage={amountOutError ? `Failed to fetch the amountOut` : null}
+        />
+        <SwapErrorMessage
+          errorMessage={balancesError ? 'Failed to fetch balances' : null}
+        />
+        <SwapErrorMessage
+          errorMessage={
+            isSameAddress(tokenInAddress, tokenOutAddress)
+              ? 'Cannot swap the same token'
+              : null
+          }
         />
         <SwapErrorMessage
           errorMessage={hasNoMarket ? 'Info: This pair has no liquidity' : null}
