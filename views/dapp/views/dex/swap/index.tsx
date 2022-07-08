@@ -60,7 +60,8 @@ const Swap: FC = () => {
     useState(false);
   const [isFetchingAmountOutTokenOut, setFetchingAmountOutTokenOut] =
     useState(false);
-
+  const [isTokenInOpenModal, setTokenInIsOpenModal] = useState(false);
+  const [isTokenOutOpenModal, setTokenOutIsOpenModal] = useState(false);
   const [swapBase, setSwapBase] = useState<string | null>(null);
   const [amountOutError, setAmountOutError] = useState<null | string>(null);
 
@@ -114,6 +115,8 @@ const Swap: FC = () => {
       setValue('tokenOut.value', '0');
       setValue('tokenIn.value', '0');
       setHasNoMarket(false);
+      setTokenInIsOpenModal(false);
+      setTokenOutIsOpenModal(false);
     };
 
   return (
@@ -194,6 +197,9 @@ const Swap: FC = () => {
                 <SwapSelectCurrency
                   currentToken={tokenInAddress}
                   onSelectCurrency={onSelectCurrency('tokenIn')}
+                  symbol={getValues().tokenIn.symbol}
+                  isModalOpen={isTokenInOpenModal}
+                  setIsModalOpen={setTokenInIsOpenModal}
                 />
               }
             />
@@ -238,6 +244,9 @@ const Swap: FC = () => {
                   currentToken={tokenOutAddress}
                   disabled={isFetchingAmountOutTokenOut}
                   onSelectCurrency={onSelectCurrency('tokenOut')}
+                  symbol={getValues().tokenOut.symbol}
+                  isModalOpen={isTokenOutOpenModal}
+                  setIsModalOpen={setTokenOutIsOpenModal}
                 />
               }
             />

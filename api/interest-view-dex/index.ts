@@ -1,6 +1,9 @@
 import { getInterestViewDexContract, getStaticWeb3Provider } from '@/utils';
 
-import { GetAmountsOut } from './interest-view-dex.types';
+import {
+  GetAmountsOut,
+  GetInterestDEXViewERC20Metadata,
+} from './interest-view-dex.types';
 
 export const getAmountsOut: GetAmountsOut = (
   chainId,
@@ -16,3 +19,13 @@ export const getAmountsOut: GetAmountsOut = (
 
   return contract.getAmountsOut(tokenIn, tokenOut, amountIn, bases);
 };
+
+export const getInterestDEXViewERC20Metadata: GetInterestDEXViewERC20Metadata =
+  (chainId, token) => {
+    const contract = getInterestViewDexContract(
+      chainId,
+      getStaticWeb3Provider(chainId)
+    );
+
+    return contract.getERC20Metada(token);
+  };

@@ -34,6 +34,9 @@ export interface SwapSelectCurrencyProps {
   fromRight?: boolean;
   currentToken: string;
   onSelectCurrency: (data: OnSelectCurrencyData) => void;
+  symbol: string;
+  isModalOpen: boolean;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface SwapProps {
@@ -42,10 +45,9 @@ export interface SwapProps {
 
 export interface SwapCurrencyDropdownProps {
   Input: ReactNode;
-  disabled?: boolean;
   fromRight?: boolean;
   isSearching: boolean;
-  isOpenModal: boolean;
+  isModalOpen: boolean;
   currentToken: SwapSelectCurrencyProps['currentToken'];
   toggleModal: () => void;
   control: Control<{ search: string }>;

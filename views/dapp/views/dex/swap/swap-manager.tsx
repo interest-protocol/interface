@@ -1,8 +1,9 @@
+import { prop } from 'ramda';
 import { FC, useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { getAmountsOut } from '@/api';
-import { SWAP_BASES } from '@/constants';
+import { SWAP_BASES, WRAPPED_NATIVE_TOKEN } from '@/constants';
 import { useDebounce } from '@/hooks';
 import { IntMath } from '@/sdk';
 import { isSameAddress, isZeroAddress, safeToBigNumber } from '@/utils';
@@ -31,12 +32,21 @@ const SwapManager: FC<SwapManagerProps> = ({
   const debouncedTokenInValue = useDebounce(tokenIn.value, 1500);
   const debouncedTokenOutValue = useDebounce(tokenOut.value, 1500);
 
+  const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId];
+
+  const tokenInAddress = isZeroAddress(tokenIn.address)
+    ? wrappedNativeToken.address
+    : tokenIn.address;
+  const tokenOutAddress = isZeroAddress(tokenOut.address)
+    ? wrappedNativeToken.address
+    : tokenOut.address;
+
   // User is typing a value in the tokenOut input
   // We need to disable tokenOut input and fetch a value
   useEffect(() => {
     if (isFetchingAmountOutTokenOut || tokenIn.setByUser || hasNoMarket) return;
 
-    const key = `${tokenIn.address}-${tokenOut.address}-${debouncedTokenOutValue}`;
+    const key = `${tokenInAddress}-${tokenOutAddress}-${debouncedTokenOutValue}`;
 
     if (!debouncedTokenOutValue || debouncedTokenOutValue == '0') return;
 
@@ -55,14 +65,17 @@ const SwapManager: FC<SwapManagerProps> = ({
 
     getAmountsOut(
       chainId,
-      tokenOut.address,
-      tokenIn.address,
+      tokenOutAddress,
+      tokenInAddress,
       safeToBigNumber(debouncedTokenOutValue, tokenIn.decimals),
-      SWAP_BASES[chainId].filter(
-        (x) =>
-          !isSameAddress(x, tokenIn.address) &&
-          !isSameAddress(x, tokenOut.address)
-      )
+      SWAP_BASES[chainId]
+        .concat(wrappedNativeToken)
+        .filter(
+          ({ address }) =>
+            !isSameAddress(address, tokenInAddress) &&
+            !isSameAddress(address, tokenOutAddress)
+        )
+        .map(prop('address'))
     )
       .then((data) => {
         if (isZeroAddress(data.base) && data.amountOut.isZero()) {
@@ -100,8 +113,8 @@ const SwapManager: FC<SwapManagerProps> = ({
   }, [
     debouncedTokenOutValue,
     setValue,
-    tokenIn.address,
-    tokenOut.address,
+    tokenInAddress,
+    tokenOutAddress,
     chainId,
     tokenIn.setByUser,
     hasNoMarket,
@@ -112,7 +125,7 @@ const SwapManager: FC<SwapManagerProps> = ({
   useEffect(() => {
     if (isFetchingAmountOutTokenIn || tokenOut.setByUser || hasNoMarket) return;
 
-    const key = `${tokenOut.address}-${tokenIn.address}-${debouncedTokenInValue}`;
+    const key = `${tokenOutAddress}-${tokenInAddress}-${debouncedTokenInValue}`;
 
     if (!debouncedTokenInValue || debouncedTokenInValue == '0') return;
 
@@ -131,10 +144,17 @@ const SwapManager: FC<SwapManagerProps> = ({
 
     getAmountsOut(
       chainId,
-      tokenIn.address,
-      tokenOut.address,
+      tokenInAddress,
+      tokenOutAddress,
       safeToBigNumber(debouncedTokenInValue, tokenOut.decimals),
-      []
+      SWAP_BASES[chainId]
+        .concat(wrappedNativeToken)
+        .filter(
+          ({ address }) =>
+            !isSameAddress(address, tokenInAddress) &&
+            !isSameAddress(address, tokenOutAddress)
+        )
+        .map(prop('address'))
     )
       .then((data) => {
         if (isZeroAddress(data.base) && data.amountOut.isZero()) {
@@ -170,7 +190,7 @@ const SwapManager: FC<SwapManagerProps> = ({
   }, [
     debouncedTokenInValue,
     setValue,
-    tokenIn.address,
+    tokenInAddress,
     tokenOut.address,
     chainId,
     tokenOut.setByUser,

@@ -1,5 +1,5 @@
 import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk';
-import { getETHERC20Address, getUSDCAddress } from '@/utils';
+import { getETHERC20Address, getUSDCAddress, getWETHAddress } from '@/utils';
 
 export const SWAP_BASES = {
   [CHAIN_ID.BNB_MAIN_MET]: [],
@@ -20,4 +20,14 @@ export const SWAP_BASES = {
       chainId: CHAIN_ID.BNB_TEST_NET,
     },
   ],
+};
+
+export const WRAPPED_NATIVE_TOKEN = {
+  [CHAIN_ID.BNB_TEST_NET]: {
+    symbol: TOKEN_SYMBOL.WBNB,
+    decimals: 18,
+    name: 'Wrapped Binance Coin',
+    address: getWETHAddress(CHAIN_ID.BNB_TEST_NET),
+    chainId: CHAIN_ID.BNB_TEST_NET,
+  },
 };
