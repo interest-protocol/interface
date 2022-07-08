@@ -13,6 +13,7 @@ const InputBalance: FC<InputBalanceProps> = ({
   setValue,
   disabled,
   currencySelector,
+  handleSelectedByUser,
 }) => (
   <>
     <Box>{formatMoney(+balance)}</Box>
@@ -22,12 +23,20 @@ const InputBalance: FC<InputBalanceProps> = ({
       type="string"
       placeholder={'0'}
       disabled={!!disabled}
-      // eslint-disable-next-line jsx-a11y/no-autofocus
-      autoFocus={`${name}.value` === 'tokenIn.value'}
       {...register(`${name}.value`, {
         onChange: (v: ChangeEvent<HTMLInputElement>) => {
-          setValue?.(`${name}.value`, parseToSafeStringNumber(v.target.value));
-          setValue?.(`${name}.setByUser`, true);
+          const value = v.target.value;
+
+          setValue?.(
+            `${name}.value`,
+            parseToSafeStringNumber(
+              isNaN(+value[value.length - 1])
+                ? value.slice(0, value.length - 1)
+                : value
+            )
+          );
+
+          handleSelectedByUser();
         },
       })}
       shieldProps={{

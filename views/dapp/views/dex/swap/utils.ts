@@ -8,6 +8,8 @@ import {
   isZeroAddress,
 } from '@/utils';
 
+import { UseGetDexAllowancesAndBalancesReturn } from './swap.types';
+
 export const handleTokenBalance = (
   address: string,
   balance: BigNumber,
@@ -30,7 +32,7 @@ export const useGetDexAllowancesAndBalances = (
   chainId: number,
   tokenIn: string,
   tokenOut: string
-) => {
+): UseGetDexAllowancesAndBalancesReturn => {
   const sortedTokens = sortTokens(tokenIn, tokenOut);
 
   const { data, error, mutate } = useGetUserBalancesAndAllowances(
@@ -44,7 +46,7 @@ export const useGetDexAllowancesAndBalances = (
       balancesData: BALANCES_ALLOWANCES_STATE,
       balancesError: 'Failed to fetch balances',
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      mutate: () => {},
+      mutate: () => Promise.resolve(),
     };
 
   if (!data)
@@ -52,7 +54,7 @@ export const useGetDexAllowancesAndBalances = (
       balancesData: BALANCES_ALLOWANCES_STATE,
       balancesError: '',
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      mutate: () => {},
+      mutate: () => Promise.resolve(),
     };
 
   const tokenInIndex = isSameAddress(sortedTokens[0], tokenIn) ? 0 : 1;
@@ -61,12 +63,12 @@ export const useGetDexAllowancesAndBalances = (
   return {
     balancesData: {
       tokenInBalance: data.balances[tokenInIndex] || ZERO_BIG_NUMBER,
-      tokenInAllowance: data.allowances[tokenInIndex] || ZERO_BIG_NUMBER,
       tokenOutBalance: data.balances[tokenOutIndex] || ZERO_BIG_NUMBER,
+      tokenInAllowance: data.allowances[tokenInIndex] || ZERO_BIG_NUMBER,
       tokenOutAllowance: data.allowances[tokenOutIndex] || ZERO_BIG_NUMBER,
     },
     balancesError: '',
-    mutate,
+    mutate: async () => void (await mutate()),
   };
 };
 
