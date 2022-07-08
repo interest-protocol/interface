@@ -9,6 +9,7 @@ import { useIdAccount, useLocalStorage } from '@/hooks';
 import { IntMath, TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
 import { getNativeBalance } from '@/state/core/core.selectors';
 import { CogsSVG } from '@/svg';
+import { isZeroAddress } from '@/utils';
 
 import SwapSelectCurrency from '../components/swap-select-currency';
 import InputBalance from './input-balance';
@@ -24,7 +25,7 @@ const Swap: FC = () => {
   const { chainId, account } = useIdAccount();
   const [localSettings, setLocalSettings] = useLocalStorage<LocalSwapSettings>(
     'interest-swap-settings',
-    { slippage: 1, deadline: 5 }
+    { slippage: '1', deadline: 5 }
   );
 
   const { register, control, setValue, getValues } = useForm<ISwapForm>({
@@ -50,7 +51,7 @@ const Swap: FC = () => {
 
   const [showSettings, setShowSettings] = useState(false);
   const [hasNoMarket, setHasNoMarket] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [isFetchingAmountOutTokenIn, setFetchingAmountOutTokenIn] =
     useState(false);
   const [isFetchingAmountOutTokenOut, setFetchingAmountOutTokenOut] =
@@ -86,31 +87,26 @@ const Swap: FC = () => {
     nativeBalance
   );
 
+  const needsApproval =
+    !isZeroAddress(tokenInAddress) && balancesData.tokenInAllowance.isZero();
+
   const toggleSettings = () => setShowSettings(not);
-
-  const setDeadline = (x: number) => {
-    setValue('deadline', x);
-    setLocalSettings({ ...localSettings, deadline: x });
-  };
-
-  const setSlippage = (x: number) => {
-    setValue('slippage', x);
-    setLocalSettings({ ...localSettings, slippage: x });
-  };
 
   const flipTokens = () => {
     const { tokenOut, tokenIn } = getValues();
     const prevTokenOut = tokenOut;
     const prevTokenIn = tokenIn;
-    setValue('tokenIn.address', prevTokenOut.address);
-    setValue('tokenIn.value', prevTokenOut.value);
-    setValue('tokenOut.address', prevTokenIn.address);
-    setValue('tokenOut.value', '0');
+    setValue('tokenIn', prevTokenOut);
+    setValue('tokenOut', prevTokenIn);
   };
 
+  // TODO need to update decimals as well
+  // symbol
   const onSelectCurrency =
     (name: 'tokenIn' | 'tokenOut') => (address: string) => {
       setValue(`${name}.address`, address);
+      setValue('tokenOut.value', '0');
+      setValue('tokenIn.value', '0');
       setHasNoMarket(false);
     };
 
@@ -152,8 +148,9 @@ const Swap: FC = () => {
                 toggle={toggleSettings}
                 control={control}
                 register={register}
-                setDeadline={setDeadline}
-                setSlippage={setSlippage}
+                setValue={setValue}
+                setLocalSettings={setLocalSettings}
+                localSettings={localSettings}
               />
             )}
           </Box>
@@ -251,11 +248,13 @@ const Swap: FC = () => {
           setSwapBase={setSwapBase}
           swapBase={swapBase}
           chainId={chainId}
-          balancesData={balancesData}
           account={account}
           getValues={getValues}
           parsedTokenInBalance={parsedTokenInBalance}
           updateBalances={mutate}
+          loading={loading}
+          setLoading={setLoading}
+          needsApproval={needsApproval}
         />
       </Box>
       <SwapManager

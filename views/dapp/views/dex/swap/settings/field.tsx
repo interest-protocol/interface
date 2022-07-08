@@ -8,10 +8,11 @@ const Field: FC<FieldProps> = ({
   label,
   prefix,
   setRegister,
-  step,
+
   suffix,
   placeholder,
   max,
+  type,
 }) => {
   return (
     <Box mt="L">
@@ -20,8 +21,7 @@ const Field: FC<FieldProps> = ({
       </Typography>
       <Input
         min="0"
-        type="number"
-        step={step}
+        type={type}
         placeholder={placeholder}
         {...setRegister()}
         max={max}

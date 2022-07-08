@@ -16,7 +16,7 @@ const InputBalance: FC<InputBalanceProps> = ({
   handleSelectedByUser,
 }) => (
   <>
-    <Box>{formatMoney(balance)}</Box>
+    <Box>Balance: {formatMoney(balance)}</Box>
     <Input
       min="0"
       fontSize="L"
@@ -30,7 +30,7 @@ const InputBalance: FC<InputBalanceProps> = ({
           setValue?.(
             `${name}.value`,
             parseToSafeStringNumber(
-              isNaN(+value[value.length - 1])
+              isNaN(+value[value.length - 1]) && value[value.length - 1] !== '.'
                 ? value.slice(0, value.length - 1)
                 : value
             )

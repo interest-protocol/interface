@@ -33,7 +33,9 @@ export const useGetDexAllowancesAndBalances = (
   tokenIn: string,
   tokenOut: string
 ): UseGetDexAllowancesAndBalancesReturn => {
-  const sortedTokens = sortTokens(tokenIn, tokenOut);
+  const sortedTokens = sortTokens(tokenIn, tokenOut).filter(
+    (x) => !isZeroAddress(x)
+  );
 
   const { data, error, mutate } = useGetUserBalancesAndAllowances(
     user,

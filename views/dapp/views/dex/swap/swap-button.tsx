@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers';
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -14,37 +14,63 @@ import { ZERO_ADDRESS } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG } from '@/svg';
 import {
-  adjustTo18Decimals,
+  adjustDecimals,
   getInterestDexRouterAddress,
   isSameAddress,
   isZeroAddress,
+  showToast,
   showTXSuccessToast,
   throwError,
   throwIfInvalidSigner,
 } from '@/utils';
 import { WalletGuardButton } from '@/views/dapp/components';
 
-import { SwapButtonProps } from './swap.types';
+import { SwapButtonProps, SwapViewButtonProps } from './swap.types';
 import { handleRoute } from './utils';
 
+const SwapViewButton: FC<SwapViewButtonProps> = ({
+  loading,
+  onClick,
+  loadingText,
+  text,
+}) => (
+  <Button
+    mt="L"
+    width="100%"
+    variant="primary"
+    disabled={loading}
+    hover={{ bg: 'accentAlternativeActive' }}
+    onClick={onClick}
+    bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
+  >
+    {loading ? (
+      <Box as="span" display="flex" justifyContent="center">
+        <LoadingSVG width="1rem" height="1rem" />
+        <Typography as="span" variant="normal" ml="M" fontSize="S">
+          {loadingText}
+        </Typography>
+      </Box>
+    ) : (
+      text
+    )}
+  </Button>
+);
+
 const SwapButton: FC<SwapButtonProps> = ({
+  loading,
+  needsApproval,
   tokenInAddress,
+  setLoading,
   getValues,
   swapBase,
   account,
   chainId,
-  balancesData,
   parsedTokenInBalance,
   updateBalances,
 }) => {
-  const [loading, setLoading] = useState(false);
-
   const { signer } = useGetSigner();
 
   const dispatch = useDispatch();
-
-  const needsApproval =
-    !isZeroAddress(tokenInAddress) && balancesData.tokenInAllowance.isZero();
 
   const handleAddAllowance = useCallback(async () => {
     if (isZeroAddress(tokenInAddress)) return;
@@ -63,7 +89,7 @@ const SwapButton: FC<SwapButtonProps> = ({
         tokenInAddress,
         getInterestDexRouterAddress(validId)
       );
-
+      await updateBalances();
       await showTXSuccessToast(tx, validId);
     } catch (e) {
       throwError('Something went wrong', e);
@@ -72,6 +98,13 @@ const SwapButton: FC<SwapButtonProps> = ({
       dispatch(coreActions.updateNativeBalance());
     }
   }, [account, chainId, signer, tokenInAddress]);
+
+  const submitAllowance = () =>
+    showToast(handleAddAllowance(), {
+      loading: 'Approving...',
+      success: 'Success!',
+      error: ({ message }) => message,
+    });
 
   const handleSwap = useCallback(async () => {
     const { tokenIn, tokenOut } = getValues();
@@ -88,44 +121,53 @@ const SwapButton: FC<SwapButtonProps> = ({
 
       const [tokenInIntegralPart, tokenInDecimalPart] =
         tokenIn.value.split('.');
-      const bnAmountIn = adjustTo18Decimals(
+
+      const bnAmountIn = adjustDecimals(
         BigNumber.from(tokenInIntegralPart),
         0,
         tokenIn.decimals
       ).add(
-        adjustTo18Decimals(
-          BigNumber.from(tokenInDecimalPart),
-          tokenInDecimalPart.length,
-          tokenIn.decimals
-        )
+        tokenInDecimalPart
+          ? adjustDecimals(
+              BigNumber.from(tokenInDecimalPart),
+              tokenInDecimalPart.length,
+              tokenIn.decimals
+            )
+          : 0
       );
+
       const [tokenOutIntegralPart, tokenOutDecimalPart] =
         tokenOut.value.split('.');
 
-      const bnAmountOut = adjustTo18Decimals(
+      const bnAmountOut = adjustDecimals(
         BigNumber.from(tokenOutIntegralPart),
         0,
         tokenOut.decimals
       ).add(
-        adjustTo18Decimals(
-          BigNumber.from(tokenOutDecimalPart),
-          tokenOutDecimalPart.length,
-          tokenIn.decimals
-        )
+        tokenOutDecimalPart
+          ? adjustDecimals(
+              BigNumber.from(tokenOutDecimalPart),
+              tokenOutDecimalPart.length,
+              tokenIn.decimals
+            )
+          : 0
       );
+
       const safeAmountIn = bnAmountIn.gte(parsedTokenInBalance)
         ? parsedTokenInBalance
         : bnAmountIn;
 
-      const minAmountOut = bnAmountOut
+      const slippageAmount = bnAmountOut
         .mul(
-          adjustTo18Decimals(
-            BigNumber.from(Math.floor(slippage * 100)),
+          adjustDecimals(
+            BigNumber.from(Math.floor(+slippage * 100)),
             0,
-            tokenOut.decimals - 2
+            tokenOut.decimals
           )
-        )
-        .div(BigNumber.from(10).pow(tokenOut.decimals));
+        ) // Since we multiplied slippage by 100, we need to add 4 decimal houses here
+        .div(BigNumber.from(10).pow(tokenOut.decimals + 4));
+
+      const minAmountOut = bnAmountOut.sub(slippageAmount);
 
       const route = handleRoute(
         tokenIn.address,
@@ -133,7 +175,9 @@ const SwapButton: FC<SwapButtonProps> = ({
         swapBase || ZERO_ADDRESS
       );
 
-      return;
+      const parsedDeadline = Math.floor(
+        (new Date().getTime() + deadline * 60 * 1000) / 1000
+      );
 
       if (isZeroAddress(tokenIn.address)) {
         const tx = await swapExactNativeTokenForTokens(
@@ -143,7 +187,7 @@ const SwapButton: FC<SwapButtonProps> = ({
           minAmountOut,
           route,
           validSigner._address,
-          new Date().getTime() + deadline * 60 * 1000
+          parsedDeadline
         );
 
         await showTXSuccessToast(tx, validId);
@@ -158,7 +202,7 @@ const SwapButton: FC<SwapButtonProps> = ({
           minAmountOut,
           route,
           validSigner._address,
-          new Date().getTime() + deadline * 60 * 1000
+          parsedDeadline
         );
 
         await showTXSuccessToast(tx, validId);
@@ -172,7 +216,7 @@ const SwapButton: FC<SwapButtonProps> = ({
         minAmountOut,
         route,
         validSigner._address,
-        new Date().getTime() + deadline * 60 * 1000
+        parsedDeadline
       );
 
       await showTXSuccessToast(tx, validId);
@@ -185,30 +229,30 @@ const SwapButton: FC<SwapButtonProps> = ({
     }
   }, [account, chainId, signer, parsedTokenInBalance, swapBase]);
 
+  const swap = () =>
+    showToast(handleSwap(), {
+      loading: 'Swapping...',
+      success: 'Success!',
+      error: ({ message }) => message,
+    });
+
   return (
     <WalletGuardButton>
-      <Button
-        mt="L"
-        width="100%"
-        variant="primary"
-        disabled={loading}
-        hover={{ bg: 'accentAlternativeActive' }}
-        onClick={needsApproval ? handleAddAllowance : handleSwap}
-        bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
-      >
-        {loading ? (
-          <Box as="span" display="flex" justifyContent="center">
-            <LoadingSVG width="1rem" height="1rem" />
-            <Typography as="span" variant="normal" ml="M" fontSize="S">
-              {needsApproval ? 'Approving' : 'Swapping'}...
-            </Typography>
-          </Box>
-        ) : needsApproval ? (
-          'Approve'
-        ) : (
-          'Swapping'
-        )}
-      </Button>
+      {needsApproval ? (
+        <SwapViewButton
+          loading={loading}
+          onClick={submitAllowance}
+          loadingText="Approving..."
+          text="Approve"
+        />
+      ) : (
+        <SwapViewButton
+          loading={loading}
+          onClick={swap}
+          loadingText="Swapping..."
+          text="Swap"
+        />
+      )}
     </WalletGuardButton>
   );
 };
