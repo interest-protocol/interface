@@ -479,7 +479,7 @@ const SwapForm: FC<SwapFormProps> = ({
           <Box
             p="L"
             my="M"
-            color="error"
+            color="accent"
             display="flex"
             bg="background"
             borderRadius="M"
@@ -498,7 +498,7 @@ const SwapForm: FC<SwapFormProps> = ({
               !
             </Box>
             <Typography variant="normal" fontSize="S">
-              Error! Has no market
+              There is no market
             </Typography>
           </Box>
         )}

@@ -26,6 +26,8 @@ import {
 
 const EXPECTED_TIMEOUT_MILLISECONDS = 5000;
 
+const BLOCKCHAIN_MOCK_TOKEN = {};
+
 const renderData = (
   tokens: ReadonlyArray<SwapTokenModalMetadata>,
   onSelectCurrency: (symbol: string) => void,
