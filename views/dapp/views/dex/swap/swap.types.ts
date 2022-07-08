@@ -1,4 +1,9 @@
-import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import {
+  Control,
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormSetValue,
+} from 'react-hook-form';
 
 import { SwapFormTokenData } from '@/views/dapp/views/dex/dex.types';
 
@@ -23,4 +28,5 @@ export interface SwapFormProps {
   control: Control<ISwapForm>;
   register: UseFormRegister<ISwapForm>;
   setValue: UseFormSetValue<ISwapForm>;
+  getValues: UseFormGetValues<ISwapForm>;
 }

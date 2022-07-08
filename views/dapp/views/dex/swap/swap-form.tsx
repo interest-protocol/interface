@@ -1,17 +1,26 @@
+import { BigNumber } from 'ethers';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addAllowance, getAmountsOut } from '@/api';
+import {
+  addAllowance,
+  getAmountsOut,
+  swapExactNativeTokenForTokens,
+  swapExactTokensForNativeToken,
+  swapExactTokensForTokens,
+} from '@/api';
 import { SWAP_BASES } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useDebounce, useGetSigner, useIdAccount } from '@/hooks';
-import { IntMath } from '@/sdk';
+import { IntMath, ZERO_ADDRESS } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import { getNativeBalance } from '@/state/core/core.selectors';
 import { LoadingSVG } from '@/svg';
 import {
+  adjustTo18Decimals,
   getInterestDexRouterAddress,
+  isSameAddress,
   isZeroAddress,
   safeToBigNumber,
   showTXSuccessToast,
@@ -20,14 +29,23 @@ import {
 } from '@/utils';
 import { WalletGuardButton } from '@/views/dapp/components';
 
-import InputBalance from '../components/input-balance';
 import SwapSelectCurrency from '../components/swap-select-currency';
+import InputBalance from './input-balance';
 import { AmountCacheValue, SwapFormProps } from './swap.types';
-import { handleTokenBalance, useGetDexAllowancesAndBalances } from './utils';
+import {
+  handleRoute,
+  handleTokenBalance,
+  useGetDexAllowancesAndBalances,
+} from './utils';
 
 const AMOUNT_OUT_CACHE = new Map<string, AmountCacheValue>();
 
-const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
+const SwapForm: FC<SwapFormProps> = ({
+  setValue,
+  register,
+  control,
+  getValues,
+}) => {
   const [loading, setLoading] = useState(false);
   const [isFetchingAmountOutTokenIn, setFetchingAmountOutTokenIn] =
     useState(false);
@@ -49,8 +67,8 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
     useGetDexAllowancesAndBalances(
       account,
       chainId,
-      tokenIn.address,
-      tokenOut.address
+      tokenIn.address || ZERO_ADDRESS,
+      tokenOut.address || ZERO_ADDRESS
     );
 
   const parsedTokenInBalance = handleTokenBalance(
@@ -78,7 +96,7 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
   // User is typing a value in the token in input
   // We need to disable tokenOut input and fetch a value
   useEffect(() => {
-    if (isFetchingAmountOutTokenOut) return;
+    if (isFetchingAmountOutTokenOut || !tokenIn.setByUser) return;
 
     const key = `${tokenIn.address}-${tokenOut.address}-${debouncedTokenInValue}`;
 
@@ -89,6 +107,7 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
     // Value is valid
     if (value && value.timestamp + 30000 >= currentTime) {
       setValue('tokenOut.value', value.amountOut);
+      setValue('tokenOut.setByUser', false);
       return;
     }
 
@@ -100,11 +119,16 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
       tokenIn.address,
       tokenOut.address,
       safeToBigNumber(debouncedTokenInValue, tokenIn.decimals),
-      SWAP_BASES[chainId]
+      SWAP_BASES[chainId].filter(
+        (x) =>
+          !isSameAddress(x, tokenIn.address) &&
+          !isSameAddress(x, tokenOut.address)
+      )
     )
       .then((data) => {
         if (isZeroAddress(data.base) && data.amountOut.isZero()) {
           setValue('tokenOut.value', '0');
+          setValue('tokenOut.setByUser', false);
           AMOUNT_OUT_CACHE.set(key, {
             amountOut: '0',
             timestamp: new Date().getTime(),
@@ -130,19 +154,22 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
       .catch(() => {
         setAmountOutError(`Error fetching ${tokenOut.symbol} amount`);
       })
-      .finally(() => setFetchingAmountOutTokenOut(false));
+      .finally(() => {
+        setFetchingAmountOutTokenOut(false);
+      });
   }, [
     debouncedTokenInValue,
     setValue,
     tokenIn.address,
     tokenOut.address,
     chainId,
+    tokenIn.setByUser,
   ]);
 
   // User is typing a value in the token out input
   // We need to disable tokenIn input and fetch a value
   useEffect(() => {
-    if (isFetchingAmountOutTokenIn) return;
+    if (isFetchingAmountOutTokenIn || !tokenOut.setByUser) return;
 
     const key = `${tokenOut.address}-${tokenIn.address}-${debouncedTokenOutValue}`;
 
@@ -164,7 +191,11 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
       tokenOut.address,
       tokenIn.address,
       safeToBigNumber(debouncedTokenOutValue, tokenOut.decimals),
-      SWAP_BASES[chainId]
+      SWAP_BASES[chainId].filter(
+        (x) =>
+          !isSameAddress(x, tokenIn.address) &&
+          !isSameAddress(x, tokenOut.address)
+      )
     )
       .then((data) => {
         if (isZeroAddress(data.base) && data.amountOut.isZero()) {
@@ -174,6 +205,7 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
             timestamp: new Date().getTime(),
           });
           setHasNoMarket(true);
+          setValue('tokenIn.setByUser', false);
           return;
         }
 
@@ -186,6 +218,7 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
         setSwapBase(data.base);
         setHasNoMarket(false);
         setValue('tokenIn.value', value);
+        setValue('tokenIn.setByUser', false);
         AMOUNT_OUT_CACHE.set(key, {
           amountOut: value,
           timestamp: new Date().getTime(),
@@ -201,14 +234,8 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
     tokenIn.address,
     tokenOut.address,
     chainId,
+    tokenOut.setByUser,
   ]);
-
-  console.log(parsedTokenInBalance.toString(), 'tokenin');
-  console.log(parsedTokenOutBalance.toString(), 'tokenout');
-
-  // useEffect(() => {
-  //   setValue('tokenOut.value', parsedTokenOutBalance.toString());
-  // }, [parsedTokenOutBalance]);
 
   const onSelectCurrency =
     (name: 'tokenIn' | 'tokenOut') => (address: string) =>
@@ -247,11 +274,127 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
     } finally {
       setLoading(false);
       dispatch(coreActions.updateNativeBalance());
-      await mutate();
     }
   }, [account, chainId, signer, tokenIn.address]);
 
-  const swap = async () => {};
+  const handleSwap = useCallback(async () => {
+    if (isSameAddress(tokenIn.address, tokenOut.address)) return;
+    setLoading(true);
+    try {
+      const { validId, validSigner } = throwIfInvalidSigner(
+        [account],
+        chainId,
+        signer
+      );
+
+      const { slippage, deadline } = getValues();
+
+      const [tokenInIntegralPart, tokenInDecimalPart] =
+        tokenIn.value.split('.');
+      const bnAmountIn = adjustTo18Decimals(
+        BigNumber.from(tokenInIntegralPart),
+        0,
+        tokenIn.decimals
+      ).add(
+        adjustTo18Decimals(
+          BigNumber.from(tokenInDecimalPart),
+          tokenInDecimalPart.length,
+          tokenIn.decimals
+        )
+      );
+      const [tokenOutIntegralPart, tokenOutDecimalPart] =
+        tokenOut.value.split('.');
+
+      const bnAmountOut = adjustTo18Decimals(
+        BigNumber.from(tokenOutIntegralPart),
+        0,
+        tokenOut.decimals
+      ).add(
+        adjustTo18Decimals(
+          BigNumber.from(tokenOutDecimalPart),
+          tokenOutDecimalPart.length,
+          tokenIn.decimals
+        )
+      );
+      const safeAmountIn = bnAmountIn.gte(parsedTokenInBalance)
+        ? parsedTokenInBalance
+        : bnAmountIn;
+
+      const minAmountOut = bnAmountOut
+        .mul(
+          adjustTo18Decimals(
+            BigNumber.from(Math.floor(slippage * 100)),
+            0,
+            tokenOut.decimals - 2
+          )
+        )
+        .div(BigNumber.from(10).pow(tokenOut.decimals));
+
+      const route = handleRoute(
+        tokenIn.address,
+        tokenOut.address,
+        swapBase || ZERO_ADDRESS
+      );
+
+      return;
+
+      if (isZeroAddress(tokenIn.address)) {
+        const tx = await swapExactNativeTokenForTokens(
+          validId,
+          validSigner,
+          safeAmountIn,
+          minAmountOut,
+          route,
+          validSigner._address,
+          new Date().getTime() + deadline * 60 * 1000
+        );
+
+        await showTXSuccessToast(tx, validId);
+        return;
+      }
+
+      if (isZeroAddress(tokenOut.address)) {
+        const tx = await swapExactTokensForNativeToken(
+          validId,
+          validSigner,
+          safeAmountIn,
+          minAmountOut,
+          route,
+          validSigner._address,
+          new Date().getTime() + deadline * 60 * 1000
+        );
+
+        await showTXSuccessToast(tx, validId);
+        return;
+      }
+
+      const tx = await swapExactTokensForTokens(
+        validId,
+        validSigner,
+        safeAmountIn,
+        minAmountOut,
+        route,
+        validSigner._address,
+        new Date().getTime() + deadline * 60 * 1000
+      );
+
+      await showTXSuccessToast(tx, validId);
+    } catch (e) {
+      throwError('Something went wrong', e);
+    } finally {
+      setLoading(false);
+      dispatch(coreActions.updateNativeBalance());
+      await mutate();
+    }
+  }, [
+    account,
+    chainId,
+    signer,
+    tokenIn,
+    tokenOut,
+    parsedTokenInBalance,
+    swapBase,
+  ]);
 
   return (
     <Box color="text" width="100%" display="grid" gridGap="1rem" pb="L">
@@ -264,7 +407,7 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
       >
         <InputBalance
           balance={parsedTokenInBalance.toString()}
-          name="tokenIn.value"
+          name="tokenIn"
           register={register}
           setValue={setValue}
           max={IntMath.toNumber(
@@ -302,11 +445,11 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
           ⥯
         </Box>
         <InputBalance
-          balance={parsedTokenOutBalance.toString()}
+          name="tokenOut"
           register={register}
           setValue={setValue}
-          name="tokenOut.value"
           disabled={isFetchingAmountOutTokenOut}
+          balance={parsedTokenOutBalance.toString()}
           currencySelector={
             <SwapSelectCurrency
               currentToken={tokenOut.address}
@@ -366,7 +509,7 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
             variant="primary"
             disabled={loading}
             hover={{ bg: 'accentAlternativeActive' }}
-            onClick={needsApproval ? handleAddAllowance : swap}
+            onClick={needsApproval ? handleAddAllowance : handleSwap}
             bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
           >
             {loading ? (
@@ -387,4 +530,5 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
     </Box>
   );
 };
+
 export default SwapForm;
