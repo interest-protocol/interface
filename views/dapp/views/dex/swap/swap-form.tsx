@@ -52,7 +52,7 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
       tokenIn.address,
       tokenOut.address
     );
-  console.log(tokenIn);
+
   const parsedTokenInBalance = handleTokenBalance(
     tokenIn.address,
     balancesData.tokenInBalance,
@@ -68,7 +68,6 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
   const debouncedTokenInValue = useDebounce(tokenIn.value, 1500);
   const debouncedTokenOutValue = useDebounce(tokenOut.value, 1500);
 
-  // Need to show approval button
   const needsApproval =
     !isZeroAddress(tokenIn.address) && balancesData.tokenInAllowance.isZero();
 
@@ -207,6 +206,10 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
   console.log(parsedTokenInBalance.toString(), 'tokenin');
   console.log(parsedTokenOutBalance.toString(), 'tokenout');
 
+  // useEffect(() => {
+  //   setValue('tokenOut.value', parsedTokenOutBalance.toString());
+  // }, [parsedTokenOutBalance]);
+
   const onSelectCurrency =
     (name: 'tokenIn' | 'tokenOut') => (address: string) =>
       setValue(`${name}.address`, address);
@@ -260,6 +263,7 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
         justifyContent="space-evenly"
       >
         <InputBalance
+          balance={parsedTokenInBalance.toString()}
           name="tokenIn.value"
           register={register}
           setValue={setValue}
@@ -298,6 +302,7 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
           ⥯
         </Box>
         <InputBalance
+          balance={parsedTokenOutBalance.toString()}
           register={register}
           setValue={setValue}
           name="tokenOut.value"
@@ -323,7 +328,34 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
               <LoadingSVG width="1rem" />
             </Box>
             <Typography variant="normal" fontSize="S">
-              Fetching amount out...
+              Fetching amount...
+            </Typography>
+          </Box>
+        )}
+        {hasNoMarket && (
+          <Box
+            p="L"
+            my="M"
+            color="error"
+            display="flex"
+            bg="background"
+            borderRadius="M"
+            alignItems="center"
+          >
+            <Box
+              mr="M"
+              width="1.2rem"
+              height="1.2rem"
+              display="flex"
+              borderRadius="50%"
+              border="1px solid"
+              alignItems="center"
+              justifyContent="center"
+            >
+              !
+            </Box>
+            <Typography variant="normal" fontSize="S">
+              Error! Has no market
             </Typography>
           </Box>
         )}

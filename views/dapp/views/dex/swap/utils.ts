@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers';
 
 import { useGetUserBalancesAndAllowances } from '@/hooks';
-import { sortTokens, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
+import { sortTokens, ZERO_BIG_NUMBER } from '@/sdk';
 import {
   getInterestDexRouterAddress,
   isSameAddress,
