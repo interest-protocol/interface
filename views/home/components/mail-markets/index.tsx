@@ -24,11 +24,15 @@ const MailMarkets: FC = () => {
         flexDirection={['column-reverse', 'row']}
       >
         <Box width={['100%', '50%']}>
-          <AnimationOnScroll delay={1000} animateIn="animate__fadeInBottomLeft">
+          <AnimationOnScroll
+            animateOnce
+            delay={1000}
+            animateIn="animate__fadeInBottomLeft"
+          >
             <img src="/token-disk.png" width="100%" alt="Tokens Ecosystem" />
           </AnimationOnScroll>
         </Box>
-        <AnimationOnScroll delay={500} animateIn="animate__flipInX">
+        <AnimationOnScroll animateOnce delay={500} animateIn="animate__flipInX">
           <Box
             bg="foreground"
             borderRadius="M"

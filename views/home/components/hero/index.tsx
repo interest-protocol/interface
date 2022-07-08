@@ -12,7 +12,7 @@ const Hero: FC = () => (
       'none',
     ]}
   >
-    <AnimationOnScroll duration={3} animateIn="animate__fadeIn">
+    <AnimationOnScroll animateOnce duration={3} animateIn="animate__fadeIn">
       <Container
         px="S"
         py="XXL"

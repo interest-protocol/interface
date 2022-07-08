@@ -15,12 +15,12 @@ const Enjoy: FC = () => {
   return (
     <Box bg="background">
       <Container as="section" py="XXXL" textAlign="center">
-        <AnimationOnScroll animateIn="animate__flipInX">
+        <AnimationOnScroll animateOnce animateIn="animate__flipInX">
           <Typography as="h2" textAlign="center" variant="title1">
             Earn
           </Typography>
         </AnimationOnScroll>
-        <AnimationOnScroll delay={100} animateIn="animate__flipInX">
+        <AnimationOnScroll animateOnce delay={100} animateIn="animate__flipInX">
           <Typography variant="normal">
             Maximize your profits through automated strategies.
           </Typography>
@@ -34,6 +34,7 @@ const Enjoy: FC = () => {
           {EARN_TYPES.map((type, index) => (
             <Box key={v4()} textAlign="center">
               <AnimationOnScroll
+                animateOnce
                 delay={index * 200 + 300}
                 animateIn="animate__zoomInDown"
               >
