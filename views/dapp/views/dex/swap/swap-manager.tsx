@@ -66,7 +66,7 @@ const SwapManager: FC<SwapManagerProps> = ({
     )
       .then((data) => {
         if (isZeroAddress(data.base) && data.amountOut.isZero()) {
-          setValue('tokenOut.value', '0');
+          setValue('tokenIn.value', '0');
           setHasNoMarket(true);
           setSwapBase(data.base);
           AMOUNT_OUT_CACHE.set(key, {
