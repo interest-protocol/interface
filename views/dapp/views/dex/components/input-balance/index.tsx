@@ -30,14 +30,14 @@ const InputBalance: FC<InputBalanceProps> = ({
       py: 'L',
       my: 'M',
       display: 'grid',
-      bg: 'background',
       borderRadius: 'M',
       overflow: 'visible',
       border: '1px solid',
       borderColor: 'transparent',
       gridTemplateColumns: '6.9rem 1fr auto',
+      bg: disabled ? 'disabled' : 'background',
       hover: {
-        borderColor: 'accentBackground',
+        borderColor: disabled ? 'disabled' : 'accentBackground',
       },
     }}
     Prefix={currencySelector}

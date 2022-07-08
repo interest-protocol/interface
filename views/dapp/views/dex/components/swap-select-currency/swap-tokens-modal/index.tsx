@@ -24,6 +24,8 @@ import {
   SwapTokenModalMetadata,
 } from '../../../dex.types';
 
+const EXPECTED_TIMEOUT_MILLISECONDS = 5000;
+
 const renderData = (
   tokens: ReadonlyArray<SwapTokenModalMetadata>,
   onSelectCurrency: (symbol: string) => void,
@@ -93,20 +95,22 @@ const renderData = (
 const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   Input,
   control,
+  disabled,
+  isSearching,
+  toggleModal,
+  isOpenModal,
   currentToken,
+  setIsSearching,
   onSelectCurrency,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [showLocal, setShowLocal] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
-  const search = useWatch({ control, name: 'search' });
   const { chainId } = useIdAccount();
+  const [showLocal, setShowLocal] = useState(false);
+  const search = useWatch({ control, name: 'search' });
+  const [readyToSearch, setReadyToSearch] = useState(true);
 
   const [tokensAddedByUser, addTokenAddedByUser] = useLocalStorage<
     ReadonlyArray<SwapTokenModalMetadata>
   >(`${chainId}-interest-dex-custom-tokens`, []);
-
-  const toggleOpen = () => setIsOpen(!isOpen);
 
   const nativeToken = NATIVE_TOKENS[chainId];
   const symbol = isZeroAddress(currentToken)
@@ -117,13 +121,27 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
 
   // able to search on blockchain or no
   useEffect(() => {
-    setIsSearching(
+    if (
+      readyToSearch &&
       isAddress(search) &&
-        TOKEN_META_DATA_ARRAY[chainId].some(({ address }) =>
-          isSameAddress(search, address)
-        )
-    );
+      !TOKEN_META_DATA_ARRAY[chainId].some(({ address }) =>
+        isSameAddress(search, address)
+      )
+    )
+      setIsSearching(true);
   }, [search]);
+
+  // is searching debounce
+  useEffect(() => {
+    if (readyToSearch && isSearching) {
+      setReadyToSearch(false);
+      const timeout = setTimeout(() => {
+        setReadyToSearch(true);
+        setIsSearching(false);
+        clearTimeout(timeout);
+      }, EXPECTED_TIMEOUT_MILLISECONDS);
+    }
+  }, [isSearching]);
 
   return (
     <>
@@ -135,9 +153,10 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
         borderRadius="M"
         cursor="pointer"
         alignItems="center"
-        onClick={toggleOpen}
         bg="bottomBackground"
         justifyContent="space-between"
+        onClick={disabled ? undefined : toggleModal}
+        filter={disabled ? 'grayscale(1)' : 'unset'}
       >
         <Box my="M" display="flex" alignItems="center">
           <>
@@ -157,9 +176,9 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
       </Box>
       <Modal
         modalProps={{
-          isOpen,
+          isOpen: isOpenModal,
           shouldCloseOnEsc: true,
-          onRequestClose: toggleOpen,
+          onRequestClose: toggleModal,
           shouldCloseOnOverlayClick: true,
         }}
         background="#0004"

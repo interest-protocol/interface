@@ -298,55 +298,56 @@ const SwapForm: FC<SwapFormProps> = ({ setValue, register, control }) => {
           ⥯
         </Box>
         <InputBalance
-          disabled
-          name="tokenOut.value"
           register={register}
           setValue={setValue}
+          name="tokenOut.value"
+          disabled={isFetchingAmountOutTokenOut}
           currencySelector={
             <SwapSelectCurrency
               currentToken={tokenOut.address}
+              disabled={isFetchingAmountOutTokenOut}
               onSelectCurrency={onSelectCurrency('tokenOut')}
             />
           }
         />
-        {isFetchingAmountOutTokenIn ||
-          (isFetchingAmountOutTokenOut && (
-            <Box
-              p="L"
-              my="M"
-              display="flex"
-              bg="background"
-              borderRadius="M"
-              alignItems="center"
-            >
-              <Box mr="M">
-                <LoadingSVG width="1rem" />
-              </Box>
-              <Typography variant="normal" fontSize="S">
-                Fetching amount out...
-              </Typography>
+        {(isFetchingAmountOutTokenIn || isFetchingAmountOutTokenOut) && (
+          <Box
+            p="L"
+            my="M"
+            display="flex"
+            bg="background"
+            borderRadius="M"
+            alignItems="center"
+          >
+            <Box mr="M">
+              <LoadingSVG width="1rem" />
             </Box>
-          ))}
+            <Typography variant="normal" fontSize="S">
+              Fetching amount out...
+            </Typography>
+          </Box>
+        )}
         <WalletGuardButton>
           <Button
             mt="L"
             width="100%"
-            onClick={swap}
             variant="primary"
             disabled={loading}
             hover={{ bg: 'accentAlternativeActive' }}
+            onClick={needsApproval ? handleAddAllowance : swap}
             bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
           >
-            {/*need approve button here as well*/}
             {loading ? (
               <Box as="span" display="flex" justifyContent="center">
                 <LoadingSVG width="1rem" height="1rem" />
                 <Typography as="span" variant="normal" ml="M" fontSize="S">
-                  Swapping...
+                  {needsApproval ? 'Approving' : 'Swapping'}...
                 </Typography>
               </Box>
+            ) : needsApproval ? (
+              'Approve'
             ) : (
-              'Swap'
+              'Swapping'
             )}
           </Button>
         </WalletGuardButton>

@@ -4,17 +4,21 @@ import { Input } from '@/elements';
 
 import { SwapSearchTokenProps } from '../../../dex.types';
 
-const SwapSearchToken: FC<SwapSearchTokenProps> = ({ register }) => (
+const SwapSearchToken: FC<SwapSearchTokenProps> = ({
+  register,
+  isSearching,
+}) => (
   <Input
     // eslint-disable-next-line jsx-a11y/no-autofocus
     autoFocus
+    disabled={isSearching}
     {...register('search')}
     placeholder="Type an address, name or symbol"
     shieldProps={{
       py: 'M',
       width: '25rem',
-      bg: 'background',
       borderRadius: 'S',
+      bg: isSearching ? 'disabled' : 'background',
     }}
   />
 );
