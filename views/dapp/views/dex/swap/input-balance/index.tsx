@@ -16,7 +16,7 @@ const InputBalance: FC<InputBalanceProps> = ({
   handleSelectedByUser,
 }) => (
   <>
-    <Box>{formatMoney(+balance)}</Box>
+    <Box>{formatMoney(balance)}</Box>
     <Input
       min="0"
       fontSize="L"

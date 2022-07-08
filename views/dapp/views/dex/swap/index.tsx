@@ -167,7 +167,12 @@ const Swap: FC = () => {
             justifyContent="space-evenly"
           >
             <InputBalance
-              balance={parsedTokenInBalance.toString()}
+              balance={IntMath.toNumber(
+                parsedTokenInBalance,
+                getValues().tokenIn.decimals,
+                0,
+                12
+              )}
               name="tokenIn"
               register={register}
               setValue={setValue}
@@ -215,7 +220,12 @@ const Swap: FC = () => {
               register={register}
               setValue={setValue}
               disabled={isFetchingAmountOutTokenOut}
-              balance={parsedTokenOutBalance.toString()}
+              balance={IntMath.toNumber(
+                parsedTokenOutBalance,
+                getValues().tokenOut.decimals,
+                0,
+                12
+              )}
               handleSelectedByUser={() => {
                 setValue(`tokenIn.setByUser`, false);
                 setValue(`tokenOut.setByUser`, true);

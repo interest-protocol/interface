@@ -5,7 +5,7 @@ import { ISwapForm } from '../swap.types';
 
 export interface InputBalanceProps {
   max?: string;
-  balance: string;
+  balance: number;
   disabled?: boolean;
   currencySelector: ReactNode;
   name: 'tokenIn' | 'tokenOut';
