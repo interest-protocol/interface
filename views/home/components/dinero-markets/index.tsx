@@ -18,21 +18,39 @@ const DineroMarkets: FC = () => {
         justifyContent="space-between"
       >
         <Box maxWidth="587px" width="100%">
-          <Typography as="h2" variant="title1" display={['none', 'block']}>
-            Borrow The Stablecoin $DNR
+          <Typography
+            as="h2"
+            variant="normal"
+            fontStyle="normal"
+            fontWeight="900"
+            lineHeight={['2.743rem', '2.743rem', '4.876rem', '4.876rem']}
+            fontSize={['2.25rem', '2.25rem', '4rem', '4rem']}
+            mt="0.75rem"
+          >
+            Make your LP tokens liquid
           </Typography>
-          <Typography as="h2" variant="title1" display={['block', 'none']}>
-            Dinero Markets
-          </Typography>
-          <Typography as="h3" variant="large" fontWeight="normal">
+          <Typography
+            as="h3"
+            variant="normal"
+            mb={['0.625rem', '0.625rem', '1rem', '1rem']}
+            fontSize={['1.125rem', '1.125rem', '1.5rem', '1.5rem']}
+            lineHeight="2.125rem"
+            fontWeight="normal"
+          >
             Pay $0 to borrow Dinero
           </Typography>
-          <Typography variant="normal" my="L" maxWidth="540px" width="100%">
+          <Typography
+            variant="normal"
+            mb={['1.25rem', '1.25rem', '1.563rem', '1.563rem']}
+            lineHeight={['1.5rem', '1.5rem', '2.125rem', '2.125rem']}
+            maxWidth="540px"
+            width="100%"
+            fontSize={['0.875rem', '0.875rem', '1rem', '1rem']}
+          >
             Do not forget that your collateral is still earning money, making
             your $DNR loans extremely profitable.
           </Typography>
           <Button
-            mt="L"
             effect="hover"
             variant="primary"
             onClick={() => push(Routes[RoutesEnum.Borrow])}

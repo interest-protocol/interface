@@ -14,7 +14,7 @@ const MailMarkets: FC = () => {
   const { push } = useRouter();
 
   return (
-    <Container as="section" bg={['#EEE  ', 'transparent']}>
+    <Container as="section" bg={['#EEE', 'transparent']}>
       <Box
         mt="-20rem"
         display="flex"
@@ -30,44 +30,52 @@ const MailMarkets: FC = () => {
         </Box>
         <AnimationOnScroll delay={500} animateIn="animate__flipInX">
           <Box
+            width={['100%', '100%', '41.625rem', '41.625rem']}
             bg="foreground"
             borderRadius="M"
-            px={['L', 'XXL']}
-            py={['XL', 'XXL']}
+            pl={['1.25rem', '1.25rem', '3.75rem', '3.75rem']}
+            pr="1.5rem"
+            pt={['1.875rem', '1.875rem', '5rem', '5rem']}
+            pb={['1.875rem', '1.875rem', '6.063rem', '6.063rem']}
           >
-            <Typography variant="title1" as="h2" display={['none', 'block']}>
-              Lend & Borrow
-            </Typography>
-            <Typography variant="title1" as="h2" display={['block', 'none']}>
-              Mail Markets
-            </Typography>
-            <Typography variant="large" as="h3" fontWeight="400">
-              Deposit your coins to earn and borrow
+            <Typography
+              variant="normal"
+              fontStyle="normal"
+              fontWeight="900"
+              lineHeight={['2.743rem', '2.743rem', '4.876rem', '4.876rem']}
+              fontSize={['2.25rem', '2.25rem', '4rem', '4rem']}
+              as="h2"
+            >
+              Earn
             </Typography>
             <Typography
-              my="L"
               variant="normal"
-              width={['100%', '450px']}
-              fontSize={['button', 'none']}
+              fontSize={['1.125rem', '1.125rem', '1.5rem', '1.5rem']}
+              as="h3"
+              fontWeight="500"
+              lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
+            >
+              Get LP Tokens by providing liquidity to our DEX
+            </Typography>
+            <Typography
+              mt={['0.625rem', '0.625rem', '1rem', '1rem']}
+              mb={['1.25rem', '1.25rem', '1.75rem', '1.75rem']}
+              fontSize={['0.875rem', '0.875rem', '1rem', '1rem']}
+              variant="normal"
             >
               Users pay interest to borrow your coins. All loans are
               overcollateralized to secure your deposits.
             </Typography>
-            <Typography variant="normal" fontWeight="700" mt="XL">
+            <Typography variant="normal" fontWeight="700" mb="0.625rem">
               Type of tokens you can use:
             </Typography>
-            <Box
-              my="L"
-              display="flex"
-              flexWrap="wrap"
-              width={['18rem', '100%']}
-            >
+            <Box display="flex" flexWrap="wrap" width={['18rem', '100%']}>
               {LEND_AND_BORROW_TOKENS.map((icons) => (
                 <LendAndBorrowTokens icons={icons} key={v4()} />
               ))}
             </Box>
             <Button
-              my="XL"
+              mt={['1.25rem', '1.25rem', '3rem', '3rem']}
               effect="hover"
               variant="primary"
               onClick={() =>

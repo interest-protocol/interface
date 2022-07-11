@@ -16,12 +16,26 @@ const Enjoy: FC = () => {
     <Box bg="background">
       <Container as="section" py="XXXL" textAlign="center">
         <AnimationOnScroll animateIn="animate__flipInX">
-          <Typography as="h2" textAlign="center" variant="title1">
-            Earn
+          <Typography
+            as="h2"
+            textAlign="center"
+            variant="normal"
+            fontStyle="normal"
+            font-weight="900"
+            line-height="4.876rem"
+            mb={['0.875rem', '0.875rem', '0.625rem', '0.625rem']}
+            fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
+          >
+            Automate
           </Typography>
         </AnimationOnScroll>
         <AnimationOnScroll delay={100} animateIn="animate__flipInX">
-          <Typography variant="normal">
+          <Typography
+            variant="normal"
+            fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
+            lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
+            fontWeight="500"
+          >
             Maximize your profits through automated strategies.
           </Typography>
         </AnimationOnScroll>
@@ -37,7 +51,12 @@ const Enjoy: FC = () => {
                 delay={index * 200 + 300}
                 animateIn="animate__zoomInDown"
               >
-                <Typography variant="large" as="h3" textTransform="capitalize">
+                <Typography
+                  variant="large"
+                  as="h3"
+                  fontSize="XXL"
+                  textTransform="capitalize"
+                >
                   {type}
                 </Typography>
                 <Box width="100%" mx="auto">
