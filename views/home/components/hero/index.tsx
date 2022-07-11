@@ -14,7 +14,6 @@ const Hero: FC = () => (
   >
     <AnimationOnScroll animateOnce duration={3} animateIn="animate__fadeIn">
       <Container
-        px="S"
         py="XXL"
         pt="XXXL"
         pb="20rem"
@@ -25,37 +24,20 @@ const Hero: FC = () => (
         justifyContent="center"
         flexDirection={['column', 'row']}
       >
-        <Box mx="XL">
-          <Typography variant="title1" as="h2">
-            <Typography
-              as="span"
-              display="block"
-              variant="title1"
-              whiteSpace="nowrap"
-            >
-              Lend, Borrow,
-            </Typography>
-            <Typography
-              as="span"
-              variant="title1"
-              display={['block', 'inline-block']}
-            >
-              Swap And
-            </Typography>{' '}
-            <Typography
-              as="span"
-              variant="title1"
-              whiteSpace={['normal', 'nowrap']}
-              display={['block', 'inline-block']}
-            >
-              Earn
-            </Typography>
+        <Box width={['100%', '100%', '41.239rem', '41.239rem']}>
+          <Typography
+            fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
+            fontStyle="normal"
+            fontWeight="900"
+            lineHeight={['3.353rem', '3.353rem', '4.876rem', '4.876rem']}
+            variant="normal"
+          >
+            borrow Dinero for free
           </Typography>
           <Typography
-            mt="L"
-            pb="L"
-            mb="XL"
-            fontSize="L"
+            mt="0.625rem"
+            mb="1.875rem"
+            fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
             variant="normal"
             lineHeight="30px"
           >

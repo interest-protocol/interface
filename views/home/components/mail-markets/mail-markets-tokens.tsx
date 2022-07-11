@@ -8,7 +8,7 @@ const LendAndBorrowTokens: FC<LendAndBorrowTokensProps> = ({ icons }) => {
   const [Icon, PairIcon] = icons;
 
   return PairIcon ? (
-    <Box as="span" mx="S">
+    <Box as="span" mx="S" mb={['0.625rem', '0.625rem', 'unset', 'unset']}>
       <Box as="span" width="2.4rem">
         <Icon width="2.4rem" />
       </Box>
@@ -17,7 +17,12 @@ const LendAndBorrowTokens: FC<LendAndBorrowTokensProps> = ({ icons }) => {
       </Box>
     </Box>
   ) : (
-    <Box as="span" width="2.4rem" mx="S">
+    <Box
+      as="span"
+      width="2.4rem"
+      mx="S"
+      mb={['0.625rem', '0.625rem', 'unset', 'unset']}
+    >
       <Icon width="2.4rem" />
     </Box>
   );

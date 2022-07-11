@@ -21,12 +21,26 @@ const DEX: FC = () => {
           </Box>
         </Box>
         <Box textAlign={['center', 'right']}>
-          <Typography as="h2" variant="title1">
+          <Typography
+            as="h2"
+            variant="normal"
+            fontStyle="normal"
+            fontWeight="900"
+            lineHeight={['2.743rem', '2.743rem', '4.876rem', '4.876rem']}
+            fontSize={['2.25rem', '2.25rem', '4rem', '4rem']}
+          >
             Dex
           </Typography>
-          <Typography variant="large">Decentralized Exchange</Typography>
+          <Typography
+            variant="normal"
+            mt={['0.625rem', '0.625rem', '0.313rem', '0.313rem']}
+            fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
+            lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
+            mb={['1.25rem', '1.25rem', '1.875rem', '1.875rem']}
+          >
+            Enjoy the lowest slippage and trading fees
+          </Typography>
           <Button
-            mt="XL"
             width="145px"
             effect="hover"
             variant="primary"
@@ -65,23 +79,28 @@ const DEX: FC = () => {
               fontSize={['0.875rem', '1.5rem']}
             >
               K = 3XY + 3XY
-              <br />
-              Low slippage
-              <br />
+              <Typography
+                variant="large"
+                fontSize={['0.875rem', '1.5rem']}
+                as="p"
+                my={['unset', 'unset', '1rem', '1rem']}
+              >
+                Low slippage
+              </Typography>
               0.05% Swap fee
             </Typography>
           </Container>
         </Box>
         <Box
           mx="M"
-          mt="-5rem"
+          mt={['-5rem', '-5rem', 'unset', 'unset']}
           display="flex"
           position="relative"
           flexDirection={['row', 'column']}
           justifyContent={['space-evenly', 'space-between']}
         >
           <Box
-            p="L"
+            p="1.75rem"
             mx="S"
             display="flex"
             bg="foreground"
@@ -105,7 +124,7 @@ const DEX: FC = () => {
             bg="foreground"
             textAlign="center"
             alignItems="center"
-            bottom={['NONE', '0']}
+            bottom={['NONE', '-4rem']}
             justifyContent="center"
             width={['50%', '18.25rem']}
             height={['10rem', '12.625rem']}
@@ -135,9 +154,14 @@ const DEX: FC = () => {
               fontSize={['0.875rem', '1.5rem']}
             >
               K = Y * X
-              <br />
-              Normal slippage
-              <br />
+              <Typography
+                variant="large"
+                fontSize={['0.875rem', '1.5rem']}
+                as="p"
+                my={['unset', 'unset', '1rem', '1rem']}
+              >
+                Normal slippage
+              </Typography>
               0.3% Swap fee
             </Typography>
           </Container>
