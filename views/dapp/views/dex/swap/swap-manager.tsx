@@ -6,7 +6,12 @@ import { getAmountsOut } from '@/api';
 import { SWAP_BASES, WRAPPED_NATIVE_TOKEN } from '@/constants';
 import { useDebounce } from '@/hooks';
 import { IntMath } from '@/sdk';
-import { isSameAddress, isZeroAddress, safeToBigNumber } from '@/utils';
+import {
+  getWETHAddress,
+  isSameAddress,
+  isZeroAddress,
+  safeToBigNumber,
+} from '@/utils';
 
 import { AmountCacheValue, SwapManagerProps } from './swap.types';
 
@@ -48,7 +53,20 @@ const SwapManager: FC<SwapManagerProps> = ({
 
     const key = `${tokenInAddress}-${tokenOutAddress}-${debouncedTokenOutValue}`;
 
-    if (!debouncedTokenOutValue || debouncedTokenOutValue == '0') return;
+    if (!debouncedTokenOutValue) return;
+
+    // If the user is swapping between NATIVE TOKEN <=> WRAPPED NATIVE TOKEN. The amounts are always the same
+    if (
+      (isZeroAddress(tokenIn.address) &&
+        isSameAddress(getWETHAddress(chainId), tokenOut.address)) ||
+      (isZeroAddress(tokenOut.address) &&
+        isSameAddress(getWETHAddress(chainId), tokenIn.address))
+    ) {
+      setValue('tokenIn.value', debouncedTokenOutValue);
+      return;
+    }
+
+    if (debouncedTokenOutValue == '0') return;
 
     const value = AMOUNT_OUT_CACHE.get(key);
 
@@ -118,6 +136,8 @@ const SwapManager: FC<SwapManagerProps> = ({
     chainId,
     tokenIn.setByUser,
     hasNoMarket,
+    tokenIn.address,
+    tokenOut.address,
   ]);
 
   // User is typing a value in the tokenIn input
@@ -127,7 +147,19 @@ const SwapManager: FC<SwapManagerProps> = ({
 
     const key = `${tokenOutAddress}-${tokenInAddress}-${debouncedTokenInValue}`;
 
-    if (!debouncedTokenInValue || debouncedTokenInValue == '0') return;
+    if (!debouncedTokenInValue) return;
+    // If the user is swapping between NATIVE TOKEN <=> WRAPPED NATIVE TOKEN. The amounts are always the same
+    if (
+      (isZeroAddress(tokenIn.address) &&
+        isSameAddress(getWETHAddress(chainId), tokenOut.address)) ||
+      (isZeroAddress(tokenOut.address) &&
+        isSameAddress(getWETHAddress(chainId), tokenIn.address))
+    ) {
+      setValue('tokenOut.value', debouncedTokenInValue);
+      return;
+    }
+
+    if (debouncedTokenInValue == '0') return;
 
     const value = AMOUNT_OUT_CACHE.get(key);
 
@@ -195,6 +227,8 @@ const SwapManager: FC<SwapManagerProps> = ({
     chainId,
     tokenOut.setByUser,
     hasNoMarket,
+    tokenIn.address,
+    tokenOutAddress,
   ]);
 
   return null;

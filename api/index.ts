@@ -11,3 +11,4 @@ export * from './mail-deployer';
 export * from './mail-pool';
 export * from './provider';
 export * from './token-minter';
+export * from './weth';

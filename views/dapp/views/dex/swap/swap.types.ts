@@ -46,6 +46,7 @@ export interface SwapButtonProps {
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
   needsApproval: boolean;
+  control: Control<ISwapForm>;
 }
 
 export interface SwapManagerProps {

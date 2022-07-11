@@ -272,12 +272,13 @@ const Swap: FC = () => {
           errorMessage={hasNoMarket ? 'Info: This pair has no liquidity' : null}
         />
         <SwapButton
+          getValues={getValues}
           tokenInAddress={tokenInAddress}
           setSwapBase={setSwapBase}
           swapBase={swapBase}
           chainId={chainId}
           account={account}
-          getValues={getValues}
+          control={control}
           parsedTokenInBalance={parsedTokenInBalance}
           updateBalances={mutate}
           loading={loading}

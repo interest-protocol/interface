@@ -1,5 +1,6 @@
 import { BigNumber } from 'ethers';
 import { FC, useCallback } from 'react';
+import { useWatch } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -7,6 +8,8 @@ import {
   swapExactNativeTokenForTokens,
   swapExactTokensForNativeToken,
   swapExactTokensForTokens,
+  wethDeposit,
+  wethWithdraw,
 } from '@/api';
 import { Box, Button, Typography } from '@/elements';
 import { useGetSigner } from '@/hooks';
@@ -16,8 +19,10 @@ import { LoadingSVG } from '@/svg';
 import {
   adjustDecimals,
   getInterestDexRouterAddress,
+  getWETHAddress,
   isSameAddress,
   isZeroAddress,
+  safeToBigNumber,
   showToast,
   showTXSuccessToast,
   throwError,
@@ -61,16 +66,20 @@ const SwapButton: FC<SwapButtonProps> = ({
   needsApproval,
   tokenInAddress,
   setLoading,
-  getValues,
   swapBase,
   account,
   chainId,
   parsedTokenInBalance,
   updateBalances,
+  getValues,
+  control,
 }) => {
   const { signer } = useGetSigner();
 
   const dispatch = useDispatch();
+
+  const tokenIn = useWatch({ control, name: 'tokenIn' });
+  const tokenOut = useWatch({ control, name: 'tokenOut' });
 
   const handleAddAllowance = useCallback(async () => {
     if (isZeroAddress(tokenInAddress)) return;
@@ -107,7 +116,6 @@ const SwapButton: FC<SwapButtonProps> = ({
     });
 
   const handleSwap = useCallback(async () => {
-    const { tokenIn, tokenOut } = getValues();
     if (isSameAddress(tokenIn.address, tokenOut.address)) return;
     setLoading(true);
     try {
@@ -236,23 +244,145 @@ const SwapButton: FC<SwapButtonProps> = ({
       error: ({ message }) => message,
     });
 
+  const handleWETHDeposit = async () => {
+    if (
+      isSameAddress(tokenIn.address, tokenOut.address) ||
+      !isZeroAddress(tokenIn.address)
+    )
+      return;
+
+    setLoading(true);
+    try {
+      const { validId, validSigner } = throwIfInvalidSigner(
+        [account],
+        chainId,
+        signer
+      );
+
+      // sanity check
+      if (!isSameAddress(tokenOut.address, getWETHAddress(validId))) return;
+
+      const bnAMount = safeToBigNumber(tokenIn.value, tokenIn.decimals);
+
+      if (bnAMount.isZero())
+        throwError(`You cannot deposit 0 tokens ${tokenIn.symbol}`);
+
+      const safeAmount = bnAMount.gte(parsedTokenInBalance)
+        ? parsedTokenInBalance
+        : bnAMount;
+
+      const tx = await wethDeposit(validId, validSigner, safeAmount);
+
+      await showTXSuccessToast(tx, validId);
+    } catch (e) {
+      throwError('Failed to deposit');
+    } finally {
+      setLoading(false);
+      dispatch(coreActions.updateNativeBalance());
+      await updateBalances();
+    }
+  };
+
+  const deposit = () =>
+    showToast(handleWETHDeposit(), {
+      loading: 'Depositing...',
+      success: 'Success!',
+      error: ({ message }) => message,
+    });
+
+  const handleWETHWithdraw = async () => {
+    if (
+      isSameAddress(tokenIn.address, tokenOut.address) ||
+      !isZeroAddress(tokenOut.address)
+    )
+      return;
+
+    setLoading(true);
+    try {
+      const { validId, validSigner } = throwIfInvalidSigner(
+        [account],
+        chainId,
+        signer
+      );
+
+      // sanity check
+      if (!isSameAddress(tokenIn.address, getWETHAddress(validId))) return;
+
+      const bnAMount = safeToBigNumber(tokenIn.value, tokenIn.decimals);
+
+      if (bnAMount.isZero())
+        throwError(`You cannot withdraw 0 tokens ${tokenOut.symbol}`);
+
+      const safeAmount = bnAMount.gte(parsedTokenInBalance)
+        ? parsedTokenInBalance
+        : bnAMount;
+
+      const tx = await wethWithdraw(validId, validSigner, safeAmount);
+
+      await showTXSuccessToast(tx, validId);
+    } catch {
+      throwError('Failed to unwrapped');
+    } finally {
+      setLoading(false);
+      dispatch(coreActions.updateNativeBalance());
+      await updateBalances();
+    }
+  };
+
+  const withdraw = () =>
+    showToast(handleWETHWithdraw(), {
+      loading: 'Unwrapping...',
+      success: 'Success!',
+      error: ({ message }) => message,
+    });
+
+  const handleProps = () => {
+    // NATIVE TOKEN => WRAPPED NATIVE TOKEN
+    // NATIVE TOKENS DO NOT NEED ALLOWANCE
+    if (
+      isZeroAddress(tokenIn.address) &&
+      isSameAddress(tokenOut.address, getWETHAddress(chainId))
+    )
+      return {
+        loading,
+        onClick: deposit,
+        loadingText: 'Depositing...',
+        text: 'Deposit',
+      };
+
+    // GIVE ALLOWANCE TO ERC20
+    if (needsApproval)
+      return {
+        loading,
+        onClick: submitAllowance,
+        loadingText: 'Approving...',
+        text: 'Approve',
+      };
+
+    // WRAPPED NATIVE TOKEN => NATIVE TOKEN
+    if (
+      isZeroAddress(tokenOut.address) &&
+      isSameAddress(tokenIn.address, getWETHAddress(chainId))
+    )
+      return {
+        loading,
+        onClick: withdraw,
+        loadingText: 'Unwrapping...',
+        text: 'Unwrap',
+      };
+
+    // ERC20 => ERC20 SWAP
+    return {
+      loading,
+      onClick: swap,
+      loadingText: 'Swapping...',
+      text: 'Swap',
+    };
+  };
+
   return (
     <WalletGuardButton>
-      {needsApproval ? (
-        <SwapViewButton
-          loading={loading}
-          onClick={submitAllowance}
-          loadingText="Approving..."
-          text="Approve"
-        />
-      ) : (
-        <SwapViewButton
-          loading={loading}
-          onClick={swap}
-          loadingText="Swapping..."
-          text="Swap"
-        />
-      )}
+      <SwapViewButton {...handleProps()} />
     </WalletGuardButton>
   );
 };

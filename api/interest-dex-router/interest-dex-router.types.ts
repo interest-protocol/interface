@@ -1,5 +1,5 @@
 import { JsonRpcSigner } from '@ethersproject/providers';
-import { BigNumber, BigNumberish, ContractTransaction } from 'ethers';
+import { BigNumberish, ContractTransaction } from 'ethers';
 
 import { RouteStruct } from '../../types/ethers-contracts/InterestDexRouterAbi';
 
