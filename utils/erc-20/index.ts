@@ -1,7 +1,8 @@
 import { BigNumberish } from 'ethers';
+import { always, cond, equals, identity, T } from 'ramda';
 
 import { ERC_20_DATA } from '@/constants/erc-20';
-import { CurrencyAmount } from '@/sdk';
+import { CurrencyAmount, TOKEN_SYMBOL } from '@/sdk';
 import { ERC20 } from '@/sdk/entities/erc-20';
 import { safeGetAddress } from '@/utils/address';
 
@@ -14,3 +15,12 @@ export const getERC20CurrencyAmount = (
   amount: BigNumberish
 ): CurrencyAmount<ERC20> =>
   CurrencyAmount.fromRawAmount(getERC20Data(chainId, address), amount);
+
+export const replaceWrappedNativeTokenWithNativeTokenSymbol = cond<
+  any,
+  TOKEN_SYMBOL
+>([
+  [equals(TOKEN_SYMBOL.WBNB), always(TOKEN_SYMBOL.BNB)],
+  [equals(TOKEN_SYMBOL.WETH), always(TOKEN_SYMBOL.ETH)],
+  [T, identity],
+]);

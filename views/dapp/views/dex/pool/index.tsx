@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
+import { PoolType } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 
 import AddLiquidity from './add-liquidity-modal';
-import PoolList from './pool-list';
+import RecommendPools from './recommended-pools';
 
 const Pool: FC = () => {
   const {
@@ -19,8 +20,6 @@ const Pool: FC = () => {
         !modal && modal !== 'add-liquidity' ? '?modal=add-liquidity' : ''
       }`
     );
-
-  const pools = Array.from({ length: ~~(Math.random() * 5) });
 
   return (
     <>
@@ -44,11 +43,10 @@ const Pool: FC = () => {
             onClick={toggleModal}
             width={['auto', 'auto', 'auto', '10rem']}
           >
-            Add Liquidity
+            Find Pool
           </Button>
         </Box>
-        <PoolList isLocal pools={pools} />
-        <PoolList pools={Array.from({ length: 5 })} />
+        <RecommendPools type={PoolType.Volatile} />
       </Box>
       <AddLiquidity
         isOpen={!!modal && (modal as string) === 'add-liquidity'}

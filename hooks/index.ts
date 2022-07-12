@@ -1,3 +1,4 @@
+export * from './use-chain-id';
 export * from './use-click-outside-listener-ref';
 export * from './use-debounce';
 export * from './use-get-dinero-market-erc20-summary';
