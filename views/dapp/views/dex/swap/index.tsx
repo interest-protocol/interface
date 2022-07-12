@@ -69,7 +69,6 @@ const Swap: FC = () => {
   const tokenInAddress = useWatch({ control, name: 'tokenIn.address' });
   const tokenOutAddress = useWatch({ control, name: 'tokenOut.address' });
 
-  // Handle error case
   const { balancesError, balancesData, mutate } =
     useGetDexAllowancesAndBalances(
       account,
