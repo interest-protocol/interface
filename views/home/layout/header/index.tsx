@@ -55,9 +55,12 @@ const Header: FC<HeaderProps> = ({ empty }) => {
           >
             <LogoSVG width="2rem" />
             <Typography
-              variant="title4"
+              variant="normal"
               as="h1"
-              ml="L"
+              ml="0.875rem"
+              fontStyle="normal"
+              fontSize="1.25rem"
+              lineHeight="1.524rem"
               fontWeight="900"
               display={['none', 'block']}
             >
@@ -73,7 +76,12 @@ const Header: FC<HeaderProps> = ({ empty }) => {
               alignItems="center"
               flexDirection={['column-reverse', 'row']}
             >
-              <Box display="flex" my={['L', 'NONE']} alignItems="center" mr="L">
+              <Box
+                display="flex"
+                my={['L', 'NONE']}
+                alignItems="center"
+                mr="1.938rem"
+              >
                 {SOCIAL_MEDIAS.map((socialMediaData) => (
                   <SocialMediaCard {...socialMediaData} key={v4()} />
                 ))}

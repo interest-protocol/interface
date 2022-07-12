@@ -16,7 +16,7 @@ const MailMarkets: FC = () => {
   return (
     <Container as="section" bg={['#EEE', 'transparent']}>
       <Box
-        mt="-20rem"
+        mt="-5rem"
         display="flex"
         alignItems="center"
         py={['XXL', 'XXXL']}

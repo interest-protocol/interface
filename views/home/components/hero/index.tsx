@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { AnimationOnScroll } from 'react-animation-on-scroll';
 
-import Container from '@/components/container';
+import { Container } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 
 const Hero: FC = () => (
@@ -11,28 +11,27 @@ const Hero: FC = () => (
       'linear-gradient(105.71deg, #EEEEEE -1.51%, #E8E8E8 20.1%, #DBDBDA 72.59%);',
       'none',
     ]}
+    minHeight="100vh"
   >
     <AnimationOnScroll animateOnce duration={3} animateIn="animate__fadeIn">
-      <Container
-        py="XXL"
-        pt="XXXL"
-        pb="20rem"
-        height="100%"
-        display="flex"
-        minHeight="100vh"
-        alignItems="center"
-        justifyContent="center"
-        flexDirection={['column', 'row']}
-      >
-        <Box width={['100%', '100%', '41.239rem', '41.239rem']}>
+      <Container position="relative" minHeight="100vh" pb="XXXL">
+        <Box
+          zIndex={2}
+          position="relative"
+          ml={['none', 'none', '8.438rem', '8.438rem']}
+          width={['100%', '100%', '41.239rem', '45.938rem']}
+          pt={['7rem', '7rem', '12rem', '12rem']}
+          pb={['unset', '17.438rem']}
+        >
           <Typography
             fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
             fontStyle="normal"
             fontWeight="900"
             lineHeight={['3.353rem', '3.353rem', '4.876rem', '4.876rem']}
             variant="normal"
+            textTransform="capitalize"
           >
-            borrow Dinero for free
+            Use your LPs to borrow Dinero for free
           </Typography>
           <Typography
             mt="0.625rem"
@@ -41,7 +40,7 @@ const Hero: FC = () => (
             variant="normal"
             lineHeight="30px"
           >
-            Permissionless lending and trading protocol
+            Dinero is an overcollateralized stablecoin
           </Typography>
           <a href="https://docs.interestprotocol.com/" target="__blank">
             <Button type="button" variant="primary" effect="hover">
@@ -49,10 +48,19 @@ const Hero: FC = () => (
             </Button>
           </a>
         </Box>
-        <Box width={['100%', '50%']}>
+        <Box
+          width={['100%', '45%']}
+          height={['20rem', 'unset']}
+          top={['none', '12rem']}
+          position={['relative', 'absolute']}
+          right="0"
+          mt={['3rem', 'unset']}
+        >
           <img
             loading="lazy"
-            src="/hero-illustration.svg"
+            width="100%"
+            height="100%"
+            src="/hero-illustration.png"
             alt="Interest Protocol Illustration"
           />
         </Box>
