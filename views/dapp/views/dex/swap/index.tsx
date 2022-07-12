@@ -269,7 +269,11 @@ const Swap: FC = () => {
           }
         />
         <SwapErrorMessage
-          errorMessage={hasNoMarket ? 'Info: This pair has no liquidity' : null}
+          errorMessage={
+            hasNoMarket
+              ? 'Info: This pair has no liquidity. Try a higher amount or add liquidity'
+              : null
+          }
         />
         <SwapButton
           getValues={getValues}

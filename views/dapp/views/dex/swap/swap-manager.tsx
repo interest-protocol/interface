@@ -49,7 +49,7 @@ const SwapManager: FC<SwapManagerProps> = ({
   // User is typing a value in the tokenOut input
   // We need to disable tokenOut input and fetch a value
   useEffect(() => {
-    if (isFetchingAmountOutTokenOut || tokenIn.setByUser || hasNoMarket) return;
+    if (isFetchingAmountOutTokenOut || tokenIn.setByUser) return;
 
     const key = `${tokenInAddress}-${tokenOutAddress}-${debouncedTokenOutValue}`;
 
@@ -85,7 +85,7 @@ const SwapManager: FC<SwapManagerProps> = ({
       chainId,
       tokenOutAddress,
       tokenInAddress,
-      safeToBigNumber(debouncedTokenOutValue, tokenIn.decimals),
+      safeToBigNumber(debouncedTokenOutValue, tokenOut.decimals),
       SWAP_BASES[chainId]
         .concat(wrappedNativeToken)
         .filter(
@@ -109,7 +109,7 @@ const SwapManager: FC<SwapManagerProps> = ({
 
         const value = IntMath.toNumber(
           data.amountOut,
-          tokenOut.decimals,
+          tokenIn.decimals,
           0,
           12
         ).toString();
@@ -138,13 +138,13 @@ const SwapManager: FC<SwapManagerProps> = ({
     hasNoMarket,
     tokenIn.address,
     tokenOut.address,
+    wrappedNativeToken,
   ]);
 
   // User is typing a value in the tokenIn input
   // We need to disable tokenIn input and fetch a value
   useEffect(() => {
-    if (isFetchingAmountOutTokenIn || tokenOut.setByUser || hasNoMarket) return;
-
+    if (isFetchingAmountOutTokenIn || tokenOut.setByUser) return;
     const key = `${tokenOutAddress}-${tokenInAddress}-${debouncedTokenInValue}`;
 
     if (!debouncedTokenInValue) return;
@@ -158,7 +158,6 @@ const SwapManager: FC<SwapManagerProps> = ({
       setValue('tokenOut.value', debouncedTokenInValue);
       return;
     }
-
     if (debouncedTokenInValue == '0') return;
 
     const value = AMOUNT_OUT_CACHE.get(key);
@@ -173,12 +172,11 @@ const SwapManager: FC<SwapManagerProps> = ({
 
     // If the value is stale or does not exist, we need to fetch
     setFetchingAmountOutTokenIn(true);
-
     getAmountsOut(
       chainId,
       tokenInAddress,
       tokenOutAddress,
-      safeToBigNumber(debouncedTokenInValue, tokenOut.decimals),
+      safeToBigNumber(debouncedTokenInValue, tokenIn.decimals),
       SWAP_BASES[chainId]
         .concat(wrappedNativeToken)
         .filter(
@@ -202,7 +200,7 @@ const SwapManager: FC<SwapManagerProps> = ({
 
         const value = IntMath.toNumber(
           data.amountOut,
-          tokenIn.decimals,
+          tokenOut.decimals,
           0,
           12
         ).toString();
@@ -220,6 +218,7 @@ const SwapManager: FC<SwapManagerProps> = ({
       })
       .finally(() => setFetchingAmountOutTokenIn(false));
   }, [
+    wrappedNativeToken,
     debouncedTokenInValue,
     setValue,
     tokenInAddress,

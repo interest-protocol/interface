@@ -1,7 +1,6 @@
 import { all, AllEffect, fork, ForkEffect } from 'redux-saga/effects';
 
 import { coreSagas } from './core/core.sagas';
-import { swapSagas } from './swap/swap.sagas';
 import { userBalancesSagas } from './user-balances/user-balances.sagas';
 
 export function* rootSaga(): Generator<
@@ -9,5 +8,5 @@ export function* rootSaga(): Generator<
   void,
   unknown
 > {
-  yield all([fork(userBalancesSagas), fork(coreSagas), fork(swapSagas)]);
+  yield all([fork(userBalancesSagas), fork(coreSagas)]);
 }

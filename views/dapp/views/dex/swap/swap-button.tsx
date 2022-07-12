@@ -156,7 +156,7 @@ const SwapButton: FC<SwapButtonProps> = ({
           ? adjustDecimals(
               BigNumber.from(tokenOutDecimalPart),
               tokenOutDecimalPart.length,
-              tokenIn.decimals
+              tokenOut.decimals
             )
           : 0
       );
@@ -285,7 +285,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const deposit = () =>
     showToast(handleWETHDeposit(), {
-      loading: 'Depositing...',
+      loading: 'Wrapping...',
       success: 'Success!',
       error: ({ message }) => message,
     });
@@ -346,8 +346,8 @@ const SwapButton: FC<SwapButtonProps> = ({
       return {
         loading,
         onClick: deposit,
-        loadingText: 'Depositing...',
-        text: 'Deposit',
+        loadingText: 'Wrapping...',
+        text: `Wrap ${tokenIn.symbol}`,
       };
 
     // GIVE ALLOWANCE TO ERC20
@@ -368,7 +368,7 @@ const SwapButton: FC<SwapButtonProps> = ({
         loading,
         onClick: withdraw,
         loadingText: 'Unwrapping...',
-        text: 'Unwrap',
+        text: `Unwrap ${tokenIn.symbol}`,
       };
 
     // ERC20 => ERC20 SWAP
