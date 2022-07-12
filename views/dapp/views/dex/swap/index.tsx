@@ -105,8 +105,6 @@ const Swap: FC = () => {
     setValue('tokenOut', prevTokenIn);
   };
 
-  // TODO need to update decimals as well
-  // symbol
   const onSelectCurrency =
     (name: 'tokenIn' | 'tokenOut') => (data: OnSelectCurrencyData) => {
       setValue(`${name}.address`, data.address);

@@ -103,6 +103,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     } catch (e) {
       throwError('Something went wrong', e);
     } finally {
+      await updateBalances();
       setLoading(false);
       dispatch(coreActions.updateNativeBalance());
     }
