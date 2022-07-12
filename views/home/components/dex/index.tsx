@@ -68,6 +68,7 @@ const DEX: FC = () => {
           side="left"
           height="fit-content"
           width="100%"
+          dividedBy={2}
           color="textInverted"
           mt={['none', '-10rem']}
         >
@@ -146,6 +147,7 @@ const DEX: FC = () => {
           as="aside"
           side="right"
           width="100%"
+          dividedBy={2}
           mb={['NONE', '-10rem']}
           bg="alternativeForeground"
         >

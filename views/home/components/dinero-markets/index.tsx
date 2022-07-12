@@ -17,7 +17,11 @@ const DineroMarkets: FC = () => {
         flexDirection={['column', 'row']}
         justifyContent="space-between"
       >
-        <Box maxWidth="587px" width="100%">
+        <Box
+          maxWidth="587px"
+          width="100%"
+          ml={['none', 'none', '8.438rem', '8.438rem']}
+        >
           <Typography
             as="h2"
             variant="normal"
