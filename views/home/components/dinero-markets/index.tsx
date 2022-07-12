@@ -9,7 +9,7 @@ const DineroMarkets: FC = () => {
   const { push } = useRouter();
 
   return (
-    <Box bg="background">
+    <Box bg="background" pb={['5.25rem', '2.75rem']}>
       <Container
         py="L"
         display="flex"
@@ -47,15 +47,15 @@ const DineroMarkets: FC = () => {
             width="100%"
             fontSize={['0.875rem', '0.875rem', '1rem', '1rem']}
           >
-            Do not forget that your collateral is still earning money, making
-            your $DNR loans extremely profitable.
+            Borrow $DNR using your LP Tokens as collateral to meet your
+            financial needs without losing farming rewards.
           </Typography>
           <Button
             effect="hover"
             variant="primary"
             onClick={() => push(Routes[RoutesEnum.Borrow])}
           >
-            Dinero Market
+            BORROW
           </Button>
         </Box>
         <Box

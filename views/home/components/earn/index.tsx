@@ -14,15 +14,14 @@ const Enjoy: FC = () => {
 
   return (
     <Box bg="background">
-      <Container as="section" py="XXXL" textAlign="center">
+      <Container as="section" pt={['1.875rem', '5.813rem']} textAlign="center">
         <AnimationOnScroll animateOnce animateIn="animate__flipInX">
           <Typography
             as="h2"
             textAlign="center"
             variant="normal"
-            fontStyle="normal"
-            font-weight="900"
-            line-height="4.876rem"
+            fontWeight="900"
+            lineHeight="4.876rem"
             mb={['0.875rem', '0.875rem', '0.625rem', '0.625rem']}
             fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
           >
@@ -40,13 +39,13 @@ const Enjoy: FC = () => {
           </Typography>
         </AnimationOnScroll>
         <Box
-          mt="XXL"
+          mt={['1.25rem', '4.313rem']}
           display="flex"
           justifyContent="space-around"
           flexDirection={['column', 'row']}
         >
           {EARN_TYPES.map((type, index) => (
-            <Box key={v4()} textAlign="center">
+            <Box key={v4()} textAlign="center" mb="L">
               <AnimationOnScroll
                 animateOnce
                 delay={index * 200 + 300}
@@ -55,7 +54,8 @@ const Enjoy: FC = () => {
                 <Typography
                   variant="large"
                   as="h3"
-                  fontSize="XXL"
+                  fontWeight="700"
+                  fontSize="2rem"
                   textTransform="capitalize"
                 >
                   {type}
@@ -70,6 +70,7 @@ const Enjoy: FC = () => {
         <Button
           effect="hover"
           variant="primary"
+          mb={['3.125rem', '10.313rem']}
           onClick={() =>
             push(Routes[RoutesEnum.DApp], undefined, { shallow: true })
           }

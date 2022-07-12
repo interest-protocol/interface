@@ -16,14 +16,19 @@ const MailMarkets: FC = () => {
   return (
     <Container as="section" bg={['#EEE', 'transparent']}>
       <Box
-        mt="-5rem"
+        mt={['-5rem', '-15rem']}
         display="flex"
         alignItems="center"
         py={['XXL', 'XXXL']}
         justifyContent="space-around"
         flexDirection={['column-reverse', 'row']}
       >
-        <Box width={['100%', '50%']}>
+        <Box
+          width={['100%', '50%']}
+          mr={['unset', 'XXL']}
+          mt={['XL', 'unset']}
+          filter="drop-shadow(-2px 50px 10px #c1c1c1)"
+        >
           <AnimationOnScroll
             animateOnce
             delay={1000}
@@ -66,6 +71,7 @@ const MailMarkets: FC = () => {
               mb={['1.25rem', '1.25rem', '1.75rem', '1.75rem']}
               fontSize={['0.875rem', '0.875rem', '1rem', '1rem']}
               variant="normal"
+              lineHeight={['1.5rem', '2.125rem']}
             >
               Users pay interest to borrow your coins. All loans are
               overcollateralized to secure your deposits.
@@ -88,7 +94,14 @@ const MailMarkets: FC = () => {
                 })
               }
             >
-              Lend
+              <Typography
+                variant="normal"
+                textTransform="uppercase"
+                fontWeight="700"
+                fontSize="0.875rem"
+              >
+                ADD LIQUIDITY
+              </Typography>
             </Button>
           </Box>
         </AnimationOnScroll>

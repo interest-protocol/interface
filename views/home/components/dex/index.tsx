@@ -9,9 +9,9 @@ const DEX: FC = () => {
   const { push } = useRouter();
 
   return (
-    <Box bg="background" pt={['XL', 'NONE']}>
+    <Box bg="background">
       <Container
-        mb="XXL"
+        mb={['1.875rem', '4.25rem']}
         display="flex"
         justifyContent={['center', 'space-between']}
       >
@@ -37,6 +37,7 @@ const DEX: FC = () => {
             fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
             lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
             mb={['1.25rem', '1.25rem', '1.875rem', '1.875rem']}
+            px={['L', 'unset']}
           >
             Enjoy the lowest slippage and trading fees
           </Typography>
@@ -46,12 +47,12 @@ const DEX: FC = () => {
             variant="primary"
             onClick={() => push(Routes[RoutesEnum.DApp])}
           >
-            dex
+            SWAP
           </Button>
         </Box>
       </Container>
       <Box
-        bg="background"
+        bg={['alternativeForeground', 'background']}
         display="grid"
         position="relative"
         pb={['NONE', '10rem']}
@@ -60,14 +61,15 @@ const DEX: FC = () => {
       >
         <Container
           px="XXL"
-          py="XXXL"
+          pt={['2.625rem', '5.188rem']}
+          pb="7.75rem"
           as="aside"
           bg="accent"
           side="left"
+          height="fit-content"
           width="100%"
-          dividedBy={2}
           color="textInverted"
-          mt={['NONE', '-10rem']}
+          mt={['none', '-10rem']}
         >
           <Typography as="h3" variant="title2" textAlign="center">
             Stablecoin pairs
@@ -86,6 +88,7 @@ const DEX: FC = () => {
               variant="large"
               fontSize={['0.875rem', '1.5rem']}
               as="p"
+              fontWeight="700"
               my={['unset', 'unset', '1rem', '1rem']}
             >
               Low slippage
@@ -108,7 +111,7 @@ const DEX: FC = () => {
             bg="foreground"
             textAlign="center"
             alignItems="center"
-            top={['unset', '0']}
+            top={['unset', '-1.3rem']}
             justifyContent="center"
             width={['50%', '18.25rem']}
             height={['10rem', '12.625rem']}
@@ -126,7 +129,7 @@ const DEX: FC = () => {
             bg="foreground"
             textAlign="center"
             alignItems="center"
-            bottom={['NONE', '-4rem']}
+            bottom={['NONE', '-2rem']}
             justifyContent="center"
             width={['50%', '18.25rem']}
             height={['10rem', '12.625rem']}
@@ -138,11 +141,11 @@ const DEX: FC = () => {
         </Box>
         <Container
           px="XXL"
-          py="XXXL"
+          pt={['8rem', '5.188rem']}
+          pb={['unset', '7.75rem']}
           as="aside"
           side="right"
           width="100%"
-          dividedBy={2}
           mb={['NONE', '-10rem']}
           bg="alternativeForeground"
         >
