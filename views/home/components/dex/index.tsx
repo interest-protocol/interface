@@ -58,39 +58,41 @@ const DEX: FC = () => {
         gridTemplateRows={['1fr 0 1fr', '1fr']}
         gridTemplateColumns={['1fr', '1fr 0 1fr']}
       >
-        <Box
+        <Container
+          px="XXL"
+          py="XXXL"
           as="aside"
           bg="accent"
-          pb={['XL', 'NONE']}
+          side="left"
+          width="100%"
+          dividedBy={2}
           color="textInverted"
           mt={['NONE', '-10rem']}
         >
-          <Container dividedBy={2} side="left" px="XXL" py="XXXL">
-            <Typography as="h3" variant="title2" textAlign="center">
-              Stablecoin pairs
-            </Typography>
-            <Box maxWidth="20rem" mx="auto" my="XXXL">
-              <img width="100%" src="/stablecoin.png" alt="Stablecoin" />
-            </Box>
+          <Typography as="h3" variant="title2" textAlign="center">
+            Stablecoin pairs
+          </Typography>
+          <Box maxWidth="20rem" mx="auto" my="XXXL">
+            <img width="100%" src="/stablecoin.png" alt="Stablecoin" />
+          </Box>
+          <Typography
+            variant="large"
+            fontWeight="700"
+            textAlign="center"
+            fontSize={['0.875rem', '1.5rem']}
+          >
+            K = 3XY + 3XY
             <Typography
               variant="large"
-              fontWeight="700"
-              textAlign="center"
               fontSize={['0.875rem', '1.5rem']}
+              as="p"
+              my={['unset', 'unset', '1rem', '1rem']}
             >
-              K = 3XY + 3XY
-              <Typography
-                variant="large"
-                fontSize={['0.875rem', '1.5rem']}
-                as="p"
-                my={['unset', 'unset', '1rem', '1rem']}
-              >
-                Low slippage
-              </Typography>
-              0.05% Swap fee
+              Low slippage
             </Typography>
-          </Container>
-        </Box>
+            0.05% Swap fee
+          </Typography>
+        </Container>
         <Box
           mx="M"
           mt={['-5rem', '-5rem', 'unset', 'unset']}
@@ -134,38 +136,40 @@ const DEX: FC = () => {
             <Typography variant="title3">15 minute Swap Oracle</Typography>
           </Box>
         </Box>
-        <Box
+        <Container
+          px="XXL"
+          py="XXXL"
           as="aside"
-          pt={['XL', 'NONE']}
+          side="right"
+          width="100%"
+          dividedBy={2}
           mb={['NONE', '-10rem']}
           bg="alternativeForeground"
         >
-          <Container dividedBy={2} side="right" px="XXL" py="XXXL">
-            <Typography as="h3" textAlign="center" variant="title2">
-              Volatile pairs
-            </Typography>
-            <Box maxWidth="20rem" mx="auto" my="XXXL">
-              <img width="100%" src="/volatile.png" alt="Stablecoin" />
-            </Box>
+          <Typography as="h3" textAlign="center" variant="title2">
+            Volatile pairs
+          </Typography>
+          <Box maxWidth="20rem" mx="auto" my="XXXL">
+            <img width="100%" src="/volatile.png" alt="Stablecoin" />
+          </Box>
+          <Typography
+            variant="large"
+            fontWeight="700"
+            textAlign="center"
+            fontSize={['0.875rem', '1.5rem']}
+          >
+            K = Y * X
             <Typography
               variant="large"
-              fontWeight="700"
-              textAlign="center"
               fontSize={['0.875rem', '1.5rem']}
+              as="p"
+              my={['unset', 'unset', '1rem', '1rem']}
             >
-              K = Y * X
-              <Typography
-                variant="large"
-                fontSize={['0.875rem', '1.5rem']}
-                as="p"
-                my={['unset', 'unset', '1rem', '1rem']}
-              >
-                Normal slippage
-              </Typography>
-              0.3% Swap fee
+              Normal slippage
             </Typography>
-          </Container>
-        </Box>
+            0.3% Swap fee
+          </Typography>
+        </Container>
       </Box>
     </Box>
   );
