@@ -1,5 +1,6 @@
 export { default as ApeCoinSVG } from './ape-coin';
 export { default as ArrowSVG } from './arrow';
+export { default as ArrowSpecialSVG } from './arrow-special';
 export { default as BackSVG } from './back';
 export { default as BarsSVG } from './bars';
 export { default as BarsLPSVG } from './bars-lp';

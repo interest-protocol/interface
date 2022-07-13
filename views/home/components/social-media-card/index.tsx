@@ -7,15 +7,17 @@ import { SocialMediaCardProps } from './social-media-card.types';
 const SocialMediaCard: FC<SocialMediaCardProps> = ({ title, link, Logo }) => (
   <a href={link} target="__blank" title={title}>
     <Box
-      mx="M"
       width="2rem"
       display="flex"
-      effect="hover"
       height="1.5rem"
       alignItems="center"
       justifyContent="center"
+      transition="all 0.3s ease-in-out"
+      hover={{
+        transform: 'scale(1.2)',
+      }}
     >
-      <Logo height="1rem" />
+      <Logo height="100%" />
     </Box>
   </a>
 );

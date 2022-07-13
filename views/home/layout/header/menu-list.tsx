@@ -1,14 +1,18 @@
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
+import { Container } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
-import { Box } from '@/elements';
+import { Box, Button } from '@/elements';
 
 import SocialMediaCard from '../../components/social-media-card';
 import { ItemsCommunity, ItemsNetwork } from './items';
 import MenuItem from './menu-item';
 
 const MenuList: FC = () => {
+  const { push } = useRouter();
+
   return (
     <Box
       as="nav"
@@ -18,12 +22,21 @@ const MenuList: FC = () => {
       py="2.5rem"
       width="100%"
     >
-      <MenuItem title="DApp" link={Routes[RoutesEnum.DApp]} />
-      <MenuItem title="Docs" link={'/'} />
-      <MenuItem title="NetWork" isDropdowm data={<ItemsNetwork />} />
+      <Container width="100%" cursor="pointer">
+        <Button
+          type="button"
+          effect="hover"
+          variant="secondary"
+          onClick={() => push(Routes[RoutesEnum.DApp])}
+        >
+          DApp
+        </Button>
+      </Container>
+      <MenuItem title="Docs" link={'https://docs.interestprotocol.com/'} />
+      <MenuItem title="Network" isDropdowm data={<ItemsNetwork />} />
       <MenuItem title="Community" isDropdowm data={<ItemsCommunity />} />
 
-      <Box
+      <Container
         width="100%"
         display="flex"
         my={['L', 'NONE']}
@@ -33,7 +46,7 @@ const MenuList: FC = () => {
         {SOCIAL_MEDIAS.map((socialMediaData) => (
           <SocialMediaCard {...socialMediaData} key={v4()} />
         ))}
-      </Box>
+      </Container>
     </Box>
   );
 };

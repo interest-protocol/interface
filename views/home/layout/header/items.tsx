@@ -17,10 +17,12 @@ export const ItemsCommunity: FC = () => (
         >
           <Box
             display="flex"
-            effect="hover"
             height="1.5rem"
             alignItems="center"
             mb="1.2rem"
+            hover={{
+              color: 'accent',
+            }}
           >
             <socialMediaData.Logo height="1rem" />
             <Typography variant="normal" ml="M">
@@ -37,12 +39,12 @@ export const ItemsNetwork: FC = () => (
   <Box bg="background" pt="1.625rem" mt="1.5rem" width="100vw">
     <Container>
       <a href="https://ethereum.org/en/" target="__blank" title="Networks">
-        <Typography variant="large" mb="1rem">
+        <Typography variant="large" mb="1rem" hover={{ color: 'accent' }}>
           https://ethereum.org/en/
         </Typography>
       </a>
       <a href="https://www.binance.com/" target="__blank" title="Networks">
-        <Typography variant="large" mb="1.625rem">
+        <Typography variant="large" mb="1.625rem" hover={{ color: 'accent' }}>
           https://www.binance.com/
         </Typography>
       </a>

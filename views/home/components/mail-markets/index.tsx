@@ -121,6 +121,9 @@ const MailMarkets: FC = () => {
             pr="1.5rem"
             pt={['1.875rem', '1.875rem', '5rem', '5rem']}
             pb={['1.875rem', '1.875rem', '6.063rem', '6.063rem']}
+            display="flex"
+            flexDirection="column"
+            alignItems={['center', 'unset']}
           >
             <Typography
               variant="normal"
@@ -129,6 +132,7 @@ const MailMarkets: FC = () => {
               lineHeight={['2.743rem', '2.743rem', '4.876rem', '4.876rem']}
               fontSize={['2.25rem', '2.25rem', '4rem', '4rem']}
               as="h2"
+              textAlign={['center', 'unset']}
             >
               Earn
             </Typography>
@@ -138,6 +142,7 @@ const MailMarkets: FC = () => {
               as="h3"
               fontWeight="500"
               lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
+              textAlign={['center', 'unset']}
             >
               Get LP Tokens by providing liquidity to our DEX
             </Typography>
@@ -147,14 +152,19 @@ const MailMarkets: FC = () => {
               fontSize={['0.875rem', '0.875rem', '1rem', '1rem']}
               variant="normal"
               lineHeight={['1.5rem', '2.125rem']}
+              textAlign={['center', 'unset']}
             >
-              Users pay interest to borrow your coins. All loans are
-              overcollateralized to secure your deposits.
+              Use LP Tokens to earn trading fees and farm $Int Tokens.
             </Typography>
             <Typography variant="normal" fontWeight="700" mb="0.625rem">
               Type of tokens you can use:
             </Typography>
-            <Box display="flex" flexWrap="wrap" width={['18rem', '100%']}>
+            <Box
+              display="flex"
+              justifyContent={['center', 'unset']}
+              flexWrap="wrap"
+              width={['18rem', '100%']}
+            >
               {LEND_AND_BORROW_TOKENS.map((icons) => (
                 <LendAndBorrowTokens icons={icons} key={v4()} />
               ))}
