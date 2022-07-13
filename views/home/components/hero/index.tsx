@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { AnimationOnScroll } from 'react-animation-on-scroll';
 
 import { Container } from '@/components';
 import { Box, Button, Typography } from '@/elements';
@@ -14,170 +13,164 @@ const Hero: FC = () => (
       'none',
     ]}
   >
-    <AnimationOnScroll animateOnce duration={3} animateIn="animate__fadeIn">
-      <Container
-        py="XXXL"
-        display="flex"
-        minHeight="100vh"
-        position="relative"
-        alignItems="center"
-      >
-        <Box
-          zIndex={2}
-          display="flex"
-          position="relative"
-          flexDirection="column"
-          alignItems={['center', 'unset']}
-          ml={['none', 'none', '8.438rem', '8.438rem']}
-          width={['100%', '100%', '41.239rem', '45.938rem']}
-        >
-          <Typography
-            variant="normal"
-            fontWeight="900"
-            fontStyle="normal"
-            textTransform="capitalize"
-            textAlign={['center', 'unset']}
-            fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
-            lineHeight={['3.353rem', '3.353rem', '4.876rem', '4.876rem']}
-          >
-            borrow Dinero for free
-          </Typography>
-          <Typography
-            mt="0.625rem"
-            mb="1.875rem"
-            variant="normal"
-            lineHeight="30px"
-            fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
-          >
-            Dinero is an overcollateralized stablecoin
-          </Typography>
-          <a href="https://docs.interestprotocol.com/" target="__blank">
-            <Button type="button" variant="primary" effect="hover">
-              Learn More
-            </Button>
-          </a>
-        </Box>
-      </Container>
+    <Container
+      py="XXXL"
+      display="flex"
+      minHeight="100vh"
+      position="relative"
+      alignItems="center"
+    >
       <Box
-        right="0"
-        top="8rem"
-        mt={['3rem', 'unset']}
-        width={['100%', '52%']}
-        height={['20rem', 'unset']}
-        position={['static', 'absolute']}
+        zIndex={2}
+        display="flex"
+        position="relative"
+        flexDirection="column"
+        alignItems={['center', 'unset']}
+        ml={['none', 'none', '8.438rem', '8.438rem']}
+        width={['100%', '100%', '41.239rem', '45.938rem']}
       >
-        <Box
-          height="100%"
-          position="relative"
-          minWidth={['100%', '50rem']}
-          maxWidth={['100%', '80rem']}
+        <Typography
+          variant="normal"
+          fontWeight="900"
+          fontStyle="normal"
+          textTransform="capitalize"
+          textAlign={['center', 'unset']}
+          fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
+          lineHeight={['3.353rem', '3.353rem', '4.876rem', '4.876rem']}
         >
-          <Box
-            pt="15%"
-            minWidth={['100%', '50rem']}
-            maxWidth={['100%', '80rem']}
-          >
-            <img
-              width="100%"
-              height="100%"
-              loading="lazy"
-              src="/hero-base.png"
-              alt="Interest Protocol Illustration"
-            />
-          </Box>
-          <FloatingCoins
-            top="55%"
-            left="19.8%"
-            width="20%"
-            position="absolute"
-            delay={~~(Math.random() * 1500)}
-          >
-            <img
-              width="100%"
-              height="100%"
-              loading="lazy"
-              src="/hero-BNBxSUSHI.png"
-              alt="Interest Protocol Illustration"
-            />
-          </FloatingCoins>
-          <FloatingCoins
-            top="23%"
-            left="68%"
-            width="20%"
-            position="absolute"
-            delay={~~(Math.random() * 1500)}
-          >
-            <img
-              width="100%"
-              height="100%"
-              loading="lazy"
-              src="/hero-DAIxUSDC.png"
-              alt="Interest Protocol Illustration"
-            />
-          </FloatingCoins>
-          <FloatingCoins
-            top="33%"
-            left="43%"
-            width="14%"
-            position="absolute"
-            delay={~~(Math.random() * 1500)}
-          >
-            <img
-              width="100%"
-              height="100%"
-              loading="lazy"
-              src="/hero-DNR.png"
-              alt="Interest Protocol Illustration"
-            />
-          </FloatingCoins>
-          <FloatingCoins
-            top="23%"
-            left="14%"
-            width="20%"
-            position="absolute"
-            delay={~~(Math.random() * 1500)}
-          >
-            <img
-              width="100%"
-              height="100%"
-              loading="lazy"
-              src="/hero-ETHxUSDT.png"
-              alt="Interest Protocol Illustration"
-            />
-          </FloatingCoins>
-          <FloatingCoins
-            top="4%"
-            left="39%"
-            width="22%"
-            position="absolute"
-            delay={~~(Math.random() * 1500)}
-          >
-            <img
-              width="100%"
-              height="100%"
-              loading="lazy"
-              src="/hero-WBTCxETH.png"
-              alt="Interest Protocol Illustration"
-            />
-          </FloatingCoins>
-          <FloatingCoins
-            top="62%"
-            left="68%"
-            width="12%"
-            position="absolute"
-            delay={~~(Math.random() * 1500)}
-          >
-            <img
-              width="100%"
-              height="100%"
-              loading="lazy"
-              src="/hero-vUSDC.png"
-              alt="Interest Protocol Illustration"
-            />
-          </FloatingCoins>
-        </Box>
+          borrow Dinero for free
+        </Typography>
+        <Typography
+          mt="0.625rem"
+          mb="1.875rem"
+          variant="normal"
+          lineHeight="30px"
+          fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
+        >
+          Dinero is an overcollateralized stablecoin
+        </Typography>
+        <a href="https://docs.interestprotocol.com/" target="__blank">
+          <Button type="button" variant="primary" effect="hover">
+            Learn More
+          </Button>
+        </a>
       </Box>
-    </AnimationOnScroll>
+    </Container>
+    <Box
+      right="0"
+      top="8rem"
+      mt={['3rem', 'unset']}
+      width={['100%', '52%']}
+      height={['20rem', 'unset']}
+      position={['static', 'absolute']}
+    >
+      <Box
+        height="100%"
+        position="relative"
+        minWidth={['100%', '50rem']}
+        maxWidth={['100%', '80rem']}
+      >
+        <Box pt="15%" minWidth={['100%', '50rem']} maxWidth={['100%', '80rem']}>
+          <img
+            width="100%"
+            height="100%"
+            loading="lazy"
+            src="/hero-base.png"
+            alt="Interest Protocol Illustration"
+          />
+        </Box>
+        <FloatingCoins
+          top="55%"
+          left="19.8%"
+          width="20%"
+          position="absolute"
+          delay={~~(Math.random() * 1500)}
+        >
+          <img
+            width="100%"
+            height="100%"
+            loading="lazy"
+            src="/hero-BNBxSUSHI.png"
+            alt="Interest Protocol Illustration"
+          />
+        </FloatingCoins>
+        <FloatingCoins
+          top="23%"
+          left="68%"
+          width="20%"
+          position="absolute"
+          delay={~~(Math.random() * 1500)}
+        >
+          <img
+            width="100%"
+            height="100%"
+            loading="lazy"
+            src="/hero-DAIxUSDC.png"
+            alt="Interest Protocol Illustration"
+          />
+        </FloatingCoins>
+        <FloatingCoins
+          top="33%"
+          left="43%"
+          width="14%"
+          position="absolute"
+          delay={~~(Math.random() * 1500)}
+        >
+          <img
+            width="100%"
+            height="100%"
+            loading="lazy"
+            src="/hero-DNR.png"
+            alt="Interest Protocol Illustration"
+          />
+        </FloatingCoins>
+        <FloatingCoins
+          top="23%"
+          left="14%"
+          width="20%"
+          position="absolute"
+          delay={~~(Math.random() * 1500)}
+        >
+          <img
+            width="100%"
+            height="100%"
+            loading="lazy"
+            src="/hero-ETHxUSDT.png"
+            alt="Interest Protocol Illustration"
+          />
+        </FloatingCoins>
+        <FloatingCoins
+          top="4%"
+          left="39%"
+          width="22%"
+          position="absolute"
+          delay={~~(Math.random() * 1500)}
+        >
+          <img
+            width="100%"
+            height="100%"
+            loading="lazy"
+            src="/hero-WBTCxETH.png"
+            alt="Interest Protocol Illustration"
+          />
+        </FloatingCoins>
+        <FloatingCoins
+          top="62%"
+          left="68%"
+          width="12%"
+          position="absolute"
+          delay={~~(Math.random() * 1500)}
+        >
+          <img
+            width="100%"
+            height="100%"
+            loading="lazy"
+            src="/hero-vUSDC.png"
+            alt="Interest Protocol Illustration"
+          />
+        </FloatingCoins>
+      </Box>
+    </Box>
   </Box>
 );
 
