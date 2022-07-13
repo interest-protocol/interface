@@ -3,7 +3,7 @@ import { FC, ReactNode, useState } from 'react';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
-import { ArrowSVG } from '@/svg';
+import { ArrowSpecialSVG } from '@/svg';
 
 const MenuItem: FC<{
   title: string;
@@ -14,7 +14,13 @@ const MenuItem: FC<{
   const { push } = useRouter();
   const [openDropDown, setOpenDropDown] = useState(false);
   return (
-    <Box width="100%" mb="1.5rem" display="flex" flexDirection="column">
+    <Box
+      width="100%"
+      mb="1.5rem"
+      display="flex"
+      flexDirection="column"
+      cursor="pointer"
+    >
       <Container width="100%">
         <Box
           display="flex"
@@ -33,7 +39,16 @@ const MenuItem: FC<{
           >
             {title}
           </Typography>
-          {isDropdowm && <ArrowSVG width="0.496rem" fill="#000" />}
+          {isDropdowm && (
+            <Box
+              width="0.496rem"
+              height="0.496rem"
+              transform={openDropDown ? 'rotate(180deg)' : 'rotate(0deg)'}
+              display="flex"
+            >
+              <ArrowSpecialSVG width="100%" height="100%" fill="transparent" />
+            </Box>
+          )}
         </Box>
       </Container>
       {openDropDown && isDropdowm && data}

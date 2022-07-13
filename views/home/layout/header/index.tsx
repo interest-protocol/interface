@@ -38,7 +38,12 @@ const Header: FC<HeaderProps> = ({ empty }) => {
       width="100vw"
       position="fixed"
       backdropFilter="blur(10px)"
-      bg={`rgba(255, 255, 255, ${scrollPercentage})`}
+      bg={[
+        'background',
+        'background',
+        `rgba(255, 255, 255, ${scrollPercentage})`,
+        `rgba(255, 255, 255, ${scrollPercentage})`,
+      ]}
       boxShadow={`0 0 0.5rem rgba(0, 0, 0, ${0.1 * scrollPercentage})`}
     >
       <Container

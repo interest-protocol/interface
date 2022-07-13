@@ -22,6 +22,9 @@ const Hero: FC = () => (
           width={['100%', '100%', '41.239rem', '45.938rem']}
           pt={['7rem', '7rem', '12rem', '12rem']}
           pb={['unset', '17.438rem']}
+          display="flex"
+          flexDirection="column"
+          alignItems={['center', 'unset']}
         >
           <Typography
             fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
@@ -30,8 +33,9 @@ const Hero: FC = () => (
             lineHeight={['3.353rem', '3.353rem', '4.876rem', '4.876rem']}
             variant="normal"
             textTransform="capitalize"
+            textAlign={['center', 'unset']}
           >
-            Use your LPs to borrow Dinero for free
+            borrow Dinero for free
           </Typography>
           <Typography
             mt="0.625rem"

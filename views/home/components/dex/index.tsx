@@ -72,7 +72,12 @@ const DEX: FC = () => {
           color="textInverted"
           mt={['none', '-10rem']}
         >
-          <Typography as="h3" variant="title2" textAlign="center">
+          <Typography
+            as="h3"
+            variant="title2"
+            textAlign="center"
+            textTransform="capitalize"
+          >
             Stablecoin pairs
           </Typography>
           <Box maxWidth="20rem" mx="auto" my="XXXL">
@@ -151,7 +156,12 @@ const DEX: FC = () => {
           mb={['NONE', '-10rem']}
           bg="alternativeForeground"
         >
-          <Typography as="h3" textAlign="center" variant="title2">
+          <Typography
+            as="h3"
+            textAlign="center"
+            variant="title2"
+            textTransform="capitalize"
+          >
             Volatile pairs
           </Typography>
           <Box maxWidth="20rem" mx="auto" my="XXXL">

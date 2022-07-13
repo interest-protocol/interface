@@ -28,9 +28,6 @@ const GlobalStyles = css`
     color: inherit;
     text-decoration: none;
   }
-  a:hover {
-    text-decoration: underline;
-  }
 
   .breakMobile {
     display: block;

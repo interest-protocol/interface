@@ -21,6 +21,10 @@ const DineroMarkets: FC = () => {
           maxWidth="587px"
           width="100%"
           ml={['none', 'none', '8.438rem', '8.438rem']}
+          display="flex"
+          flexDirection="column"
+          alignItems={['center', 'unset']}
+          textAlign={['center', 'unset']}
         >
           <Typography
             as="h2"
@@ -30,6 +34,7 @@ const DineroMarkets: FC = () => {
             lineHeight={['2.743rem', '2.743rem', '4.876rem', '4.876rem']}
             fontSize={['2.25rem', '2.25rem', '4rem', '4rem']}
             mt="0.75rem"
+            textTransform="capitalize"
           >
             Make your LP tokens liquid
           </Typography>
