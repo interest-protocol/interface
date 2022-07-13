@@ -16,28 +16,28 @@ const USDCxETHOrbitAnimation = keyframes`
 
 const TETHERAnimation = keyframes`
     0% {
-      transform: scaleY(0.6) rotate(0deg) translateX(-200%) translateY(-200%) rotate(0deg);
+      transform: scaleY(0.6) rotate(0deg) translateX(-160%) translateY(-160%) rotate(0deg);
     }
     100% {
-      transform: scaleY(0.6) rotate(-360deg) translateX(-200%) translateY(-200%) rotate(360deg);
+      transform: scaleY(0.6) rotate(-360deg) translateX(-160%) translateY(-160%) rotate(360deg);
     }
 `;
 
 const BitcoinAnimation = keyframes`
     0% {
-      transform: scaleY(0.6) rotate(0deg) translateX(10%) translateY(-260%) rotate(0deg);
+      transform: scaleY(0.6) rotate(0deg) translateX(10%) translateY(-220%) rotate(0deg);
     }
     100% {
-      transform: scaleY(0.6) rotate(-360deg) translateX(10%) translateY(-260%) rotate(360deg);
+      transform: scaleY(0.6) rotate(-360deg) translateX(10%) translateY(-220%) rotate(360deg);
     }
 `;
 
 const EtherAnimation = keyframes`
     0% {
-      transform: scaleY(0.6) rotate(0deg) translateX(-200%) translateY(20%) rotate(0deg);
+      transform: scaleY(0.6) rotate(0deg) translateX(-160%) translateY(20%) rotate(0deg);
     }
     100% {
-      transform: scaleY(0.6) rotate(-360deg) translateX(-200%) translateY(20%) rotate(360deg);
+      transform: scaleY(0.6) rotate(-360deg) translateX(-160%) translateY(20%) rotate(360deg);
     }
 `;
 
