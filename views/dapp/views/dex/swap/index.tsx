@@ -71,7 +71,6 @@ const Swap: FC = () => {
 
   const { balancesError, balancesData, mutate } =
     useGetDexAllowancesAndBalances(
-      account,
       chainId,
       tokenInAddress || ZERO_ADDRESS,
       tokenOutAddress || ZERO_ADDRESS

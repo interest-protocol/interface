@@ -1,19 +1,14 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 
-import LiquidityPool from '@/views/dapp/views/dex-pool-details';
+import DEXPoolDetailsView from '@/views/dapp/views/dex-pool-details';
 
 const DEXPoolDetailsPage: NextPage = () => {
   const {
     query: { pairAddress },
   } = useRouter();
 
-  const pairAddressList = ((pairAddress as string)?.split('-') ?? ['', '']) as [
-    string,
-    string
-  ];
-
-  return <LiquidityPool tokens={pairAddressList} />;
+  return <DEXPoolDetailsView pairAddress={pairAddress as string} />;
 };
 
 export default DEXPoolDetailsPage;

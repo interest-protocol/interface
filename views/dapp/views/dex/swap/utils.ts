@@ -28,7 +28,6 @@ const BALANCES_ALLOWANCES_STATE = {
 };
 
 export const useGetDexAllowancesAndBalances = (
-  user: string,
   chainId: number,
   tokenIn: string,
   tokenOut: string
@@ -38,7 +37,6 @@ export const useGetDexAllowancesAndBalances = (
   );
 
   const { data, error, mutate } = useGetUserBalancesAndAllowances(
-    user,
     getInterestDexRouterAddress(chainId),
     sortedTokens.filter((x) => !isZeroAddress(x))
   );

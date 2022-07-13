@@ -1,55 +1,64 @@
-import { compose, find, propEq, propOr } from 'ramda';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
-import { MAIL_FAUCET_TOKENS, TOKENS_SVG_MAP } from '@/constants';
+import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
+import { useGetPairMetadata } from '@/hooks';
 import { TOKEN_SYMBOL } from '@/sdk';
-import { formatDollars, formatMoney } from '@/utils';
+import { IntMath } from '@/sdk';
+import { formatMoney } from '@/utils';
 
 import GoBack from '../../components/go-back';
-import { LiquidityForm } from './components';
-import LiquidityDetailsCard from './components/liquidity-details-card';
+import {
+  LiquidityDetailsCard,
+  LiquidityForm,
+  RemoveLiquidityCard,
+} from './components';
 import {
   DEXPoolDetailsViewProps,
   LiquidityDetailsCardProps,
 } from './dex-pool-details.types';
+import { processPairMailMetadata } from './utils';
 
-const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
-  tokens: [firstAddress, secondAddress],
-}) => {
-  const [firstToken, secondToken] = [
-    compose(
-      propOr('', 'symbol'),
-      find(propEq('address', firstAddress))
-    )(MAIL_FAUCET_TOKENS[4]),
-    compose(
-      propOr('', 'symbol'),
-      find(propEq('address', secondAddress))
-    )(MAIL_FAUCET_TOKENS[4]),
-  ] as [string, string];
+const DefaultIcon = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+
+const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
+  const { error, data } = useGetPairMetadata(pairAddress);
+
+  const processedData = useMemo(() => processPairMailMetadata(data), [data]);
+
+  // TODO UI improvement
+  if (error) return <div>error</div>;
 
   const CARD: LiquidityDetailsCardProps = {
     title: 'Liquidity',
-    totalDeposits: formatDollars(Math.random() * 7643432),
     lines: [
       {
-        perceptual: '0',
-        symbol: firstToken,
-        value: formatMoney(Math.random() * 65823.0),
+        symbol: processedData.token0Metadata.symbol,
+        value: formatMoney(
+          IntMath.toNumber(
+            processedData.reserve0,
+            processedData.token0Metadata.decimals.toNumber()
+          )
+        ),
       },
       {
-        perceptual: '100',
-        symbol: secondToken,
-        value: formatMoney(Math.random() * 65823.0),
+        symbol: processedData.token1Metadata.symbol,
+        value: formatMoney(
+          IntMath.toNumber(
+            processedData.reserve0,
+            processedData.token0Metadata.decimals.toNumber()
+          )
+        ),
       },
     ],
   };
 
-  const DefaultIcon = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
-  const FirstIcon = TOKENS_SVG_MAP[firstToken] ?? DefaultIcon;
-  const SecondIcon = TOKENS_SVG_MAP[secondToken] ?? DefaultIcon;
+  const FirstIcon =
+    TOKENS_SVG_MAP[processedData.token0Metadata.symbol] ?? DefaultIcon;
+  const SecondIcon =
+    TOKENS_SVG_MAP[processedData.token1Metadata.symbol] ?? DefaultIcon;
 
   return (
     <Container dapp mt="XXL" width="100%">
@@ -58,7 +67,9 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
         <FirstIcon width="2rem" />
         <SecondIcon width="2rem" />
         <Typography variant="normal" ml="L">
-          {firstToken} - {secondToken} Pool Details
+          {processedData.token0Metadata.symbol} -{' '}
+          {processedData.token1Metadata.symbol}{' '}
+          {processedData.isStable ? 'Stable' : 'Volatile'} Pool Details
         </Typography>
       </Box>
       <Box
@@ -77,6 +88,14 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
           ]}
         />
       </Box>
+      <RemoveLiquidityCard
+        pairAddress={pairAddress}
+        token0={processedData.token0}
+        token1={processedData.token1}
+        isStable={processedData.isStable}
+        token0Metadata={processedData.token0Metadata}
+        token1Metadata={processedData.token1Metadata}
+      />
     </Container>
   );
 };

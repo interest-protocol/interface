@@ -15,17 +15,17 @@ const AddLiquidityCurrencyChooser: FC<AddLiquidityCurrencyChooserProps> = ({
 
   return (
     <Box display="flex" justifyContent="space-between">
-      <SwapSelectCurrency
-        tokens={MAIL_FAUCET_TOKENS[4]}
-        defaultValue={pairItem1?.address ?? ''}
-        onSelectCurrency={onSelectCurrency('pairItem1')}
-      />
-      <SwapSelectCurrency
-        fromRight
-        tokens={MAIL_FAUCET_TOKENS[4]}
-        defaultValue={pairItem2?.address ?? ''}
-        onSelectCurrency={onSelectCurrency('pairItem2')}
-      />
+      {/*<SwapSelectCurrency*/}
+      {/*  tokens={MAIL_FAUCET_TOKENS[4]}*/}
+      {/*  defaultValue={pairItem1?.address ?? ''}*/}
+      {/*  onSelectCurrency={onSelectCurrency('pairItem1')}*/}
+      {/*/>*/}
+      {/*<SwapSelectCurrency*/}
+      {/*  fromRight*/}
+      {/*  tokens={MAIL_FAUCET_TOKENS[4]}*/}
+      {/*  defaultValue={pairItem2?.address ?? ''}*/}
+      {/*  onSelectCurrency={onSelectCurrency('pairItem2')}*/}
+      {/*/>*/}
     </Box>
   );
 };
