@@ -8,6 +8,13 @@ import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 
 import { LEND_AND_BORROW_TOKENS } from './mail-markets.data';
+import {
+  BinanceOrbit,
+  BitcoinOrbit,
+  EtherOrbit,
+  TetherOrbit,
+  USDCxETHOrbit,
+} from './mail-markets-animations';
 import LendAndBorrowTokens from './mail-markets-tokens';
 
 const MailMarkets: FC = () => {
@@ -24,17 +31,85 @@ const MailMarkets: FC = () => {
         flexDirection={['column-reverse', 'row']}
       >
         <Box
-          width={['100%', '50%']}
-          mr={['unset', 'XXL']}
+          height="100%"
+          position="relative"
           mt={['XL', 'unset']}
-          filter="drop-shadow(-2px 50px 10px #c1c1c1)"
+          mr={['unset', 'XXL']}
+          width={['100%', '50%']}
         >
           <AnimationOnScroll
             animateOnce
             delay={1000}
             animateIn="animate__fadeInBottomLeft"
           >
-            <img src="/token-disk.png" width="100%" alt="Tokens Ecosystem" />
+            <Box filter="drop-shadow(-2px 50px 10px #0002)">
+              <img
+                width="100%"
+                loading="lazy"
+                alt="Platform"
+                src="/earn-base.png"
+              />
+            </Box>
+            <BitcoinOrbit
+              top="32%"
+              left="39%"
+              width="24%"
+              position="absolute"
+              filter="drop-shadow(-2px 50px 10px #0002)"
+            >
+              <img
+                alt="BTC"
+                width="100%"
+                loading="lazy"
+                src="/earn-bitcoin.png"
+              />
+            </BitcoinOrbit>
+            <BinanceOrbit
+              top="34%"
+              left="39%"
+              width="22%"
+              position="absolute"
+              filter="drop-shadow(-2px 50px 10px #0002)"
+            >
+              <img src="/earn-bnb.png" width="100%" alt="BNB" loading="lazy" />
+            </BinanceOrbit>
+            <EtherOrbit
+              top="30%"
+              left="37%"
+              width="24%"
+              position="absolute"
+              filter="drop-shadow(-2px 50px 10px #0002)"
+            >
+              <img src="/earn-eth.png" width="100%" alt="ETH" loading="lazy" />
+            </EtherOrbit>
+            <TetherOrbit
+              top="32%"
+              left="40%"
+              width="20%"
+              position="absolute"
+              filter="drop-shadow(-2px 50px 10px #0002)"
+            >
+              <img
+                width="100%"
+                alt="TETHER"
+                loading="lazy"
+                src="/earn-tether.png"
+              />
+            </TetherOrbit>
+            <USDCxETHOrbit
+              top="30%"
+              width="35%"
+              left="37.5%"
+              position="absolute"
+              filter="drop-shadow(-2px 50px 10px #0002)"
+            >
+              <img
+                src="/earn-usdc-eth.png"
+                alt="USDC-ETH"
+                width="100%"
+                loading="lazy"
+              />
+            </USDCxETHOrbit>
           </AnimationOnScroll>
         </Box>
         <AnimationOnScroll animateOnce delay={500} animateIn="animate__flipInX">
