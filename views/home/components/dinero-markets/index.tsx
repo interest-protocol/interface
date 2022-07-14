@@ -26,6 +26,8 @@ const DineroMarkets: FC = () => {
         justifyContent={['center', 'center', 'center', 'space-between']}
       >
         <Box
+          position="relative"
+          zIndex={1}
           maxWidth="587px"
           width="100%"
           ml={['none', 'none', 'none', '8.438rem']}

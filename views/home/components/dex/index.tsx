@@ -11,12 +11,28 @@ const DEX: FC = () => {
   return (
     <Box bg="#F0F0F0">
       <Container
-        mb={['1.875rem', '4.25rem']}
         display="flex"
+        mb={['1.875rem', '4.25rem']}
+        flexDirection={[
+          'row-reverse',
+          'row-reverse',
+          'row-reverse',
+          'row-reverse',
+          'row',
+        ]}
         justifyContent={['center', 'center', 'center', 'space-between']}
       >
-        <Box display={['none', 'none', 'none', 'block']}>
-          <Box width="25rem" position="absolute" ml="-5rem" mt="-10rem">
+        <Box
+          display={['none', 'none', 'none', 'none', 'block']}
+          position="relative"
+        >
+          <Box
+            left="-15rem"
+            width="47rem"
+            bottom="-10rem"
+            minWidth="25rem"
+            position="absolute"
+          >
             <img width="100%" src="/cube.png" alt="cube" />
           </Box>
         </Box>
