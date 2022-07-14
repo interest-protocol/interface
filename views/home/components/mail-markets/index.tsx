@@ -177,6 +177,7 @@ const MailMarkets: FC = () => {
               variant="primary"
               bg="#DBDBDA"
               disabled
+              cursor="not-allowed"
               onClick={() =>
                 push(Routes[RoutesEnum.MAILMarket], undefined, {
                   shallow: true,

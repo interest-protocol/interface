@@ -36,7 +36,7 @@ export const ItemsCommunity: FC = () => (
 );
 
 export const ItemsNetwork: FC = () => (
-  <Box bg="background" pt="1.625rem" mt="1.5rem" width="100vw">
+  <Box bg="foreground" pt="1.625rem" width="100vw">
     <Container>
       <a href="https://ethereum.org/en/" target="__blank" title="Networks">
         <Typography variant="large" mb="1rem" hover={{ color: 'accent' }}>

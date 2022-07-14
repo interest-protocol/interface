@@ -15,7 +15,8 @@ const MenuList: FC = () => {
       display={['flex', 'none']}
       bg="textInverted"
       flexDirection={['column', 'row']}
-      py="2.5rem"
+      pt="2.5rem"
+      pb="1.875rem"
       width="100%"
     >
       <MenuItem title="DApp" link={Routes[RoutesEnum.DApp]} />
