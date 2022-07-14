@@ -6,19 +6,21 @@ import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
 import { ArrowSpecialSVG } from '@/svg';
 
+const AnimatedBox = animated(Box);
+
 const MenuItem: FC<{
   title: string;
   isDropdowm?: boolean;
   link?: string;
   data?: ReactNode;
-}> = ({ title, isDropdowm, link, data }) => {
+}> = ({ title, isDropdowm: isDropdown, link, data }) => {
   const { push } = useRouter();
   const [openDropDown, setOpenDropDown] = useState(false);
   const fadeStyles = useSpring({
     config: { ...config.stiff },
-    from: { height: '0' },
+    from: { height: '0rem' },
     to: {
-      height: openDropDown ? '7rem' : '0',
+      height: openDropDown ? '7rem' : '0rem',
     },
   });
 
@@ -37,7 +39,7 @@ const MenuItem: FC<{
           justifyContent="space-between"
           alignItems="center"
           onClick={() => {
-            isDropdowm && setOpenDropDown(!openDropDown);
+            isDropdown && setOpenDropDown(!openDropDown);
             link && push(link);
           }}
           hover={{ color: 'accent' }}
@@ -45,27 +47,27 @@ const MenuItem: FC<{
         >
           <Typography
             variant="button"
-            fontSize="1.25rem"
             fontWeight="600"
+            fontSize="1.25rem"
             lineHeight="1.625rem"
           >
             {title}
           </Typography>
-          {isDropdowm && (
+          {isDropdown && (
             <Box
+              display="flex"
               width="0.496rem"
               height="0.496rem"
               transform={openDropDown ? 'rotate(180deg)' : 'rotate(0deg)'}
-              display="flex"
             >
               <ArrowSpecialSVG width="100%" height="100%" fill="transparent" />
             </Box>
           )}
         </Box>
       </Container>
-      {openDropDown && isDropdowm && (
-        <animated.div style={fadeStyles}>{data}</animated.div>
-      )}
+      <AnimatedBox overflow="hidden" style={fadeStyles}>
+        {data}
+      </AnimatedBox>
     </Box>
   );
 };
