@@ -14,8 +14,8 @@ const DineroMarkets: FC = () => {
         py="L"
         display="flex"
         alignItems="center"
-        flexDirection={['column', 'row']}
-        justifyContent="space-between"
+        flexDirection={['column', 'column', 'column', 'row']}
+        justifyContent={['center', 'center', 'center', 'space-between']}
       >
         <Box
           maxWidth="587px"
@@ -23,8 +23,8 @@ const DineroMarkets: FC = () => {
           ml={['none', 'none', '8.438rem', '8.438rem']}
           display="flex"
           flexDirection="column"
-          alignItems={['center', 'unset']}
-          textAlign={['center', 'unset']}
+          alignItems={['center', 'center', 'center', 'unset']}
+          textAlign={['center', 'center', 'center', 'unset']}
         >
           <Typography
             as="h2"

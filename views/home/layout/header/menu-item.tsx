@@ -30,6 +30,8 @@ const MenuItem: FC<{
             isDropdowm && setOpenDropDown(!openDropDown);
             link && push(link);
           }}
+          hover={{ color: 'accent' }}
+          color={openDropDown ? 'accent' : 'unset'}
         >
           <Typography
             variant="button"
