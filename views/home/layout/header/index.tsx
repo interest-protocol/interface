@@ -32,7 +32,7 @@ const Header: FC<HeaderProps> = ({ empty }) => {
   return (
     <Box
       top="0"
-      zIndex={1}
+      zIndex={3}
       as="header"
       color="text"
       width="100vw"

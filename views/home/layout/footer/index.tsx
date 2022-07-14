@@ -10,7 +10,7 @@ import { LogoSVG } from '@/svg';
 import SocialMediaCard from '../../components/social-media-card';
 
 const Footer: FC = () => (
-  <Box as="footer" bg="text" height="3.75rem">
+  <Box as="footer" bg="text" height={['unset', 'unset', 'unset', '3.75rem']}>
     <Container
       display="flex"
       height="100%"

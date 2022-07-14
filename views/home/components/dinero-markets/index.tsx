@@ -64,6 +64,7 @@ const DineroMarkets: FC = () => {
           <Button
             effect="hover"
             variant="primary"
+            mb="XL"
             onClick={() => push(Routes[RoutesEnum.Borrow])}
           >
             BORROW

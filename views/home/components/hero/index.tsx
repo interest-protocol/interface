@@ -14,10 +14,10 @@ const Hero: FC = () => (
     ]}
   >
     <Container
-      py="XXXL"
+      pt={['11.813rem', '11.813rem', '11.813rem', 'XXXL']}
       display="flex"
-      minHeight="100vh"
       position="relative"
+      minHeight={['unset', 'unset', 'unset', '100vh']}
       alignItems="center"
     >
       <Box
@@ -25,9 +25,9 @@ const Hero: FC = () => (
         display="flex"
         position="relative"
         flexDirection="column"
-        alignItems={['center', 'unset']}
-        ml={['none', 'none', '8.438rem', '8.438rem']}
-        width={['100%', '100%', '41.239rem', '45.938rem']}
+        alignItems={['center', 'center', 'center', 'unset']}
+        ml={['none', 'none', 'none', '8.438rem']}
+        width={['100%', '100%', '100%', '45.938rem']}
       >
         <Typography
           variant="normal"
@@ -59,18 +59,22 @@ const Hero: FC = () => (
     <Box
       right="0"
       top="8rem"
-      mt={['3rem', 'unset']}
-      width={['100%', '52%']}
-      height={['20rem', 'unset']}
-      position={['static', 'absolute']}
+      mt={['3rem', '3rem', '3rem', 'unset']}
+      width={['100%', '100%', '100%', '52%']}
+      height={['20rem', '20rem', '20rem', 'unset']}
+      position={['static', 'static', 'static', 'absolute']}
     >
       <Box
         height="100%"
         position="relative"
-        minWidth={['100%', '50rem']}
-        maxWidth={['100%', '80rem']}
+        minWidth={['100%', '100%', '100%', '50rem']}
+        maxWidth={['100%', '100%', '100%', '80rem']}
       >
-        <Box pt="15%" minWidth={['100%', '50rem']} maxWidth={['100%', '80rem']}>
+        <Box
+          pt="15%"
+          minWidth={['100%', '100%', '100%', '50rem']}
+          maxWidth={['100%', '100%', '100%', '80rem']}
+        >
           <img
             width="100%"
             height="100%"
