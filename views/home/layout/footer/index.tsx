@@ -10,9 +10,10 @@ import { LogoSVG } from '@/svg';
 import SocialMediaCard from '../../components/social-media-card';
 
 const Footer: FC = () => (
-  <Box as="footer" bg="text">
+  <Box as="footer" bg="text" height="3.75rem">
     <Container
       display="flex"
+      height="100%"
       alignItems="center"
       flexDirection={['column', 'column', 'column', 'row']}
       justifyContent={['center', 'space-between']}
@@ -21,11 +22,12 @@ const Footer: FC = () => (
         display="flex"
         flexDirection={['column', 'column', 'column', 'row']}
         alignItems="center"
-        pt="2rem"
+        justifyContent="center"
+        pt={['2rem', '2rem', '2rem', 'unset']}
       >
         <Link href={Routes[RoutesEnum.Home]}>
           <Box>
-            <LogoSVG width="2.5rem" fill="white" />
+            <LogoSVG width="2rem" fill="white" />
           </Box>
         </Link>
         <Typography
