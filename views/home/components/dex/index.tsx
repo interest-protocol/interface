@@ -28,7 +28,7 @@ const DEX: FC = () => {
         >
           <Box
             left="-15rem"
-            width="47rem"
+            width="50rem"
             bottom="-10rem"
             minWidth="25rem"
             position="absolute"
