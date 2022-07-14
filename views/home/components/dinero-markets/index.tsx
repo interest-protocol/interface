@@ -5,6 +5,8 @@ import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 
+import { FloatingCoins } from './dinero-markets-animations';
+
 const DineroMarkets: FC = () => {
   const { push } = useRouter();
 
@@ -72,6 +74,63 @@ const DineroMarkets: FC = () => {
           maxWidth={['100%', '50%']}
           height={['35rem', '55rem']}
         >
+          <Box position="absolute" width="12rem" height="12rem">
+            <Box position="relative" height="100%" width="100%">
+              <FloatingCoins
+                top="12%"
+                left="7%"
+                width="52%"
+                position="absolute"
+                delay={~~(Math.random() * 1500)}
+              >
+                <img
+                  width="100%"
+                  alt="dinero market flow"
+                  src="/dinero-collateral-SUSHIxCAKE.png"
+                />
+              </FloatingCoins>
+              <FloatingCoins
+                width="40%"
+                position="absolute"
+                left="60%"
+                delay={~~(Math.random() * 1500)}
+              >
+                <img
+                  width="100%"
+                  alt="dinero market flow"
+                  src="/dinero-collateral-BTC.png"
+                />
+              </FloatingCoins>
+              <FloatingCoins
+                width="52%"
+                position="absolute"
+                top="40%"
+                left="48%"
+                delay={~~(Math.random() * 1500)}
+              >
+                <img
+                  width="100%"
+                  alt="dinero market flow"
+                  src="/dinero-collateral-DAIxUSDC.png"
+                />
+              </FloatingCoins>
+              <FloatingCoins
+                width="40%"
+                position="absolute"
+                top="50%"
+                delay={~~(Math.random() * 1500)}
+              >
+                <img
+                  width="100%"
+                  alt="dinero market flow"
+                  src="/dinero-collateral-vUSDC.png"
+                />
+              </FloatingCoins>
+            </Box>
+            <Typography variant="normal" textAlign="center">
+              Collateral
+            </Typography>
+          </Box>
           <img
             height="100%"
             src="/dinero-market.png"
