@@ -26,21 +26,26 @@ const MailMarkets: FC = () => {
       position="relative"
       backgroundImage="linear-gradient(180deg, rgba(248, 248, 248, 0) 0%, #F0F0F0 33.83%)"
     >
-      <Container as="section" bg={['#EEE', 'transparent']}>
+      <Container as="section" bg={['#EEE', '#EEE', '#EEE', 'transparent']}>
         <Box
           display="flex"
           alignItems="center"
-          py={['XXL', 'XXXL']}
-          mt={['-5rem', 'NONE']}
+          py={['XXL', 'XXL', 'XXL', 'XXXL']}
+          mt={['-5rem', '-5rem', '-5rem', 'NONE']}
           justifyContent="space-around"
-          flexDirection={['column-reverse', 'row']}
+          flexDirection={[
+            'column-reverse',
+            'column-reverse',
+            'column-reverse',
+            'row',
+          ]}
         >
           <Box
             height="100%"
             position="relative"
-            mt={['XL', 'unset']}
-            mr={['unset', 'XXL']}
-            width={['100%', '50%']}
+            mt={['XXXL', 'XXXL', 'XXXL', 'unset']}
+            mr={['unset', 'unset', 'unset', 'XXL']}
+            width={['100%', '100%', '100%', '50%']}
           >
             <Box filter="drop-shadow(-2px 50px 10px #0002)">
               <img
@@ -117,18 +122,18 @@ const MailMarkets: FC = () => {
             borderRadius="M"
             pl={['1.25rem', '1.25rem', '3.75rem', '3.75rem']}
             pr="1.5rem"
-            pt={['1.875rem', '1.875rem', '5rem', '5rem']}
-            pb={['1.875rem', '1.875rem', '6.063rem', '6.063rem']}
+            pt={['1.875rem', '1.875rem', '1.875rem', '5rem']}
+            pb={['1.875rem', '1.875rem', '1.875rem', '6.063rem']}
             display="flex"
             flexDirection="column"
-            alignItems={['center', 'unset']}
+            alignItems={['center', 'center', 'center', 'unset']}
           >
             <Typography
               variant="normal"
               fontStyle="normal"
               fontWeight="900"
-              lineHeight={['2.743rem', '2.743rem', '4.876rem', '4.876rem']}
-              fontSize={['2.25rem', '2.25rem', '4rem', '4rem']}
+              lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
+              fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
               as="h2"
               textAlign={['center', 'unset']}
             >
@@ -159,7 +164,7 @@ const MailMarkets: FC = () => {
             </Typography>
             <Box
               display="flex"
-              justifyContent={['center', 'unset']}
+              justifyContent={['center', 'center', 'center', 'unset']}
               flexWrap="wrap"
               width={['18rem', '100%']}
             >
@@ -168,9 +173,9 @@ const MailMarkets: FC = () => {
               ))}
             </Box>
             <Button
-              mt={['1.25rem', '1.25rem', '3rem', '3rem']}
-              effect="hover"
+              mt={['1.25rem', '1.25rem', '1.25rem', '3rem']}
               variant="primary"
+              bg="#DBDBDA"
               disabled
               onClick={() =>
                 push(Routes[RoutesEnum.MAILMarket], undefined, {

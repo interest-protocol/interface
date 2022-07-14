@@ -24,7 +24,7 @@ const Container: FC<ContainerProps> = ({
             '28rem',
             large ? `${1280 / dividedBy}px` : `${984 / dividedBy}px`,
           ]
-        : `${1440 / dividedBy}px`
+        : ['100%', '100%', '100%', `${1440 / dividedBy}px`]
     }
     {...props}
   />

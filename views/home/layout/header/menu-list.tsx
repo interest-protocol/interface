@@ -1,18 +1,14 @@
-import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
-import { Container } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
-import { Box, Button } from '@/elements';
+import { Box } from '@/elements';
 
 import SocialMediaCard from '../../components/social-media-card';
 import { ItemsNetwork } from './items';
 import MenuItem from './menu-item';
 
 const MenuList: FC = () => {
-  const { push } = useRouter();
-
   return (
     <Box
       as="nav"
@@ -22,16 +18,7 @@ const MenuList: FC = () => {
       py="2.5rem"
       width="100%"
     >
-      <Container width="100%" cursor="pointer">
-        <Button
-          type="button"
-          effect="hover"
-          variant="primary"
-          onClick={() => push(Routes[RoutesEnum.DApp])}
-        >
-          DApp
-        </Button>
-      </Container>
+      <MenuItem title="DApp" link={Routes[RoutesEnum.DApp]} />
       <MenuItem title="Docs" link={'https://docs.interestprotocol.com/'} />
       <MenuItem title="Network" isDropdowm data={<ItemsNetwork />} />
 

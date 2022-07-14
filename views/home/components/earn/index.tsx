@@ -60,7 +60,7 @@ const Enjoy: FC = () => {
           effect="hover"
           variant="primary"
           onClick={() =>
-            push(Routes[RoutesEnum.DApp], undefined, { shallow: true })
+            push(Routes[RoutesEnum.Earn], undefined, { shallow: true })
           }
         >
           Earn

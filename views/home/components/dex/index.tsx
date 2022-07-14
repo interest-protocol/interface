@@ -43,8 +43,8 @@ const DEX: FC = () => {
           </Typography>
           <Button
             width="145px"
-            effect="hover"
             variant="primary"
+            bg="#DBDBDA"
             disabled
             onClick={() => push(Routes[RoutesEnum.DApp])}
           >
@@ -145,7 +145,7 @@ const DEX: FC = () => {
             alignItems="center"
             bottom={['none', 'none', 'none', '-2rem']}
             justifyContent="center"
-            width={['50%', '18.25rem']}
+            width={['50%', '50%', '50%', '18.25rem']}
             height={['10rem', '10rem', '10rem', '12.625rem']}
             position={['static', 'static', 'static', 'absolute']}
             transform={['unset', 'unset', 'unset', 'translate(-50%,30%)']}

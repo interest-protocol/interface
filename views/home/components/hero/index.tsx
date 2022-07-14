@@ -12,6 +12,7 @@ const Hero: FC = () => (
       'linear-gradient(105.71deg, #EEEEEE -1.51%, #E8E8E8 20.1%, #DBDBDA 72.59%);',
       'none',
     ]}
+    pb="10rem"
   >
     <Container
       pt={['11.813rem', '11.813rem', '11.813rem', 'XXXL']}
@@ -45,6 +46,7 @@ const Hero: FC = () => (
           mb="1.875rem"
           variant="normal"
           lineHeight="30px"
+          textAlign={['center', 'unset']}
           fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
         >
           Dinero is an overcollateralized stablecoin

@@ -39,8 +39,8 @@ const Header: FC<HeaderProps> = ({ empty }) => {
       position="fixed"
       backdropFilter="blur(10px)"
       bg={[
-        'background',
-        'background',
+        !mobileMenu ? `rgba(255, 255, 255, ${scrollPercentage})` : 'background',
+        !mobileMenu ? `rgba(255, 255, 255, ${scrollPercentage})` : 'background',
         `rgba(255, 255, 255, ${scrollPercentage})`,
         `rgba(255, 255, 255, ${scrollPercentage})`,
       ]}
