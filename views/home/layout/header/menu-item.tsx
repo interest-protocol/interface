@@ -20,7 +20,7 @@ const MenuItem: FC<{
     config: { ...config.stiff },
     from: { height: '0rem' },
     to: {
-      height: openDropDown ? '7rem' : '0rem',
+      height: openDropDown ? '9rem' : '0rem',
     },
   });
 
