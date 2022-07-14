@@ -36,7 +36,6 @@ const Subscribe: FC = () => {
       display="flex"
       alignItems="center"
       flexDirection="column"
-      bg="background"
     >
       <Box>
         <LogoSVG width="5rem" />

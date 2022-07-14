@@ -12,7 +12,7 @@ const Enjoy: FC = () => {
   const { push } = useRouter();
 
   return (
-    <Box bg="background">
+    <Box bg="background" pb="XXL">
       <Container as="section" pt={['1.875rem', '5.813rem']} textAlign="center">
         <Typography
           as="h2"
