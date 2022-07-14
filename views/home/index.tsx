@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { Box } from '@/elements';
 
 import { DEX, DineroMarkets, Earn, Hero, MailMarkets } from './components';
+import Subscribe from './components/subscribe';
 import Layout from './layout';
 
 const Home: FC = () => (
@@ -19,6 +20,7 @@ const Home: FC = () => (
     <DineroMarkets />
     <DEX />
     <Earn />
+    <Subscribe />
   </Layout>
 );
 

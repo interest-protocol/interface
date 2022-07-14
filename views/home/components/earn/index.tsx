@@ -59,7 +59,6 @@ const Enjoy: FC = () => {
         <Button
           effect="hover"
           variant="primary"
-          mb={['3.125rem', '10.313rem']}
           onClick={() =>
             push(Routes[RoutesEnum.DApp], undefined, { shallow: true })
           }

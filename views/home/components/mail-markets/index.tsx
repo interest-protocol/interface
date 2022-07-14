@@ -171,6 +171,7 @@ const MailMarkets: FC = () => {
               mt={['1.25rem', '1.25rem', '3rem', '3rem']}
               effect="hover"
               variant="primary"
+              disabled
               onClick={() =>
                 push(Routes[RoutesEnum.MAILMarket], undefined, {
                   shallow: true,
@@ -183,7 +184,7 @@ const MailMarkets: FC = () => {
                 fontWeight="700"
                 fontSize="0.875rem"
               >
-                ADD LIQUIDITY
+                SOON
               </Typography>
             </Button>
           </Box>

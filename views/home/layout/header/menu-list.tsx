@@ -7,7 +7,7 @@ import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Button } from '@/elements';
 
 import SocialMediaCard from '../../components/social-media-card';
-import { ItemsCommunity, ItemsNetwork } from './items';
+import { ItemsNetwork } from './items';
 import MenuItem from './menu-item';
 
 const MenuList: FC = () => {
@@ -26,7 +26,7 @@ const MenuList: FC = () => {
         <Button
           type="button"
           effect="hover"
-          variant="secondary"
+          variant="primary"
           onClick={() => push(Routes[RoutesEnum.DApp])}
         >
           DApp
@@ -34,19 +34,20 @@ const MenuList: FC = () => {
       </Container>
       <MenuItem title="Docs" link={'https://docs.interestprotocol.com/'} />
       <MenuItem title="Network" isDropdowm data={<ItemsNetwork />} />
-      <MenuItem title="Community" isDropdowm data={<ItemsCommunity />} />
 
-      <Container
+      <Box
         width="100%"
         display="flex"
         my={['L', 'NONE']}
         alignItems="center"
         justifyContent="space-between"
+        px="1.625rem"
+        flexWrap="wrap"
       >
         {SOCIAL_MEDIAS.map((socialMediaData) => (
-          <SocialMediaCard {...socialMediaData} key={v4()} />
+          <SocialMediaCard {...socialMediaData} isMenu key={v4()} />
         ))}
-      </Container>
+      </Box>
     </Box>
   );
 };

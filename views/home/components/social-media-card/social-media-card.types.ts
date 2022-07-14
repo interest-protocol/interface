@@ -4,4 +4,5 @@ export interface SocialMediaCardProps {
   link: string;
   title: string;
   Logo: FC<SVGProps<SVGSVGElement>>;
+  isMenu?: boolean;
 }
