@@ -1,47 +1,29 @@
 import { useRouter } from 'next/router';
-import { FC, ReactNode, useEffect, useRef, useState } from 'react';
-import { animated, useSpring } from 'react-spring';
+import { FC, ReactNode, useState } from 'react';
+import { animated, config, useSpring } from 'react-spring';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
 import { ArrowSpecialSVG } from '@/svg';
+
+const AnimatedBox = animated(Box);
 
 const MenuItem: FC<{
   title: string;
   isDropdowm?: boolean;
   link?: string;
   data?: ReactNode;
-}> = ({ title, isDropdowm, link, data }) => {
+}> = ({ title, isDropdowm: isDropdown, link, data }) => {
   const { push } = useRouter();
   const [openDropDown, setOpenDropDown] = useState(false);
-  // const fadeStyles = useSpring({
-  //   config: { ...config.stiff },
-  //   from: { height: '0' },
-  //   to: {
-  //     height: openDropDown ? '7rem' : '0',
-  //   },
-  // });
-
-  const [contentMaxHeight, setContentMaxHeight] = useState(0);
-  const ref = useRef<any>();
-
-  useEffect(() => {
-    const calcContentMaxHeight = () => {
-      ref && setContentMaxHeight(ref?.current?.scrollHeight);
-    };
-
-    calcContentMaxHeight();
-
-    window.addEventListener('resize', () => calcContentMaxHeight());
-
-    return () =>
-      window.removeEventListener('resize', () => calcContentMaxHeight());
-  }, [ref, contentMaxHeight]);
-
-  const heig = useSpring({
-    maxHeight: openDropDown ? `8rem` : '0px',
-    config: { duration: 300 },
+  const fadeStyles = useSpring({
+    config: { ...config.stiff },
+    from: { height: '0rem' },
+    to: {
+      height: openDropDown ? '9rem' : '0rem',
+    },
   });
+
   return (
     <Box
       width="100%"
@@ -57,7 +39,7 @@ const MenuItem: FC<{
           justifyContent="space-between"
           alignItems="center"
           onClick={() => {
-            isDropdowm && setOpenDropDown(!openDropDown);
+            isDropdown && setOpenDropDown(!openDropDown);
             link && push(link);
           }}
           hover={{ color: 'accent' }}
@@ -65,29 +47,27 @@ const MenuItem: FC<{
         >
           <Typography
             variant="button"
-            fontSize="1.25rem"
             fontWeight="600"
+            fontSize="1.25rem"
             lineHeight="1.625rem"
           >
             {title}
           </Typography>
-          {isDropdowm && (
+          {isDropdown && (
             <Box
+              display="flex"
               width="0.496rem"
               height="0.496rem"
               transform={openDropDown ? 'rotate(180deg)' : 'rotate(0deg)'}
-              display="flex"
             >
               <ArrowSpecialSVG width="100%" height="100%" fill="transparent" />
             </Box>
           )}
         </Box>
       </Container>
-      {openDropDown && isDropdowm && (
-        <animated.div style={{ overflow: 'hidden', ...heig }} ref={ref}>
-          {data}
-        </animated.div>
-      )}
+      <AnimatedBox overflow="hidden" style={fadeStyles}>
+        {data}
+      </AnimatedBox>
     </Box>
   );
 };
