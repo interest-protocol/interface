@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import { FC, ReactNode, useState } from 'react';
-import { animated, config, useSpring } from 'react-spring';
+import { FC, ReactNode, useEffect, useRef, useState } from 'react';
+import { animated, useSpring } from 'react-spring';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
@@ -14,14 +14,34 @@ const MenuItem: FC<{
 }> = ({ title, isDropdowm, link, data }) => {
   const { push } = useRouter();
   const [openDropDown, setOpenDropDown] = useState(false);
-  const fadeStyles = useSpring({
-    config: { ...config.stiff },
-    from: { height: '0' },
-    to: {
-      height: openDropDown ? '7rem' : '0',
-    },
-  });
+  // const fadeStyles = useSpring({
+  //   config: { ...config.stiff },
+  //   from: { height: '0' },
+  //   to: {
+  //     height: openDropDown ? '7rem' : '0',
+  //   },
+  // });
 
+  const [contentMaxHeight, setContentMaxHeight] = useState(0);
+  const ref = useRef<any>();
+
+  useEffect(() => {
+    const calcContentMaxHeight = () => {
+      ref && setContentMaxHeight(ref?.current?.scrollHeight);
+    };
+
+    calcContentMaxHeight();
+
+    window.addEventListener('resize', () => calcContentMaxHeight());
+
+    return () =>
+      window.removeEventListener('resize', () => calcContentMaxHeight());
+  }, [ref, contentMaxHeight]);
+
+  const heig = useSpring({
+    maxHeight: openDropDown ? `8rem` : '0px',
+    config: { duration: 300 },
+  });
   return (
     <Box
       width="100%"
@@ -64,7 +84,9 @@ const MenuItem: FC<{
         </Box>
       </Container>
       {openDropDown && isDropdowm && (
-        <animated.div style={fadeStyles}>{data}</animated.div>
+        <animated.div style={{ overflow: 'hidden', ...heig }} ref={ref}>
+          {data}
+        </animated.div>
       )}
     </Box>
   );
