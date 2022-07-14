@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { FC, ReactNode, useState } from 'react';
+import { animated, config, useSpring } from 'react-spring';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
@@ -13,6 +14,14 @@ const MenuItem: FC<{
 }> = ({ title, isDropdowm, link, data }) => {
   const { push } = useRouter();
   const [openDropDown, setOpenDropDown] = useState(false);
+  const fadeStyles = useSpring({
+    config: { ...config.stiff },
+    from: { height: '0' },
+    to: {
+      height: openDropDown ? '7rem' : '0',
+    },
+  });
+
   return (
     <Box
       width="100%"
@@ -20,6 +29,7 @@ const MenuItem: FC<{
       display="flex"
       flexDirection="column"
       cursor="pointer"
+      transition="transform 3s"
     >
       <Container width="100%">
         <Box
@@ -53,7 +63,9 @@ const MenuItem: FC<{
           )}
         </Box>
       </Container>
-      {openDropDown && isDropdowm && data}
+      {openDropDown && isDropdowm && (
+        <animated.div style={fadeStyles}>{data}</animated.div>
+      )}
     </Box>
   );
 };

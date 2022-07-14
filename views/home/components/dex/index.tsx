@@ -46,6 +46,7 @@ const DEX: FC = () => {
             variant="primary"
             bg="#DBDBDA"
             disabled
+            cursor="not-allowed"
             onClick={() => push(Routes[RoutesEnum.DApp])}
           >
             SOON
