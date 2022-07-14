@@ -17,7 +17,10 @@ const DineroMarkets: FC = () => {
   const { push } = useRouter();
 
   return (
-    <Box bg="#foreground" pb={['5.25rem', '5.25rem', '5.25rem', '2.75rem']}>
+    <Box
+      bg={['#F0F0F0', '#F0F0F0', '#F0F0F0', 'foreground']}
+      pb={['5.25rem', '5.25rem', '5.25rem', '2.75rem']}
+    >
       <Container
         py="L"
         display="flex"
