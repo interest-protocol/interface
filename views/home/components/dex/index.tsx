@@ -9,7 +9,7 @@ const DEX: FC = () => {
   const { push } = useRouter();
 
   return (
-    <Box bg="background">
+    <Box bg="#F0F0F0">
       <Container
         mb={['1.875rem', '4.25rem']}
         display="flex"
@@ -192,6 +192,7 @@ const DEX: FC = () => {
             >
               Normal slippage
             </Typography>
+            <br />
             0.3% Swap fee
           </Typography>
         </Container>

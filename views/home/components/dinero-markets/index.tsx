@@ -11,7 +11,7 @@ const DineroMarkets: FC = () => {
   const { push } = useRouter();
 
   return (
-    <Box bg="background" pb={['5.25rem', '2.75rem']}>
+    <Box bg="#F0F0F0" pb={['5.25rem', '5.25rem', '5.25rem', '2.75rem']}>
       <Container
         py="L"
         display="flex"
@@ -22,7 +22,7 @@ const DineroMarkets: FC = () => {
         <Box
           maxWidth="587px"
           width="100%"
-          ml={['none', 'none', '8.438rem', '8.438rem']}
+          ml={['none', 'none', 'none', '8.438rem']}
           display="flex"
           flexDirection="column"
           alignItems={['center', 'center', 'center', 'unset']}
@@ -33,9 +33,9 @@ const DineroMarkets: FC = () => {
             variant="normal"
             fontStyle="normal"
             fontWeight="900"
-            lineHeight={['2.743rem', '2.743rem', '4.876rem', '4.876rem']}
-            fontSize={['2.25rem', '2.25rem', '4rem', '4rem']}
-            mt="0.75rem"
+            lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
+            fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
+            my="0.75rem"
             textTransform="capitalize"
           >
             Make your LP tokens liquid
@@ -43,8 +43,8 @@ const DineroMarkets: FC = () => {
           <Typography
             as="h3"
             variant="normal"
-            mb={['0.625rem', '0.625rem', '1rem', '1rem']}
-            fontSize={['1.125rem', '1.125rem', '1.5rem', '1.5rem']}
+            mb={['0.625rem', '0.625rem', '0.625rem', '1rem']}
+            fontSize={['1.125rem', '1.125rem', '1.125rem', '1.5rem']}
             lineHeight="2.125rem"
             fontWeight="normal"
           >
@@ -52,11 +52,11 @@ const DineroMarkets: FC = () => {
           </Typography>
           <Typography
             variant="normal"
-            mb={['1.25rem', '1.25rem', '1.563rem', '1.563rem']}
-            lineHeight={['1.5rem', '1.5rem', '2.125rem', '2.125rem']}
+            mb={['1.25rem', '1.25rem', '1.25rem', '1.563rem']}
+            lineHeight={['1.5rem', '1.5rem', '1.5rem', '2.125rem']}
             maxWidth="540px"
             width="100%"
-            fontSize={['0.875rem', '0.875rem', '1rem', '1rem']}
+            fontSize={['0.875rem', '0.875rem', '0.875rem', '1rem']}
           >
             Borrow $DNR using your LP Tokens as collateral to meet your
             financial needs without losing farming rewards.
