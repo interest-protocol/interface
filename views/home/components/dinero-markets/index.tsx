@@ -5,7 +5,13 @@ import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 
-import { FloatingCoins } from './dinero-markets-animations';
+import {
+  BTCOrbit,
+  DAIxUSDCOrbit,
+  FloatingCoins,
+  SUSHIxCAKEOrbit,
+  VUSDCOrbit,
+} from './dinero-markets-animations';
 
 const DineroMarkets: FC = () => {
   const { push } = useRouter();
@@ -71,12 +77,20 @@ const DineroMarkets: FC = () => {
           </Button>
         </Box>
         <Box
+          height="60rem"
+          display="flex"
           mt={['XL', 'NONE']}
-          maxWidth={['100%', '50%']}
-          height={['35rem', '55rem']}
+          justifyContent="center"
+          minWidth={['100%', '100%', '50%']}
         >
-          <Box position="absolute" width="12rem" height="12rem">
-            <Box position="relative" height="100%" width="100%">
+          <Box
+            mx="auto"
+            width="100%"
+            height="30rem"
+            maxWidth="30rem"
+            position="absolute"
+          >
+            <Box position="relative" height="40%" width="40%" mx="auto">
               <FloatingCoins
                 top="12%"
                 left="7%"
@@ -131,12 +145,183 @@ const DineroMarkets: FC = () => {
             <Typography variant="normal" textAlign="center">
               Collateral
             </Typography>
+            <Box color="textSecondary" width="40%" mx="auto" mt="XL">
+              <svg viewBox="0 0 162 43" fill="none" width="100%">
+                <path
+                  d="M161.618 37.9092C134.465 9.28866 64.4184 -30.0096 1.45312 41.762M1.45312 41.762V33.6475M1.45312 41.762H9.66195"
+                  stroke="currentColor"
+                  strokeWidth="1.05192"
+                />
+              </svg>
+            </Box>
+            <Box display="flex" justifyContent="space-between" width="100%">
+              <Box width="40%" position="relative">
+                <Typography textAlign="center" variant="normal" mb="XL">
+                  Market
+                </Typography>
+                <Box
+                  position="absolute"
+                  filter="drop-shadow(-2px 40px 10px #0002)"
+                >
+                  <img
+                    width="100%"
+                    alt="dinero market base"
+                    src="/dinero-market-base.png"
+                  />
+                </Box>
+                <SUSHIxCAKEOrbit
+                  top="38%"
+                  left="27%"
+                  width="50%"
+                  position="absolute"
+                  filter="drop-shadow(-2px 30px 10px #0002)"
+                >
+                  <img
+                    width="100%"
+                    alt="dinero market SUSHI x CAKE"
+                    src="/dinero-market-SUSHIxCAKE.png"
+                  />
+                </SUSHIxCAKEOrbit>
+                <BTCOrbit
+                  top="38%"
+                  left="35%"
+                  width="35%"
+                  position="absolute"
+                  filter="drop-shadow(-2px 30px 10px #0002)"
+                >
+                  <img
+                    width="100%"
+                    alt="dinero market BTC"
+                    src="/dinero-market-BTC.png"
+                  />
+                </BTCOrbit>
+                <VUSDCOrbit
+                  top="38%"
+                  left="35%"
+                  width="35%"
+                  position="absolute"
+                  filter="drop-shadow(-2px 30px 10px #0002)"
+                >
+                  <img
+                    width="100%"
+                    alt="dinero market vUSDC"
+                    src="/dinero-market-vUSDC.png"
+                  />
+                </VUSDCOrbit>
+                <DAIxUSDCOrbit
+                  top="38%"
+                  left="27%"
+                  width="50%"
+                  position="absolute"
+                  filter="drop-shadow(-2px 30px 10px #0002)"
+                >
+                  <img
+                    width="100%"
+                    alt="dinero market DAI x USDC"
+                    src="/dinero-market-DAIxUSDC.png"
+                  />
+                </DAIxUSDCOrbit>
+              </Box>
+              <Box width="30%">
+                <img
+                  width="100%"
+                  alt="dinero market flow"
+                  src="/dinero-persona.png"
+                />
+                <Typography textAlign="center" variant="normal">
+                  Borrower
+                </Typography>
+              </Box>
+            </Box>
+            <Box color="textSecondary" width="40%" mx="auto">
+              <svg viewBox="0 0 162 43" fill="none" width="100%">
+                <path
+                  d="M0.836679 4.7276C27.9896 33.3482 98.0367 72.6464 161.002 0.87484M161.002 0.87484L161.002 8.98934M161.002 0.87484L152.793 0.874839"
+                  stroke="currentColor"
+                  strokeWidth="1.05192"
+                />
+              </svg>
+            </Box>
+            <Box
+              mt="-10%"
+              display="flex"
+              color="textSecondary"
+              justifyContent="space-evenly"
+            >
+              <Box width="10%">
+                <svg viewBox="0 0 53 224" fill="none" width="100%">
+                  <path
+                    d="M25.3606 0.264832C-3.15053 58.9641 -17.8796 122.76 49.0531 222.972M49.0531 222.972L39.1602 220.321M49.0531 222.972L51.7348 212.964"
+                    stroke="black"
+                    strokeWidth="1.05192"
+                  />
+                </svg>
+              </Box>
+              <Box width="40%" display="flex" alignItems="center">
+                <FloatingCoins
+                  ml="XXL"
+                  width="40%"
+                  delay={~~(Math.random() * 1500)}
+                >
+                  <img src="/dinero-DNR.png" alt="Borrow Dinero" width="100%" />
+                </FloatingCoins>
+                <Typography variant="normal" ml="L">
+                  Dinero
+                </Typography>
+              </Box>
+              <Box width="10%">
+                <svg viewBox="0 0 54 224" fill="none" widths="100%">
+                  <path
+                    d="M0.953139 222.878C43.7044 173.575 74.4657 115.776 35.7946 1.64096M35.7946 1.64096L44.6624 6.76537M35.7946 1.64096L30.6106 10.6119"
+                    stroke="black"
+                    strokeWidth="1.05192"
+                  />
+                </svg>
+              </Box>
+            </Box>
+            <Box mx="auto" position="relative" width="40%" height="40%">
+              <FloatingCoins
+                left="30%"
+                width="45%"
+                position="absolute"
+                delay={~~(Math.random() * 1500)}
+              >
+                <img
+                  src="/dinero-INT-top.png"
+                  alt="Interest Token"
+                  width="100%"
+                />
+              </FloatingCoins>
+              <FloatingCoins
+                top="40%"
+                width="45%"
+                position="absolute"
+                delay={~~(Math.random() * 1500)}
+              >
+                <img
+                  src="/dinero-INT-left.png"
+                  alt="Interest Token"
+                  width="100%"
+                />
+              </FloatingCoins>
+              <FloatingCoins
+                top="40%"
+                left="60%"
+                width="45%"
+                position="absolute"
+                delay={~~(Math.random() * 1500)}
+              >
+                <img
+                  src="/dinero-INT-right.png"
+                  alt="Interest Token"
+                  width="100%"
+                />
+              </FloatingCoins>
+            </Box>
+            <Typography variant="normal" textAlign="center">
+              Earn $INT tokens
+            </Typography>
           </Box>
-          <img
-            height="100%"
-            src="/dinero-market.png"
-            alt="dinero market flow"
-          />
         </Box>
       </Container>
     </Box>

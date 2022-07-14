@@ -10,6 +10,7 @@ const colors = {
   background: primitiveColors.NEUTRAL_180,
   foreground: primitiveColors.NEUTRAL_100,
   outline: primitiveColors.NEUTRAL_200,
+  textSecondary: primitiveColors.NEUTRAL_400,
   textSoft: primitiveColors.NEUTRAL_500,
   text: primitiveColors.NEUTRAL_800,
   textInverted: primitiveColors.NEUTRAL_100,
