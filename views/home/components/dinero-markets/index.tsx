@@ -26,12 +26,12 @@ const DineroMarkets: FC = () => {
         justifyContent={['center', 'center', 'center', 'space-between']}
       >
         <Box
-          position="relative"
           zIndex={1}
-          maxWidth="587px"
           width="100%"
-          ml={['none', 'none', 'none', '8.438rem']}
           display="flex"
+          maxWidth="587px"
+          position="relative"
+          ml={['none', 'none', 'none', '8.438rem']}
           flexDirection="column"
           alignItems={['center', 'center', 'center', 'unset']}
           textAlign={['center', 'center', 'center', 'unset']}
@@ -79,18 +79,18 @@ const DineroMarkets: FC = () => {
           </Button>
         </Box>
         <Box
-          height="60rem"
           display="flex"
           mt={['XL', 'NONE']}
           justifyContent="center"
-          minWidth={['100%', '100%', '50%']}
+          height={['43rem', '60rem']}
+          minWidth={['90%', '90%', '50%']}
         >
           <Box
             mx="auto"
-            width="100%"
-            height="30rem"
             maxWidth="30rem"
             position="absolute"
+            width={['20rem', '100%']}
+            height={['20rem', '30rem']}
           >
             <Box position="relative" height="40%" width="40%" mx="auto">
               <FloatingCoins
