@@ -40,7 +40,7 @@ const Automate: FC = () => {
           flexDirection={['column', 'row']}
         >
           {EARN_TYPES.map((type) => (
-            <Box key={v4()} textAlign="center" mb="L">
+            <Box key={v4()} textAlign="center" mb="L" mx="L">
               <Typography
                 variant="large"
                 as="h3"
