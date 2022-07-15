@@ -16,7 +16,7 @@ import {
 } from './earn-animations';
 import LendAndBorrowTokens from './earn-tokens';
 
-const MailMarkets: FC = () => {
+const Earn: FC = () => {
   const { push } = useRouter();
 
   return (
@@ -47,7 +47,10 @@ const MailMarkets: FC = () => {
             mr={['unset', 'unset', 'unset', 'XXL']}
             width={['100%', '100%', '100%', '50%']}
           >
-            <Box filter="drop-shadow(-2px 50px 10px #0002)">
+            <Box
+              transform="translatez(0)"
+              filter="drop-shadow(-2px 50px 10px #0002)"
+            >
               <img
                 width="100%"
                 loading="lazy"
@@ -200,4 +203,4 @@ const MailMarkets: FC = () => {
   );
 };
 
-export default MailMarkets;
+export default Earn;
