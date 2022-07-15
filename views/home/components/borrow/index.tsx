@@ -11,9 +11,9 @@ import {
   FloatingCoins,
   SUSHIxCAKEOrbit,
   VUSDCOrbit,
-} from './provide-liquidity-animations';
+} from './borrow-animations';
 
-const ProvideLiquidity: FC = () => {
+const Borrow: FC = () => {
   const { push } = useRouter();
 
   return (
@@ -166,6 +166,7 @@ const ProvideLiquidity: FC = () => {
                 </Typography>
                 <Box
                   position="absolute"
+                  transform="translatez(0)"
                   filter="drop-shadow(-2px 40px 10px #0002)"
                 >
                   <img
@@ -333,4 +334,4 @@ const ProvideLiquidity: FC = () => {
   );
 };
 
-export default ProvideLiquidity;
+export default Borrow;

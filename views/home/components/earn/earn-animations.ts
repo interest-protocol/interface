@@ -14,7 +14,7 @@ const USDCxETHOrbitAnimation = keyframes`
   }
 `;
 
-const TETHERAnimation = keyframes`
+const TetherAnimation = keyframes`
     0% {
       transform: scaleY(0.6) rotate(0deg) translateX(-160%) translateY(-160%) rotate(0deg);
     }
@@ -50,7 +50,7 @@ const BinanceAnimation = keyframes`
     }
 `;
 
-const Orbit = (animation: typeof TETHERAnimation): FC<BoxProps> => styled(Box)`
+const Orbit = (animation: typeof TetherAnimation): FC<BoxProps> => styled(Box)`
   animation: ${animation} 60s infinite 1s linear;
   img {
     transform: scaleY(1.6);
@@ -58,7 +58,7 @@ const Orbit = (animation: typeof TETHERAnimation): FC<BoxProps> => styled(Box)`
 `;
 
 export const USDCxETHOrbit = Orbit(USDCxETHOrbitAnimation);
-export const TetherOrbit = Orbit(TETHERAnimation);
+export const TetherOrbit = Orbit(TetherAnimation);
 export const BitcoinOrbit = Orbit(BitcoinAnimation);
 export const EtherOrbit = Orbit(EtherAnimation);
 export const BinanceOrbit = Orbit(BinanceAnimation);
