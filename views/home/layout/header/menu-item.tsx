@@ -1,19 +1,16 @@
 import { useRouter } from 'next/router';
-import { FC, ReactNode, useState } from 'react';
+import { FC, useState } from 'react';
 import { animated, config, useSpring } from 'react-spring';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
 import { ArrowSpecialSVG } from '@/svg';
 
+import { MenuItemProps } from './header.types';
+
 const AnimatedBox = animated(Box);
 
-const MenuItem: FC<{
-  title: string;
-  isDropdowm?: boolean;
-  link?: string;
-  data?: ReactNode;
-}> = ({ title, isDropdowm: isDropdown, link, data }) => {
+const MenuItem: FC<MenuItemProps> = ({ title, isDropdown, link, data }) => {
   const { push } = useRouter();
   const [openDropDown, setOpenDropDown] = useState(false);
   const fadeStyles = useSpring({

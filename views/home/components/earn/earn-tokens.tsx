@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { Box } from '@/elements';
 
-import { LendAndBorrowTokensProps } from './mail-markets.types';
+import { LendAndBorrowTokensProps } from './earn.types';
 
 const LendAndBorrowTokens: FC<LendAndBorrowTokensProps> = ({ icons }) => {
   const [Icon, PairIcon] = icons;

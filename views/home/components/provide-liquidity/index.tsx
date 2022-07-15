@@ -11,9 +11,9 @@ import {
   FloatingCoins,
   SUSHIxCAKEOrbit,
   VUSDCOrbit,
-} from './dinero-markets-animations';
+} from './provide-liquidity-animations';
 
-const DineroMarkets: FC = () => {
+const ProvideLiquidity: FC = () => {
   const { push } = useRouter();
 
   return (
@@ -73,10 +73,10 @@ const DineroMarkets: FC = () => {
             financial needs without losing farming rewards.
           </Typography>
           <Button
+            mb="XL"
             effect="hover"
             variant="primary"
-            mb="XL"
-            onClick={() => push(Routes[RoutesEnum.Borrow])}
+            onClick={() => push(Routes[RoutesEnum.DApp])}
           >
             BORROW
           </Button>
@@ -333,4 +333,4 @@ const DineroMarkets: FC = () => {
   );
 };
 
-export default DineroMarkets;
+export default ProvideLiquidity;

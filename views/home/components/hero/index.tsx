@@ -1,3 +1,4 @@
+import { always } from 'ramda';
 import { FC } from 'react';
 
 import { Container } from '@/components';
@@ -5,7 +6,7 @@ import { Box, Button, Typography } from '@/elements';
 
 import { FloatingCoins } from './hero-animations';
 
-const Hero: FC = () => (
+const Hero: FC = always(
   <Box
     as="section"
     backgroundImage={[

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { always } from 'ramda';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
@@ -9,7 +10,7 @@ import { LogoSVG } from '@/svg';
 
 import SocialMediaCard from '../../components/social-media-card';
 
-const Footer: FC = () => (
+const Footer: FC = always(
   <Box as="footer" bg="text" height={['unset', 'unset', 'unset', '3.75rem']}>
     <Container
       display="flex"

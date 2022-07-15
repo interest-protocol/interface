@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { Box } from '@/elements';
 
-import { DEX, DineroMarkets, Earn, Hero, MailMarkets } from './components';
+import { Automate, DEX, Earn, Hero, ProvideLiquidity } from './components';
 import Subscribe from './components/subscribe';
 import Layout from './layout';
 
@@ -15,11 +15,11 @@ const Home: FC = () => (
       ]}
     >
       <Hero />
-      <MailMarkets />
+      <Earn />
     </Box>
-    <DineroMarkets />
+    <ProvideLiquidity />
     <DEX />
-    <Earn />
+    <Automate />
     <Subscribe />
   </Layout>
 );
