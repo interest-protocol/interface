@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
-import { Box, Button, Typography } from '@/elements';
+import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 
 import {
   BTCOrbit,
@@ -103,10 +103,10 @@ const Borrow: FC = () => {
                 position="absolute"
                 delay={~~(Math.random() * 1500)}
               >
-                <img
+                <ResponsiveImage
                   width="100%"
                   alt="dinero market flow"
-                  src="/dinero-collateral-SUSHIxCAKE.png"
+                  path="home/dinero-collateral-SUSHIxCAKE"
                 />
               </FloatingCoins>
               <FloatingCoins
@@ -115,10 +115,10 @@ const Borrow: FC = () => {
                 left="60%"
                 delay={~~(Math.random() * 1500)}
               >
-                <img
+                <ResponsiveImage
                   width="100%"
                   alt="dinero market flow"
-                  src="/dinero-collateral-BTC.png"
+                  path="home/dinero-collateral-BTC"
                 />
               </FloatingCoins>
               <FloatingCoins
@@ -128,10 +128,10 @@ const Borrow: FC = () => {
                 left="48%"
                 delay={~~(Math.random() * 1500)}
               >
-                <img
+                <ResponsiveImage
                   width="100%"
                   alt="dinero market flow"
-                  src="/dinero-collateral-DAIxUSDC.png"
+                  path="home/dinero-collateral-DAIxUSDC"
                 />
               </FloatingCoins>
               <FloatingCoins
@@ -140,10 +140,10 @@ const Borrow: FC = () => {
                 top="50%"
                 delay={~~(Math.random() * 1500)}
               >
-                <img
+                <ResponsiveImage
                   width="100%"
                   alt="dinero market flow"
-                  src="/dinero-collateral-vUSDC.png"
+                  path="home/dinero-collateral-vUSDC"
                 />
               </FloatingCoins>
             </Box>
@@ -166,13 +166,13 @@ const Borrow: FC = () => {
                 </Typography>
                 <Box
                   position="absolute"
-                  transform="translatez(0)"
+                  transform="translateZ(0)"
                   filter="drop-shadow(-2px 40px 10px #0002)"
                 >
-                  <img
+                  <ResponsiveImage
                     width="100%"
                     alt="dinero market base"
-                    src="/dinero-market-base.png"
+                    path="home/dinero-market-base"
                   />
                 </Box>
                 <SUSHIxCAKEOrbit
@@ -182,10 +182,10 @@ const Borrow: FC = () => {
                   position="absolute"
                   filter="drop-shadow(-2px 30px 10px #0002)"
                 >
-                  <img
+                  <ResponsiveImage
                     width="100%"
                     alt="dinero market SUSHI x CAKE"
-                    src="/dinero-market-SUSHIxCAKE.png"
+                    path="home/dinero-market-SUSHIxCAKE"
                   />
                 </SUSHIxCAKEOrbit>
                 <BTCOrbit
@@ -195,10 +195,10 @@ const Borrow: FC = () => {
                   position="absolute"
                   filter="drop-shadow(-2px 30px 10px #0002)"
                 >
-                  <img
+                  <ResponsiveImage
                     width="100%"
                     alt="dinero market BTC"
-                    src="/dinero-market-BTC.png"
+                    path="home/dinero-market-BTC"
                   />
                 </BTCOrbit>
                 <VUSDCOrbit
@@ -208,10 +208,10 @@ const Borrow: FC = () => {
                   position="absolute"
                   filter="drop-shadow(-2px 30px 10px #0002)"
                 >
-                  <img
+                  <ResponsiveImage
                     width="100%"
                     alt="dinero market vUSDC"
-                    src="/dinero-market-vUSDC.png"
+                    path="home/dinero-market-vUSDC"
                   />
                 </VUSDCOrbit>
                 <DAIxUSDCOrbit
@@ -221,18 +221,18 @@ const Borrow: FC = () => {
                   position="absolute"
                   filter="drop-shadow(-2px 30px 10px #0002)"
                 >
-                  <img
+                  <ResponsiveImage
                     width="100%"
                     alt="dinero market DAI x USDC"
-                    src="/dinero-market-DAIxUSDC.png"
+                    path="home/dinero-market-DAIxUSDC"
                   />
                 </DAIxUSDCOrbit>
               </Box>
               <Box width="30%">
-                <img
+                <ResponsiveImage
                   width="100%"
                   alt="dinero market flow"
-                  src="/dinero-persona.png"
+                  path="home/dinero-persona"
                 />
                 <Typography textAlign="center" variant="normal">
                   Borrower
@@ -269,7 +269,11 @@ const Borrow: FC = () => {
                   width="40%"
                   delay={~~(Math.random() * 1500)}
                 >
-                  <img src="/dinero-DNR.png" alt="Borrow Dinero" width="100%" />
+                  <ResponsiveImage
+                    width="100%"
+                    alt="Borrow Dinero"
+                    path="home/dinero-DNR"
+                  />
                 </FloatingCoins>
                 <Typography variant="normal" ml="L">
                   Dinero
@@ -292,10 +296,10 @@ const Borrow: FC = () => {
                 position="absolute"
                 delay={~~(Math.random() * 1500)}
               >
-                <img
-                  src="/dinero-INT-top.png"
-                  alt="Interest Token"
+                <ResponsiveImage
                   width="100%"
+                  alt="Interest Token"
+                  path="home/dinero-INT-top"
                 />
               </FloatingCoins>
               <FloatingCoins
@@ -304,10 +308,10 @@ const Borrow: FC = () => {
                 position="absolute"
                 delay={~~(Math.random() * 1500)}
               >
-                <img
-                  src="/dinero-INT-left.png"
-                  alt="Interest Token"
+                <ResponsiveImage
                   width="100%"
+                  alt="Interest Token"
+                  path="home/dinero-INT-left"
                 />
               </FloatingCoins>
               <FloatingCoins
@@ -317,10 +321,10 @@ const Borrow: FC = () => {
                 position="absolute"
                 delay={~~(Math.random() * 1500)}
               >
-                <img
-                  src="/dinero-INT-right.png"
-                  alt="Interest Token"
+                <ResponsiveImage
                   width="100%"
+                  alt="Interest Token"
+                  path="home/dinero-INT-right"
                 />
               </FloatingCoins>
             </Box>

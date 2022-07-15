@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants/routes';
-import { Box, Button, Typography } from '@/elements';
+import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 
 import { EARN_TYPES } from './automate.data';
 
@@ -40,7 +40,7 @@ const Automate: FC = () => {
           flexDirection={['column', 'row']}
         >
           {EARN_TYPES.map((type) => (
-            <Box key={v4()} textAlign="center" mb="L">
+            <Box key={v4()} textAlign="center" mb="L" mx="L">
               <Typography
                 variant="large"
                 as="h3"
@@ -51,7 +51,11 @@ const Automate: FC = () => {
                 {type}
               </Typography>
               <Box width="100%" mx="auto">
-                <img width="100%" src={`/${type}.png`} alt={type} />
+                <ResponsiveImage
+                  alt={type}
+                  width="100%"
+                  path={`home/${type}`}
+                />
               </Box>
             </Box>
           ))}

@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import Container from '@/components/container';
 import { Routes, RoutesEnum } from '@/constants';
-import { Box, Button, Typography } from '@/elements';
+import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 
 const DEX: FC = () => {
   const { push } = useRouter();
@@ -33,7 +33,17 @@ const DEX: FC = () => {
             minWidth="25rem"
             position="absolute"
           >
-            <img width="100%" src="/cube.png" alt="cube" />
+            <picture>
+              <source type="image/webp" src="/images/web/home/cube@3x.webp" />
+              <source type="image/png" src="/images/min/home/cube@3x.png" />
+              <img
+                alt="cube"
+                width="100%"
+                loading="lazy"
+                decoding="async"
+                src="/images/min/home/cube@3x.png"
+              />
+            </picture>
           </Box>
         </Box>
         <Box textAlign={['center', 'center', 'center', 'right']}>
@@ -99,7 +109,11 @@ const DEX: FC = () => {
             Stablecoin pairs
           </Typography>
           <Box maxWidth="20rem" mx="auto" my="XXXL">
-            <img width="100%" src="/stablecoin.png" alt="Stablecoin" />
+            <ResponsiveImage
+              width="100%"
+              alt="Stablecoin"
+              path="home/stablecoin"
+            />
           </Box>
           <Typography
             variant="large"
@@ -190,7 +204,7 @@ const DEX: FC = () => {
             Volatile pairs
           </Typography>
           <Box maxWidth="20rem" mx="auto" my="XXXL">
-            <img width="100%" src="/volatile.png" alt="Stablecoin" />
+            <ResponsiveImage width="100%" alt="Volatile" path="home/volatile" />
           </Box>
           <Typography
             variant="large"
