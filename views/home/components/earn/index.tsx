@@ -48,7 +48,7 @@ const Earn: FC = () => {
             width={['100%', '100%', '100%', '50%']}
           >
             <Box
-              transform="translatez(0)"
+              transform="translateZ(0)"
               filter="drop-shadow(-2px 50px 10px #0002)"
             >
               <img
@@ -120,45 +120,45 @@ const Earn: FC = () => {
             </USDCxETHOrbit>
           </Box>
           <Box
-            width={['100%', '100%', '41.625rem', '41.625rem']}
+            pr="1.5rem"
+            display="flex"
             bg="foreground"
             borderRadius="M"
-            pl={['1.25rem', '1.25rem', '3.75rem', '3.75rem']}
-            pr="1.5rem"
-            pt={['1.875rem', '1.875rem', '1.875rem', '5rem']}
-            pb={['1.875rem', '1.875rem', '1.875rem', '6.063rem']}
-            display="flex"
             flexDirection="column"
+            pl={['1.25rem', '1.25rem', '3.75rem', '3.75rem']}
+            pt={['1.875rem', '1.875rem', '1.875rem', '5rem']}
+            width={['100%', '100%', '41.625rem', '41.625rem']}
+            pb={['1.875rem', '1.875rem', '1.875rem', '6.063rem']}
             alignItems={['center', 'center', 'center', 'unset']}
           >
             <Typography
+              as="h2"
               variant="normal"
               fontStyle="normal"
               fontWeight="900"
-              lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
-              fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
-              as="h2"
               textAlign={['center', 'unset']}
+              fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
+              lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
             >
               Earn
             </Typography>
             <Typography
-              variant="normal"
-              fontSize={['1.125rem', '1.125rem', '1.5rem', '1.5rem']}
               as="h3"
+              variant="normal"
               fontWeight="500"
-              lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
               textAlign={['center', 'unset']}
+              fontSize={['1.125rem', '1.125rem', '1.5rem', '1.5rem']}
+              lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
             >
               Get LP Tokens by providing liquidity to our DEX
             </Typography>
             <Typography
+              variant="normal"
+              textAlign={['center', 'unset']}
+              lineHeight={['1.5rem', '2.125rem']}
               mt={['0.625rem', '0.625rem', '1rem', '1rem']}
               mb={['1.25rem', '1.25rem', '1.75rem', '1.75rem']}
               fontSize={['0.875rem', '0.875rem', '1rem', '1rem']}
-              variant="normal"
-              lineHeight={['1.5rem', '2.125rem']}
-              textAlign={['center', 'unset']}
             >
               Use LP Tokens to earn trading fees and farm $Int Tokens.
             </Typography>
@@ -167,9 +167,9 @@ const Earn: FC = () => {
             </Typography>
             <Box
               display="flex"
-              justifyContent={['center', 'center', 'center', 'unset']}
               flexWrap="wrap"
               width={['18rem', '100%']}
+              justifyContent={['center', 'center', 'center', 'unset']}
             >
               {LEND_AND_BORROW_TOKENS.map((icons) => (
                 <LendAndBorrowTokens icons={icons} key={v4()} />

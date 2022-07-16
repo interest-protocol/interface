@@ -41,12 +41,12 @@ const Borrow: FC = () => {
         >
           <Typography
             as="h2"
+            my="0.75rem"
             variant="normal"
-            fontStyle="normal"
             fontWeight="900"
+            fontStyle="normal"
             lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
             fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
-            my="0.75rem"
             textTransform="capitalize"
           >
             Make your LP tokens liquid
@@ -54,19 +54,19 @@ const Borrow: FC = () => {
           <Typography
             as="h3"
             variant="normal"
+            fontWeight="normal"
+            lineHeight="2.125rem"
             mb={['0.625rem', '0.625rem', '0.625rem', '1rem']}
             fontSize={['1.125rem', '1.125rem', '1.125rem', '1.5rem']}
-            lineHeight="2.125rem"
-            fontWeight="normal"
           >
             Pay $0 to borrow Dinero
           </Typography>
           <Typography
+            width="100%"
+            maxWidth="540px"
             variant="normal"
             mb={['1.25rem', '1.25rem', '1.25rem', '1.563rem']}
             lineHeight={['1.5rem', '1.5rem', '1.5rem', '2.125rem']}
-            maxWidth="540px"
-            width="100%"
             fontSize={['0.875rem', '0.875rem', '0.875rem', '1rem']}
           >
             Borrow $DNR using your LP Tokens as collateral to meet your

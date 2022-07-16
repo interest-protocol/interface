@@ -16,9 +16,9 @@ const Automate: FC = () => {
       <Container as="section" pt={['1.875rem', '5.813rem']} textAlign="center">
         <Typography
           as="h2"
-          textAlign="center"
           variant="normal"
           fontWeight="900"
+          textAlign="center"
           lineHeight="4.876rem"
           mb={['0.875rem', '0.875rem', '0.625rem', '0.625rem']}
           fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
@@ -27,9 +27,9 @@ const Automate: FC = () => {
         </Typography>
         <Typography
           variant="normal"
+          fontWeight="500"
           fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
           lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
-          fontWeight="500"
         >
           Maximize your profits through automated strategies.
         </Typography>

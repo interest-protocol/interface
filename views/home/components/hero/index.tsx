@@ -8,19 +8,19 @@ import { FloatingCoins } from './hero-animations';
 
 const Hero: FC = always(
   <Box
+    pb="10rem"
     as="section"
     backgroundImage={[
       'linear-gradient(105.71deg, #EEEEEE -1.51%, #E8E8E8 20.1%, #DBDBDA 72.59%);',
       'none',
     ]}
-    pb="10rem"
   >
     <Container
-      pt={['11.813rem', '11.813rem', '11.813rem', 'XXXL']}
       display="flex"
       position="relative"
-      minHeight={['unset', 'unset', 'unset', '100vh']}
       alignItems="center"
+      minHeight={['unset', 'unset', 'unset', '100vh']}
+      pt={['11.813rem', '11.813rem', '11.813rem', 'XXXL']}
     >
       <Box
         zIndex={2}
@@ -40,7 +40,7 @@ const Hero: FC = always(
           fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
           lineHeight={['3.353rem', '3.353rem', '4.876rem', '4.876rem']}
         >
-          borrow Dinero for free
+          Borrow Dinero for free
         </Typography>
         <Typography
           mt="0.625rem"
