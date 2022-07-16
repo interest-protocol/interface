@@ -2,7 +2,11 @@ import { useTheme } from '@emotion/react';
 import Head from 'next/head';
 import { FC } from 'react';
 
+<<<<<<< HEAD
 import { Theme } from '@/design-system/landing-page-theme';
+=======
+import { Theme } from '@/design-system/light-theme';
+>>>>>>> ea72d80428566c058e7ca11d9564580107a14d39
 import { LayoutProps } from '@/views/home/layout/layout.types';
 
 const SEO: FC<LayoutProps> = ({ pageTitle }) => {
