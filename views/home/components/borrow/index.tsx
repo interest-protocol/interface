@@ -18,8 +18,9 @@ const Borrow: FC = () => {
 
   return (
     <Box
-      bg={['#F0F0F0', '#F0F0F0', '#F0F0F0', 'foreground']}
+      as="section"
       pb={['5.25rem', '5.25rem', '5.25rem', '2.75rem']}
+      bg={['#F0F0F0', '#F0F0F0', '#F0F0F0', 'foreground']}
     >
       <Container
         py="L"

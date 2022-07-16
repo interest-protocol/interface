@@ -12,7 +12,7 @@ const Automate: FC = () => {
   const { push } = useRouter();
 
   return (
-    <Box bg="background" pb="XXL">
+    <Box bg="background" pb="XXL" as="section">
       <Container as="section" pt={['1.875rem', '5.813rem']} textAlign="center">
         <Typography
           as="h2"

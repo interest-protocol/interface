@@ -5,9 +5,9 @@ import { Box } from '@/elements';
 import { SocialMediaCardProps } from './social-media-card.types';
 
 const SocialMediaCard: FC<SocialMediaCardProps> = ({
-  title,
   link,
   Logo,
+  title,
   isMenu,
 }) => (
   <a href={link} target="__blank" title={title}>

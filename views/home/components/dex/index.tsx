@@ -9,7 +9,7 @@ const DEX: FC = () => {
   const { push } = useRouter();
 
   return (
-    <Box bg="foreground">
+    <Box bg="foreground" as="section">
       <Container
         display="flex"
         mb={['1.875rem', '4.25rem']}
@@ -34,8 +34,11 @@ const DEX: FC = () => {
             position="absolute"
           >
             <picture>
-              <source type="image/webp" src="/images/web/home/cube@3x.webp" />
-              <source type="image/png" src="/images/min/home/cube@3x.png" />
+              <source
+                type="image/webp"
+                srcSet="/images/web/home/cube@3x.webp"
+              />
+              <source type="image/png" srcSet="/images/min/home/cube@3x.png" />
               <img
                 alt="cube"
                 width="100%"
@@ -50,8 +53,8 @@ const DEX: FC = () => {
           <Typography
             as="h2"
             variant="normal"
-            fontStyle="normal"
             fontWeight="900"
+            fontStyle="normal"
             lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
             fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
           >
@@ -80,24 +83,24 @@ const DEX: FC = () => {
         </Box>
       </Container>
       <Box
-        bg={['alternativeForeground', 'background']}
         display="grid"
         position="relative"
         pb={['NONE', '10rem']}
-        gridTemplateRows={['1fr 0 1fr', '1fr 0 1fr', '1fr 0 1fr', '1fr']}
+        bg={['alternativeForeground', 'background']}
         gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 0 1fr']}
+        gridTemplateRows={['1fr 0 1fr', '1fr 0 1fr', '1fr 0 1fr', '1fr']}
       >
         <Container
           px="XXL"
-          pt={['2.625rem', '5.188rem']}
-          pb="7.75rem"
           as="aside"
           bg="accent"
           side="left"
-          height="fit-content"
           width="100%"
+          pb="7.75rem"
           dividedBy={2}
+          height="fit-content"
           color="textInverted"
+          pt={['2.625rem', '5.188rem']}
           mt={['none', 'none', 'none', '-10rem']}
         >
           <Typography
@@ -186,14 +189,14 @@ const DEX: FC = () => {
         </Box>
         <Container
           px="XXL"
-          pt={['8rem', '8rem', '8rem', '5.188rem']}
-          pb={['unset', '7.75rem']}
           as="aside"
           side="right"
           width="100%"
           dividedBy={2}
           mb={['NONE', '-10rem']}
+          pb={['unset', '7.75rem']}
           bg="alternativeForeground"
+          pt={['8rem', '8rem', '8rem', '5.188rem']}
         >
           <Typography
             as="h3"

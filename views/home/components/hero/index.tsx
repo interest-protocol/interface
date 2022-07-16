@@ -27,11 +27,12 @@ const Hero: FC = always(
         display="flex"
         position="relative"
         flexDirection="column"
-        alignItems={['center', 'center', 'center', 'unset']}
         ml={['none', 'none', 'none', '8.438rem']}
         width={['100%', '100%', '100%', '45.938rem']}
+        alignItems={['center', 'center', 'center', 'unset']}
       >
         <Typography
+          as="h2"
           variant="normal"
           fontWeight="900"
           fontStyle="normal"
@@ -54,7 +55,7 @@ const Hero: FC = always(
         </Typography>
         <a href="https://docs.interestprotocol.com/" target="__blank">
           <Button type="button" variant="primary" effect="hover">
-            Learn More
+            Read Docs
           </Button>
         </a>
       </Box>
