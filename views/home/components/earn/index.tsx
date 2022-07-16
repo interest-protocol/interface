@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 
 import Container from '@/components/container';
 import { Routes, RoutesEnum } from '@/constants';
-import { Box, Button, Typography } from '@/elements';
+import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 
 import { LEND_AND_BORROW_TOKENS } from './earn.data';
 import {
@@ -51,11 +51,10 @@ const Earn: FC = () => {
               transform="translateZ(0)"
               filter="drop-shadow(-2px 50px 10px #0002)"
             >
-              <img
+              <ResponsiveImage
                 width="100%"
-                loading="lazy"
                 alt="Platform"
-                src="/earn-base.png"
+                path="home/earn-base"
               />
             </Box>
             <BitcoinOrbit
@@ -65,11 +64,10 @@ const Earn: FC = () => {
               position="absolute"
               filter="drop-shadow(-2px 50px 10px #0002)"
             >
-              <img
+              <ResponsiveImage
                 alt="BTC"
                 width="100%"
-                loading="lazy"
-                src="/earn-bitcoin.png"
+                path="home/earn-bitcoin"
               />
             </BitcoinOrbit>
             <BinanceOrbit
@@ -79,7 +77,7 @@ const Earn: FC = () => {
               position="absolute"
               filter="drop-shadow(-2px 50px 10px #0002)"
             >
-              <img src="/earn-bnb.png" width="100%" alt="BNB" loading="lazy" />
+              <ResponsiveImage alt="BNB" width="100%" path="home/earn-bnb" />
             </BinanceOrbit>
             <EtherOrbit
               top="30%"
@@ -88,7 +86,7 @@ const Earn: FC = () => {
               position="absolute"
               filter="drop-shadow(-2px 50px 10px #0002)"
             >
-              <img src="/earn-eth.png" width="100%" alt="ETH" loading="lazy" />
+              <ResponsiveImage alt="ETH" width="100%" path="home/earn-eth" />
             </EtherOrbit>
             <TetherOrbit
               top="32%"
@@ -97,11 +95,10 @@ const Earn: FC = () => {
               position="absolute"
               filter="drop-shadow(-2px 50px 10px #0002)"
             >
-              <img
+              <ResponsiveImage
+                alt="USDT"
                 width="100%"
-                alt="TETHER"
-                loading="lazy"
-                src="/earn-tether.png"
+                path="home/earn-tether"
               />
             </TetherOrbit>
             <USDCxETHOrbit
@@ -111,11 +108,10 @@ const Earn: FC = () => {
               position="absolute"
               filter="drop-shadow(-2px 50px 10px #0002)"
             >
-              <img
-                src="/earn-usdc-eth.png"
-                alt="USDC-ETH"
+              <ResponsiveImage
                 width="100%"
-                loading="lazy"
+                alt="USDC-ETH"
+                path="home/earn-usdc-eth"
               />
             </USDCxETHOrbit>
           </Box>

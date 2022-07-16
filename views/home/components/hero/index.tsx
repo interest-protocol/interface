@@ -2,7 +2,7 @@ import { always } from 'ramda';
 import { FC } from 'react';
 
 import { Container } from '@/components';
-import { Box, Button, Typography } from '@/elements';
+import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 
 import { FloatingCoins } from './hero-animations';
 
@@ -78,12 +78,11 @@ const Hero: FC = always(
           minWidth={['100%', '100%', '100%', '50rem']}
           maxWidth={['100%', '100%', '100%', '80rem']}
         >
-          <img
+          <ResponsiveImage
             width="100%"
             height="100%"
-            loading="lazy"
-            src="/hero-base.png"
-            alt="Interest Protocol Illustration"
+            alt="Interest Protocol Platform"
+            path="home/hero-base"
           />
         </Box>
         <FloatingCoins
@@ -93,12 +92,11 @@ const Hero: FC = always(
           position="absolute"
           delay={~~(Math.random() * 1500)}
         >
-          <img
+          <ResponsiveImage
             width="100%"
             height="100%"
-            loading="lazy"
-            src="/hero-BNBxSUSHI.png"
-            alt="Interest Protocol Illustration"
+            alt="Interest Protocol BNBxSUSHI"
+            path="home/hero-BNBxSUSHI"
           />
         </FloatingCoins>
         <FloatingCoins
@@ -108,12 +106,11 @@ const Hero: FC = always(
           position="absolute"
           delay={~~(Math.random() * 1500)}
         >
-          <img
+          <ResponsiveImage
             width="100%"
             height="100%"
-            loading="lazy"
-            src="/hero-DAIxUSDC.png"
-            alt="Interest Protocol Illustration"
+            alt="Interest Protocol DAIxUSDC"
+            path="home/hero-DAIxUSDC"
           />
         </FloatingCoins>
         <FloatingCoins
@@ -123,12 +120,11 @@ const Hero: FC = always(
           position="absolute"
           delay={~~(Math.random() * 1500)}
         >
-          <img
+          <ResponsiveImage
             width="100%"
             height="100%"
-            loading="lazy"
-            src="/hero-DNR.png"
-            alt="Interest Protocol Illustration"
+            alt="Interest Protocol DNR"
+            path="home/hero-DNR"
           />
         </FloatingCoins>
         <FloatingCoins
@@ -138,12 +134,11 @@ const Hero: FC = always(
           position="absolute"
           delay={~~(Math.random() * 1500)}
         >
-          <img
+          <ResponsiveImage
             width="100%"
             height="100%"
-            loading="lazy"
-            src="/hero-ETHxUSDT.png"
-            alt="Interest Protocol Illustration"
+            alt="Interest Protocol ETHxUSDT"
+            path="home/hero-ETHxUSDT"
           />
         </FloatingCoins>
         <FloatingCoins
@@ -153,12 +148,11 @@ const Hero: FC = always(
           position="absolute"
           delay={~~(Math.random() * 1500)}
         >
-          <img
+          <ResponsiveImage
             width="100%"
             height="100%"
-            loading="lazy"
-            src="/hero-WBTCxETH.png"
-            alt="Interest Protocol Illustration"
+            path="home/hero-WBTCxETH"
+            alt="Interest Protocol WBTCxETH"
           />
         </FloatingCoins>
         <FloatingCoins
@@ -168,12 +162,11 @@ const Hero: FC = always(
           position="absolute"
           delay={~~(Math.random() * 1500)}
         >
-          <img
+          <ResponsiveImage
             width="100%"
             height="100%"
-            loading="lazy"
-            src="/hero-vUSDC.png"
-            alt="Interest Protocol Illustration"
+            path="home/hero-vUSDC"
+            alt="Interest Protocol vUSDC"
           />
         </FloatingCoins>
       </Box>
