@@ -36,9 +36,12 @@ const DEX: FC = () => {
             <picture>
               <source
                 type="image/webp"
-                srcSet="/images/web/home/cube@3x.webp"
+                srcSet="/images/web/home/cube@3x.webp 800w, /images/web/home/cube@3x.webp"
               />
-              <source type="image/png" srcSet="/images/min/home/cube@3x.png" />
+              <source
+                type="image/png"
+                srcSet="/images/min/home/cube@3x.png 800w, /images/min/home/cube@3x.png"
+              />
               <img
                 alt="cube"
                 width="100%"
