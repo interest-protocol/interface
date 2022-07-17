@@ -33,14 +33,25 @@ const Footer: FC = always(
         </Link>
         <Typography
           px="M"
-          mt={['L', 'L', 'L', 'unset']}
           fontSize="S"
           variant="normal"
           textAlign="center"
+          lineHeight="normal"
           color="textInverted"
+          mt={['L', 'L', 'L', 'unset']}
         >
-          © {new Date().getFullYear()}. Interest Protocol from DEFI, lda. All
-          rights reserved.
+          © {new Date().getFullYear()}. Interest Protocol from DEFI, lda.{' '}
+          <Typography
+            as="span"
+            fontSize="S"
+            variant="normal"
+            textAlign="center"
+            lineHeight="normal"
+            color="textInverted"
+            display={['block', 'inline-block']}
+          >
+            All rights reserved.
+          </Typography>
         </Typography>
       </Box>
       <Box
