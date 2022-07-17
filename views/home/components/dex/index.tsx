@@ -9,7 +9,7 @@ const DEX: FC = () => {
   const { push } = useRouter();
 
   return (
-    <Box bg={['#F0F0F0', '#F0F0F0', '#F0F0F0', 'foreground']} as="section">
+    <Box bg={['#F0F0F0', '#F0F0F0', '#F0F0F0', 'background']} as="section">
       <Container
         display="flex"
         mb={['1.875rem', '4.25rem']}
