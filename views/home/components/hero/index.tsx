@@ -8,6 +8,7 @@ import { FloatingCoins } from './hero-animations';
 
 const Hero: FC = always(
   <Box
+    pb="10rem"
     as="section"
     backgroundImage={[
       'linear-gradient(105.71deg, #EEEEEE -1.51%, #E8E8E8 20.1%, #DBDBDA 72.59%);',
