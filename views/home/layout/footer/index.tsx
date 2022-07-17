@@ -1,73 +1,62 @@
 import Link from 'next/link';
+import { always } from 'ramda';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
-import { Container, SocialMediaCard } from '@/components';
+import { Container } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
-const Footer: FC = () => (
-  <Box
-    as="footer"
-    color="textSoft"
-    bg="accentSecondary"
-    borderTop="0.625rem solid"
-    borderColor="accent"
-  >
-    <Container>
+import SocialMediaCard from '../../components/social-media-card';
+
+const Footer: FC = always(
+  <Box as="footer" bg="text" height={['unset', 'unset', 'unset', '3.75rem']}>
+    <Container
+      display="flex"
+      height="100%"
+      alignItems="center"
+      flexDirection={['column', 'column', 'column', 'row']}
+      justifyContent={['center', 'space-between']}
+    >
       <Box
         display="flex"
-        py={['NONE', 'XXXL']}
-        justifyContent="space-between"
-        flexDirection={['column', 'row']}
+        flexDirection={['column', 'column', 'column', 'row']}
+        alignItems="center"
+        justifyContent="center"
+        pt={['2rem', '2rem', '2rem', 'unset']}
       >
         <Link href={Routes[RoutesEnum.Home]}>
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            mt={['L', 'NONE']}
-            py={['L', 'NONE']}
-          >
-            <Box as="span" display={['none', 'inline']}>
-              <LogoSVG width="4rem" />
-            </Box>
-            <Box as="span" display={['inline', 'none']}>
-              <LogoSVG width="2rem" />
-            </Box>
-            <Typography
-              ml="L"
-              variant="title4"
-              whiteSpace="nowrap"
-              fontSize={['S', 'L']}
-            >
-              Interest Protocol
-            </Typography>
+          <Box>
+            <LogoSVG width="2rem" fill="white" />
           </Box>
         </Link>
-        <Box
-          as="nav"
-          display="flex"
-          py={['L', 'NONE']}
-          alignItems="center"
-          justifyContent="center"
+        <Typography
+          px="M"
+          mt={['L', 'L', 'L', 'unset']}
+          fontSize="S"
+          variant="normal"
+          textAlign="center"
+          color="textInverted"
         >
-          {SOCIAL_MEDIAS.map((socialMediaData) => (
-            <SocialMediaCard {...socialMediaData} key={v4()} />
-          ))}
-        </Box>
+          © {new Date().getFullYear()}. Interest Protocol from DEFI, lda. All
+          rights reserved.
+        </Typography>
       </Box>
-      <Typography
-        my="M"
-        fontSize="S"
-        variant="normal"
-        textAlign="center"
-        py={['L', 'NONE']}
+      <Box
+        as="nav"
+        display="flex"
+        width={['100%', '100%', '100%', 'auto']}
+        mb={['3.313rem', '3.313rem', '3.313rem', 'NONE']}
+        mt={['2.688rem', '2.688rem', '2.688rem', 'NONE']}
+        alignItems="center"
+        color="textInverted"
+        justifyContent="space-around"
       >
-        © {new Date().getFullYear()}. Interest Protocol from DEFI, lda. All
-        rights reserved.
-      </Typography>
+        {SOCIAL_MEDIAS.map((socialMediaData) => (
+          <SocialMediaCard {...socialMediaData} key={v4()} />
+        ))}
+      </Box>
     </Container>
   </Box>
 );

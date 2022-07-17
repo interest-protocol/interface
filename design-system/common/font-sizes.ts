@@ -1,4 +1,5 @@
 const fontSizes = {
+  button: '14px',
   XS: '0.7rem',
   S: '0.8rem',
   M: '1rem',
