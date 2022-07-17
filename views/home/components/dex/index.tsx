@@ -9,7 +9,7 @@ const DEX: FC = () => {
   const { push } = useRouter();
 
   return (
-    <Box bg="foreground" as="section">
+    <Box bg={['#F0F0F0', '#F0F0F0', '#F0F0F0', 'background']} as="section">
       <Container
         display="flex"
         mb={['1.875rem', '4.25rem']}
@@ -36,9 +36,12 @@ const DEX: FC = () => {
             <picture>
               <source
                 type="image/webp"
-                srcSet="/images/web/home/cube@3x.webp"
+                srcSet="/images/web/home/cube@3x.webp 800w, /images/web/home/cube@3x.webp"
               />
-              <source type="image/png" srcSet="/images/min/home/cube@3x.png" />
+              <source
+                type="image/png"
+                srcSet="/images/min/home/cube@3x.png 800w, /images/min/home/cube@3x.png"
+              />
               <img
                 alt="cube"
                 width="100%"

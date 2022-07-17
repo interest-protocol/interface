@@ -21,13 +21,17 @@ const Earn: FC = () => {
 
   return (
     <Box
-      pt="10rem"
-      mt="-10rem"
       as="section"
       position="relative"
-      backgroundImage="linear-gradient(180deg, rgba(248, 248, 248, 0) 0%, #F0F0F0 33.83%)"
+      mt={['-4rem', 'L', 'XL', 'NONE']}
+      backgroundImage={[
+        'linear-gradient(180deg, rgba(248, 248, 248, 0) 0%, #F0F0F0 33.7%)',
+        'linear-gradient(180deg, rgba(248, 248, 248, 0) 0%, #F0F0F0 33.7%)',
+        'linear-gradient(180deg, rgba(248, 248, 248, 0) 0%, #F0F0F0 33.7%)',
+        'linear-gradient(180deg, rgba(248, 248, 248, 0) 0%, #F0F0F0 5.5rem)',
+      ]}
     >
-      <Container bg={['#EEE', '#EEE', '#EEE', 'transparent']}>
+      <Container>
         <Box
           display="flex"
           alignItems="center"
