@@ -8,7 +8,6 @@ import { FloatingCoins } from './hero-animations';
 
 const Hero: FC = always(
   <Box
-    pb="10rem"
     as="section"
     backgroundImage={[
       'linear-gradient(105.71deg, #EEEEEE -1.51%, #E8E8E8 20.1%, #DBDBDA 72.59%);',
@@ -19,7 +18,8 @@ const Hero: FC = always(
       display="flex"
       position="relative"
       alignItems="center"
-      minHeight={['unset', 'unset', 'unset', '100vh']}
+      height={['unset', 'unset', 'unset', '100vh']}
+      minHeight={['unset', 'unset', 'unset', '45rem']}
       pt={['11.813rem', '11.813rem', '11.813rem', 'XXXL']}
     >
       <Box
@@ -63,7 +63,7 @@ const Hero: FC = always(
     <Box
       right="0"
       top="8rem"
-      pb={['8rem', '6rem', '4rem', 'NONE']}
+      pb={['8rem', '6rem', '4rem', 'unset']}
       mt={['3rem', '3rem', '3rem', 'unset']}
       width={['100%', '100%', '100%', '52%']}
       position={['static', 'static', 'static', 'absolute']}

@@ -24,7 +24,12 @@ const Earn: FC = () => {
       as="section"
       position="relative"
       mt={['-4rem', 'L', 'XL', 'NONE']}
-      backgroundImage="linear-gradient(180deg, rgba(248, 248, 248, 0) 0%, #F0F0F0 5rem)"
+      backgroundImage={[
+        'linear-gradient(180deg, rgba(248, 248, 248, 0) 0%, #F0F0F0 33.7%)',
+        'linear-gradient(180deg, rgba(248, 248, 248, 0) 0%, #F0F0F0 33.7%)',
+        'linear-gradient(180deg, rgba(248, 248, 248, 0) 0%, #F0F0F0 33.7%)',
+        'linear-gradient(180deg, rgba(248, 248, 248, 0) 0%, #F0F0F0 5.5rem)',
+      ]}
     >
       <Container>
         <Box
