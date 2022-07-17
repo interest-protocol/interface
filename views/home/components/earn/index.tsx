@@ -21,12 +21,11 @@ const Earn: FC = () => {
 
   return (
     <Box
-      pt="10rem"
-      mt="-10rem"
       position="relative"
+      mt={['-4rem', 'L', 'XL', 'NONE']}
       backgroundImage="linear-gradient(180deg, rgba(248, 248, 248, 0) 0%, #F0F0F0 33.83%)"
     >
-      <Container as="section" bg={['#EEE', '#EEE', '#EEE', 'transparent']}>
+      <Container as="section">
         <Box
           display="flex"
           alignItems="center"

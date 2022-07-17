@@ -8,19 +8,19 @@ import { FloatingCoins } from './hero-animations';
 
 const Hero: FC = always(
   <Box
+    pb="4rem"
     as="section"
     backgroundImage={[
       'linear-gradient(105.71deg, #EEEEEE -1.51%, #E8E8E8 20.1%, #DBDBDA 72.59%);',
       'none',
     ]}
-    pb="10rem"
   >
     <Container
-      pt={['11.813rem', '11.813rem', '11.813rem', 'XXXL']}
       display="flex"
       position="relative"
-      minHeight={['unset', 'unset', 'unset', '100vh']}
       alignItems="center"
+      minHeight={['unset', 'unset', 'unset', '100vh']}
+      pt={['11.813rem', '11.813rem', '11.813rem', 'XXXL']}
     >
       <Box
         zIndex={2}
