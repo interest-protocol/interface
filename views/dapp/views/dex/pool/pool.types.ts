@@ -1,7 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
-import { ICurrencyField } from '../dex.types';
+import { PoolType } from '@/constants';
+
+import { SwapFormTokenData } from '../dex.types';
 
 export interface PairsProps {
   perceptual: string;
@@ -11,15 +13,15 @@ export interface PairsProps {
   setSelected: Dispatch<SetStateAction<string>>;
 }
 
-export interface LiquidityProps {
-  amount: string;
-  amountUSD: string;
-  symbols: [string, string];
+export interface PoolRowProps {
+  pairAddress: string;
+  symbol0: string;
+  symbol1: string;
 }
 
 export interface ILiquidityForm {
-  pairItem1: ICurrencyField;
-  pairItem2: ICurrencyField;
+  pairItem1: SwapFormTokenData;
+  pairItem2: SwapFormTokenData;
 }
 
 export interface LiquidityDepositAmountProps {
@@ -34,4 +36,8 @@ export interface AddLiquidityCurrencyChooserProps {
   onSelectCurrency: (
     name: 'pairItem1' | 'pairItem2'
   ) => (address: string) => void;
+}
+
+export interface RecommendedPoolsProps {
+  type: PoolType;
 }

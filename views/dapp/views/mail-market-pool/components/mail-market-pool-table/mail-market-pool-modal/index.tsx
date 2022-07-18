@@ -19,7 +19,7 @@ import { useIdAccount } from '@/hooks/use-id-account';
 import { IntMath, ZERO_BIG_NUMBER } from '@/sdk';
 import { LoadingSVG, TimesSVG, UnknownCoinSVG } from '@/svg';
 import {
-  adjustTo18Decimals,
+  adjustDecimals,
   elasticToPrincipal,
   formatMoney,
   safeToBigNumber,
@@ -177,7 +177,7 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
 
       const safeAmount = amount.gt(data.balance) ? data.balance : amount;
 
-      const adjustedAmount = adjustTo18Decimals(safeAmount, data.decimals);
+      const adjustedAmount = adjustDecimals(safeAmount, data.decimals);
 
       const principal = elasticToPrincipal(
         data.totalElastic,

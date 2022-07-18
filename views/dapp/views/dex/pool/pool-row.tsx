@@ -1,40 +1,27 @@
 import Link from 'next/link';
-import { compose, find, propEq, propOr } from 'ramda';
 import { FC } from 'react';
 
-import {
-  MAIL_FAUCET_TOKENS,
-  Routes,
-  RoutesEnum,
-  TOKENS_SVG_MAP,
-} from '@/constants';
+import { Routes, RoutesEnum, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
+import { replaceWrappedNativeTokenWithNativeTokenSymbol } from '@/utils';
 
-import { LiquidityProps } from '../pool.types';
+import { PoolRowProps } from './pool.types';
 
-const Liquidity: FC<LiquidityProps> = ({ symbols }) => {
-  const [address1, address2] = [
-    compose(
-      propOr('', 'address'),
-      find(propEq('symbol', symbols[0]))
-    )(MAIL_FAUCET_TOKENS[4]),
-    compose(
-      propOr('', 'address'),
-      find(propEq('symbol', symbols[1]))
-    )(MAIL_FAUCET_TOKENS[4]),
-  ];
-
+const PoolRow: FC<PoolRowProps> = ({ symbol0, symbol1, pairAddress }) => {
+  // Visually we want to abstract the Wrapped Native Token mechanism
   const FirstIcon =
-    TOKENS_SVG_MAP[symbols[0]] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+    TOKENS_SVG_MAP[replaceWrappedNativeTokenWithNativeTokenSymbol(symbol0)] ??
+    TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
   const SecondIcon =
-    TOKENS_SVG_MAP[symbols[1]] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+    TOKENS_SVG_MAP[replaceWrappedNativeTokenWithNativeTokenSymbol(symbol1)] ??
+    TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
   return (
     <Link
       shallow
       href={Routes[RoutesEnum.DEXPoolDetails]}
-      as={`${Routes[RoutesEnum.DEXPool]}/${address1}-${address2}/`}
+      as={`${Routes[RoutesEnum.DEXPool]}/${pairAddress}/`}
     >
       <Box
         py="M"
@@ -53,7 +40,7 @@ const Liquidity: FC<LiquidityProps> = ({ symbols }) => {
               <FirstIcon width="1.2rem" />
               <SecondIcon width="1.2rem" />
               <Typography mx="M" as="span" variant="normal">
-                {symbols[0]} / {symbols[1]}
+                {symbol0} / {symbol1}
               </Typography>
             </Box>
           </Box>
@@ -63,4 +50,4 @@ const Liquidity: FC<LiquidityProps> = ({ symbols }) => {
   );
 };
 
-export default Liquidity;
+export default PoolRow;

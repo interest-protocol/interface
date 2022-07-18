@@ -19,7 +19,7 @@ export const safeToBigNumber = (
     significant
   );
 
-export const adjustTo18Decimals = (x: BigNumber, decimals: number, k = 18) => {
+export const adjustDecimals = (x: BigNumber, decimals: number, k = 18) => {
   if (decimals == k) return x;
 
   if (decimals < k) return x.mul(BigNumber.from(10).pow(k - decimals));

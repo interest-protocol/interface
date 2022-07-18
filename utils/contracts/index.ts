@@ -20,6 +20,7 @@ import InterestViewDineroABI from '@/sdk/abi/interest-view-dinero.abi.json';
 import InterestViewMAILABI from '@/sdk/abi/interest-view-MAIL.abi.json';
 import MAILDeployerABI from '@/sdk/abi/mail-deployer.abi.json';
 import TokenMinterABI from '@/sdk/abi/token-minter.abi.json';
+import WETHABI from '@/sdk/abi/weth.abi.json';
 import {
   CONTRACTS,
   DINERO_MARKET_CONTRACT_MAP,
@@ -37,6 +38,7 @@ import {
   InterestViewMAILAbi,
   MailDeployerAbi,
   TokenMinterAbi,
+  WethAbi,
 } from '../../types/ethers-contracts';
 import {
   CreateTokenEventArgs,
@@ -238,3 +240,6 @@ export const getInterestViewDexContract: GetContract<InterestViewDexAbi> = (
     InterestViewDexABI,
     provider
   ) as InterestViewDexAbi;
+
+export const getWETHContract: GetContract<WethAbi> = (chainId, provider) =>
+  new ethers.Contract(getWETHAddress(chainId), WETHABI, provider) as WethAbi;

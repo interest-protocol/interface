@@ -9,7 +9,6 @@ import { LiquidityDetailsCardLineProps } from '../../dex-pool-details.types';
 const LiquidityDetailsCardLine: FC<LiquidityDetailsCardLineProps> = ({
   value,
   symbol,
-  perceptual,
 }) => {
   const TokenSVG =
     TOKENS_SVG_MAP[symbol] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
@@ -31,15 +30,6 @@ const LiquidityDetailsCardLine: FC<LiquidityDetailsCardLineProps> = ({
       <Box display="flex" alignItems="center">
         <Typography variant="normal" mr="M" fontSize="0.8rem">
           {value}
-        </Typography>
-        <Typography
-          p="M"
-          bg="background"
-          variant="normal"
-          borderRadius="L"
-          fontSize="0.8rem"
-        >
-          {perceptual}%
         </Typography>
       </Box>
     </Box>

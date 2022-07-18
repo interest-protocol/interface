@@ -38,13 +38,14 @@ export interface MailMarketsSummaryData {
   supplyRates: BigNumber[];
 }
 
-export interface ERC20Metadata {
+export interface ERC20Metadata<T> {
   name: string;
   symbol: string;
-  decimals: BigNumber;
+  decimals: T;
 }
 
-export interface ERC20MetadataWithAddress extends ERC20Metadata {
+export interface ERC20MetadataWithAddress<T = BigNumber>
+  extends ERC20Metadata<T> {
   address: string;
 }
 

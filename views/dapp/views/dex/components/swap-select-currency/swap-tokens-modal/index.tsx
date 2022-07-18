@@ -1,106 +1,107 @@
 import { isAddress } from 'ethers/lib/utils';
+import { prop } from 'ramda';
 import { FC, ReactNode, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
+import { getInterestDEXViewERC20Metadata } from '@/api';
 import { Switch } from '@/components';
 import {
-  ERC_20_DATA,
   NATIVE_TOKENS,
   SWAP_BASES,
   TOKEN_META_DATA_ARRAY,
   TOKENS_SVG_MAP,
 } from '@/constants';
 import { Box, Modal, Typography } from '@/elements';
-import { useIdAccount } from '@/hooks';
-import { useLocalStorage } from '@/hooks';
-import { ZERO_ADDRESS } from '@/sdk';
-import { TOKEN_SYMBOL } from '@/sdk';
-import { ArrowSVG, LineLoaderSVG, TimesSVG } from '@/svg';
-import { isSameAddress, isZeroAddress, safeGetAddress } from '@/utils';
+import { useDebounce, useIdAccount, useLocalStorage } from '@/hooks';
+import { TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
+import { LineLoaderSVG, TimesSVG } from '@/svg';
+import { isSameAddress, isSameAddressZ } from '@/utils';
 
 import {
   SwapCurrencyDropdownProps,
   SwapTokenModalMetadata,
 } from '../../../dex.types';
-
-const EXPECTED_TIMEOUT_MILLISECONDS = 5000;
+import { OnSelectCurrencyData } from '../../../swap/swap.types';
 
 const BLOCKCHAIN_MOCK_TOKEN = {};
 
 const renderData = (
   tokens: ReadonlyArray<SwapTokenModalMetadata>,
-  onSelectCurrency: (symbol: string) => void,
-  isLocal: boolean
+  onSelectCurrency: (data: OnSelectCurrencyData) => void,
+  isLocal: boolean,
+  currentToken: string,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  removeUserToken: (address: string) => void = () => {}
 ): ReadonlyArray<ReactNode> => {
   const DefaultTokenSVG = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
-  return tokens
-    ? tokens.map(({ address, symbol }) => {
-        const SVG = TOKENS_SVG_MAP[symbol] ?? DefaultTokenSVG;
-        const handleSelectCurrency = () => onSelectCurrency(address);
+  return tokens.map(({ address, symbol, decimals }) => {
+    const SVG = TOKENS_SVG_MAP[symbol] ?? DefaultTokenSVG;
 
-        return (
+    const isDisabled = isSameAddressZ(address, currentToken);
+    const handleSelectCurrency = () =>
+      isDisabled ? {} : onSelectCurrency({ address, symbol, decimals });
+    return (
+      <Box
+        m="XS"
+        px="M"
+        py="S"
+        key={v4()}
+        color="text"
+        display="flex"
+        cursor={isDisabled ? 'not-allowed' : 'pointer'}
+        borderRadius="M"
+        border="1px solid"
+        alignItems="center"
+        bg={isDisabled ? 'disabled' : 'bottomBackground'}
+        borderColor="transparent"
+        justifyContent="space-between"
+        onClick={handleSelectCurrency}
+        hover={{
+          borderColor: isDisabled ? 'transparent' : 'accent',
+        }}
+      >
+        <Box my="M" display="flex" alignItems="center">
+          <SVG width="1rem" height="1rem" />
+          <Typography mx="M" as="span" variant="normal">
+            {symbol?.toUpperCase()}
+          </Typography>
+        </Box>
+        {isLocal && (
           <Box
-            m="XS"
-            px="M"
-            py="S"
-            key={v4()}
-            color="text"
+            width="1rem"
+            height="1rem"
+            color="error"
             display="flex"
-            cursor="pointer"
-            borderRadius="M"
-            border="1px solid"
+            borderRadius="S"
             alignItems="center"
-            bg="bottomBackground"
-            borderColor="transparent"
-            justifyContent="space-between"
-            onClick={handleSelectCurrency}
+            border="0.5px solid"
+            justifyContent="center"
             hover={{
-              borderColor: 'accent',
+              bg: 'error',
+              color: 'text',
+              border: 'none',
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              removeUserToken(address);
             }}
           >
-            <Box my="M" display="flex" alignItems="center">
-              <SVG width="1rem" height="1rem" />
-              <Typography mx="M" as="span" variant="normal">
-                {symbol?.toUpperCase()}
-              </Typography>
-            </Box>
-            {isLocal && (
-              <Box
-                width="1rem"
-                height="1rem"
-                color="error"
-                display="flex"
-                borderRadius="S"
-                alignItems="center"
-                border="0.5px solid"
-                justifyContent="center"
-                hover={{
-                  bg: 'error',
-                  color: 'text',
-                  border: 'none',
-                }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                <TimesSVG width="1rem" />
-              </Box>
-            )}
+            <TimesSVG width="1rem" />
           </Box>
-        );
-      })
-    : [];
+        )}
+      </Box>
+    );
+  });
 };
 
 const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   Input,
   control,
-  disabled,
   isSearching,
   toggleModal,
-  isOpenModal,
+  isModalOpen,
   currentToken,
   setIsSearching,
   onSelectCurrency,
@@ -108,155 +109,155 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   const { chainId } = useIdAccount();
   const [showLocal, setShowLocal] = useState(false);
   const search = useWatch({ control, name: 'search' });
-  const [readyToSearch, setReadyToSearch] = useState(true);
-
-  const [tokensAddedByUser, addTokenAddedByUser] = useLocalStorage<
+  const [searchedToken, setSearchedToken] =
+    useState<null | SwapTokenModalMetadata>(null);
+  const [tokensAddedByUser, handleTokensAddedByUser] = useLocalStorage<
     ReadonlyArray<SwapTokenModalMetadata>
   >(`${chainId}-interest-dex-custom-tokens`, []);
 
   const nativeToken = NATIVE_TOKENS[chainId];
-  const symbol = isZeroAddress(currentToken)
-    ? nativeToken.symbol
-    : ERC_20_DATA[chainId][safeGetAddress(currentToken)]?.symbol;
 
-  const SVG = TOKENS_SVG_MAP[symbol] || TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+  const debouncedSearch = useDebounce(search, 800);
 
-  // able to search on blockchain or no
-  useEffect(() => {
-    if (
-      readyToSearch &&
-      isAddress(search) &&
-      !TOKEN_META_DATA_ARRAY[chainId].some(({ address }) =>
-        isSameAddress(search, address)
-      )
-    )
-      setIsSearching(true);
-  }, [search]);
+  const tokenMedataArray = TOKEN_META_DATA_ARRAY[chainId];
 
   // is searching debounce
   useEffect(() => {
-    if (readyToSearch && isSearching) {
-      setReadyToSearch(false);
-      const timeout = setTimeout(() => {
-        setReadyToSearch(true);
-        setIsSearching(false);
-        clearTimeout(timeout);
-      }, EXPECTED_TIMEOUT_MILLISECONDS);
+    if (isSearching || !debouncedSearch) return;
+    const parsedDebouncedSearch = debouncedSearch.trim().toLowerCase();
+    const allTokens = tokensAddedByUser.concat(tokenMedataArray);
+    if (!isAddress(parsedDebouncedSearch)) {
+      const token = allTokens.find(
+        ({ symbol, name }) =>
+          symbol.toLowerCase().startsWith(parsedDebouncedSearch) ||
+          name.toLowerCase().startsWith(parsedDebouncedSearch) ||
+          name.toLowerCase().includes(parsedDebouncedSearch) ||
+          symbol.toLowerCase().includes(parsedDebouncedSearch)
+      );
+
+      setSearchedToken(token ? token : null);
+      return;
     }
-  }, [isSearching]);
+
+    if (isAddress(parsedDebouncedSearch)) {
+      const token = allTokens.find(({ address }) =>
+        isSameAddress(parsedDebouncedSearch, address)
+      );
+
+      if (token) {
+        setSearchedToken(token);
+        return;
+      }
+
+      // Now we need to find the on the blockchain
+      setIsSearching(true);
+
+      getInterestDEXViewERC20Metadata(chainId, parsedDebouncedSearch)
+        .then(({ name, decimals, symbol }) => {
+          const data = {
+            decimals: decimals.toNumber(),
+            name,
+            symbol,
+            address: parsedDebouncedSearch,
+          };
+          setSearchedToken(data);
+          handleTokensAddedByUser(tokensAddedByUser.concat(data));
+        })
+        .catch(() => setSearchedToken(null))
+        .finally(() => setIsSearching(false));
+    }
+  }, [debouncedSearch, tokensAddedByUser, tokenMedataArray, chainId]);
+
+  const removeUserToken = (x: string) =>
+    handleTokensAddedByUser(
+      tokensAddedByUser.filter(({ address }) => !isSameAddress(address, x))
+    );
 
   return (
-    <>
-      <Box
-        mx="M"
-        px="M"
-        py="S"
-        display="flex"
-        borderRadius="M"
-        cursor="pointer"
-        alignItems="center"
-        bg="bottomBackground"
-        justifyContent="space-between"
-        onClick={disabled ? undefined : toggleModal}
-        filter={disabled ? 'grayscale(1)' : 'unset'}
-      >
-        <Box my="M" display="flex" alignItems="center">
+    <Modal
+      modalProps={{
+        isOpen: isModalOpen,
+        shouldCloseOnEsc: true,
+        onRequestClose: toggleModal,
+      }}
+      background="#0004"
+    >
+      <Box bg="foreground" p="L" borderRadius="M" maxWidth="27rem">
+        {Input}
+        {isSearching && <LineLoaderSVG width="100%" />}
+        <Box mt="M" display="flex" flexWrap="wrap" justifyContent="flex-start">
+          {renderData(
+            [
+              {
+                name: nativeToken.name,
+                symbol: nativeToken.symbol as TOKEN_SYMBOL,
+                address: ZERO_ADDRESS,
+                decimals: nativeToken.decimals,
+                chainId: chainId,
+              },
+              ...SWAP_BASES[chainId],
+            ] as ReadonlyArray<SwapTokenModalMetadata>,
+            onSelectCurrency,
+            false,
+            currentToken
+          )}
+        </Box>
+        {debouncedSearch ? (
+          isSearching ? (
+            'Loading...'
+          ) : searchedToken ? (
+            renderData(
+              [searchedToken],
+              onSelectCurrency,
+              showLocal,
+              currentToken
+            )
+          ) : (
+            'Token not found'
+          )
+        ) : (
           <>
-            <SVG width="1rem" height="1rem" />
-            <Typography
-              mx="M"
-              as="span"
-              variant="normal"
-              hover={{ color: 'accent' }}
-              active={{ color: 'accentActive' }}
+            <Box mt="L" display="flex" justifyContent="center">
+              <Switch
+                thin
+                defaultValue={showLocal ? 'local' : 'recommended'}
+                options={[
+                  {
+                    value: 'recommended',
+                    displayValue: 'Recommended',
+                    onSelect: () => setShowLocal(false),
+                  },
+                  {
+                    value: 'local',
+                    displayValue: 'Added by me',
+                    onSelect: () => setShowLocal(true),
+                  },
+                ]}
+              />
+            </Box>
+            <Box
+              mt="M"
+              display="grid"
+              overflowY="auto"
+              gridGap="0.3rem"
+              maxHeight="20rem"
             >
-              {symbol?.toUpperCase()}
-            </Typography>
+              {renderData(
+                (showLocal ? tokensAddedByUser : tokenMedataArray).filter(
+                  ({ address }) =>
+                    !isSameAddress(currentToken, address) &&
+                    !SWAP_BASES[chainId].map(prop('address')).includes(address)
+                ) as ReadonlyArray<SwapTokenModalMetadata>,
+                onSelectCurrency,
+                showLocal,
+                currentToken,
+                removeUserToken
+              )}
+            </Box>
           </>
-        </Box>
-        <ArrowSVG width="0.5rem" />
+        )}
       </Box>
-      <Modal
-        modalProps={{
-          isOpen: isOpenModal,
-          shouldCloseOnEsc: true,
-          onRequestClose: toggleModal,
-          shouldCloseOnOverlayClick: true,
-        }}
-        background="#0004"
-      >
-        <Box bg="foreground" p="L" borderRadius="M" maxWidth="27rem">
-          {Input}
-          {isSearching && <LineLoaderSVG width="100%" />}
-          <Box
-            mt="M"
-            display="flex"
-            flexWrap="wrap"
-            justifyContent="flex-start"
-          >
-            {renderData(
-              SWAP_BASES[chainId].map((baseAddress) =>
-                TOKEN_META_DATA_ARRAY[chainId].find(({ address }) =>
-                  isSameAddress(baseAddress, address)
-                )
-              ) as ReadonlyArray<SwapTokenModalMetadata>,
-              onSelectCurrency,
-              false
-            )}
-          </Box>
-          <Box mt="L" display="flex" justifyContent="center">
-            <Switch
-              thin
-              defaultValue={showLocal ? 'local' : 'recommended'}
-              options={[
-                {
-                  value: 'recommended',
-                  displayValue: 'Recommended',
-                  onSelect: () => setShowLocal(false),
-                },
-                {
-                  value: 'local',
-                  displayValue: 'Added by me',
-                  onSelect: () => setShowLocal(true),
-                },
-              ]}
-            />
-          </Box>
-          <Box
-            mt="M"
-            display="grid"
-            overflowY="auto"
-            gridGap="0.3rem"
-            maxHeight="20rem"
-          >
-            {renderData(
-              (showLocal
-                ? tokensAddedByUser
-                : [
-                    {
-                      name: nativeToken.name,
-                      symbol: nativeToken.symbol as TOKEN_SYMBOL,
-                      address: ZERO_ADDRESS,
-                      decimals: nativeToken.decimals,
-                      chainId: chainId,
-                    },
-                    ...TOKEN_META_DATA_ARRAY[chainId],
-                  ]
-              ).filter(
-                ({ symbol, address }) =>
-                  !isSameAddress(currentToken, address) &&
-                  !SWAP_BASES[chainId].includes(address) &&
-                  (search == '' ||
-                    symbol.toLowerCase().startsWith(search.toLowerCase()) ||
-                    address == search)
-              ) as ReadonlyArray<SwapTokenModalMetadata>,
-              onSelectCurrency,
-              showLocal
-            )}
-          </Box>
-        </Box>
-      </Modal>
-    </>
+    </Modal>
   );
 };
 

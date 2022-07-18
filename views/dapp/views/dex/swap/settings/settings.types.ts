@@ -3,24 +3,26 @@ import {
   Control,
   UseFormRegister,
   UseFormRegisterReturn,
+  UseFormSetValue,
 } from 'react-hook-form';
 
-import { ISwapForm } from '../swap.types';
+import { ISwapForm, LocalSwapSettings } from '../swap.types';
 
 export interface FieldProps {
   label: string;
-  step: string;
   placeholder: string;
   suffix?: ReactNode;
   prefix?: ReactNode;
   setRegister: () => UseFormRegisterReturn;
   max: string;
+  type: string;
 }
 
 export interface SwapSettingsProps {
   toggle: () => void;
   control: Control<ISwapForm>;
-  setSlippage: (x: number) => void;
-  setDeadline: (x: number) => void;
+  setValue: UseFormSetValue<ISwapForm>;
+  setLocalSettings: (x: LocalSwapSettings) => void;
   register: UseFormRegister<ISwapForm>;
+  localSettings: LocalSwapSettings;
 }

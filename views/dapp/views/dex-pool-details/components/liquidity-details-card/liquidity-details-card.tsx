@@ -4,12 +4,11 @@ import { v4 } from 'uuid';
 import { Box, Typography } from '@/elements';
 
 import { LiquidityDetailsCardProps } from '../../dex-pool-details.types';
-import LiquidityDetailsCardLine from '../liquidity-details-card-line';
+import LiquidityDetailsCardLine from './liquidity-details-card-line';
 
 const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
   title,
   lines,
-  totalDeposits,
 }) => (
   <Box
     p="L"
@@ -27,9 +26,6 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
       textTransform="uppercase"
     >
       {title}
-    </Typography>
-    <Typography mt="M" variant="normal" fontWeight="500" fontSize="XL" my="L">
-      {totalDeposits}
     </Typography>
     <Box
       py="M"
