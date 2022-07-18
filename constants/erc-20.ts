@@ -76,6 +76,38 @@ export const MAIL_FAUCET_TOKENS = {
       name: 'ApeCoin',
     },
   ],
+  [CHAIN_ID.BNB_TEST_NET]: [
+    {
+      symbol: TOKEN_SYMBOL.BTC,
+      address: getBTCAddress(CHAIN_ID.BNB_TEST_NET),
+      name: 'Bitcoin',
+    },
+    {
+      symbol: TOKEN_SYMBOL.WETH,
+      address: getWETHAddress(CHAIN_ID.BNB_TEST_NET),
+      name: 'Wrapper Ether',
+    },
+    {
+      symbol: TOKEN_SYMBOL.USDT,
+      address: getUSDTAddress(CHAIN_ID.BNB_TEST_NET),
+      name: 'USD Tether',
+    },
+    {
+      symbol: TOKEN_SYMBOL.USDC,
+      address: getUSDCAddress(CHAIN_ID.BNB_TEST_NET),
+      name: 'USD Coin',
+    },
+    {
+      symbol: TOKEN_SYMBOL.UNI,
+      address: getUNIAddress(CHAIN_ID.BNB_TEST_NET),
+      name: 'Uniswap',
+    },
+    {
+      symbol: TOKEN_SYMBOL.APE,
+      address: getAPEAddress(CHAIN_ID.BNB_TEST_NET),
+      name: 'ApeCoin',
+    },
+  ],
 };
 
 export const TOKENS_SVG_MAP = {

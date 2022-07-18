@@ -56,7 +56,7 @@ const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
             position="absolute"
             display={['none', 'none', 'none', 'block']}
           >
-            {!!customAction && <Faucet customAction={customAction} />}
+            {!!customAction && <Faucet />}
           </Box>
         </Box>
         <Footer />

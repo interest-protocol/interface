@@ -7,7 +7,7 @@ import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetUserBalances } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
 import useLocalStorage from '@/hooks/use-storage';
-import { flippedAppend, isSameAddress } from '@/utils';
+import { flippedAppend, isSameAddress, isValidAccount } from '@/utils';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
@@ -26,19 +26,19 @@ const Faucet: FC = () => {
 
   const toggleCreateToken = () => setIsCreatingToken((e) => !e);
 
-  const MAIL_TOKENS = useMemo(
+  const FAUCETS_TOKENS = useMemo(
     () =>
       chainId && MAIL_FAUCET_TOKENS[chainId] ? MAIL_FAUCET_TOKENS[chainId] : [],
     [chainId]
-  );
+  ).filter(({ address }) => isValidAccount(address));
 
   const { error, data } = useGetUserBalances(
-    MAIL_TOKENS.map(prop('address')).concat(localTokens.map(prop('address')))
+    FAUCETS_TOKENS.map(prop('address')).concat(localTokens.map(prop('address')))
   );
 
   const { recommendedData, localData } = useMemo(
-    () => processGetUserBalances(MAIL_TOKENS, localTokens, data),
-    [MAIL_TOKENS, data, localTokens]
+    () => processGetUserBalances(FAUCETS_TOKENS, localTokens, data),
+    [FAUCETS_TOKENS, data, localTokens]
   );
 
   const addLocalToken: AddLocalToken = useCallback(
