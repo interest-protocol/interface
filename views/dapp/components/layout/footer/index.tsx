@@ -4,12 +4,7 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container, SocialMediaCard } from '@/components';
-import {
-  Routes,
-  RoutesEnum,
-  RoutesWithFaucet,
-  SOCIAL_MEDIAS,
-} from '@/constants';
+import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Button, Dropdown, Typography } from '@/elements';
 import { GitBookSVG } from '@/svg';
 
@@ -17,8 +12,6 @@ import Faucet from '../../faucet';
 
 const Footer: FC = () => {
   const { pathname, push } = useRouter();
-
-  const customAction = RoutesWithFaucet[pathname];
 
   return (
     <Box
@@ -125,7 +118,7 @@ const Footer: FC = () => {
               ]}
             />
           </Box>
-          {!!customAction && <Faucet customAction={customAction} />}
+          <Faucet />
         </Box>
       </Container>
     </Box>
