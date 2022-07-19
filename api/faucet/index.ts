@@ -1,48 +1,26 @@
 import { ethers } from 'ethers';
 
-import { CHAIN_ID, CONTRACTS } from '@/sdk';
-import DineroFaucetABI from '@/sdk/abi/dinero-faucet.abi.json';
 import MintABI from '@/sdk/abi/mint.abi.json';
-import BTCABI from '@/sdk/abi/test-btc.abi.json';
-import { isSameAddress } from '@/utils';
+import MintOldABI from '@/sdk/abi/mint-old.abi.json';
 
-import {
-  DineroFaucetAbi,
-  MintAbi,
-  TestBtcAbi,
-} from '../../types/ethers-contracts';
-import { MintFaucetToken, MintMAILFaucetToken } from './faucet.types';
+import { MintAbi, MintOldAbi } from '../../types/ethers-contracts';
+import { ERC20Mint, ERC20MintOld } from './faucet.types';
 
 // TODO: Need improvement
 
-export const mintETHFaucetToken: MintMAILFaucetToken = (
-  signer,
-  token,
-  amount,
-  account
-) => {
+export const erc20Mint: ERC20Mint = (signer, token, account, amount) => {
   const contract = new ethers.Contract(token, MintABI, signer) as MintAbi;
 
   return contract.mint(account, amount);
 };
 
-export const mintBNBFaucet: MintFaucetToken = (signer, token, amount) => {
-  const contract = new ethers.Contract(
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    ...(isSameAddress(CONTRACTS.BTC[CHAIN_ID.BNB_TEST_NET], token)
-      ? [CONTRACTS.BTC[CHAIN_ID.BNB_TEST_NET], BTCABI, signer]
-      : [
-          CONTRACTS.DINERO_FAUCET[CHAIN_ID.BNB_TEST_NET],
-          DineroFaucetABI,
-          signer,
-        ])
-  ) as DineroFaucetAbi | TestBtcAbi;
+export const erc20MintOld: ERC20MintOld = (signer, token, amount) => {
+  const contract = new ethers.Contract(token, MintOldABI, signer) as MintOldAbi;
 
   return contract.mint(amount);
 };
 
 export const mintFaucetToken = {
-  [CHAIN_ID.RINKEBY]: mintETHFaucetToken,
-  [CHAIN_ID.BNB_TEST_NET]: mintBNBFaucet,
+  new: erc20Mint,
+  old: erc20MintOld,
 };

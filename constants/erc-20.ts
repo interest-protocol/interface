@@ -22,6 +22,7 @@ import {
   getAPEAddress,
   getBTCAddress,
   getDNRAddress,
+  getETHERC20Address,
   getIntAddress,
   getLINKAddress,
   getMANAAddress,
@@ -75,6 +76,21 @@ export const FAUCET_TOKENS = {
       symbol: TOKEN_SYMBOL.DNR,
       address: getDNRAddress(CHAIN_ID.BNB_TEST_NET),
       name: 'Dinero',
+    },
+    {
+      symbol: TOKEN_SYMBOL.ETH,
+      address: getETHERC20Address(CHAIN_ID.BNB_TEST_NET),
+      name: 'Ether',
+    },
+    {
+      symbol: TOKEN_SYMBOL.USDT,
+      address: getUSDTAddress(CHAIN_ID.BNB_TEST_NET),
+      name: 'USD Tether',
+    },
+    {
+      symbol: TOKEN_SYMBOL.USDC,
+      address: getUSDCAddress(CHAIN_ID.BNB_TEST_NET),
+      name: 'USD Coin',
     },
   ],
 };

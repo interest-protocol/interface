@@ -7,7 +7,7 @@ import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetUserBalances } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
 import useLocalStorage from '@/hooks/use-storage';
-import { flippedAppend, isSameAddress, isValidAccount } from '@/utils';
+import { flippedAppend, isSameAddress } from '@/utils';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
@@ -29,7 +29,7 @@ const Faucet: FC = () => {
   const TOKENS = useMemo(
     () => (chainId && FAUCET_TOKENS[chainId] ? FAUCET_TOKENS[chainId] : []),
     [chainId]
-  ).filter(({ address }) => isValidAccount(address));
+  );
 
   const { error, data } = useGetUserBalances(
     TOKENS.map(prop('address')).concat(localTokens.map(prop('address')))
@@ -44,6 +44,7 @@ const Faucet: FC = () => {
     o(setLocalTokens, flippedAppend(localTokens)),
     [localTokens, setLocalTokens]
   );
+
   const removeLocalToken: RemoveLocalToken = useCallback(
     (address: string) =>
       setLocalTokens(
