@@ -9,7 +9,7 @@ const WalletGuardButton: FC = ({ children }) =>
   useIdAccount().account ? (
     <>{children}</>
   ) : (
-    <Box mx="auto" my="M">
+    <Box display="flex" flexDirection="column" my="M">
       <ConnectWallet />
     </Box>
   );

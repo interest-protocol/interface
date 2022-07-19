@@ -1,5 +1,5 @@
 import { not } from 'ramda';
-import { FC, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
@@ -14,16 +14,19 @@ import { isSameAddress, isZeroAddress } from '@/utils';
 import SwapSelectCurrency from '../components/swap-select-currency';
 import InputBalance from './input-balance';
 import Settings from './settings';
+import { SWAP_MESSAGES } from './swap.data';
 import {
   ISwapForm,
   LocalSwapSettings,
   OnSelectCurrencyData,
 } from './swap.types';
+import {
+  handleTokenBalance,
+  useGetDexAllowancesAndBalances,
+} from './swap.utils';
 import SwapButton from './swap-button';
-import SwapErrorMessage from './swap-error';
-import SwapFetchingAmount from './swap-fetching-amount';
 import SwapManager from './swap-manager';
-import { handleTokenBalance, useGetDexAllowancesAndBalances } from './utils';
+import SwapMessage from './swap-message';
 
 const Swap: FC = () => {
   const { chainId, account } = useIdAccount();
@@ -115,16 +118,38 @@ const Swap: FC = () => {
       setTokenOutIsOpenModal(false);
     };
 
+  const isDisabled = useMemo(
+    () =>
+      !!(
+        isSameAddress(tokenInAddress, tokenOutAddress) ||
+        isFetchingAmountOutTokenOut ||
+        isFetchingAmountOutTokenIn ||
+        amountOutError ||
+        balancesError ||
+        hasNoMarket
+      ),
+    [
+      tokenInAddress,
+      tokenOutAddress,
+      isFetchingAmountOutTokenIn,
+      isFetchingAmountOutTokenOut,
+      amountOutError,
+      balancesError,
+      hasNoMarket,
+    ]
+  );
+
   return (
     <>
       <Box
         my="L"
         px="L"
+        pb="L"
         color="text"
         width="100%"
         bg="foreground"
-        minWidth={['20rem', '40rem']}
         borderRadius="M"
+        minWidth={['20rem', '40rem']}
       >
         <Box
           pt="L"
@@ -160,7 +185,7 @@ const Swap: FC = () => {
             )}
           </Box>
         </Box>
-        <Box color="text" width="100%" display="grid" gridGap="1rem" pb="L">
+        <Box color="text" width="100%" display="grid" gridGap="1rem">
           <Box
             py="L"
             display="flex"
@@ -248,30 +273,19 @@ const Swap: FC = () => {
             />
           </Box>
         </Box>
-        <SwapFetchingAmount
-          fetching={isFetchingAmountOutTokenOut || isFetchingAmountOutTokenIn}
-        />
-        <SwapErrorMessage
-          errorMessage={amountOutError ? `Failed to fetch the amountOut` : null}
-        />
-        <SwapErrorMessage
-          errorMessage={balancesError ? 'Failed to fetch balances' : null}
-        />
-        <SwapErrorMessage
-          errorMessage={
-            isSameAddress(tokenInAddress, tokenOutAddress)
-              ? 'Cannot swap the same token'
-              : null
-          }
-        />
-        <SwapErrorMessage
-          errorMessage={
-            hasNoMarket
-              ? 'Info: This pair has no liquidity. Try a higher amount or add liquidity'
-              : null
-          }
-        />
+        {(isFetchingAmountOutTokenOut || isFetchingAmountOutTokenIn) && (
+          <SwapMessage {...SWAP_MESSAGES['loading-amount']} />
+        )}
+        {amountOutError && (
+          <SwapMessage {...SWAP_MESSAGES['error-amount-out']} />
+        )}
+        {balancesError && <SwapMessage {...SWAP_MESSAGES['error-balances']} />}
+        {isSameAddress(tokenInAddress, tokenOutAddress) && (
+          <SwapMessage {...SWAP_MESSAGES['error-same-token']} />
+        )}
+        {hasNoMarket && <SwapMessage {...SWAP_MESSAGES['info-no-pool']} />}
         <SwapButton
+          disabled={isDisabled}
           getValues={getValues}
           tokenInAddress={tokenInAddress}
           setSwapBase={setSwapBase}

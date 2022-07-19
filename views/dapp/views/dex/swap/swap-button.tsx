@@ -31,22 +31,24 @@ import {
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import { SwapButtonProps, SwapViewButtonProps } from './swap.types';
-import { handleRoute } from './utils';
+import { handleRoute } from './swap.utils';
 
 const SwapViewButton: FC<SwapViewButtonProps> = ({
-  loading,
-  onClick,
-  loadingText,
   text,
+  onClick,
+  loading,
+  disabled,
+  loadingText,
 }) => (
   <Button
     mt="L"
     width="100%"
     variant="primary"
-    disabled={loading}
-    hover={{ bg: 'accentAlternativeActive' }}
     onClick={onClick}
-    bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
+    disabled={loading || disabled}
+    hover={{ bg: 'accentAlternativeActive' }}
+    cursor={loading ? 'progress' : disabled ? 'not-allowed' : 'pointer'}
+    bg={loading || disabled ? 'accentAlternativeActive' : 'accentAlternative'}
   >
     {loading ? (
       <Box as="span" display="flex" justifyContent="center">
@@ -69,6 +71,7 @@ const SwapButton: FC<SwapButtonProps> = ({
   swapBase,
   account,
   chainId,
+  disabled,
   parsedTokenInBalance,
   updateBalances,
   getValues,
@@ -383,7 +386,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   return (
     <WalletGuardButton>
-      <SwapViewButton {...handleProps()} />
+      <SwapViewButton {...{ ...handleProps(), disabled }} />
     </WalletGuardButton>
   );
 };

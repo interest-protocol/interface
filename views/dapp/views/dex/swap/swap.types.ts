@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, SVGAttributes } from 'react';
 import { Control, UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 
 import { SwapFormTokenData } from '@/views/dapp/views/dex/dex.types';
@@ -35,6 +35,7 @@ export interface UseGetDexAllowancesAndBalancesReturn {
 }
 
 export interface SwapButtonProps {
+  disabled: boolean;
   tokenInAddress: string;
   getValues: UseFormGetValues<ISwapForm>;
   setSwapBase: Dispatch<SetStateAction<string | null>>;
@@ -63,15 +64,8 @@ export interface SwapManagerProps {
   setSwapBase: Dispatch<SetStateAction<string | null>>;
 }
 
-export interface SwapFetchingAmountProps {
-  fetching: boolean;
-}
-
-export interface SwapErrorMessageProps {
-  errorMessage: string | null;
-}
-
 export interface SwapViewButtonProps {
+  disabled: boolean;
   loading: boolean;
   onClick: () => void;
   loadingText: string;
@@ -82,4 +76,10 @@ export interface OnSelectCurrencyData {
   address: string;
   symbol: string;
   decimals: number;
+}
+
+export interface SwapMessageProps {
+  color?: string;
+  message: string;
+  Icon: FC<SVGAttributes<SVGSVGElement>>;
 }

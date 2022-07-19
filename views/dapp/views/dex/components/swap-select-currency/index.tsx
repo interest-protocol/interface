@@ -31,6 +31,7 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
   const toggleOpenModal = () => setIsModalOpen(not);
 
   const SVG = TOKENS_SVG_MAP[symbol] || TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+
   return (
     <>
       <Box

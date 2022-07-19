@@ -24,8 +24,6 @@ import {
 } from '../../../dex.types';
 import { OnSelectCurrencyData } from '../../../swap/swap.types';
 
-const BLOCKCHAIN_MOCK_TOKEN = {};
-
 const renderData = (
   tokens: ReadonlyArray<SwapTokenModalMetadata>,
   onSelectCurrency: (data: OnSelectCurrencyData) => void,
@@ -119,13 +117,13 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
 
   const debouncedSearch = useDebounce(search, 800);
 
-  const tokenMedataArray = TOKEN_META_DATA_ARRAY[chainId];
+  const tokenMetaDataArray = TOKEN_META_DATA_ARRAY[chainId];
 
   // is searching debounce
   useEffect(() => {
     if (isSearching || !debouncedSearch) return;
     const parsedDebouncedSearch = debouncedSearch.trim().toLowerCase();
-    const allTokens = tokensAddedByUser.concat(tokenMedataArray);
+    const allTokens = tokensAddedByUser.concat(tokenMetaDataArray);
     if (!isAddress(parsedDebouncedSearch)) {
       const token = allTokens.find(
         ({ symbol, name }) =>
@@ -166,7 +164,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
         .catch(() => setSearchedToken(null))
         .finally(() => setIsSearching(false));
     }
-  }, [debouncedSearch, tokensAddedByUser, tokenMedataArray, chainId]);
+  }, [debouncedSearch, tokensAddedByUser, tokenMetaDataArray, chainId]);
 
   const removeUserToken = (x: string) =>
     handleTokensAddedByUser(
@@ -203,18 +201,24 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
           )}
         </Box>
         {debouncedSearch ? (
-          isSearching ? (
-            'Loading...'
-          ) : searchedToken ? (
-            renderData(
-              [searchedToken],
-              onSelectCurrency,
-              showLocal,
-              currentToken
-            )
-          ) : (
-            'Token not found'
-          )
+          <Box my="L" textAlign="center">
+            {isSearching ? (
+              <Typography variant="normal" color="text">
+                Loading...
+              </Typography>
+            ) : searchedToken ? (
+              renderData(
+                [searchedToken],
+                onSelectCurrency,
+                showLocal,
+                currentToken
+              )
+            ) : (
+              <Typography variant="normal" color="text">
+                Token not found
+              </Typography>
+            )}
+          </Box>
         ) : (
           <>
             <Box mt="L" display="flex" justifyContent="center">
@@ -243,7 +247,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
               maxHeight="20rem"
             >
               {renderData(
-                (showLocal ? tokensAddedByUser : tokenMedataArray).filter(
+                (showLocal ? tokensAddedByUser : tokenMetaDataArray).filter(
                   ({ address }) =>
                     !isSameAddress(currentToken, address) &&
                     !SWAP_BASES[chainId].map(prop('address')).includes(address)

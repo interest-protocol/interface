@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 
-import { Box, Button, Typography } from '@/elements';
+import { Button, Typography } from '@/elements';
 import { useIsMounted } from '@/hooks/use-is-mounted';
 
 import { ConnectWalletModal } from './wallet-modal';
@@ -16,7 +16,7 @@ const ConnectWallet: FC = () => {
   };
 
   return (
-    <Box>
+    <>
       <Button
         variant="primary"
         bg="bottomBackground"
@@ -29,7 +29,7 @@ const ConnectWallet: FC = () => {
         </Typography>
       </Button>
       <ConnectWalletModal showModal={showModal} toggleModal={toggleModal} />
-    </Box>
+    </>
   );
 };
 
