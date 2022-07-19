@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
 import { IFaucetForm } from './../faucet.types';
 
@@ -9,4 +9,6 @@ export interface InputBalanceProps {
   register: UseFormRegister<IFaucetForm>;
   setValue?: UseFormSetValue<IFaucetForm>;
   name: 'amount' | 'token';
+  chainId: number;
+  control: Control<IFaucetForm>;
 }

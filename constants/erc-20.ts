@@ -22,6 +22,7 @@ import {
   getAPEAddress,
   getBTCAddress,
   getDNRAddress,
+  getETHERC20Address,
   getIntAddress,
   getLINKAddress,
   getMANAAddress,
@@ -32,18 +33,7 @@ import {
   getWETHAddress,
 } from '@/utils/contracts';
 
-export const FAUCET_TOKENS = [
-  {
-    symbol: TOKEN_SYMBOL.BTC,
-    address: getBTCAddress(CHAIN_ID.BNB_TEST_NET),
-  },
-  {
-    symbol: TOKEN_SYMBOL.DNR,
-    address: getDNRAddress(CHAIN_ID.BNB_TEST_NET),
-  },
-];
-
-export const MAIL_FAUCET_TOKENS = {
+export const FAUCET_TOKENS = {
   [CHAIN_ID.RINKEBY]: [
     {
       symbol: TOKEN_SYMBOL.BTC,
@@ -74,6 +64,33 @@ export const MAIL_FAUCET_TOKENS = {
       symbol: TOKEN_SYMBOL.APE,
       address: getAPEAddress(CHAIN_ID.RINKEBY),
       name: 'ApeCoin',
+    },
+  ],
+  [CHAIN_ID.BNB_TEST_NET]: [
+    {
+      symbol: TOKEN_SYMBOL.BTC,
+      address: getBTCAddress(CHAIN_ID.BNB_TEST_NET),
+      name: 'Bitcoin',
+    },
+    {
+      symbol: TOKEN_SYMBOL.DNR,
+      address: getDNRAddress(CHAIN_ID.BNB_TEST_NET),
+      name: 'Dinero',
+    },
+    {
+      symbol: TOKEN_SYMBOL.ETH,
+      address: getETHERC20Address(CHAIN_ID.BNB_TEST_NET),
+      name: 'Ether',
+    },
+    {
+      symbol: TOKEN_SYMBOL.USDT,
+      address: getUSDTAddress(CHAIN_ID.BNB_TEST_NET),
+      name: 'USD Tether',
+    },
+    {
+      symbol: TOKEN_SYMBOL.USDC,
+      address: getUSDCAddress(CHAIN_ID.BNB_TEST_NET),
+      name: 'USD Coin',
     },
   ],
 };

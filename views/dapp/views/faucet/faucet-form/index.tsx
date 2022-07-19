@@ -6,7 +6,6 @@ import Skeleton from 'react-loading-skeleton';
 import { useDispatch } from 'react-redux';
 import { v4 } from 'uuid';
 
-import { mintMAILFaucetToken } from '@/api';
 import { CopyToClipboard, Tooltip } from '@/components';
 import {
   DEFAULT_ERC_20_DECIMALS,
@@ -14,8 +13,7 @@ import {
   TOKENS_SVG_MAP,
 } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
-import { useGetSigner } from '@/hooks';
-import { useIdAccount } from '@/hooks/use-id-account';
+import { useGetSigner, useIdAccount } from '@/hooks';
 import { IntMath, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG, TimesSVG } from '@/svg';
@@ -30,8 +28,10 @@ import {
 } from '@/utils';
 import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
+import { FAUCET_TOKEN_MAX_AMOUNT } from '../faucet.data';
 import { FaucetFormProps, IFaucetForm } from '../faucet.types';
 import InputBalance from '../input-balance';
+import { getTokenMinter, mint } from '../utilts';
 import CurrencyIdentifier from './faucet-currency-identifier';
 import FaucetSelectCurrency from './faucet-select-currency';
 
@@ -72,17 +72,21 @@ const FaucetForm: FC<FaucetFormProps> = ({
         signer
       );
 
+      const maxAmount = FAUCET_TOKEN_MAX_AMOUNT[validId][token];
+
+      const safeAmount = amount > maxAmount ? maxAmount : amount;
+
       const decimals = pathOr(
         DEFAULT_ERC_20_DECIMALS,
         [validId, safeGetAddress(token), 'decimals'],
         ERC_20_DATA
       );
 
-      const tx = await mintMAILFaucetToken(
+      const tx = await mint(
         validSigner,
-        token,
+        getTokenMinter(validId, token),
         account,
-        IntMath.toBigNumber(amount, decimals)
+        IntMath.toBigNumber(safeAmount, decimals)
       );
 
       await showTXSuccessToast(tx, validId);
@@ -132,6 +136,8 @@ const FaucetForm: FC<FaucetFormProps> = ({
             register={register}
             label="Type Amount"
             setValue={setValue}
+            chainId={chainId}
+            control={control}
             currencyPrefix={
               isLoadingData ? (
                 <Skeleton width="4rem" />
@@ -180,7 +186,6 @@ const FaucetForm: FC<FaucetFormProps> = ({
             Your balance:
           </Typography>
           <Box
-            flex="1"
             display="grid"
             overflowY="auto"
             gridGap="0.25rem"
@@ -206,6 +211,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
                   return (
                     <Box
                       mr="M"
+                      mb="M"
                       key={v4()}
                       display="flex"
                       justifyContent="space-between"
