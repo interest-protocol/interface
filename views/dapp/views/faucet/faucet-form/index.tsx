@@ -6,7 +6,7 @@ import Skeleton from 'react-loading-skeleton';
 import { useDispatch } from 'react-redux';
 import { v4 } from 'uuid';
 
-import { mintMAILFaucetToken } from '@/api';
+import { mintFaucetToken } from '@/api';
 import { CopyToClipboard, Tooltip } from '@/components';
 import {
   DEFAULT_ERC_20_DECIMALS,
@@ -78,11 +78,11 @@ const FaucetForm: FC<FaucetFormProps> = ({
         ERC_20_DATA
       );
 
-      const tx = await mintMAILFaucetToken(
+      const tx = await mintFaucetToken[chainId](
         validSigner,
         token,
-        account,
-        IntMath.toBigNumber(amount, decimals)
+        IntMath.toBigNumber(amount, decimals),
+        account
       );
 
       await showTXSuccessToast(tx, validId);
