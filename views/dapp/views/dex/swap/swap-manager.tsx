@@ -96,6 +96,7 @@ const SwapManager: FC<SwapManagerProps> = ({
         .map(prop('address'))
     )
       .then((data) => {
+        setAmountOutError(null);
         if (isZeroAddress(data.base) && data.amountOut.isZero()) {
           setValue('tokenIn.value', '0');
           setHasNoMarket(true);
@@ -187,6 +188,7 @@ const SwapManager: FC<SwapManagerProps> = ({
         .map(prop('address'))
     )
       .then((data) => {
+        setAmountOutError(null);
         if (isZeroAddress(data.base) && data.amountOut.isZero()) {
           setValue('tokenOut.value', '0');
           setHasNoMarket(true);
