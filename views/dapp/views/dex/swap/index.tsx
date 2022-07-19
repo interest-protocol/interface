@@ -8,7 +8,7 @@ import { Box } from '@/elements';
 import { useIdAccount, useLocalStorage } from '@/hooks';
 import { IntMath, TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
 import { getNativeBalance } from '@/state/core/core.selectors';
-import { CogsSVG } from '@/svg';
+import { CogsSVG, InfoLightSVG } from '@/svg';
 import { isSameAddress, isZeroAddress } from '@/utils';
 
 import SwapSelectCurrency from '../components/swap-select-currency';

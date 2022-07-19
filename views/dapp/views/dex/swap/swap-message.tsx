@@ -14,10 +14,10 @@ const SwapMessage: FC<SwapMessageProps> = ({ color, Icon, message }) => (
     alignItems="center"
     color={color ?? 'text'}
   >
-    <Box mr="M">
+    <Box mr={['L', 'M']}>
       <Icon width="1.2rem" />
     </Box>
-    <Typography variant="normal" fontSize="S">
+    <Typography variant="normal" fontSize="S" maxWidth="40rem">
       {message}
     </Typography>
   </Box>
