@@ -256,8 +256,13 @@ export const CONTRACTS = {
   },
   TOKEN_MINTER: {
     [CHAIN_ID.RINKEBY]: '0x52cdaec4E208F96144A54Fc5d700a145Ea731Fe9',
-    [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: '0x4a6a823C8E342dc2aa9ccf5f5035E72D8fc5F031',
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
+  },
+  ERC20_ETH: {
+    [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: '0x87e28B2242b0aB1f77360a1c3bB118FE662Ae0c7', // Not WETH
   },
   MAIL_DEPLOYER: {
     [CHAIN_ID.RINKEBY]: '0x1F233204B0681e4D95ace0c4165D6D1FcE058012',

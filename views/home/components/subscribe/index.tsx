@@ -4,7 +4,6 @@ import toast from 'react-hot-toast';
 
 import { LogoSVG, ShieldSVG } from '@/svg';
 
-import Container from '../../../../components/container';
 import { Box, Button, Input, Typography } from '../../../../elements';
 
 const Subscribe: FC = () => {
@@ -30,12 +29,13 @@ const Subscribe: FC = () => {
   };
 
   return (
-    <Container
+    <Box
       py="XXXL"
       as="section"
       display="flex"
       alignItems="center"
       flexDirection="column"
+      bg="background"
     >
       <Box>
         <LogoSVG width="5rem" />
@@ -89,7 +89,7 @@ const Subscribe: FC = () => {
           </Box>
         </Box>
       </Box>
-    </Container>
+    </Box>
   );
 };
 

@@ -55,10 +55,6 @@ const makeGetAddress = (x: Record<number, string>) =>
     toString
   );
 
-export const getMultiCallV2Address: GetContractAddress = makeGetAddress(
-  CONTRACTS.MULTI_CALL
-);
-
 export const getInterestViewMAILAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.INTEREST_VIEW_MAIL
 );
