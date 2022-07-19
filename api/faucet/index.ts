@@ -26,16 +26,6 @@ export const mintETHFaucetToken: MintMAILFaucetToken = (
   return contract.mint(account, amount);
 };
 
-export const mintBTC: MintFaucetToken = (signer, amount) => {
-  const btc = new ethers.Contract(
-    CONTRACTS.BTC[CHAIN_ID.BNB_TEST_NET],
-    BTCABI,
-    signer
-  ) as TestBtcAbi;
-
-  return btc.mint(amount);
-};
-
 export const mintBNBFaucet: MintFaucetToken = (signer, token, amount) => {
   const contract = new ethers.Contract(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
