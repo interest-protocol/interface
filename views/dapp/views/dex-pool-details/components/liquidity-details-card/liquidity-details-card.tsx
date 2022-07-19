@@ -40,7 +40,6 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
           key={v4()}
           value={line.value}
           symbol={line.symbol}
-          perceptual={line.perceptual}
         />
       ))}
     </Box>
