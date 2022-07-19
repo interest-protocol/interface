@@ -1,6 +1,7 @@
 import { ChangeEvent, FC, useEffect, useRef } from 'react';
 
 import { Box, Button, Typography } from '@/elements';
+import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
 import { TimesSVG } from '@/svg';
 import { parseToSafeStringNumber } from '@/utils';
 
@@ -14,8 +15,12 @@ const SettingsModal: FC<SwapSettingsProps> = ({
   setLocalSettings,
   localSettings,
 }) => {
+  const dropdownContainerRef =
+    useClickOutsideListenerRef<HTMLDivElement>(toggle);
+
   const newSlippage = useRef<string | null>(null);
   const newDeadline = useRef<number | null>(null);
+
   useEffect(() => {
     return () => {
       if (
@@ -47,6 +52,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
       minWidth="22rem"
       borderRadius="M"
       position="absolute"
+      ref={dropdownContainerRef}
       boxShadow="0 0 0.5rem #0006"
     >
       <Box display="flex" justifyContent="space-between" p="S">
