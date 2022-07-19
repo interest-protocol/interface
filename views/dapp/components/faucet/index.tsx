@@ -8,6 +8,7 @@ import { FaucetSVG } from '@/svg';
 const Faucet: FC = () => {
   const { push } = useRouter();
 
+  const gotoFaucetPage = () => push(Routes[RoutesEnum.Faucet]);
   return (
     <>
       <Box
@@ -29,7 +30,7 @@ const Faucet: FC = () => {
             variant="primary"
             alignItems="center"
             borderRadius="2rem"
-            onClick={() => push(Routes[RoutesEnum.ETHFaucet])}
+            onClick={gotoFaucetPage}
             bg="accentAlternative"
             hover={{ bg: 'accentAlternativeActive' }}
           >
@@ -52,7 +53,7 @@ const Faucet: FC = () => {
           variant="primary"
           alignItems="center"
           borderRadius="2rem"
-          onClick={() => push(Routes[RoutesEnum.ETHFaucet])}
+          onClick={gotoFaucetPage}
           bg="accentAlternative"
           justifyContent="center"
           hover={{ bg: 'accentAlternativeActive' }}
