@@ -1,6 +1,6 @@
 import { ChangeEvent, FC } from 'react';
 
-import { Box, Button, Input } from '@/elements';
+import { Box, Button, Input, Typography } from '@/elements';
 import { formatMoney, parseToSafeStringNumber } from '@/utils';
 
 import { InputBalanceProps } from './input-balance.types';
@@ -15,8 +15,22 @@ const InputBalance: FC<InputBalanceProps> = ({
   currencySelector,
   handleSelectedByUser,
 }) => (
-  <>
-    <Box>Balance: {formatMoney(balance)}</Box>
+  <Box display="flex" flexDirection="column" alignItems="flex-end">
+    <Box
+      py="S"
+      px="M"
+      mb="-1rem"
+      bg="bottomBackground"
+      borderRadius="M"
+      position="relative"
+    >
+      <Typography fontSize="S" variant="normal">
+        Balance:{' '}
+        <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
+          {formatMoney(balance)}
+        </Typography>
+      </Typography>
+    </Box>
     <Input
       min="0"
       fontSize="L"
@@ -43,6 +57,7 @@ const InputBalance: FC<InputBalanceProps> = ({
         px: 'S',
         py: 'L',
         my: 'M',
+        width: '100%',
         display: 'grid',
         bg: 'background',
         borderRadius: 'M',
@@ -72,7 +87,7 @@ const InputBalance: FC<InputBalanceProps> = ({
         )
       }
     />
-  </>
+  </Box>
 );
 
 export default InputBalance;
