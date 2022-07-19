@@ -180,7 +180,6 @@ const FaucetForm: FC<FaucetFormProps> = ({
             Your balance:
           </Typography>
           <Box
-            flex="1"
             display="grid"
             overflowY="auto"
             gridGap="0.25rem"
@@ -206,6 +205,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
                   return (
                     <Box
                       mr="M"
+                      mb="M"
                       key={v4()}
                       display="flex"
                       justifyContent="space-between"
