@@ -266,8 +266,8 @@ const Borrow: FC = () => {
               </Box>
               <Box width="40%" display="flex" alignItems="center">
                 <FloatingCoins
-                  ml="XXL"
                   width="40%"
+                  ml={['NONE', 'XXL']}
                   delay={~~(Math.random() * 1500)}
                 >
                   <ResponsiveImage
