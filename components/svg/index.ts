@@ -2,6 +2,7 @@ export { default as ApeCoinSVG } from './ape-coin';
 export { default as ArrowSVG } from './arrow';
 export { default as BackSVG } from './back';
 export { default as BarsSVG } from './bars';
+export { default as BarPointsSVG } from './bars-points';
 export { default as BinanceSVG } from './binance';
 export { default as BinanceTestSVG } from './binance-test';
 export { default as BitcoinSVG } from './bitcoin';

@@ -1,24 +1,22 @@
 import { useRouter } from 'next/router';
-import { FC, useEffect, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FC, useMemo, useState } from 'react';
 
 import { Container, Switch } from '@/components';
-import { Box, Input, Typography } from '@/elements';
+import { Box, Typography } from '@/elements';
 import { useGetFarmsSummary } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
 import { TimesSVG } from '@/svg';
 import { getSafeFarmSummaryData } from '@/utils';
 
 import { EarnHeader, EarnTable } from './components';
-import { getSwitchDefaultData } from './components/earn.data';
+import { getHeaderSwitchDefaultData } from './components/earn.data';
 import { EarnPageProps } from './earn.types';
-import PaginationButton from './pagination-buttons';
+import EarnFilters from './earn-filters';
 
 const Earn: FC<EarnPageProps> = ({ type }) => {
-  const { register } = useForm({ defaultValues: { search: '' } });
   const { push } = useRouter();
   const [farmPool, setFarmPool] = useState(type == 'farms');
-  const [stepData, setStepData] = useState(0);
+  //const [stepData, setStepData] = useState(1);
 
   const { error, data: rawData } = useGetFarmsSummary();
   const { chainId } = useIdAccount();
@@ -28,14 +26,7 @@ const Earn: FC<EarnPageProps> = ({ type }) => {
     [rawData, chainId]
   );
 
-  const SWITCH_DEFAULT_DATA = getSwitchDefaultData(setFarmPool, push);
-
-  const showPagButton = () =>
-    type == 'farms' ? data.farms.length >= 9 : data.pools.length >= 9;
-
-  useEffect(() => {
-    setStepData(0);
-  }, [farmPool]);
+  const SWITCH_DEFAULT_DATA = getHeaderSwitchDefaultData(setFarmPool, push);
 
   if (error)
     return (
@@ -84,51 +75,24 @@ const Earn: FC<EarnPageProps> = ({ type }) => {
               options={SWITCH_DEFAULT_DATA}
             />
           </Box>
-          <Box p="L" mt="M" borderRadius="L" bg="foreground" width="100%">
-            <Input
-              py="L"
-              color="text"
-              width="100%"
-              borderRadius="L"
-              border="1px solid"
-              {...register('search')}
-              borderColor="textSecondary"
-              placeholder={
-                'Search ' +
-                (farmPool ? 'farm ' : 'pool ') +
-                'by name, symbol or address...'
-              }
-              focus={{
-                borderColor: 'accent',
-              }}
-            />
-          </Box>
+          <EarnFilters type={farmPool ? 'farms' : 'pool'} />
         </Container>
         <Box>
           {farmPool ? (
             <EarnTable
-              data={data.farms.slice(0 + stepData, 9 + stepData)}
+              data={data.farms}
               loading={data.loading}
               intUSDPrice={data.intUSDPrice}
             />
           ) : (
             <EarnTable
               isPools
-              data={data.pools.slice(0 + stepData, 9 + stepData)}
+              data={data.pools}
               loading={data.loading}
               intUSDPrice={data.intUSDPrice}
             />
           )}
         </Box>
-        {showPagButton() && (
-          <PaginationButton
-            setStepData={setStepData}
-            stepData={stepData}
-            farmsSize={data.farms.length}
-            poolSize={data.pools.length}
-            type={type}
-          />
-        )}
       </Box>
     </Box>
   );
