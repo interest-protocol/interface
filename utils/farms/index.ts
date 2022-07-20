@@ -238,7 +238,7 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
 
   return {
     intUSDPrice,
-    pools: Array.from({ length: 3 }, () => ({
+    pools: Array.from({ length: 10 }, () => ({
       farmTokenPrice: CurrencyAmount.fromRawAmount(
         ERC_20_DATA[chainId][TOKEN_SYMBOL.INT],
         intUSDPrice

@@ -6,9 +6,8 @@ import { Box, Dropdown, Input, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 
 import { getFilterSwitchDefaultData } from './components/earn.data';
-import { EarnPageProps } from './earn.types';
 
-const EarnFilters: FC<EarnPageProps> = ({ type }) => {
+const EarnFilters: FC = () => {
   const { register } = useForm({ defaultValues: { search: '' } });
   const [history, setHistory] = useState(true);
   const [onOff, setOnOff] = useState(!false);
@@ -47,6 +46,8 @@ const EarnFilters: FC<EarnPageProps> = ({ type }) => {
           <Switch
             defaultValue={!onOff ? 'on' : 'off'}
             options={SWITCH_ONOFF_DATA}
+            bg="accentAlternativeBackground"
+            bgSelected="accentAlternative"
           />
         </Box>
         <Box
@@ -65,6 +66,8 @@ const EarnFilters: FC<EarnPageProps> = ({ type }) => {
           <Switch
             defaultValue={history ? 'live' : 'finished'}
             options={SWITCH_DEFAULT_DATA}
+            bg="accentAlternativeBackground"
+            bgSelected="accentAlternative"
           />
         </Box>
         <Box width={['48%', '48%', '48%', 'unset']}>
@@ -86,7 +89,9 @@ const EarnFilters: FC<EarnPageProps> = ({ type }) => {
             <Dropdown
               buttonMode
               mode="select"
-              defaultValue={'token'}
+              bg="accentAlternative"
+              bgSelected="accentAlternativeBackground"
+              defaultValue="token"
               emptyMessage="Not found Tokens"
               suffix={
                 <Box ml="L" display={['none', 'none', 'none', 'block']}>
@@ -109,11 +114,11 @@ const EarnFilters: FC<EarnPageProps> = ({ type }) => {
                 },
                 {
                   value: 'type',
-                  displayOption: type == 'farms' ? 'TVL' : 'Liquidity',
+                  displayOption: 'Liquidity',
                   displayTitle: (
                     <Box display="flex" width="100%" py="M" alignItems="center">
                       <Typography variant="normal" whiteSpace="nowrap">
-                        {type == 'farms' ? 'TVL' : 'Liquidity'}
+                        {'Liquidity'}
                       </Typography>
                     </Box>
                   ),
@@ -169,7 +174,7 @@ const EarnFilters: FC<EarnPageProps> = ({ type }) => {
             fontSize="S"
             placeholder="Search by name or symbol..."
             focus={{
-              borderColor: 'accent',
+              borderColor: 'accentAlternativeBackground',
             }}
           />
         </Box>

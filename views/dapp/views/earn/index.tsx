@@ -1,23 +1,17 @@
-import { useRouter } from 'next/router';
-import { FC, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
-import { Container, Switch } from '@/components';
+import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
 import { useGetFarmsSummary } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
-import { TimesSVG } from '@/svg';
+import { LoadingSVG, TimesSVG } from '@/svg';
 import { getSafeFarmSummaryData } from '@/utils';
 
 import { EarnHeader, EarnTable } from './components';
-import { getHeaderSwitchDefaultData } from './components/earn.data';
-import { EarnPageProps } from './earn.types';
 import EarnFilters from './earn-filters';
 
-const Earn: FC<EarnPageProps> = ({ type }) => {
-  const { push } = useRouter();
-  const [farmPool, setFarmPool] = useState(type == 'farms');
-  //const [stepData, setStepData] = useState(1);
-
+const Earn: FC = () => {
   const { error, data: rawData } = useGetFarmsSummary();
   const { chainId } = useIdAccount();
 
@@ -25,8 +19,27 @@ const Earn: FC<EarnPageProps> = ({ type }) => {
     () => getSafeFarmSummaryData(chainId, rawData),
     [rawData, chainId]
   );
+  const [dataPools, setDataPools] = useState(data.pools);
+  const [hasMore, setHasMore] = useState(true);
 
-  const SWITCH_DEFAULT_DATA = getHeaderSwitchDefaultData(setFarmPool, push);
+  const fetchMoreData = () => {
+    if (dataPools.length > 20) {
+      setHasMore(false);
+      return;
+    }
+    // a fake async api call like which sends
+    // 20 more records in .5 secs
+
+    setTimeout(() => {
+      setDataPools(
+        dataPools.concat(Array.from({ length: 5 }, () => dataPools[0]))
+      );
+    }, 1000);
+  };
+
+  useEffect(() => {
+    setDataPools(data.pools);
+  }, [data.pools]);
 
   if (error)
     return (
@@ -59,41 +72,41 @@ const Earn: FC<EarnPageProps> = ({ type }) => {
       position="relative"
       flexDirection="column"
       justifyContent="space-between"
+      overflow="hidden"
+      id="earn"
     >
-      <Box>
-        <EarnHeader />
-        <Container dapp width="100%" px="NONE">
-          <Box
-            display="flex"
-            justifyContent="center"
-            py="L"
-            borderRadius="L"
-            bg="foreground"
-          >
-            <Switch
-              defaultValue={farmPool ? 'farms' : 'pool'}
-              options={SWITCH_DEFAULT_DATA}
-            />
-          </Box>
-          <EarnFilters type={farmPool ? 'farms' : 'pool'} />
-        </Container>
-        <Box>
-          {farmPool ? (
-            <EarnTable
-              data={data.farms}
-              loading={data.loading}
-              intUSDPrice={data.intUSDPrice}
-            />
-          ) : (
+      <InfiniteScroll
+        dataLength={dataPools.length}
+        next={fetchMoreData}
+        hasMore={hasMore}
+        loader={
+          <Container dapp width="100%">
+            <Box display="flex" alignItems="center" justifyContent="center">
+              <LoadingSVG width="1rem" />
+              <Typography fontSize="S" variant="normal" ml="M">
+                Loading
+              </Typography>
+            </Box>
+          </Container>
+        }
+        height={hasMore ? '95%' : '100%'}
+        scrollableTarget="earn"
+      >
+        <Box overflow="hidden">
+          <EarnHeader />
+          <Container dapp width="100%" px="NONE">
+            <EarnFilters />
+          </Container>
+          <Box>
             <EarnTable
               isPools
-              data={data.pools}
+              data={dataPools}
               loading={data.loading}
               intUSDPrice={data.intUSDPrice}
             />
-          )}
+          </Box>
         </Box>
-      </Box>
+      </InfiniteScroll>
     </Box>
   );
 };

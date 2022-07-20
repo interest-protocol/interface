@@ -67,9 +67,6 @@ const Header: FC = () => {
         <Link
           href={{
             pathname: Routes[RoutesEnum.Earn],
-            query: {
-              type: 'farms',
-            },
           }}
         >
           <Typography

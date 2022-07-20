@@ -24,7 +24,7 @@ export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.MAILMarket]: '/dapp/mail-market',
   [RoutesEnum.MAILMarketPool]: '/dapp/mail-market/[pool]',
   [RoutesEnum.Repay]: '/dapp/dinero-market/repay',
-  [RoutesEnum.Earn]: '/dapp/earn/[type]',
+  [RoutesEnum.Earn]: '/dapp/earn',
   [RoutesEnum.ETHFaucet]: '/dapp/faucet',
 };
 
