@@ -2,7 +2,7 @@ import { o, prop } from 'ramda';
 import { FC, useCallback, useMemo, useState } from 'react';
 
 import { Container } from '@/components';
-import { MAIL_FAUCET_TOKENS } from '@/constants';
+import { FAUCET_TOKENS } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetUserBalances } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
@@ -26,25 +26,25 @@ const Faucet: FC = () => {
 
   const toggleCreateToken = () => setIsCreatingToken((e) => !e);
 
-  const MAIL_TOKENS = useMemo(
-    () =>
-      chainId && MAIL_FAUCET_TOKENS[chainId] ? MAIL_FAUCET_TOKENS[chainId] : [],
+  const TOKENS = useMemo(
+    () => (chainId && FAUCET_TOKENS[chainId] ? FAUCET_TOKENS[chainId] : []),
     [chainId]
   );
 
   const { error, data } = useGetUserBalances(
-    MAIL_TOKENS.map(prop('address')).concat(localTokens.map(prop('address')))
+    TOKENS.map(prop('address')).concat(localTokens.map(prop('address')))
   );
 
   const { recommendedData, localData } = useMemo(
-    () => processGetUserBalances(MAIL_TOKENS, localTokens, data),
-    [MAIL_TOKENS, data, localTokens]
+    () => processGetUserBalances(TOKENS, localTokens, data),
+    [TOKENS, data, localTokens]
   );
 
   const addLocalToken: AddLocalToken = useCallback(
     o(setLocalTokens, flippedAppend(localTokens)),
     [localTokens, setLocalTokens]
   );
+
   const removeLocalToken: RemoveLocalToken = useCallback(
     (address: string) =>
       setLocalTokens(

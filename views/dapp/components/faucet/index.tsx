@@ -1,26 +1,14 @@
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
+import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { FaucetSVG } from '@/svg';
 
-import { FaucetProps } from './faucet.types';
-import FaucetModal from './faucet-modal';
+const Faucet: FC = () => {
+  const { push } = useRouter();
 
-const Faucet: FC<FaucetProps> = ({ customAction }) => {
-  const {
-    pathname,
-    query: { modal },
-    push,
-  } = useRouter();
-
-  const toggleModal = () =>
-    push(
-      customAction === 'modal'
-        ? `${pathname}${!modal && modal !== 'faucet' ? '?modal=faucet' : ''}`
-        : customAction
-    );
-
+  const gotoFaucetPage = () => push(Routes[RoutesEnum.Faucet]);
   return (
     <>
       <Box
@@ -42,7 +30,7 @@ const Faucet: FC<FaucetProps> = ({ customAction }) => {
             variant="primary"
             alignItems="center"
             borderRadius="2rem"
-            onClick={toggleModal}
+            onClick={gotoFaucetPage}
             bg="accentAlternative"
             hover={{ bg: 'accentAlternativeActive' }}
           >
@@ -65,7 +53,7 @@ const Faucet: FC<FaucetProps> = ({ customAction }) => {
           variant="primary"
           alignItems="center"
           borderRadius="2rem"
-          onClick={toggleModal}
+          onClick={gotoFaucetPage}
           bg="accentAlternative"
           justifyContent="center"
           hover={{ bg: 'accentAlternativeActive' }}
@@ -73,10 +61,6 @@ const Faucet: FC<FaucetProps> = ({ customAction }) => {
           <FaucetSVG width="1rem" height="1rem" />
         </Button>
       </Box>
-      <FaucetModal
-        isOpen={!!modal && (modal as string) === 'faucet'}
-        handleClose={toggleModal}
-      />
     </>
   );
 };
