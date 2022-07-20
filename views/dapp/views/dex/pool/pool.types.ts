@@ -4,6 +4,7 @@ import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { PoolType } from '@/constants';
 
 import { SwapFormTokenData } from '../dex.types';
+import { OnSelectCurrencyData } from '../swap/swap.types';
 
 export interface PairsProps {
   perceptual: string;
@@ -35,7 +36,7 @@ export interface AddLiquidityCurrencyChooserProps {
   control: Control<ILiquidityForm>;
   onSelectCurrency: (
     name: 'pairItem1' | 'pairItem2'
-  ) => (address: string) => void;
+  ) => (token: OnSelectCurrencyData) => void;
 }
 
 export interface RecommendedPoolsProps {

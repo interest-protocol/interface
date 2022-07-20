@@ -8,7 +8,6 @@ import { WalletGuardButton } from '@/views/dapp/components';
 
 import LiquidityDepositAmount from '../../components/liquidity-deposit-amount';
 import { ILiquidityForm } from '../pool.types';
-import AddLiquidityCurrencyChooser from './add-liquidity-currency-chooser';
 
 const AddLiquidity: FC<ModalProps> = ({ isOpen, handleClose }) => {
   const { setValue, control, register } = useForm<ILiquidityForm>({
@@ -24,9 +23,9 @@ const AddLiquidity: FC<ModalProps> = ({ isOpen, handleClose }) => {
     },
   });
 
-  const onSelectCurrency =
-    (name: 'pairItem1' | 'pairItem2') => (address: string) =>
-      setValue(`${name}.address`, address);
+  // const onSelectCurrency =
+  //   (name: 'pairItem1' | 'pairItem2') => (address: string) =>
+  //     setValue(`${name}.address`, address);
 
   return (
     <Modal
@@ -58,15 +57,7 @@ const AddLiquidity: FC<ModalProps> = ({ isOpen, handleClose }) => {
             Add Liquidity
           </Typography>
         </Box>
-        <Typography variant="normal" width="100%" my="M" fontWeight="500">
-          Select Pair
-        </Typography>
-        <AddLiquidityCurrencyChooser
-          control={control}
-          onSelectCurrency={onSelectCurrency}
-        />
         <Box my="L" width="100%" fontWeight="500">
-          <Typography variant="normal">Deposit Amounts</Typography>
           {[1, 2].map((_, index) => (
             <LiquidityDepositAmount
               key={v4()}

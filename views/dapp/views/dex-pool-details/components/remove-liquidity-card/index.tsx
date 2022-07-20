@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 
-import { removeLiquidity } from '@/api';
+// import { removeLiquidity } from '@/api';
 import {
   useChainId,
   useGetSigner,
@@ -29,9 +29,9 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
   isStable,
 }) => {
   // needs to be in a form
-  const amountToWithdraw = '1234';
+  // const amountToWithdraw = '1234';
 
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
 
   const chainId = useChainId();
   const { account, signer } = useGetSigner();
@@ -62,16 +62,12 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
     try {
       setLoading(true);
 
-      const { validId, validSigner } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
+      // const ok = throwIfInvalidSigner([account], chainId, signer);
 
       // 3 minutes deadline
-      const deadline = Math.floor(
-        (new Date().getTime() + 3 * 60 * 1000) / 1000
-      );
+      // const deadline = Math.floor(
+      //   (new Date().getTime() + 3 * 60 * 1000) / 1000
+      // );
 
       // const tx = await removeLiquidity(
       //   validId,
@@ -81,7 +77,8 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
       //   isStable,
       //   ZERO_BIG_NUMBER
       // );
-    } catch {
+    } catch (e) {
+      console.error(e);
     } finally {
       setLoading(false);
     }

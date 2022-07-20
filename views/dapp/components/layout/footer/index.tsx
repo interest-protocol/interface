@@ -4,7 +4,12 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container, SocialMediaCard } from '@/components';
-import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
+import {
+  Routes,
+  RoutesEnum,
+  RoutesWithFaucet,
+  SOCIAL_MEDIAS,
+} from '@/constants';
 import { Box, Button, Dropdown, Typography } from '@/elements';
 import { GitBookSVG } from '@/svg';
 
@@ -122,7 +127,7 @@ const Footer: FC = () => {
               ]}
             />
           </Box>
-          <Faucet />
+          {RoutesWithFaucet.includes(pathname) && <Faucet />}
         </Box>
       </Container>
     </Box>

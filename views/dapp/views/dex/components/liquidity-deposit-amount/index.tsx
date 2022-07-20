@@ -2,7 +2,7 @@ import { find, propEq } from 'ramda';
 import { ChangeEvent, FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { MAIL_FAUCET_TOKENS, TOKENS_SVG_MAP } from '@/constants';
+import { FAUCET_TOKENS, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { formatMoney, parseToSafeStringNumber } from '@/utils';
@@ -18,7 +18,7 @@ const LiquidityDepositAmount: FC<LiquidityDepositAmountProps> = ({
   const address = useWatch({ control, name: `${name}.address` });
 
   const token = useMemo(
-    () => find(propEq('address', address), MAIL_FAUCET_TOKENS[4]),
+    () => find(propEq('address', address), FAUCET_TOKENS[4]),
     [address]
   );
 
