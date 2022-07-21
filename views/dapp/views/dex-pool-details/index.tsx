@@ -36,6 +36,8 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
   const { chainId } = useIdAccount();
   const { error, data } = useGetPairMetadata(pairAddress);
 
+  const pairDoesNotExists = true;
+
   const { error: balanceError, data: balanceData } =
     useGetUserBalanceAndAllowance(
       getInterestDexRouterAddress(chainId),
@@ -46,7 +48,6 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
 
   const processedData = useMemo(() => processPairMailMetadata(data), [data]);
 
-  // TODO UI improvement
   if (error)
     return (
       <Box
@@ -128,7 +129,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
         gridGap="1rem"
         gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
       >
-        <LiquidityDetailsCard {...CARD} />
+        {!pairDoesNotExists && <LiquidityDetailsCard {...CARD} />}
         <AddLiquidityCard
           balances={[10000, 10]}
           pairAddress={pairAddress}
@@ -146,24 +147,26 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
             },
           ]}
         />
-        <RemoveLiquidityCard
-          pairAddress={pairAddress}
-          lpBalance={processedBalancesData}
-          isStable={processedData.isStable}
-          token0Metadata={processedData.token0Metadata}
-          token1Metadata={processedData.token1Metadata}
-          addresses={[processedData.token0, processedData.token1]}
-          tokens={[
-            {
-              symbol: processedData.token0Metadata.symbol,
-              Icon: <FirstIcon width="1rem" key={v4()} />,
-            },
-            {
-              symbol: processedData.token1Metadata.symbol,
-              Icon: <SecondIcon width="1rem" key={v4()} />,
-            },
-          ]}
-        />
+        {!pairDoesNotExists && (
+          <RemoveLiquidityCard
+            pairAddress={pairAddress}
+            lpBalance={processedBalancesData}
+            isStable={processedData.isStable}
+            token0Metadata={processedData.token0Metadata}
+            token1Metadata={processedData.token1Metadata}
+            addresses={[processedData.token0, processedData.token1]}
+            tokens={[
+              {
+                symbol: processedData.token0Metadata.symbol,
+                Icon: <FirstIcon width="1rem" key={v4()} />,
+              },
+              {
+                symbol: processedData.token1Metadata.symbol,
+                Icon: <SecondIcon width="1rem" key={v4()} />,
+              },
+            ]}
+          />
+        )}
       </Box>
     </Container>
   );

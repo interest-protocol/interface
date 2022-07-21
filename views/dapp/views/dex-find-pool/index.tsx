@@ -14,7 +14,7 @@ import { ILiquidityForm } from '../dex/pool/pool.types';
 import { OnSelectCurrencyData } from '../dex/swap/swap.types';
 import LiquidityDepositAmount from './components/liquidity-deposit-amount';
 
-const FindPool: FC = () => {
+const FindPoolView: FC = () => {
   const { chainId } = useIdAccount();
   const [isTokenInOpenModal, setTokenInIsOpenModal] = useState(false);
   const [isTokenOutOpenModal, setTokenOutIsOpenModal] = useState(false);
@@ -54,7 +54,7 @@ const FindPool: FC = () => {
 
   return (
     <Container py="XL">
-      <GoBack />
+      <GoBack routeBack />
       <Typography variant="normal" width="100%">
         Find Pool
       </Typography>
@@ -97,12 +97,11 @@ const FindPool: FC = () => {
             />
           }
         />
-
         <Box mt="XL">
           <WalletGuardButton>
             <Button
-              variant="primary"
               width="100%"
+              variant="primary"
               hover={{ bg: 'accentActive' }}
             >
               Deposit
@@ -114,4 +113,4 @@ const FindPool: FC = () => {
   );
 };
 
-export default FindPool;
+export default FindPoolView;
