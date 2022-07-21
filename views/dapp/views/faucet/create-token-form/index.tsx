@@ -1,4 +1,3 @@
-import { ethers } from 'ethers';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';

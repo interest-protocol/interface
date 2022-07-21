@@ -23,22 +23,17 @@ const Earn: FC = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const fetchMoreData = () => {
-    console.log('Entrei', dataPools.length);
     if (dataPools.length > 20) {
       setHasMore(false);
-      console.log('Terminei');
       return;
     }
     // a fake async api call like which sends
     // 20 more records in .5 secs
-    console.log('Actualizando');
     setTimeout(() => {
       setDataPools(
         dataPools.concat(Array.from({ length: 5 }, () => dataPools[0]))
       );
-      console.log('novos valores', dataPools.length);
     }, 500);
-    console.log('Saindo');
   };
 
   useEffect(() => {

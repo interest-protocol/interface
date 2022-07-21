@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import priorityHooks from '@/connectors';
 import { Routes, SUPPORTED_CHAINS_RECORD } from '@/constants';
 import { CHAINS } from '@/constants/chains';
-import { DAppTheme, LightTheme } from '@/design-system';
+import { DAppTheme, LandingPageTheme } from '@/design-system';
 import { usePrevious } from '@/hooks';
 import { coreActions } from '@/state/core/core.actions';
 import { getAccount, getChainId } from '@/state/core/core.selectors';
@@ -181,7 +181,7 @@ const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
       </Web3Manager>
     </ThemeProvider>
   ) : (
-    <ThemeProvider theme={LightTheme}>{children}</ThemeProvider>
+    <ThemeProvider theme={LandingPageTheme}>{children}</ThemeProvider>
   );
 };
 

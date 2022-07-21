@@ -12,6 +12,8 @@ import {
   TypographyProps as TypoProps,
 } from 'styled-system';
 
+import { MaybeArray } from '@/interface';
+
 export interface TypographyProps
   extends LayoutProps,
     TypoProps,
@@ -26,8 +28,10 @@ export interface TypographyProps
   hover?: SystemStyleObject;
   active?: SystemStyleObject;
   as?: keyof JSX.IntrinsicElements;
-  cursor?: CSSProperties['cursor'];
-  whiteSpace?: CSSProperties['whiteSpace'];
-  textTransform?: CSSProperties['textTransform'];
-  variant: 'title1' | 'title2' | 'title3' | 'title4' | 'normal';
+  cursor?: MaybeArray<CSSProperties['cursor']>;
+  whiteSpace?: MaybeArray<CSSProperties['whiteSpace']>;
+  textTransform?: MaybeArray<CSSProperties['textTransform']>;
+  variant: MaybeArray<
+    'title1' | 'title2' | 'title3' | 'title4' | 'normal' | 'large' | 'button'
+  >;
 }

@@ -46,7 +46,7 @@ const EarnFilters: FC = () => {
           <Switch
             defaultValue={!onOff ? 'on' : 'off'}
             options={SWITCH_ONOFF_DATA}
-            bg="accentAlternativeBackground"
+            bg="background"
             bgSelected="accentAlternative"
           />
         </Box>
@@ -66,7 +66,7 @@ const EarnFilters: FC = () => {
           <Switch
             defaultValue={history ? 'live' : 'finished'}
             options={SWITCH_DEFAULT_DATA}
-            bg="accentAlternativeBackground"
+            bg="background"
             bgSelected="accentAlternative"
           />
         </Box>

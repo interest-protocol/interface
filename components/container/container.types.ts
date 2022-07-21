@@ -10,4 +10,6 @@ export interface ContainerProps
   > {
   dapp?: boolean;
   large?: boolean;
+  dividedBy?: number;
+  side?: 'left' | 'right';
 }

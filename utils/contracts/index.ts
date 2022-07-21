@@ -1,15 +1,5 @@
 import { ContractReceipt, ethers } from 'ethers';
-import {
-  __,
-  always,
-  compose,
-  cond,
-  equals,
-  pathOr,
-  propOr,
-  T,
-  toString,
-} from 'ramda';
+import { __, compose, pathOr, propOr, toString } from 'ramda';
 
 import CasaDePapelABI from '@/sdk/abi/casa-de-papel.abi.json';
 import InterestERC20MarketABI from '@/sdk/abi/interest-erc-20-market.abi.json';
@@ -48,10 +38,6 @@ const makeGetAddress = (x: Record<number, string>) =>
     propOr(ethers.constants.AddressZero, __, x),
     toString
   );
-
-export const getMultiCallV2Address: GetContractAddress = makeGetAddress(
-  CONTRACTS.MULTI_CALL
-);
 
 export const getInterestViewMAILAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.INTEREST_VIEW_MAIL
@@ -120,18 +106,9 @@ export const getTokenMinterAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.TOKEN_MINTER
 );
 
-export const getAddressWithSymbol = (chainId: number) =>
-  cond([
-    [equals(TOKEN_SYMBOL.BTC), always(getBTCAddress(chainId))],
-    [equals(TOKEN_SYMBOL.DNR), always(getDNRAddress(chainId))],
-    [equals(TOKEN_SYMBOL.INT), always(getIntAddress(chainId))],
-    [equals(TOKEN_SYMBOL.WETH), always(getWETHAddress(chainId))],
-    [equals(TOKEN_SYMBOL.USDC), always(getUSDCAddress(chainId))],
-    [equals(TOKEN_SYMBOL.USDT), always(getUSDTAddress(chainId))],
-    [equals(TOKEN_SYMBOL.APE), always(getAPEAddress(chainId))],
-    [equals(TOKEN_SYMBOL.UNI), always(getUNIAddress(chainId))],
-    [T, always(ethers.constants.AddressZero)],
-  ]);
+export const getETHERC20Address: GetContractAddress = makeGetAddress(
+  CONTRACTS.ERC20_ETH
+);
 
 export const getCasaDePapelContract: GetContract<CasaDePapelAbi> = (
   chainId,

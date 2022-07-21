@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-
-import { subscriber } from '../../../../server/mail';
+import { subscriber } from 'server/mail';
 
 const subscribe = async (
   request: NextApiRequest,

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Toaster } from 'react-hot-toast';
 
-import colors from '@/design-system/light-theme/colors';
+import colors from '@/design-system/landing-page-theme/colors';
 
 import SEO from '../../../components/SEO';
 import { Box } from '../../../elements';
