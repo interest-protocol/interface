@@ -23,18 +23,22 @@ const Earn: FC = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const fetchMoreData = () => {
+    console.log('Entrei', dataPools.length);
     if (dataPools.length > 20) {
       setHasMore(false);
+      console.log('Terminei');
       return;
     }
     // a fake async api call like which sends
     // 20 more records in .5 secs
-
+    console.log('Actualizando');
     setTimeout(() => {
       setDataPools(
         dataPools.concat(Array.from({ length: 5 }, () => dataPools[0]))
       );
-    }, 1000);
+      console.log('novos valores', dataPools.length);
+    }, 500);
+    console.log('Saindo');
   };
 
   useEffect(() => {
@@ -72,31 +76,28 @@ const Earn: FC = () => {
       position="relative"
       flexDirection="column"
       justifyContent="space-between"
-      overflow="hidden"
-      id="earn"
     >
-      <InfiniteScroll
-        dataLength={dataPools.length}
-        next={fetchMoreData}
-        hasMore={hasMore}
-        loader={
-          <Container dapp width="100%">
-            <Box display="flex" alignItems="center" justifyContent="center">
-              <LoadingSVG width="1rem" />
-              <Typography fontSize="S" variant="normal" ml="M">
-                Loading
-              </Typography>
-            </Box>
-          </Container>
-        }
-        height={hasMore ? '95%' : '100%'}
-        scrollableTarget="earn"
-      >
-        <Box overflow="hidden">
-          <EarnHeader />
-          <Container dapp width="100%" px="NONE">
-            <EarnFilters />
-          </Container>
+      <Box overflow="hidden">
+        <EarnHeader />
+        <Container dapp width="100%" px="NONE">
+          <EarnFilters />
+        </Container>
+        <InfiniteScroll
+          dataLength={dataPools.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={
+            <Container dapp width="100%">
+              <Box display="flex" alignItems="center" justifyContent="center">
+                <LoadingSVG width="1rem" />
+                <Typography fontSize="S" variant="normal" ml="M">
+                  Loading
+                </Typography>
+              </Box>
+            </Container>
+          }
+          scrollableTarget="body"
+        >
           <Box>
             <EarnTable
               isPools
@@ -105,8 +106,8 @@ const Earn: FC = () => {
               intUSDPrice={data.intUSDPrice}
             />
           </Box>
-        </Box>
-      </InfiniteScroll>
+        </InfiniteScroll>
+      </Box>
     </Box>
   );
 };
