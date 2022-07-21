@@ -15,5 +15,6 @@ export interface LiquidityDetailsCardPriceProps {
 
 export interface LiquidityDetailsCardProps {
   title: string;
+  balance: string;
   lines: ReadonlyArray<LiquidityDetailsCardLineProps>;
 }

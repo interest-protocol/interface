@@ -1,25 +1,16 @@
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
-import { PoolType } from '@/constants';
+import { Switch } from '@/components';
+import { PoolType, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 
-import AddLiquidity from './add-liquidity-modal';
 import RecommendPools from './recommended-pools';
 
 const Pool: FC = () => {
-  const {
-    pathname,
-    query: { modal },
-    push,
-  } = useRouter();
+  const [poolType, setPoolType] = useState<PoolType>(PoolType.Volatile);
 
-  const toggleModal = () =>
-    push(
-      `${pathname}${
-        !modal && modal !== 'add-liquidity' ? '?modal=add-liquidity' : ''
-      }`
-    );
+  const { push } = useRouter();
 
   return (
     <>
@@ -28,30 +19,44 @@ const Pool: FC = () => {
           py="L"
           my="L"
           px="L"
-          display="flex"
+          display="grid"
+          gridGap="1rem"
           bg="foreground"
           borderRadius="M"
           alignItems="center"
-          justifyContent="space-between"
+          justifyItems="center"
+          gridTemplateColumns={['1fr', '1fr 1fr 1fr']}
         >
-          <Typography variant="normal">Pools Overview</Typography>
+          <Typography variant="normal" mr={['unset', 'auto']}>
+            Pools Overview
+          </Typography>
+          <Switch
+            defaultValue={poolType}
+            options={[
+              {
+                value: PoolType.Volatile,
+                displayValue: 'Volatile',
+                onSelect: () => setPoolType(PoolType.Volatile),
+              },
+              {
+                value: PoolType.Stable,
+                displayValue: 'Stable',
+                onSelect: () => setPoolType(PoolType.Stable),
+              },
+            ]}
+          />
           <Button
-            ml="XL"
-            px="L"
+            px="XL"
             type="button"
             variant="primary"
-            onClick={toggleModal}
-            width={['auto', 'auto', 'auto', '10rem']}
+            onClick={() => push(Routes[RoutesEnum.DEXFindPool])}
+            ml={['unset', 'auto']}
           >
             Find Pool
           </Button>
         </Box>
-        <RecommendPools type={PoolType.Volatile} />
+        <RecommendPools type={poolType} />
       </Box>
-      <AddLiquidity
-        isOpen={!!modal && (modal as string) === 'add-liquidity'}
-        handleClose={toggleModal}
-      />
     </>
   );
 };

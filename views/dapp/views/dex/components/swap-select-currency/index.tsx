@@ -12,13 +12,13 @@ import SwapSearchToken from './swap-search-token';
 import SwapTokensModal from './swap-tokens-modal';
 
 const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
-  disabled,
-  currentToken,
-  fromRight,
-  onSelectCurrency,
   symbol,
+  disabled,
+  fromRight,
   isModalOpen,
+  currentToken,
   setIsModalOpen,
+  onSelectCurrency,
 }) => {
   const [isSearching, setIsSearching] = useState(false);
   const { control, register } = useForm({

@@ -9,7 +9,7 @@ import { SwitchProps } from './switch.types';
 const Switch: FC<SwitchProps> = ({ defaultValue, options, thin }) => {
   const [selected, setSelected] = useState(defaultValue);
 
-  const switcher = (value: string) => () => setSelected(value);
+  const switcher = (value: string | number) => () => setSelected(value);
 
   return (
     <Box

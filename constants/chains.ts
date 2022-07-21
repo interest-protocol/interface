@@ -16,6 +16,7 @@ export const SUPPORTED_CHAINS_RECORD = {
   [Routes[RoutesEnum.MAILMarketPool]]: [CHAIN_ID.RINKEBY],
   [Routes[RoutesEnum.DEX]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DEXPool]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.DEXFindPool]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DEXPoolDetails]]: [CHAIN_ID.BNB_TEST_NET],
 };
 

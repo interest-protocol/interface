@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
 import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
 import { PoolType } from '@/constants';
@@ -21,12 +21,13 @@ export interface PoolRowProps {
 }
 
 export interface ILiquidityForm {
-  pairItem1: SwapFormTokenData;
-  pairItem2: SwapFormTokenData;
+  tokenIn: SwapFormTokenData;
+  tokenOut: SwapFormTokenData;
 }
 
 export interface LiquidityDepositAmountProps {
-  name: 'pairItem1' | 'pairItem2';
+  CurrencyChanger: ReactNode;
+  name: 'tokenIn' | 'tokenOut';
   control: Control<ILiquidityForm>;
   register: UseFormRegister<ILiquidityForm>;
   setValue: UseFormSetValue<ILiquidityForm>;

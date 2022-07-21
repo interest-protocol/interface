@@ -9,6 +9,7 @@ import LiquidityDetailsCardLine from './liquidity-details-card-line';
 const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
   title,
   lines,
+  balance,
 }) => (
   <Box
     p="L"
@@ -26,6 +27,15 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
       textTransform="uppercase"
     >
       {title}
+    </Typography>
+    <Typography
+      my="L"
+      width="100%"
+      fontSize="XL"
+      variant="normal"
+      textTransform="uppercase"
+    >
+      {balance}
     </Typography>
     <Box
       py="M"

@@ -107,10 +107,11 @@ const Swap: FC = () => {
   };
 
   const onSelectCurrency =
-    (name: 'tokenIn' | 'tokenOut') => (data: OnSelectCurrencyData) => {
-      setValue(`${name}.address`, data.address);
-      setValue(`${name}.decimals`, data.decimals);
-      setValue(`${name}.symbol`, data.symbol);
+    (name: 'tokenIn' | 'tokenOut') =>
+    ({ address, decimals, symbol }: OnSelectCurrencyData) => {
+      setValue(`${name}.address`, address);
+      setValue(`${name}.decimals`, decimals);
+      setValue(`${name}.symbol`, symbol);
       setValue('tokenOut.value', '0');
       setValue('tokenIn.value', '0');
       setHasNoMarket(false);

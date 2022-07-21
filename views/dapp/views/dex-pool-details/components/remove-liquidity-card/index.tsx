@@ -1,60 +1,58 @@
 import { FC, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-// import { removeLiquidity } from '@/api';
+import { Box, Button, Typography } from '@/elements';
 import {
-  useChainId,
-  useGetSigner,
-  useGetUserBalanceAndAllowance,
+  // useGetSigner,
   useQuoteRemoveLiquidity,
 } from '@/hooks';
 import { IntMath, ZERO_BIG_NUMBER } from '@/sdk';
-import {
-  formatMoney,
-  getInterestDexRouterAddress,
-  throwIfInvalidSigner,
-} from '@/utils';
+import { TimesSVG } from '@/svg';
+import { WalletGuardButton } from '@/views/dapp/components';
 
+import { processQuoteRemoveLiquidityData } from '../../utils';
+import InputBalance from './input-balance';
 import {
-  processBalanceAndAllowance,
-  processQuoteRemoveLiquidityData,
-} from '../../utils';
-import { RemoveLiquidityCardProps } from './remove-liquidity-card.types';
+  IRemoveLiquidityForm,
+  RemoveLiquidityCardProps,
+} from './remove-liquidity-card.types';
 
 const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
-  pairAddress,
-  token1,
-  token0,
-  token1Metadata,
-  token0Metadata,
+  tokens,
   isStable,
+  addresses,
+  lpBalance,
 }) => {
-  // needs to be in a form
-  // const amountToWithdraw = '1234';
-
   const [, setLoading] = useState(false);
+  const [tokenInAmount] = useState('0.0');
+  const [tokenOutAmount] = useState('0.0');
 
-  const chainId = useChainId();
-  const { account, signer } = useGetSigner();
-
-  const { error: balanceError, data: balanceData } =
-    useGetUserBalanceAndAllowance(
-      getInterestDexRouterAddress(chainId),
-      pairAddress
-    );
+  const { register, setValue } = useForm<IRemoveLiquidityForm>({
+    defaultValues: {
+      lpAmount: '0.0',
+    },
+  });
+  // const { account, signer } = useGetSigner();
 
   // Need a form to get on many LP tokens the user wants to withdraw.
   // Perhaps we do want to show a loader on the numbers. See what looks better
   const { error: quoteRemoveLiquidityError, data: quoteRemoveLiquidityData } =
-    useQuoteRemoveLiquidity(token0, token1, isStable, ZERO_BIG_NUMBER);
+    useQuoteRemoveLiquidity(
+      addresses[0],
+      addresses[1],
+      isStable,
+      ZERO_BIG_NUMBER
+    );
 
-  const processedBalancesData = processBalanceAndAllowance(balanceData);
+  console.log(quoteRemoveLiquidityError);
+
   const processedQuoteRemoveLiquidityData = processQuoteRemoveLiquidityData(
     quoteRemoveLiquidityData
   );
-
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const handleRemoveLiquidity = async () => {
     if (
-      processedBalancesData.allowance.isZero() ||
+      lpBalance.allowance.isZero() ||
       processedQuoteRemoveLiquidityData.amountA.isZero() ||
       processedQuoteRemoveLiquidityData.amountB.isZero()
     )
@@ -84,42 +82,94 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
     }
   };
 
-  if (balanceError) return <div>error</div>;
-
-  if (quoteRemoveLiquidityError) return <div>error2</div>;
+  if (quoteRemoveLiquidityError)
+    return (
+      <Box
+        px="L"
+        py="XL"
+        width="100%"
+        display="flex"
+        bg="foreground"
+        borderRadius="M"
+        alignItems="center"
+        flexDirection="column"
+        justifyContent="center"
+      >
+        <Box color="error">
+          <TimesSVG width="5rem" />
+        </Box>
+        <Typography variant="normal">
+          ERROR! Fail to remove liquidity!
+        </Typography>
+      </Box>
+    );
 
   return (
-    <div>
-      <div>
-        LP Balance:{' '}
-        {formatMoney(IntMath.toNumber(processedBalancesData.balance))}
-      </div>
-      <div>
-        {token0Metadata.symbol}{' '}
-        {!processedQuoteRemoveLiquidityData.loading
-          ? formatMoney(
-              IntMath.toNumber(
-                processedQuoteRemoveLiquidityData.amountA,
-                token0Metadata.decimals.toNumber()
-              )
-            )
-          : 'loading...'}
-      </div>
-      <div>
-        {token0Metadata.symbol}{' '}
-        {!processedQuoteRemoveLiquidityData.loading
-          ? formatMoney(
-              IntMath.toNumber(
-                processedQuoteRemoveLiquidityData.amountB,
-                token1Metadata.decimals.toNumber()
-              )
-            )
-          : 'loading...'}
-      </div>
-      <div>
-        {processedBalancesData.allowance.isZero() ? 'approve' : 'remove'}
-      </div>
-    </div>
+    <Box bg="foreground" p="L" borderRadius="M" width="100%">
+      <Box mb="L">
+        <Typography
+          width="100%"
+          fontSize="S"
+          variant="normal"
+          textTransform="uppercase"
+        >
+          Remove Liquidity
+        </Typography>
+      </Box>
+      <InputBalance
+        name="lpAmount"
+        max={IntMath.toNumber(lpBalance.balance)}
+        register={register}
+        setValue={setValue}
+        currencyPrefix={
+          <Box display="flex" width="5rem">
+            {tokens[0].Icon}
+            {tokens[1].Icon}
+            <Typography variant="normal" ml="M">
+              LP
+            </Typography>
+          </Box>
+        }
+      />
+      <Box display="flex" my="L">
+        {tokens[0].Icon}
+        <Typography variant="normal" ml="M">
+          {tokens[0].symbol}: {tokenInAmount}
+        </Typography>
+      </Box>
+      <Box display="flex" my="L">
+        {tokens[1].Icon}
+        <Typography variant="normal" ml="M">
+          {tokens[1].symbol}: {tokenOutAmount}
+        </Typography>
+      </Box>
+      <WalletGuardButton>
+        <Box
+          mt="L"
+          display="grid"
+          gridColumnGap="1rem"
+          gridTemplateColumns="1fr 1fr"
+        >
+          <Button
+            width="100%"
+            variant="primary"
+            bg="bottomBackground"
+            hover={{ bg: 'disabled' }}
+          >
+            Reset
+          </Button>
+          <Button
+            bg="error"
+            width="100%"
+            variant="primary"
+            hover={{ bg: 'errorActive' }}
+            onClick={handleRemoveLiquidity}
+          >
+            Remove
+          </Button>
+        </Box>
+      </WalletGuardButton>
+    </Box>
   );
 };
 

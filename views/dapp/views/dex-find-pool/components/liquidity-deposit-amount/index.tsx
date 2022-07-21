@@ -1,32 +1,21 @@
-import { find, propEq } from 'ramda';
-import { ChangeEvent, FC, useMemo } from 'react';
+import { ChangeEvent, FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { FAUCET_TOKENS, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
-import { TOKEN_SYMBOL } from '@/sdk';
 import { formatMoney, parseToSafeStringNumber } from '@/utils';
 
-import { LiquidityDepositAmountProps } from '../../pool/pool.types';
+import { LiquidityDepositAmountProps } from '../../../dex/pool/pool.types';
 
 const LiquidityDepositAmount: FC<LiquidityDepositAmountProps> = ({
   name,
   control,
   register,
   setValue,
+  CurrencyChanger,
 }) => {
   const address = useWatch({ control, name: `${name}.address` });
 
-  const token = useMemo(
-    () => find(propEq('address', address), FAUCET_TOKENS[4]),
-    [address]
-  );
-
   const balance = Math.random() * 9782;
-
-  const Icon =
-    TOKENS_SVG_MAP[token?.symbol as string] ??
-    TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
   return (
     <Box
@@ -60,34 +49,7 @@ const LiquidityDepositAmount: FC<LiquidityDepositAmountProps> = ({
           overflow: 'visible',
           borderColor: 'transparent',
         }}
-        Suffix={
-          <Box
-            mr="L"
-            px="L"
-            height="100%"
-            display="flex"
-            cursor="pointer"
-            borderRadius="2rem"
-            alignItems="center"
-            bg="bottomBackground"
-            justifyContent="space-between"
-          >
-            <Box my="M" display="flex" alignItems="center">
-              <Icon width="1rem" />
-              {token?.symbol && (
-                <Typography
-                  mx="M"
-                  as="span"
-                  variant="normal"
-                  hover={{ color: 'accent' }}
-                  active={{ color: 'accentActive' }}
-                >
-                  {token?.symbol || ''}
-                </Typography>
-              )}
-            </Box>
-          </Box>
-        }
+        Suffix={CurrencyChanger}
       />
       <Box
         mx="L"

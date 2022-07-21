@@ -8,35 +8,31 @@ import { InputBalanceProps } from './input-balance.types';
 const InputBalance: FC<InputBalanceProps> = ({
   max,
   name,
-  ratio,
   register,
   setValue,
-  changeTarget,
+  disabled,
   currencyPrefix,
 }) => (
   <Box mb="L">
     <Input
+      disabled={disabled}
       type="string"
       placeholder={'0'}
       {...register(name, {
-        onChange: (v: ChangeEvent<HTMLInputElement>) => {
-          setValue(name, parseToSafeStringNumber(v.target.value, max));
-          setValue(
-            changeTarget,
-            String(Number(parseToSafeStringNumber(v.target.value, max)) * ratio)
-          );
-        },
+        onChange: (v: ChangeEvent<HTMLInputElement>) =>
+          setValue(name, parseToSafeStringNumber(v.target.value, max)),
       })}
       max={max}
       shieldProps={{
         p: 'S',
         my: 'M',
         height: '3rem',
-        bg: 'background',
         borderRadius: 'M',
+        bg: 'background',
         overflow: 'visible',
         border: '1px solid',
         borderColor: 'transparent',
+        opacity: disabled ? 0.7 : 1,
         hover: {
           borderColor: 'accentBackground',
         },
@@ -48,10 +44,12 @@ const InputBalance: FC<InputBalanceProps> = ({
             fontSize="S"
             height="100%"
             variant="secondary"
-            bg="bottomBackground"
-            hover={{ bg: 'accent' }}
+            disabled={disabled}
             active={{ bg: 'accentActive' }}
+            bg={disabled ? 'disabled' : 'bottomBackground'}
+            hover={{ bg: disabled ? 'disabled' : 'accent' }}
             onClick={() => {
+              if (disabled) return;
               if (!setValue) return;
               setValue(name, max.toString());
             }}

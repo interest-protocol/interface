@@ -4,35 +4,84 @@ import { v4 } from 'uuid';
 import { Container } from '@/components';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useGetPairMetadata } from '@/hooks';
+import {
+  useGetPairMetadata,
+  useGetUserBalanceAndAllowance,
+  useIdAccount,
+} from '@/hooks';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { IntMath } from '@/sdk';
-import { formatMoney } from '@/utils';
+import { TimesSVG } from '@/svg';
+import {
+  formatDollars,
+  formatMoney,
+  getInterestDexRouterAddress,
+} from '@/utils';
 
 import GoBack from '../../components/go-back';
 import {
+  AddLiquidityCard,
   LiquidityDetailsCard,
-  LiquidityForm,
   RemoveLiquidityCard,
 } from './components';
 import {
   DEXPoolDetailsViewProps,
   LiquidityDetailsCardProps,
 } from './dex-pool-details.types';
-import { processPairMailMetadata } from './utils';
+import { processBalanceAndAllowance, processPairMailMetadata } from './utils';
 
 const DefaultIcon = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
+  const { chainId } = useIdAccount();
   const { error, data } = useGetPairMetadata(pairAddress);
+
+  const { error: balanceError, data: balanceData } =
+    useGetUserBalanceAndAllowance(
+      getInterestDexRouterAddress(chainId),
+      pairAddress
+    );
+
+  const processedBalancesData = processBalanceAndAllowance(balanceData);
 
   const processedData = useMemo(() => processPairMailMetadata(data), [data]);
 
   // TODO UI improvement
-  if (error) return <div>error</div>;
+  if (error)
+    return (
+      <Box
+        my="XXXL"
+        display="flex"
+        alignItems="center"
+        flexDirection="column"
+        justifyContent="center"
+      >
+        <Box color="error">
+          <TimesSVG width="10rem" />
+        </Box>
+        <Typography variant="normal">ERROR! Fetching the pair data</Typography>
+      </Box>
+    );
+
+  if (balanceError)
+    return (
+      <Box
+        my="XXXL"
+        display="flex"
+        alignItems="center"
+        flexDirection="column"
+        justifyContent="center"
+      >
+        <Box color="error">
+          <TimesSVG width="10rem" />
+        </Box>
+        <Typography variant="normal">ERROR! Fetching pair balance</Typography>
+      </Box>
+    );
 
   const CARD: LiquidityDetailsCardProps = {
     title: 'Liquidity',
+    balance: formatDollars(IntMath.toNumber(processedBalancesData.balance)),
     lines: [
       {
         symbol: processedData.token0Metadata.symbol,
@@ -80,22 +129,42 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
         gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
       >
         <LiquidityDetailsCard {...CARD} />
-        <LiquidityForm
+        <AddLiquidityCard
           balances={[10000, 10]}
-          Icons={[
-            <FirstIcon width="1rem" key={v4()} />,
-            <SecondIcon width="1rem" key={v4()} />,
+          pairAddress={pairAddress}
+          isStable={processedData.isStable}
+          lpBalance={processedBalancesData}
+          addresses={[processedData.token0, processedData.token1]}
+          tokens={[
+            {
+              symbol: processedData.token0Metadata.symbol,
+              Icon: <FirstIcon width="1rem" key={v4()} />,
+            },
+            {
+              symbol: processedData.token1Metadata.symbol,
+              Icon: <SecondIcon width="1rem" key={v4()} />,
+            },
+          ]}
+        />
+        <RemoveLiquidityCard
+          pairAddress={pairAddress}
+          lpBalance={processedBalancesData}
+          isStable={processedData.isStable}
+          token0Metadata={processedData.token0Metadata}
+          token1Metadata={processedData.token1Metadata}
+          addresses={[processedData.token0, processedData.token1]}
+          tokens={[
+            {
+              symbol: processedData.token0Metadata.symbol,
+              Icon: <FirstIcon width="1rem" key={v4()} />,
+            },
+            {
+              symbol: processedData.token1Metadata.symbol,
+              Icon: <SecondIcon width="1rem" key={v4()} />,
+            },
           ]}
         />
       </Box>
-      <RemoveLiquidityCard
-        pairAddress={pairAddress}
-        token0={processedData.token0}
-        token1={processedData.token1}
-        isStable={processedData.isStable}
-        token0Metadata={processedData.token0Metadata}
-        token1Metadata={processedData.token1Metadata}
-      />
     </Container>
   );
 };
