@@ -283,9 +283,23 @@ const FindPoolView: FC = () => {
             <Button
               width="100%"
               variant="primary"
-              disabled={loading}
-              onClick={handleCreatePair}
-              hover={{ bg: loading ? 'disabled' : 'accentActive' }}
+              disabled={loading || tokenANeedsAllowance || tokenBNeedsAllowance}
+              bg={
+                loading || tokenANeedsAllowance || tokenBNeedsAllowance
+                  ? 'disabled'
+                  : 'accent'
+              }
+              hover={{
+                bg:
+                  loading || tokenANeedsAllowance || tokenBNeedsAllowance
+                    ? 'disabled'
+                    : 'accentActive',
+              }}
+              onClick={
+                loading || tokenANeedsAllowance || tokenBNeedsAllowance
+                  ? undefined
+                  : handleCreatePair
+              }
             >
               Create Pool
             </Button>
