@@ -36,8 +36,6 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
   const { chainId } = useIdAccount();
   const { error, data } = useGetPairMetadata(pairAddress);
 
-  const pairDoesNotExists = true;
-
   const { error: balanceError, data: balanceData } =
     useGetUserBalanceAndAllowance(
       getInterestDexRouterAddress(chainId),
@@ -129,25 +127,35 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
         gridGap="1rem"
         gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
       >
-        {!pairDoesNotExists && <LiquidityDetailsCard {...CARD} />}
-        <AddLiquidityCard
-          balances={[10000, 10]}
-          pairAddress={pairAddress}
-          isStable={processedData.isStable}
-          lpBalance={processedBalancesData}
-          addresses={[processedData.token0, processedData.token1]}
-          tokens={[
-            {
-              symbol: processedData.token0Metadata.symbol,
-              Icon: <FirstIcon width="1rem" key={v4()} />,
-            },
-            {
-              symbol: processedData.token1Metadata.symbol,
-              Icon: <SecondIcon width="1rem" key={v4()} />,
-            },
-          ]}
-        />
-        {!pairDoesNotExists && (
+        {!processedData.doesPairExist && (
+          <div>
+            <h1>New Pair</h1>
+            <h2>Please select the initial token amounts for the new pair</h2>
+            <div>1 BTC == 20 usdc</div>
+            <button>create new pair</button>
+          </div>
+        )}
+        {processedData.doesPairExist && <LiquidityDetailsCard {...CARD} />}
+        {processedData.doesPairExist && (
+          <AddLiquidityCard
+            balances={[10000, 10]}
+            pairAddress={pairAddress}
+            isStable={processedData.isStable}
+            lpBalance={processedBalancesData}
+            addresses={[processedData.token0, processedData.token1]}
+            tokens={[
+              {
+                symbol: processedData.token0Metadata.symbol,
+                Icon: <FirstIcon width="1rem" key={v4()} />,
+              },
+              {
+                symbol: processedData.token1Metadata.symbol,
+                Icon: <SecondIcon width="1rem" key={v4()} />,
+              },
+            ]}
+          />
+        )}
+        {processedData.doesPairExist && (
           <RemoveLiquidityCard
             pairAddress={pairAddress}
             lpBalance={processedBalancesData}

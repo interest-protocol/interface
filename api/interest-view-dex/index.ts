@@ -28,7 +28,7 @@ export const getInterestDEXViewERC20Metadata: GetInterestDEXViewERC20Metadata =
       getStaticWeb3Provider(chainId)
     );
 
-    return contract.getERC20Metada(token);
+    return contract.getERC20Metadata(token);
   };
 
 export const getInterestDEXViewPairMetadata: GetInterestDEXViewPairMetadata = (

@@ -1,6 +1,7 @@
 import { BigNumber } from 'ethers';
 
 import { ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
+import { isZeroAddress } from '@/utils';
 
 import { PairMetadataStructOutput } from '../../../../types/ethers-contracts/InterestViewDexAbi';
 
@@ -22,10 +23,11 @@ export const processPairMailMetadata = (
       isStable: false,
       reserve0: ZERO_BIG_NUMBER,
       reserve1: ZERO_BIG_NUMBER,
+      doesPairExist: true, // just to show the UI while loading and for users who are not connected
     };
   }
 
-  return data;
+  return { ...data, doesPairExist: !isZeroAddress(data.token0) };
 };
 
 export const processBalanceAndAllowance = (

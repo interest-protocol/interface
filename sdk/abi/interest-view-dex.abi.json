@@ -29,7 +29,7 @@
     "inputs": [
       { "internalType": "contract IERC20", "name": "token", "type": "address" }
     ],
-    "name": "getERC20Metada",
+    "name": "getERC20Metadata",
     "outputs": [
       {
         "components": [
@@ -88,7 +88,7 @@
           { "internalType": "uint256", "name": "reserve1", "type": "uint256" }
         ],
         "internalType": "struct PairMetadata",
-        "name": "",
+        "name": "data",
         "type": "tuple"
       }
     ],
