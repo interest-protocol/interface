@@ -91,7 +91,6 @@ const FindPoolView: FC = () => {
   );
 
   const isToken0Native = isZeroAddress(token0Address);
-  const isToken1Native = isZeroAddress(token1Address);
 
   const token0NeedsAllowance = isToken0Native
     ? false
@@ -147,8 +146,6 @@ const FindPoolView: FC = () => {
   const createPair = async () => {
     const { tokenA, tokenB, isStable } = getValues();
 
-    const involvesNativeToken = isToken0Native || isToken1Native;
-
     try {
       setLoading(true);
 
@@ -180,7 +177,7 @@ const FindPoolView: FC = () => {
       // 5 minutes
       const deadline = new Date().getTime() + 5 * 60;
 
-      if (involvesNativeToken) {
+      if (isToken0Native) {
         const safeAmount0 = amount0.gt(nativeBalanceBN)
           ? nativeBalanceBN
           : amount0;
