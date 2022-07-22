@@ -28,12 +28,6 @@ export interface BalancesData {
   tokenOutAllowance: BigNumber;
 }
 
-export interface UseGetDexAllowancesAndBalancesReturn {
-  mutate: () => Promise<void>;
-  balancesError: string;
-  balancesData: BalancesData;
-}
-
 export interface SwapButtonProps {
   disabled: boolean;
   tokenInAddress: string;

@@ -12,6 +12,7 @@ import {
 } from 'ramda';
 
 import CasaDePapelABI from '@/sdk/abi/casa-de-papel.abi.json';
+import InterestDexFactoryABI from '@/sdk/abi/interest-dex-factory.abi.json';
 import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
 import InterestERC20MarketABI from '@/sdk/abi/interest-erc-20-market.abi.json';
 import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
@@ -30,6 +31,7 @@ import { safeGetAddress } from '@/utils/address';
 
 import {
   CasaDePapelAbi,
+  InterestDexFactoryAbi,
   InterestDexRouterAbi,
   InterestErc20MarketAbi,
   InterestViewBalancesAbi,
@@ -134,18 +136,9 @@ export const getETHERC20Address: GetContractAddress = makeGetAddress(
   CONTRACTS.ERC20_ETH
 );
 
-export const getAddressWithSymbol = (chainId: number) =>
-  cond([
-    [equals(TOKEN_SYMBOL.BTC), always(getBTCAddress(chainId))],
-    [equals(TOKEN_SYMBOL.DNR), always(getDNRAddress(chainId))],
-    [equals(TOKEN_SYMBOL.INT), always(getIntAddress(chainId))],
-    [equals(TOKEN_SYMBOL.WETH), always(getWETHAddress(chainId))],
-    [equals(TOKEN_SYMBOL.USDC), always(getUSDCAddress(chainId))],
-    [equals(TOKEN_SYMBOL.USDT), always(getUSDTAddress(chainId))],
-    [equals(TOKEN_SYMBOL.APE), always(getAPEAddress(chainId))],
-    [equals(TOKEN_SYMBOL.UNI), always(getUNIAddress(chainId))],
-    [T, always(ethers.constants.AddressZero)],
-  ]);
+export const getInterestDexFactoryAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.INT_DEX_FACTORY
+);
 
 export const getCasaDePapelContract: GetContract<CasaDePapelAbi> = (
   chainId,
@@ -239,3 +232,11 @@ export const getInterestViewDexContract: GetContract<InterestViewDexAbi> = (
 
 export const getWETHContract: GetContract<WethAbi> = (chainId, provider) =>
   new ethers.Contract(getWETHAddress(chainId), WETHABI, provider) as WethAbi;
+
+export const getInterestDexFactoryContract: GetContract<InterestDexFactoryAbi> =
+  (chainId, provider) =>
+    new ethers.Contract(
+      getInterestDexFactoryAddress(chainId),
+      InterestDexFactoryABI,
+      provider
+    ) as InterestDexFactoryAbi;

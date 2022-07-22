@@ -1,20 +1,13 @@
-import { BigNumberish } from 'ethers';
+import { BigNumber } from 'ethers';
 import { always, cond, equals, identity, T } from 'ramda';
 
 import { ERC_20_DATA } from '@/constants/erc-20';
-import { CurrencyAmount, TOKEN_SYMBOL } from '@/sdk';
+import { TOKEN_SYMBOL } from '@/sdk';
 import { ERC20 } from '@/sdk/entities/erc-20';
-import { safeGetAddress } from '@/utils/address';
+import { isZeroAddress, safeGetAddress } from '@/utils/address';
 
 export const getERC20Data = (chainId: number, address: string): ERC20 =>
   ERC_20_DATA[chainId][safeGetAddress(address)];
-
-export const getERC20CurrencyAmount = (
-  chainId: number,
-  address: string,
-  amount: BigNumberish
-): CurrencyAmount<ERC20> =>
-  CurrencyAmount.fromRawAmount(getERC20Data(chainId, address), amount);
 
 export const replaceWrappedNativeTokenWithNativeTokenSymbol = cond<
   any,
@@ -24,3 +17,13 @@ export const replaceWrappedNativeTokenWithNativeTokenSymbol = cond<
   [equals(TOKEN_SYMBOL.WETH), always(TOKEN_SYMBOL.ETH)],
   [T, identity],
 ]);
+
+export const handleTokenBalance = (
+  address: string,
+  balance: BigNumber,
+  nativeBalance: string
+) => {
+  if (isZeroAddress(address)) return BigNumber.from(nativeBalance);
+
+  return balance;
+};
