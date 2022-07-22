@@ -30,10 +30,6 @@ export interface SwapSelectCurrencyProps {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export interface SwapProps {
-  customAction: () => void;
-}
-
 export interface SwapCurrencyDropdownProps {
   Input: ReactNode;
   fromRight?: boolean;
