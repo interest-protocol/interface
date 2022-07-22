@@ -1,12 +1,17 @@
 import { BigNumber } from 'ethers';
 
 import { ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
-import { isZeroAddress } from '@/utils';
 
 import { PairMetadataStructOutput } from '../../../../types/ethers-contracts/InterestViewDexAbi';
 
-export const processPairMailMetadata = (
-  data: PairMetadataStructOutput | undefined
+export const processPairData = (
+  data:
+    | ([PairMetadataStructOutput, BigNumber[], BigNumber[]] & {
+        pairMetadata: PairMetadataStructOutput;
+        allowances: BigNumber[];
+        balances: BigNumber[];
+      })
+    | undefined
 ) => {
   if (!data) {
     const defaultERC20Metadata = {
@@ -23,24 +28,11 @@ export const processPairMailMetadata = (
       isStable: false,
       reserve0: ZERO_BIG_NUMBER,
       reserve1: ZERO_BIG_NUMBER,
-      doesPairExist: true, // just to show the UI while loading and for users who are not connected
     };
   }
 
-  return { ...data, doesPairExist: !isZeroAddress(data.token0) };
+  return data;
 };
-
-export const processBalanceAndAllowance = (
-  data:
-    | ([BigNumber, BigNumber] & { allowance: BigNumber; balance: BigNumber })
-    | undefined
-) =>
-  data
-    ? { allowance: data.allowance, balance: data.allowance }
-    : {
-        allowance: ZERO_BIG_NUMBER,
-        balance: ZERO_BIG_NUMBER,
-      };
 
 export const processQuoteRemoveLiquidityData = (
   data:

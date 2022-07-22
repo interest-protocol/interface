@@ -18,7 +18,13 @@ export type GetInterestDEXViewERC20Metadata = (
   token: string
 ) => Promise<ERC20MetadataStructOutput>;
 
-export type GetInterestDEXViewPairMetadata = (
+export type GetInterestDEXViewPairData = (
   chainId: number,
   pairAddress: string
-) => Promise<PairMetadataStructOutput>;
+) => Promise<
+  [PairMetadataStructOutput, BigNumber[], BigNumber[]] & {
+    pairMetadata: PairMetadataStructOutput;
+    allowances: BigNumber[];
+    balances: BigNumber[];
+  }
+>;

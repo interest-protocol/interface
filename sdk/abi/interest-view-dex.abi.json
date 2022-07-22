@@ -5,6 +5,11 @@
         "internalType": "contract IRouter",
         "name": "_router",
         "type": "address"
+      },
+      {
+        "internalType": "contract InterestViewBalancesInterface",
+        "name": "_viewBalances",
+        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
@@ -49,7 +54,7 @@
     "inputs": [
       { "internalType": "contract IPair", "name": "pair", "type": "address" }
     ],
-    "name": "getPairMetadata",
+    "name": "getPairData",
     "outputs": [
       {
         "components": [
@@ -88,9 +93,15 @@
           { "internalType": "uint256", "name": "reserve1", "type": "uint256" }
         ],
         "internalType": "struct PairMetadata",
-        "name": "data",
+        "name": "pairMetadata",
         "type": "tuple"
-      }
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "allowances",
+        "type": "uint256[]"
+      },
+      { "internalType": "uint256[]", "name": "balances", "type": "uint256[]" }
     ],
     "stateMutability": "view",
     "type": "function"

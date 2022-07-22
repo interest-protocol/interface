@@ -138,7 +138,7 @@ const FindPoolView: FC = () => {
 
   const handleEnterPool = () =>
     showToast(enterPool(), {
-      loading: 'Entering pool...',
+      loading: 'checking pool...',
       success: 'Success!',
       error: prop('message'),
     });
@@ -170,6 +170,7 @@ const FindPoolView: FC = () => {
       const amount0 = stringToBigNumber(token0.value, token0.decimals);
 
       const amount1 = stringToBigNumber(token1.value, token1.decimals);
+
       const safeAmount1 = amount1.gt(balancesData.token1Balance)
         ? balancesData.token1Balance
         : amount1;
