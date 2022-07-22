@@ -5,11 +5,15 @@ import { useSelector } from 'react-redux';
 
 import { ERC_20_DATA } from '@/constants';
 import { Box } from '@/elements';
-import { useIdAccount, useLocalStorage } from '@/hooks';
+import {
+  useGetDexAllowancesAndBalances,
+  useIdAccount,
+  useLocalStorage,
+} from '@/hooks';
 import { IntMath, TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
 import { getNativeBalance } from '@/state/core/core.selectors';
 import { CogsSVG } from '@/svg';
-import { isSameAddress, isZeroAddress } from '@/utils';
+import { handleTokenBalance, isSameAddress, isZeroAddress } from '@/utils';
 
 import SwapSelectCurrency from '../components/swap-select-currency';
 import InputBalance from './input-balance';
@@ -20,10 +24,6 @@ import {
   LocalSwapSettings,
   OnSelectCurrencyData,
 } from './swap.types';
-import {
-  handleTokenBalance,
-  useGetDexAllowancesAndBalances,
-} from './swap.utils';
 import SwapButton from './swap-button';
 import SwapManager from './swap-manager';
 import SwapMessage from './swap-message';
@@ -45,10 +45,10 @@ const Swap: FC = () => {
         setByUser: false,
       },
       tokenOut: {
-        address: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].address,
+        address: ERC_20_DATA[chainId][TOKEN_SYMBOL.ETH].address,
         value: '0',
-        decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].decimals,
-        symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].symbol,
+        decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.ETH].decimals,
+        symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.ETH].symbol,
         setByUser: false,
       },
       slippage: localSettings.slippage,
@@ -83,18 +83,18 @@ const Swap: FC = () => {
 
   const parsedTokenInBalance = handleTokenBalance(
     tokenInAddress,
-    balancesData.tokenInBalance,
+    balancesData.token0Balance,
     nativeBalance
   );
 
   const parsedTokenOutBalance = handleTokenBalance(
     tokenOutAddress,
-    balancesData.tokenOutBalance,
+    balancesData.token1Balance,
     nativeBalance
   );
 
   const needsApproval =
-    !isZeroAddress(tokenInAddress) && balancesData.tokenInAllowance.isZero();
+    !isZeroAddress(tokenInAddress) && balancesData.token0Allowance.isZero();
 
   const toggleSettings = () => setShowSettings(not);
 

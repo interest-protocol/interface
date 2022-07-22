@@ -6,6 +6,7 @@ interface FormValue {
   address: string;
   decimals: number;
   symbol: string;
+  value: string;
 }
 
 export interface DexFindPoolForm {

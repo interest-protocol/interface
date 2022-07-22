@@ -8,6 +8,20 @@ export const addPositiveNumberStrings = (x: string, y: string): string => {
   return BigNumber.from(x).add(BigNumber.from(y)).toString();
 };
 
+export const stringToBigNumber = (value: string, decimals: number) => {
+  const [tokenInIntegralPart, tokenInDecimalPart] = value.split('.');
+
+  return adjustDecimals(BigNumber.from(tokenInIntegralPart), 0, decimals).add(
+    tokenInDecimalPart
+      ? adjustDecimals(
+          BigNumber.from(tokenInDecimalPart),
+          tokenInDecimalPart.length,
+          decimals
+        )
+      : 0
+  );
+};
+
 export const safeToBigNumber = (
   x: number | string,
   decimals = 18,
