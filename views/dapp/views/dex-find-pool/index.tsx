@@ -1,56 +1,67 @@
+import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
-import { ERC_20_DATA } from '@/constants';
+import { ERC_20_DATA, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useIdAccount } from '@/hooks';
-import { TOKEN_SYMBOL } from '@/sdk';
+import { getIPXPairAddress, TOKEN_SYMBOL } from '@/sdk';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import GoBack from '../../components/go-back';
-import SwapSelectCurrency from '../dex/components/swap-select-currency';
-import { ILiquidityForm } from '../dex/pool/pool.types';
 import { OnSelectCurrencyData } from '../dex/swap/swap.types';
-import LiquidityDepositAmount from './components/liquidity-deposit-amount';
+import { DexFindPoolForm } from './dex-find-pool.types';
+import FindPool from './find-pool';
 
 const FindPoolView: FC = () => {
   const { chainId } = useIdAccount();
-  const [isTokenInOpenModal, setTokenInIsOpenModal] = useState(false);
-  const [isTokenOutOpenModal, setTokenOutIsOpenModal] = useState(false);
+  const { push } = useRouter();
 
-  const { setValue, control, register, getValues } = useForm<ILiquidityForm>({
+  const [isTokenAOpenModal, setTokenAIsOpenModal] = useState(false);
+  const [isTokenBOpenModal, setTokenBIsOpenModal] = useState(false);
+
+  const { setValue, control, register, getValues } = useForm<DexFindPoolForm>({
     defaultValues: {
-      tokenIn: {
+      tokenA: {
         address: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].address,
         decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].decimals,
         symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].symbol,
-        value: '0.0',
       },
-      tokenOut: {
+      tokenB: {
         address: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].address,
         decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].decimals,
         symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].symbol,
-        value: '0.0',
       },
+      isStable: false,
     },
   });
 
-  // We want the form to re-render if addresses change
-  const tokenInAddress = useWatch({ control, name: 'tokenIn.address' });
-  const tokenOutAddress = useWatch({ control, name: 'tokenOut.address' });
-
   const onSelectCurrency =
-    (name: 'tokenIn' | 'tokenOut') =>
+    (name: 'tokenA' | 'tokenB') =>
     ({ address, decimals, symbol }: OnSelectCurrencyData) => {
       setValue(`${name}.address`, address);
       setValue(`${name}.decimals`, decimals);
       setValue(`${name}.symbol`, symbol);
-      setValue('tokenOut.value', '0.0');
-      setValue('tokenIn.value', '0.0');
-      setTokenInIsOpenModal(false);
-      setTokenOutIsOpenModal(false);
+      setTokenAIsOpenModal(false);
+      setTokenBIsOpenModal(false);
     };
+
+  const handleEnterPool = () => {
+    const { tokenA, tokenB, isStable } = getValues();
+
+    const address = getIPXPairAddress(
+      chainId,
+      tokenA.address,
+      tokenB.address,
+      isStable
+    );
+
+    push({
+      pathname: Routes[RoutesEnum.DEXPoolDetails],
+      query: address,
+    }).then();
+  };
 
   return (
     <Container py="XL">
@@ -67,35 +78,29 @@ const FindPoolView: FC = () => {
         maxWidth="30rem"
         borderRadius="M"
       >
-        <LiquidityDepositAmount
-          name={'tokenIn'}
+        <FindPool
+          name={'tokenA'}
           control={control}
           setValue={setValue}
           register={register}
-          CurrencyChanger={
-            <SwapSelectCurrency
-              currentToken={tokenInAddress}
-              isModalOpen={isTokenInOpenModal}
-              symbol={getValues('tokenIn.symbol')}
-              setIsModalOpen={setTokenInIsOpenModal}
-              onSelectCurrency={onSelectCurrency('tokenIn')}
-            />
-          }
+          currencyChargerArgs={{
+            isModalOpen: isTokenAOpenModal,
+            symbol: getValues('tokenA.symbol'),
+            setIsModalOpen: setTokenAIsOpenModal,
+            onSelectCurrency: onSelectCurrency('tokenA'),
+          }}
         />
-        <LiquidityDepositAmount
-          name={'tokenOut'}
+        <FindPool
+          name={'tokenB'}
           control={control}
           setValue={setValue}
           register={register}
-          CurrencyChanger={
-            <SwapSelectCurrency
-              currentToken={tokenOutAddress}
-              isModalOpen={isTokenOutOpenModal}
-              symbol={getValues('tokenOut.symbol')}
-              setIsModalOpen={setTokenOutIsOpenModal}
-              onSelectCurrency={onSelectCurrency('tokenOut')}
-            />
-          }
+          currencyChargerArgs={{
+            isModalOpen: isTokenBOpenModal,
+            symbol: getValues('tokenB.symbol'),
+            setIsModalOpen: setTokenBIsOpenModal,
+            onSelectCurrency: onSelectCurrency('tokenB'),
+          }}
         />
         <Box mt="XL">
           <WalletGuardButton>
@@ -103,8 +108,9 @@ const FindPoolView: FC = () => {
               width="100%"
               variant="primary"
               hover={{ bg: 'accentActive' }}
+              onClick={handleEnterPool}
             >
-              Deposit
+              Enter Pool
             </Button>
           </WalletGuardButton>
         </Box>

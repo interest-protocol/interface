@@ -1,7 +1,7 @@
 import { BigNumber, BigNumberish, ethers } from 'ethers';
 
-import { CHAIN_ID } from '@/sdk/constants';
-import { ERC20 } from '@/sdk/entities/erc-20';
+import { CHAIN_ID, CONTRACTS, INIT_CODE_HASH } from '../constants';
+import { ERC20 } from '../entities/erc-20';
 
 export const ZERO_BIG_NUMBER = BigNumber.from(0);
 
@@ -51,3 +51,23 @@ export const quote = (
 
 export const isBNBChain = (chainId: number) =>
   CHAIN_ID.BNB_TEST_NET === chainId || CHAIN_ID.BNB_MAIN_MET === chainId;
+
+export const getIPXPairAddress = (
+  chainId: number,
+  tokenAAddress: string,
+  tokenBAddress: string,
+  isStable: boolean
+) =>
+  ethers.utils.getCreate2Address(
+    CONTRACTS.INT_DEX_FACTORY[chainId],
+    ethers.utils.solidityKeccak256(
+      ['bytes'],
+      [
+        ethers.utils.solidityPack(
+          ['address', 'address', 'bool'],
+          [...sortTokens(tokenAAddress, tokenBAddress), isStable]
+        ),
+      ]
+    ),
+    INIT_CODE_HASH.IPX_PAIR[chainId]
+  );

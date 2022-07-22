@@ -11,15 +11,6 @@ export interface SwapTokenModalMetadata {
   chainId?: number;
 }
 
-export interface SwapHeaderProps {
-  description: string;
-}
-
-export interface SwapModalProps {
-  isOpen: boolean;
-  handleClose: () => void;
-}
-
 export interface SwapFormTokenData {
   value: string;
   address: string;

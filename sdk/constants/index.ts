@@ -56,6 +56,10 @@ export const INIT_CODE_HASH = {
     [CHAIN_ID.BNB_TEST_NET]:
       '0xd0d4c4cd0848c93cb4fd1f498d7013ee6bfb25783ea21593d5834f5d250ece66',
   },
+  IPX_PAIR: {
+    [CHAIN_ID.BNB_TEST_NET]:
+      '0x961ef516c3b1b47b938ac73de08a405baa2cff1017c19e16169d8e55c438d3d4',
+  },
 };
 
 export const DINERO_MARKET_CONTRACTS = {
@@ -120,17 +124,6 @@ export const DINERO_MARKET_CONTRACT_MAP = {
   [CHAIN_ID.BNB_TEST_NET]: {
     [TOKEN_SYMBOL.BTC]: ethers.utils.getAddress(
       '0x926f8FB78f5769a3D724A8ffC7058528C86939E1'
-    ),
-  },
-} as { [key: number]: Record<TOKEN_SYMBOL, string> };
-
-export const MAIL_MARKET_CONTRACT_MAP = {
-  [CHAIN_ID.RINKEBY]: {
-    [TOKEN_SYMBOL.UNI]: ethers.utils.getAddress(
-      '0xB2b946223Fbf94FA82D93857Cb195c4Ffeb60360'
-    ),
-    [TOKEN_SYMBOL.APE]: ethers.utils.getAddress(
-      '0xdda4B7c7218eC16905cA98c07de9Cc08f4bA6a55'
     ),
   },
 } as { [key: number]: Record<TOKEN_SYMBOL, string> };

@@ -1,17 +1,18 @@
-import { ChangeEvent, FC } from 'react';
+import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Box, Button, Input, Typography } from '@/elements';
-import { formatMoney, parseToSafeStringNumber } from '@/utils';
+import { formatMoney } from '@/utils';
 
-import { LiquidityDepositAmountProps } from '../../../dex/pool/pool.types';
+import SwapSelectCurrency from '../dex/components/swap-select-currency';
+import { FindPoolProps } from './dex-find-pool.types';
 
-const LiquidityDepositAmount: FC<LiquidityDepositAmountProps> = ({
+const FindPool: FC<FindPoolProps> = ({
   name,
   control,
   register,
   setValue,
-  CurrencyChanger,
+  currencyChargerArgs,
 }) => {
   const address = useWatch({ control, name: `${name}.address` });
 
@@ -36,20 +37,15 @@ const LiquidityDepositAmount: FC<LiquidityDepositAmountProps> = ({
         fontSize="XL"
         placeholder={'0.0'}
         disabled={address ? false : true}
-        {...register(`${name}.value`, {
-          onChange: (v: ChangeEvent<HTMLInputElement>) =>
-            setValue?.(
-              `${name}.value`,
-              parseToSafeStringNumber(v.target.value, balance)
-            ),
-        })}
         shieldProps={{
           my: 'M',
           height: '3rem',
           overflow: 'visible',
           borderColor: 'transparent',
         }}
-        Suffix={CurrencyChanger}
+        Suffix={
+          <SwapSelectCurrency {...currencyChargerArgs} currentToken={address} />
+        }
       />
       <Box
         mx="L"
@@ -61,7 +57,6 @@ const LiquidityDepositAmount: FC<LiquidityDepositAmountProps> = ({
           height="2.4rem"
           variant="secondary"
           disabled={address ? false : true}
-          onClick={() => setValue(`${name}.value`, String(balance))}
         >
           max
         </Button>
@@ -78,4 +73,4 @@ const LiquidityDepositAmount: FC<LiquidityDepositAmountProps> = ({
   );
 };
 
-export default LiquidityDepositAmount;
+export default FindPool;
