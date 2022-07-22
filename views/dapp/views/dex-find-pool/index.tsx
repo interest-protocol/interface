@@ -1,22 +1,21 @@
 import { useRouter } from 'next/router';
 import { prop } from 'ramda';
-import { FC, useCallback, useState } from 'react';
+import { FC, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
+import { isInterestDexPair } from '@/api/interest-dex-factory';
 import {
-  addAllowance,
   addERC20Liquidity,
   addNativeTokenLiquidity,
-  isInterestDexPair,
-} from '@/api';
+} from '@/api/interest-dex-router';
 import { Container } from '@/components';
 import { CHAINS, ERC_20_DATA, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import {
-  useChainId,
   useGetDexAllowancesAndBalances,
   useGetSigner,
+  useIdAccount,
 } from '@/hooks';
 import {
   getIPXPairAddress,
@@ -24,10 +23,9 @@ import {
   TOKEN_SYMBOL,
   ZERO_ADDRESS,
 } from '@/sdk';
-import { coreActions } from '@/state/core/core.actions';
 import { getNativeBalance } from '@/state/core/core.selectors';
+import { TimesSVG } from '@/svg';
 import {
-  getInterestDexRouterAddress,
   isSameAddress,
   isZeroAddress,
   showToast,
@@ -40,39 +38,37 @@ import { WalletGuardButton } from '@/views/dapp/components';
 
 import GoBack from '../../components/go-back';
 import { OnSelectCurrencyData } from '../dex/swap/swap.types';
+import CreatePool from './create-pool';
 import { DexFindPoolForm } from './dex-find-pool.types';
 import FindPool from './find-pool';
 
 const FindPoolView: FC = () => {
-  const { signer, account } = useGetSigner();
-  const chainId = useChainId();
-
   const { push } = useRouter();
+  const { signer } = useGetSigner();
+  const { chainId, account } = useIdAccount();
 
+  const [loading, setLoading] = useState(false);
+  const [isCreatingPair, setCreatingPair] = useState(false);
   const [isTokenAOpenModal, setTokenAIsOpenModal] = useState(false);
   const [isTokenBOpenModal, setTokenBIsOpenModal] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [showCreatePairUI, setShowCreatePairUI] = useState(false);
 
-  const { setValue, control, register, getValues } = useForm<DexFindPoolForm>({
+  const { setValue, control, getValues, register } = useForm<DexFindPoolForm>({
     defaultValues: {
       tokenA: {
         address: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].address,
         decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].decimals,
         symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].symbol,
-        value: '0',
+        value: '0.0',
       },
       tokenB: {
-        address: ERC_20_DATA[chainId][TOKEN_SYMBOL.ETH].address,
-        decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.ETH].decimals,
-        symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.ETH].symbol,
-        value: '0',
+        address: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].address,
+        decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].decimals,
+        symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].symbol,
+        value: '0.0',
       },
       isStable: false,
     },
-  });
-
-  // We want the form to re-render if addresses change
+  }); // We want the form to re-render if addresses change
   const tokenAAddress = useWatch({ control, name: 'tokenA.address' });
   const tokenBAddress = useWatch({ control, name: 'tokenB.address' });
 
@@ -83,7 +79,6 @@ const FindPoolView: FC = () => {
   );
 
   const nativeBalance = useSelector(getNativeBalance) as string;
-  const dispatch = useDispatch();
 
   const [token0Address, token1Address] = sortTokens(
     tokenAAddress,
@@ -92,11 +87,11 @@ const FindPoolView: FC = () => {
 
   const isToken0Native = isZeroAddress(token0Address);
 
-  const token0NeedsAllowance = isToken0Native
+  const tokenANeedsAllowance = isToken0Native
     ? false
     : balancesData.token0Allowance.isZero();
 
-  const token1NeedsAllowance = balancesData.token1Allowance.isZero();
+  const tokenBNeedsAllowance = balancesData.token1Allowance.isZero();
 
   const onSelectCurrency =
     (name: 'tokenA' | 'tokenB') =>
@@ -106,6 +101,7 @@ const FindPoolView: FC = () => {
       setValue(`${name}.symbol`, symbol);
       setTokenAIsOpenModal(false);
       setTokenBIsOpenModal(false);
+      setCreatingPair(false);
     };
 
   const enterPool = async () => {
@@ -128,7 +124,7 @@ const FindPoolView: FC = () => {
           query: address,
         }).then();
 
-      setShowCreatePairUI(true);
+      setCreatingPair(true);
     } catch {
       throwError('Error connecting');
     } finally {
@@ -158,7 +154,8 @@ const FindPoolView: FC = () => {
       const token0 = isSameAddress(token0Address, tokenA.address)
         ? tokenA
         : tokenB;
-      const token1 = isSameAddress(token0Address, tokenA.address)
+
+      const token1 = isSameAddress(token1Address, tokenA.address)
         ? tokenB
         : tokenA;
 
@@ -232,59 +229,16 @@ const FindPoolView: FC = () => {
       error: prop('message'),
     });
 
-  const approve = useCallback(
-    async (token: string) => {
-      const { validId, validSigner } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
-
-      try {
-        const tx = await addAllowance(
-          validId,
-          validSigner,
-          account,
-          token,
-          getInterestDexRouterAddress(validId)
-        );
-
-        await showTXSuccessToast(tx, validId);
-      } catch (e) {
-        throwError('Failed to approve', e);
-      } finally {
-        dispatch(coreActions.updateNativeBalance());
-      }
-    },
-    [chainId, signer]
-  );
-
-  const handleApprove = (token: string) =>
-    showToast(approve(token), {
-      loading: 'Giving allowance...',
-      success: 'Success!',
-      error: prop('message'),
-    });
-
-  if (balancesError) return <div>Failed to connect to the blockchain</div>;
-
-  if (showCreatePairUI)
+  if (balancesError)
     return (
-      <div>
-        <h1>pair does not exist</h1>
-        <div>1 BTC ==20 usdc</div>
-        {token0NeedsAllowance && (
-          <button onClick={() => handleApprove(token0Address)}>
-            add allowance to token0
-          </button>
-        )}
-        {token1NeedsAllowance && (
-          <button onClick={() => handleApprove(token1Address)}>
-            add allowance to token1
-          </button>
-        )}
-        <button onClick={handleCreatePair}>create pair</button>
-      </div>
+      <Container py="XXL">
+        <Box textAlign="center">
+          <Box color="error">
+            <TimesSVG width="10rem" />
+          </Box>
+          Failed to connect to the blockchain
+        </Box>
+      </Container>
     );
 
   return (
@@ -293,6 +247,29 @@ const FindPoolView: FC = () => {
       <Typography variant="normal" width="100%">
         Find Pool
       </Typography>
+      <FindPool
+        control={control}
+        setValue={setValue}
+        currencyAChargerArgs={{
+          isModalOpen: isTokenAOpenModal,
+          symbol: getValues('tokenA.symbol'),
+          setIsModalOpen: setTokenAIsOpenModal,
+          onSelectCurrency: onSelectCurrency('tokenA'),
+        }}
+        currencyBChargerArgs={{
+          isModalOpen: isTokenBOpenModal,
+          symbol: getValues('tokenB.symbol'),
+          setIsModalOpen: setTokenBIsOpenModal,
+          onSelectCurrency: onSelectCurrency('tokenB'),
+        }}
+      />
+      {isCreatingPair && (
+        <CreatePool
+          control={control}
+          register={register}
+          needAllowance={[tokenANeedsAllowance, tokenBNeedsAllowance]}
+        />
+      )}
       <Box
         p="L"
         my="L"
@@ -302,42 +279,29 @@ const FindPoolView: FC = () => {
         maxWidth="30rem"
         borderRadius="M"
       >
-        <FindPool
-          name={'tokenA'}
-          control={control}
-          setValue={setValue}
-          register={register}
-          currencyChargerArgs={{
-            isModalOpen: isTokenAOpenModal,
-            symbol: getValues('tokenA.symbol'),
-            setIsModalOpen: setTokenAIsOpenModal,
-            onSelectCurrency: onSelectCurrency('tokenA'),
-          }}
-        />
-        <FindPool
-          name={'tokenB'}
-          control={control}
-          setValue={setValue}
-          register={register}
-          currencyChargerArgs={{
-            isModalOpen: isTokenBOpenModal,
-            symbol: getValues('tokenB.symbol'),
-            setIsModalOpen: setTokenBIsOpenModal,
-            onSelectCurrency: onSelectCurrency('tokenB'),
-          }}
-        />
-        <Box mt="XL">
-          <WalletGuardButton>
+        <WalletGuardButton>
+          {isCreatingPair ? (
             <Button
               width="100%"
               variant="primary"
-              hover={{ bg: 'accentActive' }}
-              onClick={handleEnterPool}
+              disabled={loading}
+              onClick={handleCreatePair}
+              hover={{ bg: loading ? 'disabled' : 'accentActive' }}
             >
-              Enter Pool
+              Create Pool
             </Button>
-          </WalletGuardButton>
-        </Box>
+          ) : (
+            <Button
+              width="100%"
+              variant="primary"
+              disabled={loading}
+              onClick={handleEnterPool}
+              hover={{ bg: loading ? 'disabled' : 'accentActive' }}
+            >
+              Find and Enter Pool
+            </Button>
+          )}
+        </WalletGuardButton>
       </Box>
     </Container>
   );
