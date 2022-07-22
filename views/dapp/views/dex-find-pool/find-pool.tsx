@@ -1,73 +1,49 @@
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { Box, Button, Input, Typography } from '@/elements';
-import { formatMoney } from '@/utils';
+import { Switch } from '@/components';
+import { Box } from '@/elements';
 
 import SwapSelectCurrency from '../dex/components/swap-select-currency';
 import { FindPoolProps } from './dex-find-pool.types';
 
 const FindPool: FC<FindPoolProps> = ({
-  name,
   control,
-  register,
   setValue,
-  currencyChargerArgs,
+  currencyAChargerArgs,
+  currencyBChargerArgs,
 }) => {
-  const address = useWatch({ control, name: `${name}.address` });
-
-  const balance = Math.random() * 9782;
+  const addressA = useWatch({ control, name: `tokenA.address` });
+  const addressB = useWatch({ control, name: `tokenB.address` });
+  const isStable = useWatch({ control, name: `isStable` });
 
   return (
     <Box
-      py="M"
-      my="M"
-      bg="background"
-      borderRadius="1.1rem"
-      border="0.02rem solid"
-      opacity={address ? 1 : 0.7}
-      borderColor="bottomBackground"
-      hover={{
-        borderColor: 'textSoft',
-      }}
+      my="L"
+      px="L"
+      py="XL"
+      color="text"
+      width="100%"
+      bg="foreground"
+      maxWidth="30rem"
+      borderRadius="M"
     >
-      <Input
-        min="0"
-        type="string"
-        fontSize="XL"
-        placeholder={'0.0'}
-        disabled={address ? false : true}
-        shieldProps={{
-          my: 'M',
-          height: '3rem',
-          overflow: 'visible',
-          borderColor: 'transparent',
-        }}
-        Suffix={
-          <SwapSelectCurrency {...currencyChargerArgs} currentToken={address} />
-        }
-      />
-      <Box
-        mx="L"
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Button
-          height="2.4rem"
-          variant="secondary"
-          disabled={address ? false : true}
-        >
-          max
-        </Button>
-        <Typography
-          variant="normal"
-          textAlign="end"
-          color="textSecondary"
-          fontSize="0.9rem"
-        >
-          Balance: {formatMoney(balance)}
-        </Typography>
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <SwapSelectCurrency currentToken={addressA} {...currencyAChargerArgs} />
+        <Box mx="XL">
+          <Switch
+            thin
+            defaultValue={isStable ? 'stable' : 'volatile'}
+            options={[
+              { value: 'stable', onSelect: () => setValue('isStable', true) },
+              {
+                value: 'volatile',
+                onSelect: () => setValue('isStable', false),
+              },
+            ]}
+          />
+        </Box>
+        <SwapSelectCurrency currentToken={addressB} {...currencyBChargerArgs} />
       </Box>
     </Box>
   );

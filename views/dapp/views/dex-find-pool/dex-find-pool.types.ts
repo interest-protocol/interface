@@ -16,9 +16,21 @@ export interface DexFindPoolForm {
 }
 
 export interface FindPoolProps {
+  control: Control<DexFindPoolForm>;
+  setValue: UseFormSetValue<DexFindPoolForm>;
+  currencyAChargerArgs: Omit<SwapSelectCurrencyProps, 'currentToken'>;
+  currencyBChargerArgs: Omit<SwapSelectCurrencyProps, 'currentToken'>;
+}
+
+export interface CreatePoolProps {
+  needAllowance: [boolean, boolean];
+  control: Control<DexFindPoolForm>;
+  register: UseFormRegister<DexFindPoolForm>;
+}
+
+export interface CreatePoolFieldProps {
+  needAllowance: boolean;
   name: 'tokenA' | 'tokenB';
   control: Control<DexFindPoolForm>;
   register: UseFormRegister<DexFindPoolForm>;
-  setValue: UseFormSetValue<DexFindPoolForm>;
-  currencyChargerArgs: Omit<SwapSelectCurrencyProps, 'currentToken'>;
 }
