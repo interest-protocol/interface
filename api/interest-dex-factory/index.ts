@@ -1,9 +1,6 @@
 import { getInterestDexFactoryContract, getStaticWeb3Provider } from '@/utils';
 
-import {
-  CreateInterestPair,
-  IsInterestDexPair,
-} from './interest-dex-factory.types';
+import { IsInterestDexPair } from './interest-dex-factory.types';
 
 export const isInterestDexPair: IsInterestDexPair = (
   chainId: number,
