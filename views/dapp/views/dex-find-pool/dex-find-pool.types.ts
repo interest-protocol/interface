@@ -1,4 +1,10 @@
-import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { BigNumber } from 'ethers';
+import {
+  Control,
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormSetValue,
+} from 'react-hook-form';
 
 import { SwapSelectCurrencyProps } from '../dex/dex.types';
 
@@ -26,11 +32,23 @@ export interface CreatePoolProps {
   needAllowance: [boolean, boolean];
   control: Control<DexFindPoolForm>;
   register: UseFormRegister<DexFindPoolForm>;
+  setValue: UseFormSetValue<DexFindPoolForm>;
+  isToken0TokenA: boolean;
+  update: () => Promise<void>;
+  tokenBalances: [BigNumber, BigNumber];
+  getValues: UseFormGetValues<DexFindPoolForm>;
 }
 
 export interface CreatePoolFieldProps {
   needAllowance: boolean;
   name: 'tokenA' | 'tokenB';
-  control: Control<DexFindPoolForm>;
   register: UseFormRegister<DexFindPoolForm>;
+  setValue: UseFormSetValue<DexFindPoolForm>;
+  update: () => Promise<void>;
+  tokenBalance: BigNumber;
+  getValues: UseFormGetValues<DexFindPoolForm>;
+}
+
+export interface PriceProps {
+  control: Control<DexFindPoolForm>;
 }

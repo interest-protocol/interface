@@ -44,8 +44,6 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
       ZERO_BIG_NUMBER
     );
 
-  console.log(quoteRemoveLiquidityError);
-
   const processedQuoteRemoveLiquidityData = processQuoteRemoveLiquidityData(
     quoteRemoveLiquidityData
   );

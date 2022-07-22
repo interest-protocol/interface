@@ -10,7 +10,12 @@ import {
   addNativeTokenLiquidity,
 } from '@/api/interest-dex-router';
 import { Container } from '@/components';
-import { CHAINS, ERC_20_DATA, Routes, RoutesEnum } from '@/constants';
+import {
+  ERC_20_DATA,
+  Routes,
+  RoutesEnum,
+  WRAPPED_NATIVE_TOKEN,
+} from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import {
   useGetDexAllowancesAndBalances,
@@ -26,7 +31,7 @@ import {
 import { getNativeBalance } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
 import {
-  isSameAddress,
+  isSameAddressZ,
   isZeroAddress,
   showToast,
   showTXSuccessToast,
@@ -58,27 +63,30 @@ const FindPoolView: FC = () => {
         address: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].address,
         decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].decimals,
         symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].symbol,
-        value: '0.0',
       },
       tokenB: {
         address: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].address,
         decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].decimals,
         symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].symbol,
-        value: '0.0',
       },
       isStable: false,
     },
-  }); // We want the form to re-render if addresses change
+  });
+
+  // We want the form to re-render if addresses change
   const tokenAAddress = useWatch({ control, name: 'tokenA.address' });
   const tokenBAddress = useWatch({ control, name: 'tokenB.address' });
 
-  const { balancesError, balancesData } = useGetDexAllowancesAndBalances(
-    chainId,
-    tokenAAddress || ZERO_ADDRESS,
-    tokenBAddress || ZERO_ADDRESS
-  );
+  const { balancesError, balancesData, mutate } =
+    useGetDexAllowancesAndBalances(
+      chainId,
+      tokenAAddress || ZERO_ADDRESS,
+      tokenBAddress || ZERO_ADDRESS
+    );
 
   const nativeBalance = useSelector(getNativeBalance) as string;
+
+  const nativeBalanceBN = stringToBigNumber(nativeBalance);
 
   const [token0Address, token1Address] = sortTokens(
     tokenAAddress,
@@ -87,11 +95,9 @@ const FindPoolView: FC = () => {
 
   const isToken0Native = isZeroAddress(token0Address);
 
-  const tokenANeedsAllowance = isToken0Native
-    ? false
-    : balancesData.token0Allowance.isZero();
+  const token0NeedsAllowance = balancesData.token0Allowance.isZero();
 
-  const tokenBNeedsAllowance = balancesData.token1Allowance.isZero();
+  const token1NeedsAllowance = balancesData.token1Allowance.isZero();
 
   const onSelectCurrency =
     (name: 'tokenA' | 'tokenB') =>
@@ -106,13 +112,13 @@ const FindPoolView: FC = () => {
 
   const enterPool = async () => {
     setLoading(true);
-    const { tokenA, tokenB, isStable } = getValues();
+    const { isStable } = getValues();
 
     try {
       const address = getIPXPairAddress(
         chainId,
-        tokenA.address,
-        tokenB.address,
+        isToken0Native ? WRAPPED_NATIVE_TOKEN[chainId].address : token0Address,
+        token1Address,
         isStable
       );
 
@@ -121,7 +127,7 @@ const FindPoolView: FC = () => {
       if (doesPairExist)
         return push({
           pathname: Routes[RoutesEnum.DEXPoolDetails],
-          query: address,
+          query: { pairAddress: address },
         }).then();
 
       setCreatingPair(true);
@@ -151,29 +157,26 @@ const FindPoolView: FC = () => {
         signer
       );
 
-      const token0 = isSameAddress(token0Address, tokenA.address)
+      const token0 = isSameAddressZ(token0Address, tokenA.address)
         ? tokenA
         : tokenB;
 
-      const token1 = isSameAddress(token1Address, tokenA.address)
+      const token1 = isSameAddressZ(token0Address, tokenA.address)
         ? tokenB
         : tokenA;
-
-      const nativeBalanceBN = stringToBigNumber(
-        nativeBalance,
-        CHAINS[validId].nativeCurrency.decimals
-      );
 
       const amount0 = stringToBigNumber(token0.value, token0.decimals);
 
       const amount1 = stringToBigNumber(token1.value, token1.decimals);
+
+      if (amount0.isZero() || amount1.isZero()) throwError('No zero amount');
 
       const safeAmount1 = amount1.gt(balancesData.token1Balance)
         ? balancesData.token1Balance
         : amount1;
 
       // 5 minutes
-      const deadline = new Date().getTime() + 5 * 60;
+      const deadline = Math.ceil((new Date().getTime() + 5 * 60 * 1000) / 1000);
 
       if (isToken0Native) {
         const safeAmount0 = amount0.gt(nativeBalanceBN)
@@ -193,7 +196,18 @@ const FindPoolView: FC = () => {
           deadline
         );
 
-        return await showTXSuccessToast(tx, validId);
+        await showTXSuccessToast(tx, validId);
+        const address = getIPXPairAddress(
+          chainId,
+          WRAPPED_NATIVE_TOKEN[chainId].address,
+          token1Address,
+          isStable
+        );
+
+        return push({
+          pathname: Routes[RoutesEnum.DEXPoolDetails],
+          query: { pairAddress: address },
+        }).then();
       }
 
       const safeAmount0 = amount0.gt(balancesData.token0Balance)
@@ -215,7 +229,19 @@ const FindPoolView: FC = () => {
       );
 
       await showTXSuccessToast(tx, validId);
-    } catch {
+
+      const address = getIPXPairAddress(
+        chainId,
+        token0Address,
+        token1Address,
+        isStable
+      );
+
+      return push({
+        pathname: Routes[RoutesEnum.DEXPoolDetails],
+        query: { pairAddress: address },
+      }).then();
+    } catch (e) {
       throwError('Failed to create pair');
     } finally {
       setLoading(false);
@@ -265,9 +291,20 @@ const FindPoolView: FC = () => {
       />
       {isCreatingPair && (
         <CreatePool
+          getValues={getValues}
+          update={mutate}
+          tokenBalances={[
+            balancesData.token0Balance,
+            balancesData.token1Balance,
+          ]}
           control={control}
           register={register}
-          needAllowance={[tokenANeedsAllowance, tokenBNeedsAllowance]}
+          needAllowance={[token0NeedsAllowance, token1NeedsAllowance]}
+          setValue={setValue}
+          isToken0TokenA={isSameAddressZ(
+            tokenAAddress,
+            sortTokens(tokenAAddress, tokenBAddress)[0]
+          )}
         />
       )}
       <Box
@@ -284,20 +321,20 @@ const FindPoolView: FC = () => {
             <Button
               width="100%"
               variant="primary"
-              disabled={loading || tokenANeedsAllowance || tokenBNeedsAllowance}
+              disabled={loading || token0NeedsAllowance || token1NeedsAllowance}
               bg={
-                loading || tokenANeedsAllowance || tokenBNeedsAllowance
+                loading || token0NeedsAllowance || token1NeedsAllowance
                   ? 'disabled'
                   : 'accent'
               }
               hover={{
                 bg:
-                  loading || tokenANeedsAllowance || tokenBNeedsAllowance
+                  loading || token0NeedsAllowance || token1NeedsAllowance
                     ? 'disabled'
                     : 'accentActive',
               }}
               onClick={
-                loading || tokenANeedsAllowance || tokenBNeedsAllowance
+                loading || token0NeedsAllowance || token1NeedsAllowance
                   ? undefined
                   : handleCreatePair
               }

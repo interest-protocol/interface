@@ -1,15 +1,5 @@
 import { ContractReceipt, ethers } from 'ethers';
-import {
-  __,
-  always,
-  compose,
-  cond,
-  equals,
-  pathOr,
-  propOr,
-  T,
-  toString,
-} from 'ramda';
+import { __, compose, pathOr, propOr, toString } from 'ramda';
 
 import CasaDePapelABI from '@/sdk/abi/casa-de-papel.abi.json';
 import InterestDexFactoryABI from '@/sdk/abi/interest-dex-factory.abi.json';

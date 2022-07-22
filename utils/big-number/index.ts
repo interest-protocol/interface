@@ -8,8 +8,9 @@ export const addPositiveNumberStrings = (x: string, y: string): string => {
   return BigNumber.from(x).add(BigNumber.from(y)).toString();
 };
 
-export const stringToBigNumber = (value: string, decimals: number) => {
-  const [tokenInIntegralPart, tokenInDecimalPart] = value.split('.');
+export const stringToBigNumber = (value: string, decimals = 0) => {
+  const parsedValue = isNaN(+value) ? '0' : value ? value : '0';
+  const [tokenInIntegralPart, tokenInDecimalPart] = parsedValue.split('.');
 
   return adjustDecimals(BigNumber.from(tokenInIntegralPart), 0, decimals).add(
     tokenInDecimalPart

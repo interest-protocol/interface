@@ -1,17 +1,17 @@
 import { prop } from 'ramda';
-import { FC, useCallback, useMemo } from 'react';
-import { useWatch } from 'react-hook-form';
+import { ChangeEvent, FC, useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { addAllowance } from '@/api/erc20';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
 import { useGetSigner, useIdAccount } from '@/hooks';
-import { TOKEN_SYMBOL } from '@/sdk';
+import { IntMath, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import {
   formatMoney,
   getInterestDexRouterAddress,
+  parseToSafeStringNumber,
   showToast,
   showTXSuccessToast,
   throwError,
@@ -22,14 +22,17 @@ import { CreatePoolFieldProps } from '../dex-find-pool.types';
 
 const CreatePoolField: FC<CreatePoolFieldProps> = ({
   name,
-  control,
   register,
+  setValue,
   needAllowance,
+  update,
+  tokenBalance,
+  getValues,
 }) => {
   const dispatch = useDispatch();
   const { chainId } = useIdAccount();
   const { signer, account } = useGetSigner();
-  const { address, symbol } = useWatch({ control, name });
+  const { address, symbol, decimals } = getValues()[name];
 
   const SVG = TOKENS_SVG_MAP[symbol] || TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
@@ -54,6 +57,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
       } catch (e) {
         throwError('Failed to approve', e);
       } finally {
+        await update();
         dispatch(coreActions.updateNativeBalance());
       }
     },
@@ -92,7 +96,21 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
         placeholder={'0.0'}
         disabled={isDisabled}
         color={isDisabled ? 'textSoft' : 'text'}
-        {...register(`${name}.value`)}
+        {...register(`${name}.value`, {
+          onChange: (v: ChangeEvent<HTMLInputElement>) => {
+            const value = v.target.value;
+
+            setValue?.(
+              `${name}.value`,
+              parseToSafeStringNumber(
+                isNaN(+value[value.length - 1]) &&
+                  value[value.length - 1] !== '.'
+                  ? value.slice(0, value.length - 1)
+                  : value
+              )
+            );
+          },
+        })}
         shieldProps={{
           my: 'M',
           height: '3rem',
@@ -140,9 +158,15 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           </Button>
         ) : (
           <Button
+            onClick={() =>
+              setValue?.(
+                `${name}.value`,
+                IntMath.toNumber(tokenBalance, decimals).toString()
+              )
+            }
             height="2.4rem"
             variant="secondary"
-            disabled={address ? false : true}
+            disabled={!address}
           >
             max
           </Button>
@@ -153,7 +177,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           color="textSecondary"
           fontSize="0.9rem"
         >
-          Balance: {formatMoney(Math.random() * 7634962)}
+          Balance: {formatMoney(IntMath.toNumber(tokenBalance, decimals), 2)}
         </Typography>
       </Box>
     </Box>

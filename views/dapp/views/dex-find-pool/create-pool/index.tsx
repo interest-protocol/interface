@@ -1,34 +1,33 @@
 import { FC } from 'react';
-import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
-import { formatMoney } from '@/utils';
 
 import { CreatePoolProps, DexFindPoolForm } from '../dex-find-pool.types';
 import CreatePoolField from './create-pool-field';
+import Price from './price';
 
 const TOKEN_NAMES = ['tokenA', 'tokenB'] as ReadonlyArray<
   Exclude<keyof DexFindPoolForm, 'isStable'>
 >;
 
-const isInfinity = (number: number) =>
-  number === Infinity || number === -Infinity;
-
 const CreatePool: FC<CreatePoolProps> = ({
   control,
   register,
   needAllowance,
+  setValue,
+  isToken0TokenA,
+  update,
+  tokenBalances,
+  getValues,
 }) => {
-  const { value: valueA, symbol: symbolA } = useWatch({
-    control,
-    name: 'tokenA',
-  });
+  const parsedAllowanceArray = isToken0TokenA
+    ? needAllowance
+    : [needAllowance[1], needAllowance[0]];
 
-  const { value: valueB, symbol: symbolB } = useWatch({
-    control,
-    name: 'tokenB',
-  });
+  const parsedTokenBalances = isToken0TokenA
+    ? tokenBalances
+    : [tokenBalances[1], tokenBalances[0]];
 
   return (
     <Box
@@ -50,21 +49,17 @@ const CreatePool: FC<CreatePoolProps> = ({
       >
         This pool does not exist! Please, create one now.
       </Typography>
-      <Typography variant="normal" my="L" textAlign="center">
-        {isNaN(+valueA / +valueB) || isInfinity(+valueA / +valueB) ? '0' : '1'}{' '}
-        {symbolA} ={' '}
-        {isNaN(+valueA / +valueB) || isInfinity(+valueA / +valueB)
-          ? '0'
-          : formatMoney(+valueA / +valueB, 2)}{' '}
-        {symbolB}
-      </Typography>
+      <Price control={control} />
       {TOKEN_NAMES.map((name, index) => (
         <CreatePoolField
+          getValues={getValues}
+          update={update}
+          setValue={setValue}
           key={v4()}
           name={name}
-          control={control}
           register={register}
-          needAllowance={needAllowance[index]}
+          needAllowance={parsedAllowanceArray[index]}
+          tokenBalance={parsedTokenBalances[index]}
         />
       ))}
     </Box>
