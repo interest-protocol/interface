@@ -105,6 +105,8 @@ const FindPoolView: FC = () => {
       setValue(`${name}.address`, address);
       setValue(`${name}.decimals`, decimals);
       setValue(`${name}.symbol`, symbol);
+      setValue('tokenA.value', '0.0');
+      setValue('tokenB.value', '0.0');
       setTokenAIsOpenModal(false);
       setTokenBIsOpenModal(false);
       setCreatingPair(false);
@@ -140,7 +142,7 @@ const FindPoolView: FC = () => {
 
   const handleEnterPool = () =>
     showToast(enterPool(), {
-      loading: 'checking pool...',
+      loading: 'Checking pool...',
       success: 'Success!',
       error: prop('message'),
     });
