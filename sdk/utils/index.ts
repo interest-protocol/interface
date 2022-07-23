@@ -28,8 +28,9 @@ export const sortTokens = (
   tokenA: string,
   tokenB: string
 ): [string, string] => {
-  if (ethers.utils.getAddress(tokenB) > ethers.utils.getAddress(tokenA))
-    return [tokenA, tokenB];
+  const tokenABN = BigNumber.from(tokenA);
+  const tokenBBN = BigNumber.from(tokenB);
+  if (tokenBBN.gt(tokenABN)) return [tokenA, tokenB];
 
   return [tokenB, tokenA];
 };
