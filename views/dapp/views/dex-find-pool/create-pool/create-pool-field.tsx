@@ -106,7 +106,8 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
                 isNaN(+value[value.length - 1]) &&
                   value[value.length - 1] !== '.'
                   ? value.slice(0, value.length - 1)
-                  : value
+                  : value,
+                IntMath.toNumber(tokenBalance)
               )
             );
           },
