@@ -323,8 +323,10 @@ const FindPoolView: FC = () => {
               variant="primary"
               disabled={loading || token0NeedsAllowance || token1NeedsAllowance}
               bg={
-                loading || token0NeedsAllowance || token1NeedsAllowance
+                token0NeedsAllowance || token1NeedsAllowance
                   ? 'disabled'
+                  : loading
+                  ? 'accentActive'
                   : 'accent'
               }
               hover={{
@@ -339,7 +341,7 @@ const FindPoolView: FC = () => {
                   : handleCreatePair
               }
             >
-              Create Pool
+              {loading ? 'Creating Pool...' : 'Create Pool'}
             </Button>
           ) : (
             <Button
@@ -347,9 +349,10 @@ const FindPoolView: FC = () => {
               variant="primary"
               disabled={loading}
               onClick={handleEnterPool}
+              bg={loading ? 'accentActive' : 'accent'}
               hover={{ bg: loading ? 'disabled' : 'accentActive' }}
             >
-              Find and Enter Pool
+              {loading ? 'Finding Pool...' : 'Find and Enter Pool'}
             </Button>
           )}
         </WalletGuardButton>

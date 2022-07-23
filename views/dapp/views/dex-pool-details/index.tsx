@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 import { Container } from '@/components';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useGetPairData, useIdAccount } from '@/hooks';
+import { useGetPairData } from '@/hooks';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { IntMath } from '@/sdk';
 import { TimesSVG } from '@/svg';
