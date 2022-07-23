@@ -1,12 +1,10 @@
 import { ethers } from 'ethers';
 import { useSelector } from 'react-redux';
 
-import { CHAINS } from '@/constants';
 import { sortTokens, ZERO_BIG_NUMBER } from '@/sdk';
 import { getNativeBalance } from '@/state/core/core.selectors';
 import {
   getInterestDexRouterAddress,
-  isSameAddress,
   isZeroAddress,
   stringToBigNumber,
 } from '@/utils';
@@ -56,23 +54,14 @@ export const useGetDexAllowancesAndBalances = (
 
   const isToken0Native = sortedTokens.length === 1;
 
-  const token0Index = isSameAddress(sortedTokens[0], tokenA) ? 0 : 1;
-  const token1Index = token0Index === 0 ? 1 : 0;
-
   return {
     balancesData: {
-      token0Balance: isToken0Native
-        ? nativeBalanceBN
-        : data.balances[token0Index],
-      token1Balance: isToken0Native
-        ? data.balances[0]
-        : data.balances[token1Index],
+      token0Balance: isToken0Native ? nativeBalanceBN : data.balances[0],
+      token1Balance: data.balances[isToken0Native ? 0 : 1],
       token0Allowance: isToken0Native
         ? ethers.constants.MaxUint256
-        : data.allowances[token0Index],
-      token1Allowance: isToken0Native
-        ? data.allowances[0]
-        : data.allowances[token1Index],
+        : data.allowances[0],
+      token1Allowance: isToken0Native ? data.allowances[0] : data.allowances[1],
     },
     balancesError: '',
     mutate: async () => void (await mutate()),

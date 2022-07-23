@@ -317,7 +317,16 @@ const FindPoolView: FC = () => {
         borderRadius="M"
       >
         <WalletGuardButton>
-          {isCreatingPair ? (
+          {isSameAddressZ(tokenAAddress, tokenBAddress) ? (
+            <Button
+              width="100%"
+              variant="primary"
+              disabled={true}
+              bg="disabled"
+            >
+              Choose different tokens
+            </Button>
+          ) : isCreatingPair ? (
             <Button
               width="100%"
               variant="primary"
