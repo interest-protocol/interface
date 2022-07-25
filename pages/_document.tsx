@@ -11,7 +11,7 @@ const Document = (): ReactNode => (
         rel="stylesheet"
       />
     </Head>
-    <body>
+    <body id="body">
       <Main />
       <NextScript />
     </body>

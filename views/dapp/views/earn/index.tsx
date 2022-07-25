@@ -1,12 +1,15 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
+import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
 import { useGetFarmsSummary } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
-import { TimesSVG } from '@/svg';
+import { LoadingSVG, TimesSVG } from '@/svg';
 import { getSafeFarmSummaryData } from '@/utils';
 
 import { EarnHeader, EarnTable } from './components';
+import EarnFilters from './earn-filters';
 
 const Earn: FC = () => {
   const { error, data: rawData } = useGetFarmsSummary();
@@ -16,6 +19,26 @@ const Earn: FC = () => {
     () => getSafeFarmSummaryData(chainId, rawData),
     [rawData, chainId]
   );
+  const [dataPools, setDataPools] = useState(data.pools);
+  const [hasMore, setHasMore] = useState(true);
+
+  const fetchMoreData = () => {
+    if (dataPools.length > 20) {
+      setHasMore(false);
+      return;
+    }
+    // a fake async api call like which sends
+    // 20 more records in .5 secs
+    setTimeout(() => {
+      setDataPools(
+        dataPools.concat(Array.from({ length: 5 }, () => dataPools[0]))
+      );
+    }, 500);
+  };
+
+  useEffect(() => {
+    setDataPools(data.pools);
+  }, [data.pools]);
 
   if (error)
     return (
@@ -49,21 +72,36 @@ const Earn: FC = () => {
       flexDirection="column"
       justifyContent="space-between"
     >
-      <Box>
+      <Box overflow="hidden">
         <EarnHeader />
-        <Box mt="XL">
-          <EarnTable
-            isPools
-            data={data.pools}
-            loading={data.loading}
-            intUSDPrice={data.intUSDPrice}
-          />
-          <EarnTable
-            data={data.farms}
-            loading={data.loading}
-            intUSDPrice={data.intUSDPrice}
-          />
-        </Box>
+        <Container dapp width="100%" px="NONE">
+          <EarnFilters />
+        </Container>
+        <InfiniteScroll
+          dataLength={dataPools.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={
+            <Container dapp width="100%">
+              <Box display="flex" alignItems="center" justifyContent="center">
+                <LoadingSVG width="1rem" />
+                <Typography fontSize="S" variant="normal" ml="M">
+                  Loading
+                </Typography>
+              </Box>
+            </Container>
+          }
+          scrollableTarget="body"
+        >
+          <Box>
+            <EarnTable
+              isPools
+              data={dataPools}
+              loading={data.loading}
+              intUSDPrice={data.intUSDPrice}
+            />
+          </Box>
+        </InfiniteScroll>
       </Box>
     </Box>
   );

@@ -7,4 +7,6 @@ export interface ISwitchOption {
 export interface SwitchProps {
   defaultValue: string;
   options: [ISwitchOption, ISwitchOption];
+  bg?: string;
+  bgSelected?: string;
 }
