@@ -5,13 +5,8 @@ import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 
-import {
-  BTCOrbit,
-  DAIxUSDCOrbit,
-  FloatingCoins,
-  SUSHIxCAKEOrbit,
-  VUSDCOrbit,
-} from './borrow-animations';
+import { FloatingDisk } from '../earn/earn-animations';
+import { FloatingCoins, OrbitCoin } from './borrow-animations';
 
 const Borrow: FC = () => {
   const { push } = useRouter();
@@ -100,39 +95,39 @@ const Borrow: FC = () => {
               <FloatingCoins
                 top="12%"
                 left="7%"
-                width="52%"
-                position="absolute"
-                delay={~~(Math.random() * 1500)}
-              >
-                <ResponsiveImage
-                  width="100%"
-                  alt="dinero market flow"
-                  path="home/dinero-collateral-SUSHIxCAKE"
-                />
-              </FloatingCoins>
-              <FloatingCoins
                 width="40%"
                 position="absolute"
-                left="60%"
                 delay={~~(Math.random() * 1500)}
               >
                 <ResponsiveImage
                   width="100%"
-                  alt="dinero market flow"
-                  path="home/dinero-collateral-BTC"
+                  path="home/borrow-collateral-BUSDxPancake"
+                  alt="Borrow - BUSDxPancake LP Token as Collateral"
                 />
               </FloatingCoins>
               <FloatingCoins
-                width="52%"
+                left="60%"
+                width="40%"
                 position="absolute"
-                top="40%"
-                left="48%"
                 delay={~~(Math.random() * 1500)}
               >
                 <ResponsiveImage
                   width="100%"
-                  alt="dinero market flow"
-                  path="home/dinero-collateral-DAIxUSDC"
+                  path="home/borrow-collateral-USDCxETH"
+                  alt="Borrow - USDCxETH LP Token as Collateral"
+                />
+              </FloatingCoins>
+              <FloatingCoins
+                top="40%"
+                left="48%"
+                width="40%"
+                position="absolute"
+                delay={~~(Math.random() * 1500)}
+              >
+                <ResponsiveImage
+                  width="100%"
+                  alt="DAIxUSDC"
+                  path="home/borrow-collateral-DAIxUSDC"
                 />
               </FloatingCoins>
               <FloatingCoins
@@ -143,8 +138,8 @@ const Borrow: FC = () => {
               >
                 <ResponsiveImage
                   width="100%"
-                  alt="dinero market flow"
-                  path="home/dinero-collateral-vUSDC"
+                  path="home/borrow-collateral-USDCxUSDT"
+                  alt="Borrow - USDCxUSDT LP Token as Collateral"
                 />
               </FloatingCoins>
             </Box>
@@ -165,75 +160,83 @@ const Borrow: FC = () => {
                 <Typography textAlign="center" variant="normal" mb="XL">
                   Market
                 </Typography>
-                <Box
-                  position="absolute"
+                <FloatingDisk
                   transform="translateZ(0)"
-                  filter="drop-shadow(-2px 40px 10px #0002)"
+                  delay={~~(Math.random() * 1500)}
+                  filter="drop-shadow(-2px 50px 10px #0002)"
                 >
                   <ResponsiveImage
                     width="100%"
-                    alt="dinero market base"
-                    path="home/dinero-market-base"
+                    alt="Borrow - market disk"
+                    path="home/borrow-market-disk"
                   />
-                </Box>
-                <SUSHIxCAKEOrbit
+                </FloatingDisk>
+                <OrbitCoin
+                  x="-80%"
+                  y="-50%"
+                  top="43%"
+                  left="28%"
+                  width="45%"
+                  position="absolute"
+                  filter="drop-shadow(-2px 30px 10px #0002)"
+                >
+                  <ResponsiveImage
+                    width="100%"
+                    path="home/borrow-market-BUSDxPancake"
+                    alt="Borrow - BUSDxCAKE LP Token Market"
+                  />
+                </OrbitCoin>
+                <OrbitCoin
+                  x="10%"
+                  y="-120%"
+                  top="40%"
+                  left="28%"
+                  width="45%"
+                  position="absolute"
+                  filter="drop-shadow(-2px 30px 10px #0002)"
+                >
+                  <ResponsiveImage
+                    width="100%"
+                    path="home/borrow-market-ETHxBNB"
+                    alt="Borrow - ETHxBNB LP Token Market"
+                  />
+                </OrbitCoin>
+                <OrbitCoin
+                  x="-50%"
+                  y="130%"
+                  top="38%"
+                  left="26%"
+                  width="45%"
+                  position="absolute"
+                  filter="drop-shadow(-2px 30px 10px #0002)"
+                >
+                  <ResponsiveImage
+                    width="100%"
+                    path="home/borrow-market-USDCxUSDT"
+                    alt="Borrow - USDCxUSDT LP Token Market"
+                  />
+                </OrbitCoin>
+                <OrbitCoin
+                  x="60%"
+                  y="30%"
                   top="38%"
                   left="27%"
-                  width="50%"
+                  width="45%"
                   position="absolute"
                   filter="drop-shadow(-2px 30px 10px #0002)"
                 >
                   <ResponsiveImage
                     width="100%"
-                    alt="dinero market SUSHI x CAKE"
-                    path="home/dinero-market-SUSHIxCAKE"
+                    path="home/borrow-market-DAIxUSDC"
+                    alt="Borrow - DAIxUSDC LP Token Market"
                   />
-                </SUSHIxCAKEOrbit>
-                <BTCOrbit
-                  top="38%"
-                  left="35%"
-                  width="35%"
-                  position="absolute"
-                  filter="drop-shadow(-2px 30px 10px #0002)"
-                >
-                  <ResponsiveImage
-                    width="100%"
-                    alt="dinero market BTC"
-                    path="home/dinero-market-BTC"
-                  />
-                </BTCOrbit>
-                <VUSDCOrbit
-                  top="38%"
-                  left="35%"
-                  width="35%"
-                  position="absolute"
-                  filter="drop-shadow(-2px 30px 10px #0002)"
-                >
-                  <ResponsiveImage
-                    width="100%"
-                    alt="dinero market vUSDC"
-                    path="home/dinero-market-vUSDC"
-                  />
-                </VUSDCOrbit>
-                <DAIxUSDCOrbit
-                  top="38%"
-                  left="27%"
-                  width="50%"
-                  position="absolute"
-                  filter="drop-shadow(-2px 30px 10px #0002)"
-                >
-                  <ResponsiveImage
-                    width="100%"
-                    alt="dinero market DAI x USDC"
-                    path="home/dinero-market-DAIxUSDC"
-                  />
-                </DAIxUSDCOrbit>
+                </OrbitCoin>
               </Box>
               <Box width="30%">
                 <ResponsiveImage
                   width="100%"
-                  alt="dinero market flow"
-                  path="home/dinero-persona"
+                  alt="Borrow - User"
+                  path="home/borrow-user"
                 />
                 <Typography textAlign="center" variant="normal">
                   Borrower
@@ -272,8 +275,8 @@ const Borrow: FC = () => {
                 >
                   <ResponsiveImage
                     width="100%"
-                    alt="Borrow Dinero"
-                    path="home/dinero-DNR"
+                    alt="Borrow - Borrow Dinero"
+                    path="home/borrow-Dinero"
                   />
                 </FloatingCoins>
                 <Typography variant="normal" ml="L">
@@ -299,8 +302,8 @@ const Borrow: FC = () => {
               >
                 <ResponsiveImage
                   width="100%"
-                  alt="Interest Token"
-                  path="home/dinero-INT-top"
+                  path="home/borrow-INT-top"
+                  alt="Borrow - Earn INT Token"
                 />
               </FloatingCoins>
               <FloatingCoins
@@ -311,8 +314,8 @@ const Borrow: FC = () => {
               >
                 <ResponsiveImage
                   width="100%"
-                  alt="Interest Token"
-                  path="home/dinero-INT-left"
+                  path="home/borrow-INT-left"
+                  alt="Borrow - Earn INT Token"
                 />
               </FloatingCoins>
               <FloatingCoins
@@ -324,8 +327,8 @@ const Borrow: FC = () => {
               >
                 <ResponsiveImage
                   width="100%"
-                  alt="Interest Token"
-                  path="home/dinero-INT-right"
+                  alt="Borrow - Earn INT Token"
+                  path="home/borrow-INT-right"
                 />
               </FloatingCoins>
             </Box>

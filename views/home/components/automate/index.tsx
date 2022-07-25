@@ -6,6 +6,7 @@ import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 
+import { FloatingDisk, OrbitCoin } from './automate.animation';
 import { EARN_TYPES } from './automate.data';
 
 const Automate: FC = () => {
@@ -39,7 +40,7 @@ const Automate: FC = () => {
           justifyContent="space-around"
           flexDirection={['column', 'row']}
         >
-          {EARN_TYPES.map((type) => (
+          {EARN_TYPES.map(({ type, coins }) => (
             <Box key={v4()} textAlign="center" mb="L" mx="L">
               <Typography
                 variant="large"
@@ -50,12 +51,35 @@ const Automate: FC = () => {
               >
                 {type}
               </Typography>
-              <Box width="100%" mx="auto">
-                <ResponsiveImage
-                  alt={type}
-                  width="100%"
-                  path={`home/${type}`}
-                />
+              <Box width="100%" mx="auto" my="XXL" position="relative">
+                <FloatingDisk
+                  delay={~~(Math.random() * 1500)}
+                  filter="drop-shadow(-2px 20px 10px #0002)"
+                >
+                  <ResponsiveImage
+                    width="100%"
+                    alt={`Automate - ${type}`}
+                    path={`home/automate-${type}-disk`}
+                  />
+                </FloatingDisk>
+                {coins?.map(({ name, x, y, top, left, width }) => (
+                  <OrbitCoin
+                    x={x}
+                    y={y}
+                    top={top}
+                    left={left}
+                    key={v4()}
+                    width={width}
+                    position="absolute"
+                    filter="drop-shadow(10px 30px 2px #0004)"
+                  >
+                    <ResponsiveImage
+                      alt={`Automate - ${name} Token ${type}`}
+                      width="100%"
+                      path={`home/automate-${type}-${name}`}
+                    />
+                  </OrbitCoin>
+                ))}
               </Box>
             </Box>
           ))}

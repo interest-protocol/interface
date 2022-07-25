@@ -31,20 +31,15 @@ const OrbitAnimation = (x: string, y: string) => keyframes`
     }
 `;
 
-const Orbit = (
-  animation: typeof OrbitAnimation,
-  x: string,
-  y: string
-): FC<BoxProps> => styled(Box)`
-  animation: ${animation(x, y)} 60s infinite 1s linear;
-  transform: scaleY(0.6) rotate(0deg) translateX(${x}) translateY(${y})
-    rotate(0deg);
+export const OrbitCoin: FC<BoxProps & { x: string; y: string }> = styled(Box)<
+  BoxProps & { x: string; y: string }
+>`
+  transform-origin: center center;
+  transform: scaleY(0.6) rotate(0deg)
+    ${({ x, y }) => `translateX(${x}) translateY(${y})`} rotate(0deg);
+  animation: ${({ x, y }) => OrbitAnimation(x, y)} 60s infinite 1s linear;
+
   img {
-    transform: scaleY(1.8);
+    transform: scaleY(1.6);
   }
 `;
-
-export const BTCOrbit = Orbit(OrbitAnimation, '20%', '-130%');
-export const VUSDCOrbit = Orbit(OrbitAnimation, '-40%', '130%');
-export const DAIxUSDCOrbit = Orbit(OrbitAnimation, '60%', '30%');
-export const SUSHIxCAKEOrbit = Orbit(OrbitAnimation, '-80%', '-30%');

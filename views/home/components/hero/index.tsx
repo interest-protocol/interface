@@ -83,7 +83,7 @@ const Hero: FC = always(
             width="100%"
             height="100%"
             alt="Interest Protocol Platform"
-            path="home/hero-base"
+            path="home/hero-platform"
           />
         </Box>
         <FloatingCoins
@@ -96,8 +96,8 @@ const Hero: FC = always(
           <ResponsiveImage
             width="100%"
             height="100%"
-            alt="Interest Protocol BNBxSUSHI"
-            path="home/hero-BNBxSUSHI"
+            alt="FTXxETH LP Token"
+            path="home/hero-FTXxETH"
           />
         </FloatingCoins>
         <FloatingCoins
@@ -110,8 +110,8 @@ const Hero: FC = always(
           <ResponsiveImage
             width="100%"
             height="100%"
-            alt="Interest Protocol DAIxUSDC"
-            path="home/hero-DAIxUSDC"
+            alt="SUSHIxETH LP Token"
+            path="home/hero-SUSHIxETH"
           />
         </FloatingCoins>
         <FloatingCoins
@@ -138,8 +138,8 @@ const Hero: FC = always(
           <ResponsiveImage
             width="100%"
             height="100%"
-            alt="Interest Protocol ETHxUSDT"
-            path="home/hero-ETHxUSDT"
+            alt="APExETH LP Token"
+            path="home/hero-APExETH"
           />
         </FloatingCoins>
         <FloatingCoins
@@ -152,22 +152,22 @@ const Hero: FC = always(
           <ResponsiveImage
             width="100%"
             height="100%"
-            path="home/hero-WBTCxETH"
-            alt="Interest Protocol WBTCxETH"
+            alt="USDCxETH LP Token"
+            path="home/hero-USDCxETH"
           />
         </FloatingCoins>
         <FloatingCoins
-          top="62%"
-          left="68%"
-          width="12%"
+          top="54%"
+          left="62%"
+          width="22%"
           position="absolute"
           delay={~~(Math.random() * 1500)}
         >
           <ResponsiveImage
             width="100%"
             height="100%"
-            path="home/hero-vUSDC"
-            alt="Interest Protocol vUSDC"
+            path="home/hero-USDCxUSDT"
+            alt="USDCxUSDT LP Token"
           />
         </FloatingCoins>
       </Box>

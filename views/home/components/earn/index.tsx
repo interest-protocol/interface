@@ -7,13 +7,7 @@ import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 
 import { LEND_AND_BORROW_TOKENS } from './earn.data';
-import {
-  BinanceOrbit,
-  BitcoinOrbit,
-  EtherOrbit,
-  TetherOrbit,
-  USDCxETHOrbit,
-} from './earn-animations';
+import { FloatingDisk, OrbitCoin } from './earn-animations';
 import LendAndBorrowTokens from './earn-tokens';
 
 const Earn: FC = () => {
@@ -46,79 +40,108 @@ const Earn: FC = () => {
           ]}
         >
           <Box
-            height="100%"
+            mx={['L', 'XXXL']}
             position="relative"
             mt={['XXXL', 'XXXL', 'XXXL', 'unset']}
-            mr={['unset', 'unset', 'unset', 'XXL']}
-            width={['100%', '100%', '100%', '50%']}
+            width={['auto', 'auto', 'auto', '50%']}
           >
-            <Box
+            <FloatingDisk
               transform="translateZ(0)"
+              delay={~~(Math.random() * 1500)}
               filter="drop-shadow(-2px 50px 10px #0002)"
             >
-              <ResponsiveImage
-                width="100%"
-                alt="Platform"
-                path="home/earn-base"
-              />
-            </Box>
-            <BitcoinOrbit
-              top="32%"
-              left="39%"
-              width="24%"
-              position="absolute"
-              filter="drop-shadow(-2px 50px 10px #0002)"
-            >
-              <ResponsiveImage
-                alt="BTC"
-                width="100%"
-                path="home/earn-bitcoin"
-              />
-            </BitcoinOrbit>
-            <BinanceOrbit
-              top="34%"
-              left="39%"
-              width="22%"
-              position="absolute"
-              filter="drop-shadow(-2px 50px 10px #0002)"
-            >
-              <ResponsiveImage alt="BNB" width="100%" path="home/earn-bnb" />
-            </BinanceOrbit>
-            <EtherOrbit
+              <ResponsiveImage alt="Disk" width="100%" path="home/earn-disk" />
+            </FloatingDisk>
+            <OrbitCoin
+              x="60%"
+              y="-180%"
               top="30%"
-              left="37%"
-              width="24%"
+              left="35%"
+              width="32%"
               position="absolute"
-              filter="drop-shadow(-2px 50px 10px #0002)"
-            >
-              <ResponsiveImage alt="ETH" width="100%" path="home/earn-eth" />
-            </EtherOrbit>
-            <TetherOrbit
-              top="32%"
-              left="40%"
-              width="20%"
-              position="absolute"
-              filter="drop-shadow(-2px 50px 10px #0002)"
+              filter="drop-shadow(10px 40px 2px #0003)"
             >
               <ResponsiveImage
-                alt="USDT"
                 width="100%"
-                path="home/earn-tether"
+                alt="LINKxBNB LP Token"
+                path="home/earn-LINKxBNB"
               />
-            </TetherOrbit>
-            <USDCxETHOrbit
+            </OrbitCoin>
+            <OrbitCoin
+              x="0%"
+              y="230%"
               top="30%"
-              width="35%"
-              left="37.5%"
+              left="35%"
+              width="32%"
               position="absolute"
-              filter="drop-shadow(-2px 50px 10px #0002)"
+              filter="drop-shadow(10px 40px 2px #0003)"
+            >
+              <ResponsiveImage
+                width="100%"
+                alt="ADAxBNB LP Token"
+                path="home/earn-ADAxBNB"
+              />
+            </OrbitCoin>
+            <OrbitCoin
+              x="-120%"
+              y="100%"
+              top="30%"
+              left="35%"
+              width="32%"
+              position="absolute"
+              filter="drop-shadow(10px 40px 2px #0003)"
+            >
+              <ResponsiveImage
+                width="100%"
+                alt="SOLxBNB LP Token"
+                path="home/earn-SolanaxBNB"
+              />
+            </OrbitCoin>
+            <OrbitCoin
+              x="-20%"
+              y="-140%"
+              top="30%"
+              left="35%"
+              width="32%"
+              position="absolute"
+              filter="drop-shadow(10px 40px 2px #0003)"
+            >
+              <ResponsiveImage
+                width="100%"
+                alt="USDCxUSDT LP Token"
+                path="home/earn-USDCxUSDT"
+              />
+            </OrbitCoin>
+            <OrbitCoin
+              x="-120%"
+              y="-80%"
+              top="30%"
+              left="35%"
+              width="32%"
+              position="absolute"
+              filter="drop-shadow(10px 40px 2px #0003)"
+            >
+              <ResponsiveImage
+                width="100%"
+                alt="DAIxETH LP Token"
+                path="home/earn-DAIxETH"
+              />
+            </OrbitCoin>
+            <OrbitCoin
+              x="50%"
+              y="40%"
+              top="30%"
+              left="35%"
+              width="32%"
+              position="absolute"
+              filter="drop-shadow(10px 20px 2px #0004)"
             >
               <ResponsiveImage
                 width="100%"
                 alt="USDC-ETH"
-                path="home/earn-usdc-eth"
+                path="home/earn-USDCxETH"
               />
-            </USDCxETHOrbit>
+            </OrbitCoin>
           </Box>
           <Box
             pr="1.5rem"

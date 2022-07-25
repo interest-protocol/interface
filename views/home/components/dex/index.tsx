@@ -5,6 +5,8 @@ import Container from '@/components/container';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 
+import { FloatingDisk, OrbitCoin } from './dex.animation';
+
 const DEX: FC = () => {
   const { push } = useRouter();
 
@@ -114,12 +116,48 @@ const DEX: FC = () => {
           >
             Stablecoin pairs
           </Typography>
-          <Box maxWidth="20rem" mx="auto" my="XXXL">
-            <ResponsiveImage
-              width="100%"
-              alt="Stablecoin"
-              path="home/stablecoin"
-            />
+          <Box position="relative" m={['XL', '6rem']}>
+            <FloatingDisk
+              transform="translateZ(0)"
+              delay={~~(Math.random() * 1500)}
+              filter="drop-shadow(-2px 50px 10px #0002)"
+            >
+              <ResponsiveImage
+                alt="Disk"
+                width="100%"
+                path="home/dex-stablecoin-disk"
+              />
+            </FloatingDisk>
+            <OrbitCoin
+              y="0%"
+              x="-120%"
+              top="30%"
+              left="35%"
+              width="32%"
+              position="absolute"
+              filter="drop-shadow(10px 40px 2px #0003)"
+            >
+              <ResponsiveImage
+                width="100%"
+                alt="DEX - USDC Token Stablecoin"
+                path="home/dex-stablecoin-USDC"
+              />
+            </OrbitCoin>
+            <OrbitCoin
+              y="0%"
+              x="120%"
+              top="30%"
+              left="35%"
+              width="32%"
+              position="absolute"
+              filter="drop-shadow(10px 40px 2px #0003)"
+            >
+              <ResponsiveImage
+                width="100%"
+                path="home/dex-stablecoin-USDT"
+                alt="DEX - USDT Token Stablecoin"
+              />
+            </OrbitCoin>
           </Box>
           <Typography
             variant="large"
@@ -209,8 +247,48 @@ const DEX: FC = () => {
           >
             Volatile pairs
           </Typography>
-          <Box maxWidth="20rem" mx="auto" my="XXXL">
-            <ResponsiveImage width="100%" alt="Volatile" path="home/volatile" />
+          <Box position="relative" m={['XL', '6rem']}>
+            <FloatingDisk
+              transform="translateZ(0)"
+              delay={~~(Math.random() * 1500)}
+              filter="drop-shadow(-2px 50px 10px #0002)"
+            >
+              <ResponsiveImage
+                alt="Disk"
+                width="100%"
+                path="home/dex-volatile-disk"
+              />
+            </FloatingDisk>
+            <OrbitCoin
+              y="0%"
+              x="-120%"
+              top="30%"
+              left="35%"
+              width="32%"
+              position="absolute"
+              filter="drop-shadow(10px 40px 2px #0003)"
+            >
+              <ResponsiveImage
+                width="100%"
+                path="home/dex-volatile-UMA"
+                alt="DEX - UMA Token Volatile"
+              />
+            </OrbitCoin>
+            <OrbitCoin
+              y="0%"
+              x="120%"
+              top="30%"
+              left="35%"
+              width="32%"
+              position="absolute"
+              filter="drop-shadow(10px 40px 2px #0003)"
+            >
+              <ResponsiveImage
+                width="100%"
+                path="home/dex-volatile-UNI"
+                alt="DEX - UNI Token Volatile"
+              />
+            </OrbitCoin>
           </Box>
           <Typography
             variant="large"
