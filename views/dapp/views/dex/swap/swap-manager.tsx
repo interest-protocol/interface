@@ -113,7 +113,10 @@ const SwapManager: FC<SwapManagerProps> = ({
           tokenIn.decimals,
           0,
           12
-        ).toString();
+        ).toLocaleString('fullwide', {
+          useGrouping: false,
+          maximumSignificantDigits: 6,
+        });
         setSwapBase(data.base);
         setValue('tokenIn.value', value);
         setHasNoMarket(false);
@@ -205,7 +208,10 @@ const SwapManager: FC<SwapManagerProps> = ({
           tokenOut.decimals,
           0,
           12
-        ).toString();
+        ).toLocaleString('fullwide', {
+          useGrouping: false,
+          maximumSignificantDigits: 6,
+        });
         setSwapBase(data.base);
         setHasNoMarket(false);
         setValue('tokenOut.value', value);

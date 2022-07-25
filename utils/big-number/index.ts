@@ -29,7 +29,7 @@ export const safeToBigNumber = (
   significant = 6
 ): BigNumber =>
   IntMath.toBigNumber(
-    x > MAX_NUMBER_INPUT_VALUE ? MAX_NUMBER_INPUT_VALUE.toString() : x,
+    +x > MAX_NUMBER_INPUT_VALUE ? MAX_NUMBER_INPUT_VALUE.toString() : x,
     decimals,
     significant
   );

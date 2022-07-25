@@ -7,7 +7,7 @@ export * from './use-get-farms-summary';
 export * from './use-get-mail-market-data';
 export * from './use-get-mail-market-metadata';
 export * from './use-get-many-mail-summary-data';
-export * from './use-get-pair-metadata';
+export * from './use-get-pair-data';
 export * from './use-get-signer';
 export * from './use-get-user-balances';
 export * from './use-get-user-balances-allowances';

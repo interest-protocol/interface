@@ -6,11 +6,7 @@ import { Box, Typography } from '@/elements';
 import { LiquidityDetailsCardProps } from '../../dex-pool-details.types';
 import LiquidityDetailsCardLine from './liquidity-details-card-line';
 
-const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
-  title,
-  lines,
-  balance,
-}) => (
+const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({ lines }) => (
   <Box
     p="L"
     width="100%"
@@ -26,16 +22,7 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
       variant="normal"
       textTransform="uppercase"
     >
-      {title}
-    </Typography>
-    <Typography
-      my="L"
-      width="100%"
-      fontSize="XL"
-      variant="normal"
-      textTransform="uppercase"
-    >
-      {balance}
+      Liquidity
     </Typography>
     <Box
       py="M"

@@ -47,7 +47,7 @@ const InputBalance: FC<InputBalanceProps> = ({
               isNaN(+value[value.length - 1]) && value[value.length - 1] !== '.'
                 ? value.slice(0, value.length - 1)
                 : value,
-              +max!
+              max ? +max : undefined
             )
           );
 

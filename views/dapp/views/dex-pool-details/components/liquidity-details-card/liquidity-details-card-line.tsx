@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
+import { replaceWrappedNativeTokenWithNativeTokenSymbol } from '@/utils';
 
 import { LiquidityDetailsCardLineProps } from '../../dex-pool-details.types';
 
@@ -11,7 +12,8 @@ const LiquidityDetailsCardLine: FC<LiquidityDetailsCardLineProps> = ({
   symbol,
 }) => {
   const TokenSVG =
-    TOKENS_SVG_MAP[symbol] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+    TOKENS_SVG_MAP[replaceWrappedNativeTokenWithNativeTokenSymbol(symbol)] ??
+    TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
   return (
     <Box display="flex" justifyContent="space-between" my="M">

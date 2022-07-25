@@ -80,27 +80,27 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
     }
   };
 
-  if (quoteRemoveLiquidityError)
-    return (
-      <Box
-        px="L"
-        py="XL"
-        width="100%"
-        display="flex"
-        bg="foreground"
-        borderRadius="M"
-        alignItems="center"
-        flexDirection="column"
-        justifyContent="center"
-      >
-        <Box color="error">
-          <TimesSVG width="5rem" />
-        </Box>
-        <Typography variant="normal">
-          ERROR! Fail to remove liquidity!
-        </Typography>
-      </Box>
-    );
+  // if (quoteRemoveLiquidityError)
+  //   return (
+  //     <Box
+  //       px="L"
+  //       py="XL"
+  //       width="100%"
+  //       display="flex"
+  //       bg="foreground"
+  //       borderRadius="M"
+  //       alignItems="center"
+  //       flexDirection="column"
+  //       justifyContent="center"
+  //     >
+  //       <Box color="error">
+  //         <TimesSVG width="5rem" />
+  //       </Box>
+  //       <Typography variant="normal">
+  //         ERROR! Fail to remove liquidity!
+  //       </Typography>
+  //     </Box>
+  //   );
 
   return (
     <Box bg="foreground" p="L" borderRadius="M" width="100%">

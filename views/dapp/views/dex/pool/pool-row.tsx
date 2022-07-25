@@ -40,7 +40,8 @@ const PoolRow: FC<PoolRowProps> = ({ symbol0, symbol1, pairAddress }) => {
               <FirstIcon width="1.2rem" />
               <SecondIcon width="1.2rem" />
               <Typography mx="M" as="span" variant="normal">
-                {symbol0} / {symbol1}
+                {replaceWrappedNativeTokenWithNativeTokenSymbol(symbol0)} /{' '}
+                {replaceWrappedNativeTokenWithNativeTokenSymbol(symbol1)}
               </Typography>
             </Box>
           </Box>

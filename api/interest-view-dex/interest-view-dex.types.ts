@@ -20,7 +20,8 @@ export type GetInterestDEXViewERC20Metadata = (
 
 export type GetInterestDEXViewPairData = (
   chainId: number,
-  pairAddress: string
+  pairAddress: string,
+  account: string
 ) => Promise<
   [PairMetadataStructOutput, BigNumber[], BigNumber[]] & {
     pairMetadata: PairMetadataStructOutput;

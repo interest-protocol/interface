@@ -107,7 +107,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
                   value[value.length - 1] !== '.'
                   ? value.slice(0, value.length - 1)
                   : value,
-                IntMath.toNumber(tokenBalance)
+                IntMath.toNumber(tokenBalance, decimals)
               )
             );
           },

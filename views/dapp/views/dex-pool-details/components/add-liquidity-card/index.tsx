@@ -1,43 +1,98 @@
-import // useGetSigner,
-'@/hooks';
+import { BigNumber } from 'ethers';
+import { identity, o, prop } from 'ramda';
+import { FC, useState } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
+import { v4 } from 'uuid';
 
-import {
-  FC,
-  // useState
-} from 'react';
-import { useForm } from 'react-hook-form';
-
+import { addAllowance } from '@/api';
 import { Box, Button, Typography } from '@/elements';
+import { useChainId, useGetSigner } from '@/hooks';
+import { IntMath } from '@/sdk';
 import { TimesSVG } from '@/svg';
+import {
+  getInterestDexRouterAddress,
+  showToast,
+  showTXSuccessToast,
+  throwError,
+  throwIfInvalidSigner,
+} from '@/utils';
 import { WalletGuardButton } from '@/views/dapp/components';
 
+import AddLiquidityManager from './add-liquidity-manager';
+import BalanceError from './balance-error';
 import InputBalance from './input-balance';
 import {
   AddLiquidityCardProps,
   IAddLiquidityForm,
+  IToken,
 } from './liquidity-form.types';
 
-const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
-  tokens,
-  balances,
-  // isStable,
-  // addresses,
-  // lpBalance,
-}) => {
-  // const [, setLoading] = useState(false);
+const filterFn = o<IToken, BigNumber, boolean>(
+  (x: BigNumber) => x.isZero(),
+  prop('allowance')
+);
 
-  const { register, setValue } = useForm<IAddLiquidityForm>({
+const INPUT_NAMES = ['token0Amount', 'token1Amount'] as Array<
+  Exclude<keyof IAddLiquidityForm, 'error' | 'locked'>
+>;
+
+const AddLiquidityCard: FC<AddLiquidityCardProps> = ({ tokens, isStable }) => {
+  const [loading, setLoading] = useState(false);
+  const [isFetchingQuote, setIsFetchingQuote] = useState(false);
+
+  const { register, setValue, control } = useForm<IAddLiquidityForm>({
     defaultValues: {
-      tokenInAmount: '0.0',
-      tokenOutAmount: '0.0',
+      token0Amount: '0.0',
+      token1Amount: '0.0',
+      error: '',
+      locked: false,
     },
   });
-  // const { account, signer } = useGetSigner();
+
+  const { account, signer } = useGetSigner();
+  const chainId = useChainId();
+
+  const needsAllowance = tokens
+    .map(({ allowance }) => allowance.isZero())
+    .some(identity);
+
+  const approveToken = async (token: string) => {
+    try {
+      setLoading(true);
+
+      const { validId, validSigner } = throwIfInvalidSigner(
+        [account],
+        chainId,
+        signer
+      );
+
+      const tx = await addAllowance(
+        validId,
+        validSigner,
+        account,
+        token,
+        getInterestDexRouterAddress(validId)
+      );
+
+      await showTXSuccessToast(tx, validId);
+    } catch {
+      throwError(`Failed to approve ${tokens[0].symbol}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleApproveToken = (token: string, symbol: string) =>
+    showToast(approveToken(token), {
+      loading: `${symbol}: Giving allowance...`,
+      success: 'Success!',
+      error: prop('message'),
+    });
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const handleAddLiquidity = async () => {};
 
-  const error = false;
+  const error = useWatch({ control, name: 'error' });
 
   if (error)
     return (
@@ -55,7 +110,9 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
         <Box color="error">
           <TimesSVG width="5rem" />
         </Box>
-        <Typography variant="normal">ERROR! Fail to add liquidity!</Typography>
+        <Typography variant="normal">
+          ERROR! Fail to quote add liquidity!
+        </Typography>
       </Box>
     );
 
@@ -71,55 +128,83 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
           Add Liquidity
         </Typography>
       </Box>
-      <InputBalance
-        max={balances[1]}
-        register={register}
-        setValue={setValue}
-        name="tokenInAmount"
-        currencyPrefix={
-          <Box display="flex" width="5rem">
-            {tokens[0].Icon}
-            <Typography variant="normal" ml="M">
-              {tokens[0].symbol}
-            </Typography>
-          </Box>
-        }
-      />
-      <InputBalance
-        max={balances[1]}
-        register={register}
-        setValue={setValue}
-        name="tokenOutAmount"
-        currencyPrefix={
-          <Box display="flex" width="5rem">
-            {tokens[1].Icon}
-            <Typography variant="normal" ml="M">
-              {tokens[1].symbol}
-            </Typography>
-          </Box>
-        }
-      />
+      {tokens.map(({ balance, decimals, allowance, Icon, symbol }, index) => (
+        <InputBalance
+          key={v4()}
+          max={IntMath.toNumber(balance, decimals)}
+          register={register}
+          setValue={setValue}
+          name={INPUT_NAMES[index]}
+          disabled={allowance.isZero()}
+          currencyPrefix={
+            <Box display="flex" width="5rem">
+              {Icon}
+              <Typography variant="normal" ml="M">
+                {symbol}
+              </Typography>
+            </Box>
+          }
+        />
+      ))}
+      {tokens.map(({ symbol, decimals, balance }, index) => (
+        <BalanceError
+          key={v4()}
+          name={INPUT_NAMES[index]}
+          balance={balance}
+          control={control}
+          decimals={decimals}
+          symbol={symbol}
+        />
+      ))}
       <WalletGuardButton>
         <Box display="grid" gridColumnGap="1rem" gridTemplateColumns="1fr 1fr">
-          <Button
-            width="100%"
-            variant="primary"
-            bg="bottomBackground"
-            hover={{ bg: 'disabled' }}
-          >
-            Reset
-          </Button>
-          <Button
-            bg="accent"
-            width="100%"
-            variant="primary"
-            onClick={handleAddLiquidity}
-            hover={{ bg: 'accentActive' }}
-          >
-            Add
-          </Button>
+          {tokens.filter(filterFn).map(({ symbol, address }) => (
+            <Button
+              key={v4()}
+              width="100%"
+              disabled={loading}
+              variant="primary"
+              bg="bottomBackground"
+              hover={{ bg: 'accentActive' }}
+              onClick={() => handleApproveToken(address, symbol)}
+            >
+              Approve {symbol}
+            </Button>
+          ))}
+          {!needsAllowance && (
+            <>
+              <Button
+                width="100%"
+                variant="primary"
+                bg="bottomBackground"
+                disabled={loading}
+                hover={{ bg: 'disabled' }}
+              >
+                Reset
+              </Button>
+              <Button
+                bg="accent"
+                width="100%"
+                variant="primary"
+                disabled={loading}
+                onClick={handleAddLiquidity}
+                hover={{ bg: loading ? 'disabled' : 'accentActive' }}
+              >
+                Add
+              </Button>
+            </>
+          )}
         </Box>
       </WalletGuardButton>
+      <AddLiquidityManager
+        chainId={chainId}
+        control={control}
+        setValue={setValue}
+        isFetchingQuote={isFetchingQuote}
+        setIsFetchingQuote={setIsFetchingQuote}
+        tokens={tokens}
+        isStable={isStable}
+      />
     </Box>
   );
 };

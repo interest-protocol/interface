@@ -33,12 +33,13 @@ export const getInterestDEXViewERC20Metadata: GetInterestDEXViewERC20Metadata =
 
 export const getInterestDEXViewPairData: GetInterestDEXViewPairData = (
   chainId,
-  pairAddress
+  pairAddress,
+  account
 ) => {
   const contract = getInterestViewDexContract(
     chainId,
     getStaticWeb3Provider(chainId)
   );
 
-  return contract.getPairData(pairAddress);
+  return contract.getPairData(pairAddress, account);
 };

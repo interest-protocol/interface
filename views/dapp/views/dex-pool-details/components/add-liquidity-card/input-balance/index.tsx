@@ -19,8 +19,20 @@ const InputBalance: FC<InputBalanceProps> = ({
       type="string"
       placeholder={'0'}
       {...register(name, {
-        onChange: (v: ChangeEvent<HTMLInputElement>) =>
-          setValue(name, parseToSafeStringNumber(v.target.value, max)),
+        onChange: (v: ChangeEvent<HTMLInputElement>) => {
+          const value = v.target.value;
+
+          setValue?.(
+            name,
+            parseToSafeStringNumber(
+              isNaN(+value[value.length - 1]) && value[value.length - 1] !== '.'
+                ? value.slice(0, value.length - 1)
+                : value,
+              max ? +max : undefined
+            )
+          );
+          setValue('locked', false);
+        },
       })}
       max={max}
       shieldProps={{
@@ -52,6 +64,7 @@ const InputBalance: FC<InputBalanceProps> = ({
               if (disabled) return;
               if (!setValue) return;
               setValue(name, max.toString());
+              setValue('locked', false);
             }}
           >
             max
