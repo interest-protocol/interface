@@ -1,8 +1,10 @@
 import {
-  BinanceSVG,
-  BitcoinSVG,
-  CompoundEtherSVG,
+  ADASVG,
+  BinanceCoinSVG,
+  ChainLinkSVG,
+  DaiSVG,
   EtherGraySVG,
+  SolanaSVG,
   TetherSVG,
   USDCoinSVG,
 } from '@/svg';
@@ -10,10 +12,10 @@ import {
 import { TTokenIcons } from './earn.types';
 
 export const LEND_AND_BORROW_TOKENS: ReadonlyArray<TTokenIcons> = [
-  [TetherSVG],
-  [BitcoinSVG],
-  [EtherGraySVG],
-  [BinanceSVG],
-  [CompoundEtherSVG],
+  [ChainLinkSVG, BinanceCoinSVG],
+  [USDCoinSVG, TetherSVG],
   [USDCoinSVG, EtherGraySVG],
+  [DaiSVG, EtherGraySVG],
+  [SolanaSVG, BinanceCoinSVG],
+  [ADASVG, BinanceCoinSVG],
 ];
