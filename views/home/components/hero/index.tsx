@@ -96,8 +96,8 @@ const Hero: FC = always(
           <ResponsiveImage
             width="100%"
             height="100%"
-            alt="FTXxETH LP Token"
-            path="home/hero-FTXxETH"
+            alt="ADAxBNB LP Token"
+            path="home/hero-ADAxBNB"
           />
         </FloatingCoins>
         <FloatingCoins
@@ -110,8 +110,8 @@ const Hero: FC = always(
           <ResponsiveImage
             width="100%"
             height="100%"
-            alt="SUSHIxETH LP Token"
-            path="home/hero-SUSHIxETH"
+            alt="SolanaxBNB LP Token"
+            path="home/hero-SolanaxBNB"
           />
         </FloatingCoins>
         <FloatingCoins

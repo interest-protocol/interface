@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
-import { animated, config, useSpring } from 'react-spring';
+import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
 
 import { Container, SocialMediaCard } from '@/components';
@@ -19,11 +19,9 @@ const Header: FC<HeaderProps> = ({ empty }) => {
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const [mobileMenu, setMobileMenu] = useState(false);
   const fadeStyles = useSpring({
-    config: { ...config.stiff },
-    from: { maxHeight: '0rem', minHeight: '0rem' },
+    from: { maxHeight: '0rem' },
     to: {
-      minHeight: mobileMenu ? '10rem' : '0rem',
-      maxHeight: mobileMenu ? '30rem' : '0rem',
+      maxHeight: mobileMenu ? '100vh' : '0vh',
     },
   });
 
@@ -129,7 +127,11 @@ const Header: FC<HeaderProps> = ({ empty }) => {
           </>
         )}
       </Container>
-      <AnimatedBox overflow="hidden" style={fadeStyles}>
+      <AnimatedBox
+        overflow="hidden"
+        style={fadeStyles}
+        display={['block', 'none', 'none']}
+      >
         <MenuList />
       </AnimatedBox>
     </Box>

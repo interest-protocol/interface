@@ -276,7 +276,7 @@ const Borrow: FC = () => {
                   <ResponsiveImage
                     width="100%"
                     alt="Borrow - Borrow Dinero"
-                    path="home/borrow-Dinero"
+                    path="home/borrow-dinero"
                   />
                 </FloatingCoins>
                 <Typography variant="normal" ml="L">

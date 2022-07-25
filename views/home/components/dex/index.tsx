@@ -103,8 +103,12 @@ const DEX: FC = () => {
           width="100%"
           pb="7.75rem"
           dividedBy={2}
+          display="flex"
+          alignItems="center"
           height="fit-content"
           color="textInverted"
+          flexDirection="column"
+          justifyContent="center"
           pt={['2.625rem', '5.188rem']}
           mt={['none', 'none', 'none', '-10rem']}
         >
@@ -116,7 +120,7 @@ const DEX: FC = () => {
           >
             Stablecoin pairs
           </Typography>
-          <Box position="relative" m={['XL', '6rem']}>
+          <Box position="relative" m={['XL', '6rem']} maxWidth="20rem">
             <FloatingDisk
               transform="translateZ(0)"
               delay={~~(Math.random() * 1500)}
@@ -234,6 +238,10 @@ const DEX: FC = () => {
           side="right"
           width="100%"
           dividedBy={2}
+          display="flex"
+          alignItems="center"
+          flexDirection="column"
+          justifyContent="center"
           mb={['NONE', '-10rem']}
           pb={['unset', '7.75rem']}
           bg="alternativeForeground"
@@ -247,7 +255,7 @@ const DEX: FC = () => {
           >
             Volatile pairs
           </Typography>
-          <Box position="relative" m={['XL', '6rem']}>
+          <Box position="relative" m={['XL', '6rem']} maxWidth="20rem">
             <FloatingDisk
               transform="translateZ(0)"
               delay={~~(Math.random() * 1500)}
