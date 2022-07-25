@@ -13,10 +13,10 @@ const LendAndBorrowTokens: FC<LendAndBorrowTokensProps> = ({ icons }) => {
       mx="0.313rem"
       mb={['0.625rem', '0.625rem', 'unset', 'unset']}
     >
-      <Box as="span" width="2.4rem">
+      <Box as="span" width="2.4rem" position="relative" zIndex={1}>
         <Icon width="2.4rem" />
       </Box>
-      <Box as="span" width="2.4rem" ml="-1rem">
+      <Box as="span" width="2.4rem" ml="-0.8rem" position="relative">
         <PairIcon width="2.4rem" />
       </Box>
     </Box>
