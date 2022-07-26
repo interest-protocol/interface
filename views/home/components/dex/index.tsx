@@ -74,14 +74,12 @@ const DEX: FC = () => {
             Enjoy the lowest slippage and trading fees
           </Typography>
           <Button
-            disabled
             width="145px"
-            bg="disabled"
+            effect="hover"
             variant="primary"
-            cursor="not-allowed"
             onClick={() => push(Routes[RoutesEnum.DApp])}
           >
-            SOON
+            Swap
           </Button>
         </Box>
       </Container>
