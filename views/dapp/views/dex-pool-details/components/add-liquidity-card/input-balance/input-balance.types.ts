@@ -4,7 +4,6 @@ import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { IAddLiquidityForm } from '../liquidity-form.types';
 
 export interface InputBalanceProps {
-  max: number;
   balance: number;
   disabled?: boolean;
   currencyPrefix: ReactNode;

@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { useQuoteRemoveLiquidity } from '@/hooks';
@@ -6,6 +6,7 @@ import { useDebounce } from '@/hooks';
 import { IntMath } from '@/sdk';
 import { processWrappedNativeTokenAddress, stringToBigNumber } from '@/utils';
 
+import LiquidityFormMessage from '../liquidity-form-message';
 import { RemoveLiquidityManagerProps } from './remove-liquidity-card.types';
 
 const RemoveLiquidityManager: FC<RemoveLiquidityManagerProps> = ({
@@ -20,6 +21,7 @@ const RemoveLiquidityManager: FC<RemoveLiquidityManagerProps> = ({
 }) => {
   const amount = useWatch({ control, name: 'lpAmount' });
 
+  const [lastDebouncedAmount, setLastDebouncedAmount] = useState('0.0');
   const debouncedAmount = useDebounce(amount, 1500);
 
   const { error, data } = useQuoteRemoveLiquidity(
@@ -28,6 +30,15 @@ const RemoveLiquidityManager: FC<RemoveLiquidityManagerProps> = ({
     isStable,
     stringToBigNumber(debouncedAmount, 18)
   );
+
+  useEffect(() => {
+    if (error) setValue('loading', false);
+    if (+debouncedAmount === 0) setValue('loading', false);
+    if (+debouncedAmount !== +lastDebouncedAmount) {
+      setValue('loading', true);
+      setLastDebouncedAmount(debouncedAmount);
+    }
+  }, [debouncedAmount, error]);
 
   useEffect(() => {
     if (data) {
@@ -51,11 +62,12 @@ const RemoveLiquidityManager: FC<RemoveLiquidityManagerProps> = ({
           }
         )
       );
+      setValue('loading', false);
     }
   }, [data]);
 
   return error && +debouncedAmount != 0 ? (
-    <div>error quoting liquidity</div>
+    <LiquidityFormMessage message="error quoting liquidity" color="error" />
   ) : null;
 };
 

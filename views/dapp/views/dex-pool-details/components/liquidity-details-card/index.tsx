@@ -14,7 +14,6 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({ lines }) => (
     bg="foreground"
     borderRadius="M"
     flexDirection="column"
-    justifyContent="space-between"
   >
     <Typography
       width="100%"
@@ -25,9 +24,9 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({ lines }) => (
       Liquidity
     </Typography>
     <Box
-      mt="L"
       py="M"
       px="L"
+      mt="XL"
       borderRadius="L"
       color="textSecondary"
       bg="bottomBackground"

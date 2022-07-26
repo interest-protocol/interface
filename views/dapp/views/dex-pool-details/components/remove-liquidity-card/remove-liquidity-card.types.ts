@@ -18,13 +18,13 @@ export interface RemoveLiquidityCardProps {
 }
 
 export interface IRemoveLiquidityForm {
+  loading: boolean;
   lpAmount: string;
   token0Amount: string;
   token1Amount: string;
 }
 
 export interface InputBalanceProps {
-  max: number;
   balance: number;
   disabled?: boolean;
   currencyPrefix: ReactNode;

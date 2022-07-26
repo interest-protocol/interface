@@ -6,7 +6,6 @@ import { formatMoney, parseToSafeStringNumber } from '@/utils';
 import { InputBalanceProps } from './input-balance.types';
 
 const InputBalance: FC<InputBalanceProps> = ({
-  max,
   name,
   balance,
   register,
@@ -23,7 +22,7 @@ const InputBalance: FC<InputBalanceProps> = ({
   return (
     <Box display="flex" flexDirection="column-reverse" alignItems="flex-end">
       <Input
-        max={max}
+        max={balance}
         type="text"
         onFocus={onFocus}
         placeholder="0.0"
@@ -39,7 +38,7 @@ const InputBalance: FC<InputBalanceProps> = ({
                   value[value.length - 1] !== '.'
                   ? value.slice(0, value.length - 1)
                   : value,
-                max ? +max : undefined
+                balance ? +balance : undefined
               )
             );
             setValue('locked', false);
@@ -74,7 +73,7 @@ const InputBalance: FC<InputBalanceProps> = ({
               onClick={() => {
                 if (disabled) return;
                 if (!setValue) return;
-                setValue(name, max.toString());
+                setValue(name, balance.toString());
                 setValue('locked', false);
               }}
             >

@@ -1,6 +1,6 @@
 import { prop } from 'ramda';
-import { FC, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FC } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 
 import { addAllowance, removeLiquidity } from '@/api';
 import { Box, Button, Typography } from '@/elements';
@@ -36,17 +36,21 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
   lpBalance,
   pairAddress,
 }) => {
-  const [loading, setLoading] = useState(false);
+  const { account, signer, chainId } = useGetSigner();
 
   const { register, setValue, control, getValues } =
     useForm<IRemoveLiquidityForm>({
       defaultValues: {
+        loading: false,
         lpAmount: '0.0',
         token0Amount: '0.0',
         token1Amount: '0.0',
       },
     });
-  const { account, signer, chainId } = useGetSigner();
+
+  const loading = useWatch({ control, name: 'loading' });
+
+  const setLoading = (value: boolean) => setValue('loading', value);
 
   const approveToken = async () => {
     try {
@@ -151,9 +155,8 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
         name="lpAmount"
         register={register}
         setValue={setValue}
-        disabled={lpAllowance.isZero()}
-        max={IntMath.toNumber(lpBalance)}
         balance={IntMath.toNumber(lpBalance)}
+        disabled={lpAllowance.isZero() || lpBalance.isZero() || loading}
         currencyPrefix={
           <Box display="flex" width="5rem">
             {tokens[0].Icon}
