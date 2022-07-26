@@ -1,4 +1,5 @@
 import { BigNumber } from 'ethers';
+import { curryN } from 'ramda';
 
 import { IntMath, MAX_NUMBER_INPUT_VALUE } from '@/sdk';
 
@@ -41,3 +42,15 @@ export const adjustDecimals = (x: BigNumber, decimals: number, k = 18) => {
 
   return x.div(BigNumber.from(10).pow(decimals - k));
 };
+
+export const getBNPercent = curryN(
+  3,
+  (percent: number, x: BigNumber, decimals: number) => {
+    const multiplier = BigNumber.from(100 - percent).mul(
+      BigNumber.from(10).pow(decimals - 2)
+    );
+    const one = BigNumber.from(10).pow(decimals);
+
+    return x.mul(multiplier).div(one);
+  }
+);
