@@ -8,5 +8,6 @@ export interface LiquidityDetailsCardLineProps {
 }
 
 export interface LiquidityDetailsCardProps {
+  isStable: boolean;
   lines: ReadonlyArray<LiquidityDetailsCardLineProps>;
 }

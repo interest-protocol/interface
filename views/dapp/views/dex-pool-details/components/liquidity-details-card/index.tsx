@@ -6,7 +6,10 @@ import { Box, Typography } from '@/elements';
 import { LiquidityDetailsCardProps } from '../../dex-pool-details.types';
 import LiquidityDetailsCardLine from './liquidity-details-card-line';
 
-const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({ lines }) => (
+const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
+  lines,
+  isStable,
+}) => (
   <Box
     p="L"
     width="100%"
@@ -26,7 +29,7 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({ lines }) => (
     <Box
       py="M"
       px="L"
-      mt="XL"
+      my="XL"
       borderRadius="L"
       color="textSecondary"
       bg="bottomBackground"
@@ -39,6 +42,30 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({ lines }) => (
           symbol={line.symbol}
         />
       ))}
+    </Box>
+    <Box>
+      <Typography variant="normal" lineHeight="2rem">
+        Type:{' '}
+        <Typography
+          as="strong"
+          variant="normal"
+          fontWeight="600"
+          fontSize="inherit"
+        >
+          {isStable ? 'Stable' : 'Volatile'}
+        </Typography>
+      </Typography>
+      <Typography variant="normal" lineHeight="2rem">
+        Swap Fee:{' '}
+        <Typography
+          as="strong"
+          variant="normal"
+          fontWeight="600"
+          fontSize="inherit"
+        >
+          {isStable ? '0.05' : '0.3'}%
+        </Typography>
+      </Typography>
     </Box>
   </Box>
 );

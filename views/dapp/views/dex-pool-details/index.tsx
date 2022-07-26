@@ -104,6 +104,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
         gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
       >
         <LiquidityDetailsCard
+          isStable={processedData.isStable}
           lines={[
             {
               symbol: processedData.token0Metadata.symbol,
