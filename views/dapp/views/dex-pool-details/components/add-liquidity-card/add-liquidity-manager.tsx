@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers';
 import { ethers } from 'ethers';
 import { FC, useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
@@ -7,17 +6,13 @@ import { quoteAddLiquidity } from '@/api';
 import { WRAPPED_NATIVE_TOKEN } from '@/constants';
 import { useDebounce } from '@/hooks';
 import { IntMath, ZERO_ADDRESS } from '@/sdk';
-import { isSameAddressZ, stringToBigNumber } from '@/utils';
+import {
+  isSameAddressZ,
+  processWrappedNativeTokenAddress,
+  stringToBigNumber,
+} from '@/utils';
 
 import { AddLiquidityManagerProps } from './liquidity-form.types';
-
-const processAddress = (chainId: number, token: string) => {
-  const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId];
-
-  return isSameAddressZ(token, ZERO_ADDRESS)
-    ? wrappedNativeToken.address
-    : token;
-};
 
 const processDecimals = (chainId: number, token: string, decimals: number) => {
   const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId];
@@ -52,8 +47,8 @@ const AddLiquidityManager: FC<AddLiquidityManagerProps> = ({
     setIsFetchingQuote(true);
     quoteAddLiquidity(
       chainId,
-      processAddress(chainId, tokens[0].address),
-      processAddress(chainId, tokens[1].address),
+      processWrappedNativeTokenAddress(chainId, tokens[0].address),
+      processWrappedNativeTokenAddress(chainId, tokens[1].address),
       isStable,
       stringToBigNumber(debouncedAmount0, tokens[0].decimals),
       ethers.constants.MaxUint256
@@ -101,8 +96,8 @@ const AddLiquidityManager: FC<AddLiquidityManagerProps> = ({
 
     quoteAddLiquidity(
       chainId,
-      processAddress(chainId, tokens[1].address),
-      processAddress(chainId, tokens[0].address),
+      processWrappedNativeTokenAddress(chainId, tokens[1].address),
+      processWrappedNativeTokenAddress(chainId, tokens[0].address),
       isStable,
       stringToBigNumber(
         debouncedAmount1,

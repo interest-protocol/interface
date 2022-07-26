@@ -137,12 +137,3 @@ export const processPairData = (
     pairExists: true,
   };
 };
-
-export const processQuoteRemoveLiquidityData = (
-  data:
-    | ([BigNumber, BigNumber] & { amountA: BigNumber; amountB: BigNumber })
-    | undefined
-) =>
-  data
-    ? { loading: false, amountA: data.amountA, amountB: data.amountB }
-    : { loading: true, amountA: ZERO_BIG_NUMBER, amountB: ZERO_BIG_NUMBER };

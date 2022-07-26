@@ -1,22 +1,51 @@
 import { BigNumber } from 'ethers';
+import { ReactNode } from 'react';
+import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
-import { ERC20Metadata } from '@/interface';
-
-import { IToken } from '../add-liquidity-card/liquidity-form.types';
+interface TokenData {
+  symbol: string;
+  Icon: ReactNode;
+  decimals: number;
+  address: string;
+}
 
 export interface RemoveLiquidityCardProps {
   isStable: boolean;
+  tokens: [TokenData, TokenData];
+  lpBalance: BigNumber;
+  lpAllowance: BigNumber;
   pairAddress: string;
-  tokens: [IToken, IToken];
-  addresses: [string, string];
-  token0Metadata: ERC20Metadata<BigNumber>;
-  token1Metadata: ERC20Metadata<BigNumber>;
-  lpBalance: {
-    allowance: BigNumber;
-    balance: BigNumber;
-  };
 }
 
 export interface IRemoveLiquidityForm {
   lpAmount: string;
+  token0Amount: string;
+  token1Amount: string;
+}
+
+export interface InputBalanceProps {
+  max: number;
+  disabled?: boolean;
+  currencyPrefix: ReactNode;
+  name: keyof IRemoveLiquidityForm;
+  register: UseFormRegister<IRemoveLiquidityForm>;
+  setValue: UseFormSetValue<IRemoveLiquidityForm>;
+}
+
+export interface TokenAmountProps {
+  Icon: TokenData['Icon'];
+  control: Control<IRemoveLiquidityForm>;
+  symbol: string;
+  name: Exclude<keyof IRemoveLiquidityForm, 'lpAmount'>;
+}
+
+export interface RemoveLiquidityManagerProps {
+  setValue: UseFormSetValue<IRemoveLiquidityForm>;
+  control: Control<IRemoveLiquidityForm>;
+  isStable: boolean;
+  token0Address: string;
+  token1Address: string;
+  token0Decimals: number;
+  token1Decimals: number;
+  chainId: number;
 }

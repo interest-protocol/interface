@@ -20,9 +20,7 @@ export interface IToken {
 
 export interface AddLiquidityCardProps {
   isStable: boolean;
-  pairAddress: string;
   tokens: [IToken, IToken];
-  addresses: [string, string];
 }
 
 export interface AddLiquidityManagerProps {

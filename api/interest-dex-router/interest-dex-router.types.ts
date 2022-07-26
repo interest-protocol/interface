@@ -48,7 +48,7 @@ export type RemoveLiquidity = (
   minAmountA: BigNumber,
   minAmountB: BigNumber,
   to: string,
-  deadline: string
+  deadline: number
 ) => Promise<ContractTransaction>;
 
 export type AddERC20Liquidity = (

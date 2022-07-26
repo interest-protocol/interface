@@ -126,9 +126,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
           ]}
         />
         <AddLiquidityCard
-          pairAddress={pairAddress}
           isStable={processedData.isStable}
-          addresses={[processedData.token0, processedData.token1]}
           tokens={[
             {
               symbol: processedData.token0Metadata.symbol,
@@ -148,27 +146,26 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
             },
           ]}
         />
-        {/*<RemoveLiquidityCard*/}
-        {/*  pairAddress={pairAddress}*/}
-        {/*  lpBalance={{*/}
-        {/*    allowance: ZERO_BIG_NUMBER,*/}
-        {/*    balance: ZERO_BIG_NUMBER,*/}
-        {/*  }}*/}
-        {/*  isStable={processedData.isStable}*/}
-        {/*  token0Metadata={processedData.token0Metadata}*/}
-        {/*  token1Metadata={processedData.token1Metadata}*/}
-        {/*  addresses={[processedData.token0, processedData.token1]}*/}
-        {/*  tokens={[*/}
-        {/*    {*/}
-        {/*      symbol: processedData.token0Metadata.symbol,*/}
-        {/*      Icon: <FirstIcon width="1rem" key={v4()} />,*/}
-        {/*    },*/}
-        {/*    {*/}
-        {/*      symbol: processedData.token1Metadata.symbol,*/}
-        {/*      Icon: <SecondIcon width="1rem" key={v4()} />,*/}
-        {/*    },*/}
-        {/*  ]}*/}
-        {/*/>*/}
+        <RemoveLiquidityCard
+          pairAddress={pairAddress}
+          isStable={processedData.isStable}
+          lpAllowance={processedData.lpAllowance}
+          lpBalance={processedData.lpBalance}
+          tokens={[
+            {
+              symbol: processedData.token0Metadata.symbol,
+              Icon: <FirstIcon width="1rem" key={v4()} />,
+              address: processedData.token0,
+              decimals: processedData.token0Metadata.decimals.toNumber(),
+            },
+            {
+              symbol: processedData.token1Metadata.symbol,
+              Icon: <SecondIcon width="1rem" key={v4()} />,
+              address: processedData.token1,
+              decimals: processedData.token1Metadata.decimals.toNumber(),
+            },
+          ]}
+        />
       </Box>
     </Container>
   );

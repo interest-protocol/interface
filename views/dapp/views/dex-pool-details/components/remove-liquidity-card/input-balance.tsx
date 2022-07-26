@@ -3,7 +3,7 @@ import { ChangeEvent, FC } from 'react';
 import { Box, Button, Input } from '@/elements';
 import { parseToSafeStringNumber } from '@/utils';
 
-import { InputBalanceProps } from './input-balance.types';
+import { InputBalanceProps } from './remove-liquidity-card.types';
 
 const InputBalance: FC<InputBalanceProps> = ({
   max,
@@ -17,10 +17,19 @@ const InputBalance: FC<InputBalanceProps> = ({
     <Input
       disabled={disabled}
       type="string"
-      placeholder={'0'}
       {...register(name, {
-        onChange: (v: ChangeEvent<HTMLInputElement>) =>
-          setValue(name, parseToSafeStringNumber(v.target.value, max)),
+        onChange: (v: ChangeEvent<HTMLInputElement>) => {
+          const value = v.target.value;
+          setValue?.(
+            name,
+            parseToSafeStringNumber(
+              isNaN(+value[value.length - 1]) && value[value.length - 1] !== '.'
+                ? value.slice(0, value.length - 1)
+                : value,
+              max ? +max : undefined
+            )
+          );
+        },
       })}
       max={max}
       shieldProps={{
