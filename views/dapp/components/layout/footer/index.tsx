@@ -53,13 +53,35 @@ const Footer: FC = () => {
           justifyContent="center"
           display={['flex', 'flex', 'none']}
         >
-          <Link href={Routes[RoutesEnum.Earn]}>
+          <Link href={Routes[RoutesEnum.DEX]}>
             <Button
-              p="0"
               mx="S"
               as="div"
+              px="1.5rem"
               fontSize="M"
-              width="8rem"
+              height="3rem"
+              display="flex"
+              variant="primary"
+              alignItems="center"
+              justifyContent="center"
+              boxShadow="0 0 15px rgba(0,0,0,.3)"
+              bg={
+                pathname.includes(Routes[RoutesEnum.DEX])
+                  ? 'accent'
+                  : 'textSoft'
+              }
+              hover={{ bg: 'accent', color: 'text' }}
+              active={{ bg: 'accentActive', color: 'text' }}
+            >
+              Dex
+            </Button>
+          </Link>
+          <Link href={Routes[RoutesEnum.Earn]}>
+            <Button
+              mx="S"
+              as="div"
+              px="1.5rem"
+              fontSize="M"
               height="3rem"
               display="flex"
               variant="primary"
@@ -83,9 +105,8 @@ const Footer: FC = () => {
               mode="menu"
               title={
                 <Typography
-                  p="0"
                   mx="S"
-                  px="XL"
+                  px="1.5rem"
                   bg="textSoft"
                   fontSize="M"
                   height="3rem"

@@ -42,6 +42,7 @@ export const RoutesWithFaucet = [
   Routes[RoutesEnum.Earn],
   Routes[RoutesEnum.DineroMarket],
   Routes[RoutesEnum.MAILMarket],
+  Routes[RoutesEnum.DEX],
 ];
 
 export const routesList = Object.keys(Routes) as ReadonlyArray<RoutesEnum>;
