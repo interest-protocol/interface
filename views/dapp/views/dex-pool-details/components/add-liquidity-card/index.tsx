@@ -236,11 +236,10 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({ tokens, isStable }) => {
       {tokens.map(({ balance, decimals, allowance, Icon, symbol }, index) => (
         <InputBalance
           key={v4()}
-          balance={IntMath.toNumber(balance, decimals)}
-          max={IntMath.toNumber(balance, decimals)}
           register={register}
           setValue={setValue}
           name={INPUT_NAMES[index]}
+          balance={IntMath.toNumber(balance, decimals)}
           disabled={loading || isFetchingQuote || allowance.isZero()}
           currencyPrefix={
             <Box display="flex" width="4.5rem">
