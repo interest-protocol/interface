@@ -242,7 +242,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({ tokens, isStable }) => {
           balance={IntMath.toNumber(balance, decimals)}
           disabled={loading || isFetchingQuote || allowance.isZero()}
           currencyPrefix={
-            <Box display="flex" width="4.5rem">
+            <Box display="flex" width="4.5rem" maxHeight="1rem">
               {Icon}
               <Typography variant="normal" ml="M">
                 {symbol}
