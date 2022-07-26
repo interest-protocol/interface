@@ -265,13 +265,21 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({ tokens, isStable }) => {
         />
       ))}
       <WalletGuardButton>
-        <Box display="grid" gridColumnGap="1rem" gridTemplateColumns="1fr 1fr">
+        <Box
+          display="grid"
+          gridColumnGap="1rem"
+          gridTemplateColumns={
+            needsAllowance
+              ? `repeat(${tokens.filter(filterFn).length}, 1fr)`
+              : '1fr 1fr'
+          }
+        >
           {tokens.filter(filterFn).map(({ symbol, address }) => (
             <Button
               key={v4()}
               width="100%"
-              disabled={loading}
               variant="primary"
+              disabled={loading}
               bg="bottomBackground"
               hover={{ bg: 'accentActive' }}
               onClick={() => handleApproveToken(address, symbol)}
