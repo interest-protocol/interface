@@ -6,8 +6,6 @@ import MintOldABI from '@/sdk/abi/mint-old.abi.json';
 import { MintAbi, MintOldAbi } from '../../types/ethers-contracts';
 import { ERC20Mint, ERC20MintOld } from './faucet.types';
 
-// TODO: Need improvement
-
 export const erc20Mint: ERC20Mint = (signer, token, account, amount) => {
   const contract = new ethers.Contract(token, MintABI, signer) as MintAbi;
 

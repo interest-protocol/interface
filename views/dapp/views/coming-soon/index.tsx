@@ -21,8 +21,13 @@ const ComingSoon: FC = () => (
         <Typography variant="title2" mt="L">
           Coming Soon
         </Typography>
-        <Link href={Routes[RoutesEnum.DApp]}>
-          <Button variant="primary" mt="M" hover={{ bg: 'accentActive' }}>
+        <Link href={Routes[RoutesEnum.DineroMarket]}>
+          <Button
+            as="div"
+            variant="primary"
+            mt="M"
+            hover={{ bg: 'accentActive' }}
+          >
             &larr; Back to Dapp
           </Button>
         </Link>

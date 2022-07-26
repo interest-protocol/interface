@@ -4,7 +4,12 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container, SocialMediaCard } from '@/components';
-import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
+import {
+  Routes,
+  RoutesEnum,
+  RoutesWithFaucet,
+  SOCIAL_MEDIAS,
+} from '@/constants';
 import { Box, Button, Dropdown, Typography } from '@/elements';
 import { GitBookSVG } from '@/svg';
 
@@ -52,10 +57,14 @@ const Footer: FC = () => {
             <Button
               p="0"
               mx="S"
+              as="div"
               fontSize="M"
               width="8rem"
               height="3rem"
+              display="flex"
               variant="primary"
+              alignItems="center"
+              justifyContent="center"
               boxShadow="0 0 15px rgba(0,0,0,.3)"
               bg={
                 pathname.includes(Routes[RoutesEnum.Earn])
@@ -87,8 +96,8 @@ const Footer: FC = () => {
                   justifyContent="center"
                   boxShadow="0 0 15px rgba(0,0,0,.3)"
                   color={
-                    pathname === Routes[RoutesEnum.DApp] ||
-                    pathname.includes(Routes[RoutesEnum.Borrow])
+                    pathname === Routes[RoutesEnum.DineroMarket] ||
+                    pathname.includes(Routes[RoutesEnum.DineroMarket])
                       ? 'accent'
                       : 'inherit'
                   }
@@ -118,7 +127,7 @@ const Footer: FC = () => {
               ]}
             />
           </Box>
-          <Faucet />
+          {RoutesWithFaucet.includes(pathname) && <Faucet />}
         </Box>
       </Container>
     </Box>

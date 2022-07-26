@@ -18,6 +18,7 @@ const DropdownList: FC<DropdownListProps> = ({
   search,
   minWidth,
   setIsOpen,
+  fromRight,
   customItems,
   customTitle,
   emptyMessage,
@@ -66,7 +67,7 @@ const DropdownList: FC<DropdownListProps> = ({
       ref={dropdownContainerRef}
       boxShadow="0 0 1rem rgba(0,0,0,.3)"
       left={safeMarginLeft ? '1rem' : 'unset'}
-      right={safeMarginRight ? '1rem' : 'unset'}
+      right={safeMarginRight ? '1rem' : fromRight ? '1rem' : 'unset'}
       {...(bottom
         ? { bottom: '5rem' }
         : { top: customTitle ? '2rem' : '4rem' })}

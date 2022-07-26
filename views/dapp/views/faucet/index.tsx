@@ -4,9 +4,7 @@ import { FC, useCallback, useMemo, useState } from 'react';
 import { Container } from '@/components';
 import { FAUCET_TOKENS } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { useGetUserBalances } from '@/hooks';
-import { useIdAccount } from '@/hooks/use-id-account';
-import useLocalStorage from '@/hooks/use-storage';
+import { useGetUserBalances, useIdAccount, useLocalStorage } from '@/hooks';
 import { flippedAppend, isSameAddress } from '@/utils';
 
 import GoBack from '../../components/go-back';

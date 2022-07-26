@@ -1,7 +1,7 @@
 import { getUserBalances } from '@/api';
+import { DEFAULT_ACCOUNT } from '@/constants';
 
 import { useCallContract } from '../use-call-contract';
-import { DEFAULT_ACCOUNT } from './../../constants/index';
 import { useIdAccount } from './../use-id-account/index';
 
 export const useGetUserBalances = (tokens: ReadonlyArray<string>) => {
