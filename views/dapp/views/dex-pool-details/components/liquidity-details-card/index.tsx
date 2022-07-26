@@ -25,6 +25,7 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({ lines }) => (
       Liquidity
     </Typography>
     <Box
+      mt="L"
       py="M"
       px="L"
       borderRadius="L"

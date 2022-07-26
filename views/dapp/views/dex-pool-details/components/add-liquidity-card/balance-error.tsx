@@ -3,6 +3,7 @@ import { useWatch } from 'react-hook-form';
 
 import { stringToBigNumber } from '@/utils';
 
+import LiquidityFormMessage from '../liquidity-form-message';
 import { BalanceErrorProps } from './liquidity-form.types';
 
 const BalanceError: FC<BalanceErrorProps> = ({
@@ -15,7 +16,10 @@ const BalanceError: FC<BalanceErrorProps> = ({
   const amount = useWatch({ control, name });
 
   return stringToBigNumber(amount, decimals).gt(balance) ? (
-    <div>You do not have enough {symbol} balance</div>
+    <LiquidityFormMessage
+      color="error"
+      message={`You do not have enough ${symbol} balance`}
+    />
   ) : null;
 };
 

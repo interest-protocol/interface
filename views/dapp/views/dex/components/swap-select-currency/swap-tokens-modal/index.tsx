@@ -40,6 +40,7 @@ const renderData = (
     const isDisabled = isSameAddressZ(address, currentToken);
     const handleSelectCurrency = () =>
       isDisabled ? {} : onSelectCurrency({ address, symbol, decimals });
+
     return (
       <Box
         m="XS"

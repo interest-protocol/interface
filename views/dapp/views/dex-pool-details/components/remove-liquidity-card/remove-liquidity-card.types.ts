@@ -25,6 +25,7 @@ export interface IRemoveLiquidityForm {
 
 export interface InputBalanceProps {
   max: number;
+  balance: number;
   disabled?: boolean;
   currencyPrefix: ReactNode;
   name: keyof IRemoveLiquidityForm;

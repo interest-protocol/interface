@@ -6,8 +6,8 @@ import { addAllowance, removeLiquidity } from '@/api';
 import { Box, Button, Typography } from '@/elements';
 import { useGetSigner } from '@/hooks';
 import { IntMath } from '@/sdk';
+import { LineLoaderSVG } from '@/svg';
 import {
-  formatMoney,
   getInterestDexRouterAddress,
   processWrappedNativeTokenAddress,
   showToast,
@@ -149,9 +149,11 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
       </Box>
       <InputBalance
         name="lpAmount"
-        max={IntMath.toNumber(lpBalance)}
         register={register}
         setValue={setValue}
+        disabled={lpAllowance.isZero()}
+        max={IntMath.toNumber(lpBalance)}
+        balance={IntMath.toNumber(lpBalance)}
         currencyPrefix={
           <Box display="flex" width="5rem">
             {tokens[0].Icon}
@@ -162,19 +164,30 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
           </Box>
         }
       />
-      <div>LP Balance: {formatMoney(IntMath.toNumber(lpBalance))}</div>
-      <TokenAmount
-        Icon={tokens[0].Icon}
-        symbol={tokens[0].symbol}
-        control={control}
-        name="token0Amount"
-      />
-      <TokenAmount
-        Icon={tokens[1].Icon}
-        symbol={tokens[1].symbol}
-        control={control}
-        name="token1Amount"
-      />
+      {loading && (
+        <Box mb="L">
+          <LineLoaderSVG width="100%" />
+        </Box>
+      )}
+      <Box
+        my="L"
+        rowGap="1rem"
+        display="grid"
+        gridTemplateColumns="auto auto 1fr"
+      >
+        <TokenAmount
+          Icon={tokens[0].Icon}
+          symbol={tokens[0].symbol}
+          control={control}
+          name="token0Amount"
+        />
+        <TokenAmount
+          Icon={tokens[1].Icon}
+          symbol={tokens[1].symbol}
+          control={control}
+          name="token1Amount"
+        />
+      </Box>
       <RemoveLiquidityManager
         chainId={chainId || 0}
         control={control}
@@ -190,7 +203,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
           mt="L"
           display="grid"
           gridColumnGap="1rem"
-          gridTemplateColumns="1fr 1fr"
+          gridTemplateColumns={lpAllowance.isZero() ? '1fr' : '1fr 1fr'}
         >
           {lpAllowance.isZero() ? (
             <Button
@@ -210,7 +223,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
                 bg="bottomBackground"
                 hover={{ bg: 'disabled' }}
                 onClick={() => {
-                  setValue('lpAmount', '0');
+                  setValue('lpAmount', '0.0');
                 }}
               >
                 Reset

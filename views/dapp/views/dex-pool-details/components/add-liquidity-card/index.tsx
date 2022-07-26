@@ -12,7 +12,7 @@ import {
 import { Box, Button, Typography } from '@/elements';
 import { useChainId, useGetSigner } from '@/hooks';
 import { IntMath, ZERO_ADDRESS } from '@/sdk';
-import { TimesSVG } from '@/svg';
+import { LineLoaderSVG, TimesSVG } from '@/svg';
 import {
   getBNPercent,
   getInterestDexRouterAddress,
@@ -236,13 +236,14 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({ tokens, isStable }) => {
       {tokens.map(({ balance, decimals, allowance, Icon, symbol }, index) => (
         <InputBalance
           key={v4()}
+          balance={IntMath.toNumber(balance, decimals)}
           max={IntMath.toNumber(balance, decimals)}
           register={register}
           setValue={setValue}
           name={INPUT_NAMES[index]}
-          disabled={allowance.isZero()}
+          disabled={loading || isFetchingQuote || allowance.isZero()}
           currencyPrefix={
-            <Box display="flex" width="5rem">
+            <Box display="flex" width="4.5rem">
               {Icon}
               <Typography variant="normal" ml="M">
                 {symbol}
@@ -251,6 +252,9 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({ tokens, isStable }) => {
           }
         />
       ))}
+      <Box mb="L">
+        {(loading || isFetchingQuote) && <LineLoaderSVG width="100%" />}
+      </Box>
       {tokens.map(({ symbol, decimals, balance }, index) => (
         <BalanceError
           key={v4()}
@@ -285,8 +289,8 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({ tokens, isStable }) => {
                 disabled={loading}
                 hover={{ bg: 'disabled' }}
                 onClick={() => {
-                  setValue('token0Amount', '0');
-                  setValue('token1Amount', '0');
+                  setValue('token0Amount', '0.0');
+                  setValue('token1Amount', '0.0');
                   setValue('locked', false);
                 }}
               >

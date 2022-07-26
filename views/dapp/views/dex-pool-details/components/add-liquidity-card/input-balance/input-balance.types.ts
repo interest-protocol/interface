@@ -5,6 +5,7 @@ import { IAddLiquidityForm } from '../liquidity-form.types';
 
 export interface InputBalanceProps {
   max: number;
+  balance: number;
   disabled?: boolean;
   currencyPrefix: ReactNode;
   name: keyof IAddLiquidityForm;
