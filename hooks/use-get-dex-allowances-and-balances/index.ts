@@ -44,7 +44,7 @@ export const useGetDexAllowancesAndBalances = (
     };
 
   // One of the tokens is the native token
-  if (data.balances.length === 1) {
+  if (data.balances.length === 1)
     return {
       balancesData: {
         [getAddress(filteredTokens[0])]: {
@@ -59,7 +59,6 @@ export const useGetDexAllowancesAndBalances = (
       balancesError: '',
       mutate: async () => void (await mutate()),
     };
-  }
 
   return {
     balancesData: {

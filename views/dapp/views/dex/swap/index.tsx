@@ -81,11 +81,13 @@ const Swap: FC = () => {
       tokenOutAddress || ZERO_ADDRESS
     );
 
-  const needsApproval = pathOr(
-    ZERO_BIG_NUMBER,
-    [getAddress(tokenInAddress), 'allowance'],
-    balancesData
-  ).isZero();
+  const needsApproval = balancesData
+    ? pathOr(
+        ZERO_BIG_NUMBER,
+        [getAddress(tokenInAddress), 'allowance'],
+        balancesData
+      ).isZero()
+    : false;
 
   const toggleSettings = () => setShowSettings(not);
 
