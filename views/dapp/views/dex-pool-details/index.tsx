@@ -1,4 +1,5 @@
 import { FC, useMemo } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { useSelector } from 'react-redux';
 import { v4 } from 'uuid';
 
@@ -21,6 +22,7 @@ import {
   LiquidityDetailsCard,
   RemoveLiquidityCard,
 } from './components';
+import HeaderSkeleton from './components/skeleton/header';
 import { DEXPoolDetailsViewProps } from './dex-pool-details.types';
 import { processPairData } from './utils';
 
@@ -36,6 +38,8 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
     () => processPairData(chainId, data, nativeBalance),
     [chainId, data, nativeBalance]
   );
+
+  console.log(processedData, 'see this data');
 
   if (error)
     return (
@@ -88,13 +92,25 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
     <Container dapp mt="XXL" width="100%">
       <GoBack routeBack />
       <Box display="flex" alignItems="center">
-        <FirstIcon width="2rem" />
-        <SecondIcon width="2rem" />
-        <Typography variant="normal" ml="L">
-          {processedData.token0Metadata.symbol} -{' '}
-          {processedData.token1Metadata.symbol}{' '}
-          {processedData.isStable ? 'Stable' : 'Volatile'} Pool Details
-        </Typography>
+        {[
+          processedData.token0Metadata.symbol,
+          processedData.token1Metadata.symbol,
+        ].includes('???') ? (
+          <HeaderSkeleton />
+        ) : (
+          <>
+            <FirstIcon width="2rem" />
+            <SecondIcon width="2rem" />
+            <Typography variant="normal" ml="L">
+              {processedData.token0Metadata.symbol +
+                ' - ' +
+                processedData.token1Metadata.symbol +
+                ' ' +
+                (processedData.isStable ? 'Stable' : 'Volatile') +
+                ' Pool Details'}
+            </Typography>
+          </>
+        )}
       </Box>
       <Box
         mt="XL"
@@ -155,13 +171,37 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
           tokens={[
             {
               symbol: processedData.token0Metadata.symbol,
-              Icon: <FirstIcon width="1rem" key={v4()} />,
+              Icon:
+                processedData.token0Metadata.symbol == '???' ? (
+                  <Box
+                    key={v4()}
+                    width="1rem"
+                    height="1rem"
+                    borderRadius="2rem"
+                  >
+                    <Skeleton height="100%" borderRadius="2rem" />
+                  </Box>
+                ) : (
+                  <FirstIcon width="1rem" key={v4()} />
+                ),
               address: processedData.token0,
               decimals: processedData.token0Metadata.decimals.toNumber(),
             },
             {
               symbol: processedData.token1Metadata.symbol,
-              Icon: <SecondIcon width="1rem" key={v4()} />,
+              Icon:
+                processedData.token1Metadata.symbol == '???' ? (
+                  <Box
+                    key={v4()}
+                    width="1rem"
+                    height="1rem"
+                    borderRadius="2rem"
+                  >
+                    <Skeleton height="100%" borderRadius="2rem" />
+                  </Box>
+                ) : (
+                  <SecondIcon width="1rem" key={v4()} />
+                ),
               address: processedData.token1,
               decimals: processedData.token1Metadata.decimals.toNumber(),
             },

@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
+import Skeleton from 'react-loading-skeleton';
 
-import { Typography } from '@/elements';
+import { Box, Typography } from '@/elements';
 
 import { TokenAmountProps } from './remove-liquidity-card.types';
 
@@ -11,7 +12,13 @@ const TokenAmount: FC<TokenAmountProps> = ({ Icon, symbol, control, name }) => {
     <>
       {Icon}
       <Typography variant="normal" ml="M">
-        {symbol}
+        {symbol == '???' ? (
+          <Box width="2.5rem">
+            <Skeleton />
+          </Box>
+        ) : (
+          symbol
+        )}
       </Typography>
       <Typography variant="normal">: {amount}</Typography>
     </>
