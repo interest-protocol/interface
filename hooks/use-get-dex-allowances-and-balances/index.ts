@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import { useSelector } from 'react-redux';
 
-import { sortTokens, ZERO_BIG_NUMBER } from '@/sdk';
+import { ZERO_BIG_NUMBER } from '@/sdk';
 import { getNativeBalance } from '@/state/core/core.selectors';
 import {
   getInterestDexRouterAddress,
@@ -23,9 +23,7 @@ export const useGetDexAllowancesAndBalances = (
   tokenA: string,
   tokenB: string
 ) => {
-  const sortedTokens = sortTokens(tokenA, tokenB).filter(
-    (x) => !isZeroAddress(x)
-  );
+  const sortedTokens = [tokenA, tokenB].filter((x) => !isZeroAddress(x));
 
   const nativeBalance = useSelector(getNativeBalance) as string;
 
