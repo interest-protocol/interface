@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers';
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
@@ -73,6 +73,8 @@ const SwapButton: FC<SwapButtonProps> = ({
   account,
   chainId,
   disabled,
+  fetchingAmount,
+  fetchingBaseData,
   parsedTokenInBalance,
   updateBalances,
   getValues,
@@ -85,6 +87,12 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const tokenIn = useWatch({ control, name: 'tokenIn' });
   const tokenOut = useWatch({ control, name: 'tokenOut' });
+
+  useEffect(() => {
+    if (fetchingBaseData) setButtonLoadingText('Loading...');
+    if (fetchingAmount) setButtonLoadingText('Fetching amounts...');
+    if (!fetchingAmount && !fetchingBaseData) setButtonLoadingText(null);
+  }, [fetchingAmount, fetchingBaseData]);
 
   const handleAddAllowance = useCallback(async () => {
     if (isZeroAddress(tokenInAddress)) return;

@@ -14,81 +14,91 @@ const InputBalance: FC<InputBalanceProps> = ({
   disabled,
   currencySelector,
   handleSelectedByUser,
-}) => (
-  <Box display="flex" flexDirection="column" alignItems="flex-end">
-    <Box
-      py="S"
-      px="M"
-      mb="-1rem"
-      bg="bottomBackground"
-      borderRadius="M"
-      position="relative"
-    >
-      <Typography fontSize="S" variant="normal">
-        Balance:{' '}
-        <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
-          {formatMoney(balance)}
+}) => {
+  const onFocus = (v: ChangeEvent<HTMLInputElement>) => {
+    const value = v.target.value;
+
+    +value === 0 && setValue?.(`${name}.value`, '');
+  };
+
+  return (
+    <Box display="flex" flexDirection="column" alignItems="flex-end">
+      <Box
+        py="S"
+        px="M"
+        mb="-1rem"
+        bg="bottomBackground"
+        borderRadius="M"
+        position="relative"
+      >
+        <Typography fontSize="S" variant="normal">
+          Balance:{' '}
+          <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
+            {formatMoney(balance)}
+          </Typography>
         </Typography>
-      </Typography>
+      </Box>
+      <Input
+        min="0"
+        fontSize="L"
+        type="string"
+        placeholder="0.0"
+        onFocus={onFocus}
+        disabled={!!disabled}
+        {...register(`${name}.value`, {
+          onChange: (v: ChangeEvent<HTMLInputElement>) => {
+            const value = v.target.value;
+
+            setValue?.(
+              `${name}.value`,
+              parseToSafeStringNumber(
+                isNaN(+value[value.length - 1]) &&
+                  value[value.length - 1] !== '.'
+                  ? value.slice(0, value.length - 1)
+                  : value,
+                max ? +max : undefined
+              )
+            );
+
+            handleSelectedByUser();
+          },
+        })}
+        shieldProps={{
+          px: 'S',
+          py: 'L',
+          my: 'M',
+          width: '100%',
+          display: 'grid',
+          bg: 'background',
+          borderRadius: 'M',
+          overflow: 'visible',
+          border: '1px solid',
+          borderColor: 'transparent',
+          gridTemplateColumns: '6.9rem 1fr auto',
+          hover: {
+            borderColor: 'accentBackground',
+          },
+        }}
+        Prefix={currencySelector}
+        Suffix={
+          !!max && (
+            <Button
+              px="M"
+              fontSize="S"
+              height="100%"
+              variant="secondary"
+              bg="bottomBackground"
+              hover={{ bg: 'accent' }}
+              active={{ bg: 'accentActive' }}
+              onClick={() => setValue?.(`${name}.value`, max)}
+            >
+              max
+            </Button>
+          )
+        }
+      />
     </Box>
-    <Input
-      min="0"
-      fontSize="L"
-      type="string"
-      placeholder={'0'}
-      disabled={!!disabled}
-      {...register(`${name}.value`, {
-        onChange: (v: ChangeEvent<HTMLInputElement>) => {
-          const value = v.target.value;
-
-          setValue?.(
-            `${name}.value`,
-            parseToSafeStringNumber(
-              isNaN(+value[value.length - 1]) && value[value.length - 1] !== '.'
-                ? value.slice(0, value.length - 1)
-                : value,
-              max ? +max : undefined
-            )
-          );
-
-          handleSelectedByUser();
-        },
-      })}
-      shieldProps={{
-        px: 'S',
-        py: 'L',
-        my: 'M',
-        width: '100%',
-        display: 'grid',
-        bg: 'background',
-        borderRadius: 'M',
-        overflow: 'visible',
-        border: '1px solid',
-        borderColor: 'transparent',
-        gridTemplateColumns: '6.9rem 1fr auto',
-        hover: {
-          borderColor: 'accentBackground',
-        },
-      }}
-      Prefix={currencySelector}
-      Suffix={
-        !!max && (
-          <Button
-            px="M"
-            fontSize="S"
-            height="100%"
-            variant="secondary"
-            bg="bottomBackground"
-            hover={{ bg: 'accent' }}
-            active={{ bg: 'accentActive' }}
-            onClick={() => setValue?.(`${name}.value`, max)}
-          >
-            max
-          </Button>
-        )
-      }
-    />
-  </Box>
-);
+  );
+};
 
 export default InputBalance;
