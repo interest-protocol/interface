@@ -75,6 +75,7 @@ const SwapButton: FC<SwapButtonProps> = ({
   disabled,
   fetchingAmount,
   fetchingBaseData,
+  fetchingBalancesData,
   parsedTokenInBalance,
   updateBalances,
   getValues,
@@ -382,6 +383,7 @@ const SwapButton: FC<SwapButtonProps> = ({
   };
 
   const handleLoadingText = () => {
+    if (fetchingBalancesData) return 'Fetching balances...';
     if (fetchingBaseData) return 'Loading...';
     if (fetchingAmount) return 'Fetching amounts...';
     return buttonLoadingText;
@@ -391,7 +393,9 @@ const SwapButton: FC<SwapButtonProps> = ({
     <WalletGuardButton>
       <SwapViewButton
         {...handleProps()}
-        disabled={disabled}
+        disabled={
+          disabled || isNaN(+tokenIn.value) ? false : +tokenIn.value === 0
+        }
         loadingText={handleLoadingText()}
       />
     </WalletGuardButton>

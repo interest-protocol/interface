@@ -33,6 +33,7 @@ export const useGetDexAllowancesAndBalances = (
       balancesError: 'Failed to fetch balances',
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       mutate: () => Promise.resolve(),
+      loading: false,
     };
 
   if (!data)
@@ -41,6 +42,7 @@ export const useGetDexAllowancesAndBalances = (
       balancesError: '',
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       mutate: () => Promise.resolve(),
+      loading: true,
     };
 
   // One of the tokens is the native token
@@ -58,6 +60,7 @@ export const useGetDexAllowancesAndBalances = (
       },
       balancesError: '',
       mutate: async () => void (await mutate()),
+      loading: false,
     };
 
   return {
@@ -73,5 +76,6 @@ export const useGetDexAllowancesAndBalances = (
     },
     balancesError: '',
     mutate: async () => void (await mutate()),
+    loading: false,
   };
 };

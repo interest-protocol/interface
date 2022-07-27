@@ -25,6 +25,7 @@ export interface SwapButtonProps {
   disabled: boolean;
   fetchingAmount: boolean;
   fetchingBaseData: boolean;
+  fetchingBalancesData: boolean;
   tokenInAddress: string;
   getValues: UseFormGetValues<ISwapForm>;
   setSwapBase: Dispatch<SetStateAction<string | null>>;

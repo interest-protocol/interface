@@ -74,20 +74,20 @@ const Swap: FC = () => {
   const tokenInAddress = useWatch({ control, name: 'tokenIn.address' });
   const tokenOutAddress = useWatch({ control, name: 'tokenOut.address' });
 
-  const { balancesError, balancesData, mutate } =
+  const { balancesError, balancesData, mutate, loading } =
     useGetDexAllowancesAndBalances(
       chainId,
       tokenInAddress || ZERO_ADDRESS,
       tokenOutAddress || ZERO_ADDRESS
     );
 
-  const needsApproval = balancesData
-    ? pathOr(
+  const needsApproval = loading
+    ? false
+    : pathOr(
         ZERO_BIG_NUMBER,
         [getAddress(tokenInAddress), 'allowance'],
         balancesData
-      ).isZero()
-    : false;
+      ).isZero();
 
   const toggleSettings = () => setShowSettings(not);
 
@@ -120,7 +120,8 @@ const Swap: FC = () => {
         isFetchingAmountOutTokenIn ||
         amountOutError ||
         balancesError ||
-        hasNoMarket
+        hasNoMarket ||
+        loading
       ),
     [
       tokenInAddress,
@@ -130,6 +131,7 @@ const Swap: FC = () => {
       amountOutError,
       balancesError,
       hasNoMarket,
+      loading,
     ]
   );
 
@@ -305,6 +307,7 @@ const Swap: FC = () => {
           fetchingAmount={
             isFetchingAmountOutTokenOut || isFetchingAmountOutTokenIn
           }
+          fetchingBalancesData={loading}
           fetchingBaseData={!balancesData && !balancesError}
           parsedTokenInBalance={pathOr(
             ZERO_BIG_NUMBER,
