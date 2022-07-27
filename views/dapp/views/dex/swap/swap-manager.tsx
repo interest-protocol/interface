@@ -5,7 +5,7 @@ import { useWatch } from 'react-hook-form';
 import { getAmountsOut } from '@/api';
 import { SWAP_BASES, WRAPPED_NATIVE_TOKEN } from '@/constants';
 import { useDebounce } from '@/hooks';
-import { IntMath } from '@/sdk';
+import { CHAIN_ID, IntMath } from '@/sdk';
 import {
   getWETHAddress,
   isSameAddress,
@@ -37,7 +37,9 @@ const SwapManager: FC<SwapManagerProps> = ({
   const debouncedTokenInValue = useDebounce(tokenIn.value, 1500);
   const debouncedTokenOutValue = useDebounce(tokenOut.value, 1500);
 
-  const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId];
+  const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId]
+    ? WRAPPED_NATIVE_TOKEN[chainId]
+    : WRAPPED_NATIVE_TOKEN[CHAIN_ID.BNB_TEST_NET];
 
   const tokenInAddress = isZeroAddress(tokenIn.address)
     ? wrappedNativeToken.address

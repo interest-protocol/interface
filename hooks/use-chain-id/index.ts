@@ -4,9 +4,11 @@ import { useSelector } from 'react-redux';
 import { SUPPORTED_CHAINS_RECORD } from '@/constants';
 import { getChainId } from '@/state/core/core.selectors';
 
-export const useChainId = () => {
+export const useChainId = (): number => {
   const { pathname } = useRouter();
   const chainId = useSelector(getChainId) as number;
 
-  return chainId ? chainId : SUPPORTED_CHAINS_RECORD[pathname][0];
+  return SUPPORTED_CHAINS_RECORD[pathname].includes(chainId || -1)
+    ? chainId
+    : SUPPORTED_CHAINS_RECORD[pathname][0];
 };

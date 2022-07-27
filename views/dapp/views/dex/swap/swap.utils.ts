@@ -1,13 +1,25 @@
-import { isZeroAddress } from '@/utils';
+import { handleZeroWrappedToken, isZeroAddress } from '@/utils';
 
 export const handleRoute = (
+  chainId: number,
   tokenInAddress: string,
   tokenOutAddress: string,
   base: string
 ) =>
   isZeroAddress(base)
-    ? [{ from: tokenInAddress, to: tokenOutAddress }]
+    ? [
+        {
+          from: handleZeroWrappedToken(chainId, tokenInAddress),
+          to: handleZeroWrappedToken(chainId, tokenOutAddress),
+        },
+      ]
     : [
-        { from: tokenInAddress, to: base },
-        { from: base, to: tokenOutAddress },
+        {
+          from: handleZeroWrappedToken(chainId, tokenInAddress),
+          to: base,
+        },
+        {
+          from: base,
+          to: handleZeroWrappedToken(chainId, tokenOutAddress),
+        },
       ];

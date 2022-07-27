@@ -144,15 +144,6 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({ tokens, isStable }) => {
       }
 
       if (isSameAddressZ(token1.address, ZERO_ADDRESS)) {
-        console.log(
-          safeAmount1.toString(),
-          token0.address,
-          isStable,
-          safeAmount0.toString(),
-          safeAmount0.toString(),
-          safeAmount1.toString(),
-          account
-        );
         const tx = await addNativeTokenLiquidity(
           validId,
           validSigner,
