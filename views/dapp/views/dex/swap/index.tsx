@@ -40,6 +40,9 @@ const Swap: FC = () => {
 
   const { register, control, setValue, getValues } = useForm<ISwapForm>({
     defaultValues: {
+      loading: false,
+      slippage: localSettings.slippage,
+      deadline: localSettings.deadline,
       tokenIn: {
         address: INT.address,
         value: '0',
@@ -54,8 +57,6 @@ const Swap: FC = () => {
         symbol: ETH.symbol,
         setByUser: false,
       },
-      slippage: localSettings.slippage,
-      deadline: localSettings.deadline,
     },
   });
 
@@ -103,8 +104,8 @@ const Swap: FC = () => {
       setValue(`${name}.address`, address);
       setValue(`${name}.decimals`, decimals);
       setValue(`${name}.symbol`, symbol);
-      setValue('tokenOut.value', '0');
-      setValue('tokenIn.value', '0');
+      setValue('tokenOut.value', '0.0');
+      setValue('tokenIn.value', '0.0');
       setHasNoMarket(false);
       setTokenInIsOpenModal(false);
       setTokenOutIsOpenModal(false);
@@ -300,6 +301,10 @@ const Swap: FC = () => {
           chainId={chainId}
           account={account}
           control={control}
+          fetchingAmount={
+            isFetchingAmountOutTokenOut || isFetchingAmountOutTokenIn
+          }
+          fetchingBaseData={!balancesData && !balancesError}
           parsedTokenInBalance={pathOr(
             ZERO_BIG_NUMBER,
             [getAddress(tokenInAddress), 'balance'],

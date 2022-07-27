@@ -5,6 +5,7 @@ import { Control, UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 import { SwapFormTokenData } from '@/views/dapp/views/dex/dex.types';
 
 export interface ISwapForm {
+  loading: boolean;
   slippage: string;
   deadline: number;
   tokenIn: SwapFormTokenData;
@@ -23,6 +24,8 @@ export interface AmountCacheValue {
 
 export interface SwapButtonProps {
   disabled: boolean;
+  fetchingAmount: boolean;
+  fetchingBaseData: boolean;
   tokenInAddress: string;
   getValues: UseFormGetValues<ISwapForm>;
   setSwapBase: Dispatch<SetStateAction<string | null>>;
