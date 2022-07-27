@@ -18,6 +18,8 @@ export const SUPPORTED_CHAINS_RECORD = {
   [Routes[RoutesEnum.DEXPool]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DEXFindPool]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DEXPoolDetails]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.Vault]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.VaultFarm]]: [CHAIN_ID.BNB_TEST_NET],
 };
 
 export const BNB: AddEthereumChainParameter['nativeCurrency'] = {

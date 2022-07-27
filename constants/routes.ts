@@ -11,6 +11,8 @@ export enum RoutesEnum {
   MAILMarketPool = 'mail-market-pool',
   DineroMarketRepay = 'dinero-market-repay',
   Earn = 'earn',
+  Vault = 'vault',
+  VaultFarm = 'vault-farm',
   DEX = 'dex',
   DEXPool = 'dex-pool',
   DEXFindPool = 'dex-find-pool',
@@ -35,6 +37,8 @@ export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.MAILMarket]: '/dapp/mail-market',
   [RoutesEnum.MAILMarketPool]: '/dapp/mail-market/[pool]',
   [RoutesEnum.Earn]: '/dapp/earn',
+  [RoutesEnum.Vault]: '/dapp/vault',
+  [RoutesEnum.VaultFarm]: '/dapp/vault/[farm]',
   [RoutesEnum.Faucet]: '/dapp/faucet',
 };
 

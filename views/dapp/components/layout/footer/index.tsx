@@ -76,6 +76,29 @@ const Footer: FC = () => {
               Dex
             </Button>
           </Link>
+          <Link href={Routes[RoutesEnum.Vault]}>
+            <Button
+              mx="S"
+              as="div"
+              px="1.5rem"
+              fontSize="M"
+              height="3rem"
+              display="flex"
+              variant="primary"
+              alignItems="center"
+              justifyContent="center"
+              boxShadow="0 0 15px rgba(0,0,0,.3)"
+              bg={
+                pathname.includes(Routes[RoutesEnum.Vault])
+                  ? 'accent'
+                  : 'textSoft'
+              }
+              hover={{ bg: 'accent', color: 'text' }}
+              active={{ bg: 'accentActive', color: 'text' }}
+            >
+              Vault
+            </Button>
+          </Link>
           <Link href={Routes[RoutesEnum.Earn]}>
             <Button
               mx="S"

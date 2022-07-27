@@ -34,6 +34,7 @@ const Dropdown: FC<DropdownProps> = ({
   return (
     <Box
       display="flex"
+      width="100%"
       id={dropdownWrapperId}
       position={relative ? 'relative' : 'static'}
     >
