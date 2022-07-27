@@ -1,4 +1,5 @@
 export * from './chains';
+export * from './dex';
 export * from './erc-20';
 export * from './farms';
 export * from './mail-markets';
@@ -18,6 +19,11 @@ export enum LoadingState {
 export enum StakeState {
   Stake,
   Unstake,
+}
+
+export enum PairType {
+  Stable,
+  Volatile,
 }
 
 export const NO_STATE_ERROR = '';

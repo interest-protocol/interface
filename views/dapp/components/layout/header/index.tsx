@@ -64,6 +64,21 @@ const Header: FC = () => {
         justifyContent="center"
         display={['none', 'none', 'flex']}
       >
+        <Link href={Routes[RoutesEnum.DEX]}>
+          <Typography
+            px="XL"
+            cursor="pointer"
+            variant="normal"
+            borderRight="1px solid"
+            borderColor="bottomBackground"
+            color={
+              pathname.includes(Routes[RoutesEnum.DEX]) ? 'accent' : 'inherit'
+            }
+            hover={{ color: 'accentActive' }}
+          >
+            DEX
+          </Typography>
+        </Link>
         <Link href={Routes[RoutesEnum.Vault]}>
           <Typography
             px="XL"
@@ -102,8 +117,9 @@ const Header: FC = () => {
                 cursor="pointer"
                 variant="normal"
                 color={
-                  pathname === Routes[RoutesEnum.DApp] ||
-                  pathname.includes(Routes[RoutesEnum.Borrow])
+                  pathname === Routes[RoutesEnum.DineroMarket] ||
+                  pathname.includes(Routes[RoutesEnum.DineroMarketBorrow]) ||
+                  pathname.includes(Routes[RoutesEnum.DineroMarketRepay])
                     ? 'accent'
                     : 'inherit'
                 }
@@ -118,7 +134,7 @@ const Header: FC = () => {
                 value: 'dinero-market',
                 displayOption: 'Dinero Market',
                 onSelect: () =>
-                  push(Routes[RoutesEnum.DApp], undefined, {
+                  push(Routes[RoutesEnum.DineroMarket], undefined, {
                     shallow: true,
                   }),
               },
@@ -129,33 +145,6 @@ const Header: FC = () => {
                   push(Routes[RoutesEnum.MAILMarket], undefined, {
                     shallow: true,
                   }),
-              },
-              {
-                disabled: true,
-                value: 'pair-market',
-                displayOption: (
-                  <Box
-                    px="L"
-                    width="100%"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="space-between"
-                  >
-                    <Typography variant="normal">Pair Market</Typography>
-                    <Typography
-                      py="S"
-                      px="M"
-                      fontSize="S"
-                      borderRadius="L"
-                      variant="normal"
-                      fontWeight="500"
-                      bg="accentAlternative"
-                      textTransform="uppercase"
-                    >
-                      Soon
-                    </Typography>
-                  </Box>
-                ),
               },
             ]}
           />

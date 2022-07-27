@@ -1,4 +1,3 @@
-import { ethers } from 'ethers';
 import { has, map, o, prop, sort, uniq } from 'ramda';
 
 import { MAIL_MARKET_METADATA_MAP } from '@/constants/mail-markets';

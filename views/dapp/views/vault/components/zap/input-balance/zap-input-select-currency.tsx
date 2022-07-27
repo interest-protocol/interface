@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import { FAUCET_TOKENS, TOKENS_SVG_MAP } from '@/constants/erc-20';
 import { Box, Dropdown, Input, Typography } from '@/elements';
+import { useIdAccount } from '@/hooks';
 import { ArrowSVG, SearchSVG } from '@/svg';
 
 import { ZapInputSelectCurrencyProps } from '../zap.types';
@@ -11,6 +12,8 @@ const ZapInputSelectCurrency: FC<ZapInputSelectCurrencyProps> = ({
   defaultValue,
   onSelectCurrency,
 }) => {
+  const { chainId } = useIdAccount();
+
   const { register, watch } = useForm({
     defaultValues: { search: '' },
   });
@@ -45,7 +48,7 @@ const ZapInputSelectCurrency: FC<ZapInputSelectCurrencyProps> = ({
           }}
         />
       }
-      data={FAUCET_TOKENS.map(({ symbol }) => {
+      data={FAUCET_TOKENS[chainId].map(({ symbol }) => {
         const SVG = TOKENS_SVG_MAP[symbol];
         return {
           onSelect: () => onSelectCurrency(symbol),

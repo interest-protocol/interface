@@ -1,0 +1,110 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "contract IRouter",
+        "name": "_router",
+        "type": "address"
+      },
+      {
+        "internalType": "contract InterestViewBalancesInterface",
+        "name": "_viewBalances",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "tokenIn", "type": "address" },
+      { "internalType": "address", "name": "tokenOut", "type": "address" },
+      { "internalType": "uint256", "name": "amountIn", "type": "uint256" },
+      { "internalType": "address[]", "name": "bases", "type": "address[]" }
+    ],
+    "name": "getAmountsOut",
+    "outputs": [
+      { "internalType": "address", "name": "base", "type": "address" },
+      { "internalType": "uint256", "name": "amountOut", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "contract IERC20", "name": "token", "type": "address" }
+    ],
+    "name": "getERC20Metadata",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "string", "name": "name", "type": "string" },
+          { "internalType": "string", "name": "symbol", "type": "string" },
+          { "internalType": "uint256", "name": "decimals", "type": "uint256" }
+        ],
+        "internalType": "struct ERC20Metadata",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "contract IPair", "name": "pair", "type": "address" },
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "name": "getPairData",
+    "outputs": [
+      {
+        "components": [
+          {
+            "components": [
+              { "internalType": "string", "name": "name", "type": "string" },
+              { "internalType": "string", "name": "symbol", "type": "string" },
+              {
+                "internalType": "uint256",
+                "name": "decimals",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ERC20Metadata",
+            "name": "token0Metadata",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              { "internalType": "string", "name": "name", "type": "string" },
+              { "internalType": "string", "name": "symbol", "type": "string" },
+              {
+                "internalType": "uint256",
+                "name": "decimals",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct ERC20Metadata",
+            "name": "token1Metadata",
+            "type": "tuple"
+          },
+          { "internalType": "address", "name": "token0", "type": "address" },
+          { "internalType": "address", "name": "token1", "type": "address" },
+          { "internalType": "bool", "name": "isStable", "type": "bool" },
+          { "internalType": "uint256", "name": "reserve0", "type": "uint256" },
+          { "internalType": "uint256", "name": "reserve1", "type": "uint256" }
+        ],
+        "internalType": "struct PairMetadata",
+        "name": "pairMetadata",
+        "type": "tuple"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "allowances",
+        "type": "uint256[]"
+      },
+      { "internalType": "uint256[]", "name": "balances", "type": "uint256[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

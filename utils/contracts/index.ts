@@ -1,23 +1,17 @@
 import { ContractReceipt, ethers } from 'ethers';
-import {
-  __,
-  always,
-  compose,
-  cond,
-  equals,
-  pathOr,
-  propOr,
-  T,
-  toString,
-} from 'ramda';
+import { __, compose, pathOr, propOr, toString } from 'ramda';
 
 import CasaDePapelABI from '@/sdk/abi/casa-de-papel.abi.json';
+import InterestDexFactoryABI from '@/sdk/abi/interest-dex-factory.abi.json';
+import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
 import InterestERC20MarketABI from '@/sdk/abi/interest-erc-20-market.abi.json';
 import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
+import InterestViewDexABI from '@/sdk/abi/interest-view-dex.abi.json';
 import InterestViewDineroABI from '@/sdk/abi/interest-view-dinero.abi.json';
 import InterestViewMAILABI from '@/sdk/abi/interest-view-MAIL.abi.json';
 import MAILDeployerABI from '@/sdk/abi/mail-deployer.abi.json';
 import TokenMinterABI from '@/sdk/abi/token-minter.abi.json';
+import WETHABI from '@/sdk/abi/weth.abi.json';
 import {
   CONTRACTS,
   DINERO_MARKET_CONTRACT_MAP,
@@ -27,12 +21,16 @@ import { safeGetAddress } from '@/utils/address';
 
 import {
   CasaDePapelAbi,
+  InterestDexFactoryAbi,
+  InterestDexRouterAbi,
   InterestErc20MarketAbi,
   InterestViewBalancesAbi,
+  InterestViewDexAbi,
   InterestViewDineroAbi,
   InterestViewMAILAbi,
   MailDeployerAbi,
   TokenMinterAbi,
+  WethAbi,
 } from '../../types/ethers-contracts';
 import {
   CreateTokenEventArgs,
@@ -49,10 +47,6 @@ const makeGetAddress = (x: Record<number, string>) =>
     toString
   );
 
-export const getMultiCallV2Address: GetContractAddress = makeGetAddress(
-  CONTRACTS.MULTI_CALL
-);
-
 export const getInterestViewMAILAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.INTEREST_VIEW_MAIL
 );
@@ -66,6 +60,14 @@ export const getInterestViewDineroAddress: GetContractAddress = makeGetAddress(
 
 export const getCasaDePapelAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.CASA_DE_PAPEL
+);
+
+export const getInterestDexRouterAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.INT_DEX_ROUTER
+);
+
+export const getInterestViewDexAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.INTEREST_VIEW_DEX
 );
 
 export const getDineroMarketAddress = (
@@ -120,18 +122,13 @@ export const getTokenMinterAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.TOKEN_MINTER
 );
 
-export const getAddressWithSymbol = (chainId: number) =>
-  cond([
-    [equals(TOKEN_SYMBOL.BTC), always(getBTCAddress(chainId))],
-    [equals(TOKEN_SYMBOL.DNR), always(getDNRAddress(chainId))],
-    [equals(TOKEN_SYMBOL.INT), always(getIntAddress(chainId))],
-    [equals(TOKEN_SYMBOL.WETH), always(getWETHAddress(chainId))],
-    [equals(TOKEN_SYMBOL.USDC), always(getUSDCAddress(chainId))],
-    [equals(TOKEN_SYMBOL.USDT), always(getUSDTAddress(chainId))],
-    [equals(TOKEN_SYMBOL.APE), always(getAPEAddress(chainId))],
-    [equals(TOKEN_SYMBOL.UNI), always(getUNIAddress(chainId))],
-    [T, always(ethers.constants.AddressZero)],
-  ]);
+export const getETHERC20Address: GetContractAddress = makeGetAddress(
+  CONTRACTS.ERC20_ETH
+);
+
+export const getInterestDexFactoryAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.INT_DEX_FACTORY
+);
 
 export const getCasaDePapelContract: GetContract<CasaDePapelAbi> = (
   chainId,
@@ -202,3 +199,34 @@ export const extractCreateTokenEvent = (
   const log = iFace.parseLog(receipt.logs[1]);
   return <CreateTokenEventArgs>log.args;
 };
+
+export const getInterestDexRouterContract: GetContract<InterestDexRouterAbi> = (
+  chainId,
+  provider
+) =>
+  new ethers.Contract(
+    getInterestDexRouterAddress(chainId),
+    InterestDexRouterABI,
+    provider
+  ) as InterestDexRouterAbi;
+
+export const getInterestViewDexContract: GetContract<InterestViewDexAbi> = (
+  chainId,
+  provider
+) =>
+  new ethers.Contract(
+    getInterestViewDexAddress(chainId),
+    InterestViewDexABI,
+    provider
+  ) as InterestViewDexAbi;
+
+export const getWETHContract: GetContract<WethAbi> = (chainId, provider) =>
+  new ethers.Contract(getWETHAddress(chainId), WETHABI, provider) as WethAbi;
+
+export const getInterestDexFactoryContract: GetContract<InterestDexFactoryAbi> =
+  (chainId, provider) =>
+    new ethers.Contract(
+      getInterestDexFactoryAddress(chainId),
+      InterestDexFactoryABI,
+      provider
+    ) as InterestDexFactoryAbi;

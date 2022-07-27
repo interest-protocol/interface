@@ -1,25 +1,23 @@
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
+import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { FaucetSVG } from '@/svg';
 
-import { FaucetProps } from './faucet.types';
-import FaucetModal from './faucet-modal';
+const Faucet: FC = () => {
+  const { push } = useRouter();
 
-const Faucet: FC<FaucetProps> = ({ customAction }) => {
-  const {
-    pathname,
-    query: { modal },
-    push,
-  } = useRouter();
-
-  const toggleModal = () =>
-    push(`${pathname}${!modal && modal !== 'faucet' ? '?modal=faucet' : ''}`);
-
+  const gotoFaucetPage = () => push(Routes[RoutesEnum.Faucet]);
   return (
     <>
-      <Box position="sticky" bottom="1rem" right="0" zIndex={1}>
+      <Box
+        right="0"
+        zIndex={1}
+        position="sticky"
+        bottom={['3rem', '3rem', '3rem', '0']}
+        display={['none', 'none', 'none', 'block']}
+      >
         <Box
           mb="L"
           mr="L"
@@ -32,22 +30,39 @@ const Faucet: FC<FaucetProps> = ({ customAction }) => {
             variant="primary"
             alignItems="center"
             borderRadius="2rem"
+            onClick={gotoFaucetPage}
             bg="accentAlternative"
-            onClick={customAction ?? toggleModal}
             hover={{ bg: 'accentAlternativeActive' }}
           >
             <FaucetSVG width="1rem" height="1rem" />
-            <Typography variant="normal" fontSize="S" ml="M" as="span">
+            <Typography ml="M" as="span" fontSize="S" variant="normal">
               Faucet
             </Typography>
           </Button>
         </Box>
       </Box>
-      <FaucetModal
-        isOpen={!!modal && (modal as string) === 'faucet'}
-        handleClose={toggleModal}
-      />
+      <Box
+        mx="M"
+        display={['inline-block', 'inline-block', 'inline-block', 'none']}
+      >
+        <Button
+          p="NONE"
+          width="3rem"
+          height="3rem"
+          display="flex"
+          variant="primary"
+          alignItems="center"
+          borderRadius="2rem"
+          onClick={gotoFaucetPage}
+          bg="accentAlternative"
+          justifyContent="center"
+          hover={{ bg: 'accentAlternativeActive' }}
+        >
+          <FaucetSVG width="1rem" height="1rem" />
+        </Button>
+      </Box>
     </>
   );
 };
+
 export default Faucet;

@@ -10,7 +10,7 @@ import { TOKEN_SYMBOL } from '@/sdk';
 import { Fraction } from '@/sdk/entities/fraction';
 import { IntMath } from '@/sdk/entities/int-math';
 import { closeTo, ZERO_BIG_NUMBER } from '@/sdk/utils';
-import { IBorrowFormField } from '@/views/dapp/views/dinero-market/components/borrow-form/borrow-form.types';
+import { IBorrowFormField } from '@/views/dapp/views/dinero-market-mode/components/borrow-form/borrow-form.types';
 
 import { formatMoney } from '../string';
 import {
