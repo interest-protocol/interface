@@ -1,7 +1,7 @@
-import { not } from 'ramda';
+import { getAddress } from 'ethers/lib/utils';
+import { not, pathOr } from 'ramda';
 import { FC, useMemo, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 
 import { ERC_20_DATA } from '@/constants';
 import { Box } from '@/elements';
@@ -10,10 +10,9 @@ import {
   useIdAccount,
   useLocalStorage,
 } from '@/hooks';
-import { IntMath, TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
-import { getNativeBalance } from '@/state/core/core.selectors';
+import { IntMath, TOKEN_SYMBOL, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
 import { CogsSVG } from '@/svg';
-import { handleTokenBalance, isSameAddress, isZeroAddress } from '@/utils';
+import { isSameAddress } from '@/utils';
 
 import SwapSelectCurrency from '../components/swap-select-currency';
 import InputBalance from './input-balance';
@@ -58,7 +57,6 @@ const Swap: FC = () => {
 
   const [showSettings, setShowSettings] = useState(false);
   const [hasNoMarket, setHasNoMarket] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [isFetchingAmountOutTokenIn, setFetchingAmountOutTokenIn] =
     useState(false);
   const [isFetchingAmountOutTokenOut, setFetchingAmountOutTokenOut] =
@@ -79,22 +77,11 @@ const Swap: FC = () => {
       tokenOutAddress || ZERO_ADDRESS
     );
 
-  const nativeBalance = useSelector(getNativeBalance) as string;
-
-  const parsedTokenInBalance = handleTokenBalance(
-    tokenInAddress,
-    balancesData.token0Balance,
-    nativeBalance
-  );
-
-  const parsedTokenOutBalance = handleTokenBalance(
-    tokenOutAddress,
-    balancesData.token1Balance,
-    nativeBalance
-  );
-
-  const needsApproval =
-    !isZeroAddress(tokenInAddress) && balancesData.token0Allowance.isZero();
+  const needsApproval = pathOr(
+    ZERO_BIG_NUMBER,
+    [getAddress(tokenInAddress), 'allowance'],
+    balancesData
+  ).isZero();
 
   const toggleSettings = () => setShowSettings(not);
 
@@ -196,11 +183,28 @@ const Swap: FC = () => {
           >
             <InputBalance
               balance={IntMath.toNumber(
-                parsedTokenInBalance,
+                pathOr(
+                  ZERO_BIG_NUMBER,
+                  [getAddress(tokenInAddress), 'balance'],
+                  balancesData
+                ),
                 getValues().tokenIn.decimals,
                 0,
                 12
               )}
+              max={IntMath.toNumber(
+                pathOr(
+                  ZERO_BIG_NUMBER,
+                  [getAddress(tokenInAddress), 'balance'],
+                  balancesData
+                ),
+                getValues().tokenIn.decimals,
+                0,
+                12
+              ).toLocaleString('fullwide', {
+                useGrouping: false,
+                maximumSignificantDigits: 6,
+              })}
               name="tokenIn"
               register={register}
               setValue={setValue}
@@ -209,12 +213,6 @@ const Swap: FC = () => {
                 setValue(`tokenIn.setByUser`, true);
                 setValue(`tokenOut.setByUser`, false);
               }}
-              max={IntMath.toNumber(
-                parsedTokenInBalance,
-                getValues().tokenIn.decimals,
-                0,
-                12
-              ).toString()}
               currencySelector={
                 <SwapSelectCurrency
                   currentToken={tokenInAddress}
@@ -252,7 +250,11 @@ const Swap: FC = () => {
               setValue={setValue}
               disabled={isFetchingAmountOutTokenOut}
               balance={IntMath.toNumber(
-                parsedTokenOutBalance,
+                pathOr(
+                  ZERO_BIG_NUMBER,
+                  [getAddress(tokenOutAddress), 'balance'],
+                  balancesData
+                ),
                 getValues().tokenOut.decimals,
                 0,
                 12
@@ -294,10 +296,12 @@ const Swap: FC = () => {
           chainId={chainId}
           account={account}
           control={control}
-          parsedTokenInBalance={parsedTokenInBalance}
+          parsedTokenInBalance={pathOr(
+            ZERO_BIG_NUMBER,
+            [getAddress(tokenInAddress), 'balance'],
+            balancesData
+          )}
           updateBalances={mutate}
-          loading={loading}
-          setLoading={setLoading}
           needsApproval={needsApproval}
         />
       </Box>

@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers';
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
@@ -36,7 +36,6 @@ import { handleRoute } from './swap.utils';
 const SwapViewButton: FC<SwapViewButtonProps> = ({
   text,
   onClick,
-  loading,
   disabled,
   loadingText,
 }) => (
@@ -45,12 +44,16 @@ const SwapViewButton: FC<SwapViewButtonProps> = ({
     width="100%"
     variant="primary"
     onClick={onClick}
-    disabled={loading || disabled}
+    disabled={!!loadingText || disabled}
     hover={{ bg: 'accentAlternativeActive' }}
-    cursor={loading ? 'progress' : disabled ? 'not-allowed' : 'pointer'}
-    bg={loading || disabled ? 'accentAlternativeActive' : 'accentAlternative'}
+    cursor={loadingText ? 'progress' : disabled ? 'not-allowed' : 'pointer'}
+    bg={
+      !!loadingText || disabled
+        ? 'accentAlternativeActive'
+        : 'accentAlternative'
+    }
   >
-    {loading ? (
+    {loadingText ? (
       <Box as="span" display="flex" justifyContent="center">
         <LoadingSVG width="1rem" height="1rem" />
         <Typography as="span" variant="normal" ml="M" fontSize="S">
@@ -64,10 +67,8 @@ const SwapViewButton: FC<SwapViewButtonProps> = ({
 );
 
 const SwapButton: FC<SwapButtonProps> = ({
-  loading,
   needsApproval,
   tokenInAddress,
-  setLoading,
   swapBase,
   account,
   chainId,
@@ -78,7 +79,8 @@ const SwapButton: FC<SwapButtonProps> = ({
   control,
 }) => {
   const { signer } = useGetSigner();
-
+  const [buttonLoadingText, setButtonLoadingText] =
+    useState<string | null>(null);
   const dispatch = useDispatch();
 
   const tokenIn = useWatch({ control, name: 'tokenIn' });
@@ -86,7 +88,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const handleAddAllowance = useCallback(async () => {
     if (isZeroAddress(tokenInAddress)) return;
-    setLoading(true);
+    setButtonLoadingText('Approving...');
     try {
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -107,8 +109,8 @@ const SwapButton: FC<SwapButtonProps> = ({
       throwError('Something went wrong', e);
     } finally {
       await updateBalances();
-      setLoading(false);
       dispatch(coreActions.updateNativeBalance());
+      setButtonLoadingText(null);
     }
   }, [account, chainId, signer, tokenInAddress]);
 
@@ -121,7 +123,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const handleSwap = useCallback(async () => {
     if (isSameAddress(tokenIn.address, tokenOut.address)) return;
-    setLoading(true);
+    setButtonLoadingText('Swapping...');
     try {
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -182,6 +184,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       const minAmountOut = bnAmountOut.sub(slippageAmount);
 
       const route = handleRoute(
+        validId,
         tokenIn.address,
         tokenOut.address,
         swapBase || ZERO_ADDRESS
@@ -232,12 +235,12 @@ const SwapButton: FC<SwapButtonProps> = ({
       );
 
       await showTXSuccessToast(tx, validId);
-    } catch (e) {
-      throwError('Something went wrong', e);
+    } catch {
+      throwError('Failed to swap: try a higher slippage or smaller amount');
     } finally {
-      setLoading(false);
       dispatch(coreActions.updateNativeBalance());
       await updateBalances();
+      setButtonLoadingText(null);
     }
   }, [account, chainId, signer, parsedTokenInBalance, swapBase]);
 
@@ -255,7 +258,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     )
       return;
 
-    setLoading(true);
+    setButtonLoadingText('Wrapping...');
     try {
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -281,9 +284,9 @@ const SwapButton: FC<SwapButtonProps> = ({
     } catch (e) {
       throwError('Failed to deposit');
     } finally {
-      setLoading(false);
       dispatch(coreActions.updateNativeBalance());
       await updateBalances();
+      setButtonLoadingText(null);
     }
   };
 
@@ -301,7 +304,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     )
       return;
 
-    setLoading(true);
+    setButtonLoadingText('Unwrapping...');
     try {
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -327,9 +330,9 @@ const SwapButton: FC<SwapButtonProps> = ({
     } catch {
       throwError('Failed to unwrapped');
     } finally {
-      setLoading(false);
       dispatch(coreActions.updateNativeBalance());
       await updateBalances();
+      setButtonLoadingText(null);
     }
   };
 
@@ -348,18 +351,14 @@ const SwapButton: FC<SwapButtonProps> = ({
       isSameAddress(tokenOut.address, getWETHAddress(chainId))
     )
       return {
-        loading,
         onClick: deposit,
-        loadingText: 'Wrapping...',
         text: `Wrap ${tokenIn.symbol}`,
       };
 
     // GIVE ALLOWANCE TO ERC20
     if (needsApproval)
       return {
-        loading,
         onClick: submitAllowance,
-        loadingText: 'Approving...',
         text: 'Approve',
       };
 
@@ -369,24 +368,23 @@ const SwapButton: FC<SwapButtonProps> = ({
       isSameAddress(tokenIn.address, getWETHAddress(chainId))
     )
       return {
-        loading,
         onClick: withdraw,
-        loadingText: 'Unwrapping...',
         text: `Unwrap ${tokenIn.symbol}`,
       };
 
     // ERC20 => ERC20 SWAP
     return {
-      loading,
       onClick: swap,
-      loadingText: 'Swapping...',
       text: 'Swap',
     };
   };
 
   return (
     <WalletGuardButton>
-      <SwapViewButton {...{ ...handleProps(), disabled }} />
+      <SwapViewButton
+        {...{ ...handleProps(), disabled }}
+        loadingText={buttonLoadingText}
+      />
     </WalletGuardButton>
   );
 };

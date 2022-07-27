@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 
 import { CHAINS, WRAPPED_NATIVE_TOKEN } from '@/constants';
 import { ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
-import { isSameAddressZ, stringToBigNumber } from '@/utils';
+import { isSameAddressZ } from '@/utils';
 
 import {
   ERC20MetadataStructOutput,
