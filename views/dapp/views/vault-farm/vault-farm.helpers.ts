@@ -9,12 +9,12 @@ export const getSwitchDefaultData = (
 ): Record<VaultFarmOperation, [ISwitchOption, ISwitchOption]> => ({
   farm: [
     {
-      value: 'Stake',
-      onSelect: () => setBase('Stake'),
+      value: 'Version 1',
+      onSelect: () => setBase('Version 1'),
     },
     {
-      value: 'Unstake',
-      onSelect: () => setBase('Unstake'),
+      value: 'Version 2',
+      onSelect: () => setBase('Version 2'),
     },
   ],
 });

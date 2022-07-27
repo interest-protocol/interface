@@ -6,7 +6,7 @@ const TVLSelect: FC = () => (
   <Box
     bg="foreground"
     height="3rem"
-    width="10rem"
+    width="7rem"
     display="flex"
     alignItems="center"
     px="L"

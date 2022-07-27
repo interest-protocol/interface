@@ -13,12 +13,11 @@ import { DesktopVaultSkeletonRow } from './vault-skeleton-row';
 
 const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
   const { push } = useRouter();
-  const HEADING = ['Vault Name', 'APY', 'Earn', 'Platform', 'TVL'];
+  const HEADING = ['Vault Name', 'APY', 'Earn', 'Type', 'TVL'];
   return (
     <Container dapp px="M" width="100%">
       <Box display={['none', 'none', 'none', 'block']}>
         <Table
-          specialRowHover
           headings={HEADING.map((title) => {
             return {
               item: (
@@ -80,7 +79,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
                         textAlign="center"
                         key={v4()}
                       >
-                        {item.items.platform}
+                        {item.items.type}
                       </Typography>,
                       <Typography
                         variant={'normal'}
@@ -98,7 +97,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
                         {
                           pathname: Routes[RoutesEnum.VaultFarm],
                           query: {
-                            farm: item.items.vaultName[3] as string,
+                            farm: item.items.id as string,
                           },
                         },
                         undefined,

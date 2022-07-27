@@ -28,6 +28,7 @@ const VaultFarmPool: FC = () => {
         display="flex"
         justifyContent="center"
         alignItems="center"
+        cursor="pointer"
         onClick={() => setOpenDetails(!openDetails)}
       >
         <Typography
@@ -43,7 +44,7 @@ const VaultFarmPool: FC = () => {
         </AnimatedBox>
       </Box>
       {openDetails && (
-        <Box p="0 2rem 2rem">
+        <Box p="0 2rem 2rem" cursor="default">
           <Box bg="background" p="1.5rem" borderRadius="0.5rem">
             <VaultFarmDetailsItem
               title="Earn"
@@ -52,8 +53,8 @@ const VaultFarmPool: FC = () => {
               color="textSecondary"
             />
             <VaultFarmDetailsItem
-              title="Platform"
-              content="Bunny"
+              title="Type"
+              content="Investment"
               fontSize="0.8rem"
               color="textSecondary"
             />

@@ -59,4 +59,5 @@ const ZAP: FC<ZapProps> = ({ customAction }) => {
     </>
   );
 };
+
 export default ZAP;

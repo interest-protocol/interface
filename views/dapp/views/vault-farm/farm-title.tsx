@@ -1,18 +1,19 @@
 import { FC } from 'react';
 
 import { Box } from '@/elements';
-import { InterestTokenSVG } from '@/svg';
 
 import { VaultName } from '../vault/components';
+import { VaultNameProps } from '../vault/vault.types';
 
-const VaultFarmTitle: FC = () => (
+const VaultFarmTitle: FC<VaultNameProps> = ({
+  Icons,
+  caption,
+  name,
+  isAuto,
+}) => (
   <Box p="1.5rem 2rem">
-    <VaultName
-      Icons={[InterestTokenSVG]}
-      isAuto
-      caption="BUNNY Dividend"
-      name="BUNNY"
-    />
+    <VaultName Icons={Icons} isAuto={isAuto} caption={caption} name={name} />
   </Box>
 );
+
 export default VaultFarmTitle;

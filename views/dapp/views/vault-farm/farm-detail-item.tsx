@@ -10,20 +10,20 @@ const VaultFarmDetailsItem: FC<VaultFarmDetailsItemProps> = ({
   fontSize,
   color,
 }) => (
-  <Box display="flex" justifyContent="space-between" mb="0.5rem">
+  <Box display="flex" justifyContent="space-between" mb="0.75rem">
     <Typography
       variant="normal"
-      color={color || 'text'}
+      color={color || 'textSecondary'}
       fontSize={fontSize || '1rem'}
-      fontWeight="500"
+      fontWeight="600"
     >
       {title}
     </Typography>
     <Typography
       variant="normal"
-      color={color || 'text'}
+      color={color || 'textSecondary'}
       fontSize={fontSize || '1rem'}
-      fontWeight="500"
+      fontWeight="600"
     >
       {content}
     </Typography>

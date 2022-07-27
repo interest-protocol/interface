@@ -1,12 +1,16 @@
+import { useRouter } from 'next/router';
 import { FC, SVGAttributes } from 'react';
 
+import { Routes, RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
 
 import { VaultData } from '../../vault.types';
 import VaultCardItem from './vault-card-item';
 import VaultName from './vault-name';
 
-const VaultCard: FC<VaultData> = ({ items, handleClick }) => {
+const VaultCard: FC<VaultData> = ({ items }) => {
+  const { push } = useRouter();
+
   return (
     <Box
       width="100%"
@@ -14,7 +18,20 @@ const VaultCard: FC<VaultData> = ({ items, handleClick }) => {
       bg="foreground"
       py="M"
       my="M"
-      onClick={handleClick}
+      onClick={() =>
+        push(
+          {
+            pathname: Routes[RoutesEnum.VaultFarm],
+            query: {
+              farm: items.id as string,
+            },
+          },
+          undefined,
+          {
+            shallow: true,
+          }
+        )
+      }
     >
       <Box
         px="L"
@@ -32,8 +49,8 @@ const VaultCard: FC<VaultData> = ({ items, handleClick }) => {
           <Typography
             variant={'normal'}
             fontWeight="500"
-            fontSize="1.1rem"
-            lineHeight="1.313rem"
+            fontSize="0.85rem"
+            lineHeight="1rem"
             textAlign="right"
           >
             APY
@@ -41,7 +58,7 @@ const VaultCard: FC<VaultData> = ({ items, handleClick }) => {
           <Typography
             variant={'normal'}
             fontWeight="500"
-            fontSize="1.1rem"
+            fontSize="0.85rem"
             lineHeight="1.313rem"
             textAlign="right"
           >
@@ -51,7 +68,7 @@ const VaultCard: FC<VaultData> = ({ items, handleClick }) => {
       </Box>
       <Typography variant="normal" as="hr" color="#33373B" mb="M" />
       <VaultCardItem title="Earn" content={items.earn} />
-      <VaultCardItem title="Platform" content={items.platform} />
+      <VaultCardItem title="Platform" content={items.type} />
       <VaultCardItem title="TVL" content={items.tvl} />
     </Box>
   );

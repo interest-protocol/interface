@@ -4,9 +4,9 @@ import { useForm } from 'react-hook-form';
 import { Box, Button, Typography } from '@/elements';
 
 import InputBalance from './input-balance';
-import { IVaultFarmForm } from './vault-farm.types';
+import { IVaultFarmForm, VersionProps } from './vault-farm.types';
 
-const VaultFarmBalance: FC = () => {
+const VaultFarmBalance: FC<VersionProps> = ({ version }) => {
   const { register, setValue } = useForm<IVaultFarmForm>({
     defaultValues: {
       value: '',
@@ -15,15 +15,24 @@ const VaultFarmBalance: FC = () => {
 
   return (
     <Box p="0 2rem 0rem">
-      <Box display="flex" justifyContent="space-between">
-        <Typography variant="normal" fontSize="1rem" fontWeight="500">
-          1% fee for unstaking within 3 days
-        </Typography>
+      <Box display="flex" justifyContent="space-between" color="textSecondary">
+        {version == 'Version 2' && (
+          <Typography
+            variant="normal"
+            fontSize={['0.65rem', '0.65rem', '0.85rem', '0.85rem']}
+            fontWeight="500"
+          >
+            1% fee for unstaking within 3 days
+          </Typography>
+        )}
         <Typography
           variant="normal"
-          fontSize="1rem"
+          fontSize={['0.65rem', '0.65rem', '0.85rem', '0.85rem']}
           fontWeight="500"
           color="textSecondary"
+          ml="M"
+          textAlign="right"
+          width={version == 'Version 2' ? 'auto' : '100%'}
         >
           Balance: 0.000
         </Typography>

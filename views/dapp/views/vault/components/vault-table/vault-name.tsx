@@ -11,32 +11,39 @@ const VaultName: FC<VaultNameProps> = ({ Icons, caption, name, isAuto }) => {
     length: number
   ) => (
     <Token
-      width={length == 1 ? '2rem' : '1.3rem'}
-      height={length == 1 ? '2rem' : '1.3rem'}
+      width={length == 1 ? '100%' : '80%'}
+      height={length == 1 ? '100%' : '80%'}
     />
   );
   return (
-    <Box height="5.5rem" p="1.5rem 0" display="flex">
-      <Box width="2rem" height="2rem" my="auto">
-        {Icons.length == 1 ? (
-          getToken(Icons[0], Icons.length)
+    <Box height="2rem" display="flex">
+      <Box width="1.5rem" height="100%" my="auto">
+        {Icons?.length == 1 ? (
+          getToken(Icons?.[0], Icons?.length)
         ) : (
           <Box position="relative" width="100%" height="100%">
-            <Box position="absolute" right="0" key={v4()}>
-              {getToken(Icons[0], Icons.length)}
+            <Box
+              position="absolute"
+              right="0"
+              width="100%"
+              key={v4()}
+              display="flex"
+              justifyContent="flex-end"
+            >
+              {getToken(Icons?.[0], Icons?.length)}
             </Box>
-            <Box position="absolute" bottom="0" key={v4()}>
-              {getToken(Icons[1], Icons.length)}
+            <Box position="absolute" bottom="0" width="100%" key={v4()}>
+              {getToken(Icons?.[1], Icons?.length)}
             </Box>
           </Box>
         )}
       </Box>
-      <Box ml="M">
+      <Box ml="L">
         <Typography
           variant="normal"
           color="textSecondary"
           as="p"
-          fontSize="0.8rem"
+          fontSize="0.7rem"
           fontWeight="400"
         >
           {isAuto && (
@@ -44,7 +51,7 @@ const VaultName: FC<VaultNameProps> = ({ Icons, caption, name, isAuto }) => {
               variant="normal"
               as="span"
               mr="M"
-              fontSize="0.625rem"
+              fontSize="0.525rem"
               fontWeight="500"
               p="0.06rem 0.25rem"
               bg="accent"
@@ -56,13 +63,7 @@ const VaultName: FC<VaultNameProps> = ({ Icons, caption, name, isAuto }) => {
           )}
           {caption}
         </Typography>
-        <Typography
-          variant="normal"
-          fontSize="1.125rem"
-          fontWeight="500"
-          lineHeight="1.313rem"
-          mt="S"
-        >
+        <Typography variant="normal" fontSize="0.85rem" fontWeight="500" mt="M">
           {name}
         </Typography>
       </Box>

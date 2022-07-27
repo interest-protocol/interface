@@ -15,7 +15,7 @@ const InputSearch: FC = () => (
     <Input
       placeholder="Search"
       fontSize="0.875rem"
-      width={['70%', '70%', '18rem']}
+      width={['70%', '70%', '9rem']}
       Suffix={
         <Button variant="secondary" bg="transparent">
           <SearchSVG color="#ddd" height="1rem" />

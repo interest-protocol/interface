@@ -5,16 +5,17 @@ import { VaultData } from './vault.types';
 const DATA: VaultData[] = [
   {
     items: {
+      id: 'COIN-1',
       vaultName: [[BitcoinSVG], false, 'BUNNY Dividend', 'COIN'],
       apy: '3.44%',
       earn: 'BNB',
-      platform: 'Coin',
+      type: 'Investment',
       tvl: '$956,790.93',
     },
-    handleClick: () => alert(123),
   },
   {
     items: {
+      id: 'BUNNY-2',
       vaultName: [
         [InterestTokenSVG, BitcoinSVG],
         false,
@@ -23,20 +24,19 @@ const DATA: VaultData[] = [
       ],
       apy: '3.44%',
       earn: 'BNB',
-      platform: 'Bunny',
+      type: 'Swap',
       tvl: '$956,790.93',
     },
-    handleClick: () => alert(123),
   },
   {
     items: {
+      id: 'APE-1',
       vaultName: [[InterestTokenSVG], false, 'BUNNY Dividend', 'APE'],
       apy: '3.44%',
       earn: 'BNB',
-      platform: 'Ape',
+      type: 'Swap',
       tvl: '$956,790.93',
     },
-    handleClick: () => alert(123),
   },
 ];
 

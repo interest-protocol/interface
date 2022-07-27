@@ -10,6 +10,8 @@ import DATA from './vault.helpers';
 
 const Vault: FC = () => {
   const [loading, setLoading] = useState(true);
+  const [whoIsSelected, setWhoIsSelected] = useState('All');
+
   const DATAS = [
     {
       items: {
@@ -64,15 +66,22 @@ const Vault: FC = () => {
         dapp
         py="XL"
         px="NONE"
-        width="100%"
+        width="55%"
         display="flex"
         flexDirection="column"
         justifyContent={['center', 'flex-start']}
       >
         <VaultHeader size={DATAS.length} />
-        <VaultFilterTable />
+        <VaultFilterTable state={whoIsSelected} setState={setWhoIsSelected} />
         <Box width="100%">
-          <VaultTable data={DATA} loading={loading} />
+          <VaultTable
+            data={
+              whoIsSelected == 'All'
+                ? DATA
+                : DATA.filter((item) => item.items.type == whoIsSelected)
+            }
+            loading={loading}
+          />
         </Box>
       </Container>
       <ZAP />

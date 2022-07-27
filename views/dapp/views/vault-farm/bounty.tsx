@@ -13,8 +13,14 @@ const Bounty: FC = () => {
         border="0.06rem solid"
         borderColor="textSoft"
         p="1rem 1.5rem"
+        bg="blue"
       >
-        <Box display="flex" flexDirection="column" justifyContent="center">
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          bg="red"
+        >
           <Typography
             variant="normal"
             fontSize="1rem"

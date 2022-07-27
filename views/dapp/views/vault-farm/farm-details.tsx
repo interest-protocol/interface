@@ -1,14 +1,24 @@
 import { FC } from 'react';
+import { v4 } from 'uuid';
 
 import { Box } from '@/elements';
 
 import VaultFarmDetailsItem from './farm-detail-item';
+import { VaultFarmDetailsProps } from './vault-farm.types';
 
-const VaultFarmDetails: FC = () => (
+const VaultFarmDetails: FC<VaultFarmDetailsProps> = ({ version, items }) => (
   <Box p="1.5rem 2rem">
-    <VaultFarmDetailsItem title="APY / APR" content="3.22% / 3.17%" />
-    <VaultFarmDetailsItem title="Staked" content="0.000" />
-    <VaultFarmDetailsItem title="Profit" content="0.000 BNB" />
+    {items.map(
+      (item) =>
+        item.version?.includes(version) && (
+          <VaultFarmDetailsItem
+            title={item.title}
+            content={item.content}
+            fontSize="0.85rem"
+            key={v4()}
+          />
+        )
+    )}
   </Box>
 );
 

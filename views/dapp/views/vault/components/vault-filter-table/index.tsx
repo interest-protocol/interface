@@ -1,14 +1,14 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import { Container } from '@/components';
 import { Box } from '@/elements';
 
+import { StateProps } from '../../vault.types';
 import InputSearch from './input-search';
 import OptionButton from './option-button';
 import TVLSelect from './tvl-select';
 
-const FilterTable: FC = () => {
-  const [whoIsSelected, setWhoIsSelected] = useState('All');
+const FilterTable: FC<StateProps> = ({ state, setState }) => {
   return (
     <Container
       dapp
@@ -20,9 +20,9 @@ const FilterTable: FC = () => {
       flexDirection={['column', 'column', 'row']}
     >
       <OptionButton
-        options={['All', 'Single', 'LP']}
-        whoIsSelected={whoIsSelected}
-        setWhoIsSelected={setWhoIsSelected}
+        options={['All', 'Investment', 'Swap']}
+        whoIsSelected={state}
+        setWhoIsSelected={setState}
       />
       <Box
         height={['auto', 'auto', '3rem']}

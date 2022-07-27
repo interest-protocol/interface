@@ -1,13 +1,13 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import { Switch } from '@/components';
 import { Box } from '@/elements';
 
+import { StateProps } from '../vault/vault.types';
 import { getSwitchDefaultData } from './vault-farm.helpers';
 
-const ButtonTabSelect: FC = () => {
-  const [select, setSelect] = useState('Stake');
-  const SWITCH_DEFAULT_DATA = getSwitchDefaultData(setSelect);
+const ButtonTabSelect: FC<StateProps> = ({ state, setState }) => {
+  const SWITCH_DEFAULT_DATA = getSwitchDefaultData(setState);
 
   return (
     <Box
@@ -18,7 +18,7 @@ const ButtonTabSelect: FC = () => {
       borderTopLeftRadius="M"
       borderTopRightRadius="M"
     >
-      <Switch defaultValue={select} options={SWITCH_DEFAULT_DATA['farm']} />
+      <Switch defaultValue={state} options={SWITCH_DEFAULT_DATA['farm']} />
     </Box>
   );
 };

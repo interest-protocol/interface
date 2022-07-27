@@ -9,12 +9,12 @@ const VaultCardItem: FC<VaultCardItemProps> = ({ title, content }) => (
     <Typography
       variant="normal"
       color="textSecondary"
-      fontSize="0.9rem"
+      fontSize="0.85rem"
       fontWeight="400"
     >
       {title}
     </Typography>
-    <Typography variant="normal" fontSize="0.9rem" fontWeight="400">
+    <Typography variant="normal" fontSize="0.85rem" fontWeight="400">
       {content}
     </Typography>
   </Box>
