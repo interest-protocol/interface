@@ -5,7 +5,6 @@ import { Control, UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 import { SwapFormTokenData } from '@/views/dapp/views/dex/dex.types';
 
 export interface ISwapForm {
-  loading: boolean;
   slippage: string;
   deadline: number;
   tokenIn: SwapFormTokenData;

@@ -40,7 +40,6 @@ const Swap: FC = () => {
 
   const { register, control, setValue, getValues } = useForm<ISwapForm>({
     defaultValues: {
-      loading: false,
       slippage: localSettings.slippage,
       deadline: localSettings.deadline,
       tokenIn: {
