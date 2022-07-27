@@ -393,9 +393,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     <WalletGuardButton>
       <SwapViewButton
         {...handleProps()}
-        disabled={
-          disabled || isNaN(+tokenIn.value) ? false : +tokenIn.value === 0
-        }
+        disabled={disabled || isNaN(+tokenIn.value) || +tokenIn.value === 0}
         loadingText={handleLoadingText()}
       />
     </WalletGuardButton>
