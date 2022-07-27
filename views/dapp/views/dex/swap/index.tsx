@@ -3,7 +3,7 @@ import { not, pathOr } from 'ramda';
 import { FC, useMemo, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 
-import { ERC_20_DATA } from '@/constants';
+import { ERC_20_DATA, UNKNOWN_ERC_20 } from '@/constants';
 import { Box } from '@/elements';
 import {
   useGetDexAllowancesAndBalances,
@@ -34,20 +34,24 @@ const Swap: FC = () => {
     { slippage: '1', deadline: 5 }
   );
 
+  const INT = pathOr(UNKNOWN_ERC_20, [chainId, TOKEN_SYMBOL.INT], ERC_20_DATA);
+
+  const ETH = pathOr(UNKNOWN_ERC_20, [chainId, TOKEN_SYMBOL.ETH], ERC_20_DATA);
+
   const { register, control, setValue, getValues } = useForm<ISwapForm>({
     defaultValues: {
       tokenIn: {
-        address: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].address,
+        address: INT.address,
         value: '0',
-        decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].decimals,
-        symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].symbol,
+        decimals: INT.decimals,
+        symbol: INT.symbol,
         setByUser: false,
       },
       tokenOut: {
-        address: ERC_20_DATA[chainId][TOKEN_SYMBOL.ETH].address,
+        address: ETH.address,
         value: '0',
-        decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.ETH].decimals,
-        symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.ETH].symbol,
+        decimals: ETH.decimals,
+        symbol: ETH.symbol,
         setByUser: false,
       },
       slippage: localSettings.slippage,
