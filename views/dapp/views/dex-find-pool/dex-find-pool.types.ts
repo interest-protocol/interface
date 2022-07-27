@@ -33,7 +33,6 @@ export interface CreatePoolProps {
   control: Control<DexFindPoolForm>;
   register: UseFormRegister<DexFindPoolForm>;
   setValue: UseFormSetValue<DexFindPoolForm>;
-  isToken0TokenA: boolean;
   update: () => Promise<void>;
   tokenBalances: [BigNumber, BigNumber];
   getValues: UseFormGetValues<DexFindPoolForm>;

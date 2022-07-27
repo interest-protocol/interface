@@ -11,10 +11,6 @@ import {
 
 import { useGetUserBalancesAndAllowances } from '../use-get-user-balances-allowances';
 
-const BALANCES_ALLOWANCES_STATE = {
-  balancesData: {},
-};
-
 export const useGetDexAllowancesAndBalances = (
   chainId: number,
   tokenA: string,
@@ -33,7 +29,7 @@ export const useGetDexAllowancesAndBalances = (
 
   if (error)
     return {
-      balancesData: BALANCES_ALLOWANCES_STATE,
+      balancesData: {},
       balancesError: 'Failed to fetch balances',
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       mutate: () => Promise.resolve(),
@@ -41,7 +37,7 @@ export const useGetDexAllowancesAndBalances = (
 
   if (!data)
     return {
-      balancesData: BALANCES_ALLOWANCES_STATE,
+      balancesData: {},
       balancesError: '',
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       mutate: () => Promise.resolve(),
