@@ -20,9 +20,7 @@ const useClickOutsideListenerRef = <T>(
 
   const clickListener = useCallback(
     (e: MouseEvent) => {
-      if (ref.current && !(ref.current! as any).contains(e.target)) {
-        onClose(e);
-      }
+      if (ref.current && !(ref.current! as any)?.contains(e.target)) onClose(e);
     },
     [onClose]
   );

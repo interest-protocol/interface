@@ -12,7 +12,7 @@ import {
   TOKEN_META_DATA_ARRAY,
   TOKENS_SVG_MAP,
 } from '@/constants';
-import { Box, Modal, Typography } from '@/elements';
+import { Box, Button, Modal, Typography } from '@/elements';
 import { useDebounce, useIdAccount, useLocalStorage } from '@/hooks';
 import { TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
 import { LineLoaderSVG, TimesSVG } from '@/svg';
@@ -181,6 +181,20 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
       }}
       background="#0004"
     >
+      <Box display="flex" justifyContent="flex-end">
+        <Box display="flex" textAlign="right" justifyContent="flex-end" mb="M">
+          <Button
+            px="L"
+            variant="primary"
+            onClick={toggleModal}
+            hover={{
+              bg: 'accentActive',
+            }}
+          >
+            <TimesSVG width="1rem" height="1rem" />
+          </Button>
+        </Box>
+      </Box>
       <Box bg="foreground" p="L" borderRadius="M" maxWidth="27rem">
         {Input}
         {isSearching && <LineLoaderSVG width="100%" />}
