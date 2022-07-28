@@ -1,3 +1,4 @@
+import { always } from 'ramda';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
@@ -8,7 +9,7 @@ import SocialMediaCard from '../../components/social-media-card';
 import { ItemsNetwork } from './items';
 import MenuItem from './menu-item';
 
-const MenuList: FC = () => (
+const MenuList: FC = always(
   <Box
     as="nav"
     display={['flex', 'none']}
