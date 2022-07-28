@@ -28,9 +28,20 @@ const FindPool: FC<FindPoolProps> = ({
       maxWidth="30rem"
       borderRadius="M"
     >
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+      <Box
+        display="flex"
+        alignItems="center"
+        flexWrap={['wrap', 'nowrap']}
+        justifyContent={['center', 'space-between']}
+      >
         <SwapSelectCurrency currentToken={addressA} {...currencyAChargerArgs} />
-        <Box mx="XL">
+        <Box
+          mx="XL"
+          mt={['L', 'NONE']}
+          order={[1, 0]}
+          width="100%"
+          textAlign="center"
+        >
           <Switch
             thin
             defaultValue={isStable ? 'stable' : 'volatile'}
