@@ -1,5 +1,6 @@
+import { getAddress } from 'ethers/lib/utils';
 import { useRouter } from 'next/router';
-import { prop } from 'ramda';
+import { pathOr, prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -27,10 +28,12 @@ import {
   sortTokens,
   TOKEN_SYMBOL,
   ZERO_ADDRESS,
+  ZERO_BIG_NUMBER,
 } from '@/sdk';
 import { getNativeBalance } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
 import {
+  handleZeroWrappedToken,
   isSameAddressZ,
   isZeroAddress,
   showToast,
@@ -88,16 +91,17 @@ const FindPoolView: FC = () => {
 
   const nativeBalanceBN = stringToBigNumber(nativeBalance);
 
-  const [token0Address, token1Address] = sortTokens(
-    tokenAAddress,
-    tokenBAddress
-  );
+  const tokenANeedsAllowance = pathOr(
+    ZERO_BIG_NUMBER,
+    [getAddress(tokenAAddress), 'allowance'],
+    balancesData
+  ).isZero();
 
-  const isToken0Native = isZeroAddress(token0Address);
-
-  const token0NeedsAllowance = balancesData.token0Allowance.isZero();
-
-  const token1NeedsAllowance = balancesData.token1Allowance.isZero();
+  const tokenBNeedsAllowance = pathOr(
+    ZERO_BIG_NUMBER,
+    [getAddress(tokenBAddress), 'allowance'],
+    balancesData
+  ).isZero();
 
   const onSelectCurrency =
     (name: 'tokenA' | 'tokenB') =>
@@ -119,8 +123,8 @@ const FindPoolView: FC = () => {
     try {
       const address = getIPXPairAddress(
         chainId,
-        isToken0Native ? WRAPPED_NATIVE_TOKEN[chainId].address : token0Address,
-        token1Address,
+        handleZeroWrappedToken(chainId, tokenAAddress),
+        handleZeroWrappedToken(chainId, tokenBAddress),
         isStable
       );
 
@@ -159,6 +163,8 @@ const FindPoolView: FC = () => {
         signer
       );
 
+      const [token0Address] = sortTokens(tokenA.address, tokenB.address);
+
       const token0 = isSameAddressZ(token0Address, tokenA.address)
         ? tokenA
         : tokenB;
@@ -173,14 +179,20 @@ const FindPoolView: FC = () => {
 
       if (amount0.isZero() || amount1.isZero()) throwError('No zero amount');
 
-      const safeAmount1 = amount1.gt(balancesData.token1Balance)
-        ? balancesData.token1Balance
+      const token1UserBalance = pathOr(
+        ZERO_BIG_NUMBER,
+        [getAddress(token1.address), 'balance'],
+        balancesData
+      );
+
+      const safeAmount1 = amount1.gt(token1UserBalance)
+        ? token1UserBalance
         : amount1;
 
       // 5 minutes
       const deadline = Math.ceil((new Date().getTime() + 5 * 60 * 1000) / 1000);
 
-      if (isToken0Native) {
+      if (isZeroAddress(token0.address)) {
         const safeAmount0 = amount0.gt(nativeBalanceBN)
           ? nativeBalanceBN
           : amount0;
@@ -202,7 +214,7 @@ const FindPoolView: FC = () => {
         const address = getIPXPairAddress(
           chainId,
           WRAPPED_NATIVE_TOKEN[chainId].address,
-          token1Address,
+          token1.address,
           isStable
         );
 
@@ -212,15 +224,21 @@ const FindPoolView: FC = () => {
         }).then();
       }
 
-      const safeAmount0 = amount0.gt(balancesData.token0Balance)
-        ? balancesData.token0Balance
+      const token0UserBalance = pathOr(
+        ZERO_BIG_NUMBER,
+        [getAddress(token0.address), 'balance'],
+        balancesData
+      );
+
+      const safeAmount0 = amount0.gt(token0UserBalance)
+        ? token0UserBalance
         : amount0;
 
       const tx = await addERC20Liquidity(
         validId,
         validSigner,
         token0.address,
-        tokenB.address,
+        token1.address,
         isStable,
         safeAmount0,
         safeAmount1,
@@ -235,7 +253,7 @@ const FindPoolView: FC = () => {
       const address = getIPXPairAddress(
         chainId,
         token0Address,
-        token1Address,
+        token1.address,
         isStable
       );
 
@@ -296,17 +314,21 @@ const FindPoolView: FC = () => {
           getValues={getValues}
           update={mutate}
           tokenBalances={[
-            balancesData.token0Balance,
-            balancesData.token1Balance,
+            pathOr(
+              ZERO_BIG_NUMBER,
+              [getAddress(tokenAAddress), 'balance'],
+              balancesData
+            ),
+            pathOr(
+              ZERO_BIG_NUMBER,
+              [getAddress(tokenBAddress), 'balance'],
+              balancesData
+            ),
           ]}
           control={control}
           register={register}
-          needAllowance={[token0NeedsAllowance, token1NeedsAllowance]}
+          needAllowance={[tokenANeedsAllowance, tokenBNeedsAllowance]}
           setValue={setValue}
-          isToken0TokenA={isSameAddressZ(
-            tokenAAddress,
-            sortTokens(tokenAAddress, tokenBAddress)[0]
-          )}
         />
       )}
       <Box
@@ -332,9 +354,9 @@ const FindPoolView: FC = () => {
             <Button
               width="100%"
               variant="primary"
-              disabled={loading || token0NeedsAllowance || token1NeedsAllowance}
+              disabled={loading || tokenANeedsAllowance || tokenBNeedsAllowance}
               bg={
-                token0NeedsAllowance || token1NeedsAllowance
+                tokenANeedsAllowance || tokenBNeedsAllowance
                   ? 'disabled'
                   : loading
                   ? 'accentActive'
@@ -342,12 +364,12 @@ const FindPoolView: FC = () => {
               }
               hover={{
                 bg:
-                  loading || token0NeedsAllowance || token1NeedsAllowance
+                  loading || tokenANeedsAllowance || tokenBNeedsAllowance
                     ? 'disabled'
                     : 'accentActive',
               }}
               onClick={
-                loading || token0NeedsAllowance || token1NeedsAllowance
+                loading || tokenANeedsAllowance || tokenBNeedsAllowance
                   ? undefined
                   : handleCreatePair
               }

@@ -21,15 +21,11 @@ export interface AmountCacheValue {
   amountOut: string;
 }
 
-export interface BalancesData {
-  tokenInBalance: BigNumber;
-  tokenOutBalance: BigNumber;
-  tokenInAllowance: BigNumber;
-  tokenOutAllowance: BigNumber;
-}
-
 export interface SwapButtonProps {
   disabled: boolean;
+  fetchingAmount: boolean;
+  fetchingBaseData: boolean;
+  fetchingBalancesData: boolean;
   tokenInAddress: string;
   getValues: UseFormGetValues<ISwapForm>;
   setSwapBase: Dispatch<SetStateAction<string | null>>;
@@ -38,8 +34,6 @@ export interface SwapButtonProps {
   updateBalances: () => Promise<void>;
   parsedTokenInBalance: BigNumber;
   swapBase: string | null;
-  loading: boolean;
-  setLoading: Dispatch<SetStateAction<boolean>>;
   needsApproval: boolean;
   control: Control<ISwapForm>;
 }
@@ -60,9 +54,8 @@ export interface SwapManagerProps {
 
 export interface SwapViewButtonProps {
   disabled: boolean;
-  loading: boolean;
   onClick: () => void;
-  loadingText: string;
+  loadingText: string | null;
   text: string;
 }
 
