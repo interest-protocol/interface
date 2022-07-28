@@ -16,8 +16,8 @@ const SwapSearchToken: FC<SwapSearchTokenProps> = ({
     placeholder="Type an address, name or symbol"
     shieldProps={{
       py: 'M',
-      width: '25rem',
       borderRadius: 'S',
+      minWidth: ['20rem', '25rem'],
       bg: isSearching ? 'disabled' : 'background',
     }}
   />

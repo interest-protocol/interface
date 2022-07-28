@@ -77,7 +77,7 @@ const Borrow: FC = () => {
             mb="XL"
             effect="hover"
             variant="primary"
-            onClick={() => push(Routes[RoutesEnum.DApp])}
+            onClick={() => push(Routes[RoutesEnum.DineroMarket])}
           >
             BORROW
           </Button>
