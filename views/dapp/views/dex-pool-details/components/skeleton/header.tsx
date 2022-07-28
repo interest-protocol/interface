@@ -11,7 +11,7 @@ const HeaderSkeleton: FC = () => (
         <Skeleton height="100%" borderRadius="2rem" />
       </Box>
     ))}
-    <Box key={v4()} width="15rem" ml="L">
+    <Box width="15rem" ml="L">
       <Skeleton />
     </Box>
   </>

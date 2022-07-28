@@ -22,10 +22,10 @@ const LiquidityDetailsCardLine: FC<LiquidityDetailsCardLineProps> = ({
       <Box display="flex" alignItems="center">
         {symbol == '???' ? (
           <>
-            <Box key={v4()} width="1.2rem" height="1.2rem" borderRadius="2rem">
+            <Box width="1.2rem" height="1.2rem" borderRadius="2rem">
               <Skeleton height="100%" borderRadius="2rem" />
             </Box>
-            <Box key={v4()} width="2.5rem" ml="S">
+            <Box width="2.5rem" ml="S">
               <Skeleton />
             </Box>
           </>
@@ -47,7 +47,7 @@ const LiquidityDetailsCardLine: FC<LiquidityDetailsCardLineProps> = ({
       <Box display="flex" alignItems="center">
         <Typography variant="normal" mr="M" fontSize="0.8rem">
           {value == '0.00' ? (
-            <Box key={v4()} width="2.5rem">
+            <Box width="2.5rem">
               <Skeleton />
             </Box>
           ) : (

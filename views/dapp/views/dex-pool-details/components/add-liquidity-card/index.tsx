@@ -245,10 +245,10 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({ tokens, isStable }) => {
           currencyPrefix={
             symbol == '???' ? (
               <>
-                <Box key={v4()} width="1rem" height="1rem" borderRadius="2rem">
+                <Box width="1rem" height="1rem" borderRadius="2rem">
                   <Skeleton height="100%" borderRadius="2rem" />
                 </Box>
-                <Box key={v4()} width="2.5rem" ml="L">
+                <Box width="2.5rem" ml="L">
                   <Skeleton />
                 </Box>
               </>
