@@ -15,6 +15,7 @@ export interface RemoveLiquidityCardProps {
   lpBalance: BigNumber;
   lpAllowance: BigNumber;
   pairAddress: string;
+  isFetchingInitialData: boolean;
 }
 
 export interface IRemoveLiquidityForm {
@@ -38,6 +39,7 @@ export interface TokenAmountProps {
   control: Control<IRemoveLiquidityForm>;
   symbol: string;
   name: Exclude<keyof IRemoveLiquidityForm, 'lpAmount'>;
+  isFetchingInitialData: boolean;
 }
 
 export interface RemoveLiquidityManagerProps {

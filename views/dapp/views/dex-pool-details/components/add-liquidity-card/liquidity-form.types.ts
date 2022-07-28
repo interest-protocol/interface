@@ -21,6 +21,7 @@ export interface IToken {
 export interface AddLiquidityCardProps {
   isStable: boolean;
   tokens: [IToken, IToken];
+  fetchingInitialData: boolean;
 }
 
 export interface AddLiquidityManagerProps {

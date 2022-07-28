@@ -2,6 +2,7 @@ import { BigNumber } from 'ethers';
 import { identity, o, prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
+import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import {
@@ -45,7 +46,11 @@ const INPUT_NAMES = ['token0Amount', 'token1Amount'] as Array<
 
 const get90Percent = getBNPercent(90);
 
-const AddLiquidityCard: FC<AddLiquidityCardProps> = ({ tokens, isStable }) => {
+const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
+  tokens,
+  isStable,
+  fetchingInitialData,
+}) => {
   const [loading, setLoading] = useState(false);
   const [isFetchingQuote, setIsFetchingQuote] = useState(false);
 
@@ -233,17 +238,28 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({ tokens, isStable }) => {
           balance={IntMath.toNumber(balance, decimals)}
           disabled={loading || isFetchingQuote || allowance.isZero()}
           currencyPrefix={
-            <Box
-              display="flex"
-              width="4.5rem"
-              maxHeight="1rem"
-              alignItems="center"
-            >
-              {Icon}
-              <Typography variant="normal" ml="M" maxHeight="1rem">
-                {symbol}
-              </Typography>
-            </Box>
+            fetchingInitialData ? (
+              <>
+                <Box width="1rem" height="1rem" borderRadius="2rem">
+                  <Skeleton height="100%" borderRadius="2rem" />
+                </Box>
+                <Box width="2.5rem" ml="L">
+                  <Skeleton />
+                </Box>
+              </>
+            ) : (
+              <Box
+                display="flex"
+                width="4.5rem"
+                maxHeight="1rem"
+                alignItems="center"
+              >
+                {Icon}
+                <Typography variant="normal" ml="M" maxHeight="1rem">
+                  {symbol}
+                </Typography>
+              </Box>
+            )
           }
         />
       ))}
@@ -270,19 +286,25 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({ tokens, isStable }) => {
               : '1fr 1fr'
           }
         >
-          {tokens.filter(filterFn).map(({ symbol, address }) => (
-            <Button
-              key={v4()}
-              width="100%"
-              variant="primary"
-              disabled={loading}
-              bg="bottomBackground"
-              hover={{ bg: 'accentActive' }}
-              onClick={() => handleApproveToken(address, symbol)}
-            >
-              Approve {symbol}
-            </Button>
-          ))}
+          {fetchingInitialData ? (
+            <Box width="200%" mx="auto" cursor="pointer">
+              <Skeleton height="2rem" width="100%" borderRadius="L" />
+            </Box>
+          ) : (
+            tokens.filter(filterFn).map(({ symbol, address }) => (
+              <Button
+                key={v4()}
+                width="100%"
+                variant="primary"
+                disabled={loading}
+                bg="bottomBackground"
+                hover={{ bg: 'accentActive' }}
+                onClick={() => handleApproveToken(address, symbol)}
+              >
+                Approve {symbol}
+              </Button>
+            ))
+          )}
           {!needsAllowance && (
             <>
               <Button

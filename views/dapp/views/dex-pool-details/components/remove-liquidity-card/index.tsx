@@ -35,6 +35,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
   lpAllowance,
   lpBalance,
   pairAddress,
+  isFetchingInitialData,
 }) => {
   const { account, signer, chainId } = useGetSigner();
 
@@ -183,12 +184,14 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
           symbol={tokens[0].symbol}
           control={control}
           name="token0Amount"
+          isFetchingInitialData={isFetchingInitialData}
         />
         <TokenAmount
           Icon={tokens[1].Icon}
           symbol={tokens[1].symbol}
           control={control}
           name="token1Amount"
+          isFetchingInitialData={isFetchingInitialData}
         />
       </Box>
       <RemoveLiquidityManager

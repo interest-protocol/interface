@@ -89,10 +89,10 @@ export const processPairData = (
     token1Allowance: ZERO_BIG_NUMBER,
   };
 
-  if (!data) return { ...defaultData, pairExists: true };
+  if (!data) return { ...defaultData, pairExists: true, loading: true };
 
   if (data.allowances.length === 0)
-    return { ...defaultData, pairExists: false };
+    return { ...defaultData, pairExists: false, loading: false };
 
   return {
     token0Metadata: processMetadata(
@@ -135,5 +135,6 @@ export const processPairData = (
       data.allowances[2]
     ),
     pairExists: true,
+    loading: false,
   };
 };

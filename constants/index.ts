@@ -21,11 +21,6 @@ export enum StakeState {
   Unstake,
 }
 
-export enum PairType {
-  Stable,
-  Volatile,
-}
-
 export const NO_STATE_ERROR = '';
 
 export const DEFAULT_ERC_20_DECIMALS = 18;
