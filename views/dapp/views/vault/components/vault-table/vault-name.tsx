@@ -1,25 +1,27 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 import { v4 } from 'uuid';
 
+import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
+import { TOKEN_SYMBOL } from '@/sdk';
 
 import { VaultNameProps } from '../../vault.types';
 
-const VaultName: FC<VaultNameProps> = ({ Icons, caption, name, isAuto }) => {
-  const getToken = (
-    Token: FC<SVGAttributes<SVGSVGElement>>,
-    length: number
-  ) => (
-    <Token
-      width={length == 1 ? '100%' : '80%'}
-      height={length == 1 ? '100%' : '80%'}
-    />
-  );
+const VaultName: FC<VaultNameProps> = ({ vault, caption, isAuto }) => {
+  const returnSVG = (symbol: string) => {
+    const SVG = TOKENS_SVG_MAP[symbol] || TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+    return (
+      <SVG
+        width={vault?.length == 1 ? '100%' : '80%'}
+        height={vault?.length == 1 ? '100%' : '80%'}
+      />
+    );
+  };
   return (
     <Box height="2rem" display="flex">
       <Box width="1.5rem" height="100%" my="auto">
-        {Icons?.length == 1 ? (
-          getToken(Icons?.[0], Icons?.length)
+        {vault?.length == 1 ? (
+          returnSVG(vault?.[0].symbol)
         ) : (
           <Box position="relative" width="100%" height="100%">
             <Box
@@ -30,10 +32,10 @@ const VaultName: FC<VaultNameProps> = ({ Icons, caption, name, isAuto }) => {
               display="flex"
               justifyContent="flex-end"
             >
-              {getToken(Icons?.[0], Icons?.length)}
+              {returnSVG(vault?.[0].symbol)}
             </Box>
             <Box position="absolute" bottom="0" width="100%" key={v4()}>
-              {getToken(Icons?.[1], Icons?.length)}
+              {returnSVG(vault?.[1].symbol)}
             </Box>
           </Box>
         )}
@@ -63,8 +65,16 @@ const VaultName: FC<VaultNameProps> = ({ Icons, caption, name, isAuto }) => {
           )}
           {caption}
         </Typography>
-        <Typography variant="normal" fontSize="0.85rem" fontWeight="500" mt="M">
-          {name}
+        <Typography
+          variant="normal"
+          fontSize="0.85rem"
+          textTransform="uppercase"
+          fontWeight="500"
+          mt="M"
+        >
+          {vault?.length == 1
+            ? vault?.[0].symbol
+            : vault?.[0].symbol + '-' + vault?.[1].symbol}
         </Typography>
       </Box>
     </Box>

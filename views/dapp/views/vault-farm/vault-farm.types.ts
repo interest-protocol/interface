@@ -1,3 +1,5 @@
+import { VaultDetails } from '../vault/vault.types';
+
 export interface VaultFarmDetailsItemProps {
   title: string;
   content: string;
@@ -10,15 +12,17 @@ export interface IVaultFarmForm {
   value: string;
 }
 
-export interface VersionProps {
-  version: string;
-}
-
 export interface VaultFarmProps {
   farm: string;
 }
 
-export interface VaultFarmDetailsProps extends VersionProps {
-  version: string;
+export interface HeaderProps {
+  header: string;
+}
+
+export interface VaultFarmDetailsProps {
   items: ReadonlyArray<VaultFarmDetailsItemProps>;
+}
+export interface VaultFarmPoolProps {
+  VaultPoolDetails: ReadonlyArray<VaultDetails>;
 }

@@ -1,14 +1,16 @@
 import { FC, useState } from 'react';
 import { animated, useSpring } from 'react-spring';
+import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 
 import VaultFarmDetailsItem from './farm-detail-item';
+import { VaultFarmPoolProps } from './vault-farm.types';
 
 const AnimatedBox = animated(Box);
 
-const VaultFarmPool: FC = () => {
+const VaultFarmPool: FC<VaultFarmPoolProps> = ({ VaultPoolDetails }) => {
   const [openDetails, setOpenDetails] = useState(false);
   const { arrowInvert } = useSpring({
     from: {
@@ -21,6 +23,7 @@ const VaultFarmPool: FC = () => {
       duration: 500,
     },
   });
+
   return (
     <>
       <Box
@@ -46,24 +49,14 @@ const VaultFarmPool: FC = () => {
       {openDetails && (
         <Box p="0 2rem 2rem" cursor="default">
           <Box bg="background" p="1.5rem" borderRadius="0.5rem">
-            <VaultFarmDetailsItem
-              title="Earn"
-              content="BUNNY"
-              fontSize="0.8rem"
-              color="textSecondary"
-            />
-            <VaultFarmDetailsItem
-              title="Type"
-              content="Investment"
-              fontSize="0.8rem"
-              color="textSecondary"
-            />
-            <VaultFarmDetailsItem
-              title="TVL"
-              content="$461,952.79"
-              fontSize="0.8rem"
-              color="textSecondary"
-            />
+            {VaultPoolDetails.map((item) => (
+              <VaultFarmDetailsItem
+                {...item}
+                fontSize="0.8rem"
+                color="textSecondary"
+                key={v4()}
+              />
+            ))}
           </Box>
         </Box>
       )}

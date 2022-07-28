@@ -1,4 +1,6 @@
-import { Dispatch, FC, SetStateAction, SVGAttributes } from 'react';
+import { Dispatch, SetStateAction } from 'react';
+
+import { ERC20 } from '@/sdk';
 
 export interface VaultTableProps {
   data: ReadonlyArray<VaultData>;
@@ -11,10 +13,9 @@ export interface VaultCardItemProps {
 }
 
 export interface VaultNameProps {
-  Icons: ReadonlyArray<FC<SVGAttributes<SVGSVGElement>>>;
+  vault: ReadonlyArray<ERC20>;
   isAuto?: boolean;
   caption: string;
-  name: string;
 }
 
 export interface VaultRow {
@@ -25,15 +26,22 @@ export interface VaultRow {
   tvl: string;
 }
 
+export interface VaultDetails {
+  title: string;
+  content: string;
+}
+
 export interface VaultData {
-  items: {
-    id: string;
-    vaultName: (string | boolean | FC<SVGAttributes<SVGSVGElement>>[])[];
-    apy: string;
-    earn: string;
-    type: string;
-    tvl: string;
-  };
+  id: any;
+  vault: ReadonlyArray<ERC20>;
+  vaultDetails: ReadonlyArray<VaultDetails>;
+  caption: string;
+  isAuto?: boolean;
+  apy: string;
+  earn: string;
+  type: 'Investment' | 'Swap';
+  tvl: string;
+  version: 1 | 2;
 }
 
 export interface StateProps {

@@ -1,4 +1,4 @@
-import { FC, SVGAttributes, useState } from 'react';
+import { FC, useState } from 'react';
 
 import { Container } from '@/components';
 import { RoutesEnum } from '@/constants';
@@ -15,28 +15,10 @@ import VaultFarmTitle from './farm-title';
 import { VaultFarmProps } from './vault-farm.types';
 
 const VaultFarm: FC<VaultFarmProps> = ({ farm }) => {
-  const [select, setSelect] = useState('Version 1');
+  const [select, setSelect] = useState('Stable');
 
-  const dataFarm = farm ? DATA.filter((item) => item?.items?.id == farm) : DATA;
+  const dataFarm = farm ? DATA.filter((item) => item?.id == farm) : DATA;
 
-  const DETAILS_FARMS = [
-    { title: 'APR', content: '33%', version: ['Version 1'] },
-    {
-      title: 'Deposit',
-      content: '0.0',
-      version: ['Version 1', 'Version 2'],
-    },
-    {
-      title: 'Position',
-      content: '2º',
-      version: ['Version 1'],
-    },
-    {
-      title: 'Profit',
-      content: '0.0',
-      version: ['Version 1'],
-    },
-  ];
   return (
     <Box
       flex="1"
@@ -64,20 +46,21 @@ const VaultFarm: FC<VaultFarmProps> = ({ farm }) => {
             borderBottomRightRadius="M"
           >
             <VaultFarmTitle
-              Icons={
-                dataFarm?.[0]?.items?.vaultName[0] as FC<
-                  SVGAttributes<SVGSVGElement>
-                >[]
-              }
-              isAuto={dataFarm?.[0]?.items?.vaultName[1] as boolean}
-              caption={dataFarm?.[0]?.items?.vaultName[2] as string}
-              name={dataFarm?.[0]?.items?.vaultName[3] as string}
+              vault={dataFarm?.[0]?.vault}
+              isAuto={dataFarm?.[0]?.isAuto}
+              caption={dataFarm?.[0]?.caption}
             />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
-            <VaultFarmDetails version={select} items={DETAILS_FARMS} />
-            <VaultFarmBalance version={select} />
+            <VaultFarmDetails items={dataFarm?.[0]?.vaultDetails} />
+            <VaultFarmBalance header={select} />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
-            <VaultFarmPool />
+            <VaultFarmPool
+              VaultPoolDetails={[
+                { title: 'Earn', content: dataFarm?.[0]?.earn },
+                { title: 'Type', content: dataFarm?.[0]?.type },
+                { title: 'TVL', content: dataFarm?.[0]?.tvl },
+              ]}
+            />
           </Box>
         </Box>
       </Container>

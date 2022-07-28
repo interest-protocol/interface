@@ -3,12 +3,16 @@ import { FC } from 'react';
 import { Container } from '@/components';
 import { Box } from '@/elements';
 
-import { StateProps } from '../../vault.types';
+import { FilterTableProps } from './filter-table.types';
 import InputSearch from './input-search';
 import OptionButton from './option-button';
-import TVLSelect from './tvl-select';
 
-const FilterTable: FC<StateProps> = ({ state, setState }) => {
+const FilterTable: FC<FilterTableProps> = ({
+  state,
+  setState,
+  register,
+  setValue,
+}) => {
   return (
     <Container
       dapp
@@ -17,7 +21,7 @@ const FilterTable: FC<StateProps> = ({ state, setState }) => {
       mt="L"
       display="flex"
       justifyContent="space-between"
-      flexDirection={['column', 'column', 'row']}
+      flexDirection={['column', 'column', 'column', 'row']}
     >
       <OptionButton
         options={['All', 'Investment', 'Swap']}
@@ -25,12 +29,11 @@ const FilterTable: FC<StateProps> = ({ state, setState }) => {
         setWhoIsSelected={setState}
       />
       <Box
-        height={['auto', 'auto', '3rem']}
+        height={['auto', 'auto', 'auto', '3rem']}
         display="flex"
-        mt={['M', 'M', 'unset']}
+        mt={['M', 'M', 'M', 'unset']}
       >
-        <InputSearch />
-        <TVLSelect />
+        <InputSearch register={register} setValue={setValue} />
       </Box>
     </Container>
   );

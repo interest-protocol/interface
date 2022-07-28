@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
@@ -8,7 +8,16 @@ import { VaultData } from '../../vault.types';
 import VaultCardItem from './vault-card-item';
 import VaultName from './vault-name';
 
-const VaultCard: FC<VaultData> = ({ items }) => {
+const VaultCard: FC<VaultData> = ({
+  id,
+  vault,
+  apy,
+  earn,
+  type,
+  tvl,
+  isAuto,
+  caption,
+}) => {
   const { push } = useRouter();
 
   return (
@@ -23,7 +32,7 @@ const VaultCard: FC<VaultData> = ({ items }) => {
           {
             pathname: Routes[RoutesEnum.VaultFarm],
             query: {
-              farm: items.id as string,
+              farm: id as string,
             },
           },
           undefined,
@@ -39,12 +48,7 @@ const VaultCard: FC<VaultData> = ({ items }) => {
         justifyContent="space-between"
         alignItems="center"
       >
-        <VaultName
-          Icons={items.vaultName[0] as FC<SVGAttributes<SVGSVGElement>>[]}
-          isAuto={items.vaultName[1] as boolean}
-          caption={items.vaultName[2] as string}
-          name={items.vaultName[3] as string}
-        />
+        <VaultName vault={vault} isAuto={isAuto} caption={caption} />
         <Box color="accent" display="flex" flexDirection="column">
           <Typography
             variant={'normal'}
@@ -62,14 +66,14 @@ const VaultCard: FC<VaultData> = ({ items }) => {
             lineHeight="1.313rem"
             textAlign="right"
           >
-            {items.apy}
+            {apy}
           </Typography>
         </Box>
       </Box>
       <Typography variant="normal" as="hr" color="#33373B" mb="M" />
-      <VaultCardItem title="Earn" content={items.earn} />
-      <VaultCardItem title="Platform" content={items.type} />
-      <VaultCardItem title="TVL" content={items.tvl} />
+      <VaultCardItem title="Earn" content={earn} />
+      <VaultCardItem title="Platform" content={type} />
+      <VaultCardItem title="TVL" content={tvl} />
     </Box>
   );
 };

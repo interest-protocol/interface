@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
@@ -40,14 +40,9 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
                   return {
                     items: [
                       <VaultName
-                        Icons={
-                          item.items.vaultName[0] as FC<
-                            SVGAttributes<SVGSVGElement>
-                          >[]
-                        }
-                        isAuto={item.items.vaultName[1] as boolean}
-                        caption={item.items.vaultName[2] as string}
-                        name={item.items.vaultName[3] as string}
+                        vault={item.vault}
+                        isAuto={item.isAuto}
+                        caption={item.caption}
                         key={v4()}
                       />,
                       <Typography
@@ -59,7 +54,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
                         textAlign="center"
                         key={v4()}
                       >
-                        {item.items.apy}
+                        {item.apy}
                       </Typography>,
                       <Typography
                         variant={'normal'}
@@ -69,7 +64,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
                         textAlign="center"
                         key={v4()}
                       >
-                        {item.items.earn}
+                        {item.earn}
                       </Typography>,
                       <Typography
                         variant={'normal'}
@@ -79,7 +74,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
                         textAlign="center"
                         key={v4()}
                       >
-                        {item.items.type}
+                        {item.type}
                       </Typography>,
                       <Typography
                         variant={'normal'}
@@ -89,7 +84,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
                         textAlign="center"
                         key={v4()}
                       >
-                        {item.items.tvl}
+                        {item.tvl}
                       </Typography>,
                     ],
                     handleClick: () =>
@@ -97,7 +92,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
                         {
                           pathname: Routes[RoutesEnum.VaultFarm],
                           query: {
-                            farm: item.items.id as string,
+                            farm: item.id as string,
                           },
                         },
                         undefined,

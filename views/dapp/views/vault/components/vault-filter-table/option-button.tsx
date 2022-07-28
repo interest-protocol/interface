@@ -10,12 +10,12 @@ const OptionButton: FC<IButtonOption> = ({
   whoIsSelected,
   setWhoIsSelected,
 }) => (
-  <Box height={['3.5rem', '3.5rem', '3rem']}>
+  <Box width={['100%', '100%', '100%', '16rem']}>
     {options.map((item) => (
       <Button
         variant="secondary"
         bg={whoIsSelected == item ? 'accent' : 'foreground'}
-        height="100%"
+        height="3rem"
         px="L"
         mr="M"
         key={v4()}

@@ -4,9 +4,9 @@ import { useForm } from 'react-hook-form';
 import { Box, Button, Typography } from '@/elements';
 
 import InputBalance from './input-balance';
-import { IVaultFarmForm, VersionProps } from './vault-farm.types';
+import { HeaderProps, IVaultFarmForm } from './vault-farm.types';
 
-const VaultFarmBalance: FC<VersionProps> = ({ version }) => {
+const VaultFarmBalance: FC<HeaderProps> = ({ header }) => {
   const { register, setValue } = useForm<IVaultFarmForm>({
     defaultValues: {
       value: '',
@@ -16,7 +16,7 @@ const VaultFarmBalance: FC<VersionProps> = ({ version }) => {
   return (
     <Box p="0 2rem 0rem">
       <Box display="flex" justifyContent="space-between" color="textSecondary">
-        {version == 'Version 2' && (
+        {header == 'Unstable' && (
           <Typography
             variant="normal"
             fontSize={['0.65rem', '0.65rem', '0.85rem', '0.85rem']}
@@ -32,7 +32,7 @@ const VaultFarmBalance: FC<VersionProps> = ({ version }) => {
           color="textSecondary"
           ml="M"
           textAlign="right"
-          width={version == 'Version 2' ? 'auto' : '100%'}
+          width={header == 'Unstable' ? 'auto' : '100%'}
         >
           Balance: 0.000
         </Typography>
