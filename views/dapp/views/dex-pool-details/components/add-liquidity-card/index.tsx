@@ -46,7 +46,11 @@ const INPUT_NAMES = ['token0Amount', 'token1Amount'] as Array<
 
 const get90Percent = getBNPercent(90);
 
-const AddLiquidityCard: FC<AddLiquidityCardProps> = ({ tokens, isStable }) => {
+const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
+  tokens,
+  isStable,
+  fetchingInitialData,
+}) => {
   const [loading, setLoading] = useState(false);
   const [isFetchingQuote, setIsFetchingQuote] = useState(false);
 
@@ -234,7 +238,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({ tokens, isStable }) => {
           balance={IntMath.toNumber(balance, decimals)}
           disabled={loading || isFetchingQuote || allowance.isZero()}
           currencyPrefix={
-            symbol == '???' ? (
+            fetchingInitialData ? (
               <>
                 <Box width="1rem" height="1rem" borderRadius="2rem">
                   <Skeleton height="100%" borderRadius="2rem" />
@@ -282,7 +286,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({ tokens, isStable }) => {
               : '1fr 1fr'
           }
         >
-          {tokens[0].symbol == '???' ? (
+          {fetchingInitialData ? (
             <Box width="200%" mx="auto" cursor="pointer">
               <Skeleton height="2rem" width="100%" borderRadius="L" />
             </Box>

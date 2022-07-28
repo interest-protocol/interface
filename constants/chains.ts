@@ -104,12 +104,6 @@ export const isChainIdSupported = includes(__, [
   CHAIN_ID.RINKEBY,
 ]);
 
-export const verifyChainId = ifElse(
-  isChainIdSupported,
-  identity,
-  always(CHAIN_ID.UNSUPPORTED)
-);
-
 export const getNativeCurrencySymbol = (chainId: number): string =>
   pathOr('???', [chainId.toString(), 'nativeCurrency', 'symbol'], CHAINS);
 
