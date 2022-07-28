@@ -79,36 +79,45 @@ const Header: FC = () => {
             DEX
           </Typography>
         </Link>
-        <Link href={Routes[RoutesEnum.Vault]}>
-          <Typography
-            px="XL"
-            cursor="pointer"
-            variant="normal"
-            borderRight="1px solid"
-            borderColor="bottomBackground"
-            color={
-              pathname.includes(Routes[RoutesEnum.Vault]) ? 'accent' : 'inherit'
+        <Box>
+          <Dropdown
+            title={
+              <Typography
+                px="XL"
+                cursor="pointer"
+                variant="normal"
+                color={
+                  pathname === Routes[RoutesEnum.Earn] ||
+                  pathname.includes(Routes[RoutesEnum.Vault])
+                    ? 'accent'
+                    : 'inherit'
+                }
+                hover={{ color: 'accentActive' }}
+              >
+                Earn
+              </Typography>
             }
-            hover={{ color: 'accentActive' }}
-          >
-            Vault
-          </Typography>
-        </Link>
-        <Link href={Routes[RoutesEnum.Earn]}>
-          <Typography
-            px="XL"
-            cursor="pointer"
-            variant="normal"
-            borderRight="1px solid"
-            borderColor="bottomBackground"
-            color={
-              pathname.includes(Routes[RoutesEnum.Earn]) ? 'accent' : 'inherit'
-            }
-            hover={{ color: 'accentActive' }}
-          >
-            Earn
-          </Typography>
-        </Link>
+            mode="menu"
+            data={[
+              {
+                value: 'Farm',
+                displayOption: 'Farm',
+                onSelect: () =>
+                  push(Routes[RoutesEnum.Earn], undefined, {
+                    shallow: true,
+                  }),
+              },
+              {
+                value: 'Vaults',
+                displayOption: 'Vaults',
+                onSelect: () =>
+                  push(Routes[RoutesEnum.Vault], undefined, {
+                    shallow: true,
+                  }),
+              },
+            ]}
+          />
+        </Box>
         <Box>
           <Dropdown
             title={

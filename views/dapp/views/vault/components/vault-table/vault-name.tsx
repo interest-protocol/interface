@@ -18,8 +18,8 @@ const VaultName: FC<VaultNameProps> = ({ vault, caption, isAuto }) => {
     );
   };
   return (
-    <Box height="2rem" display="flex">
-      <Box width="1.5rem" height="100%" my="auto">
+    <Box display="flex">
+      <Box width="1.5rem" height="2rem" my="auto">
         {vault?.length == 1 ? (
           returnSVG(vault?.[0].symbol)
         ) : (

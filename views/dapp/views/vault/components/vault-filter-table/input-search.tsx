@@ -13,10 +13,10 @@ const InputSearch: FC<InputSearchProps> = ({ register, setValue }) => (
     display="flex"
     alignItems="center"
     height="3rem"
-    width={['100%', '100%', '100%', '21rem']}
+    width={['100%', '100%', '100%', '19rem']}
   >
     <Input
-      placeholder="Search by name, symbol or address..."
+      placeholder="Type an address, name or symbol"
       fontSize="0.875rem"
       shieldProps={{
         width: '100%',

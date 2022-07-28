@@ -13,7 +13,7 @@ import { DesktopVaultSkeletonRow } from './vault-skeleton-row';
 
 const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
   const { push } = useRouter();
-  const HEADING = ['Vault Name', 'APY', 'Earn', 'Type', 'TVL'];
+  const HEADING = ['Vaults Name', 'APY', 'Earn', 'Type', 'TVL'];
   return (
     <Container dapp px="M" width="100%">
       <Box display={['none', 'none', 'none', 'block']}>

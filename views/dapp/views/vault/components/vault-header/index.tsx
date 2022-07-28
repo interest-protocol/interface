@@ -11,10 +11,10 @@ const VaultHeader: FC<{ size: string | number }> = ({ size }) => (
     width="100%"
     display="flex"
     alignItems="center"
-    justifyContent={['center', 'flex-start']}
+    justifyContent={['center', 'center', 'center', 'flex-start']}
   >
     <Typography variant="normal" fontWeight="bold">
-      Vault ({size})
+      Vaults ({size})
     </Typography>
   </Container>
 );

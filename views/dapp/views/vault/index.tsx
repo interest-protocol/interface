@@ -36,6 +36,7 @@ const Vault: FC = () => {
         py="XL"
         px="NONE"
         width="55%"
+        minWidth="20rem"
         display="flex"
         flexDirection="column"
         justifyContent={['center', 'flex-start']}

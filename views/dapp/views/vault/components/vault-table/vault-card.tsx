@@ -70,7 +70,7 @@ const VaultCard: FC<VaultData> = ({
           </Typography>
         </Box>
       </Box>
-      <Typography variant="normal" as="hr" color="#33373B" mb="M" />
+      <Typography variant="normal" as="hr" color="#33373B" my="M" />
       <VaultCardItem title="Earn" content={earn} />
       <VaultCardItem title="Platform" content={type} />
       <VaultCardItem title="TVL" content={tvl} />
