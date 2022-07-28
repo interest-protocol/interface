@@ -35,6 +35,7 @@ import { TimesSVG } from '@/svg';
 import {
   handleZeroWrappedToken,
   isSameAddressZ,
+  isZeroAddress,
   showToast,
   showTXSuccessToast,
   stringToBigNumber,
@@ -191,7 +192,7 @@ const FindPoolView: FC = () => {
       // 5 minutes
       const deadline = Math.ceil((new Date().getTime() + 5 * 60 * 1000) / 1000);
 
-      if (isSameAddressZ(token0.address)) {
+      if (isZeroAddress(token0.address)) {
         const safeAmount0 = amount0.gt(nativeBalanceBN)
           ? nativeBalanceBN
           : amount0;
@@ -237,7 +238,7 @@ const FindPoolView: FC = () => {
         validId,
         validSigner,
         token0.address,
-        tokenB.address,
+        token1.address,
         isStable,
         safeAmount0,
         safeAmount1,
