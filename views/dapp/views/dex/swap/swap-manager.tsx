@@ -55,7 +55,12 @@ const SwapManager: FC<SwapManagerProps> = ({
 
     const key = `${tokenInAddress}-${tokenOutAddress}-${debouncedTokenOutValue}`;
 
-    if (!debouncedTokenOutValue) return;
+    if (
+      !debouncedTokenOutValue ||
+      +debouncedTokenOutValue === 0 ||
+      isNaN(+debouncedTokenOutValue)
+    )
+      return;
 
     // If the user is swapping between NATIVE TOKEN <=> WRAPPED NATIVE TOKEN. The amounts are always the same
     if (
@@ -67,8 +72,6 @@ const SwapManager: FC<SwapManagerProps> = ({
       setValue('tokenIn.value', debouncedTokenOutValue);
       return;
     }
-
-    if (debouncedTokenOutValue == '0') return;
 
     const value = AMOUNT_OUT_CACHE.get(key);
 
@@ -153,7 +156,13 @@ const SwapManager: FC<SwapManagerProps> = ({
     if (isFetchingAmountOutTokenIn || tokenOut.setByUser) return;
     const key = `${tokenOutAddress}-${tokenInAddress}-${debouncedTokenInValue}`;
 
-    if (!debouncedTokenInValue) return;
+    if (
+      !debouncedTokenInValue ||
+      +debouncedTokenInValue === 0 ||
+      isNaN(+debouncedTokenInValue)
+    )
+      return;
+
     // If the user is swapping between NATIVE TOKEN <=> WRAPPED NATIVE TOKEN. The amounts are always the same
     if (
       (isZeroAddress(tokenIn.address) &&
@@ -164,7 +173,6 @@ const SwapManager: FC<SwapManagerProps> = ({
       setValue('tokenOut.value', debouncedTokenInValue);
       return;
     }
-    if (debouncedTokenInValue == '0') return;
 
     const value = AMOUNT_OUT_CACHE.get(key);
 
