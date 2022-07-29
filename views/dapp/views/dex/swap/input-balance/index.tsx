@@ -90,7 +90,10 @@ const InputBalance: FC<InputBalanceProps> = ({
               bg="bottomBackground"
               hover={{ bg: 'accent' }}
               active={{ bg: 'accentActive' }}
-              onClick={() => setValue?.(`${name}.value`, max)}
+              onClick={() => {
+                setValue?.(`${name}.value`, max);
+                handleSelectedByUser();
+              }}
             >
               max
             </Button>
