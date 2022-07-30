@@ -45,6 +45,24 @@ export const useGetDexAllowancesAndBalances = (
       loading: true,
     };
 
+  // Both of the tokens are the native token
+  if (data.balances.length === 0)
+    return {
+      balancesData: {
+        [ethers.constants.AddressZero]: {
+          allowance: ethers.constants.MaxUint256,
+          balance: nativeBalanceBN,
+        },
+        [ethers.constants.AddressZero]: {
+          allowance: ethers.constants.MaxUint256,
+          balance: nativeBalanceBN,
+        },
+      },
+      balancesError: '',
+      mutate: async () => void (await mutate()),
+      loading: false,
+    };
+
   // One of the tokens is the native token
   if (data.balances.length === 1)
     return {

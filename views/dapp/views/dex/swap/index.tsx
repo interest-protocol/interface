@@ -12,7 +12,7 @@ import {
 } from '@/hooks';
 import { IntMath, TOKEN_SYMBOL, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
 import { CogsSVG } from '@/svg';
-import { isSameAddress } from '@/utils';
+import { isSameAddress, isZeroAddress } from '@/utils';
 
 import SwapSelectCurrency from '../components/swap-select-currency';
 import InputBalance from './input-balance';
@@ -232,8 +232,6 @@ const Swap: FC = () => {
               }
             />
             <Box
-              mx="auto"
-              my="-1.5rem"
               width="3rem"
               height="3rem"
               display="flex"
@@ -241,11 +239,14 @@ const Swap: FC = () => {
               cursor="pointer"
               borderRadius="50%"
               border="1px solid"
+              mx={['XL', 'auto']}
               position="relative"
               alignItems="center"
               borderColor="accent"
               onClick={flipTokens}
               justifyContent="center"
+              mt={['-1rem', '-1.5rem']}
+              mb={['-1.2rem', '-1.5rem']}
               hover={{
                 boxShadow: '0 0 0.5rem #0055FF',
               }}
@@ -291,7 +292,9 @@ const Swap: FC = () => {
           <SwapMessage {...SWAP_MESSAGES['error-amount-out']} />
         )}
         {balancesError && <SwapMessage {...SWAP_MESSAGES['error-balances']} />}
-        {isSameAddress(tokenInAddress, tokenOutAddress) && (
+        {(isSameAddress(tokenInAddress, tokenOutAddress) ||
+          (isZeroAddress(tokenInAddress) &&
+            isZeroAddress(tokenOutAddress))) && (
           <SwapMessage {...SWAP_MESSAGES['error-same-token']} />
         )}
         {hasNoMarket && <SwapMessage {...SWAP_MESSAGES['info-no-pool']} />}
