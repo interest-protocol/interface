@@ -23,7 +23,10 @@ const InputBalance: FC<InputBalanceProps> = ({
     <Box display="flex" flexDirection="column-reverse" alignItems="flex-end">
       <Input
         type="text"
-        max={balance}
+        max={balance.toLocaleString('fullwide', {
+          useGrouping: false,
+          maximumSignificantDigits: 6,
+        })}
         placeholder="0.0"
         onFocus={onFocus}
         disabled={disabled}
@@ -37,7 +40,12 @@ const InputBalance: FC<InputBalanceProps> = ({
                   value[value.length - 1] !== '.'
                   ? value.slice(0, value.length - 1)
                   : value,
-                balance ? +balance : undefined
+                balance
+                  ? +balance.toLocaleString('fullwide', {
+                      useGrouping: false,
+                      maximumSignificantDigits: 6,
+                    })
+                  : undefined
               )
             );
           },
@@ -72,7 +80,13 @@ const InputBalance: FC<InputBalanceProps> = ({
               onClick={() => {
                 if (disabled) return;
                 if (!setValue) return;
-                setValue(name, balance.toString());
+                setValue(
+                  name,
+                  balance.toLocaleString('fullwide', {
+                    useGrouping: false,
+                    maximumSignificantDigits: 6,
+                  })
+                );
               }}
             >
               max
