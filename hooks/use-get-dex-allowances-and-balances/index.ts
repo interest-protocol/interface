@@ -63,15 +63,29 @@ export const useGetDexAllowancesAndBalances = (
       loading: false,
     };
 
+  if (data.balances.length == 2)
+    return {
+      balancesData: {
+        [getAddress(filteredTokens[0])]: {
+          balance: data.balances[0],
+          allowance: data.allowances[0],
+        },
+        [getAddress(filteredTokens[1])]: {
+          balance: data.balances[1],
+          allowance: data.allowances[1],
+        },
+      },
+      balancesError: '',
+      mutate: async () => void (await mutate()),
+      loading: false,
+    };
+
+  // if the user selects native token for tokenA and tokenB
   return {
     balancesData: {
-      [getAddress(filteredTokens[0])]: {
-        balance: data.balances[0],
-        allowance: data.allowances[0],
-      },
-      [getAddress(filteredTokens[1])]: {
-        balance: data.balances[1],
-        allowance: data.allowances[1],
+      [ethers.constants.AddressZero]: {
+        allowance: ethers.constants.MaxUint256,
+        balance: nativeBalanceBN,
       },
     },
     balancesError: '',
