@@ -1,4 +1,7 @@
 import { FC, useMemo } from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useCallback } from 'react';
 
 import { Box, Typography } from '@/elements';
 import { useGetFarmsSummary } from '@/hooks';
@@ -7,6 +10,7 @@ import { TimesSVG } from '@/svg';
 import { getSafeFarmSummaryData } from '@/utils';
 
 import { EarnHeader, EarnTable } from './components';
+import EarnTableCollapsible from './components/earn-table/earn-table-collapsible';
 
 const Earn: FC = () => {
   const { error, data: rawData } = useGetFarmsSummary();
@@ -16,6 +20,19 @@ const Earn: FC = () => {
     () => getSafeFarmSummaryData(chainId, rawData),
     [rawData, chainId]
   );
+
+  const [isDesktop, setDesktop] = useState(false);
+
+  const handleSetDesktop = useCallback(() => {
+    const mediaIsDesktop = window.matchMedia('(min-width: 64em)').matches;
+    setDesktop(mediaIsDesktop);
+  }, []);
+
+  useEffect(() => {
+    handleSetDesktop();
+    window.addEventListener('resize', handleSetDesktop);
+    return () => window.removeEventListener('resize', handleSetDesktop);
+  }, []);
 
   if (error)
     return (
@@ -54,14 +71,18 @@ const Earn: FC = () => {
         <Box mt="XL">
           <EarnTable
             isPools
-            data={data.pools}
+            data={Array.from({ length: 25 }, () => ({
+              ...data.pools[0],
+              dropdown: (
+                <EarnTableCollapsible
+                  farm={data.pools[0].farm}
+                  farmTokenPrice={data.pools[0].farmTokenPrice}
+                  intUSDPrice={data.intUSDPrice}
+                />
+              ),
+            }))}
+            isDesktop={isDesktop}
             loading={data.loading}
-            intUSDPrice={data.intUSDPrice}
-          />
-          <EarnTable
-            data={data.farms}
-            loading={data.loading}
-            intUSDPrice={data.intUSDPrice}
           />
         </Box>
       </Box>

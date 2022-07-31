@@ -10,8 +10,9 @@ const DropdownTable: FC<DropdownTableProps> = ({
   data,
   headings,
   ordinate,
-}) => (
-  <>
+  isDesktop,
+}) =>
+  isDesktop ? (
     <Box display={['none', 'none', 'none', 'block']} width="100%">
       <Box
         my="M"
@@ -46,6 +47,7 @@ const DropdownTable: FC<DropdownTableProps> = ({
         ))}
       </Box>
     </Box>
+  ) : (
     <Box
       mx="M"
       my="XL"
@@ -67,7 +69,6 @@ const DropdownTable: FC<DropdownTableProps> = ({
         />
       ))}
     </Box>
-  </>
-);
+  );
 
 export default DropdownTable;

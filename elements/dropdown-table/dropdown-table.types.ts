@@ -20,6 +20,7 @@ interface IRow {
 
 export interface DropdownTableProps {
   ordinate?: boolean;
+  isDesktop?: boolean;
   data: ReadonlyArray<IRow>;
   headings: ReadonlyArray<ITableHeading>;
 }
