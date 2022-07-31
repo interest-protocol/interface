@@ -1,31 +1,41 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, useEffect, useState } from 'react';
-import { animated, config, useSpring } from 'react-spring';
+import { FC, useCallback, useEffect, useState } from 'react';
+import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
 
 import { Container, SocialMediaCard } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
+import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
 import { BarsLPSVG, LogoSVG, TimesSVG } from '@/svg';
 
 import { HeaderProps } from './header.types';
 import MenuList from './menu-list';
 
 const AnimatedBox = animated(Box);
+const menuButtonId = `menu-wrapper-${v4()}`;
 
 const Header: FC<HeaderProps> = ({ empty }) => {
   const { push } = useRouter();
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const [mobileMenu, setMobileMenu] = useState(false);
   const fadeStyles = useSpring({
-    config: { ...config.stiff },
     from: { maxHeight: '0rem', minHeight: '0rem' },
     to: {
       minHeight: mobileMenu ? '10rem' : '0rem',
       maxHeight: mobileMenu ? '30rem' : '0rem',
     },
   });
+  const toggleMenu = () => setMobileMenu(!mobileMenu);
+
+  const handleCloseMenu = useCallback((event: any) => {
+    if (event?.path?.some((node: any) => node?.id == menuButtonId)) return;
+    setMobileMenu(false);
+  }, []);
+
+  const dropdownContainerRef =
+    useClickOutsideListenerRef<HTMLDivElement>(handleCloseMenu);
 
   const handleChangeScrollPercentage = () =>
     setScrollPercentage(
@@ -88,8 +98,8 @@ const Header: FC<HeaderProps> = ({ empty }) => {
           <>
             <Box
               as="nav"
-              display={['none', 'flex']}
               alignItems="center"
+              display={['none', 'flex']}
               flexDirection={['column-reverse', 'row']}
             >
               <Box
@@ -114,9 +124,10 @@ const Header: FC<HeaderProps> = ({ empty }) => {
               </Box>
             </Box>
             <Box
-              display={['block', 'none']}
+              id={menuButtonId}
               cursor="pointer"
-              onClick={() => setMobileMenu(!mobileMenu)}
+              onClick={toggleMenu}
+              display={['block', 'none']}
             >
               <Box width="2rem" p="S">
                 {mobileMenu ? (
@@ -129,7 +140,11 @@ const Header: FC<HeaderProps> = ({ empty }) => {
           </>
         )}
       </Container>
-      <AnimatedBox overflow="hidden" style={fadeStyles}>
+      <AnimatedBox
+        ref={dropdownContainerRef}
+        overflow="hidden"
+        style={fadeStyles}
+      >
         <MenuList />
       </AnimatedBox>
     </Box>

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { safeStringify } from '@/utils';
 
-function useLocalStorage<T>(
+export function useLocalStorage<T>(
   keyName: string,
   defaultValue: T
 ): [T, (value: T) => void] {
@@ -36,5 +36,3 @@ function useLocalStorage<T>(
 
   return [storedValue, setValue];
 }
-
-export default useLocalStorage;

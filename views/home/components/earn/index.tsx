@@ -177,24 +177,21 @@ const Earn: FC = () => {
               ))}
             </Box>
             <Button
-              disabled
-              bg="disabled"
+              effect="hover"
               variant="primary"
-              cursor="not-allowed"
               mt={['1.25rem', '1.25rem', '1.25rem', '3rem']}
               onClick={() =>
-                push(Routes[RoutesEnum.MAILMarket], undefined, {
+                push(Routes[RoutesEnum.DEXPool], undefined, {
                   shallow: true,
                 })
               }
             >
               <Typography
                 variant="normal"
-                textTransform="uppercase"
-                fontWeight="700"
-                fontSize="0.875rem"
+                fontSize="inherit"
+                fontWeight="inherit"
               >
-                Soon
+                Add Liquidity
               </Typography>
             </Button>
           </Box>

@@ -2,7 +2,7 @@ import { BigNumber } from 'ethers';
 
 import { DineroMarketPair, ERC20, TOKEN_SYMBOL } from '@/sdk';
 import { IntMath } from '@/sdk/entities/int-math';
-import { IBorrowFormField } from '@/views/dapp/views/dinero-market/components/borrow-form/borrow-form.types';
+import { IBorrowFormField } from '@/views/dapp/views/dinero-market-mode/components/borrow-form/borrow-form.types';
 
 import { DineroMarketUserDataStructOutput } from '../../types/ethers-contracts/InterestViewDineroAbi';
 

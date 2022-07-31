@@ -1,10 +1,11 @@
 export interface ISwitchOption {
-  value: string;
+  value: string | number;
   onSelect?: () => void;
   displayValue?: string;
 }
 
 export interface SwitchProps {
-  defaultValue: string;
-  options: [ISwitchOption, ISwitchOption];
+  thin?: boolean;
+  defaultValue: string | number;
+  options: ReadonlyArray<ISwitchOption>;
 }

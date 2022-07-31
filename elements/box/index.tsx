@@ -44,6 +44,7 @@ const Box = forwardRef(({ as, hover, active, ...props }: BoxProps, ref) => {
         cursor: true,
         filter: true,
         rowGap: true,
+        clipPath: true,
         columnGap: true,
         transform: true,
         transition: true,

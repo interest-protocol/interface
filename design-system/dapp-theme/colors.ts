@@ -9,7 +9,6 @@ const colors = {
   accentBackground: primitiveColors.NEUTRAL_500,
   transparentBackground: primitiveColors.NEUTRAL_50,
   bottomBackground: primitiveColors.NEUTRAL_400,
-  softBackground: primitiveColors.NEUTRAL_600,
   background: primitiveColors.NEUTRAL_700,
   foreground: primitiveColors.NEUTRAL_600,
   outline: primitiveColors.NEUTRAL_200,
