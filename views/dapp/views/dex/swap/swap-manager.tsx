@@ -143,10 +143,7 @@ const SwapManager: FC<SwapManagerProps> = ({
     tokenInAddress,
     tokenOutAddress,
     chainId,
-    tokenIn.setByUser,
     hasNoMarket,
-    tokenIn.address,
-    tokenOut.address,
     wrappedNativeToken,
   ]);
 
@@ -240,12 +237,9 @@ const SwapManager: FC<SwapManagerProps> = ({
     debouncedTokenInValue,
     setValue,
     tokenInAddress,
-    tokenOut.address,
-    chainId,
-    tokenOut.setByUser,
-    hasNoMarket,
-    tokenIn.address,
     tokenOutAddress,
+    chainId,
+    hasNoMarket,
   ]);
 
   return null;
