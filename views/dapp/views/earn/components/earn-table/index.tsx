@@ -10,6 +10,7 @@ import {
   MobileEarnSkeletonRow,
 } from './earn-skeleton-row';
 import { EarnTableProps } from './earn-table.types';
+import EarnTableCollapsible from './earn-table-collapsible';
 
 const EarnTable: FC<EarnTableProps> = ({
   data,
@@ -73,37 +74,38 @@ const EarnTable: FC<EarnTableProps> = ({
           data={
             loading
               ? DesktopEarnSkeletonRow
-              : data.map(({ farm, allocation, apr, tvl, dropdown }) => {
-                  return {
-                    items: [
-                      <Box
-                        key={v4()}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                      >
-                        <Box display="inline-flex">
-                          {getFarmsSVG(farm.id).map((SVG, index) => (
-                            <Box
-                              key={v4()}
-                              zIndex={getFarmsSVG(farm.id).length - index}
-                              ml={index != 0 ? '-0.5rem' : 'NONE'}
-                            >
-                              <SVG width="1.6rem" height="1.6rem" />
-                            </Box>
-                          ))}
-                        </Box>
-                        <Typography variant="normal" ml="M">
-                          {farm.farmName}
-                        </Typography>
-                      </Box>,
-                      tvl,
-                      apr,
-                      allocation,
-                    ],
-                    dropdown,
-                  };
-                })
+              : data.map(({ farm, allocation, apr, tvl, dropdownArgs }) => ({
+                  items: [
+                    <Box
+                      key={v4()}
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Box display="inline-flex">
+                        {getFarmsSVG(farm.id).map((SVG, index) => (
+                          <Box
+                            key={v4()}
+                            zIndex={getFarmsSVG(farm.id).length - index}
+                            ml={index != 0 ? '-0.5rem' : 'NONE'}
+                          >
+                            <SVG width="1.6rem" height="1.6rem" />
+                          </Box>
+                        ))}
+                      </Box>
+                      <Typography variant="normal" ml="M">
+                        {farm.farmName}
+                      </Typography>
+                    </Box>,
+                    tvl,
+                    apr,
+                    allocation,
+                  ],
+                  dropdown: {
+                    args: dropdownArgs,
+                    Component: EarnTableCollapsible,
+                  },
+                }))
           }
         />
       ) : (
@@ -147,7 +149,7 @@ const EarnTable: FC<EarnTableProps> = ({
             data={
               loading
                 ? MobileEarnSkeletonRow
-                : data.map(({ farm, tvl, allocation, apr, dropdown }) => ({
+                : data.map(({ tvl, apr, farm, allocation, dropdownArgs }) => ({
                     sideContent: (
                       <Box
                         mb="L"
@@ -179,7 +181,10 @@ const EarnTable: FC<EarnTableProps> = ({
                       </Box>
                     ),
                     items: [tvl, apr, allocation],
-                    dropdown,
+                    dropdown: {
+                      args: dropdownArgs,
+                      Component: EarnTableCollapsible,
+                    },
                   }))
             }
           />

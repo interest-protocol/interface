@@ -1,4 +1,5 @@
-import { ReactNode } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { FC, ReactNode } from 'react';
 
 interface ITableHeading {
   tip?: string;
@@ -12,10 +13,15 @@ export interface DropdownTableCellProps {
 
 type TItems = ReadonlyArray<ReactNode>;
 
+interface IDropdown {
+  args: any;
+  Component: FC<any>;
+}
+
 interface IRow {
   items: TItems;
-  dropdown?: ReactNode;
   sideContent?: ReactNode;
+  dropdown?: IDropdown;
 }
 
 export interface DropdownTableProps {
@@ -29,7 +35,8 @@ export interface DropdownTableRowProps {
   items: TItems;
   index?: number;
   ordinate?: boolean;
-  dropdown: ReactNode;
+  isDesktop?: boolean;
+  dropdown: IDropdown;
   sideContent?: ReactNode;
   headings: ReadonlyArray<ITableHeading>;
 }

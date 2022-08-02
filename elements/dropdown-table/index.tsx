@@ -6,6 +6,10 @@ import { DropdownTableProps } from './dropdown-table.types';
 import DropdownTableCell from './dropdown-table-cell';
 import DropdownTableRow from './dropdown-table-row';
 
+const EmptyDropdown: FC = () => null;
+
+const defaultDropdown = { Component: EmptyDropdown, args: undefined };
+
 const DropdownTable: FC<DropdownTableProps> = ({
   data,
   headings,
@@ -40,9 +44,10 @@ const DropdownTable: FC<DropdownTableProps> = ({
         {data.map(({ dropdown, items }) => (
           <DropdownTableRow
             key={v4()}
+            isDesktop
             items={items}
-            dropdown={dropdown}
             headings={headings}
+            dropdown={dropdown ?? defaultDropdown}
           />
         ))}
       </Box>
@@ -62,10 +67,10 @@ const DropdownTable: FC<DropdownTableProps> = ({
           key={v4()}
           items={items}
           index={index}
-          dropdown={dropdown}
           headings={headings}
           ordinate={ordinate}
           sideContent={sideContent}
+          dropdown={dropdown ?? defaultDropdown}
         />
       ))}
     </Box>

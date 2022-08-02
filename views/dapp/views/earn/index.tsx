@@ -10,7 +10,6 @@ import { TimesSVG } from '@/svg';
 import { getSafeFarmSummaryData } from '@/utils';
 
 import { EarnHeader, EarnTable } from './components';
-import EarnTableCollapsible from './components/earn-table/earn-table-collapsible';
 
 const Earn: FC = () => {
   const { error, data: rawData } = useGetFarmsSummary();
@@ -73,13 +72,11 @@ const Earn: FC = () => {
             isPools
             data={Array.from({ length: 25 }, () => ({
               ...data.pools[0],
-              dropdown: (
-                <EarnTableCollapsible
-                  farm={data.pools[0].farm}
-                  farmTokenPrice={data.pools[0].farmTokenPrice}
-                  intUSDPrice={data.intUSDPrice}
-                />
-              ),
+              dropdownArgs: {
+                farm: data.pools[0].farm,
+                intUSDPrice: data.intUSDPrice,
+                farmTokenPrice: data.pools[0].farmTokenPrice,
+              },
             }))}
             isDesktop={isDesktop}
             loading={data.loading}

@@ -7,7 +7,11 @@ import { SafeFarmData } from '@/utils/farms/farms.types';
 
 export interface EarnTableProps {
   isDesktop: boolean;
-  data: ReadonlyArray<SafeFarmData<ERC20 | LPPairV2> & { dropdown: ReactNode }>;
+  data: ReadonlyArray<
+    SafeFarmData<ERC20 | LPPairV2> & {
+      dropdownArgs: EarnTableCollapsibleProps;
+    }
+  >;
   isPools?: boolean;
   loading: boolean;
 }

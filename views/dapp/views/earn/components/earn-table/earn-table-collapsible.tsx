@@ -35,7 +35,6 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
   farm,
   intUSDPrice,
 }) => {
-  console.log('>> Rerender');
   const [modal, setModal] = useState<StakeState | undefined>();
   const [modalLoading, setModalLoading] = useState<boolean>(false);
 

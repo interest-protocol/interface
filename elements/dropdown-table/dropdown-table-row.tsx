@@ -1,7 +1,8 @@
-import { FC, useRef, useState } from 'react';
+import { FC, useState } from 'react';
 import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
 
+import { useDebounce } from '@/hooks';
 import { ArrowSVG } from '@/svg';
 
 import Box from '../box';
@@ -18,160 +19,168 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
   headings,
   ordinate,
   dropdown,
+  isDesktop,
   sideContent,
 }) => {
-  const mobileRef = useRef<HTMLDivElement>(null);
-  const desktopRef = useRef<HTMLDivElement>(null);
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
+  const { Component: DropdownComponent, args: dropdownArgs } = dropdown;
 
   const { mHeight, dHeight, arrowInvert } = useSpring({
     from: {
-      dHeight: '0px',
-      mHeight: '0px',
+      dHeight: '0%',
+      mHeight: '0%',
       arrowInvert: 'scaleY(1)',
     },
     to: {
+      dHeight: `${isOpenDropdown ? 16 : 0}rem`,
+      mHeight: `${isOpenDropdown ? 26 : 0}rem`,
       arrowInvert: !isOpenDropdown ? 'scaleY(1)' : 'scaleY(-1)',
-      dHeight: `${
-        isOpenDropdown ? desktopRef.current?.offsetHeight ?? 0 : 0
-      }px`,
-      mHeight: `${isOpenDropdown ? mobileRef.current?.offsetHeight ?? 0 : 0}px`,
     },
     config: {
       duration: 500,
     },
   });
 
+  const debouncedDropdownValue = useDebounce(isOpenDropdown, 500);
+
   const toggleDropdown = () => setIsOpenDropdown((a) => !a);
 
-  return (
-    <>
-      <Box display={['none', 'none', 'none', 'block']}>
+  return isDesktop ? (
+    <Box display={['none', 'none', 'none', 'block']}>
+      <Box
+        py="M"
+        px="XL"
+        display="grid"
+        alignItems="center"
+        gridTemplateColumns={`1.5fr repeat(${
+          headings.length + (ordinate ? 1 : 0)
+        }, 1fr)`}
+      >
+        {items.map((item) => (
+          <DropdownTableCell as="td" key={v4()}>
+            {item}
+          </DropdownTableCell>
+        ))}
+        <Box textAlign="right">
+          {!!dropdown && (
+            <Button
+              py="L"
+              width="3.3rem"
+              variant="secondary"
+              onClick={toggleDropdown}
+              hover={{ bg: 'accentActive' }}
+              bg={isOpenDropdown ? 'accent' : 'bottomBackground'}
+            >
+              <AnimatedBox style={{ transform: arrowInvert }}>
+                <ArrowSVG width="0.5rem" />
+              </AnimatedBox>
+            </Button>
+          )}
+        </Box>
+      </Box>
+      <AnimatedBox style={{ maxHeight: dHeight }} overflow="hidden">
         <Box
-          py="M"
-          px="XL"
-          display="grid"
+          p="M"
+          height="16rem"
+          bg="foreground"
+          transition="height 500ms ease-in-out"
+        >
+          {(debouncedDropdownValue || isOpenDropdown) && (
+            <DropdownComponent {...dropdownArgs} />
+          )}
+        </Box>
+      </AnimatedBox>
+    </Box>
+  ) : (
+    <Box display={['block', 'block', 'block', 'none']} mt="M">
+      <Box
+        p="M"
+        display="grid"
+        cursor="pointer"
+        gridTemplateColumns="1fr 1.5fr"
+      >
+        <Box
+          my="M"
+          display="flex"
           alignItems="center"
-          gridTemplateColumns={`1.5fr repeat(${
+          flexDirection="column"
+          justifyContent="space-evenly"
+        >
+          {sideContent}
+          {!!dropdown && (
+            <Button
+              py="M"
+              width="2.5rem"
+              height="2.5rem"
+              variant="secondary"
+              onClick={toggleDropdown}
+              hover={{ bg: 'accentActive' }}
+              bg={isOpenDropdown ? 'accent' : 'bottomBackground'}
+            >
+              <AnimatedBox style={{ transform: arrowInvert }}>
+                <ArrowSVG width="0.5rem" />
+              </AnimatedBox>
+            </Button>
+          )}
+        </Box>
+        <Box
+          display="grid"
+          borderRadius="M"
+          overflow="hidden"
+          gridAutoFlow="column"
+          gridTemplateColumns="1fr 7rem"
+          gridTemplateRows={`repeat(${
             headings.length + (ordinate ? 1 : 0)
           }, 1fr)`}
         >
-          {items.map((item) => (
-            <DropdownTableCell as="td" key={v4()}>
+          {ordinate && (
+            <Typography
+              py="M"
+              px="M"
+              fontSize="S"
+              variant="normal"
+              color="textSecondary"
+            >
+              Nº
+            </Typography>
+          )}
+          {headings.map(({ item }) => (
+            <Typography
+              py="M"
+              px="M"
+              key={v4()}
+              fontSize="S"
+              variant="normal"
+              color="textSecondary"
+            >
               {item}
-            </DropdownTableCell>
+            </Typography>
           ))}
-          <Box textAlign="right">
-            {!!dropdown && (
-              <Button
-                py="L"
-                width="3.3rem"
-                variant="secondary"
-                onClick={toggleDropdown}
-                hover={{ bg: 'accentActive' }}
-                bg={isOpenDropdown ? 'accent' : 'bottomBackground'}
-              >
-                <AnimatedBox style={{ transform: arrowInvert }}>
-                  <ArrowSVG width="0.5rem" />
-                </AnimatedBox>
-              </Button>
-            )}
-          </Box>
+          {ordinate && (
+            <Box
+              py="M"
+              px="M"
+              borderBottom="0.1rem solid"
+              borderColor="textDescriptionHigh"
+            >
+              {index! + 1}
+            </Box>
+          )}
+          {items.map((item) => (
+            <Box py="M" px="M" key={v4()}>
+              {item}
+            </Box>
+          ))}
         </Box>
-        <AnimatedBox style={{ height: dHeight }} overflow="hidden">
-          <Box bg="foreground" p="M" ref={desktopRef}>
-            {dropdown}
-          </Box>
-        </AnimatedBox>
       </Box>
-      <Box display={['block', 'block', 'block', 'none']} mt="M">
-        <Box
-          p="M"
-          display="grid"
-          cursor="pointer"
-          gridTemplateColumns="1fr 1.5fr"
-        >
-          <Box
-            my="M"
-            display="flex"
-            alignItems="center"
-            flexDirection="column"
-            justifyContent="space-evenly"
-          >
-            {sideContent}
-            {!!dropdown && (
-              <Button
-                py="M"
-                width="2.5rem"
-                height="2.5rem"
-                variant="secondary"
-                onClick={toggleDropdown}
-                hover={{ bg: 'accentActive' }}
-                bg={isOpenDropdown ? 'accent' : 'bottomBackground'}
-              >
-                <AnimatedBox style={{ transform: arrowInvert }}>
-                  <ArrowSVG width="0.5rem" />
-                </AnimatedBox>
-              </Button>
-            )}
-          </Box>
-          <Box
-            display="grid"
-            borderRadius="M"
-            overflow="hidden"
-            gridAutoFlow="column"
-            gridTemplateColumns="1fr 7rem"
-            gridTemplateRows={`repeat(${
-              headings.length + (ordinate ? 1 : 0)
-            }, 1fr)`}
-          >
-            {ordinate && (
-              <Typography
-                py="M"
-                px="M"
-                fontSize="S"
-                variant="normal"
-                color="textSecondary"
-              >
-                Nº
-              </Typography>
-            )}
-            {headings.map(({ item }) => (
-              <Typography
-                py="M"
-                px="M"
-                key={v4()}
-                fontSize="S"
-                variant="normal"
-                color="textSecondary"
-              >
-                {item}
-              </Typography>
-            ))}
-            {ordinate && (
-              <Box
-                py="M"
-                px="M"
-                borderBottom="0.1rem solid"
-                borderColor="textDescriptionHigh"
-              >
-                {index! + 1}
-              </Box>
-            )}
-            {items.map((item) => (
-              <Box py="M" px="M" key={v4()}>
-                {item}
-              </Box>
-            ))}
-          </Box>
+      <AnimatedBox style={{ maxHeight: mHeight }} overflow="hidden">
+        <Box bg="foreground" p="M" height="26rem">
+          {(debouncedDropdownValue || isOpenDropdown) && (
+            <DropdownComponent {...dropdownArgs} />
+          )}
         </Box>
-        <AnimatedBox style={{ height: mHeight }} overflow="hidden">
-          <Box bg="foreground" p="M" ref={mobileRef}>
-            {dropdown}
-          </Box>
-        </AnimatedBox>
-      </Box>
-    </>
+      </AnimatedBox>
+    </Box>
   );
 };
 
