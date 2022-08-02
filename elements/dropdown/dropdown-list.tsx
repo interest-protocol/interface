@@ -26,6 +26,8 @@ const DropdownList: FC<DropdownListProps> = ({
   toggleDropdown,
   setSelectedIndex,
   dropdownWrapperId,
+  bg,
+  bgSelected,
 }) => {
   const [safeMarginLeft, setSafeMarginLeft] = useState<boolean>(false);
   const [safeMarginRight, setSafeMarginRight] = useState<boolean>(false);
@@ -91,6 +93,8 @@ const DropdownList: FC<DropdownListProps> = ({
               {...(index === selectedIndex && {
                 closeDropdown: toggleDropdown,
               })}
+              bg={bg}
+              bgSelected={bgSelected}
               {...item}
             />
           ))

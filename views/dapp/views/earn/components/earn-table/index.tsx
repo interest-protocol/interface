@@ -20,9 +20,6 @@ const EarnTable: FC<EarnTableProps> = ({
 }) => (
   <Box display="flex" flexDirection="column" flex="1">
     <Container dapp px="M" width="100%">
-      <Typography variant="normal" mt="L">
-        {isPools ? 'POOL' : 'FARM'}
-      </Typography>
       {isDesktop ? (
         <DropdownTable
           isDesktop

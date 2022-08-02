@@ -14,6 +14,8 @@ const DropdownItem: FC<DropdownItemProps> = ({
   noSelectable,
   closeDropdown,
   displayOption,
+  bg,
+  bgSelected,
 }) => {
   const handleSelect = () => {
     if (!isSelected) {
@@ -36,15 +38,15 @@ const DropdownItem: FC<DropdownItemProps> = ({
         bg: disabled
           ? 'disabled'
           : isSelected
-          ? 'accentBackground'
+          ? bgSelected || 'accentBackground'
           : 'bottomBackground',
         ...(!isSelected &&
           !disabled && {
             hover: {
-              bg: 'accent',
+              bg: bg || 'accent',
             },
             active: {
-              bg: 'accentActive',
+              bg: bgSelected || 'accentActive',
             },
           }),
       })}

@@ -34,6 +34,7 @@ const Footer: FC = () => {
       ]}
       position={['fixed', 'fixed', 'fixed', 'static']}
       bg={['foreground', 'foreground', 'foreground', 'foreground']}
+      id="footer"
     >
       <Container dapp width="100%">
         <Box display={['none', 'none', 'flex']} justifyContent="center">

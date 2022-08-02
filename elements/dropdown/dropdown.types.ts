@@ -15,6 +15,8 @@ export interface DropdownItemProps extends Omit<IDropdownData, 'value'> {
   isSelected: boolean;
   customItem?: boolean;
   closeDropdown?: () => void;
+  bg?: string;
+  bgSelected?: string;
 }
 
 export interface DropdownProps {
@@ -34,6 +36,8 @@ export interface DropdownProps {
   mode: 'select' | 'menu';
   defaultValue?: ReactNode;
   data: ReadonlyArray<IDropdownData>;
+  bg?: string;
+  bgSelected?: string;
 }
 
 export interface DropdownListProps {
@@ -53,4 +57,6 @@ export interface DropdownListProps {
   data: ReadonlyArray<IDropdownData>;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   setSelectedIndex: Dispatch<SetStateAction<number>>;
+  bg?: string;
+  bgSelected?: string;
 }
