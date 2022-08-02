@@ -37,8 +37,8 @@ const Subscribe: FC = () => {
       flexDirection="column"
       bg="background"
     >
-      <Box>
-        <LogoSVG width="5rem" />
+      <Box width="5rem">
+        <LogoSVG width="100%" />
       </Box>
       <Typography
         mt="M"
@@ -82,7 +82,9 @@ const Subscribe: FC = () => {
             Subscribe
           </Button>
           <Box display="flex" alignItems="center" mt="M" px="L">
-            <ShieldSVG width="0.7rem" />
+            <Box width="0.7rem">
+              <ShieldSVG width="100%" />
+            </Box>
             <Typography variant="normal" ml="S" fontSize="XS">
               Your data is safe
             </Typography>

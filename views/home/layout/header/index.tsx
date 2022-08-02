@@ -14,7 +14,7 @@ import { HeaderProps } from './header.types';
 import MenuList from './menu-list';
 
 const AnimatedBox = animated(Box);
-const menuButtonId = `menu-wrapper-${v4()}`;
+const menuButtonId = 'landing-menu-wrapper-id';
 
 const Header: FC<HeaderProps> = ({ empty }) => {
   const { push } = useRouter();
@@ -30,7 +30,13 @@ const Header: FC<HeaderProps> = ({ empty }) => {
   const toggleMenu = () => setMobileMenu(!mobileMenu);
 
   const handleCloseMenu = useCallback((event: any) => {
-    if (event?.path?.some((node: any) => node?.id == menuButtonId)) return;
+    if (
+      event?.path?.some((node: any) => node?.id == menuButtonId) ||
+      // Safari Stuff
+      event?.target.id === menuButtonId ||
+      event?.target.id === `${menuButtonId}-submenu`
+    )
+      return;
     setMobileMenu(false);
   }, []);
 
@@ -79,7 +85,9 @@ const Header: FC<HeaderProps> = ({ empty }) => {
             alignItems="center"
             my={['L', 'M']}
           >
-            <LogoSVG width="2rem" />
+            <Box width="2rem">
+              <LogoSVG width="100%" />
+            </Box>
             <Typography
               variant="normal"
               as="h1"
@@ -129,7 +137,7 @@ const Header: FC<HeaderProps> = ({ empty }) => {
               onClick={toggleMenu}
               display={['block', 'none']}
             >
-              <Box width="2rem" p="S">
+              <Box width="2rem" p="S" pointerEvents="none">
                 {mobileMenu ? (
                   <TimesSVG width="100%" />
                 ) : (
@@ -141,11 +149,11 @@ const Header: FC<HeaderProps> = ({ empty }) => {
         )}
       </Container>
       <AnimatedBox
-        ref={dropdownContainerRef}
         overflow="hidden"
         style={fadeStyles}
+        ref={dropdownContainerRef}
       >
-        <MenuList />
+        <MenuList id={menuButtonId} />
       </AnimatedBox>
     </Box>
   );
