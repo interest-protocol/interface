@@ -27,8 +27,8 @@ const Footer: FC = always(
         pt={['2rem', '2rem', '2rem', 'unset']}
       >
         <Link href={Routes[RoutesEnum.Home]}>
-          <Box>
-            <LogoSVG width="2rem" fill="white" />
+          <Box width="2rem">
+            <LogoSVG width="100%" fill="white" />
           </Box>
         </Link>
         <Typography
