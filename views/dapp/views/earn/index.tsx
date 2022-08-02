@@ -158,7 +158,7 @@ const Earn: FC = () => {
         />
         {/* TODO: filters watching */}
         filters:
-        {search} {isStaked ? 'staked' : 'noStaked'}
+        {search} {!isStaked ? 'staked' : 'noStaked'}
         {isLive ? 'Live' : 'Finished'} {sortBy}
         <InfiniteScroll
           overflow="visible !important"
