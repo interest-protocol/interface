@@ -1,43 +1,104 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { useForm, useWatch } from 'react-hook-form';
 
 import { Container } from '@/components';
-import { Box, Typography } from '@/elements';
+import { Box, InfiniteScroll, Typography } from '@/elements';
 import { useGetFarmsSummary } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import { getSafeFarmSummaryData } from '@/utils';
 
 import { EarnTable } from './components';
-import EarnFilters from './earn-filters';
+import EarnFilters from './components/earn-filters';
+import { IEarnForm } from './earn.types';
 
 const Earn: FC = () => {
+  const { register, setValue, control } = useForm<IEarnForm>({
+    defaultValues: {
+      search: '',
+      sortBy: 'Select',
+      isLive: true,
+      isStaked: true,
+    },
+  });
+
+  const sortBy = useWatch({
+    control,
+    name: 'sortBy',
+  });
+  const isStaked = useWatch({
+    control,
+    name: 'isStaked',
+  });
+  const isLive = useWatch({
+    control,
+    name: 'isLive',
+  });
+  const search = useWatch({
+    control,
+    name: 'search',
+  });
+
   const { error, data: rawData } = useGetFarmsSummary();
   const { chainId } = useIdAccount();
 
   const data = useMemo(
     () => getSafeFarmSummaryData(chainId, rawData),
-    [rawData, chainId]
+    [rawData, chainId, search]
   );
-  const [dataPools, setDataPools] = useState(data.pools);
+
+  const [dataPools, setDataPools] = useState(
+    data.pools.map((pool) => ({
+      ...pool,
+      dropdownArgs: {
+        farm: pool.farm,
+        intUSDPrice: data.intUSDPrice,
+        farmTokenPrice: pool.farmTokenPrice,
+      },
+    }))
+  );
   const [hasMore, setHasMore] = useState(true);
 
   const fetchMoreData = () => {
-    if (dataPools.length > 20) {
+    if (dataPools.length > 200) {
       setHasMore(false);
       return;
     }
     // a fake async api call like which sends
     // 20 more records in .5 secs
     setTimeout(() => {
+      setHasMore(false);
       setDataPools(
-        dataPools.concat(Array.from({ length: 5 }, () => dataPools[0]))
+        dataPools.concat(
+          Array.from({ length: 5 }, () => ({
+            ...data.pools[Math.floor(Math.random() * 2)],
+            dropdownArgs: {
+              farm: data.pools[Math.floor(Math.random() * 2)].farm,
+              intUSDPrice: data.intUSDPrice,
+              farmTokenPrice:
+                data.pools[Math.floor(Math.random() * 2)].farmTokenPrice,
+            },
+          }))
+        )
       );
     }, 500);
+
+    setTimeout(() => {
+      setHasMore(true);
+    }, 3000);
   };
 
   useEffect(() => {
-    setDataPools(data.pools);
+    setDataPools(
+      data.pools.map((pool) => ({
+        ...pool,
+        dropdownArgs: {
+          farm: pool.farm,
+          intUSDPrice: data.intUSDPrice,
+          farmTokenPrice: pool.farmTokenPrice,
+        },
+      }))
+    );
   }, [data.pools]);
 
   const [isDesktop, setDesktop] = useState(false);
@@ -87,9 +148,20 @@ const Earn: FC = () => {
       flexDirection="column"
       justifyContent="space-between"
     >
-      <Box overflow="hidden">
-        <EarnFilters />
-        {/* <InfiniteScroll
+      <Box>
+        <EarnFilters
+          register={register}
+          setValue={setValue}
+          isLive={isLive}
+          isStaked={isStaked}
+          sortBy={sortBy}
+        />
+        {/* TODO: filters watching */}
+        filters:
+        {search} {isStaked ? 'staked' : 'noStaked'}
+        {isLive ? 'Live' : 'Finished'} {sortBy}
+        <InfiniteScroll
+          overflow="visible !important"
           hasMore={hasMore}
           next={fetchMoreData}
           scrollableTarget="body"
@@ -102,23 +174,16 @@ const Earn: FC = () => {
               </Typography>
             </Box>
           }
-        > */}
-        <Box>
-          <EarnTable
-            isPools
-            data={Array.from({ length: 25 }, () => ({
-              ...data.pools[0],
-              dropdownArgs: {
-                farm: data.pools[0].farm,
-                intUSDPrice: data.intUSDPrice,
-                farmTokenPrice: data.pools[0].farmTokenPrice,
-              },
-            }))}
-            isDesktop={isDesktop}
-            loading={data.loading}
-          />
-        </Box>
-        {/* </InfiniteScroll> */}
+        >
+          <Box>
+            <EarnTable
+              isPools
+              data={dataPools}
+              isDesktop={isDesktop}
+              loading={data.loading}
+            />
+          </Box>
+        </InfiniteScroll>
       </Box>
     </Container>
   );

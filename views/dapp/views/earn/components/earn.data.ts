@@ -1,6 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
+import { UseFormSetValue } from 'react-hook-form';
 
 import { ISwitchOption } from '@/components/switch/switch.types';
+
+import { IEarnForm } from '../earn.types';
 
 export const getHeaderSwitchDefaultData = (
   setBase: Dispatch<SetStateAction<boolean>>,
@@ -23,19 +26,20 @@ export const getHeaderSwitchDefaultData = (
 ];
 
 export const getFilterSwitchDefaultData = (
-  setBase: Dispatch<SetStateAction<boolean>>,
-  values: ReadonlyArray<string>
+  values: ReadonlyArray<string>,
+  setValue: UseFormSetValue<IEarnForm>,
+  name: 'isStaked' | 'isLive'
 ): [ISwitchOption, ISwitchOption] => [
   {
     value: values[0],
     onSelect: () => {
-      setBase(true);
+      setValue(name, true);
     },
   },
   {
     value: values[1],
     onSelect: () => {
-      setBase(false);
+      setValue(name, false);
     },
   },
 ];

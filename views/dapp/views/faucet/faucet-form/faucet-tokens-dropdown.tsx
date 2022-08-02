@@ -75,7 +75,7 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
             hover={{ color: 'accent' }}
             active={{ color: 'accentActive' }}
           >
-            Select a Token
+            Select a Token sda
           </Typography>
         </Box>
         <ArrowSVG width="0.5rem" />

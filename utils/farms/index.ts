@@ -238,27 +238,30 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
 
   return {
     intUSDPrice,
-    pools: Array.from({ length: 5 }, () => ({
-      farmTokenPrice: CurrencyAmount.fromRawAmount(
-        ERC_20_DATA[chainId][TOKEN_SYMBOL.INT],
-        intUSDPrice
-      ),
-      farm: intPool,
-      allocation: calculateAllocation(intPool),
-      apr: calculateFarmBaseAPR(
-        chainId,
-        intPool,
-        data.mintData.interestPerBlock,
-        intUSDPrice,
-        data.poolsData[0].totalStakingAmount,
-        intUSDPrice
-      ),
-      tvl: formatDollars(
-        IntMath.from(data.poolsData[0].totalStakingAmount)
-          .mul(intUSDPrice)
-          .toNumber()
-      ),
-    })),
+    pools: Array.from({ length: 5 }, () => {
+      const index = Math.floor(Math.random() * 2);
+      return {
+        farmTokenPrice: CurrencyAmount.fromRawAmount(
+          ERC_20_DATA[chainId][TOKEN_SYMBOL.INT],
+          intUSDPrice
+        ),
+        farm: intPool,
+        allocation: calculateAllocation(intPool),
+        apr: calculateFarmBaseAPR(
+          chainId,
+          intPool,
+          data.mintData.interestPerBlock,
+          intUSDPrice,
+          data.poolsData[index].totalStakingAmount,
+          intUSDPrice
+        ),
+        tvl: formatDollars(
+          IntMath.from(data.poolsData[index].totalStakingAmount)
+            .mul(intUSDPrice)
+            .toNumber()
+        ),
+      };
+    }),
     farms: CASA_DE_PAPEL_FARM_RESPONSE_MAP[chainId].pools
       .slice(1)
       .map(({ address, pair: [token0, token1] }, index) => {

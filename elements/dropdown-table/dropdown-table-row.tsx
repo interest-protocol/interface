@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
 
@@ -22,6 +22,8 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
   isDesktop,
   sideContent,
 }) => {
+  const mobileRef = useRef<HTMLDivElement>(null);
+  const desktopRef = useRef<HTMLDivElement>(null);
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const { Component: DropdownComponent, args: dropdownArgs } = dropdown;
 
@@ -32,8 +34,10 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
       arrowInvert: 'scaleY(1)',
     },
     to: {
-      dHeight: `${isOpenDropdown ? 16 : 0}rem`,
-      mHeight: `${isOpenDropdown ? 26 : 0}rem`,
+      dHeight: `${
+        isOpenDropdown ? desktopRef.current?.offsetHeight ?? 0 : 0
+      }px`,
+      mHeight: `${isOpenDropdown ? mobileRef.current?.offsetHeight ?? 0 : 0}px`,
       arrowInvert: !isOpenDropdown ? 'scaleY(1)' : 'scaleY(-1)',
     },
     config: {
@@ -78,13 +82,8 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
           )}
         </Box>
       </Box>
-      <AnimatedBox style={{ maxHeight: dHeight }} overflow="hidden">
-        <Box
-          p="M"
-          height="16rem"
-          bg="foreground"
-          transition="height 500ms ease-in-out"
-        >
+      <AnimatedBox style={{ height: dHeight }} overflow="hidden">
+        <Box p="M" bg="foreground" ref={desktopRef}>
           {(debouncedDropdownValue || isOpenDropdown) && (
             <DropdownComponent {...dropdownArgs} />
           )}
@@ -173,8 +172,8 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
           ))}
         </Box>
       </Box>
-      <AnimatedBox style={{ maxHeight: mHeight }} overflow="hidden">
-        <Box bg="foreground" p="M" height="26rem">
+      <AnimatedBox style={{ height: mHeight }} overflow="hidden">
+        <Box bg="foreground" p="M" ref={mobileRef}>
           {(debouncedDropdownValue || isOpenDropdown) && (
             <DropdownComponent {...dropdownArgs} />
           )}

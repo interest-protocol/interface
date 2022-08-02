@@ -1,21 +1,29 @@
-import { FC, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FC } from 'react';
 
 import { Switch } from '@/components';
 import { Box, Dropdown, Input, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 
-import { getFilterSwitchDefaultData } from './components/earn.data';
+import { EarnFiltersProps } from '../../earn.types';
+import { getFilterSwitchDefaultData } from '../earn.data';
 
-const EarnFilters: FC = () => {
-  const { register } = useForm({ defaultValues: { search: '' } });
-  const [history, setHistory] = useState(true);
-  const [onOff, setOnOff] = useState(!false);
-  const SWITCH_DEFAULT_DATA = getFilterSwitchDefaultData(setHistory, [
-    'live',
-    'finished',
-  ]);
-  const SWITCH_ONOFF_DATA = getFilterSwitchDefaultData(setOnOff, ['off', 'on']);
+const EarnFilters: FC<EarnFiltersProps> = ({
+  setValue,
+  register,
+  isLive,
+  isStaked,
+  sortBy,
+}) => {
+  const SWITCH_DEFAULT_DATA = getFilterSwitchDefaultData(
+    ['live', 'finished'],
+    setValue,
+    'isLive'
+  );
+  const SWITCH_ONOFF_DATA = getFilterSwitchDefaultData(
+    ['off', 'on'],
+    setValue,
+    'isStaked'
+  );
 
   return (
     <Box
@@ -44,7 +52,7 @@ const EarnFilters: FC = () => {
             Staked only
           </Typography>
           <Switch
-            defaultValue={!onOff ? 'on' : 'off'}
+            defaultValue={!isStaked ? 'on' : 'off'}
             options={SWITCH_ONOFF_DATA}
             bg="background"
             bgSelected="accentAlternative"
@@ -64,7 +72,7 @@ const EarnFilters: FC = () => {
             Status
           </Typography>
           <Switch
-            defaultValue={history ? 'live' : 'finished'}
+            defaultValue={isLive ? 'live' : 'finished'}
             options={SWITCH_DEFAULT_DATA}
             bg="background"
             bgSelected="accentAlternative"
@@ -91,38 +99,33 @@ const EarnFilters: FC = () => {
               mode="select"
               bg="accentAlternative"
               bgSelected="accentAlternativeBackground"
-              defaultValue="token"
               emptyMessage="Not found Tokens"
               suffix={
                 <Box ml="L" display={['none', 'none', 'none', 'block']}>
                   <ArrowSVG width="0.6rem" height="0.6rem" />
                 </Box>
               }
-              title={'Select'}
+              title={
+                <Box display="flex" width="100%" py="M" alignItems="center">
+                  <Typography variant="normal" whiteSpace="nowrap">
+                    {sortBy}
+                  </Typography>
+                </Box>
+              }
               data={[
                 {
-                  value: 'token',
-                  displayOption: 'Token',
+                  value: 'tvl',
+                  displayOption: 'TVL',
                   displayTitle: (
                     <Box display="flex" width="100%" py="M" alignItems="center">
                       <Typography variant="normal" whiteSpace="nowrap">
-                        Token
+                        TVL
                       </Typography>
                     </Box>
                   ),
-                  onSelect: () => console.log(1),
-                },
-                {
-                  value: 'type',
-                  displayOption: 'Liquidity',
-                  displayTitle: (
-                    <Box display="flex" width="100%" py="M" alignItems="center">
-                      <Typography variant="normal" whiteSpace="nowrap">
-                        {'Liquidity'}
-                      </Typography>
-                    </Box>
-                  ),
-                  onSelect: () => console.log(1),
+                  onSelect: () => {
+                    setValue('sortBy', 'TVL');
+                  },
                 },
                 {
                   value: 'apr',
@@ -134,7 +137,9 @@ const EarnFilters: FC = () => {
                       </Typography>
                     </Box>
                   ),
-                  onSelect: () => console.log(1),
+                  onSelect: () => {
+                    setValue('sortBy', 'APR');
+                  },
                 },
                 {
                   value: 'Allocation',
@@ -146,7 +151,9 @@ const EarnFilters: FC = () => {
                       </Typography>
                     </Box>
                   ),
-                  onSelect: () => console.log(1),
+                  onSelect: () => {
+                    setValue('sortBy', 'Allocation');
+                  },
                 },
               ]}
             />
@@ -163,8 +170,11 @@ const EarnFilters: FC = () => {
             Search
           </Typography>
           <Input
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
             py="0.9rem"
             color="text"
+            type="text"
             width="100%"
             bg="bottomBackground"
             borderRadius="M"
