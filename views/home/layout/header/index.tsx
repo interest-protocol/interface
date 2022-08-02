@@ -30,12 +30,6 @@ const Header: FC<HeaderProps> = ({ empty }) => {
   const toggleMenu = () => setMobileMenu(!mobileMenu);
 
   const handleCloseMenu = useCallback((event: any) => {
-    console.log(
-      'close',
-      event,
-      event?.path,
-      event?.path?.some((node: any) => node?.id == menuButtonId)
-    );
     if (
       event?.path?.some((node: any) => node?.id == menuButtonId) ||
       // Safari Stuff
