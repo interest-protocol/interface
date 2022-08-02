@@ -14,7 +14,7 @@ import { HeaderProps } from './header.types';
 import MenuList from './menu-list';
 
 const AnimatedBox = animated(Box);
-const menuButtonId = `menu-wrapper-${v4()}`;
+const menuButtonId = 'landing-menu-wrapper-id';
 
 const Header: FC<HeaderProps> = ({ empty }) => {
   const { push } = useRouter();
