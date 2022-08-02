@@ -1,18 +1,23 @@
 import type { AddEthereumChainParameter } from '@web3-react/types';
 import { __, always, identity, ifElse, includes, pathOr } from 'ramda';
 
+import { RoutesEnum } from '@/constants/routes';
 import { CHAIN_ID } from '@/sdk/constants';
 
 import { Routes } from './routes';
 
 export const SUPPORTED_CHAINS_RECORD = {
-  [Routes.dapp]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes.earn]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes.faucet]: [CHAIN_ID.RINKEBY, CHAIN_ID.BNB_TEST_NET],
-  [Routes.repay]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes['dinero-market']]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes['mail-market']]: [CHAIN_ID.RINKEBY],
-  [Routes['mail-market-pool']]: [CHAIN_ID.RINKEBY],
+  [Routes[RoutesEnum.Earn]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.Faucet]]: [CHAIN_ID.RINKEBY, CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.DineroMarket]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.DineroMarketRepay]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.DineroMarketBorrow]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.MAILMarket]]: [CHAIN_ID.RINKEBY],
+  [Routes[RoutesEnum.MAILMarketPool]]: [CHAIN_ID.RINKEBY],
+  [Routes[RoutesEnum.DEX]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.DEXPool]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.DEXFindPool]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.DEXPoolDetails]]: [CHAIN_ID.BNB_TEST_NET],
 };
 
 export const BNB: AddEthereumChainParameter['nativeCurrency'] = {
@@ -98,12 +103,6 @@ export const isChainIdSupported = includes(__, [
   CHAIN_ID.BNB_TEST_NET,
   CHAIN_ID.RINKEBY,
 ]);
-
-export const verifyChainId = ifElse(
-  isChainIdSupported,
-  identity,
-  always(CHAIN_ID.UNSUPPORTED)
-);
 
 export const getNativeCurrencySymbol = (chainId: number): string =>
   pathOr('???', [chainId.toString(), 'nativeCurrency', 'symbol'], CHAINS);

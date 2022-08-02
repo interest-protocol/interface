@@ -28,6 +28,7 @@ export interface DropdownProps {
   header?: ReactNode;
   footer?: ReactNode;
   relative?: boolean;
+  fromRight?: boolean;
   buttonMode?: boolean;
   emptyMessage?: string;
   customItems?: boolean;
@@ -46,6 +47,7 @@ export interface DropdownListProps {
   minWidth?: string;
   header?: ReactNode;
   footer?: ReactNode;
+  fromRight?: boolean;
   emptyMessage?: string;
   customItems?: boolean;
   customTitle?: boolean;

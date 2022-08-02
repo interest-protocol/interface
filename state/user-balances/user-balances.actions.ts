@@ -3,7 +3,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { GetUserBalancesStartPayload } from './user-balances.types';
 
 export const UserBalancesActionTypes = {
-  getUserBalancesStart: 'userBalances/start',
+  getUserBalancesStart: 'userBalances/getUserBalancesStart',
 };
 
 const getUserBalancesStart = createAction<GetUserBalancesStartPayload>(

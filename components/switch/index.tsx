@@ -6,29 +6,36 @@ import { Box, Typography } from '@/elements';
 
 import { SwitchProps } from './switch.types';
 
-const Switch: FC<SwitchProps> = ({ defaultValue, options, bg, bgSelected }) => {
+const Switch: FC<SwitchProps> = ({
+  defaultValue,
+  options,
+  thin,
+  bg,
+  bgSelected,
+}) => {
   const [selected, setSelected] = useState(defaultValue);
 
-  const switcher = (value: string) => () => setSelected(value);
+  const switcher = (value: string | number) => () => setSelected(value);
 
   return (
     <Box
       p="S"
-      height="3rem"
-      bg={bg || 'background'}
       display="inline-flex"
       borderRadius="1.5rem"
+      bg={bg || 'background'}
+      height={thin ? '2.5rem' : '3rem'}
     >
-      {options.map(({ value, onSelect }) => (
+      {options.map(({ value, onSelect, displayValue }) => (
         <Typography
-          py="M"
-          px="XL"
           key={v4()}
+          px={thin ? 'L' : 'XL'}
+          py={thin ? 'S' : 'M'}
           display="flex"
           variant="normal"
           cursor="pointer"
           alignItems="center"
           borderRadius="1.5rem"
+          fontSize="S"
           justifyContent="center"
           hover={{ color: 'text' }}
           textTransform="capitalize"
@@ -45,7 +52,7 @@ const Switch: FC<SwitchProps> = ({ defaultValue, options, bg, bgSelected }) => {
               : 'transparent'
           }
         >
-          {value}
+          {displayValue ?? value}
         </Typography>
       ))}
     </Box>

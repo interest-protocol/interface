@@ -1,5 +1,5 @@
 import { SystemStyleObject } from '@styled-system/css';
-import { ButtonHTMLAttributes, CSSProperties } from 'react';
+import { ButtonHTMLAttributes, CSSProperties, ElementType } from 'react';
 import {
   BackgroundProps,
   BorderProps,
@@ -30,4 +30,5 @@ export interface ButtonProps
   active?: SystemStyleObject;
   cursor?: CSSProperties['cursor'];
   variant: 'primary' | 'secondary' | 'tertiary' | 'neutral' | 'special';
+  as?: ElementType;
 }

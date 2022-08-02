@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { Container } from '@/components';
@@ -8,7 +8,7 @@ import { useIdAccount } from '@/hooks/use-id-account';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import { getSafeFarmSummaryData } from '@/utils';
 
-import { EarnHeader, EarnTable } from './components';
+import { EarnTable } from './components';
 import EarnFilters from './earn-filters';
 
 const Earn: FC = () => {
@@ -40,6 +40,19 @@ const Earn: FC = () => {
     setDataPools(data.pools);
   }, [data.pools]);
 
+  const [isDesktop, setDesktop] = useState(false);
+
+  const handleSetDesktop = useCallback(() => {
+    const mediaIsDesktop = window.matchMedia('(min-width: 64em)').matches;
+    setDesktop(mediaIsDesktop);
+  }, []);
+
+  useEffect(() => {
+    handleSetDesktop();
+    window.addEventListener('resize', handleSetDesktop);
+    return () => window.removeEventListener('resize', handleSetDesktop);
+  }, []);
+
   if (error)
     return (
       <Box
@@ -65,7 +78,9 @@ const Earn: FC = () => {
     );
 
   return (
-    <Box
+    <Container
+      dapp
+      width="100%"
       height="100%"
       display="flex"
       position="relative"
@@ -73,37 +88,39 @@ const Earn: FC = () => {
       justifyContent="space-between"
     >
       <Box overflow="hidden">
-        <EarnHeader />
-        <Container dapp width="100%" px="NONE">
-          <EarnFilters />
-        </Container>
-        <InfiniteScroll
-          dataLength={dataPools.length}
-          next={fetchMoreData}
+        <EarnFilters />
+        {/* <InfiniteScroll
           hasMore={hasMore}
-          loader={
-            <Container dapp width="100%">
-              <Box display="flex" alignItems="center" justifyContent="center">
-                <LoadingSVG width="1rem" />
-                <Typography fontSize="S" variant="normal" ml="M">
-                  Loading
-                </Typography>
-              </Box>
-            </Container>
-          }
+          next={fetchMoreData}
           scrollableTarget="body"
-        >
-          <Box>
-            <EarnTable
-              isPools
-              data={dataPools}
-              loading={data.loading}
-              intUSDPrice={data.intUSDPrice}
-            />
-          </Box>
-        </InfiniteScroll>
+          dataLength={dataPools.length}
+          loader={
+            <Box display="flex" alignItems="center" justifyContent="center">
+              <LoadingSVG width="1rem" />
+              <Typography fontSize="S" variant="normal" ml="M">
+                Loading
+              </Typography>
+            </Box>
+          }
+        > */}
+        <Box>
+          <EarnTable
+            isPools
+            data={Array.from({ length: 25 }, () => ({
+              ...data.pools[0],
+              dropdownArgs: {
+                farm: data.pools[0].farm,
+                intUSDPrice: data.intUSDPrice,
+                farmTokenPrice: data.pools[0].farmTokenPrice,
+              },
+            }))}
+            isDesktop={isDesktop}
+            loading={data.loading}
+          />
+        </Box>
+        {/* </InfiniteScroll> */}
       </Box>
-    </Box>
+    </Container>
   );
 };
 

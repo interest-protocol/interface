@@ -6,10 +6,14 @@ import { FarmV2 } from '@/sdk/entities/farm-v2';
 import { SafeFarmData } from '@/utils/farms/farms.types';
 
 export interface EarnTableProps {
-  data: ReadonlyArray<SafeFarmData<ERC20 | LPPairV2>>;
+  isDesktop: boolean;
+  data: ReadonlyArray<
+    SafeFarmData<ERC20 | LPPairV2> & {
+      dropdownArgs: EarnTableCollapsibleProps;
+    }
+  >;
   isPools?: boolean;
   loading: boolean;
-  intUSDPrice: BigNumber;
 }
 
 export interface EarnCardProps {

@@ -64,11 +64,22 @@ const Header: FC = () => {
         justifyContent="center"
         display={['none', 'none', 'flex']}
       >
-        <Link
-          href={{
-            pathname: Routes[RoutesEnum.Earn],
-          }}
-        >
+        <Link href={Routes[RoutesEnum.DEX]}>
+          <Typography
+            px="XL"
+            cursor="pointer"
+            variant="normal"
+            borderRight="1px solid"
+            borderColor="bottomBackground"
+            color={
+              pathname.includes(Routes[RoutesEnum.DEX]) ? 'accent' : 'inherit'
+            }
+            hover={{ color: 'accentActive' }}
+          >
+            DEX
+          </Typography>
+        </Link>
+        <Link href={Routes[RoutesEnum.Earn]}>
           <Typography
             px="XL"
             cursor="pointer"
@@ -91,8 +102,9 @@ const Header: FC = () => {
                 cursor="pointer"
                 variant="normal"
                 color={
-                  pathname === Routes[RoutesEnum.DApp] ||
-                  pathname.includes(Routes[RoutesEnum.Borrow])
+                  pathname === Routes[RoutesEnum.DineroMarket] ||
+                  pathname.includes(Routes[RoutesEnum.DineroMarketBorrow]) ||
+                  pathname.includes(Routes[RoutesEnum.DineroMarketRepay])
                     ? 'accent'
                     : 'inherit'
                 }
@@ -107,7 +119,7 @@ const Header: FC = () => {
                 value: 'dinero-market',
                 displayOption: 'Dinero Market',
                 onSelect: () =>
-                  push(Routes[RoutesEnum.DApp], undefined, {
+                  push(Routes[RoutesEnum.DineroMarket], undefined, {
                     shallow: true,
                   }),
               },
