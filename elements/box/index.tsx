@@ -49,6 +49,7 @@ const Box = forwardRef(({ as, hover, active, ...props }: BoxProps, ref) => {
         transform: true,
         transition: true,
         whiteSpace: true,
+        pointerEvents: true,
         backdropFilter: true,
         borderCollapse: true,
       })

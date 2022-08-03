@@ -1,4 +1,3 @@
-import { always } from 'ramda';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
@@ -6,10 +5,11 @@ import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box } from '@/elements';
 
 import SocialMediaCard from '../../components/social-media-card';
+import { MenuListProps } from './header.types';
 import { ItemsNetwork } from './items';
 import MenuItem from './menu-item';
 
-const MenuList: FC = always(
+const MenuList: FC<MenuListProps> = ({ id }) => (
   <Box
     as="nav"
     display={['flex', 'none']}
@@ -21,8 +21,7 @@ const MenuList: FC = always(
   >
     <MenuItem title="DApp" link={Routes[RoutesEnum.DApp]} />
     <MenuItem title="Docs" link={'https://docs.interestprotocol.com/'} />
-    <MenuItem title="Networks" isDropdown data={<ItemsNetwork />} />
-
+    <MenuItem title="Networks" isDropdown data={<ItemsNetwork />} id={id} />
     <Box
       width="100%"
       display="flex"
