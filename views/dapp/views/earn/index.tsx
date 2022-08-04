@@ -139,53 +139,69 @@ const Earn: FC = () => {
     );
 
   return (
-    <Container
-      dapp
-      width="100%"
-      height="100%"
-      display="flex"
-      position="relative"
-      flexDirection="column"
-      justifyContent="space-between"
-    >
+    <Box display="flex" flexDirection="column" flex="1">
       <Box>
-        <EarnFilters
-          register={register}
-          setValue={setValue}
-          isLive={isLive}
-          isStaked={isStaked}
-          sortBy={sortBy}
-        />
-        {/* TODO: filters watching */}
+        <Container
+          dapp
+          py="XL"
+          width="100%"
+          display="flex"
+          alignItems="center"
+          justifyContent={['center', 'flex-start']}
+        >
+          <Typography variant="normal" ml="M">
+            Farms
+          </Typography>
+        </Container>
+      </Box>
+      <Container
+        dapp
+        width="100%"
+        height="100%"
+        display="flex"
+        position="relative"
+        flexDirection="column"
+        justifyContent="space-between"
+      >
+        <Box>
+          <EarnFilters
+            register={register}
+            setValue={setValue}
+            isLive={isLive}
+            isStaked={isStaked}
+            sortBy={sortBy}
+          />
+          {/* TODO: filters watching 
         filters:
         {search} {!isStaked ? 'staked' : 'noStaked'}
-        {isLive ? 'Live' : 'Finished'} {sortBy}
-        <InfiniteScroll
-          overflow="visible !important"
-          hasMore={hasMore}
-          next={fetchMoreData}
-          scrollableTarget="body"
-          dataLength={dataPools.length}
-          loader={
-            <Box display="flex" alignItems="center" justifyContent="center">
-              <LoadingSVG width="1rem" />
-              <Typography fontSize="S" variant="normal" ml="M">
-                Loading
-              </Typography>
+        {isLive ? 'Live' : 'Finished'} {sortBy*/}
+          <InfiniteScroll
+            overflow="visible !important"
+            hasMore={hasMore}
+            next={fetchMoreData}
+            scrollableTarget="body"
+            dataLength={dataPools.length}
+            loader={
+              <Box display="flex" alignItems="center" justifyContent="center">
+                <LoadingSVG width="1rem" />
+                <Typography fontSize="S" variant="normal" ml="M">
+                  Loading
+                </Typography>
+              </Box>
+            }
+          >
+            <Box>
+              <EarnTable
+                isPools
+                data={dataPools}
+                isDesktop={isDesktop}
+                loading={data.loading}
+              />
             </Box>
-          }
-        >
-          <Box>
-            <EarnTable
-              isPools
-              data={dataPools}
-              isDesktop={isDesktop}
-              loading={data.loading}
-            />
-          </Box>
-        </InfiniteScroll>
-      </Box>
-    </Container>
+          </InfiniteScroll>
+        </Box>
+      </Container>
+    </Box>
   );
 };
 

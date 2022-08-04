@@ -28,7 +28,7 @@ const EarnFilters: FC<EarnFiltersProps> = ({
   return (
     <Box
       p="L"
-      mt="M"
+      my="L"
       borderRadius="L"
       bg="foreground"
       width="100%"

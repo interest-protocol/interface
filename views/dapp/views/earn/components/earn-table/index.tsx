@@ -36,7 +36,7 @@ const EarnTable: FC<EarnTableProps> = ({
             ),
           },
           {
-            tip: isPools ? 'Total Value Locked' : 'liquidity locked',
+            tip: isPools ? 'Total Value Locked' : 'Liquidity Locked',
             item: (
               <Typography
                 as="span"

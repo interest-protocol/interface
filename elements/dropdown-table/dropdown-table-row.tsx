@@ -83,7 +83,11 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
         </Box>
       </Box>
       <AnimatedBox style={{ height: dHeight }} overflow="hidden">
-        <Box p="M" bg="foreground" ref={desktopRef}>
+        <Box
+          p={debouncedDropdownValue || isOpenDropdown ? 'M' : 'unset'}
+          bg="foreground"
+          ref={desktopRef}
+        >
           {(debouncedDropdownValue || isOpenDropdown) && (
             <DropdownComponent {...dropdownArgs} />
           )}
@@ -173,7 +177,11 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
         </Box>
       </Box>
       <AnimatedBox style={{ height: mHeight }} overflow="hidden">
-        <Box bg="foreground" p="M" ref={mobileRef}>
+        <Box
+          bg="foreground"
+          p={debouncedDropdownValue || isOpenDropdown ? 'M' : 'unset'}
+          ref={mobileRef}
+        >
           {(debouncedDropdownValue || isOpenDropdown) && (
             <DropdownComponent {...dropdownArgs} />
           )}
