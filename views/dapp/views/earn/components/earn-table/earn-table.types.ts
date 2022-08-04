@@ -5,15 +5,17 @@ import { CurrencyAmount, ERC20, LPPairV2 } from '@/sdk';
 import { FarmV2 } from '@/sdk/entities/farm-v2';
 import { SafeFarmData } from '@/utils/farms/farms.types';
 
+export type TEarnTableData = ReadonlyArray<
+  SafeFarmData<ERC20 | LPPairV2> & {
+    dropdownArgs: EarnTableCollapsibleProps;
+  }
+>;
+
 export interface EarnTableProps {
-  isDesktop: boolean;
-  data: ReadonlyArray<
-    SafeFarmData<ERC20 | LPPairV2> & {
-      dropdownArgs: EarnTableCollapsibleProps;
-    }
-  >;
-  isPools?: boolean;
   loading: boolean;
+  isPools?: boolean;
+  isDesktop: boolean;
+  data: TEarnTableData;
 }
 
 export interface EarnCardProps {

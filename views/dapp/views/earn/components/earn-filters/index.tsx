@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useWatch } from 'react-hook-form';
 
 import { Switch } from '@/components';
 import { Box, Dropdown, Input, Typography } from '@/elements';
@@ -7,13 +8,10 @@ import { ArrowSVG } from '@/svg';
 import { EarnFiltersProps } from '../../earn.types';
 import { getFilterSwitchDefaultData } from '../earn.data';
 
-const EarnFilters: FC<EarnFiltersProps> = ({
-  setValue,
-  register,
-  isLive,
-  isStaked,
-  sortBy,
-}) => {
+const EarnFilters: FC<EarnFiltersProps> = ({ setValue, register, control }) => {
+  const sortBy = useWatch({ control, name: 'sortBy' });
+  const isLive = useWatch({ control, name: 'isLive' });
+  const isStaked = useWatch({ control, name: 'isStaked' });
   const SWITCH_DEFAULT_DATA = getFilterSwitchDefaultData(
     ['live', 'finished'],
     setValue,
@@ -170,8 +168,6 @@ const EarnFilters: FC<EarnFiltersProps> = ({
             Search
           </Typography>
           <Input
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
             py="0.9rem"
             color="text"
             type="text"
