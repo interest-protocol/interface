@@ -1,6 +1,9 @@
 import { BigNumber } from 'ethers';
 import { Dispatch, ReactNode, SetStateAction } from 'react';
 import { Control, UseFormSetValue } from 'react-hook-form';
+import { KeyedMutator } from 'swr';
+
+import { PairMetadataStructOutput } from '../../../../../../types/ethers-contracts/InterestViewDexAbi';
 
 export interface IAddLiquidityForm {
   token0Amount: string;
@@ -22,6 +25,13 @@ export interface AddLiquidityCardProps {
   isStable: boolean;
   tokens: [IToken, IToken];
   fetchingInitialData: boolean;
+  mutate: KeyedMutator<
+    [PairMetadataStructOutput, BigNumber[], BigNumber[]] & {
+      pairMetadata: PairMetadataStructOutput;
+      allowances: BigNumber[];
+      balances: BigNumber[];
+    }
+  >;
 }
 
 export interface AddLiquidityManagerProps {

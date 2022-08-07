@@ -50,6 +50,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
   tokens,
   isStable,
   fetchingInitialData,
+  mutate,
 }) => {
   const [loading, setLoading] = useState(false);
   const [isFetchingQuote, setIsFetchingQuote] = useState(false);
@@ -95,6 +96,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
       throwError(`Failed to approve ${tokens[0].symbol}`);
     } finally {
       setLoading(false);
+      await mutate();
     }
   };
 
@@ -183,6 +185,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
       throwError('Failed to add liquidity for');
     } finally {
       setLoading(false);
+      await mutate();
     }
   };
 
