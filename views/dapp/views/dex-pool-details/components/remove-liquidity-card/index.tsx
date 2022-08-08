@@ -36,6 +36,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
   lpBalance,
   pairAddress,
   isFetchingInitialData,
+  mutate,
 }) => {
   const { account, signer, chainId } = useGetSigner();
 
@@ -76,6 +77,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
       throwError(`Failed to approve ${tokens[0].symbol}`);
     } finally {
       setLoading(false);
+      await mutate();
     }
   };
 
@@ -130,6 +132,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
       throwError('Failed to remove liquidity');
     } finally {
       setLoading(false);
+      await mutate();
     }
   };
 

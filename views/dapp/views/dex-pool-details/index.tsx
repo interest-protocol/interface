@@ -28,7 +28,7 @@ import { processPairData } from './utils';
 const DefaultIcon = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
-  const { error, data } = useGetPairData(pairAddress);
+  const { error, data, mutate } = useGetPairData(pairAddress);
   const chainId = useChainId();
 
   const nativeBalance = useSelector(getNativeBalance) as string;
@@ -159,6 +159,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
               address: processedData.token1,
             },
           ]}
+          mutate={mutate}
         />
         <RemoveLiquidityCard
           pairAddress={pairAddress}
@@ -192,6 +193,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
               decimals: processedData.token1Metadata.decimals.toNumber(),
             },
           ]}
+          mutate={mutate}
         />
       </Box>
     </Container>
