@@ -9,7 +9,9 @@ const FindPoolPage: NextPage = () => {
 
   const { tokens } = query;
 
-  const [incomingAddressA, incomingAddressB] = tokens as ReadonlyArray<string>;
+  const [incomingAddressA, incomingAddressB] = tokens
+    ? (tokens as ReadonlyArray<string>)
+    : ['', ''];
 
   return (
     <FindPoolView
