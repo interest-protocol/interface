@@ -1,6 +1,6 @@
 import { getAddress } from 'ethers/lib/utils';
 import { useRouter } from 'next/router';
-import { pathOr, prop } from 'ramda';
+import { pathOr, prop, values } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -47,11 +47,14 @@ import { WalletGuardButton } from '@/views/dapp/components';
 import GoBack from '../../components/go-back';
 import { OnSelectCurrencyData } from '../dex/swap/swap.types';
 import CreatePool from './create-pool';
-import { DexFindPoolForm } from './dex-find-pool.types';
+import { DexFindPoolForm, FindPoolViewProps } from './dex-find-pool.types';
 import FindPool from './find-pool';
 
-const FindPoolView: FC = () => {
-  const { push } = useRouter();
+const FindPoolView: FC<FindPoolViewProps> = ({
+  incomingAddressA,
+  incomingAddressB,
+}) => {
+  const { push, replace } = useRouter();
   const { signer } = useGetSigner();
   const { chainId, account } = useIdAccount();
 
@@ -60,17 +63,27 @@ const FindPoolView: FC = () => {
   const [isTokenAOpenModal, setTokenAIsOpenModal] = useState(false);
   const [isTokenBOpenModal, setTokenBIsOpenModal] = useState(false);
 
+  const TOKEN_A =
+    values(ERC_20_DATA[chainId]).find(
+      ({ address }) => address == incomingAddressA
+    ) ?? ERC_20_DATA[chainId][TOKEN_SYMBOL.INT];
+
+  const TOKEN_B =
+    values(ERC_20_DATA[chainId]).find(
+      ({ address }) => address == incomingAddressB
+    ) ?? ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC];
+
   const { setValue, control, getValues, register } = useForm<DexFindPoolForm>({
     defaultValues: {
       tokenA: {
-        address: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].address,
-        decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].decimals,
-        symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].symbol,
+        address: TOKEN_A.address,
+        decimals: TOKEN_A.decimals,
+        symbol: TOKEN_A.symbol,
       },
       tokenB: {
-        address: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].address,
-        decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].decimals,
-        symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].symbol,
+        address: TOKEN_B.address,
+        decimals: TOKEN_B.decimals,
+        symbol: TOKEN_B.symbol,
       },
       isStable: false,
     },
@@ -114,6 +127,19 @@ const FindPoolView: FC = () => {
       setTokenAIsOpenModal(false);
       setTokenBIsOpenModal(false);
       setCreatingPair(false);
+      replace(
+        {
+          pathname: Routes[RoutesEnum.DEXFindPool],
+          query: {
+            tokens:
+              name == 'tokenA'
+                ? [address, tokenBAddress]
+                : [tokenAAddress, address],
+          },
+        },
+        undefined,
+        { shallow: true }
+      );
     };
 
   const enterPool = async () => {

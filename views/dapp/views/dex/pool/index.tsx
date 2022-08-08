@@ -49,7 +49,12 @@ const Pool: FC = () => {
             px="XL"
             type="button"
             variant="primary"
-            onClick={() => push(Routes[RoutesEnum.DEXFindPool])}
+            onClick={() =>
+              push({
+                pathname: Routes[RoutesEnum.DEXFindPool],
+                query: { tokens: ['', ''] },
+              })
+            }
             ml={['unset', 'auto']}
           >
             Find Pool

@@ -1,13 +1,14 @@
 import { BigNumber } from 'ethers';
+import { useRouter } from 'next/router';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { addAllowance, depositLP, withdrawLP } from '@/api';
-import { StakeState } from '@/constants';
+import { Routes, RoutesEnum, StakeState } from '@/constants';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
 import { useGetSigner, useGetUserFarmData } from '@/hooks';
-import { ZERO_BIG_NUMBER } from '@/sdk';
+import { LPPairV2, ZERO_BIG_NUMBER } from '@/sdk';
 import { IntMath } from '@/sdk/entities/int-math';
 import { coreActions } from '@/state/core/core.actions';
 import {
@@ -35,6 +36,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
   farm,
   intUSDPrice,
 }) => {
+  const { push } = useRouter();
   const [modal, setModal] = useState<StakeState | undefined>();
   const [modalLoading, setModalLoading] = useState<boolean>(false);
 
@@ -210,19 +212,27 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
           farm.stakingToken.decimals
         )} ${farm.farmSymbol}`}
         button={
-          <a
-            href={
-              farm.farmSymbol === 'Int'
-                ? 'https://pancake.kiemtienonline360.com/'
-                : 'https://pancake.kiemtienonline360.com/#/add/0x57486681D2E0Bc9B0494446b8c5df35cd20D4E92/0x954f3A4aeC237D311839d6E0274c0aC8Be13d1b1'
+          <Button
+            variant="primary"
+            onClick={() =>
+              push(
+                {
+                  pathname: Routes[RoutesEnum.DEXFindPool],
+                  query: {
+                    tokens: [
+                      (farm.stakingToken as LPPairV2).token0.address,
+                      (farm.stakingToken as LPPairV2).token1.address,
+                    ],
+                  },
+                },
+                undefined,
+                { shallow: true }
+              )
             }
-            target="_blank"
-            rel="noreferrer"
+            hover={{ bg: 'accentActive' }}
           >
-            <Button variant="primary" hover={{ bg: 'accentActive' }}>
-              Get {farm.farmSymbol}
-            </Button>
-          </a>
+            Get {farm.farmSymbol}
+          </Button>
         }
       />
       <EarnCard

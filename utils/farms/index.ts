@@ -230,7 +230,7 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
   );
 
   const intPool = FarmV2.createIntPool({
-    int: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT],
+    int: ERC_20_DATA[chainId][TOKEN_SYMBOL.USDT],
     allocationPoints: data.poolsData[0].allocationPoints,
     totalAllocationPoints: data.mintData.totalAllocationPoints,
     totalStakedAmount: data.poolsData[0].totalStakingAmount,
@@ -242,7 +242,7 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
       const index = Math.floor(Math.random() * 2);
       return {
         farmTokenPrice: CurrencyAmount.fromRawAmount(
-          ERC_20_DATA[chainId][TOKEN_SYMBOL.INT],
+          ERC_20_DATA[chainId][TOKEN_SYMBOL.USDT],
           intUSDPrice
         ),
         farm: intPool,

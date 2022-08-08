@@ -51,3 +51,8 @@ export interface CreatePoolFieldProps {
 export interface PriceProps {
   control: Control<DexFindPoolForm>;
 }
+
+export interface FindPoolViewProps {
+  incomingAddressA: string | null;
+  incomingAddressB: string | null;
+}

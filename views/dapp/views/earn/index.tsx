@@ -15,6 +15,8 @@ import { IEarnForm } from './earn.types';
 
 const Earn: FC = () => {
   const { chainId } = useIdAccount();
+  const [isFilterSearch, setIsFilterSearch] = useState<boolean>(false);
+
   const { register, setValue, control } = useForm<IEarnForm>({
     defaultValues: {
       search: '',
@@ -37,37 +39,42 @@ const Earn: FC = () => {
 
   useEffect(() => {
     setDataPools(
-      Array.from({ length: 25 }, (_, index) => ({
-        ...data.pools[index % data.pools.length],
+      Array.from({ length: 5 }, (_, index) => ({
+        ...data.farms[index % data.farms.length],
         dropdownArgs: {
           intUSDPrice: data.intUSDPrice,
-          farm: data.pools[index % data.pools.length].farm,
-          farmTokenPrice: data.pools[index % data.pools.length].farmTokenPrice,
+          farm: data.farms[index % data.farms.length].farm,
+          farmTokenPrice: data.farms[index % data.farms.length].farmTokenPrice,
         },
       }))
     );
-  }, []);
+  }, [data.farms]);
 
   const fetchMoreData = (length: number) => () => {
-    if (length > 100) {
+    if (length > 200) {
       setHasMore(false);
       return;
     }
 
     setTimeout(() => {
-      setDataPools((dataPools) => [
+      setHasMore(false);
+      setDataPools((dataPools: TEarnTableData) => [
         ...((dataPools ?? []) as TEarnTableData),
-        ...Array.from({ length: 25 }, (_, index) => ({
-          ...data.pools[index % data.pools.length],
+        ...Array.from({ length: 5 }, (_, index) => ({
+          ...data.farms[index % data.farms.length],
           dropdownArgs: {
-            farm: data.pools[index % data.pools.length].farm,
+            farm: data.farms[index % data.farms.length].farm,
             intUSDPrice: data.intUSDPrice,
             farmTokenPrice:
-              data.pools[index % data.pools.length].farmTokenPrice,
+              data.farms[index % data.farms.length].farmTokenPrice,
           },
         })),
       ]);
     }, 500);
+
+    setTimeout(() => {
+      setHasMore(true);
+    }, 2500);
   };
 
   const [isDesktop, setDesktop] = useState(false);
@@ -137,10 +144,12 @@ const Earn: FC = () => {
             control={control}
             register={register}
             setValue={setValue}
+            isFilterSearch={isFilterSearch}
+            setIsFilterSearch={setIsFilterSearch}
           />
           <InfiniteScroll
             overflow="visible !important"
-            hasMore={hasMore}
+            hasMore={data.loading ? false : hasMore}
             next={fetchMoreData(dataPools.length)}
             scrollableTarget="body"
             dataLength={dataPools.length}

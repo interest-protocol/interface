@@ -7,11 +7,19 @@ import { ArrowSVG } from '@/svg';
 
 import { EarnFiltersProps } from '../../earn.types';
 import { getFilterSwitchDefaultData } from '../earn.data';
+import EarnFilterManager from './manager';
 
-const EarnFilters: FC<EarnFiltersProps> = ({ setValue, register, control }) => {
+const EarnFilters: FC<EarnFiltersProps> = ({
+  setValue,
+  register,
+  control,
+  setIsFilterSearch,
+  isFilterSearch,
+}) => {
   const sortBy = useWatch({ control, name: 'sortBy' });
   const isLive = useWatch({ control, name: 'isLive' });
   const isStaked = useWatch({ control, name: 'isStaked' });
+
   const SWITCH_DEFAULT_DATA = getFilterSwitchDefaultData(
     ['live', 'finished'],
     setValue,
@@ -185,6 +193,12 @@ const EarnFilters: FC<EarnFiltersProps> = ({ setValue, register, control }) => {
           />
         </Box>
       </Box>
+      <EarnFilterManager
+        control={control}
+        setValue={setValue}
+        isFilterSearch={isFilterSearch}
+        setIsFilterSearch={setIsFilterSearch}
+      />
     </Box>
   );
 };
