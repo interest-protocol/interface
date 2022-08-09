@@ -53,7 +53,9 @@ export const calculateAllocation: TCalculateAllocation = (
 ) => {
   if (totalAllocationPoints.isZero() || allocationPoints.isZero()) return '0%';
 
-  return `${allocationPoints.mul(100).div(totalAllocationPoints)}%`;
+  return `${IntMath.from(allocationPoints)
+    .div(totalAllocationPoints)
+    .toPercentage(2)}`;
 };
 
 export const calculateFarmBaseAPR: TCalculateFarmBaseAPR = (
@@ -63,7 +65,7 @@ export const calculateFarmBaseAPR: TCalculateFarmBaseAPR = (
   intPerBlock,
   intUSDPrice,
   stakeAmount,
-  stakeTokeUSDPrice
+  stakeTokenUSDPrice
 ) => {
   if (
     totalAllocationPoints.isZero() ||
@@ -71,7 +73,7 @@ export const calculateFarmBaseAPR: TCalculateFarmBaseAPR = (
     intUSDPrice.isZero() ||
     intPerBlock.isZero() ||
     stakeAmount.isZero() ||
-    stakeTokeUSDPrice.isZero()
+    stakeTokenUSDPrice.isZero()
   )
     return '0%';
 
@@ -80,7 +82,8 @@ export const calculateFarmBaseAPR: TCalculateFarmBaseAPR = (
     .mul(allocationPoints)
     .div(totalAllocationPoints);
 
-  const underlyingValueInUSD = IntMath.from(stakeAmount).mul(stakeTokeUSDPrice);
+  const underlyingValueInUSD =
+    IntMath.from(stakeAmount).mul(stakeTokenUSDPrice);
 
   return IntMath.from(farmRewardsAllocationPerYear)
     .mul(intUSDPrice)
@@ -212,6 +215,11 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
     tokenPriceMap
   );
 
+  console.log(
+    data.mintData.totalAllocationPoints.toString(),
+    'total allocation points'
+  );
+
   return {
     intUSDPrice,
     tokenPriceMap,
@@ -225,6 +233,8 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
           allocationPoints,
           totalSupply,
         }: InterestViewEarn.PoolDataStructOutput = data.pools[index];
+
+        console.log(index, allocationPoints.toString());
 
         const stakingTokenPrice =
           index === 0
