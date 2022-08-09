@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { reduce } from 'ramda';
+import { pathOr, reduce } from 'ramda';
 import { FC, SVGAttributes } from 'react';
 
 import { CHAIN_ID, NativeCurrency, TOKEN_SYMBOL } from '@/sdk';
@@ -129,6 +129,43 @@ export const getFarmsSVG = (
 
   return svgArray;
 };
+
+export const getFarmsSVGByToken = (
+  chainId: number,
+  token0: string,
+  token1: string
+): ReadonlyArray<FC<SVGAttributes<SVGSVGElement>>> => {
+  const erc0 = pathOr(
+    UNKNOWN_ERC_20,
+    [chainId.toString(), token0],
+    ERC_20_DATA
+  );
+  const erc1 = pathOr(
+    UNKNOWN_ERC_20,
+    [chainId.toString(), token1],
+    ERC_20_DATA
+  );
+  const SVG0 = TOKEN_META_DATA_ARRAY[chainId].filter(
+    (tokenTMP) => tokenTMP.symbol == erc0.symbol
+  );
+
+  const SVG1 = TOKEN_META_DATA_ARRAY[chainId].filter(
+    (tokenTMP) => tokenTMP.symbol == erc1.symbol
+  );
+  SVG0.push(SVG1[0]);
+
+  return SVG0.length === 1
+    ? [TOKENS_SVG_MAP[getTokenSymbol(SVG0[0].symbol)]]
+    : SVG0.length === 2
+    ? [
+        TOKENS_SVG_MAP[getTokenSymbol(SVG0[0].symbol)],
+        TOKENS_SVG_MAP[getTokenSymbol(SVG0[1].symbol)],
+      ]
+    : [];
+};
+
+const getTokenSymbol = (symbol: TOKEN_SYMBOL): TOKEN_SYMBOL =>
+  symbol == TOKEN_SYMBOL.WBNB ? TOKEN_SYMBOL.BNB : symbol;
 
 const RINKEBY_MAIL_BRIDGE_ERC20_ARRAY = [
   {

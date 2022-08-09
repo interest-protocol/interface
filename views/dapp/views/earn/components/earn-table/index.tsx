@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
-import { getFarmsSVG } from '@/constants';
+import { getFarmsSVGByToken } from '@/constants';
 import { Box, DropdownTable, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 
@@ -68,25 +68,24 @@ const EarnTable: FC<EarnTableProps> = ({
             tip: 'It represents the % of Interest Token minted compared to to others pools.',
             item: <>Allocation</>,
           },
+          {
+            tip: 'Volatile or Stable.',
+            item: <>Type</>,
+          },
         ]}
         data={
           loading
             ? DesktopEarnSkeletonRow
             : farms.map((farm) => ({
                 items: [
-                  <Box
-                    key={v4()}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                  >
+                  <Box key={v4()} display="flex" alignItems="center">
                     <Box display="inline-flex">
-                      {getFarmsSVG(farm.id).map((SVG, index) => (
-                        <Box
-                          key={v4()}
-                          zIndex={getFarmsSVG(farm.id).length - index}
-                          ml={index != 0 ? '-0.5rem' : 'NONE'}
-                        >
+                      {getFarmsSVGByToken(
+                        farm.chainId,
+                        farm.token0,
+                        farm.token1
+                      ).map((SVG, index) => (
+                        <Box key={v4()} ml={index != 0 ? '-0.5rem' : 'NONE'}>
                           <SVG width="1.6rem" height="1.6rem" />
                         </Box>
                       ))}
@@ -105,6 +104,19 @@ const EarnTable: FC<EarnTableProps> = ({
                   farm.tvl,
                   farm.apr,
                   farm.allocation,
+                  <Typography
+                    variant="normal"
+                    fontSize="0.70rem"
+                    bg={farm.stable ? 'accent' : 'accentAlternativeActive'}
+                    borderRadius="M"
+                    p="0.15rem"
+                    textAlign="center"
+                    cursor="pointer"
+                    width="70%"
+                    key={v4()}
+                  >
+                    {farm.stable ? 'Stable' : 'Volatile'}
+                  </Typography>,
                 ],
                 dropdown: {
                   args: { farm, intUSDPrice },
@@ -150,6 +162,10 @@ const EarnTable: FC<EarnTableProps> = ({
               tip: 'It represents the % of Interest Token minted compared to to others pools.',
               item: <>Allocation</>,
             },
+            {
+              tip: 'Volatile or Stable.',
+              item: <>Type</>,
+            },
           ]}
           data={
             loading
@@ -165,12 +181,12 @@ const EarnTable: FC<EarnTableProps> = ({
                       justifyContent="center"
                     >
                       <Box display="inline-flex">
-                        {getFarmsSVG(farm.id).map((SVG, index) => (
-                          <Box
-                            key={v4()}
-                            zIndex={getFarmsSVG(farm.id).length - index}
-                            ml={index != 0 ? '-0.5rem' : 'NONE'}
-                          >
+                        {getFarmsSVGByToken(
+                          farm.chainId,
+                          farm.token0,
+                          farm.token1
+                        ).map((SVG, index) => (
+                          <Box key={v4()} ml={index != 0 ? '-0.5rem' : 'NONE'}>
                             <SVG width="1.6rem" height="1.6rem" />
                           </Box>
                         ))}
@@ -192,7 +208,24 @@ const EarnTable: FC<EarnTableProps> = ({
                       </Typography>
                     </Box>
                   ),
-                  items: [farm.tvl, farm.apr, farm.allocation],
+                  items: [
+                    farm.tvl,
+                    farm.apr,
+                    farm.allocation,
+                    <Typography
+                      variant="normal"
+                      fontSize="0.70rem"
+                      bg={farm.stable ? 'accent' : 'accentAlternativeActive'}
+                      borderRadius="M"
+                      p="0.15rem"
+                      textAlign="center"
+                      cursor="pointer"
+                      width="70%"
+                      key={v4()}
+                    >
+                      {farm.stable ? 'Stable' : 'Volatile'}
+                    </Typography>,
+                  ],
                   dropdown: {
                     args: { farm, intUSDPrice },
                     Component: EarnTableCollapsible,
