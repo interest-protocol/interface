@@ -23,6 +23,7 @@ const Earn: FC = () => {
       sortBy: 'Select',
       isLive: true,
       isStaked: true,
+      isVolatile: true,
     },
   });
 

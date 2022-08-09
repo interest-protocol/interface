@@ -17,18 +17,18 @@ const EarnFilters: FC<EarnFiltersProps> = ({
   isFilterSearch,
 }) => {
   const sortBy = useWatch({ control, name: 'sortBy' });
-  const isLive = useWatch({ control, name: 'isLive' });
   const isStaked = useWatch({ control, name: 'isStaked' });
+  const isVolatile = useWatch({ control, name: 'isVolatile' });
 
-  const SWITCH_DEFAULT_DATA = getFilterSwitchDefaultData(
-    ['live', 'finished'],
-    setValue,
-    'isLive'
-  );
   const SWITCH_ONOFF_DATA = getFilterSwitchDefaultData(
     ['off', 'on'],
     setValue,
     'isStaked'
+  );
+  const SWITCH_VOLATILE_DATA = getFilterSwitchDefaultData(
+    ['volatile', 'stable'],
+    setValue,
+    'isVolatile'
   );
 
   return (
@@ -48,6 +48,26 @@ const EarnFilters: FC<EarnFiltersProps> = ({
         alignItems="flex-end"
         flexWrap="wrap"
       >
+        <Box
+          display="flex"
+          flexDirection="column"
+          my={['M', 'M', 'M', 'unset']}
+        >
+          <Typography
+            fontSize="S"
+            mb="M"
+            variant="normal"
+            display="inline-block"
+          >
+            Type
+          </Typography>
+          <Switch
+            defaultValue={isVolatile ? 'volatile' : 'stable'}
+            options={SWITCH_VOLATILE_DATA}
+            bg="background"
+            bgSelected="accentAlternative"
+          />
+        </Box>
         <Box display="flex" flexDirection="column">
           <Typography
             fontSize="S"
@@ -60,26 +80,6 @@ const EarnFilters: FC<EarnFiltersProps> = ({
           <Switch
             defaultValue={!isStaked ? 'on' : 'off'}
             options={SWITCH_ONOFF_DATA}
-            bg="background"
-            bgSelected="accentAlternative"
-          />
-        </Box>
-        <Box
-          display="flex"
-          flexDirection="column"
-          my={['M', 'M', 'M', 'unset']}
-        >
-          <Typography
-            fontSize="S"
-            mb="M"
-            variant="normal"
-            display="inline-block"
-          >
-            Status
-          </Typography>
-          <Switch
-            defaultValue={isLive ? 'live' : 'finished'}
-            options={SWITCH_DEFAULT_DATA}
             bg="background"
             bgSelected="accentAlternative"
           />

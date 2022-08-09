@@ -28,7 +28,7 @@ export const getHeaderSwitchDefaultData = (
 export const getFilterSwitchDefaultData = (
   values: ReadonlyArray<string>,
   setValue: UseFormSetValue<IEarnForm>,
-  name: 'isStaked' | 'isLive'
+  name: 'isStaked' | 'isLive' | 'isVolatile'
 ): [ISwitchOption, ISwitchOption] => [
   {
     value: values[0],
