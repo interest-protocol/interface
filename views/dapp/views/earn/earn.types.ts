@@ -32,7 +32,7 @@ export type TCalculateFarmBaseAPR = (
   intPerBlock: BigNumber,
   intUSDPrice: BigNumber,
   stakeAmount: BigNumber,
-  stakeTokeUSDPrice: BigNumber
+  stakeTokenUSDPrice: BigNumber
 ) => string;
 
 export type TCalculateAllocation = (
