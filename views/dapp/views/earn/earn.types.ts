@@ -21,6 +21,7 @@ export interface IEarnForm {
   search: string;
   sortBy: string;
   isStaked: boolean;
+  isVolatile: boolean;
   isLive: boolean;
 }
 
