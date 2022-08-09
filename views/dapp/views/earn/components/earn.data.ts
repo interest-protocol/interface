@@ -27,18 +27,19 @@ export const getHeaderSwitchDefaultData = (
 
 export const getFilterSwitchDefaultData = (
   values: ReadonlyArray<string>,
-  setValue: UseFormSetValue<IEarnForm>
+  setValue: UseFormSetValue<IEarnForm>,
+  name: 'isStaked' | 'isLive'
 ): [ISwitchOption, ISwitchOption] => [
   {
     value: values[0],
     onSelect: () => {
-      setValue('typeFarm', 'Volatile');
+      setValue(name, true);
     },
   },
   {
     value: values[1],
     onSelect: () => {
-      setValue('typeFarm', 'Stable');
+      setValue(name, false);
     },
   },
 ];

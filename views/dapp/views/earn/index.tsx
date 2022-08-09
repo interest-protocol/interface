@@ -15,10 +15,14 @@ import { IEarnForm } from './earn.types';
 
 const Earn: FC = () => {
   const { chainId } = useIdAccount();
+  const [isFilterSearch, setIsFilterSearch] = useState<boolean>(false);
 
-  const { setValue, control } = useForm<IEarnForm>({
+  const { register, setValue, control } = useForm<IEarnForm>({
     defaultValues: {
-      typeFarm: 'Volatile',
+      search: '',
+      sortBy: 'Select',
+      isLive: true,
+      isStaked: true,
     },
   });
 
@@ -136,7 +140,13 @@ const Earn: FC = () => {
         justifyContent="space-between"
       >
         <Box>
-          <EarnFilters control={control} setValue={setValue} />
+          <EarnFilters
+            control={control}
+            register={register}
+            setValue={setValue}
+            isFilterSearch={isFilterSearch}
+            setIsFilterSearch={setIsFilterSearch}
+          />
           <InfiniteScroll
             overflow="visible !important"
             hasMore={data.loading ? false : hasMore}
