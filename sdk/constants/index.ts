@@ -50,16 +50,8 @@ export const BLOCKS_PER_YEAR = {
 };
 
 export const INIT_CODE_HASH = {
-  PCS_PAIR: {
-    [CHAIN_ID.BNB_MAIN_MET]:
-      '0x00fb7f630766e6a796048ea87d01acd3068e8ff67d078148a3fa3f4a84f69bd5',
-    [CHAIN_ID.BNB_TEST_NET]:
-      '0xd0d4c4cd0848c93cb4fd1f498d7013ee6bfb25783ea21593d5834f5d250ece66',
-  },
-  IPX_PAIR: {
-    [CHAIN_ID.BNB_TEST_NET]:
-      '0x961ef516c3b1b47b938ac73de08a405baa2cff1017c19e16169d8e55c438d3d4',
-  },
+  [CHAIN_ID.BNB_TEST_NET]:
+    '0x961ef516c3b1b47b938ac73de08a405baa2cff1017c19e16169d8e55c438d3d4',
 };
 
 export const DINERO_MARKET_CONTRACTS = {
@@ -183,10 +175,15 @@ export const CONTRACTS = {
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: '0x0E34A52922770f7eb965688aa251a872eb3481aE',
   },
+  INTEREST_VIEW_EARN: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: '0x5bD2F28d7Ae647a1AC2c83748603b08E6C5f158a',
+  },
   INTEREST_VIEW_DEX: {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
-    [CHAIN_ID.BNB_TEST_NET]: '0xcc89198c796321c3D9E427dFDAbAEd9485696286',
+    [CHAIN_ID.BNB_TEST_NET]: '0x63f65a9f97A551ccAe1E85258798B6f314a88Cf5',
   },
   BTC: {
     [CHAIN_ID.BNB_TEST_NET]: '0x954f3A4aeC237D311839d6E0274c0aC8Be13d1b1',

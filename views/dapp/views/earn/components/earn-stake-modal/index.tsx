@@ -18,6 +18,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
   onStake,
   onUnstake,
   handleClose,
+  farmSymbol,
 }) => {
   const { handleSubmit, setValue, register } = useForm({
     defaultValues: { value: '0' },
@@ -35,8 +36,8 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
 
   const onSubmit = ({ value }: { value: string }) => {
     isStake
-      ? onStake(safeToBigNumber(value, farm.stakingToken.decimals))
-      : onUnstake(safeToBigNumber(value, farm.stakingToken.decimals));
+      ? onStake(safeToBigNumber(value))
+      : onUnstake(safeToBigNumber(value));
   };
 
   return (
@@ -81,7 +82,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
           </Box>
         </Box>
         <Typography variant="normal" textAlign="center" fontSize="L">
-          {isStake ? 'Stake' : 'Unstake'} {farm.farmSymbol} token
+          {isStake ? 'Stake' : 'Unstake'} {} token
         </Typography>
         <Box mt="XL">
           <InputStake
@@ -102,7 +103,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
                   ))}
                 </Box>
                 <Typography variant="normal" ml="M">
-                  {farm.farmSymbol}
+                  {farmSymbol}
                 </Typography>
               </Box>
             }
@@ -115,10 +116,10 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
           </Typography>
           <Box display="flex" justifyContent="space-between">
             <Typography variant="normal" my="L">
-              {farm.farmSymbol} Token
+              {farmSymbol} Token
             </Typography>
             <Typography variant="normal" my="L">
-              {amount} {farm.farmSymbol}
+              {amount} {farmSymbol}
             </Typography>
           </Box>
         </Box>

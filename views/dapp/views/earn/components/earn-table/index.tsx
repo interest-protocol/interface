@@ -3,7 +3,9 @@ import { v4 } from 'uuid';
 
 import { getFarmsSVG } from '@/constants';
 import { Box, DropdownTable, Typography } from '@/elements';
+import { TOKEN_SYMBOL } from '@/sdk';
 
+import { makeFarmSymbol } from '../../utils';
 import {
   DesktopEarnSkeletonRow,
   MobileEarnSkeletonRow,
@@ -12,10 +14,11 @@ import { EarnTableProps } from './earn-table.types';
 import EarnTableCollapsible from './earn-table-collapsible';
 
 const EarnTable: FC<EarnTableProps> = ({
-  data,
+  farms,
   isPools,
   loading,
   isDesktop,
+  intUSDPrice,
 }) => (
   <Box display="flex" flexDirection="column" flex="1">
     {isDesktop ? (
@@ -69,7 +72,7 @@ const EarnTable: FC<EarnTableProps> = ({
         data={
           loading
             ? DesktopEarnSkeletonRow
-            : data.map(({ farm, allocation, apr, tvl, dropdownArgs }) => ({
+            : farms.map((farm) => ({
                 items: [
                   <Box
                     key={v4()}
@@ -89,15 +92,22 @@ const EarnTable: FC<EarnTableProps> = ({
                       ))}
                     </Box>
                     <Typography variant="normal" ml="M">
-                      {farm.farmName}
+                      {farm.id === 0
+                        ? TOKEN_SYMBOL.INT
+                        : makeFarmSymbol(
+                            farm.chainId,
+                            farm.token0,
+                            farm.token1,
+                            farm.stable
+                          )}
                     </Typography>
                   </Box>,
-                  tvl,
-                  apr,
-                  allocation,
+                  farm.tvl,
+                  farm.apr,
+                  farm.allocation,
                 ],
                 dropdown: {
-                  args: dropdownArgs,
+                  args: { farm, intUSDPrice },
                   Component: EarnTableCollapsible,
                 },
               }))
@@ -144,7 +154,7 @@ const EarnTable: FC<EarnTableProps> = ({
           data={
             loading
               ? MobileEarnSkeletonRow
-              : data.map(({ tvl, apr, farm, allocation, dropdownArgs }) => ({
+              : farms.map((farm) => ({
                   sideContent: (
                     <Box
                       mb="L"
@@ -171,13 +181,20 @@ const EarnTable: FC<EarnTableProps> = ({
                         textAlign="center"
                         whiteSpace="nowrap"
                       >
-                        {farm.farmName}
+                        {farm.id === 0
+                          ? TOKEN_SYMBOL.INT
+                          : makeFarmSymbol(
+                              farm.chainId,
+                              farm.token0,
+                              farm.token1,
+                              farm.stable
+                            )}
                       </Typography>
                     </Box>
                   ),
-                  items: [tvl, apr, allocation],
+                  items: [farm.tvl, farm.apr, farm.allocation],
                   dropdown: {
-                    args: dropdownArgs,
+                    args: { farm, intUSDPrice },
                     Component: EarnTableCollapsible,
                   },
                 }))

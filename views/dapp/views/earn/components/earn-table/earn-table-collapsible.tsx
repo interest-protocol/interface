@@ -8,7 +8,7 @@ import { Routes, RoutesEnum, StakeState } from '@/constants';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
 import { useGetSigner, useGetUserFarmData } from '@/hooks';
-import { LPPairV2, ZERO_BIG_NUMBER } from '@/sdk';
+import { TOKEN_SYMBOL, ZERO_BIG_NUMBER } from '@/sdk';
 import { IntMath } from '@/sdk/entities/int-math';
 import { coreActions } from '@/state/core/core.actions';
 import {
@@ -20,6 +20,7 @@ import {
   throwIfInvalidSigner,
 } from '@/utils';
 
+import { makeFarmSymbol } from '../../utils';
 import EarnStakeModal from '../earn-stake-modal';
 import EarnCard from './earn-card';
 import { EarnTableCollapsibleProps } from './earn-table.types';
@@ -32,7 +33,6 @@ const safeData = {
 };
 
 const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
-  farmTokenPrice,
   farm,
   intUSDPrice,
 }) => {
@@ -45,13 +45,18 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
   const dispatch = useDispatch();
 
   const { data, error, mutate } = useGetUserFarmData(
-    farm.stakingToken.address,
+    farm.stakingTokenAddress,
     farm.id
   );
 
   const loading = useMemo(() => !error && !data, [error, data]);
 
   const processedData = useMemo(() => (data ? data : safeData), [data]);
+
+  const farmSymbol =
+    farm.id === 0
+      ? TOKEN_SYMBOL.INT
+      : makeFarmSymbol(farm.chainId, farm.token0, farm.token1, farm.stable);
 
   const approve = useCallback(async () => {
     const { validId, validSigner } = throwIfInvalidSigner(
@@ -65,7 +70,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         validId,
         validSigner,
         account,
-        farm.stakingToken.address,
+        farm.stakingTokenAddress,
         getCasaDePapelAddress(validId)
       );
 
@@ -203,35 +208,31 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         loading={loading}
         title="Your balance"
         amountUSD={formatDollars(
-          IntMath.from(farmTokenPrice.numerator)
+          IntMath.from(farm.stakingTokenPrice)
             .mul(processedData.balance)
             .toNumber()
         )}
-        amount={`${IntMath.toNumber(
-          processedData.balance,
-          farm.stakingToken.decimals
-        )} ${farm.farmSymbol}`}
+        amount={`${IntMath.toNumber(processedData.balance)} ${farmSymbol}`}
         button={
           <Button
             variant="primary"
             onClick={() =>
-              push(
-                {
-                  pathname: Routes[RoutesEnum.DEXFindPool],
-                  query: {
-                    tokens: [
-                      (farm.stakingToken as LPPairV2).token0.address,
-                      (farm.stakingToken as LPPairV2).token1.address,
-                    ],
-                  },
-                },
-                undefined,
-                { shallow: true }
-              )
+              farm.id === 0
+                ? push({ pathname: Routes[RoutesEnum.DEX] })
+                : push(
+                    {
+                      pathname: Routes[RoutesEnum.DEXFindPool],
+                      query: {
+                        pairAddress: farm.stakingTokenAddress,
+                      },
+                    },
+                    undefined,
+                    { shallow: true }
+                  )
             }
             hover={{ bg: 'accentActive' }}
           >
-            Get {farm.farmSymbol}
+            Get {farmSymbol}
           </Button>
         }
       />
@@ -239,14 +240,13 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         title="Staked"
         loading={loading}
         amountUSD={formatDollars(
-          IntMath.from(farmTokenPrice.numerator)
+          IntMath.from(farm.stakingTokenPrice)
             .mul(processedData.stakingAmount)
-            .toNumber(farm.stakingToken.decimals)
+            .toNumber()
         )}
         amount={`${IntMath.toNumber(
-          processedData.stakingAmount,
-          farm.stakingToken.decimals
-        )} ${farm.farmSymbol}`}
+          processedData.stakingAmount
+        )} ${farmSymbol}`}
         button={
           processedData.allowance.isZero() ? (
             <Button
@@ -254,7 +254,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
               onClick={handleApprove}
               hover={{ bg: 'accentActive' }}
             >
-              {farm.isPool ? 'Enable Pool' : 'Enable Farm'}
+              {farm.id === 0 ? 'Enable Pool' : 'Enable Farm'}
             </Button>
           ) : (
             <Box
@@ -308,10 +308,9 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         amountUSD={formatDollars(
           IntMath.from(intUSDPrice).mul(processedData.pendingRewards).toNumber()
         )}
-        amount={`${IntMath.toNumber(
-          processedData.pendingRewards,
-          farm.getRewardTokenMetaData().decimals
-        )} ${farm.getRewardTokenMetaData().symbol}`}
+        amount={`${IntMath.toNumber(processedData.pendingRewards)} ${
+          TOKEN_SYMBOL.INT
+        }`}
         button={
           <Button
             onClick={
@@ -343,9 +342,9 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         amount={IntMath.toNumber(
           modal === StakeState.Stake
             ? processedData.balance
-            : processedData.stakingAmount,
-          farm.stakingToken.decimals
+            : processedData.stakingAmount
         )}
+        farmSymbol={farmSymbol}
       />
     </Box>
   );

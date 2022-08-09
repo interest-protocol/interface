@@ -6,12 +6,12 @@ import search from '@/components/svg/search';
 import { Box, InfiniteScroll, Typography } from '@/elements';
 import { useGetFarmsSummary, useIdAccount } from '@/hooks';
 import { LoadingSVG, TimesSVG } from '@/svg';
-import { getSafeFarmSummaryData } from '@/utils';
+import { noop } from '@/utils';
 
 import { EarnTable } from './components';
 import EarnFilters from './components/earn-filters';
-import { TEarnTableData } from './components/earn-table/earn-table.types';
 import { IEarnForm } from './earn.types';
+import { getSafeFarmSummaryData } from './utils';
 
 const Earn: FC = () => {
   const { chainId } = useIdAccount();
@@ -26,56 +26,12 @@ const Earn: FC = () => {
     },
   });
 
-  const [dataPools, setDataPools] = useState<TEarnTableData>([]);
-
-  const [hasMore, setHasMore] = useState(true);
-
   const { error, data: rawData } = useGetFarmsSummary();
 
   const data = useMemo(
     () => getSafeFarmSummaryData(chainId, rawData),
     [rawData, chainId, search]
   );
-
-  useEffect(() => {
-    setDataPools(
-      Array.from({ length: 5 }, (_, index) => ({
-        ...data.farms[index % data.farms.length],
-        dropdownArgs: {
-          intUSDPrice: data.intUSDPrice,
-          farm: data.farms[index % data.farms.length].farm,
-          farmTokenPrice: data.farms[index % data.farms.length].farmTokenPrice,
-        },
-      }))
-    );
-  }, [data.farms]);
-
-  const fetchMoreData = (length: number) => () => {
-    if (length > 200) {
-      setHasMore(false);
-      return;
-    }
-
-    setTimeout(() => {
-      setHasMore(false);
-      setDataPools((dataPools: TEarnTableData) => [
-        ...((dataPools ?? []) as TEarnTableData),
-        ...Array.from({ length: 5 }, (_, index) => ({
-          ...data.farms[index % data.farms.length],
-          dropdownArgs: {
-            farm: data.farms[index % data.farms.length].farm,
-            intUSDPrice: data.intUSDPrice,
-            farmTokenPrice:
-              data.farms[index % data.farms.length].farmTokenPrice,
-          },
-        })),
-      ]);
-    }, 500);
-
-    setTimeout(() => {
-      setHasMore(true);
-    }, 2500);
-  };
 
   const [isDesktop, setDesktop] = useState(false);
 
@@ -149,10 +105,10 @@ const Earn: FC = () => {
           />
           <InfiniteScroll
             overflow="visible !important"
-            hasMore={data.loading ? false : hasMore}
-            next={fetchMoreData(dataPools.length)}
+            hasMore={false}
+            next={noop}
             scrollableTarget="body"
-            dataLength={dataPools.length}
+            dataLength={data.farms.length}
             loader={
               <Box display="flex" alignItems="center" justifyContent="center">
                 <LoadingSVG width="1rem" />
@@ -165,9 +121,10 @@ const Earn: FC = () => {
             <Box>
               <EarnTable
                 isPools
-                data={dataPools}
+                farms={data.farms}
                 loading={data.loading}
                 isDesktop={isDesktop}
+                intUSDPrice={data.intUSDPrice}
               />
             </Box>
           </InfiniteScroll>

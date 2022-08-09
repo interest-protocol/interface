@@ -1,7 +1,6 @@
 import { BigNumber, BigNumberish, ethers } from 'ethers';
 
-import { CHAIN_ID, CONTRACTS, INIT_CODE_HASH } from '../constants';
-import { ERC20 } from '../entities/erc-20';
+import { CONTRACTS, INIT_CODE_HASH } from '../constants';
 
 export const ZERO_BIG_NUMBER = BigNumber.from(0);
 
@@ -24,20 +23,8 @@ export const parseToPositiveStringNumber = (x: string): string => {
   return x;
 };
 
-export const sortTokens = (
-  tokenA: string,
-  tokenB: string
-): [string, string] => {
-  const tokenABN = BigNumber.from(tokenA);
-  const tokenBBN = BigNumber.from(tokenB);
-  if (tokenBBN.gt(tokenABN)) return [tokenA, tokenB];
-
-  return [tokenB, tokenA];
-};
-
-export const sortERC20 = (tokenA: ERC20, tokenB: ERC20): [ERC20, ERC20] =>
-  ethers.utils.getAddress(sortTokens(tokenA.address, tokenB.address)[0]) ===
-  ethers.utils.getAddress(tokenA.address)
+export const sortTokens = (tokenA: string, tokenB: string): [string, string] =>
+  BigNumber.from(tokenB).gt(BigNumber.from(tokenA))
     ? [tokenA, tokenB]
     : [tokenB, tokenA];
 
@@ -49,9 +36,6 @@ export const quote = (
   if (reserveA.isZero()) return ZERO_BIG_NUMBER;
   return amountA.mul(reserveB).div(reserveA);
 };
-
-export const isBNBChain = (chainId: number) =>
-  CHAIN_ID.BNB_TEST_NET === chainId || CHAIN_ID.BNB_MAIN_MET === chainId;
 
 export const getIPXPairAddress = (
   chainId: number,
@@ -70,5 +54,5 @@ export const getIPXPairAddress = (
         ),
       ]
     ),
-    INIT_CODE_HASH.IPX_PAIR[chainId]
+    INIT_CODE_HASH[chainId]
   );
