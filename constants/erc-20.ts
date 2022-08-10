@@ -134,7 +134,10 @@ export const getFarmsSVGByToken = (
   chainId: number,
   token0: string,
   token1: string
-): ReadonlyArray<FC<SVGAttributes<SVGSVGElement>>> => {
+): ReadonlyArray<{
+  SVG: FC<SVGAttributes<SVGSVGElement>>;
+  hasBNB: boolean;
+}> => {
   const erc0 = pathOr(
     UNKNOWN_ERC_20,
     [chainId.toString(), token0],
@@ -152,26 +155,25 @@ export const getFarmsSVGByToken = (
   const SVG1 = TOKEN_META_DATA_ARRAY[chainId].filter(
     (tokenTMP) => tokenTMP.symbol == erc1.symbol
   );
+
   SVG0.push(SVG1[0]);
+  const hasBNB =
+    SVG0.length === 2
+      ? [TOKEN_SYMBOL.BNB, TOKEN_SYMBOL.WBNB].includes(SVG0[1].symbol)
+      : false;
 
   return SVG0.length === 1
-    ? [TOKENS_SVG_MAP[getTokenSymbol(SVG0[0].symbol)]]
+    ? [{ SVG: TOKENS_SVG_MAP[getTokenSymbol(SVG0[0].symbol)], hasBNB: false }]
     : SVG0.length === 2
     ? [
-        TOKENS_SVG_MAP[
-          getTokenSymbol(
-            [TOKEN_SYMBOL.BNB, TOKEN_SYMBOL.WBNB].includes(SVG0[1].symbol)
-              ? SVG0[1].symbol
-              : SVG0[0].symbol
-          )
-        ],
-        TOKENS_SVG_MAP[
-          getTokenSymbol(
-            [TOKEN_SYMBOL.BNB, TOKEN_SYMBOL.WBNB].includes(SVG0[1].symbol)
-              ? SVG0[0].symbol
-              : SVG0[1].symbol
-          )
-        ],
+        {
+          SVG: TOKENS_SVG_MAP[getTokenSymbol(SVG0[0].symbol)],
+          hasBNB: hasBNB,
+        },
+        {
+          SVG: TOKENS_SVG_MAP[getTokenSymbol(SVG0[1].symbol)],
+          hasBNB: hasBNB,
+        },
       ]
     : [];
 };

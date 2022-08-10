@@ -11,6 +11,7 @@ import { useGetSigner, useGetUserFarmData } from '@/hooks';
 import { TOKEN_SYMBOL, ZERO_BIG_NUMBER } from '@/sdk';
 import { IntMath } from '@/sdk/entities/int-math';
 import { coreActions } from '@/state/core/core.actions';
+import { LoadingSVG } from '@/svg';
 import {
   formatDollars,
   getCasaDePapelAddress,
@@ -39,6 +40,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
   const { push } = useRouter();
   const [modal, setModal] = useState<StakeState | undefined>();
   const [modalLoading, setModalLoading] = useState<boolean>(false);
+  const [loadingPool, setLoadingPool] = useState<boolean>(false);
 
   const { signer, chainId, account } = useGetSigner();
 
@@ -66,6 +68,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
     );
 
     try {
+      setLoadingPool(true);
       const tx = await addAllowance(
         validId,
         validSigner,
@@ -77,8 +80,10 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
       await showTXSuccessToast(tx, validId);
       await mutate();
     } catch (e) {
+      setLoadingPool(false);
       throwError('Failed to approve', e);
     } finally {
+      setLoadingPool(false);
       dispatch(coreActions.updateNativeBalance());
     }
   }, [chainId, signer]);
@@ -245,7 +250,13 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
               onClick={handleApprove}
               hover={{ bg: 'accentActive' }}
             >
-              {farm.id === 0 ? 'Enable Pool' : 'Enable Farm'}
+              {loadingPool ? (
+                <LoadingSVG width="1rem" />
+              ) : farm.id === 0 ? (
+                'Enable Pool'
+              ) : (
+                'Enable Farm'
+              )}
             </Button>
           ) : (
             <Box

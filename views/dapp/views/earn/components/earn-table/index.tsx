@@ -84,8 +84,12 @@ const EarnTable: FC<EarnTableProps> = ({
                         farm.chainId,
                         farm.token0,
                         farm.token1
-                      ).map((SVG, index) => (
-                        <Box key={v4()} ml={index != 0 ? '-0.5rem' : 'NONE'}>
+                      ).map(({ SVG, hasBNB }, index) => (
+                        <Box
+                          key={v4()}
+                          ml={index != 0 ? '-0.5rem' : 'NONE'}
+                          zIndex={index == 0 ? (hasBNB ? 3 : 'unset') : 'unset'}
+                        >
                           <SVG width="1.6rem" height="1.6rem" />
                         </Box>
                       ))}
@@ -184,8 +188,14 @@ const EarnTable: FC<EarnTableProps> = ({
                           farm.chainId,
                           farm.token0,
                           farm.token1
-                        ).map((SVG, index) => (
-                          <Box key={v4()} ml={index != 0 ? '-0.5rem' : 'NONE'}>
+                        ).map(({ SVG, hasBNB }, index) => (
+                          <Box
+                            key={v4()}
+                            ml={index != 0 ? '-0.5rem' : 'NONE'}
+                            zIndex={
+                              index == 0 ? (hasBNB ? 3 : 'unset') : 'unset'
+                            }
+                          >
                             <SVG width="1.6rem" height="1.6rem" />
                           </Box>
                         ))}
