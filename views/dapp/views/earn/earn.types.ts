@@ -6,6 +6,19 @@ import { IntMath } from '@/sdk';
 
 import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestViewEarnAbi';
 
+export enum FarmSortByFilter {
+  Default,
+  TVL,
+  APR,
+  Allocation,
+}
+
+export enum TypeFilter {
+  All,
+  Volatile,
+  Stable,
+}
+
 export interface EarnFiltersProps extends EarnFilterManagerProps {
   register: UseFormRegister<IEarnForm>;
 }
@@ -13,16 +26,20 @@ export interface EarnFiltersProps extends EarnFilterManagerProps {
 export interface EarnFilterManagerProps {
   control: Control<IEarnForm>;
   setValue: UseFormSetValue<IEarnForm>;
-  isFilterSearch: boolean;
-  setIsFilterSearch: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface FilterManagerProps {
+  control: Control<IEarnForm>;
+  setFilteredFarms: Dispatch<SetStateAction<ReadonlyArray<SafeFarmData>>>;
+  farms: ReadonlyArray<SafeFarmData>;
 }
 
 export interface IEarnForm {
   search: string;
-  sortBy: string;
-  isStaked: boolean;
-  isVolatile: boolean;
-  isLive: boolean;
+  sortBy: FarmSortByFilter;
+  onlyStaked: boolean;
+  typeFilter: TypeFilter;
+  onlyFinished: boolean;
 }
 
 export type TCalculateFarmBaseAPR = (
@@ -33,12 +50,12 @@ export type TCalculateFarmBaseAPR = (
   intUSDPrice: BigNumber,
   stakeAmount: BigNumber,
   stakeTokenUSDPrice: BigNumber
-) => string;
+) => IntMath;
 
 export type TCalculateAllocation = (
   allocationPoints: BigNumber,
   totalAllocationPoints: BigNumber
-) => string;
+) => IntMath;
 
 export type TCalculateFarmTokenPrice = (
   token0: string,
@@ -60,10 +77,15 @@ export interface SafeFarmData {
   token1: string;
   token0: string;
   totalStakedAmount: BigNumber;
-  allocation: string;
-  tvl: string;
-  apr: string;
+  allocation: IntMath;
+  tvl: number;
+  apr: IntMath;
   stable: boolean;
+  allowance: BigNumber;
+  balance: BigNumber;
+  stakingAmount: BigNumber;
+  pendingRewards: BigNumber;
+  isLive: boolean;
 }
 
 export interface SafeFarmSummaryData {
@@ -79,11 +101,13 @@ export type GetSafeFarmSummaryData = (
     | ([
         InterestViewEarn.PoolDataStructOutput[],
         InterestViewEarn.MintDataStructOutput,
-        BigNumber[]
+        BigNumber[],
+        InterestViewEarn.UserFarmDataStructOutput[]
       ] & {
         pools: InterestViewEarn.PoolDataStructOutput[];
         mintData: InterestViewEarn.MintDataStructOutput;
         prices: BigNumber[];
+        farmDatas: InterestViewEarn.UserFarmDataStructOutput[];
       })
     | undefined
 ) => SafeFarmSummaryData;

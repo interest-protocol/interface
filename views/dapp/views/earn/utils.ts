@@ -17,7 +17,7 @@ import {
   TOKEN_SYMBOL,
   ZERO_BIG_NUMBER,
 } from '@/sdk';
-import { formatDollars, getIntAddress, isSameAddress } from '@/utils';
+import { getIntAddress, isSameAddress } from '@/utils';
 
 import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestViewEarnAbi';
 import {
@@ -54,11 +54,10 @@ export const calculateAllocation: TCalculateAllocation = (
   allocationPoints,
   totalAllocationPoints
 ) => {
-  if (totalAllocationPoints.isZero() || allocationPoints.isZero()) return '0%';
+  if (totalAllocationPoints.isZero() || allocationPoints.isZero())
+    return IntMath.from(0);
 
-  return `${IntMath.from(allocationPoints)
-    .div(totalAllocationPoints)
-    .toPercentage(2)}`;
+  return IntMath.from(allocationPoints).div(totalAllocationPoints);
 };
 
 export const calculateFarmBaseAPR: TCalculateFarmBaseAPR = (
@@ -78,7 +77,7 @@ export const calculateFarmBaseAPR: TCalculateFarmBaseAPR = (
     stakeAmount.isZero() ||
     stakeTokenUSDPrice.isZero()
   )
-    return '0%';
+    return IntMath.from(0);
 
   const farmRewardsAllocationPerYear = intPerBlock
     .mul(BLOCKS_PER_YEAR[chainId])
@@ -90,8 +89,7 @@ export const calculateFarmBaseAPR: TCalculateFarmBaseAPR = (
 
   return IntMath.from(farmRewardsAllocationPerYear)
     .mul(intUSDPrice)
-    .div(underlyingValueInUSD)
-    .toPercentage();
+    .div(underlyingValueInUSD);
 };
 
 export const calculateFarmTokenPrice: TCalculateFarmTokenPrice = (
@@ -162,11 +160,16 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
           token1: ethers.constants.AddressZero,
           token0: ethers.constants.AddressZero,
           totalStakedAmount: ZERO_BIG_NUMBER,
-          allocation: '',
-          tvl: '',
-          apr: '',
+          allocation: IntMath.from(0),
+          tvl: 0,
+          apr: IntMath.from(0),
           stakingTokenPrice: ZERO_BIG_NUMBER,
           stable: false,
+          allowance: ZERO_BIG_NUMBER,
+          balance: ZERO_BIG_NUMBER,
+          stakingAmount: ZERO_BIG_NUMBER,
+          pendingRewards: ZERO_BIG_NUMBER,
+          isLive: true,
         },
       ],
       loading: true,
@@ -198,10 +201,15 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
           token1: ethers.constants.AddressZero,
           token0: ethers.constants.AddressZero,
           totalStakedAmount: ZERO_BIG_NUMBER,
-          allocation: '',
-          tvl: '',
-          apr: '',
+          allocation: IntMath.from(0),
+          tvl: 0,
+          apr: IntMath.from(0),
           stable: false,
+          allowance: ZERO_BIG_NUMBER,
+          balance: ZERO_BIG_NUMBER,
+          stakingAmount: ZERO_BIG_NUMBER,
+          pendingRewards: ZERO_BIG_NUMBER,
+          isLive: true,
         },
       ],
       loading: true,
@@ -218,17 +226,12 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
     tokenPriceMap
   );
 
-  console.log(
-    data.mintData.totalAllocationPoints.toString(),
-    'total allocation points'
-  );
-
   return {
     intUSDPrice,
     tokenPriceMap,
     totalAllocationPoints: data.mintData.totalAllocationPoints,
     farms: CASA_DE_PAPEL_FARM_RESPONSE_MAP[chainId].pools.map(
-      ({ token0, token1, stakingTokenAddress, stable }, index) => {
+      ({ token0, token1, stakingTokenAddress, stable, isLive }, index) => {
         const {
           reserve0,
           reserve1,
@@ -237,7 +240,8 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
           totalSupply,
         }: InterestViewEarn.PoolDataStructOutput = data.pools[index];
 
-        console.log(index, allocationPoints.toString());
+        const { allowance, balance, pendingRewards, stakingAmount } =
+          data.farmDatas[index];
 
         const stakingTokenPrice =
           index === 0
@@ -272,13 +276,18 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
             totalStakingAmount,
             stakingTokenPrice
           ),
-          tvl: formatDollars(
-            IntMath.from(stakingTokenPrice).mul(totalStakingAmount).toNumber()
-          ),
+          tvl: IntMath.from(stakingTokenPrice)
+            .mul(totalStakingAmount)
+            .toNumber(),
           allocation: calculateAllocation(
             allocationPoints,
             data.mintData.totalAllocationPoints
           ),
+          allowance,
+          balance,
+          stakingAmount,
+          pendingRewards,
+          isLive,
         };
       }
     ),

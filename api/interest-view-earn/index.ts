@@ -4,20 +4,10 @@ export const getFarmsSummary = (
   chainId: number,
   pairs: Array<string>,
   poolIds: Array<number>,
-  tokens: Array<string>
+  tokens: Array<string>,
+  user: string
 ) =>
   getInterestViewEarnContract(
     chainId,
     getStaticWeb3Provider(chainId)
-  ).getFarmsSummary(pairs, poolIds, tokens);
-
-export const getUserFarmData = (
-  chainId: number,
-  token: string,
-  user: string,
-  poolId: number
-) =>
-  getInterestViewEarnContract(
-    chainId,
-    getStaticWeb3Provider(chainId)
-  ).getUserFarmData(token, user, poolId);
+  ).getFarmsSummary(pairs, poolIds, tokens, user);

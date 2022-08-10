@@ -9,28 +9,31 @@ import { noop } from '@/utils';
 
 import { EarnTable } from './components';
 import EarnFilters from './components/earn-filters';
-import { IEarnForm } from './earn.types';
+import FilterManager from './components/earn-filters/filter-manager';
+import { FarmSortByFilter, IEarnForm, TypeFilter } from './earn.types';
 import { getSafeFarmSummaryData } from './utils';
 
 const Earn: FC = () => {
   const { chainId } = useIdAccount();
-  const [isFilterSearch, setIsFilterSearch] = useState<boolean>(false);
 
   const { register, setValue, control } = useForm<IEarnForm>({
     defaultValues: {
       search: '',
-      sortBy: 'Select',
-      isLive: true,
-      isStaked: true,
+      sortBy: FarmSortByFilter.Default,
+      typeFilter: TypeFilter.All,
+      onlyFinished: false,
+      onlyStaked: false,
     },
   });
 
-  const { error, data: rawData } = useGetFarmsSummary();
+  const { error, data: rawData, mutate } = useGetFarmsSummary();
 
   const data = useMemo(
     () => getSafeFarmSummaryData(chainId, rawData),
     [rawData, chainId]
   );
+
+  const [filteredFarms, setFilteredFarms] = useState(data.farms);
 
   const [isDesktop, setDesktop] = useState(false);
 
@@ -99,15 +102,13 @@ const Earn: FC = () => {
             control={control}
             register={register}
             setValue={setValue}
-            isFilterSearch={isFilterSearch}
-            setIsFilterSearch={setIsFilterSearch}
           />
           <InfiniteScroll
             overflow="visible !important"
             hasMore={false}
             next={noop}
             scrollableTarget="body"
-            dataLength={data.farms.length}
+            dataLength={filteredFarms.length}
             loader={
               <Box display="flex" alignItems="center" justifyContent="center">
                 <LoadingSVG width="1rem" />
@@ -120,15 +121,21 @@ const Earn: FC = () => {
             <Box>
               <EarnTable
                 isPools
-                farms={data.farms}
+                farms={filteredFarms}
                 loading={data.loading}
                 isDesktop={isDesktop}
                 intUSDPrice={data.intUSDPrice}
+                mutate={mutate}
               />
             </Box>
           </InfiniteScroll>
         </Box>
       </Container>
+      <FilterManager
+        setFilteredFarms={setFilteredFarms}
+        control={control}
+        farms={data.farms}
+      />
     </Box>
   );
 };

@@ -1,13 +1,13 @@
 import { BigNumber } from 'ethers';
 import { useRouter } from 'next/router';
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { addAllowance, depositLP, withdrawLP } from '@/api';
 import { Routes, RoutesEnum, StakeState } from '@/constants';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
-import { useGetSigner, useGetUserFarmData } from '@/hooks';
+import { useGetSigner } from '@/hooks';
 import { TOKEN_SYMBOL, ZERO_BIG_NUMBER } from '@/sdk';
 import { IntMath } from '@/sdk/entities/int-math';
 import { coreActions } from '@/state/core/core.actions';
@@ -26,16 +26,11 @@ import EarnStakeModal from '../earn-stake-modal';
 import EarnCard from './earn-card';
 import { EarnTableCollapsibleProps } from './earn-table.types';
 
-const safeData = {
-  allowance: ZERO_BIG_NUMBER,
-  balance: ZERO_BIG_NUMBER,
-  stakingAmount: ZERO_BIG_NUMBER,
-  pendingRewards: ZERO_BIG_NUMBER,
-};
-
 const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
   farm,
   intUSDPrice,
+  mutate,
+  loading,
 }) => {
   const { push } = useRouter();
   const [modal, setModal] = useState<StakeState | undefined>();
@@ -45,15 +40,6 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
   const { signer, chainId, account } = useGetSigner();
 
   const dispatch = useDispatch();
-
-  const { data, error, mutate } = useGetUserFarmData(
-    farm.stakingTokenAddress,
-    farm.id
-  );
-
-  const loading = useMemo(() => !error && !data, [error, data]);
-
-  const processedData = useMemo(() => (data ? data : safeData), [data]);
 
   const farmSymbol =
     farm.id === 0
@@ -91,7 +77,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
   const handleApprove = useCallback(() => showToast(approve()), [approve]);
 
   const harvest = useCallback(async () => {
-    if (processedData.pendingRewards.isZero()) return;
+    if (farm.pendingRewards.isZero()) return;
 
     const { validId, validSigner } = throwIfInvalidSigner(
       [account],
@@ -124,7 +110,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
 
   const handleDepositTokens = useCallback(
     async (amount: BigNumber) => {
-      if (processedData.balance.isZero()) return;
+      if (farm.balance.isZero()) return;
 
       setModalLoading(true);
       try {
@@ -137,7 +123,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
           validId,
           validSigner,
           farm.id,
-          amount.gt(processedData.balance) ? processedData.balance : amount
+          amount.gt(farm.balance) ? farm.balance : amount
         );
 
         await showTXSuccessToast(tx, validId);
@@ -150,12 +136,12 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         dispatch(coreActions.updateNativeBalance());
       }
     },
-    [chainId, signer, processedData.balance.toString()]
+    [chainId, signer, farm.balance.toString()]
   );
 
   const handleWithdrawTokens = useCallback(
     async (amount: BigNumber) => {
-      if (processedData.stakingAmount.isZero()) return;
+      if (farm.stakingAmount.isZero()) return;
 
       setModalLoading(true);
       try {
@@ -168,9 +154,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
           validId,
           validSigner,
           farm.id,
-          amount.gt(processedData.stakingAmount)
-            ? processedData.stakingAmount
-            : amount
+          amount.gt(farm.stakingAmount) ? farm.stakingAmount : amount
         );
 
         await showTXSuccessToast(tx, validId);
@@ -183,7 +167,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         dispatch(coreActions.updateNativeBalance());
       }
     },
-    [processedData.stakingAmount.toString(), chainId, signer]
+    [farm.stakingAmount.toString(), chainId, signer]
   );
 
   const handleUnstake = useCallback(
@@ -210,11 +194,9 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         loading={loading}
         title="Your balance"
         amountUSD={formatDollars(
-          IntMath.from(farm.stakingTokenPrice)
-            .mul(processedData.balance)
-            .toNumber()
+          IntMath.from(farm.stakingTokenPrice).mul(farm.balance).toNumber()
         )}
-        amount={`${IntMath.toNumber(processedData.balance)} ${farmSymbol}`}
+        amount={`${IntMath.toNumber(farm.balance)} ${farmSymbol}`}
         button={
           <Button
             variant="primary"
@@ -237,14 +219,12 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         loading={loading}
         amountUSD={formatDollars(
           IntMath.from(farm.stakingTokenPrice)
-            .mul(processedData.stakingAmount)
+            .mul(farm.stakingAmount)
             .toNumber()
         )}
-        amount={`${IntMath.toNumber(
-          processedData.stakingAmount
-        )} ${farmSymbol}`}
+        amount={`${IntMath.toNumber(farm.stakingAmount)} ${farmSymbol}`}
         button={
-          processedData.allowance.isZero() ? (
+          farm.allowance.isZero() ? (
             <Button
               variant="primary"
               onClick={handleApprove}
@@ -267,34 +247,24 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
               <Button
                 mr="S"
                 variant="primary"
-                disabled={processedData.balance.isZero()}
+                disabled={farm.balance.isZero()}
                 onClick={handleChangeModal(StakeState.Stake)}
-                bg={processedData.balance.isZero() ? 'disabled' : 'accent'}
-                cursor={
-                  processedData.balance.isZero() ? 'not-allowed' : 'pointer'
-                }
+                bg={farm.balance.isZero() ? 'disabled' : 'accent'}
+                cursor={farm.balance.isZero() ? 'not-allowed' : 'pointer'}
                 hover={{
-                  bg: processedData.balance.isZero()
-                    ? 'disabled'
-                    : 'accentActive',
+                  bg: farm.balance.isZero() ? 'disabled' : 'accentActive',
                 }}
               >
                 +
               </Button>
               <Button
                 variant="primary"
-                disabled={processedData.stakingAmount.isZero()}
+                disabled={farm.stakingAmount.isZero()}
                 onClick={handleChangeModal(StakeState.Unstake)}
-                bg={processedData.stakingAmount.isZero() ? 'disabled' : 'error'}
-                cursor={
-                  processedData.stakingAmount.isZero()
-                    ? 'not-allowed'
-                    : 'pointer'
-                }
+                bg={farm.stakingAmount.isZero() ? 'disabled' : 'error'}
+                cursor={farm.stakingAmount.isZero() ? 'not-allowed' : 'pointer'}
                 hover={{
-                  bg: processedData.stakingAmount.isZero()
-                    ? 'disabled'
-                    : 'errorActive',
+                  bg: farm.stakingAmount.isZero() ? 'disabled' : 'errorActive',
                 }}
               >
                 -
@@ -306,28 +276,20 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
       <EarnCard
         title="Earned"
         loading={loading}
-        shadow={!processedData.pendingRewards.isZero()}
+        shadow={!farm.pendingRewards.isZero()}
         amountUSD={formatDollars(
-          IntMath.from(intUSDPrice).mul(processedData.pendingRewards).toNumber()
+          IntMath.from(intUSDPrice).mul(farm.pendingRewards).toNumber()
         )}
-        amount={`${IntMath.toNumber(processedData.pendingRewards)} ${
-          TOKEN_SYMBOL.INT
-        }`}
+        amount={`${IntMath.toNumber(farm.pendingRewards)} ${TOKEN_SYMBOL.INT}`}
         button={
           <Button
-            onClick={
-              !processedData.pendingRewards.isZero() ? handleHarvest : undefined
-            }
+            onClick={!farm.pendingRewards.isZero() ? handleHarvest : undefined}
             variant="primary"
-            disabled={processedData.pendingRewards.isZero()}
-            bg={!processedData.pendingRewards.isZero() ? 'success' : 'disabled'}
-            cursor={
-              !processedData.pendingRewards.isZero() ? 'pointer' : 'not-allowed'
-            }
+            disabled={farm.pendingRewards.isZero()}
+            bg={!farm.pendingRewards.isZero() ? 'success' : 'disabled'}
+            cursor={!farm.pendingRewards.isZero() ? 'pointer' : 'not-allowed'}
             hover={{
-              bg: !processedData.pendingRewards.isZero()
-                ? 'successActive'
-                : 'disabled',
+              bg: !farm.pendingRewards.isZero() ? 'successActive' : 'disabled',
             }}
           >
             Harvest
@@ -342,9 +304,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         onUnstake={handleUnstake}
         handleClose={handleCloseModal}
         amount={IntMath.toNumber(
-          modal === StakeState.Stake
-            ? processedData.balance
-            : processedData.stakingAmount
+          modal === StakeState.Stake ? farm.balance : farm.stakingAmount
         )}
         farmSymbol={farmSymbol}
       />

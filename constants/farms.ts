@@ -51,6 +51,7 @@ export const CASA_DE_PAPEL_FARM_RESPONSE_MAP = {
           '0x0D7747F1686d67824dc5a299AAc09F438dD6aef2'
         ),
         stable: false,
+        isLive: true,
       },
       {
         token0: ethers.utils.getAddress(
@@ -63,6 +64,7 @@ export const CASA_DE_PAPEL_FARM_RESPONSE_MAP = {
           '0xD4a22921a4A642AA653595f5530abd358F7f0842'
         ),
         stable: false,
+        isLive: true,
       },
       {
         token0: ethers.utils.getAddress(
@@ -75,6 +77,7 @@ export const CASA_DE_PAPEL_FARM_RESPONSE_MAP = {
           '0xb8AF44a4eD047F6137aC148b0D1197913222993d'
         ),
         stable: false,
+        isLive: true,
       },
       {
         token0: ethers.utils.getAddress(
@@ -87,6 +90,7 @@ export const CASA_DE_PAPEL_FARM_RESPONSE_MAP = {
           '0x8309E5d16Ade1A46e959Ec50e2D58f7f386273B0'
         ),
         stable: false,
+        isLive: true,
       },
       {
         token0: ethers.utils.getAddress(
@@ -99,6 +103,7 @@ export const CASA_DE_PAPEL_FARM_RESPONSE_MAP = {
           '0xEAd84c099eb2ad7f9714AfE3Ee8939986c3D5691'
         ),
         stable: true,
+        isLive: true,
       },
     ],
   },
