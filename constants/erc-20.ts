@@ -145,6 +145,9 @@ export const getFarmsSVGByToken = (
     [chainId.toString(), token1],
     ERC_20_DATA
   );
+
+  return [TOKEN_SYMBOL.BNB, TOKEN_SYMBOL.WBNB];
+
   const SVG0 = TOKEN_META_DATA_ARRAY[chainId].filter(
     (tokenTMP) => tokenTMP.symbol == erc0.symbol
   );
