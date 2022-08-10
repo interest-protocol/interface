@@ -4,6 +4,7 @@ import { v4 } from 'uuid';
 import { getFarmsSVGByToken } from '@/constants';
 import { Box, DropdownTable, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
+import { formatDollars } from '@/utils';
 
 import { makeFarmSymbol } from '../../utils';
 import {
@@ -19,6 +20,7 @@ const EarnTable: FC<EarnTableProps> = ({
   loading,
   isDesktop,
   intUSDPrice,
+  mutate,
 }) => (
   <Box display="flex" flexDirection="column" flex="1">
     {isDesktop ? (
@@ -100,9 +102,13 @@ const EarnTable: FC<EarnTableProps> = ({
                           )}
                     </Typography>
                   </Box>,
-                  farm.tvl,
-                  farm.apr,
-                  farm.allocation,
+                  formatDollars(farm.tvl),
+                  farm.apr.value().isZero() ? '0%' : farm.apr.toPercentage(),
+                  `${
+                    farm.allocation.value().isZero()
+                      ? '0%'
+                      : farm.allocation.toPercentage(2)
+                  }`,
                   <Typography
                     variant="normal"
                     fontSize="0.70rem"
@@ -118,7 +124,7 @@ const EarnTable: FC<EarnTableProps> = ({
                   </Typography>,
                 ],
                 dropdown: {
-                  args: { farm, intUSDPrice },
+                  args: { farm, intUSDPrice, mutate, loading },
                   Component: EarnTableCollapsible,
                 },
               }))
@@ -207,9 +213,13 @@ const EarnTable: FC<EarnTableProps> = ({
                     </Box>
                   ),
                   items: [
-                    farm.tvl,
-                    farm.apr,
-                    farm.allocation,
+                    formatDollars(farm.tvl),
+                    farm.apr.value().isZero() ? '0%' : farm.apr.toPercentage(),
+                    `${
+                      farm.allocation.value().isZero()
+                        ? '0%'
+                        : farm.allocation.toPercentage(2)
+                    }`,
                     <Typography
                       variant="normal"
                       fontSize="0.70rem"
@@ -225,7 +235,7 @@ const EarnTable: FC<EarnTableProps> = ({
                     </Typography>,
                   ],
                   dropdown: {
-                    args: { farm, intUSDPrice },
+                    args: { farm, intUSDPrice, mutate, loading },
                     Component: EarnTableCollapsible,
                   },
                 }))

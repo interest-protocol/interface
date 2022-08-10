@@ -7,7 +7,7 @@ import { IEarnForm } from '../earn.types';
 export const getFilterSwitchDefaultData = (
   values: ReadonlyArray<string>,
   setValue: UseFormSetValue<IEarnForm>,
-  name: 'isStaked' | 'isLive' | 'isVolatile'
+  name: 'onlyStaked' | 'isLive' | 'isVolatile'
 ): [ISwitchOption, ISwitchOption] => [
   {
     value: values[0],

@@ -3,7 +3,8 @@
     "inputs": [
       { "internalType": "address[]", "name": "pairs", "type": "address[]" },
       { "internalType": "uint256[]", "name": "poolIds", "type": "uint256[]" },
-      { "internalType": "address[]", "name": "tokens", "type": "address[]" }
+      { "internalType": "address[]", "name": "tokens", "type": "address[]" },
+      { "internalType": "address", "name": "account", "type": "address" }
     ],
     "name": "getFarmsSummary",
     "outputs": [
@@ -54,7 +55,26 @@
         "name": "mintData",
         "type": "tuple"
       },
-      { "internalType": "uint256[]", "name": "prices", "type": "uint256[]" }
+      { "internalType": "uint256[]", "name": "prices", "type": "uint256[]" },
+      {
+        "components": [
+          { "internalType": "uint256", "name": "allowance", "type": "uint256" },
+          { "internalType": "uint256", "name": "balance", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "stakingAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "pendingRewards",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewEarn.UserFarmData[]",
+        "name": "farmDatas",
+        "type": "tuple[]"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -67,10 +87,25 @@
     ],
     "name": "getUserFarmData",
     "outputs": [
-      { "internalType": "uint256", "name": "allowance", "type": "uint256" },
-      { "internalType": "uint256", "name": "balance", "type": "uint256" },
-      { "internalType": "uint256", "name": "stakingAmount", "type": "uint256" },
-      { "internalType": "uint256", "name": "pendingRewards", "type": "uint256" }
+      {
+        "components": [
+          { "internalType": "uint256", "name": "allowance", "type": "uint256" },
+          { "internalType": "uint256", "name": "balance", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "stakingAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "pendingRewards",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewEarn.UserFarmData",
+        "name": "farmData",
+        "type": "tuple"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
