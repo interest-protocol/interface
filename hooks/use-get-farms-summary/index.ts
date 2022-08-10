@@ -1,7 +1,7 @@
 import { propOr } from 'ramda';
 
 import { getFarmsSummary } from '@/api';
-import { CASA_DE_PAPEL_FARM_CALL_MAP } from '@/constants';
+import { CASA_DE_PAPEL_FARM_CALL_MAP, DEFAULT_ACCOUNT } from '@/constants';
 
 import { useCallContract } from '../use-call-contract';
 import { useIdAccount } from '../use-id-account';
@@ -9,7 +9,7 @@ import { useIdAccount } from '../use-id-account';
 const prop = propOr([]);
 
 export const useGetFarmsSummary = () => {
-  const { chainId } = useIdAccount();
+  const { chainId, account } = useIdAccount();
 
   const data = propOr({}, chainId.toString(), CASA_DE_PAPEL_FARM_CALL_MAP);
 
@@ -21,6 +21,7 @@ export const useGetFarmsSummary = () => {
       prop('pairs', data),
       prop('poolIds', data),
       prop('baseTokens', data),
+      account || DEFAULT_ACCOUNT,
       {},
     ],
     {
