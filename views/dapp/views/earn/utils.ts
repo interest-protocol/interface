@@ -31,9 +31,8 @@ import {
 export const makeFarmSymbol = (
   chainId: number,
   token0: string,
-  token1: string,
-  stable: boolean
-) => {
+  token1: string
+): string => {
   const erc0 = pathOr(
     UNKNOWN_ERC_20,
     [chainId.toString(), token0],
@@ -48,7 +47,7 @@ export const makeFarmSymbol = (
   return `${changeSymbol(erc0.symbol)}-${changeSymbol(erc1.symbol)}`;
 };
 
-const changeSymbol = (symbol: TOKEN_SYMBOL) =>
+const changeSymbol = (symbol: string): string =>
   symbol == TOKEN_SYMBOL.WBNB ? TOKEN_SYMBOL.BNB : symbol;
 
 export const calculateAllocation: TCalculateAllocation = (
