@@ -95,7 +95,12 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
       </AnimatedBox>
     </Box>
   ) : (
-    <Box display={['block', 'block', 'block', 'none']} mt="M">
+    <Box
+      display={['block', 'block', 'block', 'none']}
+      mt="M"
+      bg="foreground"
+      borderRadius="M"
+    >
       <Box
         p="M"
         display="grid"

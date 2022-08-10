@@ -57,7 +57,6 @@ const DropdownTable: FC<DropdownTableProps> = ({
       mx="M"
       my="XL"
       width="100%"
-      bg="foreground"
       borderRadius="M"
       overflow="hidden"
       display={['block', 'block', 'block', 'none']}

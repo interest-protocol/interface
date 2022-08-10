@@ -158,8 +158,20 @@ export const getFarmsSVGByToken = (
     ? [TOKENS_SVG_MAP[getTokenSymbol(SVG0[0].symbol)]]
     : SVG0.length === 2
     ? [
-        TOKENS_SVG_MAP[getTokenSymbol(SVG0[0].symbol)],
-        TOKENS_SVG_MAP[getTokenSymbol(SVG0[1].symbol)],
+        TOKENS_SVG_MAP[
+          getTokenSymbol(
+            [TOKEN_SYMBOL.BNB, TOKEN_SYMBOL.WBNB].includes(SVG0[1].symbol)
+              ? SVG0[1].symbol
+              : SVG0[0].symbol
+          )
+        ],
+        TOKENS_SVG_MAP[
+          getTokenSymbol(
+            [TOKEN_SYMBOL.BNB, TOKEN_SYMBOL.WBNB].includes(SVG0[1].symbol)
+              ? SVG0[0].symbol
+              : SVG0[1].symbol
+          )
+        ],
       ]
     : [];
 };

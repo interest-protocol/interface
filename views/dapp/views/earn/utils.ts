@@ -14,6 +14,7 @@ import {
   IntMath,
   ONE_ETHER,
   quote,
+  TOKEN_SYMBOL,
   ZERO_BIG_NUMBER,
 } from '@/sdk';
 import { formatDollars, getIntAddress, isSameAddress } from '@/utils';
@@ -44,8 +45,11 @@ export const makeFarmSymbol = (
     ERC_20_DATA
   );
 
-  return `${stable ? 's' : 'v'}${erc0.symbol}-${erc1.symbol}`;
+  return `${changeSymbol(erc0.symbol)}-${changeSymbol(erc1.symbol)}`;
 };
+
+const changeSymbol = (symbol: TOKEN_SYMBOL) =>
+  symbol == TOKEN_SYMBOL.WBNB ? TOKEN_SYMBOL.BNB : symbol;
 
 export const calculateAllocation: TCalculateAllocation = (
   allocationPoints,
@@ -137,6 +141,8 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
   chainId,
   data
 ) => {
+  console.log('renderizou');
+
   if (!data || !chainId)
     return {
       intUSDPrice: ZERO_BIG_NUMBER,

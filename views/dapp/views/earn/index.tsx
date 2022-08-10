@@ -2,7 +2,6 @@ import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
-import search from '@/components/svg/search';
 import { Box, InfiniteScroll, Typography } from '@/elements';
 import { useGetFarmsSummary, useIdAccount } from '@/hooks';
 import { LoadingSVG, TimesSVG } from '@/svg';
@@ -23,7 +22,6 @@ const Earn: FC = () => {
       sortBy: 'Select',
       isLive: true,
       isStaked: true,
-      isVolatile: true,
     },
   });
 
@@ -31,7 +29,7 @@ const Earn: FC = () => {
 
   const data = useMemo(
     () => getSafeFarmSummaryData(chainId, rawData),
-    [rawData, chainId, search]
+    [rawData, chainId]
   );
 
   const [isDesktop, setDesktop] = useState(false);
