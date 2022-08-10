@@ -93,10 +93,10 @@ export const CASA_DE_PAPEL_FARM_RESPONSE_MAP = {
           '0x57486681d2e0bc9b0494446b8c5df35cd20d4e92'
         ),
         token1: ethers.utils.getAddress(
-          '0x87e28b2242b0ab1f77360a1c3bb118fe662ae0c7'
+          '0xFe13cDD9D63D8FEa92d9C120D011653D9F6317f7'
         ),
         stakingTokenAddress: ethers.utils.getAddress(
-          '0xfe13cdd9d63d8fea92d9c120d011653d9f6317f7'
+          '0xEAd84c099eb2ad7f9714AfE3Ee8939986c3D5691'
         ),
         stable: true,
       },

@@ -98,7 +98,6 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
       const tx = await depositLP(
         validId,
         validSigner,
-        account,
         farm.id,
         ZERO_BIG_NUMBER
       );
@@ -132,7 +131,6 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         const tx = await depositLP(
           validId,
           validSigner,
-          account,
           farm.id,
           amount.gt(processedData.balance) ? processedData.balance : amount
         );
@@ -164,7 +162,6 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         const tx = await withdrawLP(
           validId,
           validSigner,
-          account,
           farm.id,
           amount.gt(processedData.stakingAmount)
             ? processedData.stakingAmount
@@ -218,17 +215,11 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
             variant="primary"
             onClick={() =>
               farm.id === 0
-                ? push({ pathname: Routes[RoutesEnum.DEX] })
-                : push(
-                    {
-                      pathname: Routes[RoutesEnum.DEXFindPool],
-                      query: {
-                        pairAddress: farm.stakingTokenAddress,
-                      },
-                    },
-                    undefined,
-                    { shallow: true }
-                  )
+                ? push({ pathname: Routes[RoutesEnum.DEX] }).then()
+                : push({
+                    pathname: Routes[RoutesEnum.DEXPoolDetails],
+                    query: { pairAddress: farm.stakingTokenAddress },
+                  }).then()
             }
             hover={{ bg: 'accentActive' }}
           >

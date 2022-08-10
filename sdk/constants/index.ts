@@ -128,7 +128,7 @@ export const CONTRACTS = {
   },
   CASA_DE_PAPEL: {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
-    [CHAIN_ID.BNB_TEST_NET]: '0x4702a58ebdE5E09459052340dD1C1d818FE47D8B',
+    [CHAIN_ID.BNB_TEST_NET]: '0x8386ECf50C2a4749DF15b6BC7b4A85Ad5A93f4E3',
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
   },
   PCS_V2_PAIR_BTC_DNR: {
@@ -183,7 +183,7 @@ export const CONTRACTS = {
   INTEREST_VIEW_DEX: {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
-    [CHAIN_ID.BNB_TEST_NET]: '0x63f65a9f97A551ccAe1E85258798B6f314a88Cf5',
+    [CHAIN_ID.BNB_TEST_NET]: '0xcc89198c796321c3D9E427dFDAbAEd9485696286',
   },
   BTC: {
     [CHAIN_ID.BNB_TEST_NET]: '0x954f3A4aeC237D311839d6E0274c0aC8Be13d1b1',
