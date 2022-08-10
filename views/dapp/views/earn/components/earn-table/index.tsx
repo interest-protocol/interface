@@ -96,8 +96,7 @@ const EarnTable: FC<EarnTableProps> = ({
                         : makeFarmSymbol(
                             farm.chainId,
                             farm.token0,
-                            farm.token1,
-                            farm.stable
+                            farm.token1
                           )}
                     </Typography>
                   </Box>,
@@ -202,8 +201,7 @@ const EarnTable: FC<EarnTableProps> = ({
                           : makeFarmSymbol(
                               farm.chainId,
                               farm.token0,
-                              farm.token1,
-                              farm.stable
+                              farm.token1
                             )}
                       </Typography>
                     </Box>

@@ -140,8 +140,6 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
   chainId,
   data
 ) => {
-  console.log('renderizou');
-
   if (!data || !chainId)
     return {
       intUSDPrice: ZERO_BIG_NUMBER,

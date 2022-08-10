@@ -56,7 +56,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
   const farmSymbol =
     farm.id === 0
       ? TOKEN_SYMBOL.INT
-      : makeFarmSymbol(farm.chainId, farm.token0, farm.token1, farm.stable);
+      : makeFarmSymbol(farm.chainId, farm.token0, farm.token1);
 
   const approve = useCallback(async () => {
     const { validId, validSigner } = throwIfInvalidSigner(
