@@ -47,7 +47,7 @@ const LiquidityDetailsCardLine: FC<LiquidityDetailsCardLineProps> = ({
       <Box display="flex" alignItems="center">
         <Typography variant="normal" mr="M" fontSize="0.8rem">
           {isFetchingInitialData ? (
-            <Box width="2.5rem">
+            <Box as="span" display="inline-block" width="2.5rem">
               <Skeleton />
             </Box>
           ) : (
