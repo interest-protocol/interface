@@ -22,7 +22,7 @@ const OnlyStakedFilter: FC<OnlyStakedFilterProps> = ({ control, setValue }) => {
       </Typography>
       <Switch
         defaultValue={onlyStaked ? 'on' : 'off'}
-        options={SWITCH_ON_OFF_DATA}
+        options={SWITCH_ON_OFF_DATA.reverse()}
         bg="background"
         bgSelected="accentAlternative"
       />

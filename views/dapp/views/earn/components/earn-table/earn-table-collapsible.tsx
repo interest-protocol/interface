@@ -212,7 +212,12 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
                     query: { pairAddress: farm.stakingTokenAddress },
                   }).then()
             }
-            hover={{ bg: 'accentActive' }}
+            hover={{
+              bg: farm.isLive ? 'accentActive' : 'disabled',
+              cursor: farm.isLive ? 'pointer' : 'not-allowed',
+            }}
+            disabled={!farm.isLive}
+            bg={farm.isLive ? 'accent' : 'disabled'}
           >
             Get {farmSymbol}
           </Button>
@@ -264,8 +269,20 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
                 variant="primary"
                 disabled={farm.balance.isZero()}
                 onClick={handleChangeModal(StakeState.Stake)}
-                bg={farm.balance.isZero() ? 'disabled' : 'accent'}
-                cursor={farm.balance.isZero() ? 'not-allowed' : 'pointer'}
+                bg={
+                  farm.balance.isZero()
+                    ? 'disabled'
+                    : farm.isLive
+                    ? 'accent'
+                    : 'disabled'
+                }
+                cursor={
+                  farm.balance.isZero()
+                    ? 'not-allowed'
+                    : farm.isLive
+                    ? 'pointer'
+                    : 'not-allowed'
+                }
                 hover={{
                   bg: farm.balance.isZero() ? 'disabled' : 'accentActive',
                 }}

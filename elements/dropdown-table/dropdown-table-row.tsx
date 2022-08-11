@@ -21,6 +21,7 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
   dropdown,
   isDesktop,
   sideContent,
+  setColor,
 }) => {
   const mobileRef = useRef<HTMLDivElement>(null);
   const desktopRef = useRef<HTMLDivElement>(null);
@@ -50,7 +51,10 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
   const toggleDropdown = () => setIsOpenDropdown((a) => !a);
 
   return isDesktop ? (
-    <Box display={['none', 'none', 'none', 'block']}>
+    <Box
+      display={['none', 'none', 'none', 'block']}
+      bg={setColor ? 'bottomBackground' : 'unset'}
+    >
       <Box
         py="M"
         px="XL"
@@ -98,8 +102,8 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
     <Box
       display={['block', 'block', 'block', 'none']}
       mt="M"
-      bg="foreground"
       borderRadius="M"
+      bg={setColor ? 'bottomBackground' : 'foreground'}
     >
       <Box
         p="M"

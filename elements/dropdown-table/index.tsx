@@ -15,6 +15,7 @@ const DropdownTable: FC<DropdownTableProps> = ({
   headings,
   ordinate,
   isDesktop,
+  changeColor,
 }) =>
   isDesktop ? (
     <Box display={['none', 'none', 'none', 'block']} width="100%">
@@ -41,13 +42,14 @@ const DropdownTable: FC<DropdownTableProps> = ({
         ))}
       </Box>
       <Box bg="foreground" borderRadius="L" my="M" overflow="hidden">
-        {data.map(({ dropdown, items }) => (
+        {data.map(({ dropdown, items }, index) => (
           <DropdownTableRow
             key={v4()}
             isDesktop
             items={items}
             headings={headings}
             dropdown={dropdown ?? defaultDropdown}
+            setColor={changeColor ? changeColor[index] : false}
           />
         ))}
       </Box>
@@ -70,6 +72,7 @@ const DropdownTable: FC<DropdownTableProps> = ({
           ordinate={ordinate}
           sideContent={sideContent}
           dropdown={dropdown ?? defaultDropdown}
+          setColor={changeColor ? changeColor[index] : false}
         />
       ))}
     </Box>

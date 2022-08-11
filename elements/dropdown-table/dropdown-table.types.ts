@@ -29,6 +29,7 @@ export interface DropdownTableProps {
   isDesktop?: boolean;
   data: ReadonlyArray<IRow>;
   headings: ReadonlyArray<ITableHeading>;
+  changeColor?: ReadonlyArray<boolean>;
 }
 
 export interface DropdownTableRowProps {
@@ -39,4 +40,5 @@ export interface DropdownTableRowProps {
   dropdown: IDropdown;
   sideContent?: ReactNode;
   headings: ReadonlyArray<ITableHeading>;
+  setColor?: boolean;
 }

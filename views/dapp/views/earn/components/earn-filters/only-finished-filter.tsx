@@ -25,7 +25,7 @@ const OnlyFinishedFilter: FC<OnlyFinishedFilterProps> = ({
       </Typography>
       <Switch
         defaultValue={onlyFinished ? 'finished' : 'live'}
-        options={SWITCH_ONLY_FINISHED_DATA}
+        options={SWITCH_ONLY_FINISHED_DATA.reverse()}
         bg="background"
         bgSelected="accentAlternative"
       />
