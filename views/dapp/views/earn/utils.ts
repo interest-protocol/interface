@@ -313,13 +313,13 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
 const sortByIdFn = (x: SafeFarmData, y: SafeFarmData) => (x.id < y.id ? -1 : 1);
 
 const sortByAPRFn = (x: SafeFarmData, y: SafeFarmData) =>
-  x.apr.lt(y.apr) ? -1 : 1;
+  x.apr.lt(y.apr) ? 1 : -1;
 
 const sortByAllocationFn = (x: SafeFarmData, y: SafeFarmData) =>
-  x.allocation.lt(y.allocation) ? -1 : 1;
+  x.allocation.lt(y.allocation) ? 1 : -1;
 
 const sortByTVLFn = (x: SafeFarmData, y: SafeFarmData) =>
-  x.tvl < y.tvl ? -1 : 1;
+  x.tvl < y.tvl ? 1 : -1;
 
 const sortByOperation = cond([
   [equals(FarmSortByFilter.Default), always(sortByIdFn)],
@@ -410,6 +410,7 @@ export const handleFilterFarms = (
         ].every((pred) => pred(x))
       )
     : farms
+        .slice()
         .sort(sortByOperation(sortBy))
         .filter((x) =>
           [

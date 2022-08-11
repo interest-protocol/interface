@@ -56,6 +56,20 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
           }
           data={[
             {
+              value: 'id',
+              displayOption: 'Id',
+              displayTitle: (
+                <Box display="flex" width="100%" py="M" alignItems="center">
+                  <Typography variant="normal" whiteSpace="nowrap">
+                    Id
+                  </Typography>
+                </Box>
+              ),
+              onSelect: () => {
+                setValue('sortBy', FarmSortByFilter.Default);
+              },
+            },
+            {
               value: 'tvl',
               displayOption: 'TVL',
               displayTitle: (

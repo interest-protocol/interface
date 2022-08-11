@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { addAllowance, depositLP, withdrawLP } from '@/api';
 import { Routes, RoutesEnum, StakeState } from '@/constants';
+import { Typography } from '@/elements';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
 import { useGetSigner } from '@/hooks';
@@ -197,7 +198,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
           IntMath.from(farm.stakingTokenPrice).mul(farm.balance).toNumber()
         )}
         amount={`${IntMath.toNumber(farm.balance).toLocaleString('fullwide', {
-          useGrouping: true,
+          useGrouping: false,
           maximumSignificantDigits: 6,
         })} ${farmSymbol}`}
         button={
@@ -228,7 +229,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         amount={`${IntMath.toNumber(farm.stakingAmount).toLocaleString(
           'fullwide',
           {
-            useGrouping: true,
+            useGrouping: false,
             maximumSignificantDigits: 6,
           }
         )} ${farmSymbol}`}
@@ -240,11 +241,16 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
               hover={{ bg: 'accentActive' }}
             >
               {loadingPool ? (
-                <LoadingSVG width="1rem" />
+                <Box as="span" display="flex" justifyContent="center">
+                  <LoadingSVG width="1rem" height="1rem" />
+                  <Typography as="span" variant="normal" ml="M" fontSize="S">
+                    Approving...
+                  </Typography>
+                </Box>
               ) : farm.id === 0 ? (
-                'Enable Pool'
+                'Approve Pool'
               ) : (
-                'Enable Farm'
+                'Approve Farm'
               )}
             </Button>
           ) : (

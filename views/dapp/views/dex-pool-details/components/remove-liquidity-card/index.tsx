@@ -166,7 +166,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
             {tokens[0].Icon}
             {tokens[1].Icon}
             <Typography variant="normal" ml="M">
-              LP asd
+              LP
             </Typography>
           </Box>
         }
