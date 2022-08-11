@@ -1,5 +1,19 @@
 import { ethers } from 'ethers';
-import { always, pathOr } from 'ramda';
+import { isAddress } from 'ethers/lib/utils';
+import {
+  always,
+  cond,
+  equals,
+  ifElse,
+  isEmpty,
+  not,
+  o,
+  pathOr,
+  prop,
+  T,
+} from 'ramda';
+import { FC, useEffect } from 'react';
+import { useWatch } from 'react-hook-form';
 
 import {
   CASA_DE_PAPEL_FARM_CALL_MAP,
@@ -22,7 +36,11 @@ import { getIntAddress, isSameAddress } from '@/utils';
 import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestViewEarnAbi';
 import {
   CalculateIntUSDPrice,
+  FarmSortByFilter,
+  FarmTypeFilter,
+  FilterManagerProps,
   GetSafeFarmSummaryData,
+  SafeFarmData,
   TCalculateAllocation,
   TCalculateFarmBaseAPR,
   TCalculateFarmTokenPrice,
@@ -294,3 +312,110 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
     loading: false,
   };
 };
+
+const sortByIdFn = (x: SafeFarmData, y: SafeFarmData) => (x.id < y.id ? -1 : 1);
+
+const sortByAPRFn = (x: SafeFarmData, y: SafeFarmData) =>
+  x.apr.lt(y.apr) ? -1 : 1;
+
+const sortByAllocationFn = (x: SafeFarmData, y: SafeFarmData) =>
+  x.allocation.lt(y.allocation) ? -1 : 1;
+
+const sortByTVLFn = (x: SafeFarmData, y: SafeFarmData) =>
+  x.tvl < y.tvl ? -1 : 1;
+
+const sortByOperation = cond([
+  [equals(FarmSortByFilter.Default), always(sortByIdFn)],
+  [equals(FarmSortByFilter.APR), always(sortByAPRFn)],
+  [equals(FarmSortByFilter.Allocation), always(sortByAllocationFn)],
+  [equals(FarmSortByFilter.TVL), always(sortByTVLFn)],
+  [T, always(sortByIdFn)],
+]);
+
+const searchOperation = cond([
+  [isEmpty, always(T)],
+  [
+    T,
+    (debouncedSearch: string) => {
+      const parsedDebouncedSearch = debouncedSearch.toLocaleLowerCase();
+      return ({ chainId, token0, token1 }: SafeFarmData) => {
+        const erc0 = pathOr(
+          UNKNOWN_ERC_20,
+          [chainId.toString(), token0],
+          ERC_20_DATA
+        );
+        const erc1 = pathOr(
+          UNKNOWN_ERC_20,
+          [chainId.toString(), token1],
+          ERC_20_DATA
+        );
+
+        if (isAddress(debouncedSearch))
+          return (
+            isSameAddress(debouncedSearch, token0) ||
+            isSameAddress(debouncedSearch, token1)
+          );
+
+        return (
+          token1.toLocaleLowerCase().includes(parsedDebouncedSearch) ||
+          token0.toLocaleLowerCase().includes(parsedDebouncedSearch) ||
+          erc0.name.toLocaleLowerCase().includes(parsedDebouncedSearch) ||
+          erc1.name.toLocaleLowerCase().includes(parsedDebouncedSearch) ||
+          erc0.symbol.toLocaleLowerCase().includes(parsedDebouncedSearch) ||
+          erc1.symbol.toLocaleLowerCase().includes(parsedDebouncedSearch)
+        );
+      };
+    },
+  ],
+]);
+
+const typeOperation = cond([
+  [equals(FarmTypeFilter.Stable), always(prop<string, boolean>('stable'))],
+  [
+    equals(FarmTypeFilter.Volatile),
+    always(o(not, prop<'stable', boolean>('stable'))),
+  ],
+  [T, always(T)],
+]) as any;
+
+const onlyStakedOperation = ifElse<
+  any[],
+  (x: SafeFarmData) => boolean,
+  (x: SafeFarmData) => boolean
+>(
+  equals(true),
+  always(({ balance }) => !balance.isZero()),
+  always(({ balance }) => balance.isZero())
+);
+
+const onlyFinishedOperation = ifElse<
+  any[],
+  (x: SafeFarmData) => boolean,
+  (x: SafeFarmData) => boolean
+>(
+  equals(true),
+  always(({ isLive }) => !isLive),
+  always(prop('isLive'))
+);
+
+export const handleFilterFarms = (
+  farms: Array<SafeFarmData>,
+  sortBy: FarmSortByFilter,
+  search: string,
+  farmTypeFilter: FarmTypeFilter,
+  onlyStaked: boolean,
+  onlyFinished: boolean
+) =>
+  farms.sort(sortByOperation(sortBy)).filter((x) =>
+    [
+      typeOperation(farmTypeFilter),
+      searchOperation(search.trim()),
+      onlyStakedOperation(onlyStaked),
+      onlyFinishedOperation(onlyFinished),
+    ].every((pred) => {
+      const result = pred(x);
+      console.log(result, 'result');
+      console.log(onlyFinished, 'onlyFinished');
+      return result;
+    })
+  );

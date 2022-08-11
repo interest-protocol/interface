@@ -30,7 +30,7 @@ export interface EarnFilterManagerProps {
 
 export interface FilterManagerProps {
   control: Control<IEarnForm>;
-  setFilteredFarms: Dispatch<SetStateAction<ReadonlyArray<SafeFarmData>>>;
+  setValue: UseFormSetValue<IEarnForm>;
   farms: ReadonlyArray<SafeFarmData>;
 }
 

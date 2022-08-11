@@ -7,7 +7,10 @@ import { getFilterSwitchDefaultData } from '@/views/dapp/views/earn/components/e
 
 import { OnlyFinishedFilterProps } from './earn-filters.types';
 
-const StatusFilter: FC<OnlyFinishedFilterProps> = ({ control, setValue }) => {
+const OnlyFinishedFilter: FC<OnlyFinishedFilterProps> = ({
+  control,
+  setValue,
+}) => {
   const onlyFinished = useWatch({ control, name: 'onlyFinished' });
   const SWITCH_ONLY_FINISHED_DATA = getFilterSwitchDefaultData(
     ['finished', 'live'],
@@ -30,4 +33,4 @@ const StatusFilter: FC<OnlyFinishedFilterProps> = ({ control, setValue }) => {
   );
 };
 
-export default StatusFilter;
+export default OnlyFinishedFilter;

@@ -9,7 +9,6 @@ import { noop } from '@/utils';
 
 import { EarnTable } from './components';
 import EarnFilters from './components/earn-filters';
-import FilterManager from './components/earn-filters/filter-manager';
 import { FarmSortByFilter, FarmTypeFilter, IEarnForm } from './earn.types';
 import { getSafeFarmSummaryData } from './utils';
 
@@ -32,8 +31,6 @@ const Earn: FC = () => {
     () => getSafeFarmSummaryData(chainId, rawData),
     [rawData, chainId]
   );
-
-  const [filteredFarms, setFilteredFarms] = useState(data.farms);
 
   const [isDesktop, setDesktop] = useState(false);
 
@@ -108,7 +105,7 @@ const Earn: FC = () => {
             hasMore={false}
             next={noop}
             scrollableTarget="body"
-            dataLength={filteredFarms.length}
+            dataLength={data.farms.length}
             loader={
               <Box display="flex" alignItems="center" justifyContent="center">
                 <LoadingSVG width="1rem" />
@@ -121,21 +118,17 @@ const Earn: FC = () => {
             <Box>
               <EarnTable
                 isPools
-                farms={filteredFarms}
                 loading={data.loading}
                 isDesktop={isDesktop}
                 intUSDPrice={data.intUSDPrice}
                 mutate={mutate}
+                control={control}
+                farms={data.farms}
               />
             </Box>
           </InfiniteScroll>
         </Box>
       </Container>
-      <FilterManager
-        setFilteredFarms={setFilteredFarms}
-        control={control}
-        farms={data.farms}
-      />
     </Box>
   );
 };
