@@ -1,9 +1,10 @@
 import { BigNumber } from 'ethers';
 import { ReactNode } from 'react';
+import { Control } from 'react-hook-form';
 import { KeyedMutator } from 'swr';
 
 import { InterestViewEarn } from '../../../../../../types/ethers-contracts/InterestViewEarnAbi';
-import { SafeFarmSummaryData } from '../../earn.types';
+import { IEarnForm, SafeFarmSummaryData } from '../../earn.types';
 
 export interface EarnTableProps {
   loading: boolean;
@@ -24,6 +25,7 @@ export interface EarnTableProps {
       farmDatas: InterestViewEarn.UserFarmDataStructOutput[];
     }
   >;
+  control: Control<IEarnForm>;
 }
 
 export interface EarnCardProps {
