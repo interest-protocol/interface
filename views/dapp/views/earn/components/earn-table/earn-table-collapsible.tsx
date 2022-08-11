@@ -196,7 +196,10 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         amountUSD={formatDollars(
           IntMath.from(farm.stakingTokenPrice).mul(farm.balance).toNumber()
         )}
-        amount={`${IntMath.toNumber(farm.balance)} ${farmSymbol}`}
+        amount={`${IntMath.toNumber(farm.balance).toLocaleString('fullwide', {
+          useGrouping: true,
+          maximumSignificantDigits: 6,
+        })} ${farmSymbol}`}
         button={
           <Button
             variant="primary"
@@ -222,7 +225,13 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
             .mul(farm.stakingAmount)
             .toNumber()
         )}
-        amount={`${IntMath.toNumber(farm.stakingAmount)} ${farmSymbol}`}
+        amount={`${IntMath.toNumber(farm.stakingAmount).toLocaleString(
+          'fullwide',
+          {
+            useGrouping: true,
+            maximumSignificantDigits: 6,
+          }
+        )} ${farmSymbol}`}
         button={
           farm.allowance.isZero() ? (
             <Button
