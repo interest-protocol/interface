@@ -21,6 +21,10 @@ import {
   WBNBCoinSVG,
 } from '@/svg';
 import {
+  isZeroAddress,
+  replaceWrappedNativeTokenWithNativeTokenSymbol,
+} from '@/utils';
+import {
   getAPEAddress,
   getBTCAddress,
   getDNRAddress,
@@ -136,7 +140,7 @@ export const getFarmsSVGByToken = (
   token1: string
 ): ReadonlyArray<{
   SVG: FC<SVGAttributes<SVGSVGElement>>;
-  hasBNB: boolean;
+  highZIndex: boolean;
 }> => {
   const Token0 = pathOr(
     UNKNOWN_ERC_20,
@@ -150,38 +154,42 @@ export const getFarmsSVGByToken = (
     ERC_20_DATA
   );
 
-  const hasBNB =
-    Token1 != UNKNOWN_ERC_20
-      ? [TOKEN_SYMBOL.BNB, TOKEN_SYMBOL.WBNB].includes(
+  const token1HasLowerZIndex = [TOKEN_SYMBOL.BNB, TOKEN_SYMBOL.WBNB].includes(
+    Token1.symbol as TOKEN_SYMBOL
+  );
+
+  // IPX pool
+  if (isZeroAddress(Token0.address))
+    return [
+      {
+        SVG: TOKENS_SVG_MAP[
+          replaceWrappedNativeTokenWithNativeTokenSymbol(
+            Token1.symbol as TOKEN_SYMBOL
+          )
+        ],
+        highZIndex: false,
+      },
+    ];
+
+  return [
+    {
+      SVG: TOKENS_SVG_MAP[
+        replaceWrappedNativeTokenWithNativeTokenSymbol(
+          Token0.symbol as TOKEN_SYMBOL
+        )
+      ],
+      highZIndex: token1HasLowerZIndex,
+    },
+    {
+      SVG: TOKENS_SVG_MAP[
+        replaceWrappedNativeTokenWithNativeTokenSymbol(
           Token1.symbol as TOKEN_SYMBOL
         )
-      : false;
-
-  return Token0 == UNKNOWN_ERC_20
-    ? Token1 != UNKNOWN_ERC_20
-      ? [
-          {
-            SVG: TOKENS_SVG_MAP[getTokenSymbol(Token1.symbol as TOKEN_SYMBOL)],
-            hasBNB: false,
-          },
-        ]
-      : []
-    : Token1 != UNKNOWN_ERC_20
-    ? [
-        {
-          SVG: TOKENS_SVG_MAP[getTokenSymbol(Token0.symbol as TOKEN_SYMBOL)],
-          hasBNB: hasBNB,
-        },
-        {
-          SVG: TOKENS_SVG_MAP[getTokenSymbol(Token1.symbol as TOKEN_SYMBOL)],
-          hasBNB: hasBNB,
-        },
-      ]
-    : [];
+      ],
+      highZIndex: !token1HasLowerZIndex,
+    },
+  ];
 };
-
-const getTokenSymbol = (symbol: TOKEN_SYMBOL): TOKEN_SYMBOL =>
-  symbol == TOKEN_SYMBOL.WBNB ? TOKEN_SYMBOL.BNB : symbol;
 
 const RINKEBY_MAIL_BRIDGE_ERC20_ARRAY = [
   {

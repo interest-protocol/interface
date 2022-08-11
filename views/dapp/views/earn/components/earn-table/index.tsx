@@ -7,7 +7,6 @@ import { Box, DropdownTable, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { formatDollars } from '@/utils';
 
-import { SafeFarmData } from '../../earn.types';
 import { handleFilterFarms, makeFarmSymbol } from '../../utils';
 import {
   DesktopEarnSkeletonRow,
@@ -32,10 +31,8 @@ const EarnTable: FC<EarnTableProps> = ({
   const search = useWatch({ control, name: 'search' });
   const sortBy = useWatch({ control, name: 'sortBy' });
 
-  console.log(onlyFinished, 'onlyfinished');
-
   const filteredFarms = handleFilterFarms(
-    farms as Array<SafeFarmData>,
+    farms,
     sortBy,
     search,
     typeFilter,
@@ -108,12 +105,12 @@ const EarnTable: FC<EarnTableProps> = ({
                           farm.chainId,
                           farm.token0,
                           farm.token1
-                        ).map(({ SVG, hasBNB }, index) => (
+                        ).map(({ SVG, highZIndex }, index) => (
                           <Box
                             key={v4()}
                             ml={index != 0 ? '-0.5rem' : 'NONE'}
                             zIndex={
-                              index == 0 ? (hasBNB ? 3 : 'unset') : 'unset'
+                              index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'
                             }
                           >
                             <SVG width="1.6rem" height="1.6rem" />
@@ -218,12 +215,16 @@ const EarnTable: FC<EarnTableProps> = ({
                             farm.chainId,
                             farm.token0,
                             farm.token1
-                          ).map(({ SVG, hasBNB }, index) => (
+                          ).map(({ SVG, highZIndex }, index) => (
                             <Box
                               key={v4()}
                               ml={index != 0 ? '-0.5rem' : 'NONE'}
                               zIndex={
-                                index == 0 ? (hasBNB ? 3 : 'unset') : 'unset'
+                                index == 0
+                                  ? highZIndex
+                                    ? 3
+                                    : 'unset'
+                                  : 'unset'
                               }
                             >
                               <SVG width="1.6rem" height="1.6rem" />

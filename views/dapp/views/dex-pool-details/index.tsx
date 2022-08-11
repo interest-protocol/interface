@@ -38,9 +38,6 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
     [chainId, data, nativeBalance]
   );
 
-  console.log(error);
-  console.log(data);
-
   if (error)
     return (
       <Box

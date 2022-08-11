@@ -393,7 +393,7 @@ const onlyFinishedOperation = ifElse<
 );
 
 export const handleFilterFarms = (
-  farms: Array<SafeFarmData>,
+  farms: ReadonlyArray<SafeFarmData>,
   sortBy: FarmSortByFilter,
   search: string,
   farmTypeFilter: FarmTypeFilter,
