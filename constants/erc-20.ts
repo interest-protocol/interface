@@ -138,43 +138,42 @@ export const getFarmsSVGByToken = (
   SVG: FC<SVGAttributes<SVGSVGElement>>;
   hasBNB: boolean;
 }> => {
-  const erc0 = pathOr(
+  const Token0 = pathOr(
     UNKNOWN_ERC_20,
     [chainId.toString(), token0],
     ERC_20_DATA
   );
-  const erc1 = pathOr(
+
+  const Token1 = pathOr(
     UNKNOWN_ERC_20,
     [chainId.toString(), token1],
     ERC_20_DATA
   );
 
-  return [TOKEN_SYMBOL.BNB, TOKEN_SYMBOL.WBNB];
-
-  const SVG0 = TOKEN_META_DATA_ARRAY[chainId].filter(
-    (tokenTMP) => tokenTMP.symbol == erc0.symbol
-  );
-
-  const SVG1 = TOKEN_META_DATA_ARRAY[chainId].filter(
-    (tokenTMP) => tokenTMP.symbol == erc1.symbol
-  );
-
-  SVG0.push(SVG1[0]);
   const hasBNB =
-    SVG0.length === 2
-      ? [TOKEN_SYMBOL.BNB, TOKEN_SYMBOL.WBNB].includes(SVG0[1].symbol)
+    Token1 != UNKNOWN_ERC_20
+      ? [TOKEN_SYMBOL.BNB, TOKEN_SYMBOL.WBNB].includes(
+          Token1.symbol as TOKEN_SYMBOL
+        )
       : false;
 
-  return SVG0.length === 1
-    ? [{ SVG: TOKENS_SVG_MAP[getTokenSymbol(SVG0[0].symbol)], hasBNB: false }]
-    : SVG0.length === 2
+  return Token0 == UNKNOWN_ERC_20
+    ? Token1 != UNKNOWN_ERC_20
+      ? [
+          {
+            SVG: TOKENS_SVG_MAP[getTokenSymbol(Token1.symbol as TOKEN_SYMBOL)],
+            hasBNB: false,
+          },
+        ]
+      : []
+    : Token1 != UNKNOWN_ERC_20
     ? [
         {
-          SVG: TOKENS_SVG_MAP[getTokenSymbol(SVG0[0].symbol)],
+          SVG: TOKENS_SVG_MAP[getTokenSymbol(Token0.symbol as TOKEN_SYMBOL)],
           hasBNB: hasBNB,
         },
         {
-          SVG: TOKENS_SVG_MAP[getTokenSymbol(SVG0[1].symbol)],
+          SVG: TOKENS_SVG_MAP[getTokenSymbol(Token1.symbol as TOKEN_SYMBOL)],
           hasBNB: hasBNB,
         },
       ]

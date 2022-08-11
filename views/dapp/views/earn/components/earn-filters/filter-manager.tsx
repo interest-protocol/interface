@@ -8,8 +8,8 @@ import { isSameAddress } from '@/utils';
 
 import {
   FarmSortByFilter,
+  FarmTypeFilter,
   FilterManagerProps,
-  TypeFilter,
 } from '../../earn.types';
 
 const FilterManager: FC<FilterManagerProps> = ({
@@ -98,12 +98,12 @@ const FilterManager: FC<FilterManagerProps> = ({
   }, [onlyFinished]);
 
   useEffect(() => {
-    if (typeFilter === TypeFilter.All) setFilteredFarms(farms);
+    if (typeFilter === FarmTypeFilter.All) setFilteredFarms(farms);
 
-    if (typeFilter === TypeFilter.Stable)
+    if (typeFilter === FarmTypeFilter.Stable)
       setFilteredFarms((farms) => farms.filter(prop('stable')));
 
-    if (typeFilter === TypeFilter.Volatile)
+    if (typeFilter === FarmTypeFilter.Volatile)
       setFilteredFarms((farms) => farms.filter(o(not, prop('stable'))));
   }, [typeFilter]);
 

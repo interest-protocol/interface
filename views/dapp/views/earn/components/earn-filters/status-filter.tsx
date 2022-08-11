@@ -5,24 +5,24 @@ import { Switch } from '@/components';
 import { Box, Typography } from '@/elements';
 import { getFilterSwitchDefaultData } from '@/views/dapp/views/earn/components/earn.data';
 
-import { StakeFilterProps } from './earn-filters.types';
+import { OnlyFinishedFilterProps } from './earn-filters.types';
 
-const StakeFilter: FC<StakeFilterProps> = ({ control, setValue }) => {
-  const onlyStaked = useWatch({ control, name: 'onlyStaked' });
-  const SWITCH_ON_OFF_DATA = getFilterSwitchDefaultData(
-    ['on', 'off'],
+const StatusFilter: FC<OnlyFinishedFilterProps> = ({ control, setValue }) => {
+  const onlyFinished = useWatch({ control, name: 'onlyFinished' });
+  const SWITCH_ONLY_FINISHED_DATA = getFilterSwitchDefaultData(
+    ['finished', 'live'],
     setValue,
-    'onlyStaked'
+    'onlyFinished'
   );
 
   return (
     <Box display="flex" flexDirection="column">
       <Typography fontSize="S" mb="M" variant="normal" display="inline-block">
-        Staked only
+        Status
       </Typography>
       <Switch
-        defaultValue={onlyStaked ? 'on' : 'off'}
-        options={SWITCH_ON_OFF_DATA}
+        defaultValue={onlyFinished ? 'finished' : 'live'}
+        options={SWITCH_ONLY_FINISHED_DATA}
         bg="background"
         bgSelected="accentAlternative"
       />
@@ -30,4 +30,4 @@ const StakeFilter: FC<StakeFilterProps> = ({ control, setValue }) => {
   );
 };
 
-export default StakeFilter;
+export default StatusFilter;

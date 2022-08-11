@@ -10,7 +10,7 @@ import { noop } from '@/utils';
 import { EarnTable } from './components';
 import EarnFilters from './components/earn-filters';
 import FilterManager from './components/earn-filters/filter-manager';
-import { FarmSortByFilter, IEarnForm, TypeFilter } from './earn.types';
+import { FarmSortByFilter, FarmTypeFilter, IEarnForm } from './earn.types';
 import { getSafeFarmSummaryData } from './utils';
 
 const Earn: FC = () => {
@@ -20,7 +20,7 @@ const Earn: FC = () => {
     defaultValues: {
       search: '',
       sortBy: FarmSortByFilter.Default,
-      typeFilter: TypeFilter.All,
+      typeFilter: FarmTypeFilter.All,
       onlyFinished: false,
       onlyStaked: false,
     },

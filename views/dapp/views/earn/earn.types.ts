@@ -13,7 +13,7 @@ export enum FarmSortByFilter {
   Allocation,
 }
 
-export enum TypeFilter {
+export enum FarmTypeFilter {
   All,
   Volatile,
   Stable,
@@ -38,7 +38,7 @@ export interface IEarnForm {
   search: string;
   sortBy: FarmSortByFilter;
   onlyStaked: boolean;
-  typeFilter: TypeFilter;
+  typeFilter: FarmTypeFilter;
   onlyFinished: boolean;
 }
 
