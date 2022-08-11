@@ -162,11 +162,7 @@ export const getFarmsSVGByToken = (
   if (isZeroAddress(Token0.address))
     return [
       {
-        SVG: TOKENS_SVG_MAP[
-          replaceWrappedNativeTokenWithNativeTokenSymbol(
-            Token1.symbol as TOKEN_SYMBOL
-          )
-        ],
+        SVG: TOKENS_SVG_MAP[Token1.symbol],
         highZIndex: false,
       },
     ];
