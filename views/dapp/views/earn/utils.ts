@@ -406,16 +406,13 @@ export const handleFilterFarms = (
   onlyStaked: boolean,
   onlyFinished: boolean
 ) =>
-  farms.sort(sortByOperation(sortBy)).filter((x) =>
-    [
-      typeOperation(farmTypeFilter),
-      searchOperation(search.trim()),
-      onlyStakedOperation(onlyStaked),
-      onlyFinishedOperation(onlyFinished),
-    ].every((pred) => {
-      const result = pred(x);
-      console.log(result, 'result');
-      console.log(onlyFinished, 'onlyFinished');
-      return result;
-    })
-  );
+  farms
+    .sort(sortByOperation(sortBy))
+    .filter((x) =>
+      [
+        typeOperation(farmTypeFilter),
+        searchOperation(search.trim()),
+        onlyStakedOperation(onlyStaked),
+        onlyFinishedOperation(onlyFinished),
+      ].every((pred) => pred(x))
+    );
