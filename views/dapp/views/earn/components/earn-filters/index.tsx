@@ -21,7 +21,12 @@ const EarnFilters: FC<EarnFiltersProps> = ({ setValue, register, control }) => (
     <Box
       width="100%"
       display="flex"
-      justifyContent="space-between"
+      justifyContent={[
+        'space-between',
+        'space-between',
+        'space-between',
+        'space-evenly',
+      ]}
       alignItems="flex-end"
       flexWrap="wrap"
     >
@@ -29,7 +34,7 @@ const EarnFilters: FC<EarnFiltersProps> = ({ setValue, register, control }) => (
       <OnlyFinishedFilter control={control} setValue={setValue} />
       <TypeFilter control={control} setValue={setValue} />
       <SortFilter control={control} setValue={setValue} />
-      <Box width={['48%', '48%', '48%', 'unset']}>
+      <Box mt="M">
         <Typography
           as="label"
           fontSize="S"
