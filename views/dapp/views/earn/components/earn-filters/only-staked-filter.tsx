@@ -5,9 +5,9 @@ import { Switch } from '@/components';
 import { Box, Typography } from '@/elements';
 import { getFilterSwitchDefaultData } from '@/views/dapp/views/earn/components/earn.data';
 
-import { StakeFilterProps } from './earn-filters.types';
+import { OnlyStakedFilterProps } from './earn-filters.types';
 
-const StakeFilter: FC<StakeFilterProps> = ({ control, setValue }) => {
+const OnlyStakedFilter: FC<OnlyStakedFilterProps> = ({ control, setValue }) => {
   const onlyStaked = useWatch({ control, name: 'onlyStaked' });
   const SWITCH_ON_OFF_DATA = getFilterSwitchDefaultData(
     ['on', 'off'],
@@ -30,4 +30,4 @@ const StakeFilter: FC<StakeFilterProps> = ({ control, setValue }) => {
   );
 };
 
-export default StakeFilter;
+export default OnlyStakedFilter;

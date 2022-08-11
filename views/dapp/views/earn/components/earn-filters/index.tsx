@@ -4,8 +4,8 @@ import { Box, Input, Typography } from '@/elements';
 
 import { EarnFiltersProps } from '../../earn.types';
 import OnlyFinishedFilter from './only-finished-filter';
+import OnlyStakedFilter from './only-staked-filter';
 import SortFilter from './sort-filter';
-import StakeFilter from './stake-filter';
 import TypeFilter from './type-filter';
 
 const EarnFilters: FC<EarnFiltersProps> = ({ setValue, register, control }) => (
@@ -25,7 +25,7 @@ const EarnFilters: FC<EarnFiltersProps> = ({ setValue, register, control }) => (
       alignItems="flex-end"
       flexWrap="wrap"
     >
-      <StakeFilter control={control} setValue={setValue} />
+      <OnlyStakedFilter control={control} setValue={setValue} />
       <OnlyFinishedFilter control={control} setValue={setValue} />
       <TypeFilter control={control} setValue={setValue} />
       <SortFilter control={control} setValue={setValue} />

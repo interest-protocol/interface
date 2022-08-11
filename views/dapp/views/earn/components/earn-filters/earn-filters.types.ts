@@ -7,7 +7,7 @@ export interface TypeFilterProps {
   setValue: UseFormSetValue<IEarnForm>;
 }
 
-export interface StakeFilterProps {
+export interface OnlyStakedFilterProps {
   control: Control<IEarnForm>;
   setValue: UseFormSetValue<IEarnForm>;
 }

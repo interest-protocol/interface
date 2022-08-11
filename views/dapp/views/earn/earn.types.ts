@@ -1,5 +1,4 @@
 import { BigNumber } from 'ethers';
-import { Dispatch, SetStateAction } from 'react';
 import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
 import { IntMath } from '@/sdk';
@@ -26,12 +25,6 @@ export interface EarnFiltersProps extends EarnFilterManagerProps {
 export interface EarnFilterManagerProps {
   control: Control<IEarnForm>;
   setValue: UseFormSetValue<IEarnForm>;
-}
-
-export interface FilterManagerProps {
-  control: Control<IEarnForm>;
-  setValue: UseFormSetValue<IEarnForm>;
-  farms: ReadonlyArray<SafeFarmData>;
 }
 
 export interface IEarnForm {

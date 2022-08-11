@@ -12,8 +12,6 @@ import {
   prop,
   T,
 } from 'ramda';
-import { FC, useEffect } from 'react';
-import { useWatch } from 'react-hook-form';
 
 import {
   CASA_DE_PAPEL_FARM_CALL_MAP,
@@ -38,7 +36,6 @@ import {
   CalculateIntUSDPrice,
   FarmSortByFilter,
   FarmTypeFilter,
-  FilterManagerProps,
   GetSafeFarmSummaryData,
   SafeFarmData,
   TCalculateAllocation,
@@ -336,8 +333,8 @@ const searchOperation = cond([
   [isEmpty, always(T)],
   [
     T,
-    (debouncedSearch: string) => {
-      const parsedDebouncedSearch = debouncedSearch.toLocaleLowerCase();
+    (search: string) => {
+      const parsedSearch = search.toLocaleLowerCase();
       return ({ chainId, token0, token1 }: SafeFarmData) => {
         const erc0 = pathOr(
           UNKNOWN_ERC_20,
@@ -350,19 +347,16 @@ const searchOperation = cond([
           ERC_20_DATA
         );
 
-        if (isAddress(debouncedSearch))
-          return (
-            isSameAddress(debouncedSearch, token0) ||
-            isSameAddress(debouncedSearch, token1)
-          );
+        if (isAddress(search))
+          return isSameAddress(search, token0) || isSameAddress(search, token1);
 
         return (
-          token1.toLocaleLowerCase().includes(parsedDebouncedSearch) ||
-          token0.toLocaleLowerCase().includes(parsedDebouncedSearch) ||
-          erc0.name.toLocaleLowerCase().includes(parsedDebouncedSearch) ||
-          erc1.name.toLocaleLowerCase().includes(parsedDebouncedSearch) ||
-          erc0.symbol.toLocaleLowerCase().includes(parsedDebouncedSearch) ||
-          erc1.symbol.toLocaleLowerCase().includes(parsedDebouncedSearch)
+          token1.toLocaleLowerCase().includes(parsedSearch) ||
+          token0.toLocaleLowerCase().includes(parsedSearch) ||
+          erc0.name.toLocaleLowerCase().includes(parsedSearch) ||
+          erc1.name.toLocaleLowerCase().includes(parsedSearch) ||
+          erc0.symbol.toLocaleLowerCase().includes(parsedSearch) ||
+          erc1.symbol.toLocaleLowerCase().includes(parsedSearch)
         );
       };
     },
@@ -385,7 +379,7 @@ const onlyStakedOperation = ifElse<
 >(
   equals(true),
   always(({ balance }) => !balance.isZero()),
-  always(({ balance }) => balance.isZero())
+  always(T)
 );
 
 const onlyFinishedOperation = ifElse<
@@ -406,13 +400,22 @@ export const handleFilterFarms = (
   onlyStaked: boolean,
   onlyFinished: boolean
 ) =>
-  farms
-    .sort(sortByOperation(sortBy))
-    .filter((x) =>
-      [
-        typeOperation(farmTypeFilter),
-        searchOperation(search.trim()),
-        onlyStakedOperation(onlyStaked),
-        onlyFinishedOperation(onlyFinished),
-      ].every((pred) => pred(x))
-    );
+  sortBy === FarmSortByFilter.Default
+    ? farms.filter((x) =>
+        [
+          typeOperation(farmTypeFilter),
+          searchOperation(search.trim()),
+          onlyStakedOperation(onlyStaked),
+          onlyFinishedOperation(onlyFinished),
+        ].every((pred) => pred(x))
+      )
+    : farms
+        .sort(sortByOperation(sortBy))
+        .filter((x) =>
+          [
+            typeOperation(farmTypeFilter),
+            searchOperation(search.trim()),
+            onlyStakedOperation(onlyStaked),
+            onlyFinishedOperation(onlyFinished),
+          ].every((pred) => pred(x))
+        );
