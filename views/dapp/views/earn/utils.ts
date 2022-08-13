@@ -246,7 +246,7 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
     tokenPriceMap,
     totalAllocationPoints: data.mintData.totalAllocationPoints,
     farms: CASA_DE_PAPEL_FARM_RESPONSE_MAP[chainId].pools.map(
-      ({ token0, token1, stakingTokenAddress, stable, isLive }, index) => {
+      ({ token0, token1, stakingTokenAddress, stable }, index) => {
         const {
           reserve0,
           reserve1,
@@ -302,7 +302,7 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
           balance,
           stakingAmount,
           pendingRewards,
-          isLive,
+          isLive: !allocationPoints.isZero(),
         };
       }
     ),

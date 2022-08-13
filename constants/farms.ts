@@ -1,7 +1,12 @@
 import { BigNumber, ethers } from 'ethers';
 
 import { CHAIN_ID } from '@/sdk';
-import { getETHERC20Address, getUSDCAddress, getWETHAddress } from '@/utils';
+import {
+  getETHERC20Address,
+  getUSDCAddress,
+  getUSDTAddress,
+  getWETHAddress,
+} from '@/utils';
 
 /**
  * @desc The first item on pairs is to get the reserves to calculate Int Price. It needs to be added again for a specific pool.
@@ -13,8 +18,9 @@ export const CASA_DE_PAPEL_FARM_CALL_MAP = {
       ethers.utils.getAddress(getWETHAddress(CHAIN_ID.BNB_TEST_NET)),
       ethers.utils.getAddress(getETHERC20Address(CHAIN_ID.BNB_TEST_NET)),
       ethers.utils.getAddress(getUSDCAddress(CHAIN_ID.BNB_TEST_NET)),
+      ethers.utils.getAddress(getUSDTAddress(CHAIN_ID.BNB_TEST_NET)),
     ],
-    poolIds: [0, 1, 2, 3, 4],
+    poolIds: [0, 1, 2, 3, 4, 5],
     // [ BTC/INT no Pool id ,BTC/DNR poolId 1]
     pairs: [
       // INT Token
@@ -27,6 +33,8 @@ export const CASA_DE_PAPEL_FARM_CALL_MAP = {
       ethers.utils.getAddress('0x8309E5d16Ade1A46e959Ec50e2D58f7f386273B0'),
       // USDC / DNR
       ethers.utils.getAddress('0xEAd84c099eb2ad7f9714AfE3Ee8939986c3D5691'),
+      // USDT / DNR
+      ethers.utils.getAddress('0x3Ffc3dc41961730544806d6127B621Fa1062f7A1'),
     ],
   },
 };
@@ -51,7 +59,6 @@ export const CASA_DE_PAPEL_FARM_RESPONSE_MAP = {
           '0x0D7747F1686d67824dc5a299AAc09F438dD6aef2'
         ),
         stable: false,
-        isLive: true,
       },
       {
         token0: ethers.utils.getAddress(
@@ -64,7 +71,6 @@ export const CASA_DE_PAPEL_FARM_RESPONSE_MAP = {
           '0xD4a22921a4A642AA653595f5530abd358F7f0842'
         ),
         stable: false,
-        isLive: true,
       },
       {
         token0: ethers.utils.getAddress(
@@ -77,7 +83,6 @@ export const CASA_DE_PAPEL_FARM_RESPONSE_MAP = {
           '0xb8AF44a4eD047F6137aC148b0D1197913222993d'
         ),
         stable: false,
-        isLive: true,
       },
       {
         token0: ethers.utils.getAddress(
@@ -90,7 +95,6 @@ export const CASA_DE_PAPEL_FARM_RESPONSE_MAP = {
           '0x8309E5d16Ade1A46e959Ec50e2D58f7f386273B0'
         ),
         stable: false,
-        isLive: true,
       },
       {
         token0: ethers.utils.getAddress(
@@ -103,7 +107,18 @@ export const CASA_DE_PAPEL_FARM_RESPONSE_MAP = {
           '0xEAd84c099eb2ad7f9714AfE3Ee8939986c3D5691'
         ),
         stable: true,
-        isLive: true,
+      },
+      {
+        token0: ethers.utils.getAddress(
+          '0x57486681d2e0bc9b0494446b8c5df35cd20d4e92'
+        ),
+        token1: ethers.utils.getAddress(
+          '0x80ae8dd1d0ca6fd6465b7fb8b9774573d7072d3c'
+        ),
+        stakingTokenAddress: ethers.utils.getAddress(
+          '0x3Ffc3dc41961730544806d6127B621Fa1062f7A1'
+        ),
+        stable: true,
       },
     ],
   },

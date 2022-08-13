@@ -1,3 +1,4 @@
+import { pathOr } from 'ramda';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
@@ -15,7 +16,7 @@ const DropdownTable: FC<DropdownTableProps> = ({
   headings,
   ordinate,
   isDesktop,
-  changeColor,
+  backgroundColorMap,
 }) =>
   isDesktop ? (
     <Box display={['none', 'none', 'none', 'block']} width="100%">
@@ -49,7 +50,15 @@ const DropdownTable: FC<DropdownTableProps> = ({
             items={items}
             headings={headings}
             dropdown={dropdown ?? defaultDropdown}
-            setColor={changeColor ? changeColor[index] : false}
+            desktopBg={
+              backgroundColorMap
+                ? pathOr(
+                    undefined,
+                    [index.toString(), 'desktopBg'],
+                    backgroundColorMap
+                  )
+                : undefined
+            }
           />
         ))}
       </Box>
@@ -72,7 +81,11 @@ const DropdownTable: FC<DropdownTableProps> = ({
           ordinate={ordinate}
           sideContent={sideContent}
           dropdown={dropdown ?? defaultDropdown}
-          setColor={changeColor ? changeColor[index] : false}
+          desktopBg={
+            backgroundColorMap
+              ? pathOr(undefined, [index.toString(), 'bg'], backgroundColorMap)
+              : undefined
+          }
         />
       ))}
     </Box>

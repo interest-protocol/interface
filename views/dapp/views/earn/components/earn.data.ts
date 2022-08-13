@@ -12,13 +12,13 @@ export const getFilterSwitchDefaultData = (
   {
     value: values[0],
     onSelect: () => {
-      setValue(name, true);
+      setValue(name, false);
     },
   },
   {
     value: values[1],
     onSelect: () => {
-      setValue(name, false);
+      setValue(name, true);
     },
   },
 ];

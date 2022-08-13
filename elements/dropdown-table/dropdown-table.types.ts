@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, ReactNode } from 'react';
 
+import { BoxProps } from '@/elements/box/box.types';
+
 interface ITableHeading {
   tip?: string;
   item: ReactNode;
@@ -24,12 +26,17 @@ interface IRow {
   dropdown?: IDropdown;
 }
 
+interface BackgroundColorMap {
+  bg?: BoxProps['backgroundColor'];
+  desktopBg?: BoxProps['backgroundColor'];
+}
+
 export interface DropdownTableProps {
   ordinate?: boolean;
   isDesktop?: boolean;
   data: ReadonlyArray<IRow>;
   headings: ReadonlyArray<ITableHeading>;
-  changeColor?: ReadonlyArray<boolean>;
+  backgroundColorMap?: ReadonlyArray<BackgroundColorMap>;
 }
 
 export interface DropdownTableRowProps {
@@ -40,5 +47,6 @@ export interface DropdownTableRowProps {
   dropdown: IDropdown;
   sideContent?: ReactNode;
   headings: ReadonlyArray<ITableHeading>;
-  setColor?: boolean;
+  bg?: BoxProps['backgroundColor'];
+  desktopBg?: BoxProps['backgroundColor'];
 }

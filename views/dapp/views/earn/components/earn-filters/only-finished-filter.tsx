@@ -13,7 +13,7 @@ const OnlyFinishedFilter: FC<OnlyFinishedFilterProps> = ({
 }) => {
   const onlyFinished = useWatch({ control, name: 'onlyFinished' });
   const SWITCH_ONLY_FINISHED_DATA = getFilterSwitchDefaultData(
-    ['finished', 'live'],
+    ['live', 'finished'],
     setValue,
     'onlyFinished'
   );
@@ -25,7 +25,7 @@ const OnlyFinishedFilter: FC<OnlyFinishedFilterProps> = ({
       </Typography>
       <Switch
         defaultValue={onlyFinished ? 'finished' : 'live'}
-        options={SWITCH_ONLY_FINISHED_DATA.reverse()}
+        options={SWITCH_ONLY_FINISHED_DATA}
         bg="background"
         bgSelected="accentAlternative"
       />

@@ -94,7 +94,9 @@ const EarnTable: FC<EarnTableProps> = ({
               item: <>Type</>,
             },
           ]}
-          changeColor={filteredFarms.map((farm) => !farm.isLive)}
+          backgroundColorMap={filteredFarms.map((farm) => ({
+            desktopBg: farm.isLive ? 'foreground' : 'bottomBackground',
+          }))}
           data={
             loading
               ? DesktopEarnSkeletonRow
@@ -160,7 +162,9 @@ const EarnTable: FC<EarnTableProps> = ({
         <Box display="flex" alignItems="center">
           <DropdownTable
             key={v4()}
-            changeColor={filteredFarms.map((farm) => !farm.isLive)}
+            backgroundColorMap={filteredFarms.map((farm) => ({
+              bg: farm.isLive ? 'unset' : 'bottomBackground',
+            }))}
             headings={[
               {
                 tip: isPools

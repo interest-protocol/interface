@@ -10,7 +10,7 @@ import { OnlyStakedFilterProps } from './earn-filters.types';
 const OnlyStakedFilter: FC<OnlyStakedFilterProps> = ({ control, setValue }) => {
   const onlyStaked = useWatch({ control, name: 'onlyStaked' });
   const SWITCH_ON_OFF_DATA = getFilterSwitchDefaultData(
-    ['on', 'off'],
+    ['off', 'on'],
     setValue,
     'onlyStaked'
   );
@@ -22,7 +22,7 @@ const OnlyStakedFilter: FC<OnlyStakedFilterProps> = ({ control, setValue }) => {
       </Typography>
       <Switch
         defaultValue={onlyStaked ? 'on' : 'off'}
-        options={SWITCH_ON_OFF_DATA.reverse()}
+        options={SWITCH_ON_OFF_DATA}
         bg="background"
         bgSelected="accentAlternative"
       />

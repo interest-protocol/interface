@@ -270,21 +270,18 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
                 disabled={farm.balance.isZero()}
                 onClick={handleChangeModal(StakeState.Stake)}
                 bg={
-                  farm.balance.isZero()
-                    ? 'disabled'
-                    : farm.isLive
-                    ? 'accent'
-                    : 'disabled'
+                  farm.balance.isZero() || !farm.isLive ? 'disabled' : 'accent'
                 }
                 cursor={
-                  farm.balance.isZero()
+                  farm.balance.isZero() || !farm.isLive
                     ? 'not-allowed'
-                    : farm.isLive
-                    ? 'pointer'
-                    : 'not-allowed'
+                    : 'pointer'
                 }
                 hover={{
-                  bg: farm.balance.isZero() ? 'disabled' : 'accentActive',
+                  bg:
+                    farm.balance.isZero() || !farm.isLive
+                      ? 'disabled'
+                      : 'accentActive',
                 }}
               >
                 +
