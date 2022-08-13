@@ -1,5 +1,5 @@
 import type { AddEthereumChainParameter } from '@web3-react/types';
-import { __, always, identity, ifElse, includes, pathOr } from 'ramda';
+import { __, includes, pathOr } from 'ramda';
 
 import { RoutesEnum } from '@/constants/routes';
 import { CHAIN_ID } from '@/sdk/constants';

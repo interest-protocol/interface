@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { reduce } from 'ramda';
+import { pathOr, reduce } from 'ramda';
 import { FC, SVGAttributes } from 'react';
 
 import { CHAIN_ID, NativeCurrency, TOKEN_SYMBOL } from '@/sdk';
@@ -20,6 +20,10 @@ import {
   USDCoinSVG,
   WBNBCoinSVG,
 } from '@/svg';
+import {
+  isZeroAddress,
+  replaceWrappedNativeTokenWithNativeTokenSymbol,
+} from '@/utils';
 import {
   getAPEAddress,
   getBTCAddress,
@@ -128,6 +132,59 @@ export const getFarmsSVG = (
   if (!svgArray) return [];
 
   return svgArray;
+};
+
+export const getFarmsSVGByToken = (
+  chainId: number,
+  token0: string,
+  token1: string
+): ReadonlyArray<{
+  SVG: FC<SVGAttributes<SVGSVGElement>>;
+  highZIndex: boolean;
+}> => {
+  const Token0 = pathOr(
+    UNKNOWN_ERC_20,
+    [chainId.toString(), token0],
+    ERC_20_DATA
+  );
+
+  const Token1 = pathOr(
+    UNKNOWN_ERC_20,
+    [chainId.toString(), token1],
+    ERC_20_DATA
+  );
+
+  const token1HasLowerZIndex = [TOKEN_SYMBOL.BNB, TOKEN_SYMBOL.WBNB].includes(
+    Token1.symbol as TOKEN_SYMBOL
+  );
+
+  // IPX pool
+  if (isZeroAddress(Token0.address))
+    return [
+      {
+        SVG: TOKENS_SVG_MAP[Token1.symbol],
+        highZIndex: false,
+      },
+    ];
+
+  return [
+    {
+      SVG: TOKENS_SVG_MAP[
+        replaceWrappedNativeTokenWithNativeTokenSymbol(
+          Token0.symbol as TOKEN_SYMBOL
+        )
+      ],
+      highZIndex: token1HasLowerZIndex,
+    },
+    {
+      SVG: TOKENS_SVG_MAP[
+        replaceWrappedNativeTokenWithNativeTokenSymbol(
+          Token1.symbol as TOKEN_SYMBOL
+        )
+      ],
+      highZIndex: !token1HasLowerZIndex,
+    },
+  ];
 };
 
 const RINKEBY_MAIL_BRIDGE_ERC20_ARRAY = [

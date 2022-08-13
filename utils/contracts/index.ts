@@ -8,6 +8,7 @@ import InterestERC20MarketABI from '@/sdk/abi/interest-erc-20-market.abi.json';
 import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
 import InterestViewDexABI from '@/sdk/abi/interest-view-dex.abi.json';
 import InterestViewDineroABI from '@/sdk/abi/interest-view-dinero.abi.json';
+import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import InterestViewMAILABI from '@/sdk/abi/interest-view-MAIL.abi.json';
 import MAILDeployerABI from '@/sdk/abi/mail-deployer.abi.json';
 import TokenMinterABI from '@/sdk/abi/token-minter.abi.json';
@@ -27,6 +28,7 @@ import {
   InterestViewBalancesAbi,
   InterestViewDexAbi,
   InterestViewDineroAbi,
+  InterestViewEarnAbi,
   InterestViewMAILAbi,
   MailDeployerAbi,
   TokenMinterAbi,
@@ -130,6 +132,10 @@ export const getInterestDexFactoryAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.INT_DEX_FACTORY
 );
 
+export const getInterestViewEarnAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.INTEREST_VIEW_EARN
+);
+
 export const getCasaDePapelContract: GetContract<CasaDePapelAbi> = (
   chainId,
   provider
@@ -173,6 +179,16 @@ export const getInterestViewDineroContract: GetContract<InterestViewDineroAbi> =
       InterestViewDineroABI,
       provider
     ) as InterestViewDineroAbi;
+
+export const getInterestViewEarnContract: GetContract<InterestViewEarnAbi> = (
+  chainID,
+  provider
+) =>
+  new ethers.Contract(
+    getInterestViewEarnAddress(chainID),
+    InterestViewEarnABI,
+    provider
+  ) as InterestViewEarnAbi;
 
 export const getMAILDeployerSignerContract: GetSignerContract<MailDeployerAbi> =
   (chainId, signer) =>
