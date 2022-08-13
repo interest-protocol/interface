@@ -386,7 +386,7 @@ const onlyStakedOperation = ifElse<
   (x: SafeFarmData) => boolean
 >(
   equals(true),
-  always(({ balance }) => !balance.isZero()),
+  always(({ stakingAmount }) => !stakingAmount.isZero()),
   always(T)
 );
 
