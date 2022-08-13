@@ -19,7 +19,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
   const typeFilter = useWatch({ control, name: 'typeFilter' });
 
   return (
-    <Box width={['48%', '48%', '48%', 'unset']}>
+    <Box width={['48%', '48%', '48%', 'unset']} my={['M', 'M', 'M', 'NONE']}>
       <Typography
         as="label"
         fontSize="S"

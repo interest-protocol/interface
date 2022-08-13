@@ -20,7 +20,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
   const sortBy = useWatch({ control, name: 'sortBy' });
 
   return (
-    <Box width={['48%', '48%', '48%', 'unset']}>
+    <Box width={['48%', '48%', '48%', 'unset']} my={['M', 'M', 'M', 'NONE']}>
       <Typography
         as="label"
         fontSize="S"

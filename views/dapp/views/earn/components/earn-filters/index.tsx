@@ -21,20 +21,15 @@ const EarnFilters: FC<EarnFiltersProps> = ({ setValue, register, control }) => (
     <Box
       width="100%"
       display="flex"
-      justifyContent={[
-        'space-between',
-        'space-between',
-        'space-between',
-        'space-evenly',
-      ]}
-      alignItems="flex-end"
       flexWrap="wrap"
+      alignItems="flex-end"
+      justifyContent={['center', 'center', 'center', 'space-evenly']}
     >
       <OnlyStakedFilter control={control} setValue={setValue} />
       <OnlyFinishedFilter control={control} setValue={setValue} />
       <TypeFilter control={control} setValue={setValue} />
       <SortFilter control={control} setValue={setValue} />
-      <Box mt="M">
+      <Box mx={['M', 'M', 'M', 'XL']} my="M" width="100%">
         <Typography
           as="label"
           fontSize="S"

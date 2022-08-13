@@ -19,8 +19,14 @@ const OnlyFinishedFilter: FC<OnlyFinishedFilterProps> = ({
   );
 
   return (
-    <Box display="flex" flexDirection="column">
-      <Typography fontSize="S" mb="M" variant="normal" display="inline-block">
+    <Box display="flex" flexDirection="column" my={['M', 'M', 'M', 'NONE']}>
+      <Typography
+        mb="M"
+        fontSize="S"
+        variant="normal"
+        display="inline-block"
+        textAlign={['center', 'center', 'center', 'left']}
+      >
         Status
       </Typography>
       <Switch
