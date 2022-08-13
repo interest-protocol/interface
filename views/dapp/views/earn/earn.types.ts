@@ -51,6 +51,7 @@ export type TCalculateAllocation = (
 ) => IntMath;
 
 export type TCalculateFarmTokenPrice = (
+  chainId: number,
   token0: string,
   token1: string,
   reserve0: BigNumber,

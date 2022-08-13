@@ -131,5 +131,6 @@ export const TOKEN_FARM_ID_MAP = {
     [ethers.utils.getAddress('0xb8AF44a4eD047F6137aC148b0D1197913222993d')]: 2,
     [ethers.utils.getAddress('0x8309E5d16Ade1A46e959Ec50e2D58f7f386273B0')]: 3,
     [ethers.utils.getAddress('0xEAd84c099eb2ad7f9714AfE3Ee8939986c3D5691')]: 4,
+    [ethers.utils.getAddress('0x3Ffc3dc41961730544806d6127B621Fa1062f7A1')]: 5,
   },
 };

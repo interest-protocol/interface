@@ -29,6 +29,7 @@ import {
   ZERO_BIG_NUMBER,
 } from '@/sdk';
 import {
+  adjustDecimals,
   getIntAddress,
   isSameAddress,
   replaceWrappedNativeTokenWithNativeTokenSymbol,
@@ -110,6 +111,7 @@ export const calculateFarmBaseAPR: TCalculateFarmBaseAPR = (
 };
 
 export const calculateFarmTokenPrice: TCalculateFarmTokenPrice = (
+  chainId,
   token0,
   token1,
   reserve0,
@@ -125,9 +127,12 @@ export const calculateFarmTokenPrice: TCalculateFarmTokenPrice = (
   // Reserve of the base token
   const reserve = isToken0 ? reserve0 : reserve1;
 
-  const reserveInUSD = IntMath.from(reserve.mul(2)).mul(
-    tokenPriceMap[baseToken]
-  );
+  const baseTokenDecimals =
+    ERC_20_DATA[chainId][ethers.utils.getAddress(baseToken)].decimals;
+
+  const reserveInUSD = IntMath.from(
+    adjustDecimals(reserve.mul(2), baseTokenDecimals)
+  ).mul(tokenPriceMap[baseToken]);
 
   return reserveInUSD.div(totalSupply);
 };
@@ -264,6 +269,7 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
           index === 0
             ? intUSDPrice
             : calculateFarmTokenPrice(
+                chainId,
                 token0,
                 token1,
                 reserve0,

@@ -157,7 +157,6 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
           farm.id,
           amount.gt(farm.stakingAmount) ? farm.stakingAmount : amount
         );
-
         await showTXSuccessToast(tx, validId);
         await mutate();
       } catch (e) {
