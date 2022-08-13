@@ -26,10 +26,13 @@ import {
   IntMath,
   ONE_ETHER,
   quote,
-  TOKEN_SYMBOL,
   ZERO_BIG_NUMBER,
 } from '@/sdk';
-import { getIntAddress, isSameAddress } from '@/utils';
+import {
+  getIntAddress,
+  isSameAddress,
+  replaceWrappedNativeTokenWithNativeTokenSymbol,
+} from '@/utils';
 
 import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestViewEarnAbi';
 import {
@@ -59,11 +62,10 @@ export const makeFarmSymbol = (
     ERC_20_DATA
   );
 
-  return `${changeSymbol(erc0.symbol)}-${changeSymbol(erc1.symbol)}`;
+  return `${replaceWrappedNativeTokenWithNativeTokenSymbol(
+    erc0.symbol
+  )}-${replaceWrappedNativeTokenWithNativeTokenSymbol(erc1.symbol)}`;
 };
-
-const changeSymbol = (symbol: string): string =>
-  symbol == TOKEN_SYMBOL.WBNB ? TOKEN_SYMBOL.BNB : symbol;
 
 export const calculateAllocation: TCalculateAllocation = (
   allocationPoints,

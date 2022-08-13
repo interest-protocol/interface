@@ -117,7 +117,6 @@ const Earn: FC = () => {
           >
             <Box>
               <EarnTable
-                isPools
                 loading={data.loading}
                 isDesktop={isDesktop}
                 intUSDPrice={data.intUSDPrice}

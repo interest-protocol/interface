@@ -16,7 +16,6 @@ import { EarnTableProps } from './earn-table.types';
 import EarnTableCollapsible from './earn-table-collapsible';
 
 const EarnTable: FC<EarnTableProps> = ({
-  isPools,
   loading,
   isDesktop,
   intUSDPrice,
@@ -60,7 +59,7 @@ const EarnTable: FC<EarnTableProps> = ({
               ),
             },
             {
-              tip: isPools ? 'Total Value Locked' : 'Liquidity Locked',
+              tip: 'Total Value Locked',
               item: (
                 <Typography
                   as="span"
@@ -68,7 +67,7 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   fontSize="inherit"
                 >
-                  {isPools ? 'TVL' : 'Liquidity'}
+                  TVL
                 </Typography>
               ),
             },
@@ -167,9 +166,7 @@ const EarnTable: FC<EarnTableProps> = ({
             }))}
             headings={[
               {
-                tip: isPools
-                  ? 'Total Value Locked'
-                  : `Liquidity available in this market`,
+                tip: 'Total Value Locked',
                 item: (
                   <Typography
                     as="span"
@@ -177,7 +174,7 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    {isPools ? 'TVL' : 'Liquidity'}
+                    TVL
                   </Typography>
                 ),
               },

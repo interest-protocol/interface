@@ -8,7 +8,6 @@ import { IEarnForm, SafeFarmSummaryData } from '../../earn.types';
 
 export interface EarnTableProps {
   loading: boolean;
-  isPools?: boolean;
   isDesktop: boolean;
   farms: SafeFarmSummaryData['farms'];
   intUSDPrice: BigNumber;
