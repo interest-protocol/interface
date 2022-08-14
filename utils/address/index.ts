@@ -40,3 +40,6 @@ export const processWrappedNativeTokenAddress = (
     ? wrappedNativeToken.address
     : token;
 };
+
+export const getSafeWrappedNativeToken = (chainId: number) =>
+  WRAPPED_NATIVE_TOKEN[chainId] ?? WRAPPED_NATIVE_TOKEN[CHAIN_ID.BNB_TEST_NET];

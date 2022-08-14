@@ -1,3 +1,4 @@
+import { pathOr } from 'ramda';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
@@ -6,12 +7,18 @@ import { DropdownTableProps } from './dropdown-table.types';
 import DropdownTableCell from './dropdown-table-cell';
 import DropdownTableRow from './dropdown-table-row';
 
+const EmptyDropdown: FC = () => null;
+
+const defaultDropdown = { Component: EmptyDropdown, args: undefined };
+
 const DropdownTable: FC<DropdownTableProps> = ({
   data,
   headings,
   ordinate,
-}) => (
-  <>
+  isDesktop,
+  backgroundColorMap,
+}) =>
+  isDesktop ? (
     <Box display={['none', 'none', 'none', 'block']} width="100%">
       <Box
         my="M"
@@ -36,21 +43,31 @@ const DropdownTable: FC<DropdownTableProps> = ({
         ))}
       </Box>
       <Box bg="foreground" borderRadius="L" my="M" overflow="hidden">
-        {data.map(({ dropdown, items }) => (
+        {data.map(({ dropdown, items }, index) => (
           <DropdownTableRow
             key={v4()}
+            isDesktop
             items={items}
-            dropdown={dropdown}
             headings={headings}
+            dropdown={dropdown ?? defaultDropdown}
+            desktopBg={
+              backgroundColorMap
+                ? pathOr(
+                    undefined,
+                    [index.toString(), 'desktopBg'],
+                    backgroundColorMap
+                  )
+                : undefined
+            }
           />
         ))}
       </Box>
     </Box>
+  ) : (
     <Box
       mx="M"
       my="XL"
       width="100%"
-      bg="foreground"
       borderRadius="M"
       overflow="hidden"
       display={['block', 'block', 'block', 'none']}
@@ -60,14 +77,18 @@ const DropdownTable: FC<DropdownTableProps> = ({
           key={v4()}
           items={items}
           index={index}
-          dropdown={dropdown}
           headings={headings}
           ordinate={ordinate}
           sideContent={sideContent}
+          dropdown={dropdown ?? defaultDropdown}
+          desktopBg={
+            backgroundColorMap
+              ? pathOr(undefined, [index.toString(), 'bg'], backgroundColorMap)
+              : undefined
+          }
         />
       ))}
     </Box>
-  </>
-);
+  );
 
 export default DropdownTable;
