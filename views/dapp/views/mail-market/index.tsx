@@ -1,5 +1,6 @@
-import { prop } from 'ramda';
-import { FC } from 'react';
+import { compose, prop, uniqBy } from 'ramda';
+import { FC, useCallback, useMemo } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
@@ -9,9 +10,17 @@ import {
   useLocalStorage,
 } from '@/hooks';
 import { LocalMAILMarketData } from '@/interface';
+import { flippedAppend } from '@/utils';
+import { processManyMailSummaryData } from '@/utils/mail-markets';
+
+import Loading from '../../components/loading';
+import ErrorView from '../error';
+import MAILMarketSearchInput from './components/mail-market-search-bar';
+import { AddLocalAsset } from './mail-market.types';
 
 const MAILMarket: FC = () => {
   const { chainId } = useIdAccount();
+  const { register, control } = useForm({ defaultValues: { search: '' } });
 
   const [localAssets, setLocalAssets] = useLocalStorage<
     ReadonlyArray<LocalMAILMarketData>
@@ -21,9 +30,23 @@ const MAILMarket: FC = () => {
     localAssets.map(prop('token'))
   );
 
-  console.log(data);
-  console.log(error);
-  console.log(setLocalAssets);
+  const addLocalAsset = useCallback(
+    compose(
+      setLocalAssets,
+      uniqBy(prop('token')),
+      flippedAppend(localAssets)
+    ) as AddLocalAsset,
+    [localAssets]
+  );
+
+  const { recommendedMarkets, localMarkets } = useMemo(
+    () => processManyMailSummaryData(data, localAssets, chainId),
+    [data, localAssets, chainId]
+  );
+
+  if (error) return <ErrorView message="Error fetching data" />;
+
+  if (!data) return <Loading />;
 
   return (
     <>
@@ -33,7 +56,25 @@ const MAILMarket: FC = () => {
             <Typography variant="normal" ml="M">
               Multi-asset Isolated Lending Markets
             </Typography>
+            {!!recommendedMarkets.length && localMarkets.length > 6 && (
+              <Typography
+                color="accent"
+                variant="normal"
+                hover={{
+                  color: 'accentActive',
+                }}
+              >
+                <a href="#recommended">See recommended</a>
+              </Typography>
+            )}
           </Box>
+          <MAILMarketSearchInput
+            chainId={chainId}
+            control={control}
+            register={register}
+            addLocalAsset={addLocalAsset}
+            allMarkets={recommendedMarkets.concat(localMarkets)}
+          />
         </Container>
       </Box>
     </>
