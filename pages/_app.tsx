@@ -11,10 +11,9 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { Web3Manager } from '@/components';
 import GlobalStyles from '@/design-system/global-styles';
 import { store } from '@/state/index';
-import ErrorBoundary from '@/views/dapp/components/error-boundary';
 
 const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
-  <ErrorBoundary>
+  <>
     <Head>
       <title>Interest Protocol</title>
       <meta
@@ -33,7 +32,7 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
         </Web3Manager>
       </SkeletonTheme>
     </ReduxProvider>
-  </ErrorBoundary>
+  </>
 );
 
 export default MyApp;

@@ -15,6 +15,7 @@ import { processManyMailSummaryData } from '@/utils/mail-markets';
 
 import Loading from '../../components/loading';
 import ErrorView from '../error';
+import { MAILMarketTable } from './components';
 import MAILMarketSearchInput from './components/mail-market-search-bar';
 import { AddLocalAsset } from './mail-market.types';
 
@@ -56,6 +57,17 @@ const MAILMarket: FC = () => {
             <Typography variant="normal" ml="M">
               Multi-asset Isolated Lending Markets
             </Typography>
+            {!!recommendedMarkets.length && localMarkets.length > 6 && (
+              <Typography
+                color="accent"
+                variant="normal"
+                hover={{
+                  color: 'accentActive',
+                }}
+              >
+                <a href="#recommended">See recommended</a>
+              </Typography>
+            )}
           </Box>
           <MAILMarketSearchInput
             chainId={chainId}
@@ -63,6 +75,19 @@ const MAILMarket: FC = () => {
             register={register}
             addLocalAsset={addLocalAsset}
             allMarkets={recommendedMarkets.concat(localMarkets)}
+          />
+          <MAILMarketTable
+            favorite
+            control={control}
+            data={localMarkets}
+            localAssets={localAssets}
+            setLocalAssets={setLocalAssets}
+          />
+          <MAILMarketTable
+            control={control}
+            localAssets={localAssets}
+            setLocalAssets={setLocalAssets}
+            data={recommendedMarkets}
           />
         </Container>
       </Box>

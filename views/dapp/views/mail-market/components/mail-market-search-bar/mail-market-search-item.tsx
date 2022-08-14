@@ -84,7 +84,7 @@ const SearchItem: FC<SearchItemProps> = ({ address, addLocalAsset, data }) => {
       {
         shallow: true,
       }
-    );
+    ).then();
   };
 
   const handleCreateToken = async () => createMarket(handleClick);
