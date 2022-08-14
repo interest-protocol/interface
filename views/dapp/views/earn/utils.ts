@@ -360,14 +360,6 @@ const searchOperation = cond([
 
         const farmName = makeFarmSymbol(chainId, token0, token1);
 
-        console.log(
-          parsedSearch
-            .replace(/[^a-zA-Z]/g, '')
-            .split('')
-            .reverse()
-            .join('')
-        );
-
         return (
           token1.toLocaleLowerCase().includes(parsedSearch) ||
           token0.toLocaleLowerCase().includes(parsedSearch) ||
