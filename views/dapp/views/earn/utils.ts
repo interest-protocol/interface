@@ -358,13 +358,28 @@ const searchOperation = cond([
         if (isAddress(search))
           return isSameAddress(search, token0) || isSameAddress(search, token1);
 
+        const farmName = makeFarmSymbol(chainId, token0, token1);
+
+        console.log(
+          parsedSearch
+            .replace(/[^a-zA-Z]/g, '')
+            .split('')
+            .reverse()
+            .join('')
+        );
+
         return (
           token1.toLocaleLowerCase().includes(parsedSearch) ||
           token0.toLocaleLowerCase().includes(parsedSearch) ||
           erc0.name.toLocaleLowerCase().includes(parsedSearch) ||
           erc1.name.toLocaleLowerCase().includes(parsedSearch) ||
           erc0.symbol.toLocaleLowerCase().includes(parsedSearch) ||
-          erc1.symbol.toLocaleLowerCase().includes(parsedSearch)
+          erc1.symbol.toLocaleLowerCase().includes(parsedSearch) ||
+          farmName.toLocaleLowerCase().includes(parsedSearch) ||
+          farmName
+            .toLocaleLowerCase()
+            .replace(/[^a-zA-Z]/g, '')
+            .includes(parsedSearch.replace(/[^a-zA-Z]/g, ''))
         );
       };
     },
