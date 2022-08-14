@@ -358,7 +358,9 @@ const searchOperation = cond([
         if (isAddress(search))
           return isSameAddress(search, token0) || isSameAddress(search, token1);
 
-        const farmName = makeFarmSymbol(chainId, token0, token1);
+        const farmName = `${replaceWrappedNativeTokenWithNativeTokenSymbol(
+          erc0.symbol
+        )}-${replaceWrappedNativeTokenWithNativeTokenSymbol(erc1.symbol)}`;
 
         return (
           token1.toLocaleLowerCase().includes(parsedSearch) ||
