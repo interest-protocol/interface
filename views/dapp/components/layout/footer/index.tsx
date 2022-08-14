@@ -134,7 +134,7 @@ const Footer: FC = () => {
                   value: 'dinero-market',
                   displayOption: 'Dinero Market',
                   onSelect: () =>
-                    push(Routes[RoutesEnum.DApp], undefined, {
+                    push(Routes[RoutesEnum.DineroMarket], undefined, {
                       shallow: true,
                     }),
                 },
