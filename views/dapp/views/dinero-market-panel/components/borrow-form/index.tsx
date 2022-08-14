@@ -3,7 +3,7 @@ import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
-import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
+import { WalletGuardButton } from '@/views/dapp/components';
 
 import InputMoney from '../input-money';
 import { BorrowFormProps } from './borrow-form.types';
@@ -14,7 +14,7 @@ import BorrowFormSelectLTV from './borrow-form-select-ltv';
 const BorrowForm: FC<BorrowFormProps> = ({
   data,
   fields,
-  account,
+  isPair,
   control,
   loading,
   onSubmit,
@@ -48,17 +48,20 @@ const BorrowForm: FC<BorrowFormProps> = ({
         />
       )
     )}
-    <BorrowFormSelectLTV
-      data={data}
-      control={control}
-      setValue={setValue}
-      isBorrow={!!isBorrow}
-    />
+    {!isPair && (
+      <BorrowFormSelectLTV
+        data={data}
+        control={control}
+        setValue={setValue}
+        isBorrow={!!isBorrow}
+      />
+    )}
     <BorrowFormLoanInfo control={control} data={data} isBorrow={!!isBorrow} />
-    {account ? (
+    <WalletGuardButton>
       <BorrowFormButton
         data={data}
         errors={errors}
+        isPair={isPair}
         control={control}
         isBorrow={isBorrow}
         onSubmit={onSubmit}
@@ -67,11 +70,7 @@ const BorrowForm: FC<BorrowFormProps> = ({
         isSubmitting={isSubmitting}
         handleAddAllowance={handleAddAllowance}
       />
-    ) : (
-      <Box display="flex" justifyContent="center" mt="L">
-        <ConnectWallet />
-      </Box>
-    )}
+    </WalletGuardButton>
   </Box>
 );
 

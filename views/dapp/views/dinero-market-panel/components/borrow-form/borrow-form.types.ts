@@ -21,6 +21,7 @@ export interface BorrowFormButtonProps
     UseFormReturn<IBorrowForm>,
     'control' | 'setError' | 'clearErrors'
   > {
+  isPair: boolean;
   isBorrow?: boolean;
   onSubmit: () => void;
   isSubmitting: boolean;
@@ -30,6 +31,7 @@ export interface BorrowFormButtonProps
 }
 export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
   account: string;
+  isPair: boolean;
   loading?: boolean;
   isBorrow?: boolean;
   onSubmit: () => void;

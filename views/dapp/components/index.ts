@@ -1,4 +1,3 @@
-export { default as BorrowTable } from './borrow-table';
 export { default as Faucet } from './faucet';
 export { default as Layout } from './layout';
 export { default as Loading } from './loading';

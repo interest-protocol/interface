@@ -1,14 +1,15 @@
 import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
-import { TOKEN_SYMBOL } from '@/sdk';
 import { SafeDineroMarketUserData } from '@/utils/dinero-market/dinero-market.types';
 
-export interface DineroMarketProps {
-  tokenSymbol: TOKEN_SYMBOL;
-  mode: 'borrow' | 'repay';
+type TDineroMarketMode = 'borrow' | 'repay';
+
+export interface DineroMarketPanelProps {
+  address: string;
+  mode: TDineroMarketMode;
 }
 
-export interface DineroMarketSwitchProps extends DineroMarketProps {
+export interface DineroMarketSwitchProps extends DineroMarketPanelProps {
   resetField: UseFormResetField<IBorrowForm>;
 }
 
@@ -26,6 +27,7 @@ export interface IBorrowForm {
 
 export interface FormsProps {
   account: string;
+  isPair: boolean;
   isSubmitting: boolean;
   isGettingData: boolean;
   mode: 'borrow' | 'repay';

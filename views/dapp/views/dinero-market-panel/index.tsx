@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { find, propEq, values } from 'ramda';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -14,11 +15,11 @@ import {
   withdrawDineroCollateral,
 } from '@/api';
 import { Container, Tooltip } from '@/components';
-import { ERC_20_DATA } from '@/constants';
+import { ERC_20_DATA, RoutesEnum } from '@/constants';
 import { Box } from '@/elements';
 import { useGetSigner, useGetUserDineroMarketData } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
-import { CHAIN_ID, DINERO_MARKET_CONTRACT_MAP } from '@/sdk';
+import { CHAIN_ID, DINERO_MARKET_CONTRACT_MAP, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import {
   getBTCAddress,
@@ -46,15 +47,26 @@ import MyOpenPosition from './components/my-open-position';
 import UserLTV from './components/user-ltv';
 import YourBalance from './components/your-balance';
 import { BORROW_DEFAULT_VALUES } from './dinero-market.data';
-import { DineroMarketProps, IBorrowForm } from './dinero-market.types';
-import { isFormBorrowEmpty, isFormRepayEmpty } from './dinero-market.utils';
+import { DineroMarketPanelProps, IBorrowForm } from './dinero-market.types';
+import {
+  isFormBorrowEmpty,
+  isFormRepayEmpty,
+  isPairInterestDineroMarketPair,
+} from './dinero-market.utils';
 import DineroMarketForm from './dinero-market-form';
 import DineroMarketSwitch from './dinero-market-switch';
 
-const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
+const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { signer } = useGetSigner();
   const { chainId, account } = useIdAccount();
+
+  const isPairAddress = isPairInterestDineroMarketPair(address, chainId);
+
+  const tokenSymbol = (find(
+    propEq('address', address),
+    values(ERC_20_DATA[chainId])
+  )?.symbol ?? TOKEN_SYMBOL.Unknown) as TOKEN_SYMBOL;
 
   const dispatch = useDispatch();
 
@@ -354,13 +366,13 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
         left={['unset', 'unset', '-5rem', 'unset', '-5rem']}
         position={['static', 'static', 'absolute', 'static', 'absolute']}
       >
-        <GoBack />
+        <GoBack route={RoutesEnum.DineroMarket} />
       </Box>
       <Box>
         <Box bg="foreground" textAlign="center" p="L" borderRadius="L">
           <DineroMarketSwitch
-            tokenSymbol={tokenSymbol}
             mode={mode}
+            address={address}
             resetField={form.resetField}
           />
         </Box>
@@ -379,11 +391,12 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
             mode={mode}
             form={form}
             account={account}
+            isPair={isPairAddress}
             isSubmitting={isSubmitting}
-            isGettingData={data.market.exchangeRate.isZero() && !error}
             onSubmitRepay={onSubmitRepay}
             onSubmitBorrow={onSubmitBorrow}
             handleAddAllowance={submitAllowance}
+            isGettingData={data.market.exchangeRate.isZero() && !error}
           />
           <UserLTV
             isLoading={data.market.exchangeRate.isZero() && !error}
@@ -409,4 +422,4 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
   );
 };
 
-export default DineroMarket;
+export default DineroMarketPanel;

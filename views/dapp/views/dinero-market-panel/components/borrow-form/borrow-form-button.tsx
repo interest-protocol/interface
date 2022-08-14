@@ -15,6 +15,7 @@ const { parseEther } = ethers.utils;
 const BorrowFormButton: FC<BorrowFormButtonProps> = ({
   data,
   errors,
+  isPair,
   control,
   isBorrow,
   setError,
@@ -23,6 +24,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
   isSubmitting,
   handleAddAllowance,
 }) => {
+  const repayText = isPair ? 'Withdraw LP' : 'Remove Collateral';
   const repayLoan = useWatch({ control, name: 'repay.loan' });
   const borrowLoan = useWatch({ control, name: 'borrow.loan' });
   const repayCollateral = useWatch({ control, name: 'repay.collateral' });
@@ -185,15 +187,15 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
             </Box>
           )}
           <Typography
-            fontSize="S"
             as="span"
+            fontSize="S"
             variant="normal"
             ml={isSubmitting ? 'L' : 'NONE'}
           >
             {!!+repayLoan && !!+repayCollateral
-              ? 'Remove Collateral and Repay Loan'
+              ? `${repayText} and Repay Loan`
               : +repayCollateral
-              ? 'Remove Collateral'
+              ? repayText
               : 'Repay Loan'}
           </Typography>
         </Button>

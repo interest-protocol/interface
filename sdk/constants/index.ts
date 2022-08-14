@@ -54,27 +54,6 @@ export const INIT_CODE_HASH = {
     '0x961ef516c3b1b47b938ac73de08a405baa2cff1017c19e16169d8e55c438d3d4',
 };
 
-export const DINERO_MARKET_CONTRACTS = {
-  [CHAIN_ID.BNB_TEST_NET]: [
-    {
-      marketAddress: ethers.utils.getAddress(
-        '0x926f8FB78f5769a3D724A8ffC7058528C86939E1'
-      ),
-      collateralSymbol: TOKEN_SYMBOL.BTC,
-      collateralAddress: ethers.utils.getAddress(
-        '0x954f3A4aeC237D311839d6E0274c0aC8Be13d1b1'
-      ),
-    },
-  ],
-  [CHAIN_ID.BNB_MAIN_MET]: [
-    {
-      marketAddress: ethers.constants.AddressZero,
-      collateralSymbol: TOKEN_SYMBOL.Unknown,
-      collateralAddress: ethers.constants.AddressZero,
-    },
-  ],
-};
-
 export const MAIL_MARKET_CONTRACTS_MAP = {
   [CHAIN_ID.RINKEBY]: {
     [TOKEN_SYMBOL.UNI]: {
@@ -117,8 +96,55 @@ export const DINERO_MARKET_CONTRACT_MAP = {
     [TOKEN_SYMBOL.BTC]: ethers.utils.getAddress(
       '0x926f8FB78f5769a3D724A8ffC7058528C86939E1'
     ),
+    [TOKEN_SYMBOL.BNB]: ethers.utils.getAddress(
+      // TODO: change address
+      '0x926f8FB78f5769a3D724A8ffC7058528C86939E1'
+    ),
   },
 } as { [key: number]: Record<TOKEN_SYMBOL, string> };
+
+export const DINERO_MARKET_CONTRACTS = {
+  [CHAIN_ID.BNB_TEST_NET]: [
+    {
+      marketAddress:
+        DINERO_MARKET_CONTRACT_MAP[CHAIN_ID.BNB_TEST_NET][TOKEN_SYMBOL.BTC],
+      collateralSymbol: TOKEN_SYMBOL.BTC,
+      collateralAddress: ethers.utils.getAddress(
+        '0x954f3A4aeC237D311839d6E0274c0aC8Be13d1b1'
+      ),
+    },
+    {
+      marketAddress:
+        DINERO_MARKET_CONTRACT_MAP[CHAIN_ID.BNB_TEST_NET][TOKEN_SYMBOL.BNB],
+      collateralSymbol: TOKEN_SYMBOL.WBNB,
+      collateralAddress: ethers.utils.getAddress(
+        // TODO: change the address
+        '0x2F472b32b8041E51e53EeC52e87c7060EA9C7eE8'
+      ),
+    },
+  ],
+  [CHAIN_ID.BNB_MAIN_MET]: [
+    {
+      marketAddress: ethers.constants.AddressZero,
+      collateralSymbol: TOKEN_SYMBOL.Unknown,
+      collateralAddress: ethers.constants.AddressZero,
+    },
+  ],
+};
+// TODO: review
+export const LP_DINERO_MARKET_CONTRACTS = {
+  [CHAIN_ID.BNB_TEST_NET]: [
+    {
+      marketAddress:
+        DINERO_MARKET_CONTRACT_MAP[CHAIN_ID.BNB_TEST_NET][TOKEN_SYMBOL.BTC],
+      collateralSymbols: [TOKEN_SYMBOL.BTC, TOKEN_SYMBOL.USDT],
+      collateralAddress: [
+        ethers.utils.getAddress('0x954f3A4aeC237D311839d6E0274c0aC8Be13d1b1'),
+        ethers.utils.getAddress('0x80AE8DD1d0CA6Fd6465B7fB8B9774573d7072d3c'),
+      ],
+    },
+  ],
+};
 
 export const CONTRACTS = {
   DINERO_FAUCET: {
