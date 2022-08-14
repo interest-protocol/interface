@@ -4,13 +4,15 @@ import { useWatch } from 'react-hook-form';
 
 import { Box } from '@/elements';
 import { MAIL_MARKET_BRIDGE_TOKENS } from '@/sdk/constants';
-import { isSameAddress } from '@/utils';
+import { isSameAddress, safeGetAddress } from '@/utils';
 
 import { MAILMarketSearchBarResultsProps } from '../../mail-market.types';
+import SearchItemWrapper from './mail-market-search-item-wrapper';
 
 const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
   control,
   allMarkets,
+  addLocalAsset,
   chainId,
 }) => {
   const query = useWatch({ control, name: 'search' });
@@ -79,7 +81,10 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
       borderRadius="L"
       position="absolute"
     >
-      hello world
+      <SearchItemWrapper
+        addLocalAsset={addLocalAsset}
+        address={safeGetAddress(trimmedQuery)}
+      />
     </Box>
   );
 };
