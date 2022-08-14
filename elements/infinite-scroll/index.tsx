@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import InfiniteScroll, { Props } from 'react-infinite-scroll-component';
+import InfiniteScroll_, { Props } from 'react-infinite-scroll-component';
 import {
   background,
   border,
@@ -17,7 +17,7 @@ import {
 
 import { BoxProps } from '../box/box.types';
 
-const Button = styled(InfiniteScroll)<BoxProps & Props>(
+const InfiniteScroll = styled(InfiniteScroll_)<BoxProps & Props>(
   compose(
     grid,
     space,
@@ -44,4 +44,4 @@ const Button = styled(InfiniteScroll)<BoxProps & Props>(
   )
 );
 
-export default Button;
+export default InfiniteScroll;
