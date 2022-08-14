@@ -20,7 +20,7 @@ const Footer: FC = () => {
 
   return (
     <Box
-      zIndex={2}
+      zIndex={3}
       as="footer"
       width="100%"
       boxShadow="0 0 0.5rem #0003"
