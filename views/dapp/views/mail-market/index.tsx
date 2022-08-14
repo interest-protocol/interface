@@ -46,6 +46,8 @@ const MAILMarket: FC = () => {
 
   if (!data) return <Loading />;
 
+  return null;
+
   return (
     <>
       <Box flex="1" display="flex" flexDirection="column">

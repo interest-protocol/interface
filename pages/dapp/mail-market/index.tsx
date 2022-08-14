@@ -1,5 +1,7 @@
 import { NextPage } from 'next';
 
-const MAILMarketPage: NextPage = () => <div>mail market</div>;
+import MAILMarket from '@/views/dapp/views/mail-market';
+
+const MAILMarketPage: NextPage = () => <MAILMarket />;
 
 export default MAILMarketPage;

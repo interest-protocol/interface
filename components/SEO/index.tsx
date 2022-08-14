@@ -14,14 +14,14 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
       <meta name="title" content="Interest Protocol" />
       <meta
         name="description"
-        content="Money Markets for all 9000 + Tokens on CMC"
+        content="Use your crypto to borrow our stablecoin, Dinero, for free."
       />
       <meta property="og:locale" content="en_US" />
       <meta property="og:title" content="Interest Protocol" />
       <meta property="og:site_name" content="Interest Protocol" />
       <meta
         property="og:description"
-        content="Money Markets for all 9000 + Tokens on CMC"
+        content="Use your crypto to borrow our stablecoin, Dinero, for free."
       />
       <meta property="og:image" content="/android-chrome-256x256.png" />
       <meta
