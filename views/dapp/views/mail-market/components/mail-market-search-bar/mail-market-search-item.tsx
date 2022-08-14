@@ -5,10 +5,11 @@ import { FC, useState } from 'react';
 import { createMailMarket } from '@/api';
 import { CopyToClipboard } from '@/components';
 import { Routes, RoutesEnum, TOKENS_SVG_MAP } from '@/constants';
-import { Box, Typography } from '@/elements';
+import { Box, Button, Typography } from '@/elements';
 import { useGetSigner } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
 import { TOKEN_SYMBOL } from '@/sdk';
+import { LoadingSVG } from '@/svg';
 import {
   isZeroAddress,
   shortAccount,
@@ -17,19 +18,25 @@ import {
   throwError,
   throwIfInvalidSigner,
 } from '@/utils';
+import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
 import { SearchItemProps } from '../../mail-market.types';
 
 const SearchItem: FC<SearchItemProps> = ({ address, addLocalAsset, data }) => {
+  const [getIsDeployed, getName, getSymbol, getMarketAddress] = [
+    head,
+    nth(1),
+    nth(2),
+    nth(4),
+  ];
+
   const { push } = useRouter();
   const { signer } = useGetSigner();
 
   const { account, chainId } = useIdAccount();
 
-  const [getName, getSymbol, getMarketAddress] = [head, nth(1), nth(2), nth(4)];
-
   // handle only in the creating button
-  const [, setCreateMarketLoading] = useState(false);
+  const [createMarketLoading, setCreateMarketLoading] = useState(false);
 
   const handleCreateMarket = async () => {
     try {
@@ -80,8 +87,7 @@ const SearchItem: FC<SearchItemProps> = ({ address, addLocalAsset, data }) => {
     );
   };
 
-  console.log(handleClick);
-  console.log(createMarket);
+  const handleCreateToken = async () => createMarket(handleClick);
 
   const SVG =
     TOKENS_SVG_MAP[getSymbol(data) as string] ??
@@ -146,7 +152,37 @@ const SearchItem: FC<SearchItemProps> = ({ address, addLocalAsset, data }) => {
         mt={['XL', 'XL', 'XL', 'NONE']}
         mx={['auto', 'auto', 'auto', 'NONE']}
       >
-        hello world
+        {getIsDeployed(data) ? (
+          <Button
+            variant="primary"
+            hover={{
+              bg: 'accentActive',
+            }}
+            onClick={handleClick}
+          >
+            Enter
+          </Button>
+        ) : account ? (
+          <Button
+            variant="primary"
+            onClick={handleCreateToken}
+            disabled={createMarketLoading}
+            bg={createMarketLoading ? 'disabled' : 'accent'}
+          >
+            {createMarketLoading ? (
+              <Box display="flex">
+                <LoadingSVG width="1rem" />
+                <Typography ml="M" variant="normal">
+                  Creating
+                </Typography>
+              </Box>
+            ) : (
+              'Create pool'
+            )}
+          </Button>
+        ) : (
+          <ConnectWallet />
+        )}
       </Box>
     </Box>
   );
