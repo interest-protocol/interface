@@ -11,7 +11,6 @@ const SearchItemWrapper: FC<SearchItemWrapperProps> = ({
   address,
   addLocalAsset,
 }) => {
-  // data = [isDeployed, name, symbol, token, market address]
   const { data, error } = useGetMailMarketMetadata(address);
 
   if (error)
