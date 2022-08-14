@@ -6,7 +6,13 @@ import { Box, Typography } from '@/elements';
 
 import { SwitchProps } from './switch.types';
 
-const Switch: FC<SwitchProps> = ({ defaultValue, options, thin }) => {
+const Switch: FC<SwitchProps> = ({
+  defaultValue,
+  options,
+  thin,
+  bg,
+  bgSelected,
+}) => {
   const [selected, setSelected] = useState(defaultValue);
 
   const switcher = (value: string | number) => () => setSelected(value);
@@ -14,9 +20,9 @@ const Switch: FC<SwitchProps> = ({ defaultValue, options, thin }) => {
   return (
     <Box
       p="S"
-      bg="background"
       display="inline-flex"
       borderRadius="1.5rem"
+      bg={bg || 'background'}
       height={thin ? '2.5rem' : '3rem'}
     >
       {options.map(({ value, onSelect, displayValue }) => (
@@ -40,7 +46,11 @@ const Switch: FC<SwitchProps> = ({ defaultValue, options, thin }) => {
               onSelect?.();
             }
           }}
-          bg={value === selected ? 'bottomBackground' : 'transparent'}
+          bg={
+            value === selected
+              ? bgSelected || 'bottomBackground'
+              : 'transparent'
+          }
         >
           {displayValue ?? value}
         </Typography>

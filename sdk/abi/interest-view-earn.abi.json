@@ -1,0 +1,113 @@
+[
+  {
+    "inputs": [
+      { "internalType": "address[]", "name": "pairs", "type": "address[]" },
+      { "internalType": "uint256[]", "name": "poolIds", "type": "uint256[]" },
+      { "internalType": "address[]", "name": "tokens", "type": "address[]" },
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "name": "getFarmsSummary",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "stakingToken",
+            "type": "address"
+          },
+          { "internalType": "bool", "name": "stable", "type": "bool" },
+          { "internalType": "uint256", "name": "reserve0", "type": "uint256" },
+          { "internalType": "uint256", "name": "reserve1", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "allocationPoints",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalStakingAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalSupply",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewEarn.PoolData[]",
+        "name": "pools",
+        "type": "tuple[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "totalAllocationPoints",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "interestPerBlock",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewEarn.MintData",
+        "name": "mintData",
+        "type": "tuple"
+      },
+      { "internalType": "uint256[]", "name": "prices", "type": "uint256[]" },
+      {
+        "components": [
+          { "internalType": "uint256", "name": "allowance", "type": "uint256" },
+          { "internalType": "uint256", "name": "balance", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "stakingAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "pendingRewards",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewEarn.UserFarmData[]",
+        "name": "farmDatas",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "contract IERC20", "name": "token", "type": "address" },
+      { "internalType": "address", "name": "user", "type": "address" },
+      { "internalType": "uint256", "name": "poolId", "type": "uint256" }
+    ],
+    "name": "getUserFarmData",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "uint256", "name": "allowance", "type": "uint256" },
+          { "internalType": "uint256", "name": "balance", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "stakingAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "pendingRewards",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewEarn.UserFarmData",
+        "name": "farmData",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

@@ -20,7 +20,7 @@ const Footer: FC = () => {
 
   return (
     <Box
-      zIndex={2}
+      zIndex={3}
       as="footer"
       width="100%"
       boxShadow="0 0 0.5rem #0003"
@@ -34,6 +34,7 @@ const Footer: FC = () => {
       ]}
       position={['fixed', 'fixed', 'fixed', 'static']}
       bg={['foreground', 'foreground', 'foreground', 'foreground']}
+      id="footer"
     >
       <Container dapp width="100%">
         <Box display={['none', 'none', 'flex']} justifyContent="center">

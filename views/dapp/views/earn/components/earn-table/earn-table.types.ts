@@ -1,15 +1,30 @@
 import { BigNumber } from 'ethers';
 import { ReactNode } from 'react';
+import { Control } from 'react-hook-form';
+import { KeyedMutator } from 'swr';
 
-import { CurrencyAmount, ERC20, LPPairV2 } from '@/sdk';
-import { FarmV2 } from '@/sdk/entities/farm-v2';
-import { SafeFarmData } from '@/utils/farms/farms.types';
+import { InterestViewEarn } from '../../../../../../types/ethers-contracts/InterestViewEarnAbi';
+import { IEarnForm, SafeFarmSummaryData } from '../../earn.types';
 
 export interface EarnTableProps {
-  data: ReadonlyArray<SafeFarmData<ERC20 | LPPairV2>>;
-  isPools?: boolean;
   loading: boolean;
+  isDesktop: boolean;
+  farms: SafeFarmSummaryData['farms'];
   intUSDPrice: BigNumber;
+  mutate: KeyedMutator<
+    [
+      InterestViewEarn.PoolDataStructOutput[],
+      InterestViewEarn.MintDataStructOutput,
+      BigNumber[],
+      InterestViewEarn.UserFarmDataStructOutput[]
+    ] & {
+      pools: InterestViewEarn.PoolDataStructOutput[];
+      mintData: InterestViewEarn.MintDataStructOutput;
+      prices: BigNumber[];
+      farmDatas: InterestViewEarn.UserFarmDataStructOutput[];
+    }
+  >;
+  control: Control<IEarnForm>;
 }
 
 export interface EarnCardProps {
@@ -22,19 +37,8 @@ export interface EarnCardProps {
 }
 
 export interface EarnTableCollapsibleProps {
-  farmTokenPrice: CurrencyAmount<ERC20 | LPPairV2>;
-  farm: FarmV2<ERC20 | LPPairV2>;
-  intUSDPrice: BigNumber;
-}
-
-interface IUserData {
-  stakingAmount: BigNumber;
-  pendingRewards: BigNumber;
-}
-
-export interface IEarnTableData {
-  lpBalance: BigNumber;
-  totalSupply: BigNumber;
-  userData: IUserData;
-  allowance: BigNumber;
+  farm: SafeFarmSummaryData['farms'][number];
+  intUSDPrice: SafeFarmSummaryData['intUSDPrice'];
+  mutate: EarnTableProps['mutate'];
+  loading: boolean;
 }
