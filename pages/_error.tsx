@@ -1,5 +1,3 @@
-import { NextError } from 'next/dist/lib/is-error';
-
 function Error({ statusCode }: { statusCode: number }) {
   return (
     <p>
