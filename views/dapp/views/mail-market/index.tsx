@@ -4,8 +4,11 @@ import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
-import { useGetManyMailSummaryData } from '@/hooks';
-import { useIdAccount, useLocalStorage } from '@/hooks';
+import {
+  useGetManyMailSummaryData,
+  useIdAccount,
+  useLocalStorage,
+} from '@/hooks';
 import { LocalMAILMarketData } from '@/interface';
 import { flippedAppend } from '@/utils';
 import { processManyMailSummaryData } from '@/utils/mail-markets';
@@ -17,8 +20,8 @@ import MAILMarketSearchInput from './components/mail-market-search-bar';
 import { AddLocalAsset } from './mail-market.types';
 
 const MAILMarket: FC = () => {
-  const { register, control } = useForm({ defaultValues: { search: '' } });
   const { chainId } = useIdAccount();
+  const { register, control } = useForm({ defaultValues: { search: '' } });
 
   const [localAssets, setLocalAssets] = useLocalStorage<
     ReadonlyArray<LocalMAILMarketData>
