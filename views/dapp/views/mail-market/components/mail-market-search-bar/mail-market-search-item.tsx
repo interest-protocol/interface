@@ -22,14 +22,14 @@ import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
 import { SearchItemProps } from '../../mail-market.types';
 
-const [getIsDeployed, getName, getSymbol, getMarketAddress] = [
-  head,
-  nth(1),
-  nth(2),
-  nth(4),
-];
-
 const SearchItem: FC<SearchItemProps> = ({ address, addLocalAsset, data }) => {
+  const [getIsDeployed, getName, getSymbol, getMarketAddress] = [
+    head,
+    nth(1),
+    nth(2),
+    nth(4),
+  ];
+
   const { push } = useRouter();
   const { signer } = useGetSigner();
 
@@ -84,7 +84,7 @@ const SearchItem: FC<SearchItemProps> = ({ address, addLocalAsset, data }) => {
       {
         shallow: true,
       }
-    );
+    ).then();
   };
 
   const handleCreateToken = async () => createMarket(handleClick);

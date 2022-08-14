@@ -4,8 +4,8 @@ import { MAIL_MARKET_METADATA_MAP } from '@/constants/mail-markets';
 import { LocalMAILMarketData, MailMarketsSummaryData } from '@/interface';
 import { MAIL_MARKET_RISKY_TOKENS_ARRAY } from '@/sdk/constants';
 import { UnknownCoinSVG } from '@/svg';
-import { safeGetAddress } from '@/utils';
 
+import { safeGetAddress } from '../address';
 import { ProcessManyMailSummaryData } from './mail-markets.types';
 
 const getAddressArray = map<LocalMAILMarketData, string>(
