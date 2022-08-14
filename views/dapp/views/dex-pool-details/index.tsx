@@ -144,7 +144,11 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
           tokens={[
             {
               symbol: processedData.token0Metadata.symbol,
-              Icon: <FirstIcon width="1rem" />,
+              Icon: (
+                <Box as="span" display="inline-block" width="1rem">
+                  <FirstIcon width="100%" />
+                </Box>
+              ),
               balance: processedData.token0Balance,
               allowance: processedData.token0Allowance,
               decimals: processedData.token0Metadata.decimals.toNumber(),
@@ -152,7 +156,11 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
             },
             {
               symbol: processedData.token1Metadata.symbol,
-              Icon: <SecondIcon width="1rem" />,
+              Icon: (
+                <Box as="span" display="inline-block" width="1rem">
+                  <SecondIcon width="100%" />
+                </Box>
+              ),
               balance: processedData.token1Balance,
               allowance: processedData.token1Allowance,
               decimals: processedData.token1Metadata.decimals.toNumber(),
@@ -171,11 +179,13 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
             {
               symbol: processedData.token0Metadata.symbol,
               Icon: processedData.loading ? (
-                <Box width="1rem" height="1rem" borderRadius="2rem">
+                <Box width="1rem" borderRadius="2rem">
                   <Skeleton height="100%" borderRadius="2rem" />
                 </Box>
               ) : (
-                <FirstIcon width="1rem" />
+                <Box as="span" display="inline-block" width="1rem">
+                  <FirstIcon width="100%" />
+                </Box>
               ),
               address: processedData.token0,
               decimals: processedData.token0Metadata.decimals.toNumber(),
@@ -183,11 +193,13 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
             {
               symbol: processedData.token1Metadata.symbol,
               Icon: processedData.loading ? (
-                <Box width="1rem" height="1rem" borderRadius="2rem">
+                <Box width="1rem" borderRadius="2rem">
                   <Skeleton height="100%" borderRadius="2rem" />
                 </Box>
               ) : (
-                <SecondIcon width="1rem" />
+                <Box as="span" display="inline-block" width="1rem">
+                  <SecondIcon width="100%" />
+                </Box>
               ),
               address: processedData.token1,
               decimals: processedData.token1Metadata.decimals.toNumber(),

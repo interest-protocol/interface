@@ -31,7 +31,9 @@ const CopyToClipboard: FC<CopyToClipboardProps> = ({
         onClick={copyToClipboard}
         {...props}
       >
-        <CopySVG width="1rem" />
+        <Box as="span" display="inline-block" width="1rem">
+          <CopySVG width="100%" />
+        </Box>
         {children}
       </Box>
       {isMounted && (

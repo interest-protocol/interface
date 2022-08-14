@@ -132,7 +132,9 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           >
             <Box my="M" display="flex" alignItems="center">
               <>
-                <SVG width="1rem" height="1rem" />
+                <Box as="span" display="inline-block" width="1rem">
+                  <SVG width="100%" />
+                </Box>
                 <Typography mx="M" as="span" variant="normal">
                   {symbol.length > 4
                     ? symbol.toUpperCase().slice(0, 4)

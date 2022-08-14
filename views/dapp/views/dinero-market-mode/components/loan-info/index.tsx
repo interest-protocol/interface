@@ -23,11 +23,12 @@ const LoanInfo: FC<LoanInfoProps> = ({ isLoading, loanInfoData }) => (
           <Box
             mr="M"
             as="span"
+            width="1rem"
             cursor="help"
             data-tip={tip}
             display="inline-block"
           >
-            <InfoSVG width="1rem" height="1rem" />
+            <InfoSVG width="100%" />
           </Box>
           {name}
         </Typography>

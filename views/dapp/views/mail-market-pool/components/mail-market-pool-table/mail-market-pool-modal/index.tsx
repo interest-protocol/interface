@@ -346,7 +346,9 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
               bg: 'accentActive',
             }}
           >
-            <TimesSVG width="1rem" height="1rem" />
+            <Box as="span" display="inline-block" width="1rem">
+              <TimesSVG width="100%" />
+            </Box>
           </Button>
         </Box>
       </Box>
@@ -385,7 +387,9 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
           </Typography>
           <Box mt="L" key={v4()} display="flex" justifyContent="space-between">
             <Box display="flex">
-              <SVG width="1rem" height="1rem" />
+              <Box as="span" display="inline-block" width="1rem">
+                <SVG width="100%" />
+              </Box>
               <Typography ml="M" variant="normal">
                 {formatMoney(tokenValue)}
               </Typography>
@@ -453,7 +457,9 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
               >
                 {loading ? (
                   <Box as="span" display="flex" justifyContent="center">
-                    <LoadingSVG width="1rem" height="1rem" />
+                    <Box as="span" display="inline-block" width="1rem">
+                      <LoadingSVG width="100%" />
+                    </Box>
                     <Typography as="span" variant="normal" ml="M" fontSize="S">
                       Requesting allowance...
                     </Typography>
@@ -475,7 +481,7 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
               >
                 {loading ? (
                   <Box as="span" display="flex" justifyContent="center">
-                    <LoadingSVG width="1rem" height="1rem" />
+                    <LoadingSVG width="1rem" />
                     <Typography as="span" variant="normal" ml="M" fontSize="S">
                       {processLoadingMessage(base, type, data.symbol)}
                     </Typography>

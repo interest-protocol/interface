@@ -8,9 +8,9 @@ const SocialMediaCard: FC<SocialMediaCardProps> = ({ title, link, Logo }) => (
   <a href={link} target="__blank" title={title}>
     <Box
       mx="0.75rem"
-      display="flex"
       width="1rem"
       height="1rem"
+      display="flex"
       borderRadius="50%"
       alignItems="center"
       justifyContent="center"

@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 
-import { Button, Typography } from '@/elements';
+import { Box, Button, Typography } from '@/elements';
 import { NetworkSVG } from '@/svg';
 
 import { WrongNetworkModal } from './wallet-modal';
@@ -19,7 +19,9 @@ const WrongNetwork: FC = () => {
         alignItems="center"
         onClick={toggleNetworkModal}
       >
-        <NetworkSVG width="1rem" height="1rem" />
+        <Box as="span" display="inline-block" width="1rem">
+          <NetworkSVG width="100%" />
+        </Box>
         <Typography as="span" variant="normal" ml="M">
           Wrong Network
         </Typography>
