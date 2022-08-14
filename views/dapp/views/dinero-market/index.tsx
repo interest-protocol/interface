@@ -7,7 +7,13 @@ import { DineroSVG } from '@/svg';
 import { BorrowTable, LPBorrowTable } from './components';
 
 const DApp: FC = () => (
-  <Container dapp display="flex" flexDirection="column" height="100%">
+  <Container
+    dapp
+    width="100%"
+    height="100%"
+    display="flex"
+    flexDirection="column"
+  >
     <Box
       py="XL"
       width="100%"

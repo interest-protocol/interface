@@ -11,7 +11,6 @@ import {
   CHAIN_ID,
   IntMath,
   LP_DINERO_MARKET_CONTRACTS,
-  SECONDS_IN_A_YEAR,
   TOKEN_SYMBOL,
 } from '@/sdk';
 import { TimesSVG } from '@/svg';
@@ -96,11 +95,11 @@ const LPBorrowTable: FC = () => {
               ),
             },
             {
-              tip: 'The annual cost of a loan to a borrower, <br /> expressed as a percentage',
+              tip: 'A penalty fee charged to a borrower when his/her position is liquidated.<br />It is expressed as a percentage of the loan',
               item: (
                 <>
-                  Interest Cost <br />
-                  (APR)
+                  Liquidation <br />
+                  Fee
                 </>
               ),
             },
@@ -157,9 +156,7 @@ const LPBorrowTable: FC = () => {
                     .toNumber()
                 ),
                 IntMath.from(data[index].maxLTVRatio).toPercentage(0),
-                IntMath.from(
-                  data[index].interestRate.mul(SECONDS_IN_A_YEAR)
-                ).toPercentage(2),
+                IntMath.from(data[index].liquidationFee).toPercentage(2),
               ],
             };
           })}
@@ -198,10 +195,11 @@ const LPBorrowTable: FC = () => {
               ),
             },
             {
+              tip: 'A penalty fee charged to a borrower when his/her position is liquidated.<br />It is expressed as a percentage of the loan',
               item: (
                 <>
-                  Interest Cost <br />
-                  (APR)
+                  Liquidation <br />
+                  Fee
                 </>
               ),
             },
@@ -271,9 +269,7 @@ const LPBorrowTable: FC = () => {
                       .toNumber()
                   ),
                   IntMath.from(data[index].maxLTVRatio).toPercentage(0),
-                  IntMath.from(
-                    data[index].interestRate.mul(SECONDS_IN_A_YEAR)
-                  ).toPercentage(2),
+                  IntMath.from(data[index].liquidationFee).toPercentage(2),
                 ],
               };
             }

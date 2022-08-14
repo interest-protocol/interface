@@ -22,7 +22,6 @@ import { useIdAccount } from '@/hooks/use-id-account';
 import { CHAIN_ID, DINERO_MARKET_CONTRACT_MAP, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import {
-  getBTCAddress,
   getDNRAddress,
   safeToBigNumber,
   showToast,
@@ -66,7 +65,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
   const tokenSymbol = (find(
     propEq('address', address),
     values(ERC_20_DATA[chainId])
-  )?.symbol ?? TOKEN_SYMBOL.Unknown) as TOKEN_SYMBOL;
+  )?.symbol ?? TOKEN_SYMBOL.BTC) as TOKEN_SYMBOL;
 
   const dispatch = useDispatch();
 
@@ -116,17 +115,14 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     error,
   } = useGetUserDineroMarketData(
     DINERO_MARKET_CONTRACT_MAP[CHAIN_ID.BNB_TEST_NET][tokenSymbol],
-    [getBTCAddress(CHAIN_ID.BNB_TEST_NET), getDNRAddress(CHAIN_ID.BNB_TEST_NET)]
+    [address, getDNRAddress(CHAIN_ID.BNB_TEST_NET)]
   );
 
   const data = useMemo(
     () =>
       processDineroMarketUserData(
         chainId,
-        [
-          getBTCAddress(CHAIN_ID.BNB_TEST_NET),
-          getDNRAddress(CHAIN_ID.BNB_TEST_NET),
-        ],
+        [address, getDNRAddress(CHAIN_ID.BNB_TEST_NET)],
         rawData
       ),
     [rawData, chainId]
@@ -407,9 +403,10 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
             isLoading={data.market.exchangeRate.isZero() && !error}
           />
           <MyOpenPosition
-            isLoading={data.market.exchangeRate.isZero() && !error}
+            tokenSymbol={tokenSymbol}
             myPositionData={myPositionData}
             exchangeRate={data.market.exchangeRate}
+            isLoading={data.market.exchangeRate.isZero() && !error}
           />
           <YourBalance
             loading={data.market.exchangeRate.isZero() && !error}

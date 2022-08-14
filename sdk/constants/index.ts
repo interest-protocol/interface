@@ -96,7 +96,7 @@ export const DINERO_MARKET_CONTRACT_MAP = {
     [TOKEN_SYMBOL.BTC]: ethers.utils.getAddress(
       '0x926f8FB78f5769a3D724A8ffC7058528C86939E1'
     ),
-    [TOKEN_SYMBOL.BNB]: ethers.utils.getAddress(
+    [TOKEN_SYMBOL.WBNB]: ethers.utils.getAddress(
       // TODO: change address
       '0x926f8FB78f5769a3D724A8ffC7058528C86939E1'
     ),
@@ -115,7 +115,7 @@ export const DINERO_MARKET_CONTRACTS = {
     },
     {
       marketAddress:
-        DINERO_MARKET_CONTRACT_MAP[CHAIN_ID.BNB_TEST_NET][TOKEN_SYMBOL.BNB],
+        DINERO_MARKET_CONTRACT_MAP[CHAIN_ID.BNB_TEST_NET][TOKEN_SYMBOL.WBNB],
       collateralSymbol: TOKEN_SYMBOL.WBNB,
       collateralAddress: ethers.utils.getAddress(
         // TODO: change the address

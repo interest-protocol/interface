@@ -12,6 +12,7 @@ import { MyOpenPositionProps } from './my-open-position.types';
 
 const MyOpenPosition: FC<MyOpenPositionProps> = ({
   isLoading,
+  tokenSymbol,
   exchangeRate,
   myPositionData,
 }) => (
@@ -59,7 +60,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
         DNR: {formatDollars(1)}
       </Typography>
       <Typography as="div" variant="normal" textAlign="center" mb="M">
-        BTC:{' '}
+        {tokenSymbol}:{' '}
         {isLoading ? (
           <Typography
             as="span"
