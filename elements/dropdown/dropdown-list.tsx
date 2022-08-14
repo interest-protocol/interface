@@ -35,7 +35,7 @@ const DropdownList: FC<DropdownListProps> = ({
   const closeDropdown = useCallback((event: any) => {
     if (
       event?.path?.some((node: any) => node?.id == dropdownWrapperId) ||
-      event.composedPath().some((node: any) => node?.id == dropdownWrapperId)
+      event?.composedPath()?.some((node: any) => node?.id == dropdownWrapperId)
     ) {
       return;
     }
