@@ -1,9 +1,30 @@
+import { prop } from 'ramda';
 import { FC } from 'react';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
+import {
+  useGetManyMailSummaryData,
+  useIdAccount,
+  useLocalStorage,
+} from '@/hooks';
+import { LocalMAILMarketData } from '@/interface';
 
 const MAILMarket: FC = () => {
+  const { chainId } = useIdAccount();
+
+  const [localAssets, setLocalAssets] = useLocalStorage<
+    ReadonlyArray<LocalMAILMarketData>
+  >(`${chainId}-interest-protocol-mail-markets`, []);
+
+  const { data, error } = useGetManyMailSummaryData(
+    localAssets.map(prop('token'))
+  );
+
+  console.log(data);
+  console.log(error);
+  console.log(setLocalAssets);
+
   return (
     <>
       <Box flex="1" display="flex" flexDirection="column">
