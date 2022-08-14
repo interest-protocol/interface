@@ -33,7 +33,10 @@ const DropdownList: FC<DropdownListProps> = ({
   const [safeMarginRight, setSafeMarginRight] = useState<boolean>(false);
 
   const closeDropdown = useCallback((event: any) => {
-    if (event?.path?.some((node: any) => node?.id == dropdownWrapperId)) {
+    if (
+      event?.path?.some((node: any) => node?.id == dropdownWrapperId) ||
+      event?.composedPath()?.some((node: any) => node?.id == dropdownWrapperId)
+    ) {
       return;
     }
     setIsOpen(false);
