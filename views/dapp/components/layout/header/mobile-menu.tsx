@@ -19,7 +19,9 @@ const MobileMenu: FC = () => (
           alignItems="center"
           justifyContent="center"
         >
-          <BarsSVG width="1rem" height="1rem" />
+          <Box as="span" display="inline-block" width="1rem">
+            <BarsSVG width="100%" />
+          </Box>
         </Box>
       }
       data={[

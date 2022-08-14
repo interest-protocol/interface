@@ -29,7 +29,9 @@ const renderData = (
           justifyContent="space-between"
         >
           <Box my="M" display="flex" alignItems="center">
-            <SVG width="1rem" height="1rem" />
+            <Box as="span" display="inline-block" width="1rem">
+              <SVG width="100%" />
+            </Box>
             <Typography
               mx="M"
               as="span"
@@ -40,7 +42,9 @@ const renderData = (
               {symbol}
             </Typography>
           </Box>
-          <ArrowSVG width="0.5rem" />
+          <Box as="span" display="inline-block" width="0.5rem">
+            <ArrowSVG width="100%" />
+          </Box>
         </Box>
       ),
       value: symbol,
@@ -78,7 +82,10 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
             Select a Token
           </Typography>
         </Box>
-        <ArrowSVG width="0.5rem" />
+
+        <Box as="span" display="inline-block" width="0.5rem">
+          <ArrowSVG width="100%" />
+        </Box>
       </Box>
     }
     data={renderData(tokens, onSelectCurrency)}

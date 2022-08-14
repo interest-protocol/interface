@@ -22,14 +22,14 @@ import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
 import { SearchItemProps } from '../../mail-market.types';
 
-const SearchItem: FC<SearchItemProps> = ({ address, addLocalAsset, data }) => {
-  const [getIsDeployed, getName, getSymbol, getMarketAddress] = [
-    head,
-    nth(1),
-    nth(2),
-    nth(4),
-  ];
+const [getIsDeployed, getName, getSymbol, getMarketAddress] = [
+  head,
+  nth(1),
+  nth(2),
+  nth(4),
+];
 
+const SearchItem: FC<SearchItemProps> = ({ address, addLocalAsset, data }) => {
   const { push } = useRouter();
   const { signer } = useGetSigner();
 
@@ -171,7 +171,9 @@ const SearchItem: FC<SearchItemProps> = ({ address, addLocalAsset, data }) => {
           >
             {createMarketLoading ? (
               <Box display="flex">
-                <LoadingSVG width="1rem" />
+                <Box as="span" display="inline-block" width="1rem">
+                  <LoadingSVG width="100%" />
+                </Box>
                 <Typography ml="M" variant="normal">
                   Creating
                 </Typography>

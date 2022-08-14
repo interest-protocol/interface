@@ -64,12 +64,13 @@ const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
           <Box display="flex" alignItems="center">
             <Box
               mr="M"
+              width="1rem"
               cursor="help"
               display="flex"
               data-tip={tip}
               alignItems="center"
             >
-              <InfoSVG width="1rem" height="1rem" />
+              <InfoSVG width="100%" />
             </Box>
             <Typography variant="normal" as="span">
               {text}

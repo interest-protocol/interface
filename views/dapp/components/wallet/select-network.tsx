@@ -21,8 +21,8 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
         buttonMode
         mode="select"
         suffix={
-          <Box display={['none', 'none', 'none', 'block']}>
-            <ArrowSVG width="0.6rem" height="0.6rem" />
+          <Box display={['none', 'none', 'none', 'block']} width="0.6rem">
+            <ArrowSVG width="100%" />
           </Box>
         }
         title="Choose Network"
@@ -34,7 +34,9 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
             onSelect: () => switchNetwork(CHAIN_ID.BNB_TEST_NET),
             displayOption: (
               <Box px="L" display="flex" alignItems="center">
-                <BinanceTestSVG width="1.5rem" height="1.5rem" />
+                <Box as="span" display="inline-block" width="1.5rem">
+                  <BinanceTestSVG width="100%" />
+                </Box>
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
                   BNBT
                 </Typography>

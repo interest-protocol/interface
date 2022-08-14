@@ -25,7 +25,9 @@ const SearchItemWrapper: FC<SearchItemWrapperProps> = ({
           display="inline-flex"
           justifyContent="center"
         >
-          <TimesSVG width="1rem" />
+          <Box as="span" display="inline-block" width="1rem">
+            <TimesSVG width="100%" />
+          </Box>
         </Box>
         <Box ml="M">
           <Typography variant="normal" fontWeight="600">

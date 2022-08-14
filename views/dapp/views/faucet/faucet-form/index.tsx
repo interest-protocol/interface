@@ -158,7 +158,9 @@ const FaucetForm: FC<FaucetFormProps> = ({
               >
                 {loading ? (
                   <Box as="span" display="flex" justifyContent="center">
-                    <LoadingSVG width="1rem" height="1rem" />
+                    <Box as="span" display="inline-block" width="1rem">
+                      <LoadingSVG width="100%" />
+                    </Box>
                     <Typography as="span" variant="normal" ml="M" fontSize="S">
                       Minting...
                     </Typography>
@@ -194,7 +196,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
             {isLoadingData
               ? Array.from({ length: 5 }).map(() => (
                   <Box mb="L" key={v4()}>
-                    <Skeleton height="1rem" />
+                    <Skeleton />
                   </Box>
                 ))
               : tokens.map(({ symbol, address, balance }) => {
@@ -217,7 +219,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
                       justifyContent="space-between"
                     >
                       <Box display="flex" alignItems="center">
-                        <SVG width="1rem" height="1rem" />
+                        <SVG width="1rem" />
                         <Typography ml="M" variant="normal">
                           {formatMoney(IntMath.toNumber(balance, decimals))}
                         </Typography>
@@ -249,7 +251,9 @@ const FaucetForm: FC<FaucetFormProps> = ({
                             }}
                             onClick={() => removeLocalToken(address)}
                           >
-                            <TimesSVG width="1rem" />
+                            <Box as="span" display="inline-block" width="1rem">
+                              <TimesSVG width="100%" />
+                            </Box>
                           </Box>
                         )}
                       </Box>

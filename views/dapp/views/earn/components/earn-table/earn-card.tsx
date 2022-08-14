@@ -35,11 +35,11 @@ const EarnCard: FC<EarnCardProps> = ({
     >
       <Box>
         <Typography
-          width={['10rem', '10rem', '10rem', '14rem']}
           variant="title4"
           fontWeight="400"
           mb={['L', 'L', 'L', 'XXL']}
           textAlign={['left', 'left', 'left', 'center']}
+          maxWidth={['10rem', '10rem', '10rem', '14rem']}
         >
           {loading ? <Skeleton height="1.2rem" width="100%" /> : title}
         </Typography>
@@ -48,10 +48,10 @@ const EarnCard: FC<EarnCardProps> = ({
           textAlign={['left', 'left', 'left', 'center']}
         >
           <Typography variant="normal" width="100%">
-            {loading ? <Skeleton height="1rem" width="100%" /> : amount}
+            {loading ? <Skeleton width="100%" /> : amount}
           </Typography>
           <Typography variant="normal" width="100%">
-            {loading ? <Skeleton height="1rem" width="100%" /> : amountUSD}
+            {loading ? <Skeleton width="100%" /> : amountUSD}
           </Typography>
         </Box>
       </Box>

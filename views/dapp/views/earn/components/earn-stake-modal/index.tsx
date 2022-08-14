@@ -77,7 +77,9 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
                 bg: 'accentActive',
               }}
             >
-              <TimesSVG width="1rem" height="1rem" />
+              <Box as="span" display="inline-block" width="1rem">
+                <TimesSVG width="100%" />
+              </Box>
             </Button>
           </Box>
         </Box>
@@ -95,10 +97,11 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
                   {Icon.map((SVG, index) => (
                     <Box
                       key={v4()}
+                      width="1.6rem"
                       zIndex={Icon.length - index}
                       ml={index != 0 ? '-0.5rem' : 'NONE'}
                     >
-                      <SVG width="1.6rem" height="1.6rem" />
+                      <SVG width="100%" />
                     </Box>
                   ))}
                 </Box>
@@ -143,8 +146,8 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
             hover={{ bg: 'accentActive' }}
           >
             {loading && (
-              <Box mr="M">
-                <LoadingSVG width="1rem" />
+              <Box mr="M" width="1rem">
+                <LoadingSVG width="100%" />
               </Box>
             )}
             {loading ? 'Confirming...' : 'Confirm'}

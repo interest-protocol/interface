@@ -72,7 +72,9 @@ const ConnectedWallet: FC = () => {
             coreData.nativeBalance
           ).toNumber()} ${getNativeCurrencySymbol(chainId || 0)}`
         ) : (
-          <LoadingSVG width="1rem" height="1rem" />
+          <Box as="span" display="inline-block" width="1rem">
+            <LoadingSVG width="100%" />
+          </Box>
         )}
       </Typography>
       <Button
