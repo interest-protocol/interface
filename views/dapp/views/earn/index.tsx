@@ -108,7 +108,9 @@ const Earn: FC = () => {
             dataLength={data.farms.length}
             loader={
               <Box display="flex" alignItems="center" justifyContent="center">
-                <LoadingSVG width="1rem" />
+                <Box as="span" display="inline-block" width="1rem">
+                  <LoadingSVG width="100%" />
+                </Box>
                 <Typography fontSize="S" variant="normal" ml="M">
                   Loading
                 </Typography>

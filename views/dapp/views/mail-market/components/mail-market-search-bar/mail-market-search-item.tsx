@@ -171,7 +171,9 @@ const SearchItem: FC<SearchItemProps> = ({ address, addLocalAsset, data }) => {
           >
             {createMarketLoading ? (
               <Box display="flex">
-                <LoadingSVG width="1rem" />
+                <Box as="span" display="inline-block" width="1rem">
+                  <LoadingSVG width="100%" />
+                </Box>
                 <Typography ml="M" variant="normal">
                   Creating
                 </Typography>

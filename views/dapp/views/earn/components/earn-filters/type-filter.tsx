@@ -42,8 +42,12 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
           bgSelected="accentAlternativeBackground"
           emptyMessage="Not found Tokens"
           suffix={
-            <Box ml="L" display={['none', 'none', 'none', 'block']}>
-              <ArrowSVG width="0.6rem" height="0.6rem" />
+            <Box
+              ml="L"
+              width="0.6rem"
+              display={['none', 'none', 'none', 'block']}
+            >
+              <ArrowSVG width="100%" />
             </Box>
           }
           title={

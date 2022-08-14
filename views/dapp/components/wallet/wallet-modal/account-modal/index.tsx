@@ -111,7 +111,9 @@ const AccountModal: FC<AccountModalProps> = ({
                 cursor="pointer"
                 hover={{ color: 'text' }}
               >
-                <LinkSVG width="1rem" height="1rem" />
+                <Box as="span" display="inline-block" width="1rem">
+                  <LinkSVG width="100%" />
+                </Box>
                 <Typography variant="normal" ml="M" fontSize="S">
                   View on Explorer
                 </Typography>

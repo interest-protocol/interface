@@ -77,8 +77,8 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
               hover={{ bg: 'accentActive' }}
               bg={isOpenDropdown ? 'accent' : 'bottomBackground'}
             >
-              <AnimatedBox style={{ transform: arrowInvert }}>
-                <ArrowSVG width="0.5rem" />
+              <AnimatedBox style={{ transform: arrowInvert }} width="0.5rem">
+                <ArrowSVG width="100%" />
               </AnimatedBox>
             </Button>
           )}
@@ -127,8 +127,8 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
               hover={{ bg: 'accentActive' }}
               bg={isOpenDropdown ? 'accent' : 'bottomBackground'}
             >
-              <AnimatedBox style={{ transform: arrowInvert }}>
-                <ArrowSVG width="0.5rem" />
+              <AnimatedBox style={{ transform: arrowInvert }} width="0.5rem">
+                <ArrowSVG width="100%" />
               </AnimatedBox>
             </Button>
           )}

@@ -22,8 +22,8 @@ const SwitchingNetwork: FC = () => {
         onClick={toggleModal}
         px={['L', 'L', 'L', 'XL']}
       >
-        <Box my="S">
-          <LoadingSVG width="1rem" />
+        <Box my="S" width="1rem">
+          <LoadingSVG width="100%" />
         </Box>
         <Typography variant="normal" ml="M" my="S" whiteSpace="nowrap">
           Switching Network

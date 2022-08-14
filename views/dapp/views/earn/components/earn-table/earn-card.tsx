@@ -48,10 +48,10 @@ const EarnCard: FC<EarnCardProps> = ({
           textAlign={['left', 'left', 'left', 'center']}
         >
           <Typography variant="normal" width="100%">
-            {loading ? <Skeleton height="1rem" width="100%" /> : amount}
+            {loading ? <Skeleton width="100%" /> : amount}
           </Typography>
           <Typography variant="normal" width="100%">
-            {loading ? <Skeleton height="1rem" width="100%" /> : amountUSD}
+            {loading ? <Skeleton width="100%" /> : amountUSD}
           </Typography>
         </Box>
       </Box>

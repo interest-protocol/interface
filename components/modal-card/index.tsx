@@ -34,7 +34,9 @@ const ModalCard: FC<ModalCardProps> = ({ children, onClose, color }) => (
       justifyContent="center"
       onClick={onClose}
     >
-      <TimesSVG width="1rem" height="1rem" />
+      <Box as="span" display="inline-block" width="1rem">
+        <TimesSVG width="100%" />
+      </Box>
     </Box>
     {children}
   </Box>

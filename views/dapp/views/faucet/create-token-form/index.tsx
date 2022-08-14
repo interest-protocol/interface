@@ -106,7 +106,9 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
             bg: 'accentActive',
           }}
         >
-          <TimesSVG width="1rem" height="1rem" />
+          <Box as="span" display="inline-block" width="1rem">
+            <TimesSVG width="100%" />
+          </Box>
         </Button>
       </Box>
       <Box bg="foreground" my="M" borderRadius="L" p="XL" color="text">
@@ -144,7 +146,9 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
           >
             {loading ? (
               <Box display="flex" alignItems="center" justifyContent="center">
-                <LoadingSVG width="1rem" />
+                <Box as="span" display="inline-block" width="1rem">
+                  <LoadingSVG width="100%" />
+                </Box>
                 <Typography fontSize="S" variant="normal" ml="M">
                   Creating Token
                 </Typography>

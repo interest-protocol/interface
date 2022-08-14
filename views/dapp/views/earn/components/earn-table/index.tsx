@@ -110,12 +110,13 @@ const EarnTable: FC<EarnTableProps> = ({
                         ).map(({ SVG, highZIndex }, index) => (
                           <Box
                             key={v4()}
+                            width="1.6rem"
                             ml={index != 0 ? '-0.5rem' : 'NONE'}
                             zIndex={
                               index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'
                             }
                           >
-                            <SVG width="1.6rem" height="1.6rem" />
+                            <SVG width="100%" />
                           </Box>
                         ))}
                       </Box>
@@ -221,6 +222,7 @@ const EarnTable: FC<EarnTableProps> = ({
                           ).map(({ SVG, highZIndex }, index) => (
                             <Box
                               key={v4()}
+                              width="1.6rem"
                               ml={index != 0 ? '-0.5rem' : 'NONE'}
                               zIndex={
                                 index == 0
@@ -230,7 +232,7 @@ const EarnTable: FC<EarnTableProps> = ({
                                   : 'unset'
                               }
                             >
-                              <SVG width="1.6rem" height="1.6rem" />
+                              <SVG width="100%" />
                             </Box>
                           ))}
                         </Box>

@@ -98,7 +98,11 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
             bg={isSubmitting ? 'accentActive' : 'accent'}
             cursor={isSubmitting ? 'not-allowed' : 'pointer'}
           >
-            {isSubmitting && <LoadingSVG width="1rem" height="1rem" />}
+            {isSubmitting && (
+              <Box as="span" display="inline-block" width="1rem">
+                <LoadingSVG width="100%" />
+              </Box>
+            )}
             <Typography
               fontSize="S"
               as="span"
@@ -133,7 +137,11 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
             bg={isSubmitting ? 'accentActive' : 'accent'}
             cursor={isSubmitting ? 'not-allowed' : 'pointer'}
           >
-            {isSubmitting && <LoadingSVG width="1rem" height="1rem" />}
+            {isSubmitting && (
+              <Box as="span" display="inline-block" width="1rem">
+                <LoadingSVG width="100%" />
+              </Box>
+            )}
             <Typography
               fontSize="S"
               as="span"
@@ -171,7 +179,11 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
           bg={isSubmitting ? 'accentActive' : 'accent'}
           cursor={isSubmitting ? 'not-allowed' : 'pointer'}
         >
-          {isSubmitting && <LoadingSVG width="1rem" height="1rem" />}
+          {isSubmitting && (
+            <Box as="span" display="inline-block" width="1rem">
+              <LoadingSVG width="100%" />
+            </Box>
+          )}
           <Typography
             fontSize="S"
             as="span"

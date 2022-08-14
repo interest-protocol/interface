@@ -28,16 +28,13 @@ const Header: FC = () => {
           <Box
             mr="XL"
             color="text"
+            width="2.5rem"
+            height="2.5rem"
             cursor="pointer"
             hover={{ color: 'accent' }}
             active={{ color: 'accentSecondary' }}
           >
-            <LogoSVG
-              width="2.5rem"
-              height="2.5rem"
-              aria-label="Logo"
-              fill="currentColor"
-            />
+            <LogoSVG width="100%" aria-label="Logo" fill="currentColor" />
           </Box>
         </Link>
         <a href="https://forms.gle/aDP4wHvshLPKkKv97" target="__blank">

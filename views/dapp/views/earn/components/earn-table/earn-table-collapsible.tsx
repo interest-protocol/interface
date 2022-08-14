@@ -246,7 +246,9 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
             >
               {loadingPool ? (
                 <Box as="span" display="flex" justifyContent="center">
-                  <LoadingSVG width="1rem" height="1rem" />
+                  <Box as="span" display="inline-block" width="1rem">
+                    <LoadingSVG width="100%" />
+                  </Box>
                   <Typography as="span" variant="normal" ml="M" fontSize="S">
                     Approving...
                   </Typography>

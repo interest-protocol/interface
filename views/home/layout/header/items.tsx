@@ -25,7 +25,7 @@ export const ItemsCommunity: FC = always(
               color: 'accent',
             }}
           >
-            <socialMediaData.Logo height="1rem" />
+            <socialMediaData.Logo />
             <Typography variant="normal" ml="M">
               {socialMediaData.title}
             </Typography>

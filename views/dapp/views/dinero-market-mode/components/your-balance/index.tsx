@@ -33,7 +33,9 @@ const YourBalance: FC<YourBalanceProps> = ({ loading, dineroPair }) => (
         return (
           <Box my="L" key={v4()} display="flex" justifyContent="space-between">
             <Box display="flex">
-              <SVG width="1rem" height="1rem" />
+              <Box as="span" display="inline-block" width="1rem">
+                <SVG width="100%" />
+              </Box>
               <Typography ml="M" variant="normal">
                 {erc20.name}
               </Typography>
