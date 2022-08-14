@@ -56,17 +56,6 @@ const MAILMarket: FC = () => {
             <Typography variant="normal" ml="M">
               Multi-asset Isolated Lending Markets
             </Typography>
-            {!!recommendedMarkets.length && localMarkets.length > 6 && (
-              <Typography
-                color="accent"
-                variant="normal"
-                hover={{
-                  color: 'accentActive',
-                }}
-              >
-                <a href="#recommended">See recommended</a>
-              </Typography>
-            )}
           </Box>
           <MAILMarketSearchInput
             chainId={chainId}
