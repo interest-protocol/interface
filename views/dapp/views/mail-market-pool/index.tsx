@@ -108,7 +108,6 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             display="grid"
             gridColumnGap="1rem"
             gridTemplateColumns="1fr 1fr"
-            bg="red"
           >
             <MAILMarketPoolBalance
               text=" My supply balance"
