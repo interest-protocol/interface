@@ -4,7 +4,7 @@ import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
 import { DineroSVG } from '@/svg';
 
-import { BorrowTable, LPBorrowTable } from './components';
+import { BorrowTable } from './components';
 
 const DApp: FC = () => (
   <Container
@@ -27,7 +27,6 @@ const DApp: FC = () => (
       </Typography>
     </Box>
     <BorrowTable />
-    <LPBorrowTable />
   </Container>
 );
 

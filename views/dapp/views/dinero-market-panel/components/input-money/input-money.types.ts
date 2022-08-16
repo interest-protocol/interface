@@ -1,6 +1,6 @@
-import { FC, SVGAttributes } from 'react';
 import { UseFormReturn, UseFormStateReturn } from 'react-hook-form';
 
+import { TypeSVG } from '@/interface';
 import { SafeDineroMarketUserData } from '@/utils/dinero-market/dinero-market.types';
 
 import { IBorrowForm } from '../../dinero-market.types';
@@ -16,8 +16,8 @@ export interface InputMoneyProps
   currency: string;
   amountUSD: number;
   data: SafeDineroMarketUserData;
-  CurrencySVG: FC<SVGAttributes<SVGSVGElement>>;
   errors: UseFormStateReturn<IBorrowForm>['errors'];
+  currencyIcons: [TypeSVG, TypeSVG | null];
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
   disabled: boolean;
 }

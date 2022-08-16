@@ -35,5 +35,6 @@ export interface FormsProps {
   onSubmitBorrow: () => void;
   data: SafeDineroMarketUserData;
   form: UseFormReturn<IBorrowForm>;
+  symbols: [string, string | undefined];
   handleAddAllowance: () => Promise<void>;
 }

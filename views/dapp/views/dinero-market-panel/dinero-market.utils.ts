@@ -1,7 +1,7 @@
 import { propEq } from 'ramda';
 import { UseFormReturn } from 'react-hook-form';
 
-import { LP_DINERO_MARKET_CONTRACTS } from '@/sdk';
+import { DINERO_MARKET_CONTRACTS, IMarketContractsChainData } from '@/sdk';
 import { IBorrowForm } from '@/views/dapp/views/dinero-market-panel/dinero-market.types';
 
 export const isFormBorrowEmpty = (form: UseFormReturn<IBorrowForm>) =>
@@ -18,4 +18,9 @@ export const isFormRepayEmpty = (form: UseFormReturn<IBorrowForm>) =>
 export const isPairInterestDineroMarketPair = (
   address: string,
   chainId: number
-) => LP_DINERO_MARKET_CONTRACTS[chainId].some(propEq('marketAddress', address));
+): boolean =>
+  (
+    DINERO_MARKET_CONTRACTS[chainId].find(
+      propEq('marketAddress', address)
+    ) as IMarketContractsChainData
+  )?.collateralSymbols.length > 1;

@@ -115,18 +115,25 @@ const BorrowTable: FC = () => {
             },
           ]}
           data={DINERO_MARKET_CONTRACTS[chainId].map((x, index) => {
-            const erc20 = getERC20Data(chainId, x.collateralAddress);
+            const [tokenA, tokenB] = x.collateralAddresses.map((address) =>
+              getERC20Data(chainId, address)
+            );
 
-            const Icon =
-              TOKENS_SVG_MAP[erc20.symbol] ??
-              TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+            const [Icon, PairIcon] = [
+              TOKENS_SVG_MAP[tokenA.symbol] ??
+                TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown],
+              tokenB
+                ? TOKENS_SVG_MAP[tokenB.symbol] ??
+                  TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown]
+                : null,
+            ];
 
             return {
               button: (
                 <Link
                   href={{
                     pathname: Routes[RoutesEnum.DineroMarketBorrow],
-                    query: { address: erc20.address },
+                    query: { address: x.marketAddress },
                   }}
                 >
                   <Button
@@ -140,11 +147,21 @@ const BorrowTable: FC = () => {
               ),
               items: [
                 <Box key={v4()} display="flex" alignItems="center">
-                  <Box as="span" display="inline-block" width="1.4rem">
+                  <Box display="inline-block" as="span" width="1.4rem">
                     <Icon width="100%" />
                   </Box>
+                  <Box
+                    as="span"
+                    ml="-0.5rem"
+                    width="1.4rem"
+                    display="inline-block"
+                  >
+                    {PairIcon ? <PairIcon width="100%" /> : null}
+                  </Box>
                   <Typography variant="normal" ml="M">
-                    {`${erc20.name} (${erc20.symbol})`}
+                    {tokenB
+                      ? `LP (${tokenA.symbol} - ${tokenB.symbol})`
+                      : `${tokenA.name} (${tokenA.symbol})`}
                   </Typography>
                 </Box>,
                 formatDollars(
@@ -153,9 +170,11 @@ const BorrowTable: FC = () => {
                     .toNumber()
                 ),
                 IntMath.from(data[index].maxLTVRatio).toPercentage(0),
-                IntMath.from(
-                  data[index].interestRate.mul(SECONDS_IN_A_YEAR)
-                ).toPercentage(2),
+                tokenB
+                  ? 'N/A'
+                  : IntMath.from(
+                      data[index].interestRate.mul(SECONDS_IN_A_YEAR)
+                    ).toPercentage(2),
                 IntMath.from(data[index].liquidationFee).toPercentage(2),
               ],
             };
@@ -213,11 +232,18 @@ const BorrowTable: FC = () => {
           ]}
           data={DINERO_MARKET_CONTRACTS[CHAIN_ID.BNB_TEST_NET].map(
             (x, index) => {
-              const erc20 = getERC20Data(chainId, x.collateralAddress);
+              const [tokenA, tokenB] = x.collateralAddresses.map((address) =>
+                getERC20Data(chainId, address)
+              );
 
-              const Icon =
-                TOKENS_SVG_MAP[erc20.symbol] ??
-                TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+              const [Icon, PairIcon] = [
+                TOKENS_SVG_MAP[tokenA.symbol] ??
+                  TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown],
+                tokenB
+                  ? TOKENS_SVG_MAP[tokenB.symbol] ??
+                    TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown]
+                  : null,
+              ];
 
               return {
                 mobileSide: (
@@ -229,11 +255,21 @@ const BorrowTable: FC = () => {
                     flexDirection="column"
                     justifyContent="center"
                   >
-                    <Box as="span" display="inline-block" width="1.4rem">
+                    <Box display="inline-block" as="span" width="1.4rem">
                       <Icon width="100%" />
                     </Box>
+                    <Box
+                      as="span"
+                      ml="-0.5rem"
+                      width="1.4rem"
+                      display="inline-block"
+                    >
+                      {PairIcon ? <PairIcon width="100%" /> : null}
+                    </Box>
                     <Typography variant="normal" textAlign="center" mt="M">
-                      {`${erc20.name} (${erc20.symbol})`}
+                      {tokenB
+                        ? `LP (${tokenA.symbol} - ${tokenB.symbol})`
+                        : `${tokenA.name} (${tokenA.symbol})`}
                     </Typography>
                   </Box>
                 ),
@@ -241,7 +277,7 @@ const BorrowTable: FC = () => {
                   <Link
                     href={{
                       pathname: Routes[RoutesEnum.DineroMarketBorrow],
-                      query: { address: erc20.address },
+                      query: { address: x.marketAddress },
                     }}
                   >
                     <Button
@@ -263,9 +299,11 @@ const BorrowTable: FC = () => {
                       .toNumber()
                   ),
                   IntMath.from(data[index].maxLTVRatio).toPercentage(0),
-                  IntMath.from(
-                    data[index].interestRate.mul(SECONDS_IN_A_YEAR)
-                  ).toPercentage(2),
+                  tokenB
+                    ? 'N/A'
+                    : IntMath.from(
+                        data[index].interestRate.mul(SECONDS_IN_A_YEAR)
+                      ).toPercentage(2),
                   IntMath.from(data[index].liquidationFee).toPercentage(2),
                 ],
               };

@@ -1,7 +1,10 @@
 import { BigNumber } from 'ethers';
+import { FC, SVGAttributes } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IEmptyObject {}
+
+export type TypeSVG = FC<SVGAttributes<SVGSVGElement>>;
 
 export interface IReserves {
   reserve0: BigNumber;

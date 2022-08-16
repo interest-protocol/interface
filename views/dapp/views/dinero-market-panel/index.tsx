@@ -19,7 +19,12 @@ import { ERC_20_DATA, RoutesEnum } from '@/constants';
 import { Box } from '@/elements';
 import { useGetSigner, useGetUserDineroMarketData } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
-import { CHAIN_ID, DINERO_MARKET_CONTRACT_MAP, TOKEN_SYMBOL } from '@/sdk';
+import {
+  CHAIN_ID,
+  DINERO_MARKET_CONTRACT_MAP,
+  DINERO_MARKET_CONTRACTS,
+  TOKEN_SYMBOL,
+} from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import {
   getDNRAddress,
@@ -62,10 +67,15 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
 
   const isPairAddress = isPairInterestDineroMarketPair(address, chainId);
 
-  const tokenSymbol = (find(
-    propEq('address', address),
-    values(ERC_20_DATA[chainId])
-  )?.symbol ?? TOKEN_SYMBOL.BTC) as TOKEN_SYMBOL;
+  const tokensAddresses = DINERO_MARKET_CONTRACTS[chainId].find(
+    propEq('marketAddress', address)
+  )!.collateralAddresses!;
+
+  const [tokenSymbol, pairTokenSymbol] = tokensAddresses!.map(
+    (tokenAddress) =>
+      (find(propEq('address', tokenAddress), values(ERC_20_DATA[chainId]))
+        ?.symbol ?? TOKEN_SYMBOL.BTC) as TOKEN_SYMBOL
+  );
 
   const dispatch = useDispatch();
 
@@ -113,16 +123,16 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     data: rawData,
     mutate,
     error,
-  } = useGetUserDineroMarketData(
-    DINERO_MARKET_CONTRACT_MAP[CHAIN_ID.BNB_TEST_NET][tokenSymbol],
-    [address, getDNRAddress(CHAIN_ID.BNB_TEST_NET)]
-  );
+  } = useGetUserDineroMarketData(address, [
+    tokensAddresses![0],
+    getDNRAddress(CHAIN_ID.BNB_TEST_NET),
+  ]);
 
   const data = useMemo(
     () =>
       processDineroMarketUserData(
         chainId,
-        [address, getDNRAddress(CHAIN_ID.BNB_TEST_NET)],
+        [tokensAddresses![0], getDNRAddress(CHAIN_ID.BNB_TEST_NET)],
         rawData
       ),
     [rawData, chainId]
@@ -392,6 +402,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
             onSubmitRepay={onSubmitRepay}
             onSubmitBorrow={onSubmitBorrow}
             handleAddAllowance={submitAllowance}
+            symbols={[tokenSymbol, pairTokenSymbol]}
             isGettingData={data.market.exchangeRate.isZero() && !error}
           />
           <UserLTV
@@ -405,12 +416,14 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
           <MyOpenPosition
             tokenSymbol={tokenSymbol}
             myPositionData={myPositionData}
+            pairTokenSymbol={pairTokenSymbol}
             exchangeRate={data.market.exchangeRate}
             isLoading={data.market.exchangeRate.isZero() && !error}
           />
           <YourBalance
-            loading={data.market.exchangeRate.isZero() && !error}
             dineroPair={data.dineroPair}
+            tokenSymbols={[tokenSymbol, pairTokenSymbol]}
+            loading={data.market.exchangeRate.isZero() && !error}
           />
         </Box>
       </Box>

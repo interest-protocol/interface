@@ -27,7 +27,14 @@ const BorrowForm: FC<BorrowFormProps> = ({
   handleAddAllowance,
   formState: { errors },
 }) => (
-  <Box p="XL" order={2} gridArea="a" bg="foreground" borderRadius="L">
+  <Box
+    p="XL"
+    order={2}
+    gridArea="a"
+    height="100%"
+    bg="foreground"
+    borderRadius="L"
+  >
     {fields.map((input) =>
       loading ? (
         <Box mb="L" key={v4()}>
@@ -38,8 +45,8 @@ const BorrowForm: FC<BorrowFormProps> = ({
         </Box>
       ) : (
         <InputMoney
-          data={data}
           key={v4()}
+          data={data}
           errors={errors}
           control={control}
           register={register}

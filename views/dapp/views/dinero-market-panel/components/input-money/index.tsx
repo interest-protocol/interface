@@ -19,11 +19,13 @@ const InputMoney: FC<InputMoneyProps> = ({
   register,
   currency,
   setValue,
-  amountUSD,
-  CurrencySVG,
   disabled,
+  amountUSD,
+  currencyIcons,
 }) => {
   const labels = name.split('.') as TErrorMessageLabels;
+  const [TokenIcon, PairTokenIcon] = currencyIcons;
+
   return (
     <Box mb="L">
       <Typography
@@ -82,10 +84,15 @@ const InputMoney: FC<InputMoneyProps> = ({
               borderColor="bottomBackground"
             >
               <Box as="span" display="inline-block" width="1rem">
-                <CurrencySVG width="100%" />
+                <TokenIcon width="100%" />
               </Box>
+              {PairTokenIcon && (
+                <Box as="span" display="inline-block" width="1rem" ml="-0.3rem">
+                  <PairTokenIcon width="100%" />
+                </Box>
+              )}
               <Typography as="span" variant="normal" ml="S">
-                {currency}
+                {PairTokenIcon ? 'LP' : currency}
               </Typography>
             </Box>
           </>

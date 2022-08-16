@@ -15,6 +15,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
   tokenSymbol,
   exchangeRate,
   myPositionData,
+  pairTokenSymbol,
 }) => (
   <Box
     py="XL"
@@ -60,7 +61,8 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
         DNR: {formatDollars(1)}
       </Typography>
       <Typography as="div" variant="normal" textAlign="center" mb="M">
-        {tokenSymbol}:{' '}
+        {tokenSymbol}
+        {pairTokenSymbol ? `-${pairTokenSymbol}` : ''}:{' '}
         {isLoading ? (
           <Typography
             as="span"

@@ -13,6 +13,7 @@ import { closeTo, ZERO_BIG_NUMBER } from '@/sdk/utils';
 import { IBorrowFormField } from '@/views/dapp/views/dinero-market-panel/components/borrow-form/borrow-form.types';
 
 import { formatMoney } from '../string';
+import { TypeSVG } from './../../interface/index';
 import {
   DineroMarketUserData,
   MakeDineroMarketPair,
@@ -276,14 +277,18 @@ export const calculateBorrowAmount: TCalculateBorrowAmount = ({
     : collateralValue.sub(userElasticLoan);
 };
 
-export const getBorrowFields: TGetBorrowFields = (data) => {
+export const getBorrowFields: TGetBorrowFields = (data, symbols) => {
   if (!data) return [];
 
   return [
     {
       currency: data.dineroPair.getCollateral().symbol,
       amount: '0',
-      CurrencySVG: TOKENS_SVG_MAP[data.dineroPair.getCollateral().symbol],
+      currencyIcons: symbols.map((symbol) =>
+        symbol
+          ? TOKENS_SVG_MAP[symbol] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown]
+          : null
+      ) as [TypeSVG, TypeSVG | null],
       max: Math.floor(
         IntMath.toNumber(
           data.dineroPair.getCollateralBalance(),
@@ -301,7 +306,10 @@ export const getBorrowFields: TGetBorrowFields = (data) => {
       max: calculateBorrowAmount(data.market).toNumber(),
       amount: '0',
       amountUSD: 1,
-      CurrencySVG: TOKENS_SVG_MAP[data.dineroPair.getDinero().symbol],
+      currencyIcons: [
+        TOKENS_SVG_MAP[data.dineroPair.getDinero().symbol],
+        null,
+      ] as [TypeSVG, TypeSVG | null],
       name: 'borrow.loan',
       label: 'Borrow Dinero',
       currency: TOKEN_SYMBOL.DNR,
@@ -489,14 +497,17 @@ export const convertCollateralToDinero = (
 ): BigNumber =>
   IntMath.from(collateralAmount).mul(ltv).mul(exchangeRate).value();
 
-export const getRepayFields: TGetRepayFields = (data) => {
+export const getRepayFields: TGetRepayFields = (data, symbols) => {
   if (!data) return [];
 
   return [
     {
       amount: '0',
       amountUSD: 1,
-      CurrencySVG: TOKENS_SVG_MAP[data.dineroPair.getDinero().symbol],
+      currencyIcons: [
+        TOKENS_SVG_MAP[data.dineroPair.getDinero().symbol],
+        null,
+      ] as [TypeSVG, TypeSVG | null],
       name: 'repay.loan',
       label: 'Repay Dinero',
       max: IntMath.toNumber(data.dineroPair.getDineroBalance()),
@@ -508,7 +519,11 @@ export const getRepayFields: TGetRepayFields = (data) => {
     {
       currency: data.dineroPair.getCollateral().symbol,
       amount: '0',
-      CurrencySVG: TOKENS_SVG_MAP[data.dineroPair.getCollateral().symbol],
+      currencyIcons: symbols.map((symbol) =>
+        symbol
+          ? TOKENS_SVG_MAP[symbol] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown]
+          : null
+      ) as [TypeSVG, TypeSVG | null],
       max: safeAmountToWithdraw(data.market).toNumber(),
       name: 'repay.collateral',
       label: 'Remove Collateral',

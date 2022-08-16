@@ -39,11 +39,13 @@ export type DineroMarketUserData =
 export type TCurrency = TOKEN_SYMBOL;
 
 export type TGetRepayFields = (
-  data: SafeDineroMarketUserData
+  data: SafeDineroMarketUserData,
+  collateralSymbol: [string, string | undefined]
 ) => ReadonlyArray<IBorrowFormField>;
 
 export type TGetBorrowFields = (
-  data: SafeDineroMarketUserData
+  data: SafeDineroMarketUserData,
+  collateralSymbol: [string, string | undefined]
 ) => ReadonlyArray<IBorrowFormField>;
 
 export type TGetPositionHealthDataInternal = (

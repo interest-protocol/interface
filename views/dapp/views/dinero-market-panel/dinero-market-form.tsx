@@ -11,15 +11,19 @@ const DineroMarketForm: FC<FormsProps> = ({
   form,
   isPair,
   account,
+  symbols,
   isSubmitting,
   isGettingData,
   onSubmitRepay,
   onSubmitBorrow,
   handleAddAllowance,
 }) => {
-  const repayFieldsData = useMemo(() => getRepayFields(data), [data]);
+  const repayFieldsData = useMemo(() => getRepayFields(data, symbols), [data]);
 
-  const borrowFieldsData = useMemo(() => getBorrowFields(data), [data]);
+  const borrowFieldsData = useMemo(
+    () => getBorrowFields(data, symbols),
+    [data]
+  );
 
   return (
     <>

@@ -3,4 +3,5 @@ import { SafeDineroMarketUserData } from '@/utils/dinero-market/dinero-market.ty
 export interface YourBalanceProps {
   loading: boolean;
   dineroPair: SafeDineroMarketUserData['dineroPair'];
+  tokenSymbols: [string, string | undefined];
 }
