@@ -14,7 +14,7 @@ import {
   withdrawDineroCollateral,
 } from '@/api';
 import { Container, Tooltip } from '@/components';
-import { ERC_20_DATA } from '@/constants';
+import { ERC_20_DATA, RoutesEnum } from '@/constants';
 import { Box } from '@/elements';
 import { useGetSigner, useGetUserDineroMarketData } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
@@ -354,7 +354,7 @@ const DineroMarket: FC<DineroMarketProps> = ({ tokenSymbol, mode }) => {
         left={['unset', 'unset', '-5rem', 'unset', '-5rem']}
         position={['static', 'static', 'absolute', 'static', 'absolute']}
       >
-        <GoBack />
+        <GoBack route={RoutesEnum.DineroMarket} />
       </Box>
       <Box>
         <Box bg="foreground" textAlign="center" p="L" borderRadius="L">
