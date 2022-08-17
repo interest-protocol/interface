@@ -1,4 +1,5 @@
 export interface LoanInfoProps {
+  isPair: boolean;
   isLoading: boolean;
-  loanInfoData: [string, string, string];
+  loanInfoData: ReadonlyArray<string>;
 }

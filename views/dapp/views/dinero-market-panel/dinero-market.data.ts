@@ -1,4 +1,4 @@
-export const LOAN_INFO = [
+export const LOAN_INFO = (isPair: boolean) => [
   {
     tip: 'Maximum collateral ratio - MCR represents<br />the maximum amount of debt a user<br />can borrow with a particular<br />collateral token.',
     name: 'Maximum collateral ratio',
@@ -11,6 +11,22 @@ export const LOAN_INFO = [
     tip: 'This fee is added to the debt every time<br />the user borrows DNR',
     name: 'Interest',
   },
+  ...(isPair
+    ? [
+        {
+          name: 'APY',
+          tip: 'APY tooltip',
+        },
+        {
+          name: 'Pending Rewards',
+          tip: 'APY tooltip',
+        },
+        {
+          name: 'Pending rewards value',
+          tip: 'APY tooltip',
+        },
+      ]
+    : []),
 ];
 
 export const MY_POSITION = [

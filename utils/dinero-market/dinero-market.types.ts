@@ -65,8 +65,9 @@ export type TGetRepayPositionHealthData = (
 ) => [string, string, string];
 
 export type TGetInfoLoanData = (
-  data: SafeDineroMarketUserData
-) => [string, string, string];
+  data: SafeDineroMarketUserData,
+  isPair: boolean
+) => ReadonlyArray<string>;
 
 export type TGetMyPositionData = (
   data: SafeDineroMarketUserData

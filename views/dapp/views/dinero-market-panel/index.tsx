@@ -138,7 +138,10 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     [rawData, chainId]
   );
 
-  const loanInfoData = useMemo(() => getLoanInfoData(data), [data]);
+  const loanInfoData = useMemo(
+    () => getLoanInfoData(data, isPairAddress),
+    [data]
+  );
 
   const myPositionData = useMemo(() => getMyPositionData(data), [data]);
 
@@ -410,10 +413,12 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
             ltv={currentLTV}
           />
           <LoanInfo
+            isPair={isPairAddress}
             loanInfoData={loanInfoData}
             isLoading={data.market.exchangeRate.isZero() && !error}
           />
           <MyOpenPosition
+            isPair={isPairAddress}
             tokenSymbol={tokenSymbol}
             myPositionData={myPositionData}
             pairTokenSymbol={pairTokenSymbol}

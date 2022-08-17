@@ -423,13 +423,21 @@ export const getBorrowPositionHealthData: TGetBorrowPositionHealthData = (
   );
 };
 
-export const getLoanInfoData: TGetInfoLoanData = (data) => {
-  if (!data || !data?.market) return ['0%', '0%', '0%'];
+export const getLoanInfoData: TGetInfoLoanData = (data, isPair) => {
+  if (!data || !data?.market)
+    return ['0%', '0%', '0%', ...(isPair ? ['0', '0', '0'] : [])];
   const { maxLTVRatio, loan, liquidationFee } = data.market;
+
   return [
     `${IntMath.from(maxLTVRatio).toPercentage()}`,
     `${IntMath.from(liquidationFee).toPercentage()}`,
-    `${IntMath.from(loan.interestRate.mul(SECONDS_IN_A_YEAR)).toPercentage()}`,
+    ...(isPair
+      ? ['N/A', '0', '0', '0']
+      : [
+          `${IntMath.from(
+            loan.interestRate.mul(SECONDS_IN_A_YEAR)
+          ).toPercentage()}`,
+        ]),
   ];
 };
 

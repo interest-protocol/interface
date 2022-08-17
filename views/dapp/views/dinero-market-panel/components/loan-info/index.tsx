@@ -8,7 +8,7 @@ import { InfoSVG } from '@/svg';
 import { LOAN_INFO } from '../../dinero-market.data';
 import { LoanInfoProps } from './loan-info.types';
 
-const LoanInfo: FC<LoanInfoProps> = ({ isLoading, loanInfoData }) => (
+const LoanInfo: FC<LoanInfoProps> = ({ isPair, isLoading, loanInfoData }) => (
   <Box
     py="XL"
     order={4}
@@ -17,7 +17,7 @@ const LoanInfo: FC<LoanInfoProps> = ({ isLoading, loanInfoData }) => (
     borderRadius="L"
     px={['XL', 'XXL']}
   >
-    {LOAN_INFO.map(({ name, tip }, i) => (
+    {LOAN_INFO(isPair).map(({ name, tip }, i) => (
       <Box my="L" key={v4()} display="flex" justifyContent="space-between">
         <Typography variant="normal" display="flex" alignItems="center">
           <Box
