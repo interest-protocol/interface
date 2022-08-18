@@ -310,7 +310,13 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         amountUSD={formatDollars(
           IntMath.from(intUSDPrice).mul(farm.pendingRewards).toNumber()
         )}
-        amount={`${IntMath.toNumber(farm.pendingRewards)} ${TOKEN_SYMBOL.INT}`}
+        amount={`${IntMath.toNumber(farm.pendingRewards).toLocaleString(
+          'fullwide',
+          {
+            useGrouping: false,
+            maximumSignificantDigits: 6,
+          }
+        )} ${TOKEN_SYMBOL.INT}`}
         button={
           <Button
             onClick={!farm.pendingRewards.isZero() ? handleHarvest : undefined}
