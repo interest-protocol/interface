@@ -5,7 +5,7 @@ import { v4 } from 'uuid';
 import { getFarmsSVGByToken, StakeState } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { LoadingSVG, TimesSVG } from '@/svg';
-import { safeToBigNumber } from '@/utils';
+import { formatMoney, safeToBigNumber } from '@/utils';
 
 import { EarnStakeModalProps } from './earn-stake-modal.types';
 import InputStake from './input-stake';
@@ -122,11 +122,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
               {farmSymbol} Token
             </Typography>
             <Typography variant="normal" my="L">
-              {amount.toLocaleString('fullwide', {
-                useGrouping: false,
-                maximumSignificantDigits: 6,
-              })}
-              {' ' + farmSymbol}
+              {formatMoney(amount)} {farmSymbol}
             </Typography>
           </Box>
         </Box>
