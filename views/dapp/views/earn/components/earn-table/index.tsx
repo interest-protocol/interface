@@ -1,9 +1,10 @@
+import Link from 'next/link';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import { getFarmsSVGByToken } from '@/constants';
-import { Box, DropdownTable, Typography } from '@/elements';
+import { getFarmsSVGByToken, Routes, RoutesEnum } from '@/constants';
+import { Box, Button, Table, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { formatDollars } from '@/utils';
 
@@ -13,13 +14,10 @@ import {
   MobileEarnSkeletonRow,
 } from './earn-skeleton-row';
 import { EarnTableProps } from './earn-table.types';
-import EarnTableCollapsible from './earn-table-collapsible';
 
 const EarnTable: FC<EarnTableProps> = ({
   loading,
   isDesktop,
-  intUSDPrice,
-  mutate,
   control,
   farms,
 }) => {
@@ -42,7 +40,8 @@ const EarnTable: FC<EarnTableProps> = ({
   return (
     <Box display="flex" flexDirection="column" flex="1">
       {isDesktop ? (
-        <DropdownTable
+        <Table
+          hasButton
           isDesktop
           headings={[
             {
@@ -100,6 +99,22 @@ const EarnTable: FC<EarnTableProps> = ({
             loading
               ? DesktopEarnSkeletonRow
               : filteredFarms.map((farm) => ({
+                  button: (
+                    <Link
+                      href={{
+                        pathname: Routes[RoutesEnum.EarnPool],
+                        query: { poolAddress: farm.stakingTokenAddress },
+                      }}
+                    >
+                      <Button
+                        as="div"
+                        variant="primary"
+                        hover={{ bg: 'accentActive' }}
+                      >
+                        Enter
+                      </Button>
+                    </Link>
+                  ),
                   items: [
                     <Box key={v4()} display="flex" alignItems="center">
                       <Box display="inline-flex">
@@ -151,17 +166,13 @@ const EarnTable: FC<EarnTableProps> = ({
                       {farm.stable ? 'Stable' : 'Volatile'}
                     </Typography>,
                   ],
-                  dropdown: {
-                    args: { farm, intUSDPrice, mutate, loading },
-                    Component: EarnTableCollapsible,
-                  },
                 }))
           }
         />
       ) : (
         <Box display="flex" alignItems="center">
-          <DropdownTable
-            key={v4()}
+          <Table
+            hasButton
             backgroundColorMap={filteredFarms.map((farm) => ({
               bg: farm.isLive ? 'unset' : 'bottomBackground',
             }))}
@@ -252,6 +263,22 @@ const EarnTable: FC<EarnTableProps> = ({
                         </Typography>
                       </Box>
                     ),
+                    button: (
+                      <Link
+                        href={{
+                          pathname: Routes[RoutesEnum.EarnPool],
+                          query: { poolAddress: farm.stakingTokenAddress },
+                        }}
+                      >
+                        <Button
+                          as="div"
+                          variant="primary"
+                          hover={{ bg: 'accentActive' }}
+                        >
+                          Enter
+                        </Button>
+                      </Link>
+                    ),
                     items: [
                       formatDollars(farm.tvl),
                       farm.apr.value().isZero()
@@ -267,19 +294,15 @@ const EarnTable: FC<EarnTableProps> = ({
                         fontSize="0.70rem"
                         bg={farm.stable ? 'accent' : 'accentAlternativeActive'}
                         borderRadius="M"
-                        p="0.15rem"
+                        py="XS"
+                        px="L"
                         textAlign="center"
                         cursor="pointer"
-                        width="70%"
                         key={v4()}
                       >
                         {farm.stable ? 'Stable' : 'Volatile'}
                       </Typography>,
                     ],
-                    dropdown: {
-                      args: { farm, intUSDPrice, mutate, loading },
-                      Component: EarnTableCollapsible,
-                    },
                   }))
             }
           />

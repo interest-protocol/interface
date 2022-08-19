@@ -24,16 +24,16 @@ import {
   throwIfInvalidSigner,
 } from '@/utils';
 
-import { makeFarmSymbol } from '../../utils';
+import { makeFarmSymbol } from '../../../earn/utils';
+import EarnCard from '../earn-pool-card';
 import EarnStakeModal from '../earn-stake-modal';
-import EarnCard from './earn-card';
-import { EarnTableCollapsibleProps } from './earn-table.types';
+import { EarnOptionsProps } from './earn-pool-options.types';
 
-const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
+const EarnOptions: FC<EarnOptionsProps> = ({
   farm,
-  intUSDPrice,
   mutate,
   loading,
+  intUSDPrice,
 }) => {
   const { push } = useRouter();
   const [modal, setModal] = useState<StakeState | undefined>();
@@ -188,9 +188,9 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
 
   return (
     <Box
+      bg="foreground"
+      borderRadius="L"
       columnGap="1rem"
-      borderTop="1px solid"
-      borderColor="textSoft"
       p={['S', 'S', 'S', 'L']}
       gridTemplateColumns="1fr 1fr 1fr"
       display={['flex', 'flex', 'flex', 'grid']}
@@ -343,4 +343,4 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
   );
 };
 
-export default EarnTableCollapsible;
+export default EarnOptions;
