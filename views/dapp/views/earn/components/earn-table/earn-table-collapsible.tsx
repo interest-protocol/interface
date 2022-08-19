@@ -1,4 +1,5 @@
 import { BigNumber } from 'ethers';
+import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import { FC, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -125,7 +126,9 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
           validId,
           validSigner,
           farm.id,
-          amount.gt(farm.balance) ? farm.balance : amount
+          amount.add(ethers.utils.parseEther('1')).gt(farm.balance)
+            ? farm.balance
+            : amount
         );
 
         await showTXSuccessToast(tx, validId);
@@ -156,7 +159,9 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
           validId,
           validSigner,
           farm.id,
-          amount.gt(farm.stakingAmount) ? farm.stakingAmount : amount
+          amount.add(ethers.utils.parseEther('1')).gt(farm.stakingAmount)
+            ? farm.stakingAmount
+            : amount
         );
         await showTXSuccessToast(tx, validId);
         await mutate();

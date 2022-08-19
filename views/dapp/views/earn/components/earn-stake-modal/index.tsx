@@ -32,7 +32,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
     [modal]
   );
 
-  const Icon = getFarmsSVGByToken(farm.chainId, farm.token0, farm.token1);
+  const Icons = getFarmsSVGByToken(farm.chainId, farm.token0, farm.token1);
 
   const onSubmit = ({ value }: { value: string }) => {
     isStake
@@ -94,7 +94,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
             currencyPrefix={
               <Box display="flex" alignItems="center">
                 <Box display="inline-flex">
-                  {Icon.map(({ SVG, highZIndex }, index) => (
+                  {Icons.map(({ SVG, highZIndex }, index) => (
                     <Box
                       key={v4()}
                       width="1.6rem"
