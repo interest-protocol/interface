@@ -49,7 +49,7 @@ const EarnPoolDetails: FC<EarnPoolDetailsProps> = ({
         {`${tokenA?.symbol ?? ''}${(tokenA && tokenB && ' - ') ?? ''}${
           tokenB?.symbol ?? ''
         } `}
-        Earn Details
+        Farm Details
       </Box>
       <Box
         p="L"
