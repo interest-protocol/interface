@@ -119,21 +119,6 @@ export const TOKENS_SVG_MAP = {
   [TOKEN_SYMBOL.WBNB]: WBNBCoinSVG,
 } as { [key: string]: FC<SVGAttributes<SVGSVGElement>> };
 
-const FARMS_SVG_MAP = {
-  0: [InterestTokenSVG],
-  1: [DineroSVG, BitcoinSVG],
-} as Record<number, ReadonlyArray<FC<SVGAttributes<SVGSVGElement>>>>;
-
-export const getFarmsSVG = (
-  id: number
-): ReadonlyArray<FC<SVGAttributes<SVGSVGElement>>> => {
-  const svgArray = FARMS_SVG_MAP[id];
-
-  if (!svgArray) return [];
-
-  return svgArray;
-};
-
 export const getFarmsSVGByToken = (
   chainId: number,
   token0: string,

@@ -1,7 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
-import { parseToSafeStringNumber } from '@/utils';
+import { formatMoney, parseToSafeStringNumber } from '@/utils';
 
 import { InputStakeProps } from './input-stake.types';
 
@@ -48,7 +48,7 @@ const InputStake: FC<InputStakeProps> = ({
             hover={{ bg: 'accent' }}
             active={{ bg: 'accentActive' }}
             onClick={() =>
-              setValue('value', parseToSafeStringNumber(amount.toString()))
+              setValue('value', parseToSafeStringNumber(formatMoney(amount)))
             }
           >
             max
