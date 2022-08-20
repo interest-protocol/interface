@@ -1,3 +1,5 @@
+import '/node_modules/flag-icons/css/flag-icons.min.css';
+
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useCallback, useEffect, useState } from 'react';
@@ -6,9 +8,10 @@ import { v4 } from 'uuid';
 
 import { Container, SocialMediaCard } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
-import { Box, Button, Typography } from '@/elements';
+import { Box, Button, Dropdown, Typography } from '@/elements';
+import { IDropdownData } from '@/elements/dropdown/dropdown.types';
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
-import { BarsLPSVG, LogoSVG, TimesSVG } from '@/svg';
+import { BarsLPSVG, GlobeSVG, LogoSVG, TimesSVG } from '@/svg';
 
 import { HeaderProps } from './header.types';
 import MenuList from './menu-list';
@@ -17,9 +20,10 @@ const AnimatedBox = animated(Box);
 const menuButtonId = 'landing-menu-wrapper-id';
 
 const Header: FC<HeaderProps> = ({ empty }) => {
-  const { push } = useRouter();
+  const { locales, locale, asPath, push } = useRouter();
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const LANG = ['English', 'Português'];
   const fadeStyles = useSpring({
     from: { maxHeight: '0rem', minHeight: '0rem' },
     to: {
@@ -120,15 +124,50 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                   <SocialMediaCard {...socialMediaData} key={v4()} />
                 ))}
               </Box>
-              <Box textAlign="center" cursor="pointer" my={['L', 'NONE']}>
+              <Box
+                textAlign="center"
+                cursor="pointer"
+                my={['L', 'NONE']}
+                display="flex"
+              >
                 <Button
                   type="button"
                   effect="hover"
                   variant="secondary"
+                  mr="0.75rem"
                   onClick={() => push(Routes[RoutesEnum.DApp])}
                 >
                   DApp
                 </Button>
+                <Dropdown
+                  title={
+                    <Button type="button" effect="hover" variant="secondary">
+                      <GlobeSVG width="60%" height="60%" fill="#fff" />
+                    </Button>
+                  }
+                  mode="menu"
+                  defaultValue={locale}
+                  data={
+                    locales?.map((l, i) => ({
+                      value: l,
+                      displayOption: (
+                        <Box pl="M">
+                          <Typography
+                            variant="normal"
+                            className={l == 'en-US' ? 'fi fi-us' : 'fi fi-pt'}
+                            mr="M"
+                          />
+                          {LANG[i]}
+                        </Box>
+                      ),
+                      onSelect: () =>
+                        push(asPath, undefined, {
+                          shallow: true,
+                          locale: l,
+                        }),
+                    })) as unknown as ReadonlyArray<IDropdownData>
+                  }
+                />
               </Box>
             </Box>
             <Box

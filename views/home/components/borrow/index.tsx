@@ -1,9 +1,11 @@
 import { useRouter } from 'next/router';
 import { FC } from 'react';
+import { v4 } from 'uuid';
 
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
+import { getHomeLocaleContent } from '@/utils';
 
 import {
   BTCOrbit,
@@ -14,7 +16,7 @@ import {
 } from './borrow-animations';
 
 const Borrow: FC = () => {
-  const { push } = useRouter();
+  const { locale, push } = useRouter();
 
   return (
     <Box
@@ -29,59 +31,61 @@ const Borrow: FC = () => {
         flexDirection={['column', 'column', 'column', 'row']}
         justifyContent={['center', 'center', 'center', 'space-between']}
       >
-        <Box
-          zIndex={1}
-          width="100%"
-          display="flex"
-          maxWidth="587px"
-          position="relative"
-          ml={['none', 'none', 'none', '8.438rem']}
-          flexDirection="column"
-          alignItems={['center', 'center', 'center', 'unset']}
-          textAlign={['center', 'center', 'center', 'unset']}
-        >
-          <Typography
-            as="h2"
-            my="0.75rem"
-            variant="normal"
-            fontWeight="900"
-            fontStyle="normal"
-            lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
-            fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
-            textTransform="capitalize"
-          >
-            Make your LP tokens liquid
-          </Typography>
-          <Typography
-            as="h3"
-            variant="normal"
-            fontWeight="normal"
-            lineHeight="2.125rem"
-            mb={['0.625rem', '0.625rem', '0.625rem', '1rem']}
-            fontSize={['1.125rem', '1.125rem', '1.125rem', '1.5rem']}
-          >
-            Pay $0 to borrow Dinero
-          </Typography>
-          <Typography
+        {getHomeLocaleContent('borrow', locale).map((content) => (
+          <Box
+            zIndex={1}
             width="100%"
-            maxWidth="540px"
-            variant="normal"
-            mb={['1.25rem', '1.25rem', '1.25rem', '1.563rem']}
-            lineHeight={['1.5rem', '1.5rem', '1.5rem', '2.125rem']}
-            fontSize={['0.875rem', '0.875rem', '0.875rem', '1rem']}
+            display="flex"
+            maxWidth="587px"
+            position="relative"
+            ml={['none', 'none', 'none', '8.438rem']}
+            flexDirection="column"
+            alignItems={['center', 'center', 'center', 'unset']}
+            textAlign={['center', 'center', 'center', 'unset']}
+            key={v4()}
           >
-            Borrow $DNR using your LP Tokens as collateral to meet your
-            financial needs without losing farming rewards.
-          </Typography>
-          <Button
-            mb="XL"
-            effect="hover"
-            variant="primary"
-            onClick={() => push(Routes[RoutesEnum.DineroMarket])}
-          >
-            BORROW
-          </Button>
-        </Box>
+            <Typography
+              as="h2"
+              my="0.75rem"
+              variant="normal"
+              fontWeight="900"
+              fontStyle="normal"
+              lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
+              fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
+              textTransform="capitalize"
+            >
+              {content.title}
+            </Typography>
+            <Typography
+              as="h3"
+              variant="normal"
+              fontWeight="normal"
+              lineHeight="2.125rem"
+              mb={['0.625rem', '0.625rem', '0.625rem', '1rem']}
+              fontSize={['1.125rem', '1.125rem', '1.125rem', '1.5rem']}
+            >
+              {content.subtitle}
+            </Typography>
+            <Typography
+              width="100%"
+              maxWidth="540px"
+              variant="normal"
+              mb={['1.25rem', '1.25rem', '1.25rem', '1.563rem']}
+              lineHeight={['1.5rem', '1.5rem', '1.5rem', '2.125rem']}
+              fontSize={['0.875rem', '0.875rem', '0.875rem', '1rem']}
+            >
+              {content.description}
+            </Typography>
+            <Button
+              mb="XL"
+              effect="hover"
+              variant="primary"
+              onClick={() => push(Routes[RoutesEnum.DineroMarket])}
+            >
+              {content.button}
+            </Button>
+          </Box>
+        ))}
         <Box
           display="flex"
           mt={['XL', 'NONE']}
