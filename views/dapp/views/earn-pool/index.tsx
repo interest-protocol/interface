@@ -6,7 +6,7 @@ import { RoutesEnum } from '@/constants';
 import { useChainId, useGetFarmsSummary } from '@/hooks';
 
 import GoBack from '../../components/go-back';
-import { getSafeFarmSummaryData } from '../earn/utils';
+import { getSafeFarmSummaryData } from '../earn/earn.utils';
 import ErrorView from '../error';
 import { EarnPoolDetails, EarnPoolOptions } from './components';
 import { EarnPoolProps } from './earn-pool.types';

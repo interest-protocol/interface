@@ -55,9 +55,12 @@ const TableRow: FC<TableRowProps> = ({
   mobileSide,
   handleClick,
   specialRowHover,
+  bg = 'foreground',
+  desktopBg = 'unset',
 }) => (
   <>
     <Box
+      bg={desktopBg}
       transition="none"
       border="1px solid"
       onClick={handleClick}
@@ -102,7 +105,7 @@ const TableRow: FC<TableRowProps> = ({
     </Box>
     <Box
       mt="M"
-      bg="foreground"
+      bg={bg}
       borderRadius="M"
       onClick={handleClick}
       display={['block', 'block', 'block', 'none']}

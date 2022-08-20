@@ -14,6 +14,7 @@ const EarnPoolDetails: FC<EarnPoolDetailsProps> = ({
   token0,
   token1,
   stable,
+  isLive,
   chainId,
   allocation,
 }) => {
@@ -59,13 +60,24 @@ const EarnPoolDetails: FC<EarnPoolDetailsProps> = ({
         bg="foreground"
         borderRadius="L"
         textAlign="center"
-        gridTemplateColumns={['1fr 1fr', '1fr 1fr 1fr 1fr']}
+        gridTemplateColumns={[
+          '1fr 1fr',
+          '1fr 1fr',
+          '1fr 1fr 1fr',
+          '1fr 1fr 1fr 1fr 1fr',
+        ]}
       >
         <Box>
           <Typography variant="normal" fontSize="S" mb="L">
             TVL
           </Typography>
           {formatDollars(tvl)}
+        </Box>
+        <Box>
+          <Typography variant="normal" fontSize="S" mb="L">
+            State
+          </Typography>
+          {isLive ? 'Live' : 'Finished'}
         </Box>
         <Box>
           <Typography variant="normal" fontSize="S" mb="L">

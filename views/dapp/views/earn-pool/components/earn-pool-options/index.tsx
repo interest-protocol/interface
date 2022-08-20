@@ -24,7 +24,7 @@ import {
   throwIfInvalidSigner,
 } from '@/utils';
 
-import { makeFarmSymbol } from '../../../earn/utils';
+import { makeFarmSymbol } from '../../../earn/earn.utils';
 import EarnCard from '../earn-pool-card';
 import EarnStakeModal from '../earn-stake-modal';
 import { EarnOptionsProps } from './earn-pool-options.types';

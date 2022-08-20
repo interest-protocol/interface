@@ -5,10 +5,10 @@ import { v4 } from 'uuid';
 
 import { getFarmsSVGByToken, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
-import { TOKEN_SYMBOL } from '@/sdk';
-import { formatDollars } from '@/utils';
+import { IntMath, TOKEN_SYMBOL } from '@/sdk';
+import { formatDollars, formatMoney } from '@/utils';
 
-import { handleFilterFarms, makeFarmSymbol } from '../../utils';
+import { handleFilterFarms, makeFarmSymbol } from '../../earn.utils';
 import {
   DesktopEarnSkeletonRow,
   MobileEarnSkeletonRow,
@@ -67,6 +67,19 @@ const EarnTable: FC<EarnTableProps> = ({
                   fontSize="inherit"
                 >
                   TVL
+                </Typography>
+              ),
+            },
+            {
+              tip: 'Staking amount to farm Int',
+              item: (
+                <Typography
+                  as="span"
+                  cursor="help"
+                  variant="normal"
+                  fontSize="inherit"
+                >
+                  Staking
                 </Typography>
               ),
             },
@@ -146,6 +159,7 @@ const EarnTable: FC<EarnTableProps> = ({
                       </Typography>
                     </Box>,
                     formatDollars(farm.tvl),
+                    formatMoney(IntMath.toNumber(farm.stakingAmount)),
                     farm.apr.value().isZero() ? '0%' : farm.apr.toPercentage(),
                     `${
                       farm.allocation.value().isZero()
@@ -187,6 +201,19 @@ const EarnTable: FC<EarnTableProps> = ({
                     fontSize="inherit"
                   >
                     TVL
+                  </Typography>
+                ),
+              },
+              {
+                tip: 'Staking amount to farm Int',
+                item: (
+                  <Typography
+                    as="span"
+                    cursor="help"
+                    variant="normal"
+                    fontSize="inherit"
+                  >
+                    Staking
                   </Typography>
                 ),
               },
@@ -281,6 +308,7 @@ const EarnTable: FC<EarnTableProps> = ({
                     ),
                     items: [
                       formatDollars(farm.tvl),
+                      formatMoney(IntMath.toNumber(farm.stakingAmount)),
                       farm.apr.value().isZero()
                         ? '0%'
                         : farm.apr.toPercentage(),
