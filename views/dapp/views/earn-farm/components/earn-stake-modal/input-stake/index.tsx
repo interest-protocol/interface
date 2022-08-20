@@ -1,7 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
-import { parseToSafeStringNumber } from '@/utils';
+import { parseInputEventToNumberString } from '@/utils';
 
 import { InputStakeProps } from './input-stake.types';
 
@@ -20,16 +20,9 @@ const InputStake: FC<InputStakeProps> = ({
       type="string"
       {...register('value', {
         onChange: (v: ChangeEvent<HTMLInputElement>) => {
-          const value = v.target.value;
-
           setValue?.(
             'value',
-            parseToSafeStringNumber(
-              isNaN(+value[value.length - 1]) && value[value.length - 1] !== '.'
-                ? value.slice(0, value.length - 1)
-                : value,
-              amount ? amount : undefined
-            )
+            parseInputEventToNumberString(v, amount ? amount : undefined)
           );
         },
       })}
