@@ -1,7 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
-import { formatMoney, parseToSafeStringNumber } from '@/utils';
+import { formatMoney, parseInputEventToNumberString } from '@/utils';
 
 import { InputBalanceProps } from './input-balance.types';
 
@@ -47,17 +47,9 @@ const InputBalance: FC<InputBalanceProps> = ({
         disabled={!!disabled}
         {...register(`${name}.value`, {
           onChange: (v: ChangeEvent<HTMLInputElement>) => {
-            const value = v.target.value;
-
             setValue?.(
               `${name}.value`,
-              parseToSafeStringNumber(
-                isNaN(+value[value.length - 1]) &&
-                  value[value.length - 1] !== '.'
-                  ? value.slice(0, value.length - 1)
-                  : value,
-                max ? +max : undefined
-              )
+              parseInputEventToNumberString(v, max ? +max : undefined)
             );
 
             handleSelectedByUser();

@@ -1,7 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
-import { formatMoney, parseToSafeStringNumber } from '@/utils';
+import { parseInputEventToNumberString } from '@/utils';
 
 import { InputStakeProps } from './input-stake.types';
 
@@ -20,7 +20,10 @@ const InputStake: FC<InputStakeProps> = ({
       type="string"
       {...register('value', {
         onChange: (v: ChangeEvent<HTMLInputElement>) => {
-          setValue('value', parseToSafeStringNumber(v.target.value));
+          setValue?.(
+            'value',
+            parseInputEventToNumberString(v, amount ? amount : undefined)
+          );
         },
       })}
       shieldProps={{
@@ -48,7 +51,13 @@ const InputStake: FC<InputStakeProps> = ({
             hover={{ bg: 'accent' }}
             active={{ bg: 'accentActive' }}
             onClick={() =>
-              setValue('value', parseToSafeStringNumber(formatMoney(amount)))
+              setValue(
+                'value',
+                amount.toLocaleString('fullwide', {
+                  useGrouping: false,
+                  maximumSignificantDigits: 6,
+                })
+              )
             }
           >
             max
