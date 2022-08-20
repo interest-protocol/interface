@@ -10,7 +10,7 @@ import { noop } from '@/utils';
 import { EarnTable } from './components';
 import EarnFilters from './components/earn-filters';
 import { FarmSortByFilter, FarmTypeFilter, IEarnForm } from './earn.types';
-import { getSafeFarmSummaryData } from './utils';
+import { getSafeFarmSummaryData } from './earn.utils';
 
 const Earn: FC = () => {
   const { chainId } = useIdAccount();

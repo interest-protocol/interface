@@ -18,17 +18,16 @@ export const useGetFarmsSummary = () => {
     getFarmsSummary,
     [
       chainId,
+      account || DEFAULT_ACCOUNT,
       prop('pairs', data),
       prop('poolIds', data),
       prop('baseTokens', data),
-      account || DEFAULT_ACCOUNT,
       {},
     ],
     {
       refreshWhenHidden: true,
       revalidateIfStale: true,
       revalidateOnMount: true,
-      revalidateOnFocus: false,
     }
   );
 };

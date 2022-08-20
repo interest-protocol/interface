@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 
+import { BoxProps } from '../box/box.types';
+
 export interface IHeading {
   tip?: string;
   item: ReactNode;
@@ -14,13 +16,19 @@ interface IRow {
   handleClick?: () => void;
 }
 
+interface BackgroundColorMap {
+  bg?: BoxProps['backgroundColor'];
+  desktopBg?: BoxProps['backgroundColor'];
+}
 export interface ResponsiveTableProps {
   loading?: boolean;
   ordinate?: boolean;
+  isDesktop?: boolean;
   specialRowHover?: boolean;
   data: ReadonlyArray<IRow>;
   hasButton?: string | boolean;
   headings: ReadonlyArray<IHeading>;
+  backgroundColorMap?: ReadonlyArray<BackgroundColorMap>;
 }
 
 export interface TableRowProps {
@@ -29,10 +37,13 @@ export interface TableRowProps {
   button: ReactNode;
   ordinate?: boolean;
   hasButton: boolean;
+  isDesktop?: boolean;
   mobileSide: ReactNode;
   handleClick?: () => void;
   specialRowHover?: boolean;
+  bg?: BoxProps['backgroundColor'];
   headings: ReadonlyArray<IHeading>;
+  desktopBg?: BoxProps['backgroundColor'];
 }
 
 export interface TableLoadingProps {
