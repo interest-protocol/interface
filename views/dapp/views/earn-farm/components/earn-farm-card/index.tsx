@@ -7,9 +7,9 @@ import Typography from '@/elements/typography';
 import { getAccount } from '@/state/core/core.selectors';
 import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
-import { EarnPoolCardProps } from './earn-pool-card.types';
+import { EarnFarmCardProps } from './earn-farm-card.types';
 
-const EarnPoolCard: FC<EarnPoolCardProps> = ({
+const EarnFarmCard: FC<EarnFarmCardProps> = ({
   title,
   amount,
   shadow,
@@ -71,4 +71,4 @@ const EarnPoolCard: FC<EarnPoolCardProps> = ({
     </Box>
   );
 };
-export default EarnPoolCard;
+export default EarnFarmCard;

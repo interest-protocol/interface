@@ -1,4 +1,3 @@
-import { propEq } from 'ramda';
 import { FC, useMemo } from 'react';
 
 import { Container } from '@/components';
@@ -7,7 +6,7 @@ import { useChainId, useGetUserFarmData } from '@/hooks';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
-import { EarnPoolDetails, EarnPoolOptions } from './components';
+import { EarnFarmDetails, EarnFarmOptions } from './components';
 import { EarnFarmProps } from './earn-farm.types';
 import { getSafeUserFarmData } from './utils';
 
@@ -26,8 +25,8 @@ const EarnFarm: FC<EarnFarmProps> = ({ address }) => {
   return (
     <Container dapp width="100%" mt="XL">
       <GoBack route={RoutesEnum.Earn} />
-      <EarnPoolDetails farm={data.farm} />
-      <EarnPoolOptions
+      <EarnFarmDetails farm={data.farm} />
+      <EarnFarmOptions
         farm={data.farm}
         intUSDPrice={data.intUSDPrice}
         mutate={mutate}

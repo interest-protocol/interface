@@ -1,5 +1,5 @@
 import { SafeUserFarmData } from '../../earn-farm.types';
 
-export interface EarnPoolDetailsProps {
+export interface EarnFarmDetailsProps {
   farm: SafeUserFarmData;
 }

@@ -4,7 +4,7 @@ import { KeyedMutator } from 'swr';
 import { InterestViewEarn } from '../../../../../../types/ethers-contracts/InterestViewEarnAbi';
 import { SafeUserFarmData } from '../../earn-farm.types';
 
-export interface EarnOptionsProps {
+export interface EarnFarmOptionsProps {
   farm: SafeUserFarmData;
   intUSDPrice: BigNumber;
   mutate: KeyedMutator<

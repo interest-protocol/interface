@@ -27,9 +27,9 @@ import {
 
 import EarnCard from '../earn-farm-card';
 import EarnStakeModal from '../earn-stake-modal';
-import { EarnOptionsProps } from './earn-pool-options.types';
+import { EarnFarmOptionsProps } from './earn-farm-options.types';
 
-const EarnOptions: FC<EarnOptionsProps> = ({
+const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
   farm,
   mutate,
   loading,
@@ -343,4 +343,4 @@ const EarnOptions: FC<EarnOptionsProps> = ({
   );
 };
 
-export default EarnOptions;
+export default EarnFarmOptions;

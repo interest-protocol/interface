@@ -7,9 +7,9 @@ import Typography from '@/elements/typography';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { formatDollars, makeFarmSymbol } from '@/utils';
 
-import { EarnPoolDetailsProps } from './earn.pool-details.types';
+import { EarnFarmDetailsProps } from './earn.farm-details.types';
 
-const EarnPoolDetails: FC<EarnPoolDetailsProps> = ({ farm }) => (
+const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => (
   <Box>
     <Box display="flex" alignItems="center" px="L">
       {getFarmsSVGByToken(farm.chainId, farm.token0, farm.token1).map(
@@ -81,4 +81,4 @@ const EarnPoolDetails: FC<EarnPoolDetailsProps> = ({ farm }) => (
   </Box>
 );
 
-export default EarnPoolDetails;
+export default EarnFarmDetails;
