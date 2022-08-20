@@ -243,7 +243,7 @@ const EarnTable: FC<EarnTableProps> = ({
               loading
                 ? MobileEarnSkeletonRow
                 : filteredFarms.map((farm) => ({
-                    sideContent: (
+                    mobileSide: (
                       <Box
                         mb="L"
                         key={v4()}
