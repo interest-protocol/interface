@@ -3,39 +3,32 @@ import { FC, useMemo } from 'react';
 
 import { Container } from '@/components';
 import { RoutesEnum } from '@/constants';
-import { useChainId, useGetFarmsSummary } from '@/hooks';
+import { useChainId, useGetUserFarmData } from '@/hooks';
 
 import GoBack from '../../components/go-back';
-import { getSafeFarmSummaryData } from '../earn/utils';
 import ErrorView from '../error';
 import { EarnPoolDetails, EarnPoolOptions } from './components';
-import { EarnPoolProps } from './earn-pool.types';
+import { EarnFarmProps } from './earn-farm.types';
+import { getSafeUserFarmData } from './utils';
 
-const EarnPool: FC<EarnPoolProps> = ({ address }) => {
+const EarnFarm: FC<EarnFarmProps> = ({ address }) => {
+  const { error, data: rawData, mutate } = useGetUserFarmData(address);
+
   const chainId = useChainId();
 
-  const { error, data: rawData, mutate } = useGetFarmsSummary();
-
   const data = useMemo(
-    () => getSafeFarmSummaryData(chainId, rawData),
-    [rawData, chainId]
-  );
-
-  const farm = useMemo(
-    () => data.farms.find(propEq('stakingTokenAddress', address)),
-    [data]
+    () => getSafeUserFarmData(chainId, address, rawData),
+    [rawData, chainId, address]
   );
 
   if (error) return <ErrorView message="Error fetching contract" />;
 
-  if (!farm) return <ErrorView message="Farm not found" />;
-
   return (
     <Container dapp width="100%" mt="XL">
       <GoBack route={RoutesEnum.Earn} />
-      <EarnPoolDetails {...farm} />
+      <EarnPoolDetails farm={data.farm} />
       <EarnPoolOptions
-        farm={farm}
+        farm={data.farm}
         intUSDPrice={data.intUSDPrice}
         mutate={mutate}
         loading={data.loading}
@@ -44,4 +37,4 @@ const EarnPool: FC<EarnPoolProps> = ({ address }) => {
   );
 };
 
-export default EarnPool;
+export default EarnFarm;

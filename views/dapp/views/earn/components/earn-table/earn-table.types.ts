@@ -15,13 +15,11 @@ export interface EarnTableProps {
     [
       InterestViewEarn.PoolDataStructOutput[],
       InterestViewEarn.MintDataStructOutput,
-      BigNumber[],
-      InterestViewEarn.UserFarmDataStructOutput[]
+      BigNumber[]
     ] & {
       pools: InterestViewEarn.PoolDataStructOutput[];
       mintData: InterestViewEarn.MintDataStructOutput;
       prices: BigNumber[];
-      farmDatas: InterestViewEarn.UserFarmDataStructOutput[];
     }
   >;
   control: Control<IEarnForm>;

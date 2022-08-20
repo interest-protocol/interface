@@ -18,14 +18,14 @@ import {
   formatDollars,
   formatMoney,
   getCasaDePapelAddress,
+  makeFarmSymbol,
   showToast,
   showTXSuccessToast,
   throwError,
   throwIfInvalidSigner,
 } from '@/utils';
 
-import { makeFarmSymbol } from '../../../earn/utils';
-import EarnCard from '../earn-pool-card';
+import EarnCard from '../earn-farm-card';
 import EarnStakeModal from '../earn-stake-modal';
 import { EarnOptionsProps } from './earn-pool-options.types';
 
