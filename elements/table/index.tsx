@@ -278,7 +278,7 @@ const Table: FC<ResponsiveTableProps> = ({
             hasButton={!!hasButton}
             mobileSide={mobileSide}
             handleClick={handleClick}
-            desktopBg={
+            bg={
               backgroundColorMap
                 ? pathOr(
                     undefined,
