@@ -38,7 +38,7 @@ const EarnTable: FC<EarnTableProps> = ({
   );
 
   return (
-    <Box display="flex" flexDirection="column" flex="1" width="100%">
+    <Box display="flex" flexDirection="column" flex="1">
       {isDesktop ? (
         <Table
           hasButton
@@ -184,7 +184,7 @@ const EarnTable: FC<EarnTableProps> = ({
           }
         />
       ) : (
-        <Box display="flex" alignItems="center" width="100%">
+        <Box display="flex" alignItems="center">
           <Table
             hasButton
             backgroundColorMap={filteredFarms.map((farm) => ({
