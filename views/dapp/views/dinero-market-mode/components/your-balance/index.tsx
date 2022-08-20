@@ -15,7 +15,7 @@ const YourBalance: FC<YourBalanceProps> = ({ loading, dineroPair }) => (
     gridArea="e"
     bg="foreground"
     borderRadius="L"
-    px={['XL', 'XXL']}
+    px={['XL', 'XL']}
   >
     <Typography variant="normal" textTransform="uppercase" mt="L">
       Your balance:
@@ -42,7 +42,6 @@ const YourBalance: FC<YourBalanceProps> = ({ loading, dineroPair }) => (
             </Box>
             <Typography
               variant="normal"
-              maxWidth="10rem"
               overflow="hidden"
               textAlign="right"
               whiteSpace="nowrap"
