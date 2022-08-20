@@ -6,9 +6,9 @@ import { v4 } from 'uuid';
 import { getFarmsSVGByToken, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
 import { IntMath, TOKEN_SYMBOL } from '@/sdk';
-import { formatDollars, formatMoney } from '@/utils';
+import { formatDollars, formatMoney, makeFarmSymbol } from '@/utils';
 
-import { handleFilterFarms, makeFarmSymbol } from '../../earn.utils';
+import { handleFilterFarms } from '../../earn.utils';
 import {
   DesktopEarnSkeletonRow,
   MobileEarnSkeletonRow,
@@ -115,8 +115,8 @@ const EarnTable: FC<EarnTableProps> = ({
                   button: (
                     <Link
                       href={{
-                        pathname: Routes[RoutesEnum.EarnPool],
-                        query: { poolAddress: farm.stakingTokenAddress },
+                        pathname: Routes[RoutesEnum.EarnFarm],
+                        query: { tokenAddress: farm.stakingTokenAddress },
                       }}
                     >
                       <Button
@@ -293,8 +293,8 @@ const EarnTable: FC<EarnTableProps> = ({
                     button: (
                       <Link
                         href={{
-                          pathname: Routes[RoutesEnum.EarnPool],
-                          query: { poolAddress: farm.stakingTokenAddress },
+                          pathname: Routes[RoutesEnum.EarnFarm],
+                          query: { tokenAddress: farm.stakingTokenAddress },
                         }}
                       >
                         <Button

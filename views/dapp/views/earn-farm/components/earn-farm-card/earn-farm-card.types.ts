@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-export interface EarnPoolCardProps {
+export interface EarnFarmCardProps {
   title: string;
   amount: string;
   shadow?: boolean;
