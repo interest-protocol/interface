@@ -1,7 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 
 import { Box, Input, Typography } from '@/elements';
-import { formatMoney, parseToSafeStringNumber } from '@/utils';
+import { formatMoney, parseInputEventToNumberString } from '@/utils';
 
 import InputErrorMessage from './input-error';
 import InputMaxButton from './input-max-button';
@@ -65,7 +65,10 @@ const InputMoney: FC<InputMoneyProps> = ({
           disabled={disabled}
           {...register(name, {
             onChange: (v: ChangeEvent<HTMLInputElement>) =>
-              setValue(name, parseToSafeStringNumber(v.target.value)),
+              setValue(
+                name,
+                parseInputEventToNumberString(v, max ? +max : undefined)
+              ),
           })}
           shieldProps={{
             p: 'S',
