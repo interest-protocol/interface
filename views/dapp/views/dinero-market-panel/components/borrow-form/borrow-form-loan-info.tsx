@@ -14,8 +14,8 @@ import { BorrowFormLoanInfoProps } from './borrow-form.types';
 
 const INFO = [
   {
-    text: 'Max amount left',
-    tip: 'The max borrowable amount left in this market',
+    text: 'Max DNR left to borrow',
+    tip: 'The max borrowable DNR left in this market',
   },
   {
     text: 'Estimated DNR borrowed',
