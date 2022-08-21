@@ -351,6 +351,8 @@ const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
   );
 
   return [
+    // TODO: replace this magic number with Real Max Value
+    formatMoney(734956),
     roundPositionHealthNumber === 100
       ? '0'
       : Fraction.from(
@@ -373,7 +375,7 @@ export const getRepayPositionHealthData: TGetRepayPositionHealthData = (
   data,
   { collateral, loan }
 ) => {
-  if (!data) return ['0', '0', '0'];
+  if (!data) return ['0', '0', '0', '0'];
 
   const repay = IntMath.from(IntMath.toBigNumber(loan));
 
@@ -402,7 +404,7 @@ export const getBorrowPositionHealthData: TGetBorrowPositionHealthData = (
   data,
   { collateral, loan }
 ) => {
-  if (!data) return ['0', '0', '0'];
+  if (!data) return ['0', '0', '0', '0'];
 
   const newBorrowAmount = loanPrincipalToElastic(
     data.market.totalLoan,

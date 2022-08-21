@@ -52,17 +52,17 @@ export type TGetPositionHealthDataInternal = (
   borrowAmount: BigNumber,
   collateralAmount: BigNumber,
   data: SafeDineroMarketUserData['market']
-) => [string, string, string];
+) => [string, string, string, string];
 
 export type TGetBorrowPositionHealthData = (
   data: SafeDineroMarketUserData,
   borrow: { loan: string; collateral: string }
-) => [string, string, string];
+) => [string, string, string, string];
 
 export type TGetRepayPositionHealthData = (
   data: SafeDineroMarketUserData,
   borrow: { loan: string; collateral: string }
-) => [string, string, string];
+) => [string, string, string, string];
 
 export type TGetInfoLoanData = (
   data: SafeDineroMarketUserData,

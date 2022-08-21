@@ -1,7 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 
 import { Box, Input, Typography } from '@/elements';
-import { parseToSafeStringNumber } from '@/utils';
+import { formatMoney, parseToSafeStringNumber } from '@/utils';
 
 import InputErrorMessage from './input-error';
 import InputMaxButton from './input-max-button';
@@ -36,68 +36,97 @@ const InputMoney: FC<InputMoneyProps> = ({
       >
         {label}:
       </Typography>
-      <Input
-        type="string"
-        placeholder={amount}
-        disabled={disabled}
-        {...register(name, {
-          onChange: (v: ChangeEvent<HTMLInputElement>) =>
-            setValue(name, parseToSafeStringNumber(v.target.value)),
-        })}
-        shieldProps={{
-          p: 'S',
-          my: 'M',
-          height: '3rem',
-          bg: 'background',
-          borderRadius: 'M',
-          border: '1px solid',
-          borderColor: errors?.[labels[0]]?.[labels[1]]
-            ? 'error'
-            : 'transparent',
-          hover: {
+      <Box display="flex" flexDirection="column" alignItems="flex-end">
+        {max && (
+          <Box
+            py="S"
+            px="M"
+            mb="-1rem"
+            bg="bottomBackground"
+            borderRadius="M"
+            position="relative"
+          >
+            <Typography fontSize="S" variant="normal">
+              Max:{' '}
+              <Typography
+                fontSize="S"
+                variant="normal"
+                fontWeight="bold"
+                as="span"
+              >
+                {formatMoney(max)}
+              </Typography>
+            </Typography>
+          </Box>
+        )}
+        <Input
+          type="string"
+          placeholder={amount}
+          disabled={disabled}
+          {...register(name, {
+            onChange: (v: ChangeEvent<HTMLInputElement>) =>
+              setValue(name, parseToSafeStringNumber(v.target.value)),
+          })}
+          shieldProps={{
+            p: 'S',
+            my: 'M',
+            height: '3rem',
+            bg: 'background',
+            borderRadius: 'M',
+            border: '1px solid',
             borderColor: errors?.[labels[0]]?.[labels[1]]
               ? 'error'
-              : 'accentBackground',
-          },
-        }}
-        Suffix={
-          <InputMoneySuffix
-            name={name}
-            control={control}
-            amountUSD={amountUSD}
-          />
-        }
-        Prefix={
-          <>
-            <InputMaxButton
-              max={max}
+              : 'transparent',
+            hover: {
+              borderColor: errors?.[labels[0]]?.[labels[1]]
+                ? 'error'
+                : 'accentBackground',
+            },
+          }}
+          Suffix={
+            <InputMoneySuffix
               name={name}
               control={control}
-              data={data}
-              setValue={setValue}
+              amountUSD={amountUSD}
             />
-            <Box
-              px="L"
-              display="flex"
-              alignItems="center"
-              borderRight="1px solid"
-              borderColor="bottomBackground"
-            >
-              <Box as="span" display="inline-block" width="1rem">
-                <TokenIcon width="100%" />
-              </Box>
-              {PairTokenIcon && (
-                <Box as="span" display="inline-block" width="1rem" ml="-0.3rem">
-                  <PairTokenIcon width="100%" />
+          }
+          Prefix={
+            <>
+              <InputMaxButton
+                max={max}
+                name={name}
+                control={control}
+                data={data}
+                setValue={setValue}
+              />
+              <Box
+                px="L"
+                display="flex"
+                alignItems="center"
+                borderRight="1px solid"
+                borderColor="bottomBackground"
+              >
+                <Box as="span" display="inline-block" width="1rem">
+                  <TokenIcon width="100%" />
                 </Box>
-              )}
-              <Typography as="span" variant="normal" ml="S">
-                {PairTokenIcon ? 'LP' : currency}
-              </Typography>
-            </Box>
-          </>
-        }
-      />
+                {PairTokenIcon && (
+                  <Box
+                    as="span"
+                    display="inline-block"
+                    width="1rem"
+                    ml="-0.3rem"
+                  >
+                    <PairTokenIcon width="100%" />
+                  </Box>
+                )}
+                <Typography as="span" variant="normal" ml="S">
+                  {PairTokenIcon ? 'LP' : currency}
+                </Typography>
+              </Box>
+            </>
+          }
+        />
+      </Box>
       <InputErrorMessage errors={errors} labels={labels} />
     </Box>
   );
