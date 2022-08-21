@@ -1,25 +1,23 @@
+import Link from 'next/link';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import { getFarmsSVGByToken } from '@/constants';
-import { Box, DropdownTable, Typography } from '@/elements';
-import { TOKEN_SYMBOL } from '@/sdk';
-import { formatDollars } from '@/utils';
+import { getFarmsSVGByToken, Routes, RoutesEnum } from '@/constants';
+import { Box, Button, Table, Typography } from '@/elements';
+import { IntMath, TOKEN_SYMBOL } from '@/sdk';
+import { formatDollars, formatMoney, makeFarmSymbol } from '@/utils';
 
-import { handleFilterFarms, makeFarmSymbol } from '../../utils';
+import { handleFilterFarms } from '../../earn.utils';
 import {
   DesktopEarnSkeletonRow,
   MobileEarnSkeletonRow,
 } from './earn-skeleton-row';
 import { EarnTableProps } from './earn-table.types';
-import EarnTableCollapsible from './earn-table-collapsible';
 
 const EarnTable: FC<EarnTableProps> = ({
   loading,
   isDesktop,
-  intUSDPrice,
-  mutate,
   control,
   farms,
 }) => {
@@ -42,7 +40,8 @@ const EarnTable: FC<EarnTableProps> = ({
   return (
     <Box display="flex" flexDirection="column" flex="1">
       {isDesktop ? (
-        <DropdownTable
+        <Table
+          hasButton
           isDesktop
           headings={[
             {
@@ -68,6 +67,19 @@ const EarnTable: FC<EarnTableProps> = ({
                   fontSize="inherit"
                 >
                   TVL
+                </Typography>
+              ),
+            },
+            {
+              tip: 'Staking amount to farm Int',
+              item: (
+                <Typography
+                  as="span"
+                  cursor="help"
+                  variant="normal"
+                  fontSize="inherit"
+                >
+                  Staking
                 </Typography>
               ),
             },
@@ -100,6 +112,22 @@ const EarnTable: FC<EarnTableProps> = ({
             loading
               ? DesktopEarnSkeletonRow
               : filteredFarms.map((farm) => ({
+                  button: (
+                    <Link
+                      href={{
+                        pathname: Routes[RoutesEnum.EarnFarm],
+                        query: { tokenAddress: farm.stakingTokenAddress },
+                      }}
+                    >
+                      <Button
+                        as="div"
+                        variant="primary"
+                        hover={{ bg: 'accentActive' }}
+                      >
+                        Enter
+                      </Button>
+                    </Link>
+                  ),
                   items: [
                     <Box key={v4()} display="flex" alignItems="center">
                       <Box display="inline-flex">
@@ -131,6 +159,7 @@ const EarnTable: FC<EarnTableProps> = ({
                       </Typography>
                     </Box>,
                     formatDollars(farm.tvl),
+                    formatMoney(IntMath.toNumber(farm.stakingAmount)),
                     farm.apr.value().isZero() ? '0%' : farm.apr.toPercentage(),
                     `${
                       farm.allocation.value().isZero()
@@ -151,19 +180,15 @@ const EarnTable: FC<EarnTableProps> = ({
                       {farm.stable ? 'Stable' : 'Volatile'}
                     </Typography>,
                   ],
-                  dropdown: {
-                    args: { farm, intUSDPrice, mutate, loading },
-                    Component: EarnTableCollapsible,
-                  },
                 }))
           }
         />
       ) : (
         <Box display="flex" alignItems="center">
-          <DropdownTable
-            key={v4()}
+          <Table
+            hasButton
             backgroundColorMap={filteredFarms.map((farm) => ({
-              bg: farm.isLive ? 'unset' : 'bottomBackground',
+              bg: farm.isLive ? 'foreground' : 'bottomBackground',
             }))}
             headings={[
               {
@@ -176,6 +201,19 @@ const EarnTable: FC<EarnTableProps> = ({
                     fontSize="inherit"
                   >
                     TVL
+                  </Typography>
+                ),
+              },
+              {
+                tip: 'Staking amount to farm Int',
+                item: (
+                  <Typography
+                    as="span"
+                    cursor="help"
+                    variant="normal"
+                    fontSize="inherit"
+                  >
+                    Staking
                   </Typography>
                 ),
               },
@@ -205,7 +243,7 @@ const EarnTable: FC<EarnTableProps> = ({
               loading
                 ? MobileEarnSkeletonRow
                 : filteredFarms.map((farm) => ({
-                    sideContent: (
+                    mobileSide: (
                       <Box
                         mb="L"
                         key={v4()}
@@ -252,8 +290,25 @@ const EarnTable: FC<EarnTableProps> = ({
                         </Typography>
                       </Box>
                     ),
+                    button: (
+                      <Link
+                        href={{
+                          pathname: Routes[RoutesEnum.EarnFarm],
+                          query: { tokenAddress: farm.stakingTokenAddress },
+                        }}
+                      >
+                        <Button
+                          as="div"
+                          variant="primary"
+                          hover={{ bg: 'accentActive' }}
+                        >
+                          Enter
+                        </Button>
+                      </Link>
+                    ),
                     items: [
                       formatDollars(farm.tvl),
+                      formatMoney(IntMath.toNumber(farm.stakingAmount)),
                       farm.apr.value().isZero()
                         ? '0%'
                         : farm.apr.toPercentage(),
@@ -267,19 +322,15 @@ const EarnTable: FC<EarnTableProps> = ({
                         fontSize="0.70rem"
                         bg={farm.stable ? 'accent' : 'accentAlternativeActive'}
                         borderRadius="M"
-                        p="0.15rem"
+                        py="XS"
+                        px="L"
                         textAlign="center"
                         cursor="pointer"
-                        width="70%"
                         key={v4()}
                       >
                         {farm.stable ? 'Stable' : 'Volatile'}
                       </Typography>,
                     ],
-                    dropdown: {
-                      args: { farm, intUSDPrice, mutate, loading },
-                      Component: EarnTableCollapsible,
-                    },
                   }))
             }
           />

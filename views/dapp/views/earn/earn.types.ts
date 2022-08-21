@@ -35,31 +35,6 @@ export interface IEarnForm {
   onlyFinished: boolean;
 }
 
-export type TCalculateFarmBaseAPR = (
-  chainId: number,
-  totalAllocationPoints: BigNumber,
-  allocationPoints: BigNumber,
-  intPerBlock: BigNumber,
-  intUSDPrice: BigNumber,
-  stakeAmount: BigNumber,
-  stakeTokenUSDPrice: BigNumber
-) => IntMath;
-
-export type TCalculateAllocation = (
-  allocationPoints: BigNumber,
-  totalAllocationPoints: BigNumber
-) => IntMath;
-
-export type TCalculateFarmTokenPrice = (
-  chainId: number,
-  token0: string,
-  token1: string,
-  reserve0: BigNumber,
-  reserve1: BigNumber,
-  tokenPriceMap: TokenPriceMap,
-  totalSupply: BigNumber
-) => IntMath;
-
 export interface SafeFarmData {
   allocationPoints: BigNumber;
   chainId: number;
@@ -75,18 +50,14 @@ export interface SafeFarmData {
   tvl: number;
   apr: IntMath;
   stable: boolean;
-  allowance: BigNumber;
-  balance: BigNumber;
-  stakingAmount: BigNumber;
-  pendingRewards: BigNumber;
   isLive: boolean;
+  stakingAmount: BigNumber;
 }
 
 export interface SafeFarmSummaryData {
   farms: ReadonlyArray<SafeFarmData>;
   loading: boolean;
   intUSDPrice: BigNumber;
-  tokenPriceMap: TokenPriceMap;
 }
 
 export type GetSafeFarmSummaryData = (
@@ -95,26 +66,11 @@ export type GetSafeFarmSummaryData = (
     | ([
         InterestViewEarn.PoolDataStructOutput[],
         InterestViewEarn.MintDataStructOutput,
-        BigNumber[],
-        InterestViewEarn.UserFarmDataStructOutput[]
+        BigNumber[]
       ] & {
         pools: InterestViewEarn.PoolDataStructOutput[];
         mintData: InterestViewEarn.MintDataStructOutput;
         prices: BigNumber[];
-        farmDatas: InterestViewEarn.UserFarmDataStructOutput[];
       })
     | undefined
 ) => SafeFarmSummaryData;
-
-export interface TokenPriceMap {
-  [key: string]: BigNumber;
-}
-
-export type CalculateIntUSDPrice = (
-  chainId: number,
-  token0: string,
-  token1: string,
-  reserve0: BigNumber,
-  reserve1: BigNumber,
-  tokenPriceMap: TokenPriceMap
-) => BigNumber;

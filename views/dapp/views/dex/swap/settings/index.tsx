@@ -3,7 +3,7 @@ import { ChangeEvent, FC, useEffect, useRef } from 'react';
 import { Box, Button, Typography } from '@/elements';
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
 import { TimesSVG } from '@/svg';
-import { parseToSafeStringNumber } from '@/utils';
+import { parseInputEventToNumberString } from '@/utils';
 
 import Field from './field';
 import { SwapSettingsProps } from './settings.types';
@@ -91,13 +91,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           setRegister={() =>
             register('slippage', {
               onChange: (v: ChangeEvent<HTMLInputElement>) => {
-                const value = v.target.value;
-                const slippage = parseToSafeStringNumber(
-                  isNaN(+value[value.length - 1]) &&
-                    value[value.length - 1] !== '.'
-                    ? value.slice(0, value.length - 1)
-                    : value
-                );
+                const slippage = parseInputEventToNumberString(v);
                 const safeSlippage = +slippage >= 30 ? '30' : slippage;
                 setValue('slippage', safeSlippage);
                 newSlippage.current = safeSlippage;

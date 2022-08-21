@@ -2,7 +2,7 @@ import { BigNumber } from 'ethers';
 
 import { StakeState } from '@/constants';
 
-import { SafeFarmData } from '../../earn.types';
+import { SafeFarmData } from '../../../earn/earn.types';
 
 export interface EarnStakeModalProps {
   amount: number;
