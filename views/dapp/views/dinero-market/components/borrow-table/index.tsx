@@ -54,6 +54,7 @@ const BorrowTable: FC = () => {
       <Box display={['none', 'none', 'none', 'block']}>
         <Table
           hasButton
+          separated
           key={v4()}
           headings={[
             {
