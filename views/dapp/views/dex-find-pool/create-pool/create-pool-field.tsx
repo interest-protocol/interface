@@ -11,7 +11,7 @@ import { coreActions } from '@/state/core/core.actions';
 import {
   formatMoney,
   getInterestDexRouterAddress,
-  parseToSafeStringNumber,
+  parseInputEventToNumberString,
   showToast,
   showTXSuccessToast,
   throwError,
@@ -98,15 +98,10 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
         color={isDisabled ? 'textSoft' : 'text'}
         {...register(`${name}.value`, {
           onChange: (v: ChangeEvent<HTMLInputElement>) => {
-            const value = v.target.value;
-
             setValue?.(
               `${name}.value`,
-              parseToSafeStringNumber(
-                isNaN(+value[value.length - 1]) &&
-                  value[value.length - 1] !== '.'
-                  ? value.slice(0, value.length - 1)
-                  : value,
+              parseInputEventToNumberString(
+                v,
                 IntMath.toNumber(tokenBalance, decimals)
               )
             );

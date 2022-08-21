@@ -2,10 +2,10 @@ import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import { getFarmsSVG, StakeState } from '@/constants';
+import { getFarmsSVGByToken, StakeState } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { LoadingSVG, TimesSVG } from '@/svg';
-import { safeToBigNumber } from '@/utils';
+import { formatMoney, safeToBigNumber } from '@/utils';
 
 import { EarnStakeModalProps } from './earn-stake-modal.types';
 import InputStake from './input-stake';
@@ -32,7 +32,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
     [modal]
   );
 
-  const Icon = getFarmsSVG(farm.id);
+  const Icons = getFarmsSVGByToken(farm.chainId, farm.token0, farm.token1);
 
   const onSubmit = ({ value }: { value: string }) => {
     isStake
@@ -94,12 +94,12 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
             currencyPrefix={
               <Box display="flex" alignItems="center">
                 <Box display="inline-flex">
-                  {Icon.map((SVG, index) => (
+                  {Icons.map(({ SVG, highZIndex }, index) => (
                     <Box
                       key={v4()}
                       width="1.6rem"
-                      zIndex={Icon.length - index}
                       ml={index != 0 ? '-0.5rem' : 'NONE'}
+                      zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
                     >
                       <SVG width="100%" />
                     </Box>
@@ -122,7 +122,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
               {farmSymbol} Token
             </Typography>
             <Typography variant="normal" my="L">
-              {amount} {farmSymbol}
+              {formatMoney(amount)} {farmSymbol}
             </Typography>
           </Box>
         </Box>

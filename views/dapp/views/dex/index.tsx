@@ -15,7 +15,14 @@ const DEXView: FC = () => {
 
   return (
     <Container width={['100%', '100%', '100%', 'auto']}>
-      <Box bg="foreground" textAlign="center" mt="XL" p="L" borderRadius="L">
+      <Box
+        bg="foreground"
+        textAlign="center"
+        mt="XL"
+        p="L"
+        borderRadius="L"
+        minWidth={['20rem', '40rem']}
+      >
         <Switch
           defaultValue={isSwap ? 'swap' : 'pool'}
           options={[

@@ -1,4 +1,5 @@
 import { always, ifElse, isNil, toString } from 'ramda';
+import { ChangeEvent } from 'react';
 
 import { Fraction, MAX_NUMBER_INPUT_VALUE, Rounding } from '@/sdk';
 
@@ -100,14 +101,22 @@ export const makeSWRKey = (
     .concat([methodName])
     .join('|');
 
-export const parseToSafeStringNumber = (
-  x: string,
+export const parseInputEventToNumberString = (
+  event: ChangeEvent<HTMLInputElement>,
   max: number = MAX_NUMBER_INPUT_VALUE
-): string =>
-  isNaN(+x)
+) => {
+  const value = event.target.value;
+
+  const x =
+    isNaN(+value[value.length - 1]) && value[value.length - 1] !== '.'
+      ? value.slice(0, value.length - 1)
+      : value;
+
+  return isNaN(+x)
     ? ''
     : +x >= max
     ? max.toString()
     : x.charAt(0) == '0' && !x.startsWith('0.')
     ? String(Number(x))
     : x;
+};

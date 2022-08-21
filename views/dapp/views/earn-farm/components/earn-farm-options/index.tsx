@@ -1,4 +1,5 @@
 import { BigNumber } from 'ethers';
+import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import { FC, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -15,23 +16,24 @@ import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG } from '@/svg';
 import {
   formatDollars,
+  formatMoney,
   getCasaDePapelAddress,
+  makeFarmSymbol,
   showToast,
   showTXSuccessToast,
   throwError,
   throwIfInvalidSigner,
 } from '@/utils';
 
-import { makeFarmSymbol } from '../../utils';
+import EarnCard from '../earn-farm-card';
 import EarnStakeModal from '../earn-stake-modal';
-import EarnCard from './earn-card';
-import { EarnTableCollapsibleProps } from './earn-table.types';
+import { EarnFarmOptionsProps } from './earn-farm-options.types';
 
-const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
+const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
   farm,
-  intUSDPrice,
   mutate,
   loading,
+  intUSDPrice,
 }) => {
   const { push } = useRouter();
   const [modal, setModal] = useState<StakeState | undefined>();
@@ -124,7 +126,9 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
           validId,
           validSigner,
           farm.id,
-          amount.gt(farm.balance) ? farm.balance : amount
+          amount.add(ethers.utils.parseEther('1')).gt(farm.balance)
+            ? farm.balance
+            : amount
         );
 
         await showTXSuccessToast(tx, validId);
@@ -155,7 +159,9 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
           validId,
           validSigner,
           farm.id,
-          amount.gt(farm.stakingAmount) ? farm.stakingAmount : amount
+          amount.add(ethers.utils.parseEther('1')).gt(farm.stakingAmount)
+            ? farm.stakingAmount
+            : amount
         );
         await showTXSuccessToast(tx, validId);
         await mutate();
@@ -182,9 +188,9 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
 
   return (
     <Box
+      bg="foreground"
+      borderRadius="L"
       columnGap="1rem"
-      borderTop="1px solid"
-      borderColor="textSoft"
       p={['S', 'S', 'S', 'L']}
       gridTemplateColumns="1fr 1fr 1fr"
       display={['flex', 'flex', 'flex', 'grid']}
@@ -196,10 +202,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         amountUSD={formatDollars(
           IntMath.from(farm.stakingTokenPrice).mul(farm.balance).toNumber()
         )}
-        amount={`${IntMath.toNumber(farm.balance).toLocaleString('fullwide', {
-          useGrouping: false,
-          maximumSignificantDigits: 6,
-        })} ${farmSymbol}`}
+        amount={`${formatMoney(IntMath.toNumber(farm.balance))} ${farmSymbol}`}
         button={
           <Button
             variant="primary"
@@ -230,12 +233,8 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
             .mul(farm.stakingAmount)
             .toNumber()
         )}
-        amount={`${IntMath.toNumber(farm.stakingAmount).toLocaleString(
-          'fullwide',
-          {
-            useGrouping: false,
-            maximumSignificantDigits: 6,
-          }
+        amount={`${formatMoney(
+          IntMath.toNumber(farm.stakingAmount)
         )} ${farmSymbol}`}
         button={
           farm.allowance.isZero() ? (
@@ -268,7 +267,7 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
               <Button
                 mr="S"
                 variant="primary"
-                disabled={farm.balance.isZero()}
+                disabled={farm.balance.isZero() || !farm.isLive}
                 onClick={handleChangeModal(StakeState.Stake)}
                 bg={
                   farm.balance.isZero() || !farm.isLive ? 'disabled' : 'accent'
@@ -310,7 +309,9 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
         amountUSD={formatDollars(
           IntMath.from(intUSDPrice).mul(farm.pendingRewards).toNumber()
         )}
-        amount={`${IntMath.toNumber(farm.pendingRewards)} ${TOKEN_SYMBOL.INT}`}
+        amount={`${formatMoney(IntMath.toNumber(farm.pendingRewards))} ${
+          TOKEN_SYMBOL.INT
+        }`}
         button={
           <Button
             onClick={!farm.pendingRewards.isZero() ? handleHarvest : undefined}
@@ -342,4 +343,4 @@ const EarnTableCollapsible: FC<EarnTableCollapsibleProps> = ({
   );
 };
 
-export default EarnTableCollapsible;
+export default EarnFarmOptions;
