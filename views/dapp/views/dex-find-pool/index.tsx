@@ -288,7 +288,7 @@ const FindPoolView: FC = () => {
     );
 
   return (
-    <Container py="XL">
+    <Container py="XL" dapp>
       <GoBack routeBack />
       <Typography variant="normal" width="100%">
         Find Pool
@@ -335,10 +335,10 @@ const FindPoolView: FC = () => {
         p="L"
         my="L"
         color="text"
-        width="100%"
         bg="foreground"
         maxWidth="30rem"
         borderRadius="M"
+        width={['100%', '30rem']}
       >
         <WalletGuardButton>
           {isSameAddressZ(tokenAAddress, tokenBAddress) ? (
