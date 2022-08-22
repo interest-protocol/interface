@@ -217,6 +217,11 @@ export const CONTRACTS = {
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: '0x0E34A52922770f7eb965688aa251a872eb3481aE',
   },
+  INTEREST_VIEW_DINERO_V2: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: '0xC8C91ea5ecb91F0833FCb96fdDa17617851E7034',
+  },
   INTEREST_VIEW_EARN: {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,

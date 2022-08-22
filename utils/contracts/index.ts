@@ -1,5 +1,5 @@
 import { ContractReceipt, ethers } from 'ethers';
-import { __, compose, pathOr, propOr, toString } from 'ramda';
+import { __, chain, compose, pathOr, propOr, toString } from 'ramda';
 
 import CasaDePapelABI from '@/sdk/abi/casa-de-papel.abi.json';
 import InterestDexFactoryABI from '@/sdk/abi/interest-dex-factory.abi.json';
@@ -8,6 +8,7 @@ import InterestERC20MarketABI from '@/sdk/abi/interest-erc-20-market.abi.json';
 import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
 import InterestViewDexABI from '@/sdk/abi/interest-view-dex.abi.json';
 import InterestViewDineroABI from '@/sdk/abi/interest-view-dinero.abi.json';
+import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import InterestViewMAILABI from '@/sdk/abi/interest-view-MAIL.abi.json';
 import MAILDeployerABI from '@/sdk/abi/mail-deployer.abi.json';
@@ -28,6 +29,7 @@ import {
   InterestViewBalancesAbi,
   InterestViewDexAbi,
   InterestViewDineroAbi,
+  InterestViewDineroV2Abi,
   InterestViewEarnAbi,
   InterestViewMAILAbi,
   MailDeployerAbi,
@@ -71,6 +73,9 @@ export const getInterestDexRouterAddress: GetContractAddress = makeGetAddress(
 export const getInterestViewDexAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.INTEREST_VIEW_DEX
 );
+
+export const getInterestViewDineroV2Address: GetContractAddress =
+  makeGetAddress(CONTRACTS.INTEREST_VIEW_DINERO_V2);
 
 export const getDineroMarketAddress = (
   chainId: number,
@@ -246,3 +251,13 @@ export const getInterestDexFactoryContract: GetContract<InterestDexFactoryAbi> =
       InterestDexFactoryABI,
       provider
     ) as InterestDexFactoryAbi;
+
+export const getInterestViewDineroV2: GetContract<InterestViewDineroV2Abi> = (
+  chainId,
+  provider
+) =>
+  new ethers.Contract(
+    getInterestViewDineroV2Address(chainId),
+    InterestViewDineroV2ABI,
+    provider
+  ) as InterestViewDineroV2Abi;

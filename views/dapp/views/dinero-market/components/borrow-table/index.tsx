@@ -1,27 +1,26 @@
-import { ethers } from 'ethers';
+import { BigNumber } from 'ethers';
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { v4 } from 'uuid';
 
-import { Routes, RoutesEnum, TOKENS_SVG_MAP } from '@/constants';
+import { getDineroMarketSVGBySymbol, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
-import { useGetDineroMarketErc20Summary } from '@/hooks';
-import { useIdAccount } from '@/hooks/use-id-account';
-import {
-  CHAIN_ID,
-  DINERO_MARKET_CONTRACTS,
-  IntMath,
-  SECONDS_IN_A_YEAR,
-  TOKEN_SYMBOL,
-} from '@/sdk';
+import { useChainId, useGetDineroMarketsSummaryV2 } from '@/hooks';
+import { IntMath, SECONDS_IN_A_YEAR } from '@/sdk';
 import { TimesSVG } from '@/svg';
-import { formatDollars, getERC20Data } from '@/utils';
+import { formatDollars } from '@/utils';
 
 import Loading from '../../../../components/loading';
+import { getSafeDineroMarketSummaryData } from '../../dinero-market.utils';
 
 const BorrowTable: FC = () => {
-  const { data, error } = useGetDineroMarketErc20Summary();
-  const { chainId } = useIdAccount();
+  const { data, error } = useGetDineroMarketsSummaryV2();
+  const chainId = useChainId();
+
+  const markets = useMemo(
+    () => getSafeDineroMarketSummaryData(chainId, data),
+    [data, chainId]
+  );
 
   if (error)
     return (
@@ -115,20 +114,7 @@ const BorrowTable: FC = () => {
               ),
             },
           ]}
-          data={DINERO_MARKET_CONTRACTS[chainId].map((x, index) => {
-            const [tokenA, tokenB] = x.collateralAddresses.map((address) =>
-              getERC20Data(chainId, address)
-            );
-
-            const [Icon, PairIcon] = [
-              TOKENS_SVG_MAP[tokenA.symbol] ??
-                TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown],
-              tokenB
-                ? TOKENS_SVG_MAP[tokenB.symbol] ??
-                  TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown]
-                : null,
-            ];
-
+          data={markets.map((x) => {
             return {
               button: (
                 <Link
@@ -148,35 +134,39 @@ const BorrowTable: FC = () => {
               ),
               items: [
                 <Box key={v4()} display="flex" alignItems="center">
-                  <Box display="inline-block" as="span" width="1.4rem">
-                    <Icon width="100%" />
-                  </Box>
-                  <Box
-                    as="span"
-                    ml="-0.5rem"
-                    width="1.4rem"
-                    display="inline-block"
-                  >
-                    {PairIcon ? <PairIcon width="100%" /> : null}
-                  </Box>
+                  {getDineroMarketSVGBySymbol(
+                    chainId,
+                    x.symbol0,
+                    x.symbol1
+                  ).map(({ SVG, highZIndex }, index) => (
+                    <Box
+                      mr="M"
+                      key={v4()}
+                      width="1.6rem"
+                      ml={index != 0 ? '-1rem' : 'NONE'}
+                      zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
+                    >
+                      <SVG width="100%" />
+                    </Box>
+                  ))}
                   <Typography variant="normal" ml="M">
-                    {tokenB
-                      ? `LP (${tokenA.symbol} - ${tokenB.symbol})`
-                      : `${tokenA.name} (${tokenA.symbol})`}
+                    {x.name}
                   </Typography>
                 </Box>,
                 formatDollars(
-                  IntMath.from(data[index].totalCollateral)
-                    .mul(data[index].exchangeRate)
-                    .toNumber()
+                  IntMath.from(
+                    x.collateralAmount
+                      .mul(x.collateralUSDPrice)
+                      .div(BigNumber.from(10).pow(x.collateralDecimals))
+                  ).toNumber()
                 ),
-                IntMath.from(data[index].maxLTVRatio).toPercentage(0),
-                tokenB
+                IntMath.from(x.LTV).toPercentage(0),
+                x.interestRate.isZero()
                   ? 'N/A'
                   : IntMath.from(
-                      data[index].interestRate.mul(SECONDS_IN_A_YEAR)
+                      x.interestRate.mul(SECONDS_IN_A_YEAR)
                     ).toPercentage(2),
-                IntMath.from(data[index].liquidationFee).toPercentage(2),
+                IntMath.from(x.liquidationFee).toPercentage(2),
               ],
             };
           })}
@@ -231,85 +221,72 @@ const BorrowTable: FC = () => {
               ),
             },
           ]}
-          data={DINERO_MARKET_CONTRACTS[CHAIN_ID.BNB_TEST_NET].map(
-            (x, index) => {
-              const [tokenA, tokenB] = x.collateralAddresses.map((address) =>
-                getERC20Data(chainId, address)
-              );
-
-              const [Icon, PairIcon] = [
-                TOKENS_SVG_MAP[tokenA.symbol] ??
-                  TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown],
-                tokenB
-                  ? TOKENS_SVG_MAP[tokenB.symbol] ??
-                    TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown]
-                  : null,
-              ];
-
-              return {
-                mobileSide: (
-                  <Box
-                    flex="1"
-                    key={v4()}
-                    display="flex"
-                    alignItems="center"
-                    flexDirection="column"
-                    justifyContent="center"
-                  >
-                    <Box display="inline-block" as="span" width="1.4rem">
-                      <Icon width="100%" />
-                    </Box>
+          data={markets.map((x) => {
+            return {
+              mobileSide: (
+                <Box
+                  flex="1"
+                  key={v4()}
+                  display="flex"
+                  alignItems="center"
+                  flexDirection="column"
+                  justifyContent="center"
+                >
+                  {getDineroMarketSVGBySymbol(
+                    chainId,
+                    x.symbol0,
+                    x.symbol1
+                  ).map(({ SVG, highZIndex }, index) => (
                     <Box
-                      as="span"
-                      ml="-0.5rem"
-                      width="1.4rem"
-                      display="inline-block"
-                    >
-                      {PairIcon ? <PairIcon width="100%" /> : null}
-                    </Box>
-                    <Typography variant="normal" textAlign="center" mt="M">
-                      {tokenB
-                        ? `LP (${tokenA.symbol} - ${tokenB.symbol})`
-                        : `${tokenA.name} (${tokenA.symbol})`}
-                    </Typography>
-                  </Box>
-                ),
-                button: (
-                  <Link
-                    href={{
-                      pathname: Routes[RoutesEnum.DineroMarketBorrow],
-                      query: { address: x.marketAddress },
-                    }}
-                  >
-                    <Button
+                      mr="M"
                       key={v4()}
-                      as="div"
-                      variant="primary"
-                      hover={{ bg: 'accentActive' }}
+                      width="1.6rem"
+                      ml={index != 0 ? '-1rem' : 'NONE'}
+                      zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
                     >
-                      Enter
-                    </Button>
-                  </Link>
+                      <SVG width="100%" />
+                    </Box>
+                  ))}
+                  <Typography variant="normal" textAlign="center" mt="M">
+                    {x.name}
+                  </Typography>
+                </Box>
+              ),
+              button: (
+                <Link
+                  href={{
+                    pathname: Routes[RoutesEnum.DineroMarketBorrow],
+                    query: { address: x.marketAddress },
+                  }}
+                >
+                  <Button
+                    key={v4()}
+                    as="div"
+                    variant="primary"
+                    hover={{ bg: 'accentActive' }}
+                  >
+                    Enter
+                  </Button>
+                </Link>
+              ),
+              items: [
+                formatDollars(
+                  IntMath.from(
+                    x.collateralAmount
+                      .mul(x.collateralUSDPrice)
+                      .div(BigNumber.from(10).pow(x.collateralDecimals))
+                  ).toNumber()
                 ),
-                items: [
-                  formatDollars(
-                    IntMath.from(data[index].totalCollateral)
-                      .mul(data[index].exchangeRate)
-                      .value()
-                      .div(ethers.utils.parseEther('1'))
-                      .toNumber()
-                  ),
-                  IntMath.from(data[index].maxLTVRatio).toPercentage(0),
-                  tokenB
-                    ? 'N/A'
-                    : IntMath.from(
-                        data[index].interestRate.mul(SECONDS_IN_A_YEAR)
-                      ).toPercentage(2),
-                  IntMath.from(data[index].liquidationFee).toPercentage(2),
-                ],
-              };
-            }
-          )}
+                IntMath.from(x.LTV).toPercentage(0),
+                x.interestRate.isZero()
+                  ? 'N/A'
+                  : IntMath.from(
+                      x.interestRate.mul(SECONDS_IN_A_YEAR)
+                    ).toPercentage(2),
+                IntMath.from(x.liquidationFee).toPercentage(2),
+              ],
+            };
+          })}
         />
       </Box>
     </>

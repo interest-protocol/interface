@@ -3,6 +3,7 @@ export * from './use-click-outside-listener-ref';
 export * from './use-debounce';
 export * from './use-get-dex-allowances-and-balances';
 export * from './use-get-dinero-market-erc20-summary';
+export * from './use-get-dinero-markets-summary-v2';
 export * from './use-get-farms-summary';
 export * from './use-get-mail-market-data';
 export * from './use-get-mail-market-metadata';
