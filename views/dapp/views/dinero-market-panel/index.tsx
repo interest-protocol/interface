@@ -1,5 +1,4 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { find, propEq, values } from 'ramda';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -17,14 +16,13 @@ import {
 import { Container, Tooltip } from '@/components';
 import { ERC_20_DATA, RoutesEnum } from '@/constants';
 import { Box } from '@/elements';
-import { useGetSigner, useGetUserDineroMarketData } from '@/hooks';
-import { useIdAccount } from '@/hooks/use-id-account';
 import {
-  CHAIN_ID,
-  DINERO_MARKET_CONTRACT_MAP,
-  DINERO_MARKET_CONTRACTS,
-  TOKEN_SYMBOL,
-} from '@/sdk';
+  useGetDineroMarketsSummaryV2,
+  useGetSigner,
+  useGetUserDineroMarketData,
+} from '@/hooks';
+import { useIdAccount } from '@/hooks/use-id-account';
+import { CHAIN_ID, DINERO_MARKET_CONTRACT_MAP, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import {
   getDNRAddress,
@@ -44,6 +42,7 @@ import {
 } from '@/utils/dinero-market';
 
 import GoBack from '../../components/go-back';
+import { getSafeDineroMarketSummaryData } from '../dinero-market/dinero-market.utils';
 import ErrorPage from '../error';
 import { borrowFormValidation } from './components/borrow-form/borrow-form.validator';
 import LoanInfo from './components/loan-info';
@@ -52,11 +51,7 @@ import UserLTV from './components/user-ltv';
 import YourBalance from './components/your-balance';
 import { BORROW_DEFAULT_VALUES } from './dinero-market.data';
 import { DineroMarketPanelProps, IBorrowForm } from './dinero-market.types';
-import {
-  isFormBorrowEmpty,
-  isFormRepayEmpty,
-  isPairInterestDineroMarketPair,
-} from './dinero-market.utils';
+import { isFormBorrowEmpty, isFormRepayEmpty } from './dinero-market.utils';
 import DineroMarketForm from './dinero-market-form';
 import DineroMarketSwitch from './dinero-market-switch';
 
@@ -65,17 +60,24 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
   const { signer } = useGetSigner();
   const { chainId, account } = useIdAccount();
 
-  const isPairAddress = isPairInterestDineroMarketPair(address, chainId);
+  // TODO: Refactor this logic
+  const { data: marketsRawData, error: marketsError } =
+    useGetDineroMarketsSummaryV2();
 
-  const tokensAddresses = DINERO_MARKET_CONTRACTS[chainId].find(
-    propEq('marketAddress', address)
-  )!.collateralAddresses!;
-
-  const [tokenSymbol, pairTokenSymbol] = tokensAddresses!.map(
-    (tokenAddress) =>
-      (find(propEq('address', tokenAddress), values(ERC_20_DATA[chainId]))
-        ?.symbol ?? TOKEN_SYMBOL.BTC) as TOKEN_SYMBOL
+  const market = useMemo(
+    () =>
+      getSafeDineroMarketSummaryData(chainId, marketsRawData).find(
+        ({ marketAddress }) => marketAddress == address
+      ),
+    [marketsRawData, marketsError, chainId]
   );
+
+  const isPairAddress = !!market?.isPair;
+
+  const [tokenSymbol, pairTokenSymbol] = [
+    market?.symbol0 ?? TOKEN_SYMBOL.BTC,
+    market?.symbol1,
+  ] as [TOKEN_SYMBOL, TOKEN_SYMBOL];
 
   const dispatch = useDispatch();
 
@@ -124,7 +126,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     mutate,
     error,
   } = useGetUserDineroMarketData(address, [
-    tokensAddresses![0],
+    address,
     getDNRAddress(CHAIN_ID.BNB_TEST_NET),
   ]);
 
@@ -132,7 +134,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     () =>
       processDineroMarketUserData(
         chainId,
-        [tokensAddresses![0], getDNRAddress(CHAIN_ID.BNB_TEST_NET)],
+        [address, getDNRAddress(CHAIN_ID.BNB_TEST_NET)],
         rawData
       ),
     [rawData, chainId]
