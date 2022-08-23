@@ -104,7 +104,7 @@ const sortByTVLFn = (x: DineroMarketSummary, y: DineroMarketSummary) =>
     .mul(x.collateralUSDPrice)
     .div(BigNumber.from(10).pow(x.collateralDecimals))
     .lt(
-      x.totalCollateral
+      y.totalCollateral
         .mul(y.collateralUSDPrice)
         .div(BigNumber.from(10).pow(y.collateralDecimals))
     )
