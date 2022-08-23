@@ -1,3 +1,11 @@
-import { BorrowFiltersProps } from '../borrow-filters/borrow-filters.types';
+import { Control } from 'react-hook-form';
 
-export type BorrowTableProps = BorrowFiltersProps;
+import {
+  DineroMarketSummary,
+  IDineroMarketForm,
+} from '@/views/dapp/views/dinero-market/dinero-market.types';
+
+export interface BorrowTableProps {
+  markets: ReadonlyArray<DineroMarketSummary>;
+  control: Control<IDineroMarketForm>;
+}

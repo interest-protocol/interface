@@ -1,80 +1,35 @@
 import { BigNumber } from 'ethers';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
 import { getDineroMarketSVGBySymbol, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
-import { useChainId, useGetDineroMarketsSummaryV2 } from '@/hooks';
+import { useChainId } from '@/hooks';
 import { IntMath, SECONDS_IN_A_YEAR } from '@/sdk';
-import { TimesSVG } from '@/svg';
-import { formatDollars } from '@/utils';
+import { formatDollars, formatMoney } from '@/utils';
 
-import Loading from '../../../../components/loading';
-import {
-  getSafeDineroMarketSummaryData,
-  handleFilterDineroMarkets,
-} from '../../dinero-market.utils';
-import BorrowFilters from '../borrow-filters';
+import { handleFilterDineroMarkets } from '../../dinero-market.utils';
 import { BorrowTableProps } from './borrow-table.types';
 
-const BorrowTable: FC<BorrowTableProps> = ({ control, setValue, register }) => {
+const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
   const chainId = useChainId();
   const { push } = useRouter();
   const sortBy = useWatch({ control, name: 'sortBy' });
   const search = useWatch({ control, name: 'search' });
   const onlyBorrowing = useWatch({ control, name: 'onlyBorrowing' });
 
-  const { data, error } = useGetDineroMarketsSummaryV2();
-
-  const markets = useMemo(
-    () => getSafeDineroMarketSummaryData(chainId, data),
-    [data, chainId]
-  );
-
-  // TODO: verify filtered markets
   const filteredMarkets = handleFilterDineroMarkets(
     markets,
     sortBy,
     search,
-    !!onlyBorrowing
+    onlyBorrowing
   );
-
-  if (error)
-    return (
-      <Box
-        height="100%"
-        display="flex"
-        alignItems="center"
-        flexDirection="column"
-        justifyContent="center"
-      >
-        <Box
-          mb="L"
-          width="10rem"
-          height="10rem"
-          color="error"
-          overflow="hidden"
-          borderRadius="50%"
-          border="0.3rem solid"
-        >
-          <TimesSVG width="100%" height="100%" />
-        </Box>
-        <Typography variant="title3">Error fetching the contracts</Typography>
-      </Box>
-    );
-
-  if (!data || !chainId) return <Loading />;
 
   return (
     <>
-      <BorrowFilters
-        control={control}
-        register={register}
-        setValue={setValue}
-      />
       <Box display={['none', 'none', 'none', 'block']}>
         <Table
           hasButton
@@ -108,7 +63,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, setValue, register }) => {
               ),
             },
             {
-              tip: 'Current borrowed value',
+              tip: 'Current amount of DNR being borrowed',
               item: (
                 <Typography
                   as="span"
@@ -116,7 +71,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, setValue, register }) => {
                   variant="normal"
                   fontSize="inherit"
                 >
-                  Borrowed
+                  Borrowing
                 </Typography>
               ),
             },
@@ -152,7 +107,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, setValue, register }) => {
               ),
             },
           ]}
-          data={markets.map((x) => ({
+          data={filteredMarkets.map((x) => ({
             handleClick: () =>
               push({
                 pathname: Routes[RoutesEnum.DineroMarketBorrow],
@@ -195,13 +150,12 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, setValue, register }) => {
               </Box>,
               formatDollars(
                 IntMath.from(
-                  x.collateralAmount
+                  x.totalCollateral
                     .mul(x.collateralUSDPrice)
                     .div(BigNumber.from(10).pow(x.collateralDecimals))
                 ).toNumber()
               ),
-              // TODO: cannot found borrowed
-              formatDollars(IntMath.toNumber(x.collateralAmount)),
+              formatMoney(IntMath.toNumber(x.userElasticLoan)),
               IntMath.from(x.LTV).toPercentage(0),
               x.interestRate.isZero()
                 ? 'N/A'
@@ -276,7 +230,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, setValue, register }) => {
               ),
             },
           ]}
-          data={markets.map((x) => {
+          data={filteredMarkets.map((x) => {
             return {
               mobileSide: (
                 <Box
@@ -331,13 +285,12 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, setValue, register }) => {
               items: [
                 formatDollars(
                   IntMath.from(
-                    x.collateralAmount
+                    x.totalCollateral
                       .mul(x.collateralUSDPrice)
                       .div(BigNumber.from(10).pow(x.collateralDecimals))
                   ).toNumber()
                 ),
-                // TODO: cannot found borrowed
-                formatDollars(IntMath.toNumber(x.collateralAmount)),
+                formatMoney(IntMath.toNumber(x.userElasticLoan)),
                 IntMath.from(x.LTV).toPercentage(0),
                 x.interestRate.isZero()
                   ? 'N/A'

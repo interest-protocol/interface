@@ -11,7 +11,7 @@ const parseFarmSortByEnum = cond([
   [equals(BorrowSortByFilter.Default), always('Select')],
   [equals(BorrowSortByFilter.TVL), always('TVL')],
   [equals(BorrowSortByFilter.LTV), always('LTV')],
-  [equals(BorrowSortByFilter.APR), always('APR')],
+  [equals(BorrowSortByFilter.InterestRate), always('Interest Rate')],
   [equals(BorrowSortByFilter.Fee), always('Liquidation Fee')],
   [T, always('Select')],
 ]);
@@ -61,11 +61,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
           data={[
             {
               value: 'id',
-              displayOption: 'Id',
+              displayOption: 'Name',
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    Id
+                    Name
                   </Typography>
                 </Box>
               ),
@@ -102,17 +102,17 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               },
             },
             {
-              value: 'apr',
-              displayOption: 'APR',
+              value: 'interestRate',
+              displayOption: 'Interest Rate',
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    APR
+                    Interest Rate
                   </Typography>
                 </Box>
               ),
               onSelect: () => {
-                setValue('sortBy', BorrowSortByFilter.APR);
+                setValue('sortBy', BorrowSortByFilter.InterestRate);
               },
             },
             {

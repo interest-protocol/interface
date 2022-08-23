@@ -3,7 +3,7 @@ import { BigNumber } from 'ethers';
 import { BorrowSortByFilter } from './components/borrow-filters/borrow-filters.types';
 
 export interface DineroMarketSummary {
-  collateralAmount: BigNumber;
+  totalCollateral: BigNumber;
   LTV: BigNumber;
   interestRate: BigNumber;
   liquidationFee: BigNumber;
@@ -16,10 +16,11 @@ export interface DineroMarketSummary {
   stable: boolean;
   marketAddress: string;
   collateralDecimals: number;
+  collateralAddress: string;
 }
 
 export interface IDineroMarketForm {
   search: string;
-  onlyBorrowing?: boolean;
+  onlyBorrowing: boolean;
   sortBy: BorrowSortByFilter;
 }

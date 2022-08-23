@@ -11,7 +11,7 @@ export enum BorrowSortByFilter {
   Default,
   TVL,
   LTV,
-  APR,
+  InterestRate,
   Fee,
 }
 

@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 
 import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk';
+import { getBTCAddress, getETHERC20Address } from '@/utils';
 
 /**
  * @description These are the market contracts and not the collateral contracts.
@@ -41,6 +42,7 @@ export const DINERO_MARKET_METADATA = {
       name: 'Bitcoin',
       stable: false,
       collateralDecimals: 18,
+      collateralAddress: getBTCAddress(CHAIN_ID.BNB_TEST_NET),
     },
     [getBSCTestNetDineroMarkets().ETH]: {
       isPair: false,
@@ -49,6 +51,7 @@ export const DINERO_MARKET_METADATA = {
       name: 'Ether',
       stable: false,
       collateralDecimals: 18,
+      collateralAddress: getETHERC20Address(CHAIN_ID.BNB_TEST_NET),
     },
     [getBSCTestNetDineroMarkets().NATIVE_TOKEN]: {
       isPair: false,
@@ -57,6 +60,7 @@ export const DINERO_MARKET_METADATA = {
       name: 'BNB',
       stable: false,
       collateralDecimals: 18,
+      collateralAddress: ethers.constants.AddressZero,
     },
     [getBSCTestNetDineroMarkets().USDT_WBNB_VOLATILE]: {
       isPair: true,
@@ -65,6 +69,9 @@ export const DINERO_MARKET_METADATA = {
       name: 'BNB-USDT',
       stable: false,
       collateralDecimals: 18,
+      collateralAddress: ethers.utils.getAddress(
+        '0xb8AF44a4eD047F6137aC148b0D1197913222993d'
+      ),
     },
   },
 };
