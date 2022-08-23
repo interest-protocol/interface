@@ -29,8 +29,11 @@ export const getSafeDineroMarketSummaryData = (
       })
     | undefined
 ): ReadonlyArray<DineroMarketSummary> => {
+  if (!chainId || !data) return [];
+
   const callMap = DINERO_MARKET_CALL_MAP[chainId];
-  if (!chainId || !data || !callMap) return [];
+
+  if (!callMap) return [];
 
   const nativeMarket = {
     totalCollateral: data.nativeMarket.collateralAmount,
