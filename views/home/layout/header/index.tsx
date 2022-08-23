@@ -1,5 +1,3 @@
-import '/node_modules/flag-icons/css/flag-icons.min.css';
-
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useCallback, useEffect, useState } from 'react';
@@ -11,7 +9,7 @@ import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Button, Dropdown, Typography } from '@/elements';
 import { IDropdownData } from '@/elements/dropdown/dropdown.types';
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
-import { BarsLPSVG, GlobeSVG, LogoSVG, TimesSVG } from '@/svg';
+import { BarsLPSVG, LogoSVG, TimesSVG } from '@/svg';
 
 import { HeaderProps } from './header.types';
 import MenuList from './menu-list';
@@ -123,6 +121,45 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                 {SOCIAL_MEDIAS.map((socialMediaData) => (
                   <SocialMediaCard {...socialMediaData} key={v4()} />
                 ))}
+                <Dropdown
+                  title={
+                    <Box
+                      mx="0.75rem"
+                      backgroundImage={`url('${locale}.svg')`}
+                      width="1.25rem"
+                      height="1.25rem"
+                      backgroundSize="cover"
+                      borderRadius="2rem"
+                    />
+                  }
+                  mode="menu"
+                  defaultValue={locale}
+                  data={
+                    locales?.map((l, i) => ({
+                      value: l,
+                      displayOption: (
+                        <Link href={asPath} locale={l}>
+                          <Box pl="M" display="flex">
+                            <Box
+                              mx="0.75rem"
+                              backgroundImage={`url('${l}.svg')`}
+                              width="1rem"
+                              height="1rem"
+                              backgroundSize="cover"
+                              borderRadius="2rem"
+                            />
+                            {LANG[i]}
+                          </Box>
+                        </Link>
+                      ),
+                      onSelect: () =>
+                        push(asPath, asPath, {
+                          shallow: true,
+                          locale: l,
+                        }),
+                    })) as unknown as ReadonlyArray<IDropdownData>
+                  }
+                />
               </Box>
               <Box
                 textAlign="center"
@@ -139,35 +176,6 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                 >
                   DApp
                 </Button>
-                <Dropdown
-                  title={
-                    <Button type="button" effect="hover" variant="secondary">
-                      <GlobeSVG width="60%" height="60%" fill="#fff" />
-                    </Button>
-                  }
-                  mode="menu"
-                  defaultValue={locale}
-                  data={
-                    locales?.map((l, i) => ({
-                      value: l,
-                      displayOption: (
-                        <Box pl="M">
-                          <Typography
-                            variant="normal"
-                            className={l == 'en-US' ? 'fi fi-us' : 'fi fi-pt'}
-                            mr="M"
-                          />
-                          {LANG[i]}
-                        </Box>
-                      ),
-                      onSelect: () =>
-                        push(asPath, undefined, {
-                          shallow: true,
-                          locale: l,
-                        }),
-                    })) as unknown as ReadonlyArray<IDropdownData>
-                  }
-                />
               </Box>
             </Box>
             <Box

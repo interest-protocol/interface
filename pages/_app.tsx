@@ -3,6 +3,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import { Global } from '@emotion/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { NextIntlProvider } from 'next-intl';
 import NextProgress from 'next-progress';
 import { ReactNode, StrictMode } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
@@ -25,11 +26,13 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
     <ReduxProvider store={store}>
       <SkeletonTheme baseColor="#202020" highlightColor="#444">
         <Global styles={GlobalStyles} />
-        <Web3Manager pathname={router.pathname}>
-          <StrictMode>
-            <Component {...pageProps} />
-          </StrictMode>
-        </Web3Manager>
+        <NextIntlProvider messages={pageProps.messages}>
+          <Web3Manager pathname={router.pathname}>
+            <StrictMode>
+              <Component {...pageProps} />
+            </StrictMode>
+          </Web3Manager>
+        </NextIntlProvider>
       </SkeletonTheme>
     </ReduxProvider>
   </>

@@ -1,15 +1,14 @@
-import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
-import { getHomeLocaleContent } from '@/utils';
 
 import { FloatingCoins } from './hero-animations';
 
 const Hero: FC = () => {
-  const { locale } = useRouter();
+  const t = useTranslations('index');
 
   return (
     <Box
@@ -27,46 +26,44 @@ const Hero: FC = () => {
         minHeight={['unset', 'unset', 'unset', '45rem']}
         pt={['11.813rem', '11.813rem', '11.813rem', 'XXXL']}
       >
-        {getHomeLocaleContent('hero', locale).map((content) => (
-          <Box
-            zIndex={2}
-            display="flex"
-            position="relative"
-            flexDirection="column"
-            ml={['none', 'none', 'none', '8.438rem']}
-            width={['100%', '100%', '100%', '35rem']}
-            alignItems={['center', 'center', 'center', 'unset']}
-            key={v4()}
+        <Box
+          zIndex={2}
+          display="flex"
+          position="relative"
+          flexDirection="column"
+          ml={['none', 'none', 'none', '8.438rem']}
+          width={['100%', '100%', '100%', '35rem']}
+          alignItems={['center', 'center', 'center', 'unset']}
+          key={v4()}
+        >
+          <Typography
+            as="h2"
+            variant="normal"
+            fontWeight="900"
+            fontStyle="normal"
+            textTransform="capitalize"
+            textAlign={['center', 'unset']}
+            fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
+            lineHeight={['3.353rem', '3.353rem', '4.876rem', '4.876rem']}
           >
-            <Typography
-              as="h2"
-              variant="normal"
-              fontWeight="900"
-              fontStyle="normal"
-              textTransform="capitalize"
-              textAlign={['center', 'unset']}
-              fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
-              lineHeight={['3.353rem', '3.353rem', '4.876rem', '4.876rem']}
-            >
-              {content.title}
-            </Typography>
-            <Typography
-              mt="0.625rem"
-              mb="1.875rem"
-              variant="normal"
-              lineHeight="30px"
-              textAlign={['center', 'unset']}
-              fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
-            >
-              {content.description}
-            </Typography>
-            <a href="https://docs.interestprotocol.com/" target="__blank">
-              <Button type="button" variant="primary" effect="hover">
-                {content.button}
-              </Button>
-            </a>
-          </Box>
-        ))}
+            {t('heroTitle')}
+          </Typography>
+          <Typography
+            mt="0.625rem"
+            mb="1.875rem"
+            variant="normal"
+            lineHeight="30px"
+            textAlign={['center', 'unset']}
+            fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
+          >
+            {t('heroDescription')}
+          </Typography>
+          <a href="https://docs.interestprotocol.com/" target="__blank">
+            <Button type="button" variant="primary" effect="hover">
+              {t('heroButton')}
+            </Button>
+          </a>
+        </Box>
       </Container>
       <Box
         right="0"
