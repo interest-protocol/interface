@@ -8,6 +8,7 @@ import {
   DINERO_MARKET_CALL_MAP,
   DINERO_MARKET_METADATA,
 } from '@/constants/dinero-markets';
+import { TOKEN_SYMBOL } from '@/sdk';
 import { isSameAddress } from '@/utils';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
@@ -129,12 +130,19 @@ const searchOperation = cond([
         collateralAddress,
         marketAddress,
         name,
+        symbol0,
+        symbol1,
       }: DineroMarketSummary) => {
         if (isAddress(search))
           return (
             isSameAddress(search, collateralAddress) ||
             isSameAddress(search, marketAddress)
           );
+
+        const symbols = [
+          symbol0.toLocaleLowerCase(),
+          symbol1.toLocaleLowerCase(),
+        ].filter((x) => x !== TOKEN_SYMBOL.Unknown.toLocaleLowerCase());
 
         return (
           collateralAddress.toLocaleLowerCase().includes(parsedSearch) ||
@@ -144,7 +152,8 @@ const searchOperation = cond([
           name
             .toLocaleLowerCase()
             .replace(/[^a-zA-Z]/g, '')
-            .includes(parsedSearch.replace(/[^a-zA-Z]/g, ''))
+            .includes(parsedSearch.replace(/[^a-zA-Z]/g, '')) ||
+          symbols.some((x) => x.startsWith(parsedSearch))
         );
       };
     },
