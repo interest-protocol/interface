@@ -5,8 +5,8 @@ import { UseFormSetValue } from 'react-hook-form';
 
 import { ISwitchOption } from '@/components/switch/switch.types';
 import {
-  DINERO_MARKET_CALL_MAP,
   DINERO_MARKET_METADATA,
+  DINERO_MARKET_SUMMARY_CALL_MAP,
 } from '@/constants/dinero-markets';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { isSameAddress } from '@/utils';
@@ -31,12 +31,12 @@ export const getSafeDineroMarketSummaryData = (
 ): ReadonlyArray<DineroMarketSummary> => {
   if (!chainId || !data) return [];
 
-  const callMap = DINERO_MARKET_CALL_MAP[chainId];
+  const callMap = DINERO_MARKET_SUMMARY_CALL_MAP[chainId];
 
   if (!callMap) return [];
 
   const nativeMarket = {
-    totalCollateral: data.nativeMarket.collateralAmount,
+    totalCollateral: data.nativeMarket.totalCollateral,
     LTV: data.nativeMarket.LTV,
     interestRate: data.nativeMarket.interestRate,
     liquidationFee: data.nativeMarket.liquidationFee,
@@ -47,7 +47,7 @@ export const getSafeDineroMarketSummaryData = (
   };
 
   const erc20Markets = callMap.erc20Markets.map((market, index) => ({
-    totalCollateral: data.erc20Markets[index].collateralAmount,
+    totalCollateral: data.erc20Markets[index].totalCollateral,
     LTV: data.erc20Markets[index].LTV,
     interestRate: data.erc20Markets[index].interestRate,
     liquidationFee: data.erc20Markets[index].liquidationFee,
@@ -58,7 +58,7 @@ export const getSafeDineroMarketSummaryData = (
   }));
 
   const lpFreeMarkets = callMap.lpFreeMarkets.map((market, index) => ({
-    totalCollateral: data.lpMarkets[index].collateralAmount,
+    totalCollateral: data.lpMarkets[index].totalCollateral,
     LTV: data.lpMarkets[index].LTV,
     interestRate: data.lpMarkets[index].interestRate,
     liquidationFee: data.lpMarkets[index].liquidationFee,

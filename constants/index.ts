@@ -1,5 +1,6 @@
 export * from './chains';
 export * from './dex';
+export * from './dinero-markets';
 export * from './erc-20';
 export * from './farms';
 export * from './mail-markets';

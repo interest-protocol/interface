@@ -1,5 +1,7 @@
 import { BigNumber } from 'ethers';
 
+import { DineroMarketKind } from '@/constants';
+
 import { BorrowSortByFilter } from './components/borrow-filters/borrow-filters.types';
 
 export interface DineroMarketSummary {
@@ -9,7 +11,7 @@ export interface DineroMarketSummary {
   liquidationFee: BigNumber;
   collateralUSDPrice: BigNumber;
   userElasticLoan: BigNumber;
-  isPair: boolean;
+  kind: DineroMarketKind;
   symbol0: string;
   symbol1: string;
   name: string;

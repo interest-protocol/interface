@@ -220,7 +220,7 @@ export const CONTRACTS = {
   INTEREST_VIEW_DINERO_V2: {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
-    [CHAIN_ID.BNB_TEST_NET]: '0xC8C91ea5ecb91F0833FCb96fdDa17617851E7034',
+    [CHAIN_ID.BNB_TEST_NET]: '0x6888E8677f2FE41Dfe4192e32527c6d81Ff47299',
   },
   INTEREST_VIEW_EARN: {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
