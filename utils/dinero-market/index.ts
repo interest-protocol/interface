@@ -521,7 +521,7 @@ export const getRepayFields: TGetRepayFields = (market, symbols) => {
     {
       amount: '0',
       amountUSD: 1,
-      currencyIcons: [TOKENS_SVG_MAP[market.symbol0], null] as [
+      currencyIcons: [TOKENS_SVG_MAP[TOKEN_SYMBOL.DNR], null] as [
         TypeSVG,
         TypeSVG | null
       ],
