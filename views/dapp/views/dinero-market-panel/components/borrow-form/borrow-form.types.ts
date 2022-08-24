@@ -51,3 +51,13 @@ export interface BorrowFormLoanInfoProps
   data: DineroMarketData;
   isBorrow: boolean;
 }
+
+export type TGetRepayFields = (
+  data: DineroMarketData,
+  collateralSymbol: [string, string | undefined]
+) => ReadonlyArray<IBorrowFormField>;
+
+export type TGetBorrowFields = (
+  data: DineroMarketData,
+  collateralSymbol: [string, string | undefined]
+) => ReadonlyArray<IBorrowFormField>;

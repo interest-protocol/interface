@@ -59,11 +59,17 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
     setValue(
       'repay.loan',
       intendedLTV === 100
-        ? IntMath.from(data.dnrBalance).toNumber().toString()
+        ? IntMath.from(data.dnrBalance).toNumber().toLocaleString('fullwide', {
+            useGrouping: false,
+            maximumSignificantDigits: 6,
+          })
         : IntMath.from(data.dnrBalance)
             .mul(IntMath.toBigNumber(intendedLTV / 100))
             .toNumber()
-            .toString()
+            .toLocaleString('fullwide', {
+              useGrouping: false,
+              maximumSignificantDigits: 6,
+            })
     );
   };
 

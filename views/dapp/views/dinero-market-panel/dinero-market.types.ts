@@ -66,6 +66,7 @@ export interface DineroMarketData {
   marketAddress: string;
   collateralDecimals: number;
   collateralAddress: string;
+  intUSDPrice: BigNumber;
 }
 
 export type GetSafeDineroMarketData = (
@@ -89,3 +90,78 @@ export type GetSafeDineroMarketData = (
         baseTokenUSDPrice: BigNumber;
       })
 ) => DineroMarketData;
+
+type ProcessedMarketData = DineroMarketData;
+
+export type TGetPositionHealthDataInternal = (
+  borrowAmount: BigNumber,
+  collateralAmount: BigNumber,
+  data: DineroMarketData
+) => [string, string, string, string];
+
+export type TGetBorrowPositionHealthData = (
+  data: DineroMarketData,
+  borrow: { loan: string; collateral: string }
+) => [string, string, string, string];
+
+export type TGetRepayPositionHealthData = (
+  data: DineroMarketData,
+  borrow: { loan: string; collateral: string }
+) => [string, string, string, string];
+
+export type TGetInfoLoanData = (
+  data: DineroMarketData,
+  kind: DineroMarketKind
+) => ReadonlyArray<string>;
+
+export type TGetMyPositionData = (
+  data: DineroMarketData
+) => [string, string, string, string, string, string];
+
+export type TCalculateInterestAccrued = (
+  totalLoan: ProcessedMarketData['loanBase'],
+  lastAccrued: ProcessedMarketData['lastAccrued'],
+  interestRate: ProcessedMarketData['interestRate']
+) => BigNumber;
+
+export type TLoanPrincipalToElastic = (
+  loanBase: ProcessedMarketData['loanBase'],
+  userPrincipal: ProcessedMarketData['userPrincipal'],
+  lastAccrued: ProcessedMarketData['lastAccrued'],
+  loanElastic: ProcessedMarketData['loanElastic'],
+  interestRate: ProcessedMarketData['interestRate']
+) => IntMath;
+
+export type TCalculateExpectedLiquidationPrice = (
+  data: ProcessedMarketData,
+  additionalCollateral: BigNumber,
+  additionalPrincipal: BigNumber
+) => IntMath;
+
+export type TCalculatePositionHealth = (data: ProcessedMarketData) => IntMath;
+
+export type TCalculateDineroLeftToBorrow = (
+  data: ProcessedMarketData
+) => IntMath;
+
+export type TSafeAmountToWithdraw = (data: ProcessedMarketData) => IntMath;
+
+export type TCalculateBorrowAmount = (data: ProcessedMarketData) => IntMath;
+
+export type TLoanElasticToPrincipal = (
+  loanBase: ProcessedMarketData['loanBase'],
+  lastAccrued: ProcessedMarketData['lastAccrued'],
+  loanElastic: ProcessedMarketData['loanElastic'],
+  interestRate: ProcessedMarketData['interestRate']
+) => IntMath;
+
+export type TSafeAmountToWithdrawRepay = (
+  data: ProcessedMarketData,
+  repayLoan: BigNumber
+) => IntMath;
+
+export type TCalculateUserCurrentLTV = (
+  data: ProcessedMarketData,
+  borrowCollateral: BigNumber,
+  borrowLoan: BigNumber
+) => IntMath;
