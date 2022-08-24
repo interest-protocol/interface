@@ -1,24 +1,20 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { ethers } from 'ethers';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 
-import {
-  addAllowance,
-  addCollateralAndLoan,
-  addDineroMarketCollateral,
-  getDineroMarketLoan,
-  repayAndWithdrawCollateral,
-  repayDineroLoan,
-  withdrawDineroCollateral,
-} from '@/api';
+import { addAllowance } from '@/api';
 import { Container, Tooltip } from '@/components';
-import { ERC_20_DATA, RoutesEnum } from '@/constants';
+import {
+  DINERO_MARKET_METADATA,
+  DineroMarketKind,
+  RoutesEnum,
+} from '@/constants';
 import { Box } from '@/elements';
 import { useGetDineroMarketDataV2, useGetSigner } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
-import { DINERO_MARKET_CONTRACT_MAP, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import {
   safeToBigNumber,
@@ -28,12 +24,6 @@ import {
   throwError,
   throwIfInvalidSigner,
 } from '@/utils';
-import {
-  calculatePositionHealth,
-  getLoanInfoData,
-  getMyPositionData,
-  loanElasticToPrincipal,
-} from '@/utils/dinero-market';
 
 import GoBack from '../../components/go-back';
 import ErrorPage from '../error';
@@ -42,9 +32,13 @@ import LoanInfo from './components/loan-info';
 import MyOpenPosition from './components/my-open-position';
 import UserLTV from './components/user-ltv';
 import YourBalance from './components/your-balance';
+import * as api from './dinero-market.api';
 import { BORROW_DEFAULT_VALUES } from './dinero-market.data';
 import { DineroMarketPanelProps, IBorrowForm } from './dinero-market.types';
 import {
+  calculatePositionHealth,
+  getLoanInfoData,
+  getMyPositionData,
   getSafeDineroMarketData,
   isFormBorrowEmpty,
   isFormRepayEmpty,
@@ -63,20 +57,14 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     mutate,
   } = useGetDineroMarketDataV2(address);
 
+  const kind = chainId
+    ? DINERO_MARKET_METADATA[chainId][ethers.utils.getAddress(address)].kind
+    : DineroMarketKind.ERC20;
+
   const market = useMemo(
     () => getSafeDineroMarketData(chainId, address, marketRawData),
     [marketRawData, address, chainId]
   );
-
-  const isPairAddress =
-    !!market.symbol1 && market.symbol1 !== TOKEN_SYMBOL.Unknown;
-
-  console.log(market, 'market');
-
-  const [tokenSymbol, pairTokenSymbol] = [
-    market?.symbol0 ?? TOKEN_SYMBOL.BTC,
-    market?.symbol1,
-  ] as [TOKEN_SYMBOL, TOKEN_SYMBOL];
 
   const dispatch = useDispatch();
 
@@ -100,8 +88,8 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
         validId,
         validSigner,
         account,
-        ERC_20_DATA[validId][tokenSymbol].address,
-        DINERO_MARKET_CONTRACT_MAP[validId][tokenSymbol]
+        market.collateralAddress,
+        market.marketAddress
       );
 
       await showTXSuccessToast(tx, validId);
@@ -111,7 +99,13 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
       setIsSubmitting(false);
       dispatch(coreActions.updateNativeBalance());
     }
-  }, [account, chainId, tokenSymbol, signer]);
+  }, [
+    account,
+    chainId,
+    market.marketAddress,
+    market.collateralAddress,
+    signer,
+  ]);
 
   const submitAllowance = () =>
     showToast(handleAddAllowance(), {
@@ -121,8 +115,8 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     });
 
   const loanInfoData = useMemo(
-    () => getLoanInfoData(market, isPairAddress),
-    [market]
+    () => getLoanInfoData(market, kind),
+    [market, kind]
   );
 
   const myPositionData = useMemo(() => getMyPositionData(market), [market]);
@@ -137,7 +131,6 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
       setIsSubmitting(true);
       const collateral = +form.getValues('repay').collateral;
       const loan = +form.getValues('repay').loan;
-
       if ((!collateral || isNaN(+collateral)) && (!loan || isNaN(+loan)))
         throwError('Form: Invalid Fields');
 
@@ -147,72 +140,14 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
         signer
       );
 
-      const estimatedPrincipal = loanElasticToPrincipal(
-        market.loanBase,
-        market.lastAccrued,
-        market.loanElastic,
-        market.interestRate
+      await api.handleRepay(
+        validId,
+        validSigner,
+        market,
+        account,
+        collateral,
+        loan
       );
-
-      const principal = estimatedPrincipal.gte(market.loanElastic)
-        ? market.loanElastic
-        : estimatedPrincipal.value();
-
-      if (!!collateral && !!loan) {
-        const bnCollateral = safeToBigNumber(
-          collateral,
-          market.collateralDecimals,
-          8
-        );
-        const tx = await repayAndWithdrawCollateral(
-          validId,
-          validSigner,
-          tokenSymbol,
-          account,
-          bnCollateral.gt(market.userCollateral)
-            ? market.userCollateral
-            : bnCollateral,
-          bnCollateral.gte(market.userCollateral)
-            ? market.loanElastic
-            : principal
-        );
-
-        await showTXSuccessToast(tx, validId);
-
-        return;
-      }
-
-      if (collateral) {
-        const bnCollateral = safeToBigNumber(
-          collateral,
-          market.collateralDecimals,
-          8
-        );
-        const tx = await withdrawDineroCollateral(
-          validId,
-          validSigner,
-          tokenSymbol,
-          account,
-          bnCollateral.gt(market.userCollateral)
-            ? market.userCollateral
-            : bnCollateral
-        );
-
-        await showTXSuccessToast(tx, validId);
-        return;
-      }
-
-      if (loan) {
-        const tx = await repayDineroLoan(
-          validId,
-          validSigner,
-          tokenSymbol,
-          account,
-          principal
-        );
-
-        await showTXSuccessToast(tx, validId);
-      }
     } catch (e: unknown) {
       throwContractCallError(e);
     } finally {
@@ -220,14 +155,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
       await mutate();
       dispatch(coreActions.updateNativeBalance());
     }
-  }, [
-    chainId,
-    account,
-    form.getValues(),
-    tokenSymbol,
-    signer,
-    market.userCollateral.toString(),
-  ]);
+  }, [chainId, account, form.getValues(), signer, market]);
 
   const handleBorrow = useCallback(async () => {
     setIsSubmitting(true);

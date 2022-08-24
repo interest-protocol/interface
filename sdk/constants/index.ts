@@ -1,16 +1,5 @@
 import { BigNumber, ethers } from 'ethers';
 
-export interface IMarketContractsChainData {
-  marketAddress: string;
-  collateralSymbols: ReadonlyArray<string>;
-  collateralAddresses: ReadonlyArray<string>;
-}
-
-export type TMarketContracts = Record<
-  number,
-  ReadonlyArray<IMarketContractsChainData>
->;
-
 export const CHAIN_ID = {
   BNB_TEST_NET: 97,
   BNB_MAIN_MET: 56,
@@ -103,64 +92,6 @@ export const MAIL_MARKET_BRIDGE_TOKENS = {
     ethers.utils.getAddress('0xb306ee3d2092166cb942D1AE2210A7641f73c11F'), // USDT
   ],
 };
-
-export const DINERO_MARKET_CONTRACT_MAP = {
-  [CHAIN_ID.BNB_TEST_NET]: {
-    [TOKEN_SYMBOL.BTC]: ethers.utils.getAddress(
-      '0x926f8FB78f5769a3D724A8ffC7058528C86939E1'
-    ),
-    [TOKEN_SYMBOL.WBNB]: ethers.utils.getAddress(
-      // TODO: change address
-      '0x926f8FB78f5769a3D724A8ffC7058528C86939E1'
-    ),
-    [TOKEN_SYMBOL.BTCnUSDT]: ethers.utils.getAddress(
-      // TODO: change address
-      '0x926f8FB78f5769a3D724A8ffC7058528C86939E1'
-    ),
-  },
-} as { [key: number]: Record<TOKEN_SYMBOL, string> };
-
-export const DINERO_MARKET_CONTRACTS = {
-  [CHAIN_ID.BNB_TEST_NET]: [
-    {
-      marketAddress:
-        DINERO_MARKET_CONTRACT_MAP[CHAIN_ID.BNB_TEST_NET][
-          TOKEN_SYMBOL.BTCnUSDT
-        ],
-      collateralSymbols: [TOKEN_SYMBOL.BTC, TOKEN_SYMBOL.USDT],
-      collateralAddresses: [
-        ethers.utils.getAddress('0x954f3A4aeC237D311839d6E0274c0aC8Be13d1b1'),
-        ethers.utils.getAddress('0x80AE8DD1d0CA6Fd6465B7fB8B9774573d7072d3c'),
-      ],
-    },
-    {
-      marketAddress:
-        DINERO_MARKET_CONTRACT_MAP[CHAIN_ID.BNB_TEST_NET][TOKEN_SYMBOL.BTC],
-      collateralSymbols: [TOKEN_SYMBOL.BTC],
-      collateralAddresses: [
-        ethers.utils.getAddress('0x954f3A4aeC237D311839d6E0274c0aC8Be13d1b1'),
-      ],
-    },
-    {
-      marketAddress:
-        DINERO_MARKET_CONTRACT_MAP[CHAIN_ID.BNB_TEST_NET][TOKEN_SYMBOL.WBNB],
-      collateralSymbols: [TOKEN_SYMBOL.WBNB],
-      collateralAddresses: [
-        ethers.utils.getAddress(
-          // TODO: change the address
-          '0x2F472b32b8041E51e53EeC52e87c7060EA9C7eE8'
-        ),
-      ],
-    },
-  ],
-  [CHAIN_ID.BNB_MAIN_MET]: [
-    {
-      marketAddress: ethers.constants.AddressZero,
-      collateralSymbols: [TOKEN_SYMBOL.Unknown],
-      collateralAddresses: [ethers.constants.AddressZero],
-    },
-  ],
-} as TMarketContracts;
 
 export const CONTRACTS = {
   DINERO_FAUCET: {
