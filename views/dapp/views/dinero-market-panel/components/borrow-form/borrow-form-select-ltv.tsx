@@ -42,9 +42,9 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
     setValue(
       'borrow.loan',
       calculateBorrowAmount({
-        ...data.market,
-        maxLTVRatio: IntMath.toBigNumber(intendedLTV, 16),
-        userCollateral: data.market.userCollateral.add(
+        ...data,
+        ltv: IntMath.toBigNumber(intendedLTV, 16),
+        userCollateral: data.userCollateral.add(
           IntMath.toBigNumber(borrowCollateral)
         ),
       })
@@ -59,8 +59,8 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
     setValue(
       'repay.loan',
       intendedLTV === 100
-        ? IntMath.from(data.dineroPair.getDineroBalance()).toNumber().toString()
-        : IntMath.from(data.dineroPair.getDineroBalance())
+        ? IntMath.from(data.dnrBalance).toNumber().toString()
+        : IntMath.from(data.dnrBalance)
             .mul(IntMath.toBigNumber(intendedLTV / 100))
             .toNumber()
             .toString()
@@ -68,39 +68,35 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   };
 
   const ltvRatio = useMemo(() => {
-    if (data.market.maxLTVRatio.isZero()) return 0;
+    if (data.ltv.isZero()) return 0;
     return (
-      +Fraction.from(
-        data.market.maxLTVRatio,
-        ethers.utils.parseEther('1')
-      ).toSignificant(4) * 100
+      +Fraction.from(data.ltv, ethers.utils.parseEther('1')).toSignificant(4) *
+      100
     );
-  }, [data.market.maxLTVRatio]);
+  }, [data.ltv]);
 
   const isDisabled = useCallback(
     (item: number): boolean => {
-      if (!isBorrow) return data.dineroPair.getDineroBalance().isZero();
+      if (!isBorrow) return data.dnrBalance.isZero();
 
-      const collateralBalance = data.dineroPair
-        .getCollateralBalance()
-        .add(data.market.userCollateral);
+      const collateralBalance = data.collateralBalance.add(data.userCollateral);
 
       if (isBorrow && collateralBalance.isZero()) return true;
 
       if (item >= ltvRatio) return true;
 
       return calculateUserCurrentLTV(
-        data.market,
+        data,
         IntMath.toBigNumber(borrowCollateral),
         IntMath.toBigNumber(borrowLoan)
-      ).gte(data.market.maxLTVRatio);
+      ).gte(data.ltv);
     },
     [
       ltvRatio,
       isBorrow,
-      data.dineroPair.getDineroBalance().toString(),
-      data.dineroPair.getCollateralBalance().toString(),
-      data.market,
+      data.dnrBalance.toString(),
+      data.collateralBalance.toString(),
+      data,
       borrowCollateral,
       borrowLoan,
     ]

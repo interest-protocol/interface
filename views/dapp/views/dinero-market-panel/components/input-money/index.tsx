@@ -9,8 +9,8 @@ import { InputMoneyProps, TErrorMessageLabels } from './input-money.types';
 import InputMoneySuffix from './input-money-suffix';
 
 const InputMoney: FC<InputMoneyProps> = ({
-  data,
   max,
+  data,
   name,
   label,
   amount,
@@ -37,28 +37,26 @@ const InputMoney: FC<InputMoneyProps> = ({
         {label}:
       </Typography>
       <Box display="flex" flexDirection="column" alignItems="flex-end">
-        {max && (
-          <Box
-            py="S"
-            px="M"
-            mb="-1rem"
-            bg="bottomBackground"
-            borderRadius="M"
-            position="relative"
-          >
-            <Typography fontSize="S" variant="normal">
-              Max:{' '}
-              <Typography
-                fontSize="S"
-                variant="normal"
-                fontWeight="bold"
-                as="span"
-              >
-                {formatMoney(max)}
-              </Typography>
+        <Box
+          py="S"
+          px="M"
+          mb="-1rem"
+          bg="bottomBackground"
+          borderRadius="M"
+          position="relative"
+        >
+          <Typography fontSize="S" variant="normal">
+            Max:{' '}
+            <Typography
+              fontSize="S"
+              variant="normal"
+              fontWeight="bold"
+              as="span"
+            >
+              {formatMoney(max ?? 0)}
             </Typography>
-          </Box>
-        )}
+          </Typography>
+        </Box>
         <Input
           type="string"
           placeholder={amount}

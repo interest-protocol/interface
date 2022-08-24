@@ -3,7 +3,6 @@ import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
 import { DineroMarketKind } from '@/constants';
 import { IntMath } from '@/sdk';
-import { SafeDineroMarketUserData } from '@/utils/dinero-market/dinero-market.types';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
 
@@ -38,7 +37,7 @@ export interface FormsProps {
   mode: 'borrow' | 'repay';
   onSubmitRepay: () => void;
   onSubmitBorrow: () => void;
-  data: SafeDineroMarketUserData;
+  data: DineroMarketData;
   form: UseFormReturn<IBorrowForm>;
   symbols: [string, string | undefined];
   handleAddAllowance: () => Promise<void>;

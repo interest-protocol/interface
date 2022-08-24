@@ -36,9 +36,9 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
       borrowLoan &&
       parseEther(borrowLoan).gt(
         convertCollateralToDinero(
-          data.market.userCollateral.add(IntMath.toBigNumber(borrowCollateral)),
-          data.market.maxLTVRatio,
-          data.market.exchangeRate
+          data.userCollateral.add(IntMath.toBigNumber(borrowCollateral)),
+          data.ltv,
+          data.collateralUSDPrice
         )
       )
     ) {
@@ -53,9 +53,9 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
       errors.borrow?.loan?.type === 'max' &&
       borrowLoan &&
       convertCollateralToDinero(
-        data.market.userCollateral,
-        data.market.maxLTVRatio,
-        data.market.exchangeRate
+        data.userCollateral,
+        data.ltv,
+        data.collateralUSDPrice
       ).gte(parseEther(borrowLoan))
     )
       clearErrors('borrow.loan');
@@ -63,9 +63,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
     if (
       errors.borrow?.collateral?.type !== 'max' &&
       borrowCollateral &&
-      safeToBigNumber(borrowCollateral).gt(
-        data.dineroPair.getCollateralBalance()
-      )
+      safeToBigNumber(borrowCollateral).gt(data.collateralBalance)
     ) {
       setError('borrow.collateral', {
         type: 'max',
@@ -77,8 +75,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
     if (
       errors.borrow?.collateral?.type === 'max' &&
       borrowCollateral &&
-      +borrowCollateral <=
-        IntMath.toNumber(data.dineroPair.getCollateralBalance())
+      +borrowCollateral <= IntMath.toNumber(data.collateralBalance)
     )
       clearErrors('borrow.collateral');
 
@@ -88,7 +85,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
   return (
     <Box display="flex" justifyContent="center" mt="XXL">
       {isBorrow ? (
-        data.dineroPair.getCollateralAllowance().isZero() ? (
+        data.collateralAllowance.isZero() ? (
           <Button
             display="flex"
             variant="primary"

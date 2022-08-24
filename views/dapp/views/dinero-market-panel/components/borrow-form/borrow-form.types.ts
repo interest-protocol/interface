@@ -1,9 +1,8 @@
 import { UseFormReturn, UseFormStateReturn } from 'react-hook-form';
 
 import { TypeSVG } from '@/interface';
-import { SafeDineroMarketUserData } from '@/utils/dinero-market/dinero-market.types';
 
-import { IBorrowForm } from '../../dinero-market.types';
+import { DineroMarketData, IBorrowForm } from '../../dinero-market.types';
 
 export interface IBorrowFormField {
   max?: number;
@@ -25,7 +24,7 @@ export interface BorrowFormButtonProps
   isBorrow?: boolean;
   onSubmit: () => void;
   isSubmitting: boolean;
-  data: SafeDineroMarketUserData;
+  data: DineroMarketData;
   errors: UseFormStateReturn<IBorrowForm>['errors'];
   handleAddAllowance: () => Promise<void>;
 }
@@ -36,7 +35,7 @@ export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
   isBorrow?: boolean;
   onSubmit: () => void;
   isSubmitting: boolean;
-  data: SafeDineroMarketUserData;
+  data: DineroMarketData;
   fields: ReadonlyArray<IBorrowFormField>;
   handleAddAllowance: () => Promise<void>;
 }
@@ -44,11 +43,11 @@ export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
 export interface BorrowFormSelectLTVProps
   extends Pick<UseFormReturn<IBorrowForm>, 'control' | 'setValue'> {
   isBorrow: boolean;
-  data: SafeDineroMarketUserData;
+  data: DineroMarketData;
 }
 
 export interface BorrowFormLoanInfoProps
   extends Pick<UseFormReturn<IBorrowForm>, 'control'> {
-  data: SafeDineroMarketUserData;
+  data: DineroMarketData;
   isBorrow: boolean;
 }

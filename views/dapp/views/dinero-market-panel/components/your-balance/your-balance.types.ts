@@ -1,7 +1,9 @@
-import { SafeDineroMarketUserData } from '@/utils/dinero-market/dinero-market.types';
-
+import { BigNumber } from 'ethers';
 export interface YourBalanceProps {
   loading: boolean;
-  dineroPair: SafeDineroMarketUserData['dineroPair'];
+  dnrBalance: BigNumber;
+  collateralName: string;
+  collateralDecimals: number;
+  collateralBalance: BigNumber;
   tokenSymbols: [string, string | undefined];
 }

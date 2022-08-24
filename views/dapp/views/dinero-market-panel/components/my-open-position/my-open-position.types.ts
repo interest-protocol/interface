@@ -4,6 +4,6 @@ export interface MyOpenPositionProps {
   isLoading: boolean;
   tokenSymbol: string;
   pairTokenSymbol: string;
-  exchangeRate: BigNumber;
+  collateralUSDPrice: BigNumber;
   myPositionData: ReadonlyArray<string>;
 }

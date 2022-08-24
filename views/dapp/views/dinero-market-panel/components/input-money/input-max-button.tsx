@@ -14,9 +14,9 @@ import { InputMaxButtonProps } from './input-money.types';
 const InputMaxButton: FC<InputMaxButtonProps> = ({
   max,
   name,
+  data,
   control,
   setValue,
-  data,
 }) => {
   const borrowCollateral = useWatch({ control, name: 'borrow.collateral' });
 
@@ -27,8 +27,8 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
       setValue(
         name,
         calculateDineroLeftToBorrow({
-          ...data.market,
-          userCollateral: data.market.userCollateral.add(
+          ...data,
+          userCollateral: data.userCollateral.add(
             safeToBigNumber(+borrowCollateral || 0)
           ),
         })
@@ -42,7 +42,7 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     if (name === 'repay.collateral') {
       setValue(
         name,
-        safeAmountToWithdrawRepay(data.market, safeToBigNumber(+repayLoan))
+        safeAmountToWithdrawRepay(data, safeToBigNumber(+repayLoan))
           .toNumber()
           .toString()
       );
@@ -50,30 +50,27 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     }
 
     setValue(name, max ? max.toString() : '0');
-  }, [repayLoan, borrowCollateral, data.market]);
+  }, [repayLoan, borrowCollateral, data]);
 
   const isDisabled = useMemo(() => {
     if (name === 'repay.collateral') {
-      return data.market.userCollateral.isZero();
+      return data.userCollateral.isZero();
     }
 
     if (name === 'repay.loan') {
-      return (
-        data.market.userLoan.isZero() ||
-        data.dineroPair.getDineroBalance().isZero()
-      );
+      return data.loanElastic.isZero() || data.dnrBalance.isZero();
     }
 
     if (name === 'borrow.collateral') {
-      return data.dineroPair.getCollateralBalance().isZero();
+      return data.collateralBalance.isZero();
     }
 
     return false;
   }, [
-    data.market.userCollateral.toString(),
-    data.market.userLoan.toString(),
-    data.dineroPair.getDineroBalance().toString(),
-    data.dineroPair.getCollateralBalance().toString(),
+    data.userCollateral.toString(),
+    data.loanElastic.toString(),
+    data.dnrBalance.toString(),
+    data.collateralBalance.toString(),
     name,
   ]);
 
