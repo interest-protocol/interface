@@ -5,11 +5,11 @@ import { v4 } from 'uuid';
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
 import { InfoSVG } from '@/svg';
+
 import {
   getBorrowPositionHealthData,
   getRepayPositionHealthData,
-} from '@/utils/dinero-market';
-
+} from '../../dinero-market.utils';
 import { BorrowFormLoanInfoProps } from './borrow-form.types';
 
 const INFO = [

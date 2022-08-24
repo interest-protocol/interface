@@ -35,7 +35,7 @@ export const getBorrowFields: TGetBorrowFields = (market, symbols) => {
       label: 'Deposit Collateral',
       amountUSD: market.collateralUSDPrice.isZero()
         ? 0
-        : IntMath.toNumber(exchangeRate),
+        : IntMath.toNumber(market.collateralUSDPrice),
       disabled: market.collateralBalance.isZero(),
     },
     {
@@ -89,7 +89,7 @@ export const getRepayFields: TGetRepayFields = (market, symbols) => {
       label: 'Remove Collateral',
       amountUSD: market?.collateralUSDPrice.isZero()
         ? 0
-        : IntMath.toNumber(exchangeRate) || 0,
+        : IntMath.toNumber(market.collateralUSDPrice) || 0,
       disabled: market.userCollateral.isZero(),
     },
   ] as ReadonlyArray<IBorrowFormField>;

@@ -301,8 +301,6 @@ export const calculateDineroLeftToBorrow: TCalculateDineroLeftToBorrow = ({
   interestRate,
   collateralUSDPrice,
 }): IntMath => {
-  const exchangeRate = getExchangeRate(collateralUSDPrice);
-
   const userElasticLoan = loanPrincipalToElastic(
     loanBase,
     userPrincipal,
@@ -311,7 +309,9 @@ export const calculateDineroLeftToBorrow: TCalculateDineroLeftToBorrow = ({
     interestRate
   );
 
-  const collateral = IntMath.from(ltv).mul(userCollateral).mul(exchangeRate);
+  const collateral = IntMath.from(ltv)
+    .mul(userCollateral)
+    .mul(collateralUSDPrice);
   return collateral.sub(userElasticLoan);
 };
 
@@ -328,8 +328,6 @@ export const safeAmountToWithdrawRepay: TSafeAmountToWithdrawRepay = (
   },
   repayLoan
 ) => {
-  const exchangeRate = getExchangeRate(collateralUSDPrice);
-
   if (elastic.isZero()) return IntMath.from(userCollateral);
 
   const loanElastic = loanPrincipalToElastic(
@@ -344,11 +342,11 @@ export const safeAmountToWithdrawRepay: TSafeAmountToWithdrawRepay = (
 
   const userNeededCollateralInUSD = loanElastic.div(ltv);
 
-  const collateralInUSD = IntMath.from(userCollateral).mul(exchangeRate);
+  const collateralInUSD = IntMath.from(userCollateral).mul(collateralUSDPrice);
 
   const amount = userNeededCollateralInUSD.gte(collateralInUSD)
     ? IntMath.from(ZERO_BIG_NUMBER)
-    : collateralInUSD.sub(userNeededCollateralInUSD).div(exchangeRate);
+    : collateralInUSD.sub(userNeededCollateralInUSD).div(collateralUSDPrice);
 
   return amount.mul(ethers.utils.parseEther('0.95'));
 };
@@ -363,8 +361,6 @@ export const safeAmountToWithdraw: TSafeAmountToWithdraw = ({
   userCollateral,
   collateralUSDPrice,
 }) => {
-  const exchangeRate = getExchangeRate(collateralUSDPrice);
-
   if (loanElastic.isZero()) return IntMath.from(userCollateral);
 
   const userNeededCollateralInUSD = loanPrincipalToElastic(
@@ -375,11 +371,11 @@ export const safeAmountToWithdraw: TSafeAmountToWithdraw = ({
     interestRate
   ).div(ltv);
 
-  const collateralInUSD = IntMath.from(userCollateral).mul(exchangeRate);
+  const collateralInUSD = IntMath.from(userCollateral).mul(collateralUSDPrice);
 
   const amount = userNeededCollateralInUSD.gte(collateralInUSD)
     ? IntMath.from(ZERO_BIG_NUMBER)
-    : collateralInUSD.sub(userNeededCollateralInUSD).div(exchangeRate);
+    : collateralInUSD.sub(userNeededCollateralInUSD).div(collateralUSDPrice);
 
   return closeTo(
     amount.value(),
@@ -400,8 +396,6 @@ export const calculateBorrowAmount: TCalculateBorrowAmount = ({
   userCollateral,
   collateralUSDPrice,
 }) => {
-  const exchangeRate = getExchangeRate(collateralUSDPrice);
-
   const userElasticLoan = loanPrincipalToElastic(
     loanBase,
     userPrincipal,
@@ -411,7 +405,7 @@ export const calculateBorrowAmount: TCalculateBorrowAmount = ({
   );
 
   const collateralValue = IntMath.from(userCollateral)
-    .mul(exchangeRate)
+    .mul(collateralUSDPrice)
     .mul(ltv);
 
   console.log('>> userElasticLoan :: ', userElasticLoan.toNumber());
@@ -427,12 +421,13 @@ const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
   newCollateral,
   market
 ) => {
-  const exchangeRate = getExchangeRate(market.collateralUSDPrice);
-
   const expectedLiquidationPrice = newBorrowAmount.gte(
-    IntMath.from(newCollateral).mul(exchangeRate).mul(market.ltv).value()
+    IntMath.from(newCollateral)
+      .mul(market.collateralUSDPrice)
+      .mul(market.ltv)
+      .value()
   )
-    ? IntMath.from(exchangeRate)
+    ? IntMath.from(market.collateralUSDPrice)
     : calculateExpectedLiquidationPrice(market, newCollateral, newBorrowAmount);
 
   const positionHealth = newBorrowAmount.isZero()
@@ -617,10 +612,7 @@ export const convertCollateralToDinero = (
   ltv: BigNumber,
   collateralUSDPrice: BigNumber
 ): BigNumber =>
-  IntMath.from(collateralAmount)
-    .mul(ltv)
-    .mul(getExchangeRate(collateralUSDPrice))
-    .value();
+  IntMath.from(collateralAmount).mul(ltv).mul(collateralUSDPrice).value();
 
 export const calculateUserCurrentLTV: TCalculateUserCurrentLTV = (
   {
@@ -635,11 +627,9 @@ export const calculateUserCurrentLTV: TCalculateUserCurrentLTV = (
   borrowCollateral,
   borrowLoan
 ) => {
-  const exchangeRate = getExchangeRate(collateralUSDPrice);
-
   const collateralInUSD = IntMath.from(
     userCollateral.add(borrowCollateral)
-  ).mul(exchangeRate);
+  ).mul(collateralUSDPrice);
 
   const elasticLoan = loanPrincipalToElastic(
     loanBase,

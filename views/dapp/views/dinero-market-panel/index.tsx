@@ -58,7 +58,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
   } = useGetDineroMarketDataV2(address);
 
   const kind = chainId
-    ? DINERO_MARKET_METADATA[chainId][ethers.utils.getAddress(address)].kind
+    ? DINERO_MARKET_METADATA[chainId][ethers.utils.getAddress(address)]?.kind
     : DineroMarketKind.ERC20;
 
   const market = useMemo(
@@ -238,7 +238,6 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     account,
     chainId,
     form.getValues(),
-    tokenSymbol,
     signer,
     market.collateralBalance.toString(),
   ]);
@@ -248,13 +247,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
       toast.error('Borrow or collateral amount are wrong');
       return;
     }
-    if (
-      !chainId ||
-      !tokenSymbol ||
-      !account ||
-      !market ||
-      market.collateralAllowance.isZero()
-    )
+    if (!chainId || !account || !market || market.collateralAllowance.isZero())
       return;
 
     await showToast(handleBorrow());
@@ -266,7 +259,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
       return;
     }
 
-    if (!chainId || !tokenSymbol || !account || !market) return;
+    if (!chainId || !account || !market) return;
 
     await showToast(handleRepay());
   };

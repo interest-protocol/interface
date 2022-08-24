@@ -4,11 +4,11 @@ import { useWatch } from 'react-hook-form';
 
 import { Button } from '@/elements';
 import { safeToBigNumber } from '@/utils';
+
 import {
   calculateDineroLeftToBorrow,
   safeAmountToWithdrawRepay,
-} from '@/utils/dinero-market';
-
+} from '../../dinero-market.utils';
 import { InputMaxButtonProps } from './input-money.types';
 
 const InputMaxButton: FC<InputMaxButtonProps> = ({

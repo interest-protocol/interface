@@ -6,8 +6,8 @@ import { Box, Button, Typography } from '@/elements';
 import { IntMath } from '@/sdk/entities/int-math';
 import { LoadingSVG } from '@/svg';
 import { safeToBigNumber } from '@/utils';
-import { convertCollateralToDinero } from '@/utils/dinero-market';
 
+import { convertCollateralToDinero } from '../../dinero-market.utils';
 import { BorrowFormButtonProps } from './borrow-form.types';
 
 const { parseEther } = ethers.utils;

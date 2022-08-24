@@ -1,8 +1,10 @@
 import { FC, useMemo } from 'react';
 
-import { getBorrowFields, getRepayFields } from '@/utils/dinero-market';
-
 import BorrowForm from './components/borrow-form';
+import {
+  getBorrowFields,
+  getRepayFields,
+} from './components/borrow-form/borrow-form.utils';
 import { FormsProps } from './dinero-market.types';
 
 const DineroMarketForm: FC<FormsProps> = ({

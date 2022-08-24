@@ -6,11 +6,11 @@ import { v4 } from 'uuid';
 import { Box, Button, Typography } from '@/elements';
 import { Fraction } from '@/sdk/entities/fraction';
 import { IntMath } from '@/sdk/entities/int-math';
+
 import {
   calculateBorrowAmount,
   calculateUserCurrentLTV,
-} from '@/utils/dinero-market';
-
+} from '../../dinero-market.utils';
 import { BorrowFormSelectLTVProps } from './borrow-form.types';
 
 const LTV_ARRAY = [0, 25, 50, 75, 100];
