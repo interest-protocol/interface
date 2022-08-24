@@ -1,4 +1,5 @@
 import { isAddress } from 'ethers/lib/utils';
+import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, ReactNode, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
@@ -107,6 +108,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   setIsSearching,
   onSelectCurrency,
 }) => {
+  const t = useTranslations('dex');
   const { chainId } = useIdAccount();
   const [showLocal, setShowLocal] = useState(false);
   const search = useWatch({ control, name: 'search' });
@@ -221,7 +223,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
           <Box my="L" textAlign="center">
             {isSearching ? (
               <Typography variant="normal" color="text">
-                Loading...
+                {t('loading')}
               </Typography>
             ) : searchedToken ? (
               renderData(
@@ -232,7 +234,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
               )
             ) : (
               <Typography variant="normal" color="text">
-                Token not found
+                {t('token404')}
               </Typography>
             )}
           </Box>
@@ -245,12 +247,12 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                 options={[
                   {
                     value: 'recommended',
-                    displayValue: 'Recommended',
+                    displayValue: t('recommended'),
                     onSelect: () => setShowLocal(false),
                   },
                   {
                     value: 'local',
-                    displayValue: 'Added by me',
+                    displayValue: t('addedByMe'),
                     onSelect: () => setShowLocal(true),
                   },
                 ]}

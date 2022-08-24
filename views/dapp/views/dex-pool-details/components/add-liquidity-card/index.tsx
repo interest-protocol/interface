@@ -1,4 +1,5 @@
 import { BigNumber } from 'ethers';
+import { useTranslations } from 'next-intl';
 import { identity, o, prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -52,6 +53,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
   fetchingInitialData,
   mutate,
 }) => {
+  const t = useTranslations('dex');
   const [loading, setLoading] = useState(false);
   const [isFetchingQuote, setIsFetchingQuote] = useState(false);
 
@@ -229,7 +231,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
           variant="normal"
           textTransform="uppercase"
         >
-          Add Liquidity
+          {t('addLiquidity')}
         </Typography>
       </Box>
       {tokens.map(({ balance, decimals, allowance, Icon, symbol }, index) => (
@@ -304,7 +306,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
                 hover={{ bg: 'accentActive' }}
                 onClick={() => handleApproveToken(address, symbol)}
               >
-                Approve {symbol}
+                {t('approve')} {symbol}
               </Button>
             ))
           )}
@@ -322,7 +324,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
                   setValue('locked', false);
                 }}
               >
-                Reset
+                {t('reset')}
               </Button>
               <Button
                 bg="accent"

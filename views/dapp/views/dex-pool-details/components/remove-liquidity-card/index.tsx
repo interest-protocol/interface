@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -38,6 +39,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
   isFetchingInitialData,
   mutate,
 }) => {
+  const t = useTranslations('dex');
   const { account, signer, chainId } = useGetSigner();
 
   const { register, setValue, control, getValues } =
@@ -152,7 +154,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
           variant="normal"
           textTransform="uppercase"
         >
-          Remove Liquidity
+          {t('remLiquidity')}
         </Typography>
       </Box>
       <InputBalance
@@ -222,7 +224,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
               hover={{ bg: 'accentActive' }}
               onClick={handleApproveToken}
             >
-              Approve {tokens[0].symbol}/{tokens[1].symbol} LP
+              {t('approve')} {tokens[0].symbol}/{tokens[1].symbol} LP
             </Button>
           ) : (
             <>
@@ -235,7 +237,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
                   setValue('lpAmount', '0.0');
                 }}
               >
-                Reset
+                {t('reset')}
               </Button>
               <Button
                 bg="error"
@@ -244,7 +246,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
                 hover={{ bg: 'errorActive' }}
                 onClick={handleRemoveLiquidity}
               >
-                Remove
+                {t('remove')}
               </Button>
             </>
           )}

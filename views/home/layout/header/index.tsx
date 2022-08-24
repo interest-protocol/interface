@@ -6,22 +6,22 @@ import { v4 } from 'uuid';
 
 import { Container, SocialMediaCard } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
-import { Box, Button, Dropdown, Typography } from '@/elements';
-import { IDropdownData } from '@/elements/dropdown/dropdown.types';
+import { Box, Button, Typography } from '@/elements';
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
 import { BarsLPSVG, LogoSVG, TimesSVG } from '@/svg';
 
 import { HeaderProps } from './header.types';
 import MenuList from './menu-list';
+import SwitchLang from './switch-lang';
 
 const AnimatedBox = animated(Box);
 const menuButtonId = 'landing-menu-wrapper-id';
 
 const Header: FC<HeaderProps> = ({ empty }) => {
-  const { locales, locale, asPath, push } = useRouter();
+  const { push } = useRouter();
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const [mobileMenu, setMobileMenu] = useState(false);
-  const LANG = ['English', 'Português'];
+
   const fadeStyles = useSpring({
     from: { maxHeight: '0rem', minHeight: '0rem' },
     to: {
@@ -121,45 +121,7 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                 {SOCIAL_MEDIAS.map((socialMediaData) => (
                   <SocialMediaCard {...socialMediaData} key={v4()} />
                 ))}
-                <Dropdown
-                  title={
-                    <Box
-                      mx="0.75rem"
-                      backgroundImage={`url('${locale}.svg')`}
-                      width="1.25rem"
-                      height="1.25rem"
-                      backgroundSize="cover"
-                      borderRadius="2rem"
-                    />
-                  }
-                  mode="menu"
-                  defaultValue={locale}
-                  data={
-                    locales?.map((l, i) => ({
-                      value: l,
-                      displayOption: (
-                        <Link href={asPath} locale={l}>
-                          <Box pl="M" display="flex">
-                            <Box
-                              mx="0.75rem"
-                              backgroundImage={`url('${l}.svg')`}
-                              width="1rem"
-                              height="1rem"
-                              backgroundSize="cover"
-                              borderRadius="2rem"
-                            />
-                            {LANG[i]}
-                          </Box>
-                        </Link>
-                      ),
-                      onSelect: () =>
-                        push(asPath, asPath, {
-                          shallow: true,
-                          locale: l,
-                        }),
-                    })) as unknown as ReadonlyArray<IDropdownData>
-                  }
-                />
+                <SwitchLang />
               </Box>
               <Box
                 textAlign="center"
@@ -178,18 +140,16 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                 </Button>
               </Box>
             </Box>
-            <Box
-              id={menuButtonId}
-              cursor="pointer"
-              onClick={toggleMenu}
-              display={['block', 'none']}
-            >
-              <Box width="2rem" p="S" pointerEvents="none">
-                {mobileMenu ? (
-                  <TimesSVG width="100%" />
-                ) : (
-                  <BarsLPSVG width="100%" />
-                )}
+            <Box display={['flex', 'none']} alignItems="center">
+              <SwitchLang />
+              <Box id={menuButtonId} cursor="pointer" onClick={toggleMenu}>
+                <Box width="2rem" p="S" pointerEvents="none">
+                  {mobileMenu ? (
+                    <TimesSVG width="100%" />
+                  ) : (
+                    <BarsLPSVG width="100%" />
+                  )}
+                </Box>
               </Box>
             </Box>
           </>

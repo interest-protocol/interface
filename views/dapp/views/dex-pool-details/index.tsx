@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { useSelector } from 'react-redux';
@@ -28,6 +29,7 @@ import { processPairData } from './utils';
 const DefaultIcon = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
+  const t = useTranslations('dex');
   const { error, data, mutate } = useGetPairData(pairAddress);
   const chainId = useChainId();
 
@@ -100,8 +102,9 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
                 ' - ' +
                 processedData.token1Metadata.symbol +
                 ' ' +
-                (processedData.isStable ? 'Stable' : 'Volatile') +
-                ' Pool Details'}
+                (processedData.isStable
+                  ? t('poolStableDetails')
+                  : t('poolVolatileDetails'))}
             </Typography>
           </>
         )}

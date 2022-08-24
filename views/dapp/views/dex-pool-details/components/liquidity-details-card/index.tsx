@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
@@ -9,66 +10,69 @@ import LiquidityDetailsCardLine from './liquidity-details-card-line';
 const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
   lines,
   isStable,
-}) => (
-  <Box
-    p="L"
-    width="100%"
-    display="flex"
-    bg="foreground"
-    borderRadius="M"
-    flexDirection="column"
-  >
-    <Typography
-      width="100%"
-      fontSize="S"
-      variant="normal"
-      textTransform="uppercase"
-    >
-      Liquidity
-    </Typography>
+}) => {
+  const t = useTranslations('dex');
+  return (
     <Box
-      py="M"
-      px="L"
-      my="XL"
-      borderRadius="L"
-      color="textSecondary"
-      bg="bottomBackground"
-      border="0.09rem solid"
+      p="L"
+      width="100%"
+      display="flex"
+      bg="foreground"
+      borderRadius="M"
+      flexDirection="column"
     >
-      {lines.map((line) => (
-        <LiquidityDetailsCardLine
-          key={v4()}
-          value={line.value}
-          symbol={line.symbol}
-          isFetchingInitialData={line.isFetchingInitialData}
-        />
-      ))}
-    </Box>
-    <Box>
-      <Typography variant="normal" lineHeight="2rem">
-        Type:{' '}
-        <Typography
-          as="strong"
-          variant="normal"
-          fontWeight="600"
-          fontSize="inherit"
-        >
-          {isStable ? 'Stable' : 'Volatile'}
-        </Typography>
+      <Typography
+        width="100%"
+        fontSize="S"
+        variant="normal"
+        textTransform="uppercase"
+      >
+        {t('liquidity')}
       </Typography>
-      <Typography variant="normal" lineHeight="2rem">
-        Swap Fee:{' '}
-        <Typography
-          as="strong"
-          variant="normal"
-          fontWeight="600"
-          fontSize="inherit"
-        >
-          {isStable ? '0.05' : '0.3'}%
+      <Box
+        py="M"
+        px="L"
+        my="XL"
+        borderRadius="L"
+        color="textSecondary"
+        bg="bottomBackground"
+        border="0.09rem solid"
+      >
+        {lines.map((line) => (
+          <LiquidityDetailsCardLine
+            key={v4()}
+            value={line.value}
+            symbol={line.symbol}
+            isFetchingInitialData={line.isFetchingInitialData}
+          />
+        ))}
+      </Box>
+      <Box>
+        <Typography variant="normal" lineHeight="2rem">
+          {t('type')}:{' '}
+          <Typography
+            as="strong"
+            variant="normal"
+            fontWeight="600"
+            fontSize="inherit"
+          >
+            {isStable ? t('stable') : t('volatile')}
+          </Typography>
         </Typography>
-      </Typography>
+        <Typography variant="normal" lineHeight="2rem">
+          {t('swapFee')}:{' '}
+          <Typography
+            as="strong"
+            variant="normal"
+            fontWeight="600"
+            fontSize="inherit"
+          >
+            {isStable ? '0.05' : '0.3'}%
+          </Typography>
+        </Typography>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 export default LiquidityDetailsCard;

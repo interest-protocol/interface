@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -13,6 +14,7 @@ const FindPool: FC<FindPoolProps> = ({
   currencyAChargerArgs,
   currencyBChargerArgs,
 }) => {
+  const t = useTranslations('dex');
   const addressA = useWatch({ control, name: `tokenA.address` });
   const addressB = useWatch({ control, name: `tokenB.address` });
   const isStable = useWatch({ control, name: `isStable` });
@@ -46,9 +48,14 @@ const FindPool: FC<FindPoolProps> = ({
             thin
             defaultValue={isStable ? 'stable' : 'volatile'}
             options={[
-              { value: 'stable', onSelect: () => setValue('isStable', true) },
+              {
+                value: 'stable',
+                displayValue: t('stable'),
+                onSelect: () => setValue('isStable', true),
+              },
               {
                 value: 'volatile',
+                displayValue: t('volatile'),
                 onSelect: () => setValue('isStable', false),
               },
             ]}

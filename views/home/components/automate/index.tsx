@@ -33,7 +33,7 @@ const Automate: FC = () => {
           fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
           lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
         >
-          {t('automateSubtitle')}
+          {t('automateDescription')}
         </Typography>
         <Box
           mt={['1.25rem', '4.313rem']}

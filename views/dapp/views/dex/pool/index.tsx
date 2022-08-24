@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
 
 import { Switch } from '@/components';
@@ -8,6 +9,7 @@ import { Box, Button, Typography } from '@/elements';
 import RecommendPools from './recommended-pools';
 
 const Pool: FC = () => {
+  const t = useTranslations('dex');
   const [poolType, setPoolType] = useState<PoolType>(PoolType.Volatile);
 
   const { push } = useRouter();
@@ -28,19 +30,19 @@ const Pool: FC = () => {
           gridTemplateColumns={['1fr', '1fr 1fr 1fr']}
         >
           <Typography variant="normal" mr={['unset', 'auto']}>
-            Pools Overview
+            {t('poolOverview')}
           </Typography>
           <Switch
             defaultValue={poolType}
             options={[
               {
                 value: PoolType.Volatile,
-                displayValue: 'Volatile',
+                displayValue: t('volatile'),
                 onSelect: () => setPoolType(PoolType.Volatile),
               },
               {
                 value: PoolType.Stable,
-                displayValue: 'Stable',
+                displayValue: t('stable'),
                 onSelect: () => setPoolType(PoolType.Stable),
               },
             ]}
@@ -52,7 +54,7 @@ const Pool: FC = () => {
             onClick={() => push(Routes[RoutesEnum.DEXFindPool])}
             ml={['unset', 'auto']}
           >
-            Find Pool
+            {t('findPool')}
           </Button>
         </Box>
         <RecommendPools type={poolType} />

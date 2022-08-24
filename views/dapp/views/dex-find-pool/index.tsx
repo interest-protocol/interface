@@ -1,5 +1,6 @@
 import { getAddress } from 'ethers/lib/utils';
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { pathOr, prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -51,6 +52,7 @@ import { DexFindPoolForm } from './dex-find-pool.types';
 import FindPool from './find-pool';
 
 const FindPoolView: FC = () => {
+  const t = useTranslations('dex');
   const { push } = useRouter();
   const { signer } = useGetSigner();
   const { chainId, account } = useIdAccount();
@@ -291,7 +293,7 @@ const FindPoolView: FC = () => {
     <Container py="XL">
       <GoBack routeBack />
       <Typography variant="normal" width="100%">
-        Find Pool
+        {t('findPool')}
       </Typography>
       <FindPool
         control={control}
@@ -348,7 +350,7 @@ const FindPoolView: FC = () => {
               disabled={true}
               bg="disabled"
             >
-              Choose different tokens
+              {t('chooseDiffToken')}
             </Button>
           ) : isCreatingPair ? (
             <Button
@@ -385,7 +387,7 @@ const FindPoolView: FC = () => {
               bg={loading ? 'accentActive' : 'accent'}
               hover={{ bg: loading ? 'disabled' : 'accentActive' }}
             >
-              {loading ? 'Finding Pool...' : 'Find and Enter Pool'}
+              {loading ? t('finding') : t('findEnterPool')}
             </Button>
           )}
         </WalletGuardButton>

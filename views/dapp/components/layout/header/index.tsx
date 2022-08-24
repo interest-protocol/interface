@@ -4,15 +4,14 @@ import { FC } from 'react';
 
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Dropdown, Typography } from '@/elements';
-import { IDropdownData } from '@/elements/dropdown/dropdown.types';
 import { LogoSVG } from '@/svg';
+import SwitchLang from '@/views/home/layout/header/switch-lang';
 
 import { Wallet } from '../../index';
 import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {
-  const { locales, locale, asPath, pathname, push } = useRouter();
-  const LANG = ['English', 'Português'];
+  const { pathname, push } = useRouter();
 
   return (
     <Box
@@ -137,37 +136,7 @@ const Header: FC = () => {
       <Box display="flex" justifyContent="flex-end" alignItems="center">
         <Wallet />
         <MobileMenu />
-        <Dropdown
-          title={
-            <Typography
-              mx="0.75rem"
-              variant="normal"
-              className={locale == 'en-US' ? 'fi fi-us' : 'fi fi-pt'}
-            />
-          }
-          mode="menu"
-          defaultValue={locale}
-          data={
-            locales?.map((l, i) => ({
-              value: l,
-              displayOption: (
-                <Box pl="M">
-                  <Typography
-                    variant="normal"
-                    className={l == 'en-US' ? 'fi fi-us' : 'fi fi-pt'}
-                    mr="M"
-                  />
-                  {LANG[i]}
-                </Box>
-              ),
-              onSelect: () =>
-                push(asPath, undefined, {
-                  shallow: true,
-                  locale: l,
-                }),
-            })) as unknown as ReadonlyArray<IDropdownData>
-          }
-        />
+        <SwitchLang />
       </Box>
     </Box>
   );

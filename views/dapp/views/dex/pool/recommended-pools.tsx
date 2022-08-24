@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
@@ -9,12 +10,14 @@ import { RecommendedPoolsProps } from './pool.types';
 import PoolRow from './pool-row';
 
 const RecommendedPools: FC<RecommendedPoolsProps> = ({ type }) => {
+  const t = useTranslations('dex');
   const chainId = useChainId();
-
   return (
     <Box pb="L" pt="M" mb="L" px="L" bg="foreground" borderRadius="M">
       <Typography variant="normal" width="100%" my="L">
-        Recommended {type === PoolType.Volatile ? 'Volatile' : 'Stable'} Pools
+        {type === PoolType.Volatile
+          ? t('recommendedVolatile')
+          : t('recommendedStable')}
       </Typography>
       {RECOMMENDED_POOLS[chainId][type].map(
         ({ token0, token1, pairAddress }) => (

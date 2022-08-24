@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC, useEffect, useRef } from 'react';
 
 import { Box, Button, Typography } from '@/elements';
@@ -15,6 +16,8 @@ const SettingsModal: FC<SwapSettingsProps> = ({
   setLocalSettings,
   localSettings,
 }) => {
+  const t = useTranslations('dex');
+
   const dropdownContainerRef =
     useClickOutsideListenerRef<HTMLDivElement>(toggle);
 
@@ -65,7 +68,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           color="textSecondary"
           textTransform="uppercase"
         >
-          Transaction Settings
+          {t('transactionSetting')}
         </Typography>
         <Button
           p="S"
@@ -87,7 +90,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           type="string"
           max="30"
           placeholder="0.5"
-          label="Slippage tolerance?"
+          label={t('slippageTolerance')}
           setRegister={() =>
             register('slippage', {
               onChange: (v: ChangeEvent<HTMLInputElement>) => {
@@ -136,8 +139,8 @@ const SettingsModal: FC<SwapSettingsProps> = ({
               },
             })
           }
-          label="Transaction deadline"
-          suffix={<Typography variant="normal">minutes</Typography>}
+          label={t('transactionDeadline')}
+          suffix={<Typography variant="normal">{t('minutes')}</Typography>}
         />
       </Box>
     </Box>
