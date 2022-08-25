@@ -49,8 +49,8 @@ const InputMoney: FC<InputMoneyProps> = ({
         />
         <Input
           type="string"
-          placeholder={amount}
           disabled={disabled}
+          placeholder={amount}
           {...register(name, {
             onChange: (v: ChangeEvent<HTMLInputElement>) =>
               setValue(

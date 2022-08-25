@@ -224,6 +224,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     <Container
       dapp
       my="XL"
+      width="100%"
       display="flex"
       position="relative"
       flexDirection="column"

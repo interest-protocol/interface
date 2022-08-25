@@ -28,11 +28,6 @@ const InputMaxBalance: FC<InputMaxBalanceProps> = ({
     [depositCollateral]
   );
 
-  console.log('>> recalculatedMax :: ', recalculatedMax);
-  console.log('>> isDNR:: ', isDNR);
-  console.log('>> isBorrow :: ', isBorrow);
-  console.log('>> isDNR && isBorrow :: ', isDNR && isBorrow);
-
   return (
     <Box
       py="S"
