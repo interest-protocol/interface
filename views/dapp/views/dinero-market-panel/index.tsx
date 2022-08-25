@@ -285,7 +285,6 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
             collateralBalance={market.collateralBalance}
             collateralDecimals={market.collateralDecimals}
             currencyIcons={getDineroMarketSVGBySymbol(
-              market.chainId,
               market.symbol0,
               market.symbol1
             )}

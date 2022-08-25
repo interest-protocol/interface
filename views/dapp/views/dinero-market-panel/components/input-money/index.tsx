@@ -71,6 +71,7 @@ const InputMoney: FC<InputMoneyProps> = ({
           shieldProps={{
             p: 'S',
             my: 'M',
+            width: '100%',
             height: '3rem',
             bg: 'background',
             borderRadius: 'M',
@@ -107,13 +108,13 @@ const InputMoney: FC<InputMoneyProps> = ({
                 borderRight="1px solid"
                 borderColor="bottomBackground"
               >
-                <Box as="span" display="inline-block" width="1rem">
+                <Box display="inline-flex">
                   {currencyIcons.map(({ SVG, highZIndex }, index) => (
                     <Box
                       key={v4()}
                       width="1.6rem"
                       ml={index != 0 ? '-0.5rem' : 'NONE'}
-                      zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
+                      zIndex={index == 0 && highZIndex ? 3 : 'unset'}
                     >
                       <SVG width="100%" />
                     </Box>
@@ -131,4 +132,5 @@ const InputMoney: FC<InputMoneyProps> = ({
     </Box>
   );
 };
+
 export default InputMoney;

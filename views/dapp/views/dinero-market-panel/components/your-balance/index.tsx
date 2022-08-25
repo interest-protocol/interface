@@ -51,41 +51,43 @@ const YourBalance: FC<YourBalanceProps> = ({
           balance: collateralBalance,
           decimals: collateralDecimals,
         },
-      ].map(({ name, symbols, balance, decimals }) => {
-        return (
-          <Box my="L" key={v4()} display="flex" justifyContent="space-between">
-            <Box display="flex">
-              <>
-                <Box as="span" display="inline-block" width="1rem">
-                  {symbols.map(({ SVG, highZIndex }, index) => (
-                    <Box
-                      key={v4()}
-                      width="1.6rem"
-                      ml={index != 0 ? '-0.5rem' : 'NONE'}
-                      zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
-                    >
-                      <SVG width="100%" />
-                    </Box>
-                  ))}
+      ].map(({ name, symbols, balance, decimals }) => (
+        <Box
+          my="L"
+          key={v4()}
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Box display="flex" alignItems="center">
+            <Box display="inline-flex">
+              {symbols.map(({ SVG, highZIndex }, index) => (
+                <Box
+                  key={v4()}
+                  width="1.6rem"
+                  ml={index != 0 ? '-0.5rem' : 'NONE'}
+                  zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
+                >
+                  <SVG width="100%" />
                 </Box>
-                <Typography ml="M" variant="normal">
-                  {name}
-                </Typography>
-              </>
+              ))}
             </Box>
-            <Typography
-              variant="normal"
-              maxWidth="10rem"
-              overflow="hidden"
-              textAlign="right"
-              whiteSpace="nowrap"
-              color="textSecondary"
-            >
-              {formatMoney(IntMath.toNumber(balance, decimals ?? 18))}
+            <Typography ml="M" variant="normal">
+              {name}
             </Typography>
           </Box>
-        );
-      })
+          <Typography
+            variant="normal"
+            maxWidth="10rem"
+            overflow="hidden"
+            textAlign="right"
+            whiteSpace="nowrap"
+            color="textSecondary"
+          >
+            {formatMoney(IntMath.toNumber(balance, decimals ?? 18))}
+          </Typography>
+        </Box>
+      ))
     )}
   </Box>
 );

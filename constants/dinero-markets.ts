@@ -112,7 +112,6 @@ export const DINERO_MARKET_METADATA = {
 };
 
 export const getDineroMarketSVGBySymbol = (
-  chainId: number,
   symbol0: string,
   symbol1: string
 ): ReadonlyArray<{

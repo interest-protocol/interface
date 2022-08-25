@@ -664,11 +664,7 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
       currency:
         market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.name,
       amount: '0',
-      currencyIcons: getDineroMarketSVGBySymbol(
-        market.chainId,
-        market.symbol0,
-        market.symbol1
-      ),
+      currencyIcons: getDineroMarketSVGBySymbol(market.symbol0, market.symbol1),
       max: Math.floor(
         IntMath.toNumber(market.collateralBalance, market.collateralDecimals)
       ),
@@ -721,11 +717,7 @@ export const getRepayFields: TGetRepayFields = (market) => {
       currency:
         market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.name,
       amount: '0',
-      currencyIcons: getDineroMarketSVGBySymbol(
-        market.chainId,
-        market.symbol0,
-        market.symbol1
-      ),
+      currencyIcons: getDineroMarketSVGBySymbol(market.symbol0, market.symbol1),
       max: safeAmountToWithdraw(market).toNumber(),
       name: 'repay.collateral',
       label: 'Remove Collateral',
