@@ -81,11 +81,11 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
       type="button"
       height="100%"
       variant="secondary"
-      bg={isDisabled ? 'disabled' : 'bottomBackground'}
-      hover={{ bg: 'accent' }}
-      active={{ bg: 'accentActive' }}
       disabled={isDisabled}
+      hover={{ bg: 'accent' }}
       onClick={handleSetInnerMax}
+      active={{ bg: 'accentActive' }}
+      bg={isDisabled ? 'disabled' : 'bottomBackground'}
     >
       max
     </Button>

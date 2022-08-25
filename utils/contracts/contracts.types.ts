@@ -2,8 +2,6 @@ import { Result } from '@ethersproject/abi';
 import { JsonRpcSigner, StaticJsonRpcProvider } from '@ethersproject/providers';
 import { BigNumber } from 'ethers';
 
-import { TOKEN_SYMBOL } from '@/sdk';
-
 export type GetContractAddress = (chainId: number) => string;
 
 export type GetContract<T> = (

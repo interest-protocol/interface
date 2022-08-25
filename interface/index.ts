@@ -1,5 +1,4 @@
 import { BigNumber } from 'ethers';
-import { FC, SVGAttributes } from 'react';
 
 export type MaybeArray<T> = T | Array<T>;
 

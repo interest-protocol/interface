@@ -316,8 +316,6 @@ export const calculatePositionHealth: TCalculatePositionHealth = ({
   )
     return IntMath.from(ethers.utils.parseEther('1'));
 
-  console.log(userElasticLoan.value().toString(), 'sss');
-
   return userElasticLoan.div(
     IntMath.from(userCollateral).mul(collateralUSDPrice).mul(ltv)
   );

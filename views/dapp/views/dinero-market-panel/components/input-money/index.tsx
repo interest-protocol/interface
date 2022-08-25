@@ -39,6 +39,7 @@ const InputMoney: FC<InputMoneyProps> = ({
         {label}:
       </Typography>
       <Box display="flex" flexDirection="column" alignItems="flex-end">
+        {console.log('>> currency :: ', currency)}
         <InputMaxBalance
           max={max}
           data={data}

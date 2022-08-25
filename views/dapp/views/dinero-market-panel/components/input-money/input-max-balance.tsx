@@ -1,12 +1,15 @@
+import { ethers } from 'ethers';
 import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
-import { IntMath } from '@/sdk';
-import { formatMoney } from '@/utils';
+import { formatMoney, safeToBigNumber } from '@/utils';
 
-import { calculateBorrowAmount } from '../../dinero-market.utils';
+import {
+  calculateDineroLeftToBorrow,
+  safeAmountToWithdrawRepay,
+} from '../../dinero-market.utils';
 import { InputMaxBalanceProps } from './input-money.types';
 
 const InputMaxBalance: FC<InputMaxBalanceProps> = ({
@@ -17,14 +20,23 @@ const InputMaxBalance: FC<InputMaxBalanceProps> = ({
   isBorrow,
 }) => {
   const depositCollateral = useWatch({ control, name: 'borrow.collateral' });
+  const repayLoan = useWatch({ control, name: 'repay.loan' });
+
   const recalculatedMax = useMemo(
     () =>
-      calculateBorrowAmount({
-        ...data,
-        userCollateral: data.userCollateral.add(
-          IntMath.toBigNumber(depositCollateral)
-        ),
-      }).toNumber(),
+      isBorrow
+        ? calculateDineroLeftToBorrow({
+            ...data,
+            userCollateral: data.userCollateral.add(
+              safeToBigNumber(+depositCollateral || 0)
+            ),
+          })
+            .mul(ethers.utils.parseEther('0.9'))
+            .toNumber()
+        : safeAmountToWithdrawRepay(
+            data,
+            safeToBigNumber(+repayLoan)
+          ).toNumber(),
     [depositCollateral]
   );
 
@@ -40,7 +52,11 @@ const InputMaxBalance: FC<InputMaxBalanceProps> = ({
       <Typography fontSize="S" variant="normal">
         Max:{' '}
         <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
-          {formatMoney((isDNR && isBorrow ? recalculatedMax : max) ?? 0)}
+          {formatMoney(
+            ((isDNR && isBorrow) || (!isDNR && !isBorrow)
+              ? recalculatedMax
+              : max) ?? 0
+          )}
         </Typography>
       </Typography>
     </Box>

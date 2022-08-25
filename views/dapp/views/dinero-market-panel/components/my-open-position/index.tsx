@@ -60,18 +60,17 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
         DNR: {formatDollars(1)}
       </Typography>
       <Typography as="div" variant="normal" textAlign="center" mb="M">
-        {marketName}
         {isLoading ? (
           <Typography
             as="span"
-            width="4rem"
+            width="8rem"
             variant="normal"
             display="inline-block"
           >
             <Skeleton />
           </Typography>
         ) : (
-          `${
+          `${marketName}: ${
             collateralUSDPrice &&
             formatDollars(IntMath.from(collateralUSDPrice).toNumber())
           }`

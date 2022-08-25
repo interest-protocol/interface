@@ -5,7 +5,6 @@ import { useWatch } from 'react-hook-form';
 import { Box, Button, Typography } from '@/elements';
 import { IntMath } from '@/sdk/entities/int-math';
 import { LoadingSVG } from '@/svg';
-import { safeToBigNumber } from '@/utils';
 
 import { convertCollateralToDinero } from '../../dinero-market.utils';
 import { BorrowFormButtonProps } from './borrow-form.types';
