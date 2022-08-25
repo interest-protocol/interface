@@ -2,9 +2,11 @@ import { ChangeEvent, FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Box, Input, Typography } from '@/elements';
-import { formatMoney, parseInputEventToNumberString } from '@/utils';
+import { TOKEN_SYMBOL } from '@/sdk';
+import { parseInputEventToNumberString } from '@/utils';
 
 import InputErrorMessage from './input-error';
+import InputMaxBalance from './input-max-balance';
 import InputMaxButton from './input-max-button';
 import { InputMoneyProps, TErrorMessageLabels } from './input-money.types';
 import InputMoneySuffix from './input-money-suffix';
@@ -21,6 +23,7 @@ const InputMoney: FC<InputMoneyProps> = ({
   currency,
   setValue,
   disabled,
+  isBorrow,
   amountUSD,
   currencyIcons,
 }) => {
@@ -37,26 +40,13 @@ const InputMoney: FC<InputMoneyProps> = ({
         {label}:
       </Typography>
       <Box display="flex" flexDirection="column" alignItems="flex-end">
-        <Box
-          py="S"
-          px="M"
-          mb="-1rem"
-          bg="bottomBackground"
-          borderRadius="M"
-          position="relative"
-        >
-          <Typography fontSize="S" variant="normal">
-            Max:{' '}
-            <Typography
-              fontSize="S"
-              variant="normal"
-              fontWeight="bold"
-              as="span"
-            >
-              {formatMoney(max ?? 0)}
-            </Typography>
-          </Typography>
-        </Box>
+        <InputMaxBalance
+          max={max}
+          data={data}
+          control={control}
+          isBorrow={!!isBorrow}
+          isDNR={currency === TOKEN_SYMBOL.DNR}
+        />
         <Input
           type="string"
           placeholder={amount}
@@ -97,8 +87,9 @@ const InputMoney: FC<InputMoneyProps> = ({
               <InputMaxButton
                 max={max}
                 name={name}
-                control={control}
                 data={data}
+                control={control}
+                isBorrow={isBorrow}
                 setValue={setValue}
               />
               <Box

@@ -1,4 +1,4 @@
-import { UseFormReturn, UseFormStateReturn } from 'react-hook-form';
+import { Control, UseFormReturn, UseFormStateReturn } from 'react-hook-form';
 
 import {
   DineroCurrencyIcons,
@@ -16,6 +16,7 @@ export interface InputMoneyProps
   amount: string;
   currency: string;
   amountUSD: number;
+  isBorrow?: boolean;
   data: DineroMarketData;
   errors: UseFormStateReturn<IBorrowForm>['errors'];
   currencyIcons: DineroCurrencyIcons;
@@ -32,6 +33,7 @@ export interface InputMoneySuffixProps
 export interface InputMaxButtonProps
   extends Pick<UseFormReturn<IBorrowForm>, 'setValue' | 'control'> {
   max?: number;
+  isBorrow?: boolean;
   data: DineroMarketData;
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
 }
@@ -41,4 +43,12 @@ export type TErrorMessageLabels = ['borrow' | 'repay', 'loan' | 'collateral'];
 export interface InputErrorMessageProps {
   errors: UseFormStateReturn<IBorrowForm>['errors'];
   labels: TErrorMessageLabels;
+}
+
+export interface InputMaxBalanceProps {
+  max?: number;
+  isDNR: boolean;
+  isBorrow: boolean;
+  data: DineroMarketData;
+  control: Control<IBorrowForm>;
 }

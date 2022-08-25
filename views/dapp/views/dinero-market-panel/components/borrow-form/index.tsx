@@ -48,6 +48,7 @@ const BorrowForm: FC<BorrowFormProps> = ({
           data={data}
           errors={errors}
           control={control}
+          isBorrow={isBorrow}
           register={register}
           setValue={setValue}
           {...input}
