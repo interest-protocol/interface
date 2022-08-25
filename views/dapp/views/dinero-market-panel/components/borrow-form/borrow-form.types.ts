@@ -1,26 +1,16 @@
 import { UseFormReturn, UseFormStateReturn } from 'react-hook-form';
 
-import { TypeSVG } from '@/interface';
-
-import { DineroMarketData, IBorrowForm } from '../../dinero-market.types';
-
-export interface IBorrowFormField {
-  max?: number;
-  label: string;
-  amount: string;
-  currency: string;
-  amountUSD: number;
-  disabled: boolean;
-  currencyIcons: [TypeSVG, TypeSVG | null];
-  name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
-}
+import {
+  DineroMarketData,
+  IBorrowForm,
+  IBorrowFormField,
+} from '../../dinero-market.types';
 
 export interface BorrowFormButtonProps
   extends Pick<
     UseFormReturn<IBorrowForm>,
     'control' | 'setError' | 'clearErrors'
   > {
-  isPair: boolean;
   isBorrow?: boolean;
   onSubmit: () => void;
   isSubmitting: boolean;
@@ -30,7 +20,6 @@ export interface BorrowFormButtonProps
 }
 export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
   account: string;
-  isPair: boolean;
   loading?: boolean;
   isBorrow?: boolean;
   onSubmit: () => void;
@@ -51,13 +40,3 @@ export interface BorrowFormLoanInfoProps
   data: DineroMarketData;
   isBorrow: boolean;
 }
-
-export type TGetRepayFields = (
-  data: DineroMarketData,
-  collateralSymbol: [string, string | undefined]
-) => ReadonlyArray<IBorrowFormField>;
-
-export type TGetBorrowFields = (
-  data: DineroMarketData,
-  collateralSymbol: [string, string | undefined]
-) => ReadonlyArray<IBorrowFormField>;

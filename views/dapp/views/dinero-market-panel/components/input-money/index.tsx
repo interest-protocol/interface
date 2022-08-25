@@ -1,4 +1,5 @@
 import { ChangeEvent, FC } from 'react';
+import { v4 } from 'uuid';
 
 import { Box, Input, Typography } from '@/elements';
 import { formatMoney, parseInputEventToNumberString } from '@/utils';
@@ -24,7 +25,6 @@ const InputMoney: FC<InputMoneyProps> = ({
   currencyIcons,
 }) => {
   const labels = name.split('.') as TErrorMessageLabels;
-  const [TokenIcon, PairTokenIcon] = currencyIcons;
 
   return (
     <Box mb="L">
@@ -108,20 +108,19 @@ const InputMoney: FC<InputMoneyProps> = ({
                 borderColor="bottomBackground"
               >
                 <Box as="span" display="inline-block" width="1rem">
-                  <TokenIcon width="100%" />
+                  {currencyIcons.map(({ SVG, highZIndex }, index) => (
+                    <Box
+                      key={v4()}
+                      width="1.6rem"
+                      ml={index != 0 ? '-0.5rem' : 'NONE'}
+                      zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
+                    >
+                      <SVG width="100%" />
+                    </Box>
+                  ))}
                 </Box>
-                {PairTokenIcon && (
-                  <Box
-                    as="span"
-                    display="inline-block"
-                    width="1rem"
-                    ml="-0.3rem"
-                  >
-                    <PairTokenIcon width="100%" />
-                  </Box>
-                )}
                 <Typography as="span" variant="normal" ml="S">
-                  {PairTokenIcon ? 'LP' : currency}
+                  {currency}
                 </Typography>
               </Box>
             </>

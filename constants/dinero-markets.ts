@@ -1,7 +1,13 @@
 import { ethers } from 'ethers';
+import { FC, SVGAttributes } from 'react';
 
+import { TOKENS_SVG_MAP } from '@/constants/erc-20';
 import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk';
-import { getBTCAddress, getETHERC20Address } from '@/utils';
+import {
+  getBTCAddress,
+  getETHERC20Address,
+  replaceWrappedNativeTokenWithNativeTokenSymbol,
+} from '@/utils';
 
 import { WRAPPED_NATIVE_TOKEN } from './dex';
 
@@ -103,4 +109,41 @@ export const DINERO_MARKET_METADATA = {
       ),
     },
   },
+};
+
+export const getDineroMarketSVGBySymbol = (
+  chainId: number,
+  symbol0: string,
+  symbol1: string
+): ReadonlyArray<{
+  SVG: FC<SVGAttributes<SVGSVGElement>>;
+  highZIndex: boolean;
+}> => {
+  const token1HasLowerZIndex = [TOKEN_SYMBOL.BNB, TOKEN_SYMBOL.WBNB].includes(
+    symbol1 as TOKEN_SYMBOL
+  );
+
+  // 1 Token
+  if (symbol1 === (TOKEN_SYMBOL.Unknown as string))
+    return [
+      {
+        SVG: TOKENS_SVG_MAP[symbol0],
+        highZIndex: false,
+      },
+    ];
+
+  return [
+    {
+      SVG: TOKENS_SVG_MAP[
+        replaceWrappedNativeTokenWithNativeTokenSymbol(symbol0 as TOKEN_SYMBOL)
+      ],
+      highZIndex: token1HasLowerZIndex,
+    },
+    {
+      SVG: TOKENS_SVG_MAP[
+        replaceWrappedNativeTokenWithNativeTokenSymbol(symbol1 as TOKEN_SYMBOL)
+      ],
+      highZIndex: !token1HasLowerZIndex,
+    },
+  ];
 };

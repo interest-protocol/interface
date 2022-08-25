@@ -172,43 +172,6 @@ export const getFarmsSVGByToken = (
   ];
 };
 
-export const getDineroMarketSVGBySymbol = (
-  chainId: number,
-  symbol0: string,
-  symbol1: string
-): ReadonlyArray<{
-  SVG: FC<SVGAttributes<SVGSVGElement>>;
-  highZIndex: boolean;
-}> => {
-  const token1HasLowerZIndex = [TOKEN_SYMBOL.BNB, TOKEN_SYMBOL.WBNB].includes(
-    symbol1 as TOKEN_SYMBOL
-  );
-
-  // 1 Token
-  if (symbol1 === (TOKEN_SYMBOL.Unknown as string))
-    return [
-      {
-        SVG: TOKENS_SVG_MAP[symbol0],
-        highZIndex: false,
-      },
-    ];
-
-  return [
-    {
-      SVG: TOKENS_SVG_MAP[
-        replaceWrappedNativeTokenWithNativeTokenSymbol(symbol0 as TOKEN_SYMBOL)
-      ],
-      highZIndex: token1HasLowerZIndex,
-    },
-    {
-      SVG: TOKENS_SVG_MAP[
-        replaceWrappedNativeTokenWithNativeTokenSymbol(symbol1 as TOKEN_SYMBOL)
-      ],
-      highZIndex: !token1HasLowerZIndex,
-    },
-  ];
-};
-
 const RINKEBY_MAIL_BRIDGE_ERC20_ARRAY = [
   {
     symbol: TOKEN_SYMBOL.BTC,

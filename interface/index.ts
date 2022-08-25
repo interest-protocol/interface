@@ -1,28 +1,6 @@
 import { BigNumber } from 'ethers';
 import { FC, SVGAttributes } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IEmptyObject {}
-
-export type TypeSVG = FC<SVGAttributes<SVGSVGElement>>;
-
-export interface IReserves {
-  reserve0: BigNumber;
-  reserve1: BigNumber;
-  blockTimestampLast: number;
-}
-
-export interface IPoolData {
-  stakingToken: string;
-  allocationPoints: BigNumber;
-  totalSupply: BigNumber;
-}
-
-export interface ICasaDePapelMinting {
-  totalAllocationPoints: BigNumber;
-  interestTokenPerBlock: BigNumber;
-}
-
 export type MaybeArray<T> = T | Array<T>;
 
 export interface LocalMAILMarketData {
@@ -50,14 +28,4 @@ export interface ERC20Metadata<T> {
 export interface ERC20MetadataWithAddress<T = BigNumber>
   extends ERC20Metadata<T> {
   address: string;
-}
-
-export interface ModalProps {
-  isOpen: boolean;
-  handleClose: () => void;
-}
-
-export interface InterestDexRoute {
-  from: string;
-  to: string;
 }

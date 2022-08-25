@@ -1,4 +1,5 @@
 import { BigNumber } from 'ethers';
+import { FC, SVGAttributes } from 'react';
 import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
 import { DineroMarketKind } from '@/constants';
@@ -31,7 +32,6 @@ export interface IBorrowForm {
 
 export interface FormsProps {
   account: string;
-  isPair: boolean;
   isSubmitting: boolean;
   isGettingData: boolean;
   mode: 'borrow' | 'repay';
@@ -39,7 +39,6 @@ export interface FormsProps {
   onSubmitBorrow: () => void;
   data: DineroMarketData;
   form: UseFormReturn<IBorrowForm>;
-  symbols: [string, string | undefined];
   handleAddAllowance: () => Promise<void>;
 }
 
@@ -67,6 +66,7 @@ export interface DineroMarketData {
   collateralDecimals: number;
   collateralAddress: string;
   intUSDPrice: BigNumber;
+  chainId: number;
 }
 
 export type GetSafeDineroMarketData = (
@@ -165,3 +165,27 @@ export type TCalculateUserCurrentLTV = (
   borrowCollateral: BigNumber,
   borrowLoan: BigNumber
 ) => IntMath;
+
+export type DineroCurrencyIcons = ReadonlyArray<{
+  SVG: FC<SVGAttributes<SVGSVGElement>>;
+  highZIndex: boolean;
+}>;
+
+export interface IBorrowFormField {
+  max?: number;
+  label: string;
+  amount: string;
+  currency: string;
+  amountUSD: number;
+  disabled: boolean;
+  currencyIcons: DineroCurrencyIcons;
+  name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
+}
+
+export type TGetRepayFields = (
+  data: DineroMarketData
+) => ReadonlyArray<IBorrowFormField>;
+
+export type TGetBorrowFields = (
+  data: DineroMarketData
+) => ReadonlyArray<IBorrowFormField>;

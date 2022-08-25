@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ethers } from 'ethers';
+import { pathOr } from 'ramda';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -7,6 +8,7 @@ import { useDispatch } from 'react-redux';
 
 import { addAllowance } from '@/api';
 import { Container, Tooltip } from '@/components';
+import { getDineroMarketSVGBySymbol } from '@/constants';
 import {
   DINERO_MARKET_METADATA,
   DineroMarketKind,
@@ -17,7 +19,6 @@ import { useGetDineroMarketDataV2, useGetSigner } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
 import { coreActions } from '@/state/core/core.actions';
 import {
-  safeToBigNumber,
   showToast,
   showTXSuccessToast,
   throwContractCallError,
@@ -57,9 +58,15 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     mutate,
   } = useGetDineroMarketDataV2(address);
 
-  const kind = chainId
-    ? DINERO_MARKET_METADATA[chainId][ethers.utils.getAddress(address)]?.kind
-    : DineroMarketKind.ERC20;
+  const kind = pathOr(
+    DineroMarketKind.ERC20,
+    [
+      chainId ? chainId.toString() : 0,
+      ethers.utils.getAddress(address),
+      'kind',
+    ],
+    DINERO_MARKET_METADATA
+  );
 
   const market = useMemo(
     () => getSafeDineroMarketData(chainId, address, marketRawData),
@@ -172,61 +179,14 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
         signer
       );
 
-      const currentCollateralBalance = market.collateralBalance;
-
-      if (!!collateral && !!loan) {
-        const bnCollateral = safeToBigNumber(
-          collateral,
-          market.collateralDecimals,
-          8
-        );
-        const tx = await addCollateralAndLoan(
-          validId,
-          validSigner,
-          tokenSymbol,
-          account,
-          bnCollateral.gt(currentCollateralBalance)
-            ? currentCollateralBalance
-            : bnCollateral,
-          safeToBigNumber(loan)
-        );
-
-        await showTXSuccessToast(tx, validId);
-
-        return;
-      }
-
-      if (collateral) {
-        const bnCollateral = safeToBigNumber(
-          collateral,
-          market.collateralDecimals,
-          8
-        );
-        const tx = await addDineroMarketCollateral(
-          validId,
-          validSigner,
-          tokenSymbol,
-          account,
-          bnCollateral.gt(currentCollateralBalance)
-            ? currentCollateralBalance
-            : bnCollateral
-        );
-
-        await showTXSuccessToast(tx, validId);
-        return;
-      }
-
-      if (loan) {
-        const tx = await getDineroMarketLoan(
-          validId,
-          validSigner,
-          tokenSymbol,
-          account,
-          safeToBigNumber(loan)
-        );
-
-        await showTXSuccessToast(tx, validId);
-      }
+      await api.handleBorrow(
+        validId,
+        validSigner,
+        market,
+        account,
+        collateral,
+        loan
+      );
     } catch (e: unknown) {
       throwContractCallError(e);
     } finally {
@@ -234,13 +194,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
       await mutate();
       dispatch(coreActions.updateNativeBalance());
     }
-  }, [
-    account,
-    chainId,
-    form.getValues(),
-    signer,
-    market.collateralBalance.toString(),
-  ]);
+  }, [account, chainId, form.getValues(), signer, market]);
 
   const onSubmitBorrow = async () => {
     if (isFormBorrowEmpty(form)) {
@@ -304,12 +258,10 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
             form={form}
             data={market}
             account={account}
-            isPair={isPairAddress}
             isSubmitting={isSubmitting}
             onSubmitRepay={onSubmitRepay}
             onSubmitBorrow={onSubmitBorrow}
             handleAddAllowance={submitAllowance}
-            symbols={[tokenSymbol, pairTokenSymbol]}
             isGettingData={market.collateralUSDPrice.isZero() && !error}
           />
           <UserLTV
@@ -317,15 +269,13 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
             ltv={currentLTV}
           />
           <LoanInfo
-            isPair={isPairAddress}
+            kind={market.kind}
             loanInfoData={loanInfoData}
             isLoading={market.collateralUSDPrice.isZero() && !error}
           />
           <MyOpenPosition
-            isPair={isPairAddress}
-            tokenSymbol={tokenSymbol}
+            marketName={market.name}
             myPositionData={myPositionData}
-            pairTokenSymbol={pairTokenSymbol}
             collateralUSDPrice={market.collateralUSDPrice}
             isLoading={market.collateralUSDPrice.isZero() && !error}
           />
@@ -334,7 +284,11 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
             dnrBalance={market.dnrBalance}
             collateralBalance={market.collateralBalance}
             collateralDecimals={market.collateralDecimals}
-            tokenSymbols={[tokenSymbol, pairTokenSymbol]}
+            currencyIcons={getDineroMarketSVGBySymbol(
+              market.chainId,
+              market.symbol0,
+              market.symbol1
+            )}
             loading={market.collateralUSDPrice.isZero() && !error}
           />
         </Box>

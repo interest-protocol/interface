@@ -14,7 +14,6 @@ import BorrowFormSelectLTV from './borrow-form-select-ltv';
 const BorrowForm: FC<BorrowFormProps> = ({
   data,
   fields,
-  isPair,
   control,
   loading,
   onSubmit,
@@ -55,20 +54,17 @@ const BorrowForm: FC<BorrowFormProps> = ({
         />
       )
     )}
-    {!isPair && (
-      <BorrowFormSelectLTV
-        data={data}
-        control={control}
-        setValue={setValue}
-        isBorrow={!!isBorrow}
-      />
-    )}
+    <BorrowFormSelectLTV
+      data={data}
+      control={control}
+      setValue={setValue}
+      isBorrow={!!isBorrow}
+    />
     <BorrowFormLoanInfo control={control} data={data} isBorrow={!!isBorrow} />
     <WalletGuardButton>
       <BorrowFormButton
         data={data}
         errors={errors}
-        isPair={isPair}
         control={control}
         isBorrow={isBorrow}
         onSubmit={onSubmit}

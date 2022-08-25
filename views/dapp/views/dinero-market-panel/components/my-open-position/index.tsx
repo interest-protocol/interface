@@ -3,7 +3,6 @@ import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
-import { TOKEN_SYMBOL } from '@/sdk';
 import { IntMath } from '@/sdk/entities/int-math';
 import { InfoSVG } from '@/svg';
 import { formatDollars } from '@/utils';
@@ -13,9 +12,8 @@ import { MyOpenPositionProps } from './my-open-position.types';
 
 const MyOpenPosition: FC<MyOpenPositionProps> = ({
   isLoading,
-  tokenSymbol,
+  marketName,
   myPositionData,
-  pairTokenSymbol,
   collateralUSDPrice,
 }) => (
   <Box
@@ -62,11 +60,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
         DNR: {formatDollars(1)}
       </Typography>
       <Typography as="div" variant="normal" textAlign="center" mb="M">
-        {tokenSymbol}
-        {pairTokenSymbol && pairTokenSymbol !== TOKEN_SYMBOL.Unknown
-          ? `-${pairTokenSymbol}`
-          : ''}
-        :{' '}
+        {marketName}
         {isLoading ? (
           <Typography
             as="span"

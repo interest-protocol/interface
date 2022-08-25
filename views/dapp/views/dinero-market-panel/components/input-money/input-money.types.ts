@@ -1,8 +1,10 @@
 import { UseFormReturn, UseFormStateReturn } from 'react-hook-form';
 
-import { TypeSVG } from '@/interface';
-
-import { DineroMarketData, IBorrowForm } from '../../dinero-market.types';
+import {
+  DineroCurrencyIcons,
+  DineroMarketData,
+  IBorrowForm,
+} from '../../dinero-market.types';
 
 export interface InputMoneyProps
   extends Pick<
@@ -16,7 +18,7 @@ export interface InputMoneyProps
   amountUSD: number;
   data: DineroMarketData;
   errors: UseFormStateReturn<IBorrowForm>['errors'];
-  currencyIcons: [TypeSVG, TypeSVG | null];
+  currencyIcons: DineroCurrencyIcons;
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
   disabled: boolean;
 }

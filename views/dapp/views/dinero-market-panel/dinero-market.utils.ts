@@ -6,10 +6,18 @@ import {
   DINERO_MARKET_METADATA,
   DineroMarketKind,
   FARM_METADATA_MAP,
+  getDineroMarketSVGBySymbol,
+  TOKENS_SVG_MAP,
   WBNB_INT_ADDRESS_MAP,
   WRAPPED_NATIVE_TOKEN,
 } from '@/constants';
-import { IntMath, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
+import {
+  CHAIN_ID,
+  IntMath,
+  TOKEN_SYMBOL,
+  ZERO_ADDRESS,
+  ZERO_BIG_NUMBER,
+} from '@/sdk';
 import { Fraction } from '@/sdk/entities/fraction';
 import { closeTo } from '@/sdk/utils';
 import {
@@ -23,16 +31,19 @@ import {
 import {
   GetSafeDineroMarketData,
   IBorrowForm,
+  IBorrowFormField,
   TCalculateBorrowAmount,
   TCalculateDineroLeftToBorrow,
   TCalculateExpectedLiquidationPrice,
   TCalculateInterestAccrued,
   TCalculatePositionHealth,
   TCalculateUserCurrentLTV,
+  TGetBorrowFields,
   TGetBorrowPositionHealthData,
   TGetInfoLoanData,
   TGetMyPositionData,
   TGetPositionHealthDataInternal,
+  TGetRepayFields,
   TGetRepayPositionHealthData,
   TLoanElasticToPrincipal,
   TLoanPrincipalToElastic,
@@ -84,6 +95,7 @@ const DEFAULT_MARKET_DATA = {
   collateralDecimals: 18,
   collateralAddress: ZERO_ADDRESS,
   intUSDPrice: ZERO_BIG_NUMBER,
+  chainId: CHAIN_ID.BNB_TEST_NET,
 };
 
 export const getSafeDineroMarketData: GetSafeDineroMarketData = (
@@ -123,6 +135,7 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
       apr: IntMath.from(0),
       intUSDPrice: ZERO_BIG_NUMBER,
       marketAddress: market,
+      chainId,
       ...marketMetadata,
     };
 
@@ -173,6 +186,7 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
     pendingRewards: data.marketData.pendingRewards,
     marketAddress: market,
     intUSDPrice,
+    chainId,
     apr: calculateFarmBaseAPR(
       chainId,
       data.mintData.totalAllocationPoints,
@@ -640,4 +654,85 @@ export const calculateUserCurrentLTV: TCalculateUserCurrentLTV = (
   ).add(borrowLoan);
 
   return elasticLoan.div(collateralInUSD);
+};
+
+export const getBorrowFields: TGetBorrowFields = (market) => {
+  if (!market) return [];
+
+  return [
+    {
+      currency:
+        market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.name,
+      amount: '0',
+      currencyIcons: getDineroMarketSVGBySymbol(
+        market.chainId,
+        market.symbol0,
+        market.symbol1
+      ),
+      max: Math.floor(
+        IntMath.toNumber(market.collateralBalance, market.collateralDecimals)
+      ),
+      name: 'borrow.collateral',
+      label: 'Deposit Collateral',
+      amountUSD: market.collateralUSDPrice.isZero()
+        ? 0
+        : IntMath.toNumber(market.collateralUSDPrice),
+      disabled: market.collateralBalance.isZero(),
+    },
+    {
+      max: calculateBorrowAmount(market).toNumber(),
+      amount: '0',
+      amountUSD: 1,
+      currencyIcons: [
+        {
+          SVG: TOKENS_SVG_MAP[TOKEN_SYMBOL.DNR],
+          highZIndex: false,
+        },
+      ],
+      name: 'borrow.loan',
+      label: 'Borrow Dinero',
+      currency: TOKEN_SYMBOL.DNR,
+      disabled:
+        market.collateralBalance.isZero() && market.userCollateral.isZero(),
+    },
+  ];
+};
+
+export const getRepayFields: TGetRepayFields = (market) => {
+  if (!market) return [];
+
+  return [
+    {
+      amount: '0',
+      amountUSD: 1,
+      currencyIcons: [
+        {
+          SVG: TOKENS_SVG_MAP[TOKEN_SYMBOL.DNR],
+          highZIndex: false,
+        },
+      ],
+      name: 'repay.loan',
+      label: 'Repay Dinero',
+      max: IntMath.toNumber(market.dnrBalance),
+      currency: TOKEN_SYMBOL.DNR,
+      disabled: market.loanElastic.isZero() || market.dnrBalance.isZero(),
+    },
+    {
+      currency:
+        market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.name,
+      amount: '0',
+      currencyIcons: getDineroMarketSVGBySymbol(
+        market.chainId,
+        market.symbol0,
+        market.symbol1
+      ),
+      max: safeAmountToWithdraw(market).toNumber(),
+      name: 'repay.collateral',
+      label: 'Remove Collateral',
+      amountUSD: market?.collateralUSDPrice.isZero()
+        ? 0
+        : IntMath.toNumber(market.collateralUSDPrice),
+      disabled: market.userCollateral.isZero(),
+    },
+  ] as ReadonlyArray<IBorrowFormField>;
 };

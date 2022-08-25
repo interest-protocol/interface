@@ -12,7 +12,7 @@ import { YourBalanceProps } from './your-balance.types';
 const YourBalance: FC<YourBalanceProps> = ({
   loading,
   dnrBalance,
-  tokenSymbols,
+  currencyIcons,
   collateralName,
   collateralBalance,
   collateralDecimals,
@@ -35,57 +35,43 @@ const YourBalance: FC<YourBalanceProps> = ({
       </Box>
     ) : (
       [
-        { name: 'Dinero', symbols: [TOKEN_SYMBOL.DNR], balance: dnrBalance },
+        {
+          name: 'Dinero',
+          symbols: [
+            {
+              SVG: TOKENS_SVG_MAP[TOKEN_SYMBOL.DNR],
+              highZIndex: false,
+            },
+          ],
+          balance: dnrBalance,
+        },
         {
           name: collateralName,
-          symbols: tokenSymbols,
+          symbols: currencyIcons,
           balance: collateralBalance,
           decimals: collateralDecimals,
         },
       ].map(({ name, symbols, balance, decimals }) => {
-        const TokenAIcon =
-          TOKENS_SVG_MAP[symbols[0]] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
-
-        const TokenBIcon =
-          symbols[1] &&
-          (TOKENS_SVG_MAP[symbols[1]] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown]);
-
         return (
           <Box my="L" key={v4()} display="flex" justifyContent="space-between">
             <Box display="flex">
-              {symbols[0] === TOKEN_SYMBOL.DNR ? (
-                <>
-                  <Box as="span" display="inline-block" width="1rem">
-                    <TokenAIcon width="100%" />
-                  </Box>
-                  <Typography ml="M" variant="normal">
-                    {name}
-                  </Typography>
-                </>
-              ) : (
-                <>
-                  <Box as="span" display="inline-block" width="1rem">
-                    <TokenAIcon width="100%" />
-                  </Box>
-                  {symbols[1] &&
-                    symbols[1] !== TOKEN_SYMBOL.Unknown &&
-                    TokenBIcon && (
-                      <Box
-                        as="span"
-                        display="inline-block"
-                        width="1rem"
-                        ml="-0.3rem"
-                      >
-                        <TokenBIcon width="100%" />
-                      </Box>
-                    )}
-                  <Typography ml="M" variant="normal">
-                    {symbols[1] && symbols[1] !== TOKEN_SYMBOL.Unknown
-                      ? `LP (${name})`
-                      : name}
-                  </Typography>
-                </>
-              )}
+              <>
+                <Box as="span" display="inline-block" width="1rem">
+                  {symbols.map(({ SVG, highZIndex }, index) => (
+                    <Box
+                      key={v4()}
+                      width="1.6rem"
+                      ml={index != 0 ? '-0.5rem' : 'NONE'}
+                      zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
+                    >
+                      <SVG width="100%" />
+                    </Box>
+                  ))}
+                </Box>
+                <Typography ml="M" variant="normal">
+                  {name}
+                </Typography>
+              </>
             </Box>
             <Typography
               variant="normal"

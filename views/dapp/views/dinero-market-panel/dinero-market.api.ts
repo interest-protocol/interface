@@ -2,12 +2,18 @@ import { JsonRpcSigner } from '@ethersproject/providers';
 import { ethers } from 'ethers';
 
 import {
+  erc20MarketBorrow,
+  erc20MarketDeposit,
   erc20MarketRepay,
   erc20MarketRequest,
   erc20MarketWithdraw,
+  lpFreeMarketBorrow,
+  lpFreeMarketDeposit,
   lpFreeMarketRepay,
   lpFreeMarketRequest,
   lpFreeMarketWithdraw,
+  nativeMarketBorrow,
+  nativeMarketDeposit,
   nativeMarketRepay,
   nativeMarketRequest,
   nativeMarketWithdraw,
@@ -263,4 +269,172 @@ export const handleRepay = async (
     return handleRepayCollateral(chainId, signer, market, account, collateral);
 
   if (loan) return handleRepayLoan(chainId, signer, market, account, loan);
+};
+
+const handleBorrowRequest = async (
+  chainId: number,
+  signer: JsonRpcSigner,
+  market: DineroMarketData,
+  account: string,
+  collateral: number,
+  loan: number
+) => {
+  const collateralBN = safeToBigNumber(collateral, market.collateralDecimals);
+  const safeCollateral = collateralBN.gt(market.userCollateral)
+    ? market.userCollateral
+    : collateralBN;
+
+  const loanBN = safeToBigNumber(loan);
+
+  if (market.kind === DineroMarketKind.ERC20) {
+    const tx = await erc20MarketRequest(
+      signer,
+      market.marketAddress,
+      [RequestActions.Deposit, RequestActions.Borrow],
+      [encodeData(account, safeCollateral), encodeData(account, loanBN)]
+    );
+
+    return showTXSuccessToast(tx, chainId);
+  }
+
+  if (market.kind === DineroMarketKind.LpFreeMarket) {
+    const tx = await lpFreeMarketRequest(
+      signer,
+      market.marketAddress,
+      [RequestActions.Deposit, RequestActions.Borrow],
+      [encodeData(account, safeCollateral), encodeData(account, loanBN)]
+    );
+
+    return showTXSuccessToast(tx, chainId);
+  }
+
+  if (market.kind === DineroMarketKind.Native) {
+    const tx = await nativeMarketRequest(
+      signer,
+      market.marketAddress,
+      safeCollateral,
+      [RequestActions.Deposit, RequestActions.Borrow],
+      [encodeData(account, safeCollateral), encodeData(account, loanBN)]
+    );
+
+    return showTXSuccessToast(tx, chainId);
+  }
+};
+
+const handleBorrowDeposit = async (
+  chainId: number,
+  signer: JsonRpcSigner,
+  market: DineroMarketData,
+  account: string,
+  collateral: number
+) => {
+  const bnCollateral = safeToBigNumber(
+    collateral,
+    market.collateralDecimals,
+    8
+  );
+
+  const safeCollateral = bnCollateral.gt(market.userCollateral)
+    ? market.userCollateral
+    : bnCollateral;
+
+  if (market.kind === DineroMarketKind.ERC20) {
+    const tx = await erc20MarketDeposit(
+      signer,
+      market.marketAddress,
+      account,
+      safeCollateral
+    );
+
+    return showTXSuccessToast(tx, chainId);
+  }
+
+  if (market.kind === DineroMarketKind.LpFreeMarket) {
+    const tx = await lpFreeMarketDeposit(
+      signer,
+      market.marketAddress,
+      account,
+      safeCollateral
+    );
+
+    return showTXSuccessToast(tx, chainId);
+  }
+
+  if (market.kind === DineroMarketKind.Native) {
+    const tx = await nativeMarketDeposit(
+      signer,
+      market.marketAddress,
+      account,
+      safeCollateral
+    );
+
+    return showTXSuccessToast(tx, chainId);
+  }
+};
+
+const handleBorrowLoan = async (
+  chainId: number,
+  signer: JsonRpcSigner,
+  market: DineroMarketData,
+  account: string,
+  loan: number
+) => {
+  const loanBN = safeToBigNumber(loan);
+
+  if (market.kind === DineroMarketKind.ERC20) {
+    const tx = await erc20MarketBorrow(
+      signer,
+      market.marketAddress,
+      account,
+      loanBN
+    );
+
+    return showTXSuccessToast(tx, chainId);
+  }
+
+  if (market.kind === DineroMarketKind.LpFreeMarket) {
+    const tx = await lpFreeMarketBorrow(
+      signer,
+      market.marketAddress,
+      account,
+      loanBN
+    );
+
+    return showTXSuccessToast(tx, chainId);
+  }
+
+  if (market.kind === DineroMarketKind.Native) {
+    const tx = await nativeMarketBorrow(
+      signer,
+      market.marketAddress,
+      account,
+      loanBN
+    );
+
+    return showTXSuccessToast(tx, chainId);
+  }
+};
+
+export const handleBorrow = async (
+  chainId: number,
+  signer: JsonRpcSigner,
+  market: DineroMarketData,
+  account: string,
+  collateral: number | undefined,
+  loan: number | undefined
+) => {
+  if (!!collateral && !!loan)
+    return handleBorrowRequest(
+      chainId,
+      signer,
+      market,
+      account,
+      collateral,
+      loan
+    );
+
+  if (collateral)
+    return handleBorrowDeposit(chainId, signer, market, account, collateral);
+
+  if (loan) return handleBorrowLoan(chainId, signer, market, account, loan);
 };

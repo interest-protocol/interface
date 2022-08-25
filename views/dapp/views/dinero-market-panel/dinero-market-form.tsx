@@ -1,31 +1,23 @@
 import { FC, useMemo } from 'react';
 
 import BorrowForm from './components/borrow-form';
-import {
-  getBorrowFields,
-  getRepayFields,
-} from './components/borrow-form/borrow-form.utils';
 import { FormsProps } from './dinero-market.types';
+import { getBorrowFields, getRepayFields } from './dinero-market.utils';
 
 const DineroMarketForm: FC<FormsProps> = ({
   mode,
   data,
   form,
-  isPair,
   account,
-  symbols,
   isSubmitting,
   isGettingData,
   onSubmitRepay,
   onSubmitBorrow,
   handleAddAllowance,
 }) => {
-  const repayFieldsData = useMemo(() => getRepayFields(data, symbols), [data]);
+  const repayFieldsData = useMemo(() => getRepayFields(data), [data]);
 
-  const borrowFieldsData = useMemo(
-    () => getBorrowFields(data, symbols),
-    [data]
-  );
+  const borrowFieldsData = useMemo(() => getBorrowFields(data), [data]);
 
   return (
     <>
@@ -33,7 +25,6 @@ const DineroMarketForm: FC<FormsProps> = ({
         <BorrowForm
           isBorrow
           data={data}
-          isPair={isPair}
           account={account}
           loading={isGettingData}
           onSubmit={onSubmitBorrow}
@@ -46,7 +37,6 @@ const DineroMarketForm: FC<FormsProps> = ({
       {mode === 'repay' && (
         <BorrowForm
           data={data}
-          isPair={isPair}
           account={account}
           loading={isGettingData}
           onSubmit={onSubmitRepay}

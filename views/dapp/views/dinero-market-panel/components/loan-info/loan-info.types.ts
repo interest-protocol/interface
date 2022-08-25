@@ -1,5 +1,7 @@
+import { DineroMarketKind } from '@/constants';
+
 export interface LoanInfoProps {
-  isPair: boolean;
+  kind: DineroMarketKind;
   isLoading: boolean;
   loanInfoData: ReadonlyArray<string>;
 }

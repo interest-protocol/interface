@@ -1,3 +1,4 @@
+import { propOr } from 'ramda';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
@@ -5,10 +6,10 @@ import { v4 } from 'uuid';
 import { Box, Typography } from '@/elements';
 import { InfoSVG } from '@/svg';
 
-import { LOAN_INFO } from '../../dinero-market.data';
+import { LOAN_INFO_MAP } from '../../dinero-market.data';
 import { LoanInfoProps } from './loan-info.types';
 
-const LoanInfo: FC<LoanInfoProps> = ({ isPair, isLoading, loanInfoData }) => (
+const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => (
   <Box
     py="XL"
     order={4}
@@ -17,7 +18,11 @@ const LoanInfo: FC<LoanInfoProps> = ({ isPair, isLoading, loanInfoData }) => (
     borderRadius="L"
     px={['XL', 'XXL']}
   >
-    {LOAN_INFO(isPair).map(({ name, tip }, i) => (
+    {propOr<
+      typeof LOAN_INFO_MAP[keyof typeof LOAN_INFO_MAP],
+      typeof LOAN_INFO_MAP,
+      typeof LOAN_INFO_MAP[keyof typeof LOAN_INFO_MAP]
+    >([], kind.toString(), LOAN_INFO_MAP).map(({ name, tip }, i) => (
       <Box my="L" key={v4()} display="flex" justifyContent="space-between">
         <Typography variant="normal" display="flex" alignItems="center">
           <Box
