@@ -13,7 +13,7 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => (
     gridArea="b"
     bg="foreground"
     borderRadius="L"
-    px={['XL', 'XXL']}
+    px={['XL', 'XL', 'XL', 'XXL']}
   >
     <Box display="flex" justifyContent="space-between">
       <Typography variant="normal" display="flex" alignItems="center">

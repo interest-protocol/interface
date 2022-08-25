@@ -22,7 +22,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
     gridArea="c"
     bg="foreground"
     borderRadius="L"
-    px={['XL', 'XXL']}
+    px={['XL', 'XL', 'XL', 'XXL']}
   >
     <Typography variant="normal" textTransform="uppercase" mt="L">
       My open position:

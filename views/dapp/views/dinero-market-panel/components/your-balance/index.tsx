@@ -23,7 +23,7 @@ const YourBalance: FC<YourBalanceProps> = ({
     gridArea="e"
     bg="foreground"
     borderRadius="L"
-    px={['XL', 'XXL']}
+    px={['XL', 'XL', 'XL', 'XXL']}
   >
     <Typography variant="normal" textTransform="uppercase" mt="L">
       Your balance:

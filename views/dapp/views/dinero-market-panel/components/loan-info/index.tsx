@@ -16,7 +16,7 @@ const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => (
     gridArea="d"
     bg="foreground"
     borderRadius="L"
-    px={['XL', 'XXL']}
+    px={['XL', 'XL', 'XL', 'XXL']}
   >
     {propOr<
       typeof LOAN_INFO_MAP[keyof typeof LOAN_INFO_MAP],
