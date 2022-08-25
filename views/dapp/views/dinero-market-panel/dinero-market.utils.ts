@@ -422,9 +422,6 @@ export const calculateBorrowAmount: TCalculateBorrowAmount = ({
     .mul(collateralUSDPrice)
     .mul(ltv);
 
-  console.log('>> userElasticLoan :: ', userElasticLoan.toNumber());
-  console.log('>> collateralValue :: ', collateralValue.toNumber());
-
   return userElasticLoan.gte(collateralValue)
     ? IntMath.from(ZERO_BIG_NUMBER)
     : collateralValue.sub(userElasticLoan);
