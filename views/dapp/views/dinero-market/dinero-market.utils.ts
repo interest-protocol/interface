@@ -170,7 +170,7 @@ const onlyBorrowingOperation = ifElse<
 >(
   equals(true),
   always(({ userElasticLoan }) => !userElasticLoan.isZero()),
-  always(({ userElasticLoan }) => userElasticLoan.isZero())
+  always(T)
 );
 
 export const handleFilterDineroMarkets = (

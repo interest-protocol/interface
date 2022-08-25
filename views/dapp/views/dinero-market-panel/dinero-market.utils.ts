@@ -14,6 +14,7 @@ import {
 import {
   CHAIN_ID,
   IntMath,
+  SECONDS_IN_A_YEAR,
   TOKEN_SYMBOL,
   ZERO_ADDRESS,
   ZERO_BIG_NUMBER,
@@ -96,6 +97,7 @@ const DEFAULT_MARKET_DATA = {
   collateralAddress: ZERO_ADDRESS,
   intUSDPrice: ZERO_BIG_NUMBER,
   chainId: CHAIN_ID.BNB_TEST_NET,
+  maxBorrowAmount: ZERO_BIG_NUMBER,
 };
 
 export const getSafeDineroMarketData: GetSafeDineroMarketData = (
@@ -136,6 +138,7 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
       intUSDPrice: ZERO_BIG_NUMBER,
       marketAddress: market,
       chainId,
+      maxBorrowAmount: data.marketData.maxBorrowAmount,
       ...marketMetadata,
     };
 
@@ -187,6 +190,7 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
     marketAddress: market,
     intUSDPrice,
     chainId,
+    maxBorrowAmount: data.marketData.maxBorrowAmount,
     apr: calculateFarmBaseAPR(
       chainId,
       data.mintData.totalAllocationPoints,
@@ -205,7 +209,7 @@ export const calculateInterestAccrued: TCalculateInterestAccrued = (
   lastAccrued,
   interestRate
 ) => {
-  const lasAccrued = IntMath.toNumber(lastAccrued) * 1000;
+  const lasAccrued = lastAccrued.toNumber() * 1000;
 
   const now = new Date().getTime();
 
@@ -231,6 +235,7 @@ export const loanPrincipalToElastic: TLoanPrincipalToElastic = (
     lastAccrued,
     interestRate
   );
+
   return IntMath.from(userPrincipal)
     .mul(loanElastic.add(interestAccrued))
     .div(loanBase);
@@ -244,7 +249,7 @@ export const loanElasticToPrincipal: TLoanElasticToPrincipal = (
 ): IntMath => {
   if (loanBase.isZero()) return IntMath.from(ZERO_BIG_NUMBER);
   return IntMath.from(loanElastic)
-    .mul(interestRate)
+    .mul(loanBase)
     .div(
       loanElastic.add(
         calculateInterestAccrued(loanElastic, lastAccrued, interestRate)
@@ -262,6 +267,7 @@ export const calculateExpectedLiquidationPrice: TCalculateExpectedLiquidationPri
       lastAccrued,
       loanElastic,
       interestRate,
+      collateralUSDPrice,
     },
     additionalCollateral,
     additionalPrincipal
@@ -276,6 +282,9 @@ export const calculateExpectedLiquidationPrice: TCalculateExpectedLiquidationPri
       loanElastic.add(additionalPrincipal),
       interestRate
     );
+
+    if (userElasticLoan.gte(IntMath.from(ltv).mul(collateral)))
+      return IntMath.from(collateralUSDPrice);
 
     return userElasticLoan.div(IntMath.from(ltv).mul(collateral));
   };
@@ -299,6 +308,15 @@ export const calculatePositionHealth: TCalculatePositionHealth = ({
     loanElastic,
     interestRate
   );
+
+  if (
+    userElasticLoan.gte(
+      IntMath.from(userCollateral).mul(collateralUSDPrice).mul(ltv)
+    )
+  )
+    return IntMath.from(ethers.utils.parseEther('1'));
+
+  console.log(userElasticLoan.value().toString(), 'sss');
 
   return userElasticLoan.div(
     IntMath.from(userCollateral).mul(collateralUSDPrice).mul(ltv)
@@ -326,6 +344,9 @@ export const calculateDineroLeftToBorrow: TCalculateDineroLeftToBorrow = ({
   const collateral = IntMath.from(ltv)
     .mul(userCollateral)
     .mul(collateralUSDPrice);
+
+  if (userElasticLoan.gt(collateral)) return IntMath.from(0);
+
   return collateral.sub(userElasticLoan);
 };
 
@@ -452,7 +473,9 @@ const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
           market.lastAccrued,
           market.loanElastic,
           market.interestRate
-        ).value(),
+        )
+          .value()
+          .add(newBorrowAmount),
       }).value();
 
   const roundPositionHealthNumber = Math.trunc(
@@ -460,8 +483,9 @@ const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
   );
 
   return [
-    // TODO: replace this magic number with Real Max Value
-    formatMoney(734956),
+    `${formatMoney(
+      IntMath.toNumber(market.loanElastic.add(newBorrowAmount))
+    )} / ${formatMoney(IntMath.toNumber(market.maxBorrowAmount))}`,
     roundPositionHealthNumber === 100
       ? '0'
       : Fraction.from(
@@ -558,7 +582,7 @@ export const getLoanInfoData: TGetInfoLoanData = (market, kind) => {
   return [
     ltv,
     liquidationFee,
-    IntMath.from(market.interestRate).toPercentage(),
+    IntMath.from(market.interestRate.mul(SECONDS_IN_A_YEAR)).toPercentage(),
   ];
 };
 
@@ -662,8 +686,9 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
         market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.name,
       amount: '0',
       currencyIcons: getDineroMarketSVGBySymbol(market.symbol0, market.symbol1),
-      max: Math.floor(
-        IntMath.toNumber(market.collateralBalance, market.collateralDecimals)
+      max: IntMath.toNumber(
+        market.collateralBalance,
+        market.collateralDecimals
       ),
       name: 'borrow.collateral',
       label: 'Deposit Collateral',

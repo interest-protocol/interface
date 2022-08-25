@@ -155,6 +155,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
         collateral,
         loan
       );
+      form.reset();
     } catch (e: unknown) {
       throwContractCallError(e);
     } finally {
@@ -187,6 +188,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
         collateral,
         loan
       );
+      form.reset();
     } catch (e: unknown) {
       throwContractCallError(e);
     } finally {

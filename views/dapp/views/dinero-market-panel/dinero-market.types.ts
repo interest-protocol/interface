@@ -67,6 +67,7 @@ export interface DineroMarketData {
   collateralAddress: string;
   intUSDPrice: BigNumber;
   chainId: number;
+  maxBorrowAmount: BigNumber;
 }
 
 export type GetSafeDineroMarketData = (

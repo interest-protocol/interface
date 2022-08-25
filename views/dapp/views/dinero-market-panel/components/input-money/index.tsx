@@ -28,7 +28,6 @@ const InputMoney: FC<InputMoneyProps> = ({
   currencyIcons,
 }) => {
   const labels = name.split('.') as TErrorMessageLabels;
-
   return (
     <Box mb="L">
       <Typography

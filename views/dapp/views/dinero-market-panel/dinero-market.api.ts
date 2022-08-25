@@ -146,7 +146,7 @@ const handleRepayCollateral = async (
     : bnCollateral;
 
   if (market.kind === DineroMarketKind.LpFreeMarket) {
-    const tx = await lpFreeMarketRepay(
+    const tx = await lpFreeMarketWithdraw(
       signer,
       market.marketAddress,
       account,
@@ -157,7 +157,7 @@ const handleRepayCollateral = async (
   }
 
   if (market.kind === DineroMarketKind.ERC20) {
-    const tx = await erc20MarketRepay(
+    const tx = await erc20MarketWithdraw(
       signer,
       market.marketAddress,
       account,
@@ -168,7 +168,7 @@ const handleRepayCollateral = async (
   }
 
   if (market.kind === DineroMarketKind.Native) {
-    const tx = await nativeMarketRepay(
+    const tx = await nativeMarketWithdraw(
       signer,
       market.marketAddress,
       account,
@@ -188,15 +188,15 @@ const handleRepayLoan = async (
 ) => {
   if (market.kind === DineroMarketKind.LpFreeMarket) {
     const loanBN = IntMath.toBigNumber(loan);
-    const safePrincipal = loanBN.gt(market.loanBase)
-      ? market.loanElastic
+    const safeAmount = loanBN.gt(market.dnrBalance)
+      ? market.dnrBalance
       : loanBN;
 
-    const tx = await lpFreeMarketWithdraw(
+    const tx = await lpFreeMarketRepay(
       signer,
       market.marketAddress,
       account,
-      safePrincipal
+      safeAmount.gt(market.userPrincipal) ? market.userPrincipal : safeAmount
     );
 
     return showTXSuccessToast(tx, chainId);
@@ -210,15 +210,15 @@ const handleRepayLoan = async (
       market.interestRate
     ).value();
 
-    const safePrincipal = estimatedPrincipal.gt(market.userPrincipal)
-      ? market.userPrincipal
+    const safeAmount = estimatedPrincipal.gt(market.dnrBalance)
+      ? market.dnrBalance
       : estimatedPrincipal;
 
-    const tx = await erc20MarketWithdraw(
+    const tx = await erc20MarketRepay(
       signer,
       market.marketAddress,
       account,
-      safePrincipal
+      safeAmount.gt(market.userPrincipal) ? market.userPrincipal : safeAmount
     );
 
     return showTXSuccessToast(tx, chainId);
@@ -232,15 +232,15 @@ const handleRepayLoan = async (
       market.interestRate
     ).value();
 
-    const safePrincipal = estimatedPrincipal.gt(market.userPrincipal)
+    const safeAmount = estimatedPrincipal.gt(market.dnrBalance)
       ? market.userPrincipal
       : estimatedPrincipal;
 
-    const tx = await nativeMarketWithdraw(
+    const tx = await nativeMarketRepay(
       signer,
       market.marketAddress,
       account,
-      safePrincipal
+      safeAmount.gt(market.userPrincipal) ? market.userPrincipal : safeAmount
     );
 
     return showTXSuccessToast(tx, chainId);
@@ -280,8 +280,8 @@ const handleBorrowRequest = async (
   loan: number
 ) => {
   const collateralBN = safeToBigNumber(collateral, market.collateralDecimals);
-  const safeCollateral = collateralBN.gt(market.userCollateral)
-    ? market.userCollateral
+  const safeCollateral = collateralBN.gt(market.collateralBalance)
+    ? market.collateralBalance
     : collateralBN;
 
   const loanBN = safeToBigNumber(loan);
@@ -335,7 +335,7 @@ const handleBorrowDeposit = async (
   );
 
   const safeCollateral = bnCollateral.gt(market.userCollateral)
-    ? market.userCollateral
+    ? market.collateralBalance
     : bnCollateral;
 
   if (market.kind === DineroMarketKind.ERC20) {
@@ -366,6 +366,8 @@ const handleBorrowDeposit = async (
       market.marketAddress,
       account,
       safeCollateral
+        .mul(ethers.utils.parseEther('0.95')) // gas
+        .div(ethers.utils.parseEther('1'))
     );
 
     return showTXSuccessToast(tx, chainId);
@@ -380,35 +382,54 @@ const handleBorrowLoan = async (
   loan: number
 ) => {
   const loanBN = safeToBigNumber(loan);
+  const amountLeftToBorrow = market.maxBorrowAmount.sub(market.loanElastic);
 
   if (market.kind === DineroMarketKind.ERC20) {
+    const safeLoanBN = loanBN.gt(amountLeftToBorrow)
+      ? amountLeftToBorrow // die to interest rate
+          .mul(ethers.utils.parseEther('0.95'))
+          .div(ethers.utils.parseEther('1'))
+      : loanBN;
+
     const tx = await erc20MarketBorrow(
       signer,
       market.marketAddress,
       account,
-      loanBN
+      safeLoanBN
     );
 
     return showTXSuccessToast(tx, chainId);
   }
 
   if (market.kind === DineroMarketKind.LpFreeMarket) {
+    /**
+     * @description This market has no interest rate
+     */
+    const safeLoanBN = loanBN.gt(amountLeftToBorrow)
+      ? amountLeftToBorrow
+      : loanBN;
     const tx = await lpFreeMarketBorrow(
       signer,
       market.marketAddress,
       account,
-      loanBN
+      safeLoanBN
     );
 
     return showTXSuccessToast(tx, chainId);
   }
 
   if (market.kind === DineroMarketKind.Native) {
+    const safeLoanBN = loanBN.gt(amountLeftToBorrow)
+      ? amountLeftToBorrow // die to interest rate
+          .mul(ethers.utils.parseEther('0.95'))
+          .div(ethers.utils.parseEther('1'))
+      : loanBN;
+
     const tx = await nativeMarketBorrow(
       signer,
       market.marketAddress,
       account,
-      loanBN
+      safeLoanBN
     );
 
     return showTXSuccessToast(tx, chainId);

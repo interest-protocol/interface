@@ -61,7 +61,8 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
     if (
       errors.borrow?.collateral?.type !== 'max' &&
       borrowCollateral &&
-      safeToBigNumber(borrowCollateral).gt(data.collateralBalance)
+      +borrowCollateral >
+        IntMath.toNumber(data.collateralBalance, data.collateralDecimals)
     ) {
       setError('borrow.collateral', {
         type: 'max',

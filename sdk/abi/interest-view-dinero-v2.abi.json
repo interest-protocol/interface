@@ -97,6 +97,11 @@
             "internalType": "uint256",
             "name": "pendingRewards",
             "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "maxBorrowAmount",
+            "type": "uint256"
           }
         ],
         "internalType": "struct InterestViewDinero.DineroMarketData",
