@@ -72,6 +72,7 @@ const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
               cursor="help"
               display="flex"
               data-tip={tip}
+              minWidth="1rem"
               alignItems="center"
             >
               <InfoSVG width="100%" />

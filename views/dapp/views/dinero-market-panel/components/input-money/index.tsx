@@ -111,7 +111,12 @@ const InputMoney: FC<InputMoneyProps> = ({
                     </Box>
                   ))}
                 </Box>
-                <Typography as="span" variant="normal" ml="S">
+                <Typography
+                  ml="S"
+                  as="span"
+                  variant="normal"
+                  display={['none', 'inline']}
+                >
                   {currency}
                 </Typography>
               </Box>
