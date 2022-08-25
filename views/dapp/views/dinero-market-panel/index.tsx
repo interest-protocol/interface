@@ -277,8 +277,8 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
             isLoading={market.collateralUSDPrice.isZero() && !error}
           />
           <MyOpenPosition
-            marketName={market.name}
             myPositionData={myPositionData}
+            symbols={[market.symbol0, market.symbol1]}
             collateralUSDPrice={market.collateralUSDPrice}
             isLoading={market.collateralUSDPrice.isZero() && !error}
           />

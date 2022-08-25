@@ -5,14 +5,14 @@ import { v4 } from 'uuid';
 import { Box, Typography } from '@/elements';
 import { IntMath } from '@/sdk/entities/int-math';
 import { InfoSVG } from '@/svg';
-import { formatDollars } from '@/utils';
+import { formatDollars, maybeLPTokenName } from '@/utils';
 
 import { MY_POSITION } from '../../dinero-market.data';
 import { MyOpenPositionProps } from './my-open-position.types';
 
 const MyOpenPosition: FC<MyOpenPositionProps> = ({
+  symbols,
   isLoading,
-  marketName,
   myPositionData,
   collateralUSDPrice,
 }) => (
@@ -70,7 +70,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
             <Skeleton />
           </Typography>
         ) : (
-          `${marketName}: ${
+          `${maybeLPTokenName(...symbols)}: ${
             collateralUSDPrice &&
             formatDollars(IntMath.from(collateralUSDPrice).toNumber())
           }`

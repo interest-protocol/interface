@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers';
 export interface MyOpenPositionProps {
   isLoading: boolean;
-  marketName: string;
+  symbols: [string, string];
   collateralUSDPrice: BigNumber;
   myPositionData: ReadonlyArray<string>;
 }

@@ -681,7 +681,7 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
   return [
     {
       currency:
-        market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.name,
+        market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.symbol0,
       amount: '0',
       currencyIcons: getDineroMarketSVGBySymbol(market.symbol0, market.symbol1),
       max: IntMath.toNumber(
@@ -735,7 +735,7 @@ export const getRepayFields: TGetRepayFields = (market) => {
     },
     {
       currency:
-        market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.name,
+        market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.symbol0,
       amount: '0',
       currencyIcons: getDineroMarketSVGBySymbol(market.symbol0, market.symbol1),
       max: safeAmountToWithdraw(market).toNumber(),

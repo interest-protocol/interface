@@ -1,7 +1,12 @@
 import { always, ifElse, isNil, toString } from 'ramda';
 import { ChangeEvent } from 'react';
 
-import { Fraction, MAX_NUMBER_INPUT_VALUE, Rounding } from '@/sdk';
+import {
+  Fraction,
+  MAX_NUMBER_INPUT_VALUE,
+  Rounding,
+  TOKEN_SYMBOL,
+} from '@/sdk';
 
 const isExponential = (number: number) => number.toString().includes('e');
 
@@ -120,3 +125,8 @@ export const parseInputEventToNumberString = (
     ? String(Number(x))
     : x;
 };
+
+export const maybeLPTokenName = (symbol0?: string, symbol1?: string): string =>
+  `${symbol0 ?? ''}${
+    symbol1 && symbol1 !== TOKEN_SYMBOL.Unknown ? `-${symbol1}` : ''
+  }`;
