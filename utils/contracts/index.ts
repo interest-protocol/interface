@@ -56,10 +56,6 @@ export const getInterestViewMAILAddress: GetContractAddress = makeGetAddress(
 export const getInterestViewBalancesAddress: GetContractAddress =
   makeGetAddress(CONTRACTS.INTEREST_VIEW_BALANCES);
 
-export const getInterestViewDineroAddress: GetContractAddress = makeGetAddress(
-  CONTRACTS.INTEREST_VIEW_DINERO
-);
-
 export const getCasaDePapelAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.CASA_DE_PAPEL
 );
