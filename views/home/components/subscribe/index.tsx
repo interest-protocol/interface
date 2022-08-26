@@ -8,7 +8,8 @@ import { LogoSVG, ShieldSVG } from '@/svg';
 import { Box, Button, Input, Typography } from '../../../../elements';
 
 const Subscribe: FC = () => {
-  const t = useTranslations('index');
+  const tIndex = useTranslations('index');
+  const tCommon = useTranslations('common');
   const handleSubscribe = async (event: Event) => {
     event.preventDefault();
     // @ts-ignore
@@ -22,8 +23,8 @@ const Subscribe: FC = () => {
             if (data.httpStatus == 200) return data;
           }),
         {
-          loading: t('subscribeLoading'),
-          success: t('success'),
+          loading: tIndex('subscribeLoading'),
+          success: tCommon('success'),
           error: (error) => `${error.code} - ${error.message}`,
         }
       )
@@ -50,8 +51,8 @@ const Subscribe: FC = () => {
         textAlign="center"
         fontSize={['L', 'XXL']}
       >
-        {t('subscribeTitle')} <br className="breakMobile" />
-        {t('subscribeSubtitle')}
+        {tIndex('subscribeTitle')} <br className="breakMobile" />
+        {tIndex('subscribeSubtitle')}
       </Typography>
       <Box
         mt="XXL"
@@ -72,7 +73,7 @@ const Subscribe: FC = () => {
           outline="none"
           borderRadius="S"
           mb={['L', 'NONE']}
-          placeholder={t('subscribeInputPlaceholder')}
+          placeholder={tIndex('subscribeInputPlaceholder')}
         />
         <Box
           display="flex"
@@ -81,14 +82,14 @@ const Subscribe: FC = () => {
           flexDirection="column"
         >
           <Button ml="S" px="L" type="submit" variant="tertiary" effect="hover">
-            {t('subscribeButton')}
+            {tIndex('subscribeButton')}
           </Button>
           <Box display="flex" alignItems="center" mt="M" px="L">
             <Box width="0.7rem">
               <ShieldSVG width="100%" />
             </Box>
             <Typography variant="normal" ml="S" fontSize="XS">
-              {t('subscribeSafeData')}
+              {tIndex('subscribeSafeData')}
             </Typography>
           </Box>
         </Box>

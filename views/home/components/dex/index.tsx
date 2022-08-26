@@ -7,7 +7,8 @@ import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 
 const DEX: FC = () => {
-  const t = useTranslations('index');
+  const tIndex = useTranslations('index');
+  const tCommon = useTranslations('common');
   const { push } = useRouter();
 
   return (
@@ -62,8 +63,9 @@ const DEX: FC = () => {
             fontStyle="normal"
             lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
             fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
+            textTransform="capitalize"
           >
-            {t('dexTitle')}
+            {tCommon('dex')}
           </Typography>
           <Typography
             variant="normal"
@@ -73,7 +75,7 @@ const DEX: FC = () => {
             mb={['1.25rem', '1.25rem', '1.25rem', '1.875rem']}
             px={['L', 'unset']}
           >
-            {t('dexDescription')}
+            {tIndex('dexDescription')}
           </Typography>
           <Button
             width="145px"
@@ -81,7 +83,7 @@ const DEX: FC = () => {
             variant="primary"
             onClick={() => push(Routes[RoutesEnum.DApp])}
           >
-            {t('dexButton')}
+            {tCommon('swap')}
           </Button>
         </Box>
       </Container>
@@ -112,7 +114,7 @@ const DEX: FC = () => {
             textAlign="center"
             textTransform="capitalize"
           >
-            {t('dexStablecoinTitle')}
+            {tIndex('dexStablecoinTitle')}
           </Typography>
           <Box maxWidth="20rem" mx="auto" my="XXXL">
             <ResponsiveImage
@@ -127,7 +129,7 @@ const DEX: FC = () => {
             textAlign="center"
             fontSize={['0.875rem', '1.5rem']}
           >
-            {t('dexStablecoinEquation')}
+            {tIndex('dexStablecoinEquation')}
             <br />
             <Typography
               variant="large"
@@ -136,10 +138,10 @@ const DEX: FC = () => {
               fontWeight="700"
               my={['unset', 'unset', '1rem', '1rem']}
             >
-              {t('dexStablecoinDescription')}
+              {tIndex('dexStablecoinDescription')}
             </Typography>
             <br />
-            {t('dexStablecoinPercent')}
+            {tIndex('dexStablecoinPercent')}
           </Typography>
         </Container>
         <Box
@@ -169,7 +171,7 @@ const DEX: FC = () => {
             position={['static', 'static', 'static', 'absolute']}
             transform={['unset', 'unset', 'unset', 'translate(-50%,-20%)']}
           >
-            <Typography variant="title3">{t('dexInfoTop')}</Typography>
+            <Typography variant="title3">{tIndex('dexInfoTop')}</Typography>
           </Box>
           <Box
             p="XL"
@@ -185,7 +187,7 @@ const DEX: FC = () => {
             position={['static', 'static', 'static', 'absolute']}
             transform={['unset', 'unset', 'unset', 'translate(-50%,30%)']}
           >
-            <Typography variant="title3">{t('dexInfoBottom')}</Typography>
+            <Typography variant="title3">{tIndex('dexInfoBottom')}</Typography>
           </Box>
         </Box>
         <Container
@@ -205,7 +207,7 @@ const DEX: FC = () => {
             variant="title2"
             textTransform="capitalize"
           >
-            {t('dexVolatileTitle')}
+            {tIndex('dexVolatileTitle')}
           </Typography>
           <Box maxWidth="20rem" mx="auto" my="XXXL">
             <ResponsiveImage width="100%" alt="Volatile" path="home/volatile" />
@@ -216,7 +218,7 @@ const DEX: FC = () => {
             textAlign="center"
             fontSize={['0.875rem', '1.5rem']}
           >
-            {t('dexVolatileEquation')}
+            {tIndex('dexVolatileEquation')}
             <br />
             <Typography
               variant="large"
@@ -225,10 +227,10 @@ const DEX: FC = () => {
               fontWeight="700"
               my={['unset', 'unset', '1rem', '1rem']}
             >
-              {t('dexVolatileDescription')}
+              {tIndex('dexVolatileDescription')}
             </Typography>
             <br />
-            {t('dexVolatilePercent')}
+            {tIndex('dexVolatilePercent')}
           </Typography>
         </Container>
       </Box>

@@ -108,7 +108,8 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   setIsSearching,
   onSelectCurrency,
 }) => {
-  const t = useTranslations('dex');
+  const t = useTranslations('dex-pool-find');
+  const tCommon = useTranslations('common');
   const { chainId } = useIdAccount();
   const [showLocal, setShowLocal] = useState(false);
   const search = useWatch({ control, name: 'search' });
@@ -223,7 +224,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
           <Box my="L" textAlign="center">
             {isSearching ? (
               <Typography variant="normal" color="text">
-                {t('loading')}
+                {tCommon('loading')}
               </Typography>
             ) : searchedToken ? (
               renderData(
@@ -233,8 +234,12 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                 currentToken
               )
             ) : (
-              <Typography variant="normal" color="text">
-                {t('token404')}
+              <Typography
+                variant="normal"
+                color="text"
+                textTransform="capitalize"
+              >
+                {tCommon('notFound')}
               </Typography>
             )}
           </Box>
@@ -247,12 +252,12 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                 options={[
                   {
                     value: 'recommended',
-                    displayValue: t('recommended'),
+                    displayValue: t('switchOption1'),
                     onSelect: () => setShowLocal(false),
                   },
                   {
                     value: 'local',
-                    displayValue: t('addedByMe'),
+                    displayValue: t('switchOption2'),
                     onSelect: () => setShowLocal(true),
                   },
                 ]}

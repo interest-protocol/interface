@@ -15,7 +15,8 @@ import {
 } from './borrow-animations';
 
 const Borrow: FC = () => {
-  const t = useTranslations('index');
+  const tIndex = useTranslations('index');
+  const tCommon = useTranslations('common');
   const { push } = useRouter();
 
   return (
@@ -52,7 +53,7 @@ const Borrow: FC = () => {
             fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
             textTransform="capitalize"
           >
-            {t('borrowTitle')}
+            {tIndex('borrowTitle')}
           </Typography>
           <Typography
             as="h3"
@@ -62,7 +63,7 @@ const Borrow: FC = () => {
             mb={['0.625rem', '0.625rem', '0.625rem', '1rem']}
             fontSize={['1.125rem', '1.125rem', '1.125rem', '1.5rem']}
           >
-            {t('borrowSubtitle')}
+            {tIndex('borrowSubtitle')}
           </Typography>
           <Typography
             width="100%"
@@ -72,7 +73,7 @@ const Borrow: FC = () => {
             lineHeight={['1.5rem', '1.5rem', '1.5rem', '2.125rem']}
             fontSize={['0.875rem', '0.875rem', '0.875rem', '1rem']}
           >
-            {t('borrowDescription')}
+            {tIndex('borrowDescription')}
           </Typography>
           <Button
             mb="XL"
@@ -80,7 +81,7 @@ const Borrow: FC = () => {
             variant="primary"
             onClick={() => push(Routes[RoutesEnum.DineroMarket])}
           >
-            {t('borrowButton')}
+            {tCommon('borrow')}
           </Button>
         </Box>
         <Box

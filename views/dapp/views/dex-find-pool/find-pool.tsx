@@ -14,7 +14,7 @@ const FindPool: FC<FindPoolProps> = ({
   currencyAChargerArgs,
   currencyBChargerArgs,
 }) => {
-  const t = useTranslations('dex');
+  const t = useTranslations('common');
   const addressA = useWatch({ control, name: `tokenA.address` });
   const addressB = useWatch({ control, name: `tokenB.address` });
   const isStable = useWatch({ control, name: `isStable` });

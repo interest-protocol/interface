@@ -52,7 +52,8 @@ import { DexFindPoolForm } from './dex-find-pool.types';
 import FindPool from './find-pool';
 
 const FindPoolView: FC = () => {
-  const t = useTranslations('dex');
+  const t = useTranslations('dex-pool-find');
+  const tCommon = useTranslations('common');
   const { push } = useRouter();
   const { signer } = useGetSigner();
   const { chainId, account } = useIdAccount();
@@ -149,7 +150,7 @@ const FindPoolView: FC = () => {
   const handleEnterPool = () =>
     showToast(enterPool(), {
       loading: 'Checking pool...',
-      success: 'Success!',
+      success: tCommon('success'),
       error: prop('message'),
     });
 
@@ -272,8 +273,8 @@ const FindPoolView: FC = () => {
 
   const handleCreatePair = () =>
     showToast(createPair(), {
-      loading: 'Creating pool...',
-      success: 'Success!',
+      loading: t('buttonPoolLoading'),
+      success: tCommon('success'),
       error: prop('message'),
     });
 
@@ -284,7 +285,7 @@ const FindPoolView: FC = () => {
           <Box color="error">
             <TimesSVG width="10rem" />
           </Box>
-          Failed to connect to the blockchain
+          {t('balanceError')}
         </Box>
       </Container>
     );
@@ -292,8 +293,8 @@ const FindPoolView: FC = () => {
   return (
     <Container py="XL">
       <GoBack routeBack />
-      <Typography variant="normal" width="100%">
-        {t('findPool')}
+      <Typography variant="normal" width="100%" textTransform="capitalize">
+        {t('title')}
       </Typography>
       <FindPool
         control={control}
@@ -350,7 +351,7 @@ const FindPoolView: FC = () => {
               disabled={true}
               bg="disabled"
             >
-              {t('chooseDiffToken')}
+              {t('buttonSameToken')}
             </Button>
           ) : isCreatingPair ? (
             <Button
@@ -376,7 +377,7 @@ const FindPoolView: FC = () => {
                   : handleCreatePair
               }
             >
-              {loading ? 'Creating Pool...' : 'Create Pool'}
+              {loading ? t('buttonPoolLoading') : t('buttonPool')}
             </Button>
           ) : (
             <Button
@@ -387,7 +388,7 @@ const FindPoolView: FC = () => {
               bg={loading ? 'accentActive' : 'accent'}
               hover={{ bg: loading ? 'disabled' : 'accentActive' }}
             >
-              {loading ? t('finding') : t('findEnterPool')}
+              {loading ? t('buttonLoading') : t('buttonCustom')}
             </Button>
           )}
         </WalletGuardButton>

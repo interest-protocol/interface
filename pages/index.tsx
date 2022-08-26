@@ -1,16 +1,23 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextPage } from 'next';
 
 import Home from '@/views/home';
 
 const HomePage: NextPage = () => <Home />;
 
-export const getStaticProps = (props: any) => {
+export const getStaticProps = ({ locale, ...otherProps }: { locale: any }) => {
+  console.log(locale, 'olha isso');
+
   return {
     props: {
+      ...otherProps,
       messages: {
-        ...require(`../assets/index/${props.locale}.json`),
+        ...require(`../assets/messages/index/${
+          locale == 'en-US' ? 'en' : 'pt'
+        }.json`),
+        ...require(`../assets/messages/common/${
+          locale == 'en-US' ? 'en' : 'pt'
+        }.json`),
       },
     },
   };

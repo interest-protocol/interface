@@ -16,7 +16,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
   setLocalSettings,
   localSettings,
 }) => {
-  const t = useTranslations('dex');
+  const t = useTranslations('dex-swap');
 
   const dropdownContainerRef =
     useClickOutsideListenerRef<HTMLDivElement>(toggle);
@@ -68,7 +68,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           color="textSecondary"
           textTransform="uppercase"
         >
-          {t('transactionSetting')}
+          {t('settingsTitle')}
         </Typography>
         <Button
           p="S"
@@ -90,7 +90,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           type="string"
           max="30"
           placeholder="0.5"
-          label={t('slippageTolerance')}
+          label={t('firstLabel')}
           setRegister={() =>
             register('slippage', {
               onChange: (v: ChangeEvent<HTMLInputElement>) => {
@@ -139,7 +139,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
               },
             })
           }
-          label={t('transactionDeadline')}
+          label={t('secondLabel')}
           suffix={<Typography variant="normal">{t('minutes')}</Typography>}
         />
       </Box>

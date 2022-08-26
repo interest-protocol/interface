@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Routes, RoutesEnum } from '@/constants/routes';
@@ -7,6 +8,7 @@ import { Typography } from '@/elements';
 import { GoBackProps } from './go-back.types';
 
 const GoBack: FC<GoBackProps> = ({ route, routeBack }) => {
+  const t = useTranslations('common');
   const { pathname, push, back } = useRouter();
 
   const backToHome = () =>
@@ -22,7 +24,7 @@ const GoBack: FC<GoBackProps> = ({ route, routeBack }) => {
       onClick={backToHome}
       hover={{ color: 'accentActive' }}
     >
-      &larr; BACK
+      &larr; {t('back')}
     </Typography>
   ) : null;
 };

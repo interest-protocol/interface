@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { ChangeEvent, FC, useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
@@ -29,6 +30,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   tokenBalance,
   getValues,
 }) => {
+  const t = useTranslations('common');
   const dispatch = useDispatch();
   const { chainId } = useIdAccount();
   const { signer, account } = useGetSigner();
@@ -67,7 +69,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   const handleApprove = () =>
     showToast(approve(address), {
       loading: 'Giving allowance...',
-      success: 'Success!',
+      success: t('success'),
       error: prop('message'),
     });
 
@@ -157,7 +159,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
             onClick={handleApprove}
             hover={{ bg: 'accentActive' }}
           >
-            Approve Token
+            {t('approve')} Token
           </Button>
         ) : (
           <Button
@@ -180,7 +182,8 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           color="textSecondary"
           fontSize="0.9rem"
         >
-          Balance: {formatMoney(IntMath.toNumber(tokenBalance, decimals), 2)}
+          {t('balance')}:
+          {formatMoney(IntMath.toNumber(tokenBalance, decimals), 2)}
         </Typography>
       </Box>
     </Box>

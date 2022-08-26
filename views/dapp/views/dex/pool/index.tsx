@@ -9,7 +9,8 @@ import { Box, Button, Typography } from '@/elements';
 import RecommendPools from './recommended-pools';
 
 const Pool: FC = () => {
-  const t = useTranslations('dex');
+  const tIndex = useTranslations('dex-pool');
+  const tCommon = useTranslations('common');
   const [poolType, setPoolType] = useState<PoolType>(PoolType.Volatile);
 
   const { push } = useRouter();
@@ -30,19 +31,19 @@ const Pool: FC = () => {
           gridTemplateColumns={['1fr', '1fr 1fr 1fr']}
         >
           <Typography variant="normal" mr={['unset', 'auto']}>
-            {t('poolOverview')}
+            {tIndex('title')}
           </Typography>
           <Switch
             defaultValue={poolType}
             options={[
               {
                 value: PoolType.Volatile,
-                displayValue: t('volatile'),
+                displayValue: tCommon('volatile'),
                 onSelect: () => setPoolType(PoolType.Volatile),
               },
               {
                 value: PoolType.Stable,
-                displayValue: t('stable'),
+                displayValue: tCommon('stable'),
                 onSelect: () => setPoolType(PoolType.Stable),
               },
             ]}
@@ -54,7 +55,7 @@ const Pool: FC = () => {
             onClick={() => push(Routes[RoutesEnum.DEXFindPool])}
             ml={['unset', 'auto']}
           >
-            {t('findPool')}
+            {tIndex('button')}
           </Button>
         </Box>
         <RecommendPools type={poolType} />

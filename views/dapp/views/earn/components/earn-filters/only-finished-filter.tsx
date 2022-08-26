@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -11,6 +12,7 @@ const OnlyFinishedFilter: FC<OnlyFinishedFilterProps> = ({
   control,
   setValue,
 }) => {
+  const t = useTranslations('earn');
   const onlyFinished = useWatch({ control, name: 'onlyFinished' });
   const SWITCH_ONLY_FINISHED_DATA = getFilterSwitchDefaultData(
     ['live', 'finished'],
@@ -27,7 +29,7 @@ const OnlyFinishedFilter: FC<OnlyFinishedFilterProps> = ({
         display="inline-block"
         textAlign={['center', 'center', 'center', 'left']}
       >
-        Status
+        {t('filterStatus')}
       </Typography>
       <Switch
         defaultValue={onlyFinished ? 'finished' : 'live'}

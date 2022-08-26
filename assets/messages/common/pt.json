@@ -1,0 +1,29 @@
+{
+  "common": {
+    "earn": "earn",
+    "swap": "swap",
+    "borrow": "borrow",
+    "dex": "dex",
+    "pool": "pool",
+    "balance": "saldo",
+    "faucet": "faucet",
+    "volatile": "volátil",
+    "stable": "estável",
+    "liquidity": "liquidez",
+    "remove": "Remover",
+    "add": "add",
+    "reset": "Reiniciar",
+    "choose": "escolha",
+    "state": "estado",
+    "get": "obter",
+    "recommended": "recomendado",
+    "vault": "vault",
+    "farm": "farm",
+    "staking": "staking",
+    "success": "success",
+    "notFound": "não encontrado",
+    "approve": "Aprovar",
+    "loading": "carregando",
+    "back": "VOLTAR"
+  }
+}

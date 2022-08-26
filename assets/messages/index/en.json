@@ -3,7 +3,6 @@
     "heroTitle": "Borrow Dinero For Free",
     "heroDescription": "Dinero is an overcollateralized stablecoin",
     "heroButton": "Read docs",
-    "earnTitle": "Earn",
     "earnSubtitle": "Get LP Tokens by providing liquidity to our DEX",
     "earnDescription": "Use LP Tokens to earn trading fees and farm $Int Tokens.",
     "earnTokenDescription": "Type of tokens you can use:",
@@ -11,10 +10,8 @@
     "borrowTitle": "Make Your LP Tokens Liquid",
     "borrowSubtitle": "Pay $0 to borrow Dinero",
     "borrowDescription": "Borrow $DNR using your LP Tokens as collateral to meet your financial needs without losing farming rewards.",
-    "borrowButton": "Borrow",
     "automateTitle": "Automate",
     "automateDescription": "Maximize your profits through automated strategies.",
-    "automateButton": "earn",
     "subscribeTitle": "Subscribe for",
     "subscribeSubtitle": "Interest Protocol updates",
     "subscribeInputPlaceholder": "Drop your e-mail",
@@ -31,9 +28,6 @@
     "dexVolatilePercent": "0.3% Swap fee",
     "dexInfoTop": "Swap between stable and volatile assets seamlessly",
     "dexInfoBottom": "15 minute Swap Oracle",
-    "dexTitle": "Dex",
-    "dexDescription": "Enjoy the lowest slippage and trading fees",
-    "dexButton": "Swap",
-    "sucess": "Success"
+    "dexDescription": "Enjoy the lowest slippage and trading fees"
   }
 }

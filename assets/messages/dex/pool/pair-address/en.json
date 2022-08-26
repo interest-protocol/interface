@@ -1,0 +1,7 @@
+{
+  "dex-pool-pair-address": {
+    "title": "{type} Pool Details",
+    "sectionCustomDetail1": "Type",
+    "sectionCustomDetail2": "Swap Fee"
+  }
+}

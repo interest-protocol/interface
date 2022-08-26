@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
@@ -16,6 +17,7 @@ const parseFarmTypeByEnum = cond([
 ]);
 
 const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
+  const t = useTranslations('earn');
   const typeFilter = useWatch({ control, name: 'typeFilter' });
 
   return (
@@ -27,7 +29,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
         variant="normal"
         display="inline-block"
       >
-        Type:
+        {t('filterType')}:
       </Typography>
       <Box
         display="flex"

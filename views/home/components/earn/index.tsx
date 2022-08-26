@@ -19,7 +19,8 @@ import LendAndBorrowTokens from './earn-tokens';
 
 const Earn: FC = () => {
   const { push } = useRouter();
-  const t = useTranslations('index');
+  const tIndex = useTranslations('index');
+  const tCommon = useTranslations('common');
 
   return (
     <Box
@@ -143,8 +144,9 @@ const Earn: FC = () => {
               textAlign={['center', 'unset']}
               fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
               lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
+              textTransform="capitalize"
             >
-              {t('earnTitle')}
+              {tCommon('earn')}
             </Typography>
             <Typography
               as="h3"
@@ -154,7 +156,7 @@ const Earn: FC = () => {
               fontSize={['1.125rem', '1.125rem', '1.5rem', '1.5rem']}
               lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
             >
-              {t('earnSubtitle')}
+              {tIndex('earnSubtitle')}
             </Typography>
             <Typography
               variant="normal"
@@ -164,10 +166,10 @@ const Earn: FC = () => {
               mb={['1.25rem', '1.25rem', '1.75rem', '1.75rem']}
               fontSize={['0.875rem', '0.875rem', '1rem', '1rem']}
             >
-              {t('earnDescription')}
+              {tIndex('earnDescription')}
             </Typography>
             <Typography variant="normal" fontWeight="700" mb="0.625rem">
-              {t('earnTokenDescription')}
+              {tIndex('earnTokenDescription')}
             </Typography>
             <Box
               display="flex"
@@ -194,7 +196,7 @@ const Earn: FC = () => {
                 fontSize="inherit"
                 fontWeight="inherit"
               >
-                {t('earnButton')}
+                {tIndex('earnButton')}
               </Typography>
             </Button>
           </Box>

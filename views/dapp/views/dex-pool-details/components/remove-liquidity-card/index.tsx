@@ -39,7 +39,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
   isFetchingInitialData,
   mutate,
 }) => {
-  const t = useTranslations('dex');
+  const t = useTranslations('common');
   const { account, signer, chainId } = useGetSigner();
 
   const { register, setValue, control, getValues } =
@@ -86,7 +86,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
   const handleApproveToken = () =>
     showToast(approveToken(), {
       loading: `Giving allowance...`,
-      success: 'Success!',
+      success: t('success'),
       error: prop('message'),
     });
 
@@ -154,7 +154,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
           variant="normal"
           textTransform="uppercase"
         >
-          {t('remLiquidity')}
+          {t('remove') + ' ' + t('liquidity')}
         </Typography>
       </Box>
       <InputBalance

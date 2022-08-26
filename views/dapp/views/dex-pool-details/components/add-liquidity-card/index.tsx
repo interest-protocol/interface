@@ -53,7 +53,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
   fetchingInitialData,
   mutate,
 }) => {
-  const t = useTranslations('dex');
+  const t = useTranslations('common');
   const [loading, setLoading] = useState(false);
   const [isFetchingQuote, setIsFetchingQuote] = useState(false);
 
@@ -105,7 +105,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
   const handleApproveToken = (token: string, symbol: string) =>
     showToast(approveToken(token), {
       loading: `${symbol}: Giving allowance...`,
-      success: 'Success!',
+      success: t('success'),
       error: prop('message'),
     });
 
@@ -231,7 +231,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
           variant="normal"
           textTransform="uppercase"
         >
-          {t('addLiquidity')}
+          add {t('liquidity')}
         </Typography>
       </Box>
       {tokens.map(({ balance, decimals, allowance, Icon, symbol }, index) => (

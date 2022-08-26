@@ -5,8 +5,8 @@ import { FC } from 'react';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Dropdown, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
-import SwitchLang from '@/views/home/layout/header/switch-lang';
 
+import SwitchLang from '../../../../home/layout/header/switch-lang';
 import { Wallet } from '../../index';
 import MobileMenu from './mobile-menu';
 

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
@@ -21,6 +22,9 @@ const EarnTable: FC<EarnTableProps> = ({
   control,
   farms,
 }) => {
+  const t = useTranslations('earn');
+  const tCommon = useTranslations('common');
+
   const onlyFinished = useWatch({ control, name: 'onlyFinished' });
   const onlyStaked = useWatch({ control, name: 'onlyStaked' });
 
@@ -58,7 +62,7 @@ const EarnTable: FC<EarnTableProps> = ({
               ),
             },
             {
-              tip: 'Total Value Locked',
+              tip: t('column1Tip'),
               item: (
                 <Typography
                   as="span"
@@ -66,12 +70,12 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   fontSize="inherit"
                 >
-                  TVL
+                  {t('column1')}
                 </Typography>
               ),
             },
             {
-              tip: 'Staking amount to farm Int',
+              tip: t('column2Tip'),
               item: (
                 <Typography
                   as="span"
@@ -79,12 +83,12 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   fontSize="inherit"
                 >
-                  Staking
+                  {t('column2')}
                 </Typography>
               ),
             },
             {
-              tip: 'Annual Percentage Rate<br/> yearly interest generated',
+              tip: t('column3Tip'),
               item: (
                 <Typography
                   as="span"
@@ -92,17 +96,17 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   fontSize="inherit"
                 >
-                  APR
+                  {t('column3')}
                 </Typography>
               ),
             },
             {
-              tip: 'It represents the % of Interest Token minted compared to to others pools.',
-              item: <>Allocation</>,
+              tip: t('column4Tip'),
+              item: <>{t('column4')}</>,
             },
             {
-              tip: 'Volatile or Stable.',
-              item: <>Type</>,
+              tip: t('column5Tip'),
+              item: <>{t('column5')}</>,
             },
           ]}
           backgroundColorMap={filteredFarms.map((farm) => ({
@@ -176,8 +180,9 @@ const EarnTable: FC<EarnTableProps> = ({
                       cursor="pointer"
                       width="70%"
                       key={v4()}
+                      textTransform="capitalize"
                     >
-                      {farm.stable ? 'Stable' : 'Volatile'}
+                      {farm.stable ? tCommon('stable') : tCommon('volatile')}
                     </Typography>,
                   ],
                 }))
@@ -192,7 +197,7 @@ const EarnTable: FC<EarnTableProps> = ({
             }))}
             headings={[
               {
-                tip: 'Total Value Locked',
+                tip: t('column1Tip'),
                 item: (
                   <Typography
                     as="span"
@@ -200,12 +205,12 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    TVL
+                    {t('column1')}
                   </Typography>
                 ),
               },
               {
-                tip: 'Staking amount to farm Int',
+                tip: t('column2Tip'),
                 item: (
                   <Typography
                     as="span"
@@ -213,12 +218,12 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    Staking
+                    {t('column2')}
                   </Typography>
                 ),
               },
               {
-                tip: 'Annual Percentage Rate<br/> yearly interest generated',
+                tip: t('column3Tip'),
                 item: (
                   <Typography
                     as="span"
@@ -226,17 +231,17 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    APR
+                    {t('column3')}
                   </Typography>
                 ),
               },
               {
-                tip: 'It represents the % of Interest Token minted compared to to others pools.',
-                item: <>Allocation</>,
+                tip: t('column4Tip'),
+                item: <>{t('column4')}</>,
               },
               {
-                tip: 'Volatile or Stable.',
-                item: <>Type</>,
+                tip: t('column5Tip'),
+                item: <>{t('column5')}</>,
               },
             ]}
             data={
@@ -302,7 +307,7 @@ const EarnTable: FC<EarnTableProps> = ({
                           variant="primary"
                           hover={{ bg: 'accentActive' }}
                         >
-                          Enter
+                          {t('rowButton')}
                         </Button>
                       </Link>
                     ),
@@ -327,8 +332,9 @@ const EarnTable: FC<EarnTableProps> = ({
                         textAlign="center"
                         cursor="pointer"
                         key={v4()}
+                        textTransform="capitalize"
                       >
-                        {farm.stable ? 'Stable' : 'Volatile'}
+                        {farm.stable ? tCommon('stable') : tCommon('volatile')}
                       </Typography>,
                     ],
                   }))

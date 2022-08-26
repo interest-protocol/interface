@@ -1,0 +1,20 @@
+{
+  "earn": {
+    "filterStaked": "Apenas em stake",
+    "filterStatus": "Estado",
+    "filterType": "Tipo",
+    "filterSort": "Ordenar por",
+    "filterSearch": "Pesquisar",
+    "column1": "TVL",
+    "column1Tip": "Valor Total Bloqueado",
+    "column2": "Staking",
+    "column2Tip": "Staking amount to farm Int",
+    "column3": "APR",
+    "column3Tip": "Taxa anual em percentagem<br/> juro anual gerado",
+    "column4": "Allocation",
+    "column4Tip": "Representa a % da Interest Token citado em comparação com outros pools.",
+    "column5": "Tipo",
+    "column5Tip": "Volátil ou Estável.",
+    "rowButton": "Enter"
+  }
+}

@@ -3,7 +3,6 @@
     "heroTitle": "Emprestar Dinero de graça",
     "heroDescription": "O dinero é uma moeda estável sobrecolateralizada",
     "heroButton": "Ler documentos",
-    "earnTitle": "Ganhe",
     "earnSubtitle": "Adquira os Tokens LP fornecendo liquidez ao nosso DEX",
     "earnDescription": "Use Tokens LP para ganhar taxas de comércio e cultivar $Int Tokens.",
     "earnTokenDescription": "Tipo de tokens que pode usar:",
@@ -11,10 +10,8 @@
     "borrowTitle": "Torne os seus Tokens LP Líquidos",
     "borrowSubtitle": "Pagar $0 para pedir emprestado Dinero",
     "borrowDescription": "Peça emprestado $DNR usando os seus Tokens LP como garantia para satisfazer as suas necessidades financeiras sem perder recompensas farms.",
-    "borrowButton": "Emprestar",
     "automateTitle": "Automatize",
     "automateDescription": "Maximize os seus lucros através de estratégias automatizadas.",
-    "automateButton": "ganhe",
     "subscribeTitle": "Subscreva para",
     "subscribeSubtitle": "actualizações da Interest Protocol",
     "subscribeInputPlaceholder": "Informe seu e-mail",
@@ -31,9 +28,6 @@
     "dexVolatilePercent": "0.3% Taxa de troca",
     "dexInfoTop": "Troca entre activos estáveis e voláteis sem problemas",
     "dexInfoBottom": "15 minutos Swap Oracle",
-    "dexTitle": "Dex",
-    "dexDescription": "Desfrute do deslizamento mais baixo e das taxas comerciais",
-    "dexButton": "Troca",
-    "success": "Sucesso"
+    "dexDescription": "Desfrute do deslizamento mais baixo e das taxas comerciais"
   }
 }

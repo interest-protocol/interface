@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import Skeleton from 'react-loading-skeleton';
@@ -29,7 +30,10 @@ import { processPairData } from './utils';
 const DefaultIcon = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
-  const t = useTranslations('dex');
+  const tPairAddress = useTranslations('dex-pool-pair-address');
+  const tCommon = useTranslations('common');
+  const { locale } = useRouter();
+
   const { error, data, mutate } = useGetPairData(pairAddress);
   const chainId = useChainId();
 
@@ -97,14 +101,17 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
           <>
             <FirstIcon width="2rem" />
             <SecondIcon width="2rem" />
-            <Typography variant="normal" ml="L">
+            <Typography variant="normal" ml="L" textTransform="capitalize">
               {processedData.token0Metadata.symbol +
                 ' - ' +
                 processedData.token1Metadata.symbol +
                 ' ' +
-                (processedData.isStable
-                  ? t('poolStableDetails')
-                  : t('poolVolatileDetails'))}
+                tPairAddress('title', {
+                  locale,
+                  type: processedData.isStable
+                    ? tCommon('stable')
+                    : tCommon('volatile'),
+                })}
             </Typography>
           </>
         )}

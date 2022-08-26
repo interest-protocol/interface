@@ -1,6 +1,7 @@
 import { BigNumber } from 'ethers';
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -35,6 +36,8 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
   loading,
   intUSDPrice,
 }) => {
+  const t = useTranslations('earn-token-address');
+  const tCommon = useTranslations('common');
   const { push } = useRouter();
   const [modal, setModal] = useState<StakeState | undefined>();
   const [modalLoading, setModalLoading] = useState<boolean>(false);
@@ -198,7 +201,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
     >
       <EarnCard
         loading={loading}
-        title="Your balance"
+        title={t('firstCardTitle')}
         amountUSD={formatDollars(
           IntMath.from(farm.stakingTokenPrice).mul(farm.balance).toNumber()
         )}
@@ -221,12 +224,20 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
             disabled={!farm.isLive}
             bg={farm.isLive ? 'accent' : 'disabled'}
           >
-            Get {farmSymbol}
+            <Typography
+              as="span"
+              variant="normal"
+              ml="M"
+              fontSize="S"
+              textTransform="capitalize"
+            >
+              {tCommon('get') + ' ' + farmSymbol}
+            </Typography>
           </Button>
         }
       />
       <EarnCard
-        title="Staked"
+        title={t('secondCardTitle')}
         loading={loading}
         amountUSD={formatDollars(
           IntMath.from(farm.stakingTokenPrice)
@@ -249,13 +260,19 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
                     <LoadingSVG width="100%" />
                   </Box>
                   <Typography as="span" variant="normal" ml="M" fontSize="S">
-                    Approving...
+                    {t('secondCardButton')}
                   </Typography>
                 </Box>
-              ) : farm.id === 0 ? (
-                'Approve Pool'
               ) : (
-                'Approve Farm'
+                <Typography as="span" variant="normal" ml="M" fontSize="S">
+                  {
+                    (tCommon('approve') +
+                      ' ' +
+                      (farm.id === 0
+                        ? tCommon('pool')
+                        : tCommon('farm'))) as string
+                  }
+                </Typography>
               )}
             </Button>
           ) : (
@@ -303,7 +320,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
         }
       />
       <EarnCard
-        title="Earned"
+        title={t('thirdCardTitle')}
         loading={loading}
         shadow={!farm.pendingRewards.isZero()}
         amountUSD={formatDollars(
@@ -323,7 +340,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
               bg: !farm.pendingRewards.isZero() ? 'successActive' : 'disabled',
             }}
           >
-            Harvest
+            {t('thirdCardButton')}
           </Button>
         }
       />

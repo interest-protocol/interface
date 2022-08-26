@@ -1,0 +1,14 @@
+{
+  "dex-pool-find": {
+    "title": "find pool",
+    "buttonCustom": "Find and Enter Pool",
+    "buttonSameToken": "Choose different tokens",
+    "buttonLoading": "Finding",
+    "buttonPool": "Create Pool",
+    "buttonPoolLoading": "Creating Pool...",
+    "balanceError": "Failed to connect to the blockchain",
+    "createPoolTitle": "This pool does not exist! Please, create one now.",
+    "switchOption1": "Recommended",
+    "switchOption2": "Added By Me"
+  }
+}

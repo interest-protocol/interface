@@ -4,11 +4,18 @@ import DEXView from '@/views/dapp/views/dex';
 
 const DEXPage: NextPage = () => <DEXView />;
 
-export const getStaticProps = (props: any) => {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const getStaticProps = ({ locale, ...otherProps }: { locale: any }) => {
   return {
     props: {
+      ...otherProps,
       messages: {
-        ...require(`../../../assets/dex/${props.locale}.json`),
+        ...require(`../../../assets/messages/dex/swap/${
+          locale == 'en-US' ? 'en' : 'pt'
+        }.json`),
+        ...require(`../../../assets/messages/common/${
+          locale == 'en-US' ? 'en' : 'pt'
+        }.json`),
       },
     },
   };

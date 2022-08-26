@@ -1,0 +1,8 @@
+{
+  "dex-swap": {
+    "settingsTitle": "Definições da transacção",
+    "firstLabel": "Tolerância de deslizamento?",
+    "secondLabel": "Prazo de transacção",
+    "minutes": "minutos"
+  }
+}

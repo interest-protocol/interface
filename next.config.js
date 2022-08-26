@@ -12,8 +12,8 @@ module.exports = {
     newNextLinkBehavior: true,
   },
   i18n: {
-    locales: ['en', 'pt'],
-    defaultLocale: 'en',
+    locales: ['en-US', 'pt-PT'],
+    defaultLocale: 'en-US',
     localeDetection: false,
   },
 };

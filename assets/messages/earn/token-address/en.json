@@ -1,0 +1,10 @@
+{
+  "earn-token-address": {
+    "title": "details",
+    "firstCardTitle": "Your Balance",
+    "secondCardTitle": "Staked",
+    "secondCardButton": "Approving...",
+    "thirdCardTitle": "Earned",
+    "thirdCardButton": "Harvest"
+  }
+}
