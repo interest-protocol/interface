@@ -193,7 +193,7 @@ const EarnTable: FC<EarnTableProps> = ({
           <Table
             hasButton
             backgroundColorMap={filteredFarms.map((farm) => ({
-              bg: farm.isLive ? 'unset' : 'bottomBackground',
+              bg: farm.isLive ? 'foreground' : 'bottomBackground',
             }))}
             headings={[
               {

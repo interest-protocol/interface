@@ -1,7 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
-import { parseToSafeStringNumber } from '@/utils';
+import { parseInputEventToNumberString } from '@/utils';
 
 import { CreateTokenSupplyFieldProps } from './create-token-form.types';
 
@@ -21,7 +21,7 @@ const CreateTokenSupplyField: FC<CreateTokenSupplyFieldProps> = ({
       placeholder={'0'}
       {...register('amount', {
         onChange: (v: ChangeEvent<HTMLInputElement>) =>
-          setValue?.('amount', parseToSafeStringNumber(v.target.value)),
+          setValue?.('amount', parseInputEventToNumberString(v)),
       })}
       shieldProps={{
         p: 'S',
