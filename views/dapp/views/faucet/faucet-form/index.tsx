@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+import { useTranslations } from 'next-intl';
 import { pathOr, prop } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -40,6 +41,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
   isLoadingData,
   removeLocalToken,
 }) => {
+  const t = useTranslations('faucet');
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { chainId, account } = useIdAccount();
@@ -127,14 +129,14 @@ const FaucetForm: FC<FaucetFormProps> = ({
         >
           <FaucetSelectCurrency
             tokens={tokens}
-            label="Choose Token"
+            label={t('tokenInput')}
             defaultValue={tokens?.[0]?.address ?? ethers.constants.AddressZero}
             onSelectCurrency={onSelectCurrency}
           />
           <InputBalance
             name="amount"
             register={register}
-            label="Type Amount"
+            label={t('amountInput')}
             setValue={setValue}
             chainId={chainId}
             control={control}
@@ -185,7 +187,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
           flexDirection="column"
         >
           <Typography variant="normal" textTransform="uppercase" my="L">
-            Your balance:
+            {t('cardTitle')}
           </Typography>
           <Box
             display="grid"

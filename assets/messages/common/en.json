@@ -24,6 +24,7 @@
     "notFound": "not found",
     "approve": "Approve",
     "loading": "loading",
-    "back": "BACK"
+    "back": "BACK",
+    "wallet": "Connect Wallet"
   }
 }

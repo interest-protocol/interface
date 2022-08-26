@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -31,6 +32,7 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
   handleClose,
   addLocalToken,
 }) => {
+  const t = useTranslations('faucet');
   const [loading, setLoading] = useState(false);
   const { chainId, signer, account } = useGetSigner();
   const { setValue, register, getValues } = useForm<TCreateTokenForm>({
@@ -119,18 +121,26 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
           variant="normal"
           textTransform="uppercase"
         >
-          Create new token
+          {t('modalTitle')}
         </Typography>
         <Box
           display="grid"
           gridColumnGap="1rem"
           gridTemplateColumns={['1fr', '1f', '1fr', '1fr 1fr']}
         >
-          <CreateTokenField label="Name" name="name" register={register} />
-          <CreateTokenField label="Symbol" name="symbol" register={register} />
+          <CreateTokenField
+            label={t('modalInputName')}
+            name="name"
+            register={register}
+          />
+          <CreateTokenField
+            label={t('modalInputSymbol')}
+            name="symbol"
+            register={register}
+          />
         </Box>
         <CreateTokenSupplyField
-          label="Amount"
+          label={t('modalInputAmount')}
           register={register}
           setValue={setValue}
         />
@@ -150,11 +160,11 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
                   <LoadingSVG width="100%" />
                 </Box>
                 <Typography fontSize="S" variant="normal" ml="M">
-                  Creating Token
+                  {t('modalButtonLoading')}
                 </Typography>
               </Box>
             ) : (
-              'Create Token'
+              t('modalButton')
             )}
           </Button>
         ) : (
