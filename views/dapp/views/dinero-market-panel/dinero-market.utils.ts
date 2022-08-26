@@ -280,69 +280,43 @@ export const loanElasticToPrincipal: TLoanElasticToPrincipal = ({
 };
 
 export const calculateExpectedLiquidationPrice: TCalculateExpectedLiquidationPrice =
-  (
-    {
-      ltv,
-      adjustedUserCollateral,
-      loanBase,
-      userPrincipal,
-      lastAccrued,
-      loanElastic,
-      interestRate,
-      collateralUSDPrice,
-    },
-    additionalCollateral,
-    additionalPrincipal
-  ): FixedPointMath => {
-    const collateral = adjustedUserCollateral.add(additionalCollateral);
-
-    if (collateral.isZero()) return FixedPointMath.from(collateralUSDPrice);
-
-    const userElasticLoan = loanPrincipalToElastic({
-      loanBase,
-      loanElastic,
-      userPrincipal: userPrincipal.add(additionalPrincipal),
-      lastAccrued,
-      interestRate,
-    });
-
-    if (userElasticLoan.gte(FixedPointMath.from(ltv).mul(collateral)))
+  ({
+    ltv,
+    collateralUSDPrice,
+    userElasticLoan,
+    adjustUserCollateral,
+  }): FixedPointMath => {
+    if (adjustUserCollateral.isZero())
       return FixedPointMath.from(collateralUSDPrice);
 
-    return userElasticLoan.div(FixedPointMath.from(ltv).mul(collateral));
+    const fixedPointUserElasticLoan = FixedPointMath.from(userElasticLoan);
+
+    const userCollateralValue =
+      FixedPointMath.from(adjustUserCollateral).mul(ltv);
+
+    return fixedPointUserElasticLoan.div(userCollateralValue);
   };
 
-export const calculatePositionHealth: TCalculatePositionHealth = ({
-  ltv,
-  loanBase,
-  userPrincipal,
-  adjustedUserCollateral,
-  loanElastic,
-  collateralUSDPrice,
-  lastAccrued,
-  interestRate,
-}): FixedPointMath => {
+export const calculatePositionHealth: TCalculatePositionHealth = (
+  { ltv, userPrincipal, adjustedUserCollateral, collateralUSDPrice },
+  userElasticLoan
+): FixedPointMath => {
   if (userPrincipal.isZero())
     return FixedPointMath.from(ethers.utils.parseEther('1'));
 
   if (adjustedUserCollateral.isZero()) return FixedPointMath.from(0);
 
-  const userElasticLoan = loanPrincipalToElastic({
-    loanBase,
-    loanElastic,
-    userPrincipal,
-    lastAccrued,
-    interestRate,
-  });
-
   const userCollateralValue = FixedPointMath.from(adjustedUserCollateral)
     .mul(collateralUSDPrice)
     .mul(ltv);
 
-  if (userElasticLoan.gte(userCollateralValue)) return FixedPointMath.from(0);
+  const fixedMathUserElasticLoan = FixedPointMath.from(userElasticLoan);
+
+  if (fixedMathUserElasticLoan.gte(userCollateralValue))
+    return FixedPointMath.from(0);
 
   return FixedPointMath.from(ethers.utils.parseEther('1')).sub(
-    userElasticLoan.div(userCollateralValue)
+    fixedMathUserElasticLoan.div(userCollateralValue)
   );
 };
 
@@ -497,36 +471,46 @@ const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
       .value()
   )
     ? FixedPointMath.from(market.collateralUSDPrice)
-    : calculateExpectedLiquidationPrice(market, newCollateral, newBorrowAmount);
+    : calculateExpectedLiquidationPrice({
+        ltv: market.ltv,
+        adjustUserCollateral: newCollateral,
+        userElasticLoan: newBorrowAmount,
+        collateralUSDPrice: market.collateralUSDPrice,
+      });
 
   const positionHealth = newBorrowAmount.isZero()
     ? ethers.utils.parseEther('1')
-    : calculatePositionHealth({
-        ...market,
-        adjustedUserCollateral: newCollateral,
-        loanElastic: loanPrincipalToElastic({
-          loanBase: market.loanBase,
-          loanElastic: market.loanElastic,
-          userPrincipal: market.userPrincipal,
-          lastAccrued: market.lastAccrued,
-          interestRate: market.interestRate,
-        })
-          .value()
-          .add(newBorrowAmount),
-      }).value();
+    : calculatePositionHealth(
+        {
+          ...market,
+          adjustedUserCollateral: newCollateral,
+          loanElastic: loanPrincipalToElastic({
+            loanBase: market.loanBase,
+            loanElastic: market.loanElastic,
+            userPrincipal: market.userPrincipal,
+            lastAccrued: market.lastAccrued,
+            interestRate: market.interestRate,
+          }).value(),
+        },
+        newBorrowAmount
+      ).value();
 
   const roundPositionHealthNumber = Math.trunc(
     FixedPointMath.toNumber(positionHealth) * 100
   );
 
+  const userCollateralInUSD = FixedPointMath.from(market.collateralUSDPrice)
+    .mul(market.adjustedUserCollateral)
+    .mul(market.ltv);
+
   return [
     `${formatMoney(
       FixedPointMath.toNumber(market.loanElastic.add(newBorrowAmount))
     )} / ${formatMoney(FixedPointMath.toNumber(market.maxBorrowAmount))}`,
-    roundPositionHealthNumber === 100
+    newBorrowAmount.gte(userCollateralInUSD.value())
       ? '0'
       : Fraction.from(
-          newBorrowAmount,
+          userCollateralInUSD.sub(newBorrowAmount).value(),
           ethers.utils.parseEther('1')
         ).toSignificant(4),
     `$${formatMoney(
@@ -637,11 +621,18 @@ export const getMyPositionData: TGetMyPositionData = (market) => {
 
     const liquidationPrice = formatMoney(
       +Fraction.from(
-        calculateExpectedLiquidationPrice(
-          market,
-          ZERO_BIG_NUMBER,
-          ZERO_BIG_NUMBER
-        ).value(),
+        calculateExpectedLiquidationPrice({
+          ltv: market.ltv,
+          collateralUSDPrice: market.collateralUSDPrice,
+          userElasticLoan: loanPrincipalToElastic({
+            interestRate: market.interestRate,
+            loanElastic: market.loanElastic,
+            userPrincipal: market.userPrincipal,
+            lastAccrued: market.lastAccrued,
+            loanBase: market.loanBase,
+          }).value(),
+          adjustUserCollateral: market.adjustedUserCollateral,
+        }).value(),
         ethers.utils.parseEther('1')
       ).toSignificant(4)
     );

@@ -143,14 +143,20 @@ export type TLoanPrincipalToElastic = (
   data: TLoanPrincipalToElasticArgs
 ) => FixedPointMath;
 
+interface TCalculateExpectedLiquidationPriceArgs {
+  ltv: BigNumber;
+  collateralUSDPrice: BigNumber;
+  adjustUserCollateral: BigNumber;
+  userElasticLoan: BigNumber;
+}
+
 export type TCalculateExpectedLiquidationPrice = (
-  data: ProcessedMarketData,
-  additionalCollateral: BigNumber,
-  additionalPrincipal: BigNumber
+  data: TCalculateExpectedLiquidationPriceArgs
 ) => FixedPointMath;
 
 export type TCalculatePositionHealth = (
-  data: ProcessedMarketData
+  data: ProcessedMarketData,
+  userLoanElastic: BigNumber
 ) => FixedPointMath;
 
 export type TCalculateDineroLeftToBorrow = (

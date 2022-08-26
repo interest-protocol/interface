@@ -43,6 +43,7 @@ import {
   getSafeDineroMarketData,
   isFormBorrowEmpty,
   isFormRepayEmpty,
+  loanPrincipalToElastic,
 } from './dinero-market.utils';
 import DineroMarketForm from './dinero-market-form';
 import DineroMarketSwitch from './dinero-market-switch';
@@ -129,7 +130,18 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
   const myPositionData = useMemo(() => getMyPositionData(market), [market]);
 
   const currentLTV = useMemo(
-    () => calculatePositionHealth(market).toNumber(16, 0, 4),
+    () =>
+      100 -
+      calculatePositionHealth(
+        market,
+        loanPrincipalToElastic({
+          loanBase: market.loanBase,
+          loanElastic: market.loanElastic,
+          userPrincipal: market.userPrincipal,
+          lastAccrued: market.lastAccrued,
+          interestRate: market.interestRate,
+        }).value()
+      ).toNumber(16, 0, 4),
     [market]
   );
 
