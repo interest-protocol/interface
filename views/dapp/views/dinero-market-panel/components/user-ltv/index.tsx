@@ -3,6 +3,7 @@ import Skeleton from 'react-loading-skeleton';
 
 import { Box, Typography } from '@/elements';
 import { InfoSVG, ProgressSVG } from '@/svg';
+import { toFixedToPrecision } from '@/utils';
 
 import { UserLTVProps } from './user-ltv.types';
 
@@ -48,7 +49,7 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => (
         ) : ltv > 100 ? (
           100
         ) : (
-          ltv
+          toFixedToPrecision(ltv, 4)
         )}
         {'% '}
         of 100%
