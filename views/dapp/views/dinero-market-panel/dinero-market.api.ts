@@ -313,12 +313,22 @@ const handleBorrowRequest = async (
   }
 
   if (market.kind === DineroMarketKind.Native) {
+    const amountToSend = collateralBN.gte(
+      market.collateralBalance.sub(
+        safeToBigNumber(1, market.collateralDecimals - 1)
+      )
+    )
+      ? market.collateralBalance
+          .mul(ethers.utils.parseEther('0.95')) // gas
+          .div(ethers.utils.parseEther('1'))
+      : safeCollateral;
+
     const tx = await nativeMarketRequest(
       signer,
       market.marketAddress,
-      safeCollateral,
+      amountToSend,
       [RequestActions.Deposit, RequestActions.Borrow],
-      [encodeData(account, safeCollateral), encodeData(account, loanBN)]
+      [encodeData(account, amountToSend), encodeData(account, loanBN)]
     );
 
     return showTXSuccessToast(tx, chainId);
@@ -365,13 +375,21 @@ const handleBorrowDeposit = async (
   }
 
   if (market.kind === DineroMarketKind.Native) {
+    const amountToSend = bnCollateral.gte(
+      market.collateralBalance.sub(
+        safeToBigNumber(1, market.collateralDecimals - 1)
+      )
+    )
+      ? market.collateralBalance
+          .mul(ethers.utils.parseEther('0.95')) // gas
+          .div(ethers.utils.parseEther('1'))
+      : safeCollateral;
+
     const tx = await nativeMarketDeposit(
       signer,
       market.marketAddress,
       account,
-      safeCollateral
-        .mul(ethers.utils.parseEther('0.95')) // gas
-        .div(ethers.utils.parseEther('1'))
+      amountToSend
     );
 
     return showTXSuccessToast(tx, chainId);

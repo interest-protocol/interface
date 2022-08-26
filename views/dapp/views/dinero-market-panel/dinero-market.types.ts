@@ -96,10 +96,15 @@ export type GetSafeDineroMarketData = (
 
 type ProcessedMarketData = DineroMarketData;
 
+interface TGetPositionHealthDataInternalArgs {
+  userCollateralAmount: BigNumber;
+  userElasticAmount: BigNumber;
+  loanElastic: BigNumber;
+}
+
 export type TGetPositionHealthDataInternal = (
-  borrowAmount: BigNumber,
-  collateralAmount: BigNumber,
-  data: DineroMarketData
+  data: TGetPositionHealthDataInternalArgs,
+  market: DineroMarketData
 ) => [string, string, string, string];
 
 export type TGetBorrowPositionHealthData = (

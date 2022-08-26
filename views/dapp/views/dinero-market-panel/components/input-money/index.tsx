@@ -6,8 +6,8 @@ import { TOKEN_SYMBOL } from '@/sdk';
 import { parseInputEventToNumberString } from '@/utils';
 
 import InputErrorMessage from './input-error';
-import InputMaxBalance from './input-max-balance';
 import InputMaxButton from './input-max-button';
+import InputMaxTag from './input-max-tag';
 import { InputMoneyProps, TErrorMessageLabels } from './input-money.types';
 import InputMoneySuffix from './input-money-suffix';
 
@@ -39,7 +39,8 @@ const InputMoney: FC<InputMoneyProps> = ({
         {label}:
       </Typography>
       <Box display="flex" flexDirection="column" alignItems="flex-end">
-        <InputMaxBalance
+        <InputMaxTag
+          setValue={setValue}
           max={max}
           data={data}
           control={control}
@@ -52,10 +53,7 @@ const InputMoney: FC<InputMoneyProps> = ({
           placeholder={amount}
           {...register(name, {
             onChange: (v: ChangeEvent<HTMLInputElement>) =>
-              setValue(
-                name,
-                parseInputEventToNumberString(v, max ? +max : undefined)
-              ),
+              setValue(name, parseInputEventToNumberString(v)),
           })}
           shieldProps={{
             p: 'S',

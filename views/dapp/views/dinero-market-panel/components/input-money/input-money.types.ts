@@ -1,4 +1,5 @@
 import { Control, UseFormReturn, UseFormStateReturn } from 'react-hook-form';
+import { UseFormSetValue } from 'react-hook-form/dist/types/form';
 
 import {
   DineroCurrencyIcons,
@@ -45,10 +46,11 @@ export interface InputErrorMessageProps {
   labels: TErrorMessageLabels;
 }
 
-export interface InputMaxBalanceProps {
+export interface InputMaxTagProps {
   max?: number;
   isDNR: boolean;
   isBorrow: boolean;
   data: DineroMarketData;
   control: Control<IBorrowForm>;
+  setValue: UseFormSetValue<IBorrowForm>;
 }

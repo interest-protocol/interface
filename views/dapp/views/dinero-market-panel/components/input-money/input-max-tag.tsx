@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import Box from '@/elements/box';
@@ -10,25 +10,27 @@ import {
   calculateDineroLeftToBorrow,
   safeAmountToWithdrawRepay,
 } from '../../dinero-market.utils';
-import { InputMaxBalanceProps } from './input-money.types';
+import { InputMaxTagProps } from './input-money.types';
 
-const InputMaxBalance: FC<InputMaxBalanceProps> = ({
+const InputMaxTag: FC<InputMaxTagProps> = ({
   max,
   data,
   isDNR,
   control,
   isBorrow,
+  setValue,
 }) => {
   const depositCollateral = useWatch({ control, name: 'borrow.collateral' });
   const repayLoan = useWatch({ control, name: 'repay.loan' });
+  const loanCollateral = useWatch({ control, name: 'borrow.loan' });
 
   const recalculatedMax = useMemo(
     () =>
       isBorrow
         ? calculateDineroLeftToBorrow({
             ...data,
-            userCollateral: data.userCollateral.add(
-              safeToBigNumber(+depositCollateral || 0, data.collateralDecimals)
+            adjustedUserCollateral: data.adjustedUserCollateral.add(
+              safeToBigNumber(+depositCollateral)
             ),
           })
             .mul(ethers.utils.parseEther('0.9'))
@@ -39,6 +41,17 @@ const InputMaxBalance: FC<InputMaxBalanceProps> = ({
           ).toNumber(),
     [depositCollateral, repayLoan]
   );
+
+  useEffect(() => {
+    if (isBorrow && isDNR && +loanCollateral > recalculatedMax)
+      setValue(
+        'borrow.loan',
+        recalculatedMax.toLocaleString('fullwide', {
+          useGrouping: false,
+          maximumSignificantDigits: 6,
+        })
+      );
+  }, [loanCollateral, recalculatedMax]);
 
   return (
     <Box
@@ -63,4 +76,4 @@ const InputMaxBalance: FC<InputMaxBalanceProps> = ({
   );
 };
 
-export default InputMaxBalance;
+export default InputMaxTag;

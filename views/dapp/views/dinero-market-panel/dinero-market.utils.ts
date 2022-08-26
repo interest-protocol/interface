@@ -379,7 +379,7 @@ export const safeAmountToWithdrawRepay: TSafeAmountToWithdrawRepay = (
   if (repayLoan.gte(userLoanElastic.value()))
     return FixedPointMath.from(adjustedUserCollateral);
 
-  const userNeededCollateralInUSD = loanElastic.div(ltv);
+  const userNeededCollateralInUSD = FixedPointMath.from(loanElastic).div(ltv);
 
   const collateralInUSD = FixedPointMath.from(adjustedUserCollateral).mul(
     collateralUSDPrice
@@ -460,12 +460,11 @@ export const calculateBorrowAmount: TCalculateBorrowAmount = ({
 };
 
 const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
-  newBorrowAmount,
-  newCollateral,
+  { userCollateralAmount, userElasticAmount, loanElastic },
   market
 ) => {
-  const expectedLiquidationPrice = newBorrowAmount.gte(
-    FixedPointMath.from(newCollateral)
+  const expectedLiquidationPrice = userElasticAmount.gte(
+    FixedPointMath.from(userCollateralAmount)
       .mul(market.collateralUSDPrice)
       .mul(market.ltv)
       .value()
@@ -473,26 +472,19 @@ const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
     ? FixedPointMath.from(market.collateralUSDPrice)
     : calculateExpectedLiquidationPrice({
         ltv: market.ltv,
-        adjustUserCollateral: newCollateral,
-        userElasticLoan: newBorrowAmount,
+        adjustUserCollateral: userCollateralAmount,
+        userElasticLoan: userElasticAmount,
         collateralUSDPrice: market.collateralUSDPrice,
       });
 
-  const positionHealth = newBorrowAmount.isZero()
+  const positionHealth = userElasticAmount.isZero()
     ? ethers.utils.parseEther('1')
     : calculatePositionHealth(
         {
           ...market,
-          adjustedUserCollateral: newCollateral,
-          loanElastic: loanPrincipalToElastic({
-            loanBase: market.loanBase,
-            loanElastic: market.loanElastic,
-            userPrincipal: market.userPrincipal,
-            lastAccrued: market.lastAccrued,
-            interestRate: market.interestRate,
-          }).value(),
+          adjustedUserCollateral: userCollateralAmount,
         },
-        newBorrowAmount
+        userElasticAmount
       ).value();
 
   const roundPositionHealthNumber = Math.trunc(
@@ -500,17 +492,17 @@ const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
   );
 
   const userCollateralInUSD = FixedPointMath.from(market.collateralUSDPrice)
-    .mul(market.adjustedUserCollateral)
+    .mul(userCollateralAmount)
     .mul(market.ltv);
 
   return [
-    `${formatMoney(
-      FixedPointMath.toNumber(market.loanElastic.add(newBorrowAmount))
-    )} / ${formatMoney(FixedPointMath.toNumber(market.maxBorrowAmount))}`,
-    newBorrowAmount.gte(userCollateralInUSD.value())
+    `${formatMoney(FixedPointMath.toNumber(loanElastic))} / ${formatMoney(
+      FixedPointMath.toNumber(market.maxBorrowAmount)
+    )}`,
+    userElasticAmount.gte(userCollateralInUSD.value())
       ? '0'
       : Fraction.from(
-          userCollateralInUSD.sub(newBorrowAmount).value(),
+          userCollateralInUSD.sub(userElasticAmount).value(),
           ethers.utils.parseEther('1')
         ).toSignificant(4),
     `$${formatMoney(
@@ -550,8 +542,11 @@ export const getRepayPositionHealthData: TGetRepayPositionHealthData = (
   );
 
   return getPositionHealthDataInternal(
-    newElasticLoan.value(),
-    newCollateral,
+    {
+      loanElastic: market.loanElastic.sub(repay.value()),
+      userElasticAmount: newElasticLoan.value(),
+      userCollateralAmount: newCollateral,
+    },
     market
   );
 };
@@ -576,7 +571,14 @@ export const getBorrowPositionHealthData: TGetBorrowPositionHealthData = (
     FixedPointMath.toBigNumber(collateral)
   );
 
-  return getPositionHealthDataInternal(newBorrowAmount, newCollateral, market);
+  return getPositionHealthDataInternal(
+    {
+      loanElastic: market.loanElastic.add(FixedPointMath.toBigNumber(loan)),
+      userElasticAmount: newBorrowAmount,
+      userCollateralAmount: newCollateral,
+    },
+    market
+  );
 };
 
 export const getLoanInfoData: TGetInfoLoanData = (market, kind) => {

@@ -28,8 +28,8 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
         name,
         calculateDineroLeftToBorrow({
           ...data,
-          userCollateral: data.userCollateral.add(
-            safeToBigNumber(+borrowCollateral || 0, data.collateralDecimals)
+          adjustedUserCollateral: data.adjustedUserCollateral.add(
+            safeToBigNumber(+borrowCollateral || 0)
           ),
         })
           .mul(ethers.utils.parseEther('0.9'))
