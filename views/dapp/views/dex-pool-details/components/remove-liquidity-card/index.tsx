@@ -5,7 +5,7 @@ import { useForm, useWatch } from 'react-hook-form';
 import { addAllowance, removeLiquidity } from '@/api';
 import { Box, Button, Typography } from '@/elements';
 import { useGetSigner } from '@/hooks';
-import { IntMath } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 import { LineLoaderSVG } from '@/svg';
 import {
   getInterestDexRouterAddress,
@@ -159,7 +159,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
         name="lpAmount"
         register={register}
         setValue={setValue}
-        balance={IntMath.toNumber(lpBalance)}
+        balance={FixedPointMath.toNumber(lpBalance)}
         disabled={lpAllowance.isZero() || lpBalance.isZero() || loading}
         currencyPrefix={
           <Box display="flex" width="5rem">

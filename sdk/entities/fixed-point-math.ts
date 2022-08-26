@@ -8,7 +8,7 @@ import { MAX_NUMBER_INPUT_VALUE } from '../constants';
 
 const ONE_ETHER = parseEther('1');
 
-export class IntMath {
+export class FixedPointMath {
   private _value = BigNumber.from(0);
 
   protected constructor(_value: BigNumberish) {
@@ -16,21 +16,21 @@ export class IntMath {
     this._value = BigNumber.from(parsed);
   }
 
-  private parseValue(x: BigNumberish | IntMath): BigNumberish {
-    if (x instanceof IntMath) return x.value();
+  private parseValue(x: BigNumberish | FixedPointMath): BigNumberish {
+    if (x instanceof FixedPointMath) return x.value();
 
     return x;
   }
 
-  private isZero(value: BigNumberish | IntMath): boolean {
+  private isZero(value: BigNumberish | FixedPointMath): boolean {
     if (value instanceof BigNumber) return value.isZero();
     if (value === 0) return true;
-    if (value instanceof IntMath) return value.value().isZero();
+    if (value instanceof FixedPointMath) return value.value().isZero();
     return value === '0';
   }
 
-  public static from(value: BigNumberish): IntMath {
-    return new IntMath(value);
+  public static from(value: BigNumberish): FixedPointMath {
+    return new FixedPointMath(value);
   }
 
   public static toBigNumber(
@@ -71,33 +71,38 @@ export class IntMath {
   }
 
   public toNumber(decimals = 18, rounding = 4, significant = 6): number {
-    return IntMath.toNumber(this._value, decimals, rounding, significant);
+    return FixedPointMath.toNumber(
+      this._value,
+      decimals,
+      rounding,
+      significant
+    );
   }
 
-  public div(x: BigNumberish | IntMath): IntMath {
-    if (this.isZero(x)) return IntMath.from(0);
+  public div(x: BigNumberish | FixedPointMath): FixedPointMath {
+    if (this.isZero(x)) return FixedPointMath.from(0);
     this._value = this._value.mul(ONE_ETHER).div(this.parseValue(x));
     return this;
   }
 
-  public mul(x: BigNumberish | IntMath): IntMath {
+  public mul(x: BigNumberish | FixedPointMath): FixedPointMath {
     this._value = this._value
       .mul(this.parseValue(this.parseValue(x)))
       .div(ONE_ETHER);
     return this;
   }
 
-  public add(x: BigNumberish | IntMath): IntMath {
+  public add(x: BigNumberish | FixedPointMath): FixedPointMath {
     this._value = this._value.add(this.parseValue(x));
     return this;
   }
 
-  public sub(x: BigNumberish | IntMath): IntMath {
+  public sub(x: BigNumberish | FixedPointMath): FixedPointMath {
     this._value = this._value.sub(this.parseValue(x));
     return this;
   }
 
-  public pow(x: BigNumberish | IntMath): IntMath {
+  public pow(x: BigNumberish | FixedPointMath): FixedPointMath {
     this._value = this._value.pow(this.parseValue(x));
     return this;
   }
@@ -108,21 +113,21 @@ export class IntMath {
     return `${fraction.toSignificant(toSignificant || 1)} %`;
   }
 
-  public gt(x: BigNumberish | IntMath): boolean {
+  public gt(x: BigNumberish | FixedPointMath): boolean {
     return this._value.gt(this.parseValue(x));
   }
 
-  public gte(x: BigNumberish | IntMath): boolean {
+  public gte(x: BigNumberish | FixedPointMath): boolean {
     return this._value.gte(this.parseValue(x));
   }
-  public lt(x: BigNumberish | IntMath): boolean {
+  public lt(x: BigNumberish | FixedPointMath): boolean {
     return this._value.lt(this.parseValue(x));
   }
-  public lte(x: BigNumberish | IntMath): boolean {
+  public lte(x: BigNumberish | FixedPointMath): boolean {
     return this._value.lte(this.parseValue(x));
   }
 
-  public eq(x: BigNumberish | IntMath): boolean {
+  public eq(x: BigNumberish | FixedPointMath): boolean {
     return this._value.eq(this.parseValue(x));
   }
 

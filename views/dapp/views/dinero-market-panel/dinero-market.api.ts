@@ -19,10 +19,11 @@ import {
   nativeMarketWithdraw,
 } from '@/api';
 import { DineroMarketKind } from '@/constants';
-import { IntMath } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 import { safeToBigNumber, showTXSuccessToast } from '@/utils';
-import { DineroMarketData } from '@/views/dapp/views/dinero-market-panel/dinero-market.types';
-import { loanElasticToPrincipal } from '@/views/dapp/views/dinero-market-panel/dinero-market.utils';
+
+import { DineroMarketData } from './dinero-market.types';
+import { loanElasticToPrincipal } from './dinero-market.utils';
 
 const { defaultAbiCoder } = ethers.utils;
 
@@ -58,7 +59,7 @@ const handleRepayRequest = async (
    * @description We do not need to calculate the elastic loan, because this market does not have any interest rate.
    */
   if (market.kind === DineroMarketKind.LpFreeMarket) {
-    const loanBN = IntMath.toBigNumber(loan);
+    const loanBN = FixedPointMath.toBigNumber(loan);
     const safePrincipal = loanBN.gt(market.loanBase)
       ? market.loanElastic
       : loanBN;
@@ -77,12 +78,13 @@ const handleRepayRequest = async (
   }
 
   if (market.kind === DineroMarketKind.ERC20) {
-    const estimatedPrincipal = loanElasticToPrincipal(
-      safeToBigNumber(loan, 18, 8),
-      market.lastAccrued,
-      market.loanElastic,
-      market.interestRate
-    ).value();
+    const estimatedPrincipal = loanElasticToPrincipal({
+      interestRate: market.interestRate,
+      lastAccrued: market.lastAccrued,
+      loanElastic: market.loanElastic,
+      loanBase: market.loanBase,
+      userElastic: safeToBigNumber(loan, 18, 8),
+    }).value();
 
     const safePrincipal = estimatedPrincipal.gt(market.userPrincipal)
       ? market.userPrincipal
@@ -102,12 +104,13 @@ const handleRepayRequest = async (
   }
 
   if (market.kind === DineroMarketKind.Native) {
-    const estimatedPrincipal = loanElasticToPrincipal(
-      safeToBigNumber(loan, 18, 8),
-      market.lastAccrued,
-      market.loanElastic,
-      market.interestRate
-    ).value();
+    const estimatedPrincipal = loanElasticToPrincipal({
+      loanBase: market.loanBase,
+      loanElastic: market.loanElastic,
+      interestRate: market.interestRate,
+      lastAccrued: market.lastAccrued,
+      userElastic: safeToBigNumber(loan, 18, 8),
+    }).value();
 
     const safePrincipal = estimatedPrincipal.gt(market.userPrincipal)
       ? market.userPrincipal
@@ -186,12 +189,10 @@ const handleRepayLoan = async (
   account: string,
   loan: number
 ) => {
-  if (market.kind === DineroMarketKind.LpFreeMarket) {
-    const loanBN = IntMath.toBigNumber(loan);
-    const safeAmount = loanBN.gt(market.dnrBalance)
-      ? market.dnrBalance
-      : loanBN;
+  const loanBN = FixedPointMath.toBigNumber(loan);
+  const safeAmount = loanBN.gt(market.dnrBalance) ? market.dnrBalance : loanBN;
 
+  if (market.kind === DineroMarketKind.LpFreeMarket) {
     const tx = await lpFreeMarketRepay(
       signer,
       market.marketAddress,
@@ -203,36 +204,38 @@ const handleRepayLoan = async (
   }
 
   if (market.kind === DineroMarketKind.ERC20) {
-    const estimatedPrincipal = loanElasticToPrincipal(
-      safeToBigNumber(loan, 18, 8),
-      market.lastAccrued,
-      market.loanElastic,
-      market.interestRate
-    ).value();
+    const estimatedPrincipal = loanElasticToPrincipal({
+      lastAccrued: market.lastAccrued,
+      interestRate: market.interestRate,
+      loanBase: market.loanBase,
+      loanElastic: market.loanElastic,
+      userElastic: safeAmount,
+    }).value();
 
-    const safeAmount = estimatedPrincipal.gt(market.dnrBalance)
-      ? market.dnrBalance
+    const safePrincipal = estimatedPrincipal.gt(market.userPrincipal)
+      ? market.userPrincipal
       : estimatedPrincipal;
 
     const tx = await erc20MarketRepay(
       signer,
       market.marketAddress,
       account,
-      safeAmount.gt(market.userPrincipal) ? market.userPrincipal : safeAmount
+      safePrincipal
     );
 
     return showTXSuccessToast(tx, chainId);
   }
 
   if (market.kind === DineroMarketKind.Native) {
-    const estimatedPrincipal = loanElasticToPrincipal(
-      safeToBigNumber(loan, 18, 8),
-      market.lastAccrued,
-      market.loanElastic,
-      market.interestRate
-    ).value();
+    const estimatedPrincipal = loanElasticToPrincipal({
+      lastAccrued: market.lastAccrued,
+      interestRate: market.interestRate,
+      loanBase: market.loanBase,
+      loanElastic: market.loanElastic,
+      userElastic: safeAmount,
+    }).value();
 
-    const safeAmount = estimatedPrincipal.gt(market.dnrBalance)
+    const safePrincipal = estimatedPrincipal.gt(market.userPrincipal)
       ? market.userPrincipal
       : estimatedPrincipal;
 
@@ -240,7 +243,7 @@ const handleRepayLoan = async (
       signer,
       market.marketAddress,
       account,
-      safeAmount.gt(market.userPrincipal) ? market.userPrincipal : safeAmount
+      safePrincipal
     );
 
     return showTXSuccessToast(tx, chainId);
@@ -280,6 +283,7 @@ const handleBorrowRequest = async (
   loan: number
 ) => {
   const collateralBN = safeToBigNumber(collateral, market.collateralDecimals);
+
   const safeCollateral = collateralBN.gt(market.collateralBalance)
     ? market.collateralBalance
     : collateralBN;
@@ -334,7 +338,7 @@ const handleBorrowDeposit = async (
     8
   );
 
-  const safeCollateral = bnCollateral.gt(market.userCollateral)
+  const safeCollateral = bnCollateral.gt(market.collateralBalance)
     ? market.collateralBalance
     : bnCollateral;
 
@@ -382,12 +386,13 @@ const handleBorrowLoan = async (
   loan: number
 ) => {
   const loanBN = safeToBigNumber(loan);
+
   const amountLeftToBorrow = market.maxBorrowAmount.sub(market.loanElastic);
 
   if (market.kind === DineroMarketKind.ERC20) {
-    const safeLoanBN = loanBN.gt(amountLeftToBorrow)
-      ? amountLeftToBorrow // die to interest rate
-          .mul(ethers.utils.parseEther('0.95'))
+    const safeLoanBN = loanBN.gte(amountLeftToBorrow)
+      ? amountLeftToBorrow // room for interest rate
+          .mul(ethers.utils.parseEther('0.98'))
           .div(ethers.utils.parseEther('1'))
       : loanBN;
 
@@ -405,7 +410,7 @@ const handleBorrowLoan = async (
     /**
      * @description This market has no interest rate
      */
-    const safeLoanBN = loanBN.gt(amountLeftToBorrow)
+    const safeLoanBN = loanBN.gte(amountLeftToBorrow)
       ? amountLeftToBorrow
       : loanBN;
     const tx = await lpFreeMarketBorrow(
@@ -419,9 +424,9 @@ const handleBorrowLoan = async (
   }
 
   if (market.kind === DineroMarketKind.Native) {
-    const safeLoanBN = loanBN.gt(amountLeftToBorrow)
-      ? amountLeftToBorrow // die to interest rate
-          .mul(ethers.utils.parseEther('0.95'))
+    const safeLoanBN = loanBN.gte(amountLeftToBorrow)
+      ? amountLeftToBorrow // room for interest rate
+          .mul(ethers.utils.parseEther('0.98'))
           .div(ethers.utils.parseEther('1'))
       : loanBN;
 

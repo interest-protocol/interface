@@ -19,7 +19,7 @@ import {
   TOKEN_FARM_ID_MAP,
   UNKNOWN_ERC_20,
 } from '@/constants';
-import { CHAIN_ID, IntMath, ZERO_BIG_NUMBER } from '@/sdk';
+import { CHAIN_ID, FixedPointMath, ZERO_BIG_NUMBER } from '@/sdk';
 import {
   calculateAllocation,
   calculateFarmBaseAPR,
@@ -56,9 +56,9 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
           token1: ethers.constants.AddressZero,
           token0: ethers.constants.AddressZero,
           totalStakedAmount: ZERO_BIG_NUMBER,
-          allocation: IntMath.from(0),
+          allocation: FixedPointMath.from(0),
           tvl: 0,
-          apr: IntMath.from(0),
+          apr: FixedPointMath.from(0),
           stakingTokenPrice: ZERO_BIG_NUMBER,
           stable: false,
           stakingAmount: ZERO_BIG_NUMBER,
@@ -87,9 +87,9 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
           token1: ethers.constants.AddressZero,
           token0: ethers.constants.AddressZero,
           totalStakedAmount: ZERO_BIG_NUMBER,
-          allocation: IntMath.from(0),
+          allocation: FixedPointMath.from(0),
           tvl: 0,
-          apr: IntMath.from(0),
+          apr: FixedPointMath.from(0),
           stable: false,
           stakingAmount: ZERO_BIG_NUMBER,
           isLive: true,
@@ -157,7 +157,7 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
             totalStakingAmount,
             stakingTokenPrice
           ),
-          tvl: IntMath.from(stakingTokenPrice)
+          tvl: FixedPointMath.from(stakingTokenPrice)
             .mul(totalStakingAmount)
             .toNumber(),
           allocation: calculateAllocation(

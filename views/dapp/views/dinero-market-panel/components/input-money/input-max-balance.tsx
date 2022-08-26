@@ -28,7 +28,7 @@ const InputMaxBalance: FC<InputMaxBalanceProps> = ({
         ? calculateDineroLeftToBorrow({
             ...data,
             userCollateral: data.userCollateral.add(
-              safeToBigNumber(+depositCollateral || 0)
+              safeToBigNumber(+depositCollateral || 0, data.collateralDecimals)
             ),
           })
             .mul(ethers.utils.parseEther('0.9'))
@@ -37,7 +37,7 @@ const InputMaxBalance: FC<InputMaxBalanceProps> = ({
             data,
             safeToBigNumber(+repayLoan)
           ).toNumber(),
-    [depositCollateral]
+    [depositCollateral, repayLoan]
   );
 
   return (

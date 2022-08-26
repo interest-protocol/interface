@@ -13,7 +13,7 @@ import {
 } from '@/constants';
 import {
   CHAIN_ID,
-  IntMath,
+  FixedPointMath,
   SECONDS_IN_A_YEAR,
   TOKEN_SYMBOL,
   ZERO_ADDRESS,
@@ -22,6 +22,7 @@ import {
 import { Fraction } from '@/sdk/entities/fraction';
 import { closeTo } from '@/sdk/utils';
 import {
+  adjustDecimals,
   calculateFarmBaseAPR,
   calculateFarmTokenPrice,
   calculateIntUSDPrice,
@@ -74,20 +75,22 @@ const makeSymbol = (
 
 const DEFAULT_MARKET_DATA = {
   kind: DineroMarketKind.ERC20,
-  loanBase: ZERO_BIG_NUMBER,
   loanElastic: ZERO_BIG_NUMBER,
+  loanBase: ZERO_BIG_NUMBER,
+  userPrincipal: ZERO_BIG_NUMBER,
+  userCollateral: ZERO_BIG_NUMBER,
+  adjustedUserCollateral: ZERO_BIG_NUMBER,
   interestRate: ZERO_BIG_NUMBER,
   lastAccrued: ZERO_BIG_NUMBER,
   collateralUSDPrice: ZERO_BIG_NUMBER,
   liquidationFee: ZERO_BIG_NUMBER,
   ltv: ZERO_BIG_NUMBER,
-  userCollateral: ZERO_BIG_NUMBER,
-  userPrincipal: ZERO_BIG_NUMBER,
   collateralAllowance: ZERO_BIG_NUMBER,
   collateralBalance: ZERO_BIG_NUMBER,
+  adjustedCollateralBalance: ZERO_BIG_NUMBER,
   dnrBalance: ZERO_BIG_NUMBER,
   pendingRewards: ZERO_BIG_NUMBER,
-  apr: IntMath.from(0),
+  apr: FixedPointMath.from(0),
   symbol0: '',
   symbol1: '',
   name: '',
@@ -134,11 +137,19 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
       collateralBalance: data.marketData.collateraBalance,
       dnrBalance: data.marketData.dnrBalance,
       pendingRewards: ZERO_BIG_NUMBER,
-      apr: IntMath.from(0),
+      apr: FixedPointMath.from(0),
       intUSDPrice: ZERO_BIG_NUMBER,
       marketAddress: market,
       chainId,
       maxBorrowAmount: data.marketData.maxBorrowAmount,
+      adjustedCollateralBalance: adjustDecimals(
+        data.marketData.collateraBalance,
+        marketMetadata.collateralDecimals
+      ),
+      adjustedUserCollateral: adjustDecimals(
+        data.marketData.userCollateral,
+        marketMetadata.collateralDecimals
+      ),
       ...marketMetadata,
     };
 
@@ -200,68 +211,79 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
       data.collateralPoolData.totalStakingAmount,
       stakeTokenUSDPrice.value()
     ),
+    adjustedCollateralBalance: adjustDecimals(
+      data.marketData.collateraBalance,
+      marketMetadata.collateralDecimals
+    ),
+    adjustedUserCollateral: adjustDecimals(
+      data.marketData.userCollateral,
+      marketMetadata.collateralDecimals
+    ),
     ...marketMetadata,
   };
 };
 
-export const calculateInterestAccrued: TCalculateInterestAccrued = (
-  elastic,
+export const calculateInterestAccrued: TCalculateInterestAccrued = ({
+  loanElastic,
   lastAccrued,
-  interestRate
-) => {
+  interestRate,
+}) => {
   const lasAccrued = lastAccrued.toNumber() * 1000;
 
   const now = new Date().getTime();
 
   const timeDelta = now - lasAccrued;
 
-  return IntMath.from(elastic.mul(interestRate))
-    .mul(timeDelta)
+  return FixedPointMath.from(loanElastic)
+    .mul(interestRate.mul(timeDelta))
     .value()
     .div(1000);
 };
 
-export const loanPrincipalToElastic: TLoanPrincipalToElastic = (
+export const loanPrincipalToElastic: TLoanPrincipalToElastic = ({
   loanBase,
+  loanElastic,
   userPrincipal,
   lastAccrued,
-  loanElastic,
-  interestRate
-): IntMath => {
-  if (loanBase.isZero()) return IntMath.from(ZERO_BIG_NUMBER);
+  interestRate,
+}): FixedPointMath => {
+  if (loanBase.isZero()) return FixedPointMath.from(userPrincipal);
 
-  const interestAccrued = calculateInterestAccrued(
+  const interestAccrued = calculateInterestAccrued({
     loanElastic,
     lastAccrued,
-    interestRate
-  );
+    interestRate,
+  });
 
-  return IntMath.from(userPrincipal)
-    .mul(loanElastic.add(interestAccrued))
-    .div(loanBase);
+  return FixedPointMath.from(
+    userPrincipal.mul(loanElastic.add(interestAccrued)).div(loanBase)
+  );
 };
 
-export const loanElasticToPrincipal: TLoanElasticToPrincipal = (
+export const loanElasticToPrincipal: TLoanElasticToPrincipal = ({
   loanBase,
-  lastAccrued,
   loanElastic,
-  interestRate
-): IntMath => {
-  if (loanBase.isZero()) return IntMath.from(ZERO_BIG_NUMBER);
-  return IntMath.from(loanElastic)
-    .mul(loanBase)
-    .div(
-      loanElastic.add(
-        calculateInterestAccrued(loanElastic, lastAccrued, interestRate)
+  userElastic,
+  lastAccrued,
+  interestRate,
+}): FixedPointMath => {
+  if (loanElastic.isZero()) return FixedPointMath.from(userElastic);
+  return FixedPointMath.from(
+    userElastic
+      .mul(loanBase)
+      .div(
+        loanElastic.add(
+          calculateInterestAccrued({ loanElastic, lastAccrued, interestRate })
+        )
       )
-    );
+  );
 };
 
 export const calculateExpectedLiquidationPrice: TCalculateExpectedLiquidationPrice =
   (
     {
       ltv,
-      userCollateral,
+      adjustedUserCollateral,
       loanBase,
       userPrincipal,
       lastAccrued,
@@ -271,114 +293,126 @@ export const calculateExpectedLiquidationPrice: TCalculateExpectedLiquidationPri
     },
     additionalCollateral,
     additionalPrincipal
-  ): IntMath => {
-    const collateral = userCollateral.add(additionalCollateral);
+  ): FixedPointMath => {
+    const collateral = adjustedUserCollateral.add(additionalCollateral);
 
-    if (collateral.isZero()) return IntMath.from(0);
-    const userElasticLoan = loanPrincipalToElastic(
+    if (collateral.isZero()) return FixedPointMath.from(collateralUSDPrice);
+
+    const userElasticLoan = loanPrincipalToElastic({
       loanBase,
-      userPrincipal,
+      loanElastic,
+      userPrincipal: userPrincipal.add(additionalPrincipal),
       lastAccrued,
-      loanElastic.add(additionalPrincipal),
-      interestRate
-    );
+      interestRate,
+    });
 
-    if (userElasticLoan.gte(IntMath.from(ltv).mul(collateral)))
-      return IntMath.from(collateralUSDPrice);
+    if (userElasticLoan.gte(FixedPointMath.from(ltv).mul(collateral)))
+      return FixedPointMath.from(collateralUSDPrice);
 
-    return userElasticLoan.div(IntMath.from(ltv).mul(collateral));
+    return userElasticLoan.div(FixedPointMath.from(ltv).mul(collateral));
   };
 
 export const calculatePositionHealth: TCalculatePositionHealth = ({
   ltv,
   loanBase,
   userPrincipal,
-  userCollateral,
+  adjustedUserCollateral,
   loanElastic,
   collateralUSDPrice,
   lastAccrued,
   interestRate,
-}): IntMath => {
-  if (loanElastic.isZero() || userCollateral.isZero()) return IntMath.from(0);
+}): FixedPointMath => {
+  if (userPrincipal.isZero())
+    return FixedPointMath.from(ethers.utils.parseEther('1'));
 
-  const userElasticLoan = loanPrincipalToElastic(
+  if (adjustedUserCollateral.isZero()) return FixedPointMath.from(0);
+
+  const userElasticLoan = loanPrincipalToElastic({
     loanBase,
+    loanElastic,
     userPrincipal,
     lastAccrued,
-    loanElastic,
-    interestRate
-  );
+    interestRate,
+  });
 
-  if (
-    userElasticLoan.gte(
-      IntMath.from(userCollateral).mul(collateralUSDPrice).mul(ltv)
-    )
-  )
-    return IntMath.from(ethers.utils.parseEther('1'));
+  const userCollateralValue = FixedPointMath.from(adjustedUserCollateral)
+    .mul(collateralUSDPrice)
+    .mul(ltv);
 
-  return userElasticLoan.div(
-    IntMath.from(userCollateral).mul(collateralUSDPrice).mul(ltv)
+  if (userElasticLoan.gte(userCollateralValue)) return FixedPointMath.from(0);
+
+  return FixedPointMath.from(ethers.utils.parseEther('1')).sub(
+    userElasticLoan.div(userCollateralValue)
   );
 };
 
 export const calculateDineroLeftToBorrow: TCalculateDineroLeftToBorrow = ({
   ltv,
-  userCollateral,
+  adjustedUserCollateral,
   loanBase,
   userPrincipal,
   lastAccrued,
   loanElastic,
   interestRate,
   collateralUSDPrice,
-}): IntMath => {
-  const userElasticLoan = loanPrincipalToElastic(
+  maxBorrowAmount,
+}): FixedPointMath => {
+  const userElasticLoan = loanPrincipalToElastic({
     loanBase,
+    loanElastic,
     userPrincipal,
     lastAccrued,
-    loanElastic,
-    interestRate
-  );
+    interestRate,
+  });
 
-  const collateral = IntMath.from(ltv)
-    .mul(userCollateral)
+  const collateralInUSD = FixedPointMath.from(ltv)
+    .mul(adjustedUserCollateral)
     .mul(collateralUSDPrice);
 
-  if (userElasticLoan.gt(collateral)) return IntMath.from(0);
+  if (userElasticLoan.gte(collateralInUSD)) return FixedPointMath.from(0);
 
-  return collateral.sub(userElasticLoan);
+  const leftMarketBorrowAmount = maxBorrowAmount.sub(loanElastic);
+
+  if (userElasticLoan.gte(leftMarketBorrowAmount))
+    return FixedPointMath.from(0);
+
+  return collateralInUSD.sub(userElasticLoan);
 };
 
 export const safeAmountToWithdrawRepay: TSafeAmountToWithdrawRepay = (
   {
     ltv,
-    userCollateral,
+    adjustedUserCollateral,
     collateralUSDPrice,
     loanBase,
     userPrincipal,
     lastAccrued,
-    loanElastic: elastic,
+    loanElastic,
     interestRate,
   },
   repayLoan
 ) => {
-  if (elastic.isZero()) return IntMath.from(userCollateral);
+  if (loanElastic.isZero()) return FixedPointMath.from(adjustedUserCollateral);
 
-  const loanElastic = loanPrincipalToElastic(
+  const userLoanElastic = loanPrincipalToElastic({
     loanBase,
+    loanElastic,
     userPrincipal,
     lastAccrued,
-    elastic,
-    interestRate
-  );
+    interestRate,
+  });
 
-  if (repayLoan.gte(loanElastic.value())) return IntMath.from(userCollateral);
+  if (repayLoan.gte(userLoanElastic.value()))
+    return FixedPointMath.from(adjustedUserCollateral);
 
   const userNeededCollateralInUSD = loanElastic.div(ltv);
 
-  const collateralInUSD = IntMath.from(userCollateral).mul(collateralUSDPrice);
+  const collateralInUSD = FixedPointMath.from(adjustedUserCollateral).mul(
+    collateralUSDPrice
+  );
 
-  const amount = userNeededCollateralInUSD.gte(collateralInUSD)
-    ? IntMath.from(ZERO_BIG_NUMBER)
+  const amount = userNeededCollateralInUSD.gte(collateralInUSD.value())
+    ? FixedPointMath.from(ZERO_BIG_NUMBER)
     : collateralInUSD.sub(userNeededCollateralInUSD).div(collateralUSDPrice);
 
   return amount.mul(ethers.utils.parseEther('0.95'));
@@ -391,28 +425,30 @@ export const safeAmountToWithdraw: TSafeAmountToWithdraw = ({
   loanElastic,
   interestRate,
   userPrincipal,
-  userCollateral,
+  adjustedUserCollateral,
   collateralUSDPrice,
 }) => {
-  if (loanElastic.isZero()) return IntMath.from(userCollateral);
+  if (loanElastic.isZero()) return FixedPointMath.from(adjustedUserCollateral);
 
-  const userNeededCollateralInUSD = loanPrincipalToElastic(
+  const userNeededCollateralInUSD = loanPrincipalToElastic({
     loanBase,
+    loanElastic,
     userPrincipal,
     lastAccrued,
-    loanElastic,
-    interestRate
-  ).div(ltv);
+    interestRate,
+  }).div(ltv);
 
-  const collateralInUSD = IntMath.from(userCollateral).mul(collateralUSDPrice);
+  const collateralInUSD = FixedPointMath.from(adjustedUserCollateral).mul(
+    collateralUSDPrice
+  );
 
   const amount = userNeededCollateralInUSD.gte(collateralInUSD)
-    ? IntMath.from(ZERO_BIG_NUMBER)
+    ? FixedPointMath.from(ZERO_BIG_NUMBER)
     : collateralInUSD.sub(userNeededCollateralInUSD).div(collateralUSDPrice);
 
   return closeTo(
     amount.value(),
-    userCollateral,
+    collateralUSDPrice,
     ethers.utils.parseEther('0.001')
   )
     ? amount
@@ -428,21 +464,24 @@ export const calculateBorrowAmount: TCalculateBorrowAmount = ({
   userPrincipal,
   userCollateral,
   collateralUSDPrice,
+  collateralDecimals,
 }) => {
-  const userElasticLoan = loanPrincipalToElastic(
+  const adjustedCollateral = adjustDecimals(userCollateral, collateralDecimals);
+
+  const userElasticLoan = loanPrincipalToElastic({
     loanBase,
+    loanElastic,
     userPrincipal,
     lastAccrued,
-    loanElastic,
-    interestRate
-  );
+    interestRate,
+  });
 
-  const collateralValue = IntMath.from(userCollateral)
+  const collateralValue = FixedPointMath.from(adjustedCollateral)
     .mul(collateralUSDPrice)
     .mul(ltv);
 
   return userElasticLoan.gte(collateralValue)
-    ? IntMath.from(ZERO_BIG_NUMBER)
+    ? FixedPointMath.from(ZERO_BIG_NUMBER)
     : collateralValue.sub(userElasticLoan);
 };
 
@@ -452,38 +491,38 @@ const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
   market
 ) => {
   const expectedLiquidationPrice = newBorrowAmount.gte(
-    IntMath.from(newCollateral)
+    FixedPointMath.from(newCollateral)
       .mul(market.collateralUSDPrice)
       .mul(market.ltv)
       .value()
   )
-    ? IntMath.from(market.collateralUSDPrice)
+    ? FixedPointMath.from(market.collateralUSDPrice)
     : calculateExpectedLiquidationPrice(market, newCollateral, newBorrowAmount);
 
   const positionHealth = newBorrowAmount.isZero()
-    ? ZERO_BIG_NUMBER
+    ? ethers.utils.parseEther('1')
     : calculatePositionHealth({
         ...market,
-        userCollateral: newCollateral,
-        loanElastic: loanPrincipalToElastic(
-          market.loanBase,
-          market.userPrincipal,
-          market.lastAccrued,
-          market.loanElastic,
-          market.interestRate
-        )
+        adjustedUserCollateral: newCollateral,
+        loanElastic: loanPrincipalToElastic({
+          loanBase: market.loanBase,
+          loanElastic: market.loanElastic,
+          userPrincipal: market.userPrincipal,
+          lastAccrued: market.lastAccrued,
+          interestRate: market.interestRate,
+        })
           .value()
           .add(newBorrowAmount),
       }).value();
 
   const roundPositionHealthNumber = Math.trunc(
-    Math.ceil((1 - IntMath.toNumber(positionHealth)) * 100)
+    FixedPointMath.toNumber(positionHealth) * 100
   );
 
   return [
     `${formatMoney(
-      IntMath.toNumber(market.loanElastic.add(newBorrowAmount))
-    )} / ${formatMoney(IntMath.toNumber(market.maxBorrowAmount))}`,
+      FixedPointMath.toNumber(market.loanElastic.add(newBorrowAmount))
+    )} / ${formatMoney(FixedPointMath.toNumber(market.maxBorrowAmount))}`,
     roundPositionHealthNumber === 100
       ? '0'
       : Fraction.from(
@@ -508,22 +547,22 @@ export const getRepayPositionHealthData: TGetRepayPositionHealthData = (
 ) => {
   if (!market) return ['0', '0', '0', '0'];
 
-  const repay = IntMath.from(IntMath.toBigNumber(loan));
+  const repay = FixedPointMath.from(FixedPointMath.toBigNumber(loan));
 
-  const elasticLoan = loanPrincipalToElastic(
-    market.loanBase,
-    market.userPrincipal,
-    market.lastAccrued,
-    market.loanElastic,
-    market.interestRate
-  );
+  const elasticLoan = loanPrincipalToElastic({
+    loanBase: market.loanBase,
+    loanElastic: market.loanElastic,
+    userPrincipal: market.userPrincipal,
+    lastAccrued: market.lastAccrued,
+    interestRate: market.interestRate,
+  });
 
   const newElasticLoan = repay.gte(elasticLoan)
-    ? IntMath.from(ZERO_BIG_NUMBER)
+    ? FixedPointMath.from(ZERO_BIG_NUMBER)
     : elasticLoan.sub(repay);
 
-  const newCollateral = market.userCollateral.sub(
-    IntMath.toBigNumber(collateral)
+  const newCollateral = market.adjustedUserCollateral.sub(
+    FixedPointMath.toBigNumber(collateral)
   );
 
   return getPositionHealthDataInternal(
@@ -539,18 +578,18 @@ export const getBorrowPositionHealthData: TGetBorrowPositionHealthData = (
 ) => {
   if (!market) return ['0', '0', '0', '0'];
 
-  const newBorrowAmount = loanPrincipalToElastic(
-    market.loanBase,
-    market.userPrincipal,
-    market.lastAccrued,
-    market.loanElastic,
-    market.interestRate
-  )
-    .add(IntMath.toBigNumber(loan))
+  const newBorrowAmount = loanPrincipalToElastic({
+    loanBase: market.loanBase,
+    loanElastic: market.loanElastic,
+    userPrincipal: market.userPrincipal,
+    lastAccrued: market.lastAccrued,
+    interestRate: market.interestRate,
+  })
+    .add(FixedPointMath.toBigNumber(loan))
     .value();
 
-  const newCollateral = market.userCollateral.add(
-    IntMath.toBigNumber(collateral)
+  const newCollateral = market.adjustedUserCollateral.add(
+    FixedPointMath.toBigNumber(collateral)
   );
 
   return getPositionHealthDataInternal(newBorrowAmount, newCollateral, market);
@@ -562,8 +601,11 @@ export const getLoanInfoData: TGetInfoLoanData = (market, kind) => {
 
   if (!market) return ['0%', '0%', '0%'];
 
-  const ltv = IntMath.from(market.ltv).toPercentage();
-  const liquidationFee = IntMath.from(market.liquidationFee).toPercentage();
+  const ltv = FixedPointMath.from(market.ltv).toPercentage();
+
+  const liquidationFee = FixedPointMath.from(
+    market.liquidationFee
+  ).toPercentage();
 
   if (market.kind === DineroMarketKind.LpFreeMarket)
     return [
@@ -571,22 +613,27 @@ export const getLoanInfoData: TGetInfoLoanData = (market, kind) => {
       liquidationFee,
       'N/A',
       market.apr.toPercentage(),
-      formatMoney(IntMath.from(market.pendingRewards).toNumber()),
+      formatMoney(FixedPointMath.from(market.pendingRewards).toNumber()), // IPX has 18 decimals.
       formatDollars(
-        IntMath.from(market.pendingRewards).mul(market.intUSDPrice).toNumber()
+        // IPX has 18 decimals.
+        FixedPointMath.from(market.pendingRewards)
+          .mul(market.intUSDPrice)
+          .toNumber()
       ),
     ];
 
   return [
     ltv,
     liquidationFee,
-    IntMath.from(market.interestRate.mul(SECONDS_IN_A_YEAR)).toPercentage(),
+    FixedPointMath.from(
+      market.interestRate.mul(SECONDS_IN_A_YEAR)
+    ).toPercentage(),
   ];
 };
 
 export const getMyPositionData: TGetMyPositionData = (market) => {
   {
-    if (!market || !market) return ['0', '$0', '0', '$0', '0', '0'];
+    if (!market) return ['0', '$0', '0', '$0', '0', '0'];
 
     const liquidationPrice = formatMoney(
       +Fraction.from(
@@ -603,11 +650,13 @@ export const getMyPositionData: TGetMyPositionData = (market) => {
 
     return [
       `${formatMoney(
-        IntMath.from(market.userCollateral).toNumber(market.collateralDecimals)
+        FixedPointMath.from(market.userCollateral).toNumber(
+          market.collateralDecimals
+        )
       )} ${symbol}`,
       `$${formatMoney(
         +Fraction.from(
-          IntMath.from(market.userCollateral)
+          FixedPointMath.from(market.userCollateral)
             .mul(market.collateralUSDPrice)
             .value(),
           BigNumber.from(10).pow(market.collateralDecimals)
@@ -615,13 +664,13 @@ export const getMyPositionData: TGetMyPositionData = (market) => {
       )}`,
       `${formatMoney(
         +Fraction.from(
-          loanPrincipalToElastic(
-            market.loanBase,
-            market.userPrincipal,
-            market.lastAccrued,
-            market.loanElastic,
-            market.interestRate
-          ).value(),
+          loanPrincipalToElastic({
+            loanBase: market.loanBase,
+            loanElastic: market.loanElastic,
+            userPrincipal: market.userPrincipal,
+            lastAccrued: market.lastAccrued,
+            interestRate: market.interestRate,
+          }).value(),
           ethers.utils.parseEther('1')
         ).toSignificant(8)
       )} DNR`,
@@ -643,34 +692,38 @@ export const getMyPositionData: TGetMyPositionData = (market) => {
 export const convertCollateralToDinero = (
   collateralAmount: BigNumber,
   ltv: BigNumber,
-  collateralUSDPrice: BigNumber
+  collateralUSDPrice: BigNumber,
+  collateralDecimals: number
 ): BigNumber =>
-  IntMath.from(collateralAmount).mul(ltv).mul(collateralUSDPrice).value();
+  FixedPointMath.from(adjustDecimals(collateralAmount, collateralDecimals))
+    .mul(ltv)
+    .mul(collateralUSDPrice)
+    .value();
 
 export const calculateUserCurrentLTV: TCalculateUserCurrentLTV = (
   {
     loanElastic,
-    userCollateral,
     loanBase,
     userPrincipal,
     lastAccrued,
     interestRate,
     collateralUSDPrice,
+    adjustedUserCollateral,
   },
   borrowCollateral,
   borrowLoan
 ) => {
-  const collateralInUSD = IntMath.from(
-    userCollateral.add(borrowCollateral)
+  const collateralInUSD = FixedPointMath.from(
+    adjustedUserCollateral.add(borrowCollateral)
   ).mul(collateralUSDPrice);
 
-  const elasticLoan = loanPrincipalToElastic(
+  const elasticLoan = loanPrincipalToElastic({
     loanBase,
+    loanElastic,
     userPrincipal,
     lastAccrued,
-    loanElastic,
-    interestRate
-  ).add(borrowLoan);
+    interestRate,
+  }).add(borrowLoan);
 
   return elasticLoan.div(collateralInUSD);
 };
@@ -684,15 +737,12 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
         market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.symbol0,
       amount: '0',
       currencyIcons: getDineroMarketSVGBySymbol(market.symbol0, market.symbol1),
-      max: IntMath.toNumber(
-        market.collateralBalance,
-        market.collateralDecimals
-      ),
+      max: FixedPointMath.toNumber(market.adjustedCollateralBalance),
       name: 'borrow.collateral',
       label: 'Deposit Collateral',
       amountUSD: market.collateralUSDPrice.isZero()
         ? 0
-        : IntMath.toNumber(market.collateralUSDPrice),
+        : FixedPointMath.toNumber(market.collateralUSDPrice),
       disabled: market.collateralBalance.isZero(),
     },
     {
@@ -729,7 +779,7 @@ export const getRepayFields: TGetRepayFields = (market) => {
       ],
       name: 'repay.loan',
       label: 'Repay Dinero',
-      max: IntMath.toNumber(market.dnrBalance),
+      max: FixedPointMath.toNumber(market.dnrBalance),
       currency: TOKEN_SYMBOL.DNR,
       disabled: market.loanElastic.isZero() || market.dnrBalance.isZero(),
     },
@@ -743,7 +793,7 @@ export const getRepayFields: TGetRepayFields = (market) => {
       label: 'Remove Collateral',
       amountUSD: market?.collateralUSDPrice.isZero()
         ? 0
-        : IntMath.toNumber(market.collateralUSDPrice),
+        : FixedPointMath.toNumber(market.collateralUSDPrice),
       disabled: market.userCollateral.isZero(),
     },
   ] as ReadonlyArray<IBorrowFormField>;

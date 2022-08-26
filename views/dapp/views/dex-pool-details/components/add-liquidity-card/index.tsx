@@ -12,7 +12,7 @@ import {
 } from '@/api';
 import { Box, Button, Typography } from '@/elements';
 import { useChainId, useGetSigner } from '@/hooks';
-import { IntMath, ZERO_ADDRESS } from '@/sdk';
+import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
 import { LineLoaderSVG, TimesSVG } from '@/svg';
 import {
   getBNPercent,
@@ -238,7 +238,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
           register={register}
           setValue={setValue}
           name={INPUT_NAMES[index]}
-          balance={IntMath.toNumber(balance, decimals)}
+          balance={FixedPointMath.toNumber(balance, decimals)}
           disabled={loading || isFetchingQuote || allowance.isZero()}
           currencyPrefix={
             fetchingInitialData ? (

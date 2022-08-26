@@ -10,7 +10,12 @@ import {
   useIdAccount,
   useLocalStorage,
 } from '@/hooks';
-import { IntMath, TOKEN_SYMBOL, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
+import {
+  FixedPointMath,
+  TOKEN_SYMBOL,
+  ZERO_ADDRESS,
+  ZERO_BIG_NUMBER,
+} from '@/sdk';
 import { CogsSVG } from '@/svg';
 import { isSameAddressZ } from '@/utils';
 
@@ -190,7 +195,7 @@ const Swap: FC = () => {
             justifyContent="space-evenly"
           >
             <InputBalance
-              balance={IntMath.toNumber(
+              balance={FixedPointMath.toNumber(
                 pathOr(
                   ZERO_BIG_NUMBER,
                   [getAddress(tokenInAddress), 'balance'],
@@ -200,7 +205,7 @@ const Swap: FC = () => {
                 0,
                 12
               )}
-              max={IntMath.toNumber(
+              max={FixedPointMath.toNumber(
                 pathOr(
                   ZERO_BIG_NUMBER,
                   [getAddress(tokenInAddress), 'balance'],
@@ -258,7 +263,7 @@ const Swap: FC = () => {
               register={register}
               setValue={setValue}
               disabled={isFetchingAmountOutTokenOut}
-              balance={IntMath.toNumber(
+              balance={FixedPointMath.toNumber(
                 pathOr(
                   ZERO_BIG_NUMBER,
                   [getAddress(tokenOutAddress), 'balance'],

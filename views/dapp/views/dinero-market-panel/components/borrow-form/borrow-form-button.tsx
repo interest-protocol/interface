@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Box, Button, Typography } from '@/elements';
-import { IntMath } from '@/sdk/entities/int-math';
+import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { LoadingSVG } from '@/svg';
 
 import { convertCollateralToDinero } from '../../dinero-market.utils';
@@ -33,9 +33,10 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
       borrowLoan &&
       parseEther(borrowLoan).gt(
         convertCollateralToDinero(
-          data.userCollateral.add(IntMath.toBigNumber(borrowCollateral)),
+          data.userCollateral.add(FixedPointMath.toBigNumber(borrowCollateral)),
           data.ltv,
-          data.collateralUSDPrice
+          data.collateralUSDPrice,
+          data.collateralDecimals
         )
       )
     ) {
@@ -52,7 +53,8 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
       convertCollateralToDinero(
         data.userCollateral,
         data.ltv,
-        data.collateralUSDPrice
+        data.collateralUSDPrice,
+        data.collateralDecimals
       ).gte(parseEther(borrowLoan))
     )
       clearErrors('borrow.loan');
@@ -61,7 +63,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
       errors.borrow?.collateral?.type !== 'max' &&
       borrowCollateral &&
       +borrowCollateral >
-        IntMath.toNumber(data.collateralBalance, data.collateralDecimals)
+        FixedPointMath.toNumber(data.collateralBalance, data.collateralDecimals)
     ) {
       setError('borrow.collateral', {
         type: 'max',
@@ -73,7 +75,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
     if (
       errors.borrow?.collateral?.type === 'max' &&
       borrowCollateral &&
-      +borrowCollateral <= IntMath.toNumber(data.collateralBalance)
+      +borrowCollateral <= FixedPointMath.toNumber(data.collateralBalance)
     )
       clearErrors('borrow.collateral');
 

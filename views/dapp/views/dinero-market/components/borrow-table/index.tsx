@@ -7,7 +7,7 @@ import { v4 } from 'uuid';
 
 import { getDineroMarketSVGBySymbol, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
-import { IntMath, SECONDS_IN_A_YEAR } from '@/sdk';
+import { FixedPointMath, SECONDS_IN_A_YEAR } from '@/sdk';
 import { formatDollars, formatMoney } from '@/utils';
 
 import { handleFilterDineroMarkets } from '../../dinero-market.utils';
@@ -147,20 +147,20 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                 </Typography>
               </Box>,
               formatDollars(
-                IntMath.from(
+                FixedPointMath.from(
                   x.totalCollateral
                     .mul(x.collateralUSDPrice)
                     .div(BigNumber.from(10).pow(x.collateralDecimals))
                 ).toNumber()
               ),
-              formatMoney(IntMath.toNumber(x.userElasticLoan)),
-              IntMath.from(x.LTV).toPercentage(0),
+              formatMoney(FixedPointMath.toNumber(x.userElasticLoan)),
+              FixedPointMath.from(x.LTV).toPercentage(0),
               x.interestRate.isZero()
                 ? 'N/A'
-                : IntMath.from(
+                : FixedPointMath.from(
                     x.interestRate.mul(SECONDS_IN_A_YEAR)
                   ).toPercentage(2),
-              IntMath.from(x.liquidationFee).toPercentage(2),
+              FixedPointMath.from(x.liquidationFee).toPercentage(2),
             ],
           }))}
         />
@@ -280,20 +280,20 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
               ),
               items: [
                 formatDollars(
-                  IntMath.from(
+                  FixedPointMath.from(
                     x.totalCollateral
                       .mul(x.collateralUSDPrice)
                       .div(BigNumber.from(10).pow(x.collateralDecimals))
                   ).toNumber()
                 ),
-                formatMoney(IntMath.toNumber(x.userElasticLoan)),
-                IntMath.from(x.LTV).toPercentage(0),
+                formatMoney(FixedPointMath.toNumber(x.userElasticLoan)),
+                FixedPointMath.from(x.LTV).toPercentage(0),
                 x.interestRate.isZero()
                   ? 'N/A'
-                  : IntMath.from(
+                  : FixedPointMath.from(
                       x.interestRate.mul(SECONDS_IN_A_YEAR)
                     ).toPercentage(2),
-                IntMath.from(x.liquidationFee).toPercentage(2),
+                FixedPointMath.from(x.liquidationFee).toPercentage(2),
               ],
             };
           })}

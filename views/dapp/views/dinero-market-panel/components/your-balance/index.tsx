@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { IntMath, TOKEN_SYMBOL } from '@/sdk';
+import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
 import { formatMoney } from '@/utils';
 
 import { YourBalanceProps } from './your-balance.types';
@@ -84,7 +84,7 @@ const YourBalance: FC<YourBalanceProps> = ({
             whiteSpace="nowrap"
             color="textSecondary"
           >
-            {formatMoney(IntMath.toNumber(balance, decimals ?? 18))}
+            {formatMoney(FixedPointMath.toNumber(balance, decimals ?? 18))}
           </Typography>
         </Box>
       ))

@@ -3,7 +3,7 @@ import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
-import { IntMath } from '@/sdk/entities/int-math';
+import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { InfoSVG } from '@/svg';
 import { formatDollars, maybeLPTokenName } from '@/utils';
 
@@ -72,7 +72,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
         ) : (
           `${maybeLPTokenName(...symbols)}: ${
             collateralUSDPrice &&
-            formatDollars(IntMath.from(collateralUSDPrice).toNumber())
+            formatDollars(FixedPointMath.from(collateralUSDPrice).toNumber())
           }`
         )}
       </Typography>

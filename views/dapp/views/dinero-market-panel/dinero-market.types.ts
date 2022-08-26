@@ -3,7 +3,7 @@ import { FC, SVGAttributes } from 'react';
 import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
 import { DineroMarketKind } from '@/constants';
-import { IntMath } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
 
@@ -44,20 +44,22 @@ export interface FormsProps {
 
 export interface DineroMarketData {
   kind: DineroMarketKind;
-  loanBase: BigNumber;
   loanElastic: BigNumber;
+  loanBase: BigNumber;
+  userPrincipal: BigNumber;
+  userCollateral: BigNumber;
+  adjustedUserCollateral: BigNumber;
   interestRate: BigNumber;
   lastAccrued: BigNumber;
   collateralUSDPrice: BigNumber;
   liquidationFee: BigNumber;
   ltv: BigNumber;
-  userCollateral: BigNumber;
-  userPrincipal: BigNumber;
   collateralAllowance: BigNumber;
   collateralBalance: BigNumber;
+  adjustedCollateralBalance: BigNumber;
   dnrBalance: BigNumber;
   pendingRewards: BigNumber;
-  apr: IntMath;
+  apr: FixedPointMath;
   symbol0: string;
   symbol1: string;
   name: string;
@@ -119,53 +121,72 @@ export type TGetMyPositionData = (
   data: DineroMarketData
 ) => [string, string, string, string, string, string];
 
+interface TCalculateInterestAccruedArgs {
+  loanElastic: ProcessedMarketData['loanElastic'];
+  lastAccrued: ProcessedMarketData['lastAccrued'];
+  interestRate: ProcessedMarketData['interestRate'];
+}
+
 export type TCalculateInterestAccrued = (
-  totalLoan: ProcessedMarketData['loanBase'],
-  lastAccrued: ProcessedMarketData['lastAccrued'],
-  interestRate: ProcessedMarketData['interestRate']
+  data: TCalculateInterestAccruedArgs
 ) => BigNumber;
 
+interface TLoanPrincipalToElasticArgs {
+  loanBase: ProcessedMarketData['loanBase'];
+  userPrincipal: ProcessedMarketData['userPrincipal'];
+  lastAccrued: ProcessedMarketData['lastAccrued'];
+  loanElastic: ProcessedMarketData['loanElastic'];
+  interestRate: ProcessedMarketData['interestRate'];
+}
+
 export type TLoanPrincipalToElastic = (
-  loanBase: ProcessedMarketData['loanBase'],
-  userPrincipal: ProcessedMarketData['userPrincipal'],
-  lastAccrued: ProcessedMarketData['lastAccrued'],
-  loanElastic: ProcessedMarketData['loanElastic'],
-  interestRate: ProcessedMarketData['interestRate']
-) => IntMath;
+  data: TLoanPrincipalToElasticArgs
+) => FixedPointMath;
 
 export type TCalculateExpectedLiquidationPrice = (
   data: ProcessedMarketData,
   additionalCollateral: BigNumber,
   additionalPrincipal: BigNumber
-) => IntMath;
+) => FixedPointMath;
 
-export type TCalculatePositionHealth = (data: ProcessedMarketData) => IntMath;
+export type TCalculatePositionHealth = (
+  data: ProcessedMarketData
+) => FixedPointMath;
 
 export type TCalculateDineroLeftToBorrow = (
   data: ProcessedMarketData
-) => IntMath;
+) => FixedPointMath;
 
-export type TSafeAmountToWithdraw = (data: ProcessedMarketData) => IntMath;
+export type TSafeAmountToWithdraw = (
+  data: ProcessedMarketData
+) => FixedPointMath;
 
-export type TCalculateBorrowAmount = (data: ProcessedMarketData) => IntMath;
+export type TCalculateBorrowAmount = (
+  data: ProcessedMarketData
+) => FixedPointMath;
+
+interface TLoanElasticToPrincipalArgs {
+  loanBase: ProcessedMarketData['loanBase'];
+  loanElastic: ProcessedMarketData['loanElastic'];
+  userElastic: BigNumber;
+  lastAccrued: ProcessedMarketData['lastAccrued'];
+  interestRate: ProcessedMarketData['interestRate'];
+}
 
 export type TLoanElasticToPrincipal = (
-  loanBase: ProcessedMarketData['loanBase'],
-  lastAccrued: ProcessedMarketData['lastAccrued'],
-  loanElastic: ProcessedMarketData['loanElastic'],
-  interestRate: ProcessedMarketData['interestRate']
-) => IntMath;
+  data: TLoanElasticToPrincipalArgs
+) => FixedPointMath;
 
 export type TSafeAmountToWithdrawRepay = (
   data: ProcessedMarketData,
   repayLoan: BigNumber
-) => IntMath;
+) => FixedPointMath;
 
 export type TCalculateUserCurrentLTV = (
   data: ProcessedMarketData,
   borrowCollateral: BigNumber,
   borrowLoan: BigNumber
-) => IntMath;
+) => FixedPointMath;
 
 export type DineroCurrencyIcons = ReadonlyArray<{
   SVG: FC<SVGAttributes<SVGSVGElement>>;

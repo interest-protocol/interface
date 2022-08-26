@@ -4,8 +4,8 @@ import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
 import { Box, Button, Typography } from '@/elements';
+import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { Fraction } from '@/sdk/entities/fraction';
-import { IntMath } from '@/sdk/entities/int-math';
 
 import {
   calculateBorrowAmount,
@@ -43,9 +43,9 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
       'borrow.loan',
       calculateBorrowAmount({
         ...data,
-        ltv: IntMath.toBigNumber(intendedLTV, 16),
+        ltv: FixedPointMath.toBigNumber(intendedLTV, 16),
         userCollateral: data.userCollateral.add(
-          IntMath.toBigNumber(borrowCollateral)
+          FixedPointMath.toBigNumber(borrowCollateral)
         ),
       })
         .toNumber()
@@ -59,12 +59,14 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
     setValue(
       'repay.loan',
       intendedLTV === 100
-        ? IntMath.from(data.dnrBalance).toNumber().toLocaleString('fullwide', {
-            useGrouping: false,
-            maximumSignificantDigits: 6,
-          })
-        : IntMath.from(data.dnrBalance)
-            .mul(IntMath.toBigNumber(intendedLTV / 100))
+        ? FixedPointMath.from(data.dnrBalance)
+            .toNumber()
+            .toLocaleString('fullwide', {
+              useGrouping: false,
+              maximumSignificantDigits: 6,
+            })
+        : FixedPointMath.from(data.dnrBalance)
+            .mul(FixedPointMath.toBigNumber(intendedLTV / 100))
             .toNumber()
             .toLocaleString('fullwide', {
               useGrouping: false,
@@ -93,8 +95,8 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
 
       return calculateUserCurrentLTV(
         data,
-        IntMath.toBigNumber(borrowCollateral),
-        IntMath.toBigNumber(borrowLoan)
+        FixedPointMath.toBigNumber(borrowCollateral),
+        FixedPointMath.toBigNumber(borrowLoan)
       ).gte(data.ltv);
     },
     [

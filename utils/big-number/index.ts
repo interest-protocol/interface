@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers';
 import { curryN } from 'ramda';
 
-import { IntMath, MAX_NUMBER_INPUT_VALUE } from '@/sdk';
+import { FixedPointMath, MAX_NUMBER_INPUT_VALUE } from '@/sdk';
 
 export const addPositiveNumberStrings = (x: string, y: string): string => {
   if (isNaN(+x) || isNaN(+y) || 0 > +x || 0 > +y) return '0';
@@ -29,7 +29,7 @@ export const safeToBigNumber = (
   decimals = 18,
   significant = 6
 ): BigNumber =>
-  IntMath.toBigNumber(
+  FixedPointMath.toBigNumber(
     +x > MAX_NUMBER_INPUT_VALUE ? MAX_NUMBER_INPUT_VALUE.toString() : x,
     decimals,
     significant

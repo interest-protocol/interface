@@ -7,7 +7,7 @@ import { getMailBorrowRate } from '@/api';
 import { MAIL_BRIDGE_TOKENS_ARRAY } from '@/constants';
 import { Typography } from '@/elements';
 import { useDebounce } from '@/hooks';
-import { BLOCKS_PER_YEAR, IntMath } from '@/sdk';
+import { BLOCKS_PER_YEAR, FixedPointMath } from '@/sdk';
 import { isSameAddress, toFixedToPrecision } from '@/utils';
 
 import { BorrowRateImpactProps } from './borrow-rate-impact.types';
@@ -35,7 +35,7 @@ const BorrowRateImpact: FC<BorrowRateImpactProps> = ({
         prop('address')
       );
 
-      const bnValue = IntMath.toBigNumber(debouncedValue, data.decimals);
+      const bnValue = FixedPointMath.toBigNumber(debouncedValue, data.decimals);
 
       if (bnValue.gt(data.cash)) return;
 
@@ -59,16 +59,16 @@ const BorrowRateImpact: FC<BorrowRateImpactProps> = ({
       {type === 'borrow' ? (
         <>
           {`${toFixedToPrecision(
-            IntMath.toNumber(data.borrowRate) * 100
+            FixedPointMath.toNumber(data.borrowRate) * 100
           )}% → ${toFixedToPrecision(
             newBorrowRate === null
-              ? IntMath.toNumber(data.borrowRate) * 100
-              : IntMath.toNumber(newBorrowRate) * 100
+              ? FixedPointMath.toNumber(data.borrowRate) * 100
+              : FixedPointMath.toNumber(newBorrowRate) * 100
           )}%
                   `}
         </>
       ) : (
-        `${toFixedToPrecision(IntMath.toNumber(data.supplyRate) * 100)}%`
+        `${toFixedToPrecision(FixedPointMath.toNumber(data.supplyRate) * 100)}%`
       )}
     </Typography>
   );

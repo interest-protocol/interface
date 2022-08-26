@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import { and, equals, identity, not, useWith as rUseWith } from 'ramda';
 
-import { IntMath, ZERO_BIG_NUMBER } from '@/sdk';
+import { FixedPointMath, ZERO_BIG_NUMBER } from '@/sdk';
 import { formatMoney, principalToElastic, safeToBigNumber } from '@/utils';
 import { calculatePoolRisk } from '@/views/dapp/views/mail-market-pool/utils';
 
@@ -23,14 +23,14 @@ export const calculateTokenValue = (
   if (!data) return 0;
 
   if (isBorrowing(base, type))
-    return IntMath.toNumber(
+    return FixedPointMath.toNumber(
       principalToElastic(data.totalElastic, data.totalBase, data.borrow)
     );
 
   if (isRepaying(base, type) || isSupplying(base, type))
-    return IntMath.toNumber(data.balance, data.decimals);
+    return FixedPointMath.toNumber(data.balance, data.decimals);
 
-  if (isRedeeming(base, type)) return IntMath.toNumber(data.supply);
+  if (isRedeeming(base, type)) return FixedPointMath.toNumber(data.supply);
 
   return 0;
 };
@@ -46,7 +46,7 @@ export const calculateMax = (
   const { totalBorrowInUSD, totalMaxBorrowAmountInUSD } =
     totalBorrowsInUSDRecord;
 
-  const safeTotalMaxBorrowAmountInUSD = IntMath.from(
+  const safeTotalMaxBorrowAmountInUSD = FixedPointMath.from(
     totalMaxBorrowAmountInUSD
   ).mul(ethers.utils.parseEther('0.9'));
 
@@ -57,15 +57,17 @@ export const calculateMax = (
       .sub(totalBorrowInUSD)
       .div(data.usdPrice);
 
-    return IntMath.toNumber(amount.gt(data.cash) ? data.cash : amount.value());
+    return FixedPointMath.toNumber(
+      amount.gt(data.cash) ? data.cash : amount.value()
+    );
   }
 
   if (isRepaying(base, type) || isSupplying(base, type))
-    return IntMath.toNumber(data.balance, data.decimals);
+    return FixedPointMath.toNumber(data.balance, data.decimals);
 
   if (isRedeeming(base, type)) {
     if (totalBorrowInUSD.isZero()) {
-      return IntMath.toNumber(
+      return FixedPointMath.toNumber(
         data.supply.gt(data.cash) ? data.cash : data.supply
       );
     }
@@ -76,19 +78,19 @@ export const calculateMax = (
     )
       return 0;
 
-    const safeAmountOfTokens = IntMath.from(totalMaxBorrowAmountInUSD)
+    const safeAmountOfTokens = FixedPointMath.from(totalMaxBorrowAmountInUSD)
       .sub(totalBorrowInUSD)
       .div(data.usdPrice)
       .div(data.ltv)
       .mul(ethers.utils.parseEther('0.95'));
 
     if (safeAmountOfTokens.gte(data.supply))
-      return IntMath.toNumber(
+      return FixedPointMath.toNumber(
         data.supply.gte(data.cash) ? data.cash : data.supply
       );
 
     return safeAmountOfTokens.gt(data.cash)
-      ? IntMath.toNumber(data.cash)
+      ? FixedPointMath.toNumber(data.cash)
       : safeAmountOfTokens.toNumber();
   }
 
@@ -115,8 +117,8 @@ export const calculateLiquidationRisk = (
     };
 
   const value = safeToBigNumber(amount);
-  const valueInUSD = IntMath.from(value).mul(data.usdPrice).value();
-  const valueInUSDLTV = IntMath.from(valueInUSD).mul(data.ltv).value();
+  const valueInUSD = FixedPointMath.from(value).mul(data.usdPrice).value();
+  const valueInUSDLTV = FixedPointMath.from(valueInUSD).mul(data.ltv).value();
 
   const currentRisk = calculatePoolRisk(totalBorrowsInUSDRecord);
 
@@ -222,35 +224,35 @@ export const calculateDetails = (
       totalBorrowsInUSDRecord.totalBorrowInUSD
     );
 
-  const amountLeftToBorrowInToken = IntMath.from(amountLeftToBorrowInUSD).div(
-    data.usdPrice
-  );
+  const amountLeftToBorrowInToken = FixedPointMath.from(
+    amountLeftToBorrowInUSD
+  ).div(data.usdPrice);
 
   if (isSupplying(base, type))
-    return `${formatMoney(IntMath.toNumber(data.supply))} \u2192 ${formatMoney(
-      IntMath.toNumber(data.supply.add(value))
-    )}`;
+    return `${formatMoney(
+      FixedPointMath.toNumber(data.supply)
+    )} \u2192 ${formatMoney(FixedPointMath.toNumber(data.supply.add(value)))}`;
 
   if (isRedeeming(base, type)) {
     if (value.gte(data.cash))
-      return `${formatMoney(IntMath.toNumber(data.cash))} \u2192 ${formatMoney(
-        0
-      )}`;
+      return `${formatMoney(
+        FixedPointMath.toNumber(data.cash)
+      )} \u2192 ${formatMoney(0)}`;
 
-    return `${formatMoney(IntMath.toNumber(data.cash))} \u2192 ${formatMoney(
-      IntMath.toNumber(data.cash.sub(value))
-    )}`;
+    return `${formatMoney(
+      FixedPointMath.toNumber(data.cash)
+    )} \u2192 ${formatMoney(FixedPointMath.toNumber(data.cash.sub(value)))}`;
   }
 
   if (isBorrowing(base, type)) {
     if (value.gt(data.cash) || amountLeftToBorrowInToken.gt(data.cash))
-      return `${formatMoney(IntMath.toNumber(data.cash))} \u2192 ${formatMoney(
-        0
-      )}`;
+      return `${formatMoney(
+        FixedPointMath.toNumber(data.cash)
+      )} \u2192 ${formatMoney(0)}`;
 
-    return `${formatMoney(IntMath.toNumber(data.cash))} \u2192 ${formatMoney(
-      IntMath.toNumber(data.cash.sub(value))
-    )}`;
+    return `${formatMoney(
+      FixedPointMath.toNumber(data.cash)
+    )} \u2192 ${formatMoney(FixedPointMath.toNumber(data.cash.sub(value)))}`;
   }
 
   if (isRepaying(base, type)) {
@@ -260,11 +262,13 @@ export const calculateDetails = (
       )
     )
       return `${formatMoney(
-        IntMath.toNumber(data.borrow)
+        FixedPointMath.toNumber(data.borrow)
       )} \u2192 ${formatMoney(0)}`;
 
-    return `${formatMoney(IntMath.toNumber(data.borrow))} \u2192 ${formatMoney(
-      IntMath.toNumber(
+    return `${formatMoney(
+      FixedPointMath.toNumber(data.borrow)
+    )} \u2192 ${formatMoney(
+      FixedPointMath.toNumber(
         principalToElastic(data.totalElastic, data.totalBase, data.borrow).sub(
           value
         )
