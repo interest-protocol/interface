@@ -6,8 +6,6 @@ import Home from '@/views/home';
 const HomePage: NextPage = () => <Home />;
 
 export const getStaticProps = ({ locale, ...otherProps }: { locale: any }) => {
-  console.log(locale, 'olha isso');
-
   return {
     props: {
       ...otherProps,
