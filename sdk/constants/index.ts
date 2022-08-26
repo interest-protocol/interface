@@ -101,7 +101,7 @@ export const CONTRACTS = {
   },
   CASA_DE_PAPEL: {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
-    [CHAIN_ID.BNB_TEST_NET]: '0x8386ECf50C2a4749DF15b6BC7b4A85Ad5A93f4E3',
+    [CHAIN_ID.BNB_TEST_NET]: '0xc5004e33c339351dbc44C16e18860a23467E651e',
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
   },
   PCS_V2_PAIR_BTC_DNR: {
@@ -146,12 +146,12 @@ export const CONTRACTS = {
   INTEREST_VIEW_DINERO_V2: {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
-    [CHAIN_ID.BNB_TEST_NET]: '0x553C58FbF8e83659c67228Aef32F3b61201D6e2a',
+    [CHAIN_ID.BNB_TEST_NET]: '0x607BC0Bd5D511830b1Bd6d4b9475Ab0D70C5A130',
   },
   INTEREST_VIEW_EARN: {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
-    [CHAIN_ID.BNB_TEST_NET]: '0x27c7E783D5dF264CC6d0e59dA58c0122E08559b1',
+    [CHAIN_ID.BNB_TEST_NET]: '0x2260639548Ce6eC528f8037A1e23b840973ceBe9',
   },
   INTEREST_VIEW_DEX: {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,

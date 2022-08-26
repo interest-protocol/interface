@@ -181,7 +181,7 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
     data.collateralPoolData.reserve0,
     data.collateralPoolData.reserve1,
     tokenPriceMap,
-    data.collateralPoolData.totalStakingAmount
+    data.collateralPoolData.totalSupply
   );
 
   return {

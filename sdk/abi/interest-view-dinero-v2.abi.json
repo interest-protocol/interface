@@ -127,6 +127,11 @@
             "internalType": "uint256",
             "name": "totalStakingAmount",
             "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalSupply",
+            "type": "uint256"
           }
         ],
         "internalType": "struct InterestViewDinero.PoolData",
@@ -151,6 +156,11 @@
           {
             "internalType": "uint256",
             "name": "totalStakingAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalSupply",
             "type": "uint256"
           }
         ],

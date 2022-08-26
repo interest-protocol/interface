@@ -23,12 +23,3 @@ export type GetUserBalancesAndAllowances = (
     balances: BigNumber[];
   }
 >;
-
-export type GetUserBalanceAndAllowance = (
-  chainId: number,
-  user: string,
-  spender: string,
-  token: string
-) => Promise<
-  [BigNumber, BigNumber] & { allowance: BigNumber; balance: BigNumber }
->;

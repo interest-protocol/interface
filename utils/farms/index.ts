@@ -5,7 +5,7 @@ import { ERC_20_DATA, UNKNOWN_ERC_20 } from '@/constants';
 import { BLOCKS_PER_YEAR, FixedPointMath, ONE_ETHER, quote } from '@/sdk';
 import { replaceWrappedNativeTokenWithNativeTokenSymbol } from '@/utils/erc-20';
 
-import { isSameAddress } from '../address';
+import { getSafeWrappedNativeToken, isSameAddress } from '../address';
 import { adjustDecimals } from '../big-number';
 import { getIntAddress } from '../contracts';
 import {
@@ -34,6 +34,23 @@ export const calculateFarmTokenPrice: CalculateFarmTokenPrice = (
   tokenPriceMap,
   totalSupply
 ) => {
+  const wrappedNativeToken = getSafeWrappedNativeToken(chainId);
+
+  if (isSameAddress(token0, wrappedNativeToken.address)) {
+    const reserveInUSD = FixedPointMath.from(
+      adjustDecimals(reserve0.mul(2), wrappedNativeToken.decimals)
+    ).mul(tokenPriceMap[wrappedNativeToken.address]);
+
+    return reserveInUSD.div(totalSupply);
+  }
+
+  if (isSameAddress(token1, wrappedNativeToken.address)) {
+    const reserveInUSD = FixedPointMath.from(
+      adjustDecimals(reserve1.mul(2), wrappedNativeToken.decimals)
+    ).mul(tokenPriceMap[wrappedNativeToken.address]);
+    return reserveInUSD.div(totalSupply);
+  }
+
   const baseToken = tokenPriceMap[token0] ? token0 : token1;
 
   // Base token is token 0
