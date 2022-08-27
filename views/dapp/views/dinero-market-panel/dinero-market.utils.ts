@@ -772,7 +772,16 @@ export const getRepayFields: TGetRepayFields = (market) => {
       ],
       name: 'repay.loan',
       label: 'Repay Dinero',
-      max: FixedPointMath.toNumber(market.dnrBalance),
+      max: +Fraction.from(
+        loanPrincipalToElastic({
+          loanBase: market.loanBase,
+          loanElastic: market.loanElastic,
+          userPrincipal: market.userPrincipal,
+          lastAccrued: market.lastAccrued,
+          interestRate: market.interestRate,
+        }).value(),
+        ethers.utils.parseEther('1')
+      ).toSignificant(8),
       currency: TOKEN_SYMBOL.DNR,
       disabled: market.loanElastic.isZero() || market.dnrBalance.isZero(),
     },
