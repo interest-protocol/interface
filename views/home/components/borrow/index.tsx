@@ -151,7 +151,7 @@ const Borrow: FC = () => {
               </FloatingCoins>
             </Box>
             <Typography variant="normal" textAlign="center">
-              Collateral
+              {tIndex('borrowFlowStep1')}
             </Typography>
             <Box color="textSecondary" width="40%" mx="auto" mt="XL">
               <svg viewBox="0 0 162 43" fill="none" width="100%">
@@ -165,7 +165,7 @@ const Borrow: FC = () => {
             <Box display="flex" justifyContent="space-between" width="100%">
               <Box width="40%" position="relative">
                 <Typography textAlign="center" variant="normal" mb="XL">
-                  Market
+                  {tIndex('borrowFlowStep2')}
                 </Typography>
                 <Box
                   position="absolute"
@@ -238,7 +238,7 @@ const Borrow: FC = () => {
                   path="home/dinero-persona"
                 />
                 <Typography textAlign="center" variant="normal">
-                  Borrower
+                  {tIndex('borrowFlowStep3')}
                 </Typography>
               </Box>
             </Box>
@@ -332,7 +332,7 @@ const Borrow: FC = () => {
               </FloatingCoins>
             </Box>
             <Typography variant="normal" textAlign="center">
-              Earn $INT tokens
+              {tIndex('borrowFlowStep4')}
             </Typography>
           </Box>
         </Box>

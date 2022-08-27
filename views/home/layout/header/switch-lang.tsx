@@ -3,11 +3,11 @@ import { FC } from 'react';
 
 import { Box, Dropdown } from '@/elements';
 import { IDropdownData } from '@/elements/dropdown/dropdown.types';
-import { PTFlagSVG, USFlagSVG } from '@/svg';
+import { BRFlagSVG, PTFlagSVG, USFlagSVG } from '@/svg';
 
 const SwitchLang: FC = () => {
   const { locales, locale, asPath, push } = useRouter();
-  const LANG = ['English', 'Português'];
+  const LANG = ['English', 'Português', 'Brasil'];
 
   return (
     <Dropdown
@@ -18,11 +18,14 @@ const SwitchLang: FC = () => {
           width="1.25rem"
           height="1.25rem"
           borderRadius="2rem"
+          bg="red"
         >
           {locale == 'en-US' ? (
             <USFlagSVG width="100%" height="100%" />
-          ) : (
+          ) : locale == 'pt-PT' ? (
             <PTFlagSVG width="100%" height="100%" />
+          ) : (
+            <BRFlagSVG width="100%" height="100%" />
           )}
         </Box>
       }
@@ -48,8 +51,10 @@ const SwitchLang: FC = () => {
               >
                 {l == 'en-US' ? (
                   <USFlagSVG width="100%" height="100%" />
-                ) : (
+                ) : l == 'pt-PT' ? (
                   <PTFlagSVG width="100%" height="100%" />
+                ) : (
+                  <BRFlagSVG width="100%" height="100%" />
                 )}
               </Box>
               {LANG[i]}

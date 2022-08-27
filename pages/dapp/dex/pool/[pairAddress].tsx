@@ -26,10 +26,18 @@ export const getServerSideProps = (context: {
       pairAddress: pairAddress,
       messages: {
         ...require(`../../../../assets/messages/dex/pool/pair-address/${
-          context.locale == 'en-US' ? 'en' : 'pt'
+          context.locale == 'en-US'
+            ? 'en'
+            : context.locale == 'pt-PT'
+            ? 'pt'
+            : 'br'
         }.json`),
         ...require(`../../../../assets/messages/common/${
-          context.locale == 'en-US' ? 'en' : 'pt'
+          context.locale == 'en-US'
+            ? 'en'
+            : context.locale == 'pt-PT'
+            ? 'pt'
+            : 'br'
         }.json`),
       },
     },

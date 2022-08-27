@@ -17,10 +17,10 @@ export const getStaticProps = ({ locale, ...otherProps }: { locale: any }) => {
       ...otherProps,
       messages: {
         ...require(`../../../../../assets/messages/dex/pool/find/${
-          locale == 'en-US' ? 'en' : 'pt'
+          locale == 'en-US' ? 'en' : locale == 'pt-PT' ? 'pt' : 'br'
         }.json`),
         ...require(`../../../../../assets/messages/common/${
-          locale == 'en-US' ? 'en' : 'pt'
+          locale == 'en-US' ? 'en' : locale == 'pt-PT' ? 'pt' : 'br'
         }.json`),
       },
     },

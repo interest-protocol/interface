@@ -27,7 +27,7 @@ const Header: FC = () => {
       <Box display="flex" alignItems="center">
         <Link href={Routes[RoutesEnum.Home]}>
           <Box
-            mr="XL"
+            mr={['L', 'M']}
             color="text"
             width="2.5rem"
             height="2.5rem"
@@ -38,8 +38,10 @@ const Header: FC = () => {
             <LogoSVG width="100%" aria-label="Logo" fill="currentColor" />
           </Box>
         </Link>
+        <SwitchLang />
         <a href="https://forms.gle/aDP4wHvshLPKkKv97" target="__blank">
           <Typography
+            ml="XL"
             px="L"
             py="M"
             width="100%"
@@ -136,7 +138,6 @@ const Header: FC = () => {
       <Box display="flex" justifyContent="flex-end" alignItems="center">
         <Wallet />
         <MobileMenu />
-        <SwitchLang />
       </Box>
     </Box>
   );

@@ -1,0 +1,15 @@
+{
+  "faucet": {
+    "firstSectionTitle": "Tokens recomendados",
+    "secondSectionTitle": "Meus tokens",
+    "cardTitle": "Teu Saldo",
+    "tokenInput": "Escolha o Token",
+    "amountInput": "Tipo montante",
+    "modalButton": "Criar Token",
+    "modalButtonLoading": "Criando Token",
+    "modalTitle": "CRIAR NOVO TOKEN",
+    "modalInputName": "Nome",
+    "modalInputSymbol": "Simbolo",
+    "modalInputAmount": "Montante"
+  }
+}

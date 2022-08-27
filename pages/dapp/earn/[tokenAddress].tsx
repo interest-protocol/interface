@@ -26,10 +26,18 @@ export const getServerSideProps = (context: {
       tokenAddress: tokenAddress,
       messages: {
         ...require(`../../../assets/messages/earn/token-address/${
-          context.locale == 'en-US' ? 'en' : 'pt'
+          context.locale == 'en-US'
+            ? 'en'
+            : context.locale == 'pt-PT'
+            ? 'pt'
+            : 'br'
         }.json`),
         ...require(`../../../assets/messages/common/${
-          context.locale == 'en-US' ? 'en' : 'pt'
+          context.locale == 'en-US'
+            ? 'en'
+            : context.locale == 'pt-PT'
+            ? 'pt'
+            : 'br'
         }.json`),
       },
     },
