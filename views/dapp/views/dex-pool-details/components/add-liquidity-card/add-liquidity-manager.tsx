@@ -12,7 +12,7 @@ import {
   stringToBigNumber,
 } from '@/utils';
 
-import { AddLiquidityManagerProps } from './liquidity-form.types';
+import { AddLiquidityManagerProps } from './add-liquidity-card.types';
 
 const processDecimals = (chainId: number, token: string, decimals: number) => {
   const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId];

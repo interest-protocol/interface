@@ -26,14 +26,14 @@ import {
 } from '@/utils';
 import { WalletGuardButton } from '@/views/dapp/components';
 
-import AddLiquidityManager from './add-liquidity-manager';
-import BalanceError from './balance-error';
-import InputBalance from './input-balance';
 import {
   AddLiquidityCardProps,
   IAddLiquidityForm,
   IToken,
-} from './liquidity-form.types';
+} from './add-liquidity-card.types';
+import AddLiquidityManager from './add-liquidity-manager';
+import BalanceError from './balance-error';
+import InputBalance from './input-balance';
 
 const filterFn = o<IToken, BigNumber, boolean>(
   (x: BigNumber) => x.isZero(),
@@ -332,7 +332,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
                 onClick={handleAddLiquidity}
                 hover={{ bg: loading ? 'disabled' : 'accentActive' }}
               >
-                Add
+                {loading ? 'Adding...' : 'Add'}
               </Button>
             </>
           )}

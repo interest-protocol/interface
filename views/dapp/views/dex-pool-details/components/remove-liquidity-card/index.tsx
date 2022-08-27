@@ -21,6 +21,7 @@ import { WalletGuardButton } from '@/views/dapp/components';
 
 import ApproveButton from './approve-button';
 import InputBalance from './input-balance';
+import RemoveLiquidityButton from './remove-liquidity-button';
 import {
   IRemoveLiquidityForm,
   LinearLoaderProps,
@@ -135,7 +136,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
       );
 
       await showTXSuccessToast(tx, validId);
-    } catch (e) {
+    } catch {
       throwError('Failed to remove liquidity');
     } finally {
       setValue('loading', false);
@@ -238,15 +239,10 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
               >
                 Reset
               </Button>
-              <Button
-                bg="error"
-                width="100%"
-                variant="primary"
-                hover={{ bg: 'errorActive' }}
+              <RemoveLiquidityButton
+                control={control}
                 onClick={handleRemoveLiquidity}
-              >
-                Remove
-              </Button>
+              />
             </>
           )}
         </Box>

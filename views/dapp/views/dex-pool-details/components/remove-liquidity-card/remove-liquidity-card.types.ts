@@ -56,6 +56,11 @@ export interface ApproveButtonProps {
   symbol1: string;
 }
 
+export interface RemoveLiquidityButtonProps {
+  onClick: () => Promise<undefined | void>;
+  control: Control<IRemoveLiquidityForm>;
+}
+
 export interface TokenAmountProps {
   Icon: TokenData['Icon'];
   control: Control<IRemoveLiquidityForm>;
