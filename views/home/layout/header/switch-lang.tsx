@@ -56,10 +56,12 @@ const SwitchLang: FC = () => {
               {process.env.PUBLIC_URL}
             </Box>
           ),
-          onSelect: () =>
+          onSelect: () => {
             push(asPath, undefined, {
               locale: l,
-            }),
+            });
+            window.localStorage.setItem('interest-locale', l);
+          },
         })) as unknown as ReadonlyArray<IDropdownData>
       }
     />

@@ -2,8 +2,14 @@
 import { NextPage } from 'next';
 
 import Home from '@/views/home';
+import { RedirectLang } from '@/views/home/components';
 
-const HomePage: NextPage = () => <Home />;
+const HomePage: NextPage = () => (
+  <>
+    <RedirectLang />
+    <Home />
+  </>
+);
 
 export const getStaticProps = ({ locale, ...otherProps }: { locale: any }) => {
   return {

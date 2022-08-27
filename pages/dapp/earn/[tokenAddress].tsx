@@ -1,11 +1,17 @@
 import { NextPage } from 'next';
 
 import EarnFarm from '@/views/dapp/views/earn-farm';
+import { RedirectLang } from '@/views/home/components';
 
 const EarnFarmPage: NextPage<{ tokenAddress: any }> = ({ tokenAddress }) => {
   if (!tokenAddress) return null;
 
-  return <EarnFarm address={tokenAddress as string} />;
+  return (
+    <>
+      <RedirectLang />
+      <EarnFarm address={tokenAddress as string} />
+    </>
+  );
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

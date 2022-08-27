@@ -1,8 +1,14 @@
 import { NextPage } from 'next';
 
 import FindPoolView from '@/views/dapp/views/dex-find-pool';
+import { RedirectLang } from '@/views/home/components';
 
-const FindPoolPage: NextPage = () => <FindPoolView />;
+const FindPoolPage: NextPage = () => (
+  <>
+    <RedirectLang />
+    <FindPoolView />
+  </>
+);
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getStaticProps = ({ locale, ...otherProps }: { locale: any }) => {

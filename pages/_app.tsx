@@ -26,7 +26,20 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
     <ReduxProvider store={store}>
       <SkeletonTheme baseColor="#202020" highlightColor="#444">
         <Global styles={GlobalStyles} />
-        <NextIntlProvider messages={pageProps.messages}>
+        <NextIntlProvider
+          formats={{
+            dateTime: {
+              short: {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+              },
+            },
+          }}
+          messages={pageProps.messages}
+          now={new Date(pageProps.now)}
+          timeZone="UTC"
+        >
           <Web3Manager pathname={router.pathname}>
             <StrictMode>
               <Component {...pageProps} />

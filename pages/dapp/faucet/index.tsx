@@ -1,8 +1,14 @@
 import { NextPage } from 'next';
 
 import Faucet from '@/views/dapp/views/faucet';
+import { RedirectLang } from '@/views/home/components';
 
-const FaucetPage: NextPage = () => <Faucet />;
+const FaucetPage: NextPage = () => (
+  <>
+    <RedirectLang />
+    <Faucet />
+  </>
+);
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getStaticProps = ({ locale, ...otherProps }: { locale: any }) => {

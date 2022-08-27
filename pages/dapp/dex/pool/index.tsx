@@ -1,8 +1,14 @@
 import { NextPage } from 'next';
 
 import DEXView from '@/views/dapp/views/dex';
+import { RedirectLang } from '@/views/home/components';
 
-const DEXPoolPage: NextPage = () => <DEXView />;
+const DEXPoolPage: NextPage = () => (
+  <>
+    <RedirectLang />
+    <DEXView />
+  </>
+);
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getStaticProps = ({ locale, ...otherProps }: { locale: any }) => {
