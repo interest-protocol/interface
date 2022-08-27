@@ -6,6 +6,7 @@ import { v4 } from 'uuid';
 import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { Fraction } from '@/sdk/entities/fraction';
+import { InfoSVG } from '@/svg';
 
 import {
   calculateBorrowAmount,
@@ -112,12 +113,28 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
 
   return (
     <Box mt="XL">
-      <Typography whiteSpace="pre-line" variant="normal" fontSize="S">
-        {isBorrow
-          ? 'Select a target LTV %'
-          : `Select a DNR balance % to repay
+      <Box
+        p="M"
+        display="flex"
+        borderRadius="S"
+        alignItems="center"
+        bg="bottomBackground"
+      >
+        <Box width="1.2rem" ml="M" mr="L">
+          <InfoSVG width="100%" />
+        </Box>
+        <Typography
+          fontSize="S"
+          variant="normal"
+          lineHeight="1.1rem"
+          whiteSpace="pre-line"
+        >
+          {isBorrow
+            ? 'Select a target LTV %'
+            : `Select a DNR balance % to repay
             The contract will refund the difference`}
-      </Typography>
+        </Typography>
+      </Box>
       <Box display="flex" justifyContent="space-between" my="L">
         {LTV_ARRAY.map((item) => (
           <Button
