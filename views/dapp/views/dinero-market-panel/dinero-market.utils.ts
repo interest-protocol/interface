@@ -101,6 +101,7 @@ const DEFAULT_MARKET_DATA = {
   intUSDPrice: ZERO_BIG_NUMBER,
   chainId: CHAIN_ID.BNB_TEST_NET,
   maxBorrowAmount: ZERO_BIG_NUMBER,
+  rewardsBalance: ZERO_BIG_NUMBER,
 };
 
 export const getSafeDineroMarketData: GetSafeDineroMarketData = (
@@ -134,7 +135,7 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
       userCollateral: data.marketData.userCollateral,
       userPrincipal: data.marketData.userPrincipal,
       collateralAllowance: data.marketData.collateralAllowance,
-      collateralBalance: data.marketData.collateraBalance,
+      collateralBalance: data.marketData.collateralBalance,
       dnrBalance: data.marketData.dnrBalance,
       pendingRewards: ZERO_BIG_NUMBER,
       apr: FixedPointMath.from(0),
@@ -143,13 +144,14 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
       chainId,
       maxBorrowAmount: data.marketData.maxBorrowAmount,
       adjustedCollateralBalance: adjustDecimals(
-        data.marketData.collateraBalance,
+        data.marketData.collateralBalance,
         marketMetadata.collateralDecimals
       ),
       adjustedUserCollateral: adjustDecimals(
         data.marketData.userCollateral,
         marketMetadata.collateralDecimals
       ),
+      rewardsBalance: ZERO_BIG_NUMBER,
       ...marketMetadata,
     };
 
@@ -183,7 +185,7 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
     tokenPriceMap,
     data.collateralPoolData.totalSupply
   );
-
+  console.log(data.marketData.rewardsBalance.toString());
   return {
     loanBase: data.marketData.loanBase,
     loanElastic: data.marketData.loanElastic,
@@ -195,7 +197,7 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
     userCollateral: data.marketData.userCollateral,
     userPrincipal: data.marketData.userPrincipal,
     collateralAllowance: data.marketData.collateralAllowance,
-    collateralBalance: data.marketData.collateraBalance,
+    collateralBalance: data.marketData.collateralBalance,
     dnrBalance: data.marketData.dnrBalance,
     pendingRewards: data.marketData.pendingRewards,
     marketAddress: market,
@@ -212,13 +214,14 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
       stakeTokenUSDPrice.value()
     ),
     adjustedCollateralBalance: adjustDecimals(
-      data.marketData.collateraBalance,
+      data.marketData.collateralBalance,
       marketMetadata.collateralDecimals
     ),
     adjustedUserCollateral: adjustDecimals(
       data.marketData.userCollateral,
       marketMetadata.collateralDecimals
     ),
+    rewardsBalance: data.marketData.rewardsBalance,
     ...marketMetadata,
   };
 };

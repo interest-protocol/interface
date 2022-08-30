@@ -21,7 +21,8 @@
         "internalType": "contract IPair",
         "name": "wbnbIPXLP",
         "type": "address"
-      }
+      },
+      { "internalType": "contract IERC20", "name": "ipx", "type": "address" }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -85,12 +86,17 @@
           },
           {
             "internalType": "uint256",
-            "name": "collateraBalance",
+            "name": "collateralBalance",
             "type": "uint256"
           },
           {
             "internalType": "uint256",
             "name": "dnrBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "rewardsBalance",
             "type": "uint256"
           },
           {

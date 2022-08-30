@@ -70,6 +70,7 @@ export interface DineroMarketData {
   intUSDPrice: BigNumber;
   chainId: number;
   maxBorrowAmount: BigNumber;
+  rewardsBalance: BigNumber;
 }
 
 export type GetSafeDineroMarketData = (
