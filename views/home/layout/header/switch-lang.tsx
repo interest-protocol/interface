@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
-import { Box, Dropdown } from '@/elements';
+import { Box, Dropdown, Typography } from '@/elements';
 import { IDropdownData } from '@/elements/dropdown/dropdown.types';
 import { useLocalStorage } from '@/hooks';
 import { BRFlagSVG, PTFlagSVG, USFlagSVG } from '@/svg';
@@ -10,7 +10,7 @@ const SwitchLang: FC = () => {
   const { locales, locale, asPath, push } = useRouter();
   const [localeDefault, setLocaleDefault] = useLocalStorage<string>(
     'interest-locale',
-    locale as string
+    locale || 'en-US'
   );
   return (
     <Dropdown
@@ -59,15 +59,22 @@ const SwitchLang: FC = () => {
                   <BRFlagSVG width="100%" height="100%" />
                 )}
               </Box>
-              {l}
+              <Typography
+                variant="button"
+                fontWeight="600"
+                fontSize="L"
+                lineHeight="1.625rem"
+              >
+                {l}
+              </Typography>
               {process.env.PUBLIC_URL}
             </Box>
           ),
           onSelect: () => {
+            localeDefault !== l && setLocaleDefault(l);
             push(asPath, undefined, {
               locale: l,
             });
-            localeDefault !== l && setLocaleDefault(l);
           },
         })) as unknown as ReadonlyArray<IDropdownData>
       }
