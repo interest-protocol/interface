@@ -601,13 +601,15 @@ export const getLoanInfoData: TGetInfoLoanData = (market, kind) => {
       liquidationFee,
       'N/A',
       market.apr.toPercentage(),
-      formatMoney(FixedPointMath.from(market.pendingRewards).toNumber()), // IPX has 18 decimals.
       `${formatMoney(
+        FixedPointMath.from(market.pendingRewards).toNumber()
+      )} Int`, // IPX has 18 decimals.
+      `$${formatMoney(
         // IPX has 18 decimals.
         FixedPointMath.from(market.pendingRewards)
           .mul(market.intUSDPrice)
           .toNumber()
-      )} Int`,
+      )}`,
     ];
 
   return [
