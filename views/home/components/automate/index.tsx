@@ -26,7 +26,7 @@ const Automate: FC = () => {
           mb={['0.875rem', '0.875rem', '0.625rem', '0.625rem']}
           fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
         >
-          {tIndex('automateTitle')}
+          {tIndex('vaultSectionTitle')}
         </Typography>
         <Typography
           variant="normal"
@@ -34,7 +34,7 @@ const Automate: FC = () => {
           fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
           lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
         >
-          {tIndex('automateDescription')}
+          {tIndex('vaultSectionSubtitle')}
         </Typography>
         <Box
           mt={['1.25rem', '4.313rem']}

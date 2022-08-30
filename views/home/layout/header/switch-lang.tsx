@@ -3,12 +3,15 @@ import { FC } from 'react';
 
 import { Box, Dropdown } from '@/elements';
 import { IDropdownData } from '@/elements/dropdown/dropdown.types';
+import { useLocalStorage } from '@/hooks';
 import { BRFlagSVG, PTFlagSVG, USFlagSVG } from '@/svg';
 
 const SwitchLang: FC = () => {
   const { locales, locale, asPath, push } = useRouter();
-  const LANG = ['English', 'Português', 'Brasil'];
-
+  const [localeDefault, setLocaleDefault] = useLocalStorage<string>(
+    'interest-locale',
+    locale as string
+  );
   return (
     <Dropdown
       title={
@@ -18,11 +21,10 @@ const SwitchLang: FC = () => {
           width="1.25rem"
           height="1.25rem"
           borderRadius="2rem"
-          bg="red"
         >
-          {locale == 'en-US' ? (
+          {locale === 'en-US' ? (
             <USFlagSVG width="100%" height="100%" />
-          ) : locale == 'pt-PT' ? (
+          ) : locale === 'pt-PT' ? (
             <PTFlagSVG width="100%" height="100%" />
           ) : (
             <BRFlagSVG width="100%" height="100%" />
@@ -32,7 +34,7 @@ const SwitchLang: FC = () => {
       mode="menu"
       defaultValue={locale}
       data={
-        locales?.map((l, i) => ({
+        locales?.map((l) => ({
           value: l,
           displayOption: (
             <Box
@@ -49,15 +51,15 @@ const SwitchLang: FC = () => {
                 backgroundSize="cover"
                 borderRadius="2rem"
               >
-                {l == 'en-US' ? (
+                {l === 'en-US' ? (
                   <USFlagSVG width="100%" height="100%" />
-                ) : l == 'pt-PT' ? (
+                ) : l === 'pt-PT' ? (
                   <PTFlagSVG width="100%" height="100%" />
                 ) : (
                   <BRFlagSVG width="100%" height="100%" />
                 )}
               </Box>
-              {LANG[i]}
+              {l}
               {process.env.PUBLIC_URL}
             </Box>
           ),
@@ -65,7 +67,7 @@ const SwitchLang: FC = () => {
             push(asPath, undefined, {
               locale: l,
             });
-            window.localStorage.setItem('interest-locale', l);
+            localeDefault !== l && setLocaleDefault(l);
           },
         })) as unknown as ReadonlyArray<IDropdownData>
       }

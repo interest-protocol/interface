@@ -53,7 +53,7 @@ const Borrow: FC = () => {
             fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
             textTransform="capitalize"
           >
-            {tIndex('borrowTitle')}
+            {tIndex('borrowSectionTitle')}
           </Typography>
           <Typography
             as="h3"
@@ -63,7 +63,7 @@ const Borrow: FC = () => {
             mb={['0.625rem', '0.625rem', '0.625rem', '1rem']}
             fontSize={['1.125rem', '1.125rem', '1.125rem', '1.5rem']}
           >
-            {tIndex('borrowSubtitle')}
+            {tIndex('borrowSectionSubtitle')}
           </Typography>
           <Typography
             width="100%"
@@ -72,8 +72,9 @@ const Borrow: FC = () => {
             mb={['1.25rem', '1.25rem', '1.25rem', '1.563rem']}
             lineHeight={['1.5rem', '1.5rem', '1.5rem', '2.125rem']}
             fontSize={['0.875rem', '0.875rem', '0.875rem', '1rem']}
+            textAlign={['center', 'center', 'center', 'justify']}
           >
-            {tIndex('borrowDescription')}
+            {tIndex('borrowSectionBody')}
           </Typography>
           <Button
             mb="XL"
@@ -151,7 +152,7 @@ const Borrow: FC = () => {
               </FloatingCoins>
             </Box>
             <Typography variant="normal" textAlign="center">
-              {tIndex('borrowFlowStep1')}
+              {tCommon('collateral')}
             </Typography>
             <Box color="textSecondary" width="40%" mx="auto" mt="XL">
               <svg viewBox="0 0 162 43" fill="none" width="100%">
@@ -165,7 +166,7 @@ const Borrow: FC = () => {
             <Box display="flex" justifyContent="space-between" width="100%">
               <Box width="40%" position="relative">
                 <Typography textAlign="center" variant="normal" mb="XL">
-                  {tIndex('borrowFlowStep2')}
+                  {tCommon('market')}
                 </Typography>
                 <Box
                   position="absolute"
@@ -238,7 +239,7 @@ const Borrow: FC = () => {
                   path="home/dinero-persona"
                 />
                 <Typography textAlign="center" variant="normal">
-                  {tIndex('borrowFlowStep3')}
+                  {tCommon('borrower')}
                 </Typography>
               </Box>
             </Box>
@@ -332,7 +333,7 @@ const Borrow: FC = () => {
               </FloatingCoins>
             </Box>
             <Typography variant="normal" textAlign="center">
-              {tIndex('borrowFlowStep4')}
+              {tIndex('borrowSectionINTTokensDescription')}
             </Typography>
           </Box>
         </Box>

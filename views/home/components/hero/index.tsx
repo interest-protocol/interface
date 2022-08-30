@@ -42,11 +42,11 @@ const Hero: FC = () => {
             fontWeight="900"
             fontStyle="normal"
             textTransform="capitalize"
-            textAlign={['center', 'unset']}
+            textAlign={['center', 'center', 'center', 'unset']}
             fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
             lineHeight={['3.353rem', '3.353rem', '4.876rem', '4.876rem']}
           >
-            {t('heroTitle')}
+            {t('headerTitle')}
           </Typography>
           <Typography
             mt="0.625rem"
@@ -56,11 +56,11 @@ const Hero: FC = () => {
             textAlign={['center', 'unset']}
             fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
           >
-            {t('heroDescription')}
+            {t('headerSubtitle')}
           </Typography>
           <a href="https://docs.interestprotocol.com/" target="__blank">
             <Button type="button" variant="primary" effect="hover">
-              {t('heroButton')}
+              {t('headerButton')}
             </Button>
           </a>
         </Box>

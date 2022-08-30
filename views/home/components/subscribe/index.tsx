@@ -46,13 +46,12 @@ const Subscribe: FC = () => {
       <Typography
         mt="M"
         as="h2"
-        maxWidth="45rem"
+        maxWidth="40rem"
         variant="title2"
         textAlign="center"
         fontSize={['L', 'XXL']}
       >
-        {tIndex('subscribeTitle')} <br className="breakMobile" />
-        {tIndex('subscribeSubtitle')}
+        {tIndex('subscribeSectionTitle')}
       </Typography>
       <Box
         mt="XXL"
@@ -73,7 +72,7 @@ const Subscribe: FC = () => {
           outline="none"
           borderRadius="S"
           mb={['L', 'NONE']}
-          placeholder={tIndex('subscribeInputPlaceholder')}
+          placeholder={tIndex('subscribeInputDescription')}
         />
         <Box
           display="flex"
@@ -89,7 +88,7 @@ const Subscribe: FC = () => {
               <ShieldSVG width="100%" />
             </Box>
             <Typography variant="normal" ml="S" fontSize="XS">
-              {tIndex('subscribeSafeData')}
+              {tIndex('subscribeDescription')}
             </Typography>
           </Box>
         </Box>

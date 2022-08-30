@@ -152,11 +152,11 @@ const Earn: FC = () => {
               as="h3"
               variant="normal"
               fontWeight="500"
-              textAlign={['center', 'unset']}
+              textAlign={['center', 'center', 'center', 'unset']}
               fontSize={['1.125rem', '1.125rem', '1.5rem', '1.5rem']}
               lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
             >
-              {tIndex('earnSubtitle')}
+              {tIndex('earnSectionSubtitle')}
             </Typography>
             <Typography
               variant="normal"
@@ -166,10 +166,10 @@ const Earn: FC = () => {
               mb={['1.25rem', '1.25rem', '1.75rem', '1.75rem']}
               fontSize={['0.875rem', '0.875rem', '1rem', '1rem']}
             >
-              {tIndex('earnDescription')}
+              {tIndex('earnSectionH3')}
             </Typography>
             <Typography variant="normal" fontWeight="700" mb="0.625rem">
-              {tIndex('earnTokenDescription')}
+              {tIndex('earnSectionBody')}
             </Typography>
             <Box
               display="flex"
@@ -196,7 +196,7 @@ const Earn: FC = () => {
                 fontSize="inherit"
                 fontWeight="inherit"
               >
-                {tIndex('earnButton')}
+                {tIndex('earnSectionButton')}
               </Typography>
             </Button>
           </Box>

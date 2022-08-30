@@ -75,7 +75,7 @@ const DEX: FC = () => {
             mb={['1.25rem', '1.25rem', '1.25rem', '1.875rem']}
             px={['L', 'unset']}
           >
-            {tIndex('dexDescription')}
+            {tIndex('dexSectionSubtitle')}
           </Typography>
           <Button
             width="145px"
@@ -83,7 +83,7 @@ const DEX: FC = () => {
             variant="primary"
             onClick={() => push(Routes[RoutesEnum.DApp])}
           >
-            {tCommon('swap')}
+            {tIndex('dexSectionButton')}
           </Button>
         </Box>
       </Container>
@@ -114,7 +114,7 @@ const DEX: FC = () => {
             textAlign="center"
             textTransform="capitalize"
           >
-            {tIndex('dexStablecoinTitle')}
+            {tIndex('stablePairTitle')}
           </Typography>
           <Box maxWidth="20rem" mx="auto" my="XXXL">
             <ResponsiveImage
@@ -138,10 +138,10 @@ const DEX: FC = () => {
               fontWeight="700"
               my={['unset', 'unset', '1rem', '1rem']}
             >
-              {tIndex('dexStablecoinDescription')}
+              {tIndex('stablePairDescription')}
             </Typography>
             <br />
-            {tIndex('dexStablecoinPercent')}
+            {tIndex('stablePairTax')}
           </Typography>
         </Container>
         <Box
@@ -166,12 +166,14 @@ const DEX: FC = () => {
             alignItems="center"
             top={['unset', 'unset', 'unset', '-1.3rem']}
             justifyContent="center"
-            width={['50%', '50%', '50%', '18.25rem']}
+            width={['50%', '50%', '50%', '15.25rem']}
             height={['10rem', '10rem', '10rem', '12.625rem']}
             position={['static', 'static', 'static', 'absolute']}
             transform={['unset', 'unset', 'unset', 'translate(-50%,-20%)']}
           >
-            <Typography variant="title3">{tIndex('dexInfoTop')}</Typography>
+            <Typography variant="title3" lineHeight="2rem">
+              {tIndex('dexSectionDescription')}
+            </Typography>
           </Box>
           <Box
             p="XL"
@@ -182,12 +184,14 @@ const DEX: FC = () => {
             alignItems="center"
             bottom={['none', 'none', 'none', '-2rem']}
             justifyContent="center"
-            width={['50%', '50%', '50%', '18.25rem']}
+            width={['50%', '50%', '50%', '15.25rem']}
             height={['10rem', '10rem', '10rem', '12.625rem']}
             position={['static', 'static', 'static', 'absolute']}
             transform={['unset', 'unset', 'unset', 'translate(-50%,30%)']}
           >
-            <Typography variant="title3">{tIndex('dexInfoBottom')}</Typography>
+            <Typography variant="title3" lineHeight="2rem">
+              {tIndex('dexSectionOracle')}
+            </Typography>
           </Box>
         </Box>
         <Container
@@ -207,7 +211,7 @@ const DEX: FC = () => {
             variant="title2"
             textTransform="capitalize"
           >
-            {tIndex('dexVolatileTitle')}
+            {tIndex('volatilePairTitle')}
           </Typography>
           <Box maxWidth="20rem" mx="auto" my="XXXL">
             <ResponsiveImage width="100%" alt="Volatile" path="home/volatile" />
@@ -227,10 +231,10 @@ const DEX: FC = () => {
               fontWeight="700"
               my={['unset', 'unset', '1rem', '1rem']}
             >
-              {tIndex('dexVolatileDescription')}
+              {tIndex('volatilePairDescription')}
             </Typography>
             <br />
-            {tIndex('dexVolatilePercent')}
+            {tIndex('volatilePairTax')}
           </Typography>
         </Container>
       </Box>

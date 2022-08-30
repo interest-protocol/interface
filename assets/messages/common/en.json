@@ -25,6 +25,9 @@
     "approve": "Approve",
     "loading": "loading",
     "back": "BACK",
-    "wallet": "Connect Wallet"
+    "wallet": "Connect Wallet",
+    "collateral": "Collateral",
+    "market": "Market",
+    "borrower": "Borrower"
   }
 }

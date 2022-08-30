@@ -1,6 +1,6 @@
 {
   "common": {
-    "earn": "earn",
+    "earn": "invista",
     "swap": "trocar",
     "borrow": "emprestar",
     "dex": "dex",
@@ -25,6 +25,9 @@
     "approve": "Aprovar",
     "loading": "carregando",
     "back": "VOLTAR",
-    "wallet": "Conectar à Carteira"
+    "wallet": "Conectar à Carteira",
+    "collateral": "Garantia",
+    "market": "Mercado",
+    "borrower": "Mutuário"
   }
 }
