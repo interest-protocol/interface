@@ -4,7 +4,7 @@ import { useWatch } from 'react-hook-form';
 import { stringToBigNumber } from '@/utils';
 
 import LiquidityFormMessage from '../liquidity-form-message';
-import { BalanceErrorProps } from './liquidity-form.types';
+import { BalanceErrorProps } from './add-liquidity-card.types';
 
 const BalanceError: FC<BalanceErrorProps> = ({
   control,

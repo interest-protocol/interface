@@ -12,7 +12,7 @@ import {
 } from '@/api';
 import { Box, Button, Typography } from '@/elements';
 import { useChainId, useGetSigner } from '@/hooks';
-import { IntMath, ZERO_ADDRESS } from '@/sdk';
+import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
 import { LineLoaderSVG, TimesSVG } from '@/svg';
 import {
   getBNPercent,
@@ -26,14 +26,14 @@ import {
 } from '@/utils';
 import { WalletGuardButton } from '@/views/dapp/components';
 
-import AddLiquidityManager from './add-liquidity-manager';
-import BalanceError from './balance-error';
-import InputBalance from './input-balance';
 import {
   AddLiquidityCardProps,
   IAddLiquidityForm,
   IToken,
-} from './liquidity-form.types';
+} from './add-liquidity-card.types';
+import AddLiquidityManager from './add-liquidity-manager';
+import BalanceError from './balance-error';
+import InputBalance from './input-balance';
 
 const filterFn = o<IToken, BigNumber, boolean>(
   (x: BigNumber) => x.isZero(),
@@ -238,7 +238,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
           register={register}
           setValue={setValue}
           name={INPUT_NAMES[index]}
-          balance={IntMath.toNumber(balance, decimals)}
+          balance={FixedPointMath.toNumber(balance, decimals)}
           disabled={loading || isFetchingQuote || allowance.isZero()}
           currencyPrefix={
             fetchingInitialData ? (
@@ -332,7 +332,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
                 onClick={handleAddLiquidity}
                 hover={{ bg: loading ? 'disabled' : 'accentActive' }}
               >
-                Add
+                {loading ? 'Adding...' : 'Add'}
               </Button>
             </>
           )}

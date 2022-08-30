@@ -5,7 +5,7 @@ import { v4 } from 'uuid';
 
 import { getFarmsSVGByToken, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
-import { IntMath, TOKEN_SYMBOL } from '@/sdk';
+import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
 import { formatDollars, formatMoney, makeFarmSymbol } from '@/utils';
 
 import { handleFilterFarms } from '../../earn.utils';
@@ -159,7 +159,7 @@ const EarnTable: FC<EarnTableProps> = ({
                       </Typography>
                     </Box>,
                     formatDollars(farm.tvl),
-                    formatMoney(IntMath.toNumber(farm.stakingAmount)),
+                    formatMoney(FixedPointMath.toNumber(farm.stakingAmount)),
                     farm.apr.value().isZero() ? '0%' : farm.apr.toPercentage(),
                     `${
                       farm.allocation.value().isZero()
@@ -308,7 +308,7 @@ const EarnTable: FC<EarnTableProps> = ({
                     ),
                     items: [
                       formatDollars(farm.tvl),
-                      formatMoney(IntMath.toNumber(farm.stakingAmount)),
+                      formatMoney(FixedPointMath.toNumber(farm.stakingAmount)),
                       farm.apr.value().isZero()
                         ? '0%'
                         : farm.apr.toPercentage(),

@@ -5,14 +5,14 @@ import { useWatch } from 'react-hook-form';
 import { quoteAddLiquidity } from '@/api';
 import { WRAPPED_NATIVE_TOKEN } from '@/constants';
 import { useDebounce } from '@/hooks';
-import { IntMath, ZERO_ADDRESS } from '@/sdk';
+import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
 import {
   isSameAddressZ,
   processWrappedNativeTokenAddress,
   stringToBigNumber,
 } from '@/utils';
 
-import { AddLiquidityManagerProps } from './liquidity-form.types';
+import { AddLiquidityManagerProps } from './add-liquidity-card.types';
 
 const processDecimals = (chainId: number, token: string, decimals: number) => {
   const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId];
@@ -59,7 +59,7 @@ const AddLiquidityManager: FC<AddLiquidityManagerProps> = ({
         setValue('locked', true);
         setValue(
           'token0Amount',
-          IntMath.toNumber(
+          FixedPointMath.toNumber(
             amountA,
             processDecimals(chainId, tokens[0].address, tokens[0].decimals),
             0,
@@ -71,7 +71,7 @@ const AddLiquidityManager: FC<AddLiquidityManagerProps> = ({
         );
         setValue(
           'token1Amount',
-          IntMath.toNumber(
+          FixedPointMath.toNumber(
             amountB,
             processDecimals(chainId, tokens[1].address, tokens[1].decimals),
             0,
@@ -111,17 +111,27 @@ const AddLiquidityManager: FC<AddLiquidityManagerProps> = ({
         setValue('locked', true);
         setValue(
           'token0Amount',
-          IntMath.toNumber(amountB, tokens[1].decimals, 0, 12).toLocaleString(
-            'fullwide',
-            { useGrouping: false, maximumSignificantDigits: 6 }
-          )
+          FixedPointMath.toNumber(
+            amountB,
+            tokens[1].decimals,
+            0,
+            12
+          ).toLocaleString('fullwide', {
+            useGrouping: false,
+            maximumSignificantDigits: 6,
+          })
         );
         setValue(
           'token1Amount',
-          IntMath.toNumber(amountA, tokens[0].decimals, 0, 12).toLocaleString(
-            'fullwide',
-            { useGrouping: false, maximumSignificantDigits: 6 }
-          )
+          FixedPointMath.toNumber(
+            amountA,
+            tokens[0].decimals,
+            0,
+            12
+          ).toLocaleString('fullwide', {
+            useGrouping: false,
+            maximumSignificantDigits: 6,
+          })
         );
       })
       .catch(() => setValue('error', 'Failed to find quote'))

@@ -1,6 +1,6 @@
 import { MAIL_BRIDGE_TOKENS_ARRAY } from '@/constants';
 import { ERC20MetadataWithAddress } from '@/interface';
-import { IntMath, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
+import { FixedPointMath, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
 import { BLOCKS_PER_YEAR } from '@/sdk';
 
 import {
@@ -47,7 +47,7 @@ export const processMAILMarketData = (
 export const calculateMySupply = (data: MailDataStructOutput[]) =>
   data.reduce(
     (acc, data) =>
-      acc.add(IntMath.from(data.supply).mul(data.usdPrice).value()),
+      acc.add(FixedPointMath.from(data.supply).mul(data.usdPrice).value()),
     ZERO_BIG_NUMBER
   );
 
@@ -57,10 +57,13 @@ export const calculateTotalBorrowsInUSD = (
   data.reduce(
     (acc, item) => ({
       totalMaxBorrowAmountInUSD: acc.totalMaxBorrowAmountInUSD.add(
-        IntMath.from(item.supply).mul(item.usdPrice).mul(item.ltv).value()
+        FixedPointMath.from(item.supply)
+          .mul(item.usdPrice)
+          .mul(item.ltv)
+          .value()
       ),
       totalBorrowInUSD: acc.totalBorrowInUSD.add(
-        IntMath.from(item.borrow).mul(item.usdPrice).value()
+        FixedPointMath.from(item.borrow).mul(item.usdPrice).value()
       ),
     }),
     {
@@ -74,27 +77,28 @@ export const calculatePoolRisk = ({
   totalMaxBorrowAmountInUSD,
 }: TotalBorrowRiskyInUSDRecord) =>
   Math.ceil(
-    IntMath.from(totalBorrowInUSD).div(totalMaxBorrowAmountInUSD).toNumber() *
-      100
+    FixedPointMath.from(totalBorrowInUSD)
+      .div(totalMaxBorrowAmountInUSD)
+      .toNumber() * 100
   );
 
 const getTotalsInUSD = (data: MailDataStructOutput[], chainId: number) =>
   data.reduce(
     (acc, item) => ({
       totalSupplyInUSD: acc.totalSupplyInUSD.add(
-        IntMath.from(item.supply).mul(item.usdPrice).value()
+        FixedPointMath.from(item.supply).mul(item.usdPrice).value()
       ),
       totalBorrowInUSD: acc.totalBorrowInUSD.add(
-        IntMath.from(item.borrow).mul(item.usdPrice).value()
+        FixedPointMath.from(item.borrow).mul(item.usdPrice).value()
       ),
       totalOwedInUSD: acc.totalOwedInUSD.add(
-        IntMath.from(item.borrow)
+        FixedPointMath.from(item.borrow)
           .mul(item.borrowRate.mul(BLOCKS_PER_YEAR[chainId] || 0))
           .mul(item.usdPrice)
           .value()
       ),
       totalRewardsInUSD: acc.totalRewardsInUSD.add(
-        IntMath.from(item.supply)
+        FixedPointMath.from(item.supply)
           .mul(item.supplyRate.mul(BLOCKS_PER_YEAR[chainId] || 0))
           .mul(item.usdPrice)
           .value()
@@ -120,15 +124,19 @@ export const calculateAPRs = (
   } = getTotalsInUSD(data, chainId);
 
   return {
-    mySupplyRate: IntMath.from(totalRewardsInUSD).div(totalSupplyInUSD).value(),
-    myBorrowRate: IntMath.from(totalOwedInUSD).div(totalSupplyInUSD).value(),
+    mySupplyRate: FixedPointMath.from(totalRewardsInUSD)
+      .div(totalSupplyInUSD)
+      .value(),
+    myBorrowRate: FixedPointMath.from(totalOwedInUSD)
+      .div(totalSupplyInUSD)
+      .value(),
     net: {
       isPositive: totalRewardsInUSD.gte(totalOwedInUSD),
       rate: totalRewardsInUSD.gt(totalOwedInUSD)
-        ? IntMath.from(totalRewardsInUSD.sub(totalOwedInUSD))
+        ? FixedPointMath.from(totalRewardsInUSD.sub(totalOwedInUSD))
             .div(totalSupplyInUSD.sub(totalBorrowInUSD))
             .value()
-        : IntMath.from(totalOwedInUSD.sub(totalRewardsInUSD))
+        : FixedPointMath.from(totalOwedInUSD.sub(totalRewardsInUSD))
             .div(totalSupplyInUSD.sub(totalBorrowInUSD))
             .value(),
     },

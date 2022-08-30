@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers';
 import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
-import { IntMath } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 
 import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestViewEarnAbi';
 
@@ -46,9 +46,9 @@ export interface SafeFarmData {
   token1: string;
   token0: string;
   totalStakedAmount: BigNumber;
-  allocation: IntMath;
+  allocation: FixedPointMath;
   tvl: number;
-  apr: IntMath;
+  apr: FixedPointMath;
   stable: boolean;
   isLive: boolean;
   stakingAmount: BigNumber;

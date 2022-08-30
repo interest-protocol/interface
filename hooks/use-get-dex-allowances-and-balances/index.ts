@@ -24,7 +24,8 @@ export const useGetDexAllowancesAndBalances = (
 
   const { data, error, mutate } = useGetUserBalancesAndAllowances(
     getInterestDexRouterAddress(chainId),
-    filteredTokens
+    filteredTokens,
+    { revalidateOnFocus: false, refreshWhenHidden: false }
   );
 
   if (error)
