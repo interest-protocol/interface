@@ -13,8 +13,8 @@ export const getStaticProps = ({
 }) => ({
   props: {
     ...otherProps,
-    ...require(`../assets/messages/index/${LOCALES[locale]}.json`),
-    ...require(`../assets/messages/common/${LOCALES[locale]}.json`),
+    ...require(`../../../assets/messages/index/${LOCALES[locale]}.json`),
+    ...require(`../../../assets/messages/common/${LOCALES[locale]}.json`),
   },
 });
 
