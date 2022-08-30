@@ -22,7 +22,7 @@ const DINERO_MARKETS_MAP = {
     ),
     ETH: ethers.utils.getAddress('0x7e257F4930435E63538E50451bAE5D3495f12486'),
     USDT_WBNB_VOLATILE: ethers.utils.getAddress(
-      '0x3A9A2dAAaAa2d73F127e615D5859a5104b0c340B'
+      '0x6a3de28e516b366F9aF5EdeB8B6cd2b28A3CB3ee'
     ),
   },
 };

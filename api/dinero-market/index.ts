@@ -101,7 +101,7 @@ export const lpFreeMarketRepay = (
   marketAddress: string,
   account: string,
   principal: BigNumber
-) => getDineroLPFreeMarket(signer, marketAddress).withdraw(account, principal);
+) => getDineroLPFreeMarket(signer, marketAddress).repay(account, principal);
 
 export const lpFreeMarketBorrow = (
   signer: JsonRpcSigner,
