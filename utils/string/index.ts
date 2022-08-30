@@ -34,7 +34,9 @@ const treatDecimals = (money: number, maxDecimals: number) => {
   const integralDigits = integralPart.toString().length;
 
   const newMoney = Number(
-    integralDigits > 9
+    integralDigits > 12
+      ? `${integralPart.slice(0, -12)}.${integralPart.slice(-12, -10)}`
+      : integralDigits > 9
       ? `${integralPart.slice(0, -9)}.${integralPart.slice(-9, -7)}`
       : integralDigits > 6
       ? `${integralPart.slice(0, -6)}.${integralPart.slice(-6, -4)}`
@@ -81,7 +83,13 @@ export const formatMoney = (money: number, maxFractionDigits = 20): string => {
     maximumFractionDigits,
     minimumFractionDigits,
   }).format(newMoney)}${
-    integralDigits > 9 ? 'B' : integralDigits > 6 ? 'M' : ''
+    integralDigits > 12
+      ? 'T'
+      : integralDigits > 9
+      ? 'B'
+      : integralDigits > 6
+      ? 'M'
+      : ''
   }`.slice(1);
 };
 
