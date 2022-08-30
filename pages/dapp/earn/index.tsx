@@ -2,14 +2,8 @@ import { NextPage } from 'next';
 
 import { LOCALES, LocalesEnum } from '@/constants/locale';
 import Earn from '@/views/dapp/views/earn';
-import { RedirectLang } from '@/views/home/components';
 
-const EarnPage: NextPage = () => (
-  <>
-    <RedirectLang />
-    <Earn />
-  </>
-);
+const EarnPage: NextPage = () => <Earn />;
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getStaticProps = ({
@@ -21,8 +15,12 @@ export const getStaticProps = ({
   props: {
     ...otherProps,
     messages: {
-      ...require(`../../../assets/messages/earn/${LOCALES[locale]}.json`),
-      ...require(`../../../assets/messages/common/${LOCALES[locale]}.json`),
+      ...require(`../../../assets/messages/earn/${
+        LOCALES[locale] || LOCALES[LocalesEnum.EN]
+      }.json`),
+      ...require(`../../../assets/messages/common/${
+        LOCALES[locale] || LOCALES[LocalesEnum.EN]
+      }.json`),
     },
   },
 });
