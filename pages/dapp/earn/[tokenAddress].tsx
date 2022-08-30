@@ -27,12 +27,8 @@ export const getServerSideProps = ({
     props: {
       tokenAddress,
       messages: {
-        ...require(`../../../assets/messages/earn/token-address/${
-          LOCALES[locale] || LOCALES[LocalesEnum.EN]
-        }.json`),
-        ...require(`../../../assets/messages/common/${
-          LOCALES[locale] || LOCALES[LocalesEnum.EN]
-        }.json`),
+        ...require(`../../../assets/messages/earn/token-address/${LOCALES[locale]}.json`),
+        ...require(`../../../assets/messages/common/${LOCALES[locale]}.json`),
       },
     },
   };

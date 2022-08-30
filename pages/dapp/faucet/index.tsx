@@ -15,12 +15,8 @@ export const getStaticProps = ({
   props: {
     ...otherProps,
     messages: {
-      ...require(`../../../assets/messages/faucet/${
-        LOCALES[locale] || LOCALES[LocalesEnum.EN]
-      }.json`),
-      ...require(`../../../assets/messages/common/${
-        LOCALES[locale] || LOCALES[LocalesEnum.EN]
-      }.json`),
+      ...require(`../../../assets/messages/faucet/${LOCALES[locale]}.json`),
+      ...require(`../../../assets/messages/common/${LOCALES[locale]}.json`),
     },
   },
 });

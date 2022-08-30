@@ -25,12 +25,8 @@ export const getServerSideProps = ({
     props: {
       pairAddress,
       messages: {
-        ...require(`../../../../assets/messages/dex/pool/pair-address/${
-          LOCALES[locale] || LOCALES[LocalesEnum.EN]
-        }.json`),
-        ...require(`../../../../assets/messages/common/${
-          LOCALES[locale] || LOCALES[LocalesEnum.EN]
-        }.json`),
+        ...require(`../../../../assets/messages/dex/pool/pair-address/${LOCALES[locale]}.json`),
+        ...require(`../../../../assets/messages/common/${LOCALES[locale]}.json`),
       },
     },
   };
