@@ -3,15 +3,13 @@ import { FC } from 'react';
 
 import { Box, Dropdown, Typography } from '@/elements';
 import { IDropdownData } from '@/elements/dropdown/dropdown.types';
-import { useLocalStorage } from '@/hooks';
+import { useI18n } from '@/hooks';
 import { BRFlagSVG, PTFlagSVG, USFlagSVG } from '@/svg';
 
 const SwitchLang: FC = () => {
-  const { locales, locale, asPath, push } = useRouter();
-  const [localeDefault, setLocaleDefault] = useLocalStorage<string>(
-    'interest-locale',
-    locale || 'en-US'
-  );
+  const { locales } = useRouter();
+  const { currentLocale, changeLocale } = useI18n();
+
   return (
     <Dropdown
       title={
@@ -22,9 +20,9 @@ const SwitchLang: FC = () => {
           height="1.25rem"
           borderRadius="2rem"
         >
-          {locale === 'en-US' ? (
+          {currentLocale === 'en-US' ? (
             <USFlagSVG width="100%" height="100%" />
-          ) : locale === 'pt-PT' ? (
+          ) : currentLocale === 'pt-PT' ? (
             <PTFlagSVG width="100%" height="100%" />
           ) : (
             <BRFlagSVG width="100%" height="100%" />
@@ -32,10 +30,10 @@ const SwitchLang: FC = () => {
         </Box>
       }
       mode="menu"
-      defaultValue={locale}
+      defaultValue={currentLocale}
       data={
-        locales?.map((l) => ({
-          value: l,
+        locales?.map((locale) => ({
+          value: locale,
           displayOption: (
             <Box
               pl="M"
@@ -51,9 +49,9 @@ const SwitchLang: FC = () => {
                 backgroundSize="cover"
                 borderRadius="2rem"
               >
-                {l === 'en-US' ? (
+                {locale === 'en-US' ? (
                   <USFlagSVG width="100%" height="100%" />
-                ) : l === 'pt-PT' ? (
+                ) : locale === 'pt-PT' ? (
                   <PTFlagSVG width="100%" height="100%" />
                 ) : (
                   <BRFlagSVG width="100%" height="100%" />
@@ -65,16 +63,13 @@ const SwitchLang: FC = () => {
                 fontSize="L"
                 lineHeight="1.625rem"
               >
-                {l}
+                {locale}
               </Typography>
               {process.env.PUBLIC_URL}
             </Box>
           ),
           onSelect: () => {
-            localeDefault !== l && setLocaleDefault(l);
-            push(asPath, undefined, {
-              locale: l,
-            });
+            currentLocale !== locale && changeLocale(locale);
           },
         })) as unknown as ReadonlyArray<IDropdownData>
       }

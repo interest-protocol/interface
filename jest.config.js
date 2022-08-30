@@ -14,6 +14,7 @@ module.exports = {
     "@/api/(.*)$": "<rootDir>/api/$1",
     "@/sdk": "<rootDir>/sdk/index",
     "@/components": "<rootDir>/components/index",
+    "@/context/(.*)$": "<rootDir>/context/$1",
     "@/connectors": "<rootDir>/connectors/index",
     "@/connectors/(.*)$": "<rootDir>/connectors/$1",
     "@/constants/(.*)$": "<rootDir>/constants/$1",

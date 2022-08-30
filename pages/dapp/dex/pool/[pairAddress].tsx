@@ -1,44 +1,32 @@
 import { NextPage } from 'next';
 
+import { LOCALES, LocalesEnum } from '@/constants/locale';
 import DEXPoolDetailsView from '@/views/dapp/views/dex-pool-details';
-import { RedirectLang } from '@/views/home/components';
 
-const DEXPoolDetailsPage: NextPage<{ pairAddress: any }> = ({
+interface DEXPoolDetailsPageProps {
+  pairAddress: string;
+}
+
+const DEXPoolDetailsPage: NextPage<DEXPoolDetailsPageProps> = ({
   pairAddress,
-}) => {
-  return (
-    <>
-      <RedirectLang />
-      <DEXPoolDetailsView pairAddress={pairAddress as string} />
-    </>
-  );
-};
+}) => <DEXPoolDetailsView pairAddress={pairAddress as string} />;
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const getServerSideProps = (context: {
-  params: any;
-  locale: string;
+export const getServerSideProps = ({
+  params,
+  locale = LocalesEnum.EN,
+}: {
+  params: DEXPoolDetailsPageProps;
+  locale: LocalesEnum;
 }) => {
-  const { params } = context;
-  const pairAddress = params.pairAddress;
+  const { pairAddress } = params;
+
   return {
     props: {
-      pairAddress: pairAddress,
+      pairAddress,
       messages: {
-        ...require(`../../../../assets/messages/dex/pool/pair-address/${
-          context.locale == 'en-US'
-            ? 'en'
-            : context.locale == 'pt-PT'
-            ? 'pt'
-            : 'br'
-        }.json`),
-        ...require(`../../../../assets/messages/common/${
-          context.locale == 'en-US'
-            ? 'en'
-            : context.locale == 'pt-PT'
-            ? 'pt'
-            : 'br'
-        }.json`),
+        ...require(`../../../../assets/messages/dex/pool/pair-address/${LOCALES[locale]}.json`),
+        ...require(`../../../../assets/messages/common/${LOCALES[locale]}.json`),
       },
     },
   };

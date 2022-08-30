@@ -14,7 +14,7 @@ const RedirectLang: FC = () => {
       push(asPath, asPath, {
         locale: localeDefault,
       });
-  }, [localeDefault]);
+  }, [localeDefault, locale]);
 
   return null;
 };

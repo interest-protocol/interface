@@ -10,6 +10,7 @@ import { SkeletonTheme } from 'react-loading-skeleton';
 import { Provider as ReduxProvider } from 'react-redux';
 
 import { Web3Manager } from '@/components';
+import { I18nProvider } from '@/context/i18n';
 import GlobalStyles from '@/design-system/global-styles';
 import { store } from '@/state/index';
 
@@ -42,7 +43,9 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
         >
           <Web3Manager pathname={router.pathname}>
             <StrictMode>
-              <Component {...pageProps} />
+              <I18nProvider>
+                <Component {...pageProps} />
+              </I18nProvider>
             </StrictMode>
           </Web3Manager>
         </NextIntlProvider>

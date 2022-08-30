@@ -13,6 +13,7 @@ export * from './use-get-user-balances';
 export * from './use-get-user-balances-allowances';
 export * from './use-get-user-dinero-market-data';
 export * from './use-get-user-farm-data';
+export * from './use-i18n';
 export * from './use-id-account';
 export * from './use-is-mounted';
 export * from './use-local-storage';

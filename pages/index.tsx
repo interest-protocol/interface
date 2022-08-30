@@ -1,30 +1,22 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { NextPage } from 'next';
 
+import { LOCALES, LocalesEnum } from '@/constants/locale';
 import Home from '@/views/home';
-import { RedirectLang } from '@/views/home/components';
 
-const HomePage: NextPage = () => (
-  <>
-    <RedirectLang />
-    <Home />
-  </>
-);
+const HomePage: NextPage = () => <Home />;
 
-export const getStaticProps = ({ locale, ...otherProps }: { locale: any }) => {
-  return {
-    props: {
-      ...otherProps,
-      messages: {
-        ...require(`../assets/messages/index/${
-          locale == 'en-US' ? 'en' : locale == 'pt-PT' ? 'pt' : 'br'
-        }.json`),
-        ...require(`../assets/messages/common/${
-          locale == 'en-US' ? 'en' : locale == 'pt-PT' ? 'pt' : 'br'
-        }.json`),
-      },
-    },
-  };
-};
+export const getStaticProps = ({
+  locale = LocalesEnum.EN,
+  ...otherProps
+}: {
+  locale: LocalesEnum;
+}) => ({
+  props: {
+    ...otherProps,
+    ...require(`../assets/messages/index/${LOCALES[locale]}.json`),
+    ...require(`../assets/messages/common/${LOCALES[locale]}.json`),
+  },
+});
 
 export default HomePage;

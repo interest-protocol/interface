@@ -22,6 +22,7 @@
       "@/svg": ["./components/svg"],
       "@/components": ["./components"],
       "@/components/*": ["./components/*"],
+      "@/context/*": ["./context/*"],
       "@/design-system": ["./design-system"],
       "@/design-system/*": ["./design-system/*"],
       "@/elements/*": ["./elements/*"],
