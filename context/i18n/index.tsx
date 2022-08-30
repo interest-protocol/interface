@@ -19,10 +19,10 @@ export const I18nProvider: FC = ({ children }) => {
     locale || 'en-US'
   );
 
-  const changeLocale = useCallback((locale: string) => {
-    setUserLocale(locale);
-    console.log('>> locale :: ', locale);
-  }, []);
+  const changeLocale = useCallback(
+    (locale: string) => setUserLocale(locale),
+    []
+  );
 
   useEffect(() => {
     if (userLocale != (locale || 'en-US'))
