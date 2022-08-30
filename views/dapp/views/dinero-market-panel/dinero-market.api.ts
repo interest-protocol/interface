@@ -60,8 +60,8 @@ const handleRepayRequest = async (
    */
   if (market.kind === DineroMarketKind.LpFreeMarket) {
     const loanBN = FixedPointMath.toBigNumber(loan);
-    const safePrincipal = loanBN.gt(market.loanBase)
-      ? market.loanElastic
+    const safePrincipal = loanBN.gt(market.userPrincipal)
+      ? market.userPrincipal
       : loanBN;
 
     const tx = await lpFreeMarketRequest(
