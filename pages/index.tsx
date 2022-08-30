@@ -11,12 +11,20 @@ export const getStaticProps = ({
   ...otherProps
 }: {
   locale: LocalesEnum;
-}) => ({
-  props: {
-    ...otherProps,
-    ...require(`../assets/messages/index/${LOCALES[locale]}.json`),
-    ...require(`../assets/messages/common/${LOCALES[locale]}.json`),
-  },
-});
+}) => {
+  return {
+    props: {
+      ...otherProps,
+      messages: {
+        ...require(`../assets/messages/index/${
+          LOCALES[locale] || LOCALES[LocalesEnum.EN]
+        }.json`),
+        ...require(`../assets/messages/common/${
+          LOCALES[locale] || LOCALES[LocalesEnum.EN]
+        }.json`),
+      },
+    },
+  };
+};
 
 export default HomePage;
