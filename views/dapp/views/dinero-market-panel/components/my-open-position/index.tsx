@@ -16,14 +16,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
   myPositionData,
   collateralUSDPrice,
 }) => (
-  <Box
-    py="XL"
-    order={5}
-    gridArea="c"
-    bg="foreground"
-    borderRadius="L"
-    px={['XL', 'XL', 'XL', 'XXL']}
-  >
+  <Box p="XL" order={5} gridArea="c" bg="foreground" borderRadius="L">
     <Typography variant="normal" textTransform="uppercase" mt="L">
       My open position:
     </Typography>

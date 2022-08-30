@@ -8,14 +8,7 @@ import { toFixedToPrecision } from '@/utils';
 import { UserLTVProps } from './user-ltv.types';
 
 const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => (
-  <Box
-    py="XL"
-    order={1}
-    gridArea="b"
-    bg="foreground"
-    borderRadius="L"
-    px={['XL', 'XL', 'XL', 'XXL']}
-  >
+  <Box p="XL" order={1} gridArea="b" bg="foreground" borderRadius="L">
     <Box display="flex" justifyContent="space-between">
       <Typography variant="normal" display="flex" alignItems="center">
         <Box

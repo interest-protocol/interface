@@ -19,14 +19,7 @@ const YourBalance: FC<YourBalanceProps> = ({
   collateralBalance,
   collateralDecimals,
 }) => (
-  <Box
-    py="XL"
-    order={3}
-    gridArea="e"
-    bg="foreground"
-    borderRadius="L"
-    px={['XL', 'XL', 'XL', 'XXL']}
-  >
+  <Box p="XL" order={3} gridArea="e" bg="foreground" borderRadius="L">
     <Typography variant="normal" textTransform="uppercase" mt="L">
       Your balance:
     </Typography>

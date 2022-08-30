@@ -10,14 +10,7 @@ import { LOAN_INFO_MAP } from '../../dinero-market.data';
 import { LoanInfoProps } from './loan-info.types';
 
 const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => (
-  <Box
-    py="XL"
-    order={4}
-    gridArea="d"
-    bg="foreground"
-    borderRadius="L"
-    px={['XL', 'XL', 'XL', 'XXL']}
-  >
+  <Box p="XL" order={4} gridArea="d" bg="foreground" borderRadius="L">
     {propOr<
       typeof LOAN_INFO_MAP[keyof typeof LOAN_INFO_MAP],
       typeof LOAN_INFO_MAP,
