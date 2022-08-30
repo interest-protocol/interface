@@ -185,7 +185,7 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
     tokenPriceMap,
     data.collateralPoolData.totalSupply
   );
-  console.log(data.marketData.rewardsBalance.toString());
+
   return {
     loanBase: data.marketData.loanBase,
     loanElastic: data.marketData.loanElastic,
