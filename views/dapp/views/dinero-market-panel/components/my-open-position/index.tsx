@@ -43,9 +43,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
           {name}
         </Typography>
         <Typography
-          ml="M"
           variant="normal"
-          maxWidth="10rem"
           overflow="hidden"
           textAlign="right"
           whiteSpace="nowrap"

@@ -26,7 +26,6 @@ import {
   calculateFarmBaseAPR,
   calculateFarmTokenPrice,
   calculateIntUSDPrice,
-  formatDollars,
   formatMoney,
 } from '@/utils';
 
@@ -603,12 +602,12 @@ export const getLoanInfoData: TGetInfoLoanData = (market, kind) => {
       'N/A',
       market.apr.toPercentage(),
       formatMoney(FixedPointMath.from(market.pendingRewards).toNumber()), // IPX has 18 decimals.
-      formatDollars(
+      `${formatMoney(
         // IPX has 18 decimals.
         FixedPointMath.from(market.pendingRewards)
           .mul(market.intUSDPrice)
           .toNumber()
-      ),
+      )} Int`,
     ];
 
   return [

@@ -26,7 +26,7 @@ const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => (
       <Box my="L" key={v4()} display="flex" justifyContent="space-between">
         <Typography variant="normal" display="flex" alignItems="center">
           <Box
-            mr="M"
+            mr="L"
             as="span"
             width="1rem"
             cursor="help"

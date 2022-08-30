@@ -297,8 +297,10 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
           <YourBalance
             collateralName={market.name}
             dnrBalance={market.dnrBalance}
+            intBalance={market.rewardsBalance}
             collateralBalance={market.collateralBalance}
             collateralDecimals={market.collateralDecimals}
+            isPair={market.kind === DineroMarketKind.LpFreeMarket}
             currencyIcons={getDineroMarketSVGBySymbol(
               market.symbol0,
               market.symbol1
