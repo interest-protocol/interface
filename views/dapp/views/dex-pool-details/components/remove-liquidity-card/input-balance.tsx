@@ -1,4 +1,5 @@
 import { ChangeEvent, FC } from 'react';
+import { useWatch } from 'react-hook-form';
 
 import { Box, Button, Input, Typography } from '@/elements';
 import { formatMoney, parseInputEventToNumberString } from '@/utils';
@@ -10,14 +11,19 @@ const InputBalance: FC<InputBalanceProps> = ({
   balance,
   register,
   setValue,
-  disabled,
+  disabled: _disabled,
   currencyPrefix,
+  control,
 }) => {
   const onFocus = (v: ChangeEvent<HTMLInputElement>) => {
     const value = v.target.value;
 
     value === '0.0' && setValue?.(name, '');
   };
+
+  const loading = useWatch({ control, name: 'loading' });
+
+  const disabled = _disabled || loading;
 
   return (
     <Box display="flex" flexDirection="column-reverse" alignItems="flex-end">

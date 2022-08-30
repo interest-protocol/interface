@@ -2,7 +2,7 @@ import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 
 import { Box, Typography } from '@/elements';
-import { IntMath } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 import { InfoSVG } from '@/svg';
 import { toFixedToPrecision } from '@/utils';
 
@@ -43,7 +43,7 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
             <Skeleton width="80%" />
           ) : (
             `${data.net.isPositive ? '' : '-'}${toFixedToPrecision(
-              IntMath.from(data.net.rate).toNumber(16, 4, 4),
+              FixedPointMath.from(data.net.rate).toNumber(16, 4, 4),
               4,
               3
             )}%`
@@ -76,7 +76,7 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
             <Skeleton width="80%" />
           ) : (
             `${toFixedToPrecision(
-              IntMath.from(data.mySupplyRate).toNumber(16, 4, 4),
+              FixedPointMath.from(data.mySupplyRate).toNumber(16, 4, 4),
               4,
               3
             )}%`
@@ -109,7 +109,7 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
             <Skeleton width="80%" />
           ) : (
             `-${toFixedToPrecision(
-              IntMath.from(data.myBorrowRate).toNumber(16, 4, 4),
+              FixedPointMath.from(data.myBorrowRate).toNumber(16, 4, 4),
               4,
               3
             )}%`

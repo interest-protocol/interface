@@ -6,7 +6,7 @@ import { v4 } from 'uuid';
 
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Modal, Table, Typography } from '@/elements';
-import { IntMath } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 import { UnknownCoinSVG } from '@/svg';
 import {
   formatDollars,
@@ -135,7 +135,7 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
             const isBorrow = type === 'borrow';
 
             const apr =
-              IntMath.toNumber(isBorrow ? borrowRate : supplyRate) * 100;
+              FixedPointMath.toNumber(isBorrow ? borrowRate : supplyRate) * 100;
 
             const borrowElastic = principalToElastic(
               totalElastic,
@@ -143,9 +143,13 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
               borrow
             );
 
-            const balance = IntMath.toNumber(isBorrow ? borrowElastic : supply);
+            const balance = FixedPointMath.toNumber(
+              isBorrow ? borrowElastic : supply
+            );
 
-            const balanceInUSD = IntMath.from(isBorrow ? borrowElastic : supply)
+            const balanceInUSD = FixedPointMath.from(
+              isBorrow ? borrowElastic : supply
+            )
               .mul(usdPrice)
               .toNumber();
 
@@ -168,7 +172,11 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
                 ...(active
                   ? [
                       ...(!isBorrow
-                        ? [`${toFixedToPrecision(IntMath.toNumber(ltv, 16))}%`]
+                        ? [
+                            `${toFixedToPrecision(
+                              FixedPointMath.toNumber(ltv, 16)
+                            )}%`,
+                          ]
                         : []),
                       <Box key={v4()}>
                         <Typography variant="normal">
@@ -187,12 +195,16 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
                         </Typography>
                       </Box>,
                       ...(isBorrow
-                        ? [formatMoney(IntMath.toNumber(cash))]
+                        ? [formatMoney(FixedPointMath.toNumber(cash))]
                         : []),
                     ]
                   : isBorrow
-                  ? [formatMoney(IntMath.toNumber(cash))]
-                  : [`${toFixedToPrecision(IntMath.toNumber(ltv, 16))}%`]),
+                  ? [formatMoney(FixedPointMath.toNumber(cash))]
+                  : [
+                      `${toFixedToPrecision(
+                        FixedPointMath.toNumber(ltv, 16)
+                      )}%`,
+                    ]),
               ],
             };
           })}

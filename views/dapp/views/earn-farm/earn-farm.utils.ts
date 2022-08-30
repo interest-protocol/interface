@@ -6,7 +6,7 @@ import {
   USER_FARM_DATA_PRICES,
   WBNB_INT_ADDRESS_MAP,
 } from '@/constants';
-import { IntMath, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
+import { FixedPointMath, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
 import {
   calculateAllocation,
   calculateFarmBaseAPR,
@@ -36,9 +36,9 @@ export const getSafeUserFarmData: GetSafeUserFarmData = (
         token1: ZERO_ADDRESS,
         token0: ZERO_ADDRESS,
         totalStakedAmount: ZERO_BIG_NUMBER,
-        allocation: IntMath.from(0),
+        allocation: FixedPointMath.from(0),
         tvl: 0,
-        apr: IntMath.from(0),
+        apr: FixedPointMath.from(0),
         stable: true,
         isLive: true,
         stakingAmount: ZERO_BIG_NUMBER,
@@ -114,7 +114,9 @@ export const getSafeUserFarmData: GetSafeUserFarmData = (
         allocationPoints,
         data.mintData.totalAllocationPoints
       ),
-      tvl: IntMath.from(stakingTokenPrice).mul(totalStakingAmount).toNumber(),
+      tvl: FixedPointMath.from(stakingTokenPrice)
+        .mul(totalStakingAmount)
+        .toNumber(),
       apr: calculateFarmBaseAPR(
         chainId,
         data.mintData.totalAllocationPoints,

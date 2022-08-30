@@ -65,11 +65,9 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                   e.stopPropagation();
                   setLocalAssets(
                     isOnLocalStorage(data.market, localAssets)
-                      ? localAssets.filter(
-                          o(not, propEq('market', data.market))
-                        )
+                      ? localAssets.filter(o(not, propEq('market', data)))
                       : localAssets
-                          .filter(o(not, propEq('market', data.market)))
+                          .filter(o(not, propEq('market', data)))
                           .concat([
                             {
                               name: data.name,

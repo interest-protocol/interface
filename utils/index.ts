@@ -2,7 +2,6 @@ export * from './address';
 export * from './array';
 export * from './big-number';
 export * from './contracts';
-export * from './dinero-market';
 export * from './erc-20';
 export * from './error';
 export * from './farms';
