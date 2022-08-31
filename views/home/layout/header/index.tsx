@@ -4,7 +4,7 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
 
-import { Container, SocialMediaCard } from '@/components';
+import { Container, SocialMediaCard, SwitchLang } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
@@ -12,7 +12,6 @@ import { BarsLPSVG, LogoSVG, TimesSVG } from '@/svg';
 
 import { HeaderProps } from './header.types';
 import MenuList from './menu-list';
-import SwitchLang from './switch-lang';
 
 const AnimatedBox = animated(Box);
 const menuButtonId = 'landing-menu-wrapper-id';

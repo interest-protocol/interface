@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
-import { createContext, FC, useCallback, useEffect } from 'react';
+import { createContext, FC, useEffect } from 'react';
 
+import { LocalesEnum } from '@/constants/locale';
 import { useLocalStorage } from '@/hooks';
 
 import { II18nContext } from './i18n.types';
@@ -16,22 +17,22 @@ export const I18nProvider: FC = ({ children }) => {
   const { locale, replace, asPath } = useRouter();
   const [userLocale, setUserLocale] = useLocalStorage<string>(
     'interest-locale',
-    locale || 'en-US'
+    locale || LocalesEnum.EN
   );
 
-  const changeLocale = useCallback(
-    (locale: string) => setUserLocale(locale),
-    []
-  );
+  const changeLocale = (locale: string) => {
+    setUserLocale(locale);
+    console.log('>> locale :: ', locale);
+  };
 
   useEffect(() => {
-    if (userLocale != (locale || 'en-US'))
+    if (userLocale != (locale || LocalesEnum.EN))
       replace(asPath, undefined, { locale: userLocale });
   }, [userLocale, locale]);
 
   const value = {
     changeLocale,
-    currentLocale: locale || 'en-US',
+    currentLocale: locale || LocalesEnum.EN,
   };
 
   return <Provider value={value}>{children}</Provider>;

@@ -2,12 +2,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
+import { SwitchLang } from '@/components';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Dropdown, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
-import SwitchLang from '../../../../home/layout/header/switch-lang';
-import { Wallet } from '../../index';
+import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {

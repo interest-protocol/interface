@@ -27,28 +27,28 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
     <ReduxProvider store={store}>
       <SkeletonTheme baseColor="#202020" highlightColor="#444">
         <Global styles={GlobalStyles} />
-        <NextIntlProvider
-          formats={{
-            dateTime: {
-              short: {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
+        <I18nProvider>
+          <NextIntlProvider
+            formats={{
+              dateTime: {
+                short: {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric',
+                },
               },
-            },
-          }}
-          messages={pageProps.messages}
-          now={new Date(pageProps.now)}
-          timeZone="UTC"
-        >
-          <Web3Manager pathname={router.pathname}>
-            <StrictMode>
-              <I18nProvider>
+            }}
+            messages={pageProps.messages}
+            now={new Date(pageProps.now)}
+            timeZone="UTC"
+          >
+            <Web3Manager pathname={router.pathname}>
+              <StrictMode>
                 <Component {...pageProps} />
-              </I18nProvider>
-            </StrictMode>
-          </Web3Manager>
-        </NextIntlProvider>
+              </StrictMode>
+            </Web3Manager>
+          </NextIntlProvider>
+        </I18nProvider>
       </SkeletonTheme>
     </ReduxProvider>
   </>
