@@ -16,7 +16,7 @@ import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useGetSigner } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
-import { IntMath, ZERO_BIG_NUMBER } from '@/sdk';
+import { FixedPointMath, ZERO_BIG_NUMBER } from '@/sdk';
 import { LoadingSVG, TimesSVG, UnknownCoinSVG } from '@/svg';
 import {
   adjustDecimals,
@@ -222,7 +222,9 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
 
       const amount = safeToBigNumber(value, data.decimals);
 
-      const amountInUSD = IntMath.from(amount).mul(data.usdPrice).value();
+      const amountInUSD = FixedPointMath.from(amount)
+        .mul(data.usdPrice)
+        .value();
 
       const leftAmountToBorrowInUSD =
         totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD.gte(
@@ -234,11 +236,11 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
           : ZERO_BIG_NUMBER;
 
       const safeAmount = amountInUSD.gt(
-        IntMath.from(leftAmountToBorrowInUSD)
+        FixedPointMath.from(leftAmountToBorrowInUSD)
           .mul(ethers.utils.parseEther('0.975'))
           .value()
       )
-        ? IntMath.from(leftAmountToBorrowInUSD)
+        ? FixedPointMath.from(leftAmountToBorrowInUSD)
             .div(data.usdPrice)
             .mul(ethers.utils.parseEther('0.95'))
             .value()

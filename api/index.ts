@@ -6,7 +6,6 @@ export * from './interest-dex-factory';
 export * from './interest-dex-router';
 export * from './interest-view-balances';
 export * from './interest-view-dex';
-export * from './interest-view-dinero';
 export * from './interest-view-earn';
 export * from './interest-view-mail';
 export * from './mail-deployer';

@@ -7,9 +7,10 @@ import { useCallContract } from '../use-call-contract';
 export const useGetPairData = (pairAddress: string) => {
   const { chainId, account } = useIdAccount();
 
-  return useCallContract(chainId, getInterestDEXViewPairData, [
+  return useCallContract(
     chainId,
-    pairAddress,
-    account || DEFAULT_ACCOUNT,
-  ]);
+    getInterestDEXViewPairData,
+    [chainId, pairAddress, account || DEFAULT_ACCOUNT],
+    { refreshWhenHidden: false, revalidateOnFocus: false }
+  );
 };

@@ -12,7 +12,7 @@ import Box from '@/elements/box';
 import Button from '@/elements/button';
 import { useGetSigner } from '@/hooks';
 import { TOKEN_SYMBOL, ZERO_BIG_NUMBER } from '@/sdk';
-import { IntMath } from '@/sdk/entities/int-math';
+import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG } from '@/svg';
 import {
@@ -203,9 +203,13 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
         loading={loading}
         title={t('firstCardTitle')}
         amountUSD={formatDollars(
-          IntMath.from(farm.stakingTokenPrice).mul(farm.balance).toNumber()
+          FixedPointMath.from(farm.stakingTokenPrice)
+            .mul(farm.balance)
+            .toNumber()
         )}
-        amount={`${formatMoney(IntMath.toNumber(farm.balance))} ${farmSymbol}`}
+        amount={`${formatMoney(
+          FixedPointMath.toNumber(farm.balance)
+        )} ${farmSymbol}`}
         button={
           <Button
             variant="primary"
@@ -240,12 +244,12 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
         title={t('secondCardTitle')}
         loading={loading}
         amountUSD={formatDollars(
-          IntMath.from(farm.stakingTokenPrice)
+          FixedPointMath.from(farm.stakingTokenPrice)
             .mul(farm.stakingAmount)
             .toNumber()
         )}
         amount={`${formatMoney(
-          IntMath.toNumber(farm.stakingAmount)
+          FixedPointMath.toNumber(farm.stakingAmount)
         )} ${farmSymbol}`}
         button={
           farm.allowance.isZero() ? (
@@ -324,9 +328,9 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
         loading={loading}
         shadow={!farm.pendingRewards.isZero()}
         amountUSD={formatDollars(
-          IntMath.from(intUSDPrice).mul(farm.pendingRewards).toNumber()
+          FixedPointMath.from(intUSDPrice).mul(farm.pendingRewards).toNumber()
         )}
-        amount={`${formatMoney(IntMath.toNumber(farm.pendingRewards))} ${
+        amount={`${formatMoney(FixedPointMath.toNumber(farm.pendingRewards))} ${
           TOKEN_SYMBOL.INT
         }`}
         button={
@@ -351,7 +355,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
         loading={modalLoading}
         onUnstake={handleUnstake}
         handleClose={handleCloseModal}
-        amount={IntMath.toNumber(
+        amount={FixedPointMath.toNumber(
           modal === StakeState.Stake ? farm.balance : farm.stakingAmount
         )}
         farmSymbol={farmSymbol}

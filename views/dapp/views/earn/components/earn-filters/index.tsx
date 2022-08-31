@@ -63,4 +63,5 @@ const EarnFilters: FC<EarnFiltersProps> = ({ setValue, register, control }) => {
     </Box>
   );
 };
+
 export default EarnFilters;

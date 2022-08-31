@@ -1,5 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC } from 'react';
+import { useWatch } from 'react-hook-form';
 
 import { Box, Button, Input, Typography } from '@/elements';
 import { formatMoney, parseInputEventToNumberString } from '@/utils';
@@ -11,8 +12,9 @@ const InputBalance: FC<InputBalanceProps> = ({
   balance,
   register,
   setValue,
-  disabled,
+  disabled: _disabled,
   currencyPrefix,
+  control,
 }) => {
   const t = useTranslations('dex');
   const onFocus = (v: ChangeEvent<HTMLInputElement>) => {
@@ -20,6 +22,10 @@ const InputBalance: FC<InputBalanceProps> = ({
 
     value === '0.0' && setValue?.(name, '');
   };
+
+  const loading = useWatch({ control, name: 'loading' });
+
+  const disabled = _disabled || loading;
 
   return (
     <Box display="flex" flexDirection="column-reverse" alignItems="flex-end">
