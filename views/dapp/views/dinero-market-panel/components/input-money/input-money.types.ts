@@ -52,5 +52,4 @@ export interface InputMaxTagProps {
   isBorrow: boolean;
   data: DineroMarketData;
   control: Control<IBorrowForm>;
-  setValue: UseFormSetValue<IBorrowForm>;
 }
