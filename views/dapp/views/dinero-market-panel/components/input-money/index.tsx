@@ -40,7 +40,6 @@ const InputMoney: FC<InputMoneyProps> = ({
       </Typography>
       <Box display="flex" flexDirection="column" alignItems="flex-end">
         <InputMaxTag
-          setValue={setValue}
           max={max}
           data={data}
           control={control}
