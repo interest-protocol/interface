@@ -1,8 +1,9 @@
 import { ethers } from 'ethers';
-import { FC, useCallback, useMemo } from 'react';
+import { FC, useCallback, useEffect, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Button } from '@/elements';
+import { FixedPointMath } from '@/sdk';
 import { safeToBigNumber } from '@/utils';
 
 import {
@@ -19,33 +20,72 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
   setValue,
 }) => {
   const borrowCollateral = useWatch({ control, name: 'borrow.collateral' });
-
+  const borrowLoan = useWatch({ control, name: 'borrow.loan' });
   const repayLoan = useWatch({ control, name: 'repay.loan' });
+  const repayCollateral = useWatch({ control, name: 'repay.collateral' });
+
+  const maxBorrowLoan = calculateDineroLeftToBorrow({
+    ...data,
+    adjustedUserCollateral: data.adjustedUserCollateral.add(
+      safeToBigNumber(+borrowCollateral || 0)
+    ),
+  })
+    .mul(ethers.utils.parseEther('0.9'))
+    .toNumber()
+    .toString();
+
+  const maxRepayCollateral = safeAmountToWithdrawRepay(
+    data,
+    safeToBigNumber(+repayLoan)
+  )
+    .toNumber()
+    .toString();
+
+  useEffect(() => {
+    if (+borrowLoan > +maxBorrowLoan) setValue('borrow.loan', maxBorrowLoan);
+  }, [borrowLoan]);
+
+  useEffect(() => {
+    if (+repayCollateral > +maxRepayCollateral)
+      setValue('repay.collateral', maxRepayCollateral);
+  }, [repayCollateral]);
+
+  useEffect(() => {
+    if (FixedPointMath.toBigNumber(repayLoan).gt(data.dnrBalance))
+      setValue(
+        'repay.loan',
+        FixedPointMath.from(data.dnrBalance)
+          .toNumber()
+          .toLocaleString('fullwide', {
+            useGrouping: false,
+            maximumSignificantDigits: 6,
+          })
+      );
+
+    if (
+      FixedPointMath.toBigNumber(borrowCollateral).gt(
+        data.adjustedCollateralBalance
+      )
+    )
+      setValue(
+        'borrow.collateral',
+        FixedPointMath.from(data.adjustedCollateralBalance)
+          .toNumber()
+          .toLocaleString('fullwide', {
+            useGrouping: false,
+            maximumSignificantDigits: 6,
+          })
+      );
+  }, [repayLoan, borrowCollateral]);
 
   const handleSetInnerMax = useCallback(() => {
     if (name === 'borrow.loan') {
-      setValue(
-        name,
-        calculateDineroLeftToBorrow({
-          ...data,
-          adjustedUserCollateral: data.adjustedUserCollateral.add(
-            safeToBigNumber(+borrowCollateral || 0)
-          ),
-        })
-          .mul(ethers.utils.parseEther('0.9'))
-          .toNumber()
-          .toString()
-      );
+      setValue(name, maxBorrowLoan);
       return;
     }
 
     if (name === 'repay.collateral') {
-      setValue(
-        name,
-        safeAmountToWithdrawRepay(data, safeToBigNumber(+repayLoan))
-          .toNumber()
-          .toString()
-      );
+      setValue(name, maxRepayCollateral);
       return;
     }
 

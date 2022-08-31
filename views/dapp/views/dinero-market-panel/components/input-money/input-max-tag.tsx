@@ -18,11 +18,9 @@ const InputMaxTag: FC<InputMaxTagProps> = ({
   isDNR,
   control,
   isBorrow,
-  setValue,
 }) => {
   const depositCollateral = useWatch({ control, name: 'borrow.collateral' });
   const repayLoan = useWatch({ control, name: 'repay.loan' });
-  const loanCollateral = useWatch({ control, name: 'borrow.loan' });
 
   const recalculatedMax = useMemo(
     () =>
@@ -39,19 +37,8 @@ const InputMaxTag: FC<InputMaxTagProps> = ({
             data,
             safeToBigNumber(+repayLoan)
           ).toNumber(),
-    [depositCollateral, repayLoan]
+    [depositCollateral, repayLoan, isBorrow]
   );
-
-  useEffect(() => {
-    if (isBorrow && isDNR && +loanCollateral > recalculatedMax)
-      setValue(
-        'borrow.loan',
-        recalculatedMax.toLocaleString('fullwide', {
-          useGrouping: false,
-          maximumSignificantDigits: 6,
-        })
-      );
-  }, [loanCollateral, recalculatedMax]);
 
   return (
     <Box
