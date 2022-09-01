@@ -69,9 +69,13 @@ const SwitchLang: FC = () => {
             </Box>
           ),
           onSelect: () => {
+            console.log('>> currentLocale :: ', currentLocale);
+            console.log('>> locale :: ', locale);
+            console.log('>> changeLocale :: ', changeLocale);
+
             currentLocale !== locale && changeLocale(locale);
           },
-        })) as unknown as ReadonlyArray<IDropdownData>
+        })) as ReadonlyArray<IDropdownData>
       }
     />
   );
