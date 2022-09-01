@@ -17,7 +17,7 @@ import {
   ZERO_BIG_NUMBER,
 } from '@/sdk';
 import { CogsSVG } from '@/svg';
-import { isSameAddressZ, numberToString } from '@/utils';
+import { isSameAddressZ } from '@/utils';
 
 import SwapSelectCurrency from '../components/swap-select-currency';
 import InputBalance from './input-balance';
@@ -205,18 +205,19 @@ const Swap: FC = () => {
                 0,
                 12
               )}
-              max={numberToString(
-                FixedPointMath.toNumber(
-                  pathOr(
-                    ZERO_BIG_NUMBER,
-                    [getAddress(tokenInAddress), 'balance'],
-                    balancesData
-                  ),
-                  getValues().tokenIn.decimals,
-                  0,
-                  12
-                )
-              )}
+              max={FixedPointMath.toNumber(
+                pathOr(
+                  ZERO_BIG_NUMBER,
+                  [getAddress(tokenInAddress), 'balance'],
+                  balancesData
+                ),
+                getValues().tokenIn.decimals,
+                0,
+                12
+              ).toLocaleString('fullwide', {
+                useGrouping: false,
+                maximumSignificantDigits: 6,
+              })}
               name="tokenIn"
               register={register}
               setValue={setValue}

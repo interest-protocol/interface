@@ -7,7 +7,6 @@ import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { Fraction } from '@/sdk/entities/fraction';
 import { InfoSVG } from '@/svg';
-import { numberToString } from '@/utils';
 
 import {
   calculateBorrowAmount,
@@ -60,13 +59,20 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
 
     setValue(
       'repay.loan',
-      numberToString(
-        intendedLTV === 100
-          ? FixedPointMath.from(data.dnrBalance).toNumber()
-          : FixedPointMath.from(data.dnrBalance)
-              .mul(FixedPointMath.toBigNumber(intendedLTV / 100))
-              .toNumber()
-      )
+      intendedLTV === 100
+        ? FixedPointMath.from(data.dnrBalance)
+            .toNumber()
+            .toLocaleString('fullwide', {
+              useGrouping: false,
+              maximumSignificantDigits: 6,
+            })
+        : FixedPointMath.from(data.dnrBalance)
+            .mul(FixedPointMath.toBigNumber(intendedLTV / 100))
+            .toNumber()
+            .toLocaleString('fullwide', {
+              useGrouping: false,
+              maximumSignificantDigits: 6,
+            })
     );
   };
 

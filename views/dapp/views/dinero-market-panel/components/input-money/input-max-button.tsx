@@ -4,7 +4,7 @@ import { useWatch } from 'react-hook-form';
 
 import { Button } from '@/elements';
 import { FixedPointMath } from '@/sdk';
-import { numberToString, safeToBigNumber } from '@/utils';
+import { safeToBigNumber } from '@/utils';
 
 import {
   calculateDineroLeftToBorrow,
@@ -24,20 +24,22 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
   const repayLoan = useWatch({ control, name: 'repay.loan' });
   const repayCollateral = useWatch({ control, name: 'repay.collateral' });
 
-  const maxBorrowLoan = numberToString(
-    calculateDineroLeftToBorrow({
-      ...data,
-      adjustedUserCollateral: data.adjustedUserCollateral.add(
-        safeToBigNumber(+borrowCollateral || 0)
-      ),
-    })
-      .mul(ethers.utils.parseEther('0.9'))
-      .toNumber()
-  );
+  const maxBorrowLoan = calculateDineroLeftToBorrow({
+    ...data,
+    adjustedUserCollateral: data.adjustedUserCollateral.add(
+      safeToBigNumber(+borrowCollateral || 0)
+    ),
+  })
+    .mul(ethers.utils.parseEther('0.9'))
+    .toNumber()
+    .toString();
 
-  const maxRepayCollateral = numberToString(
-    safeAmountToWithdrawRepay(data, safeToBigNumber(+repayLoan)).toNumber()
-  );
+  const maxRepayCollateral = safeAmountToWithdrawRepay(
+    data,
+    safeToBigNumber(+repayLoan)
+  )
+    .toNumber()
+    .toString();
 
   useEffect(() => {
     if (+borrowLoan > +maxBorrowLoan) setValue('borrow.loan', maxBorrowLoan);
@@ -52,7 +54,12 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     if (FixedPointMath.toBigNumber(repayLoan).gt(data.dnrBalance))
       setValue(
         'repay.loan',
-        numberToString(FixedPointMath.from(data.dnrBalance).toNumber())
+        FixedPointMath.from(data.dnrBalance)
+          .toNumber()
+          .toLocaleString('fullwide', {
+            useGrouping: false,
+            maximumSignificantDigits: 6,
+          })
       );
 
     if (
@@ -62,9 +69,12 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     )
       setValue(
         'borrow.collateral',
-        numberToString(
-          FixedPointMath.from(data.adjustedCollateralBalance).toNumber()
-        )
+        FixedPointMath.from(data.adjustedCollateralBalance)
+          .toNumber()
+          .toLocaleString('fullwide', {
+            useGrouping: false,
+            maximumSignificantDigits: 6,
+          })
       );
   }, [repayLoan, borrowCollateral]);
 
@@ -79,16 +89,21 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
       return;
     }
 
-    setValue(name, max ? numberToString(max) : '0');
+    setValue(name, max ? max.toString() : '0');
   }, [repayLoan, borrowCollateral, data]);
 
   const isDisabled = useMemo(() => {
-    if (name === 'repay.collateral') return data.userCollateral.isZero();
+    if (name === 'repay.collateral') {
+      return data.userCollateral.isZero();
+    }
 
-    if (name === 'repay.loan')
+    if (name === 'repay.loan') {
       return data.loanElastic.isZero() || data.dnrBalance.isZero();
+    }
 
-    if (name === 'borrow.collateral') return data.collateralBalance.isZero();
+    if (name === 'borrow.collateral') {
+      return data.collateralBalance.isZero();
+    }
 
     return false;
   }, [

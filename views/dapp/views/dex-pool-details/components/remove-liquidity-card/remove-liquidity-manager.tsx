@@ -4,11 +4,7 @@ import { useWatch } from 'react-hook-form';
 import { useQuoteRemoveLiquidity } from '@/hooks';
 import { useDebounce } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
-import {
-  numberToString,
-  processWrappedNativeTokenAddress,
-  stringToBigNumber,
-} from '@/utils';
+import { processWrappedNativeTokenAddress, stringToBigNumber } from '@/utils';
 
 import LiquidityFormMessage from '../liquidity-form-message';
 import { RemoveLiquidityManagerProps } from './remove-liquidity-card.types';
@@ -48,15 +44,25 @@ const RemoveLiquidityManager: FC<RemoveLiquidityManagerProps> = ({
     if (data) {
       setValue(
         'token0Amount',
-        numberToString(
-          FixedPointMath.toNumber(data.amountA, token0Decimals, 12)
-        )
+        FixedPointMath.toNumber(
+          data.amountA,
+          token0Decimals,
+          12
+        ).toLocaleString('fullwide', {
+          useGrouping: false,
+          maximumSignificantDigits: 6,
+        })
       );
       setValue(
         'token1Amount',
-        numberToString(
-          FixedPointMath.toNumber(data.amountB, token1Decimals, 12)
-        )
+        FixedPointMath.toNumber(
+          data.amountB,
+          token1Decimals,
+          12
+        ).toLocaleString('fullwide', {
+          useGrouping: false,
+          maximumSignificantDigits: 6,
+        })
       );
       setValue('loading', false);
     }
