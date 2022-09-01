@@ -1,5 +1,6 @@
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { not, o, propEq } from 'ramda';
 import { FC } from 'react';
 import { v4 } from 'uuid';
@@ -35,6 +36,8 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
   localAssets,
   setLocalAssets,
 }) => {
+  const t = useTranslations('mail-market');
+  const tCommon = useTranslations('common');
   const { push } = useRouter();
   const { chainId } = useIdAccount();
 
@@ -45,7 +48,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
     <Table
       hasButton
       specialRowHover
-      headings={MAIL_MARKET_HEADINGS(data.symbol)}
+      headings={MAIL_MARKET_HEADINGS(data.symbol, tCommon('market'))}
       data={[
         {
           button: (
@@ -117,7 +120,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                 color="textSecondary"
                 textTransform="uppercase"
               >
-                Supply
+                {t('mailMarketSupply')}
               </Typography>
               <Typography
                 fontSize="S"
@@ -125,7 +128,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                 color="textSecondary"
                 textTransform="uppercase"
               >
-                Borrow
+                {t('mailMarketBorrow')}
               </Typography>
             </Box>,
             ...MAIL_MARKET_ASSET_ARRAY.map((index) =>

@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { CopyToClipboard } from '@/components';
@@ -9,6 +10,7 @@ import { shortAccount } from '@/utils';
 import { MAILMarketPoolInfoProps } from '../../mail-market-pool.types';
 
 const MAILMarketPoolInfo: FC<MAILMarketPoolInfoProps> = ({ metadata }) => {
+  const t = useTranslations('mail-market-pool');
   const Icon = TOKENS_SVG_MAP[metadata.symbol];
 
   return (
@@ -45,7 +47,7 @@ const MAILMarketPoolInfo: FC<MAILMarketPoolInfoProps> = ({ metadata }) => {
         color="textSecondary"
         as="span"
         cursor="help"
-        data-tip={`The riskiest token of this market is ${metadata.symbol}`}
+        data-tip={`${t('mailMarketPoolInfoTip')} ${metadata.symbol}`}
       >
         <InfoSVG width="1.2rem" />
       </Box>

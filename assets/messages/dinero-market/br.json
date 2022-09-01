@@ -1,0 +1,23 @@
+{
+  "dinero-market": {
+    "dineroMarketTitle": "Empreste Dinero",
+    "borrowFilterSearch": "Pesquisar",
+    "borrowFilterSort": "Ordenar por",
+    "borrowFilterSortOptionName": "Nome",
+    "borrowFilterSortOptionInterestRate": "Taxas de juros",
+    "borrowFilterSortOptionLiquidationFee": "Taxa de liquidação",
+    "borrowFilterBorrowing": "Apenas Empréstimo",
+    "borrowTableHeaderCollateral": "Garantia",
+    "borrowTableHeaderTVL": "TVL",
+    "borrowTableHeaderTVLTip": "Valor Total Bloqueado",
+    "borrowTableHeaderBorrowing": "Emprestimo",
+    "borrowTableHeaderBorrowingTip": "Quantidade actual de DNR a ser emprestada",
+    "borrowTableHeaderLTV": "LTV",
+    "borrowTableHeaderLTVTip": "Empréstimo a valorizar",
+    "borrowTableHeaderInterestCost": "Custo dos juros <br></br>(APR)",
+    "borrowTableHeaderInterestCostTip": "O custo anual de um empréstimo a um mutuário, <br /> expresso como uma percentagem",
+    "borrowTableHeaderLiquidation": "Taxas de liquidação",
+    "borrowTableHeaderLiquidationTip": "Uma taxa de penalização cobrada a um mutuário quando a sua posição é liquidada.<br />É expressa como uma percentagem do empréstimo",
+    "borrowTableRowButton": "Aceder"
+  }
+}

@@ -1,10 +1,11 @@
 import { IHeading } from '@/elements/table/table.types';
 
 export const MAIL_MARKET_HEADINGS = (
-  symbol: string
+  symbol: string,
+  market: string
 ): ReadonlyArray<IHeading> => [
   {
-    item: 'Market',
+    item: market,
   },
   {
     item: '',

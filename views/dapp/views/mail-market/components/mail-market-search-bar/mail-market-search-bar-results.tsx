@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -15,6 +16,7 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
   addLocalAsset,
   chainId,
 }) => {
+  const t = useTranslations('mail-market');
   const query = useWatch({ control, name: 'search' });
 
   const trimmedQuery = useMemo(() => query.trim(), [query]);
@@ -64,8 +66,7 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
         borderRadius="L"
         position="absolute"
       >
-        Market not found: Please write a non-bridge token address to find or
-        create a new market
+        {t('notFound')}
       </Box>
     );
 

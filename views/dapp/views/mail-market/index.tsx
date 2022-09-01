@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { compose, prop, uniqBy } from 'ramda';
 import { FC, useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -20,6 +21,7 @@ import MAILMarketSearchInput from './components/mail-market-search-bar';
 import { AddLocalAsset } from './mail-market.types';
 
 const MAILMarket: FC = () => {
+  const t = useTranslations('mail-market');
   const { chainId } = useIdAccount();
   const { register, control } = useForm({ defaultValues: { search: '' } });
 
@@ -55,7 +57,7 @@ const MAILMarket: FC = () => {
         <Container dapp px="M" background="specialBackground" width="100%">
           <Box mt="XL" display="flex" justifyContent="space-between">
             <Typography variant="normal" ml="M">
-              Multi-asset Isolated Lending Markets
+              {t('mailMarketTitle')}
             </Typography>
             {!!recommendedMarkets.length && localMarkets.length > 6 && (
               <Typography
@@ -65,7 +67,7 @@ const MAILMarket: FC = () => {
                   color: 'accentActive',
                 }}
               >
-                <a href="#recommended">See recommended</a>
+                <a href="#recommended">{t('seeRecommended')}</a>
               </Typography>
             )}
           </Box>

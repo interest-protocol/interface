@@ -16,6 +16,7 @@ const Details: FC<DetailsProps> = ({
   control,
   base,
   totalBorrowsInUSDRecord,
+  text,
 }) => {
   const value = useWatch({
     control,
@@ -69,7 +70,7 @@ const Details: FC<DetailsProps> = ({
           color="textSecondary"
           textTransform="uppercase"
         >
-          Liquidation Risk
+          {text}
         </Typography>
         <Typography variant="normal">
           <Typography

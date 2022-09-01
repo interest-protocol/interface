@@ -14,4 +14,5 @@ export interface DetailsProps {
   control: Control<IMAILMarketPoolForm>;
   base: boolean;
   totalBorrowsInUSDRecord: TotalBorrowRiskyInUSDRecord;
+  text: string;
 }

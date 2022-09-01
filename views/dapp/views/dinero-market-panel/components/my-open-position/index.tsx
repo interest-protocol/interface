@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
@@ -7,7 +8,6 @@ import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { InfoSVG } from '@/svg';
 import { formatDollars, maybeLPTokenName } from '@/utils';
 
-import { MY_POSITION } from '../../dinero-market.data';
 import { MyOpenPositionProps } from './my-open-position.types';
 
 const MyOpenPosition: FC<MyOpenPositionProps> = ({
@@ -15,60 +15,67 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
   isLoading,
   myPositionData,
   collateralUSDPrice,
-}) => (
-  <Box p="XL" order={5} gridArea="c" bg="foreground" borderRadius="L">
-    <Typography variant="normal" textTransform="uppercase" mt="L">
-      My open position:
-    </Typography>
-    {MY_POSITION.map(({ name, tip }, i) => (
-      <Box my="L" key={v4()} display="flex" justifyContent="space-between">
-        <Typography variant="normal" display="flex" alignItems="center">
-          <Box
-            mr="M"
-            as="span"
-            width="1rem"
-            cursor="help"
-            data-tip={tip}
-            display="inline-block"
+}) => {
+  const t = useTranslations('dinero-market-address');
+  const MY_POSITION = [1, 2, 3, 4, 5, 6].map((item) => ({
+    name: t('positonName' + item),
+    tip: t('positionTip' + item),
+  }));
+
+  return (
+    <Box p="XL" order={5} gridArea="c" bg="foreground" borderRadius="L">
+      <Typography variant="normal" textTransform="uppercase" mt="L">
+        {t('positionTitle')}:
+      </Typography>
+      {MY_POSITION.map(({ name, tip }, i) => (
+        <Box my="L" key={v4()} display="flex" justifyContent="space-between">
+          <Typography variant="normal" display="flex" alignItems="center">
+            <Box
+              mr="M"
+              as="span"
+              width="1rem"
+              cursor="help"
+              data-tip={tip}
+              display="inline-block"
+            >
+              <InfoSVG width="100%" />
+            </Box>
+            {name}
+          </Typography>
+          <Typography
+            variant="normal"
+            overflow="hidden"
+            textAlign="right"
+            whiteSpace="nowrap"
+            color="textSecondary"
           >
-            <InfoSVG width="100%" />
-          </Box>
-          {name}
+            {myPositionData[i]}
+          </Typography>
+        </Box>
+      ))}
+      <Box mt="XL">
+        <Typography variant="normal" textAlign="center" mb="M">
+          DNR: {formatDollars(1)}
         </Typography>
-        <Typography
-          variant="normal"
-          overflow="hidden"
-          textAlign="right"
-          whiteSpace="nowrap"
-          color="textSecondary"
-        >
-          {myPositionData[i]}
+        <Typography as="div" variant="normal" textAlign="center" mb="M">
+          {isLoading ? (
+            <Typography
+              as="span"
+              width="8rem"
+              variant="normal"
+              display="inline-block"
+            >
+              <Skeleton />
+            </Typography>
+          ) : (
+            `${maybeLPTokenName(...symbols)}: ${
+              collateralUSDPrice &&
+              formatDollars(FixedPointMath.from(collateralUSDPrice).toNumber())
+            }`
+          )}
         </Typography>
       </Box>
-    ))}
-    <Box mt="XL">
-      <Typography variant="normal" textAlign="center" mb="M">
-        DNR: {formatDollars(1)}
-      </Typography>
-      <Typography as="div" variant="normal" textAlign="center" mb="M">
-        {isLoading ? (
-          <Typography
-            as="span"
-            width="8rem"
-            variant="normal"
-            display="inline-block"
-          >
-            <Skeleton />
-          </Typography>
-        ) : (
-          `${maybeLPTokenName(...symbols)}: ${
-            collateralUSDPrice &&
-            formatDollars(FixedPointMath.from(collateralUSDPrice).toNumber())
-          }`
-        )}
-      </Typography>
     </Box>
-  </Box>
-);
-
+  );
+};
 export default MyOpenPosition;

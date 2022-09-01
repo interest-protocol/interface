@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ethers } from 'ethers';
+import { useTranslations } from 'next-intl';
 import { pathOr } from 'ramda';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -49,6 +50,7 @@ import DineroMarketForm from './dinero-market-form';
 import DineroMarketSwitch from './dinero-market-switch';
 
 const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
+  const t = useTranslations('dinero-market-address');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { signer } = useGetSigner();
   const { chainId, account } = useIdAccount();
@@ -223,7 +225,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
 
   const onSubmitRepay = async () => {
     if (isFormRepayEmpty(form)) {
-      toast.error('Borrow or collateral amount are wrong');
+      toast.error(t('toastError'));
       return;
     }
 

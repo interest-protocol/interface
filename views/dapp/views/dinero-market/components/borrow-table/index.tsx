@@ -1,6 +1,7 @@
 import { BigNumber } from 'ethers';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
@@ -14,6 +15,7 @@ import { handleFilterDineroMarkets } from '../../dinero-market.utils';
 import { BorrowTableProps } from './borrow-table.types';
 
 const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
+  const t = useTranslations('dinero-market');
   const { push } = useRouter();
   const sortBy = useWatch({ control, name: 'sortBy' });
   const search = useWatch({ control, name: 'search' });
@@ -43,12 +45,12 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   textAlign="center"
                   display={['none', 'block']}
                 >
-                  Collateral
+                  {t('borrowTableHeaderCollateral')}
                 </Typography>
               ),
             },
             {
-              tip: 'Total Value Locked',
+              tip: t('borrowTableHeaderTVLTip'),
               item: (
                 <Typography
                   as="span"
@@ -61,7 +63,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
               ),
             },
             {
-              tip: 'Current amount of DNR being borrowed',
+              tip: t('borrowTableHeaderBorrowingTip'),
               item: (
                 <Typography
                   as="span"
@@ -69,12 +71,12 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   variant="normal"
                   fontSize="inherit"
                 >
-                  Borrowing
+                  {t('borrowTableHeaderBorrowing')}
                 </Typography>
               ),
             },
             {
-              tip: 'Loan to Value',
+              tip: t('borrowTableHeaderLTVTip'),
               item: (
                 <Typography
                   as="span"
@@ -87,22 +89,12 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
               ),
             },
             {
-              tip: 'The annual cost of a loan to a borrower, <br /> expressed as a percentage',
-              item: (
-                <>
-                  Interest Cost <br />
-                  (APR)
-                </>
-              ),
+              tip: t('borrowTableHeaderInterestCostTip'),
+              item: <>{t('borrowTableHeaderInterestCost')}</>,
             },
             {
-              tip: 'A penalty fee charged to a borrower when his/her position is liquidated.<br />It is expressed as a percentage of the loan',
-              item: (
-                <>
-                  Liquidation <br />
-                  Fee
-                </>
-              ),
+              tip: t('borrowTableHeaderLiquidationTip'),
+              item: <>{t('borrowTableHeaderLiquidation')}</>,
             },
           ]}
           data={filteredMarkets.map((x) => ({
@@ -123,7 +115,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   variant="primary"
                   hover={{ bg: 'accentActive' }}
                 >
-                  Enter
+                  {t('borrowTableRowButton')}
                 </Button>
               </Link>
             ),
@@ -193,7 +185,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   fontSize="inherit"
                   data-tip="TVL info"
                 >
-                  Borrowing
+                  {t('borrowTableHeaderBorrowing')}
                 </Typography>
               ),
             },
@@ -212,20 +204,10 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
               ),
             },
             {
-              item: (
-                <>
-                  Interest Cost <br />
-                  (APR)
-                </>
-              ),
+              item: <>{t('borrowTableHeaderInterestCost')}</>,
             },
             {
-              item: (
-                <>
-                  Liquidation <br />
-                  Fee
-                </>
-              ),
+              item: <>{t('borrowTableHeaderLiquidation')}</>,
             },
           ]}
           data={filteredMarkets.map((x) => {
@@ -274,7 +256,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                     variant="primary"
                     hover={{ bg: 'accentActive' }}
                   >
-                    Enter
+                    {t('borrowTableRowButton')}
                   </Button>
                 </Link>
               ),

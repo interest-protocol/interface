@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
@@ -12,30 +13,12 @@ import {
 } from '../../dinero-market.utils';
 import { BorrowFormLoanInfoProps } from './borrow-form.types';
 
-const INFO = [
-  {
-    text: 'Maximum borrow amount',
-    tip: 'The maximum amount of Dinero this market can lend.',
-  },
-  {
-    text: 'Estimated DNR borrowed',
-    tip: 'Total amount of DNR owed (principal + interest<br /> rate) including the planned transaction',
-  },
-  {
-    text: 'Estimated Liquidation Price',
-    tip: 'If the collateral token drops to this price,<br /> you are at risk of liquidation.',
-  },
-  {
-    text: 'Position Health',
-    tip: 'If this value reaches 0, you are at risk of<br /> liquidation.',
-  },
-];
-
 const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
   control,
   data,
   isBorrow,
 }) => {
+  const t = useTranslations('dinero-market-address');
   const borrowLoan = useWatch({ control, name: 'borrow.loan' });
   const borrowCollateral = useWatch({
     control,
@@ -47,6 +30,11 @@ const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
     control,
     name: 'repay.collateral',
   });
+
+  const INFO = [1, 2, 3, 4].map((item) => ({
+    text: t('borrowFormLoanInfoText' + item),
+    tip: t('borrowFormLoanInfoTip' + item),
+  }));
 
   const loanData = useMemo(
     () =>

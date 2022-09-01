@@ -1,0 +1,23 @@
+{
+  "dinero-market": {
+    "dineroMarketTitle": "Borrow Dinero",
+    "borrowFilterSearch": "Search",
+    "borrowFilterSort": "Sort by",
+    "borrowFilterSortOptionName": "Name",
+    "borrowFilterSortOptionInterestRate": "Interest Rate",
+    "borrowFilterSortOptionLiquidationFee": "Liquidation Fee",
+    "borrowFilterBorrowing": "Borrowing only",
+    "borrowTableHeaderCollateral": "Collateral",
+    "borrowTableHeaderTVL": "TVL",
+    "borrowTableHeaderTVLTip": "Total Value Locked",
+    "borrowTableHeaderBorrowing": "Borrowing",
+    "borrowTableHeaderBorrowingTip": "Current amount of DNR being borrowed",
+    "borrowTableHeaderLTV": "LTV",
+    "borrowTableHeaderLTVTip": "Loan to Value",
+    "borrowTableHeaderInterestCost": "Interest Cost (APR)",
+    "borrowTableHeaderInterestCostTip": "The annual cost of a loan to a borrower, <br /> expressed as a percentage",
+    "borrowTableHeaderLiquidation": "Liquidation Fee",
+    "borrowTableHeaderLiquidationTip": "A penalty fee charged to a borrower when his/her position is liquidated.<br />It is expressed as a percentage of the loan",
+    "borrowTableRowButton": "Enter"
+  }
+}

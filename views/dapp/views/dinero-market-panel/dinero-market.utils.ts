@@ -725,7 +725,11 @@ export const calculateUserCurrentLTV: TCalculateUserCurrentLTV = (
   return elasticLoan.div(collateralInUSD);
 };
 
-export const getBorrowFields: TGetBorrowFields = (market) => {
+export const getBorrowFields: TGetBorrowFields = (
+  market,
+  collateralLabel,
+  dineroLabel
+) => {
   if (!market) return [];
 
   return [
@@ -736,7 +740,7 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
       currencyIcons: getDineroMarketSVGBySymbol(market.symbol0, market.symbol1),
       max: FixedPointMath.toNumber(market.adjustedCollateralBalance),
       name: 'borrow.collateral',
-      label: 'Deposit Collateral',
+      label: collateralLabel,
       amountUSD: market.collateralUSDPrice.isZero()
         ? 0
         : FixedPointMath.toNumber(market.collateralUSDPrice),
@@ -753,7 +757,7 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
         },
       ],
       name: 'borrow.loan',
-      label: 'Borrow Dinero',
+      label: dineroLabel,
       currency: TOKEN_SYMBOL.DNR,
       disabled:
         market.collateralBalance.isZero() && market.userCollateral.isZero(),
@@ -761,7 +765,11 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
   ];
 };
 
-export const getRepayFields: TGetRepayFields = (market) => {
+export const getRepayFields: TGetRepayFields = (
+  market,
+  collateralLabel,
+  dineroLabel
+) => {
   if (!market) return [];
 
   return [
@@ -775,7 +783,7 @@ export const getRepayFields: TGetRepayFields = (market) => {
         },
       ],
       name: 'repay.loan',
-      label: 'Repay Dinero',
+      label: dineroLabel,
       max: +Fraction.from(
         loanPrincipalToElastic({
           loanBase: market.loanBase,
@@ -796,7 +804,7 @@ export const getRepayFields: TGetRepayFields = (market) => {
       currencyIcons: getDineroMarketSVGBySymbol(market.symbol0, market.symbol1),
       max: safeAmountToWithdraw(market).toNumber(),
       name: 'repay.collateral',
-      label: 'Remove Collateral',
+      label: collateralLabel,
       amountUSD: market?.collateralUSDPrice.isZero()
         ? 0
         : FixedPointMath.toNumber(market.collateralUSDPrice),

@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
@@ -17,6 +18,7 @@ const parseFarmSortByEnum = cond([
 ]);
 
 const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
+  const t = useTranslations('dinero-market');
   const sortBy = useWatch({ control, name: 'sortBy' });
 
   return (
@@ -28,7 +30,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
         variant="normal"
         display="inline-block"
       >
-        Sort by:
+        {t('borrowFilterSort')}:
       </Typography>
       <Box
         display="flex"
@@ -61,11 +63,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
           data={[
             {
               value: 'id',
-              displayOption: 'Name',
+              displayOption: t('borrowFilterSortOptionName') as string,
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    Name
+                    {t('borrowFilterSortOptionName')}
                   </Typography>
                 </Box>
               ),
@@ -103,11 +105,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
             },
             {
               value: 'interestRate',
-              displayOption: 'Interest Rate',
+              displayOption: t('borrowFilterSortOptionInterestRate') as string,
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    Interest Rate
+                    {t('borrowFilterSortOptionInterestRate')}
                   </Typography>
                 </Box>
               ),
@@ -117,11 +119,13 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
             },
             {
               value: 'fee',
-              displayOption: 'Liquidation Fee',
+              displayOption: t(
+                'borrowFilterSortOptionLiquidationFee'
+              ) as string,
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    Liquidation Fee
+                    {t('borrowFilterSortOptionLiquidationFee')}
                   </Typography>
                 </Box>
               ),

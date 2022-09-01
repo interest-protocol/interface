@@ -1,0 +1,9 @@
+{
+  "mail-market": {
+    "mailMarketTitle": "Multi-asset Isolated Lending Markets",
+    "mailMarketBorrow": "borrow",
+    "mailMarketSupply": "supply",
+    "seeRecommended": "See recommended",
+    "notFound": "Market not found: Please write a non-bridge token address to find or create a new market"
+  }
+}

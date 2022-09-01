@@ -1,9 +1,10 @@
 import { ethers } from 'ethers';
+import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import { Box } from '@/elements';
+import { Box, Typography } from '@/elements';
 import { isSameAddress } from '@/utils';
 
 import { MAILMarketTableProps } from '../../mail-market.types';
@@ -16,6 +17,7 @@ const MAILMarketTable: FC<MAILMarketTableProps> = ({
   localAssets,
   setLocalAssets,
 }) => {
+  const t = useTranslations('common');
   const query = useWatch({ control, name: 'search' });
 
   const filteredData = useMemo(
@@ -34,7 +36,9 @@ const MAILMarketTable: FC<MAILMarketTableProps> = ({
   return filteredData.length ? (
     <Box display="grid" columnGap="1rem">
       <Box id={favorite ? 'favorites' : 'recommended'} mt="XL">
-        {favorite ? 'Favorites' : 'Recommended'}
+        <Typography variant="normal" textTransform="capitalize">
+          {favorite ? t('favorites') : t('recommended')}
+        </Typography>
       </Box>
       {filteredData.map((item) => (
         <MAILMarketTableItem

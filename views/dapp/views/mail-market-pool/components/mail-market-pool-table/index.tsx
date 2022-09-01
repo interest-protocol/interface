@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { find, prepend, propEq, take } from 'ramda';
 import { FC, useMemo } from 'react';
 import Skeleton from 'react-loading-skeleton';
@@ -31,6 +32,7 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
   showOnDesktop,
   totalBorrowsInUSDRecord,
 }) => {
+  const t = useTranslations('mail-market-pool');
   const {
     push,
     pathname,
@@ -105,7 +107,7 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
       >
         <Typography pt="L" variant="normal" textTransform="capitalize">
           {active && 'Active '}
-          {type} Market
+          {type === 'borrow' ? t('borrowMarket') : t('supplyMarket')}
         </Typography>
         <Table
           headings={

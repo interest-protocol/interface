@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { compose, join, map, prepend, prop, propOr } from 'ramda';
 import { FC, useCallback, useMemo } from 'react';
 
@@ -26,6 +27,7 @@ import {
 } from './utils';
 
 const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
+  const t = useTranslations('mail-market-pool');
   const { data: rawData, error, mutate } = useGetMailMarketData(pool);
   const { chainId } = useIdAccount();
 
@@ -84,12 +86,12 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
                 color: 'accentActive',
               }}
             >
-              See Markets
+              {t('mobileHeaderLink')}
             </Typography>
           </a>
         </Box>
         <Typography variant="normal" ml="M">
-          Borrow & Lend &rarr;{' '}
+          {t('mailMarketPoolTitle')} &rarr;{' '}
           {!loading &&
             compose(
               join(' - '),
@@ -110,12 +112,12 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             gridTemplateColumns="1fr 1fr"
           >
             <MAILMarketPoolBalance
-              text=" My supply balance"
+              text={t('supplyBalance')}
               balance={formatDollars(FixedPointMath.toNumber(mySupply))}
               loading={loading}
             />
             <MAILMarketPoolBalance
-              text="my borrow balance"
+              text={t('borrowBalance')}
               balance={formatDollars(
                 FixedPointMath.toNumber(
                   totalBorrowsInUSDRecord.totalBorrowInUSD
@@ -131,7 +133,7 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             gridTemplateColumns="1fr 1fr"
           >
             <MAILMarketPoolBalance
-              text="Max borrowable amount"
+              text={t('mailMarketPoolBalanceTitle')}
               balance={formatDollars(
                 FixedPointMath.toNumber(
                   totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD
@@ -140,6 +142,7 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
               loading={loading}
             />
             <MAILMarketPoolRisk
+              text={t('mailMarketPoolRiskTitle')}
               loading={loading}
               risk={calculatePoolRisk(totalBorrowsInUSDRecord)}
             />

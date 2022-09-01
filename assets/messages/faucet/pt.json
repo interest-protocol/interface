@@ -2,7 +2,7 @@
   "faucet": {
     "firstSectionTitle": "Tokens recomendados",
     "secondSectionTitle": "Meus tokens",
-    "cardTitle": "Teu Saldo",
+    "cardTitle": "O Seu Saldo",
     "tokenInput": "Escolha o Token",
     "amountInput": "Tipo montante",
     "modalButton": "Criar Token",

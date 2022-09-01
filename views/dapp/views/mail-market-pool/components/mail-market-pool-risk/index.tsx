@@ -6,7 +6,11 @@ import { ProgressSVG } from '@/svg';
 
 import { MAILMarketPoolRiskProps } from '../../mail-market-pool.types';
 
-const MAILMarketPoolRisk: FC<MAILMarketPoolRiskProps> = ({ loading, risk }) => (
+const MAILMarketPoolRisk: FC<MAILMarketPoolRiskProps> = ({
+  loading,
+  risk,
+  text,
+}) => (
   <Box bg="foreground" p="XL" borderRadius="L">
     <Typography
       mb="XL"
@@ -15,7 +19,7 @@ const MAILMarketPoolRisk: FC<MAILMarketPoolRiskProps> = ({ loading, risk }) => (
       color="textSecondary"
       textTransform="uppercase"
     >
-      Liquidation Risk
+      {text}
     </Typography>
     <Box display="flex" alignItems="center" justifyContent="space-between">
       <Typography variant="normal" mr="XL">
