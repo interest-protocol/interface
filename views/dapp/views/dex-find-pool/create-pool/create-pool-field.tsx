@@ -6,7 +6,7 @@ import { addAllowance } from '@/api/erc20';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
 import { useGetSigner, useIdAccount } from '@/hooks';
-import { IntMath, TOKEN_SYMBOL } from '@/sdk';
+import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import {
   formatMoney,
@@ -102,7 +102,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
               `${name}.value`,
               parseInputEventToNumberString(
                 v,
-                IntMath.toNumber(tokenBalance, decimals)
+                FixedPointMath.toNumber(tokenBalance, decimals)
               )
             );
           },
@@ -159,7 +159,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
             onClick={() =>
               setValue?.(
                 `${name}.value`,
-                IntMath.toNumber(tokenBalance, decimals).toString()
+                FixedPointMath.toNumber(tokenBalance, decimals).toString()
               )
             }
             height="2.4rem"
@@ -175,7 +175,8 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           color="textSecondary"
           fontSize="0.9rem"
         >
-          Balance: {formatMoney(IntMath.toNumber(tokenBalance, decimals), 2)}
+          Balance:{' '}
+          {formatMoney(FixedPointMath.toNumber(tokenBalance, decimals), 2)}
         </Typography>
       </Box>
     </Box>

@@ -46,145 +46,153 @@ const TableLoading: FC<TableLoadingProps> = ({ columns }) => (
 );
 
 const TableRow: FC<TableRowProps> = ({
+  bg,
   index,
   items,
   button,
   ordinate,
   headings,
   hasButton,
+  separated,
+  desktopBg,
   mobileSide,
   handleClick,
   specialRowHover,
-  bg = 'foreground',
-  desktopBg = 'unset',
-}) => (
-  <>
-    <Box
-      bg={desktopBg}
-      transition="none"
-      border="1px solid"
-      onClick={handleClick}
-      borderColor="transparent"
-      display={['none', 'none', 'none', 'block']}
-      cursor={handleClick ? 'pointer' : 'normal'}
-      {...(specialRowHover && {
-        borderRadius: 'L',
-      })}
-      hover={
-        specialRowHover
-          ? {
-              borderColor: 'accent',
-            }
-          : {
-              bg: handleClick ? 'bottomBackground' : 'transparent',
-            }
-      }
-    >
+}) => {
+  const incomingBg = bg ?? 'foreground';
+  const incomingDesktopBg = desktopBg ?? 'unset';
+
+  return (
+    <>
       <Box
-        py="M"
-        px="XL"
-        role="row"
-        display="grid"
-        alignItems="center"
-        gridTemplateColumns={`1.5fr repeat(${
-          headings.length + (ordinate ? 1 : 0) + (hasButton ? 1 : 0) - 1
-        }, 1fr)`}
+        transition="none"
+        border="1px solid"
+        onClick={handleClick}
+        borderColor="transparent"
+        my={separated ? 'M' : 'unset'}
+        borderRadius={separated ? 'L' : 'unset'}
+        display={['none', 'none', 'none', 'block']}
+        cursor={handleClick ? 'pointer' : 'normal'}
+        bg={desktopBg ? incomingDesktopBg : separated ? 'foreground' : 'unset'}
+        {...(specialRowHover && {
+          borderRadius: 'L',
+        })}
+        hover={
+          specialRowHover || separated
+            ? {
+                borderColor: 'accent',
+              }
+            : {
+                bg: handleClick ? 'bottomBackground' : 'transparent',
+              }
+        }
       >
-        {ordinate && (
-          <Cell as="td" key={v4()}>
-            {index + 1}
-          </Cell>
-        )}
-        {items.map((item) => (
-          <Cell as="td" key={v4()}>
-            {item}
-          </Cell>
-        ))}
-        {button && <Cell as="td">{button}</Cell>}
-      </Box>
-    </Box>
-    <Box
-      mt="M"
-      bg={bg}
-      borderRadius="M"
-      onClick={handleClick}
-      display={['block', 'block', 'block', 'none']}
-      hover={{
-        bg: handleClick ? 'bottomBackground' : 'transparent',
-      }}
-    >
-      <Box display="flex" p="L">
         <Box
-          my="L"
-          mx="M"
-          display="flex"
-          alignItems="center"
-          flexDirection="column"
-          justifyContent="space-evenly"
-        >
-          {mobileSide}
-          {!!button && button}
-        </Box>
-        <Box
-          key={v4()}
+          py="M"
+          px="XL"
+          role="row"
           display="grid"
-          borderRadius="M"
-          overflow="hidden"
-          gridAutoFlow="column"
-          gridTemplateRows={`repeat(${
-            headings.length + (ordinate ? 1 : 0)
+          alignItems="center"
+          gridTemplateColumns={`1.5fr repeat(${
+            headings.length + (ordinate ? 1 : 0) + (hasButton ? 1 : 0) - 1
           }, 1fr)`}
         >
           {ordinate && (
-            <Typography
-              py="M"
-              px="M"
-              fontSize="S"
-              variant="normal"
-              color="textSecondary"
-            >
-              Nº
-            </Typography>
-          )}
-          {headings.map(({ item }) => (
-            <Typography
-              py="M"
-              px="M"
-              key={v4()}
-              fontSize="S"
-              variant="normal"
-              color="textSecondary"
-            >
-              {item}
-            </Typography>
-          ))}
-          {ordinate && (
-            <Box
-              py="M"
-              px="M"
-              borderBottom="0.1rem solid"
-              borderColor="textDescriptionHigh"
-            >
+            <Cell as="td" key={v4()}>
               {index + 1}
-            </Box>
+            </Cell>
           )}
           {items.map((item) => (
-            <Box
-              key={v4()}
-              display="flex"
-              alignItems="stretch"
-              flexDirection="column"
-            >
-              <Box py="M" px="M">
-                {item}
-              </Box>
-            </Box>
+            <Cell as="td" key={v4()}>
+              {item}
+            </Cell>
           ))}
+          {button && <Cell as="td">{button}</Cell>}
         </Box>
       </Box>
-    </Box>
-  </>
-);
+      <Box
+        mt="M"
+        bg={incomingBg}
+        borderRadius="M"
+        onClick={handleClick}
+        display={['block', 'block', 'block', 'none']}
+        hover={{
+          bg: handleClick ? 'bottomBackground' : 'transparent',
+        }}
+      >
+        <Box display="flex" p="L">
+          <Box
+            my="L"
+            mx="M"
+            display="flex"
+            alignItems="center"
+            flexDirection="column"
+            justifyContent="space-evenly"
+          >
+            {mobileSide}
+            {!!button && button}
+          </Box>
+          <Box
+            key={v4()}
+            display="grid"
+            borderRadius="M"
+            overflow="hidden"
+            gridAutoFlow="column"
+            gridTemplateRows={`repeat(${
+              headings.length + (ordinate ? 1 : 0)
+            }, 1fr)`}
+          >
+            {ordinate && (
+              <Typography
+                py="M"
+                px="M"
+                fontSize="S"
+                variant="normal"
+                color="textSecondary"
+              >
+                Nº
+              </Typography>
+            )}
+            {headings.map(({ item }) => (
+              <Typography
+                py="M"
+                px="M"
+                key={v4()}
+                fontSize="S"
+                variant="normal"
+                color="textSecondary"
+              >
+                {item}
+              </Typography>
+            ))}
+            {ordinate && (
+              <Box
+                py="M"
+                px="M"
+                borderBottom="0.1rem solid"
+                borderColor="textDescriptionHigh"
+              >
+                {index + 1}
+              </Box>
+            )}
+            {items.map((item) => (
+              <Box
+                key={v4()}
+                display="flex"
+                alignItems="stretch"
+                flexDirection="column"
+              >
+                <Box py="M" px="M">
+                  {item}
+                </Box>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+      </Box>
+    </>
+  );
+};
 
 const Table: FC<ResponsiveTableProps> = ({
   data,
@@ -193,6 +201,7 @@ const Table: FC<ResponsiveTableProps> = ({
   headings,
   hasButton,
   isDesktop,
+  separated,
   specialRowHover,
   backgroundColorMap,
 }) => {
@@ -242,7 +251,12 @@ const Table: FC<ResponsiveTableProps> = ({
               ))}
               {hasButton && <Cell as="th" />}
             </Box>
-            <Box bg="foreground" borderRadius="L" my="M" overflow="hidden">
+            <Box
+              my="M"
+              overflow="hidden"
+              bg={separated ? 'unset' : 'foreground'}
+              borderRadius={separated ? 'unset' : 'L'}
+            >
               {loading ? (
                 <TableLoading columns={headings.length + (ordinate ? 1 : 0)} />
               ) : (
@@ -255,6 +269,7 @@ const Table: FC<ResponsiveTableProps> = ({
                     button={button}
                     ordinate={ordinate}
                     headings={headings}
+                    separated={separated}
                     mobileSide={undefined}
                     hasButton={!!hasButton}
                     handleClick={handleClick}
@@ -275,12 +290,7 @@ const Table: FC<ResponsiveTableProps> = ({
           </Box>
         </Box>
       ) : (
-        <Box
-          mx="M"
-          my="XL"
-          width="100%"
-          display={['block', 'block', 'block', 'none']}
-        >
+        <Box my="XL" width="100%" display={['block', 'block', 'block', 'none']}>
           {data.map(({ items, button, mobileSide, handleClick }, index) => (
             <TableRow
               key={v4()}

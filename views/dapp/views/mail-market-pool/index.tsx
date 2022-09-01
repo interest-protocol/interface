@@ -6,7 +6,7 @@ import { MAIL_BRIDGE_TOKENS_ARRAY, RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useGetMailMarketData } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
-import { IntMath } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 import { formatDollars } from '@/utils';
 
 import GoBack from '../../components/go-back';
@@ -111,13 +111,15 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
           >
             <MAILMarketPoolBalance
               text=" My supply balance"
-              balance={formatDollars(IntMath.toNumber(mySupply))}
+              balance={formatDollars(FixedPointMath.toNumber(mySupply))}
               loading={loading}
             />
             <MAILMarketPoolBalance
               text="my borrow balance"
               balance={formatDollars(
-                IntMath.toNumber(totalBorrowsInUSDRecord.totalBorrowInUSD)
+                FixedPointMath.toNumber(
+                  totalBorrowsInUSDRecord.totalBorrowInUSD
+                )
               )}
               loading={loading}
             />
@@ -131,7 +133,7 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             <MAILMarketPoolBalance
               text="Max borrowable amount"
               balance={formatDollars(
-                IntMath.toNumber(
+                FixedPointMath.toNumber(
                   totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD
                 )
               )}

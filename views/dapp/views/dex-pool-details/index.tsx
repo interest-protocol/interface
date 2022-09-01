@@ -7,7 +7,7 @@ import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useChainId, useGetPairData } from '@/hooks';
 import { TOKEN_SYMBOL } from '@/sdk';
-import { IntMath } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 import { getNativeBalance } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
 import {
@@ -119,7 +119,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
             {
               symbol: processedData.token0Metadata.symbol,
               value: formatMoney(
-                IntMath.toNumber(
+                FixedPointMath.toNumber(
                   processedData.reserve0,
                   processedData.token0Metadata.decimals.toNumber()
                 )
@@ -129,7 +129,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
             {
               symbol: processedData.token1Metadata.symbol,
               value: formatMoney(
-                IntMath.toNumber(
+                FixedPointMath.toNumber(
                   processedData.reserve1,
                   processedData.token1Metadata.decimals.toNumber()
                 )

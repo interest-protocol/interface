@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers';
 
-import { IntMath } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 
 export interface TokenPriceMap {
   [key: string]: BigNumber;
@@ -9,7 +9,7 @@ export interface TokenPriceMap {
 export type CalculateAllocation = (
   allocationPoints: BigNumber,
   totalAllocationPoints: BigNumber
-) => IntMath;
+) => FixedPointMath;
 
 export type CalculateFarmTokenPrice = (
   chainId: number,
@@ -19,7 +19,7 @@ export type CalculateFarmTokenPrice = (
   reserve1: BigNumber,
   tokenPriceMap: TokenPriceMap,
   totalSupply: BigNumber
-) => IntMath;
+) => FixedPointMath;
 
 export type CalculateIntUSDPrice = (
   chainId: number,
@@ -38,4 +38,4 @@ export type CalculateFarmBaseAPR = (
   intUSDPrice: BigNumber,
   stakeAmount: BigNumber,
   stakeTokenUSDPrice: BigNumber
-) => IntMath;
+) => FixedPointMath;
