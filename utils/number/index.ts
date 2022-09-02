@@ -1,4 +1,12 @@
-import { Fraction, Rounding } from '@/sdk';
+import _Decimal from 'decimal.js-light';
+import toFormat from 'toformat';
+
+const Decimal = toFormat(_Decimal);
+
+Decimal.format = {
+  decimalSeparator: '.',
+  groupSeparator: '',
+};
 
 export const toFixedToPrecision = (
   x: string | number,
@@ -6,16 +14,4 @@ export const toFixedToPrecision = (
   precisionArg = 2
 ): string => (+(+x).toFixed(fixedArg)).toPrecision(precisionArg);
 
-export const numberToString = (
-  x: number,
-  significant: 6,
-  rounding: Rounding.ROUND_HALF_UP
-): string =>
-  Fraction.from(+x.toFixed(8) * 10 ** 8, 10 ** 8).toSignificant(
-    significant,
-    {
-      decimalSeparator: '.',
-      groupSeparator: '',
-    },
-    rounding
-  );
+export const numberToString = (x: number): string => new Decimal(x).toFormat();
