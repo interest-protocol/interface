@@ -37,7 +37,7 @@ const InputBalance: FC<InputBalanceProps> = ({
               name,
               parseInputEventToNumberString(
                 v,
-                balance ? numberToString(balance) : undefined
+                balance ? +numberToString(balance) : undefined
               )
             );
             setValue('locked', false);
