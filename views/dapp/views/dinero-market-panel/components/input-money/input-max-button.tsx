@@ -4,7 +4,7 @@ import { useWatch } from 'react-hook-form';
 
 import { Button } from '@/elements';
 import { FixedPointMath } from '@/sdk';
-import { safeToBigNumber } from '@/utils';
+import { numberToString, safeToBigNumber } from '@/utils';
 
 import {
   calculateDineroLeftToBorrow,
@@ -54,12 +54,7 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     if (FixedPointMath.toBigNumber(repayLoan).gt(data.dnrBalance))
       setValue(
         'repay.loan',
-        FixedPointMath.from(data.dnrBalance)
-          .toNumber()
-          .toLocaleString('fullwide', {
-            useGrouping: false,
-            maximumSignificantDigits: 6,
-          })
+        numberToString(FixedPointMath.from(data.dnrBalance).toNumber())
       );
 
     if (
@@ -69,12 +64,9 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
     )
       setValue(
         'borrow.collateral',
-        FixedPointMath.from(data.adjustedCollateralBalance)
-          .toNumber()
-          .toLocaleString('fullwide', {
-            useGrouping: false,
-            maximumSignificantDigits: 6,
-          })
+        numberToString(
+          FixedPointMath.from(data.adjustedCollateralBalance).toNumber()
+        )
       );
   }, [repayLoan, borrowCollateral]);
 
