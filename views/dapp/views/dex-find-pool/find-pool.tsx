@@ -14,7 +14,7 @@ const FindPool: FC<FindPoolProps> = ({
   currencyAChargerArgs,
   currencyBChargerArgs,
 }) => {
-  const t = useTranslations('common');
+  const t = useTranslations();
   const addressA = useWatch({ control, name: `tokenA.address` });
   const addressB = useWatch({ control, name: `tokenB.address` });
   const isStable = useWatch({ control, name: `isStable` });
@@ -45,12 +45,12 @@ const FindPool: FC<FindPoolProps> = ({
             options={[
               {
                 value: 'stable',
-                displayValue: t('stable'),
+                displayValue: t('common.stable'),
                 onSelect: () => setValue('isStable', true),
               },
               {
                 value: 'volatile',
-                displayValue: t('volatile'),
+                displayValue: t('common.volatile'),
                 onSelect: () => setValue('isStable', false),
               },
             ]}

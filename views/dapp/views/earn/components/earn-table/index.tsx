@@ -22,8 +22,7 @@ const EarnTable: FC<EarnTableProps> = ({
   control,
   farms,
 }) => {
-  const t = useTranslations('earn');
-  const tCommon = useTranslations('common');
+  const t = useTranslations();
 
   const onlyFinished = useWatch({ control, name: 'onlyFinished' });
   const onlyStaked = useWatch({ control, name: 'onlyStaked' });
@@ -62,7 +61,7 @@ const EarnTable: FC<EarnTableProps> = ({
               ),
             },
             {
-              tip: t('column1Tip'),
+              tip: t('earn.column1Tip'),
               item: (
                 <Typography
                   as="span"
@@ -70,12 +69,12 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   fontSize="inherit"
                 >
-                  {t('column1')}
+                  {t('common.tvl')}
                 </Typography>
               ),
             },
             {
-              tip: t('column2Tip'),
+              tip: t('earn.column2Tip'),
               item: (
                 <Typography
                   as="span"
@@ -83,12 +82,12 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   fontSize="inherit"
                 >
-                  {t('column2')}
+                  {t('earn.column2')}
                 </Typography>
               ),
             },
             {
-              tip: t('column3Tip'),
+              tip: t('earn.column3Tip'),
               item: (
                 <Typography
                   as="span"
@@ -96,17 +95,17 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   fontSize="inherit"
                 >
-                  {t('column3')}
+                  {t('common.apr')}
                 </Typography>
               ),
             },
             {
-              tip: t('column4Tip'),
-              item: <>{t('column4')}</>,
+              tip: t('earn.column4Tip'),
+              item: <>{t('earn.column4')}</>,
             },
             {
-              tip: t('column5Tip'),
-              item: <>{t('column5')}</>,
+              tip: t('earn.column5Tip'),
+              item: <>{t('common.type')}</>,
             },
           ]}
           backgroundColorMap={filteredFarms.map((farm) => ({
@@ -182,7 +181,7 @@ const EarnTable: FC<EarnTableProps> = ({
                       key={v4()}
                       textTransform="capitalize"
                     >
-                      {farm.stable ? tCommon('stable') : tCommon('volatile')}
+                      {t(farm.stable ? 'stable' : 'volatile')}
                     </Typography>,
                   ],
                 }))
@@ -197,7 +196,7 @@ const EarnTable: FC<EarnTableProps> = ({
             }))}
             headings={[
               {
-                tip: t('column1Tip'),
+                tip: t('earn.column1Tip'),
                 item: (
                   <Typography
                     as="span"
@@ -205,12 +204,12 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    {t('column1')}
+                    {t('common.tvl')}
                   </Typography>
                 ),
               },
               {
-                tip: t('column2Tip'),
+                tip: t('earn.column2Tip'),
                 item: (
                   <Typography
                     as="span"
@@ -218,12 +217,12 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    {t('column2')}
+                    {t('earn.column2')}
                   </Typography>
                 ),
               },
               {
-                tip: t('column3Tip'),
+                tip: t('earn.column3Tip'),
                 item: (
                   <Typography
                     as="span"
@@ -231,17 +230,17 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    {t('column3')}
+                    {t('common.apr')}
                   </Typography>
                 ),
               },
               {
-                tip: t('column4Tip'),
-                item: <>{t('column4')}</>,
+                tip: t('earn.column4Tip'),
+                item: <>{t('earn.column4')}</>,
               },
               {
-                tip: t('column5Tip'),
-                item: <>{t('column5')}</>,
+                tip: t('earn.column5Tip'),
+                item: <>{t('common.type')}</>,
               },
             ]}
             data={
@@ -307,7 +306,7 @@ const EarnTable: FC<EarnTableProps> = ({
                           variant="primary"
                           hover={{ bg: 'accentActive' }}
                         >
-                          {t('rowButton')}
+                          {t('common.enter')}
                         </Button>
                       </Link>
                     ),
@@ -334,7 +333,7 @@ const EarnTable: FC<EarnTableProps> = ({
                         key={v4()}
                         textTransform="capitalize"
                       >
-                        {farm.stable ? tCommon('stable') : tCommon('volatile')}
+                        {t(farm.stable ? 'stable' : 'volatile')}
                       </Typography>,
                     ],
                   }))

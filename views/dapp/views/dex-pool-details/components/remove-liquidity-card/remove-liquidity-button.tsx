@@ -10,7 +10,7 @@ const RemoveLiquidityButton: FC<RemoveLiquidityButtonProps> = ({
   onClick,
   control,
 }) => {
-  const t = useTranslations('common');
+  const t = useTranslations();
   const loading = useWatch({ control, name: 'loading' });
 
   return (
@@ -22,7 +22,7 @@ const RemoveLiquidityButton: FC<RemoveLiquidityButtonProps> = ({
       hover={{ bg: 'errorActive' }}
       bg={loading ? 'disabled' : 'error'}
     >
-      {loading ? t('removeLoading') : t('remove')}
+      {t(loading ? 'common.removeLoading' : 'common.remove')}
     </Button>
   );
 };

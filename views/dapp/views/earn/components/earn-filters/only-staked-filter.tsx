@@ -9,7 +9,7 @@ import { getFilterSwitchDefaultData } from '@/views/dapp/views/earn/components/e
 import { OnlyStakedFilterProps } from './earn-filters.types';
 
 const OnlyStakedFilter: FC<OnlyStakedFilterProps> = ({ control, setValue }) => {
-  const t = useTranslations('earn');
+  const t = useTranslations();
   const onlyStaked = useWatch({ control, name: 'onlyStaked' });
   const SWITCH_ON_OFF_DATA = getFilterSwitchDefaultData(
     ['off', 'on'],
@@ -26,7 +26,7 @@ const OnlyStakedFilter: FC<OnlyStakedFilterProps> = ({ control, setValue }) => {
         display="inline-block"
         textAlign={['center', 'center', 'center', 'left']}
       >
-        {t('filterStaked')}
+        {t('earn.filterStaked')}
       </Typography>
       <Switch
         defaultValue={onlyStaked ? 'on' : 'off'}

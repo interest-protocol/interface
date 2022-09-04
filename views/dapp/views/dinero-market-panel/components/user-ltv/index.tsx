@@ -9,7 +9,7 @@ import { toFixedToPrecision } from '@/utils';
 import { UserLTVProps } from './user-ltv.types';
 
 const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => {
-  const t = useTranslations('dinero-market-address');
+  const t = useTranslations();
   return (
     <Box p="XL" order={1} gridArea="b" bg="foreground" borderRadius="L">
       <Box display="flex" justifyContent="space-between">
@@ -20,11 +20,11 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => {
             width="1rem"
             cursor="help"
             display="inline-block"
-            data-tip={t('userLTVTip')}
+            data-tip={t('dinero-market-address.userLTVTip')}
           >
             <InfoSVG width="100%" />
           </Box>
-          {t('userLTVTitle')}
+          {t('dinero-market-address.userLTVTitle')}
         </Typography>
         <Typography
           as="div"

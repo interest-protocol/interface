@@ -11,19 +11,19 @@ import { InfoSVG } from '@/svg';
 import { LoanInfoProps } from './loan-info.types';
 
 const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => {
-  const t = useTranslations('dinero-market-address');
+  const t = useTranslations();
   const LOAN_INFO_MAP = {
     [DineroMarketKind.LpFreeMarket]: [1, 2, 3, 4, 5, 6].map((index) => ({
-      tip: t('loanInfoLpFreeMarketTip' + index),
-      name: t('loanInfoLpFreeMarketName' + index),
+      tip: t('dinero-market-address.loanInfoLpFreeMarketTip' + index),
+      name: t('dinero-market-address.loanInfoLpFreeMarketName' + index),
     })),
     [DineroMarketKind.ERC20]: [1, 2, 3].map((index) => ({
-      tip: t('loanInfoERC20Tip' + index),
-      name: t('loanInfoERC20Name' + index),
+      tip: t('dinero-market-address.loanInfoERC20Tip' + index),
+      name: t('dinero-market-address.loanInfoERC20Name' + index),
     })),
     [DineroMarketKind.Native]: [1, 2, 3].map((index) => ({
-      tip: t('loanInfoNativeTip' + index),
-      name: t('loanInfoNativeName' + index),
+      tip: t('dinero-market-address.loanInfoNativeTip' + index),
+      name: t('dinero-market-address.loanInfoNativeName' + index),
     })),
   };
 

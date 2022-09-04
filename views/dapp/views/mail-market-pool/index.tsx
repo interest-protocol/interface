@@ -27,7 +27,7 @@ import {
 } from './utils';
 
 const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
-  const t = useTranslations('mail-market-pool');
+  const t = useTranslations();
   const { data: rawData, error, mutate } = useGetMailMarketData(pool);
   const { chainId } = useIdAccount();
 
@@ -86,12 +86,12 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
                 color: 'accentActive',
               }}
             >
-              {t('mobileHeaderLink')}
+              {t('mail-market-pool.mobileHeaderLink')}
             </Typography>
           </a>
         </Box>
         <Typography variant="normal" ml="M">
-          {t('mailMarketPoolTitle')} &rarr;{' '}
+          {t('mail-market-pool.mailMarketPoolTitle')} &rarr;{' '}
           {!loading &&
             compose(
               join(' - '),
@@ -112,12 +112,12 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             gridTemplateColumns="1fr 1fr"
           >
             <MAILMarketPoolBalance
-              text={t('supplyBalance')}
+              text={t('mail-market-pool.supplyBalance')}
               balance={formatDollars(FixedPointMath.toNumber(mySupply))}
               loading={loading}
             />
             <MAILMarketPoolBalance
-              text={t('borrowBalance')}
+              text={t('mail-market-pool.borrowBalance')}
               balance={formatDollars(
                 FixedPointMath.toNumber(
                   totalBorrowsInUSDRecord.totalBorrowInUSD
@@ -133,7 +133,7 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             gridTemplateColumns="1fr 1fr"
           >
             <MAILMarketPoolBalance
-              text={t('mailMarketPoolBalanceTitle')}
+              text={t('mail-market-pool.mailMarketPoolBalanceTitle')}
               balance={formatDollars(
                 FixedPointMath.toNumber(
                   totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD
@@ -142,7 +142,6 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
               loading={loading}
             />
             <MAILMarketPoolRisk
-              text={t('mailMarketPoolRiskTitle')}
               loading={loading}
               risk={calculatePoolRisk(totalBorrowsInUSDRecord)}
             />

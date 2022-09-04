@@ -1,8 +1,7 @@
 {
   "dex-swap": {
     "settingsTitle": "Transaction Settings",
-    "firstLabel": "Slippage tolerance?",
-    "secondLabel": "Transaction deadline",
-    "minutes": "minutes"
+    "toleranceLabel": "Slippage tolerance?",
+    "deadlineLabel": "Transaction deadline"
   }
 }

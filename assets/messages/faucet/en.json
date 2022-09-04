@@ -2,9 +2,10 @@
   "faucet": {
     "firstSectionTitle": "Recommended tokens",
     "secondSectionTitle": "My tokens",
-    "cardTitle": "Your Balance",
     "amountInput": "Type amount",
     "tokenInput": "Choose Token",
+    "button": "Mint",
+    "buttonLoading": "Minting",
     "modalButtonLoading": "Creating Token",
     "modalButton": "Create Token",
     "modalTitle": "CREATE NEW TOKEN",

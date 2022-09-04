@@ -32,7 +32,7 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
   showOnDesktop,
   totalBorrowsInUSDRecord,
 }) => {
-  const t = useTranslations('mail-market-pool');
+  const t = useTranslations();
   const {
     push,
     pathname,
@@ -107,7 +107,11 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
       >
         <Typography pt="L" variant="normal" textTransform="capitalize">
           {active && 'Active '}
-          {type === 'borrow' ? t('borrowMarket') : t('supplyMarket')}
+          {t(
+            type === 'borrow'
+              ? 'mail-market-pool.borrowMarket'
+              : 'mail-market-pool.supplyMarket'
+          )}
         </Typography>
         <Table
           headings={

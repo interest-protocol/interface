@@ -12,7 +12,7 @@ const OnlyBorrowingFilter: FC<OnlyBorrowingFilterProps> = ({
   control,
   setValue,
 }) => {
-  const t = useTranslations('dinero-market');
+  const t = useTranslations();
   const onlyBorrowing = useWatch({ control, name: 'onlyBorrowing' });
   const SWITCH_ON_OFF_DATA = getFilterSwitchDefaultData(
     ['off', 'on'],
@@ -37,7 +37,7 @@ const OnlyBorrowingFilter: FC<OnlyBorrowingFilterProps> = ({
         variant="normal"
         textAlign={['center', 'center', 'center', 'left']}
       >
-        {t('borrowFilterBorrowing')}
+        {t('dinero-market.borrowFilterBorrowing')}
       </Typography>
       <Switch
         bg="background"

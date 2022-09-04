@@ -30,7 +30,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   tokenBalance,
   getValues,
 }) => {
-  const t = useTranslations('common');
+  const t = useTranslations();
   const dispatch = useDispatch();
   const { chainId } = useIdAccount();
   const { signer, account } = useGetSigner();
@@ -68,8 +68,8 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
 
   const handleApprove = () =>
     showToast(approve(address), {
-      loading: 'Giving allowance...',
-      success: t('success'),
+      loading: t('common.allowance-loading'),
+      success: t('common.success'),
       error: prop('message'),
     });
 

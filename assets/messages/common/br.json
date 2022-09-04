@@ -8,6 +8,7 @@
     "dex": "dex",
     "pool": "pool",
     "balance": "saldo",
+    "yourBalance": "seu saldo",
     "faucet": "faucet",
     "volatile": "volátil",
     "stable": "estável",
@@ -29,10 +30,19 @@
     "approve": "Aprovar",
     "approveLoading": "Aprovando",
     "loading": "carregando",
-    "back": "VOLTAR",
+    "back": "voltar",
     "wallet": "Conetar à Carteira",
     "collateral": "Peça Empréstimos",
     "market": "Mercado",
-    "borrower": "Mutuário"
+    "borrower": "Mutuário",
+    "minutes": "minutos",
+    "allowance-loading": "Dando subsídio",
+    "allowing": "Permitindo",
+    "enter": "aceder",
+    "tvl": "TVL",
+    "apr": "APR",
+    "type": "tipo",
+    "search": "pesquisar",
+    "sort": "ordenar por"
   }
 }

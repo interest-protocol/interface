@@ -12,7 +12,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
   symbol1,
   control,
 }) => {
-  const t = useTranslations('common');
+  const t = useTranslations();
   const loading = useWatch({ control, name: 'loading' });
 
   return (
@@ -24,7 +24,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       onClick={onClick}
       disabled={loading}
     >
-      {loading ? t('approveLoading') : t('approve')} {symbol0}/{symbol1} LP
+      {t(loading ? 'approveLoading' : 'approve')} {symbol0}/{symbol1} LP
     </Button>
   );
 };

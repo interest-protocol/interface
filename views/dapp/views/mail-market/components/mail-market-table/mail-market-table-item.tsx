@@ -36,8 +36,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
   localAssets,
   setLocalAssets,
 }) => {
-  const t = useTranslations('mail-market');
-  const tCommon = useTranslations('common');
+  const t = useTranslations();
   const { push } = useRouter();
   const { chainId } = useIdAccount();
 
@@ -48,7 +47,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
     <Table
       hasButton
       specialRowHover
-      headings={MAIL_MARKET_HEADINGS(data.symbol, tCommon('market'))}
+      headings={MAIL_MARKET_HEADINGS(data.symbol, t('common.market'))}
       data={[
         {
           button: (
@@ -120,7 +119,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                 color="textSecondary"
                 textTransform="uppercase"
               >
-                {t('mailMarketSupply')}
+                {t('mail-market.mailMarketSupply')}
               </Typography>
               <Typography
                 fontSize="S"
@@ -128,7 +127,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                 color="textSecondary"
                 textTransform="uppercase"
               >
-                {t('mailMarketBorrow')}
+                {t('mail-market.mailMarketBorrow')}
               </Typography>
             </Box>,
             ...MAIL_MARKET_ASSET_ARRAY.map((index) =>

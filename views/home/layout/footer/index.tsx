@@ -11,7 +11,7 @@ import { LogoSVG } from '@/svg';
 import SocialMediaCard from '../../components/social-media-card';
 
 const Footer: FC = () => {
-  const t = useTranslations('index');
+  const t = useTranslations();
   return (
     <Box as="footer" bg="text" height={['unset', 'unset', 'unset', '3.75rem']}>
       <Container
@@ -52,7 +52,7 @@ const Footer: FC = () => {
               color="textInverted"
               display={['block', 'inline-block']}
             >
-              {t('footerCopyrights')}
+              {t('index.footerCopyrights')}
             </Typography>
           </Typography>
         </Box>

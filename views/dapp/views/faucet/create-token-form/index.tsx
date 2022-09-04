@@ -32,7 +32,7 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
   handleClose,
   addLocalToken,
 }) => {
-  const t = useTranslations('faucet');
+  const t = useTranslations();
   const [loading, setLoading] = useState(false);
   const { chainId, signer, account } = useGetSigner();
   const { setValue, register, getValues } = useForm<TCreateTokenForm>({
@@ -92,8 +92,8 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
 
   const safeCreateToken = () =>
     showToast(handleCreateToken(), {
-      loading: 'Creating token...',
-      success: 'Success!',
+      loading: `${t('faucet.modalButtonLoading')}...`,
+      success: t('common.success'),
       error: prop('message'),
     });
 
@@ -121,7 +121,7 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
           variant="normal"
           textTransform="uppercase"
         >
-          {t('modalTitle')}
+          {t('faucet.modalTitle')}
         </Typography>
         <Box
           display="grid"
@@ -129,18 +129,18 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
           gridTemplateColumns={['1fr', '1f', '1fr', '1fr 1fr']}
         >
           <CreateTokenField
-            label={t('modalInputName')}
+            label={t('faucet.modalInputName')}
             name="name"
             register={register}
           />
           <CreateTokenField
-            label={t('modalInputSymbol')}
+            label={t('faucet.modalInputSymbol')}
             name="symbol"
             register={register}
           />
         </Box>
         <CreateTokenSupplyField
-          label={t('modalInputAmount')}
+          label={t('faucet.modalInputAmount')}
           register={register}
           setValue={setValue}
         />
@@ -160,11 +160,11 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
                   <LoadingSVG width="100%" />
                 </Box>
                 <Typography fontSize="S" variant="normal" ml="M">
-                  {t('modalButtonLoading')}
+                  {t('faucet.modalButtonLoading')}
                 </Typography>
               </Box>
             ) : (
-              t('modalButton')
+              t('faucet.modalButton')
             )}
           </Button>
         ) : (

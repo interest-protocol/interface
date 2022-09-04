@@ -53,7 +53,6 @@
     "loanInfoNativeTip3": "Esta taxa é adicionada à dívida cada vez que <br /> o utilizador toma emprestado DNR",
     "userLTVTitle": "Risco",
     "userLTVTip": "Se este valor atingir 100%, <br /> poderá ser liquidado",
-    "balanceTitle": "O Seu Saldo",
     "toastError": "Empréstimo ou montante da garantia estão errados"
   }
 }

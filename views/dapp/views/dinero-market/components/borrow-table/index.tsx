@@ -15,7 +15,7 @@ import { handleFilterDineroMarkets } from '../../dinero-market.utils';
 import { BorrowTableProps } from './borrow-table.types';
 
 const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
-  const t = useTranslations('dinero-market');
+  const t = useTranslations();
   const { push } = useRouter();
   const sortBy = useWatch({ control, name: 'sortBy' });
   const search = useWatch({ control, name: 'search' });
@@ -45,12 +45,12 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   textAlign="center"
                   display={['none', 'block']}
                 >
-                  {t('borrowTableHeaderCollateral')}
+                  {t('dinero-market.borrowTableHeaderCollateral')}
                 </Typography>
               ),
             },
             {
-              tip: t('borrowTableHeaderTVLTip'),
+              tip: t('dinero-market.borrowTableHeaderTVLTip'),
               item: (
                 <Typography
                   as="span"
@@ -63,7 +63,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
               ),
             },
             {
-              tip: t('borrowTableHeaderBorrowingTip'),
+              tip: t('dinero-market.borrowTableHeaderBorrowingTip'),
               item: (
                 <Typography
                   as="span"
@@ -71,12 +71,12 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   variant="normal"
                   fontSize="inherit"
                 >
-                  {t('borrowTableHeaderBorrowing')}
+                  {t('dinero-market.borrowTableHeaderBorrowing')}
                 </Typography>
               ),
             },
             {
-              tip: t('borrowTableHeaderLTVTip'),
+              tip: t('dinero-market.borrowTableHeaderLTVTip'),
               item: (
                 <Typography
                   as="span"
@@ -89,12 +89,12 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
               ),
             },
             {
-              tip: t('borrowTableHeaderInterestCostTip'),
-              item: <>{t('borrowTableHeaderInterestCost')}</>,
+              tip: t('dinero-market.borrowTableHeaderInterestCostTip'),
+              item: <>{t('dinero-market.borrowTableHeaderInterestCost')}</>,
             },
             {
-              tip: t('borrowTableHeaderLiquidationTip'),
-              item: <>{t('borrowTableHeaderLiquidation')}</>,
+              tip: t('dinero-market.borrowTableHeaderLiquidationTip'),
+              item: <>{t('dinero-market.borrowTableHeaderLiquidation')}</>,
             },
           ]}
           data={filteredMarkets.map((x) => ({
@@ -115,7 +115,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   variant="primary"
                   hover={{ bg: 'accentActive' }}
                 >
-                  {t('borrowTableRowButton')}
+                  {t('common.enter')}
                 </Button>
               </Link>
             ),
@@ -185,7 +185,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   fontSize="inherit"
                   data-tip="TVL info"
                 >
-                  {t('borrowTableHeaderBorrowing')}
+                  {t('dinero-market.borrowTableHeaderBorrowing')}
                 </Typography>
               ),
             },
@@ -204,10 +204,10 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
               ),
             },
             {
-              item: <>{t('borrowTableHeaderInterestCost')}</>,
+              item: <>{t('dinero-market.borrowTableHeaderInterestCost')}</>,
             },
             {
-              item: <>{t('borrowTableHeaderLiquidation')}</>,
+              item: <>{t('dinero-market.borrowTableHeaderLiquidation')}</>,
             },
           ]}
           data={filteredMarkets.map((x) => {
@@ -256,7 +256,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                     variant="primary"
                     hover={{ bg: 'accentActive' }}
                   >
-                    {t('borrowTableRowButton')}
+                    {t('common.enter')}
                   </Button>
                 </Link>
               ),

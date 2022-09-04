@@ -53,7 +53,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
   fetchingInitialData,
   mutate,
 }) => {
-  const t = useTranslations('common');
+  const t = useTranslations();
   const [loading, setLoading] = useState(false);
   const [isFetchingQuote, setIsFetchingQuote] = useState(false);
 
@@ -104,8 +104,8 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
 
   const handleApproveToken = (token: string, symbol: string) =>
     showToast(approveToken(token), {
-      loading: `${symbol}: Giving allowance...`,
-      success: t('success'),
+      loading: `${symbol}: ${t('common.allowance-loading')}...`,
+      success: t('common.success'),
       error: prop('message'),
     });
 

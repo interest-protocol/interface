@@ -16,7 +16,7 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
   addLocalAsset,
   chainId,
 }) => {
-  const t = useTranslations('mail-market');
+  const t = useTranslations();
   const query = useWatch({ control, name: 'search' });
 
   const trimmedQuery = useMemo(() => query.trim(), [query]);
@@ -66,7 +66,7 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
         borderRadius="L"
         position="absolute"
       >
-        {t('notFound')}
+        {t('mail-market.notFound')}
       </Box>
     );
 

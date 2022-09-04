@@ -8,8 +8,7 @@ import { LogoSVG, ShieldSVG } from '@/svg';
 import { Box, Button, Input, Typography } from '../../../../elements';
 
 const Subscribe: FC = () => {
-  const tIndex = useTranslations('index');
-  const tCommon = useTranslations('common');
+  const t = useTranslations();
   const handleSubscribe = async (event: Event) => {
     event.preventDefault();
     // @ts-ignore
@@ -23,8 +22,8 @@ const Subscribe: FC = () => {
             if (data.httpStatus == 200) return data;
           }),
         {
-          loading: tIndex('subscribeLoading'),
-          success: tCommon('success'),
+          loading: t('index.subscribeLoading'),
+          success: t('common.success'),
           error: (error) => `${error.code} - ${error.message}`,
         }
       )
@@ -51,7 +50,7 @@ const Subscribe: FC = () => {
         textAlign="center"
         fontSize={['L', 'XXL']}
       >
-        {tIndex('subscribeSectionTitle')}
+        {t('index.subscribeSectionTitle')}
       </Typography>
       <Box
         mt="XXL"
@@ -72,7 +71,7 @@ const Subscribe: FC = () => {
           outline="none"
           borderRadius="S"
           mb={['L', 'NONE']}
-          placeholder={tIndex('subscribeInputDescription')}
+          placeholder={t('index.subscribeInputDescription')}
         />
         <Box
           display="flex"
@@ -81,14 +80,14 @@ const Subscribe: FC = () => {
           flexDirection="column"
         >
           <Button ml="S" px="L" type="submit" variant="tertiary" effect="hover">
-            {tIndex('subscribeButton')}
+            {t('index.subscribeButton')}
           </Button>
           <Box display="flex" alignItems="center" mt="M" px="L">
             <Box width="0.7rem">
               <ShieldSVG width="100%" />
             </Box>
             <Typography variant="normal" ml="S" fontSize="XS">
-              {tIndex('subscribeDescription')}
+              {t('index.subscribeDescription')}
             </Typography>
           </Box>
         </Box>

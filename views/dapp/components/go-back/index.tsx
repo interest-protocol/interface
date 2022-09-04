@@ -8,7 +8,7 @@ import { Typography } from '@/elements';
 import { GoBackProps } from './go-back.types';
 
 const GoBack: FC<GoBackProps> = ({ route, routeBack }) => {
-  const t = useTranslations('common');
+  const t = useTranslations();
   const { pathname, push, back } = useRouter();
 
   const backToHome = () =>
@@ -21,10 +21,11 @@ const GoBack: FC<GoBackProps> = ({ route, routeBack }) => {
       variant="normal"
       cursor="pointer"
       whiteSpace="nowrap"
+      textTransform="uppercase"
       onClick={backToHome}
       hover={{ color: 'accentActive' }}
     >
-      &larr; {t('back')}
+      &larr; {t('common.back')}
     </Typography>
   ) : null;
 };

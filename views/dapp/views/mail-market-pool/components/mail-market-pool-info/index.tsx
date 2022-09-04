@@ -10,7 +10,7 @@ import { shortAccount } from '@/utils';
 import { MAILMarketPoolInfoProps } from '../../mail-market-pool.types';
 
 const MAILMarketPoolInfo: FC<MAILMarketPoolInfoProps> = ({ metadata }) => {
-  const t = useTranslations('mail-market-pool');
+  const t = useTranslations();
   const Icon = TOKENS_SVG_MAP[metadata.symbol];
 
   return (
@@ -47,7 +47,9 @@ const MAILMarketPoolInfo: FC<MAILMarketPoolInfoProps> = ({ metadata }) => {
         color="textSecondary"
         as="span"
         cursor="help"
-        data-tip={`${t('mailMarketPoolInfoTip')} ${metadata.symbol}`}
+        data-tip={`${t('mail-market-pool.mailMarketPoolInfoTip')} ${
+          metadata.symbol
+        }`}
       >
         <InfoSVG width="1.2rem" />
       </Box>

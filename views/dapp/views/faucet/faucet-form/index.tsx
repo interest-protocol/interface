@@ -41,7 +41,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
   isLoadingData,
   removeLocalToken,
 }) => {
-  const t = useTranslations('faucet');
+  const t = useTranslations();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { chainId, account } = useIdAccount();
@@ -102,8 +102,8 @@ const FaucetForm: FC<FaucetFormProps> = ({
 
   const onMint = () =>
     showToast(handleOnMint(), {
-      loading: 'Minting...',
-      success: 'Success!',
+      loading: `${t('faucet.buttonLoading')}...`,
+      success: t('common.success'),
       error: prop('message'),
     });
 
@@ -129,14 +129,14 @@ const FaucetForm: FC<FaucetFormProps> = ({
         >
           <FaucetSelectCurrency
             tokens={tokens}
-            label={t('tokenInput')}
+            label={t('faucet.tokenInput')}
             defaultValue={tokens?.[0]?.address ?? ethers.constants.AddressZero}
             onSelectCurrency={onSelectCurrency}
           />
           <InputBalance
             name="amount"
             register={register}
-            label={t('amountInput')}
+            label={t('faucet.amountInput')}
             setValue={setValue}
             chainId={chainId}
             control={control}
@@ -164,11 +164,11 @@ const FaucetForm: FC<FaucetFormProps> = ({
                       <LoadingSVG width="100%" />
                     </Box>
                     <Typography as="span" variant="normal" ml="M" fontSize="S">
-                      Minting...
+                      {t('faucet.buttonLoading')}...
                     </Typography>
                   </Box>
                 ) : (
-                  'Mint'
+                  t('faucet.button')
                 )}
               </Button>
             ) : (
@@ -187,7 +187,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
           flexDirection="column"
         >
           <Typography variant="normal" textTransform="uppercase" my="L">
-            {t('cardTitle')}
+            {t('common.yourBalance')}
           </Typography>
           <Box
             display="grid"

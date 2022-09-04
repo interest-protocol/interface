@@ -12,7 +12,7 @@ const OnlyFinishedFilter: FC<OnlyFinishedFilterProps> = ({
   control,
   setValue,
 }) => {
-  const t = useTranslations('earn');
+  const t = useTranslations();
   const onlyFinished = useWatch({ control, name: 'onlyFinished' });
   const SWITCH_ONLY_FINISHED_DATA = getFilterSwitchDefaultData(
     ['live', 'finished'],
@@ -29,7 +29,7 @@ const OnlyFinishedFilter: FC<OnlyFinishedFilterProps> = ({
         display="inline-block"
         textAlign={['center', 'center', 'center', 'left']}
       >
-        {t('filterStatus')}
+        {t('earn.filterStatus')}
       </Typography>
       <Switch
         defaultValue={onlyFinished ? 'finished' : 'live'}

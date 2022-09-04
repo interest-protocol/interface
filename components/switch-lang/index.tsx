@@ -41,6 +41,9 @@ const SwitchLang: FC = () => {
               minWidth="17rem"
               height="3rem"
               alignItems="center"
+              hover={{
+                color: currentLocale === locale ? 'unset' : 'textInverted',
+              }}
             >
               <Box
                 mx="0.75rem"
@@ -59,8 +62,8 @@ const SwitchLang: FC = () => {
               </Box>
               <Typography
                 variant="button"
-                fontWeight="600"
-                fontSize="L"
+                fontWeight="500"
+                fontSize="1rem"
                 lineHeight="1.625rem"
               >
                 {locale}

@@ -16,16 +16,16 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
   myPositionData,
   collateralUSDPrice,
 }) => {
-  const t = useTranslations('dinero-market-address');
+  const t = useTranslations();
   const MY_POSITION = [1, 2, 3, 4, 5, 6].map((item) => ({
-    name: t('positonName' + item),
-    tip: t('positionTip' + item),
+    name: t('dinero-market-address.positonName' + item),
+    tip: t('dinero-market-address.positionTip' + item),
   }));
 
   return (
     <Box p="XL" order={5} gridArea="c" bg="foreground" borderRadius="L">
       <Typography variant="normal" textTransform="uppercase" mt="L">
-        {t('positionTitle')}:
+        {t('dinero-market-address.positionTitle')}:
       </Typography>
       {MY_POSITION.map(({ name, tip }, i) => (
         <Box my="L" key={v4()} display="flex" justifyContent="space-between">

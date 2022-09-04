@@ -15,12 +15,11 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
   data,
 }) => {
   const { locale } = useRouter();
-  const t = useTranslations('mail-market-pool');
-  const tCommon = useTranslations('common');
+  const t = useTranslations();
   return (
     <Box p="XL" bg="foreground" borderRadius="L">
       <Typography mb="M" variant="normal" pb="L">
-        {t('mailMarketPoolNetTitle')}
+        {t('mail-market-pool.mailMarketPoolNetTitle')}
       </Typography>
       <Box display="grid" gridTemplateColumns="1fr 1fr 1fr" gridGap="1rem">
         <Box
@@ -35,13 +34,17 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
             color="textSecondary"
             textTransform="uppercase"
           >
-            {tCommon('net')} APR
+            {t('common.net')} APR
             <Box
               as="span"
               cursor="help"
-              data-tip={t('poolNetTip', {
+              data-tip={t('mail-market-pool.poolNetTip', {
                 locale,
-                type: data.net.isPositive ? t('earning') : t('paying'),
+                type: t(
+                  data.net.isPositive
+                    ? 'mail-market-pool.earning'
+                    : 'mail-market-pool.paying'
+                ),
               })}
               display="inline-block"
               ml="M"
@@ -75,11 +78,11 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
             color="textSecondary"
             textTransform="uppercase"
           >
-            {tCommon('supply')} APR
+            {t('common.supply')} APR
             <Box
               as="span"
               cursor="help"
-              data-tip={t('poolSupplyTip')}
+              data-tip={t('mail-market-pool.poolSupplyTip')}
               display="inline-block"
               ml="M"
             >
@@ -112,11 +115,11 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
             color="textSecondary"
             textTransform="uppercase"
           >
-            {tCommon('borrow')} APR
+            {t('common.borrow')} APR
             <Box
               as="span"
               cursor="help"
-              data-tip={t('poolBorrowTip')}
+              data-tip={t('mail-market-pool.poolBorrowTip')}
               display="inline-block"
               ml="M"
             >

@@ -30,8 +30,7 @@ import { processPairData } from './utils';
 const DefaultIcon = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
-  const tPairAddress = useTranslations('dex-pool-pair-address');
-  const tCommon = useTranslations('common');
+  const t = useTranslations();
   const { locale } = useRouter();
 
   const { error, data, mutate } = useGetPairData(pairAddress);
@@ -106,11 +105,11 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
                 ' - ' +
                 processedData.token1Metadata.symbol +
                 ' ' +
-                tPairAddress('title', {
+                t('dex-pool-pair-address.title', {
                   locale,
-                  type: processedData.isStable
-                    ? tCommon('stable')
-                    : tCommon('volatile'),
+                  type: t(
+                    processedData.isStable ? 'common.stable' : 'common.volatile'
+                  ),
                 })}
             </Typography>
           </>

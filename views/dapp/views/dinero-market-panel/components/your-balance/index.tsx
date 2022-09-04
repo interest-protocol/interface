@@ -20,11 +20,11 @@ const YourBalance: FC<YourBalanceProps> = ({
   collateralBalance,
   collateralDecimals,
 }) => {
-  const t = useTranslations('dinero-market-address');
+  const t = useTranslations();
   return (
     <Box p="XL" order={3} gridArea="e" bg="foreground" borderRadius="L">
       <Typography variant="normal" textTransform="uppercase" mt="L">
-        {t('balanceTitle')}:
+        {t('common.yourBalance')}:
       </Typography>
       {loading ? (
         <Box my="XL" rowGap="0.7rem" display="grid" gridTemplateRows="1fr 1fr">

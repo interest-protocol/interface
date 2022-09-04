@@ -16,7 +16,7 @@ import FaucetForm from './faucet-form';
 import { processGetUserBalances } from './utilts';
 
 const Faucet: FC = () => {
-  const t = useTranslations('faucet');
+  const t = useTranslations();
   const { chainId } = useIdAccount();
   const [isCreatingToken, setIsCreatingToken] = useState(false);
   const [localTokens, setLocalTokens] = useLocalStorage<ReadonlyArray<IToken>>(
@@ -73,20 +73,24 @@ const Faucet: FC = () => {
             <GoBack routeBack />
           </Box>
           <Box display="flex" justifyContent="space-between">
-            <Typography variant="normal">{t('firstSectionTitle')}</Typography>
+            <Typography variant="normal">
+              {t('faucet.firstSectionTitle')}
+            </Typography>
             <Button
               variant="primary"
               onClick={toggleCreateToken}
               hover={{ bg: 'accentActive' }}
             >
-              {t('modalButton')}
+              {t('faucet.modalButton')}
             </Button>
           </Box>
           <FaucetForm
             tokens={recommendedData}
             isLoadingData={!recommendedData.length}
           />
-          <Typography variant="normal">{t('secondSectionTitle')}</Typography>
+          <Typography variant="normal">
+            {t('faucet.secondSectionTitle')}
+          </Typography>
           <FaucetForm
             isLoadingData={!recommendedData.length}
             tokens={localData}

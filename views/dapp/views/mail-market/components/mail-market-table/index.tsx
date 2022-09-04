@@ -17,7 +17,7 @@ const MAILMarketTable: FC<MAILMarketTableProps> = ({
   localAssets,
   setLocalAssets,
 }) => {
-  const t = useTranslations('common');
+  const t = useTranslations();
   const query = useWatch({ control, name: 'search' });
 
   const filteredData = useMemo(
@@ -37,7 +37,7 @@ const MAILMarketTable: FC<MAILMarketTableProps> = ({
     <Box display="grid" columnGap="1rem">
       <Box id={favorite ? 'favorites' : 'recommended'} mt="XL">
         <Typography variant="normal" textTransform="capitalize">
-          {favorite ? t('favorites') : t('recommended')}
+          {t(favorite ? 'common.favorites' : 'common.recommended')}
         </Typography>
       </Box>
       {filteredData.map((item) => (

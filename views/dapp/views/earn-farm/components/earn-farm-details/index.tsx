@@ -11,8 +11,7 @@ import { formatDollars, makeFarmSymbol } from '@/utils';
 import { EarnFarmDetailsProps } from './earn.farm-details.types';
 
 const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
-  const t = useTranslations('earn-token-address');
-  const tCommon = useTranslations('common');
+  const t = useTranslations();
   return (
     <Box>
       <Box display="flex" alignItems="center" px="L">
@@ -31,13 +30,11 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
         )}
         <Typography variant="normal" textTransform="capitalize">
           {farm.id === 0
-            ? `${TOKEN_SYMBOL.INT} ${tCommon('pool')} `
-            : `${makeFarmSymbol(
-                farm.chainId,
-                farm.token0,
-                farm.token1
-              )} ${tCommon('farm')} `}
-          {t('title')}
+            ? `${TOKEN_SYMBOL.INT} ${t('common.pool')} `
+            : `${makeFarmSymbol(farm.chainId, farm.token0, farm.token1)} ${t(
+                'common.farm'
+              )} `}
+          {t('earn-token-address.title')}
         </Typography>
         <Typography
           ml="L"
@@ -52,7 +49,7 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
           bg={farm.stable ? 'accent' : 'accentAlternativeActive'}
           textTransform="capitalize"
         >
-          {farm.stable ? tCommon('stable') : tCommon('volatile')}
+          {t(farm.stable ? 'stable' : 'volatile')}
         </Typography>
       </Box>
       <Box

@@ -1,7 +1,6 @@
 {
   "dex-pool-pair-address": {
     "title": "Detalhes da Pool {type}",
-    "sectionCustomDetail1": "Tipo",
     "sectionCustomDetail2": "Taxa de troca"
   }
 }

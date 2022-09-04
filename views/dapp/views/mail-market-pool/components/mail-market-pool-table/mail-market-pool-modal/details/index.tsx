@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -16,8 +17,8 @@ const Details: FC<DetailsProps> = ({
   control,
   base,
   totalBorrowsInUSDRecord,
-  text,
 }) => {
+  const t = useTranslations();
   const value = useWatch({
     control,
     name: 'value',
@@ -70,7 +71,7 @@ const Details: FC<DetailsProps> = ({
           color="textSecondary"
           textTransform="uppercase"
         >
-          {text}
+          {t('mail-market-pool.mailMarketPoolRiskTitle')}
         </Typography>
         <Typography variant="normal">
           <Typography

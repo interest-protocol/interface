@@ -53,7 +53,6 @@
     "loanInfoNativeTip3": "This fee is added to the debt every time<br />the user borrows DNR",
     "userLTVTitle": "Risk",
     "userLTVTip": "If this value reaches 100%, <br />you might get liquidated",
-    "balanceTitle": "Your Balance",
     "toastError": "Borrow or collateral amount are wrong"
   }
 }

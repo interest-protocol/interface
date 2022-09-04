@@ -10,7 +10,7 @@ import SortFilter from './sort-filter';
 import TypeFilter from './type-filter';
 
 const EarnFilters: FC<EarnFiltersProps> = ({ setValue, register, control }) => {
-  const t = useTranslations('earn');
+  const t = useTranslations();
   return (
     <Box
       p="L"
@@ -39,8 +39,9 @@ const EarnFilters: FC<EarnFiltersProps> = ({ setValue, register, control }) => {
             mb="M"
             variant="normal"
             display="inline-block"
+            textTransform="capitalize"
           >
-            {t('filterSearch')}
+            {t('common.search')}
           </Typography>
           <Input
             py="0.9rem"

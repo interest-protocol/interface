@@ -11,8 +11,7 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
   lines,
   isStable,
 }) => {
-  const t = useTranslations('dex-pool-pair-address');
-  const tCommon = useTranslations('common');
+  const t = useTranslations();
   return (
     <Box
       p="L"
@@ -28,7 +27,7 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
         variant="normal"
         textTransform="uppercase"
       >
-        {tCommon('liquidity')}
+        {t('common.liquidity')}
       </Typography>
       <Box
         py="M"
@@ -50,7 +49,7 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
       </Box>
       <Box>
         <Typography variant="normal" lineHeight="2rem">
-          {t('sectionCustomDetail1')}:{' '}
+          {t('common.type')}:{' '}
           <Typography
             as="strong"
             variant="normal"
@@ -58,11 +57,11 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
             fontSize="inherit"
             textTransform="capitalize"
           >
-            {isStable ? tCommon('stable') : tCommon('volatile')}
+            {t(isStable ? 'stable' : 'volatile')}
           </Typography>
         </Typography>
         <Typography variant="normal" lineHeight="2rem">
-          {t('sectionCustomDetail2')}:{' '}
+          {t('dex-pool-pair-address.sectionCustomDetail2')}:{' '}
           <Typography
             as="strong"
             variant="normal"

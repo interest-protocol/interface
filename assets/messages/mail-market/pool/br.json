@@ -13,7 +13,6 @@
     "poolNetTip": "Percentagem em USD que se {type} anualmente <br /> Fórmula: (recompensas - dívida) / (montante fornecido - montante emprestado)",
     "poolSupplyTip": "Porcentagem em USD que ganha anualmente <br /> Fórmula: recompensas / montante fornecido",
     "poolBorrowTip": "Percentagem em USD que está a pagar anualmente <br /> Fórmula: dívida / montante fornecido",
-    "balance": "O Seu Saldo",
     "borrowCurrent": "Empréstimos actuais",
     "supplyCurrent": "Fornecimento actual",
     "rate": "Taxa",

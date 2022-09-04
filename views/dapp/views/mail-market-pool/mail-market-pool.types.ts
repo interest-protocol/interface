@@ -48,7 +48,6 @@ interface APRData {
 export interface MAILMarketPoolRiskProps {
   loading: boolean;
   risk: number;
-  text: string;
 }
 
 export interface MAILMarketPoolNetAprProps {

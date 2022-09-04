@@ -725,11 +725,7 @@ export const calculateUserCurrentLTV: TCalculateUserCurrentLTV = (
   return elasticLoan.div(collateralInUSD);
 };
 
-export const getBorrowFields: TGetBorrowFields = (
-  market,
-  collateralLabel,
-  dineroLabel
-) => {
+export const getBorrowFields: TGetBorrowFields = (market) => {
   if (!market) return [];
 
   return [
@@ -740,7 +736,7 @@ export const getBorrowFields: TGetBorrowFields = (
       currencyIcons: getDineroMarketSVGBySymbol(market.symbol0, market.symbol1),
       max: FixedPointMath.toNumber(market.adjustedCollateralBalance),
       name: 'borrow.collateral',
-      label: collateralLabel,
+      label: 'dinero-market-address.borrowCollateralLabel',
       amountUSD: market.collateralUSDPrice.isZero()
         ? 0
         : FixedPointMath.toNumber(market.collateralUSDPrice),
@@ -757,7 +753,7 @@ export const getBorrowFields: TGetBorrowFields = (
         },
       ],
       name: 'borrow.loan',
-      label: dineroLabel,
+      label: 'dinero-market-address.borrowDineroLabel',
       currency: TOKEN_SYMBOL.DNR,
       disabled:
         market.collateralBalance.isZero() && market.userCollateral.isZero(),
@@ -765,11 +761,7 @@ export const getBorrowFields: TGetBorrowFields = (
   ];
 };
 
-export const getRepayFields: TGetRepayFields = (
-  market,
-  collateralLabel,
-  dineroLabel
-) => {
+export const getRepayFields: TGetRepayFields = (market) => {
   if (!market) return [];
 
   return [
@@ -783,7 +775,7 @@ export const getRepayFields: TGetRepayFields = (
         },
       ],
       name: 'repay.loan',
-      label: dineroLabel,
+      label: 'dinero-market-address.repayDineroLabel',
       max: +Fraction.from(
         loanPrincipalToElastic({
           loanBase: market.loanBase,
@@ -804,7 +796,7 @@ export const getRepayFields: TGetRepayFields = (
       currencyIcons: getDineroMarketSVGBySymbol(market.symbol0, market.symbol1),
       max: safeAmountToWithdraw(market).toNumber(),
       name: 'repay.collateral',
-      label: collateralLabel,
+      label: 'dinero-market-address.repayCollateralLabel',
       amountUSD: market?.collateralUSDPrice.isZero()
         ? 0
         : FixedPointMath.toNumber(market.collateralUSDPrice),

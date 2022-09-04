@@ -50,7 +50,7 @@ import DineroMarketForm from './dinero-market-form';
 import DineroMarketSwitch from './dinero-market-switch';
 
 const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
-  const t = useTranslations('dinero-market-address');
+  const t = useTranslations();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { signer } = useGetSigner();
   const { chainId, account } = useIdAccount();
@@ -119,8 +119,8 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
 
   const submitAllowance = () =>
     showToast(handleAddAllowance(), {
-      loading: 'Allowing...',
-      success: 'Success!',
+      loading: `${t('common.allowing')}...`,
+      success: t('common.success'),
       error: ({ message }) => message,
     });
 
@@ -225,7 +225,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
 
   const onSubmitRepay = async () => {
     if (isFormRepayEmpty(form)) {
-      toast.error(t('toastError'));
+      toast.error(t('dinero-market-address.toastError'));
       return;
     }
 

@@ -15,8 +15,7 @@ import {
 } from './borrow-animations';
 
 const Borrow: FC = () => {
-  const tIndex = useTranslations('index');
-  const tCommon = useTranslations('common');
+  const t = useTranslations();
   const { push } = useRouter();
 
   return (
@@ -53,7 +52,7 @@ const Borrow: FC = () => {
             fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
             textTransform="capitalize"
           >
-            {tIndex('borrowSectionTitle')}
+            {t('index.borrowSectionTitle')}
           </Typography>
           <Typography
             as="h3"
@@ -63,7 +62,7 @@ const Borrow: FC = () => {
             mb={['0.625rem', '0.625rem', '0.625rem', '1rem']}
             fontSize={['1.125rem', '1.125rem', '1.125rem', '1.5rem']}
           >
-            {tIndex('borrowSectionSubtitle')}
+            {t('index.borrowSectionSubtitle')}
           </Typography>
           <Typography
             width="100%"
@@ -74,7 +73,7 @@ const Borrow: FC = () => {
             fontSize={['0.875rem', '0.875rem', '0.875rem', '1rem']}
             textAlign={['center', 'center', 'center', 'justify']}
           >
-            {tIndex('borrowSectionBody')}
+            {t('index.borrowSectionBody')}
           </Typography>
           <Button
             mb="XL"
@@ -82,7 +81,7 @@ const Borrow: FC = () => {
             variant="primary"
             onClick={() => push(Routes[RoutesEnum.DineroMarket])}
           >
-            {tCommon('borrow')}
+            {t('common.borrow')}
           </Button>
         </Box>
         <Box
@@ -152,7 +151,7 @@ const Borrow: FC = () => {
               </FloatingCoins>
             </Box>
             <Typography variant="normal" textAlign="center">
-              {tCommon('collateral')}
+              {t('common.collateral')}
             </Typography>
             <Box color="textSecondary" width="40%" mx="auto" mt="XL">
               <svg viewBox="0 0 162 43" fill="none" width="100%">
@@ -166,7 +165,7 @@ const Borrow: FC = () => {
             <Box display="flex" justifyContent="space-between" width="100%">
               <Box width="40%" position="relative">
                 <Typography textAlign="center" variant="normal" mb="XL">
-                  {tCommon('market')}
+                  {t('common.market')}
                 </Typography>
                 <Box
                   position="absolute"
@@ -239,7 +238,7 @@ const Borrow: FC = () => {
                   path="home/dinero-persona"
                 />
                 <Typography textAlign="center" variant="normal">
-                  {tCommon('borrower')}
+                  {t('common.borrower')}
                 </Typography>
               </Box>
             </Box>
@@ -333,7 +332,7 @@ const Borrow: FC = () => {
               </FloatingCoins>
             </Box>
             <Typography variant="normal" textAlign="center">
-              {tIndex('borrowSectionINTTokensDescription')}
+              {t('index.borrowSectionINTTokensDescription')}
             </Typography>
           </Box>
         </Box>

@@ -7,7 +7,7 @@ import { useIsMounted } from '@/hooks/use-is-mounted';
 import { ConnectWalletModal } from './wallet-modal';
 
 const ConnectWallet: FC = () => {
-  const t = useTranslations('common');
+  const t = useTranslations();
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const isMounted = useIsMounted();
@@ -26,8 +26,14 @@ const ConnectWallet: FC = () => {
         hover={{ bg: 'accent' }}
         active={{ bg: 'accentActive' }}
       >
-        <Typography as="span" variant="normal" whiteSpace="nowrap" fontSize="S">
-          {t('wallet')}
+        <Typography
+          as="span"
+          textTransform="capitalize"
+          variant="normal"
+          whiteSpace="nowrap"
+          fontSize="S"
+        >
+          {t('common.wallet')}
         </Typography>
       </Button>
       <ConnectWalletModal showModal={showModal} toggleModal={toggleModal} />

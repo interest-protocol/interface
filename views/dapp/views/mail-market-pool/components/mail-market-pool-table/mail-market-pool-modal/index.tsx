@@ -58,8 +58,7 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
   pool,
   refreshData,
 }) => {
-  const t = useTranslations('mail-market-pool');
-  const tCommon = useTranslations('common');
+  const t = useTranslations();
   const [base, setBase] = useState(true);
   const [loading, setLoading] = useState(false);
   const { signer } = useGetSigner();
@@ -295,8 +294,8 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
 
   const toastAddAllowance = () =>
     showToast(handleAllowance(), {
-      loading: 'Giving allowance...',
-      success: 'Success!',
+      loading: '',
+      success: t('common.success'),
       error: prop('message'),
     });
 
@@ -374,7 +373,7 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
             fontWeight="normal"
             textTransform="uppercase"
           >
-            {type === 'borrow' ? tCommon('borrow') : tCommon('supply')}
+            {t(type === 'borrow' ? 'common.borrow' : 'common.supply')}
           </Typography>
         </Box>
         <Box display="flex" justifyContent="center" my="L">
@@ -387,9 +386,9 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
           <Typography variant="normal" textTransform="capitalize">
             {(base && type === 'borrow') || (!base && type === 'supply')
               ? type === 'borrow'
-                ? t('borrowCurrent')
-                : t('supplyCurrent')
-              : t('balance')}
+                ? t('mail-market-pool.borrowCurrent')
+                : t('mail-market-pool.supplyCurrent')
+              : t('common.yourBalance')}
             :
           </Typography>
           <Box mt="L" key={v4()} display="flex" justifyContent="space-between">
@@ -411,12 +410,12 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
             name="value"
             max={max}
             register={register}
-            label={t('quantityInput')}
+            label={t('mail-market-pool.quantityInput')}
             setValue={setValue}
           />
         </Box>
         <Typography variant="normal" textTransform="capitalize">
-          {t('rate')}
+          {t('mail-market-pool.rate')}
         </Typography>
         <Box my="L" bg="background" p="L" borderRadius="M">
           <Box
@@ -431,7 +430,9 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
               color="textSecondary"
               textTransform="uppercase"
             >
-              {type === 'borrow' ? t('rateBorrow') : tCommon('supply') + ' APR'}
+              {type === 'borrow'
+                ? t('mail-market-pool.rateBorrow')
+                : t('common.supply') + ' APR'}
             </Typography>
             <BorrowRateImpact
               control={control}
@@ -442,14 +443,15 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
             />
           </Box>
         </Box>
-        <Typography variant="normal">{t('details')}</Typography>
+        <Typography variant="normal">
+          {t('mail-market-pool.details')}
+        </Typography>
         <Details
           data={data}
           type={type}
           control={control}
           totalBorrowsInUSDRecord={totalBorrowsInUSDRecord}
           base={base}
-          text={t('mailMarketPoolRiskTitle')}
         />
         {account ? (
           data.allowance.isZero() &&
@@ -469,11 +471,11 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
                       <LoadingSVG width="100%" />
                     </Box>
                     <Typography as="span" variant="normal" ml="M" fontSize="S">
-                      {t('buttonLoading')}
+                      {t('mail-market-pool.buttonLoading')}
                     </Typography>
                   </Box>
                 ) : (
-                  t('button')
+                  t('mail-market-pool.button')
                 )}
               </Button>
             </Box>

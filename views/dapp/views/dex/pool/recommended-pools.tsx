@@ -13,8 +13,7 @@ import PoolRow from './pool-row';
 const RecommendedPools: FC<RecommendedPoolsProps> = ({ type }) => {
   const { locale } = useRouter();
 
-  const tDexPool = useTranslations('dex-pool');
-  const tCommon = useTranslations('common');
+  const t = useTranslations();
   const chainId = useChainId();
   return (
     <Box pb="L" pt="M" mb="L" px="L" bg="foreground" borderRadius="M">
@@ -24,12 +23,11 @@ const RecommendedPools: FC<RecommendedPoolsProps> = ({ type }) => {
         my="L"
         textTransform="capitalize"
       >
-        {tDexPool('recommendedTitle', {
+        {t('dex-pool.recommendedTitle', {
           locale,
-          type:
-            type === PoolType.Volatile
-              ? tCommon('volatile')
-              : tCommon('stable'),
+          type: t(
+            type === PoolType.Volatile ? 'common.volatile' : 'common.stable'
+          ),
         })}
       </Typography>
       {RECOMMENDED_POOLS[chainId][type].map(

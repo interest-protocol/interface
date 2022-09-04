@@ -10,8 +10,7 @@ import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 import { EARN_TYPES } from './automate.data';
 
 const Automate: FC = () => {
-  const tIndex = useTranslations('index');
-  const tCommon = useTranslations('common');
+  const t = useTranslations();
   const { push } = useRouter();
 
   return (
@@ -26,7 +25,7 @@ const Automate: FC = () => {
           mb={['0.875rem', '0.875rem', '0.625rem', '0.625rem']}
           fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
         >
-          {tIndex('vaultSectionTitle')}
+          {t('index.vaultSectionTitle')}
         </Typography>
         <Typography
           variant="normal"
@@ -34,7 +33,7 @@ const Automate: FC = () => {
           fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
           lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
         >
-          {tIndex('vaultSectionSubtitle')}
+          {t('index.vaultSectionSubtitle')}
         </Typography>
         <Box
           mt={['1.25rem', '4.313rem']}
@@ -70,7 +69,7 @@ const Automate: FC = () => {
             push(Routes[RoutesEnum.Earn], undefined, { shallow: true })
           }
         >
-          {tCommon('earn')}
+          {t('common.earn')}
         </Button>
       </Container>
     </Box>

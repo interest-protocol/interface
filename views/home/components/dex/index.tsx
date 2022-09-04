@@ -7,8 +7,7 @@ import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 
 const DEX: FC = () => {
-  const tIndex = useTranslations('index');
-  const tCommon = useTranslations('common');
+  const t = useTranslations();
   const { push } = useRouter();
 
   return (
@@ -65,7 +64,7 @@ const DEX: FC = () => {
             fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
             textTransform="capitalize"
           >
-            {tCommon('dex')}
+            {t('common.dex')}
           </Typography>
           <Typography
             variant="normal"
@@ -75,7 +74,7 @@ const DEX: FC = () => {
             mb={['1.25rem', '1.25rem', '1.25rem', '1.875rem']}
             px={['L', 'unset']}
           >
-            {tIndex('dexSectionSubtitle')}
+            {t('index.dexSectionSubtitle')}
           </Typography>
           <Button
             width="145px"
@@ -83,7 +82,7 @@ const DEX: FC = () => {
             variant="primary"
             onClick={() => push(Routes[RoutesEnum.DApp])}
           >
-            {tIndex('dexSectionButton')}
+            {t('index.dexSectionButton')}
           </Button>
         </Box>
       </Container>
@@ -114,7 +113,7 @@ const DEX: FC = () => {
             textAlign="center"
             textTransform="capitalize"
           >
-            {tIndex('stablePairTitle')}
+            {t('index.stablePairTitle')}
           </Typography>
           <Box maxWidth="20rem" mx="auto" my="XXXL">
             <ResponsiveImage
@@ -129,7 +128,7 @@ const DEX: FC = () => {
             textAlign="center"
             fontSize={['0.875rem', '1.5rem']}
           >
-            {tIndex('dexStablecoinEquation')}
+            {t('index.dexStablecoinEquation')}
             <br />
             <Typography
               variant="large"
@@ -138,10 +137,10 @@ const DEX: FC = () => {
               fontWeight="700"
               my={['unset', 'unset', '1rem', '1rem']}
             >
-              {tIndex('stablePairDescription')}
+              {t('index.stablePairDescription')}
             </Typography>
             <br />
-            {tIndex('stablePairTax')}
+            {t('index.stablePairTax')}
           </Typography>
         </Container>
         <Box
@@ -172,7 +171,7 @@ const DEX: FC = () => {
             transform={['unset', 'unset', 'unset', 'translate(-50%,-20%)']}
           >
             <Typography variant="title3" lineHeight="2rem">
-              {tIndex('dexSectionDescription')}
+              {t('index.dexSectionDescription')}
             </Typography>
           </Box>
           <Box
@@ -190,7 +189,7 @@ const DEX: FC = () => {
             transform={['unset', 'unset', 'unset', 'translate(-50%,30%)']}
           >
             <Typography variant="title3" lineHeight="2rem">
-              {tIndex('dexSectionOracle')}
+              {t('index.dexSectionOracle')}
             </Typography>
           </Box>
         </Box>
@@ -211,7 +210,7 @@ const DEX: FC = () => {
             variant="title2"
             textTransform="capitalize"
           >
-            {tIndex('volatilePairTitle')}
+            {t('index.volatilePairTitle')}
           </Typography>
           <Box maxWidth="20rem" mx="auto" my="XXXL">
             <ResponsiveImage width="100%" alt="Volatile" path="home/volatile" />
@@ -222,7 +221,7 @@ const DEX: FC = () => {
             textAlign="center"
             fontSize={['0.875rem', '1.5rem']}
           >
-            {tIndex('dexVolatileEquation')}
+            {t('index.dexVolatileEquation')}
             <br />
             <Typography
               variant="large"
@@ -231,10 +230,10 @@ const DEX: FC = () => {
               fontWeight="700"
               my={['unset', 'unset', '1rem', '1rem']}
             >
-              {tIndex('volatilePairDescription')}
+              {t('index.volatilePairDescription')}
             </Typography>
             <br />
-            {tIndex('volatilePairTax')}
+            {t('index.volatilePairTax')}
           </Typography>
         </Container>
       </Box>

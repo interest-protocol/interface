@@ -18,7 +18,7 @@ const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
   data,
   isBorrow,
 }) => {
-  const t = useTranslations('dinero-market-address');
+  const t = useTranslations();
   const borrowLoan = useWatch({ control, name: 'borrow.loan' });
   const borrowCollateral = useWatch({
     control,
@@ -32,8 +32,8 @@ const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
   });
 
   const INFO = [1, 2, 3, 4].map((item) => ({
-    text: t('borrowFormLoanInfoText' + item),
-    tip: t('borrowFormLoanInfoTip' + item),
+    text: t('dinero-market-address.borrowFormLoanInfoText' + item),
+    tip: t('dinero-market-address.borrowFormLoanInfoTip' + item),
   }));
 
   const loanData = useMemo(

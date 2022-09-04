@@ -21,7 +21,7 @@ const CreatePool: FC<CreatePoolProps> = ({
   tokenBalances,
   getValues,
 }) => {
-  const t = useTranslations('dex-pool-find');
+  const t = useTranslations();
   return (
     <Box
       p="L"
@@ -39,8 +39,9 @@ const CreatePool: FC<CreatePoolProps> = ({
         border="1px solid"
         bg="bottomBackground"
         borderColor="textSoft"
+        textTransform="capitalize"
       >
-        {t('createPoolTitle')}
+        {t('dex-pool-find.createPoolTitle')}
       </Typography>
       <Price control={control} />
       {TOKEN_NAMES.map((name, index) => (

@@ -18,7 +18,7 @@ const parseFarmSortByEnum = cond([
 ]);
 
 const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
-  const t = useTranslations('dinero-market');
+  const t = useTranslations();
   const sortBy = useWatch({ control, name: 'sortBy' });
 
   return (
@@ -30,7 +30,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
         variant="normal"
         display="inline-block"
       >
-        {t('borrowFilterSort')}:
+        {t('common.sort')}:
       </Typography>
       <Box
         display="flex"
@@ -63,11 +63,13 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
           data={[
             {
               value: 'id',
-              displayOption: t('borrowFilterSortOptionName') as string,
+              displayOption: t(
+                'dinero-market.borrowFilterSortOptionName'
+              ) as string,
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    {t('borrowFilterSortOptionName')}
+                    {t('dinero-market.borrowFilterSortOptionName')}
                   </Typography>
                 </Box>
               ),
@@ -105,11 +107,13 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
             },
             {
               value: 'interestRate',
-              displayOption: t('borrowFilterSortOptionInterestRate') as string,
+              displayOption: t(
+                'dinero-market.borrowFilterSortOptionInterestRate'
+              ) as string,
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    {t('borrowFilterSortOptionInterestRate')}
+                    {t('dinero-market.borrowFilterSortOptionInterestRate')}
                   </Typography>
                 </Box>
               ),
@@ -120,12 +124,12 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
             {
               value: 'fee',
               displayOption: t(
-                'borrowFilterSortOptionLiquidationFee'
+                'dinero-market.borrowFilterSortOptionLiquidationFee'
               ) as string,
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    {t('borrowFilterSortOptionLiquidationFee')}
+                    {t('dinero-market.borrowFilterSortOptionLiquidationFee')}
                   </Typography>
                 </Box>
               ),

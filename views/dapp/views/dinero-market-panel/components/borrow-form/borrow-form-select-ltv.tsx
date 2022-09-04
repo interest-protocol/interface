@@ -28,7 +28,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   isBorrow,
   setValue,
 }) => {
-  const t = useTranslations('dinero-market-address');
+  const t = useTranslations();
   const [selectedState, setSelected] = useState(INITIAL_STATE);
 
   const borrowCollateral = useWatch({
@@ -131,7 +131,11 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
           lineHeight="1.1rem"
           whiteSpace="pre-line"
         >
-          {isBorrow ? t('borrowCardInfo') : t('repayCardInfo')}
+          {t(
+            isBorrow
+              ? 'dinero-market-address.borrowCardInfo'
+              : 'dinero-market-address.repayCardInfo'
+          )}
         </Typography>
       </Box>
       <Box display="flex" justifyContent="space-between" my="L">

@@ -1,4 +1,3 @@
-import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 
 import BorrowForm from './components/borrow-form';
@@ -16,18 +15,9 @@ const DineroMarketForm: FC<FormsProps> = ({
   onSubmitBorrow,
   handleAddAllowance,
 }) => {
-  const t = useTranslations('dinero-market-address');
-  const repayFieldsData = useMemo(
-    () =>
-      getRepayFields(data, t('repayCollateralLabel'), t('repayDineroLabel')),
-    [data]
-  );
+  const repayFieldsData = useMemo(() => getRepayFields(data), [data]);
 
-  const borrowFieldsData = useMemo(
-    () =>
-      getBorrowFields(data, t('borrowCollateralLabel'), t('borrowDineroLabel')),
-    [data]
-  );
+  const borrowFieldsData = useMemo(() => getBorrowFields(data), [data]);
 
   return (
     <>

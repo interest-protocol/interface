@@ -21,7 +21,7 @@ import MAILMarketSearchInput from './components/mail-market-search-bar';
 import { AddLocalAsset } from './mail-market.types';
 
 const MAILMarket: FC = () => {
-  const t = useTranslations('mail-market');
+  const t = useTranslations();
   const { chainId } = useIdAccount();
   const { register, control } = useForm({ defaultValues: { search: '' } });
 
@@ -57,7 +57,7 @@ const MAILMarket: FC = () => {
         <Container dapp px="M" background="specialBackground" width="100%">
           <Box mt="XL" display="flex" justifyContent="space-between">
             <Typography variant="normal" ml="M">
-              {t('mailMarketTitle')}
+              {t('mail-market.mailMarketTitle')}
             </Typography>
             {!!recommendedMarkets.length && localMarkets.length > 6 && (
               <Typography
@@ -67,7 +67,7 @@ const MAILMarket: FC = () => {
                   color: 'accentActive',
                 }}
               >
-                <a href="#recommended">{t('seeRecommended')}</a>
+                <a href="#recommended">{t('mail-market.seeRecommended')}</a>
               </Typography>
             )}
           </Box>

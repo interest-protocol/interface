@@ -16,7 +16,7 @@ const InputBalance: FC<InputBalanceProps> = ({
   currencySelector,
   handleSelectedByUser,
 }) => {
-  const t = useTranslations('common');
+  const t = useTranslations();
 
   const onFocus = (v: ChangeEvent<HTMLInputElement>) => {
     const value = v.target.value;
@@ -35,7 +35,7 @@ const InputBalance: FC<InputBalanceProps> = ({
         position="relative"
       >
         <Typography fontSize="S" variant="normal" textTransform="capitalize">
-          {t('balance')}:{' '}
+          {t('common.balance')}:{' '}
           <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
             {formatMoney(balance)}
           </Typography>

@@ -12,7 +12,7 @@ const BorrowFilters: FC<BorrowFiltersProps> = ({
   register,
   control,
 }) => {
-  const t = useTranslations('dinero-market');
+  const t = useTranslations();
   return (
     <Box
       p="L"
@@ -40,8 +40,9 @@ const BorrowFilters: FC<BorrowFiltersProps> = ({
             fontSize="S"
             variant="normal"
             display="inline-block"
+            textTransform="capitalize"
           >
-            {t('borrowFilterSearch')}
+            {t('common.search')}
           </Typography>
           <Input
             py="0.9rem"

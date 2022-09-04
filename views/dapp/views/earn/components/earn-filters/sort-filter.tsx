@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
@@ -17,6 +18,7 @@ const parseFarmSortByEnum = cond([
 ]);
 
 const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
+  const t = useTranslations();
   const sortBy = useWatch({ control, name: 'sortBy' });
 
   return (
@@ -28,7 +30,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
         variant="normal"
         display="inline-block"
       >
-        Sort by:
+        {t('common.sort')}:
       </Typography>
       <Box
         display="flex"

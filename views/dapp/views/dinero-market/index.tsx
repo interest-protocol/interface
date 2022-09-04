@@ -22,7 +22,7 @@ const DineroMarket: FC = () => {
       onlyBorrowing: false,
     },
   });
-  const t = useTranslations('dinero-market');
+  const t = useTranslations();
   const chainId = useChainId();
 
   const { data, error } = useGetDineroMarketsSummaryV2();
@@ -75,7 +75,7 @@ const DineroMarket: FC = () => {
       >
         <DineroSVG width="2rem" height="2rem" />
         <Typography variant="normal" ml="M">
-          {t('dineroMarketTitle')}
+          {t('dinero-market.dineroMarketTitle')}
         </Typography>
       </Box>
       <BorrowFilters

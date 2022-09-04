@@ -8,6 +8,7 @@
     "dex": "dex",
     "pool": "pool",
     "balance": "balance",
+    "yourBalance": "your balance",
     "faucet": "faucet",
     "volatile": "volatile",
     "stable": "stable",
@@ -29,10 +30,19 @@
     "approve": "Approve",
     "approveLoading": "Approving",
     "loading": "loading",
-    "back": "BACK",
+    "back": "back",
     "wallet": "Connect Wallet",
     "collateral": "Collateral",
     "market": "Market",
-    "borrower": "Borrower"
+    "borrower": "Borrower",
+    "minutes": "minutes",
+    "allowance-loading": "Giving allowance",
+    "allowing": "Allowing",
+    "enter": "enter",
+    "tvl": "TVL",
+    "apr": "APR",
+    "type": "type",
+    "search": "search",
+    "sort": "sort by"
   }
 }

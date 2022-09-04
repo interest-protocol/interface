@@ -13,7 +13,6 @@
     "poolNetTip": "Percentage in USD you are {type} annually <br /> Formula: (rewards - debt) / (amount supplied - amount borrowed)",
     "poolSupplyTip": "Percentage in USD you are earning annually <br /> Formula: rewards / amount supplied",
     "poolBorrowTip": "Percentage in USD you are paying annually <br /> Formula: debt / amount supplied",
-    "balance": "Your Balance",
     "borrowCurrent": "Current Borrowing",
     "supplyCurrent": "Current Supplying",
     "rate": "Rate",

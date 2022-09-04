@@ -217,13 +217,9 @@ export interface IBorrowFormField {
 }
 
 export type TGetRepayFields = (
-  data: DineroMarketData,
-  collateralLabel: string,
-  dineroLabel: string
+  data: DineroMarketData
 ) => ReadonlyArray<IBorrowFormField>;
 
 export type TGetBorrowFields = (
-  data: DineroMarketData,
-  collateralLabel: string,
-  dineroLabel: string
+  data: DineroMarketData
 ) => ReadonlyArray<IBorrowFormField>;

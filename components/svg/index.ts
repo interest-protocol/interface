@@ -25,7 +25,6 @@ export { default as FailSVG } from './fail';
 export { default as FaucetSVG } from './faucet';
 export { default as GitBookSVG } from './git-book';
 export { default as GithubSVG } from './github';
-export { default as GlobeSVG } from './globe';
 export { default as InfoSVG } from './info';
 export { default as InfoLightSVG } from './info-light';
 export { default as InterestTokenSVG } from './interest-token';

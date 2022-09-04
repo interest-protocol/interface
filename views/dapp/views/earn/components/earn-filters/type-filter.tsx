@@ -17,7 +17,7 @@ const parseFarmTypeByEnum = cond([
 ]);
 
 const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
-  const t = useTranslations('earn');
+  const t = useTranslations();
   const typeFilter = useWatch({ control, name: 'typeFilter' });
 
   return (
@@ -28,8 +28,9 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
         mb="M"
         variant="normal"
         display="inline-block"
+        textTransform="capitalize"
       >
-        {t('filterType')}:
+        {t('common.type')}:
       </Typography>
       <Box
         display="flex"

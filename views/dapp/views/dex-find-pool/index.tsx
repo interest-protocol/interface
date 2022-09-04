@@ -52,8 +52,7 @@ import { DexFindPoolForm } from './dex-find-pool.types';
 import FindPool from './find-pool';
 
 const FindPoolView: FC = () => {
-  const t = useTranslations('dex-pool-find');
-  const tCommon = useTranslations('common');
+  const t = useTranslations();
   const { push } = useRouter();
   const { signer } = useGetSigner();
   const { chainId, account } = useIdAccount();
@@ -150,7 +149,7 @@ const FindPoolView: FC = () => {
   const handleEnterPool = () =>
     showToast(enterPool(), {
       loading: 'Checking pool...',
-      success: tCommon('success'),
+      success: t('common.success'),
       error: prop('message'),
     });
 
@@ -273,8 +272,8 @@ const FindPoolView: FC = () => {
 
   const handleCreatePair = () =>
     showToast(createPair(), {
-      loading: t('buttonPoolLoading'),
-      success: tCommon('success'),
+      loading: t('dex-pool-find.buttonPoolLoading'),
+      success: t('common.success'),
       error: prop('message'),
     });
 
@@ -285,7 +284,7 @@ const FindPoolView: FC = () => {
           <Box color="error">
             <TimesSVG width="10rem" />
           </Box>
-          {t('balanceError')}
+          {t('dex-pool-find.balanceError')}
         </Box>
       </Container>
     );
@@ -294,7 +293,7 @@ const FindPoolView: FC = () => {
     <Container py="XL" dapp>
       <GoBack routeBack />
       <Typography variant="normal" width="100%" textTransform="capitalize">
-        {t('title')}
+        {t('dex-pool-find.title')}
       </Typography>
       <FindPool
         control={control}
@@ -351,7 +350,7 @@ const FindPoolView: FC = () => {
               disabled={true}
               bg="disabled"
             >
-              {t('buttonSameToken')}
+              {t('dex-pool-find.buttonSameToken')}
             </Button>
           ) : isCreatingPair ? (
             <Button
@@ -377,7 +376,11 @@ const FindPoolView: FC = () => {
                   : handleCreatePair
               }
             >
-              {loading ? t('buttonPoolLoading') : t('buttonPool')}
+              {t(
+                loading
+                  ? 'dex-pool-find.buttonPoolLoading'
+                  : 'dex-pool-find.buttonPool'
+              )}
             </Button>
           ) : (
             <Button
@@ -388,7 +391,11 @@ const FindPoolView: FC = () => {
               bg={loading ? 'accentActive' : 'accent'}
               hover={{ bg: loading ? 'disabled' : 'accentActive' }}
             >
-              {loading ? t('buttonLoading') : t('buttonCustom')}
+              {t(
+                loading
+                  ? 'dex-pool-find.buttonLoading'
+                  : 'dex-pool-find.buttonCustom'
+              )}
             </Button>
           )}
         </WalletGuardButton>
