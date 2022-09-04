@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { FC, useEffect, useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import Box from '@/elements/box';
