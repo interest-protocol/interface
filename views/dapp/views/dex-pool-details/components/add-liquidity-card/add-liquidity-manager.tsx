@@ -111,13 +111,13 @@ const AddLiquidityManager: FC<AddLiquidityManagerProps> = ({
         setValue(
           'token0Amount',
           numberToString(
-            FixedPointMath.toNumber(amountB, tokens[1].decimals, 0, 12)
+            FixedPointMath.toNumber(amountB, tokens[0].decimals, 0, 12)
           )
         );
         setValue(
           'token1Amount',
           numberToString(
-            FixedPointMath.toNumber(amountA, tokens[0].decimals, 0, 12)
+            FixedPointMath.toNumber(amountA, tokens[1].decimals, 0, 12)
           )
         );
       })
