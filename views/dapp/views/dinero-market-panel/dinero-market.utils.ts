@@ -27,6 +27,7 @@ import {
   calculateFarmTokenPrice,
   calculateIntUSDPrice,
   formatMoney,
+  numberToString,
 } from '@/utils';
 
 import {
@@ -501,12 +502,7 @@ const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
     )}`,
     userElasticAmount.isZero()
       ? '0'
-      : FixedPointMath.from(userElasticAmount)
-          .toNumber()
-          .toLocaleString('fullwide', {
-            useGrouping: false,
-            maximumSignificantDigits: 6,
-          }),
+      : numberToString(FixedPointMath.from(userElasticAmount).toNumber()),
     `$${formatMoney(
       Math.floor(
         +Fraction.from(

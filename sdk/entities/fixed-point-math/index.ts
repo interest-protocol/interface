@@ -1,10 +1,10 @@
 import { isBigNumberish } from '@ethersproject/bignumber/lib/bignumber';
 import { BigNumber, BigNumberish, utils } from 'ethers';
 
-import { parseToPositiveStringNumber, ZERO_BIG_NUMBER } from '../utils';
-import { Fraction } from './fraction';
+import { parseToPositiveStringNumber, ZERO_BIG_NUMBER } from '../../utils';
+import { Fraction } from '../fraction';
 const { parseEther } = utils;
-import { MAX_NUMBER_INPUT_VALUE } from '../constants';
+import { MAX_NUMBER_INPUT_VALUE } from '../../constants';
 
 const ONE_ETHER = parseEther('1');
 

@@ -2,7 +2,11 @@ import { ChangeEvent, FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Box, Button, Input, Typography } from '@/elements';
-import { formatMoney, parseInputEventToNumberString } from '@/utils';
+import {
+  formatMoney,
+  numberToString,
+  parseInputEventToNumberString,
+} from '@/utils';
 
 import { InputBalanceProps } from './remove-liquidity-card.types';
 
@@ -29,10 +33,7 @@ const InputBalance: FC<InputBalanceProps> = ({
     <Box display="flex" flexDirection="column-reverse" alignItems="flex-end">
       <Input
         type="text"
-        max={balance.toLocaleString('fullwide', {
-          useGrouping: false,
-          maximumSignificantDigits: 6,
-        })}
+        max={numberToString(balance)}
         placeholder="0.0"
         onFocus={onFocus}
         disabled={disabled}
@@ -42,12 +43,7 @@ const InputBalance: FC<InputBalanceProps> = ({
               name,
               parseInputEventToNumberString(
                 v,
-                balance
-                  ? +balance.toLocaleString('fullwide', {
-                      useGrouping: false,
-                      maximumSignificantDigits: 6,
-                    })
-                  : undefined
+                balance ? +numberToString(balance) : undefined
               )
             );
           },
@@ -82,13 +78,7 @@ const InputBalance: FC<InputBalanceProps> = ({
               onClick={() => {
                 if (disabled) return;
                 if (!setValue) return;
-                setValue(
-                  name,
-                  balance.toLocaleString('fullwide', {
-                    useGrouping: false,
-                    maximumSignificantDigits: 6,
-                  })
-                );
+                setValue(name, numberToString(balance));
               }}
             >
               max
