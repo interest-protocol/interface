@@ -8,6 +8,7 @@ import { useDebounce } from '@/hooks';
 import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
 import {
   isSameAddressZ,
+  numberToString,
   processWrappedNativeTokenAddress,
   stringToBigNumber,
 } from '@/utils';
@@ -59,27 +60,25 @@ const AddLiquidityManager: FC<AddLiquidityManagerProps> = ({
         setValue('locked', true);
         setValue(
           'token0Amount',
-          FixedPointMath.toNumber(
-            amountA,
-            processDecimals(chainId, tokens[0].address, tokens[0].decimals),
-            0,
-            12
-          ).toLocaleString('fullwide', {
-            useGrouping: false,
-            maximumSignificantDigits: 6,
-          })
+          numberToString(
+            FixedPointMath.toNumber(
+              amountA,
+              processDecimals(chainId, tokens[0].address, tokens[0].decimals),
+              0,
+              12
+            )
+          )
         );
         setValue(
           'token1Amount',
-          FixedPointMath.toNumber(
-            amountB,
-            processDecimals(chainId, tokens[1].address, tokens[1].decimals),
-            0,
-            12
-          ).toLocaleString('fullwide', {
-            useGrouping: false,
-            maximumSignificantDigits: 6,
-          })
+          numberToString(
+            FixedPointMath.toNumber(
+              amountB,
+              processDecimals(chainId, tokens[1].address, tokens[1].decimals),
+              0,
+              12
+            )
+          )
         );
       })
       .catch(() => setValue('error', 'Failed to find quote'))
@@ -111,27 +110,15 @@ const AddLiquidityManager: FC<AddLiquidityManagerProps> = ({
         setValue('locked', true);
         setValue(
           'token0Amount',
-          FixedPointMath.toNumber(
-            amountB,
-            tokens[1].decimals,
-            0,
-            12
-          ).toLocaleString('fullwide', {
-            useGrouping: false,
-            maximumSignificantDigits: 6,
-          })
+          numberToString(
+            FixedPointMath.toNumber(amountB, tokens[0].decimals, 0, 12)
+          )
         );
         setValue(
           'token1Amount',
-          FixedPointMath.toNumber(
-            amountA,
-            tokens[0].decimals,
-            0,
-            12
-          ).toLocaleString('fullwide', {
-            useGrouping: false,
-            maximumSignificantDigits: 6,
-          })
+          numberToString(
+            FixedPointMath.toNumber(amountA, tokens[1].decimals, 0, 12)
+          )
         );
       })
       .catch(() => setValue('error', 'Failed to find quote'))
