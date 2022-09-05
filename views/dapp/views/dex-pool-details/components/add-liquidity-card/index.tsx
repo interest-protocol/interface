@@ -13,7 +13,7 @@ import {
 import { Box, Button, Typography } from '@/elements';
 import { useChainId, useGetSigner } from '@/hooks';
 import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
-import { LineLoaderSVG, TimesSVG } from '@/svg';
+import { LineLoaderSVG } from '@/svg';
 import {
   getBNPercent,
   getInterestDexRouterAddress,
@@ -26,6 +26,7 @@ import {
 } from '@/utils';
 import { WalletGuardButton } from '@/views/dapp/components';
 
+import LiquidityFormMessage from '../liquidity-form-message';
 import {
   AddLiquidityCardProps,
   IAddLiquidityForm,
@@ -198,28 +199,6 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
 
   const error = useWatch({ control, name: 'error' });
 
-  if (error)
-    return (
-      <Box
-        px="L"
-        py="XL"
-        width="100%"
-        display="flex"
-        bg="foreground"
-        borderRadius="M"
-        alignItems="center"
-        flexDirection="column"
-        justifyContent="center"
-      >
-        <Box color="error">
-          <TimesSVG width="5rem" />
-        </Box>
-        <Typography variant="normal">
-          ERROR! Fail to quote add liquidity!
-        </Typography>
-      </Box>
-    );
-
   return (
     <Box bg="foreground" p="L" borderRadius="M" width="100%">
       <Box mb="L">
@@ -269,6 +248,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
       <Box mb="L">
         {(loading || isFetchingQuote) && <LineLoaderSVG width="100%" />}
       </Box>
+      {error && <LiquidityFormMessage color="error" message={error} />}
       {tokens.map(({ symbol, decimals, balance }, index) => (
         <BalanceError
           key={v4()}

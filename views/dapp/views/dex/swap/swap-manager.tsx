@@ -10,6 +10,7 @@ import {
   getWETHAddress,
   isSameAddress,
   isZeroAddress,
+  numberToString,
   safeToBigNumber,
 } from '@/utils';
 
@@ -113,15 +114,9 @@ const SwapManager: FC<SwapManagerProps> = ({
           return;
         }
 
-        const value = FixedPointMath.toNumber(
-          data.amountOut,
-          tokenIn.decimals,
-          0,
-          12
-        ).toLocaleString('fullwide', {
-          useGrouping: false,
-          maximumSignificantDigits: 6,
-        });
+        const value = numberToString(
+          FixedPointMath.toNumber(data.amountOut, tokenIn.decimals, 0, 12)
+        );
         setSwapBase(data.base);
         setValue('tokenIn.value', value);
         setHasNoMarket(false);
@@ -210,15 +205,9 @@ const SwapManager: FC<SwapManagerProps> = ({
           return;
         }
 
-        const value = FixedPointMath.toNumber(
-          data.amountOut,
-          tokenOut.decimals,
-          0,
-          12
-        ).toLocaleString('fullwide', {
-          useGrouping: false,
-          maximumSignificantDigits: 6,
-        });
+        const value = numberToString(
+          FixedPointMath.toNumber(data.amountOut, tokenOut.decimals, 0, 12)
+        );
         setSwapBase(data.base);
         setHasNoMarket(false);
         setValue('tokenOut.value', value);
