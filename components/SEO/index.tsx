@@ -38,7 +38,7 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
       <meta name="twitter:image" content="/android-chrome-256x256.png" />
       <meta
         name="twitter:description"
-        content="Money Markets for all 9000 + Tokens on CMC"
+        content="Use your crypto to borrow our stablecoin, Dinero, for free."
       />
 
       <link rel="icon" href="/favicon.ico" />

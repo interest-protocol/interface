@@ -105,7 +105,3 @@ export const isChainIdSupported = includes(__, [
 
 export const getNativeCurrencySymbol = (chainId: number): string =>
   pathOr('???', [chainId.toString(), 'nativeCurrency', 'symbol'], CHAINS);
-
-export const supportsMAILMarkets = includes(__, [CHAIN_ID.RINKEBY]);
-
-export const supportsDineroMarkets = includes(__, [CHAIN_ID.BNB_TEST_NET]);
