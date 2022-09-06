@@ -1,5 +1,4 @@
 import { Control, UseFormReturn, UseFormStateReturn } from 'react-hook-form';
-import { UseFormSetValue } from 'react-hook-form/dist/types/form';
 
 import {
   DineroCurrencyIcons,
