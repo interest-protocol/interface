@@ -105,7 +105,12 @@ const Team: FC = always(
                   <Box width="4rem">
                     <LogoSVG width="100%" />
                   </Box>
-                  <Typography variant="normal" mt="L" lineHeight="1.6">
+                  <Typography
+                    mt="L"
+                    variant="normal"
+                    lineHeight="1.6"
+                    textAlign="left"
+                  >
                     {bio}
                   </Typography>
                 </Box>
