@@ -50,7 +50,7 @@ const Team: FC = always(
       >
         {TEAM_MEMBERS.map(({ name, role, social, image, bio }) => (
           <Box key={v4()} as="article">
-            <FlipMemberCard height={['25rem', '25rem', '25rem', '30rem']}>
+            <FlipMemberCard height="20rem">
               <Box
                 width="100%"
                 height="100%"
