@@ -4,6 +4,7 @@ import { v4 } from 'uuid';
 
 import { Container } from '@/components';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { FloatingCoins } from './hero-animations';
 
@@ -56,7 +57,7 @@ const Hero: FC = () => {
             textAlign={['center', 'unset']}
             fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
           >
-            {t('index.headerSubtitle')}
+            {capitalizeFirstLetter(t('index.headerSubtitle'))}
           </Typography>
           <a href="https://docs.interestprotocol.com/" target="__blank">
             <Button type="button" variant="primary" effect="hover">

@@ -5,16 +5,23 @@ import { useWatch } from 'react-hook-form';
 
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { BorrowSortByFilter, SortFilterProps } from './borrow-filters.types';
 
 const parseFarmSortByEnum = cond([
-  [equals(BorrowSortByFilter.Default), always('Select')],
-  [equals(BorrowSortByFilter.TVL), always('TVL')],
-  [equals(BorrowSortByFilter.LTV), always('LTV')],
-  [equals(BorrowSortByFilter.InterestRate), always('Interest Rate')],
-  [equals(BorrowSortByFilter.Fee), always('Liquidation Fee')],
-  [T, always('Select')],
+  [equals(BorrowSortByFilter.Default), always('common.select')],
+  [equals(BorrowSortByFilter.TVL), always('dineroMarket.borrowTableHeaderTVL')],
+  [equals(BorrowSortByFilter.LTV), always('dineroMarket.borrowTableHeaderLTV')],
+  [
+    equals(BorrowSortByFilter.InterestRate),
+    always('dineroMarket.borrowFilterSortOptionInterestRate'),
+  ],
+  [
+    equals(BorrowSortByFilter.Fee),
+    always('dineroMarket.borrowFilterSortOptionLiquidationFee'),
+  ],
+  [T, always('common.select')],
 ]);
 
 const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
@@ -30,7 +37,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
         variant="normal"
         display="inline-block"
       >
-        {t('common.sort')}:
+        {capitalizeFirstLetter(t('common.sort'))}:
       </Typography>
       <Box
         display="flex"
@@ -56,20 +63,18 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
           title={
             <Box display="flex" width="100%" py="M" alignItems="center">
               <Typography variant="normal" whiteSpace="nowrap">
-                {parseFarmSortByEnum(sortBy)}
+                {capitalizeFirstLetter(t(parseFarmSortByEnum(sortBy)))}
               </Typography>
             </Box>
           }
           data={[
             {
               value: 'id',
-              displayOption: t(
-                'dinero-market.borrowFilterSortOptionName'
-              ) as string,
+              displayOption: 'Id',
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    {t('dinero-market.borrowFilterSortOptionName')}
+                    Id
                   </Typography>
                 </Box>
               ),
@@ -107,13 +112,15 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
             },
             {
               value: 'interestRate',
-              displayOption: t(
-                'dinero-market.borrowFilterSortOptionInterestRate'
-              ) as string,
+              displayOption: capitalizeFirstLetter(
+                t('dineroMarket.borrowFilterSortOptionInterestRate')
+              ),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    {t('dinero-market.borrowFilterSortOptionInterestRate')}
+                    {capitalizeFirstLetter(
+                      t('dineroMarket.borrowFilterSortOptionInterestRate')
+                    )}
                   </Typography>
                 </Box>
               ),
@@ -123,13 +130,15 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
             },
             {
               value: 'fee',
-              displayOption: t(
-                'dinero-market.borrowFilterSortOptionLiquidationFee'
-              ) as string,
+              displayOption: capitalizeFirstLetter(
+                t('dineroMarket.borrowFilterSortOptionLiquidationFee')
+              ),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    {t('dinero-market.borrowFilterSortOptionLiquidationFee')}
+                    {capitalizeFirstLetter(
+                      t('dineroMarket.borrowFilterSortOptionLiquidationFee')
+                    )}
                   </Typography>
                 </Box>
               ),

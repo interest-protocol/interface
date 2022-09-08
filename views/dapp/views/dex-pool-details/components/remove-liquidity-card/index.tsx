@@ -9,6 +9,7 @@ import { useGetSigner } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
 import { LineLoaderSVG } from '@/svg';
 import {
+  capitalizeFirstLetter,
   getInterestDexRouterAddress,
   processWrappedNativeTokenAddress,
   showToast,
@@ -93,8 +94,8 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
 
   const handleApproveToken = () =>
     showToast(approveToken(), {
-      loading: `${t('common.allowance-loading')}...`,
-      success: t('common.success'),
+      loading: `${capitalizeFirstLetter(t('common.allowance-loading'))}...`,
+      success: capitalizeFirstLetter(t('common.success')),
       error: prop('message'),
     });
 
@@ -148,8 +149,10 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
 
   const handleRemoveLiquidity = async () =>
     showToast(remove(), {
-      loading: `${t('common.removeLoading')} ${t('common.liquidity')}...`,
-      success: t('common.success'),
+      loading: capitalizeFirstLetter(
+        `${t('common.removeLoading')} ${t('common.liquidity')}...`
+      ),
+      success: capitalizeFirstLetter(t('common.success')),
       error: prop('message'),
     });
 
@@ -162,7 +165,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
           variant="normal"
           textTransform="uppercase"
         >
-          {`${t('common.remove')} ${t('common.liquidity')}`}
+          {t('dexPoolPairAddress.removeLiquidity')}
         </Typography>
       </Box>
       <InputBalance
@@ -239,7 +242,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
                   setValue('lpAmount', '0.0');
                 }}
               >
-                {t('reset')}
+                {capitalizeFirstLetter(t('common.reset'))}
               </Button>
               <RemoveLiquidityButton
                 control={control}

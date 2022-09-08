@@ -66,7 +66,7 @@ const MAILMarketSearchBarResults: FC<MAILMarketSearchBarResultsProps> = ({
         borderRadius="L"
         position="absolute"
       >
-        {t('mail-market.notFound')}
+        {t('mailMarket.notFound')}
       </Box>
     );
 

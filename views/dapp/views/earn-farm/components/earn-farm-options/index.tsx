@@ -16,6 +16,7 @@ import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG } from '@/svg';
 import {
+  capitalizeFirstLetter,
   formatDollars,
   formatMoney,
   getCasaDePapelAddress,
@@ -240,7 +241,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
         }
       />
       <EarnCard
-        title={t('earn-token-address.secondCardTitle')}
+        title={t('earnTokenAddress.secondCardTitle')}
         loading={loading}
         amountUSD={formatDollars(
           FixedPointMath.from(farm.stakingTokenPrice)
@@ -273,7 +274,13 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
                   </Typography>
                 </Box>
               ) : (
-                <Typography as="span" variant="normal" ml="M" fontSize="S">
+                <Typography
+                  as="span"
+                  variant="normal"
+                  ml="M"
+                  fontSize="S"
+                  textTransform="capitalize"
+                >
                   {
                     (t('common.approve') +
                       ' ' +
@@ -329,7 +336,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
         }
       />
       <EarnCard
-        title={t('earn-token-address.thirdCardTitle')}
+        title={t('earnTokenAddress.thirdCardTitle')}
         loading={loading}
         shadow={!farm.pendingRewards.isZero()}
         amountUSD={formatDollars(
@@ -349,7 +356,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
               bg: !farm.pendingRewards.isZero() ? 'successActive' : 'disabled',
             }}
           >
-            {t('earn-token-address.thirdCardButton')}
+            {capitalizeFirstLetter(t('earnTokenAddress.thirdCardButton'))}
           </Button>
         }
       />

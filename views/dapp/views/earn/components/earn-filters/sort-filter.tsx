@@ -5,6 +5,7 @@ import { useWatch } from 'react-hook-form';
 
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { FarmSortByFilter } from '../../earn.types';
 import { SortFilterProps } from './earn-filters.types';
@@ -30,7 +31,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
         variant="normal"
         display="inline-block"
       >
-        {t('common.sort')}:
+        {capitalizeFirstLetter(t('common.sort'))}:
       </Typography>
       <Box
         display="flex"
@@ -43,7 +44,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
           mode="select"
           bg="accentAlternative"
           bgSelected="accentAlternativeBackground"
-          emptyMessage="Not found Tokens"
+          emptyMessage={capitalizeFirstLetter(t('common.notFound'))}
           suffix={
             <Box
               ml="L"

@@ -5,6 +5,7 @@ import { FC, useState } from 'react';
 import { Switch } from '@/components';
 import { PoolType, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
+import { capitalizeFirstLetter } from '@/utils';
 
 import RecommendPools from './recommended-pools';
 
@@ -29,20 +30,24 @@ const Pool: FC = () => {
           justifyItems="center"
           gridTemplateColumns={['1fr', '1fr 1fr 1fr']}
         >
-          <Typography variant="normal" mr={['unset', 'auto']}>
-            {t('dex-pool.title')}
+          <Typography
+            variant="normal"
+            mr={['unset', 'auto']}
+            textTransform="capitalize"
+          >
+            {t('dexPool.title')}
           </Typography>
           <Switch
             defaultValue={poolType}
             options={[
               {
                 value: PoolType.Volatile,
-                displayValue: t('common.volatile'),
+                displayValue: capitalizeFirstLetter(t('common.volatile')),
                 onSelect: () => setPoolType(PoolType.Volatile),
               },
               {
                 value: PoolType.Stable,
-                displayValue: t('common.stable'),
+                displayValue: capitalizeFirstLetter(t('common.stable')),
                 onSelect: () => setPoolType(PoolType.Stable),
               },
             ]}
@@ -54,7 +59,7 @@ const Pool: FC = () => {
             onClick={() => push(Routes[RoutesEnum.DEXFindPool])}
             ml={['unset', 'auto']}
           >
-            {t('dex-pool.button')}
+            {capitalizeFirstLetter(t('dexPool.button'))}
           </Button>
         </Box>
         <RecommendPools type={poolType} />

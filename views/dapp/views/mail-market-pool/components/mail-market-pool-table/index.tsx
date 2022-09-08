@@ -109,8 +109,8 @@ const MAILMarketTable: FC<MAILMarketPoolTableProps> = ({
           {active && 'Active '}
           {t(
             type === 'borrow'
-              ? 'mail-market-pool.borrowMarket'
-              : 'mail-market-pool.supplyMarket'
+              ? 'mailMarketPool.borrowMarket'
+              : 'mailMarketPool.supplyMarket'
           )}
         </Typography>
         <Table

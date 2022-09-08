@@ -5,6 +5,7 @@ import { useWatch } from 'react-hook-form';
 
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { FarmTypeFilter } from '../../earn.types';
 import { TypeFilterProps } from './earn-filters.types';
@@ -43,7 +44,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
           mode="select"
           bg="accentAlternative"
           bgSelected="accentAlternativeBackground"
-          emptyMessage="Not found Tokens"
+          emptyMessage={capitalizeFirstLetter(t('common.notFound'))}
           suffix={
             <Box
               ml="L"
@@ -55,19 +56,27 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
           }
           title={
             <Box display="flex" width="100%" py="M" alignItems="center">
-              <Typography variant="normal" whiteSpace="nowrap">
-                {parseFarmTypeByEnum(typeFilter)}
+              <Typography
+                variant="normal"
+                whiteSpace="nowrap"
+                textTransform="capitalize"
+              >
+                {t('common.' + parseFarmTypeByEnum(typeFilter).toLowerCase())}
               </Typography>
             </Box>
           }
           data={[
             {
               value: 'all',
-              displayOption: 'All',
+              displayOption: capitalizeFirstLetter(t('common.all')),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
-                  <Typography variant="normal" whiteSpace="nowrap">
-                    All
+                  <Typography
+                    variant="normal"
+                    whiteSpace="nowrap"
+                    textTransform="capitalize"
+                  >
+                    {t('common.all')}
                   </Typography>
                 </Box>
               ),
@@ -77,11 +86,15 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
             },
             {
               value: 'stable',
-              displayOption: 'Stable',
+              displayOption: capitalizeFirstLetter(t('common.stable')),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
-                  <Typography variant="normal" whiteSpace="nowrap">
-                    Stable
+                  <Typography
+                    variant="normal"
+                    whiteSpace="nowrap"
+                    textTransform="capitalize"
+                  >
+                    {t('common.stable')}
                   </Typography>
                 </Box>
               ),
@@ -91,11 +104,15 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
             },
             {
               value: 'volatile',
-              displayOption: 'Volatile',
+              displayOption: capitalizeFirstLetter(t('common.volatile')),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
-                  <Typography variant="normal" whiteSpace="nowrap">
-                    Volatile
+                  <Typography
+                    variant="normal"
+                    whiteSpace="nowrap"
+                    textTransform="capitalize"
+                  >
+                    {t('common.volatile')}
                   </Typography>
                 </Box>
               ),

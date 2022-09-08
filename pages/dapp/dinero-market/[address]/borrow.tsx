@@ -1,6 +1,5 @@
 import { NextPage } from 'next';
 
-import { LOCALES, LocalesEnum } from '@/constants/locale';
 import { Loading } from '@/views/dapp/components';
 import DineroMarketMode from '@/views/dapp/views/dinero-market-panel';
 import Error from '@/views/dapp/views/error';
@@ -21,11 +20,11 @@ const DineroMarketBorrowPage: NextPage<DineroMarketBorrowPageProps> = ({
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getServerSideProps = ({
-  locale = LocalesEnum.EN,
+  locale,
   params,
 }: {
   params: DineroMarketBorrowPageProps;
-  locale: LocalesEnum;
+  locale: string;
 }) => {
   const { address } = params;
 
@@ -33,8 +32,8 @@ export const getServerSideProps = ({
     props: {
       address,
       messages: {
-        ...require(`../../../../assets/messages/dinero-market/address/${LOCALES[locale]}.json`),
-        ...require(`../../../../assets/messages/common/${LOCALES[locale]}.json`),
+        ...require(`../../../../assets/messages/dinero-market/address/${locale}.json`),
+        ...require(`../../../../assets/messages/common/${locale}.json`),
       },
     },
   };

@@ -47,7 +47,7 @@ const MAILMarketPoolInfo: FC<MAILMarketPoolInfoProps> = ({ metadata }) => {
         color="textSecondary"
         as="span"
         cursor="help"
-        data-tip={`${t('mail-market-pool.mailMarketPoolInfoTip')} ${
+        data-tip={`${t('mailMarketPool.mailMarketPoolInfoTip')} ${
           metadata.symbol
         }`}
       >

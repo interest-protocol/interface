@@ -1,6 +1,5 @@
 import { NextPage } from 'next';
 
-import { LOCALES, LocalesEnum } from '@/constants/locale';
 import EarnFarm from '@/views/dapp/views/earn-farm';
 
 interface EarnFarmPageProps {
@@ -15,11 +14,11 @@ const EarnFarmPage: NextPage<EarnFarmPageProps> = ({ tokenAddress }) => {
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getServerSideProps = ({
-  locale = LocalesEnum.EN,
+  locale,
   params,
 }: {
   params: EarnFarmPageProps;
-  locale: LocalesEnum;
+  locale: string;
 }) => {
   const { tokenAddress } = params;
 
@@ -27,8 +26,8 @@ export const getServerSideProps = ({
     props: {
       tokenAddress,
       messages: {
-        ...require(`../../../assets/messages/earn/token-address/${LOCALES[locale]}.json`),
-        ...require(`../../../assets/messages/common/${LOCALES[locale]}.json`),
+        ...require(`../../../assets/messages/earn/token-address/${locale}.json`),
+        ...require(`../../../assets/messages/common/${locale}.json`),
       },
     },
   };

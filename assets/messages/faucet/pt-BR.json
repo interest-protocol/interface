@@ -1,0 +1,19 @@
+{
+  "faucet": {
+    "firstSectionTitle": "Tokens recomendados",
+    "secondSectionTitle": "Meus tokens",
+    "tokenInput": "Escolha o Token",
+    "amountInput": "Digite o montante",
+    "modalButton": "Criar Token",
+    "button": "Mint",
+    "buttonLoading": "Minting",
+    "modalButtonLoading": "Criando o Token",
+    "modalTitle": "CRIAR NOVO TOKEN",
+    "modalInputName": "Nome",
+    "modalInputSymbol": "Simbolo",
+    "modalInputAmount": "Montante",
+    "notFoundToken": "nenhum token encontrado",
+    "select": "selecione um token",
+    "type": "escreva o {label}"
+  }
+}

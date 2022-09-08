@@ -736,7 +736,7 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
       currencyIcons: getDineroMarketSVGBySymbol(market.symbol0, market.symbol1),
       max: FixedPointMath.toNumber(market.adjustedCollateralBalance),
       name: 'borrow.collateral',
-      label: 'dinero-market-address.borrowCollateralLabel',
+      label: 'dineroMarketAddress.borrowCollateralLabel',
       amountUSD: market.collateralUSDPrice.isZero()
         ? 0
         : FixedPointMath.toNumber(market.collateralUSDPrice),
@@ -753,7 +753,7 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
         },
       ],
       name: 'borrow.loan',
-      label: 'dinero-market-address.borrowDineroLabel',
+      label: 'dineroMarketAddress.borrowDineroLabel',
       currency: TOKEN_SYMBOL.DNR,
       disabled:
         market.collateralBalance.isZero() && market.userCollateral.isZero(),
@@ -775,7 +775,7 @@ export const getRepayFields: TGetRepayFields = (market) => {
         },
       ],
       name: 'repay.loan',
-      label: 'dinero-market-address.repayDineroLabel',
+      label: 'dineroMarketAddress.repayDineroLabel',
       max: +Fraction.from(
         loanPrincipalToElastic({
           loanBase: market.loanBase,
@@ -796,7 +796,7 @@ export const getRepayFields: TGetRepayFields = (market) => {
       currencyIcons: getDineroMarketSVGBySymbol(market.symbol0, market.symbol1),
       max: safeAmountToWithdraw(market).toNumber(),
       name: 'repay.collateral',
-      label: 'dinero-market-address.repayCollateralLabel',
+      label: 'dineroMarketAddress.repayCollateralLabel',
       amountUSD: market?.collateralUSDPrice.isZero()
         ? 0
         : FixedPointMath.toNumber(market.collateralUSDPrice),

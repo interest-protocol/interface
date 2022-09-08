@@ -1,16 +1,19 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { SwitchLang } from '@/components';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Dropdown, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {
+  const t = useTranslations();
   const { pathname, push } = useRouter();
 
   return (
@@ -90,8 +93,9 @@ const Header: FC = () => {
               pathname.includes(Routes[RoutesEnum.Earn]) ? 'accent' : 'inherit'
             }
             hover={{ color: 'accentActive' }}
+            textTransform="capitalize"
           >
-            Earn
+            {t('common.earn')}
           </Typography>
         </Link>
         <Box>
@@ -109,15 +113,16 @@ const Header: FC = () => {
                     : 'inherit'
                 }
                 hover={{ color: 'accentActive' }}
+                textTransform="capitalize"
               >
-                Borrow
+                {t('common.borrowMenu')}
               </Typography>
             }
             mode="menu"
             data={[
               {
                 value: 'dinero-market',
-                displayOption: 'Dinero Market',
+                displayOption: capitalizeFirstLetter(t('common.dineroMarket')),
                 onSelect: () =>
                   push(Routes[RoutesEnum.DineroMarket], undefined, {
                     shallow: true,
@@ -125,7 +130,7 @@ const Header: FC = () => {
               },
               {
                 value: 'mail-market',
-                displayOption: 'MAIL Market',
+                displayOption: capitalizeFirstLetter(t('common.mailMarket')),
                 onSelect: () =>
                   push(Routes[RoutesEnum.MAILMarket], undefined, {
                     shallow: true,

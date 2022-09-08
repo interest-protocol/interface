@@ -19,7 +19,7 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
   return (
     <Box p="XL" bg="foreground" borderRadius="L">
       <Typography mb="M" variant="normal" pb="L">
-        {t('mail-market-pool.mailMarketPoolNetTitle')}
+        {t('mailMarketPool.mailMarketPoolNetTitle')}
       </Typography>
       <Box display="grid" gridTemplateColumns="1fr 1fr 1fr" gridGap="1rem">
         <Box
@@ -38,12 +38,12 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
             <Box
               as="span"
               cursor="help"
-              data-tip={t('mail-market-pool.poolNetTip', {
+              data-tip={t('mailMarketPool.poolNetTip', {
                 locale,
                 type: t(
                   data.net.isPositive
-                    ? 'mail-market-pool.earning'
-                    : 'mail-market-pool.paying'
+                    ? 'mailMarketPool.earning'
+                    : 'mailMarketPool.paying'
                 ),
               })}
               display="inline-block"
@@ -82,7 +82,7 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
             <Box
               as="span"
               cursor="help"
-              data-tip={t('mail-market-pool.poolSupplyTip')}
+              data-tip={t('mailMarketPool.poolSupplyTip')}
               display="inline-block"
               ml="M"
             >
@@ -119,7 +119,7 @@ const MAILMarketPoolNetApr: FC<MAILMarketPoolNetAprProps> = ({
             <Box
               as="span"
               cursor="help"
-              data-tip={t('mail-market-pool.poolBorrowTip')}
+              data-tip={t('mailMarketPool.poolBorrowTip')}
               display="inline-block"
               ml="M"
             >

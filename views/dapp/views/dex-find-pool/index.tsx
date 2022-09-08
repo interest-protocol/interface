@@ -34,6 +34,7 @@ import {
 import { getNativeBalance } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
 import {
+  capitalizeFirstLetter,
   handleZeroWrappedToken,
   isSameAddressZ,
   isZeroAddress,
@@ -148,8 +149,8 @@ const FindPoolView: FC = () => {
 
   const handleEnterPool = () =>
     showToast(enterPool(), {
-      loading: 'Checking pool...',
-      success: t('common.success'),
+      loading: capitalizeFirstLetter(t('common.checking') + ' pool...'),
+      success: capitalizeFirstLetter(t('common.success')),
       error: prop('message'),
     });
 
@@ -272,8 +273,8 @@ const FindPoolView: FC = () => {
 
   const handleCreatePair = () =>
     showToast(createPair(), {
-      loading: t('dex-pool-find.buttonPoolLoading'),
-      success: t('common.success'),
+      loading: capitalizeFirstLetter(t('dexPoolFind.buttonPoolLoading')),
+      success: capitalizeFirstLetter(t('common.success')),
       error: prop('message'),
     });
 
@@ -284,7 +285,7 @@ const FindPoolView: FC = () => {
           <Box color="error">
             <TimesSVG width="10rem" />
           </Box>
-          {t('dex-pool-find.balanceError')}
+          {capitalizeFirstLetter(t('dexPoolFind.balanceError'))}
         </Box>
       </Container>
     );
@@ -293,7 +294,7 @@ const FindPoolView: FC = () => {
     <Container py="XL" dapp>
       <GoBack routeBack />
       <Typography variant="normal" width="100%" textTransform="capitalize">
-        {t('dex-pool-find.title')}
+        {t('dexPoolFind.title')}
       </Typography>
       <FindPool
         control={control}
@@ -350,7 +351,7 @@ const FindPoolView: FC = () => {
               disabled={true}
               bg="disabled"
             >
-              {t('dex-pool-find.buttonSameToken')}
+              {capitalizeFirstLetter(t('dexPoolFind.buttonSameToken'))}
             </Button>
           ) : isCreatingPair ? (
             <Button
@@ -378,8 +379,8 @@ const FindPoolView: FC = () => {
             >
               {t(
                 loading
-                  ? 'dex-pool-find.buttonPoolLoading'
-                  : 'dex-pool-find.buttonPool'
+                  ? 'dexPoolFind.buttonPoolLoading'
+                  : 'dexPoolFind.buttonPool'
               )}
             </Button>
           ) : (
@@ -391,10 +392,12 @@ const FindPoolView: FC = () => {
               bg={loading ? 'accentActive' : 'accent'}
               hover={{ bg: loading ? 'disabled' : 'accentActive' }}
             >
-              {t(
-                loading
-                  ? 'dex-pool-find.buttonLoading'
-                  : 'dex-pool-find.buttonCustom'
+              {capitalizeFirstLetter(
+                t(
+                  loading
+                    ? 'dexPoolFind.buttonLoading'
+                    : 'dexPoolFind.buttonCustom'
+                )
               )}
             </Button>
           )}

@@ -105,7 +105,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
                 ' - ' +
                 processedData.token1Metadata.symbol +
                 ' ' +
-                t('dex-pool-pair-address.title', {
+                t('dexPoolPairAddress.title', {
                   locale,
                   type: t(
                     processedData.isStable ? 'common.stable' : 'common.volatile'

@@ -74,8 +74,8 @@ const DineroMarket: FC = () => {
         justifyContent={['center', 'flex-start']}
       >
         <DineroSVG width="2rem" height="2rem" />
-        <Typography variant="normal" ml="M">
-          {t('dinero-market.dineroMarketTitle')}
+        <Typography variant="normal" ml="M" textTransform="capitalize">
+          {t('dineroMarket.dineroMarketTitle')}
         </Typography>
       </Box>
       <BorrowFilters

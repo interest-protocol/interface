@@ -19,6 +19,7 @@ import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import {
+  capitalizeFirstLetter,
   formatMoney,
   isValidAccount,
   safeGetAddress,
@@ -102,8 +103,8 @@ const FaucetForm: FC<FaucetFormProps> = ({
 
   const onMint = () =>
     showToast(handleOnMint(), {
-      loading: `${t('faucet.buttonLoading')}...`,
-      success: t('common.success'),
+      loading: capitalizeFirstLetter(`${t('faucet.buttonLoading')}...`),
+      success: capitalizeFirstLetter(t('common.success')),
       error: prop('message'),
     });
 
@@ -129,14 +130,14 @@ const FaucetForm: FC<FaucetFormProps> = ({
         >
           <FaucetSelectCurrency
             tokens={tokens}
-            label={t('faucet.tokenInput')}
+            label={capitalizeFirstLetter(t('faucet.tokenInput'))}
             defaultValue={tokens?.[0]?.address ?? ethers.constants.AddressZero}
             onSelectCurrency={onSelectCurrency}
           />
           <InputBalance
             name="amount"
             register={register}
-            label={t('faucet.amountInput')}
+            label={capitalizeFirstLetter(t('faucet.amountInput'))}
             setValue={setValue}
             chainId={chainId}
             control={control}
@@ -163,12 +164,18 @@ const FaucetForm: FC<FaucetFormProps> = ({
                     <Box as="span" display="inline-block" width="1rem">
                       <LoadingSVG width="100%" />
                     </Box>
-                    <Typography as="span" variant="normal" ml="M" fontSize="S">
+                    <Typography
+                      as="span"
+                      variant="normal"
+                      ml="M"
+                      fontSize="S"
+                      textTransform="capitalize"
+                    >
                       {t('faucet.buttonLoading')}...
                     </Typography>
                   </Box>
                 ) : (
-                  t('faucet.button')
+                  capitalizeFirstLetter(t('faucet.button'))
                 )}
               </Button>
             ) : (

@@ -5,6 +5,7 @@ import { FC } from 'react';
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
+import { capitalizeFirstLetter } from '@/utils';
 
 import {
   BTCOrbit,
@@ -62,7 +63,7 @@ const Borrow: FC = () => {
             mb={['0.625rem', '0.625rem', '0.625rem', '1rem']}
             fontSize={['1.125rem', '1.125rem', '1.125rem', '1.5rem']}
           >
-            {t('index.borrowSectionSubtitle')}
+            {capitalizeFirstLetter(t('index.borrowSectionSubtitle'))}
           </Typography>
           <Typography
             width="100%"
@@ -73,7 +74,7 @@ const Borrow: FC = () => {
             fontSize={['0.875rem', '0.875rem', '0.875rem', '1rem']}
             textAlign={['center', 'center', 'center', 'justify']}
           >
-            {t('index.borrowSectionBody')}
+            {capitalizeFirstLetter(t('index.borrowSectionBody'))}
           </Typography>
           <Button
             mb="XL"
@@ -150,7 +151,11 @@ const Borrow: FC = () => {
                 />
               </FloatingCoins>
             </Box>
-            <Typography variant="normal" textAlign="center">
+            <Typography
+              variant="normal"
+              textAlign="center"
+              textTransform="capitalize"
+            >
               {t('common.collateral')}
             </Typography>
             <Box color="textSecondary" width="40%" mx="auto" mt="XL">
@@ -164,7 +169,12 @@ const Borrow: FC = () => {
             </Box>
             <Box display="flex" justifyContent="space-between" width="100%">
               <Box width="40%" position="relative">
-                <Typography textAlign="center" variant="normal" mb="XL">
+                <Typography
+                  textAlign="center"
+                  variant="normal"
+                  mb="XL"
+                  textTransform="capitalize"
+                >
                   {t('common.market')}
                 </Typography>
                 <Box
@@ -237,7 +247,11 @@ const Borrow: FC = () => {
                   alt="dinero market flow"
                   path="home/dinero-persona"
                 />
-                <Typography textAlign="center" variant="normal">
+                <Typography
+                  textAlign="center"
+                  variant="normal"
+                  textTransform="capitalize"
+                >
                   {t('common.borrower')}
                 </Typography>
               </Box>
@@ -331,7 +345,11 @@ const Borrow: FC = () => {
                 />
               </FloatingCoins>
             </Box>
-            <Typography variant="normal" textAlign="center">
+            <Typography
+              variant="normal"
+              textAlign="center"
+              textTransform="capitalize"
+            >
               {t('index.borrowSectionINTTokensDescription')}
             </Typography>
           </Box>

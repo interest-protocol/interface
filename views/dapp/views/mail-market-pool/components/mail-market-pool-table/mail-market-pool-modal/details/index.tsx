@@ -71,7 +71,7 @@ const Details: FC<DetailsProps> = ({
           color="textSecondary"
           textTransform="uppercase"
         >
-          {t('mail-market-pool.mailMarketPoolRiskTitle')}
+          {t('mailMarketPool.mailMarketPoolRiskTitle')}
         </Typography>
         <Typography variant="normal">
           <Typography

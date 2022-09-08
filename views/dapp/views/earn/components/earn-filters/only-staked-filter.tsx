@@ -4,6 +4,7 @@ import { useWatch } from 'react-hook-form';
 
 import { Switch } from '@/components';
 import { Box, Typography } from '@/elements';
+import { capitalizeFirstLetter } from '@/utils';
 import { getFilterSwitchDefaultData } from '@/views/dapp/views/earn/components/earn.data';
 
 import { OnlyStakedFilterProps } from './earn-filters.types';
@@ -12,7 +13,7 @@ const OnlyStakedFilter: FC<OnlyStakedFilterProps> = ({ control, setValue }) => {
   const t = useTranslations();
   const onlyStaked = useWatch({ control, name: 'onlyStaked' });
   const SWITCH_ON_OFF_DATA = getFilterSwitchDefaultData(
-    ['off', 'on'],
+    [t('common.off'), t('common.on')],
     setValue,
     'onlyStaked'
   );
@@ -26,10 +27,10 @@ const OnlyStakedFilter: FC<OnlyStakedFilterProps> = ({ control, setValue }) => {
         display="inline-block"
         textAlign={['center', 'center', 'center', 'left']}
       >
-        {t('earn.filterStaked')}
+        {capitalizeFirstLetter(t('earn.filterStaked'))}
       </Typography>
       <Switch
-        defaultValue={onlyStaked ? 'on' : 'off'}
+        defaultValue={onlyStaked ? t('common.on') : t('common.off')}
         options={SWITCH_ON_OFF_DATA}
         bg="background"
         bgSelected="accentAlternative"

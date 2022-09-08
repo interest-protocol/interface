@@ -1,0 +1,7 @@
+{
+  "dexSwap": {
+    "settingsTitle": "Configurações",
+    "toleranceLabel": "Tolerância da slippage?",
+    "deadlineLabel": "Prazo da transação"
+  }
+}

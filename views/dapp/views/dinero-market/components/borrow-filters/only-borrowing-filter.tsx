@@ -4,6 +4,7 @@ import { useWatch } from 'react-hook-form';
 
 import { Switch } from '@/components';
 import { Box, Typography } from '@/elements';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { getFilterSwitchDefaultData } from '../../dinero-market.utils';
 import { OnlyBorrowingFilterProps } from './borrow-filters.types';
@@ -15,7 +16,7 @@ const OnlyBorrowingFilter: FC<OnlyBorrowingFilterProps> = ({
   const t = useTranslations();
   const onlyBorrowing = useWatch({ control, name: 'onlyBorrowing' });
   const SWITCH_ON_OFF_DATA = getFilterSwitchDefaultData(
-    ['off', 'on'],
+    [t('common.off'), t('common.on')],
     setValue,
     'onlyBorrowing'
   );
@@ -37,13 +38,13 @@ const OnlyBorrowingFilter: FC<OnlyBorrowingFilterProps> = ({
         variant="normal"
         textAlign={['center', 'center', 'center', 'left']}
       >
-        {t('dinero-market.borrowFilterBorrowing')}
+        {capitalizeFirstLetter(t('dineroMarket.borrowFilterBorrowing'))}
       </Typography>
       <Switch
         bg="background"
         options={SWITCH_ON_OFF_DATA}
         bgSelected="accentAlternative"
-        defaultValue={onlyBorrowing ? 'on' : 'off'}
+        defaultValue={onlyBorrowing ? t('common.on') : t('common.off')}
       />
     </Box>
   );

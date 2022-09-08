@@ -6,12 +6,18 @@ import { v4 } from 'uuid';
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
 import { InfoSVG } from '@/svg';
+import { capitalizeFirstLetter } from '@/utils';
 
 import {
   getBorrowPositionHealthData,
   getRepayPositionHealthData,
 } from '../../dinero-market.utils';
 import { BorrowFormLoanInfoProps } from './borrow-form.types';
+
+const INFO = [1, 2, 3, 4].map((item) => ({
+  text: 'dineroMarketAddress.borrowFormLoanInfoText' + item,
+  tip: 'dineroMarketAddress.borrowFormLoanInfoTip' + item,
+}));
 
 const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
   control,
@@ -30,11 +36,6 @@ const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
     control,
     name: 'repay.collateral',
   });
-
-  const INFO = [1, 2, 3, 4].map((item) => ({
-    text: t('dinero-market-address.borrowFormLoanInfoText' + item),
-    tip: t('dinero-market-address.borrowFormLoanInfoTip' + item),
-  }));
 
   const loanData = useMemo(
     () =>
@@ -59,14 +60,14 @@ const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
               width="1rem"
               cursor="help"
               display="flex"
-              data-tip={tip}
+              data-tip={capitalizeFirstLetter(t(tip))}
               minWidth="1rem"
               alignItems="center"
             >
               <InfoSVG width="100%" />
             </Box>
             <Typography variant="normal" as="span">
-              {text}
+              {capitalizeFirstLetter(t(text))}
             </Typography>
           </Box>
           <Typography

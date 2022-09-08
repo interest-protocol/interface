@@ -57,7 +57,7 @@ const MAILMarket: FC = () => {
         <Container dapp px="M" background="specialBackground" width="100%">
           <Box mt="XL" display="flex" justifyContent="space-between">
             <Typography variant="normal" ml="M">
-              {t('mail-market.mailMarketTitle')}
+              {t('mailMarket.mailMarketTitle')}
             </Typography>
             {!!recommendedMarkets.length && localMarkets.length > 6 && (
               <Typography
@@ -67,7 +67,7 @@ const MAILMarket: FC = () => {
                   color: 'accentActive',
                 }}
               >
-                <a href="#recommended">{t('mail-market.seeRecommended')}</a>
+                <a href="#recommended">{t('mailMarket.seeRecommended')}</a>
               </Typography>
             )}
           </Box>

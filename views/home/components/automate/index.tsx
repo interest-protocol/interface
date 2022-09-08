@@ -6,6 +6,7 @@ import { v4 } from 'uuid';
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { EARN_TYPES } from './automate.data';
 
@@ -24,6 +25,7 @@ const Automate: FC = () => {
           lineHeight="4.876rem"
           mb={['0.875rem', '0.875rem', '0.625rem', '0.625rem']}
           fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
+          textTransform="capitalize"
         >
           {t('index.vaultSectionTitle')}
         </Typography>
@@ -33,7 +35,7 @@ const Automate: FC = () => {
           fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
           lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
         >
-          {t('index.vaultSectionSubtitle')}
+          {capitalizeFirstLetter(t('index.vaultSectionSubtitle'))}
         </Typography>
         <Box
           mt={['1.25rem', '4.313rem']}

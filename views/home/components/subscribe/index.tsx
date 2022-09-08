@@ -4,6 +4,7 @@ import { FC } from 'react';
 import toast from 'react-hot-toast';
 
 import { LogoSVG, ShieldSVG } from '@/svg';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { Box, Button, Input, Typography } from '../../../../elements';
 
@@ -22,8 +23,8 @@ const Subscribe: FC = () => {
             if (data.httpStatus == 200) return data;
           }),
         {
-          loading: t('index.subscribeLoading'),
-          success: t('common.success'),
+          loading: capitalizeFirstLetter(t('index.subscribeLoading')),
+          success: capitalizeFirstLetter(t('common.success')),
           error: (error) => `${error.code} - ${error.message}`,
         }
       )
@@ -50,7 +51,7 @@ const Subscribe: FC = () => {
         textAlign="center"
         fontSize={['L', 'XXL']}
       >
-        {t('index.subscribeSectionTitle')}
+        {capitalizeFirstLetter(t('index.subscribeSectionTitle'))}
       </Typography>
       <Box
         mt="XXL"
@@ -71,7 +72,9 @@ const Subscribe: FC = () => {
           outline="none"
           borderRadius="S"
           mb={['L', 'NONE']}
-          placeholder={t('index.subscribeInputDescription')}
+          placeholder={capitalizeFirstLetter(
+            t('index.subscribeInputDescription')
+          )}
         />
         <Box
           display="flex"
@@ -80,14 +83,14 @@ const Subscribe: FC = () => {
           flexDirection="column"
         >
           <Button ml="S" px="L" type="submit" variant="tertiary" effect="hover">
-            {t('index.subscribeButton')}
+            {capitalizeFirstLetter(t('index.subscribeButton'))}
           </Button>
           <Box display="flex" alignItems="center" mt="M" px="L">
             <Box width="0.7rem">
               <ShieldSVG width="100%" />
             </Box>
             <Typography variant="normal" ml="S" fontSize="XS">
-              {t('index.subscribeDescription')}
+              {capitalizeFirstLetter(t('index.subscribeDescription'))}
             </Typography>
           </Box>
         </Box>

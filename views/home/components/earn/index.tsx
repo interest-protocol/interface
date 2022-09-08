@@ -6,6 +6,7 @@ import { v4 } from 'uuid';
 import Container from '@/components/container';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { LEND_AND_BORROW_TOKENS } from './earn.data';
 import {
@@ -155,7 +156,7 @@ const Earn: FC = () => {
               fontSize={['1.125rem', '1.125rem', '1.5rem', '1.5rem']}
               lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
             >
-              {t('index.earnSectionSubtitle')}
+              {capitalizeFirstLetter(t('index.earnSectionSubtitle'))}
             </Typography>
             <Typography
               variant="normal"
@@ -165,10 +166,10 @@ const Earn: FC = () => {
               mb={['1.25rem', '1.25rem', '1.75rem', '1.75rem']}
               fontSize={['0.875rem', '0.875rem', '1rem', '1rem']}
             >
-              {t('index.earnSectionH3')}
+              {capitalizeFirstLetter(t('index.earnSectionH3'))}
             </Typography>
             <Typography variant="normal" fontWeight="700" mb="0.625rem">
-              {t('index.earnSectionBody')}
+              {capitalizeFirstLetter(t('index.earnSectionBody'))}
             </Typography>
             <Box
               display="flex"
@@ -194,6 +195,7 @@ const Earn: FC = () => {
                 variant="normal"
                 fontSize="inherit"
                 fontWeight="inherit"
+                textTransform="uppercase"
               >
                 {t('index.earnSectionButton')}
               </Typography>

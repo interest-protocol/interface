@@ -1,9 +1,0 @@
-{
-  "mail-market": {
-    "mailMarketTitle": "Mercados de Empréstimos Isolados Multi-activos",
-    "mailMarketBorrow": "Pedir emprestado",
-    "mailMarketSupply": "Oferta",
-    "seeRecommended": "Ver recomendado",
-    "notFound": "Mercado não encontrado: Por favor, escreva um endereço simbólico diferente para encontrar ou criar um novo mercado"
-  }
-}

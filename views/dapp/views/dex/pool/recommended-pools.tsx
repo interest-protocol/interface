@@ -6,6 +6,7 @@ import { v4 } from 'uuid';
 import { PoolType, RECOMMENDED_POOLS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useChainId } from '@/hooks';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { RecommendedPoolsProps } from './pool.types';
 import PoolRow from './pool-row';
@@ -17,18 +18,15 @@ const RecommendedPools: FC<RecommendedPoolsProps> = ({ type }) => {
   const chainId = useChainId();
   return (
     <Box pb="L" pt="M" mb="L" px="L" bg="foreground" borderRadius="M">
-      <Typography
-        variant="normal"
-        width="100%"
-        my="L"
-        textTransform="capitalize"
-      >
-        {t('dex-pool.recommendedTitle', {
-          locale,
-          type: t(
-            type === PoolType.Volatile ? 'common.volatile' : 'common.stable'
-          ),
-        })}
+      <Typography variant="normal" width="100%" my="L">
+        {capitalizeFirstLetter(
+          t('dexPool.recommendedTitle', {
+            locale,
+            type: t(
+              type === PoolType.Volatile ? 'common.volatiles' : 'common.stables'
+            ),
+          })
+        )}
       </Typography>
       {RECOMMENDED_POOLS[chainId][type].map(
         ({ token0, token1, pairAddress }) => (

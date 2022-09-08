@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC, useMemo, useState } from 'react';
 
 import priorityHooks from '@/connectors';
@@ -6,6 +7,7 @@ import { metaMask } from '@/connectors/meta-mask';
 import { Wallets } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { BackSVG, LoadingSVG, MetaMaskSVG, TimesSVG } from '@/svg';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { ConnectWalletProps, WalletButtonProps } from '../../wallet.types';
 
@@ -42,6 +44,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
   showModal,
   toggleModal,
 }) => {
+  const t = useTranslations();
   const [modalState, setModalState] = useState({
     chooser: true,
     [Wallets.MetaMask]: false,
@@ -109,7 +112,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
               variant="normal"
               fontWeight="normal"
             >
-              Connect Your Wallet
+              {capitalizeFirstLetter(t('common.connectWallet'))}
             </Typography>
             <Box
               cursor="pointer"
@@ -175,8 +178,12 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
                   <Box color="text">
                     <LoadingSVG width="1.4rem" height="1.4rem" />
                   </Box>
-                  <Typography variant="normal" ml="L">
-                    Initializing...
+                  <Typography
+                    variant="normal"
+                    ml="L"
+                    textTransform="capitalize"
+                  >
+                    {t('common.init')}...
                   </Typography>
                 </>
               )}
@@ -197,7 +204,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
                       fontSize="XS"
                       color="textSecondary"
                     >
-                      Try to unlock your wallet
+                      {capitalizeFirstLetter(t('common.unlockWallet'))}
                     </Typography>
                   </Box>
                   <Button
@@ -209,7 +216,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
                       metaMask.activate();
                     }}
                   >
-                    Try Again
+                    {capitalizeFirstLetter(t('common.tryAgain'))}
                   </Button>
                 </Box>
               )}

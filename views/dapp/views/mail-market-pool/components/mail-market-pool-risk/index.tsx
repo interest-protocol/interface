@@ -18,7 +18,7 @@ const MAILMarketPoolRisk: FC<MAILMarketPoolRiskProps> = ({ loading, risk }) => {
         color="textSecondary"
         textTransform="uppercase"
       >
-        {t('mail-market-pool.mailMarketPoolRiskTitle')}
+        {t('mailMarketPool.mailMarketPoolRiskTitle')}
       </Typography>
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Typography variant="normal" mr="XL">

@@ -10,6 +10,7 @@ import { useGetSigner } from '@/hooks';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import {
+  capitalizeFirstLetter,
   extractCreateTokenEvent,
   isValidAccount,
   safeGetAddress,
@@ -92,8 +93,8 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
 
   const safeCreateToken = () =>
     showToast(handleCreateToken(), {
-      loading: `${t('faucet.modalButtonLoading')}...`,
-      success: t('common.success'),
+      loading: capitalizeFirstLetter(`${t('faucet.modalButtonLoading')}...`),
+      success: capitalizeFirstLetter(t('common.success')),
       error: prop('message'),
     });
 
@@ -129,18 +130,18 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
           gridTemplateColumns={['1fr', '1f', '1fr', '1fr 1fr']}
         >
           <CreateTokenField
-            label={t('faucet.modalInputName')}
+            label={capitalizeFirstLetter(t('faucet.modalInputName'))}
             name="name"
             register={register}
           />
           <CreateTokenField
-            label={t('faucet.modalInputSymbol')}
+            label={capitalizeFirstLetter(t('faucet.modalInputSymbol'))}
             name="symbol"
             register={register}
           />
         </Box>
         <CreateTokenSupplyField
-          label={t('faucet.modalInputAmount')}
+          label={capitalizeFirstLetter(t('faucet.modalInputAmount'))}
           register={register}
           setValue={setValue}
         />
@@ -159,12 +160,17 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
                 <Box as="span" display="inline-block" width="1rem">
                   <LoadingSVG width="100%" />
                 </Box>
-                <Typography fontSize="S" variant="normal" ml="M">
+                <Typography
+                  fontSize="S"
+                  variant="normal"
+                  ml="M"
+                  textTransform="capitalize"
+                >
                   {t('faucet.modalButtonLoading')}
                 </Typography>
               </Box>
             ) : (
-              t('faucet.modalButton')
+              capitalizeFirstLetter(t('faucet.modalButton'))
             )}
           </Button>
         ) : (

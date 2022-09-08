@@ -1,7 +1,0 @@
-{
-  "dex-swap": {
-    "settingsTitle": "Configurações da transação",
-    "toleranceLabel": "Tolerância de deslizamento?",
-    "deadlineLabel": "Prazo de transação"
-  }
-}

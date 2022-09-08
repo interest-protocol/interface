@@ -138,3 +138,6 @@ export const maybeLPTokenName = (symbol0?: string, symbol1?: string): string =>
   `${symbol0 ?? ''}${
     symbol1 && symbol1 !== TOKEN_SYMBOL.Unknown ? `-${symbol1}` : ''
   }`;
+
+export const capitalizeFirstLetter = (str: string): string =>
+  str ? str.charAt(0).toUpperCase() + str.slice(1) : '';

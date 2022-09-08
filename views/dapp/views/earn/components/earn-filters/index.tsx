@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Box, Input, Typography } from '@/elements';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { EarnFiltersProps } from '../../earn.types';
 import OnlyFinishedFilter from './only-finished-filter';
@@ -54,7 +55,9 @@ const EarnFilters: FC<EarnFiltersProps> = ({ setValue, register, control }) => {
             borderColor="background"
             {...register('search')}
             fontSize="S"
-            placeholder="Search by name or symbol..."
+            placeholder={capitalizeFirstLetter(
+              t('common.placeholderInputSearch')
+            )}
             focus={{
               borderColor: 'accentAlternativeBackground',
             }}

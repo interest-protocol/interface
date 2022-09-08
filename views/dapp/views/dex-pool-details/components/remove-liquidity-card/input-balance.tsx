@@ -116,7 +116,7 @@ const InputBalance: FC<InputBalanceProps> = ({
         position="relative"
         bg="bottomBackground"
       >
-        <Typography fontSize="S" variant="normal">
+        <Typography fontSize="S" variant="normal" textTransform="capitalize">
           {t('common.balance')}:{' '}
           <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
             {formatMoney(balance)}

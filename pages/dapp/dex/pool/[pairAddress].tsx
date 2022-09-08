@@ -1,6 +1,5 @@
 import { NextPage } from 'next';
 
-import { LOCALES, LocalesEnum } from '@/constants/locale';
 import DEXPoolDetailsView from '@/views/dapp/views/dex-pool-details';
 
 interface DEXPoolDetailsPageProps {
@@ -14,10 +13,10 @@ const DEXPoolDetailsPage: NextPage<DEXPoolDetailsPageProps> = ({
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getServerSideProps = ({
   params,
-  locale = LocalesEnum.EN,
+  locale,
 }: {
   params: DEXPoolDetailsPageProps;
-  locale: LocalesEnum;
+  locale: string;
 }) => {
   const { pairAddress } = params;
 
@@ -25,8 +24,8 @@ export const getServerSideProps = ({
     props: {
       pairAddress,
       messages: {
-        ...require(`../../../../assets/messages/dex/pool/pair-address/${LOCALES[locale]}.json`),
-        ...require(`../../../../assets/messages/common/${LOCALES[locale]}.json`),
+        ...require(`../../../../assets/messages/dex/pool/pair-address/${locale}.json`),
+        ...require(`../../../../assets/messages/common/${locale}.json`),
       },
     },
   };

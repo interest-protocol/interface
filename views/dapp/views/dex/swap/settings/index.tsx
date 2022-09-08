@@ -4,7 +4,7 @@ import { ChangeEvent, FC, useEffect, useRef } from 'react';
 import { Box, Button, Typography } from '@/elements';
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
 import { TimesSVG } from '@/svg';
-import { parseInputEventToNumberString } from '@/utils';
+import { capitalizeFirstLetter, parseInputEventToNumberString } from '@/utils';
 
 import Field from './field';
 import { SwapSettingsProps } from './settings.types';
@@ -68,7 +68,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           color="textSecondary"
           textTransform="uppercase"
         >
-          {t('dex-swap.settingsTitle')}
+          {t('dexSwap.settingsTitle')}
         </Typography>
         <Button
           p="S"
@@ -90,7 +90,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           type="string"
           max="30"
           placeholder="0.5"
-          label={t('dex-swap.toleranceLabel')}
+          label={capitalizeFirstLetter(t('dexSwap.toleranceLabel'))}
           setRegister={() =>
             register('slippage', {
               onChange: (v: ChangeEvent<HTMLInputElement>) => {
@@ -133,9 +133,11 @@ const SettingsModal: FC<SwapSettingsProps> = ({
               },
             })
           }
-          label={t('dex-swap.deadlineLabel')}
+          label={capitalizeFirstLetter(t('dexSwap.deadlineLabel'))}
           suffix={
-            <Typography variant="normal">{t('common.minutes')}</Typography>
+            <Typography variant="normal" textTransform="lowercase">
+              {t('common.minutes')}
+            </Typography>
           }
         />
       </Box>

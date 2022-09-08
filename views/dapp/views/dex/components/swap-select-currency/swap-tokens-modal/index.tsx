@@ -17,7 +17,7 @@ import { Box, Button, Modal, Typography } from '@/elements';
 import { useDebounce, useIdAccount, useLocalStorage } from '@/hooks';
 import { TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
 import { LineLoaderSVG, TimesSVG } from '@/svg';
-import { isSameAddress, isSameAddressZ } from '@/utils';
+import { capitalizeFirstLetter, isSameAddress, isSameAddressZ } from '@/utils';
 
 import {
   SwapCurrencyDropdownProps,
@@ -223,7 +223,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
           <Box my="L" textAlign="center">
             {isSearching ? (
               <Typography variant="normal" color="text">
-                {t('common.loading')}
+                {capitalizeFirstLetter(t('common.loading'))}
               </Typography>
             ) : searchedToken ? (
               renderData(
@@ -233,12 +233,8 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                 currentToken
               )
             ) : (
-              <Typography
-                variant="normal"
-                color="text"
-                textTransform="capitalize"
-              >
-                {t('common.notFound')}
+              <Typography variant="normal" color="text">
+                {capitalizeFirstLetter(t('common.notFound'))}
               </Typography>
             )}
           </Box>
@@ -251,12 +247,16 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                 options={[
                   {
                     value: 'recommended',
-                    displayValue: t('dex-pool-find.switchOption1'),
+                    displayValue: capitalizeFirstLetter(
+                      t('dexPoolFind.switchOption1')
+                    ),
                     onSelect: () => setShowLocal(false),
                   },
                   {
                     value: 'local',
-                    displayValue: t('dex-pool-find.switchOption2'),
+                    displayValue: capitalizeFirstLetter(
+                      t('dexPoolFind.switchOption2')
+                    ),
                     onSelect: () => setShowLocal(true),
                   },
                 ]}

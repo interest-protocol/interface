@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
@@ -12,10 +13,12 @@ import {
 } from '@/constants';
 import { Box, Button, Dropdown, Typography } from '@/elements';
 import { GitBookSVG } from '@/svg';
+import { capitalizeFirstLetter } from '@/utils';
 
 import Faucet from '../../faucet';
 
 const Footer: FC = () => {
+  const t = useTranslations();
   const { pathname, push } = useRouter();
 
   return (
@@ -97,7 +100,7 @@ const Footer: FC = () => {
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
             >
-              Earn
+              {capitalizeFirstLetter(t('common.earn'))}
             </Button>
           </Link>
           <Box>
@@ -125,14 +128,17 @@ const Footer: FC = () => {
                   }
                   hover={{ bg: 'accent', color: 'text' }}
                   active={{ bg: 'accentActive', color: 'text' }}
+                  textTransform="capitalize"
                 >
-                  Borrow
+                  {t('common.borrowMenu')}
                 </Typography>
               }
               data={[
                 {
                   value: 'dinero-market',
-                  displayOption: 'Dinero Market',
+                  displayOption: capitalizeFirstLetter(
+                    t('common.dineroMarket')
+                  ),
                   onSelect: () =>
                     push(Routes[RoutesEnum.DineroMarket], undefined, {
                       shallow: true,
@@ -140,7 +146,7 @@ const Footer: FC = () => {
                 },
                 {
                   value: 'mail-market',
-                  displayOption: 'MAIL Market',
+                  displayOption: capitalizeFirstLetter(t('common.mailMarket')),
                   onSelect: () =>
                     push(Routes[RoutesEnum.MAILMarket], undefined, {
                       shallow: true,

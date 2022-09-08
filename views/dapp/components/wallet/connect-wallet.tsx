@@ -3,6 +3,7 @@ import { FC, useState } from 'react';
 
 import { Button, Typography } from '@/elements';
 import { useIsMounted } from '@/hooks/use-is-mounted';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { ConnectWalletModal } from './wallet-modal';
 
@@ -26,14 +27,8 @@ const ConnectWallet: FC = () => {
         hover={{ bg: 'accent' }}
         active={{ bg: 'accentActive' }}
       >
-        <Typography
-          as="span"
-          textTransform="capitalize"
-          variant="normal"
-          whiteSpace="nowrap"
-          fontSize="S"
-        >
-          {t('common.wallet')}
+        <Typography as="span" variant="normal" whiteSpace="nowrap" fontSize="S">
+          {capitalizeFirstLetter(t('common.wallet'))}
         </Typography>
       </Button>
       <ConnectWalletModal showModal={showModal} toggleModal={toggleModal} />

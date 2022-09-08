@@ -1,6 +1,5 @@
 import { NextPage } from 'next';
 
-import { LOCALES, LocalesEnum } from '@/constants/locale';
 import MAILMarketPool from '@/views/dapp/views/mail-market-pool';
 
 interface MAILMarketPoolPageProps {
@@ -13,11 +12,11 @@ const MAILMarketPoolPage: NextPage<MAILMarketPoolPageProps> = ({ pool }) => (
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getServerSideProps = ({
-  locale = LocalesEnum.EN,
+  locale,
   params,
 }: {
   params: MAILMarketPoolPageProps;
-  locale: LocalesEnum;
+  locale: string;
 }) => {
   const { pool } = params;
 
@@ -25,8 +24,8 @@ export const getServerSideProps = ({
     props: {
       pool,
       messages: {
-        ...require(`../../../assets/messages/mail-market/pool/${LOCALES[locale]}.json`),
-        ...require(`../../../assets/messages/common/${LOCALES[locale]}.json`),
+        ...require(`../../../assets/messages/mail-market/pool/${locale}.json`),
+        ...require(`../../../assets/messages/common/${locale}.json`),
       },
     },
   };

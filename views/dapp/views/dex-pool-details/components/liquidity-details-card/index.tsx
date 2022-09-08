@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { LiquidityDetailsCardProps } from '../../dex-pool-details.types';
 import LiquidityDetailsCardLine from './liquidity-details-card-line';
@@ -48,20 +49,23 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
         ))}
       </Box>
       <Box>
-        <Typography variant="normal" lineHeight="2rem">
+        <Typography
+          variant="normal"
+          lineHeight="2rem"
+          textTransform="capitalize"
+        >
           {t('common.type')}:{' '}
           <Typography
             as="strong"
             variant="normal"
             fontWeight="600"
             fontSize="inherit"
-            textTransform="capitalize"
           >
-            {t(isStable ? 'stable' : 'volatile')}
+            {t(isStable ? 'common.stable' : 'common.volatile')}
           </Typography>
         </Typography>
         <Typography variant="normal" lineHeight="2rem">
-          {t('dex-pool-pair-address.sectionCustomDetail2')}:{' '}
+          {capitalizeFirstLetter(t('dexPoolPairAddress.sectionCustomDetail2'))}:{' '}
           <Typography
             as="strong"
             variant="normal"

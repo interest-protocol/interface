@@ -6,7 +6,7 @@ import { getFarmsSVGByToken } from '@/constants';
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
 import { TOKEN_SYMBOL } from '@/sdk';
-import { formatDollars, makeFarmSymbol } from '@/utils';
+import { capitalizeFirstLetter, formatDollars, makeFarmSymbol } from '@/utils';
 
 import { EarnFarmDetailsProps } from './earn.farm-details.types';
 
@@ -30,11 +30,13 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
         )}
         <Typography variant="normal" textTransform="capitalize">
           {farm.id === 0
-            ? `${TOKEN_SYMBOL.INT} ${t('common.pool')} `
-            : `${makeFarmSymbol(farm.chainId, farm.token0, farm.token1)} ${t(
-                'common.farm'
-              )} `}
-          {t('earn-token-address.title')}
+            ? `${TOKEN_SYMBOL.INT} ${capitalizeFirstLetter(t('common.pool'))} `
+            : `${makeFarmSymbol(
+                farm.chainId,
+                farm.token0,
+                farm.token1
+              )} ${capitalizeFirstLetter(t('common.farm'))} `}
+          {t('earnTokenAddress.title')}
         </Typography>
         <Typography
           ml="L"
@@ -49,7 +51,7 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
           bg={farm.stable ? 'accent' : 'accentAlternativeActive'}
           textTransform="capitalize"
         >
-          {t(farm.stable ? 'stable' : 'volatile')}
+          {t(farm.stable ? 'common.stable' : 'common.volatile')}
         </Typography>
       </Box>
       <Box
@@ -69,10 +71,17 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
           {formatDollars(farm.tvl)}
         </Box>
         <Box>
-          <Typography variant="normal" fontSize="S" mb="L">
-            State
+          <Typography
+            variant="normal"
+            textTransform="capitalize"
+            fontSize="S"
+            mb="L"
+          >
+            {t('common.state')}
           </Typography>
-          {farm.isLive ? 'Live' : 'Finished'}
+          {capitalizeFirstLetter(
+            t(farm.isLive ? 'common.live' : 'common.finished')
+          )}
         </Box>
         <Box>
           <Typography variant="normal" fontSize="S" mb="L">

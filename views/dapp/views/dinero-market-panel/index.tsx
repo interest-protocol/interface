@@ -20,6 +20,7 @@ import { useGetDineroMarketDataV2, useGetSigner } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
 import { coreActions } from '@/state/core/core.actions';
 import {
+  capitalizeFirstLetter,
   showToast,
   showTXSuccessToast,
   throwContractCallError,
@@ -119,8 +120,8 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
 
   const submitAllowance = () =>
     showToast(handleAddAllowance(), {
-      loading: `${t('common.allowing')}...`,
-      success: t('common.success'),
+      loading: capitalizeFirstLetter(`${t('common.allowing')}...`),
+      success: capitalizeFirstLetter(t('common.success')),
       error: ({ message }) => message,
     });
 
@@ -225,7 +226,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
 
   const onSubmitRepay = async () => {
     if (isFormRepayEmpty(form)) {
-      toast.error(t('dinero-market-address.toastError'));
+      toast.error(capitalizeFirstLetter(t('dineroMarketAddress.toastError')));
       return;
     }
 

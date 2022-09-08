@@ -7,7 +7,12 @@ import { v4 } from 'uuid';
 import { getFarmsSVGByToken, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
 import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
-import { formatDollars, formatMoney, makeFarmSymbol } from '@/utils';
+import {
+  capitalizeFirstLetter,
+  formatDollars,
+  formatMoney,
+  makeFarmSymbol,
+} from '@/utils';
 
 import { handleFilterFarms } from '../../earn.utils';
 import {
@@ -61,7 +66,7 @@ const EarnTable: FC<EarnTableProps> = ({
               ),
             },
             {
-              tip: t('earn.column1Tip'),
+              tip: capitalizeFirstLetter(t('earn.column1Tip')),
               item: (
                 <Typography
                   as="span"
@@ -69,12 +74,12 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   fontSize="inherit"
                 >
-                  {t('common.tvl')}
+                  {capitalizeFirstLetter(t('common.tvl'))}
                 </Typography>
               ),
             },
             {
-              tip: t('earn.column2Tip'),
+              tip: capitalizeFirstLetter(t('earn.column2Tip')),
               item: (
                 <Typography
                   as="span"
@@ -82,12 +87,12 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   fontSize="inherit"
                 >
-                  {t('earn.column2')}
+                  {capitalizeFirstLetter(t('earn.column2'))}
                 </Typography>
               ),
             },
             {
-              tip: t('earn.column3Tip'),
+              tip: capitalizeFirstLetter(t('earn.column3Tip')),
               item: (
                 <Typography
                   as="span"
@@ -100,12 +105,12 @@ const EarnTable: FC<EarnTableProps> = ({
               ),
             },
             {
-              tip: t('earn.column4Tip'),
-              item: <>{t('earn.column4')}</>,
+              tip: capitalizeFirstLetter(t('earn.column4Tip')),
+              item: <>{capitalizeFirstLetter(t('earn.column4'))}</>,
             },
             {
-              tip: t('earn.column5Tip'),
-              item: <>{t('common.type')}</>,
+              tip: capitalizeFirstLetter(t('earn.column5Tip')),
+              item: <>{capitalizeFirstLetter(t('common.type'))}</>,
             },
           ]}
           backgroundColorMap={filteredFarms.map((farm) => ({
@@ -127,7 +132,7 @@ const EarnTable: FC<EarnTableProps> = ({
                         variant="primary"
                         hover={{ bg: 'accentActive' }}
                       >
-                        Enter
+                        {capitalizeFirstLetter(t('common.enter'))}
                       </Button>
                     </Link>
                   ),
@@ -181,7 +186,7 @@ const EarnTable: FC<EarnTableProps> = ({
                       key={v4()}
                       textTransform="capitalize"
                     >
-                      {t(farm.stable ? 'stable' : 'volatile')}
+                      {t(farm.stable ? 'common.stable' : 'common.volatile')}
                     </Typography>,
                   ],
                 }))
@@ -196,7 +201,7 @@ const EarnTable: FC<EarnTableProps> = ({
             }))}
             headings={[
               {
-                tip: t('earn.column1Tip'),
+                tip: capitalizeFirstLetter(t('earn.column1Tip')),
                 item: (
                   <Typography
                     as="span"
@@ -204,12 +209,12 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    {t('common.tvl')}
+                    {capitalizeFirstLetter(t('common.tvl'))}
                   </Typography>
                 ),
               },
               {
-                tip: t('earn.column2Tip'),
+                tip: capitalizeFirstLetter(t('earn.column2Tip')),
                 item: (
                   <Typography
                     as="span"
@@ -217,12 +222,12 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    {t('earn.column2')}
+                    {capitalizeFirstLetter(t('earn.column2'))}
                   </Typography>
                 ),
               },
               {
-                tip: t('earn.column3Tip'),
+                tip: capitalizeFirstLetter(t('earn.column3Tip')),
                 item: (
                   <Typography
                     as="span"
@@ -235,12 +240,12 @@ const EarnTable: FC<EarnTableProps> = ({
                 ),
               },
               {
-                tip: t('earn.column4Tip'),
-                item: <>{t('earn.column4')}</>,
+                tip: capitalizeFirstLetter(t('earn.column4Tip')),
+                item: <>{capitalizeFirstLetter(t('earn.column4'))}</>,
               },
               {
-                tip: t('earn.column5Tip'),
-                item: <>{t('common.type')}</>,
+                tip: capitalizeFirstLetter(t('earn.column5Tip')),
+                item: <>{capitalizeFirstLetter(t('common.type'))}</>,
               },
             ]}
             data={
@@ -306,7 +311,7 @@ const EarnTable: FC<EarnTableProps> = ({
                           variant="primary"
                           hover={{ bg: 'accentActive' }}
                         >
-                          {t('common.enter')}
+                          {capitalizeFirstLetter(t('common.enter'))}
                         </Button>
                       </Link>
                     ),
@@ -333,7 +338,7 @@ const EarnTable: FC<EarnTableProps> = ({
                         key={v4()}
                         textTransform="capitalize"
                       >
-                        {t(farm.stable ? 'stable' : 'volatile')}
+                        {t(farm.stable ? 'common.stable' : 'common.volatile')}
                       </Typography>,
                     ],
                   }))

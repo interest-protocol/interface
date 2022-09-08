@@ -6,9 +6,18 @@ import { v4 } from 'uuid';
 import { Box, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { InfoSVG } from '@/svg';
-import { formatDollars, maybeLPTokenName } from '@/utils';
+import {
+  capitalizeFirstLetter,
+  formatDollars,
+  maybeLPTokenName,
+} from '@/utils';
 
 import { MyOpenPositionProps } from './my-open-position.types';
+
+const MY_POSITION = [1, 2, 3, 4, 5, 6].map((item) => ({
+  name: 'dineroMarketAddress.positonName' + item,
+  tip: 'dineroMarketAddress.positionTip' + item,
+}));
 
 const MyOpenPosition: FC<MyOpenPositionProps> = ({
   symbols,
@@ -17,15 +26,11 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
   collateralUSDPrice,
 }) => {
   const t = useTranslations();
-  const MY_POSITION = [1, 2, 3, 4, 5, 6].map((item) => ({
-    name: t('dinero-market-address.positonName' + item),
-    tip: t('dinero-market-address.positionTip' + item),
-  }));
 
   return (
     <Box p="XL" order={5} gridArea="c" bg="foreground" borderRadius="L">
       <Typography variant="normal" textTransform="uppercase" mt="L">
-        {t('dinero-market-address.positionTitle')}:
+        {t('dineroMarketAddress.positionTitle')}:
       </Typography>
       {MY_POSITION.map(({ name, tip }, i) => (
         <Box my="L" key={v4()} display="flex" justifyContent="space-between">
@@ -35,12 +40,12 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
               as="span"
               width="1rem"
               cursor="help"
-              data-tip={tip}
+              data-tip={capitalizeFirstLetter(t(tip))}
               display="inline-block"
             >
               <InfoSVG width="100%" />
             </Box>
-            {name}
+            {capitalizeFirstLetter(t(name))}
           </Typography>
           <Typography
             variant="normal"

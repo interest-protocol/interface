@@ -4,6 +4,7 @@ import { useWatch } from 'react-hook-form';
 
 import { Switch } from '@/components';
 import { Box } from '@/elements';
+import { capitalizeFirstLetter } from '@/utils';
 
 import SwapSelectCurrency from '../dex/components/swap-select-currency';
 import { FindPoolProps } from './dex-find-pool.types';
@@ -45,12 +46,12 @@ const FindPool: FC<FindPoolProps> = ({
             options={[
               {
                 value: 'stable',
-                displayValue: t('common.stable'),
+                displayValue: capitalizeFirstLetter(t('common.stable')),
                 onSelect: () => setValue('isStable', true),
               },
               {
                 value: 'volatile',
-                displayValue: t('common.volatile'),
+                displayValue: capitalizeFirstLetter(t('common.volatile')),
                 onSelect: () => setValue('isStable', false),
               },
             ]}

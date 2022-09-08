@@ -8,7 +8,7 @@ import { Box, Typography } from '@/elements';
 import { useGetMailMarketData } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
 import { FixedPointMath } from '@/sdk';
-import { formatDollars } from '@/utils';
+import { capitalizeFirstLetter, formatDollars } from '@/utils';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
@@ -86,12 +86,13 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
                 color: 'accentActive',
               }}
             >
-              {t('mail-market-pool.mobileHeaderLink')}
+              {capitalizeFirstLetter(t('mailMarketPool.mobileHeaderLink'))}
             </Typography>
           </a>
         </Box>
         <Typography variant="normal" ml="M">
-          {t('mail-market-pool.mailMarketPoolTitle')} &rarr;{' '}
+          {capitalizeFirstLetter(t('mailMarketPool.mailMarketPoolTitle'))}{' '}
+          &rarr;{' '}
           {!loading &&
             compose(
               join(' - '),
@@ -112,12 +113,12 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             gridTemplateColumns="1fr 1fr"
           >
             <MAILMarketPoolBalance
-              text={t('mail-market-pool.supplyBalance')}
+              text={t('mailMarketPool.supplyBalance')}
               balance={formatDollars(FixedPointMath.toNumber(mySupply))}
               loading={loading}
             />
             <MAILMarketPoolBalance
-              text={t('mail-market-pool.borrowBalance')}
+              text={t('mailMarketPool.borrowBalance')}
               balance={formatDollars(
                 FixedPointMath.toNumber(
                   totalBorrowsInUSDRecord.totalBorrowInUSD
@@ -133,7 +134,7 @@ const MAILMarketPool: FC<MAILMarketPoolProps> = ({ pool }) => {
             gridTemplateColumns="1fr 1fr"
           >
             <MAILMarketPoolBalance
-              text={t('mail-market-pool.mailMarketPoolBalanceTitle')}
+              text={t('mailMarketPool.mailMarketPoolBalanceTitle')}
               balance={formatDollars(
                 FixedPointMath.toNumber(
                   totalBorrowsInUSDRecord.totalMaxBorrowAmountInUSD

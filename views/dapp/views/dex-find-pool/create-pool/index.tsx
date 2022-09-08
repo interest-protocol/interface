@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { CreatePoolProps, DexFindPoolForm } from '../dex-find-pool.types';
 import CreatePoolField from './create-pool-field';
@@ -39,9 +40,8 @@ const CreatePool: FC<CreatePoolProps> = ({
         border="1px solid"
         bg="bottomBackground"
         borderColor="textSoft"
-        textTransform="capitalize"
       >
-        {t('dex-pool-find.createPoolTitle')}
+        {capitalizeFirstLetter(t('dexPoolFind.createPoolTitle'))}
       </Typography>
       <Price control={control} />
       {TOKEN_NAMES.map((name, index) => (

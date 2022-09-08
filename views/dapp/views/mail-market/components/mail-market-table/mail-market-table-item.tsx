@@ -119,7 +119,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                 color="textSecondary"
                 textTransform="uppercase"
               >
-                {t('mail-market.mailMarketSupply')}
+                {t('mailMarket.mailMarketSupply')}
               </Typography>
               <Typography
                 fontSize="S"
@@ -127,7 +127,7 @@ const MAILMarketTableItem: FC<MAILMarketTableItemProps> = ({
                 color="textSecondary"
                 textTransform="uppercase"
               >
-                {t('mail-market.mailMarketBorrow')}
+                {t('mailMarket.mailMarketBorrow')}
               </Typography>
             </Box>,
             ...MAIL_MARKET_ASSET_ARRAY.map((index) =>

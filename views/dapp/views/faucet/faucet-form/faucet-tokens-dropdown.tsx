@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { TOKENS_SVG_MAP } from '@/constants';
@@ -5,6 +6,7 @@ import { Box, Dropdown, Typography } from '@/elements';
 import { IDropdownData } from '@/elements/dropdown/dropdown.types';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { ArrowSVG } from '@/svg';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { FaucetCurrencyDropdownProps, IToken } from '../faucet.types';
 
@@ -55,41 +57,45 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
   tokens,
   defaultValue,
   onSelectCurrency,
-}) => (
-  <Dropdown
-    relative
-    mode="select"
-    defaultValue={defaultValue}
-    emptyMessage="Not found Tokens"
-    title={
-      <Box
-        py="M"
-        px="L"
-        display="flex"
-        bg="background"
-        borderRadius="M"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Box my="M" display="flex" alignItems="center">
-          <Typography
-            mx="M"
-            as="span"
-            variant="normal"
-            hover={{ color: 'accent' }}
-            active={{ color: 'accentActive' }}
-          >
-            Select a Token
-          </Typography>
-        </Box>
+}) => {
+  const t = useTranslations();
+  return (
+    <Dropdown
+      relative
+      mode="select"
+      defaultValue={defaultValue}
+      emptyMessage={capitalizeFirstLetter(t('faucet.notFoundToken'))}
+      title={
+        <Box
+          py="M"
+          px="L"
+          display="flex"
+          bg="background"
+          borderRadius="M"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Box my="M" display="flex" alignItems="center">
+            <Typography
+              mx="M"
+              as="span"
+              variant="normal"
+              hover={{ color: 'accent' }}
+              active={{ color: 'accentActive' }}
+              textTransform="capitalize"
+            >
+              {t('faucet.select')}
+            </Typography>
+          </Box>
 
-        <Box as="span" display="inline-block" width="0.5rem">
-          <ArrowSVG width="100%" />
+          <Box as="span" display="inline-block" width="0.5rem">
+            <ArrowSVG width="100%" />
+          </Box>
         </Box>
-      </Box>
-    }
-    data={renderData(tokens, onSelectCurrency)}
-  />
-);
+      }
+      data={renderData(tokens, onSelectCurrency)}
+    />
+  );
+};
 
 export default FaucetTokensDropdown;

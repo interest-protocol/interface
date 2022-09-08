@@ -6,7 +6,7 @@ import { Container } from '@/components';
 import { FAUCET_TOKENS } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetUserBalances, useIdAccount, useLocalStorage } from '@/hooks';
-import { flippedAppend, isSameAddress } from '@/utils';
+import { capitalizeFirstLetter, flippedAppend, isSameAddress } from '@/utils';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
@@ -73,7 +73,7 @@ const Faucet: FC = () => {
             <GoBack routeBack />
           </Box>
           <Box display="flex" justifyContent="space-between">
-            <Typography variant="normal">
+            <Typography variant="normal" textTransform="capitalize">
               {t('faucet.firstSectionTitle')}
             </Typography>
             <Button
@@ -81,14 +81,14 @@ const Faucet: FC = () => {
               onClick={toggleCreateToken}
               hover={{ bg: 'accentActive' }}
             >
-              {t('faucet.modalButton')}
+              {capitalizeFirstLetter(t('faucet.modalButton'))}
             </Button>
           </Box>
           <FaucetForm
             tokens={recommendedData}
             isLoadingData={!recommendedData.length}
           />
-          <Typography variant="normal">
+          <Typography variant="normal" textTransform="capitalize">
             {t('faucet.secondSectionTitle')}
           </Typography>
           <FaucetForm

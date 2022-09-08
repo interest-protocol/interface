@@ -2,26 +2,26 @@ import { InfoLightSVG, LoadingSVG, WarningSVG } from '@/svg';
 
 export const SWAP_MESSAGES = {
   'loading-amount': {
-    message: 'Fetching amount...',
+    message: 'fetchingAmounts',
     Icon: LoadingSVG,
   },
   'error-amount-out': {
-    message: 'Failed to fetch the amount out',
+    message: 'errorAmountOut',
     Icon: WarningSVG,
     color: 'error',
   },
   'error-same-token': {
-    message: 'Cannot swap the same token',
+    message: 'errorSameOut',
     Icon: WarningSVG,
     color: 'error',
   },
   'error-balances': {
-    message: 'Failed to fetch balances',
+    message: 'errorBalances',
     Icon: WarningSVG,
     color: 'error',
   },
   'info-no-pool': {
-    message: 'This pair has no liquidity. Try a higher amount or add liquidity',
+    message: 'infoNoPool',
     Icon: InfoLightSVG,
     color: 'accentAlternative',
   },

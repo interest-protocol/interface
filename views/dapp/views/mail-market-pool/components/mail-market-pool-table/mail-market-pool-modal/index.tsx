@@ -386,8 +386,8 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
           <Typography variant="normal" textTransform="capitalize">
             {(base && type === 'borrow') || (!base && type === 'supply')
               ? type === 'borrow'
-                ? t('mail-market-pool.borrowCurrent')
-                : t('mail-market-pool.supplyCurrent')
+                ? t('mailMarketPool.borrowCurrent')
+                : t('mailMarketPool.supplyCurrent')
               : t('common.yourBalance')}
             :
           </Typography>
@@ -410,12 +410,12 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
             name="value"
             max={max}
             register={register}
-            label={t('mail-market-pool.quantityInput')}
+            label={t('mailMarketPool.quantityInput')}
             setValue={setValue}
           />
         </Box>
         <Typography variant="normal" textTransform="capitalize">
-          {t('mail-market-pool.rate')}
+          {t('mailMarketPool.rate')}
         </Typography>
         <Box my="L" bg="background" p="L" borderRadius="M">
           <Box
@@ -431,7 +431,7 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
               textTransform="uppercase"
             >
               {type === 'borrow'
-                ? t('mail-market-pool.rateBorrow')
+                ? t('mailMarketPool.rateBorrow')
                 : t('common.supply') + ' APR'}
             </Typography>
             <BorrowRateImpact
@@ -443,9 +443,7 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
             />
           </Box>
         </Box>
-        <Typography variant="normal">
-          {t('mail-market-pool.details')}
-        </Typography>
+        <Typography variant="normal">{t('mailMarketPool.details')}</Typography>
         <Details
           data={data}
           type={type}
@@ -471,11 +469,11 @@ const MAILMarketPoolModal: FC<MAILMarketPoolModalProps> = ({
                       <LoadingSVG width="100%" />
                     </Box>
                     <Typography as="span" variant="normal" ml="M" fontSize="S">
-                      {t('mail-market-pool.buttonLoading')}
+                      {t('mailMarketPool.buttonLoading')}
                     </Typography>
                   </Box>
                 ) : (
-                  t('mail-market-pool.button')
+                  t('mailMarketPool.button')
                 )}
               </Button>
             </Box>

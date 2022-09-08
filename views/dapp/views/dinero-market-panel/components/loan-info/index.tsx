@@ -7,25 +7,28 @@ import { v4 } from 'uuid';
 import { DineroMarketKind } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { InfoSVG } from '@/svg';
+import { capitalizeFirstLetter } from '@/utils';
 
 import { LoanInfoProps } from './loan-info.types';
 
+const CustomInfo = [1, 2, 3].map((index) => ({
+  tip: 'dineroMarketAddress.loanInfoCustomTip' + index,
+  name: 'dineroMarketAddress.loanInfoCustomName' + index,
+}));
+
+const LOAN_INFO_MAP = {
+  [DineroMarketKind.LpFreeMarket]: CustomInfo.concat(
+    [1, 2, 3].map((index) => ({
+      tip: 'dineroMarketAddress.loanInfoLpFreeMarketTip' + index,
+      name: 'dineroMarketAddress.loanInfoLpFreeMarketName' + index,
+    }))
+  ),
+  [DineroMarketKind.ERC20]: CustomInfo,
+  [DineroMarketKind.Native]: CustomInfo,
+};
+
 const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => {
   const t = useTranslations();
-  const LOAN_INFO_MAP = {
-    [DineroMarketKind.LpFreeMarket]: [1, 2, 3, 4, 5, 6].map((index) => ({
-      tip: t('dinero-market-address.loanInfoLpFreeMarketTip' + index),
-      name: t('dinero-market-address.loanInfoLpFreeMarketName' + index),
-    })),
-    [DineroMarketKind.ERC20]: [1, 2, 3].map((index) => ({
-      tip: t('dinero-market-address.loanInfoERC20Tip' + index),
-      name: t('dinero-market-address.loanInfoERC20Name' + index),
-    })),
-    [DineroMarketKind.Native]: [1, 2, 3].map((index) => ({
-      tip: t('dinero-market-address.loanInfoNativeTip' + index),
-      name: t('dinero-market-address.loanInfoNativeName' + index),
-    })),
-  };
 
   return (
     <Box p="XL" order={4} gridArea="d" bg="foreground" borderRadius="L">
@@ -41,12 +44,12 @@ const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => {
               as="span"
               width="1rem"
               cursor="help"
-              data-tip={tip}
+              data-tip={capitalizeFirstLetter(t(tip))}
               display="inline-block"
             >
               <InfoSVG width="100%" />
             </Box>
-            {name}
+            {capitalizeFirstLetter(t(name))}
           </Typography>
           <Typography
             as="div"
