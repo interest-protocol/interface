@@ -14,7 +14,7 @@ const SwitchLang: FC = () => {
     <Dropdown
       title={
         <Box
-          ml={['unset', '0.75rem']}
+          ml={['L', '0.75rem']}
           mr={['L', '0.75rem']}
           width="1.25rem"
           height="1.25rem"

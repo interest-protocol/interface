@@ -14,3 +14,8 @@ export interface MenuItemProps extends MenuListProps {
   data?: ReactNode;
   isDropdown?: boolean;
 }
+
+export interface LangItemProps {
+  title: ReactNode;
+  locale: string;
+}
