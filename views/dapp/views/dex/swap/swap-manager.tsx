@@ -21,7 +21,6 @@ const AMOUNT_OUT_CACHE = new Map<string, AmountCacheValue>();
 const SwapManager: FC<SwapManagerProps> = ({
   chainId,
   control,
-  autoFetch,
   isFetchingAmountOutTokenOut,
   isFetchingAmountOutTokenIn,
   hasNoMarket,
@@ -53,8 +52,6 @@ const SwapManager: FC<SwapManagerProps> = ({
   // User is typing a value in the tokenOut input
   // We need to disable tokenOut input and fetch a value
   useEffect(() => {
-    if (!autoFetch) return;
-
     if (isFetchingAmountOutTokenOut || tokenIn.setByUser) return;
 
     const key = `${tokenInAddress}-${tokenOutAddress}-${debouncedTokenOutValue}`;
@@ -148,8 +145,6 @@ const SwapManager: FC<SwapManagerProps> = ({
   // User is typing a value in the tokenIn input
   // We need to disable tokenIn input and fetch a value
   useEffect(() => {
-    if (!autoFetch) return;
-
     if (isFetchingAmountOutTokenIn || tokenOut.setByUser) return;
 
     const key = `${tokenOutAddress}-${tokenInAddress}-${debouncedTokenInValue}`;

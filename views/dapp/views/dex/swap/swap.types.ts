@@ -41,7 +41,6 @@ export interface SwapButtonProps {
 
 export interface SwapManagerProps {
   chainId: number;
-  autoFetch: boolean;
   control: Control<ISwapForm>;
   isFetchingAmountOutTokenOut: boolean;
   isFetchingAmountOutTokenIn: boolean;
