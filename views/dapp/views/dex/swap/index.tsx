@@ -36,7 +36,7 @@ const Swap: FC = () => {
   const { chainId, account } = useIdAccount();
   const [localSettings, setLocalSettings] = useLocalStorage<LocalSwapSettings>(
     'interest-swap-settings',
-    { slippage: '1', deadline: 5 }
+    { slippage: '1', deadline: 5, autoFetch: true }
   );
 
   const INT = pathOr(UNKNOWN_ERC_20, [chainId, TOKEN_SYMBOL.INT], ERC_20_DATA);
@@ -324,6 +324,7 @@ const Swap: FC = () => {
         />
       </Box>
       <SwapManager
+        autoFetch={localSettings.autoFetch}
         control={control}
         chainId={chainId}
         setValue={setValue}

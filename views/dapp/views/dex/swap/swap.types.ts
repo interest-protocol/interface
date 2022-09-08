@@ -14,6 +14,7 @@ export interface ISwapForm {
 export interface LocalSwapSettings {
   slippage: string; // 20 equals 20%
   deadline: number; // minutes
+  autoFetch: boolean; // minutes
 }
 
 export interface AmountCacheValue {
@@ -40,6 +41,7 @@ export interface SwapButtonProps {
 
 export interface SwapManagerProps {
   chainId: number;
+  autoFetch: boolean;
   control: Control<ISwapForm>;
   isFetchingAmountOutTokenOut: boolean;
   isFetchingAmountOutTokenIn: boolean;
