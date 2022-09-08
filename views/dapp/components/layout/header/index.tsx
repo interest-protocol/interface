@@ -5,16 +5,15 @@ import { FC } from 'react';
 
 import { SwitchLang } from '@/components';
 import { Routes, RoutesEnum } from '@/constants/routes';
-import { Box, Dropdown, Typography } from '@/elements';
+import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
-import { capitalizeFirstLetter } from '@/utils';
 
 import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {
   const t = useTranslations();
-  const { pathname, push } = useRouter();
+  const { pathname } = useRouter();
 
   return (
     <Box
@@ -98,47 +97,22 @@ const Header: FC = () => {
             {t('common.earn')}
           </Typography>
         </Link>
-        <Box>
-          <Dropdown
-            title={
-              <Typography
-                px="XL"
-                cursor="pointer"
-                variant="normal"
-                color={
-                  pathname === Routes[RoutesEnum.DineroMarket] ||
-                  pathname.includes(Routes[RoutesEnum.DineroMarketBorrow]) ||
-                  pathname.includes(Routes[RoutesEnum.DineroMarketRepay])
-                    ? 'accent'
-                    : 'inherit'
-                }
-                hover={{ color: 'accentActive' }}
-                textTransform="capitalize"
-              >
-                {t('common.borrowMenu')}
-              </Typography>
+        <Link href={Routes[RoutesEnum.DineroMarket]}>
+          <Typography
+            px="XL"
+            cursor="pointer"
+            variant="normal"
+            color={
+              pathname.includes(Routes[RoutesEnum.DineroMarket])
+                ? 'accent'
+                : 'inherit'
             }
-            mode="menu"
-            data={[
-              {
-                value: 'dinero-market',
-                displayOption: capitalizeFirstLetter(t('common.dineroMarket')),
-                onSelect: () =>
-                  push(Routes[RoutesEnum.DineroMarket], undefined, {
-                    shallow: true,
-                  }),
-              },
-              {
-                value: 'mail-market',
-                displayOption: capitalizeFirstLetter(t('common.mailMarket')),
-                onSelect: () =>
-                  push(Routes[RoutesEnum.MAILMarket], undefined, {
-                    shallow: true,
-                  }),
-              },
-            ]}
-          />
-        </Box>
+            hover={{ color: 'accentActive' }}
+            textTransform="capitalize"
+          >
+            {t('common.borrowMenu')}
+          </Typography>
+        </Link>
       </Box>
       <Box display="flex" justifyContent="flex-end" alignItems="center">
         <Wallet />

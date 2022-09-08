@@ -11,7 +11,7 @@ import {
   RoutesWithFaucet,
   SOCIAL_MEDIAS,
 } from '@/constants';
-import { Box, Button, Dropdown, Typography } from '@/elements';
+import { Box, Button } from '@/elements';
 import { GitBookSVG } from '@/svg';
 import { capitalizeFirstLetter } from '@/utils';
 
@@ -19,7 +19,7 @@ import Faucet from '../../faucet';
 
 const Footer: FC = () => {
   const t = useTranslations();
-  const { pathname, push } = useRouter();
+  const { pathname } = useRouter();
 
   return (
     <Box
@@ -103,58 +103,29 @@ const Footer: FC = () => {
               {capitalizeFirstLetter(t('common.earn'))}
             </Button>
           </Link>
-          <Box>
-            <Dropdown
-              bottom
-              mode="menu"
-              title={
-                <Typography
-                  mx="S"
-                  px="1.5rem"
-                  bg="textSoft"
-                  fontSize="M"
-                  height="3rem"
-                  display="flex"
-                  variant="normal"
-                  borderRadius="M"
-                  alignItems="center"
-                  justifyContent="center"
-                  boxShadow="0 0 15px rgba(0,0,0,.3)"
-                  color={
-                    pathname === Routes[RoutesEnum.DineroMarket] ||
-                    pathname.includes(Routes[RoutesEnum.DineroMarket])
-                      ? 'accent'
-                      : 'inherit'
-                  }
-                  hover={{ bg: 'accent', color: 'text' }}
-                  active={{ bg: 'accentActive', color: 'text' }}
-                  textTransform="capitalize"
-                >
-                  {t('common.borrowMenu')}
-                </Typography>
+          <Link href={Routes[RoutesEnum.DineroMarket]}>
+            <Button
+              mx="S"
+              as="div"
+              px="1.5rem"
+              fontSize="M"
+              height="3rem"
+              display="flex"
+              variant="primary"
+              alignItems="center"
+              justifyContent="center"
+              boxShadow="0 0 15px rgba(0,0,0,.3)"
+              bg={
+                pathname.includes(Routes[RoutesEnum.DineroMarket])
+                  ? 'accent'
+                  : 'textSoft'
               }
-              data={[
-                {
-                  value: 'dinero-market',
-                  displayOption: capitalizeFirstLetter(
-                    t('common.dineroMarket')
-                  ),
-                  onSelect: () =>
-                    push(Routes[RoutesEnum.DineroMarket], undefined, {
-                      shallow: true,
-                    }),
-                },
-                {
-                  value: 'mail-market',
-                  displayOption: capitalizeFirstLetter(t('common.mailMarket')),
-                  onSelect: () =>
-                    push(Routes[RoutesEnum.MAILMarket], undefined, {
-                      shallow: true,
-                    }),
-                },
-              ]}
-            />
-          </Box>
+              hover={{ bg: 'accent', color: 'text' }}
+              active={{ bg: 'accentActive', color: 'text' }}
+            >
+              {capitalizeFirstLetter(t('common.borrowMenu'))}
+            </Button>
+          </Link>
           {RoutesWithFaucet.includes(pathname) && <Faucet />}
         </Box>
       </Container>

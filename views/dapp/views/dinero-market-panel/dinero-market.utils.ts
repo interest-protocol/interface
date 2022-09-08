@@ -27,6 +27,7 @@ import {
   calculateFarmTokenPrice,
   calculateIntUSDPrice,
   formatMoney,
+  numberToString,
 } from '@/utils';
 
 import {
@@ -381,7 +382,9 @@ export const safeAmountToWithdrawRepay: TSafeAmountToWithdrawRepay = (
   if (repayLoan.gte(userLoanElastic.value()))
     return FixedPointMath.from(adjustedUserCollateral);
 
-  const userNeededCollateralInUSD = FixedPointMath.from(loanElastic).div(ltv);
+  const userNeededCollateralInUSD = FixedPointMath.from(
+    loanElastic.sub(repayLoan)
+  ).div(ltv);
 
   const collateralInUSD = FixedPointMath.from(adjustedUserCollateral).mul(
     collateralUSDPrice
@@ -493,20 +496,13 @@ const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
     FixedPointMath.toNumber(positionHealth) * 100
   );
 
-  const userCollateralInUSD = FixedPointMath.from(market.collateralUSDPrice)
-    .mul(userCollateralAmount)
-    .mul(market.ltv);
-
   return [
     `${formatMoney(FixedPointMath.toNumber(loanElastic))} / ${formatMoney(
       FixedPointMath.toNumber(market.maxBorrowAmount)
     )}`,
-    userElasticAmount.gte(userCollateralInUSD.value())
+    userElasticAmount.isZero()
       ? '0'
-      : Fraction.from(
-          userCollateralInUSD.sub(userElasticAmount).value(),
-          ethers.utils.parseEther('1')
-        ).toSignificant(4),
+      : numberToString(FixedPointMath.from(userElasticAmount).toNumber()),
     `$${formatMoney(
       Math.floor(
         +Fraction.from(
@@ -776,16 +772,7 @@ export const getRepayFields: TGetRepayFields = (market) => {
       ],
       name: 'repay.loan',
       label: 'dineroMarketAddress.repayDineroLabel',
-      max: +Fraction.from(
-        loanPrincipalToElastic({
-          loanBase: market.loanBase,
-          loanElastic: market.loanElastic,
-          userPrincipal: market.userPrincipal,
-          lastAccrued: market.lastAccrued,
-          interestRate: market.interestRate,
-        }).value(),
-        ethers.utils.parseEther('1')
-      ).toSignificant(8),
+      max: FixedPointMath.from(market.dnrBalance).toNumber(),
       currency: TOKEN_SYMBOL.DNR,
       disabled: market.loanElastic.isZero() || market.dnrBalance.isZero(),
     },

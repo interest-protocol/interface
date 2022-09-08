@@ -140,10 +140,4 @@ export class Fraction {
     const num = Number(`${nonDecimals}.${decimals}`);
     return new Intl.NumberFormat('en-IN', options).format(num);
   }
-
-  public get asFraction(): Fraction {
-    const x = 1;
-    x.toLocaleString();
-    return new Fraction(this.numerator, this.denominator);
-  }
 }

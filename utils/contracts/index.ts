@@ -11,8 +11,6 @@ import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
 import InterestViewDexABI from '@/sdk/abi/interest-view-dex.abi.json';
 import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
-import InterestViewMAILABI from '@/sdk/abi/interest-view-MAIL.abi.json';
-import MAILDeployerABI from '@/sdk/abi/mail-deployer.abi.json';
 import TokenMinterABI from '@/sdk/abi/token-minter.abi.json';
 import WETHABI from '@/sdk/abi/weth.abi.json';
 import { CONTRACTS } from '@/sdk/constants';
@@ -29,8 +27,6 @@ import {
   InterestViewDexAbi,
   InterestViewDineroV2Abi,
   InterestViewEarnAbi,
-  InterestViewMAILAbi,
-  MailDeployerAbi,
   TokenMinterAbi,
   WethAbi,
 } from '../../types/ethers-contracts';
@@ -167,16 +163,6 @@ export const getDineroLPFreeMarket: GetDineroMarketSignerContract<DineroLpFreeMa
       signer
     ) as DineroLpFreeMarketAbi;
 
-export const getInterestViewMAILContract: GetContract<InterestViewMAILAbi> = (
-  chainId,
-  provider
-) =>
-  new ethers.Contract(
-    getInterestViewMAILAddress(chainId),
-    InterestViewMAILABI,
-    provider
-  ) as InterestViewMAILAbi;
-
 export const getInterestViewEarnContract: GetContract<InterestViewEarnAbi> = (
   chainID,
   provider
@@ -186,14 +172,6 @@ export const getInterestViewEarnContract: GetContract<InterestViewEarnAbi> = (
     InterestViewEarnABI,
     provider
   ) as InterestViewEarnAbi;
-
-export const getMAILDeployerSignerContract: GetSignerContract<MailDeployerAbi> =
-  (chainId, signer) =>
-    new ethers.Contract(
-      getMAILDeployerAddress(chainId),
-      MAILDeployerABI,
-      signer
-    ) as MailDeployerAbi;
 
 export const getTokenMinterSignerContract: GetSignerContract<TokenMinterAbi> = (
   chainId,
