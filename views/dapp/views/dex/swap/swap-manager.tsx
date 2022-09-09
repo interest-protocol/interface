@@ -146,6 +146,7 @@ const SwapManager: FC<SwapManagerProps> = ({
   // We need to disable tokenIn input and fetch a value
   useEffect(() => {
     if (isFetchingAmountOutTokenIn || tokenOut.setByUser) return;
+
     const key = `${tokenOutAddress}-${tokenInAddress}-${debouncedTokenInValue}`;
 
     if (
