@@ -26,3 +26,8 @@ export interface SwapSettingsProps {
   register: UseFormRegister<ISwapForm>;
   localSettings: LocalSwapSettings;
 }
+
+export interface AutoFetchProps {
+  setter: (value: boolean) => void;
+  value: boolean;
+}

@@ -3,10 +3,9 @@ import { FC, useState } from 'react';
 import { Switch } from '@/components';
 import { Box, Typography } from '@/elements';
 
-const AutoFetch: FC<{ setter: (value: boolean) => void; value: boolean }> = ({
-  setter,
-  value,
-}) => {
+import { AutoFetchProps } from './settings.types';
+
+const AutoFetch: FC<AutoFetchProps> = ({ setter, value }) => {
   const [autoFetch, setAutoFetch] = useState<boolean>(value);
 
   const handleAutoFetch = (value: boolean) => {
