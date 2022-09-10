@@ -6,8 +6,8 @@ import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
-import { FlipMemberCard } from './team.animation';
 import { SOCIAL_SVG, TEAM_MEMBERS } from './team.data';
+import { FlipMemberCard, Image } from './team.styles';
 
 const Team: FC = always(
   <Box bg="foreground">
@@ -29,10 +29,10 @@ const Team: FC = always(
         variant="normal"
         pb={['L', 'XL']}
       >
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam fugiat
-        mollitia error. Aspernatur ipsam totam laboriosam numquam? Officiis
-        expedita sint illo praesentium laboriosam sapiente nostrum autem labore
-        fugit, quod rerum?
+        We are a team of techno-entrepreneurs based in Europe with a combined
+        experience of 10 years in crypto. We prioritize security above all else.
+        We prefer to ship slow but secure as opposed to Facebook&apos;s mantra
+        of Move fast and break things.
       </Typography>
       <Box
         pt="XL"
@@ -50,7 +50,7 @@ const Team: FC = always(
       >
         {TEAM_MEMBERS.map(({ name, role, social, image, bio }) => (
           <Box key={v4()} as="article">
-            <FlipMemberCard height="20rem">
+            <FlipMemberCard height={['23rem', '22rem']}>
               <Box
                 width="100%"
                 height="100%"
@@ -64,17 +64,24 @@ const Team: FC = always(
                   position="relative"
                   className="flipImage"
                 >
-                  <img
-                    alt={name}
-                    src={image}
-                    width="100%"
-                    height="100%"
-                    loading="lazy"
-                    decoding="async"
-                    style={{
-                      objectFit: 'cover',
-                    }}
-                  />
+                  <Box as="picture">
+                    <source
+                      type="image/webp"
+                      srcSet={`/images/web/team/${image}.webp 800w, /images/web/team/${image}.webp`}
+                    />
+                    <source
+                      type="image/png"
+                      srcSet={`/images/min/team/${image}.png 800w, /images/min/team/${image}.png`}
+                    />
+                    <Image
+                      alt={name}
+                      width="100%"
+                      height="100%"
+                      loading="lazy"
+                      decoding="async"
+                      src={`/images/min/team/${image}.png`}
+                    />
+                  </Box>
                   <Box
                     p="L"
                     pt="XXL"

@@ -36,6 +36,7 @@ export interface BoxProps
   filter?: MaybeArray<CSSProperties['filter']>;
   columnGap?: MaybeArray<CSSProperties['gap']>;
   clipPath?: MaybeArray<CSSProperties['clipPath']>;
+  objectFit?: MaybeArray<CSSProperties['objectFit']>;
   transform?: MaybeArray<CSSProperties['transform']>;
   whiteSpace?: MaybeArray<CSSProperties['whiteSpace']>;
   transition?: MaybeArray<CSSProperties['transition']>;

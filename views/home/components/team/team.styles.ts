@@ -32,3 +32,8 @@ export const FlipMemberCard = styled(Box)<BoxProps>`
     }
   }
 `;
+
+export const Image = styled.img`
+  object-fit: cover;
+  object-position: top;
+`;
