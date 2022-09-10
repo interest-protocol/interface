@@ -26,7 +26,7 @@ export const TEAM_MEMBERS = [
     )} of software development. ${getYearOrMonth(
       {
         month: 1,
-        year: 2019,
+        year: 2017,
       },
       true
     )} in the crypto industry. Responsible for the smart contract development of Interest Protocol.`,
@@ -65,10 +65,10 @@ export const TEAM_MEMBERS = [
         year: 2019,
       },
       true
-    )} in development, ${getYearOrMonth(
+    )} in web development, ${getYearOrMonth(
       { month: 7, year: 2021 },
       true
-    )} of them in the crypto industry. Working in Interest Protocol team and making product as good as it can be.`,
+    )} in the crypto. React ninja working on Interest Protocol interface.`,
   },
   {
     name: 'António Kipanda',
@@ -82,11 +82,7 @@ export const TEAM_MEMBERS = [
     bio: `${getYearOrMonth(
       { month: 1, year: 2019 },
       true
-    )} of development. ${getYearOrMonth(
-      { month: 6, year: 2022 },
-      true
-    )} in the crypto industry. working as a frontend
-     developer at Interest Protocol
+    )} of software development. Working as a frontend developer at Interest Protocol.
     `,
   },
 ];
