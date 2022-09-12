@@ -7,7 +7,7 @@ import { metaMask } from '@/connectors/meta-mask';
 import { Wallets } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { BackSVG, LoadingSVG, MetaMaskSVG, TimesSVG } from '@/svg';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 
 import { ConnectWalletProps, WalletButtonProps } from '../../wallet.types';
 
@@ -112,7 +112,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
               variant="normal"
               fontWeight="normal"
             >
-              {capitalizeFirstLetter(t('common.connectWallet'))}
+              {capitalize(t('common.connectWallet'))}
             </Typography>
             <Box
               cursor="pointer"
@@ -204,7 +204,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
                       fontSize="XS"
                       color="textSecondary"
                     >
-                      {capitalizeFirstLetter(t('common.unlockWallet'))}
+                      {capitalize(t('common.unlockWallet'))}
                     </Typography>
                   </Box>
                   <Button
@@ -216,7 +216,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
                       metaMask.activate();
                     }}
                   >
-                    {capitalizeFirstLetter(t('common.tryAgain'))}
+                    {capitalize(t('common.tryAgain'))}
                   </Button>
                 </Box>
               )}

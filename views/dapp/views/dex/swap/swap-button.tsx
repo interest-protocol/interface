@@ -19,7 +19,7 @@ import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG } from '@/svg';
 import {
   adjustDecimals,
-  capitalizeFirstLetter,
+  capitalize,
   getInterestDexRouterAddress,
   getWETHAddress,
   isSameAddress,
@@ -124,8 +124,8 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const submitAllowance = () =>
     showToast(handleAddAllowance(), {
-      loading: capitalizeFirstLetter(t('common.approveLoading') + '...'),
-      success: capitalizeFirstLetter(t('common.success')),
+      loading: capitalize(t('common.approveLoading') + '...'),
+      success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
 
@@ -254,8 +254,8 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const swap = () =>
     showToast(handleSwap(), {
-      loading: capitalizeFirstLetter(t('common.swapping') + '...'),
-      success: capitalizeFirstLetter(t('common.success')),
+      loading: capitalize(t('common.swapping') + '...'),
+      success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
 
@@ -300,8 +300,8 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const deposit = () =>
     showToast(handleWETHDeposit(), {
-      loading: capitalizeFirstLetter(t('common.wrapping') + '...'),
-      success: capitalizeFirstLetter(t('common.success')),
+      loading: capitalize(t('common.wrapping') + '...'),
+      success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
 
@@ -346,8 +346,8 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const withdraw = () =>
     showToast(handleWETHWithdraw(), {
-      loading: capitalizeFirstLetter(t('common.unwrapping') + '...'),
-      success: capitalizeFirstLetter(t('common.success')),
+      loading: capitalize(t('common.unwrapping') + '...'),
+      success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
 
@@ -399,7 +399,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       <SwapViewButton
         {...handleProps()}
         disabled={disabled || isNaN(+tokenIn.value) || +tokenIn.value === 0}
-        loadingText={capitalizeFirstLetter(handleLoadingText())}
+        loadingText={capitalize(handleLoadingText())}
       />
     </WalletGuardButton>
   );

@@ -7,7 +7,7 @@ import { v4 } from 'uuid';
 import { DineroMarketKind } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { InfoSVG } from '@/svg';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 
 import { LoanInfoProps } from './loan-info.types';
 
@@ -44,12 +44,12 @@ const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => {
               as="span"
               width="1rem"
               cursor="help"
-              data-tip={capitalizeFirstLetter(t(tip))}
+              data-tip={capitalize(t(tip))}
               display="inline-block"
             >
               <InfoSVG width="100%" />
             </Box>
-            {capitalizeFirstLetter(t(name))}
+            {capitalize(t(name))}
           </Typography>
           <Typography
             as="div"

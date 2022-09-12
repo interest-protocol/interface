@@ -1,26 +1,22 @@
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 
 import EarnFarm from '@/views/dapp/views/earn-farm';
 
 interface EarnFarmPageProps {
-  tokenAddress: string;
+  tokenAddress: string | undefined | null;
 }
 
 const EarnFarmPage: NextPage<EarnFarmPageProps> = ({ tokenAddress }) => {
   if (!tokenAddress) return null;
 
-  return <EarnFarm address={tokenAddress as string} />;
+  return <EarnFarm address={tokenAddress} />;
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const getServerSideProps = ({
+export const getServerSideProps: GetServerSideProps = async ({
   locale,
   params,
-}: {
-  params: EarnFarmPageProps;
-  locale: string;
 }) => {
-  const { tokenAddress } = params;
+  const { tokenAddress } = params || {};
 
   return {
     props: {

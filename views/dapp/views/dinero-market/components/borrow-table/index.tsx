@@ -9,7 +9,7 @@ import { v4 } from 'uuid';
 import { getDineroMarketSVGBySymbol, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
 import { FixedPointMath, SECONDS_IN_A_YEAR } from '@/sdk';
-import { capitalizeFirstLetter, formatDollars, formatMoney } from '@/utils';
+import { capitalize, formatDollars, formatMoney } from '@/utils';
 
 import { handleFilterDineroMarkets } from '../../dinero-market.utils';
 import { BorrowTableProps } from './borrow-table.types';
@@ -45,16 +45,12 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   textAlign="center"
                   display={['none', 'block']}
                 >
-                  {capitalizeFirstLetter(
-                    t('dineroMarket.borrowTableHeaderCollateral')
-                  )}
+                  {capitalize(t('dineroMarket.borrowTableHeaderCollateral'))}
                 </Typography>
               ),
             },
             {
-              tip: capitalizeFirstLetter(
-                t('dineroMarket.borrowTableHeaderTVLTip')
-              ),
+              tip: capitalize(t('dineroMarket.borrowTableHeaderTVLTip')),
               item: (
                 <Typography
                   as="span"
@@ -67,9 +63,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
               ),
             },
             {
-              tip: capitalizeFirstLetter(
-                t('dineroMarket.borrowTableHeaderBorrowingTip')
-              ),
+              tip: capitalize(t('dineroMarket.borrowTableHeaderBorrowingTip')),
               item: (
                 <Typography
                   as="span"
@@ -77,16 +71,12 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   variant="normal"
                   fontSize="inherit"
                 >
-                  {capitalizeFirstLetter(
-                    t('dineroMarket.borrowTableHeaderBorrowing')
-                  )}
+                  {capitalize(t('dineroMarket.borrowTableHeaderBorrowing'))}
                 </Typography>
               ),
             },
             {
-              tip: capitalizeFirstLetter(
-                t('dineroMarket.borrowTableHeaderLTVTip')
-              ),
+              tip: capitalize(t('dineroMarket.borrowTableHeaderLTVTip')),
               item: (
                 <Typography
                   as="span"
@@ -99,26 +89,22 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
               ),
             },
             {
-              tip: capitalizeFirstLetter(
+              tip: capitalize(
                 t('dineroMarket.borrowTableHeaderInterestCostTip')
               ),
               item: (
                 <>
-                  {capitalizeFirstLetter(
-                    t('dineroMarket.borrowTableHeaderInterestCost')
-                  )}
+                  {capitalize(t('dineroMarket.borrowTableHeaderInterestCost'))}
                 </>
               ),
             },
             {
-              tip: capitalizeFirstLetter(
+              tip: capitalize(
                 t('dineroMarket.borrowTableHeaderLiquidationTip')
               ),
               item: (
                 <>
-                  {capitalizeFirstLetter(
-                    t('dineroMarket.borrowTableHeaderLiquidation')
-                  )}
+                  {capitalize(t('dineroMarket.borrowTableHeaderLiquidation'))}
                 </>
               ),
             },
@@ -141,7 +127,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   variant="primary"
                   hover={{ bg: 'accentActive' }}
                 >
-                  {capitalizeFirstLetter(t('common.enter'))}
+                  {capitalize(t('common.enter'))}
                 </Button>
               </Link>
             ),
@@ -211,9 +197,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   fontSize="inherit"
                   data-tip="TVL info"
                 >
-                  {capitalizeFirstLetter(
-                    t('dineroMarket.borrowTableHeaderBorrowing')
-                  )}
+                  {capitalize(t('dineroMarket.borrowTableHeaderBorrowing'))}
                 </Typography>
               ),
             },
@@ -234,18 +218,14 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
             {
               item: (
                 <>
-                  {capitalizeFirstLetter(
-                    t('dineroMarket.borrowTableHeaderInterestCost')
-                  )}
+                  {capitalize(t('dineroMarket.borrowTableHeaderInterestCost'))}
                 </>
               ),
             },
             {
               item: (
                 <>
-                  {capitalizeFirstLetter(
-                    t('dineroMarket.borrowTableHeaderLiquidation')
-                  )}
+                  {capitalize(t('dineroMarket.borrowTableHeaderLiquidation'))}
                 </>
               ),
             },
@@ -296,7 +276,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                     variant="primary"
                     hover={{ bg: 'accentActive' }}
                   >
-                    {capitalizeFirstLetter(t('common.enter'))}
+                    {capitalize(t('common.enter'))}
                   </Button>
                 </Link>
               ),

@@ -6,7 +6,7 @@ import { v4 } from 'uuid';
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
 import { InfoSVG } from '@/svg';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 
 import {
   getBorrowPositionHealthData,
@@ -60,14 +60,14 @@ const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
               width="1rem"
               cursor="help"
               display="flex"
-              data-tip={capitalizeFirstLetter(t(tip))}
+              data-tip={capitalize(t(tip))}
               minWidth="1rem"
               alignItems="center"
             >
               <InfoSVG width="100%" />
             </Box>
             <Typography variant="normal" as="span">
-              {capitalizeFirstLetter(t(text))}
+              {capitalize(t(text))}
             </Typography>
           </Box>
           <Typography

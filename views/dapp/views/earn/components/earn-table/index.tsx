@@ -8,7 +8,7 @@ import { getFarmsSVGByToken, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
 import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
 import {
-  capitalizeFirstLetter,
+  capitalize,
   formatDollars,
   formatMoney,
   makeFarmSymbol,
@@ -66,7 +66,7 @@ const EarnTable: FC<EarnTableProps> = ({
               ),
             },
             {
-              tip: capitalizeFirstLetter(t('earn.column1Tip')),
+              tip: capitalize(t('earn.column1Tip')),
               item: (
                 <Typography
                   as="span"
@@ -74,12 +74,12 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   fontSize="inherit"
                 >
-                  {capitalizeFirstLetter(t('common.tvl'))}
+                  {capitalize(t('common.tvl'))}
                 </Typography>
               ),
             },
             {
-              tip: capitalizeFirstLetter(t('earn.column2Tip')),
+              tip: capitalize(t('earn.column2Tip')),
               item: (
                 <Typography
                   as="span"
@@ -87,12 +87,12 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   fontSize="inherit"
                 >
-                  {capitalizeFirstLetter(t('earn.column2'))}
+                  {capitalize(t('earn.column2'))}
                 </Typography>
               ),
             },
             {
-              tip: capitalizeFirstLetter(t('earn.column3Tip')),
+              tip: capitalize(t('earn.column3Tip')),
               item: (
                 <Typography
                   as="span"
@@ -105,12 +105,12 @@ const EarnTable: FC<EarnTableProps> = ({
               ),
             },
             {
-              tip: capitalizeFirstLetter(t('earn.column4Tip')),
-              item: <>{capitalizeFirstLetter(t('earn.column4'))}</>,
+              tip: capitalize(t('earn.column4Tip')),
+              item: <>{capitalize(t('earn.column4'))}</>,
             },
             {
-              tip: capitalizeFirstLetter(t('earn.column5Tip')),
-              item: <>{capitalizeFirstLetter(t('common.type'))}</>,
+              tip: capitalize(t('earn.column5Tip')),
+              item: <>{capitalize(t('common.type'))}</>,
             },
           ]}
           backgroundColorMap={filteredFarms.map((farm) => ({
@@ -132,7 +132,7 @@ const EarnTable: FC<EarnTableProps> = ({
                         variant="primary"
                         hover={{ bg: 'accentActive' }}
                       >
-                        {capitalizeFirstLetter(t('common.enter'))}
+                        {capitalize(t('common.enter'))}
                       </Button>
                     </Link>
                   ),
@@ -201,7 +201,7 @@ const EarnTable: FC<EarnTableProps> = ({
             }))}
             headings={[
               {
-                tip: capitalizeFirstLetter(t('earn.column1Tip')),
+                tip: capitalize(t('earn.column1Tip')),
                 item: (
                   <Typography
                     as="span"
@@ -209,12 +209,12 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    {capitalizeFirstLetter(t('common.tvl'))}
+                    {capitalize(t('common.tvl'))}
                   </Typography>
                 ),
               },
               {
-                tip: capitalizeFirstLetter(t('earn.column2Tip')),
+                tip: capitalize(t('earn.column2Tip')),
                 item: (
                   <Typography
                     as="span"
@@ -222,12 +222,12 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    {capitalizeFirstLetter(t('earn.column2'))}
+                    {capitalize(t('earn.column2'))}
                   </Typography>
                 ),
               },
               {
-                tip: capitalizeFirstLetter(t('earn.column3Tip')),
+                tip: capitalize(t('earn.column3Tip')),
                 item: (
                   <Typography
                     as="span"
@@ -240,12 +240,12 @@ const EarnTable: FC<EarnTableProps> = ({
                 ),
               },
               {
-                tip: capitalizeFirstLetter(t('earn.column4Tip')),
-                item: <>{capitalizeFirstLetter(t('earn.column4'))}</>,
+                tip: capitalize(t('earn.column4Tip')),
+                item: <>{capitalize(t('earn.column4'))}</>,
               },
               {
-                tip: capitalizeFirstLetter(t('earn.column5Tip')),
-                item: <>{capitalizeFirstLetter(t('common.type'))}</>,
+                tip: capitalize(t('earn.column5Tip')),
+                item: <>{capitalize(t('common.type'))}</>,
               },
             ]}
             data={
@@ -311,7 +311,7 @@ const EarnTable: FC<EarnTableProps> = ({
                           variant="primary"
                           hover={{ bg: 'accentActive' }}
                         >
-                          {capitalizeFirstLetter(t('common.enter'))}
+                          {capitalize(t('common.enter'))}
                         </Button>
                       </Link>
                     ),

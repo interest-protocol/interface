@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Box, Input, Typography } from '@/elements';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 
 import { BorrowFiltersProps } from './borrow-filters.types';
 import OnlyBorrowingFilter from './only-borrowing-filter';
@@ -56,9 +56,7 @@ const BorrowFilters: FC<BorrowFiltersProps> = ({
             borderColor="background"
             {...register('search')}
             fontSize="S"
-            placeholder={capitalizeFirstLetter(
-              t('common.placeholderInputSearch')
-            )}
+            placeholder={capitalize(t('common.placeholderInputSearch'))}
             focus={{
               borderColor: 'accentAlternativeBackground',
             }}

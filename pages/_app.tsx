@@ -10,7 +10,6 @@ import { SkeletonTheme } from 'react-loading-skeleton';
 import { Provider as ReduxProvider } from 'react-redux';
 
 import { Web3Manager } from '@/components';
-import { I18nProvider } from '@/context/i18n';
 import GlobalStyles from '@/design-system/global-styles';
 import { store } from '@/state/index';
 
@@ -27,28 +26,26 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
     <ReduxProvider store={store}>
       <SkeletonTheme baseColor="#202020" highlightColor="#444">
         <Global styles={GlobalStyles} />
-        <I18nProvider>
-          <NextIntlProvider
-            formats={{
-              dateTime: {
-                short: {
-                  day: 'numeric',
-                  month: 'short',
-                  year: 'numeric',
-                },
+        <NextIntlProvider
+          formats={{
+            dateTime: {
+              short: {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
               },
-            }}
-            messages={pageProps.messages}
-            now={new Date(pageProps.now)}
-            timeZone="UTC"
-          >
-            <Web3Manager pathname={router.pathname}>
-              <StrictMode>
-                <Component {...pageProps} />
-              </StrictMode>
-            </Web3Manager>
-          </NextIntlProvider>
-        </I18nProvider>
+            },
+          }}
+          messages={pageProps.messages}
+          now={new Date(pageProps.now)}
+          timeZone="UTC"
+        >
+          <Web3Manager pathname={router.pathname}>
+            <StrictMode>
+              <Component {...pageProps} />
+            </StrictMode>
+          </Web3Manager>
+        </NextIntlProvider>
       </SkeletonTheme>
     </ReduxProvider>
   </>

@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 
 import { Box, Input, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
-import { capitalizeFirstLetter, parseInputEventToNumberString } from '@/utils';
+import { capitalize, parseInputEventToNumberString } from '@/utils';
 
 import InputErrorMessage from './input-error';
 import InputMaxButton from './input-max-button';
@@ -38,7 +38,7 @@ const InputMoney: FC<InputMoneyProps> = ({
         variant="normal"
         display="inline-block"
       >
-        {capitalizeFirstLetter(t(label))}:
+        {capitalize(t(label))}:
       </Typography>
       <Box display="flex" flexDirection="column" alignItems="flex-end">
         <InputMaxTag

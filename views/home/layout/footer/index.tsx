@@ -7,7 +7,7 @@ import { Container } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 
 import SocialMediaCard from '../../components/social-media-card';
 
@@ -53,7 +53,7 @@ const Footer: FC = () => {
               color="textInverted"
               display={['block', 'inline-block']}
             >
-              {capitalizeFirstLetter(t('index.footerCopyrights'))}
+              {capitalize(t('index.footerCopyrights'))}
             </Typography>
           </Typography>
         </Box>

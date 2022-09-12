@@ -3,12 +3,12 @@ import { FC } from 'react';
 
 import { Box, Dropdown, Typography } from '@/elements';
 import { IDropdownData } from '@/elements/dropdown/dropdown.types';
-import { useI18n } from '@/hooks';
-import { BRFlagSVG, PTFlagSVG, USFlagSVG } from '@/svg';
+import { useLocale } from '@/hooks';
+import { getSafeLocaleSVG } from '@/utils';
 
 const SwitchLang: FC = () => {
   const { locales } = useRouter();
-  const { currentLocale, changeLocale } = useI18n();
+  const { currentLocale, changeLocale } = useLocale();
 
   return (
     <Dropdown
@@ -20,13 +20,7 @@ const SwitchLang: FC = () => {
           height="1.25rem"
           borderRadius="2rem"
         >
-          {currentLocale === 'en-US' ? (
-            <USFlagSVG width="100%" height="100%" />
-          ) : currentLocale === 'pt-PT' ? (
-            <PTFlagSVG width="100%" height="100%" />
-          ) : (
-            <BRFlagSVG width="100%" height="100%" />
-          )}
+          {getSafeLocaleSVG(currentLocale)}
         </Box>
       }
       mode="menu"
@@ -52,13 +46,7 @@ const SwitchLang: FC = () => {
                 backgroundSize="cover"
                 borderRadius="2rem"
               >
-                {locale === 'en-US' ? (
-                  <USFlagSVG width="100%" height="100%" />
-                ) : locale === 'pt-PT' ? (
-                  <PTFlagSVG width="100%" height="100%" />
-                ) : (
-                  <BRFlagSVG width="100%" height="100%" />
-                )}
+                {getSafeLocaleSVG(currentLocale)}
               </Box>
               <Typography
                 variant="button"
@@ -68,16 +56,9 @@ const SwitchLang: FC = () => {
               >
                 {locale}
               </Typography>
-              {process.env.PUBLIC_URL}
             </Box>
           ),
-          onSelect: () => {
-            console.log('>> currentLocale :: ', currentLocale);
-            console.log('>> locale :: ', locale);
-            console.log('>> changeLocale :: ', changeLocale);
-
-            currentLocale !== locale && changeLocale(locale);
-          },
+          onSelect: () => currentLocale !== locale && changeLocale(locale),
         })) as ReadonlyArray<IDropdownData>
       }
     />

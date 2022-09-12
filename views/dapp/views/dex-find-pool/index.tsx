@@ -34,7 +34,7 @@ import {
 import { getNativeBalance } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
 import {
-  capitalizeFirstLetter,
+  capitalize,
   handleZeroWrappedToken,
   isSameAddressZ,
   isZeroAddress,
@@ -149,8 +149,8 @@ const FindPoolView: FC = () => {
 
   const handleEnterPool = () =>
     showToast(enterPool(), {
-      loading: capitalizeFirstLetter(t('common.checking') + ' pool...'),
-      success: capitalizeFirstLetter(t('common.success')),
+      loading: capitalize(t('common.checking') + ' pool...'),
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -273,8 +273,8 @@ const FindPoolView: FC = () => {
 
   const handleCreatePair = () =>
     showToast(createPair(), {
-      loading: capitalizeFirstLetter(t('dexPoolFind.buttonPoolLoading')),
-      success: capitalizeFirstLetter(t('common.success')),
+      loading: capitalize(t('dexPoolFind.buttonPoolLoading')),
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -285,7 +285,7 @@ const FindPoolView: FC = () => {
           <Box color="error">
             <TimesSVG width="10rem" />
           </Box>
-          {capitalizeFirstLetter(t('dexPoolFind.balanceError'))}
+          {capitalize(t('dexPoolFind.balanceError'))}
         </Box>
       </Container>
     );
@@ -351,7 +351,7 @@ const FindPoolView: FC = () => {
               disabled={true}
               bg="disabled"
             >
-              {capitalizeFirstLetter(t('dexPoolFind.buttonSameToken'))}
+              {capitalize(t('dexPoolFind.buttonSameToken'))}
             </Button>
           ) : isCreatingPair ? (
             <Button
@@ -392,7 +392,7 @@ const FindPoolView: FC = () => {
               bg={loading ? 'accentActive' : 'accent'}
               hover={{ bg: loading ? 'disabled' : 'accentActive' }}
             >
-              {capitalizeFirstLetter(
+              {capitalize(
                 t(
                   loading
                     ? 'dexPoolFind.buttonLoading'

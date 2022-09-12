@@ -5,7 +5,7 @@ import { FC, useState } from 'react';
 import { Switch } from '@/components';
 import { PoolType, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 
 import RecommendPools from './recommended-pools';
 
@@ -42,12 +42,12 @@ const Pool: FC = () => {
             options={[
               {
                 value: PoolType.Volatile,
-                displayValue: capitalizeFirstLetter(t('common.volatile')),
+                displayValue: capitalize(t('common.volatile')),
                 onSelect: () => setPoolType(PoolType.Volatile),
               },
               {
                 value: PoolType.Stable,
-                displayValue: capitalizeFirstLetter(t('common.stable')),
+                displayValue: capitalize(t('common.stable')),
                 onSelect: () => setPoolType(PoolType.Stable),
               },
             ]}
@@ -59,7 +59,7 @@ const Pool: FC = () => {
             onClick={() => push(Routes[RoutesEnum.DEXFindPool])}
             ml={['unset', 'auto']}
           >
-            {capitalizeFirstLetter(t('dexPool.button'))}
+            {capitalize(t('dexPool.button'))}
           </Button>
         </Box>
         <RecommendPools type={poolType} />

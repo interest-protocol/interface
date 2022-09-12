@@ -10,7 +10,7 @@ import { useGetSigner, useIdAccount } from '@/hooks';
 import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import {
-  capitalizeFirstLetter,
+  capitalize,
   formatMoney,
   getInterestDexRouterAddress,
   parseInputEventToNumberString,
@@ -69,8 +69,8 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
 
   const handleApprove = () =>
     showToast(approve(address), {
-      loading: capitalizeFirstLetter(t('common.allowance-loading')),
-      success: capitalizeFirstLetter(t('common.success')),
+      loading: capitalize(t('common.allowance-loading')),
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -155,7 +155,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
             onClick={handleApprove}
             hover={{ bg: 'accentActive' }}
           >
-            {capitalizeFirstLetter(t('common.approve'))} Token
+            {capitalize(t('common.approve'))} Token
           </Button>
         ) : (
           <Button

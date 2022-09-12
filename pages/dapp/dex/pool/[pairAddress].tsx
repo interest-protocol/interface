@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 
 import DEXPoolDetailsView from '@/views/dapp/views/dex-pool-details';
 
@@ -8,17 +8,13 @@ interface DEXPoolDetailsPageProps {
 
 const DEXPoolDetailsPage: NextPage<DEXPoolDetailsPageProps> = ({
   pairAddress,
-}) => <DEXPoolDetailsView pairAddress={pairAddress as string} />;
+}) => <DEXPoolDetailsView pairAddress={pairAddress} />;
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const getServerSideProps = ({
+export const getServerSideProps: GetServerSideProps = async ({
   params,
   locale,
-}: {
-  params: DEXPoolDetailsPageProps;
-  locale: string;
 }) => {
-  const { pairAddress } = params;
+  const { pairAddress } = params || {};
 
   return {
     props: {

@@ -1,16 +1,14 @@
-import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
-import { useI18n } from '@/hooks';
-import { BRFlagSVG, PTFlagSVG, USFlagSVG } from '@/svg';
+import { useLocale } from '@/hooks';
+import { getSafeLocaleSVG } from '@/utils';
 
 import LangItem from './lang-item';
 
 const LangList: FC = () => {
-  const { locales } = useRouter();
-  const { currentLocale } = useI18n();
+  const { currentLocale, locales } = useLocale();
 
   return (
     <Box
@@ -21,7 +19,7 @@ const LangList: FC = () => {
       alignItems="flex-end"
     >
       <Box width={['100%', '13.8rem']}>
-        {locales?.map((locale) => (
+        {locales.map((locale) => (
           <LangItem
             title={
               <Box
@@ -39,13 +37,7 @@ const LangList: FC = () => {
                   backgroundSize="cover"
                   borderRadius="2rem"
                 >
-                  {locale === 'en-US' ? (
-                    <USFlagSVG width="100%" height="100%" />
-                  ) : locale === 'pt-PT' ? (
-                    <PTFlagSVG width="100%" height="100%" />
-                  ) : (
-                    <BRFlagSVG width="100%" height="100%" />
-                  )}
+                  {getSafeLocaleSVG(locale)}
                 </Box>
                 <Typography
                   variant="button"

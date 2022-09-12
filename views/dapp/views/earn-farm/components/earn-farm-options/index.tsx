@@ -16,7 +16,7 @@ import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG } from '@/svg';
 import {
-  capitalizeFirstLetter,
+  capitalize,
   formatDollars,
   formatMoney,
   getCasaDePapelAddress,
@@ -356,7 +356,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
               bg: !farm.pendingRewards.isZero() ? 'successActive' : 'disabled',
             }}
           >
-            {capitalizeFirstLetter(t('earnTokenAddress.thirdCardButton'))}
+            {capitalize(t('earnTokenAddress.thirdCardButton'))}
           </Button>
         }
       />

@@ -2,12 +2,12 @@ import { FC } from 'react';
 
 import { Container } from '@/components';
 import { Box } from '@/elements';
-import { useI18n } from '@/hooks';
+import { useLocale } from '@/hooks';
 
 import { LangItemProps } from './header.types';
 
 const LangItem: FC<LangItemProps> = ({ title, locale }) => {
-  const { currentLocale, changeLocale } = useI18n();
+  const { currentLocale, changeLocale } = useLocale();
 
   return (
     <Box

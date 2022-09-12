@@ -6,7 +6,7 @@ import { v4 } from 'uuid';
 import { PoolType, RECOMMENDED_POOLS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useChainId } from '@/hooks';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 
 import { RecommendedPoolsProps } from './pool.types';
 import PoolRow from './pool-row';
@@ -19,7 +19,7 @@ const RecommendedPools: FC<RecommendedPoolsProps> = ({ type }) => {
   return (
     <Box pb="L" pt="M" mb="L" px="L" bg="foreground" borderRadius="M">
       <Typography variant="normal" width="100%" my="L">
-        {capitalizeFirstLetter(
+        {capitalize(
           t('dexPool.recommendedTitle', {
             locale,
             type: t(

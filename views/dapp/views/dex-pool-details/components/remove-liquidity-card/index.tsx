@@ -9,7 +9,7 @@ import { useGetSigner } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
 import { LineLoaderSVG } from '@/svg';
 import {
-  capitalizeFirstLetter,
+  capitalize,
   getInterestDexRouterAddress,
   processWrappedNativeTokenAddress,
   showToast,
@@ -94,8 +94,8 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
 
   const handleApproveToken = () =>
     showToast(approveToken(), {
-      loading: `${capitalizeFirstLetter(t('common.allowance-loading'))}...`,
-      success: capitalizeFirstLetter(t('common.success')),
+      loading: `${capitalize(t('common.allowance-loading'))}...`,
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -149,10 +149,10 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
 
   const handleRemoveLiquidity = async () =>
     showToast(remove(), {
-      loading: capitalizeFirstLetter(
+      loading: capitalize(
         `${t('common.removeLoading')} ${t('common.liquidity')}...`
       ),
-      success: capitalizeFirstLetter(t('common.success')),
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -242,7 +242,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
                   setValue('lpAmount', '0.0');
                 }}
               >
-                {capitalizeFirstLetter(t('common.reset'))}
+                {capitalize(t('common.reset'))}
               </Button>
               <RemoveLiquidityButton
                 control={control}

@@ -19,7 +19,7 @@ import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import {
-  capitalizeFirstLetter,
+  capitalize,
   formatMoney,
   isValidAccount,
   safeGetAddress,
@@ -103,8 +103,8 @@ const FaucetForm: FC<FaucetFormProps> = ({
 
   const onMint = () =>
     showToast(handleOnMint(), {
-      loading: capitalizeFirstLetter(`${t('faucet.buttonLoading')}...`),
-      success: capitalizeFirstLetter(t('common.success')),
+      loading: capitalize(`${t('faucet.buttonLoading')}...`),
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -130,14 +130,14 @@ const FaucetForm: FC<FaucetFormProps> = ({
         >
           <FaucetSelectCurrency
             tokens={tokens}
-            label={capitalizeFirstLetter(t('faucet.tokenInput'))}
+            label={capitalize(t('faucet.tokenInput'))}
             defaultValue={tokens?.[0]?.address ?? ethers.constants.AddressZero}
             onSelectCurrency={onSelectCurrency}
           />
           <InputBalance
             name="amount"
             register={register}
-            label={capitalizeFirstLetter(t('faucet.amountInput'))}
+            label={capitalize(t('faucet.amountInput'))}
             setValue={setValue}
             chainId={chainId}
             control={control}
@@ -175,7 +175,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
                     </Typography>
                   </Box>
                 ) : (
-                  capitalizeFirstLetter(t('faucet.button'))
+                  capitalize(t('faucet.button'))
                 )}
               </Button>
             ) : (

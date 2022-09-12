@@ -9,7 +9,7 @@ import { Box, Button, Modal, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
 import { getChainId } from '@/state/core/core.selectors';
 import { LinkSVG, TimesSVG, UserSVG } from '@/svg';
-import { capitalizeFirstLetter, shortAccount } from '@/utils';
+import { capitalize, shortAccount } from '@/utils';
 
 import { AccountModalProps } from '../../wallet.types';
 
@@ -70,7 +70,7 @@ const AccountModal: FC<AccountModalProps> = ({
             justifyContent="space-between"
           >
             <Typography fontSize="S" variant="normal" color="textSecondary">
-              {capitalizeFirstLetter(t('common.connected'))}{' '}
+              {capitalize(t('common.connected'))}{' '}
               {url === 'metamask' ? 'MetaMask' : 'Wallet Connect'}
             </Typography>
             <Button
@@ -79,7 +79,7 @@ const AccountModal: FC<AccountModalProps> = ({
               onClick={disconnect}
               hover={{ color: 'text', bg: 'accent' }}
             >
-              {capitalizeFirstLetter(t('common.disconnected'))}
+              {capitalize(t('common.disconnected'))}
             </Button>
           </Box>
           <Box display="flex" my="L">
@@ -102,7 +102,7 @@ const AccountModal: FC<AccountModalProps> = ({
               hover={{ color: 'text' }}
             >
               <Typography variant="normal" ml="M" fontSize="S">
-                {capitalizeFirstLetter(t('common.copy'))}
+                {capitalize(t('common.copy'))}
               </Typography>
             </CopyToClipboard>
             <a
@@ -123,7 +123,7 @@ const AccountModal: FC<AccountModalProps> = ({
                   <LinkSVG width="100%" />
                 </Box>
                 <Typography variant="normal" ml="M" fontSize="S">
-                  {capitalizeFirstLetter(t('common.explorer'))}
+                  {capitalize(t('common.explorer'))}
                 </Typography>
               </Box>
             </a>

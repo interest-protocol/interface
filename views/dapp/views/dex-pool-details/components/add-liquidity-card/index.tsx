@@ -16,7 +16,7 @@ import { useChainId, useGetSigner } from '@/hooks';
 import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
 import { LineLoaderSVG } from '@/svg';
 import {
-  capitalizeFirstLetter,
+  capitalize,
   getBNPercent,
   getInterestDexRouterAddress,
   isSameAddressZ,
@@ -106,10 +106,8 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
 
   const handleApproveToken = (token: string, symbol: string) =>
     showToast(approveToken(token), {
-      loading: `${symbol}: ${capitalizeFirstLetter(
-        t('common.allowance-loading')
-      )}...`,
-      success: capitalizeFirstLetter(t('common.success')),
+      loading: `${symbol}: ${capitalize(t('common.allowance-loading'))}...`,
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -197,10 +195,8 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
 
   const handleAddLiquidity = () =>
     showToast(addLiquidity(), {
-      loading: `${capitalizeFirstLetter(
-        t('dexPoolPairAddress.addingLiquidity')
-      )}...`,
-      success: capitalizeFirstLetter(t('common.success')),
+      loading: `${capitalize(t('dexPoolPairAddress.addingLiquidity'))}...`,
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -291,7 +287,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
                 hover={{ bg: 'accentActive' }}
                 onClick={() => handleApproveToken(address, symbol)}
               >
-                {capitalizeFirstLetter(t('common.approve'))} {symbol}
+                {capitalize(t('common.approve'))} {symbol}
               </Button>
             ))
           )}
@@ -309,7 +305,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
                   setValue('locked', false);
                 }}
               >
-                {capitalizeFirstLetter(t('common.reset'))}
+                {capitalize(t('common.reset'))}
               </Button>
               <Button
                 bg="accent"
@@ -320,10 +316,8 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
                 hover={{ bg: loading ? 'disabled' : 'accentActive' }}
               >
                 {loading
-                  ? capitalizeFirstLetter(
-                      t('dexPoolPairAddress.adding') + '...'
-                    )
-                  : capitalizeFirstLetter(t('common.add'))}
+                  ? capitalize(t('dexPoolPairAddress.adding') + '...')
+                  : capitalize(t('common.add'))}
               </Button>
             </>
           )}

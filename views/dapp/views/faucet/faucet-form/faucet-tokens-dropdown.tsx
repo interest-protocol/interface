@@ -6,7 +6,7 @@ import { Box, Dropdown, Typography } from '@/elements';
 import { IDropdownData } from '@/elements/dropdown/dropdown.types';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { ArrowSVG } from '@/svg';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 
 import { FaucetCurrencyDropdownProps, IToken } from '../faucet.types';
 
@@ -64,7 +64,7 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
       relative
       mode="select"
       defaultValue={defaultValue}
-      emptyMessage={capitalizeFirstLetter(t('faucet.notFoundToken'))}
+      emptyMessage={capitalize(t('faucet.notFoundToken'))}
       title={
         <Box
           py="M"

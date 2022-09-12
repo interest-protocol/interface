@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Input } from '@/elements';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 
 import { SwapSearchTokenProps } from '../../../dex.types';
 
@@ -17,7 +17,7 @@ const SwapSearchToken: FC<SwapSearchTokenProps> = ({
       autoFocus
       disabled={isSearching}
       {...register('search')}
-      placeholder={capitalizeFirstLetter(t('common.placeholderInput'))}
+      placeholder={capitalize(t('common.placeholderInput'))}
       shieldProps={{
         py: 'M',
         borderRadius: 'S',

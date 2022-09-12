@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Box, Input, Typography } from '@/elements';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 
 import { CreateTokenFieldProps } from './create-token-form.types';
 
@@ -25,7 +25,7 @@ const CreateTokenField: FC<CreateTokenFieldProps> = ({
         {label}:
       </Typography>
       <Input
-        placeholder={capitalizeFirstLetter(
+        placeholder={capitalize(
           t('faucet.type', {
             locale,
             label: label,

@@ -13,7 +13,7 @@ import {
 } from '@/constants';
 import { Box, Button } from '@/elements';
 import { GitBookSVG } from '@/svg';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 
 import Faucet from '../../faucet';
 
@@ -100,7 +100,7 @@ const Footer: FC = () => {
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
             >
-              {capitalizeFirstLetter(t('common.earn'))}
+              {capitalize(t('common.earn'))}
             </Button>
           </Link>
           <Link href={Routes[RoutesEnum.DineroMarket]}>
@@ -123,7 +123,7 @@ const Footer: FC = () => {
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
             >
-              {capitalizeFirstLetter(t('common.borrowMenu'))}
+              {capitalize(t('common.borrowMenu'))}
             </Button>
           </Link>
           {RoutesWithFaucet.includes(pathname) && <Faucet />}

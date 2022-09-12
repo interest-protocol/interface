@@ -6,11 +6,7 @@ import { v4 } from 'uuid';
 import { Box, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { InfoSVG } from '@/svg';
-import {
-  capitalizeFirstLetter,
-  formatDollars,
-  maybeLPTokenName,
-} from '@/utils';
+import { capitalize, formatDollars, maybeLPTokenName } from '@/utils';
 
 import { MyOpenPositionProps } from './my-open-position.types';
 
@@ -40,12 +36,12 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
               as="span"
               width="1rem"
               cursor="help"
-              data-tip={capitalizeFirstLetter(t(tip))}
+              data-tip={capitalize(t(tip))}
               display="inline-block"
             >
               <InfoSVG width="100%" />
             </Box>
-            {capitalizeFirstLetter(t(name))}
+            {capitalize(t(name))}
           </Typography>
           <Typography
             variant="normal"

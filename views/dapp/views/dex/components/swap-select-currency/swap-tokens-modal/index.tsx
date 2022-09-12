@@ -17,7 +17,7 @@ import { Box, Button, Modal, Typography } from '@/elements';
 import { useDebounce, useIdAccount, useLocalStorage } from '@/hooks';
 import { TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
 import { LineLoaderSVG, TimesSVG } from '@/svg';
-import { capitalizeFirstLetter, isSameAddress, isSameAddressZ } from '@/utils';
+import { capitalize, isSameAddress, isSameAddressZ } from '@/utils';
 
 import {
   SwapCurrencyDropdownProps,
@@ -223,7 +223,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
           <Box my="L" textAlign="center">
             {isSearching ? (
               <Typography variant="normal" color="text">
-                {capitalizeFirstLetter(t('common.loading'))}
+                {capitalize(t('common.loading'))}
               </Typography>
             ) : searchedToken ? (
               renderData(
@@ -234,7 +234,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
               )
             ) : (
               <Typography variant="normal" color="text">
-                {capitalizeFirstLetter(t('common.notFound'))}
+                {capitalize(t('common.notFound'))}
               </Typography>
             )}
           </Box>
@@ -247,16 +247,12 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                 options={[
                   {
                     value: 'recommended',
-                    displayValue: capitalizeFirstLetter(
-                      t('dexPoolFind.switchOption1')
-                    ),
+                    displayValue: capitalize(t('dexPoolFind.switchOption1')),
                     onSelect: () => setShowLocal(false),
                   },
                   {
                     value: 'local',
-                    displayValue: capitalizeFirstLetter(
-                      t('dexPoolFind.switchOption2')
-                    ),
+                    displayValue: capitalize(t('dexPoolFind.switchOption2')),
                     onSelect: () => setShowLocal(true),
                   },
                 ]}

@@ -7,16 +7,10 @@ import { v4 } from 'uuid';
 import { Container, SocialMediaCard } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
-import { useI18n } from '@/hooks';
+import { useLocale } from '@/hooks';
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
-import {
-  BarsLPSVG,
-  BRFlagSVG,
-  LogoSVG,
-  PTFlagSVG,
-  TimesSVG,
-  USFlagSVG,
-} from '@/svg';
+import { BarsLPSVG, LogoSVG, TimesSVG } from '@/svg';
+import { getSafeLocaleSVG } from '@/utils';
 
 import { HeaderProps } from './header.types';
 import LangList from './lang-list';
@@ -28,7 +22,7 @@ const menuLangId = 'landing-switch-lang-id';
 
 const Header: FC<HeaderProps> = ({ empty }) => {
   const { push } = useRouter();
-  const { currentLocale } = useI18n();
+  const { currentLocale } = useLocale();
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [switchLang, setSwitchLang] = useState(false);
@@ -165,12 +159,8 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                 >
                   {switchLang ? (
                     <TimesSVG width="100%" />
-                  ) : currentLocale === 'en-US' ? (
-                    <USFlagSVG width="100%" height="100%" />
-                  ) : currentLocale === 'pt-PT' ? (
-                    <PTFlagSVG width="100%" height="100%" />
                   ) : (
-                    <BRFlagSVG width="100%" height="100%" />
+                    getSafeLocaleSVG(currentLocale)
                   )}
                 </Box>
               </Box>
@@ -203,13 +193,9 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                 id={menuLangId}
               >
                 {switchLang ? (
-                  <TimesSVG width="100%" height="100%" />
-                ) : currentLocale === 'en-US' ? (
-                  <USFlagSVG width="100%" height="100%" />
-                ) : currentLocale === 'pt-PT' ? (
-                  <PTFlagSVG width="100%" height="100%" />
+                  <TimesSVG width="100%" />
                 ) : (
-                  <BRFlagSVG width="100%" height="100%" />
+                  getSafeLocaleSVG(currentLocale)
                 )}
               </Box>
               <Box id={menuButtonId} cursor="pointer" onClick={toggleMenu}>

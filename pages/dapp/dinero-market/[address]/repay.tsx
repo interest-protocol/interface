@@ -1,11 +1,11 @@
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 
 import { Loading } from '@/views/dapp/components';
 import DineroMarketMode from '@/views/dapp/views/dinero-market-panel';
 import Error from '@/views/dapp/views/error';
 
 interface DineroMarketRepayPageProps {
-  address: string;
+  address: string | undefined | null;
 }
 
 const DineroMarketRepayPage: NextPage<DineroMarketRepayPageProps> = ({
@@ -15,18 +15,14 @@ const DineroMarketRepayPage: NextPage<DineroMarketRepayPageProps> = ({
 
   if (address === null) return <Error message="Wrong params" />;
 
-  return <DineroMarketMode address={address as string} mode="repay" />;
+  return <DineroMarketMode address={address} mode="repay" />;
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const getServerSideProps = ({
+export const getServerSideProps: GetServerSideProps = async ({
   locale,
   params,
-}: {
-  params: DineroMarketRepayPageProps;
-  locale: string;
 }) => {
-  const { address } = params;
+  const { address } = params || {};
 
   return {
     props: {

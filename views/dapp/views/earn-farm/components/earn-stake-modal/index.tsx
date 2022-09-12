@@ -7,7 +7,7 @@ import { v4 } from 'uuid';
 import { getFarmsSVGByToken, StakeState } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { LoadingSVG, TimesSVG } from '@/svg';
-import { capitalizeFirstLetter, formatMoney, safeToBigNumber } from '@/utils';
+import { capitalize, formatMoney, safeToBigNumber } from '@/utils';
 
 import { EarnStakeModalProps } from './earn-stake-modal.types';
 import InputStake from './input-stake';
@@ -124,7 +124,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
                 </Typography>
               </Box>
             }
-            label={capitalizeFirstLetter(
+            label={capitalize(
               t('earnTokenAddress.modalLabelInput', {
                 locale,
                 type: t(
@@ -160,7 +160,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
             onClick={handleClose}
             hover={{ bg: 'textSoft' }}
           >
-            {capitalizeFirstLetter(t('common.cancel'))}
+            {capitalize(t('common.cancel'))}
           </Button>
           <Button
             ml="L"
@@ -177,7 +177,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
                 <LoadingSVG width="100%" />
               </Box>
             )}
-            {capitalizeFirstLetter(
+            {capitalize(
               loading ? t('common.confirming') + '...' : t('common.confirm')
             )}
           </Button>

@@ -4,7 +4,7 @@ import { FC } from 'react';
 import toast from 'react-hot-toast';
 
 import { LogoSVG, ShieldSVG } from '@/svg';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 
 import { Box, Button, Input, Typography } from '../../../../elements';
 
@@ -23,8 +23,8 @@ const Subscribe: FC = () => {
             if (data.httpStatus == 200) return data;
           }),
         {
-          loading: capitalizeFirstLetter(t('index.subscribeLoading')),
-          success: capitalizeFirstLetter(t('common.success')),
+          loading: capitalize(t('index.subscribeLoading')),
+          success: capitalize(t('common.success')),
           error: (error) => `${error.code} - ${error.message}`,
         }
       )
@@ -51,7 +51,7 @@ const Subscribe: FC = () => {
         textAlign="center"
         fontSize={['L', 'XXL']}
       >
-        {capitalizeFirstLetter(t('index.subscribeSectionTitle'))}
+        {capitalize(t('index.subscribeSectionTitle'))}
       </Typography>
       <Box
         mt="XXL"
@@ -72,9 +72,7 @@ const Subscribe: FC = () => {
           outline="none"
           borderRadius="S"
           mb={['L', 'NONE']}
-          placeholder={capitalizeFirstLetter(
-            t('index.subscribeInputDescription')
-          )}
+          placeholder={capitalize(t('index.subscribeInputDescription'))}
         />
         <Box
           display="flex"
@@ -83,14 +81,14 @@ const Subscribe: FC = () => {
           flexDirection="column"
         >
           <Button ml="S" px="L" type="submit" variant="tertiary" effect="hover">
-            {capitalizeFirstLetter(t('index.subscribeButton'))}
+            {capitalize(t('index.subscribeButton'))}
           </Button>
           <Box display="flex" alignItems="center" mt="M" px="L">
             <Box width="0.7rem">
               <ShieldSVG width="100%" />
             </Box>
             <Typography variant="normal" ml="S" fontSize="XS">
-              {capitalizeFirstLetter(t('index.subscribeDescription'))}
+              {capitalize(t('index.subscribeDescription'))}
             </Typography>
           </Box>
         </Box>

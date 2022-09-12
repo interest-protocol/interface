@@ -5,7 +5,7 @@ import { FC } from 'react';
 import Container from '@/components/container';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 
 const DEX: FC = () => {
   const t = useTranslations();
@@ -75,7 +75,7 @@ const DEX: FC = () => {
             mb={['1.25rem', '1.25rem', '1.25rem', '1.875rem']}
             px={['L', 'unset']}
           >
-            {capitalizeFirstLetter(t('index.dexSectionSubtitle'))}
+            {capitalize(t('index.dexSectionSubtitle'))}
           </Typography>
           <Button
             width="145px"
@@ -129,7 +129,7 @@ const DEX: FC = () => {
             textAlign="center"
             fontSize={['0.875rem', '1.5rem']}
           >
-            {capitalizeFirstLetter(t('index.dexStablecoinEquation'))}
+            {capitalize(t('index.dexStablecoinEquation'))}
             <br />
             <Typography
               variant="large"
@@ -138,10 +138,10 @@ const DEX: FC = () => {
               fontWeight="700"
               my={['unset', 'unset', '1rem', '1rem']}
             >
-              {capitalizeFirstLetter(t('index.stablePairDescription'))}
+              {capitalize(t('index.stablePairDescription'))}
             </Typography>
             <br />
-            {capitalizeFirstLetter(t('index.stablePairTax'))}
+            {capitalize(t('index.stablePairTax'))}
           </Typography>
         </Container>
         <Box
@@ -172,7 +172,7 @@ const DEX: FC = () => {
             transform={['unset', 'unset', 'unset', 'translate(-50%,-20%)']}
           >
             <Typography variant="title3" lineHeight="2rem">
-              {capitalizeFirstLetter(t('index.dexSectionDescription'))}
+              {capitalize(t('index.dexSectionDescription'))}
             </Typography>
           </Box>
           <Box
@@ -190,7 +190,7 @@ const DEX: FC = () => {
             transform={['unset', 'unset', 'unset', 'translate(-50%,30%)']}
           >
             <Typography variant="title3" lineHeight="2rem">
-              {capitalizeFirstLetter(t('index.dexSectionOracle'))}
+              {capitalize(t('index.dexSectionOracle'))}
             </Typography>
           </Box>
         </Box>
@@ -222,7 +222,7 @@ const DEX: FC = () => {
             textAlign="center"
             fontSize={['0.875rem', '1.5rem']}
           >
-            {capitalizeFirstLetter(t('index.dexVolatileEquation'))}
+            {capitalize(t('index.dexVolatileEquation'))}
             <br />
             <Typography
               variant="large"
@@ -231,10 +231,10 @@ const DEX: FC = () => {
               fontWeight="700"
               my={['unset', 'unset', '1rem', '1rem']}
             >
-              {capitalizeFirstLetter(t('index.volatilePairDescription'))}
+              {capitalize(t('index.volatilePairDescription'))}
             </Typography>
             <br />
-            {capitalizeFirstLetter(t('index.volatilePairTax'))}
+            {capitalize(t('index.volatilePairTax'))}
           </Typography>
         </Container>
       </Box>

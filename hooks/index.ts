@@ -1,4 +1,5 @@
 export * from './use-chain-id';
+export * from './use-change-locale';
 export * from './use-click-outside-listener-ref';
 export * from './use-debounce';
 export * from './use-get-dex-allowances-and-balances';
@@ -10,7 +11,6 @@ export * from './use-get-signer';
 export * from './use-get-user-balances';
 export * from './use-get-user-balances-allowances';
 export * from './use-get-user-farm-data';
-export * from './use-i18n';
 export * from './use-id-account';
 export * from './use-is-mounted';
 export * from './use-local-storage';

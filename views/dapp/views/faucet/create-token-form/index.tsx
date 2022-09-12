@@ -10,7 +10,7 @@ import { useGetSigner } from '@/hooks';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import {
-  capitalizeFirstLetter,
+  capitalize,
   extractCreateTokenEvent,
   isValidAccount,
   safeGetAddress,
@@ -93,8 +93,8 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
 
   const safeCreateToken = () =>
     showToast(handleCreateToken(), {
-      loading: capitalizeFirstLetter(`${t('faucet.modalButtonLoading')}...`),
-      success: capitalizeFirstLetter(t('common.success')),
+      loading: capitalize(`${t('faucet.modalButtonLoading')}...`),
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -130,18 +130,18 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
           gridTemplateColumns={['1fr', '1f', '1fr', '1fr 1fr']}
         >
           <CreateTokenField
-            label={capitalizeFirstLetter(t('faucet.modalInputName'))}
+            label={capitalize(t('faucet.modalInputName'))}
             name="name"
             register={register}
           />
           <CreateTokenField
-            label={capitalizeFirstLetter(t('faucet.modalInputSymbol'))}
+            label={capitalize(t('faucet.modalInputSymbol'))}
             name="symbol"
             register={register}
           />
         </Box>
         <CreateTokenSupplyField
-          label={capitalizeFirstLetter(t('faucet.modalInputAmount'))}
+          label={capitalize(t('faucet.modalInputAmount'))}
           register={register}
           setValue={setValue}
         />
@@ -170,7 +170,7 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
                 </Typography>
               </Box>
             ) : (
-              capitalizeFirstLetter(t('faucet.modalButton'))
+              capitalize(t('faucet.modalButton'))
             )}
           </Button>
         ) : (

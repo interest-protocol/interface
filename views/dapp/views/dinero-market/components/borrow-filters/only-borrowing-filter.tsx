@@ -4,7 +4,7 @@ import { useWatch } from 'react-hook-form';
 
 import { Switch } from '@/components';
 import { Box, Typography } from '@/elements';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 
 import { getFilterSwitchDefaultData } from '../../dinero-market.utils';
 import { OnlyBorrowingFilterProps } from './borrow-filters.types';
@@ -38,7 +38,7 @@ const OnlyBorrowingFilter: FC<OnlyBorrowingFilterProps> = ({
         variant="normal"
         textAlign={['center', 'center', 'center', 'left']}
       >
-        {capitalizeFirstLetter(t('dineroMarket.borrowFilterBorrowing'))}
+        {capitalize(t('dineroMarket.borrowFilterBorrowing'))}
       </Typography>
       <Switch
         bg="background"

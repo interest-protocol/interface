@@ -5,7 +5,7 @@ import { FC } from 'react';
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 
 import {
   BTCOrbit,
@@ -63,7 +63,7 @@ const Borrow: FC = () => {
             mb={['0.625rem', '0.625rem', '0.625rem', '1rem']}
             fontSize={['1.125rem', '1.125rem', '1.125rem', '1.5rem']}
           >
-            {capitalizeFirstLetter(t('index.borrowSectionSubtitle'))}
+            {capitalize(t('index.borrowSectionSubtitle'))}
           </Typography>
           <Typography
             width="100%"
@@ -74,7 +74,7 @@ const Borrow: FC = () => {
             fontSize={['0.875rem', '0.875rem', '0.875rem', '1rem']}
             textAlign={['center', 'center', 'center', 'justify']}
           >
-            {capitalizeFirstLetter(t('index.borrowSectionBody'))}
+            {capitalize(t('index.borrowSectionBody'))}
           </Typography>
           <Button
             mb="XL"

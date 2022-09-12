@@ -4,7 +4,7 @@ import { useWatch } from 'react-hook-form';
 
 import { Switch } from '@/components';
 import { Box, Typography } from '@/elements';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 import { getFilterSwitchDefaultData } from '@/views/dapp/views/earn/components/earn.data';
 
 import { OnlyFinishedFilterProps } from './earn-filters.types';
@@ -30,7 +30,7 @@ const OnlyFinishedFilter: FC<OnlyFinishedFilterProps> = ({
         display="inline-block"
         textAlign={['center', 'center', 'center', 'left']}
       >
-        {capitalizeFirstLetter(t('earn.filterStatus'))}
+        {capitalize(t('earn.filterStatus'))}
       </Typography>
       <Switch
         defaultValue={onlyFinished ? t('common.finished') : t('common.live')}

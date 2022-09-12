@@ -6,7 +6,7 @@ import { getFarmsSVGByToken } from '@/constants';
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
 import { TOKEN_SYMBOL } from '@/sdk';
-import { capitalizeFirstLetter, formatDollars, makeFarmSymbol } from '@/utils';
+import { capitalize, formatDollars, makeFarmSymbol } from '@/utils';
 
 import { EarnFarmDetailsProps } from './earn.farm-details.types';
 
@@ -30,12 +30,12 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
         )}
         <Typography variant="normal" textTransform="capitalize">
           {farm.id === 0
-            ? `${TOKEN_SYMBOL.INT} ${capitalizeFirstLetter(t('common.pool'))} `
+            ? `${TOKEN_SYMBOL.INT} ${capitalize(t('common.pool'))} `
             : `${makeFarmSymbol(
                 farm.chainId,
                 farm.token0,
                 farm.token1
-              )} ${capitalizeFirstLetter(t('common.farm'))} `}
+              )} ${capitalize(t('common.farm'))} `}
           {t('earnTokenAddress.title')}
         </Typography>
         <Typography
@@ -79,9 +79,7 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
           >
             {t('common.state')}
           </Typography>
-          {capitalizeFirstLetter(
-            t(farm.isLive ? 'common.live' : 'common.finished')
-          )}
+          {capitalize(t(farm.isLive ? 'common.live' : 'common.finished'))}
         </Box>
         <Box>
           <Typography variant="normal" fontSize="S" mb="L">

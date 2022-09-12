@@ -6,7 +6,7 @@ import priorityHooks from '@/connectors';
 import { Box, Dropdown, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
 import { ArrowSVG, BinanceTestSVG } from '@/svg';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalize } from '@/utils';
 
 const { usePriorityChainId } = priorityHooks;
 
@@ -28,8 +28,8 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
             <ArrowSVG width="100%" />
           </Box>
         }
-        title={capitalizeFirstLetter(t('common.networkTitle'))}
-        header={capitalizeFirstLetter(t('common.networkTitle') + ':')}
+        title={capitalize(t('common.networkTitle'))}
+        header={capitalize(t('common.networkTitle') + ':')}
         defaultValue={`${chainId}`}
         data={[
           {
