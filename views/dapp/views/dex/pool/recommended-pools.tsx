@@ -23,7 +23,8 @@ const RecommendedPools: FC<RecommendedPoolsProps> = ({ type }) => {
           t('dexPool.recommendedTitle', {
             locale,
             type: t(
-              type === PoolType.Volatile ? 'common.volatiles' : 'common.stables'
+              type === PoolType.Volatile ? 'common.volatile' : 'common.stable',
+              { isPlural: 1 }
             ),
           })
         )}

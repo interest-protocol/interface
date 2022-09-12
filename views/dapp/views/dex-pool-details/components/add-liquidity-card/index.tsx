@@ -106,7 +106,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
 
   const handleApproveToken = (token: string, symbol: string) =>
     showToast(approveToken(token), {
-      loading: `${symbol}: ${capitalize(t('common.allowance-loading'))}...`,
+      loading: `${symbol}: ${capitalize(t('common.allowanceLoading'))}...`,
       success: capitalize(t('common.success')),
       error: prop('message'),
     });

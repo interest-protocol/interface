@@ -4,7 +4,7 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
 
-import { Container, SocialMediaCard } from '@/components';
+import { Container, SocialMediaCard, SwitchLang } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useLocale } from '@/hooks';
@@ -38,7 +38,7 @@ const Header: FC<HeaderProps> = ({ empty }) => {
   const fadeLangStyles = useSpring({
     from: { maxHeight: '0rem', minHeight: '0rem' },
     to: {
-      minHeight: switchLang ? '10rem' : '0rem',
+      minHeight: switchLang ? '3rem' : '0rem',
       maxHeight: switchLang ? '30rem' : '0rem',
     },
   });
@@ -94,8 +94,16 @@ const Header: FC<HeaderProps> = ({ empty }) => {
       position="fixed"
       backdropFilter="blur(10px)"
       bg={[
-        !mobileMenu ? `rgba(255, 255, 255, ${scrollPercentage})` : 'background',
-        !mobileMenu ? `rgba(255, 255, 255, ${scrollPercentage})` : 'background',
+        !mobileMenu
+          ? !switchLang
+            ? `rgba(255, 255, 255, ${scrollPercentage})`
+            : 'background'
+          : 'background',
+        !mobileMenu
+          ? !switchLang
+            ? `rgba(255, 255, 255, ${scrollPercentage})`
+            : 'background'
+          : 'background',
         `rgba(255, 255, 255, ${scrollPercentage})`,
         `rgba(255, 255, 255, ${scrollPercentage})`,
       ]}
@@ -147,22 +155,7 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                 {SOCIAL_MEDIAS.map((socialMediaData) => (
                   <SocialMediaCard {...socialMediaData} key={v4()} />
                 ))}
-                <Box
-                  ml={['L', '0.75rem']}
-                  mr={['L', '0.75rem']}
-                  width="1.25rem"
-                  height="1.25rem"
-                  borderRadius="2rem"
-                  cursor="pointer"
-                  onClick={toggleSwitchLang}
-                  id={menuLangId}
-                >
-                  {switchLang ? (
-                    <TimesSVG width="100%" />
-                  ) : (
-                    getSafeLocaleSVG(currentLocale)
-                  )}
-                </Box>
+                <SwitchLang />
               </Box>
               <Box
                 textAlign="center"

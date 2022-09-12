@@ -16,6 +16,7 @@ const LangItem: FC<LangItemProps> = ({ title, locale }) => {
       flexDirection="column"
       cursor={currentLocale === locale ? 'default' : 'pointer'}
       transition="transform 3s"
+      mb="1.5rem"
     >
       <Container
         width="100%"

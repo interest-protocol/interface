@@ -17,6 +17,9 @@ const LangList: FC = () => {
       width="100%"
       flexDirection="column"
       alignItems="flex-end"
+      bg="textInverted"
+      pt="2.5rem"
+      pb="1.875rem"
     >
       <Box width={['100%', '13.8rem']}>
         {locales.map((locale) => (

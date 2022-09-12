@@ -112,7 +112,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
               variant="normal"
               fontWeight="normal"
             >
-              {capitalize(t('common.connectWallet'))}
+              {capitalize(t('common.connectYourWallet'))}
             </Typography>
             <Box
               cursor="pointer"
@@ -204,7 +204,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
                       fontSize="XS"
                       color="textSecondary"
                     >
-                      {capitalize(t('common.unlockWallet'))}
+                      {capitalize(t('common.unlockWalletDescription'))}
                     </Typography>
                   </Box>
                   <Button

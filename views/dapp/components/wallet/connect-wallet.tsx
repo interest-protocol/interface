@@ -28,7 +28,7 @@ const ConnectWallet: FC = () => {
         active={{ bg: 'accentActive' }}
       >
         <Typography as="span" variant="normal" whiteSpace="nowrap" fontSize="S">
-          {capitalize(t('common.wallet'))}
+          {capitalize(t('common.connectWallet'))}
         </Typography>
       </Button>
       <ConnectWalletModal showModal={showModal} toggleModal={toggleModal} />

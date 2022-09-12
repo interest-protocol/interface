@@ -51,7 +51,9 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
           bg={farm.stable ? 'accent' : 'accentAlternativeActive'}
           textTransform="capitalize"
         >
-          {t(farm.stable ? 'common.stable' : 'common.volatile')}
+          {t(farm.stable ? 'common.stable' : 'common.volatile', {
+            isPlural: 0,
+          })}
         </Typography>
       </Box>
       <Box

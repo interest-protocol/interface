@@ -186,7 +186,9 @@ const EarnTable: FC<EarnTableProps> = ({
                       key={v4()}
                       textTransform="capitalize"
                     >
-                      {t(farm.stable ? 'common.stable' : 'common.volatile')}
+                      {t(farm.stable ? 'common.stable' : 'common.volatile', {
+                        isPlural: 0,
+                      })}
                     </Typography>,
                   ],
                 }))
@@ -338,7 +340,9 @@ const EarnTable: FC<EarnTableProps> = ({
                         key={v4()}
                         textTransform="capitalize"
                       >
-                        {t(farm.stable ? 'common.stable' : 'common.volatile')}
+                        {t(farm.stable ? 'common.stable' : 'common.volatile', {
+                          isPlural: 0,
+                        })}
                       </Typography>,
                     ],
                   }))

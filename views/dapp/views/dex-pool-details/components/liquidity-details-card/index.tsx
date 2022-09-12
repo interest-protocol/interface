@@ -61,7 +61,9 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
             fontWeight="600"
             fontSize="inherit"
           >
-            {t(isStable ? 'common.stable' : 'common.volatile')}
+            {t(isStable ? 'common.stable' : 'common.volatile', {
+              isPlural: 0,
+            })}
           </Typography>
         </Typography>
         <Typography variant="normal" lineHeight="2rem">

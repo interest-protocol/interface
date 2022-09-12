@@ -69,7 +69,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
 
   const handleApprove = () =>
     showToast(approve(address), {
-      loading: capitalize(t('common.allowance-loading')),
+      loading: capitalize(t('common.allowanceLoading')),
       success: capitalize(t('common.success')),
       error: prop('message'),
     });

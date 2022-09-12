@@ -108,7 +108,10 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
                 t('dexPoolPairAddress.title', {
                   locale,
                   type: t(
-                    processedData.isStable ? 'common.stable' : 'common.volatile'
+                    processedData.isStable
+                      ? 'common.stable'
+                      : 'common.volatile',
+                    { isPlural: 0 }
                   ),
                 })}
             </Typography>

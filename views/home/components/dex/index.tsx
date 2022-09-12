@@ -158,7 +158,7 @@ const DEX: FC = () => {
           ]}
         >
           <Box
-            p="1.75rem"
+            py="XL"
             mx="S"
             display="flex"
             bg="foreground"
@@ -166,7 +166,7 @@ const DEX: FC = () => {
             alignItems="center"
             top={['unset', 'unset', 'unset', '-1.3rem']}
             justifyContent="center"
-            width={['50%', '50%', '50%', '15.25rem']}
+            width={['50%', '50%', '50%', '13.25rem']}
             height={['10rem', '10rem', '10rem', '12.625rem']}
             position={['static', 'static', 'static', 'absolute']}
             transform={['unset', 'unset', 'unset', 'translate(-50%,-20%)']}
@@ -184,7 +184,7 @@ const DEX: FC = () => {
             alignItems="center"
             bottom={['none', 'none', 'none', '-2rem']}
             justifyContent="center"
-            width={['50%', '50%', '50%', '15.25rem']}
+            width={['50%', '50%', '50%', '13.25rem']}
             height={['10rem', '10rem', '10rem', '12.625rem']}
             position={['static', 'static', 'static', 'absolute']}
             transform={['unset', 'unset', 'unset', 'translate(-50%,30%)']}
@@ -221,8 +221,9 @@ const DEX: FC = () => {
             fontWeight="700"
             textAlign="center"
             fontSize={['0.875rem', '1.5rem']}
+            textTransform="uppercase"
           >
-            {capitalize(t('index.dexVolatileEquation'))}
+            {t('index.dexVolatileEquation')}
             <br />
             <Typography
               variant="large"
@@ -230,8 +231,9 @@ const DEX: FC = () => {
               as="span"
               fontWeight="700"
               my={['unset', 'unset', '1rem', '1rem']}
+              textTransform="uppercase"
             >
-              {capitalize(t('index.volatilePairDescription'))}
+              {t('index.volatilePairDescription')}
             </Typography>
             <br />
             {capitalize(t('index.volatilePairTax'))}

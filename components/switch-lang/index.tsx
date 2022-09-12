@@ -46,7 +46,7 @@ const SwitchLang: FC = () => {
                 backgroundSize="cover"
                 borderRadius="2rem"
               >
-                {getSafeLocaleSVG(currentLocale)}
+                {getSafeLocaleSVG(locale)}
               </Box>
               <Typography
                 variant="button"

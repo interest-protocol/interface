@@ -94,7 +94,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
 
   const handleApproveToken = () =>
     showToast(approveToken(), {
-      loading: `${capitalize(t('common.allowance-loading'))}...`,
+      loading: `${capitalize(t('common.allowanceLoading'))}...`,
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
