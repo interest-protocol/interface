@@ -32,7 +32,14 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
       <meta name="twitter:title" content="Interest Protocol" />
       <meta name="twitter:site" content="https://interestprotocol.com" />
       <meta name="twitter:image" content="/android-chrome-256x256.png" />
+<<<<<<< HEAD
       <meta name="twitter:description" content={t('common.seoDescription')} />
+=======
+      <meta
+        name="twitter:description"
+        content="Use your crypto to borrow our stablecoin, Dinero, for free."
+      />
+>>>>>>> 0e0825b (🔥 feat: team section (#129))
 
       <link rel="icon" href="/favicon.ico" />
       <link

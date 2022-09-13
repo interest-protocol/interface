@@ -18,7 +18,10 @@ import { capitalize } from '@/utils';
 import Faucet from '../../faucet';
 
 const Footer: FC = () => {
+<<<<<<< HEAD
   const t = useTranslations();
+=======
+>>>>>>> 0e0825b (🔥 feat: team section (#129))
   const { pathname } = useRouter();
 
   return (
@@ -123,7 +126,11 @@ const Footer: FC = () => {
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
             >
+<<<<<<< HEAD
               {capitalize(t('common.borrow'))}
+=======
+              Borrow
+>>>>>>> 0e0825b (🔥 feat: team section (#129))
             </Button>
           </Link>
           {RoutesWithFaucet.includes(pathname) && <Faucet />}
