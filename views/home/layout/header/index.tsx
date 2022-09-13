@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
 
@@ -9,6 +9,7 @@ import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useLocale } from '@/hooks';
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
+import useEventListener from '@/hooks/use-event-listener';
 import { BarsLPSVG, LogoSVG, TimesSVG } from '@/svg';
 import { getSafeLocaleSVG } from '@/utils';
 
@@ -78,11 +79,14 @@ const Header: FC<HeaderProps> = ({ empty }) => {
         : 1
     );
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleChangeScrollPercentage);
-    return () =>
-      window.removeEventListener('scroll', handleChangeScrollPercentage);
-  }, []);
+  const handleHideMenuOnResize = () => {
+    setMobileMenu(false);
+    setSwitchLang(false);
+  };
+
+  useEventListener('scroll', handleChangeScrollPercentage, true);
+
+  useEventListener('resize', handleHideMenuOnResize, true);
 
   return (
     <Box

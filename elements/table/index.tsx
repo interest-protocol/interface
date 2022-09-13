@@ -1,9 +1,10 @@
 import { pathOr } from 'ramda';
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Tooltip } from '@/components';
+import useEventListener from '@/hooks/use-event-listener';
 
 import Box from '../box';
 import Typography from '../typography';
@@ -212,11 +213,7 @@ const Table: FC<ResponsiveTableProps> = ({
     setDesktop(mediaIsDesktop);
   }, []);
 
-  useEffect(() => {
-    handleSetDesktop();
-    window.addEventListener('resize', handleSetDesktop);
-    return () => window.removeEventListener('resize', handleSetDesktop);
-  }, []);
+  useEventListener('resize', handleSetDesktop, true);
 
   return (
     <>

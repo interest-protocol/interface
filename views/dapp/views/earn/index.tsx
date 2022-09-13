@@ -1,9 +1,10 @@
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
 import { Box, InfiniteScroll, Typography } from '@/elements';
 import { useGetFarmsSummary, useIdAccount } from '@/hooks';
+import useEventListener from '@/hooks/use-event-listener';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import { noop } from '@/utils';
 
@@ -39,11 +40,7 @@ const Earn: FC = () => {
     setDesktop(mediaIsDesktop);
   }, []);
 
-  useEffect(() => {
-    handleSetDesktop();
-    window.addEventListener('resize', handleSetDesktop);
-    return () => window.removeEventListener('resize', handleSetDesktop);
-  }, []);
+  useEventListener('resize', handleSetDesktop, true);
 
   if (error)
     return (
