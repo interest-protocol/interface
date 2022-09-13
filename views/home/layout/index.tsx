@@ -8,6 +8,7 @@ import { Box } from '../../../elements';
 import Footer from './footer';
 import Header from './header';
 import { LayoutProps } from './layout.types';
+import { getLPToastOption } from './layout.utils';
 
 const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => (
   <Box>
@@ -15,31 +16,7 @@ const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => (
     <Toaster
       position="bottom-right"
       reverseOrder={false}
-      toastOptions={{
-        loading: {
-          style: {
-            borderRadius: '0',
-            borderBottom: `0.4rem solid ${colors.accent}`,
-          },
-        },
-        blank: {
-          style: {
-            borderRadius: '0',
-          },
-        },
-        success: {
-          style: {
-            borderRadius: '0',
-            borderBottom: `0.4rem solid ${colors.success}`,
-          },
-        },
-        error: {
-          style: {
-            borderRadius: '0',
-            borderBottom: `0.4rem solid ${colors.error}`,
-          },
-        },
-      }}
+      toastOptions={getLPToastOption(colors)}
     />
     <Header />
     <main>{children}</main>
