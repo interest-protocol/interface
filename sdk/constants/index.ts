@@ -29,13 +29,6 @@ export enum TOKEN_SYMBOL {
   WETH = 'WETH',
   USDC = 'USDC',
   USDT = 'USDT',
-  // TODO: to remove
-  BTCnUSDT = 'BTC-USDT',
-}
-
-export enum PoolId {
-  Int,
-  BtcDnr,
 }
 
 export const MAX_NUMBER_INPUT_VALUE = 9000000000000000;
@@ -75,22 +68,6 @@ export const MAIL_MARKET_CONTRACTS_MAP = {
       ),
     },
   },
-};
-
-export const MAIL_MARKET_RISKY_TOKENS_ARRAY = {
-  [CHAIN_ID.RINKEBY]: [
-    ethers.utils.getAddress('0xc17A30Db808A7926E76F5AC81352A214FfFDC334'), // UNI
-    ethers.utils.getAddress('0xBAe5a5b6ecF2de7424eA8723e3be2A692dCB0637'), // APE
-  ],
-};
-
-export const MAIL_MARKET_BRIDGE_TOKENS = {
-  [CHAIN_ID.RINKEBY]: [
-    ethers.utils.getAddress('0xbdBFEBE240a4606119bC950Eec3e0Ed05719d739'), // BTC
-    ethers.utils.getAddress('0xbA8d9f4d5c14f2CC644CcC06bB298FbD6DaC349C'), // WETH
-    ethers.utils.getAddress('0xf3706E14c4aE1bd94f65909f9aB9e30D8C1b7B16'), // USDC
-    ethers.utils.getAddress('0xb306ee3d2092166cb942D1AE2210A7641f73c11F'), // USDT
-  ],
 };
 
 export const CONTRACTS = {

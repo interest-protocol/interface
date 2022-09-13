@@ -2,8 +2,15 @@ import { FC } from 'react';
 
 import { Box } from '@/elements';
 
-import { Automate, Borrow, DEX, Earn, Hero } from './components';
-import Subscribe from './components/subscribe';
+import {
+  Automate,
+  Borrow,
+  DEX,
+  Earn,
+  Hero,
+  Subscribe,
+  Team,
+} from './components';
 import Layout from './layout';
 
 const Home: FC = () => (
@@ -20,6 +27,7 @@ const Home: FC = () => (
     <Borrow />
     <DEX />
     <Automate />
+    <Team />
     <Subscribe />
   </Layout>
 );

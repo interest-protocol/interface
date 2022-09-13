@@ -5,6 +5,7 @@ import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
 import { TimesSVG } from '@/svg';
 import { parseInputEventToNumberString } from '@/utils';
 
+import AutoFetch from './auto-fetch';
 import Field from './field';
 import { SwapSettingsProps } from './settings.types';
 
@@ -20,26 +21,25 @@ const SettingsModal: FC<SwapSettingsProps> = ({
 
   const newSlippage = useRef<string | null>(null);
   const newDeadline = useRef<number | null>(null);
+  const autoFetch = useRef<boolean>(localSettings.autoFetch ?? true);
 
   useEffect(() => {
     return () => {
-      if (
-        !!newSlippage.current &&
-        newSlippage.current !== localSettings.slippage
-      )
-        setLocalSettings({
-          slippage: newSlippage.current,
-          deadline: localSettings.deadline,
-        });
+      const deadline =
+        !!newDeadline.current && newDeadline.current !== localSettings.deadline
+          ? newDeadline.current
+          : localSettings.deadline;
 
-      if (
-        !!newDeadline.current &&
-        newDeadline.current !== localSettings.deadline
-      )
-        setLocalSettings({
-          slippage: localSettings.slippage,
-          deadline: newDeadline.current,
-        });
+      const slippage =
+        !!newSlippage.current && newSlippage.current !== localSettings.slippage
+          ? newSlippage.current
+          : localSettings.slippage;
+
+      setLocalSettings({
+        slippage,
+        deadline,
+        autoFetch: autoFetch.current,
+      });
     };
   }, []);
 
@@ -132,6 +132,23 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           }
           label="Transaction deadline"
           suffix={<Typography variant="normal">minutes</Typography>}
+        />
+      </Box>
+      <Box p="S">
+        <Typography
+          m="M"
+          pt="M"
+          pb="L"
+          fontSize="S"
+          variant="normal"
+          color="textSecondary"
+          textTransform="uppercase"
+        >
+          Panel Settings
+        </Typography>
+        <AutoFetch
+          value={autoFetch.current}
+          setter={(value: boolean) => (autoFetch.current = value)}
         />
       </Box>
     </Box>
