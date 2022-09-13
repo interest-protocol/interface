@@ -68,7 +68,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           color="textSecondary"
           textTransform="uppercase"
         >
-          {t('dexSwap.settingsTitle')}
+          {t('dexSwap.settingsTransactionTitle')}
         </Typography>
         <Button
           p="S"
@@ -151,7 +151,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           color="textSecondary"
           textTransform="uppercase"
         >
-          Panel Settings
+          {t('dexSwap.settingsPanelTitle')}
         </Typography>
         <AutoFetch
           value={autoFetch.current}

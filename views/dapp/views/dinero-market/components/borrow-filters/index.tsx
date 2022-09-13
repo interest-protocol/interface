@@ -56,7 +56,9 @@ const BorrowFilters: FC<BorrowFiltersProps> = ({
             borderColor="background"
             {...register('search')}
             fontSize="S"
-            placeholder={capitalize(t('common.placeholderInputSearch'))}
+            placeholder={capitalize(
+              t('common.placeholderInputSearchDescription')
+            )}
             focus={{
               borderColor: 'accentAlternativeBackground',
             }}

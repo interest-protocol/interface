@@ -1,7 +1,9 @@
 {
   "dexSwap": {
-    "settingsTitle": "Definições",
+    "settingsTransactionTitle": "Definições da transacção",
     "toleranceLabel": "Tolerância da slippage?",
-    "deadlineLabel": "Prazo da transacção"
+    "deadlineLabel": "Prazo da transacção",
+    "settingsPanelTitle": "Configurações do painel",
+    "priceLabel": "Preço de busca"
   }
 }

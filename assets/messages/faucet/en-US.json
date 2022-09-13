@@ -12,8 +12,8 @@
     "modalInputName": "Name",
     "modalInputSymbol": "Symbol",
     "modalInputAmount": "Amount",
-    "notFoundToken": "not found token",
-    "select": "select a token",
+    "notFoundToken": "Not found token",
+    "select": "Select a token",
     "type": "Type {label}"
   }
 }

@@ -1,6 +1,6 @@
 {
   "dexPoolFind": {
-    "title": "find a pool",
+    "title": "Find a Pool",
     "buttonCustom": "Find and Enter",
     "buttonSameToken": "Choose different tokens",
     "buttonLoading": "Finding...",

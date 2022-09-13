@@ -12,8 +12,8 @@
     "modalInputName": "Nome",
     "modalInputSymbol": "Simbolo",
     "modalInputAmount": "Montante",
-    "notFoundToken": "nenhum token encontrado",
-    "select": "selecione um token",
-    "type": "escreva o {label}"
+    "notFoundToken": "Nenhum token encontrado",
+    "select": "Selecione um token",
+    "type": "Escreva o {label}"
   }
 }

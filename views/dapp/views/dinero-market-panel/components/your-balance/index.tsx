@@ -24,7 +24,7 @@ const YourBalance: FC<YourBalanceProps> = ({
   return (
     <Box p="XL" order={3} gridArea="e" bg="foreground" borderRadius="L">
       <Typography variant="normal" textTransform="uppercase" mt="L">
-        {t('common.yourBalance')}:
+        {t('common.yourBalanceDescription')}:
       </Typography>
       {loading ? (
         <Box my="XL" rowGap="0.7rem" display="grid" gridTemplateRows="1fr 1fr">

@@ -1,7 +1,9 @@
 {
   "dexSwap": {
-    "settingsTitle": "Transaction Settings",
+    "settingsTransactionTitle": "Transaction Settings",
     "toleranceLabel": "Slippage tolerance?",
-    "deadlineLabel": "Transaction deadline"
+    "deadlineLabel": "Transaction deadline",
+    "settingsPanelTitle": "Panel Settings",
+    "priceLabel": "Fetch price"
   }
 }

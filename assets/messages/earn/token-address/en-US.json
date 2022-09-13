@@ -1,10 +1,10 @@
 {
   "earnTokenAddress": {
-    "title": "details",
+    "title": "Details",
     "secondCardTitle": "Staked",
     "thirdCardTitle": "Rewards",
     "thirdCardButton": "Harvest",
-    "yourStakedLabel": "you staked",
+    "yourStakedLabel": "You staked",
     "modalStakedTitle": "staked",
     "modalUnstakedTitle": "unstaked",
     "modalLabelInput": "Amount {type}",

@@ -55,7 +55,9 @@ const EarnFilters: FC<EarnFiltersProps> = ({ setValue, register, control }) => {
             borderColor="background"
             {...register('search')}
             fontSize="S"
-            placeholder={capitalize(t('common.placeholderInputSearch'))}
+            placeholder={capitalize(
+              t('common.placeholderInputSearchDescription')
+            )}
             focus={{
               borderColor: 'accentAlternativeBackground',
             }}

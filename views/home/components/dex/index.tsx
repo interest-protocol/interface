@@ -129,7 +129,7 @@ const DEX: FC = () => {
             textAlign="center"
             fontSize={['0.875rem', '1.5rem']}
           >
-            {capitalize(t('index.dexStablecoinEquation'))}
+            K = 3XY + 3XY
             <br />
             <Typography
               variant="large"
@@ -223,7 +223,7 @@ const DEX: FC = () => {
             fontSize={['0.875rem', '1.5rem']}
             textTransform="uppercase"
           >
-            {t('index.dexVolatileEquation')}
+            K = Y * X
             <br />
             <Typography
               variant="large"
