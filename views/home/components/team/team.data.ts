@@ -1,5 +1,5 @@
 import { GithubSVG, LinkedInSVG, TwitterSVG } from '@/svg';
-import { getYearOrMonth } from '@/utils/date';
+import { getYearOrMonth } from '@/utils';
 
 export const SOCIAL_SVG = {
   github: GithubSVG,
