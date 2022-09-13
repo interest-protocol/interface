@@ -1,9 +1,9 @@
-import { GithubSVG, LinkedinSVG, TwitterSVG } from '@/svg';
-import { getYearOrMonth } from '@/utils/date/index';
+import { GithubSVG, LinkedInSVG, TwitterSVG } from '@/svg';
+import { getYearOrMonth } from '@/utils/date';
 
 export const SOCIAL_SVG = {
   github: GithubSVG,
-  linkedin: LinkedinSVG,
+  linkedin: LinkedInSVG,
   twitter: TwitterSVG,
 };
 
@@ -65,10 +65,10 @@ export const TEAM_MEMBERS = [
         year: 2019,
       },
       true
-    )} in web development, ${getYearOrMonth(
+    )} in web development. ${getYearOrMonth(
       { month: 7, year: 2021 },
       true
-    )} in the crypto. React ninja working on Interest Protocol interface.`,
+    )} in crypto. A React ninja working on Interest Protocol's interface.`,
   },
   {
     name: 'António Kipanda',

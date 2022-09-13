@@ -1,6 +1,6 @@
 import { FC, SVGAttributes } from 'react';
 
-const Linkedin: FC<SVGAttributes<SVGSVGElement>> = (props) => (
+const LinkedIn: FC<SVGAttributes<SVGSVGElement>> = (props) => (
   <svg viewBox="0 0 22 22" fill="none" {...props}>
     <path
       fillRule="evenodd"
@@ -11,4 +11,4 @@ const Linkedin: FC<SVGAttributes<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-export default Linkedin;
+export default LinkedIn;
