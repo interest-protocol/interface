@@ -1,12 +1,7 @@
 import { always, ifElse, isNil, toString } from 'ramda';
 import { ChangeEvent } from 'react';
 
-import {
-  Fraction,
-  MAX_NUMBER_INPUT_VALUE,
-  Rounding,
-  TOKEN_SYMBOL,
-} from '@/sdk';
+import { Fraction, MAX_NUMBER_INPUT_VALUE, Rounding } from '@/sdk';
 
 const isExponential = (number: number) => number.toString().includes('e');
 
@@ -34,9 +29,7 @@ const treatDecimals = (money: number, maxDecimals: number) => {
   const integralDigits = integralPart.toString().length;
 
   const newMoney = Number(
-    integralDigits > 12
-      ? `${integralPart.slice(0, -12)}.${integralPart.slice(-12, -10)}`
-      : integralDigits > 9
+    integralDigits > 9
       ? `${integralPart.slice(0, -9)}.${integralPart.slice(-9, -7)}`
       : integralDigits > 6
       ? `${integralPart.slice(0, -6)}.${integralPart.slice(-6, -4)}`
@@ -83,13 +76,7 @@ export const formatMoney = (money: number, maxFractionDigits = 20): string => {
     maximumFractionDigits,
     minimumFractionDigits,
   }).format(newMoney)}${
-    integralDigits > 12
-      ? 'T'
-      : integralDigits > 9
-      ? 'B'
-      : integralDigits > 6
-      ? 'M'
-      : ''
+    integralDigits > 9 ? 'B' : integralDigits > 6 ? 'M' : ''
   }`.slice(1);
 };
 
@@ -117,7 +104,7 @@ export const makeSWRKey = (
 export const parseInputEventToNumberString = (
   event: ChangeEvent<HTMLInputElement>,
   max: number = MAX_NUMBER_INPUT_VALUE
-): string => {
+) => {
   const value = event.target.value;
 
   const x =
@@ -133,8 +120,3 @@ export const parseInputEventToNumberString = (
     ? String(Number(x))
     : x;
 };
-
-export const maybeLPTokenName = (symbol0?: string, symbol1?: string): string =>
-  `${symbol0 ?? ''}${
-    symbol1 && symbol1 !== TOKEN_SYMBOL.Unknown ? `-${symbol1}` : ''
-  }`;

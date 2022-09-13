@@ -10,13 +10,13 @@ import {
   RoutesWithFaucet,
   SOCIAL_MEDIAS,
 } from '@/constants';
-import { Box, Button } from '@/elements';
+import { Box, Button, Dropdown, Typography } from '@/elements';
 import { GitBookSVG } from '@/svg';
 
 import Faucet from '../../faucet';
 
 const Footer: FC = () => {
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
 
   return (
     <Box
@@ -100,29 +100,55 @@ const Footer: FC = () => {
               Earn
             </Button>
           </Link>
-          <Link href={Routes[RoutesEnum.DineroMarket]}>
-            <Button
-              mx="S"
-              as="div"
-              px="1.5rem"
-              fontSize="M"
-              height="3rem"
-              display="flex"
-              variant="primary"
-              alignItems="center"
-              justifyContent="center"
-              boxShadow="0 0 15px rgba(0,0,0,.3)"
-              bg={
-                pathname.includes(Routes[RoutesEnum.DineroMarket])
-                  ? 'accent'
-                  : 'textSoft'
+          <Box>
+            <Dropdown
+              bottom
+              mode="menu"
+              title={
+                <Typography
+                  mx="S"
+                  px="1.5rem"
+                  bg="textSoft"
+                  fontSize="M"
+                  height="3rem"
+                  display="flex"
+                  variant="normal"
+                  borderRadius="M"
+                  alignItems="center"
+                  justifyContent="center"
+                  boxShadow="0 0 15px rgba(0,0,0,.3)"
+                  color={
+                    pathname === Routes[RoutesEnum.DineroMarket] ||
+                    pathname.includes(Routes[RoutesEnum.DineroMarket])
+                      ? 'accent'
+                      : 'inherit'
+                  }
+                  hover={{ bg: 'accent', color: 'text' }}
+                  active={{ bg: 'accentActive', color: 'text' }}
+                >
+                  Borrow
+                </Typography>
               }
-              hover={{ bg: 'accent', color: 'text' }}
-              active={{ bg: 'accentActive', color: 'text' }}
-            >
-              Borrow
-            </Button>
-          </Link>
+              data={[
+                {
+                  value: 'dinero-market',
+                  displayOption: 'Dinero Market',
+                  onSelect: () =>
+                    push(Routes[RoutesEnum.DineroMarket], undefined, {
+                      shallow: true,
+                    }),
+                },
+                {
+                  value: 'mail-market',
+                  displayOption: 'MAIL Market',
+                  onSelect: () =>
+                    push(Routes[RoutesEnum.MAILMarket], undefined, {
+                      shallow: true,
+                    }),
+                },
+              ]}
+            />
+          </Box>
           {RoutesWithFaucet.includes(pathname) && <Faucet />}
         </Box>
       </Container>

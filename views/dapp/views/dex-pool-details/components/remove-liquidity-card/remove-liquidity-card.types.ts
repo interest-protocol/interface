@@ -42,23 +42,6 @@ export interface InputBalanceProps {
   name: keyof IRemoveLiquidityForm;
   register: UseFormRegister<IRemoveLiquidityForm>;
   setValue: UseFormSetValue<IRemoveLiquidityForm>;
-  control: Control<IRemoveLiquidityForm>;
-}
-
-export interface LinearLoaderProps {
-  control: Control<IRemoveLiquidityForm>;
-}
-
-export interface ApproveButtonProps {
-  onClick: () => Promise<undefined | void>;
-  control: Control<IRemoveLiquidityForm>;
-  symbol0: string;
-  symbol1: string;
-}
-
-export interface RemoveLiquidityButtonProps {
-  onClick: () => Promise<undefined | void>;
-  control: Control<IRemoveLiquidityForm>;
 }
 
 export interface TokenAmountProps {

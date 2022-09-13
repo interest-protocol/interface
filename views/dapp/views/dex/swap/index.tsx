@@ -10,12 +10,7 @@ import {
   useIdAccount,
   useLocalStorage,
 } from '@/hooks';
-import {
-  FixedPointMath,
-  TOKEN_SYMBOL,
-  ZERO_ADDRESS,
-  ZERO_BIG_NUMBER,
-} from '@/sdk';
+import { IntMath, TOKEN_SYMBOL, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
 import { CogsSVG } from '@/svg';
 import { isSameAddressZ } from '@/utils';
 
@@ -36,7 +31,7 @@ const Swap: FC = () => {
   const { chainId, account } = useIdAccount();
   const [localSettings, setLocalSettings] = useLocalStorage<LocalSwapSettings>(
     'interest-swap-settings',
-    { slippage: '1', deadline: 5, autoFetch: true }
+    { slippage: '1', deadline: 5 }
   );
 
   const INT = pathOr(UNKNOWN_ERC_20, [chainId, TOKEN_SYMBOL.INT], ERC_20_DATA);
@@ -195,7 +190,7 @@ const Swap: FC = () => {
             justifyContent="space-evenly"
           >
             <InputBalance
-              balance={FixedPointMath.toNumber(
+              balance={IntMath.toNumber(
                 pathOr(
                   ZERO_BIG_NUMBER,
                   [getAddress(tokenInAddress), 'balance'],
@@ -205,7 +200,7 @@ const Swap: FC = () => {
                 0,
                 12
               )}
-              max={FixedPointMath.toNumber(
+              max={IntMath.toNumber(
                 pathOr(
                   ZERO_BIG_NUMBER,
                   [getAddress(tokenInAddress), 'balance'],
@@ -263,7 +258,7 @@ const Swap: FC = () => {
               register={register}
               setValue={setValue}
               disabled={isFetchingAmountOutTokenOut}
-              balance={FixedPointMath.toNumber(
+              balance={IntMath.toNumber(
                 pathOr(
                   ZERO_BIG_NUMBER,
                   [getAddress(tokenOutAddress), 'balance'],
@@ -324,21 +319,19 @@ const Swap: FC = () => {
           needsApproval={needsApproval}
         />
       </Box>
-      {localSettings.autoFetch && (
-        <SwapManager
-          control={control}
-          chainId={chainId}
-          setValue={setValue}
-          isFetchingAmountOutTokenIn={isFetchingAmountOutTokenIn}
-          isFetchingAmountOutTokenOut={isFetchingAmountOutTokenOut}
-          hasNoMarket={hasNoMarket}
-          setHasNoMarket={setHasNoMarket}
-          setFetchingAmountOutTokenIn={setFetchingAmountOutTokenIn}
-          setFetchingAmountOutTokenOut={setFetchingAmountOutTokenOut}
-          setSwapBase={setSwapBase}
-          setAmountOutError={setAmountOutError}
-        />
-      )}
+      <SwapManager
+        control={control}
+        chainId={chainId}
+        setValue={setValue}
+        isFetchingAmountOutTokenIn={isFetchingAmountOutTokenIn}
+        isFetchingAmountOutTokenOut={isFetchingAmountOutTokenOut}
+        hasNoMarket={hasNoMarket}
+        setHasNoMarket={setHasNoMarket}
+        setFetchingAmountOutTokenIn={setFetchingAmountOutTokenIn}
+        setFetchingAmountOutTokenOut={setFetchingAmountOutTokenOut}
+        setSwapBase={setSwapBase}
+        setAmountOutError={setAmountOutError}
+      />
     </>
   );
 };

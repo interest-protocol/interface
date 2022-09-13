@@ -1,5 +1,5 @@
 import { pathOr } from 'ramda';
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
@@ -46,153 +46,145 @@ const TableLoading: FC<TableLoadingProps> = ({ columns }) => (
 );
 
 const TableRow: FC<TableRowProps> = ({
-  bg,
   index,
   items,
   button,
   ordinate,
   headings,
   hasButton,
-  separated,
-  desktopBg,
   mobileSide,
   handleClick,
   specialRowHover,
-}) => {
-  const incomingBg = bg ?? 'foreground';
-  const incomingDesktopBg = desktopBg ?? 'unset';
-
-  return (
-    <>
+  bg = 'foreground',
+  desktopBg = 'unset',
+}) => (
+  <>
+    <Box
+      bg={desktopBg}
+      transition="none"
+      border="1px solid"
+      onClick={handleClick}
+      borderColor="transparent"
+      display={['none', 'none', 'none', 'block']}
+      cursor={handleClick ? 'pointer' : 'normal'}
+      {...(specialRowHover && {
+        borderRadius: 'L',
+      })}
+      hover={
+        specialRowHover
+          ? {
+              borderColor: 'accent',
+            }
+          : {
+              bg: handleClick ? 'bottomBackground' : 'transparent',
+            }
+      }
+    >
       <Box
-        transition="none"
-        border="1px solid"
-        onClick={handleClick}
-        borderColor="transparent"
-        my={separated ? 'M' : 'unset'}
-        borderRadius={separated ? 'L' : 'unset'}
-        display={['none', 'none', 'none', 'block']}
-        cursor={handleClick ? 'pointer' : 'normal'}
-        bg={desktopBg ? incomingDesktopBg : separated ? 'foreground' : 'unset'}
-        {...(specialRowHover && {
-          borderRadius: 'L',
-        })}
-        hover={
-          specialRowHover || separated
-            ? {
-                borderColor: 'accent',
-              }
-            : {
-                bg: handleClick ? 'bottomBackground' : 'transparent',
-              }
-        }
+        py="M"
+        px="XL"
+        role="row"
+        display="grid"
+        alignItems="center"
+        gridTemplateColumns={`1.5fr repeat(${
+          headings.length + (ordinate ? 1 : 0) + (hasButton ? 1 : 0) - 1
+        }, 1fr)`}
       >
+        {ordinate && (
+          <Cell as="td" key={v4()}>
+            {index + 1}
+          </Cell>
+        )}
+        {items.map((item) => (
+          <Cell as="td" key={v4()}>
+            {item}
+          </Cell>
+        ))}
+        {button && <Cell as="td">{button}</Cell>}
+      </Box>
+    </Box>
+    <Box
+      mt="M"
+      bg={bg}
+      borderRadius="M"
+      onClick={handleClick}
+      display={['block', 'block', 'block', 'none']}
+      hover={{
+        bg: handleClick ? 'bottomBackground' : 'transparent',
+      }}
+    >
+      <Box display="flex" p="L">
         <Box
-          py="M"
-          px="XL"
-          role="row"
-          display="grid"
+          my="L"
+          mx="M"
+          display="flex"
           alignItems="center"
-          gridTemplateColumns={`1.5fr repeat(${
-            headings.length + (ordinate ? 1 : 0) + (hasButton ? 1 : 0) - 1
+          flexDirection="column"
+          justifyContent="space-evenly"
+        >
+          {mobileSide}
+          {!!button && button}
+        </Box>
+        <Box
+          key={v4()}
+          display="grid"
+          borderRadius="M"
+          overflow="hidden"
+          gridAutoFlow="column"
+          gridTemplateRows={`repeat(${
+            headings.length + (ordinate ? 1 : 0)
           }, 1fr)`}
         >
           {ordinate && (
-            <Cell as="td" key={v4()}>
+            <Typography
+              py="M"
+              px="M"
+              fontSize="S"
+              variant="normal"
+              color="textSecondary"
+            >
+              Nº
+            </Typography>
+          )}
+          {headings.map(({ item }) => (
+            <Typography
+              py="M"
+              px="M"
+              key={v4()}
+              fontSize="S"
+              variant="normal"
+              color="textSecondary"
+            >
+              {item}
+            </Typography>
+          ))}
+          {ordinate && (
+            <Box
+              py="M"
+              px="M"
+              borderBottom="0.1rem solid"
+              borderColor="textDescriptionHigh"
+            >
               {index + 1}
-            </Cell>
+            </Box>
           )}
           {items.map((item) => (
-            <Cell as="td" key={v4()}>
-              {item}
-            </Cell>
-          ))}
-          {button && <Cell as="td">{button}</Cell>}
-        </Box>
-      </Box>
-      <Box
-        mt="M"
-        bg={incomingBg}
-        borderRadius="M"
-        onClick={handleClick}
-        display={['block', 'block', 'block', 'none']}
-        hover={{
-          bg: handleClick ? 'bottomBackground' : 'transparent',
-        }}
-      >
-        <Box display="flex" p="L">
-          <Box
-            my="L"
-            mx="M"
-            display="flex"
-            alignItems="center"
-            flexDirection="column"
-            justifyContent="space-evenly"
-          >
-            {mobileSide}
-            {!!button && button}
-          </Box>
-          <Box
-            key={v4()}
-            display="grid"
-            borderRadius="M"
-            overflow="hidden"
-            gridAutoFlow="column"
-            gridTemplateRows={`repeat(${
-              headings.length + (ordinate ? 1 : 0)
-            }, 1fr)`}
-          >
-            {ordinate && (
-              <Typography
-                py="M"
-                px="M"
-                fontSize="S"
-                variant="normal"
-                color="textSecondary"
-              >
-                Nº
-              </Typography>
-            )}
-            {headings.map(({ item }) => (
-              <Typography
-                py="M"
-                px="M"
-                key={v4()}
-                fontSize="S"
-                variant="normal"
-                color="textSecondary"
-              >
+            <Box
+              key={v4()}
+              display="flex"
+              alignItems="stretch"
+              flexDirection="column"
+            >
+              <Box py="M" px="M">
                 {item}
-              </Typography>
-            ))}
-            {ordinate && (
-              <Box
-                py="M"
-                px="M"
-                borderBottom="0.1rem solid"
-                borderColor="textDescriptionHigh"
-              >
-                {index + 1}
               </Box>
-            )}
-            {items.map((item) => (
-              <Box
-                key={v4()}
-                display="flex"
-                alignItems="stretch"
-                flexDirection="column"
-              >
-                <Box py="M" px="M">
-                  {item}
-                </Box>
-              </Box>
-            ))}
-          </Box>
+            </Box>
+          ))}
         </Box>
       </Box>
-    </>
-  );
-};
+    </Box>
+  </>
+);
 
 const Table: FC<ResponsiveTableProps> = ({
   data,
@@ -201,123 +193,106 @@ const Table: FC<ResponsiveTableProps> = ({
   headings,
   hasButton,
   isDesktop,
-  separated,
   specialRowHover,
   backgroundColorMap,
-}) => {
-  const [desktop, setDesktop] = useState(!!isDesktop);
-
-  const handleSetDesktop = useCallback(() => {
-    const mediaIsDesktop = window.matchMedia('(min-width: 64em)').matches;
-    setDesktop(mediaIsDesktop);
-  }, []);
-
-  useEffect(() => {
-    handleSetDesktop();
-    window.addEventListener('resize', handleSetDesktop);
-    return () => window.removeEventListener('resize', handleSetDesktop);
-  }, []);
-
-  return (
-    <>
-      {desktop ? (
-        <Box
-          my="L"
-          overflow="hidden"
-          borderColor="textDescription"
-          display={['none', 'none', 'none', 'block']}
-        >
-          <Box role="table" width="100%" overflowX="auto" overflowY="hidden">
-            <Box
-              my="M"
-              py="M"
-              px="XL"
-              role="row"
-              fontSize="S"
-              display="grid"
-              bg="foreground"
-              borderRadius="L"
-              alignItems="center"
-              color="textSecondary"
-              gridTemplateColumns={`1.5fr repeat(${
-                headings.length + (ordinate ? 1 : 0) + (hasButton ? 1 : 0) - 1
-              }, 1fr)`}
-            >
-              {ordinate && <Cell as="th">Nº</Cell>}
-              {headings.map(({ item, tip }) => (
-                <Cell as="th" key={v4()} tip={tip}>
-                  {item}
-                </Cell>
-              ))}
-              {hasButton && <Cell as="th" />}
-            </Box>
-            <Box
-              my="M"
-              overflow="hidden"
-              bg={separated ? 'unset' : 'foreground'}
-              borderRadius={separated ? 'unset' : 'L'}
-            >
-              {loading ? (
-                <TableLoading columns={headings.length + (ordinate ? 1 : 0)} />
-              ) : (
-                data.map(({ items, button, handleClick }, index) => (
-                  <TableRow
-                    isDesktop
-                    key={v4()}
-                    index={index}
-                    items={items}
-                    button={button}
-                    ordinate={ordinate}
-                    headings={headings}
-                    separated={separated}
-                    mobileSide={undefined}
-                    hasButton={!!hasButton}
-                    handleClick={handleClick}
-                    desktopBg={
-                      backgroundColorMap
-                        ? pathOr(
-                            undefined,
-                            [index.toString(), 'desktopBg'],
-                            backgroundColorMap
-                          )
-                        : undefined
-                    }
-                    specialRowHover={specialRowHover}
-                  />
-                ))
-              )}
-            </Box>
+}) => (
+  <>
+    {isDesktop ? (
+      <Box
+        my="L"
+        overflow="hidden"
+        borderColor="textDescription"
+        display={['none', 'none', 'none', 'block']}
+      >
+        <Box role="table" width="100%" overflowX="auto" overflowY="hidden">
+          <Box
+            my="M"
+            py="M"
+            px="XL"
+            role="row"
+            fontSize="S"
+            display="grid"
+            bg="foreground"
+            borderRadius="L"
+            alignItems="center"
+            color="textSecondary"
+            gridTemplateColumns={`1.5fr repeat(${
+              headings.length + (ordinate ? 1 : 0) + (hasButton ? 1 : 0) - 1
+            }, 1fr)`}
+          >
+            {ordinate && <Cell as="th">Nº</Cell>}
+            {headings.map(({ item, tip }) => (
+              <Cell as="th" key={v4()} tip={tip}>
+                {item}
+              </Cell>
+            ))}
+            {hasButton && <Cell as="th" />}
+          </Box>
+          <Box bg="foreground" borderRadius="L" my="M" overflow="hidden">
+            {loading ? (
+              <TableLoading columns={headings.length + (ordinate ? 1 : 0)} />
+            ) : (
+              data.map(({ items, button, handleClick }, index) => (
+                <TableRow
+                  isDesktop
+                  key={v4()}
+                  index={index}
+                  items={items}
+                  button={button}
+                  ordinate={ordinate}
+                  headings={headings}
+                  mobileSide={undefined}
+                  hasButton={!!hasButton}
+                  handleClick={handleClick}
+                  desktopBg={
+                    backgroundColorMap
+                      ? pathOr(
+                          undefined,
+                          [index.toString(), 'desktopBg'],
+                          backgroundColorMap
+                        )
+                      : undefined
+                  }
+                  specialRowHover={specialRowHover}
+                />
+              ))
+            )}
           </Box>
         </Box>
-      ) : (
-        <Box my="XL" width="100%" display={['block', 'block', 'block', 'none']}>
-          {data.map(({ items, button, mobileSide, handleClick }, index) => (
-            <TableRow
-              key={v4()}
-              index={index}
-              items={items}
-              button={button}
-              ordinate={ordinate}
-              headings={headings}
-              hasButton={!!hasButton}
-              mobileSide={mobileSide}
-              handleClick={handleClick}
-              bg={
-                backgroundColorMap
-                  ? pathOr(
-                      undefined,
-                      [index.toString(), 'bg'],
-                      backgroundColorMap
-                    )
-                  : undefined
-              }
-            />
-          ))}
-        </Box>
-      )}
-      <Tooltip />
-    </>
-  );
-};
+      </Box>
+    ) : (
+      <Box
+        mx="M"
+        my="XL"
+        width="100%"
+        display={['block', 'block', 'block', 'none']}
+      >
+        {data.map(({ items, button, mobileSide, handleClick }, index) => (
+          <TableRow
+            key={v4()}
+            index={index}
+            items={items}
+            button={button}
+            ordinate={ordinate}
+            headings={headings}
+            hasButton={!!hasButton}
+            mobileSide={mobileSide}
+            handleClick={handleClick}
+            bg={
+              backgroundColorMap
+                ? pathOr(
+                    undefined,
+                    [index.toString(), 'bg'],
+                    backgroundColorMap
+                  )
+                : undefined
+            }
+          />
+        ))}
+      </Box>
+    )}
+    <Tooltip />
+  </>
+);
 
 export default Table;

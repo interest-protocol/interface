@@ -5,7 +5,7 @@ import { useForm, useWatch } from 'react-hook-form';
 import { addAllowance, removeLiquidity } from '@/api';
 import { Box, Button, Typography } from '@/elements';
 import { useGetSigner } from '@/hooks';
-import { FixedPointMath } from '@/sdk';
+import { IntMath } from '@/sdk';
 import { LineLoaderSVG } from '@/svg';
 import {
   getInterestDexRouterAddress,
@@ -19,28 +19,15 @@ import {
 import { getBNPercent } from '@/utils';
 import { WalletGuardButton } from '@/views/dapp/components';
 
-import ApproveButton from './approve-button';
 import InputBalance from './input-balance';
-import RemoveLiquidityButton from './remove-liquidity-button';
 import {
   IRemoveLiquidityForm,
-  LinearLoaderProps,
   RemoveLiquidityCardProps,
 } from './remove-liquidity-card.types';
 import RemoveLiquidityManager from './remove-liquidity-manager';
 import TokenAmount from './token-amount';
 
 const to97Percent = getBNPercent(97);
-
-const LinearLoader: FC<LinearLoaderProps> = ({ control }) => {
-  const loading = useWatch({ control, name: 'loading' });
-
-  return loading ? (
-    <Box mb="L">
-      <LineLoaderSVG width="100%" />
-    </Box>
-  ) : null;
-};
 
 const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
   tokens,
@@ -63,9 +50,14 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
       },
     });
 
+  const loading = useWatch({ control, name: 'loading' });
+
+  const setLoading = (value: boolean) => setValue('loading', value);
+
   const approveToken = async () => {
     try {
-      setValue('loading', true);
+      setLoading(true);
+
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
         chainId,
@@ -84,7 +76,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
     } catch {
       throwError(`Failed to approve ${tokens[0].symbol}`);
     } finally {
-      setValue('loading', false);
+      setLoading(false);
       await mutate();
     }
   };
@@ -98,7 +90,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
 
   const remove = async () => {
     try {
-      setValue('loading', true);
+      setLoading(true);
 
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -136,10 +128,10 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
       );
 
       await showTXSuccessToast(tx, validId);
-    } catch {
+    } catch (e) {
       throwError('Failed to remove liquidity');
     } finally {
-      setValue('loading', false);
+      setLoading(false);
       await mutate();
     }
   };
@@ -165,11 +157,10 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
       </Box>
       <InputBalance
         name="lpAmount"
-        control={control}
         register={register}
         setValue={setValue}
-        balance={FixedPointMath.toNumber(lpBalance)}
-        disabled={lpAllowance.isZero() || lpBalance.isZero()}
+        balance={IntMath.toNumber(lpBalance)}
+        disabled={lpAllowance.isZero() || lpBalance.isZero() || loading}
         currencyPrefix={
           <Box display="flex" width="5rem">
             {tokens[0].Icon}
@@ -180,7 +171,11 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
           </Box>
         }
       />
-      <LinearLoader control={control} />
+      {loading && (
+        <Box mb="L">
+          <LineLoaderSVG width="100%" />
+        </Box>
+      )}
       <Box
         my="L"
         rowGap="1rem"
@@ -220,12 +215,15 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
           gridTemplateColumns={lpAllowance.isZero() ? '1fr' : '1fr 1fr'}
         >
           {lpAllowance.isZero() ? (
-            <ApproveButton
-              control={control}
+            <Button
+              bg="accent"
+              width="100%"
+              variant="primary"
+              hover={{ bg: 'accentActive' }}
               onClick={handleApproveToken}
-              symbol0={tokens[0].symbol}
-              symbol1={tokens[1].symbol}
-            />
+            >
+              Approve {tokens[0].symbol}/{tokens[1].symbol} LP
+            </Button>
           ) : (
             <>
               <Button
@@ -239,10 +237,15 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
               >
                 Reset
               </Button>
-              <RemoveLiquidityButton
-                control={control}
+              <Button
+                bg="error"
+                width="100%"
+                variant="primary"
+                hover={{ bg: 'errorActive' }}
                 onClick={handleRemoveLiquidity}
-              />
+              >
+                Remove
+              </Button>
             </>
           )}
         </Box>

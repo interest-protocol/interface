@@ -13,6 +13,8 @@ export const SUPPORTED_CHAINS_RECORD = {
   [Routes[RoutesEnum.DineroMarket]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DineroMarketRepay]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DineroMarketBorrow]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.MAILMarket]]: [CHAIN_ID.RINKEBY],
+  [Routes[RoutesEnum.MAILMarketPool]]: [CHAIN_ID.RINKEBY],
   [Routes[RoutesEnum.DEX]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DEXPool]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DEXFindPool]]: [CHAIN_ID.BNB_TEST_NET],
@@ -105,3 +107,7 @@ export const isChainIdSupported = includes(__, [
 
 export const getNativeCurrencySymbol = (chainId: number): string =>
   pathOr('???', [chainId.toString(), 'nativeCurrency', 'symbol'], CHAINS);
+
+export const supportsMAILMarkets = includes(__, [CHAIN_ID.RINKEBY]);
+
+export const supportsDineroMarkets = includes(__, [CHAIN_ID.BNB_TEST_NET]);

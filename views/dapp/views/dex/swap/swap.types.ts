@@ -14,7 +14,6 @@ export interface ISwapForm {
 export interface LocalSwapSettings {
   slippage: string; // 20 equals 20%
   deadline: number; // minutes
-  autoFetch: boolean; // minutes
 }
 
 export interface AmountCacheValue {

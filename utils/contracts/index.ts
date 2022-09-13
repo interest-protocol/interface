@@ -1,32 +1,36 @@
 import { ContractReceipt, ethers } from 'ethers';
-import { __, compose, propOr, toString } from 'ramda';
+import { __, compose, pathOr, propOr, toString } from 'ramda';
 
 import CasaDePapelABI from '@/sdk/abi/casa-de-papel.abi.json';
-import DineroERC20MarketABI from '@/sdk/abi/dinero-erc-20-market.abi.json';
-import DineroLpFreeMarketABI from '@/sdk/abi/dinero-lp-free-market.abi.json';
-import DineroNativeMarketABI from '@/sdk/abi/dinero-native-market.abi.json';
 import InterestDexFactoryABI from '@/sdk/abi/interest-dex-factory.abi.json';
 import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
+import InterestERC20MarketABI from '@/sdk/abi/interest-erc-20-market.abi.json';
 import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
 import InterestViewDexABI from '@/sdk/abi/interest-view-dex.abi.json';
-import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
+import InterestViewDineroABI from '@/sdk/abi/interest-view-dinero.abi.json';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
+import InterestViewMAILABI from '@/sdk/abi/interest-view-MAIL.abi.json';
+import MAILDeployerABI from '@/sdk/abi/mail-deployer.abi.json';
 import TokenMinterABI from '@/sdk/abi/token-minter.abi.json';
 import WETHABI from '@/sdk/abi/weth.abi.json';
-import { CONTRACTS } from '@/sdk/constants';
+import {
+  CONTRACTS,
+  DINERO_MARKET_CONTRACT_MAP,
+  TOKEN_SYMBOL,
+} from '@/sdk/constants';
 import { safeGetAddress } from '@/utils/address';
 
 import {
   CasaDePapelAbi,
-  DineroErc20MarketAbi,
-  DineroLpFreeMarketAbi,
-  DineroNativeMarketAbi,
   InterestDexFactoryAbi,
   InterestDexRouterAbi,
+  InterestErc20MarketAbi,
   InterestViewBalancesAbi,
   InterestViewDexAbi,
-  InterestViewDineroV2Abi,
+  InterestViewDineroAbi,
   InterestViewEarnAbi,
+  InterestViewMAILAbi,
+  MailDeployerAbi,
   TokenMinterAbi,
   WethAbi,
 } from '../../types/ethers-contracts';
@@ -34,7 +38,7 @@ import {
   CreateTokenEventArgs,
   GetContract,
   GetContractAddress,
-  GetDineroMarketSignerContract,
+  GetDineroSignerContract,
   GetSignerContract,
 } from './contracts.types';
 
@@ -52,6 +56,10 @@ export const getInterestViewMAILAddress: GetContractAddress = makeGetAddress(
 export const getInterestViewBalancesAddress: GetContractAddress =
   makeGetAddress(CONTRACTS.INTEREST_VIEW_BALANCES);
 
+export const getInterestViewDineroAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.INTEREST_VIEW_DINERO
+);
+
 export const getCasaDePapelAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.CASA_DE_PAPEL
 );
@@ -64,8 +72,15 @@ export const getInterestViewDexAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.INTEREST_VIEW_DEX
 );
 
-export const getInterestViewDineroV2Address: GetContractAddress =
-  makeGetAddress(CONTRACTS.INTEREST_VIEW_DINERO_V2);
+export const getDineroMarketAddress = (
+  chainId: number,
+  symbol: TOKEN_SYMBOL
+): string =>
+  pathOr(
+    ethers.constants.AddressZero,
+    [chainId, symbol],
+    DINERO_MARKET_CONTRACT_MAP
+  );
 
 export const getBTCAddress: GetContractAddress = makeGetAddress(CONTRACTS.BTC);
 
@@ -139,29 +154,31 @@ export const getInterestViewBalancesContract: GetContract<InterestViewBalancesAb
       provider
     ) as InterestViewBalancesAbi;
 
-export const getDineroERC20Market: GetDineroMarketSignerContract<DineroErc20MarketAbi> =
-  (signer, marketAddress) =>
+export const getERC20InterestMarket: GetDineroSignerContract<InterestErc20MarketAbi> =
+  (chainId, tokenSymbol, signer) =>
     new ethers.Contract(
-      marketAddress,
-      DineroERC20MarketABI,
+      getDineroMarketAddress(chainId, tokenSymbol),
+      InterestERC20MarketABI,
       signer
-    ) as DineroErc20MarketAbi;
+    ) as InterestErc20MarketAbi;
 
-export const getDineroNativeMarket: GetDineroMarketSignerContract<DineroNativeMarketAbi> =
-  (signer, marketAddress) =>
-    new ethers.Contract(
-      marketAddress,
-      DineroNativeMarketABI,
-      signer
-    ) as DineroNativeMarketAbi;
+export const getInterestViewMAILContract: GetContract<InterestViewMAILAbi> = (
+  chainId,
+  provider
+) =>
+  new ethers.Contract(
+    getInterestViewMAILAddress(chainId),
+    InterestViewMAILABI,
+    provider
+  ) as InterestViewMAILAbi;
 
-export const getDineroLPFreeMarket: GetDineroMarketSignerContract<DineroLpFreeMarketAbi> =
-  (signer, marketAddress) =>
+export const getInterestViewDineroContract: GetContract<InterestViewDineroAbi> =
+  (chainId, provider) =>
     new ethers.Contract(
-      marketAddress,
-      DineroLpFreeMarketABI,
-      signer
-    ) as DineroLpFreeMarketAbi;
+      getInterestViewDineroAddress(chainId),
+      InterestViewDineroABI,
+      provider
+    ) as InterestViewDineroAbi;
 
 export const getInterestViewEarnContract: GetContract<InterestViewEarnAbi> = (
   chainID,
@@ -172,6 +189,14 @@ export const getInterestViewEarnContract: GetContract<InterestViewEarnAbi> = (
     InterestViewEarnABI,
     provider
   ) as InterestViewEarnAbi;
+
+export const getMAILDeployerSignerContract: GetSignerContract<MailDeployerAbi> =
+  (chainId, signer) =>
+    new ethers.Contract(
+      getMAILDeployerAddress(chainId),
+      MAILDeployerABI,
+      signer
+    ) as MailDeployerAbi;
 
 export const getTokenMinterSignerContract: GetSignerContract<TokenMinterAbi> = (
   chainId,
@@ -221,13 +246,3 @@ export const getInterestDexFactoryContract: GetContract<InterestDexFactoryAbi> =
       InterestDexFactoryABI,
       provider
     ) as InterestDexFactoryAbi;
-
-export const getInterestViewDineroV2: GetContract<InterestViewDineroV2Abi> = (
-  chainId,
-  provider
-) =>
-  new ethers.Contract(
-    getInterestViewDineroV2Address(chainId),
-    InterestViewDineroV2ABI,
-    provider
-  ) as InterestViewDineroV2Abi;

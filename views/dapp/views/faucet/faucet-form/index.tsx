@@ -14,7 +14,7 @@ import {
 } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useGetSigner, useIdAccount } from '@/hooks';
-import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
+import { IntMath, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import {
@@ -86,7 +86,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
         validSigner,
         getTokenMinter(validId, token),
         account,
-        FixedPointMath.toBigNumber(safeAmount, decimals)
+        IntMath.toBigNumber(safeAmount, decimals)
       );
 
       await showTXSuccessToast(tx, validId);
@@ -221,9 +221,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
                       <Box display="flex" alignItems="center">
                         <SVG width="1rem" />
                         <Typography ml="M" variant="normal">
-                          {formatMoney(
-                            FixedPointMath.toNumber(balance, decimals)
-                          )}
+                          {formatMoney(IntMath.toNumber(balance, decimals))}
                         </Typography>
                       </Box>
                       <Box

@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers';
 
-import { FixedPointMath } from '@/sdk';
+import { IntMath } from '@/sdk';
 
 import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestViewEarnAbi';
 
@@ -19,9 +19,9 @@ export interface SafeUserFarmData {
   token1: string;
   token0: string;
   totalStakedAmount: BigNumber;
-  allocation: FixedPointMath;
+  allocation: IntMath;
   tvl: number;
-  apr: FixedPointMath;
+  apr: IntMath;
   stable: boolean;
   isLive: boolean;
   stakingAmount: BigNumber;

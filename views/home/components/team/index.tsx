@@ -96,7 +96,8 @@ const Team: FC = always(
                   </Box>
                 </Box>
                 <Box
-                  p="XL"
+                  px="L"
+                  py="XL"
                   height="100%"
                   display="flex"
                   bg="foreground"
@@ -117,6 +118,7 @@ const Team: FC = always(
                     variant="normal"
                     lineHeight="1.6"
                     textAlign="left"
+                    fontSize="0.9rem"
                   >
                     {bio}
                   </Typography>

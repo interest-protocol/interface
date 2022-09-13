@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
-import { IAddLiquidityForm } from '../add-liquidity-card.types';
+import { IAddLiquidityForm } from '../liquidity-form.types';
 
 export interface InputBalanceProps {
   balance: number;

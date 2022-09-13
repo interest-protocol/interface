@@ -64,7 +64,7 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => (
       </Box>
       <Box>
         <Typography variant="normal" fontSize="S" mb="L">
-          Status
+          State
         </Typography>
         {farm.isLive ? 'Live' : 'Finished'}
       </Box>

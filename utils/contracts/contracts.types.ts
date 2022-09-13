@@ -2,6 +2,8 @@ import { Result } from '@ethersproject/abi';
 import { JsonRpcSigner, StaticJsonRpcProvider } from '@ethersproject/providers';
 import { BigNumber } from 'ethers';
 
+import { TOKEN_SYMBOL } from '@/sdk';
+
 export type GetContractAddress = (chainId: number) => string;
 
 export type GetContract<T> = (
@@ -14,9 +16,10 @@ export type GetSignerContract<T> = (
   signer: JsonRpcSigner
 ) => T;
 
-export type GetDineroMarketSignerContract<T> = (
-  provider: JsonRpcSigner,
-  marketAddress: string
+export type GetDineroSignerContract<T> = (
+  chainId: number,
+  tokenSymbol: TOKEN_SYMBOL,
+  provider: JsonRpcSigner
 ) => T;
 
 export interface CreateTokenEventArgs extends Result {

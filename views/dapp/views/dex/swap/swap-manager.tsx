@@ -5,7 +5,7 @@ import { useWatch } from 'react-hook-form';
 import { getAmountsOut } from '@/api';
 import { SWAP_BASES, WRAPPED_NATIVE_TOKEN } from '@/constants';
 import { useDebounce } from '@/hooks';
-import { CHAIN_ID, FixedPointMath } from '@/sdk';
+import { CHAIN_ID, IntMath } from '@/sdk';
 import {
   getWETHAddress,
   isSameAddress,
@@ -113,7 +113,7 @@ const SwapManager: FC<SwapManagerProps> = ({
           return;
         }
 
-        const value = FixedPointMath.toNumber(
+        const value = IntMath.toNumber(
           data.amountOut,
           tokenIn.decimals,
           0,
@@ -151,7 +151,6 @@ const SwapManager: FC<SwapManagerProps> = ({
   // We need to disable tokenIn input and fetch a value
   useEffect(() => {
     if (isFetchingAmountOutTokenIn || tokenOut.setByUser) return;
-
     const key = `${tokenOutAddress}-${tokenInAddress}-${debouncedTokenInValue}`;
 
     if (
@@ -211,7 +210,7 @@ const SwapManager: FC<SwapManagerProps> = ({
           return;
         }
 
-        const value = FixedPointMath.toNumber(
+        const value = IntMath.toNumber(
           data.amountOut,
           tokenOut.decimals,
           0,

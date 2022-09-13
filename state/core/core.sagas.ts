@@ -13,7 +13,7 @@ import {
 
 import { getAccountNativeBalance } from '@/api';
 import { LoadingState } from '@/constants';
-import { isChainIdSupported } from '@/constants/chains';
+import { isChainIdSupported, supportsMAILMarkets } from '@/constants/chains';
 import { getAccount, getChainId } from '@/state/core/core.selectors';
 import { ConnectWalletPayload } from '@/state/core/core.types';
 import { userBalancesSlice } from '@/state/user-balances';
@@ -57,11 +57,13 @@ function* connectWallet(action: PayloadAction<ConnectWalletPayload>) {
         chainId,
         user: account,
         // TODO Improve the logic when more chains are added
-        tokens: [
-          getIntAddress(chainId),
-          getDNRAddress(chainId),
-          getBTCAddress(chainId),
-        ],
+        tokens: supportsMAILMarkets(chainId)
+          ? []
+          : [
+              getIntAddress(chainId),
+              getDNRAddress(chainId),
+              getBTCAddress(chainId),
+            ],
       })
     );
   }

@@ -3,14 +3,14 @@ import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import { Routes, RoutesEnum } from '@/constants/routes';
-import { Box, Typography } from '@/elements';
+import { Box, Dropdown, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
 import { Wallet } from '../../index';
 import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
 
   return (
     <Box
@@ -91,21 +91,46 @@ const Header: FC = () => {
             Earn
           </Typography>
         </Link>
-        <Link href={Routes[RoutesEnum.DineroMarket]}>
-          <Typography
-            px="XL"
-            cursor="pointer"
-            variant="normal"
-            color={
-              pathname.includes(Routes[RoutesEnum.DineroMarket])
-                ? 'accent'
-                : 'inherit'
+        <Box>
+          <Dropdown
+            title={
+              <Typography
+                px="XL"
+                cursor="pointer"
+                variant="normal"
+                color={
+                  pathname === Routes[RoutesEnum.DineroMarket] ||
+                  pathname.includes(Routes[RoutesEnum.DineroMarketBorrow]) ||
+                  pathname.includes(Routes[RoutesEnum.DineroMarketRepay])
+                    ? 'accent'
+                    : 'inherit'
+                }
+                hover={{ color: 'accentActive' }}
+              >
+                Borrow
+              </Typography>
             }
-            hover={{ color: 'accentActive' }}
-          >
-            Borrow
-          </Typography>
-        </Link>
+            mode="menu"
+            data={[
+              {
+                value: 'dinero-market',
+                displayOption: 'Dinero Market',
+                onSelect: () =>
+                  push(Routes[RoutesEnum.DineroMarket], undefined, {
+                    shallow: true,
+                  }),
+              },
+              {
+                value: 'mail-market',
+                displayOption: 'MAIL Market',
+                onSelect: () =>
+                  push(Routes[RoutesEnum.MAILMarket], undefined, {
+                    shallow: true,
+                  }),
+              },
+            ]}
+          />
+        </Box>
       </Box>
       <Box display="flex" justifyContent="flex-end" alignItems="center">
         <Wallet />

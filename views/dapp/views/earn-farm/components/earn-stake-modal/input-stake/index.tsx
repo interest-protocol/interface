@@ -1,7 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
-import { numberToString, parseInputEventToNumberString } from '@/utils';
+import { parseInputEventToNumberString } from '@/utils';
 
 import { InputStakeProps } from './input-stake.types';
 
@@ -50,7 +50,15 @@ const InputStake: FC<InputStakeProps> = ({
             bg="bottomBackground"
             hover={{ bg: 'accent' }}
             active={{ bg: 'accentActive' }}
-            onClick={() => setValue('value', numberToString(amount))}
+            onClick={() =>
+              setValue(
+                'value',
+                amount.toLocaleString('fullwide', {
+                  useGrouping: false,
+                  maximumSignificantDigits: 6,
+                })
+              )
+            }
           >
             max
           </Button>
