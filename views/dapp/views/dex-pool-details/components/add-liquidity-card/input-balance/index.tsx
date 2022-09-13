@@ -1,7 +1,11 @@
 import { ChangeEvent, FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
-import { formatMoney, parseInputEventToNumberString } from '@/utils';
+import {
+  formatMoney,
+  numberToString,
+  parseInputEventToNumberString,
+} from '@/utils';
 
 import { InputBalanceProps } from './input-balance.types';
 
@@ -22,10 +26,7 @@ const InputBalance: FC<InputBalanceProps> = ({
   return (
     <Box display="flex" flexDirection="column-reverse" alignItems="flex-end">
       <Input
-        max={balance.toLocaleString('fullwide', {
-          useGrouping: false,
-          maximumSignificantDigits: 6,
-        })}
+        max={numberToString(balance)}
         type="text"
         onFocus={onFocus}
         placeholder="0.0"
@@ -36,12 +37,7 @@ const InputBalance: FC<InputBalanceProps> = ({
               name,
               parseInputEventToNumberString(
                 v,
-                balance
-                  ? +balance.toLocaleString('fullwide', {
-                      useGrouping: false,
-                      maximumSignificantDigits: 6,
-                    })
-                  : undefined
+                balance ? +numberToString(balance) : undefined
               )
             );
             setValue('locked', false);
@@ -76,13 +72,7 @@ const InputBalance: FC<InputBalanceProps> = ({
               onClick={() => {
                 if (disabled) return;
                 if (!setValue) return;
-                setValue(
-                  name,
-                  balance.toLocaleString('fullwide', {
-                    useGrouping: false,
-                    maximumSignificantDigits: 6,
-                  })
-                );
+                setValue(name, numberToString(balance));
                 setValue('locked', false);
               }}
             >

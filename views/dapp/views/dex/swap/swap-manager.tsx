@@ -5,11 +5,12 @@ import { useWatch } from 'react-hook-form';
 import { getAmountsOut } from '@/api';
 import { SWAP_BASES, WRAPPED_NATIVE_TOKEN } from '@/constants';
 import { useDebounce } from '@/hooks';
-import { CHAIN_ID, IntMath } from '@/sdk';
+import { CHAIN_ID, FixedPointMath } from '@/sdk';
 import {
   getWETHAddress,
   isSameAddress,
   isZeroAddress,
+  numberToString,
   safeToBigNumber,
 } from '@/utils';
 
@@ -113,15 +114,9 @@ const SwapManager: FC<SwapManagerProps> = ({
           return;
         }
 
-        const value = IntMath.toNumber(
-          data.amountOut,
-          tokenIn.decimals,
-          0,
-          12
-        ).toLocaleString('fullwide', {
-          useGrouping: false,
-          maximumSignificantDigits: 6,
-        });
+        const value = numberToString(
+          FixedPointMath.toNumber(data.amountOut, tokenIn.decimals, 0, 12)
+        );
         setSwapBase(data.base);
         setValue('tokenIn.value', value);
         setHasNoMarket(false);
@@ -151,6 +146,7 @@ const SwapManager: FC<SwapManagerProps> = ({
   // We need to disable tokenIn input and fetch a value
   useEffect(() => {
     if (isFetchingAmountOutTokenIn || tokenOut.setByUser) return;
+
     const key = `${tokenOutAddress}-${tokenInAddress}-${debouncedTokenInValue}`;
 
     if (
@@ -210,15 +206,9 @@ const SwapManager: FC<SwapManagerProps> = ({
           return;
         }
 
-        const value = IntMath.toNumber(
-          data.amountOut,
-          tokenOut.decimals,
-          0,
-          12
-        ).toLocaleString('fullwide', {
-          useGrouping: false,
-          maximumSignificantDigits: 6,
-        });
+        const value = numberToString(
+          FixedPointMath.toNumber(data.amountOut, tokenOut.decimals, 0, 12)
+        );
         setSwapBase(data.base);
         setHasNoMarket(false);
         setValue('tokenOut.value', value);

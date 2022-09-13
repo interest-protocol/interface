@@ -9,7 +9,7 @@ import {
   isChainIdSupported,
 } from '@/constants/chains';
 import { Box, Button, Typography } from '@/elements';
-import { IntMath } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import { getCoreData } from '@/state/core/core.selectors';
 import { CoreState } from '@/state/core/core.types';
@@ -68,7 +68,7 @@ const ConnectedWallet: FC = () => {
         display={['none', 'inline-block']}
       >
         {coreData.loading !== LoadingState.Fetching ? (
-          `${IntMath.from(
+          `${FixedPointMath.from(
             coreData.nativeBalance
           ).toNumber()} ${getNativeCurrencySymbol(chainId || 0)}`
         ) : (

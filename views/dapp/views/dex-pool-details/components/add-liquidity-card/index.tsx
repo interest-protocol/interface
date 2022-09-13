@@ -12,8 +12,8 @@ import {
 } from '@/api';
 import { Box, Button, Typography } from '@/elements';
 import { useChainId, useGetSigner } from '@/hooks';
-import { IntMath, ZERO_ADDRESS } from '@/sdk';
-import { LineLoaderSVG, TimesSVG } from '@/svg';
+import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
+import { LineLoaderSVG } from '@/svg';
 import {
   getBNPercent,
   getInterestDexRouterAddress,
@@ -26,14 +26,15 @@ import {
 } from '@/utils';
 import { WalletGuardButton } from '@/views/dapp/components';
 
-import AddLiquidityManager from './add-liquidity-manager';
-import BalanceError from './balance-error';
-import InputBalance from './input-balance';
+import LiquidityFormMessage from '../liquidity-form-message';
 import {
   AddLiquidityCardProps,
   IAddLiquidityForm,
   IToken,
-} from './liquidity-form.types';
+} from './add-liquidity-card.types';
+import AddLiquidityManager from './add-liquidity-manager';
+import BalanceError from './balance-error';
+import InputBalance from './input-balance';
 
 const filterFn = o<IToken, BigNumber, boolean>(
   (x: BigNumber) => x.isZero(),
@@ -198,28 +199,6 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
 
   const error = useWatch({ control, name: 'error' });
 
-  if (error)
-    return (
-      <Box
-        px="L"
-        py="XL"
-        width="100%"
-        display="flex"
-        bg="foreground"
-        borderRadius="M"
-        alignItems="center"
-        flexDirection="column"
-        justifyContent="center"
-      >
-        <Box color="error">
-          <TimesSVG width="5rem" />
-        </Box>
-        <Typography variant="normal">
-          ERROR! Fail to quote add liquidity!
-        </Typography>
-      </Box>
-    );
-
   return (
     <Box bg="foreground" p="L" borderRadius="M" width="100%">
       <Box mb="L">
@@ -238,7 +217,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
           register={register}
           setValue={setValue}
           name={INPUT_NAMES[index]}
-          balance={IntMath.toNumber(balance, decimals)}
+          balance={FixedPointMath.toNumber(balance, decimals)}
           disabled={loading || isFetchingQuote || allowance.isZero()}
           currencyPrefix={
             fetchingInitialData ? (
@@ -269,6 +248,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
       <Box mb="L">
         {(loading || isFetchingQuote) && <LineLoaderSVG width="100%" />}
       </Box>
+      {error && <LiquidityFormMessage color="error" message={error} />}
       {tokens.map(({ symbol, decimals, balance }, index) => (
         <BalanceError
           key={v4()}
@@ -332,7 +312,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
                 onClick={handleAddLiquidity}
                 hover={{ bg: loading ? 'disabled' : 'accentActive' }}
               >
-                Add
+                {loading ? 'Adding...' : 'Add'}
               </Button>
             </>
           )}

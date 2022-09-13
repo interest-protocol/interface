@@ -24,6 +24,7 @@ export interface ResponsiveTableProps {
   loading?: boolean;
   ordinate?: boolean;
   isDesktop?: boolean;
+  separated?: boolean;
   specialRowHover?: boolean;
   data: ReadonlyArray<IRow>;
   hasButton?: string | boolean;
@@ -37,6 +38,7 @@ export interface TableRowProps {
   button: ReactNode;
   ordinate?: boolean;
   hasButton: boolean;
+  separated?: boolean;
   isDesktop?: boolean;
   mobileSide: ReactNode;
   handleClick?: () => void;
