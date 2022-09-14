@@ -76,6 +76,10 @@
     "live": "ao vivo",
     "finished": "terminado",
     "select": "selecione",
-    "checking": "verificando"
+    "checking": "verificando",
+    "seoDescription": "Use as suas crypto para pedir emprestado Dinero, uma moeda estável, de graça.",
+    "roleCFO": "Co-Fundador & CFO",
+    "roleCEO": "Co-Fundador & CEO",
+    "developer": "desenvolvedor"
   }
 }

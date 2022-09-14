@@ -6,6 +6,7 @@ import { v4 } from 'uuid';
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
+import { capitalize } from '@/utils';
 
 import { SOCIAL_SVG, TEAM_MEMBERS } from './team.data';
 import { FlipMemberCard, Image } from './team.styles';
@@ -48,7 +49,7 @@ const Team: FC = () => {
             '1fr 1fr 1fr',
           ]}
         >
-          {TEAM_MEMBERS.map(({ name, role, social, image, bio }) => (
+          {TEAM_MEMBERS.map(({ name, role, social, image, bio, depsBio }) => (
             <Box key={v4()} as="article">
               <FlipMemberCard height={['23rem', '22rem']}>
                 <Box
@@ -120,7 +121,7 @@ const Team: FC = () => {
                       textAlign="left"
                       fontSize="0.9rem"
                     >
-                      {bio}
+                      {t(bio, depsBio)}
                     </Typography>
                   </Box>
                 </Box>
@@ -134,7 +135,7 @@ const Team: FC = () => {
               >
                 {name}
               </Typography>
-              <Typography variant="normal">{role}</Typography>
+              <Typography variant="normal">{capitalize(t(role))}</Typography>
               <Box mt="M">
                 {toPairs(social).map(([network, link]) => {
                   const Icon = SOCIAL_SVG[network];

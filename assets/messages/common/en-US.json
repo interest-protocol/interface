@@ -76,6 +76,10 @@
     "live": "live",
     "finished": "finished",
     "select": "select",
-    "checking": "checking"
+    "checking": "checking",
+    "seoDescription": "Use your crypto to borrow our stablecoin, Dinero, for free.",
+    "roleCFO": "Co-Founder & CFO",
+    "roleCEO": "Co-Founder & CEO",
+    "developer": "developer"
   }
 }
