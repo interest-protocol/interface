@@ -140,7 +140,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
           <Typography variant="normal" textTransform="uppercase">
             {t(
               isStake
-                ? 'common.yourBalanceDescription'
+                ? 'common.yourBalance'
                 : 'earnTokenAddress.yourStakedLabel'
             )}
           </Typography>

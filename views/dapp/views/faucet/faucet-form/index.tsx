@@ -194,7 +194,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
           flexDirection="column"
         >
           <Typography variant="normal" textTransform="uppercase" my="L">
-            {t('common.yourBalanceDescription')}
+            {t('common.yourBalance')}
           </Typography>
           <Box
             display="grid"

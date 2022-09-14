@@ -46,7 +46,7 @@ const FindPool: FC<FindPoolProps> = ({
             options={[
               {
                 value: 'stable',
-                displayValue: capitalize(t('common.stable', { isPlural: 0 })),
+                displayValue: capitalize(t('common.stable', { isPlural: 1 })),
                 onSelect: () => setValue('isStable', true),
               },
               {

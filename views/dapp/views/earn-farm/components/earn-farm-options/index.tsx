@@ -201,7 +201,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
     >
       <EarnCard
         loading={loading}
-        title={t('common.yourBalanceDescription')}
+        title={t('common.yourBalance')}
         amountUSD={formatDollars(
           FixedPointMath.from(farm.stakingTokenPrice)
             .mul(farm.balance)
