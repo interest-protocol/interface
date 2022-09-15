@@ -2,10 +2,10 @@
   "faucet": {
     "firstSectionTitle": "Tokens recomendados",
     "secondSectionTitle": "Meus tokens",
-    "tokenInput": "Escolha o Token",
     "amountInput": "Digite o montante",
-    "modalButton": "{isLoading, plural, =1 {Criando o Token} other {Criar Token}}",
+    "tokenInput": "Escolha o Token",
     "button": "{isLoading, plural, =1 {Minting} other {Mint}}",
+    "modalButton": "{isLoading, plural, =1 {Criando o Token} other {Criar Token}}",
     "modalTitle": "CRIAR NOVO TOKEN",
     "modalInputName": "Nome",
     "modalInputSymbol": "Simbolo",

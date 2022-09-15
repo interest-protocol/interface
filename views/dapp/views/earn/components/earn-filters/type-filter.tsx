@@ -86,7 +86,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
             },
             {
               value: 'stable',
-              displayOption: capitalize(t('common.stable', { count: 0 })),
+              displayOption: capitalize(t('common.stable', { count: 1 })),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography
@@ -94,7 +94,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
                     whiteSpace="nowrap"
                     textTransform="capitalize"
                   >
-                    {t('common.stable', { count: 0 })}
+                    {t('common.stable', { count: 1 })}
                   </Typography>
                 </Box>
               ),

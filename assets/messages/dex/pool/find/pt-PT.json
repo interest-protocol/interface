@@ -3,7 +3,7 @@
     "title": "Procure uma Pool",
     "button": "{isLoading, plural, =1 {Procurando...} other {Procurar e Aceda}}",
     "buttonSameToken": "Escolha tokens diferentes",
-    "buttonPool": "{count, plural, =1 {Criando a Pool...} other {Criar Pool}}",
+    "buttonPool": "{isLoading, plural, =1 {Criando a Pool...} other {Criar Pool}}",
     "balanceError": "Erro a conectar com a blockchain",
     "createPoolTitle": "Esta pool não existe! Por favor, crie uma agora.",
     "switchOption1": "Recomendado",

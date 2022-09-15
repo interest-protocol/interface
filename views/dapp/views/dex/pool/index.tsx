@@ -49,7 +49,7 @@ const Pool: FC = () => {
               },
               {
                 value: PoolType.Stable,
-                displayValue: capitalize(t('common.stable', { count: 0 })),
+                displayValue: capitalize(t('common.stable', { count: 1 })),
                 onSelect: () => setPoolType(PoolType.Stable),
               },
             ]}

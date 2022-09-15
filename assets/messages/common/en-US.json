@@ -11,7 +11,7 @@
     "volatile": "{count, plural, =1 {volatile} other {volatile}}",
     "stable": "{count, plural, =1 {stable} other {stable}}",
     "liquidity": "liquidity",
-    "remove": "{count, plural, =1 {removing} =2 {remove} other {remove}}",
+    "remove": "{isLoading, plural, =1 {removing} other {remove}}",
     "add": "{isLoading, plural, =1 {adding} other {add}}",
     "reset": "reset",
     "state": "state",
@@ -48,7 +48,7 @@
     "initialize": "{isLoading, plural, =1 {initializing} other {initialize}}",
     "connectYourWallet": "connect your wallet",
     "searchTokenInputDescription": "search by name, symbol or address...",
-    "confirm": "{isLoading, plural, =1 {confirming...} other {confirm}}",
+    "confirm": "{isLoading, plural, =1 {confirming} other {confirm}}",
     "cancel": "cancel",
     "all": "all",
     "on": "on",
@@ -56,9 +56,12 @@
     "live": "live",
     "finished": "finished",
     "select": "select",
-    "check": "{count, plural, =1 {checking} other {check}}",
+    "check": "{isLoading, plural, =1 {checking} other {check}}",
     "seoDescription": "Use your crypto to borrow our stablecoin, Dinero, for free.",
     "stake": "{isLoading, plural, =1 {staking} other {stake}}",
-    "unstake": "{isLoading, plural, =1 {unstaking} other {unstake}}"
+    "unstake": "{isLoading, plural, =1 {unstaking} other {unstake}}",
+    "network": "{count, plural, =1 {network} other {networks}}",
+    "docs": "docs",
+    "copyAddress": "copy address"
   }
 }

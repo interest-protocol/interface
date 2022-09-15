@@ -29,7 +29,7 @@ const CopyToClipboard: FC<CopyToClipboardProps> = ({
       <Box
         as="span"
         cursor="pointer"
-        data-tip={capitalize(t('common.copy') + ' ' + t('common.address'))}
+        data-tip={capitalize(t('common.copyAddress'))}
         hover={{ color: 'accent' }}
         onClick={copyToClipboard}
         {...props}

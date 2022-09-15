@@ -149,9 +149,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
 
   const handleRemoveLiquidity = async () =>
     showToast(remove(), {
-      loading: capitalize(
-        `${t('common.remove', { count: 0 })} ${t('common.liquidity')}...`
-      ),
+      loading: capitalize(`${t('common.remove', { isLoading: 1 })}...`),
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
@@ -165,7 +163,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
           variant="normal"
           textTransform="uppercase"
         >
-          {t('common.remove', { count: 2 }) + ' ' + t('common.liquidity')}
+          {t('dexPoolPairAddress.removeLiquidity')}
         </Typography>
       </Box>
       <InputBalance

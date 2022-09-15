@@ -197,9 +197,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
 
   const handleAddLiquidity = () =>
     showToast(addLiquidity(), {
-      loading: `${capitalize(t('common.add', { isLoading: 1 }))} ${capitalize(
-        t('common.liquidity')
-      )}...`,
+      loading: `${capitalize(t('common.add', { isLoading: 1 }))}`,
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
@@ -215,7 +213,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
           variant="normal"
           textTransform="uppercase"
         >
-          {t('common.add', { isLoading: 0 }) + ' ' + t('common.liquidity')}
+          {t('dexPoolPairAddress.addLiquidity')}
         </Typography>
       </Box>
       {tokens.map(({ balance, decimals, allowance, Icon, symbol }, index) => (

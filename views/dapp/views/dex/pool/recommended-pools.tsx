@@ -20,7 +20,7 @@ const RecommendedPools: FC<RecommendedPoolsProps> = ({ type }) => {
           currentLocale,
           type: t(
             type === PoolType.Volatile ? 'common.volatile' : 'common.stable',
-            { count: 1 }
+            { count: 2 }
           ),
         })}
       </Typography>

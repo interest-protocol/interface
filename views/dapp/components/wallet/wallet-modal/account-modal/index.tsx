@@ -70,7 +70,8 @@ const AccountModal: FC<AccountModalProps> = ({
             justifyContent="space-between"
           >
             <Typography fontSize="S" variant="normal" color="textSecondary">
-              {capitalize(t('common.connected'))}{' '}
+              {capitalize(t('common.connected'))}
+              {'-'}
               {url === 'metamask' ? 'MetaMask' : 'Wallet Connect'}
             </Typography>
             <Button

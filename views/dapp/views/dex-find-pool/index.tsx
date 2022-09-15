@@ -149,7 +149,7 @@ const FindPoolView: FC = () => {
 
   const handleEnterPool = () =>
     showToast(enterPool(), {
-      loading: capitalize(t('common.check', { count: 1 }) + ' pool...'),
+      loading: capitalize(t('common.check', { isLoading: 1 }) + ' pool...'),
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
