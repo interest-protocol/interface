@@ -106,7 +106,9 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
 
   const handleApproveToken = (token: string, symbol: string) =>
     showToast(approveToken(token), {
-      loading: `${symbol}: ${capitalize(t('common.allowanceLoading'))}...`,
+      loading: `${symbol}: ${capitalize(
+        t('common.approve', { numMessage: 1 })
+      )}...`,
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
@@ -195,7 +197,9 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
 
   const handleAddLiquidity = () =>
     showToast(addLiquidity(), {
-      loading: `${capitalize(t('dexPoolPairAddress.addingLiquidity'))}...`,
+      loading: `${capitalize(t('common.add', { numMessage: 1 }))} ${capitalize(
+        t('common.liquidity')
+      )}...`,
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
@@ -211,7 +215,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
           variant="normal"
           textTransform="uppercase"
         >
-          {t('dexPoolPairAddress.addLiquidity')}
+          {t('common.add', { numMessage: 0 }) + ' ' + t('common.liquidity')}
         </Typography>
       </Box>
       {tokens.map(({ balance, decimals, allowance, Icon, symbol }, index) => (
@@ -287,7 +291,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
                 hover={{ bg: 'accentActive' }}
                 onClick={() => handleApproveToken(address, symbol)}
               >
-                {capitalize(t('common.approve'))} {symbol}
+                {capitalize(t('common.approve', { numMessage: 0 }))} {symbol}
               </Button>
             ))
           )}
@@ -315,9 +319,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
                 onClick={handleAddLiquidity}
                 hover={{ bg: loading ? 'disabled' : 'accentActive' }}
               >
-                {loading
-                  ? capitalize(t('dexPoolPairAddress.adding') + '...')
-                  : capitalize(t('common.add'))}
+                {capitalize(t('common.add', { numMessage: Number(loading) }))}
               </Button>
             </>
           )}

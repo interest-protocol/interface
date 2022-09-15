@@ -2,26 +2,26 @@ import { InfoLightSVG, LoadingSVG, WarningSVG } from '@/svg';
 
 export const SWAP_MESSAGES = {
   'loading-amount': {
-    message: 'fetchingAmounts',
+    message: 'common.swapMessage.fetchingAmounts',
     Icon: LoadingSVG,
   },
   'error-amount-out': {
-    message: 'errorAmountOut',
+    message: 'common.swapMessage.AmountOut',
     Icon: WarningSVG,
     color: 'error',
   },
   'error-same-token': {
-    message: 'errorSameOut',
+    message: 'common.swapMessage.sameOut',
     Icon: WarningSVG,
     color: 'error',
   },
   'error-balances': {
-    message: 'errorBalances',
+    message: 'common.swapMessage.balances',
     Icon: WarningSVG,
     color: 'error',
   },
   'info-no-pool': {
-    message: 'infoNoPool',
+    message: 'common.swapMessage.infoNoPool',
     Icon: InfoLightSVG,
     color: 'accentAlternative',
   },

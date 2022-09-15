@@ -4,7 +4,7 @@ import { ChangeEvent, FC, useEffect, useRef } from 'react';
 import { Box, Button, Typography } from '@/elements';
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
 import { TimesSVG } from '@/svg';
-import { capitalize, parseInputEventToNumberString } from '@/utils';
+import { parseInputEventToNumberString } from '@/utils';
 
 import AutoFetch from './auto-fetch';
 import Field from './field';
@@ -90,7 +90,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           type="string"
           max="30"
           placeholder="0.5"
-          label={capitalize(t('dexSwap.toleranceLabel'))}
+          label={t('dexSwap.toleranceLabel')}
           setRegister={() =>
             register('slippage', {
               onChange: (v: ChangeEvent<HTMLInputElement>) => {
@@ -133,10 +133,10 @@ const SettingsModal: FC<SwapSettingsProps> = ({
               },
             })
           }
-          label={capitalize(t('dexSwap.deadlineLabel'))}
+          label={t('dexSwap.deadlineLabel')}
           suffix={
             <Typography variant="normal" textTransform="lowercase">
-              {t('common.minute', { isPlural: newDeadline.current || 1 })}
+              {t('common.minute', { numMessage: newDeadline.current || 1 })}
             </Typography>
           }
         />

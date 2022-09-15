@@ -23,7 +23,7 @@ const Subscribe: FC = () => {
             if (data.httpStatus == 200) return data;
           }),
         {
-          loading: capitalize(t('index.subscribeLoading')),
+          loading: t('landingPage.subscribeLoading'),
           success: capitalize(t('common.success')),
           error: (error) => `${error.code} - ${error.message}`,
         }
@@ -51,7 +51,7 @@ const Subscribe: FC = () => {
         textAlign="center"
         fontSize={['L', 'XXL']}
       >
-        {capitalize(t('index.subscribeSectionTitle'))}
+        {t('landingPage.subscribeSectionTitle')}
       </Typography>
       <Box
         mt="XXL"
@@ -72,7 +72,7 @@ const Subscribe: FC = () => {
           outline="none"
           borderRadius="S"
           mb={['L', 'NONE']}
-          placeholder={capitalize(t('index.subscribeInputDescription'))}
+          placeholder={t('landingPage.subscribeInputDescription')}
         />
         <Box
           display="flex"
@@ -81,14 +81,14 @@ const Subscribe: FC = () => {
           flexDirection="column"
         >
           <Button ml="S" px="L" type="submit" variant="tertiary" effect="hover">
-            {capitalize(t('index.subscribeButton'))}
+            {t('landingPage.subscribeButton')}
           </Button>
           <Box display="flex" alignItems="center" mt="M" px="L">
             <Box width="0.7rem">
               <ShieldSVG width="100%" />
             </Box>
             <Typography variant="normal" ml="S" fontSize="XS">
-              {capitalize(t('index.subscribeDescription'))}
+              {t('landingPage.subscribeDescription')}
             </Typography>
           </Box>
         </Box>

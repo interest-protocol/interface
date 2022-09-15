@@ -6,7 +6,7 @@ import { Container } from '@/components';
 import { FAUCET_TOKENS } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetUserBalances, useIdAccount, useLocalStorage } from '@/hooks';
-import { capitalize, flippedAppend, isSameAddress } from '@/utils';
+import { flippedAppend, isSameAddress } from '@/utils';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
@@ -81,7 +81,7 @@ const Faucet: FC = () => {
               onClick={toggleCreateToken}
               hover={{ bg: 'accentActive' }}
             >
-              {capitalize(t('faucet.modalButton'))}
+              {t('faucet.modalButton', { numMessage: 0 })}
             </Button>
           </Box>
           <FaucetForm

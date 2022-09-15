@@ -4,7 +4,6 @@ import { v4 } from 'uuid';
 
 import { Container } from '@/components';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
-import { capitalize } from '@/utils';
 
 import { FloatingCoins } from './hero-animations';
 
@@ -47,7 +46,7 @@ const Hero: FC = () => {
             fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
             lineHeight={['3.353rem', '3.353rem', '4.876rem', '4.876rem']}
           >
-            {t('index.headerTitle')}
+            {t('landingPage.headerTitle')}
           </Typography>
           <Typography
             mt="0.625rem"
@@ -57,11 +56,11 @@ const Hero: FC = () => {
             textAlign={['center', 'unset']}
             fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
           >
-            {capitalize(t('index.headerSubtitle'))}
+            {t('landingPage.headerSubtitle')}
           </Typography>
           <a href="https://docs.interestprotocol.com/" target="__blank">
             <Button type="button" variant="primary" effect="hover">
-              {t('index.headerButton')}
+              {t('landingPage.headerButton')}
             </Button>
           </a>
         </Box>

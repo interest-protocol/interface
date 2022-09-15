@@ -11,7 +11,7 @@ import { capitalize, formatDollars, maybeLPTokenName } from '@/utils';
 import { MyOpenPositionProps } from './my-open-position.types';
 
 const MY_POSITION = [1, 2, 3, 4, 5, 6].map((item) => ({
-  name: 'dineroMarketAddress.positonName' + item,
+  name: 'dineroMarketAddress.positionName' + item,
   tip: 'dineroMarketAddress.positionTip' + item,
 }));
 

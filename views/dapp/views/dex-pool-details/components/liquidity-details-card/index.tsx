@@ -3,7 +3,6 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
-import { capitalize } from '@/utils';
 
 import { LiquidityDetailsCardProps } from '../../dex-pool-details.types';
 import LiquidityDetailsCardLine from './liquidity-details-card-line';
@@ -62,12 +61,12 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
             fontSize="inherit"
           >
             {t(isStable ? 'common.stable' : 'common.volatile', {
-              isPlural: 0,
+              numMessage: 0,
             })}
           </Typography>
         </Typography>
         <Typography variant="normal" lineHeight="2rem">
-          {capitalize(t('dexPoolPairAddress.sectionCustomDetail2'))}:{' '}
+          {t('dexPoolPairAddress.sectionCustomDetail2')}:{' '}
           <Typography
             as="strong"
             variant="normal"

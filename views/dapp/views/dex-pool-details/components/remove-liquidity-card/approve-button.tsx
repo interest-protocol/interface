@@ -24,8 +24,10 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       onClick={onClick}
       disabled={loading}
     >
-      {t(loading ? 'common.approveLoading' : 'common.approve')} {symbol0}/
-      {symbol1} LP
+      {t('common.approve', {
+        numMessage: Number(loading),
+      })}{' '}
+      {symbol0}/{symbol1} LP
     </Button>
   );
 };

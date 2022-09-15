@@ -149,7 +149,7 @@ const FindPoolView: FC = () => {
 
   const handleEnterPool = () =>
     showToast(enterPool(), {
-      loading: capitalize(t('common.checking') + ' pool...'),
+      loading: capitalize(t('common.check', { numMessage: 1 }) + ' pool...'),
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
@@ -273,7 +273,7 @@ const FindPoolView: FC = () => {
 
   const handleCreatePair = () =>
     showToast(createPair(), {
-      loading: capitalize(t('dexPoolFind.buttonPoolLoading')),
+      loading: t('dexPoolFind.buttonPool', { numMessage: 1 }),
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
@@ -285,7 +285,7 @@ const FindPoolView: FC = () => {
           <Box color="error">
             <TimesSVG width="10rem" />
           </Box>
-          {capitalize(t('dexPoolFind.balanceError'))}
+          {t('dexPoolFind.balanceError')}
         </Box>
       </Container>
     );
@@ -351,7 +351,7 @@ const FindPoolView: FC = () => {
               disabled={true}
               bg="disabled"
             >
-              {capitalize(t('dexPoolFind.buttonSameToken'))}
+              {t('dexPoolFind.buttonSameToken')}
             </Button>
           ) : isCreatingPair ? (
             <Button
@@ -377,11 +377,7 @@ const FindPoolView: FC = () => {
                   : handleCreatePair
               }
             >
-              {t(
-                loading
-                  ? 'dexPoolFind.buttonPoolLoading'
-                  : 'dexPoolFind.buttonPool'
-              )}
+              {t('dexPoolFind.buttonPool', { numMessage: Number(loading) })}
             </Button>
           ) : (
             <Button
@@ -392,12 +388,10 @@ const FindPoolView: FC = () => {
               bg={loading ? 'accentActive' : 'accent'}
               hover={{ bg: loading ? 'disabled' : 'accentActive' }}
             >
-              {capitalize(
-                t(
-                  loading
-                    ? 'dexPoolFind.buttonLoading'
-                    : 'dexPoolFind.buttonCustom'
-                )
+              {t(
+                loading
+                  ? 'dexPoolFind.buttonLoading'
+                  : 'dexPoolFind.buttonCustom'
               )}
             </Button>
           )}

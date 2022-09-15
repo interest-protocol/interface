@@ -66,7 +66,7 @@ const EarnTable: FC<EarnTableProps> = ({
               ),
             },
             {
-              tip: capitalize(t('earn.column1Tip')),
+              tip: t('earn.column1Tip'),
               item: (
                 <Typography
                   as="span"
@@ -79,7 +79,7 @@ const EarnTable: FC<EarnTableProps> = ({
               ),
             },
             {
-              tip: capitalize(t('earn.column2Tip')),
+              tip: t('earn.column2Tip'),
               item: (
                 <Typography
                   as="span"
@@ -87,12 +87,12 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   fontSize="inherit"
                 >
-                  {capitalize(t('earn.column2'))}
+                  {t('earn.column2')}
                 </Typography>
               ),
             },
             {
-              tip: capitalize(t('earn.column3Tip')),
+              tip: t('earn.column3Tip'),
               item: (
                 <Typography
                   as="span"
@@ -105,11 +105,11 @@ const EarnTable: FC<EarnTableProps> = ({
               ),
             },
             {
-              tip: capitalize(t('earn.column4Tip')),
-              item: <>{capitalize(t('earn.column4'))}</>,
+              tip: t('earn.column4Tip'),
+              item: <>{t('earn.column4')}</>,
             },
             {
-              tip: capitalize(t('earn.column5Tip')),
+              tip: t('earn.column5Tip'),
               item: <>{capitalize(t('common.type'))}</>,
             },
           ]}
@@ -187,7 +187,7 @@ const EarnTable: FC<EarnTableProps> = ({
                       textTransform="capitalize"
                     >
                       {t(farm.stable ? 'common.stable' : 'common.volatile', {
-                        isPlural: 0,
+                        numMessage: 0,
                       })}
                     </Typography>,
                   ],
@@ -203,7 +203,7 @@ const EarnTable: FC<EarnTableProps> = ({
             }))}
             headings={[
               {
-                tip: capitalize(t('earn.column1Tip')),
+                tip: t('earn.column1Tip'),
                 item: (
                   <Typography
                     as="span"
@@ -216,7 +216,7 @@ const EarnTable: FC<EarnTableProps> = ({
                 ),
               },
               {
-                tip: capitalize(t('earn.column2Tip')),
+                tip: t('earn.column2Tip'),
                 item: (
                   <Typography
                     as="span"
@@ -224,12 +224,12 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    {capitalize(t('earn.column2'))}
+                    {t('earn.column2')}
                   </Typography>
                 ),
               },
               {
-                tip: capitalize(t('earn.column3Tip')),
+                tip: t('earn.column3Tip'),
                 item: (
                   <Typography
                     as="span"
@@ -242,11 +242,11 @@ const EarnTable: FC<EarnTableProps> = ({
                 ),
               },
               {
-                tip: capitalize(t('earn.column4Tip')),
-                item: <>{capitalize(t('earn.column4'))}</>,
+                tip: t('earn.column4Tip'),
+                item: <>{t('earn.column4')}</>,
               },
               {
-                tip: capitalize(t('earn.column5Tip')),
+                tip: t('earn.column5Tip'),
                 item: <>{capitalize(t('common.type'))}</>,
               },
             ]}
@@ -341,7 +341,7 @@ const EarnTable: FC<EarnTableProps> = ({
                         textTransform="capitalize"
                       >
                         {t(farm.stable ? 'common.stable' : 'common.volatile', {
-                          isPlural: 0,
+                          numMessage: 0,
                         })}
                       </Typography>,
                     ],

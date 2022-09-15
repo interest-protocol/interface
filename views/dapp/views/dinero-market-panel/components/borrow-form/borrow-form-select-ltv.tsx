@@ -8,7 +8,6 @@ import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { Fraction } from '@/sdk/entities/fraction';
 import { InfoSVG } from '@/svg';
-import { capitalize } from '@/utils';
 import { numberToString } from '@/utils';
 
 import {
@@ -126,12 +125,10 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
           lineHeight="1.1rem"
           whiteSpace="pre-line"
         >
-          {capitalize(
-            t(
-              isBorrow
-                ? 'dineroMarketAddress.borrowCardInfo'
-                : 'dineroMarketAddress.repayCardInfo'
-            )
+          {t(
+            isBorrow
+              ? 'dineroMarketAddress.borrowCardInfo'
+              : 'dineroMarketAddress.repayCardInfo'
           )}
         </Typography>
       </Box>

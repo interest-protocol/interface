@@ -1,20 +1,19 @@
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 
-import { useLocalStorage } from '@/hooks';
+import { LocalesEnum } from '@/constants/locale';
+
 const RedirectLang: FC = () => {
   const { asPath, locale, push } = useRouter();
-  const [localeDefault] = useLocalStorage<string>(
-    'interest-locale',
-    locale || 'en-US'
-  );
 
   useEffect(() => {
+    const localeDefault = document?.cookie.split('=')?.[1] || LocalesEnum.EN;
+
     localeDefault !== locale &&
       push(asPath, asPath, {
         locale: localeDefault,
       });
-  }, [localeDefault, locale]);
+  }, [locale]);
 
   return null;
 };

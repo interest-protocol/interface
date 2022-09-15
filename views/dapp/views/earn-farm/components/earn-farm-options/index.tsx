@@ -16,7 +16,6 @@ import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG } from '@/svg';
 import {
-  capitalize,
   formatDollars,
   formatMoney,
   getCasaDePapelAddress,
@@ -270,7 +269,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
                     fontSize="S"
                     textTransform="capitalize"
                   >
-                    {t('common.approveLoading')}...
+                    {t('common.approve', { numMessage: 1 })}...
                   </Typography>
                 </Box>
               ) : (
@@ -282,7 +281,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
                   textTransform="capitalize"
                 >
                   {
-                    (t('common.approve') +
+                    (t('common.approve', { numMessage: 0 }) +
                       ' ' +
                       t(
                         farm.id === 0 ? 'common.pool' : 'common.farm'
@@ -356,7 +355,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
               bg: !farm.pendingRewards.isZero() ? 'successActive' : 'disabled',
             }}
           >
-            {capitalize(t('earnTokenAddress.thirdCardButton'))}
+            {t('earnTokenAddress.thirdCardButton')}
           </Button>
         }
       />

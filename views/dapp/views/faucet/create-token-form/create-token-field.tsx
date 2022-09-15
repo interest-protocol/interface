@@ -1,9 +1,8 @@
-import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Box, Input, Typography } from '@/elements';
-import { capitalize } from '@/utils';
+import { useLocale } from '@/hooks';
 
 import { CreateTokenFieldProps } from './create-token-form.types';
 
@@ -13,7 +12,7 @@ const CreateTokenField: FC<CreateTokenFieldProps> = ({
   register,
 }) => {
   const t = useTranslations();
-  const { locale } = useRouter();
+  const { currentLocale } = useLocale();
   return (
     <Box mb="L">
       <Typography
@@ -25,12 +24,10 @@ const CreateTokenField: FC<CreateTokenFieldProps> = ({
         {label}:
       </Typography>
       <Input
-        placeholder={capitalize(
-          t('faucet.type', {
-            locale,
-            label: label,
-          })
-        )}
+        placeholder={t('faucet.type', {
+          currentLocale,
+          label: label,
+        })}
         {...register(name)}
         shieldProps={{
           p: 'S',
@@ -49,4 +46,5 @@ const CreateTokenField: FC<CreateTokenFieldProps> = ({
     </Box>
   );
 };
+
 export default CreateTokenField;

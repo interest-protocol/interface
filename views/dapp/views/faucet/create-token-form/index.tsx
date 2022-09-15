@@ -93,7 +93,7 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
 
   const safeCreateToken = () =>
     showToast(handleCreateToken(), {
-      loading: capitalize(`${t('faucet.modalButtonLoading')}...`),
+      loading: `${t('faucet.modalButton', { numMessage: 1 })}...`,
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
@@ -130,18 +130,18 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
           gridTemplateColumns={['1fr', '1f', '1fr', '1fr 1fr']}
         >
           <CreateTokenField
-            label={capitalize(t('faucet.modalInputName'))}
+            label={t('faucet.modalInputName')}
             name="name"
             register={register}
           />
           <CreateTokenField
-            label={capitalize(t('faucet.modalInputSymbol'))}
+            label={t('faucet.modalInputSymbol')}
             name="symbol"
             register={register}
           />
         </Box>
         <CreateTokenSupplyField
-          label={capitalize(t('faucet.modalInputAmount'))}
+          label={t('faucet.modalInputAmount')}
           register={register}
           setValue={setValue}
         />
@@ -166,11 +166,11 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
                   ml="M"
                   textTransform="capitalize"
                 >
-                  {t('faucet.modalButtonLoading')}
+                  {t('faucet.modalButton', { numMessage: 1 })}
                 </Typography>
               </Box>
             ) : (
-              capitalize(t('faucet.modalButton'))
+              t('faucet.modalButton')
             )}
           </Button>
         ) : (

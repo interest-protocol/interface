@@ -3,7 +3,6 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
-import { capitalize } from '@/utils';
 
 import { CreatePoolProps, DexFindPoolForm } from '../dex-find-pool.types';
 import CreatePoolField from './create-pool-field';
@@ -41,7 +40,7 @@ const CreatePool: FC<CreatePoolProps> = ({
         bg="bottomBackground"
         borderColor="textSoft"
       >
-        {capitalize(t('dexPoolFind.createPoolTitle'))}
+        {t('dexPoolFind.createPoolTitle')}
       </Typography>
       <Price control={control} />
       {TOKEN_NAMES.map((name, index) => (

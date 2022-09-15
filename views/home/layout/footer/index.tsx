@@ -7,7 +7,6 @@ import { Container } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
-import { capitalize } from '@/utils';
 
 import SocialMediaCard from '../../components/social-media-card';
 
@@ -43,7 +42,8 @@ const Footer: FC = () => {
             color="textInverted"
             mt={['L', 'L', 'L', 'unset']}
           >
-            © {new Date().getFullYear()}. Interest Protocol from DEFI, lda.{' '}
+            © {new Date().getFullYear()}. Interest Protocol from Interest Labs
+            Inc.{' '}
             <Typography
               as="span"
               fontSize="S"
@@ -53,7 +53,7 @@ const Footer: FC = () => {
               color="textInverted"
               display={['block', 'inline-block']}
             >
-              {capitalize(t('index.footerCopyrights'))}
+              {t('landingPage.footerCopyrights')}
             </Typography>
           </Typography>
         </Box>

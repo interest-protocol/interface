@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import Skeleton from 'react-loading-skeleton';
@@ -7,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { Container } from '@/components';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useChainId, useGetPairData } from '@/hooks';
+import { useChainId, useGetPairData, useLocale } from '@/hooks';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { FixedPointMath } from '@/sdk';
 import { getNativeBalance } from '@/state/core/core.selectors';
@@ -31,8 +30,7 @@ const DefaultIcon = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
   const t = useTranslations();
-  const { locale } = useRouter();
-
+  const { currentLocale } = useLocale();
   const { error, data, mutate } = useGetPairData(pairAddress);
   const chainId = useChainId();
 
@@ -106,12 +104,12 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
                 processedData.token1Metadata.symbol +
                 ' ' +
                 t('dexPoolPairAddress.title', {
-                  locale,
+                  currentLocale,
                   type: t(
                     processedData.isStable
                       ? 'common.stable'
                       : 'common.volatile',
-                    { isPlural: 0 }
+                    { numMessage: 0 }
                   ),
                 })}
             </Typography>

@@ -86,7 +86,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
             },
             {
               value: 'stable',
-              displayOption: capitalize(t('common.stable', { isPlural: 0 })),
+              displayOption: capitalize(t('common.stable', { numMessage: 0 })),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography
@@ -94,7 +94,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
                     whiteSpace="nowrap"
                     textTransform="capitalize"
                   >
-                    {t('common.stable', { isPlural: 0 })}
+                    {t('common.stable', { numMessage: 0 })}
                   </Typography>
                 </Box>
               ),
@@ -104,7 +104,9 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
             },
             {
               value: 'volatile',
-              displayOption: capitalize(t('common.volatile', { isPlural: 0 })),
+              displayOption: capitalize(
+                t('common.volatile', { numMessage: 0 })
+              ),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography
@@ -112,7 +114,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
                     whiteSpace="nowrap"
                     textTransform="capitalize"
                   >
-                    {t('common.volatile', { isPlural: 0 })}
+                    {t('common.volatile', { numMessage: 0 })}
                   </Typography>
                 </Box>
               ),

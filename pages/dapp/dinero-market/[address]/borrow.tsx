@@ -1,5 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 
+import RedirectLang from '@/components/redirect-lang';
 import { Loading } from '@/views/dapp/components';
 import DineroMarketMode from '@/views/dapp/views/dinero-market-panel';
 import Error from '@/views/dapp/views/error';
@@ -15,7 +16,12 @@ const DineroMarketBorrowPage: NextPage<DineroMarketBorrowPageProps> = ({
 
   if (address === null) return <Error message="Wrong params" />;
 
-  return <DineroMarketMode address={address} mode="borrow" />;
+  return (
+    <>
+      <RedirectLang />
+      <DineroMarketMode address={address} mode="borrow" />
+    </>
+  );
 };
 
 export const getServerSideProps: GetServerSideProps = async ({

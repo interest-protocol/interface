@@ -42,12 +42,14 @@ const Pool: FC = () => {
             options={[
               {
                 value: PoolType.Volatile,
-                displayValue: capitalize(t('common.volatile', { isPlural: 0 })),
+                displayValue: capitalize(
+                  capitalize(t('common.volatile', { numMessage: 0 }))
+                ),
                 onSelect: () => setPoolType(PoolType.Volatile),
               },
               {
                 value: PoolType.Stable,
-                displayValue: capitalize(t('common.stable', { isPlural: 0 })),
+                displayValue: capitalize(t('common.stable', { numMessage: 0 })),
                 onSelect: () => setPoolType(PoolType.Stable),
               },
             ]}
@@ -59,7 +61,7 @@ const Pool: FC = () => {
             onClick={() => push(Routes[RoutesEnum.DEXFindPool])}
             ml={['unset', 'auto']}
           >
-            {capitalize(t('dexPool.button'))}
+            {t('dexPool.button')}
           </Button>
         </Box>
         <RecommendPools type={poolType} />

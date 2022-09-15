@@ -1,10 +1,19 @@
 import { GetStaticProps, NextPage } from 'next';
 
+import RedirectLang from '@/components/redirect-lang';
 import Faucet from '@/views/dapp/views/faucet';
 
-const FaucetPage: NextPage = () => <Faucet />;
+const FaucetPage: NextPage = () => (
+  <>
+    <RedirectLang />
+    <Faucet />
+  </>
+);
 
-export const getStaticProps: GetStaticProps = ({ locale, ...otherProps }) => ({
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+  ...otherProps
+}) => ({
   props: {
     ...otherProps,
     messages: {

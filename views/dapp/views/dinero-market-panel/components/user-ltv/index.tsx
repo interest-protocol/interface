@@ -4,7 +4,7 @@ import Skeleton from 'react-loading-skeleton';
 
 import { Box, Typography } from '@/elements';
 import { InfoSVG, ProgressSVG } from '@/svg';
-import { capitalize, toFixedToPrecision } from '@/utils';
+import { toFixedToPrecision } from '@/utils';
 
 import { UserLTVProps } from './user-ltv.types';
 
@@ -20,11 +20,11 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => {
             width="1rem"
             cursor="help"
             display="inline-block"
-            data-tip={capitalize(t('dineroMarketAddress.userLTVTip'))}
+            data-tip={t('dineroMarketAddress.userLTVTip')}
           >
             <InfoSVG width="100%" />
           </Box>
-          {capitalize(t('dineroMarketAddress.userLTVTitle'))}
+          {t('dineroMarketAddress.userLTVTitle')}
         </Typography>
         <Typography
           as="div"

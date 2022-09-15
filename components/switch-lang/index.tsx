@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import { Box, Dropdown, Typography } from '@/elements';
@@ -7,8 +6,7 @@ import { useLocale } from '@/hooks';
 import { getSafeLocaleSVG } from '@/utils';
 
 const SwitchLang: FC = () => {
-  const { locales } = useRouter();
-  const { currentLocale, changeLocale } = useLocale();
+  const { currentLocale, changeLocale, locales } = useLocale();
 
   return (
     <Dropdown

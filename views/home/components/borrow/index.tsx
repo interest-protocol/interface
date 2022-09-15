@@ -5,7 +5,6 @@ import { FC } from 'react';
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
-import { capitalize } from '@/utils';
 
 import {
   BTCOrbit,
@@ -53,7 +52,7 @@ const Borrow: FC = () => {
             fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
             textTransform="capitalize"
           >
-            {t('index.borrowSectionTitle')}
+            {t('landingPage.borrowSectionTitle')}
           </Typography>
           <Typography
             as="h3"
@@ -63,7 +62,7 @@ const Borrow: FC = () => {
             mb={['0.625rem', '0.625rem', '0.625rem', '1rem']}
             fontSize={['1.125rem', '1.125rem', '1.125rem', '1.5rem']}
           >
-            {capitalize(t('index.borrowSectionSubtitle'))}
+            {t('landingPage.borrowSectionSubtitle')}
           </Typography>
           <Typography
             width="100%"
@@ -74,7 +73,7 @@ const Borrow: FC = () => {
             fontSize={['0.875rem', '0.875rem', '0.875rem', '1rem']}
             textAlign={['center', 'center', 'center', 'justify']}
           >
-            {capitalize(t('index.borrowSectionBody'))}
+            {t('landingPage.borrowSectionBody')}
           </Typography>
           <Button
             mb="XL"
@@ -350,7 +349,7 @@ const Borrow: FC = () => {
               textAlign="center"
               textTransform="capitalize"
             >
-              {t('index.borrowSectionINTTokensDescription')}
+              {t('landingPage.borrowSectionINTTokensDescription')}
             </Typography>
           </Box>
         </Box>

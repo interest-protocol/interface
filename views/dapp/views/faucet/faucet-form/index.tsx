@@ -103,7 +103,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
 
   const onMint = () =>
     showToast(handleOnMint(), {
-      loading: capitalize(`${t('faucet.buttonLoading')}...`),
+      loading: `${t('faucet.buttonLoading')}...`,
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
@@ -130,14 +130,14 @@ const FaucetForm: FC<FaucetFormProps> = ({
         >
           <FaucetSelectCurrency
             tokens={tokens}
-            label={capitalize(t('faucet.tokenInput'))}
+            label={t('faucet.tokenInput')}
             defaultValue={tokens?.[0]?.address ?? ethers.constants.AddressZero}
             onSelectCurrency={onSelectCurrency}
           />
           <InputBalance
             name="amount"
             register={register}
-            label={capitalize(t('faucet.amountInput'))}
+            label={t('faucet.amountInput')}
             setValue={setValue}
             chainId={chainId}
             control={control}
@@ -171,11 +171,11 @@ const FaucetForm: FC<FaucetFormProps> = ({
                       fontSize="S"
                       textTransform="capitalize"
                     >
-                      {t('faucet.buttonLoading')}...
+                      {t('faucet.button', { numMessage: 1 })}...
                     </Typography>
                   </Box>
                 ) : (
-                  capitalize(t('faucet.button'))
+                  t('faucet.button', { numMessage: 0 })
                 )}
               </Button>
             ) : (

@@ -6,7 +6,6 @@ import { v4 } from 'uuid';
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
-import { capitalize } from '@/utils';
 
 import { EARN_TYPES } from './automate.data';
 
@@ -27,7 +26,7 @@ const Automate: FC = () => {
           fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
           textTransform="capitalize"
         >
-          {t('index.vaultSectionTitle')}
+          {t('landingPage.vaultSectionTitle')}
         </Typography>
         <Typography
           variant="normal"
@@ -35,7 +34,7 @@ const Automate: FC = () => {
           fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
           lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
         >
-          {capitalize(t('index.vaultSectionSubtitle'))}
+          {t('landingPage.vaultSectionSubtitle')}
         </Typography>
         <Box
           mt={['1.25rem', '4.313rem']}

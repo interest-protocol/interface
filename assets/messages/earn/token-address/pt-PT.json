@@ -6,9 +6,7 @@
     "thirdCardButton": "Retirar",
     "yourStakedLabel": "apostou",
     "modalStakedTitle": "depositar",
-    "modalUnstakedTitle": "não depositar",
-    "modalLabelInput": "Montante {type}",
-    "stakePartialLabel": "à depositar",
-    "unstakePartialLabel": "a não depositar"
+    "modalUnstakedTitle": "Não depositar",
+    "modalLabelInput": "Montante {type}"
   }
 }

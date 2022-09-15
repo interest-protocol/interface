@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Button } from '@/elements';
+import { capitalize } from '@/utils';
 
 import { RemoveLiquidityButtonProps } from './remove-liquidity-card.types';
 
@@ -22,7 +23,7 @@ const RemoveLiquidityButton: FC<RemoveLiquidityButtonProps> = ({
       hover={{ bg: 'errorActive' }}
       bg={loading ? 'disabled' : 'error'}
     >
-      {t(loading ? 'common.removeLoading' : 'common.remove')}
+      {capitalize(t('common.remove', { numMessage: Number(loading) }))}
     </Button>
   );
 };

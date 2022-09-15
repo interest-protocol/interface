@@ -52,7 +52,7 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
           textTransform="capitalize"
         >
           {t(farm.stable ? 'common.stable' : 'common.volatile', {
-            isPlural: 0,
+            numMessage: 0,
           })}
         </Typography>
       </Box>

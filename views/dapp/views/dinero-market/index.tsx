@@ -75,7 +75,7 @@ const DineroMarket: FC = () => {
       >
         <DineroSVG width="2rem" height="2rem" />
         <Typography variant="normal" ml="M" textTransform="capitalize">
-          {t('dineroMarket.dineroMarketTitle')}
+          {t('dineroMarket.title')}
         </Typography>
       </Box>
       <BorrowFilters

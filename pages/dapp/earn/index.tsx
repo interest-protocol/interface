@@ -1,10 +1,19 @@
 import { GetStaticProps, NextPage } from 'next';
 
+import RedirectLang from '@/components/redirect-lang';
 import Earn from '@/views/dapp/views/earn';
 
-const EarnPage: NextPage = () => <Earn />;
+const EarnPage: NextPage = () => (
+  <>
+    <RedirectLang />
+    <Earn />
+  </>
+);
 
-export const getStaticProps: GetStaticProps = ({ locale, ...otherProps }) => ({
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+  ...otherProps
+}) => ({
   props: {
     ...otherProps,
     messages: {

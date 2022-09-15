@@ -96,7 +96,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const handleAddAllowance = useCallback(async () => {
     if (isZeroAddress(tokenInAddress)) return;
-    setButtonLoadingText(t('common.approveLoading') + '...');
+    setButtonLoadingText(t('common.approve', { numMessage: 1 }) + '...');
     try {
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -124,14 +124,14 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const submitAllowance = () =>
     showToast(handleAddAllowance(), {
-      loading: capitalize(t('common.approveLoading') + '...'),
+      loading: capitalize(t('common.approve', { numMessage: 1 }) + '...'),
       success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
 
   const handleSwap = useCallback(async () => {
     if (isSameAddress(tokenIn.address, tokenOut.address)) return;
-    setButtonLoadingText(t('common.swapping') + '...');
+    setButtonLoadingText(t('common.swap', { numMessage: 1 }) + '...');
     try {
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -254,7 +254,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const swap = () =>
     showToast(handleSwap(), {
-      loading: capitalize(t('common.swapping') + '...'),
+      loading: capitalize(t('common.swap', { numMessage: 1 }) + '...'),
       success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
@@ -266,7 +266,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     )
       return;
 
-    setButtonLoadingText(t('common.wrapping') + '...');
+    setButtonLoadingText(t('common.wrap', { numMessage: 1 }) + '...');
     try {
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -300,7 +300,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const deposit = () =>
     showToast(handleWETHDeposit(), {
-      loading: capitalize(t('common.wrapping') + '...'),
+      loading: capitalize(t('common.wrap', { numMessage: 1 }) + '...'),
       success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
@@ -312,7 +312,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     )
       return;
 
-    setButtonLoadingText(t('common.unwrapping') + '...');
+    setButtonLoadingText(t('common.unwrap', { numMessage: 1 }) + '...');
     try {
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -346,7 +346,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const withdraw = () =>
     showToast(handleWETHWithdraw(), {
-      loading: capitalize(t('common.unwrapping') + '...'),
+      loading: capitalize(t('common.unwrap', { numMessage: 1 }) + '...'),
       success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
@@ -360,14 +360,16 @@ const SwapButton: FC<SwapButtonProps> = ({
     )
       return {
         onClick: deposit,
-        text: `Wrap ${tokenIn.symbol}`,
+        text: `${capitalize(t('common.wrap', { numMessage: 0 }))} ${
+          tokenIn.symbol
+        }`,
       };
 
     // GIVE ALLOWANCE TO ERC20
     if (needsApproval)
       return {
         onClick: submitAllowance,
-        text: 'Approve',
+        text: capitalize(t('common.approve', { numMessage: 0 })),
       };
 
     // WRAPPED NATIVE TOKEN => NATIVE TOKEN
@@ -377,20 +379,22 @@ const SwapButton: FC<SwapButtonProps> = ({
     )
       return {
         onClick: withdraw,
-        text: `Unwrap ${tokenIn.symbol}`,
+        text: `${capitalize(t('common.unwrap', { numMessage: 0 }))} ${
+          tokenIn.symbol
+        }`,
       };
 
     // ERC20 => ERC20 SWAP
     return {
       onClick: swap,
-      text: 'Swap',
+      text: capitalize(t('common.swap', { numMessage: 0 })),
     };
   };
 
   const handleLoadingText = (): string => {
     if (fetchingBalancesData) return t('common.fetchingBalances') + '...';
     if (fetchingBaseData) return t('common.loading') + '...';
-    if (fetchingAmount) return t('common.fetchingAmounts') + '...';
+    if (fetchingAmount) return t('common.swapMessage.fetchingAmounts') + '...';
     return buttonLoadingText as string;
   };
 

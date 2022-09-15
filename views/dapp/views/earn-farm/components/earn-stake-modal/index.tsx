@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -6,6 +5,7 @@ import { v4 } from 'uuid';
 
 import { getFarmsSVGByToken, StakeState } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
+import { useLocale } from '@/hooks';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import { capitalize, formatMoney, safeToBigNumber } from '@/utils';
 
@@ -23,7 +23,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
   farmSymbol,
 }) => {
   const t = useTranslations();
-  const { locale } = useRouter();
+  const { currentLocale } = useLocale();
   const { handleSubmit, setValue, register } = useForm({
     defaultValues: { value: '0' },
   });
@@ -124,16 +124,10 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
                 </Typography>
               </Box>
             }
-            label={capitalize(
-              t('earnTokenAddress.modalLabelInput', {
-                locale,
-                type: t(
-                  isStake
-                    ? 'earnTokenAddress.stakePartialLabel'
-                    : 'earnTokenAddress.unstakePartialLabel'
-                ),
-              })
-            )}
+            label={t('earnTokenAddress.modalLabelInput', {
+              currentLocale,
+              type: t(isStake ? 'common.stake' : 'common.unstake'),
+            })}
           />
         </Box>
         <Box mt="XL">
@@ -177,9 +171,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
                 <LoadingSVG width="100%" />
               </Box>
             )}
-            {capitalize(
-              loading ? t('common.confirming') + '...' : t('common.confirm')
-            )}
+            {capitalize(t('common.confirm', { numMessage: Number(loading) }))}
           </Button>
         </Box>
       </Box>

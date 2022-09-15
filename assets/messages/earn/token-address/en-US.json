@@ -5,10 +5,8 @@
     "thirdCardTitle": "Rewards",
     "thirdCardButton": "Harvest",
     "yourStakedLabel": "You staked",
-    "modalStakedTitle": "staked",
-    "modalUnstakedTitle": "unstaked",
-    "modalLabelInput": "Amount {type}",
-    "stakePartialLabel": "stake",
-    "unstakePartialLabel": "unstake"
+    "modalStakedTitle": "Staked",
+    "modalUnstakedTitle": "Unstaked",
+    "modalLabelInput": "Amount {type}"
   }
 }

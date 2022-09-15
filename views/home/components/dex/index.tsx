@@ -5,7 +5,6 @@ import { FC } from 'react';
 import Container from '@/components/container';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
-import { capitalize } from '@/utils';
 
 const DEX: FC = () => {
   const t = useTranslations();
@@ -75,7 +74,7 @@ const DEX: FC = () => {
             mb={['1.25rem', '1.25rem', '1.25rem', '1.875rem']}
             px={['L', 'unset']}
           >
-            {capitalize(t('index.dexSectionSubtitle'))}
+            {t('landingPage.dexSectionSubtitle')}
           </Typography>
           <Button
             width="145px"
@@ -83,7 +82,7 @@ const DEX: FC = () => {
             variant="primary"
             onClick={() => push(Routes[RoutesEnum.DApp])}
           >
-            {t('index.dexSectionButton')}
+            {t('landingPage.dexSectionButton')}
           </Button>
         </Box>
       </Container>
@@ -114,7 +113,7 @@ const DEX: FC = () => {
             textAlign="center"
             textTransform="capitalize"
           >
-            {t('index.stablePairTitle')}
+            {t('landingPage.stablePairTitle')}
           </Typography>
           <Box maxWidth="20rem" mx="auto" my="XXXL">
             <ResponsiveImage
@@ -138,10 +137,10 @@ const DEX: FC = () => {
               fontWeight="700"
               my={['unset', 'unset', '1rem', '1rem']}
             >
-              {capitalize(t('index.stablePairDescription'))}
+              {t('landingPage.stablePairDescription')}
             </Typography>
             <br />
-            {capitalize(t('index.stablePairTax'))}
+            {t('landingPage.stablePairTax')}
           </Typography>
         </Container>
         <Box
@@ -172,7 +171,7 @@ const DEX: FC = () => {
             transform={['unset', 'unset', 'unset', 'translate(-50%,-20%)']}
           >
             <Typography variant="title3" lineHeight="2rem">
-              {capitalize(t('index.dexSectionDescription'))}
+              {t('landingPage.dexSectionDescription')}
             </Typography>
           </Box>
           <Box
@@ -190,7 +189,7 @@ const DEX: FC = () => {
             transform={['unset', 'unset', 'unset', 'translate(-50%,30%)']}
           >
             <Typography variant="title3" lineHeight="2rem">
-              {capitalize(t('index.dexSectionOracle'))}
+              {t('landingPage.dexSectionOracle')}
             </Typography>
           </Box>
         </Box>
@@ -211,7 +210,7 @@ const DEX: FC = () => {
             variant="title2"
             textTransform="capitalize"
           >
-            {t('index.volatilePairTitle')}
+            {t('landingPage.volatilePairTitle')}
           </Typography>
           <Box maxWidth="20rem" mx="auto" my="XXXL">
             <ResponsiveImage width="100%" alt="Volatile" path="home/volatile" />
@@ -233,10 +232,10 @@ const DEX: FC = () => {
               my={['unset', 'unset', '1rem', '1rem']}
               textTransform="uppercase"
             >
-              {t('index.volatilePairDescription')}
+              {t('landingPage.volatilePairDescription')}
             </Typography>
             <br />
-            {capitalize(t('index.volatilePairTax'))}
+            {t('landingPage.volatilePairTax')}
           </Typography>
         </Container>
       </Box>

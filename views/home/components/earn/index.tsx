@@ -6,7 +6,6 @@ import { v4 } from 'uuid';
 import Container from '@/components/container';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
-import { capitalize } from '@/utils';
 
 import { LEND_AND_BORROW_TOKENS } from './earn.data';
 import {
@@ -134,7 +133,6 @@ const Earn: FC = () => {
             width={['100%', '100%', '41.625rem', '41.625rem']}
             pb={['1.875rem', '1.875rem', '1.875rem', '6.063rem']}
             alignItems={['center', 'center', 'center', 'unset']}
-            key={v4()}
           >
             <Typography
               as="h2"
@@ -156,7 +154,7 @@ const Earn: FC = () => {
               fontSize={['1.125rem', '1.125rem', '1.5rem', '1.5rem']}
               lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
             >
-              {capitalize(t('index.earnSectionSubtitle'))}
+              {t('landingPage.earnSectionSubtitle')}
             </Typography>
             <Typography
               variant="normal"
@@ -166,10 +164,10 @@ const Earn: FC = () => {
               mb={['1.25rem', '1.25rem', '1.75rem', '1.75rem']}
               fontSize={['0.875rem', '0.875rem', '1rem', '1rem']}
             >
-              {capitalize(t('index.earnSectionH3'))}
+              {t('landingPage.earnSectionH3')}
             </Typography>
             <Typography variant="normal" fontWeight="700" mb="0.625rem">
-              {capitalize(t('index.earnSectionBody'))}
+              {t('landingPage.earnSectionBody')}
             </Typography>
             <Box
               display="flex"
@@ -197,7 +195,7 @@ const Earn: FC = () => {
                 fontWeight="inherit"
                 textTransform="uppercase"
               >
-                {t('index.earnSectionButton')}
+                {t('landingPage.earnSectionButton')}
               </Typography>
             </Button>
           </Box>

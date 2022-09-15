@@ -1,20 +1,20 @@
 {
   "dineroMarket": {
-    "dineroMarketTitle": "Peça Dinero Emprestado",
+    "title": "Peça Dinero Emprestado",
     "borrowFilterSortOptionName": "Nome",
-    "borrowFilterSortOptionInterestRate": "Taxas de juros",
-    "borrowFilterSortOptionLiquidationFee": "Taxa de liquidação",
-    "borrowFilterBorrowing": "Apenas Empréstimo",
-    "borrowTableHeaderCollateral": "Garantia",
-    "borrowTableHeaderTVL": "TVL",
-    "borrowTableHeaderTVLTip": "Valor Total Retido",
-    "borrowTableHeaderBorrowing": "Emprestimo",
-    "borrowTableHeaderBorrowingTip": "Quantidade corrente de Dinero emprestado",
-    "borrowTableHeaderLTV": "LTV",
-    "borrowTableHeaderLTVTip": "Rácio de empréstimo/garantia",
-    "borrowTableHeaderInterestCost": "Custo dos juros (APR)",
-    "borrowTableHeaderInterestCostTip": "O custo anual de um empréstimo a um usuário, <br /> expresso percentualmente",
-    "borrowTableHeaderLiquidation": "Taxa de liquidação",
-    "borrowTableHeaderLiquidationTip": "Taxa de penalização cobrada a um usuário quando a sua posição é liquidada.<br />É expressa como uma percentagem do empréstimo"
+    "filterSortOptionInterestRate": "Taxas de juros",
+    "filterSortOptionLiquidationFee": "Taxa de liquidação",
+    "filterBorrowing": "Apenas Empréstimo",
+    "tableHeaderCollateral": "Garantia",
+    "tableHeaderTVL": "TVL",
+    "tableHeaderTVLTip": "Valor Total Retido",
+    "tableHeaderBorrowing": "Emprestimo",
+    "tableHeaderBorrowingTip": "Quantidade corrente de Dinero emprestado",
+    "tableHeaderLTV": "LTV",
+    "tableHeaderLTVTip": "Rácio de empréstimo/garantia",
+    "tableHeaderInterestCost": "Custo dos juros (APR)",
+    "tableHeaderInterestCostTip": "O custo anual de um empréstimo a um usuário, <br /> expresso percentualmente",
+    "tableHeaderLiquidation": "Taxa de liquidação",
+    "tableHeaderLiquidationTip": "Taxa de penalização cobrada a um usuário quando a sua posição é liquidada.<br />É expressa como uma percentagem do empréstimo"
   }
 }

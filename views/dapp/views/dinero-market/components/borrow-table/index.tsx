@@ -45,12 +45,12 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   textAlign="center"
                   display={['none', 'block']}
                 >
-                  {capitalize(t('dineroMarket.borrowTableHeaderCollateral'))}
+                  {t('dineroMarket.tableHeaderCollateral')}
                 </Typography>
               ),
             },
             {
-              tip: capitalize(t('dineroMarket.borrowTableHeaderTVLTip')),
+              tip: t('dineroMarket.tableHeaderTVLTip'),
               item: (
                 <Typography
                   as="span"
@@ -63,7 +63,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
               ),
             },
             {
-              tip: capitalize(t('dineroMarket.borrowTableHeaderBorrowingTip')),
+              tip: t('dineroMarket.tableHeaderBorrowingTip'),
               item: (
                 <Typography
                   as="span"
@@ -71,12 +71,12 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   variant="normal"
                   fontSize="inherit"
                 >
-                  {capitalize(t('dineroMarket.borrowTableHeaderBorrowing'))}
+                  {t('dineroMarket.tableHeaderBorrowing')}
                 </Typography>
               ),
             },
             {
-              tip: capitalize(t('dineroMarket.borrowTableHeaderLTVTip')),
+              tip: t('dineroMarket.tableHeaderLTVTip'),
               item: (
                 <Typography
                   as="span"
@@ -89,24 +89,12 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
               ),
             },
             {
-              tip: capitalize(
-                t('dineroMarket.borrowTableHeaderInterestCostTip')
-              ),
-              item: (
-                <>
-                  {capitalize(t('dineroMarket.borrowTableHeaderInterestCost'))}
-                </>
-              ),
+              tip: t('dineroMarket.tableHeaderInterestCostTip'),
+              item: <>{t('dineroMarket.tableHeaderInterestCost')}</>,
             },
             {
-              tip: capitalize(
-                t('dineroMarket.borrowTableHeaderLiquidationTip')
-              ),
-              item: (
-                <>
-                  {capitalize(t('dineroMarket.borrowTableHeaderLiquidation'))}
-                </>
-              ),
+              tip: t('dineroMarket.tableHeaderLiquidationTip'),
+              item: <>{t('dineroMarket.tableHeaderLiquidation')}</>,
             },
           ]}
           data={filteredMarkets.map((x) => ({
@@ -197,7 +185,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   fontSize="inherit"
                   data-tip="TVL info"
                 >
-                  {capitalize(t('dineroMarket.borrowTableHeaderBorrowing'))}
+                  {t('dineroMarket.tableHeaderBorrowing')}
                 </Typography>
               ),
             },
@@ -216,18 +204,10 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
               ),
             },
             {
-              item: (
-                <>
-                  {capitalize(t('dineroMarket.borrowTableHeaderInterestCost'))}
-                </>
-              ),
+              item: <>{t('dineroMarket.tableHeaderInterestCost')}</>,
             },
             {
-              item: (
-                <>
-                  {capitalize(t('dineroMarket.borrowTableHeaderLiquidation'))}
-                </>
-              ),
+              item: <>{t('dineroMarket.tableHeaderLiquidation')}</>,
             },
           ]}
           data={filteredMarkets.map((x) => {

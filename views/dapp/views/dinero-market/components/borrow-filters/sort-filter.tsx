@@ -11,15 +11,15 @@ import { BorrowSortByFilter, SortFilterProps } from './borrow-filters.types';
 
 const parseFarmSortByEnum = cond([
   [equals(BorrowSortByFilter.Default), always('common.select')],
-  [equals(BorrowSortByFilter.TVL), always('dineroMarket.borrowTableHeaderTVL')],
-  [equals(BorrowSortByFilter.LTV), always('dineroMarket.borrowTableHeaderLTV')],
+  [equals(BorrowSortByFilter.TVL), always('dineroMarket.tableHeaderTVL')],
+  [equals(BorrowSortByFilter.LTV), always('dineroMarket.tableHeaderLTV')],
   [
     equals(BorrowSortByFilter.InterestRate),
-    always('dineroMarket.borrowFilterSortOptionInterestRate'),
+    always('dineroMarket.filterSortOptionInterestRate'),
   ],
   [
     equals(BorrowSortByFilter.Fee),
-    always('dineroMarket.borrowFilterSortOptionLiquidationFee'),
+    always('dineroMarket.filterSortOptionLiquidationFee'),
   ],
   [T, always('common.select')],
 ]);
@@ -113,14 +113,12 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
             {
               value: 'interestRate',
               displayOption: capitalize(
-                t('dineroMarket.borrowFilterSortOptionInterestRate')
+                t('dineroMarket.filterSortOptionInterestRate')
               ),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    {capitalize(
-                      t('dineroMarket.borrowFilterSortOptionInterestRate')
-                    )}
+                    {t('dineroMarket.filterSortOptionInterestRate')}
                   </Typography>
                 </Box>
               ),
@@ -131,13 +129,13 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
             {
               value: 'fee',
               displayOption: capitalize(
-                t('dineroMarket.borrowFilterSortOptionLiquidationFee')
+                t('dineroMarket.filterSortOptionLiquidationFee')
               ),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
                     {capitalize(
-                      t('dineroMarket.borrowFilterSortOptionLiquidationFee')
+                      t('dineroMarket.filterSortOptionLiquidationFee')
                     )}
                   </Typography>
                 </Box>

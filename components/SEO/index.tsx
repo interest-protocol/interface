@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Theme } from '@/design-system/landing-page-theme';
+import { capitalize } from '@/utils';
 import { LayoutProps } from '@/views/home/layout/layout.types';
 
 const SEO: FC<LayoutProps> = ({ pageTitle }) => {
@@ -14,11 +15,17 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
       <meta name="theme-color" content={colors.foreground} />
       <meta charSet="utf-8" />
       <meta name="title" content="Interest Protocol" />
-      <meta name="description" content={t('common.seoDescription')} />
+      <meta
+        name="description"
+        content={capitalize(t('common.seoDescription'))}
+      />
       <meta property="og:locale" content="en_US" />
       <meta property="og:title" content="Interest Protocol" />
       <meta property="og:site_name" content="Interest Protocol" />
-      <meta property="og:description" content={t('common.seoDescription')} />
+      <meta
+        property="og:description"
+        content={capitalize(t('common.seoDescription'))}
+      />
       <meta property="og:image" content="/android-chrome-256x256.png" />
       <meta
         property="og:image:secure_url"
@@ -32,7 +39,10 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
       <meta name="twitter:title" content="Interest Protocol" />
       <meta name="twitter:site" content="https://interestprotocol.com" />
       <meta name="twitter:image" content="/android-chrome-256x256.png" />
-      <meta name="twitter:description" content={t('common.seoDescription')} />
+      <meta
+        name="twitter:description"
+        content={capitalize(t('common.seoDescription'))}
+      />
 
       <link rel="icon" href="/favicon.ico" />
       <link

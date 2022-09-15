@@ -247,12 +247,12 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                 options={[
                   {
                     value: 'recommended',
-                    displayValue: capitalize(t('dexPoolFind.switchOption1')),
+                    displayValue: t('dexPoolFind.switchOption1'),
                     onSelect: () => setShowLocal(false),
                   },
                   {
                     value: 'local',
-                    displayValue: capitalize(t('dexPoolFind.switchOption2')),
+                    displayValue: t('dexPoolFind.switchOption2'),
                     onSelect: () => setShowLocal(true),
                   },
                 ]}

@@ -1,10 +1,19 @@
 import { GetStaticProps, NextPage } from 'next';
 
+import RedirectLang from '@/components/redirect-lang';
 import FindPoolView from '@/views/dapp/views/dex-find-pool';
 
-const FindPoolPage: NextPage = () => <FindPoolView />;
+const FindPoolPage: NextPage = () => (
+  <>
+    <RedirectLang />
+    <FindPoolView />
+  </>
+);
 
-export const getStaticProps: GetStaticProps = ({ locale, ...otherProps }) => ({
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+  ...otherProps
+}) => ({
   props: {
     ...otherProps,
     messages: {
