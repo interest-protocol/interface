@@ -3,7 +3,7 @@
     "title": "detalhes",
     "secondCardTitle": "Depositados (Staked)",
     "thirdCardTitle": "Ganhos",
-    "thirdCardButton": "Retirar",
+    "thirdCardButton": "{isLoading, plural, =1 {Retirarando...} other {Retirar}}",
     "yourStakedLabel": "apostou",
     "modalStakedTitle": "depositar",
     "modalUnstakedTitle": "Não depositar",

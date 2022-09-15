@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ethers } from 'ethers';
 import { useTranslations } from 'next-intl';
-import { pathOr } from 'ramda';
+import { pathOr, prop } from 'ramda';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -120,7 +120,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
 
   const submitAllowance = () =>
     showToast(handleAddAllowance(), {
-      loading: capitalize(`${t('common.approve', { isLoading: 1 })}...`),
+      loading: capitalize(`${t('common.approve', { isLoading: 1 })}`),
       success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
@@ -221,7 +221,11 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     if (!chainId || !account || !market || market.collateralAllowance.isZero())
       return;
 
-    await showToast(handleBorrow());
+    await showToast(handleBorrow(), {
+      success: t('common.success'),
+      error: prop('message'),
+      loading: t('common.submit', { isLoading: 1 }),
+    });
   };
 
   const onSubmitRepay = async () => {
@@ -232,7 +236,11 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
 
     if (!chainId || !account || !market) return;
 
-    await showToast(handleRepay());
+    await showToast(handleRepay(), {
+      success: t('common.success'),
+      error: prop('message'),
+      loading: t('common.submit', { isLoading: 1 }),
+    });
   };
 
   if (error) return <ErrorPage message="Something went wrong" />;

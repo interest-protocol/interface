@@ -2,6 +2,7 @@ import { BigNumber } from 'ethers';
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
+import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -79,11 +80,19 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
     }
   }, [chainId, signer]);
 
-  const handleApprove = useCallback(() => showToast(approve()), [approve]);
+  const handleApprove = useCallback(
+    () =>
+      showToast(approve(), {
+        success: t('common.success'),
+        error: propOr(t('common.error'), 'message'),
+        loading: t('common.approve', { isLoading: 1 }),
+      }),
+    [approve]
+  );
 
   const harvest = useCallback(async () => {
     if (farm.pendingRewards.isZero()) return;
-
+    setLoadingPool(true);
     const { validId, validSigner } = throwIfInvalidSigner(
       [account],
       chainId,
@@ -103,11 +112,20 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
     } catch (e) {
       throwError('Failed to harvest rewards', e);
     } finally {
+      setLoadingPool(false);
       dispatch(coreActions.updateNativeBalance());
     }
   }, [signer, chainId]);
 
-  const handleHarvest = useCallback(() => showToast(harvest()), [harvest]);
+  const handleHarvest = useCallback(
+    () =>
+      showToast(harvest(), {
+        success: t('common.success'),
+        error: propOr(t('common.error'), 'message'),
+        loading: t('earnTokenAddress.thirdCardButton', { isLoading: 1 }),
+      }),
+    [harvest]
+  );
 
   const handleCloseModal = () => setModal(undefined);
 
@@ -179,12 +197,22 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
   );
 
   const handleUnstake = useCallback(
-    (value: BigNumber) => showToast(handleWithdrawTokens(value)),
+    (value: BigNumber) =>
+      showToast(handleWithdrawTokens(value), {
+        loading: t('common.unstake', { isLoading: 1 }),
+        error: propOr('common.error', 'message'),
+        success: t('common.success'),
+      }),
     [handleWithdrawTokens]
   );
 
   const handleStake = useCallback(
-    (value: BigNumber) => showToast(handleDepositTokens(value)),
+    (value: BigNumber) =>
+      showToast(handleDepositTokens(value), {
+        loading: t('common.stake', { isLoading: 1 }),
+        error: propOr('common.error', 'message'),
+        success: t('common.success'),
+      }),
     [handleDepositTokens]
   );
 
@@ -269,7 +297,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
                     fontSize="S"
                     textTransform="capitalize"
                   >
-                    {t('common.approve', { isLoading: 1 })}...
+                    {t('common.approve', { isLoading: 1 })}
                   </Typography>
                 </Box>
               ) : (
@@ -355,7 +383,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
               bg: !farm.pendingRewards.isZero() ? 'successActive' : 'disabled',
             }}
           >
-            {t('earnTokenAddress.thirdCardButton')}
+            {t('earnTokenAddress.thirdCardButton', { isLoading: +loadingPool })}
           </Button>
         }
       />

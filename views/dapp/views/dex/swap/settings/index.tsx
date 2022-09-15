@@ -136,7 +136,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           label={t('dexSwap.deadlineLabel')}
           suffix={
             <Typography variant="normal" textTransform="lowercase">
-              {t('common.minute', { count: newDeadline.current || 1 })}
+              {t('common.minute', { count: localSettings.deadline })}
             </Typography>
           }
         />

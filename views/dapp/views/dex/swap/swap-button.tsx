@@ -96,7 +96,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const handleAddAllowance = useCallback(async () => {
     if (isZeroAddress(tokenInAddress)) return;
-    setButtonLoadingText(t('common.approve', { isLoading: 1 }) + '...');
+    setButtonLoadingText(t('common.approve', { isLoading: 1 }));
     try {
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -124,7 +124,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const submitAllowance = () =>
     showToast(handleAddAllowance(), {
-      loading: capitalize(t('common.approve', { isLoading: 1 }) + '...'),
+      loading: capitalize(t('common.approve', { isLoading: 1 })),
       success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
@@ -266,7 +266,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     )
       return;
 
-    setButtonLoadingText(t('common.wrap', { isLoading: 1 }) + '...');
+    setButtonLoadingText(t('common.wrap', { isLoading: 1 }));
     try {
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -300,7 +300,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const deposit = () =>
     showToast(handleWETHDeposit(), {
-      loading: capitalize(t('common.wrap', { isLoading: 1 }) + '...'),
+      loading: capitalize(t('common.wrap', { isLoading: 1 })),
       success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
@@ -312,7 +312,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     )
       return;
 
-    setButtonLoadingText(t('common.unwrap', { isLoading: 1 }) + '...');
+    setButtonLoadingText(t('common.unwrap', { isLoading: 1 }));
     try {
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -346,7 +346,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const withdraw = () =>
     showToast(handleWETHWithdraw(), {
-      loading: capitalize(t('common.unwrap', { isLoading: 1 }) + '...'),
+      loading: capitalize(t('common.unwrap', { isLoading: 1 })),
       success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
@@ -393,7 +393,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const handleLoadingText = (): string => {
     if (fetchingBalancesData) return t('common.fetchingBalances') + '...';
-    if (fetchingBaseData) return t('common.load', { isLoading: 1 }) + '...';
+    if (fetchingBaseData) return t('common.load', { isLoading: 1 });
     if (fetchingAmount) return t('dexSwap.swapMessage.fetchingAmounts') + '...';
     return buttonLoadingText as string;
   };

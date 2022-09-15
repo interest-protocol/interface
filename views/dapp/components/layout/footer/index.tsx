@@ -123,7 +123,7 @@ const Footer: FC = () => {
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
             >
-              {capitalize(t('common.loan', { count: 2 }))}
+              {capitalize(t('common.borrow'))}
             </Button>
           </Link>
           {RoutesWithFaucet.includes(pathname) && <Faucet />}

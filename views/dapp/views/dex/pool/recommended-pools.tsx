@@ -5,6 +5,7 @@ import { v4 } from 'uuid';
 import { PoolType, RECOMMENDED_POOLS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useChainId, useLocale } from '@/hooks';
+import { capitalize } from '@/utils';
 
 import { RecommendedPoolsProps } from './pool.types';
 import PoolRow from './pool-row';
@@ -18,9 +19,11 @@ const RecommendedPools: FC<RecommendedPoolsProps> = ({ type }) => {
       <Typography variant="normal" width="100%" my="L">
         {t('dexPool.recommendedTitle', {
           currentLocale,
-          type: t(
-            type === PoolType.Volatile ? 'common.volatile' : 'common.stable',
-            { count: 2 }
+          type: capitalize(
+            t(
+              type === PoolType.Volatile ? 'common.volatile' : 'common.stable',
+              { count: 2 }
+            )
           ),
         })}
       </Typography>

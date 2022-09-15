@@ -3,7 +3,7 @@
     "title": "Details",
     "secondCardTitle": "Staked",
     "thirdCardTitle": "Rewards",
-    "thirdCardButton": "Harvest",
+    "thirdCardButton": "{isLoading, plural, =1 {Harvesting...} other {Harvest}}",
     "yourStakedLabel": "You staked",
     "modalStakedTitle": "Staked",
     "modalUnstakedTitle": "Unstaked",

@@ -183,7 +183,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
                     ml="L"
                     textTransform="capitalize"
                   >
-                    {t('common.initialize', { isLoading: 1 })}...
+                    {t('common.initialize', { isLoading: 1 })}
                   </Typography>
                 </>
               )}

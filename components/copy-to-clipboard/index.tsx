@@ -21,7 +21,7 @@ const CopyToClipboard: FC<CopyToClipboardProps> = ({
   const copyToClipboard = (e: ReactMouseEvent<HTMLDivElement, MouseEvent>) => {
     window.navigator.clipboard.writeText(address || '');
     onClick?.(e);
-    toast('Copied to clipboard');
+    toast(capitalize(t('common.copyClipboard')));
   };
 
   return (

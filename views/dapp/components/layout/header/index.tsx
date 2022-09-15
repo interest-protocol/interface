@@ -109,7 +109,7 @@ const Header: FC = () => {
             hover={{ color: 'accentActive' }}
             textTransform="capitalize"
           >
-            {t('common.loan', { count: 2 })}
+            {t('common.borrow')}
           </Typography>
         </Link>
       </Box>

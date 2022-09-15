@@ -80,7 +80,7 @@ const AccountModal: FC<AccountModalProps> = ({
               onClick={disconnect}
               hover={{ color: 'text', bg: 'accent' }}
             >
-              {capitalize(t('common.disconnected'))}
+              {capitalize(t('common.disconnect'))}
             </Button>
           </Box>
           <Box display="flex" my="L">

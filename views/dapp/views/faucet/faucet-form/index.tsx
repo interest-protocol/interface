@@ -67,7 +67,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
       const amount = getValues('amount');
       const token = getValues('token');
 
-      if (!amount || !isValidAccount(token)) return;
+      if (!amount || !isValidAccount(token)) throwError(t('common.error'));
 
       const { validSigner, validId } = throwIfInvalidSigner(
         [account],
@@ -103,7 +103,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
 
   const onMint = () =>
     showToast(handleOnMint(), {
-      loading: `${t('faucet.buttonLoading')}...`,
+      loading: `${t('faucet.button', { isLoading: 1 })}`,
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
@@ -171,7 +171,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
                       fontSize="S"
                       textTransform="capitalize"
                     >
-                      {t('faucet.button', { isLoading: 1 })}...
+                      {t('faucet.button', { isLoading: 1 })}
                     </Typography>
                   </Box>
                 ) : (

@@ -6,7 +6,7 @@ export const SWAP_MESSAGES = {
     Icon: LoadingSVG,
   },
   'error-amount-out': {
-    message: 'dexSwap.swapMessage.AmountOut',
+    message: 'dexSwap.swapMessage.amountOut',
     Icon: WarningSVG,
     color: 'error',
   },
