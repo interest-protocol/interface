@@ -1,6 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
 
-import RedirectLang from '@/components/redirect-lang';
 import EarnFarm from '@/views/dapp/views/earn-farm';
 
 interface EarnFarmPageProps {
@@ -10,12 +9,7 @@ interface EarnFarmPageProps {
 const EarnFarmPage: NextPage<EarnFarmPageProps> = ({ tokenAddress }) => {
   if (!tokenAddress) return null;
 
-  return (
-    <>
-      <RedirectLang />
-      <EarnFarm address={tokenAddress} />
-    </>
-  );
+  return <EarnFarm address={tokenAddress} />;
 };
 
 export const getServerSideProps: GetServerSideProps = async ({

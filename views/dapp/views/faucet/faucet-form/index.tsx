@@ -171,11 +171,11 @@ const FaucetForm: FC<FaucetFormProps> = ({
                       fontSize="S"
                       textTransform="capitalize"
                     >
-                      {t('faucet.button', { numMessage: 1 })}...
+                      {t('faucet.button', { isLoading: 1 })}...
                     </Typography>
                   </Box>
                 ) : (
-                  t('faucet.button', { numMessage: 0 })
+                  t('faucet.button', { isLoading: 0 })
                 )}
               </Button>
             ) : (

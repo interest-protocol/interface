@@ -1,7 +1,6 @@
 {
   "dineroMarket": {
     "title": "Peça Dinero Emprestado",
-    "borrowFilterSortOptionName": "Nome",
     "filterSortOptionInterestRate": "Taxas de juros",
     "filterSortOptionLiquidationFee": "Taxa de liquidação",
     "filterBorrowing": "Apenas Empréstimo",

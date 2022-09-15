@@ -88,7 +88,7 @@ const EarnTable: FC<EarnTableProps> = ({
                   fontSize="inherit"
                   textTransform="capitalize"
                 >
-                  {t('common.stake', { numMessage: 1 })}
+                  {t('common.stake', { isLoading: 1 })}
                 </Typography>
               ),
             },
@@ -188,7 +188,7 @@ const EarnTable: FC<EarnTableProps> = ({
                       textTransform="capitalize"
                     >
                       {t(farm.stable ? 'common.stable' : 'common.volatile', {
-                        numMessage: 0,
+                        count: 0,
                       })}
                     </Typography>,
                   ],
@@ -225,7 +225,7 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    {t('common.stake', { numMessage: 1 })}
+                    {t('common.stake', { isLoading: 1 })}
                   </Typography>
                 ),
               },
@@ -342,7 +342,7 @@ const EarnTable: FC<EarnTableProps> = ({
                         textTransform="capitalize"
                       >
                         {t(farm.stable ? 'common.stable' : 'common.volatile', {
-                          numMessage: 0,
+                          count: 0,
                         })}
                       </Typography>,
                     ],

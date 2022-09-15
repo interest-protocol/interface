@@ -109,7 +109,7 @@ const Header: FC = () => {
             hover={{ color: 'accentActive' }}
             textTransform="capitalize"
           >
-            {t('common.loan', { numMessage: 2 })}
+            {t('common.loan', { count: 2 })}
           </Typography>
         </Link>
       </Box>

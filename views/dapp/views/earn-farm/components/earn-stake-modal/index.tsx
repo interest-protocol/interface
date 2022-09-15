@@ -127,7 +127,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
             label={t('earnTokenAddress.modalLabelInput', {
               currentLocale,
               type: t(isStake ? 'common.stake' : 'common.unstake', {
-                numMessage: 0,
+                isLoading: 0,
               }),
             })}
           />
@@ -173,7 +173,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
                 <LoadingSVG width="100%" />
               </Box>
             )}
-            {capitalize(t('common.confirm', { numMessage: Number(loading) }))}
+            {capitalize(t('common.confirm', { isLoading: Number(loading) }))}
           </Button>
         </Box>
       </Box>

@@ -43,7 +43,7 @@ const Footer: FC = () => {
             mt={['L', 'L', 'L', 'unset']}
           >
             © {new Date().getFullYear()}. Interest Protocol from Interest Labs
-            Inc. {t('landingPage.fileNumber')} 6820994.{' '}
+            Inc. - 6820994.{' '}
             <Typography
               as="span"
               fontSize="S"

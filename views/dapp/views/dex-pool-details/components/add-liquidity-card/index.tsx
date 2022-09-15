@@ -107,7 +107,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
   const handleApproveToken = (token: string, symbol: string) =>
     showToast(approveToken(token), {
       loading: `${symbol}: ${capitalize(
-        t('common.approve', { numMessage: 1 })
+        t('common.approve', { isLoading: 1 })
       )}...`,
       success: capitalize(t('common.success')),
       error: prop('message'),
@@ -197,7 +197,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
 
   const handleAddLiquidity = () =>
     showToast(addLiquidity(), {
-      loading: `${capitalize(t('common.add', { numMessage: 1 }))} ${capitalize(
+      loading: `${capitalize(t('common.add', { isLoading: 1 }))} ${capitalize(
         t('common.liquidity')
       )}...`,
       success: capitalize(t('common.success')),
@@ -215,7 +215,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
           variant="normal"
           textTransform="uppercase"
         >
-          {t('common.add', { numMessage: 0 }) + ' ' + t('common.liquidity')}
+          {t('common.add', { isLoading: 0 }) + ' ' + t('common.liquidity')}
         </Typography>
       </Box>
       {tokens.map(({ balance, decimals, allowance, Icon, symbol }, index) => (
@@ -291,7 +291,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
                 hover={{ bg: 'accentActive' }}
                 onClick={() => handleApproveToken(address, symbol)}
               >
-                {capitalize(t('common.approve', { numMessage: 0 }))} {symbol}
+                {capitalize(t('common.approve', { isLoading: 0 }))} {symbol}
               </Button>
             ))
           )}
@@ -319,7 +319,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
                 onClick={handleAddLiquidity}
                 hover={{ bg: loading ? 'disabled' : 'accentActive' }}
               >
-                {capitalize(t('common.add', { numMessage: Number(loading) }))}
+                {capitalize(t('common.add', { isLoading: Number(loading) }))}
               </Button>
             </>
           )}

@@ -1,14 +1,8 @@
 import { GetStaticProps, NextPage } from 'next';
 
-import RedirectLang from '@/components/redirect-lang';
 import DEXView from '@/views/dapp/views/dex';
 
-const DEXPoolPage: NextPage = () => (
-  <>
-    <RedirectLang />
-    <DEXView />
-  </>
-);
+const DEXPoolPage: NextPage = () => <DEXView />;
 
 export const getStaticProps: GetStaticProps = async ({
   locale,

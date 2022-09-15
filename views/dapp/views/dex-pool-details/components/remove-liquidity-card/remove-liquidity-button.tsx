@@ -23,7 +23,7 @@ const RemoveLiquidityButton: FC<RemoveLiquidityButtonProps> = ({
       hover={{ bg: 'errorActive' }}
       bg={loading ? 'disabled' : 'error'}
     >
-      {capitalize(t('common.remove', { numMessage: Number(loading) }))}
+      {capitalize(t('common.remove', { count: Number(loading) }))}
     </Button>
   );
 };

@@ -69,7 +69,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
 
   const handleApprove = () =>
     showToast(approve(address), {
-      loading: capitalize(t('common.approve', { numMessage: 1 })),
+      loading: capitalize(t('common.approve', { isLoading: 1 })),
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
@@ -155,7 +155,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
             onClick={handleApprove}
             hover={{ bg: 'accentActive' }}
           >
-            {capitalize(t('common.approve', { numMessage: 0 }))} Token
+            {capitalize(t('common.approve', { isLoading: 0 }))} Token
           </Button>
         ) : (
           <Button

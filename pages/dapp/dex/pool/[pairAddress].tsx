@@ -1,6 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
 
-import RedirectLang from '@/components/redirect-lang';
 import DEXPoolDetailsView from '@/views/dapp/views/dex-pool-details';
 
 interface DEXPoolDetailsPageProps {
@@ -9,12 +8,7 @@ interface DEXPoolDetailsPageProps {
 
 const DEXPoolDetailsPage: NextPage<DEXPoolDetailsPageProps> = ({
   pairAddress,
-}) => (
-  <>
-    <RedirectLang />
-    <DEXPoolDetailsView pairAddress={pairAddress} />
-  </>
-);
+}) => <DEXPoolDetailsView pairAddress={pairAddress} />;
 
 export const getServerSideProps: GetServerSideProps = async ({
   params,

@@ -24,7 +24,7 @@ const SwitchLang: FC = () => {
       mode="menu"
       defaultValue={currentLocale}
       data={
-        locales?.map((locale) => ({
+        locales.map((locale) => ({
           value: locale,
           displayOption: (
             <Box

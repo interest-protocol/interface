@@ -81,7 +81,7 @@ const Faucet: FC = () => {
               onClick={toggleCreateToken}
               hover={{ bg: 'accentActive' }}
             >
-              {t('faucet.modalButton', { numMessage: 0 })}
+              {t('faucet.modalButton', { isLoading: 0 })}
             </Button>
           </Box>
           <FaucetForm

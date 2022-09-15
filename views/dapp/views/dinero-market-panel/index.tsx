@@ -120,7 +120,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
 
   const submitAllowance = () =>
     showToast(handleAddAllowance(), {
-      loading: capitalize(`${t('common.approve', { numMessage: 1 })}...`),
+      loading: capitalize(`${t('common.approve', { isLoading: 1 })}...`),
       success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });

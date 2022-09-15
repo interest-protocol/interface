@@ -149,7 +149,7 @@ const FindPoolView: FC = () => {
 
   const handleEnterPool = () =>
     showToast(enterPool(), {
-      loading: capitalize(t('common.check', { numMessage: 1 }) + ' pool...'),
+      loading: capitalize(t('common.check', { count: 1 }) + ' pool...'),
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
@@ -273,7 +273,7 @@ const FindPoolView: FC = () => {
 
   const handleCreatePair = () =>
     showToast(createPair(), {
-      loading: t('dexPoolFind.buttonPool', { numMessage: 1 }),
+      loading: t('dexPoolFind.buttonPool', { isLoading: 1 }),
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
@@ -377,7 +377,7 @@ const FindPoolView: FC = () => {
                   : handleCreatePair
               }
             >
-              {t('dexPoolFind.buttonPool', { numMessage: Number(loading) })}
+              {t('dexPoolFind.buttonPool', { isLoading: Number(loading) })}
             </Button>
           ) : (
             <Button
@@ -388,7 +388,7 @@ const FindPoolView: FC = () => {
               bg={loading ? 'accentActive' : 'accent'}
               hover={{ bg: loading ? 'disabled' : 'accentActive' }}
             >
-              {t('dexPoolFind.button', { numMessage: Number(loading) })}
+              {t('dexPoolFind.button', { isLoading: Number(loading) })}
             </Button>
           )}
         </WalletGuardButton>

@@ -93,7 +93,7 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
 
   const safeCreateToken = () =>
     showToast(handleCreateToken(), {
-      loading: `${t('faucet.modalButton', { numMessage: 1 })}...`,
+      loading: `${t('faucet.modalButton', { isLoading: 1 })}...`,
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
@@ -166,11 +166,11 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
                   ml="M"
                   textTransform="capitalize"
                 >
-                  {t('faucet.modalButton', { numMessage: 1 })}
+                  {t('faucet.modalButton', { isLoading: 1 })}
                 </Typography>
               </Box>
             ) : (
-              t('faucet.modalButton')
+              t('faucet.modalButton', { isLoading: 0 })
             )}
           </Button>
         ) : (

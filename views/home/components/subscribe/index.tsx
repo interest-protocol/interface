@@ -23,7 +23,7 @@ const Subscribe: FC = () => {
             if (data.httpStatus == 200) return data;
           }),
         {
-          loading: t('landingPage.subscribeLoading'),
+          loading: t('landingPage.subscribeButton', { isLoading: 1 }),
           success: capitalize(t('common.success')),
           error: (error) => `${error.code} - ${error.message}`,
         }
@@ -81,14 +81,14 @@ const Subscribe: FC = () => {
           flexDirection="column"
         >
           <Button ml="S" px="L" type="submit" variant="tertiary" effect="hover">
-            {t('landingPage.subscribeButton', { numMessage: 0 })}
+            {t('landingPage.subscribeButton', { isLoading: 0 })}
           </Button>
           <Box display="flex" alignItems="center" mt="M" px="L">
             <Box width="0.7rem">
               <ShieldSVG width="100%" />
             </Box>
             <Typography variant="normal" ml="S" fontSize="XS">
-              {t('landingPage.subscribeButton', { numMessage: 1 })}
+              {t('landingPage.subscribeButton', { isLoading: 1 })}
             </Typography>
           </Box>
         </Box>

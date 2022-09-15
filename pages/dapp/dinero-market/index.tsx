@@ -1,14 +1,8 @@
 import { GetStaticProps, NextPage } from 'next';
 
-import RedirectLang from '@/components/redirect-lang';
 import DineroMarket from '@/views/dapp/views/dinero-market';
 
-const DineroMarketPage: NextPage = () => (
-  <>
-    <RedirectLang />
-    <DineroMarket />
-  </>
-);
+const DineroMarketPage: NextPage = () => <DineroMarket />;
 
 export const getStaticProps: GetStaticProps = async ({
   locale,

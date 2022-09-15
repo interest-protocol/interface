@@ -25,7 +25,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       disabled={loading}
     >
       {t('common.approve', {
-        numMessage: Number(loading),
+        isLoading: Number(loading),
       })}{' '}
       {symbol0}/{symbol1} LP
     </Button>

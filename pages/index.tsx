@@ -1,14 +1,8 @@
 import { GetStaticProps, NextPage } from 'next';
 
-import RedirectLang from '@/components/redirect-lang';
 import Home from '@/views/home';
 
-const HomePage: NextPage = () => (
-  <>
-    <RedirectLang />
-    <Home />
-  </>
-);
+const HomePage: NextPage = () => <Home />;
 
 export const getStaticProps: GetStaticProps = async ({
   locale,

@@ -269,7 +269,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
                     fontSize="S"
                     textTransform="capitalize"
                   >
-                    {t('common.approve', { numMessage: 1 })}...
+                    {t('common.approve', { isLoading: 1 })}...
                   </Typography>
                 </Box>
               ) : (
@@ -281,7 +281,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
                   textTransform="capitalize"
                 >
                   {
-                    (t('common.approve', { numMessage: 0 }) +
+                    (t('common.approve', { isLoading: 0 }) +
                       ' ' +
                       t(
                         farm.id === 0 ? 'common.pool' : 'common.farm'
