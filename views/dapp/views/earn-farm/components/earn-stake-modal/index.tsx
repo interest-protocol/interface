@@ -126,7 +126,9 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
             }
             label={t('earnTokenAddress.modalLabelInput', {
               currentLocale,
-              type: t(isStake ? 'common.stake' : 'common.unstake'),
+              type: t(isStake ? 'common.stake' : 'common.unstake', {
+                numMessage: 0,
+              }),
             })}
           />
         </Box>

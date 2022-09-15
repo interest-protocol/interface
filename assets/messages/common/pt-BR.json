@@ -11,7 +11,7 @@
     "volatile": "{numMessage, plural, =1 {voláteis} other {volátil}}",
     "stable": "{numMessage, plural, =1 {estáveis} other {estável}}",
     "liquidity": "liquidez",
-    "remove": "{numMessage, plural, =1 {removendo} other {remover}}",
+    "remove": "{numMessage, plural, =1 {removendo} =2 {remova} other {remover}}",
     "add": "{numMessage, plural, =1 {adicionando} other {adicione}}",
     "reset": "Reiniciar",
     "choose": "escolha",
@@ -21,11 +21,10 @@
     "favorite": "{numMessage, plural, =1 {favorito} other {favoritos}}",
     "vault": "vault",
     "farm": "farm",
-    "staking": "staking",
     "success": "sucesso",
     "notFound": "não encontrado",
     "approve": "{numMessage, plural, =1 {aprovando} other {aprovar}}",
-    "loading": "carregando",
+    "load": "{numMessage, plural, =1 {carregando} other {carregar}}",
     "back": "voltar",
     "connectWallet": "conetar à carteira",
     "collateral": "peça empréstimos",
@@ -42,13 +41,6 @@
     "unwrap": "{numMessage, plural, =1 {desempacotando} other {desempacotar}}",
     "fetchingBalances": "procurando saldos",
     "networkTitle": "escolha a Network",
-    "swapMessage": {
-      "fetchingAmounts": "procurando montante",
-      "amountOut": "falha na obtenção da quantia",
-      "sameOut": "não é possível trocar tokens iguais",
-      "balances": "falha na obtenção de saldos",
-      "infoNoPool": "este par não tem liquidez. Experimente uma quantidade maior ou acrescente liquidez"
-    },
     "account": "conta",
     "connected": "conectado com",
     "disconnected": "desconectado",
@@ -59,7 +51,7 @@
     "unlockWalletDescription": "tente desbloquear a sua carteira",
     "initialize": "{numMessage, plural, =1 {inicializando} other {inicialize}}",
     "connectYourWallet": "conecte-se a sua carteira",
-    "searchInputDescription": "pesquisa por nome, símbolo ou endereço...",
+    "searchTokenInputDescription": "pesquisa por nome, símbolo ou endereço...",
     "confirm": "{numMessage, plural, =1 {confirmando...} other {confirmar}}",
     "cancel": "cancelar",
     "all": "todos",
@@ -70,7 +62,7 @@
     "select": "selecione",
     "check": "{numMessage, plural, =1 {verificando} other {verificar}}",
     "seoDescription": "Use as suas crypto para pedir emprestado Dinero, uma moeda estável, de graça.",
-    "stake": "stake",
-    "unstake": "unstake"
+    "stake": "{numMessage, plural, =1 {staking} other {stake}}",
+    "unstake": "{numMessage, plural, =1 {unstaking} other {unstake}}"
   }
 }

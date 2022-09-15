@@ -28,8 +28,9 @@ const OnlyFinishedFilter: FC<OnlyFinishedFilterProps> = ({
         variant="normal"
         display="inline-block"
         textAlign={['center', 'center', 'center', 'left']}
+        textTransform="capitalize"
       >
-        {t('earn.filterStatus')}
+        {t('common.state')}
       </Typography>
       <Switch
         defaultValue={onlyFinished ? t('common.finished') : t('common.live')}

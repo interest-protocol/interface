@@ -17,7 +17,7 @@ const SwapSearchToken: FC<SwapSearchTokenProps> = ({
       autoFocus
       disabled={isSearching}
       {...register('search')}
-      placeholder={capitalize(t('common.searchInputDescription'))}
+      placeholder={capitalize(t('common.searchTokenInputDescription'))}
       shieldProps={{
         py: 'M',
         borderRadius: 'S',

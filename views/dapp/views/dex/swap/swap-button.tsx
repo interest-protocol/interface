@@ -393,8 +393,8 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const handleLoadingText = (): string => {
     if (fetchingBalancesData) return t('common.fetchingBalances') + '...';
-    if (fetchingBaseData) return t('common.loading') + '...';
-    if (fetchingAmount) return t('common.swapMessage.fetchingAmounts') + '...';
+    if (fetchingBaseData) return t('common.load', { numMessage: 1 }) + '...';
+    if (fetchingAmount) return t('dexSwap.swapMessage.fetchingAmounts') + '...';
     return buttonLoadingText as string;
   };
 

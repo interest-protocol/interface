@@ -11,7 +11,7 @@
     "volatile": "{numMessage, plural, =1 {voláteis} other {volátil}}",
     "stable": "{numMessage, plural, =1 {estáveis} other {estável}}",
     "liquidity": "liquidez",
-    "remove": "{numMessage, plural, =1 {removendo} other {remover}}",
+    "remove": "{numMessage, plural, =1 {removendo} =2 {remova} other {remover}}",
     "add": "{numMessage, plural, =1 {adicionando} other {adicione}}",
     "reset": "restaurar",
     "get": "obter",
@@ -20,7 +20,7 @@
     "notFound": "não encontrado",
     "approve": "aprovar",
     "approveLoading": "aprovando",
-    "loading": "carregando",
+    "load": "{numMessage, plural, =1 {carregando} other {carregar}}",
     "back": "voltar",
     "connectWallet": "conectar à carteira",
     "collateral": "garantia",
@@ -52,7 +52,7 @@
     "unlockWalletDescription": "tente desbloquear a sua carteira",
     "initialize": "{numMessage, plural, =1 {inicializando} other {inicialize}}",
     "connectYourWallet": "conecte-se a sua carteira",
-    "searchInputDescription": "pesquisa por nome, símbolo ou endereço...",
+    "searchTokenInputDescription": "pesquisa por nome, símbolo ou endereço...",
     "confirm": "{numMessage, plural, =1 {confirmando...} other {confirmar}}",
     "cancel": "cancelar",
     "all": "todos",
@@ -63,7 +63,7 @@
     "select": "selecione",
     "check": "{numMessage, plural, =1 {verificando} other {verificar}}",
     "seoDescription": "Use as suas crypto para pedir emprestado Dinero, uma moeda estável, de graça.",
-    "stake": "stake",
-    "unstake": "unstake"
+    "stake": "{numMessage, plural, =1 {staking} other {stake}}",
+    "unstake": "{numMessage, plural, =1 {unstaking} other {unstake}}"
   }
 }

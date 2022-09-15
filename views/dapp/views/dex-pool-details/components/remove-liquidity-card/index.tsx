@@ -165,7 +165,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
           variant="normal"
           textTransform="uppercase"
         >
-          {t('dexPoolPairAddress.removeLiquidity')}
+          {t('common.remove', { numMessage: 2 }) + ' ' + t('common.liquidity')}
         </Typography>
       </Box>
       <InputBalance

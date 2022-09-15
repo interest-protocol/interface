@@ -11,7 +11,7 @@
     "volatile": "{numMessage, plural, =1 {volatile} other {volatile}}",
     "stable": "{numMessage, plural, =1 {stable} other {stable}}",
     "liquidity": "liquidity",
-    "remove": "{numMessage, plural, =1 {removing} other {remove}}",
+    "remove": "{numMessage, plural, =1 {removing} =2 {remove} other {remove}}",
     "add": "{numMessage, plural, =1 {adding} other {add}}",
     "reset": "reset",
     "state": "state",
@@ -20,7 +20,7 @@
     "success": "success",
     "notFound": "not found",
     "approve": "{numMessage, plural, =1 {approving} other {approve}}",
-    "loading": "loading",
+    "load": "{numMessage, plural, =1 {loading} other {load}}",
     "back": "back",
     "connectWallet": "connect wallet",
     "collateral": "collateral",
@@ -37,13 +37,6 @@
     "unwrap": "{numMessage, plural, =1 {unwrapping} other {unwrap}}",
     "fetchingBalances": "fetching balances",
     "networkTitle": "choose your Network",
-    "swapMessage": {
-      "fetchingAmounts": "fetching amounts",
-      "amountOut": "failed to fetch the amount out",
-      "sameOut": "cannot swap the same token",
-      "balances": "failed to fetch balances",
-      "infoNoPool": "this pair has no liquidity. Try a higher amount or add liquidity"
-    },
     "account": "account",
     "connected": "connected with",
     "disconnected": "disconnected",
@@ -54,7 +47,7 @@
     "unlockWalletDescription": "try to unlock your wallet",
     "initialize": "{numMessage, plural, =1 {initializing} other {initialize}}",
     "connectYourWallet": "connect your wallet",
-    "searchInputDescription": "search by name, symbol or address...",
+    "searchTokenInputDescription": "search by name, symbol or address...",
     "confirm": "{numMessage, plural, =1 {confirming...} other {confirm}}",
     "cancel": "cancel",
     "all": "all",
@@ -65,7 +58,7 @@
     "select": "select",
     "check": "{numMessage, plural, =1 {checking} other {check}}",
     "seoDescription": "Use your crypto to borrow our stablecoin, Dinero, for free.",
-    "stake": "stake",
-    "unstake": "unstake"
+    "stake": "{numMessage, plural, =1 {staking} other {stake}}",
+    "unstake": "{numMessage, plural, =1 {unstaking} other {unstake}}"
   }
 }

@@ -293,7 +293,7 @@ const FindPoolView: FC = () => {
   return (
     <Container py="XL" dapp>
       <GoBack routeBack />
-      <Typography variant="normal" width="100%" textTransform="capitalize">
+      <Typography variant="normal" width="100%">
         {t('dexPoolFind.title')}
       </Typography>
       <FindPool
@@ -388,11 +388,7 @@ const FindPoolView: FC = () => {
               bg={loading ? 'accentActive' : 'accent'}
               hover={{ bg: loading ? 'disabled' : 'accentActive' }}
             >
-              {t(
-                loading
-                  ? 'dexPoolFind.buttonLoading'
-                  : 'dexPoolFind.buttonCustom'
-              )}
+              {t('dexPoolFind.button', { numMessage: Number(loading) })}
             </Button>
           )}
         </WalletGuardButton>

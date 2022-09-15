@@ -81,14 +81,14 @@ const Subscribe: FC = () => {
           flexDirection="column"
         >
           <Button ml="S" px="L" type="submit" variant="tertiary" effect="hover">
-            {t('landingPage.subscribeButton')}
+            {t('landingPage.subscribeButton', { numMessage: 0 })}
           </Button>
           <Box display="flex" alignItems="center" mt="M" px="L">
             <Box width="0.7rem">
               <ShieldSVG width="100%" />
             </Box>
             <Typography variant="normal" ml="S" fontSize="XS">
-              {t('landingPage.subscribeDescription')}
+              {t('landingPage.subscribeButton', { numMessage: 1 })}
             </Typography>
           </Box>
         </Box>

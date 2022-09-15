@@ -223,7 +223,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
           <Box my="L" textAlign="center">
             {isSearching ? (
               <Typography variant="normal" color="text">
-                {capitalize(t('common.loading'))}
+                {capitalize(t('common.load', { numMessage: 1 }))}
               </Typography>
             ) : searchedToken ? (
               renderData(

@@ -1,9 +1,7 @@
 {
   "earn": {
     "filterStaked": "Staked only",
-    "filterStatus": "Status",
     "column1Tip": "Total Value Locked",
-    "column2": "Staking",
     "column2Tip": "Staking amount to farm Int",
     "column3Tip": "Annual Percentage Rate <br/> yearly interest generated",
     "column4": "Allocation",

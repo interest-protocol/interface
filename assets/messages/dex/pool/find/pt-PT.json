@@ -1,9 +1,8 @@
 {
   "dexPoolFind": {
     "title": "Procure uma Pool",
-    "buttonCustom": "Procurar e Aceda",
+    "button": "{numMessage, plural, =1 {Procurando...} other {Procurar e Aceda}}",
     "buttonSameToken": "Escolha tokens diferentes",
-    "buttonLoading": "Procurando...",
     "buttonPool": "{numMessage, plural, =1 {Criando a Pool...} other {Criar Pool}}",
     "balanceError": "Erro a conectar com a blockchain",
     "createPoolTitle": "Esta pool não existe! Por favor, crie uma agora.",
