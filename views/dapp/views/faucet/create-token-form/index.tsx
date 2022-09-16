@@ -55,7 +55,8 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
         getValues('amount'),
       ];
 
-      if (!name || !symbol || !amount || amount === '0') return;
+      if (!name || !symbol || !amount || amount === '0')
+        throwError(capitalize(t('error.generic')));
 
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],

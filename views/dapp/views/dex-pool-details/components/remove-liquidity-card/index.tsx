@@ -60,6 +60,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
     useForm<IRemoveLiquidityForm>({
       defaultValues: {
         loading: false,
+        removeLoading: false,
         lpAmount: '0.0',
         token0Amount: '0.0',
         token1Amount: '0.0',
@@ -101,7 +102,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
 
   const remove = async () => {
     try {
-      setValue('loading', true);
+      setValue('removeLoading', true);
 
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],

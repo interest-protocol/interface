@@ -109,7 +109,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
                     processedData.isStable
                       ? 'common.stable'
                       : 'common.volatile',
-                    { count: 0 }
+                    { count: 1 }
                   ),
                 })}
             </Typography>

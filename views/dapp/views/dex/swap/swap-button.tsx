@@ -244,7 +244,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
       await showTXSuccessToast(tx, validId);
     } catch {
-      throwError('Failed to swap: try a higher slippage or smaller amount');
+      throwError(t('dexSwap.swapMessage.error'));
     } finally {
       dispatch(coreActions.updateNativeBalance());
       await updateBalances();

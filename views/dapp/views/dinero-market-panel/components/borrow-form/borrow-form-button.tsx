@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -22,6 +23,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
   isSubmitting,
   handleAddAllowance,
 }) => {
+  const t = useTranslations();
   const repayLoan = useWatch({ control, name: 'repay.loan' });
   const borrowLoan = useWatch({ control, name: 'borrow.loan' });
   const repayCollateral = useWatch({ control, name: 'repay.collateral' });
@@ -121,7 +123,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
             borderRadius="M"
             cursor="not-allowed"
           >
-            No Request
+            {t('dineroMarketAddress.button.default')}
           </Box>
         ) : (
           <Button
@@ -147,11 +149,13 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
               variant="normal"
               ml={isSubmitting ? 'L' : 'NONE'}
             >
-              {!!+borrowLoan && !!+borrowCollateral
-                ? 'Add Collateral and Borrow'
-                : +borrowCollateral > 0
-                ? 'Add Collateral'
-                : 'Borrow'}
+              {t(
+                !!+borrowLoan && !!+borrowCollateral
+                  ? 'dineroMarketAddress.button.addCollateralBorrow'
+                  : +borrowCollateral > 0
+                  ? 'dineroMarketAddress.button.addCollateral'
+                  : 'dineroMarketAddress.button.borrow'
+              )}
             </Typography>
           </Button>
         )
@@ -189,11 +193,13 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
             variant="normal"
             ml={isSubmitting ? 'L' : 'NONE'}
           >
-            {!!+repayLoan && !!+repayCollateral
-              ? 'Remove Collateral and Repay Loan'
-              : +repayCollateral
-              ? 'Remove Collateral'
-              : 'Repay Loan'}
+            {t(
+              !!+repayLoan && !!+repayCollateral
+                ? 'dineroMarketAddress.button.removeCollateralRepay'
+                : +repayCollateral
+                ? 'dineroMarketAddress.button.removeCollateral'
+                : 'dineroMarketAddress.button.repay'
+            )}
           </Typography>
         </Button>
       )}

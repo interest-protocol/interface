@@ -11,11 +11,11 @@ import { FarmSortByFilter } from '../../earn.types';
 import { SortFilterProps } from './earn-filters.types';
 
 const parseFarmSortByEnum = cond([
-  [equals(FarmSortByFilter.Default), always('Select')],
-  [equals(FarmSortByFilter.Allocation), always('Allocation')],
-  [equals(FarmSortByFilter.TVL), always('TVL')],
-  [equals(FarmSortByFilter.APR), always('APR')],
-  [T, always('Select')],
+  [equals(FarmSortByFilter.Default), always('select')],
+  [equals(FarmSortByFilter.Allocation), always('allocation')],
+  [equals(FarmSortByFilter.TVL), always('tvl')],
+  [equals(FarmSortByFilter.APR), always('apr')],
+  [T, always('select')],
 ]);
 
 const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
@@ -56,8 +56,12 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
           }
           title={
             <Box display="flex" width="100%" py="M" alignItems="center">
-              <Typography variant="normal" whiteSpace="nowrap">
-                {parseFarmSortByEnum(sortBy)}
+              <Typography
+                variant="normal"
+                whiteSpace="nowrap"
+                textTransform="capitalize"
+              >
+                {t('common.' + parseFarmSortByEnum(sortBy))}
               </Typography>
             </Box>
           }

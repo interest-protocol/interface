@@ -1,5 +1,7 @@
 {
   "dineroMarketAddress": {
+    "borrowTitle": "Borrow",
+    "repayTitle": "Repay",
     "borrowCollateralLabel": "Deposit Collateral",
     "borrowDineroLabel": "Borrow Dinero",
     "repayCollateralLabel": "Remove Collateral",
@@ -41,6 +43,15 @@
     "loanInfoLpFreeMarketTip3": "Value of your rewards in USD",
     "userLTVTitle": "Risk",
     "userLTVTip": "If this value reaches 100%, <br />you might get liquidated",
-    "toastError": "Borrow or collateral amount are wrong"
+    "toastError": "Borrow or collateral amount are wrong",
+    "button": {
+      "default": "no Request",
+      "addCollateralBorrow": "Add Collateral and Borrow",
+      "addCollateral": "Add Collateral",
+      "borrow": "Borrow",
+      "repay": "Repay Loan",
+      "removeCollateral": "Remove Collateral",
+      "removeCollateralRepay": "Remove Collateral and Repay Loan"
+    }
   }
 }

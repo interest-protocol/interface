@@ -52,7 +52,7 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
           textTransform="capitalize"
         >
           {t(farm.stable ? 'common.stable' : 'common.volatile', {
-            count: 0,
+            count: 1,
           })}
         </Typography>
       </Box>
@@ -90,8 +90,13 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
           {farm.apr.value().isZero() ? '0%' : farm.apr.toPercentage()}
         </Box>
         <Box>
-          <Typography variant="normal" fontSize="S" mb="L">
-            Allocation
+          <Typography
+            variant="normal"
+            fontSize="S"
+            mb="L"
+            textTransform="capitalize"
+          >
+            {t('common.allocation')}
           </Typography>
           {farm.allocation.value().isZero()
             ? '0%'

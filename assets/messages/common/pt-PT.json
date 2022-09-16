@@ -47,7 +47,7 @@
     "unlockWalletDescription": "tente desbloquear a sua carteira",
     "initialize": "{isLoading, plural, =1 {inicializando...} other {inicialize}}",
     "connectYourWallet": "conecte-se a sua carteira",
-    "searchTokenInputDescription": "pesquisa por nome, símbolo ou endereço...",
+    "searchTokenInputDescription": "pesquise por nome, símbolo ou endereço...",
     "confirm": "{isLoading, plural, =1 {confirmando...} other {confirmar}}",
     "cancel": "cancelar",
     "all": "todos",
@@ -64,6 +64,10 @@
     "docs": "documentação",
     "copyAddress": "copie o endereço",
     "error": "erro",
-    "submit": "{isLoading, plural, =1 {processando...} other {processe}}"
+    "submit": "{isLoading, plural, =1 {processando...} other {processe}}",
+    "allocation": "alocação"
+  },
+  "error": {
+    "generic": "algo deu errado"
   }
 }

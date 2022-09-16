@@ -12,7 +12,7 @@ const RemoveLiquidityButton: FC<RemoveLiquidityButtonProps> = ({
   control,
 }) => {
   const t = useTranslations();
-  const loading = useWatch({ control, name: 'loading' });
+  const loading = useWatch({ control, name: 'removeLoading' });
 
   return (
     <Button

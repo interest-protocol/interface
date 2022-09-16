@@ -1,5 +1,7 @@
 {
   "dineroMarketAddress": {
+    "borrowTitle": "Pedir Emprestado",
+    "repayTitle": "Reembolsar",
     "borrowCollateralLabel": "Deposite Tokens",
     "borrowDineroLabel": "Peça Dinero emprestado",
     "repayCollateralLabel": "Retire a garantia",
@@ -41,6 +43,15 @@
     "loanInfoLpFreeMarketTip3": "Valor dos seus ganhos em USD",
     "userLTVTitle": "Risco",
     "userLTVTip": "Se este valor atingir 100%, <br /> poderá ser liquidado",
-    "toastError": "Empréstimo ou montante da garantia estão errados"
+    "toastError": "Empréstimo ou montante da garantia estão errados",
+    "button": {
+      "default": "Inactivo",
+      "addCollateralBorrow": "Adicionar Garantia e Pedir Emprestado",
+      "addCollateral": "Adicionar Garantia",
+      "borrow": "Pedir Emprestado",
+      "repay": "Reembolsar",
+      "removeCollateral": "Remover a Garantia",
+      "removeCollateralRepay": "Remover a Garantia e Reembolsar"
+    }
   }
 }

@@ -43,13 +43,13 @@ const Pool: FC = () => {
               {
                 value: PoolType.Volatile,
                 displayValue: capitalize(
-                  capitalize(t('common.volatile', { count: 0 }))
+                  capitalize(t('common.volatile', { count: 2 }))
                 ),
                 onSelect: () => setPoolType(PoolType.Volatile),
               },
               {
                 value: PoolType.Stable,
-                displayValue: capitalize(t('common.stable', { count: 1 })),
+                displayValue: capitalize(t('common.stable', { count: 2 })),
                 onSelect: () => setPoolType(PoolType.Stable),
               },
             ]}

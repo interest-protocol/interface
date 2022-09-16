@@ -64,6 +64,10 @@
     "docs": "docs",
     "copyAddress": "copy address",
     "error": "error",
-    "submit": "{isLoading, plural, =1 {submitting...} other {submit}}"
+    "submit": "{isLoading, plural, =1 {submitting...} other {submit}}",
+    "allocation": "allocation"
+  },
+  "error": {
+    "generic": "something went wrong"
   }
 }

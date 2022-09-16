@@ -11,10 +11,10 @@ import { FarmTypeFilter } from '../../earn.types';
 import { TypeFilterProps } from './earn-filters.types';
 
 const parseFarmTypeByEnum = cond([
-  [equals(FarmTypeFilter.All), always('All')],
-  [equals(FarmTypeFilter.Stable), always('Stable')],
-  [equals(FarmTypeFilter.Volatile), always('Volatile')],
-  [T, always('All')],
+  [equals(FarmTypeFilter.All), always('all')],
+  [equals(FarmTypeFilter.Stable), always('stable')],
+  [equals(FarmTypeFilter.Volatile), always('volatile')],
+  [T, always('all')],
 ]);
 
 const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
@@ -61,7 +61,9 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
                 whiteSpace="nowrap"
                 textTransform="capitalize"
               >
-                {t('common.' + parseFarmTypeByEnum(typeFilter).toLowerCase())}
+                {t('common.' + parseFarmTypeByEnum(typeFilter).toLowerCase(), {
+                  count: 2,
+                })}
               </Typography>
             </Box>
           }
@@ -86,7 +88,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
             },
             {
               value: 'stable',
-              displayOption: capitalize(t('common.stable', { count: 1 })),
+              displayOption: capitalize(t('common.stable', { count: 2 })),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography
@@ -94,7 +96,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
                     whiteSpace="nowrap"
                     textTransform="capitalize"
                   >
-                    {t('common.stable', { count: 1 })}
+                    {t('common.stable', { count: 2 })}
                   </Typography>
                 </Box>
               ),
@@ -104,7 +106,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
             },
             {
               value: 'volatile',
-              displayOption: capitalize(t('common.volatile', { count: 0 })),
+              displayOption: capitalize(t('common.volatile', { count: 2 })),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography
@@ -112,7 +114,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
                     whiteSpace="nowrap"
                     textTransform="capitalize"
                   >
-                    {t('common.volatile', { count: 0 })}
+                    {t('common.volatile', { count: 2 })}
                   </Typography>
                 </Box>
               ),
