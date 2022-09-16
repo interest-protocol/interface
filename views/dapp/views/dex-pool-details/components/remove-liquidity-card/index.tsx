@@ -143,7 +143,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
     } catch {
       throwError('Failed to remove liquidity');
     } finally {
-      setValue('loading', false);
+      setValue('removeLoading', false);
       await mutate();
     }
   };
