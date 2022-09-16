@@ -1,0 +1,8 @@
+{
+  "dexPoolPairAddress": {
+    "title": "{type} Summary",
+    "sectionCustomDetail2": "Swap Fee",
+    "removeLiquidity": "Remove Liquidity",
+    "addLiquidity": "Add Liquidity"
+  }
+}

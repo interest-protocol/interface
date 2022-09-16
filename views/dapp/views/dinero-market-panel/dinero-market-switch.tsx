@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import { FieldPath } from 'react-hook-form';
 
@@ -22,6 +23,7 @@ const DineroMarketSwitch: FC<DineroMarketSwitchProps> = ({
   resetField,
 }) => {
   const { push } = useRouter();
+  const t = useTranslations();
   const switchTo = (targetMode: 'borrow' | 'repay') => () => {
     FORM_FIELDS.forEach((name) => resetField(name));
     push(
@@ -46,10 +48,12 @@ const DineroMarketSwitch: FC<DineroMarketSwitchProps> = ({
       {
         value: 'borrow',
         onSelect: switchTo('borrow'),
+        displayValue: t('dineroMarketAddress.borrowTitle'),
       },
       {
         value: 'repay',
         onSelect: switchTo('repay'),
+        displayValue: t('dineroMarketAddress.repayTitle'),
       },
     ],
     [mode]

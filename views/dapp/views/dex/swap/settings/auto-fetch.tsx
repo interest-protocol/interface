@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
 
 import { Switch } from '@/components';
@@ -6,6 +7,7 @@ import { Box, Typography } from '@/elements';
 import { AutoFetchProps } from './settings.types';
 
 const AutoFetch: FC<AutoFetchProps> = ({ setter, value }) => {
+  const t = useTranslations();
   const [autoFetch, setAutoFetch] = useState<boolean>(value);
 
   const handleAutoFetch = (value: boolean) => {
@@ -15,7 +17,7 @@ const AutoFetch: FC<AutoFetchProps> = ({ setter, value }) => {
   return (
     <Box mx="M">
       <Typography variant="normal" fontSize="0.9rem" mb="M">
-        Fetch price
+        {t('dexSwap.priceLabel')}
       </Typography>
       <Switch
         defaultValue={autoFetch ? 'auto' : 'manual'}

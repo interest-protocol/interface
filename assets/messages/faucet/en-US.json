@@ -1,0 +1,17 @@
+{
+  "faucet": {
+    "firstSectionTitle": "Recommended tokens",
+    "secondSectionTitle": "My tokens",
+    "amountInput": "Type amount",
+    "tokenInput": "Choose Token",
+    "button": "{isLoading, plural, =1 {Minting...} other {Mint}}",
+    "modalButton": "{isLoading, plural, =1 {Creating Token...} other {Create Token}}",
+    "modalTitle": "CREATE NEW TOKEN",
+    "modalInputName": "Name",
+    "modalInputSymbol": "Symbol",
+    "modalInputAmount": "Amount",
+    "notFoundToken": "Not found token",
+    "select": "Select a token",
+    "type": "Type {label}"
+  }
+}

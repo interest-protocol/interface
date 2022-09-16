@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ethers } from 'ethers';
-import { pathOr } from 'ramda';
+import { useTranslations } from 'next-intl';
+import { pathOr, prop } from 'ramda';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -19,6 +20,7 @@ import { useGetDineroMarketDataV2, useGetSigner } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
 import { coreActions } from '@/state/core/core.actions';
 import {
+  capitalize,
   showToast,
   showTXSuccessToast,
   throwContractCallError,
@@ -49,6 +51,7 @@ import DineroMarketForm from './dinero-market-form';
 import DineroMarketSwitch from './dinero-market-switch';
 
 const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
+  const t = useTranslations();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { signer } = useGetSigner();
   const { chainId, account } = useIdAccount();
@@ -117,8 +120,8 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
 
   const submitAllowance = () =>
     showToast(handleAddAllowance(), {
-      loading: 'Allowing...',
-      success: 'Success!',
+      loading: capitalize(`${t('common.approve', { isLoading: 1 })}`),
+      success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
 
@@ -218,18 +221,26 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     if (!chainId || !account || !market || market.collateralAllowance.isZero())
       return;
 
-    await showToast(handleBorrow());
+    await showToast(handleBorrow(), {
+      success: capitalize(t('common.success')),
+      error: prop('message'),
+      loading: capitalize(t('common.submit', { isLoading: 1 })),
+    });
   };
 
   const onSubmitRepay = async () => {
     if (isFormRepayEmpty(form)) {
-      toast.error('Borrow or collateral amount are wrong');
+      toast.error(t('dineroMarketAddress.toastError'));
       return;
     }
 
     if (!chainId || !account || !market) return;
 
-    await showToast(handleRepay());
+    await showToast(handleRepay(), {
+      success: capitalize(t('common.success')),
+      error: prop('message'),
+      loading: capitalize(t('common.submit', { isLoading: 1 })),
+    });
   };
 
   if (error) return <ErrorPage message="Something went wrong" />;

@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
@@ -18,6 +19,7 @@ import LendAndBorrowTokens from './earn-tokens';
 
 const Earn: FC = () => {
   const { push } = useRouter();
+  const t = useTranslations();
 
   return (
     <Box
@@ -140,18 +142,19 @@ const Earn: FC = () => {
               textAlign={['center', 'unset']}
               fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
               lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
+              textTransform="capitalize"
             >
-              Earn
+              {t('common.earn')}
             </Typography>
             <Typography
               as="h3"
               variant="normal"
               fontWeight="500"
-              textAlign={['center', 'unset']}
+              textAlign={['center', 'center', 'center', 'unset']}
               fontSize={['1.125rem', '1.125rem', '1.5rem', '1.5rem']}
               lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
             >
-              Get LP Tokens by providing liquidity to our DEX
+              {t('landingPage.earnSectionSubtitle')}
             </Typography>
             <Typography
               variant="normal"
@@ -161,10 +164,10 @@ const Earn: FC = () => {
               mb={['1.25rem', '1.25rem', '1.75rem', '1.75rem']}
               fontSize={['0.875rem', '0.875rem', '1rem', '1rem']}
             >
-              Use LP Tokens to earn trading fees and farm $Int Tokens.
+              {t('landingPage.earnSectionH3')}
             </Typography>
             <Typography variant="normal" fontWeight="700" mb="0.625rem">
-              Type of tokens you can use:
+              {t('landingPage.earnSectionBody')}
             </Typography>
             <Box
               display="flex"
@@ -190,8 +193,9 @@ const Earn: FC = () => {
                 variant="normal"
                 fontSize="inherit"
                 fontWeight="inherit"
+                textTransform="uppercase"
               >
-                Add Liquidity
+                {t('landingPage.earnSectionButton')}
               </Typography>
             </Button>
           </Box>

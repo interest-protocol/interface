@@ -1,0 +1,12 @@
+{
+  "earnTokenAddress": {
+    "title": "detalhes",
+    "secondCardTitle": "Depositados (Staked)",
+    "thirdCardTitle": "Ganhos",
+    "thirdCardButton": "{isLoading, plural, =1 {Retirando...} other {Retirar}}",
+    "yourStakedLabel": "apostou",
+    "modalStakedTitle": "depositar",
+    "modalUnstakedTitle": "Não depositar",
+    "modalLabelInput": "Montante {type}"
+  }
+}

@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -8,6 +9,7 @@ import { useGetSigner } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
 import { LineLoaderSVG } from '@/svg';
 import {
+  capitalize,
   getInterestDexRouterAddress,
   processWrappedNativeTokenAddress,
   showToast,
@@ -51,12 +53,14 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
   isFetchingInitialData,
   mutate,
 }) => {
+  const t = useTranslations();
   const { account, signer, chainId } = useGetSigner();
 
   const { register, setValue, control, getValues } =
     useForm<IRemoveLiquidityForm>({
       defaultValues: {
         loading: false,
+        removeLoading: false,
         lpAmount: '0.0',
         token0Amount: '0.0',
         token1Amount: '0.0',
@@ -91,14 +95,14 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
 
   const handleApproveToken = () =>
     showToast(approveToken(), {
-      loading: `Giving allowance...`,
-      success: 'Success!',
+      loading: `${capitalize(t('common.approve', { isLoading: 1 }))}`,
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
   const remove = async () => {
     try {
-      setValue('loading', true);
+      setValue('removeLoading', true);
 
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -139,15 +143,15 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
     } catch {
       throwError('Failed to remove liquidity');
     } finally {
-      setValue('loading', false);
+      setValue('removeLoading', false);
       await mutate();
     }
   };
 
   const handleRemoveLiquidity = async () =>
     showToast(remove(), {
-      loading: `Removing liquidity...`,
-      success: 'Success!',
+      loading: capitalize(`${t('common.remove', { isLoading: 1 })}`),
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -160,7 +164,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
           variant="normal"
           textTransform="uppercase"
         >
-          Remove Liquidity
+          {t('dexPoolPairAddress.removeLiquidity')}
         </Typography>
       </Box>
       <InputBalance
@@ -237,7 +241,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
                   setValue('lpAmount', '0.0');
                 }}
               >
-                Reset
+                {capitalize(t('common.reset'))}
               </Button>
               <RemoveLiquidityButton
                 control={control}

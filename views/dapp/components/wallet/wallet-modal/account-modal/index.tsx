@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -8,7 +9,7 @@ import { Box, Button, Modal, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
 import { getChainId } from '@/state/core/core.selectors';
 import { LinkSVG, TimesSVG, UserSVG } from '@/svg';
-import { shortAccount } from '@/utils';
+import { capitalize, shortAccount } from '@/utils';
 
 import { AccountModalProps } from '../../wallet.types';
 
@@ -20,6 +21,7 @@ const AccountModal: FC<AccountModalProps> = ({
   showModal,
   toggleModal,
 }) => {
+  const t = useTranslations();
   const connector = usePriorityConnector();
   const chainId = useSelector(getChainId) as number | null;
 
@@ -37,8 +39,14 @@ const AccountModal: FC<AccountModalProps> = ({
     >
       <Box p="L" width="100%" bg="foreground" maxWidth="23rem" borderRadius="L">
         <Box display="flex" alignItems="center" justifyContent="space-between">
-          <Typography as="h3" color="text" variant="normal" fontWeight="normal">
-            Account
+          <Typography
+            as="h3"
+            color="text"
+            variant="normal"
+            fontWeight="normal"
+            textTransform="capitalize"
+          >
+            {t('common.account')}
           </Typography>
           <Box
             color="textSecondary"
@@ -62,7 +70,8 @@ const AccountModal: FC<AccountModalProps> = ({
             justifyContent="space-between"
           >
             <Typography fontSize="S" variant="normal" color="textSecondary">
-              Connected with{' '}
+              {capitalize(t('common.connected'))}
+              {'-'}
               {url === 'metamask' ? 'MetaMask' : 'Wallet Connect'}
             </Typography>
             <Button
@@ -71,7 +80,7 @@ const AccountModal: FC<AccountModalProps> = ({
               onClick={disconnect}
               hover={{ color: 'text', bg: 'accent' }}
             >
-              Disconnect
+              {capitalize(t('common.disconnect'))}
             </Button>
           </Box>
           <Box display="flex" my="L">
@@ -94,7 +103,7 @@ const AccountModal: FC<AccountModalProps> = ({
               hover={{ color: 'text' }}
             >
               <Typography variant="normal" ml="M" fontSize="S">
-                Copy Address
+                {capitalize(t('common.copy'))}
               </Typography>
             </CopyToClipboard>
             <a
@@ -115,7 +124,7 @@ const AccountModal: FC<AccountModalProps> = ({
                   <LinkSVG width="100%" />
                 </Box>
                 <Typography variant="normal" ml="M" fontSize="S">
-                  View on Explorer
+                  {capitalize(t('common.explorer'))}
                 </Typography>
               </Box>
             </a>

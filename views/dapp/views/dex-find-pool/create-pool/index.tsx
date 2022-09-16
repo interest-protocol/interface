@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
@@ -19,40 +20,42 @@ const CreatePool: FC<CreatePoolProps> = ({
   update,
   tokenBalances,
   getValues,
-}) => (
-  <Box
-    p="L"
-    my="L"
-    color="text"
-    width="100%"
-    bg="foreground"
-    maxWidth="30rem"
-    borderRadius="M"
-  >
-    <Typography
+}) => {
+  const t = useTranslations();
+  return (
+    <Box
       p="L"
-      variant="normal"
+      my="L"
+      color="text"
+      width="100%"
+      bg="foreground"
+      maxWidth="30rem"
       borderRadius="M"
-      border="1px solid"
-      bg="bottomBackground"
-      borderColor="textSoft"
     >
-      This pool does not exist! Please, create one now.
-    </Typography>
-    <Price control={control} />
-    {TOKEN_NAMES.map((name, index) => (
-      <CreatePoolField
-        getValues={getValues}
-        update={update}
-        setValue={setValue}
-        key={v4()}
-        name={name}
-        register={register}
-        needAllowance={needAllowance[index]}
-        tokenBalance={tokenBalances[index]}
-      />
-    ))}
-  </Box>
-);
-
+      <Typography
+        p="L"
+        variant="normal"
+        borderRadius="M"
+        border="1px solid"
+        bg="bottomBackground"
+        borderColor="textSoft"
+      >
+        {t('dexPoolFind.createPoolTitle')}
+      </Typography>
+      <Price control={control} />
+      {TOKEN_NAMES.map((name, index) => (
+        <CreatePoolField
+          getValues={getValues}
+          update={update}
+          setValue={setValue}
+          key={v4()}
+          name={name}
+          register={register}
+          needAllowance={needAllowance[index]}
+          tokenBalance={tokenBalances[index]}
+        />
+      ))}
+    </Box>
+  );
+};
 export default CreatePool;

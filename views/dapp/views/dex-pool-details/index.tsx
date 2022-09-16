@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { useSelector } from 'react-redux';
@@ -5,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { Container } from '@/components';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useChainId, useGetPairData } from '@/hooks';
+import { useChainId, useGetPairData, useLocale } from '@/hooks';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { FixedPointMath } from '@/sdk';
 import { getNativeBalance } from '@/state/core/core.selectors';
@@ -28,6 +29,8 @@ import { processPairData } from './utils';
 const DefaultIcon = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
+  const t = useTranslations();
+  const { currentLocale } = useLocale();
   const { error, data, mutate } = useGetPairData(pairAddress);
   const chainId = useChainId();
 
@@ -95,13 +98,20 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
           <>
             <FirstIcon width="2rem" />
             <SecondIcon width="2rem" />
-            <Typography variant="normal" ml="L">
+            <Typography variant="normal" ml="L" textTransform="capitalize">
               {processedData.token0Metadata.symbol +
                 ' - ' +
                 processedData.token1Metadata.symbol +
                 ' ' +
-                (processedData.isStable ? 'Stable' : 'Volatile') +
-                ' Pool Details'}
+                t('dexPoolPairAddress.title', {
+                  currentLocale,
+                  type: t(
+                    processedData.isStable
+                      ? 'common.stable'
+                      : 'common.volatile',
+                    { count: 1 }
+                  ),
+                })}
             </Typography>
           </>
         )}
