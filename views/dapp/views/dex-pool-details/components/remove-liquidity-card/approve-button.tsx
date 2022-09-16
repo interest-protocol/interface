@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Button } from '@/elements';
+import { capitalize } from '@/utils';
 
 import { ApproveButtonProps } from './remove-liquidity-card.types';
 
@@ -24,9 +25,11 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       onClick={onClick}
       disabled={loading}
     >
-      {t('common.approve', {
-        isLoading: Number(loading),
-      })}{' '}
+      {capitalize(
+        t('common.approve', {
+          isLoading: Number(loading),
+        })
+      )}{' '}
       {symbol0}/{symbol1} LP
     </Button>
   );

@@ -6,6 +6,7 @@ import { v4 } from 'uuid';
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
+import { capitalize } from '@/utils';
 
 import { EARN_TYPES } from './automate.data';
 
@@ -70,7 +71,7 @@ const Automate: FC = () => {
             push(Routes[RoutesEnum.Earn], undefined, { shallow: true })
           }
         >
-          {t('common.earn')}
+          {capitalize(t('common.earn'))}
         </Button>
       </Container>
     </Box>

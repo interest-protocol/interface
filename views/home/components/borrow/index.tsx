@@ -5,6 +5,7 @@ import { FC } from 'react';
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
+import { capitalize } from '@/utils';
 
 import {
   BTCOrbit,
@@ -81,7 +82,7 @@ const Borrow: FC = () => {
             variant="primary"
             onClick={() => push(Routes[RoutesEnum.DineroMarket])}
           >
-            {t('common.borrow')}
+            {capitalize(t('common.borrow'))}
           </Button>
         </Box>
         <Box

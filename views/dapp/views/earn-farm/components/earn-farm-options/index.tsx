@@ -17,6 +17,7 @@ import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG } from '@/svg';
 import {
+  capitalize,
   formatDollars,
   formatMoney,
   getCasaDePapelAddress,
@@ -83,9 +84,9 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
   const handleApprove = useCallback(
     () =>
       showToast(approve(), {
-        success: t('common.success'),
-        error: propOr(t('common.error'), 'message'),
-        loading: t('common.approve', { isLoading: 1 }),
+        success: capitalize(t('common.success')),
+        error: propOr(capitalize(t('common.error')), 'message'),
+        loading: capitalize(t('common.approve', { isLoading: 1 })),
       }),
     [approve]
   );
@@ -120,8 +121,8 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
   const handleHarvest = useCallback(
     () =>
       showToast(harvest(), {
-        success: t('common.success'),
-        error: propOr(t('common.error'), 'message'),
+        success: capitalize(t('common.success')),
+        error: propOr(capitalize(t('common.error')), 'message'),
         loading: t('earnTokenAddress.thirdCardButton', { isLoading: 1 }),
       }),
     [harvest]
@@ -199,9 +200,9 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
   const handleUnstake = useCallback(
     (value: BigNumber) =>
       showToast(handleWithdrawTokens(value), {
-        loading: t('common.unstake', { isLoading: 1 }),
+        loading: capitalize(t('common.unstake', { isLoading: 1 })),
         error: propOr('common.error', 'message'),
-        success: t('common.success'),
+        success: capitalize(t('common.success')),
       }),
     [handleWithdrawTokens]
   );
@@ -209,9 +210,9 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
   const handleStake = useCallback(
     (value: BigNumber) =>
       showToast(handleDepositTokens(value), {
-        loading: t('common.stake', { isLoading: 1 }),
+        loading: capitalize(t('common.stake', { isLoading: 1 })),
         error: propOr('common.error', 'message'),
-        success: t('common.success'),
+        success: capitalize(t('common.success')),
       }),
     [handleDepositTokens]
   );
@@ -228,7 +229,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
     >
       <EarnCard
         loading={loading}
-        title={t('common.yourBalance')}
+        title={capitalize(t('common.yourBalance'))}
         amountUSD={formatDollars(
           FixedPointMath.from(farm.stakingTokenPrice)
             .mul(farm.balance)
@@ -297,7 +298,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
                     fontSize="S"
                     textTransform="capitalize"
                   >
-                    {t('common.approve', { isLoading: 1 })}
+                    {capitalize(t('common.approve', { isLoading: 1 }))}
                   </Typography>
                 </Box>
               ) : (

@@ -222,9 +222,9 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
       return;
 
     await showToast(handleBorrow(), {
-      success: t('common.success'),
+      success: capitalize(t('common.success')),
       error: prop('message'),
-      loading: t('common.submit', { isLoading: 1 }),
+      loading: capitalize(t('common.submit', { isLoading: 1 })),
     });
   };
 
@@ -237,9 +237,9 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     if (!chainId || !account || !market) return;
 
     await showToast(handleRepay(), {
-      success: t('common.success'),
+      success: capitalize(t('common.success')),
       error: prop('message'),
-      loading: t('common.submit', { isLoading: 1 }),
+      loading: capitalize(t('common.submit', { isLoading: 1 })),
     });
   };
 

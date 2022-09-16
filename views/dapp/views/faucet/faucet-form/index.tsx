@@ -67,7 +67,8 @@ const FaucetForm: FC<FaucetFormProps> = ({
       const amount = getValues('amount');
       const token = getValues('token');
 
-      if (!amount || !isValidAccount(token)) throwError(t('common.error'));
+      if (!amount || !isValidAccount(token))
+        throwError(capitalize(t('common.error')));
 
       const { validSigner, validId } = throwIfInvalidSigner(
         [account],
