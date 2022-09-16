@@ -18,4 +18,6 @@ export interface MenuItemProps extends MenuListProps {
 export interface LangItemProps {
   title: ReactNode;
   locale: string;
+  currentLocale: string;
+  changeLocale: (locale: string) => Promise<void>;
 }

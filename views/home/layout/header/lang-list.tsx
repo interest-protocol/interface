@@ -8,7 +8,7 @@ import { getSafeLocaleSVG } from '@/utils';
 import LangItem from './lang-item';
 
 const LangList: FC = () => {
-  const { currentLocale, locales } = useLocale();
+  const { currentLocale, locales, changeLocale } = useLocale();
 
   return (
     <Box
@@ -53,6 +53,8 @@ const LangList: FC = () => {
               </Box>
             }
             locale={locale}
+            changeLocale={changeLocale}
+            currentLocale={currentLocale}
             key={v4()}
           />
         ))}

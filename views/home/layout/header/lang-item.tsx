@@ -2,13 +2,15 @@ import { FC } from 'react';
 
 import { Container } from '@/components';
 import { Box } from '@/elements';
-import { useLocale } from '@/hooks';
 
 import { LangItemProps } from './header.types';
 
-const LangItem: FC<LangItemProps> = ({ title, locale }) => {
-  const { currentLocale, changeLocale } = useLocale();
-
+const LangItem: FC<LangItemProps> = ({
+  title,
+  locale,
+  changeLocale,
+  currentLocale,
+}) => {
   return (
     <Box
       width="100%"
