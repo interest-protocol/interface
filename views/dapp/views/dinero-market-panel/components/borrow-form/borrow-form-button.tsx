@@ -6,6 +6,7 @@ import { useWatch } from 'react-hook-form';
 import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { LoadingSVG } from '@/svg';
+import { capitalize } from '@/utils';
 
 import { convertCollateralToDinero } from '../../dinero-market.utils';
 import { BorrowFormButtonProps } from './borrow-form.types';
@@ -110,7 +111,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
               variant="normal"
               ml={isSubmitting ? 'L' : 'NONE'}
             >
-              Approve
+              {capitalize(t('common.approve', { isLoading: 0 }))}
             </Typography>
           </Button>
         ) : (!borrowLoan && !borrowCollateral) ||
@@ -168,7 +169,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
           borderRadius="M"
           cursor="not-allowed"
         >
-          No Request
+          {t('dineroMarketAddress.button.default')}
         </Box>
       ) : (
         <Button

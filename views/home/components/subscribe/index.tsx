@@ -25,7 +25,14 @@ const Subscribe: FC = () => {
         {
           loading: t('landingPage.subscribeButton', { isLoading: 1 }),
           success: capitalize(t('common.success')),
-          error: (error) => `${error.code} - ${error.message}`,
+          error: (error) =>
+            capitalize(
+              t(
+                error.code == 1008
+                  ? 'landingPage.subscribeErrors.1008'
+                  : 'error.generic'
+              )
+            ),
         }
       )
       .catch(console.log);
@@ -88,7 +95,7 @@ const Subscribe: FC = () => {
               <ShieldSVG width="100%" />
             </Box>
             <Typography variant="normal" ml="S" fontSize="XS">
-              {t('landingPage.subscribeButton', { isLoading: 1 })}
+              {t('landingPage.subscribeDescription')}
             </Typography>
           </Box>
         </Box>

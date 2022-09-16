@@ -209,7 +209,7 @@ const Table: FC<ResponsiveTableProps> = ({
   const [desktop, setDesktop] = useState(!!isDesktop);
 
   const handleSetDesktop = useCallback(() => {
-    const mediaIsDesktop = window.matchMedia('(min-width: 64em)').matches;
+    const mediaIsDesktop = window.matchMedia('(min-width: 66em)').matches;
     setDesktop(mediaIsDesktop);
   }, []);
 

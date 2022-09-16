@@ -34,8 +34,11 @@
     "developer": "Desenvolvedor",
     "teamDescription": "Somos uma equipa de tecno-empresários baseada na Europa com uma experiência combinada de 10 anos na indústria de crypto. Damos prioridade à segurança acima de tudo. Preferimos embarcar devagar mas em segurança ao contrário do mantra do Facebook Move fast and break things.",
     "bioCerqueira": "Anteriormente no Banco EuroBIC. {year1, plural, =1 {# ano} other {# anos}} de desenvolvimento de software. {year2, plural, =1 {# ano} other {# anos}} na indústria de crypto. Responsável pelo desenvolvimento dos smart contracts da Interest Protocol.",
-    "bioNelumba": "{year1, plural, =1 {# ano} other {# anos}} como consultor financeiro para empresas. Evangelista de crypto desde 2017. Co-fundador de uma empresa de tecnologia de emergência médica que já salvou mais de 1000 vidas. Responsável pela angariação de fundos e gestão das finanças da Interest Protocol.",
+    "bioNelumba": "Evangelista de crypto desde 2017. Co-fundador de uma empresa de tecnologia de emergência médica que já salvou mais de 1000 vidas. Responsável pela angariação de fundos e gestão das finanças da Interest Protocol.",
     "bioPitra": "{year1, plural, =1 {# ano} other {# anos}} a desenvolver software para a web2. {year2, plural, =1 {# ano} other {# anos}} em crypto. Um ninja de React trabalhando na interface da Interest Protocol.",
-    "bioKipanda": "{year1, plural, =1 {# ano} other {# anos}} a desenvolver de software. A trabalhar como desenvolvedor de interface da Interest Protocol."
+    "bioKipanda": "{year1, plural, =1 {# ano} other {# anos}} a desenvolver de software. A trabalhar como desenvolvedor de interface da Interest Protocol.",
+    "subscribeErrors": {
+      "1008": "contacto já foi adicionado"
+    }
   }
 }

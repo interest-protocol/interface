@@ -45,15 +45,7 @@ export const TEAM_MEMBERS = [
       twitter: 'https://twitter.com/Pedro102792',
     },
     bio: 'landingPage.bioNelumba',
-    depsBio: {
-      year1: getYearOrMonth(
-        {
-          month: 1,
-          year: 2018,
-        },
-        false
-      ),
-    },
+    depsBio: {},
   },
   {
     name: 'Marco Pitra',
