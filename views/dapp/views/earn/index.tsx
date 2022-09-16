@@ -36,7 +36,7 @@ const Earn: FC = () => {
   const [isDesktop, setDesktop] = useState(false);
 
   const handleSetDesktop = useCallback(() => {
-    const mediaIsDesktop = window.matchMedia('(min-width: 66em)').matches;
+    const mediaIsDesktop = window.matchMedia('(min-width: 64em)').matches;
     setDesktop(mediaIsDesktop);
   }, []);
 
