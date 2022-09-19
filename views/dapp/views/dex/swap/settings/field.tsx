@@ -12,37 +12,35 @@ const Field: FC<FieldProps> = ({
   placeholder,
   max,
   type,
-}) => {
-  return (
-    <Box mt="L">
-      <Typography variant="normal" fontSize="0.9rem">
-        {label}
-      </Typography>
-      <Input
-        min="0"
-        type={type}
-        placeholder={placeholder}
-        {...setRegister()}
-        max={max}
-        textAlign="right"
-        shieldProps={{
-          p: 'S',
-          my: 'M',
-          height: '3rem',
-          bg: 'background',
-          borderRadius: 'M',
-          overflow: 'visible',
-          border: '1px solid',
-          borderColor: 'transparent',
-          hover: {
-            borderColor: 'accentBackground',
-          },
-        }}
-        Prefix={prefix}
-        Suffix={suffix}
-      />
-    </Box>
-  );
-};
+}) => (
+  <Box mt="L">
+    <Typography variant="normal" fontSize="0.9rem">
+      {label}
+    </Typography>
+    <Input
+      min="0"
+      type={type}
+      placeholder={placeholder}
+      {...setRegister()}
+      max={max}
+      textAlign="right"
+      shieldProps={{
+        p: 'S',
+        my: 'M',
+        height: '3rem',
+        bg: 'background',
+        borderRadius: 'M',
+        overflow: 'visible',
+        border: '1px solid',
+        borderColor: 'transparent',
+        hover: {
+          borderColor: 'accentBackground',
+        },
+      }}
+      Prefix={prefix}
+      Suffix={suffix}
+    />
+  </Box>
+);
 
 export default Field;

@@ -1,5 +1,6 @@
 import { useTranslations } from 'next-intl';
-import { ChangeEvent, FC, useEffect, useRef } from 'react';
+import { ChangeEvent, FC, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { Box, Button, Typography } from '@/elements';
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
@@ -8,43 +9,54 @@ import { parseInputEventToNumberString } from '@/utils';
 
 import AutoFetch from './auto-fetch';
 import Field from './field';
-import { SwapSettingsProps } from './settings.types';
+import { ISwapSettingsForm, SwapSettingsProps } from './settings.types';
 
 const SettingsModal: FC<SwapSettingsProps> = ({
   toggle,
-  register,
-  setValue,
-  setLocalSettings,
   localSettings,
+  setLocalSettings,
 }) => {
   const t = useTranslations();
+
+  const { register, setValue, getValues, control } = useForm<ISwapSettingsForm>(
+    {
+      defaultValues: {
+        slippage: localSettings.slippage,
+        deadline: localSettings.deadline,
+        autoFetch: localSettings.autoFetch,
+      },
+    }
+  );
 
   const dropdownContainerRef =
     useClickOutsideListenerRef<HTMLDivElement>(toggle);
 
-  const newSlippage = useRef<string | null>(localSettings.slippage ?? null);
-  const newDeadline = useRef<number | null>(localSettings.deadline ?? null);
-  const autoFetch = useRef<boolean>(localSettings.autoFetch ?? true);
+  useEffect(
+    () => () => {
+      const {
+        deadline: newDeadline,
+        slippage: newSlippage,
+        autoFetch,
+      } = getValues();
 
-  useEffect(() => {
-    return () => {
       const deadline =
-        !!newDeadline.current && newDeadline.current !== localSettings.deadline
-          ? newDeadline.current
+        !!newDeadline && newDeadline !== localSettings.deadline
+          ? newDeadline
           : localSettings.deadline;
 
       const slippage =
-        !!newSlippage.current && newSlippage.current !== localSettings.slippage
-          ? newSlippage.current
+        !!newSlippage && newSlippage !== localSettings.slippage
+          ? newSlippage
           : localSettings.slippage;
 
       setLocalSettings({
         slippage,
         deadline,
-        autoFetch: autoFetch.current,
+        autoFetch,
       });
-    };
-  }, []);
+    },
+    []
+  );
 
   return (
     <Box
@@ -97,7 +109,6 @@ const SettingsModal: FC<SwapSettingsProps> = ({
                 const slippage = parseInputEventToNumberString(v);
                 const safeSlippage = +slippage >= 30 ? '30' : slippage;
                 setValue('slippage', safeSlippage);
-                newSlippage.current = safeSlippage;
               },
             })
           }
@@ -112,7 +123,6 @@ const SettingsModal: FC<SwapSettingsProps> = ({
               active={{ bg: 'accentActive' }}
               onClick={() => {
                 setValue('slippage', '0.1');
-                newSlippage.current = '0.1';
               }}
             >
               Auto
@@ -129,7 +139,6 @@ const SettingsModal: FC<SwapSettingsProps> = ({
               onChange: (v: ChangeEvent<HTMLInputElement>) => {
                 const deadline = isNaN(+v.target.value) ? 0 : +v.target.value;
                 setValue('deadline', deadline);
-                newDeadline.current = deadline;
               },
             })
           }
@@ -154,8 +163,8 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           {t('dexSwap.settingsPanelTitle')}
         </Typography>
         <AutoFetch
-          value={autoFetch.current}
-          setter={(value: boolean) => (autoFetch.current = value)}
+          control={control}
+          setter={(value: boolean) => setValue('autoFetch', value)}
         />
       </Box>
     </Box>

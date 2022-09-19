@@ -82,7 +82,7 @@ const SwapButton: FC<SwapButtonProps> = ({
   fetchingBalancesData,
   parsedTokenInBalance,
   updateBalances,
-  getValues,
+  localSettings,
   control,
 }) => {
   const t = useTranslations();
@@ -139,7 +139,7 @@ const SwapButton: FC<SwapButtonProps> = ({
         signer
       );
 
-      const { slippage, deadline } = getValues();
+      const { deadline, slippage } = localSettings;
 
       const [tokenInIntegralPart, tokenInDecimalPart] =
         tokenIn.value.split('.');

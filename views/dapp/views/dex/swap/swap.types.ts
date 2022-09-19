@@ -5,8 +5,6 @@ import { Control, UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 import { SwapFormTokenData } from '@/views/dapp/views/dex/dex.types';
 
 export interface ISwapForm {
-  slippage: string;
-  deadline: number;
   tokenIn: SwapFormTokenData;
   tokenOut: SwapFormTokenData;
 }
@@ -32,6 +30,7 @@ export interface SwapButtonProps {
   setSwapBase: Dispatch<SetStateAction<string | null>>;
   account: string;
   chainId: number;
+  localSettings: LocalSwapSettings;
   updateBalances: () => Promise<void>;
   parsedTokenInBalance: BigNumber;
   swapBase: string | null;
