@@ -2,7 +2,7 @@ import { getAddress } from 'ethers/lib/utils';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { pathOr, prop } from 'ramda';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
@@ -16,6 +16,7 @@ import {
   ERC_20_DATA,
   Routes,
   RoutesEnum,
+  STABLE_COIN_ADDRESSES,
   WRAPPED_NATIVE_TOKEN,
 } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
@@ -25,7 +26,6 @@ import {
   useIdAccount,
 } from '@/hooks';
 import {
-  BNB_STABLE_SYMBOLS,
   getIPXPairAddress,
   sortTokens,
   TOKEN_SYMBOL,
@@ -150,10 +150,6 @@ const FindPoolView: FC = () => {
     }
   };
 
-  useEffect(() => {
-    setCreatingPair(false);
-  }, [isStable]);
-
   const handleEnterPool = () =>
     showToast(enterPool(), {
       loading: capitalize(t('common.check', { isLoading: 1 })),
@@ -166,7 +162,7 @@ const FindPoolView: FC = () => {
 
     try {
       setLoading(true);
-
+      setCreatePoolPopup(false);
       const { validSigner, validId } = throwIfInvalidSigner(
         [account],
         chainId,
@@ -285,22 +281,18 @@ const FindPoolView: FC = () => {
       error: prop('message'),
     });
 
-  const tokensInList = () => {
+  const bothTokensAreStableCoins = () => {
     const { tokenA, tokenB } = getValues();
 
     return (
-      (BNB_STABLE_SYMBOLS.includes(tokenA.symbol as TOKEN_SYMBOL) ? 1 : 0) +
-      (BNB_STABLE_SYMBOLS.includes(tokenB.symbol as TOKEN_SYMBOL) ? 1 : 0)
+      STABLE_COIN_ADDRESSES[chainId].includes(getAddress(tokenA.address)) &&
+      STABLE_COIN_ADDRESSES[chainId].includes(getAddress(tokenB.address))
     );
   };
 
   const handleValidateCreatePair = () => {
-    if (isStable) {
-      if (tokensInList() == 2) return handleCreatePair;
-      return setCreatePoolPopup(true);
-    }
-
-    if (tokensInList() < 2) return handleCreatePair;
+    if (isStable && bothTokensAreStableCoins()) return handleCreatePair();
+    if (!isStable && !bothTokensAreStableCoins()) return handleCreatePair();
 
     return setCreatePoolPopup(true);
   };
@@ -326,18 +318,19 @@ const FindPoolView: FC = () => {
       <FindPool
         control={control}
         setValue={setValue}
-        currencyAChargerArgs={{
+        currencyASelectArgs={{
           isModalOpen: isTokenAOpenModal,
           symbol: getValues('tokenA.symbol'),
           setIsModalOpen: setTokenAIsOpenModal,
           onSelectCurrency: onSelectCurrency('tokenA'),
         }}
-        currencyBChargerArgs={{
+        currencyBSelectArgs={{
           isModalOpen: isTokenBOpenModal,
           symbol: getValues('tokenB.symbol'),
           setIsModalOpen: setTokenBIsOpenModal,
           onSelectCurrency: onSelectCurrency('tokenB'),
         }}
+        setCreatingPair={setCreatingPair}
       />
       {isCreatingPair && (
         <CreatePool

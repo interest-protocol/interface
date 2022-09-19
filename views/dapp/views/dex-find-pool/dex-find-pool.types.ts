@@ -1,4 +1,5 @@
 import { BigNumber } from 'ethers';
+import { Dispatch, SetStateAction } from 'react';
 import {
   Control,
   UseFormGetValues,
@@ -24,8 +25,9 @@ export interface DexFindPoolForm {
 export interface FindPoolProps {
   control: Control<DexFindPoolForm>;
   setValue: UseFormSetValue<DexFindPoolForm>;
-  currencyAChargerArgs: Omit<SwapSelectCurrencyProps, 'currentToken'>;
-  currencyBChargerArgs: Omit<SwapSelectCurrencyProps, 'currentToken'>;
+  currencyASelectArgs: Omit<SwapSelectCurrencyProps, 'currentToken'>;
+  currencyBSelectArgs: Omit<SwapSelectCurrencyProps, 'currentToken'>;
+  setCreatingPair: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface CreatePoolProps {
