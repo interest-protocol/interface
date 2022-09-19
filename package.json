@@ -24,7 +24,7 @@
     "@web3-react/walletconnect": "8.0.21-beta.0",
     "api-getresponse": "^1.0.0",
     "decimal.js-light": "^2.5.1",
-    "ethers": "^5.6.2",
+    "ethers": "^5.7.1",
     "next": "^12.2.0",
     "next-intl": "^2.7.4",
     "next-progress": "^2.0.1",
@@ -45,6 +45,7 @@
     "swr": "^1.2.2",
     "toformat": "^2.0.0",
     "uuid": "^8.3.2",
+    "wagmi": "^0.6.6",
     "web-vitals": "^1.0.1",
     "yup": "^0.32.11"
   },

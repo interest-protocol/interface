@@ -7,7 +7,7 @@ export interface InfoModalProps {
 
 export interface WalletButtonProps {
   name: string;
-  onClick: () => Promise<void>;
+  onClick: () => void;
   Icon: FC<SVGAttributes<SVGSVGElement>>;
 }
 

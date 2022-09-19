@@ -1,18 +1,15 @@
 import { useTranslations } from 'next-intl';
-import { FC, useMemo, useState } from 'react';
+import { FC, useState } from 'react';
+import { v4 } from 'uuid';
+import { useConnect } from 'wagmi';
 
-import priorityHooks from '@/connectors';
 import { metaMask } from '@/connectors/meta-mask';
-// import { walletConnect } from '@/connectors/wallet-connect';
 import { Wallets } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { BackSVG, LoadingSVG, MetaMaskSVG, TimesSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
 import { ConnectWalletProps, WalletButtonProps } from '../../wallet.types';
-
-const { usePriorityError, usePriorityIsActive, usePriorityIsActivating } =
-  priorityHooks;
 
 const WalletButton: FC<WalletButtonProps> = ({ onClick, name, Icon }) => (
   <Box
@@ -45,22 +42,12 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
   toggleModal,
 }) => {
   const t = useTranslations();
+  const { connect, connectors, error } = useConnect();
   const [modalState, setModalState] = useState({
     chooser: true,
     [Wallets.MetaMask]: false,
     [Wallets.WalletConnect]: false,
   });
-
-  const error = usePriorityError();
-
-  const isActive = usePriorityIsActive();
-
-  const isActivating = usePriorityIsActivating();
-
-  const hasError = useMemo(
-    () => !!error && !isActive && !isActivating,
-    [error, isActive, isActivating]
-  );
 
   const swipeToWallet = (wallet?: Wallets) =>
     setModalState({
@@ -69,14 +56,6 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
       [Wallets.WalletConnect]: false,
       [wallet ?? 'chooser']: true,
     });
-
-  const connectToMetaMask = async () => {
-    try {
-      swipeToWallet(Wallets.MetaMask);
-      !hasError && (await metaMask.activate());
-      // eslint-disable-next-line no-empty
-    } catch {}
-  };
 
   return (
     <Modal
@@ -123,13 +102,15 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
               <TimesSVG width="1.8rem" height="1.8rem" />
             </Box>
           </Box>
-          <Box mt="L">
-            <WalletButton
-              name="MetaMask"
-              Icon={MetaMaskSVG}
-              onClick={connectToMetaMask}
-            />
-          </Box>
+          {connectors.map((connector) => (
+            <Box mt="L" key={v4()}>
+              <WalletButton
+                name="MetaMask"
+                Icon={MetaMaskSVG}
+                onClick={() => connect({ connector })}
+              />
+            </Box>
+          ))}
         </Box>
       )}
       {modalState[Wallets.MetaMask] && (
@@ -171,9 +152,9 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
               borderRadius="M"
               border="1px solid"
               alignItems="center"
-              borderColor={hasError ? 'error' : 'textSecondary'}
+              borderColor={error ? 'error' : 'textSecondary'}
             >
-              {!hasError && (
+              {!error && (
                 <>
                   <Box color="text">
                     <LoadingSVG width="1.4rem" height="1.4rem" />
@@ -187,7 +168,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
                   </Typography>
                 </>
               )}
-              {hasError && (
+              {error && (
                 <Box
                   width="100%"
                   display="flex"

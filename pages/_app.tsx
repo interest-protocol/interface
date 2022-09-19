@@ -8,8 +8,10 @@ import NextProgress from 'next-progress';
 import { ReactNode, StrictMode } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import { Provider as ReduxProvider } from 'react-redux';
+import { WagmiConfig } from 'wagmi';
 
 import { Web3Manager } from '@/components';
+import { wagmiClient } from '@/connectors/settings';
 import GlobalStyles from '@/design-system/global-styles';
 import { store } from '@/state/index';
 
@@ -23,31 +25,33 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
       />
     </Head>
     <NextProgress options={{ showSpinner: false }} />
-    <ReduxProvider store={store}>
-      <SkeletonTheme baseColor="#202020" highlightColor="#444">
-        <Global styles={GlobalStyles} />
-        <NextIntlProvider
-          formats={{
-            dateTime: {
-              short: {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
+    <WagmiConfig client={wagmiClient}>
+      <ReduxProvider store={store}>
+        <SkeletonTheme baseColor="#202020" highlightColor="#444">
+          <Global styles={GlobalStyles} />
+          <NextIntlProvider
+            formats={{
+              dateTime: {
+                short: {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric',
+                },
               },
-            },
-          }}
-          messages={pageProps.messages}
-          now={new Date(pageProps.now)}
-          timeZone="UTC"
-        >
-          <Web3Manager pathname={router.pathname}>
-            <StrictMode>
-              <Component {...pageProps} />
-            </StrictMode>
-          </Web3Manager>
-        </NextIntlProvider>
-      </SkeletonTheme>
-    </ReduxProvider>
+            }}
+            messages={pageProps.messages}
+            now={new Date(pageProps.now)}
+            timeZone="UTC"
+          >
+            <Web3Manager pathname={router.pathname}>
+              <StrictMode>
+                <Component {...pageProps} />
+              </StrictMode>
+            </Web3Manager>
+          </NextIntlProvider>
+        </SkeletonTheme>
+      </ReduxProvider>
+    </WagmiConfig>
   </>
 );
 

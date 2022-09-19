@@ -1,5 +1,6 @@
 import { ProviderRpcError } from '@web3-react/types';
 import { FC, useCallback, useEffect, useState } from 'react';
+import { useAccount, useConnect } from 'wagmi';
 
 import hooks from '@/connectors';
 import { isChainIdSupported } from '@/constants/chains';
@@ -21,74 +22,18 @@ const {
 } = hooks;
 
 const Wallet: FC = () => {
-  const [targetChainId, setTargetChainId] = useState(0);
-  const [isSwitchingNetworks, setIsSwitchingNetworks] = useState(false);
-  const [failedSwitchingNetwork, setFailedSwitchingNetwork] = useState(false);
+  const { isLoading, error } = useConnect();
+  const { isConnecting, isReconnecting, isDisconnected } = useAccount();
 
-  const error = usePriorityError();
-  const chainId = usePriorityChainId();
-  const isActive = usePriorityIsActive();
-  const connector = usePriorityConnector();
-  const isActivating = usePriorityIsActivating();
+  if (isLoading || isReconnecting || isConnecting) return <div> loading</div>;
 
-  const switchNetwork = useCallback(
-    async (x: number): Promise<void> => {
-      setTargetChainId(x);
-      try {
-        if (!connector) return;
-        setIsSwitchingNetworks(true);
-        await switchToNetwork(connector, x);
-      } catch {
-        setFailedSwitchingNetwork(true);
-      } finally {
-        setIsSwitchingNetworks(false);
-      }
-    },
-    [connector]
-  );
+  if (isDisconnected) return <ConnectWallet />;
 
-  useEffect(() => {
-    let isMounted = true;
-    if (!isMounted) return;
-    if (!isSwitchingNetworks && !failedSwitchingNetwork)
-      (async () => {
-        try {
-          setIsSwitchingNetworks(true);
-          if ((error as ProviderRpcError)?.code === 1013)
-            await connector.activate(targetChainId);
-        } catch {
-          setFailedSwitchingNetwork(true);
-        } finally {
-          setIsSwitchingNetworks(false);
-        }
-      })();
-    return () => {
-      isMounted = false;
-    };
-  }, [error]);
-
-  if (!isActive && !isActivating) return <ConnectWallet />;
-
-  if (isSwitchingNetworks) return <SwitchingNetwork />;
-
-  if (failedSwitchingNetwork)
-    return (
-      <Button variant="primary" bg="error">
-        Switch Network Manually
-      </Button>
-    );
-
-  if (!!chainId && !isChainIdSupported(chainId))
-    return (
-      <>
-        <SelectNetwork switchNetwork={switchNetwork} />
-        <WrongNetwork />
-      </>
-    );
+  if (error) return <div>error</div>;
 
   return (
     <>
-      <SelectNetwork switchNetwork={switchNetwork} />
+      <SelectNetwork switchNetwork={async (x: number) => {}} />
       <ConnectedWallet />
     </>
   );
