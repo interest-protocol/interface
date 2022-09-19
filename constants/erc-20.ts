@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { pathOr, reduce } from 'ramda';
 import { FC, SVGAttributes } from 'react';
 
-import { CHAIN_ID, NativeCurrency, TOKEN_SYMBOL } from '@/sdk';
+import { CHAIN_ID, CONTRACTS, NativeCurrency, TOKEN_SYMBOL } from '@/sdk';
 import { ERC20 } from '@/sdk/entities/erc-20';
 import {
   ApeCoinSVG,
@@ -130,8 +130,6 @@ export const TOKENS_SVG_MAP = {
   [TOKEN_SYMBOL.LINK]: ChainLinkSVG,
   [TOKEN_SYMBOL.SHIB]: ShibaInuSVG,
   [TOKEN_SYMBOL.INT]: InterestTokenSVG,
-  [TOKEN_SYMBOL.USDS]: UnknownCoinSVG,
-  [TOKEN_SYMBOL.ZUSD]: UnknownCoinSVG,
   [TOKEN_SYMBOL.Unknown]: UnknownCoinSVG,
   [TOKEN_SYMBOL.BNB]: BNBSVG,
   [TOKEN_SYMBOL.WBNB]: WBNBCoinSVG,
@@ -347,11 +345,6 @@ export const ERC_20_DATA = {
   [CHAIN_ID.RINKEBY]: RINKEBY_ERC_20_DATA,
 };
 
-export const MAIL_BRIDGE_TOKENS_ARRAY = {
-  [CHAIN_ID.RINKEBY]: RINKEBY_MAIL_BRIDGE_ERC20_ARRAY,
-  [CHAIN_ID.BNB_TEST_NET]: [],
-};
-
 export const NATIVE_TOKENS = {
   [CHAIN_ID.RINKEBY]: NativeCurrency.from(
     'Ether',
@@ -368,3 +361,23 @@ export const NATIVE_TOKENS = {
 };
 
 export const UNKNOWN_ERC_20 = ERC20.from(ethers.constants.AddressZero, 0);
+
+export const STABLE_COIN_ADDRESSES = {
+  [CHAIN_ID.BNB_TEST_NET]: [
+    ethers.utils.getAddress(CONTRACTS.DNR[CHAIN_ID.BNB_TEST_NET]),
+    ethers.utils.getAddress(CONTRACTS.USDC[CHAIN_ID.BNB_TEST_NET]),
+    ethers.utils.getAddress(CONTRACTS.USDT[CHAIN_ID.BNB_TEST_NET]),
+  ],
+  [CHAIN_ID.BNB_MAIN_MET]: [
+    ethers.utils.getAddress(CONTRACTS.BUSD[CHAIN_ID.BNB_MAIN_MET]),
+    ethers.utils.getAddress(CONTRACTS.DAI[CHAIN_ID.BNB_MAIN_MET]),
+    ethers.utils.getAddress(CONTRACTS.FRAX[CHAIN_ID.BNB_MAIN_MET]),
+    ethers.utils.getAddress(CONTRACTS.TUSD[CHAIN_ID.BNB_MAIN_MET]),
+    ethers.utils.getAddress(CONTRACTS.USDC[CHAIN_ID.BNB_MAIN_MET]),
+    ethers.utils.getAddress(CONTRACTS.USDD[CHAIN_ID.BNB_MAIN_MET]),
+    ethers.utils.getAddress(CONTRACTS.USDP[CHAIN_ID.BNB_MAIN_MET]),
+    ethers.utils.getAddress(CONTRACTS.USDT[CHAIN_ID.BNB_MAIN_MET]),
+    ethers.utils.getAddress(CONTRACTS.VAI[CHAIN_ID.BNB_MAIN_MET]),
+  ],
+  [CHAIN_ID.RINKEBY]: [],
+};

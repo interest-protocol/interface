@@ -27,7 +27,6 @@ export const useGetDexAllowancesAndBalances = (
     filteredTokens,
     { revalidateOnFocus: false, refreshWhenHidden: false }
   );
-
   if (error)
     return {
       balancesData: {},
@@ -63,7 +62,6 @@ export const useGetDexAllowancesAndBalances = (
       mutate: async () => void (await mutate()),
       loading: false,
     };
-
   if (data.balances.length == 2)
     return {
       balancesData: {

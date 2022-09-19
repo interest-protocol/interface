@@ -12,8 +12,9 @@ import { FindPoolProps } from './dex-find-pool.types';
 const FindPool: FC<FindPoolProps> = ({
   control,
   setValue,
-  currencyAChargerArgs,
-  currencyBChargerArgs,
+  currencyASelectArgs,
+  currencyBSelectArgs,
+  setCreatingPair,
 }) => {
   const t = useTranslations();
   const addressA = useWatch({ control, name: `tokenA.address` });
@@ -38,7 +39,7 @@ const FindPool: FC<FindPoolProps> = ({
         flexWrap={['wrap', 'nowrap']}
         justifyContent={['center', 'space-between']}
       >
-        <SwapSelectCurrency currentToken={addressA} {...currencyAChargerArgs} />
+        <SwapSelectCurrency currentToken={addressA} {...currencyASelectArgs} />
         <Box mt={['L', 'NONE']} order={[1, 0]} width="100%" textAlign="center">
           <Switch
             thin
@@ -47,17 +48,23 @@ const FindPool: FC<FindPoolProps> = ({
               {
                 value: 'stable',
                 displayValue: capitalize(t('common.stable', { count: 1 })),
-                onSelect: () => setValue('isStable', true),
+                onSelect: () => {
+                  setValue('isStable', true);
+                  setCreatingPair(false);
+                },
               },
               {
                 value: 'volatile',
                 displayValue: capitalize(t('common.volatile', { count: 1 })),
-                onSelect: () => setValue('isStable', false),
+                onSelect: () => {
+                  setValue('isStable', false);
+                  setCreatingPair(false);
+                },
               },
             ]}
           />
         </Box>
-        <SwapSelectCurrency currentToken={addressB} {...currencyBChargerArgs} />
+        <SwapSelectCurrency currentToken={addressB} {...currencyBSelectArgs} />
       </Box>
     </Box>
   );

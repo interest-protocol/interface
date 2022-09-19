@@ -13,7 +13,7 @@
     },
     "createPoolPopup": {
       "title": "Recommendation",
-      "description": "We recommend making a stable market for {symbol0} and {symbol1}.",
+      "description": "We recommend making a {type} market for {symbol0} and {symbol1}.",
       "submit": "Create Anyway"
     },
     "switchOption1": "Recommended",
