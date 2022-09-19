@@ -34,7 +34,9 @@ const CreatePool: FC<CreatePoolProps> = ({
       borderRadius="M"
     >
       <Typography variant="normal" textTransform="uppercase" mb="L">
-        Create {getValues('isStable') ? 'Stable' : 'Volatile'} Pool
+        {t('dexPoolFind.createPoolTitle', {
+          isStable: Number(getValues('isStable')),
+        })}
       </Typography>
       <Typography
         p="L"
@@ -44,7 +46,7 @@ const CreatePool: FC<CreatePoolProps> = ({
         bg="bottomBackground"
         borderColor="textSoft"
       >
-        {t('dexPoolFind.createPoolTitle')}
+        {t('dexPoolFind.createPoolAdvice')}
       </Typography>
       <Price control={control} />
       {TOKEN_NAMES.map((name, index) => (
@@ -74,17 +76,10 @@ const CreatePool: FC<CreatePoolProps> = ({
           <InfoSVG width="100%" />
         </Box>
         <Typography variant="normal" fontSize="0.85rem">
-          {getValues('isStable') ? (
-            <>
-              Important: You are creating a market designed for correlated
-              assets. Make sure that the tokens are pegged to the same asset,
-              e.g., BUSD/USDC.
-            </>
-          ) : (
-            <>
-              Important: You are creating a market designed for uncorrelated
-              assets. E.g., BTC/ETH
-            </>
+          {t(
+            `dexPoolFind.createPoolInfo.${
+              getValues('isStable') ? 'stable' : 'volatile'
+            }`
           )}
         </Typography>
       </Box>

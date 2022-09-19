@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import Box from '@/elements/box';
@@ -9,66 +10,68 @@ import { CreatePoolPopupProps } from './create-pool-modal.types';
 
 const CreatePoolPopup: FC<CreatePoolPopupProps> = ({
   isOpen,
-  isStable,
   symbol0,
   symbol1,
-  onContinue,
   onCancel,
-}) => (
-  <Modal
-    modalProps={{
-      isOpen,
-      shouldCloseOnEsc: true,
-      onRequestClose: onCancel,
-      shouldCloseOnOverlayClick: true,
-    }}
-    background="#0004"
-  >
-    <Box
-      p="L"
-      color="text"
-      borderRadius="L"
-      bg="foreground"
-      minWidth="20rem"
-      maxWidth="25rem"
+  onContinue,
+}) => {
+  const t = useTranslations();
+
+  return (
+    <Modal
+      modalProps={{
+        isOpen,
+        shouldCloseOnEsc: true,
+        onRequestClose: onCancel,
+        shouldCloseOnOverlayClick: true,
+      }}
+      background="#0004"
     >
-      <Typography
-        variant="normal"
-        textTransform="uppercase"
-        color="textSecondary"
+      <Box
+        p="L"
+        color="text"
+        borderRadius="L"
+        bg="foreground"
+        minWidth="20rem"
+        maxWidth="25rem"
       >
-        Create {isStable ? 'Stable' : 'Volatile'}
-      </Typography>
-      <Typography variant="normal" py="XL">
-        {isStable ? (
-          <>
-            We recommend making a stable market for {symbol0} and {symbol1}.
-          </>
-        ) : (
-          <>
-            We recommend making a stable market for {symbol0} and {symbol1}.
-          </>
-        )}
-      </Typography>
-      <Box display="grid" gridTemplateColumns="1fr 1fr" columnGap="1rem">
-        <Button
-          variant="primary"
-          onClick={onCancel}
-          bg="bottomBackground"
-          hover={{ bg: 'disabled' }}
+        <Typography
+          variant="normal"
+          textTransform="uppercase"
+          color="textSecondary"
         >
-          Cancel
-        </Button>
-        <Button
-          variant="primary"
-          onClick={onContinue}
-          hover={{ bg: 'accentActive' }}
-        >
-          Create Anyway
-        </Button>
+          {t('dexPoolFind.createPoolPopup.title')}
+        </Typography>
+        <Typography variant="normal" py="XL">
+          {t('dexPoolFind.createPoolPopup.description', { symbol0, symbol1 })}
+        </Typography>
+        <Box display="grid" gridTemplateColumns="1fr 1fr" columnGap="1rem">
+          <Button
+            variant="primary"
+            onClick={onCancel}
+            bg="bottomBackground"
+            hover={{ bg: 'disabled' }}
+          >
+            <Typography
+              as="span"
+              fontSize="S"
+              variant="normal"
+              textTransform="capitalize"
+            >
+              {t('common.cancel')}
+            </Typography>
+          </Button>
+          <Button
+            variant="primary"
+            onClick={onContinue}
+            hover={{ bg: 'accentActive' }}
+          >
+            {t('dexPoolFind.createPoolPopup.submit')}
+          </Button>
+        </Box>
       </Box>
-    </Box>
-  </Modal>
-);
+    </Modal>
+  );
+};
 
 export default CreatePoolPopup;
