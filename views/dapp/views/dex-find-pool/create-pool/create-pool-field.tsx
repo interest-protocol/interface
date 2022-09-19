@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { ChangeEvent, FC, useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
@@ -9,6 +10,7 @@ import { useGetSigner, useIdAccount } from '@/hooks';
 import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import {
+  capitalize,
   formatMoney,
   getInterestDexRouterAddress,
   parseInputEventToNumberString,
@@ -29,6 +31,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   tokenBalance,
   getValues,
 }) => {
+  const t = useTranslations();
   const dispatch = useDispatch();
   const { chainId } = useIdAccount();
   const { signer, account } = useGetSigner();
@@ -66,8 +69,8 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
 
   const handleApprove = () =>
     showToast(approve(address), {
-      loading: 'Giving allowance...',
-      success: 'Success!',
+      loading: capitalize(t('common.approve', { isLoading: 1 })),
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -152,7 +155,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
             onClick={handleApprove}
             hover={{ bg: 'accentActive' }}
           >
-            Approve Token
+            {capitalize(t('common.approve', { isLoading: 0 }))} Token
           </Button>
         ) : (
           <Button
@@ -174,8 +177,9 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           textAlign="end"
           color="textSecondary"
           fontSize="0.9rem"
+          textTransform="capitalize"
         >
-          Balance:{' '}
+          {t('common.balance')}:{' '}
           {formatMoney(FixedPointMath.toNumber(tokenBalance, decimals), 2)}
         </Typography>
       </Box>

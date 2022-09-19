@@ -1,11 +1,13 @@
+import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
 
 import { getFarmsSVGByToken, StakeState } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
+import { useLocale } from '@/hooks';
 import { LoadingSVG, TimesSVG } from '@/svg';
-import { formatMoney, safeToBigNumber } from '@/utils';
+import { capitalize, formatMoney, safeToBigNumber } from '@/utils';
 
 import { EarnStakeModalProps } from './earn-stake-modal.types';
 import InputStake from './input-stake';
@@ -20,6 +22,8 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
   handleClose,
   farmSymbol,
 }) => {
+  const t = useTranslations();
+  const { currentLocale } = useLocale();
   const { handleSubmit, setValue, register } = useForm({
     defaultValues: { value: '0' },
   });
@@ -83,8 +87,18 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
             </Button>
           </Box>
         </Box>
-        <Typography variant="normal" textAlign="center" fontSize="L">
-          {isStake ? 'Stake' : 'Unstake'} {} token
+        <Typography
+          variant="normal"
+          textAlign="center"
+          fontSize="L"
+          textTransform="capitalize"
+        >
+          {t(
+            isStake
+              ? 'earnTokenAddress.modalStakedTitle'
+              : 'earnTokenAddress.modalUnstakedTitle'
+          )}{' '}
+          token
         </Typography>
         <Box mt="XL">
           <InputStake
@@ -110,12 +124,21 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
                 </Typography>
               </Box>
             }
-            label={`Amount ${isStake ? 'stake' : 'unstake'}`}
+            label={t('earnTokenAddress.modalLabelInput', {
+              currentLocale,
+              type: t(isStake ? 'common.stake' : 'common.unstake', {
+                isLoading: 0,
+              }),
+            })}
           />
         </Box>
         <Box mt="XL">
           <Typography variant="normal" textTransform="uppercase">
-            {isStake ? 'Your balance' : 'You staked'}:
+            {t(
+              isStake
+                ? 'common.yourBalance'
+                : 'earnTokenAddress.yourStakedLabel'
+            )}
           </Typography>
           <Box display="flex" justifyContent="space-between">
             <Typography variant="normal" my="L">
@@ -133,7 +156,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
             onClick={handleClose}
             hover={{ bg: 'textSoft' }}
           >
-            Cancel
+            {capitalize(t('common.cancel'))}
           </Button>
           <Button
             ml="L"
@@ -150,7 +173,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
                 <LoadingSVG width="100%" />
               </Box>
             )}
-            {loading ? 'Confirming...' : 'Confirm'}
+            {capitalize(t('common.confirm', { isLoading: Number(loading) }))}
           </Button>
         </Box>
       </Box>

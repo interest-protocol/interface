@@ -1,14 +1,30 @@
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import { GetServerSideProps, NextPage } from 'next';
 
 import DEXPoolDetailsView from '@/views/dapp/views/dex-pool-details';
 
-const DEXPoolDetailsPage: NextPage = () => {
-  const {
-    query: { pairAddress },
-  } = useRouter();
+interface DEXPoolDetailsPageProps {
+  pairAddress: string;
+}
 
-  return <DEXPoolDetailsView pairAddress={pairAddress as string} />;
+const DEXPoolDetailsPage: NextPage<DEXPoolDetailsPageProps> = ({
+  pairAddress,
+}) => <DEXPoolDetailsView pairAddress={pairAddress} />;
+
+export const getServerSideProps: GetServerSideProps = async ({
+  params,
+  locale,
+}) => {
+  const { pairAddress } = params || {};
+
+  return {
+    props: {
+      pairAddress,
+      messages: {
+        ...require(`../../../../assets/messages/dex/pool/pair-address/${locale}.json`),
+        ...require(`../../../../assets/messages/common/${locale}.json`),
+      },
+    },
+  };
 };
 
 export default DEXPoolDetailsPage;

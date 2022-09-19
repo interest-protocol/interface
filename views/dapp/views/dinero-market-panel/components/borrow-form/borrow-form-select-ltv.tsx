@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+import { useTranslations } from 'next-intl';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
@@ -28,6 +29,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   isBorrow,
   setValue,
 }) => {
+  const t = useTranslations();
   const [selectedState, setSelected] = useState(INITIAL_STATE);
 
   const borrowCollateral = useWatch({
@@ -123,10 +125,11 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
           lineHeight="1.1rem"
           whiteSpace="pre-line"
         >
-          {isBorrow
-            ? 'Select a target LTV %'
-            : `Select a DNR balance % to repay
-            The contract will refund the difference`}
+          {t(
+            isBorrow
+              ? 'dineroMarketAddress.borrowCardInfo'
+              : 'dineroMarketAddress.repayCardInfo'
+          )}
         </Typography>
       </Box>
       <Box display="flex" justifyContent="space-between" my="L">

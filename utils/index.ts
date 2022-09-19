@@ -6,6 +6,7 @@ export * from './date';
 export * from './erc-20';
 export * from './error';
 export * from './farms';
+export * from './locales';
 export * from './number';
 export * from './parse';
 export * from './promise';

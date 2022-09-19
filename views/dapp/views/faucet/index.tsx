@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { o, prop } from 'ramda';
 import { FC, useCallback, useMemo, useState } from 'react';
 
@@ -15,6 +16,7 @@ import FaucetForm from './faucet-form';
 import { processGetUserBalances } from './utilts';
 
 const Faucet: FC = () => {
+  const t = useTranslations();
   const { chainId } = useIdAccount();
   const [isCreatingToken, setIsCreatingToken] = useState(false);
   const [localTokens, setLocalTokens] = useLocalStorage<ReadonlyArray<IToken>>(
@@ -71,20 +73,24 @@ const Faucet: FC = () => {
             <GoBack routeBack />
           </Box>
           <Box display="flex" justifyContent="space-between">
-            <Typography variant="normal">Recommended tokens</Typography>
+            <Typography variant="normal" textTransform="capitalize">
+              {t('faucet.firstSectionTitle')}
+            </Typography>
             <Button
               variant="primary"
               onClick={toggleCreateToken}
               hover={{ bg: 'accentActive' }}
             >
-              Create Token
+              {t('faucet.modalButton', { isLoading: 0 })}
             </Button>
           </Box>
           <FaucetForm
             tokens={recommendedData}
             isLoadingData={!recommendedData.length}
           />
-          <Typography variant="normal">My tokens</Typography>
+          <Typography variant="normal" textTransform="capitalize">
+            {t('faucet.secondSectionTitle')}
+          </Typography>
           <FaucetForm
             isLoadingData={!recommendedData.length}
             tokens={localData}

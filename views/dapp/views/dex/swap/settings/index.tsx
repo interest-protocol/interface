@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC, useEffect, useRef } from 'react';
 
 import { Box, Button, Typography } from '@/elements';
@@ -16,6 +17,8 @@ const SettingsModal: FC<SwapSettingsProps> = ({
   setLocalSettings,
   localSettings,
 }) => {
+  const t = useTranslations();
+
   const dropdownContainerRef =
     useClickOutsideListenerRef<HTMLDivElement>(toggle);
 
@@ -65,7 +68,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           color="textSecondary"
           textTransform="uppercase"
         >
-          Transaction Settings
+          {t('dexSwap.settingsTransactionTitle')}
         </Typography>
         <Button
           p="S"
@@ -87,7 +90,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           type="string"
           max="30"
           placeholder="0.5"
-          label="Slippage tolerance?"
+          label={t('dexSwap.toleranceLabel')}
           setRegister={() =>
             register('slippage', {
               onChange: (v: ChangeEvent<HTMLInputElement>) => {
@@ -130,8 +133,12 @@ const SettingsModal: FC<SwapSettingsProps> = ({
               },
             })
           }
-          label="Transaction deadline"
-          suffix={<Typography variant="normal">minutes</Typography>}
+          label={t('dexSwap.deadlineLabel')}
+          suffix={
+            <Typography variant="normal" textTransform="lowercase">
+              {t('common.minute', { count: localSettings.deadline })}
+            </Typography>
+          }
         />
       </Box>
       <Box p="S">
@@ -144,7 +151,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           color="textSecondary"
           textTransform="uppercase"
         >
-          Panel Settings
+          {t('dexSwap.settingsPanelTitle')}
         </Typography>
         <AutoFetch
           value={autoFetch.current}

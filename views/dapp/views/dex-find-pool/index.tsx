@@ -1,5 +1,6 @@
 import { getAddress } from 'ethers/lib/utils';
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { pathOr, prop } from 'ramda';
 import { FC, useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -34,6 +35,7 @@ import {
 import { getNativeBalance } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
 import {
+  capitalize,
   handleZeroWrappedToken,
   isSameAddressZ,
   isZeroAddress,
@@ -53,6 +55,7 @@ import { DexFindPoolForm } from './dex-find-pool.types';
 import FindPool from './find-pool';
 
 const FindPoolView: FC = () => {
+  const t = useTranslations();
   const { push } = useRouter();
   const { signer } = useGetSigner();
   const { chainId, account } = useIdAccount();
@@ -153,8 +156,8 @@ const FindPoolView: FC = () => {
 
   const handleEnterPool = () =>
     showToast(enterPool(), {
-      loading: 'Checking pool...',
-      success: 'Success!',
+      loading: capitalize(t('common.check', { isLoading: 1 })),
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -277,8 +280,8 @@ const FindPoolView: FC = () => {
 
   const handleCreatePair = () =>
     showToast(createPair(), {
-      loading: 'Creating pool...',
-      success: 'Success!',
+      loading: t('dexPoolFind.buttonPool', { isLoading: 1 }),
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -309,7 +312,7 @@ const FindPoolView: FC = () => {
           <Box color="error">
             <TimesSVG width="10rem" />
           </Box>
-          Failed to connect to the blockchain
+          {t('dexPoolFind.balanceError')}
         </Box>
       </Container>
     );
@@ -318,7 +321,7 @@ const FindPoolView: FC = () => {
     <Container py="XL" dapp>
       <GoBack routeBack />
       <Typography variant="normal" width="100%">
-        Find Pool
+        {t('dexPoolFind.title')}
       </Typography>
       <FindPool
         control={control}
@@ -375,7 +378,7 @@ const FindPoolView: FC = () => {
               disabled={true}
               bg="disabled"
             >
-              Choose different tokens
+              {t('dexPoolFind.buttonSameToken')}
             </Button>
           ) : isCreatingPair ? (
             <Button
@@ -401,9 +404,7 @@ const FindPoolView: FC = () => {
                   : handleValidateCreatePair
               }
             >
-              {loading
-                ? 'Creating Pool...'
-                : `Create ${isStable ? 'Stable' : 'Volatile'} Pool`}
+              {t('dexPoolFind.buttonPool', { isLoading: Number(loading) })}
             </Button>
           ) : (
             <Button
@@ -414,7 +415,7 @@ const FindPoolView: FC = () => {
               bg={loading ? 'accentActive' : 'accent'}
               hover={{ bg: loading ? 'disabled' : 'accentActive' }}
             >
-              {loading ? 'Finding Pool...' : 'Find and Enter Pool'}
+              {t('dexPoolFind.button', { isLoading: Number(loading) })}
             </Button>
           )}
         </WalletGuardButton>

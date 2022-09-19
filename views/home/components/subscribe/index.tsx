@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import toast from 'react-hot-toast';
 
 import { LogoSVG, ShieldSVG } from '@/svg';
+import { capitalize } from '@/utils';
 
 import { Box, Button, Input, Typography } from '../../../../elements';
 
 const Subscribe: FC = () => {
+  const t = useTranslations();
   const handleSubscribe = async (event: Event) => {
     event.preventDefault();
     // @ts-ignore
@@ -20,9 +23,16 @@ const Subscribe: FC = () => {
             if (data.httpStatus == 200) return data;
           }),
         {
-          loading: 'Subscribing',
-          success: 'Success!',
-          error: (error) => `${error.code} - ${error.message}`,
+          loading: t('landingPage.subscribeButton', { isLoading: 1 }),
+          success: capitalize(t('common.success')),
+          error: (error) =>
+            capitalize(
+              t(
+                error.code == 1008
+                  ? 'landingPage.subscribeErrors.1008'
+                  : 'error.generic'
+              )
+            ),
         }
       )
       .catch(console.log);
@@ -43,13 +53,12 @@ const Subscribe: FC = () => {
       <Typography
         mt="M"
         as="h2"
-        maxWidth="30rem"
+        maxWidth="40rem"
         variant="title2"
         textAlign="center"
         fontSize={['L', 'XXL']}
       >
-        Subscribe for <br className="breakMobile" />
-        Interest Protocol updates
+        {t('landingPage.subscribeSectionTitle')}
       </Typography>
       <Box
         mt="XXL"
@@ -70,7 +79,7 @@ const Subscribe: FC = () => {
           outline="none"
           borderRadius="S"
           mb={['L', 'NONE']}
-          placeholder="Drop your e-mail"
+          placeholder={t('landingPage.subscribeInputDescription')}
         />
         <Box
           display="flex"
@@ -79,14 +88,14 @@ const Subscribe: FC = () => {
           flexDirection="column"
         >
           <Button ml="S" px="L" type="submit" variant="tertiary" effect="hover">
-            Subscribe
+            {t('landingPage.subscribeButton', { isLoading: 0 })}
           </Button>
           <Box display="flex" alignItems="center" mt="M" px="L">
             <Box width="0.7rem">
               <ShieldSVG width="100%" />
             </Box>
             <Typography variant="normal" ml="S" fontSize="XS">
-              Your data is safe
+              {t('landingPage.subscribeDescription')}
             </Typography>
           </Box>
         </Box>

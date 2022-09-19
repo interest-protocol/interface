@@ -1,4 +1,5 @@
 import { BigNumber } from 'ethers';
+import { useTranslations } from 'next-intl';
 import { identity, o, prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -15,6 +16,7 @@ import { useChainId, useGetSigner } from '@/hooks';
 import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
 import { LineLoaderSVG } from '@/svg';
 import {
+  capitalize,
   getBNPercent,
   getInterestDexRouterAddress,
   isSameAddressZ,
@@ -53,6 +55,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
   fetchingInitialData,
   mutate,
 }) => {
+  const t = useTranslations();
   const [loading, setLoading] = useState(false);
   const [isFetchingQuote, setIsFetchingQuote] = useState(false);
 
@@ -103,8 +106,10 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
 
   const handleApproveToken = (token: string, symbol: string) =>
     showToast(approveToken(token), {
-      loading: `${symbol}: Giving allowance...`,
-      success: 'Success!',
+      loading: `${symbol}: ${capitalize(
+        t('common.approve', { isLoading: 1 })
+      )}`,
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -192,8 +197,8 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
 
   const handleAddLiquidity = () =>
     showToast(addLiquidity(), {
-      loading: `Adding liquidity...`,
-      success: 'Success!',
+      loading: `${capitalize(t('common.add', { isLoading: 1 }))}`,
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -208,7 +213,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
           variant="normal"
           textTransform="uppercase"
         >
-          Add Liquidity
+          {t('dexPoolPairAddress.addLiquidity')}
         </Typography>
       </Box>
       {tokens.map(({ balance, decimals, allowance, Icon, symbol }, index) => (
@@ -284,7 +289,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
                 hover={{ bg: 'accentActive' }}
                 onClick={() => handleApproveToken(address, symbol)}
               >
-                Approve {symbol}
+                {capitalize(t('common.approve', { isLoading: 0 }))} {symbol}
               </Button>
             ))
           )}
@@ -302,7 +307,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
                   setValue('locked', false);
                 }}
               >
-                Reset
+                {capitalize(t('common.reset'))}
               </Button>
               <Button
                 bg="accent"
@@ -312,7 +317,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
                 onClick={handleAddLiquidity}
                 hover={{ bg: loading ? 'disabled' : 'accentActive' }}
               >
-                {loading ? 'Adding...' : 'Add'}
+                {capitalize(t('common.add', { isLoading: Number(loading) }))}
               </Button>
             </>
           )}

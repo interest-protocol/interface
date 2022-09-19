@@ -1,18 +1,38 @@
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import { GetServerSideProps, NextPage } from 'next';
 
 import { Loading } from '@/views/dapp/components';
 import DineroMarketMode from '@/views/dapp/views/dinero-market-panel';
 import Error from '@/views/dapp/views/error';
 
-const DineroMarketBorrowPage: NextPage = () => {
-  const { address } = useRouter().query;
+interface DineroMarketBorrowPageProps {
+  address: string | null | undefined;
+}
 
+const DineroMarketBorrowPage: NextPage<DineroMarketBorrowPageProps> = ({
+  address,
+}) => {
   if (address === undefined) return <Loading />;
 
   if (address === null) return <Error message="Wrong params" />;
 
-  return <DineroMarketMode address={address as string} mode="borrow" />;
+  return <DineroMarketMode address={address} mode="borrow" />;
+};
+
+export const getServerSideProps: GetServerSideProps = async ({
+  locale,
+  params,
+}) => {
+  const { address } = params || {};
+
+  return {
+    props: {
+      address,
+      messages: {
+        ...require(`../../../../assets/messages/dinero-market/address/${locale}.json`),
+        ...require(`../../../../assets/messages/common/${locale}.json`),
+      },
+    },
+  };
 };
 
 export default DineroMarketBorrowPage;

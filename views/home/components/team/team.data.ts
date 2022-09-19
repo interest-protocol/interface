@@ -10,79 +10,82 @@ export const SOCIAL_SVG = {
 export const TEAM_MEMBERS = [
   {
     name: 'José Cerqueira',
-    role: 'Co-Founder & CEO',
+    role: 'landingPage.roleCEO',
     image: 'jose-cerqueira',
     social: {
       github: 'https://github.com/josemvcerqueira',
       linkedin: 'https://www.linkedin.com/in/josemvcerqueira/',
       twitter: 'https://twitter.com/josemvcerqueira',
     },
-    bio: `Previously at Banco EuroBIC. ${getYearOrMonth(
-      {
-        month: 1,
-        year: 2017,
-      },
-      true
-    )} of software development. ${getYearOrMonth(
-      {
-        month: 1,
-        year: 2017,
-      },
-      true
-    )} in the crypto industry. Responsible for the smart contract development of Interest Protocol.`,
+    bio: 'landingPage.bioCerqueira',
+    depsBio: {
+      year1: getYearOrMonth(
+        {
+          month: 1,
+          year: 2017,
+        },
+        false
+      ),
+      year2: getYearOrMonth(
+        {
+          month: 1,
+          year: 2017,
+        },
+        false
+      ),
+    },
   },
   {
     name: 'José P. Nelumba',
-    role: 'Co-Founder & CFO',
+    role: 'landingPage.roleCFO',
     image: 'jose-nelumba',
     social: {
       linkedin:
         'https://www.linkedin.com/in/jos%C3%A9-pedro-cerqueira-nelumba/',
       twitter: 'https://twitter.com/Pedro102792',
     },
-    bio: `${getYearOrMonth(
-      {
-        month: 1,
-        year: 2018,
-      },
-      true
-    )} as a financial advisor for businesses. Crypto advocate since 2017.
-    Co-founder of a medical emergency tech company that has saved over 1000 lives.
-    Responsible for fundraising and managing the Interest Protocol finances.`,
+    bio: 'landingPage.bioNelumba',
+    depsBio: {},
   },
   {
     name: 'Marco Pitra',
-    role: 'Developer',
+    role: 'landingPage.developer',
     image: 'marco-pitra',
     social: {
       github: 'https://github.com/git-marcopitra',
       linkedin: 'https://www.linkedin.com/in/marco-pitra/',
       twitter: 'https://twitter.com/marcopitra',
     },
-    bio: `${getYearOrMonth(
-      {
-        month: 12,
-        year: 2019,
-      },
-      true
-    )} in web development. ${getYearOrMonth(
-      { month: 7, year: 2021 },
-      true
-    )} in crypto. A React ninja working on Interest Protocol's interface.`,
+    bio: 'landingPage.bioPitra',
+    depsBio: {
+      year1: getYearOrMonth(
+        {
+          month: 12,
+          year: 2019,
+        },
+        false
+      ),
+      year2: getYearOrMonth(
+        {
+          month: 7,
+          year: 2021,
+        },
+        false
+      ),
+    },
   },
   {
     name: 'António Kipanda',
-    role: 'Developer',
+    role: 'landingPage.developer',
     image: 'antonio-cardoso',
     social: {
       github: 'https://github.com/KipandaJr',
       linkedin: 'https://www.linkedin.com/in/kipanda-cardoso/',
       twitter: 'https://twitter.com/kipaskipasJr',
     },
-    bio: `${getYearOrMonth(
-      { month: 1, year: 2019 },
-      true
-    )} of software development. Working as a frontend developer at Interest Protocol.
-    `,
+    bio: 'landingPage.bioKipanda',
+    depsBio: {
+      year1: getYearOrMonth({ month: 1, year: 2019 }, false),
+    },
   },
 ];

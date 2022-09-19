@@ -1,0 +1,19 @@
+{
+  "dineroMarket": {
+    "title": "Peça Dinero Emprestado",
+    "filterSortOptionInterestRate": "Taxas de juros",
+    "filterSortOptionLiquidationFee": "Taxa de liquidação",
+    "filterBorrowing": "Apenas Empréstimo",
+    "tableHeaderCollateral": "Garantia",
+    "tableHeaderTVL": "TVL",
+    "tableHeaderTVLTip": "Valor Total Retido",
+    "tableHeaderBorrowing": "Emprestimo",
+    "tableHeaderBorrowingTip": "Quantidade corrente de Dinero emprestado",
+    "tableHeaderLTV": "LTV",
+    "tableHeaderLTVTip": "Rácio de empréstimo/garantia",
+    "tableHeaderInterestCost": "Custo dos juros (APR)",
+    "tableHeaderInterestCostTip": "O custo anual de um empréstimo a um usuário, <br /> expresso percentualmente",
+    "tableHeaderLiquidation": "Taxa de liquidação",
+    "tableHeaderLiquidationTip": "Taxa de penalização cobrada a um usuário quando a sua posição é liquidada.<br />É expressa como uma percentagem do empréstimo"
+  }
+}

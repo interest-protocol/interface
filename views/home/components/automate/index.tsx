@@ -1,14 +1,17 @@
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
+import { capitalize } from '@/utils';
 
 import { EARN_TYPES } from './automate.data';
 
 const Automate: FC = () => {
+  const t = useTranslations();
   const { push } = useRouter();
 
   return (
@@ -22,8 +25,9 @@ const Automate: FC = () => {
           lineHeight="4.876rem"
           mb={['0.875rem', '0.875rem', '0.625rem', '0.625rem']}
           fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
+          textTransform="capitalize"
         >
-          Automate
+          {t('landingPage.vaultSectionTitle')}
         </Typography>
         <Typography
           variant="normal"
@@ -31,7 +35,7 @@ const Automate: FC = () => {
           fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
           lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
         >
-          Maximize your profits through automated strategies.
+          {t('landingPage.vaultSectionSubtitle')}
         </Typography>
         <Box
           mt={['1.25rem', '4.313rem']}
@@ -67,7 +71,7 @@ const Automate: FC = () => {
             push(Routes[RoutesEnum.Earn], undefined, { shallow: true })
           }
         >
-          Earn
+          {capitalize(t('common.earn'))}
         </Button>
       </Container>
     </Box>

@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+import { useTranslations } from 'next-intl';
 import { pathOr, prop } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -18,6 +19,7 @@ import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import {
+  capitalize,
   formatMoney,
   isValidAccount,
   safeGetAddress,
@@ -40,6 +42,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
   isLoadingData,
   removeLocalToken,
 }) => {
+  const t = useTranslations();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { chainId, account } = useIdAccount();
@@ -64,7 +67,8 @@ const FaucetForm: FC<FaucetFormProps> = ({
       const amount = getValues('amount');
       const token = getValues('token');
 
-      if (!amount || !isValidAccount(token)) return;
+      if (!amount || !isValidAccount(token))
+        throwError(capitalize(t('common.error')));
 
       const { validSigner, validId } = throwIfInvalidSigner(
         [account],
@@ -100,8 +104,8 @@ const FaucetForm: FC<FaucetFormProps> = ({
 
   const onMint = () =>
     showToast(handleOnMint(), {
-      loading: 'Minting...',
-      success: 'Success!',
+      loading: `${t('faucet.button', { isLoading: 1 })}`,
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -127,14 +131,14 @@ const FaucetForm: FC<FaucetFormProps> = ({
         >
           <FaucetSelectCurrency
             tokens={tokens}
-            label="Choose Token"
+            label={t('faucet.tokenInput')}
             defaultValue={tokens?.[0]?.address ?? ethers.constants.AddressZero}
             onSelectCurrency={onSelectCurrency}
           />
           <InputBalance
             name="amount"
             register={register}
-            label="Type Amount"
+            label={t('faucet.amountInput')}
             setValue={setValue}
             chainId={chainId}
             control={control}
@@ -161,12 +165,18 @@ const FaucetForm: FC<FaucetFormProps> = ({
                     <Box as="span" display="inline-block" width="1rem">
                       <LoadingSVG width="100%" />
                     </Box>
-                    <Typography as="span" variant="normal" ml="M" fontSize="S">
-                      Minting...
+                    <Typography
+                      as="span"
+                      variant="normal"
+                      ml="M"
+                      fontSize="S"
+                      textTransform="capitalize"
+                    >
+                      {t('faucet.button', { isLoading: 1 })}
                     </Typography>
                   </Box>
                 ) : (
-                  'Mint'
+                  t('faucet.button', { isLoading: 0 })
                 )}
               </Button>
             ) : (
@@ -185,7 +195,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
           flexDirection="column"
         >
           <Typography variant="normal" textTransform="uppercase" my="L">
-            Your balance:
+            {t('common.yourBalance')}
           </Typography>
           <Box
             display="grid"

@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -8,9 +9,10 @@ import { getFilterSwitchDefaultData } from '@/views/dapp/views/earn/components/e
 import { OnlyStakedFilterProps } from './earn-filters.types';
 
 const OnlyStakedFilter: FC<OnlyStakedFilterProps> = ({ control, setValue }) => {
+  const t = useTranslations();
   const onlyStaked = useWatch({ control, name: 'onlyStaked' });
   const SWITCH_ON_OFF_DATA = getFilterSwitchDefaultData(
-    ['off', 'on'],
+    [t('common.off'), t('common.on')],
     setValue,
     'onlyStaked'
   );
@@ -24,10 +26,10 @@ const OnlyStakedFilter: FC<OnlyStakedFilterProps> = ({ control, setValue }) => {
         display="inline-block"
         textAlign={['center', 'center', 'center', 'left']}
       >
-        Staked only
+        {t('earn.filterStaked')}
       </Typography>
       <Switch
-        defaultValue={onlyStaked ? 'on' : 'off'}
+        defaultValue={onlyStaked ? t('common.on') : t('common.off')}
         options={SWITCH_ON_OFF_DATA}
         bg="background"
         bgSelected="accentAlternative"

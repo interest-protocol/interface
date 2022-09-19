@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
@@ -5,6 +6,7 @@ import { v4 } from 'uuid';
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
 import { InfoSVG } from '@/svg';
+import { capitalize } from '@/utils';
 
 import {
   getBorrowPositionHealthData,
@@ -12,30 +14,17 @@ import {
 } from '../../dinero-market.utils';
 import { BorrowFormLoanInfoProps } from './borrow-form.types';
 
-const INFO = [
-  {
-    text: 'Maximum borrow amount',
-    tip: 'The maximum amount of Dinero this market can lend.',
-  },
-  {
-    text: 'Estimated DNR borrowed',
-    tip: 'Total amount of DNR owed (principal + interest<br /> rate) including the planned transaction',
-  },
-  {
-    text: 'Estimated Liquidation Price',
-    tip: 'If the collateral token drops to this price,<br /> you are at risk of liquidation.',
-  },
-  {
-    text: 'Position Health',
-    tip: 'If this value reaches 0, you are at risk of<br /> liquidation.',
-  },
-];
+const INFO = [1, 2, 3, 4].map((item) => ({
+  text: 'dineroMarketAddress.borrowFormLoanInfoText' + item,
+  tip: 'dineroMarketAddress.borrowFormLoanInfoTip' + item,
+}));
 
 const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
   control,
   data,
   isBorrow,
 }) => {
+  const t = useTranslations();
   const borrowLoan = useWatch({ control, name: 'borrow.loan' });
   const borrowCollateral = useWatch({
     control,
@@ -71,14 +60,14 @@ const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
               width="1rem"
               cursor="help"
               display="flex"
-              data-tip={tip}
+              data-tip={capitalize(t(tip))}
               minWidth="1rem"
               alignItems="center"
             >
               <InfoSVG width="100%" />
             </Box>
             <Typography variant="normal" as="span">
-              {text}
+              {capitalize(t(text))}
             </Typography>
           </Box>
           <Typography

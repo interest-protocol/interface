@@ -1,7 +1,9 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Button } from '@/elements';
+import { capitalize } from '@/utils';
 
 import { ApproveButtonProps } from './remove-liquidity-card.types';
 
@@ -11,6 +13,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
   symbol1,
   control,
 }) => {
+  const t = useTranslations();
   const loading = useWatch({ control, name: 'loading' });
 
   return (
@@ -22,7 +25,12 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       onClick={onClick}
       disabled={loading}
     >
-      {loading ? 'Approving' : 'Approve'} {symbol0}/{symbol1} LP
+      {capitalize(
+        t('common.approve', {
+          isLoading: Number(loading),
+        })
+      )}{' '}
+      {symbol0}/{symbol1} LP
     </Button>
   );
 };

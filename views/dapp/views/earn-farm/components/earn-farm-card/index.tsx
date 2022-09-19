@@ -40,6 +40,7 @@ const EarnFarmCard: FC<EarnFarmCardProps> = ({
           mb={['L', 'L', 'L', 'XXL']}
           textAlign={['left', 'left', 'left', 'center']}
           maxWidth={['10rem', '10rem', '10rem', '14rem']}
+          textTransform="capitalize"
         >
           {loading ? <Skeleton height="1.2rem" width="100%" /> : title}
         </Typography>

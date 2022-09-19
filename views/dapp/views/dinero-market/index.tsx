@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -21,6 +22,7 @@ const DineroMarket: FC = () => {
       onlyBorrowing: false,
     },
   });
+  const t = useTranslations();
   const chainId = useChainId();
 
   const { data, error } = useGetDineroMarketsSummaryV2();
@@ -73,7 +75,7 @@ const DineroMarket: FC = () => {
       >
         <DineroSVG width="2rem" height="2rem" />
         <Typography variant="normal" ml="M">
-          Borrow Dinero
+          {t('dineroMarket.title')}
         </Typography>
       </Box>
       <BorrowFilters

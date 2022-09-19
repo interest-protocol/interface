@@ -1,13 +1,16 @@
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
 
 import { Switch } from '@/components';
 import { PoolType, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
+import { capitalize } from '@/utils';
 
 import RecommendPools from './recommended-pools';
 
 const Pool: FC = () => {
+  const t = useTranslations();
   const [poolType, setPoolType] = useState<PoolType>(PoolType.Volatile);
 
   const { push } = useRouter();
@@ -27,20 +30,26 @@ const Pool: FC = () => {
           justifyItems="center"
           gridTemplateColumns={['1fr', '1fr 1fr 1fr']}
         >
-          <Typography variant="normal" mr={['unset', 'auto']}>
-            Pools Overview
+          <Typography
+            variant="normal"
+            mr={['unset', 'auto']}
+            textTransform="capitalize"
+          >
+            {t('dexPool.title')}
           </Typography>
           <Switch
             defaultValue={poolType}
             options={[
               {
                 value: PoolType.Volatile,
-                displayValue: 'Volatile',
+                displayValue: capitalize(
+                  capitalize(t('common.volatile', { count: 2 }))
+                ),
                 onSelect: () => setPoolType(PoolType.Volatile),
               },
               {
                 value: PoolType.Stable,
-                displayValue: 'Stable',
+                displayValue: capitalize(t('common.stable', { count: 2 })),
                 onSelect: () => setPoolType(PoolType.Stable),
               },
             ]}
@@ -52,7 +61,7 @@ const Pool: FC = () => {
             onClick={() => push(Routes[RoutesEnum.DEXFindPool])}
             ml={['unset', 'auto']}
           >
-            Find Pool
+            {t('dexPool.button')}
           </Button>
         </Box>
         <RecommendPools type={poolType} />

@@ -11,4 +11,9 @@ module.exports = {
   experimental: {
     newNextLinkBehavior: true,
   },
+  i18n: {
+    locales: ['en-US', 'pt-PT', 'pt-BR'],
+    defaultLocale: 'en-US',
+    localeDetection: true,
+  },
 };

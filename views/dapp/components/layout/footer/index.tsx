@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
@@ -12,10 +13,12 @@ import {
 } from '@/constants';
 import { Box, Button } from '@/elements';
 import { GitBookSVG } from '@/svg';
+import { capitalize } from '@/utils';
 
 import Faucet from '../../faucet';
 
 const Footer: FC = () => {
+  const t = useTranslations();
   const { pathname } = useRouter();
 
   return (
@@ -97,7 +100,7 @@ const Footer: FC = () => {
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
             >
-              Earn
+              {capitalize(t('common.earn'))}
             </Button>
           </Link>
           <Link href={Routes[RoutesEnum.DineroMarket]}>
@@ -120,7 +123,7 @@ const Footer: FC = () => {
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
             >
-              Borrow
+              {capitalize(t('common.borrow'))}
             </Button>
           </Link>
           {RoutesWithFaucet.includes(pathname) && <Faucet />}

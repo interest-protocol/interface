@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -11,9 +12,10 @@ const OnlyBorrowingFilter: FC<OnlyBorrowingFilterProps> = ({
   control,
   setValue,
 }) => {
+  const t = useTranslations();
   const onlyBorrowing = useWatch({ control, name: 'onlyBorrowing' });
   const SWITCH_ON_OFF_DATA = getFilterSwitchDefaultData(
-    ['off', 'on'],
+    [t('common.off'), t('common.on')],
     setValue,
     'onlyBorrowing'
   );
@@ -35,13 +37,13 @@ const OnlyBorrowingFilter: FC<OnlyBorrowingFilterProps> = ({
         variant="normal"
         textAlign={['center', 'center', 'center', 'left']}
       >
-        Borrowing only
+        {t('dineroMarket.filterBorrowing')}
       </Typography>
       <Switch
         bg="background"
         options={SWITCH_ON_OFF_DATA}
         bgSelected="accentAlternative"
-        defaultValue={onlyBorrowing ? 'on' : 'off'}
+        defaultValue={onlyBorrowing ? t('common.on') : t('common.off')}
       />
     </Box>
   );

@@ -1,6 +1,7 @@
 export * from './use-chain-id';
 export * from './use-click-outside-listener-ref';
 export * from './use-debounce';
+export * from './use-event-listener';
 export * from './use-get-dex-allowances-and-balances';
 export * from './use-get-dinero-market-data-v2';
 export * from './use-get-dinero-markets-summary-v2';
@@ -13,5 +14,6 @@ export * from './use-get-user-farm-data';
 export * from './use-id-account';
 export * from './use-is-mounted';
 export * from './use-local-storage';
+export * from './use-locale';
 export * from './use-previous';
 export * from './use-quote-remove-liquidity';

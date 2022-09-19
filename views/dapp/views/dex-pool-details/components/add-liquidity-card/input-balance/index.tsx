@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
@@ -17,6 +18,7 @@ const InputBalance: FC<InputBalanceProps> = ({
   disabled,
   currencyPrefix,
 }) => {
+  const t = useTranslations();
   const onFocus = (v: ChangeEvent<HTMLInputElement>) => {
     const value = v.target.value;
 
@@ -99,8 +101,8 @@ const InputBalance: FC<InputBalanceProps> = ({
         borderRadius="M"
         position="relative"
       >
-        <Typography fontSize="S" variant="normal">
-          Balance:{' '}
+        <Typography fontSize="S" variant="normal" textTransform="capitalize">
+          {t('common.balance')}:{' '}
           <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
             {formatMoney(balance)}
           </Typography>
