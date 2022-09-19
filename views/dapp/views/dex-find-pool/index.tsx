@@ -368,7 +368,7 @@ const FindPoolView: FC = () => {
         bg="foreground"
         maxWidth="30rem"
         borderRadius="M"
-        width={['100%', '30rem']}
+        width={['100%', '100%', '100%', '30rem']}
       >
         <WalletGuardButton>
           {isSameAddressZ(tokenAAddress, tokenBAddress) ? (

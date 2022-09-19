@@ -16,9 +16,9 @@ const FindPool: FC<FindPoolProps> = ({
   currencyBChargerArgs,
 }) => {
   const t = useTranslations();
+  const isStable = useWatch({ control, name: `isStable` });
   const addressA = useWatch({ control, name: `tokenA.address` });
   const addressB = useWatch({ control, name: `tokenB.address` });
-  const isStable = useWatch({ control, name: `isStable` });
 
   return (
     <Box
@@ -29,30 +29,35 @@ const FindPool: FC<FindPoolProps> = ({
       bg="foreground"
       maxWidth="30rem"
       borderRadius="M"
-      width={['100%', '30rem']}
+      width={['100%', '100%', '100%', '30rem']}
     >
       <Box
-        display="flex"
         width="100%"
+        display="flex"
         alignItems="center"
-        flexWrap={['wrap', 'nowrap']}
-        justifyContent={['center', 'space-between']}
+        flexWrap={['wrap', 'wrap', 'wrap', 'nowrap']}
+        justifyContent={['center', 'center', 'center', 'space-between']}
       >
         <SwapSelectCurrency currentToken={addressA} {...currencyAChargerArgs} />
-        <Box mt={['L', 'NONE']} order={[1, 0]} width="100%" textAlign="center">
+        <Box
+          width="100%"
+          textAlign="center"
+          order={[1, 1, 1, 0]}
+          mt={['L', 'L', 'L', 'NONE']}
+        >
           <Switch
             thin
             defaultValue={isStable ? 'stable' : 'volatile'}
             options={[
               {
                 value: 'stable',
-                displayValue: capitalize(t('common.stable', { count: 1 })),
                 onSelect: () => setValue('isStable', true),
+                displayValue: capitalize(t('common.stable', { count: 1 })),
               },
               {
                 value: 'volatile',
-                displayValue: capitalize(t('common.volatile', { count: 1 })),
                 onSelect: () => setValue('isStable', false),
+                displayValue: capitalize(t('common.volatile', { count: 1 })),
               },
             ]}
           />
