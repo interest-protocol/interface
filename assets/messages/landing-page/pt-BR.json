@@ -36,7 +36,7 @@
     "bioCerqueira": "Anteriormente no Banco EuroBIC. {year1, plural, =1 {# ano} other {# anos}} de desenvolvimento de software. {year2, plural, =1 {# ano} other {# anos}} na indústria de crypto. Responsável pelo desenvolvimento dos smart contracts da Interest Protocol.",
     "bioNelumba": "Evangelista de crypto desde 2017. Co-fundador de uma empresa de tecnologia de emergência médica que já salvou mais de 1000 vidas. Responsável pela angariação de fundos e gestão das finanças da Interest Protocol.",
     "bioPitra": "{year1, plural, =1 {# ano} other {# anos}} a desenvolver software para a web2. {year2, plural, =1 {# ano} other {# anos}} em crypto. Um ninja de React trabalhando na interface da Interest Protocol.",
-    "bioKipanda": "{year1, plural, =1 {# ano} other {# anos}} a desenvolver de software. A trabalhar como desenvolvedor de interface da Interest Protocol.",
+    "bioKipanda": "{year1, plural, =1 {# ano} other {# anos}} de desenvolvimento de software. Trabalhando como um desenvolvedor de interfaces da Interest Protocol.",
     "subscribeErrors": {
       "1008": "contato já foi adicionado"
     }
