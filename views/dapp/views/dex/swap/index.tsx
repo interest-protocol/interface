@@ -45,8 +45,6 @@ const Swap: FC = () => {
 
   const { register, control, setValue, getValues } = useForm<ISwapForm>({
     defaultValues: {
-      slippage: localSettings.slippage,
-      deadline: localSettings.deadline,
       tokenIn: {
         address: INT.address,
         value: '0',
@@ -177,9 +175,6 @@ const Swap: FC = () => {
             {showSettings && (
               <Settings
                 toggle={toggleSettings}
-                control={control}
-                register={register}
-                setValue={setValue}
                 setLocalSettings={setLocalSettings}
                 localSettings={localSettings}
               />
@@ -201,7 +196,7 @@ const Swap: FC = () => {
                   [getAddress(tokenInAddress), 'balance'],
                   balancesData
                 ),
-                getValues().tokenIn.decimals,
+                getValues('tokenIn.decimals'),
                 0,
                 12
               )}
@@ -212,7 +207,7 @@ const Swap: FC = () => {
                     [getAddress(tokenInAddress), 'balance'],
                     balancesData
                   ),
-                  getValues().tokenIn.decimals,
+                  getValues('tokenIn.decimals'),
                   0,
                   12
                 )
@@ -229,7 +224,7 @@ const Swap: FC = () => {
                 <SwapSelectCurrency
                   currentToken={tokenInAddress}
                   onSelectCurrency={onSelectCurrency('tokenIn')}
-                  symbol={getValues().tokenIn.symbol}
+                  symbol={getValues('tokenIn.symbol')}
                   isModalOpen={isTokenInOpenModal}
                   setIsModalOpen={setTokenInIsOpenModal}
                 />
@@ -281,7 +276,7 @@ const Swap: FC = () => {
                   currentToken={tokenOutAddress}
                   disabled={isFetchingAmountOutTokenOut}
                   onSelectCurrency={onSelectCurrency('tokenOut')}
-                  symbol={getValues().tokenOut.symbol}
+                  symbol={getValues('tokenOut.symbol')}
                   isModalOpen={isTokenOutOpenModal}
                   setIsModalOpen={setTokenOutIsOpenModal}
                 />
@@ -301,26 +296,27 @@ const Swap: FC = () => {
         )}
         {hasNoMarket && <SwapMessage {...SWAP_MESSAGES['info-no-pool']} />}
         <SwapButton
-          disabled={isDisabled}
-          getValues={getValues}
-          tokenInAddress={tokenInAddress}
-          setSwapBase={setSwapBase}
-          swapBase={swapBase}
           chainId={chainId}
           account={account}
           control={control}
+          swapBase={swapBase}
+          disabled={isDisabled}
+          getValues={getValues}
+          updateBalances={mutate}
+          setSwapBase={setSwapBase}
+          needsApproval={needsApproval}
+          localSettings={localSettings}
+          fetchingBalancesData={loading}
+          tokenInAddress={tokenInAddress}
+          fetchingBaseData={!balancesData && !balancesError}
           fetchingAmount={
             isFetchingAmountOutTokenOut || isFetchingAmountOutTokenIn
           }
-          fetchingBalancesData={loading}
-          fetchingBaseData={!balancesData && !balancesError}
           parsedTokenInBalance={pathOr(
             ZERO_BIG_NUMBER,
             [getAddress(tokenInAddress), 'balance'],
             balancesData
           )}
-          updateBalances={mutate}
-          needsApproval={needsApproval}
         />
       </Box>
       {localSettings.autoFetch && (
