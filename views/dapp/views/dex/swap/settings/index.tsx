@@ -22,8 +22,8 @@ const SettingsModal: FC<SwapSettingsProps> = ({
   const dropdownContainerRef =
     useClickOutsideListenerRef<HTMLDivElement>(toggle);
 
-  const newSlippage = useRef<string | null>(null);
-  const newDeadline = useRef<number | null>(null);
+  const newSlippage = useRef<string | null>(localSettings.slippage ?? null);
+  const newDeadline = useRef<number | null>(localSettings.deadline ?? null);
   const autoFetch = useRef<boolean>(localSettings.autoFetch ?? true);
 
   useEffect(() => {
@@ -52,12 +52,12 @@ const SettingsModal: FC<SwapSettingsProps> = ({
       zIndex={1}
       color="text"
       bg="foreground"
-      width={['80%', '80%', '80%', 'unset']}
       minWidth="20rem"
       borderRadius="M"
       position="absolute"
       ref={dropdownContainerRef}
       boxShadow="0 0 0.5rem #0006"
+      width={['80%', '80%', '80%', 'unset']}
     >
       <Box display="flex" justifyContent="space-between" p="S">
         <Typography
@@ -87,8 +87,8 @@ const SettingsModal: FC<SwapSettingsProps> = ({
       </Box>
       <Box px="L">
         <Field
-          type="string"
           max="30"
+          type="text"
           placeholder="0.5"
           label={t('dexSwap.toleranceLabel')}
           setRegister={() =>

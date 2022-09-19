@@ -8,7 +8,6 @@ const Field: FC<FieldProps> = ({
   label,
   prefix,
   setRegister,
-
   suffix,
   placeholder,
   max,

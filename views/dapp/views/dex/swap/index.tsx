@@ -1,6 +1,6 @@
 import { getAddress } from 'ethers/lib/utils';
 import { not, pathOr } from 'ramda';
-import { FC, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 
 import { ERC_20_DATA, UNKNOWN_ERC_20 } from '@/constants';
@@ -63,6 +63,13 @@ const Swap: FC = () => {
       },
     },
   });
+
+  useEffect(() => {
+    if (localSettings.deadline != getValues('deadline'))
+      setValue('deadline', localSettings.deadline);
+    if (localSettings.slippage != getValues('slippage'))
+      setValue('slippage', localSettings.slippage);
+  }, [localSettings]);
 
   const [showSettings, setShowSettings] = useState(false);
   const [hasNoMarket, setHasNoMarket] = useState(false);
