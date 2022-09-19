@@ -4,8 +4,11 @@
     "BNBT",
     "BTCABI",
     "chimpy",
+    "conetar",
+    "DAISVG",
     "dinero",
     "ETHERC",
+    "Frax",
     "getresponse",
     "hookform",
     "IMAIL",
@@ -18,8 +21,17 @@
     "Shiba",
     "typechain",
     "unstake",
+    "USDD",
+    "USDDSVG",
+    "USDN",
+    "USDP",
+    "USDS",
+    "USDSVG",
+    "USTC",
     "VUSDC",
     "WBNB",
-    "XXXL"
+    "XXXL",
+    "Zasset",
+    "ZUSD"
   ]
 }

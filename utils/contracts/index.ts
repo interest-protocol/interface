@@ -45,10 +45,6 @@ const makeGetAddress = (x: Record<number, string>) =>
     toString
   );
 
-export const getInterestViewMAILAddress: GetContractAddress = makeGetAddress(
-  CONTRACTS.INTEREST_VIEW_MAIL
-);
-
 export const getInterestViewBalancesAddress: GetContractAddress =
   makeGetAddress(CONTRACTS.INTEREST_VIEW_BALANCES);
 
@@ -88,10 +84,6 @@ export const getUSDTAddress: GetContractAddress = makeGetAddress(
 export const getAPEAddress: GetContractAddress = makeGetAddress(CONTRACTS.APE);
 
 export const getUNIAddress: GetContractAddress = makeGetAddress(CONTRACTS.UNI);
-
-export const getMAILDeployerAddress: GetContractAddress = makeGetAddress(
-  CONTRACTS.MAIL_DEPLOYER
-);
 
 export const getLINKAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.LINK

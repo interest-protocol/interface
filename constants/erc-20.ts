@@ -2,22 +2,30 @@ import { ethers } from 'ethers';
 import { pathOr, reduce } from 'ramda';
 import { FC, SVGAttributes } from 'react';
 
-import { CHAIN_ID, NativeCurrency, TOKEN_SYMBOL } from '@/sdk';
+import { CHAIN_ID, CONTRACTS, NativeCurrency, TOKEN_SYMBOL } from '@/sdk';
 import { ERC20 } from '@/sdk/entities/erc-20';
 import {
   ApeCoinSVG,
+  BinanceUSDSVG,
   BitcoinSVG,
   BNBSVG,
   ChainLinkSVG,
+  DAISVG,
   DineroSVG,
   EtherSVG,
+  FraxSVG,
   InterestTokenSVG,
   ManaSVG,
+  NeutrinoUSDSVG,
+  PaxDollarSVG,
   ShibaInuSVG,
   TetherSVG,
+  TrueUSDSVG,
   UniSwapSVG,
   UnknownCoinSVG,
   USDCoinSVG,
+  USDDSVG,
+  VaiSVG,
   WBNBCoinSVG,
 } from '@/svg';
 import {
@@ -104,6 +112,14 @@ export const FAUCET_TOKENS = {
 export const TOKENS_SVG_MAP = {
   [TOKEN_SYMBOL.ETH]: EtherSVG,
   [TOKEN_SYMBOL.WETH]: EtherSVG,
+  [TOKEN_SYMBOL.BUSD]: BinanceUSDSVG,
+  [TOKEN_SYMBOL.DAI]: DAISVG,
+  [TOKEN_SYMBOL.FRAX]: FraxSVG,
+  [TOKEN_SYMBOL.TUSD]: TrueUSDSVG,
+  [TOKEN_SYMBOL.USDD]: USDDSVG,
+  [TOKEN_SYMBOL.USDN]: NeutrinoUSDSVG,
+  [TOKEN_SYMBOL.USDP]: PaxDollarSVG,
+  [TOKEN_SYMBOL.VAI]: VaiSVG,
   [TOKEN_SYMBOL.DNR]: DineroSVG,
   [TOKEN_SYMBOL.USDT]: TetherSVG,
   [TOKEN_SYMBOL.BTC]: BitcoinSVG,
@@ -329,11 +345,6 @@ export const ERC_20_DATA = {
   [CHAIN_ID.RINKEBY]: RINKEBY_ERC_20_DATA,
 };
 
-export const MAIL_BRIDGE_TOKENS_ARRAY = {
-  [CHAIN_ID.RINKEBY]: RINKEBY_MAIL_BRIDGE_ERC20_ARRAY,
-  [CHAIN_ID.BNB_TEST_NET]: [],
-};
-
 export const NATIVE_TOKENS = {
   [CHAIN_ID.RINKEBY]: NativeCurrency.from(
     'Ether',
@@ -350,3 +361,23 @@ export const NATIVE_TOKENS = {
 };
 
 export const UNKNOWN_ERC_20 = ERC20.from(ethers.constants.AddressZero, 0);
+
+export const STABLE_COIN_ADDRESSES = {
+  [CHAIN_ID.BNB_TEST_NET]: [
+    ethers.utils.getAddress(CONTRACTS.DNR[CHAIN_ID.BNB_TEST_NET]),
+    ethers.utils.getAddress(CONTRACTS.USDC[CHAIN_ID.BNB_TEST_NET]),
+    ethers.utils.getAddress(CONTRACTS.USDT[CHAIN_ID.BNB_TEST_NET]),
+  ],
+  [CHAIN_ID.BNB_MAIN_MET]: [
+    ethers.utils.getAddress(CONTRACTS.BUSD[CHAIN_ID.BNB_MAIN_MET]),
+    ethers.utils.getAddress(CONTRACTS.DAI[CHAIN_ID.BNB_MAIN_MET]),
+    ethers.utils.getAddress(CONTRACTS.FRAX[CHAIN_ID.BNB_MAIN_MET]),
+    ethers.utils.getAddress(CONTRACTS.TUSD[CHAIN_ID.BNB_MAIN_MET]),
+    ethers.utils.getAddress(CONTRACTS.USDC[CHAIN_ID.BNB_MAIN_MET]),
+    ethers.utils.getAddress(CONTRACTS.USDD[CHAIN_ID.BNB_MAIN_MET]),
+    ethers.utils.getAddress(CONTRACTS.USDP[CHAIN_ID.BNB_MAIN_MET]),
+    ethers.utils.getAddress(CONTRACTS.USDT[CHAIN_ID.BNB_MAIN_MET]),
+    ethers.utils.getAddress(CONTRACTS.VAI[CHAIN_ID.BNB_MAIN_MET]),
+  ],
+  [CHAIN_ID.RINKEBY]: [],
+};

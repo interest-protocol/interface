@@ -21,6 +21,14 @@ export enum TOKEN_SYMBOL {
   Unknown = '???',
   WBNB = 'WBNB',
   BNB = 'BNB',
+  BUSD = 'BUSD',
+  DAI = 'DAI',
+  FRAX = 'FRAX',
+  USDN = 'USDN',
+  USDP = 'USDP',
+  TUSD = 'TUSD',
+  USDD = 'USDD',
+  VAI = 'VAI',
   UNI = 'UNI',
   APE = 'APE',
   MANA = 'MANA',
@@ -178,9 +186,39 @@ export const CONTRACTS = {
     [CHAIN_ID.BNB_TEST_NET]: '0x4a6a823C8E342dc2aa9ccf5f5035E72D8fc5F031',
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
   },
-  MAIL_DEPLOYER: {
-    [CHAIN_ID.RINKEBY]: '0x1F233204B0681e4D95ace0c4165D6D1FcE058012',
+  BUSD: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
-    [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
+  },
+  DAI: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: '0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3',
+  },
+  FRAX: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: '0x90C97F71E18723b0Cf0dfa30ee176Ab653E89F40',
+  },
+  TUSD: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: '0x14016e85a25aeb13065688cafb43044c2ef86784',
+  },
+  USDD: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: '0xd17479997f34dd9156deef8f95a52d81d265be9c',
+  },
+  USDP: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: '0xb7f8cd00c5a06c0537e2abff0b58033d02e5e094',
+  },
+  VAI: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: '0x4bd17003473389a42daf6a0a729f6fdb328bbbd7',
   },
 };
