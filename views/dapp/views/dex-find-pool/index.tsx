@@ -1,7 +1,7 @@
 import { getAddress } from 'ethers/lib/utils';
 import { useRouter } from 'next/router';
 import { pathOr, prop } from 'ramda';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
@@ -24,6 +24,7 @@ import {
   useIdAccount,
 } from '@/hooks';
 import {
+  BNB_STABLE_SYMBOLS,
   getIPXPairAddress,
   sortTokens,
   TOKEN_SYMBOL,
@@ -47,6 +48,7 @@ import { WalletGuardButton } from '@/views/dapp/components';
 import GoBack from '../../components/go-back';
 import { OnSelectCurrencyData } from '../dex/swap/swap.types';
 import CreatePool from './create-pool';
+import CreatePoolPopup from './create-pool-popup';
 import { DexFindPoolForm } from './dex-find-pool.types';
 import FindPool from './find-pool';
 
@@ -57,6 +59,7 @@ const FindPoolView: FC = () => {
 
   const [loading, setLoading] = useState(false);
   const [isCreatingPair, setCreatingPair] = useState(false);
+  const [createPoolPopup, setCreatePoolPopup] = useState(false);
   const [isTokenAOpenModal, setTokenAIsOpenModal] = useState(false);
   const [isTokenBOpenModal, setTokenBIsOpenModal] = useState(false);
 
@@ -79,6 +82,7 @@ const FindPoolView: FC = () => {
   // We want the form to re-render if addresses change
   const tokenAAddress = useWatch({ control, name: 'tokenA.address' });
   const tokenBAddress = useWatch({ control, name: 'tokenB.address' });
+  const isStable = useWatch({ control, name: 'isStable' });
 
   const { balancesError, balancesData, mutate } =
     useGetDexAllowancesAndBalances(
@@ -118,7 +122,6 @@ const FindPoolView: FC = () => {
 
   const enterPool = async () => {
     setLoading(true);
-    const { isStable } = getValues();
 
     try {
       const address = getIPXPairAddress(
@@ -143,6 +146,10 @@ const FindPoolView: FC = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setCreatingPair(false);
+  }, [isStable]);
 
   const handleEnterPool = () =>
     showToast(enterPool(), {
@@ -275,6 +282,26 @@ const FindPoolView: FC = () => {
       error: prop('message'),
     });
 
+  const tokensInList = () => {
+    const { tokenA, tokenB } = getValues();
+
+    return (
+      (BNB_STABLE_SYMBOLS.includes(tokenA.symbol as TOKEN_SYMBOL) ? 1 : 0) +
+      (BNB_STABLE_SYMBOLS.includes(tokenB.symbol as TOKEN_SYMBOL) ? 1 : 0)
+    );
+  };
+
+  const handleValidateCreatePair = () => {
+    if (isStable) {
+      if (tokensInList() == 2) return handleCreatePair;
+      return setCreatePoolPopup(true);
+    }
+
+    if (tokensInList() < 2) return handleCreatePair;
+
+    return setCreatePoolPopup(true);
+  };
+
   if (balancesError)
     return (
       <Container py="XXL">
@@ -371,10 +398,12 @@ const FindPoolView: FC = () => {
               onClick={
                 loading || tokenANeedsAllowance || tokenBNeedsAllowance
                   ? undefined
-                  : handleCreatePair
+                  : handleValidateCreatePair
               }
             >
-              {loading ? 'Creating Pool...' : 'Create Pool'}
+              {loading
+                ? 'Creating Pool...'
+                : `Create ${isStable ? 'Stable' : 'Volatile'} Pool`}
             </Button>
           ) : (
             <Button
@@ -390,6 +419,14 @@ const FindPoolView: FC = () => {
           )}
         </WalletGuardButton>
       </Box>
+      <CreatePoolPopup
+        isStable={isStable}
+        isOpen={createPoolPopup}
+        onContinue={handleCreatePair}
+        symbol0={getValues('tokenA.symbol')}
+        symbol1={getValues('tokenB.symbol')}
+        onCancel={() => setCreatePoolPopup(false)}
+      />
     </Container>
   );
 };
