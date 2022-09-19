@@ -292,11 +292,9 @@ const FindPoolView: FC = () => {
   };
 
   const handleValidateCreatePair = () => {
-    console.log(bothTokensAreStableCoins());
-
     if (isStable && bothTokensAreStableCoins()) return handleCreatePair();
     if (!isStable && !bothTokensAreStableCoins()) return handleCreatePair();
-    console.log(bothTokensAreStableCoins());
+
     return setCreatePoolPopup(true);
   };
 
