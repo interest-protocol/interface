@@ -3,8 +3,9 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 import { useConnect } from 'wagmi';
 
+import { WALLET_SVG_MAP, Wallets } from '@/constants';
 import { Box, Modal, Typography } from '@/elements';
-import { MetaMaskSVG, TimesSVG } from '@/svg';
+import { TimesSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
 import { ConnectWalletProps, WalletButtonProps } from '../../wallet.types';
@@ -64,7 +65,12 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
         minHeight="20rem"
         flexDirection="column"
       >
-        <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Box
+          mb="L"
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+        >
           <Typography as="h3" color="text" variant="normal" fontWeight="normal">
             {capitalize(t('common.connectYourWallet'))}
           </Typography>
@@ -78,11 +84,11 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
           </Box>
         </Box>
         {connectors.map((connector) => (
-          <Box mt="L" key={v4()}>
+          <Box mt="S" key={v4()}>
             <WalletButton
               name={connector.name}
-              Icon={MetaMaskSVG}
               onClick={() => connect({ connector })}
+              Icon={WALLET_SVG_MAP[connector.id as Wallets]}
             />
           </Box>
         ))}

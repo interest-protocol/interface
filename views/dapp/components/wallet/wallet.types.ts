@@ -1,13 +1,9 @@
 import { FC, SVGAttributes } from 'react';
-import { Connector } from 'wagmi';
-
-import { Wallets } from '@/constants';
 
 export interface InfoModalProps {
   isOpen: boolean;
   handleClose: () => void;
 }
-
 export interface WalletButtonProps {
   name: string;
   onClick: () => void;
@@ -17,6 +13,10 @@ export interface WalletButtonProps {
 export interface ConnectWalletProps {
   showModal: boolean;
   toggleModal: () => void;
+}
+
+export interface ConnectWalletButtonProps {
+  loading: boolean;
 }
 
 export interface AccountModalProps extends ConnectWalletProps {

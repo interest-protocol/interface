@@ -6,8 +6,9 @@ import { TimesSVG } from '@/svg';
 
 import { InfoModalProps } from '../../wallet.types';
 
-const SwitchingNetworkModal: FC<InfoModalProps> = ({ isOpen, handleClose }) => {
+const WalletErrorModal: FC<InfoModalProps> = ({ isOpen, handleClose }) => {
   const t = useTranslations();
+
   return (
     <Modal
       modalProps={{
@@ -21,18 +22,23 @@ const SwitchingNetworkModal: FC<InfoModalProps> = ({ isOpen, handleClose }) => {
       <Box p="L" width="100%" bg="foreground" maxWidth="23rem" borderRadius="L">
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Typography as="h3" color="text" variant="normal" fontWeight="normal">
-            {t('wallet.switchNetwork.title')}
+            {t('wallet.error.title')}
           </Typography>
-          <Box onClick={handleClose} cursor="pointer">
+          <Box
+            onClick={handleClose}
+            cursor="pointer"
+            color="textSecondary"
+            hover={{ color: 'text' }}
+          >
             <TimesSVG width="1.8rem" height="1.8rem" />
           </Box>
         </Box>
         <Typography my="M" fontSize="S" variant="normal" color="textSecondary">
-          {t('wallet.switchNetwork.advice')}
+          {t('wallet.error.advice')}
         </Typography>
       </Box>
     </Modal>
   );
 };
 
-export default SwitchingNetworkModal;
+export default WalletErrorModal;

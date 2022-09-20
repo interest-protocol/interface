@@ -8,6 +8,7 @@ import ConnectWallet from './connect-wallet';
 import ConnectedWallet from './connected-wallet';
 import SelectNetwork from './select-network';
 import SwitchingNetwork from './switching-network';
+import WalletError from './wallet-error';
 import WrongNetwork from './wrong-network';
 
 const Wallet: FC = () => {
@@ -16,13 +17,13 @@ const Wallet: FC = () => {
   const { switchNetwork, isLoading: isSwitching } = useSwitchNetwork();
   const { chain } = useNetwork();
 
+  const loading = isLoading || isReconnecting || isConnecting;
+
   if (isSwitching) return <SwitchingNetwork />;
 
-  if (isLoading || isReconnecting || isConnecting) return <div> loading</div>;
+  if (isDisconnected || loading) return <ConnectWallet loading={loading} />;
 
-  if (isDisconnected) return <ConnectWallet />;
-
-  if (error || !chain) return <div>error</div>;
+  if (error || !chain) return <WalletError />;
 
   if (!!chain && !isChainIdSupported(chain.id))
     return (
