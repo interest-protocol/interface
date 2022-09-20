@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { FC } from 'react';
 
 import { Box, Typography } from '@/elements';
