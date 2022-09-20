@@ -1,12 +1,13 @@
 import { ReactNode } from 'react';
-import {
-  Control,
-  UseFormRegister,
-  UseFormRegisterReturn,
-  UseFormSetValue,
-} from 'react-hook-form';
+import { Control, UseFormRegisterReturn } from 'react-hook-form';
 
-import { ISwapForm, LocalSwapSettings } from '../swap.types';
+import { LocalSwapSettings } from '../swap.types';
+
+export interface ISwapSettingsForm {
+  slippage: string;
+  deadline: number;
+  autoFetch: boolean;
+}
 
 export interface FieldProps {
   label: string;
@@ -20,14 +21,11 @@ export interface FieldProps {
 
 export interface SwapSettingsProps {
   toggle: () => void;
-  control: Control<ISwapForm>;
-  setValue: UseFormSetValue<ISwapForm>;
   setLocalSettings: (x: LocalSwapSettings) => void;
-  register: UseFormRegister<ISwapForm>;
   localSettings: LocalSwapSettings;
 }
 
 export interface AutoFetchProps {
   setter: (value: boolean) => void;
-  value: boolean;
+  control: Control<ISwapSettingsForm>;
 }
