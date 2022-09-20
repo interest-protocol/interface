@@ -69,5 +69,16 @@
   },
   "error": {
     "generic": "something went wrong"
+  },
+  "web3Manager": {
+    "title": "{chainName} is not supported",
+    "advice": "Please, switch to a supported chain",
+    "button": "Switch to {chainName}"
+  },
+  "wallet": {
+    "wrongNetworkTitle": "Wrong Network",
+    "wrongNetworkAdvice": "Please connect to a supported network in the dropdown menu or in your wallet.",
+    "switchNetworkTitle": "Switching networks",
+    "switchNetworkAdvice": "Please check your wallet and switch to a supported network."
   }
 }

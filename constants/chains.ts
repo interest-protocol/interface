@@ -102,6 +102,3 @@ export const isChainIdSupported = includes(__, [
   CHAIN_ID.BNB_TEST_NET,
   CHAIN_ID.RINKEBY,
 ]);
-
-export const getNativeCurrencySymbol = (chainId: number): string =>
-  pathOr('???', [chainId.toString(), 'nativeCurrency', 'symbol'], CHAINS);

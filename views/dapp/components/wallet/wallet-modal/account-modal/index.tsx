@@ -1,31 +1,23 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
+import { useAccount, useDisconnect, useNetwork } from 'wagmi';
 
 import { CopyToClipboard } from '@/components';
-import hooks from '@/connectors';
-import { CHAINS } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { CHAIN_ID } from '@/sdk';
-import { getChainId } from '@/state/core/core.selectors';
 import { LinkSVG, TimesSVG, UserSVG } from '@/svg';
 import { capitalize, shortAccount } from '@/utils';
 
 import { AccountModalProps } from '../../wallet.types';
 
-const { usePriorityConnector } = hooks;
-
 const AccountModal: FC<AccountModalProps> = ({
-  url,
   account,
   showModal,
   toggleModal,
 }) => {
   const t = useTranslations();
-  const connector = usePriorityConnector();
-  const chainId = useSelector(getChainId) as number | null;
-
-  const disconnect = () => connector.deactivate();
+  const { connector } = useAccount();
+  const { disconnect } = useDisconnect();
+  const { chain } = useNetwork();
 
   return (
     <Modal
@@ -70,14 +62,12 @@ const AccountModal: FC<AccountModalProps> = ({
             justifyContent="space-between"
           >
             <Typography fontSize="S" variant="normal" color="textSecondary">
-              {capitalize(t('common.connected'))}
-              {'-'}
-              {url === 'metamask' ? 'MetaMask' : 'Wallet Connect'}
+              {capitalize(t('common.connected'))} {connector?.name}
             </Typography>
             <Button
               ml="L"
               variant="tertiary"
-              onClick={disconnect}
+              onClick={() => disconnect()}
               hover={{ color: 'text', bg: 'accent' }}
             >
               {capitalize(t('common.disconnect'))}
@@ -109,9 +99,7 @@ const AccountModal: FC<AccountModalProps> = ({
             <a
               target="__blank"
               rel="noopener noreferrer"
-              href={`${
-                CHAINS[chainId || CHAIN_ID.UNSUPPORTED].blockExplorerUrls
-              }/address/${account}`}
+              href={`${chain?.blockExplorers?.default.url}/address/${account}`}
             >
               <Box
                 mx="M"

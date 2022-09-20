@@ -1,11 +1,8 @@
-import { ProviderRpcError } from '@web3-react/types';
-import { FC, useCallback, useEffect, useState } from 'react';
-import { useAccount, useConnect } from 'wagmi';
+import { FC } from 'react';
+import { useAccount, useConnect, useNetwork } from 'wagmi';
+import { useSwitchNetwork } from 'wagmi';
 
-import hooks from '@/connectors';
-import { isChainIdSupported } from '@/constants/chains';
-import { Button } from '@/elements';
-import { switchToNetwork } from '@/utils/web3-provider';
+import { isChainIdSupported } from '@/constants';
 
 import ConnectWallet from './connect-wallet';
 import ConnectedWallet from './connected-wallet';
@@ -13,27 +10,38 @@ import SelectNetwork from './select-network';
 import SwitchingNetwork from './switching-network';
 import WrongNetwork from './wrong-network';
 
-const {
-  usePriorityIsActive,
-  usePriorityChainId,
-  usePriorityIsActivating,
-  usePriorityConnector,
-  usePriorityError,
-} = hooks;
-
 const Wallet: FC = () => {
   const { isLoading, error } = useConnect();
   const { isConnecting, isReconnecting, isDisconnected } = useAccount();
+  const { switchNetwork, isLoading: isSwitching } = useSwitchNetwork();
+  const { chain } = useNetwork();
+
+  if (isSwitching) return <SwitchingNetwork />;
 
   if (isLoading || isReconnecting || isConnecting) return <div> loading</div>;
 
   if (isDisconnected) return <ConnectWallet />;
 
-  if (error) return <div>error</div>;
+  if (error || !chain) return <div>error</div>;
+
+  if (!!chain && !isChainIdSupported(chain.id))
+    return (
+      <>
+        {switchNetwork && (
+          <SelectNetwork switchNetwork={switchNetwork} chainId={chain.id} />
+        )}
+        <WrongNetwork />
+      </>
+    );
 
   return (
     <>
-      <SelectNetwork switchNetwork={async (x: number) => {}} />
+      {switchNetwork && (
+        <SelectNetwork
+          switchNetwork={switchNetwork}
+          chainId={chain?.id || -1}
+        />
+      )}
       <ConnectedWallet />
     </>
   );

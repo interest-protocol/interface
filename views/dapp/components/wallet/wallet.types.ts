@@ -1,4 +1,7 @@
 import { FC, SVGAttributes } from 'react';
+import { Connector } from 'wagmi';
+
+import { Wallets } from '@/constants';
 
 export interface InfoModalProps {
   isOpen: boolean;
@@ -18,5 +21,9 @@ export interface ConnectWalletProps {
 
 export interface AccountModalProps extends ConnectWalletProps {
   account: string;
-  url: string;
+}
+
+export interface SelectNetworkProps {
+  switchNetwork: (chainId: number) => void;
+  chainId: number;
 }

@@ -69,5 +69,16 @@
   },
   "error": {
     "generic": "algo deu errado"
+  },
+  "web3Manager": {
+    "title": "{chainName} não é suportada",
+    "advice": "Por favor, mude para uma rede suportada",
+    "button": "Mude para a rede {chainName}"
+  },
+  "wallet": {
+    "wrongNetworkTitle": "Rede não suportada",
+    "wrongNetworkAdvice": "Conecte-se a uma rede compatível no modal ou na\n carteira.",
+    "switchNetworkTitle": "A mudar de rede",
+    "switchNetworkAdvice": "Abra a sua carteira e mude para uma rede compatível."
   }
 }

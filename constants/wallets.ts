@@ -1,4 +1,5 @@
 export enum Wallets {
-  MetaMask,
-  WalletConnect,
+  MetaMask = 'metaMask',
+  WalletConnect = 'walletConnect',
+  CoinbaseWallet = 'coinbaseWallet',
 }

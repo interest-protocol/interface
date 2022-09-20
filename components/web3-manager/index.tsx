@@ -1,15 +1,19 @@
 import { ThemeProvider } from '@emotion/react';
-import { prop } from 'ramda';
-import { FC, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useConnect } from 'wagmi';
+import { useTranslations } from 'next-intl';
+import { FC, useEffect } from 'react';
+import {
+  allChains,
+  useAccount,
+  useConnect,
+  useNetwork,
+  useSwitchNetwork,
+} from 'wagmi';
 
 import { Routes, SUPPORTED_CHAINS_RECORD } from '@/constants';
 import { CHAINS } from '@/constants/chains';
 import { DAppTheme, LandingPageTheme } from '@/design-system';
-import { usePrevious } from '@/hooks';
-import { coreActions } from '@/state/core/core.actions';
 import { TimesSVG } from '@/svg';
+import { capitalize } from '@/utils';
 import { Layout, Loading } from '@/views/dapp/components';
 
 import Advice from './advice';
@@ -19,29 +23,37 @@ import {
   Web3ManagerWrapperProps,
 } from './web3-manager.type';
 
-const Content: FC = ({ children }) => {
-  const { error, isLoading, connectors, pendingConnector, connect } =
-    useConnect();
+const Content: FC<ContentProps> = ({ supportedChains, children }) => {
+  const { error, isLoading } = useConnect();
+  const { chain } = useNetwork();
+  const { switchNetwork } = useSwitchNetwork();
+  const { isConnected } = useAccount();
+  const t = useTranslations();
 
-  const isConnecting =
-    connectors.filter(({ id }) => id === pendingConnector?.id)[0] || false;
+  const isUnsupported = !supportedChains.includes(chain?.id || -1);
 
-  const noSupport = connectors.some(({ ready }) => !ready);
+  useEffect(() => {
+    if (isUnsupported) switchNetwork?.(supportedChains[0]);
+  }, [chain, isUnsupported]);
 
-  if (!error && (isLoading || isConnecting)) return <Loading />;
+  if (!error && isLoading) return <Loading />;
 
-  if (noSupport)
+  if (isUnsupported && isConnected)
     return (
       <Advice
         Icon={TimesSVG}
-        title="Not supported"
-        lines={[
-          'This chain is not supported',
-          'Please, switch to a supported chain',
-        ]}
-        buttons={connectors.filter(prop('ready')).map((connector) => ({
-          text: `Switch to`,
-          action: () => connect({ connector }),
+        title={t('web3Manager.title', {
+          chainName:
+            allChains.find(({ id }) => id === chain?.id)?.name ||
+            chain?.name ||
+            capitalize(t('common.network', { count: 1 })),
+        })}
+        lines={[t('web3Manager.advice')]}
+        buttons={supportedChains.map((id) => ({
+          text: t('web3Manager.button', {
+            chainName: CHAINS[id].chainName,
+          }),
+          action: () => switchNetwork?.(id),
         }))}
       />
     );
@@ -49,10 +61,10 @@ const Content: FC = ({ children }) => {
   return <>{children}</>;
 };
 
-const Web3Manager: FC<Web3ManagerProps> = ({ children }) => {
+const Web3Manager: FC<Web3ManagerProps> = ({ children, supportedChains }) => {
   return (
     <Layout>
-      <Content>{children}</Content>
+      <Content supportedChains={supportedChains}>{children}</Content>
     </Layout>
   );
 };
@@ -61,15 +73,9 @@ const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
   pathname,
   children,
 }) => {
-  const prevPathName = usePrevious(pathname);
-
   return pathname !== Routes.home ? (
     <ThemeProvider theme={DAppTheme}>
-      <Web3Manager
-        pathname={pathname}
-        prevPathName={prevPathName}
-        supportedChains={SUPPORTED_CHAINS_RECORD[pathname]}
-      >
+      <Web3Manager supportedChains={SUPPORTED_CHAINS_RECORD[pathname]}>
         {children}
       </Web3Manager>
     </ThemeProvider>

@@ -74,7 +74,6 @@ const ConnectedWallet: FC = () => {
         </Typography>
       </Button>
       <AccountModal
-        url={''}
         account={address || ZERO_ADDRESS}
         showModal={showModal}
         toggleModal={toggleModal}
