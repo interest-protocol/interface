@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
 
 import { Box, Button, Typography } from '@/elements';
@@ -6,6 +7,7 @@ import { NetworkSVG } from '@/svg';
 import { WrongNetworkModal } from './wallet-modal';
 
 const WrongNetwork: FC = () => {
+  const t = useTranslations();
   const [showNetworkModal, setShowNetworkModal] = useState<boolean>(false);
 
   const toggleNetworkModal = () => setShowNetworkModal((state) => !state);
@@ -23,7 +25,7 @@ const WrongNetwork: FC = () => {
           <NetworkSVG width="100%" />
         </Box>
         <Typography as="span" variant="normal" ml="M">
-          Wrong Network
+          {t('error.networkTitle')}
         </Typography>
       </Button>
       <WrongNetworkModal

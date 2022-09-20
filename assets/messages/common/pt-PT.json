@@ -68,6 +68,9 @@
     "allocation": "alocação"
   },
   "error": {
-    "generic": "algo deu errado"
+    "generic": "algo deu errado",
+    "networkTitle": "Rede Errada",
+    "networkDescription": "Por Favor conectar-se a uma rede suportada no menu suspenso ou em sua carteira.",
+    "params": "Parametros errados"
   }
 }

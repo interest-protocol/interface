@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { useTheme } from '@emotion/react';
 import Head from 'next/head';
 import { useTranslations } from 'next-intl';

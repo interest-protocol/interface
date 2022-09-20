@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import 'react-loading-skeleton/dist/skeleton.css';
 
 import { Global } from '@emotion/react';

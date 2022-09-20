@@ -1,5 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next';
+import { useTranslations } from 'next-intl';
 
+import { capitalize } from '@/utils';
 import { Loading } from '@/views/dapp/components';
 import DineroMarketMode from '@/views/dapp/views/dinero-market-panel';
 import Error from '@/views/dapp/views/error';
@@ -11,9 +13,11 @@ interface DineroMarketBorrowPageProps {
 const DineroMarketBorrowPage: NextPage<DineroMarketBorrowPageProps> = ({
   address,
 }) => {
+  const t = useTranslations();
   if (address === undefined) return <Loading />;
 
-  if (address === null) return <Error message="Wrong params" />;
+  if (address === null)
+    return <Error message={capitalize(t('error.params'))} />;
 
   return <DineroMarketMode address={address} mode="borrow" />;
 };

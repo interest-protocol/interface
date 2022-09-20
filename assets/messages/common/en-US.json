@@ -68,6 +68,9 @@
     "allocation": "allocation"
   },
   "error": {
-    "generic": "something went wrong"
+    "generic": "something went wrong",
+    "networkTitle": "Wrong Network",
+    "networkDescription": "Please connect to a supported network in the dropdown menu or in your wallet.",
+    "params": "Wrong params"
   }
 }
