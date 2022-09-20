@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { getAddress } from 'ethers/lib/utils';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';

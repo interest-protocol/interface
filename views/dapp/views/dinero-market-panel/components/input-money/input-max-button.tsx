@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { ethers } from 'ethers';
 import { FC, useCallback, useEffect, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';

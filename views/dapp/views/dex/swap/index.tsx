@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { getAddress } from 'ethers/lib/utils';
 import { not, pathOr } from 'ramda';
 import { FC, useMemo, useState } from 'react';

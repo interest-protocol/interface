@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { ethers } from 'ethers';
 import { useTranslations } from 'next-intl';
 import { FC, useCallback, useMemo, useState } from 'react';

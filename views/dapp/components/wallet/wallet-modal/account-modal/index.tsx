@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useSelector } from 'react-redux';

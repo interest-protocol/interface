@@ -1,4 +1,5 @@
 import { ProviderRpcError } from '@web3-react/types';
+import { useTranslations } from 'next-intl';
 import { FC, useCallback, useEffect, useState } from 'react';
 
 import hooks from '@/connectors';
@@ -21,6 +22,7 @@ const {
 } = hooks;
 
 const Wallet: FC = () => {
+  const t = useTranslations();
   const [targetChainId, setTargetChainId] = useState(0);
   const [isSwitchingNetworks, setIsSwitchingNetworks] = useState(false);
   const [failedSwitchingNetwork, setFailedSwitchingNetwork] = useState(false);
@@ -74,7 +76,7 @@ const Wallet: FC = () => {
   if (failedSwitchingNetwork)
     return (
       <Button variant="primary" bg="error">
-        Switch Network Manually
+        {t('common.switchNetworkDescription', { isLoading: 0 })}
       </Button>
     );
 

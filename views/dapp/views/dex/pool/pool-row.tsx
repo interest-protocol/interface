@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import Link from 'next/link';
 import { FC } from 'react';
 

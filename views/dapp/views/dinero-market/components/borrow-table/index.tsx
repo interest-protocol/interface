@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { BigNumber } from 'ethers';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

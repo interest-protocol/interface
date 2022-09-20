@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-literals */
+import { useTranslations } from 'next-intl';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -14,6 +16,7 @@ import { FarmSortByFilter, FarmTypeFilter, IEarnForm } from './earn.types';
 import { getSafeFarmSummaryData } from './earn.utils';
 
 const Earn: FC = () => {
+  const t = useTranslations();
   const { chainId } = useIdAccount();
 
   const { register, setValue, control } = useForm<IEarnForm>({
@@ -62,7 +65,7 @@ const Earn: FC = () => {
         >
           <TimesSVG width="100%" height="100%" />
         </Box>
-        <Typography variant="title3">Error fetching the contracts</Typography>
+        <Typography variant="title3">{t('error.fetchingContracts')}</Typography>
       </Box>
     );
 
@@ -109,7 +112,7 @@ const Earn: FC = () => {
                   <LoadingSVG width="100%" />
                 </Box>
                 <Typography fontSize="S" variant="normal" ml="M">
-                  Loading
+                  {t('common.load', { isLoading: 1 })}
                 </Typography>
               </Box>
             }

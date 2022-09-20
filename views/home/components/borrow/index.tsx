@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';

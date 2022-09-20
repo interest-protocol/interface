@@ -53,7 +53,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
         <Box color="error">
           <TimesSVG width="10rem" />
         </Box>
-        <Typography variant="normal">ERROR! Fetching the pair data</Typography>
+        <Typography variant="normal">{t('error.fetchingPair')}</Typography>
       </Box>
     );
 
@@ -70,7 +70,10 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
           <TimesSVG width="10rem" />
         </Box>
         <Typography variant="normal">
-          The pair with address {pairAddress} does not exist
+          {t('error.pairNotExist', {
+            currentLocale,
+            pairAddress: pairAddress,
+          })}
         </Typography>
       </Box>
     );
@@ -100,6 +103,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
             <SecondIcon width="2rem" />
             <Typography variant="normal" ml="L" textTransform="capitalize">
               {processedData.token0Metadata.symbol +
+                // eslint-disable-next-line react/jsx-no-literals
                 ' - ' +
                 processedData.token1Metadata.symbol +
                 ' ' +

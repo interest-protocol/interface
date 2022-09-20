@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { pathOr } from 'ramda';
 import { FC } from 'react';
 import { v4 } from 'uuid';

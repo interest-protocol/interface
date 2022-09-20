@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { pathOr } from 'ramda';
 import React, { FC, useCallback, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';

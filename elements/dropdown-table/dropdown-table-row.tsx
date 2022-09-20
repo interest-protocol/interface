@@ -158,6 +158,7 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
               fontSize="S"
               variant="normal"
               color="textSecondary"
+              // eslint-disable-next-line react/jsx-no-literals
             >
               Nº
             </Typography>

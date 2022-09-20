@@ -65,12 +65,22 @@
     "copyAddress": "copy address",
     "error": "error",
     "submit": "{isLoading, plural, =1 {submitting...} other {submit}}",
-    "allocation": "allocation"
+    "allocation": "allocation",
+    "goHome": "Back Home",
+    "soonDescription": "Comming soon",
+    "backToDapp": "Back to Dapp",
+    "switchNetworkDescription": "{isLoading, plural, =1 {Switching Network} other {Switch network manually}}"
   },
   "error": {
     "generic": "something went wrong",
     "networkTitle": "Wrong Network",
     "networkDescription": "Please connect to a supported network in the dropdown menu or in your wallet.",
-    "params": "Wrong params"
+    "params": "Wrong params",
+    "networkNotSupported": "Please check your wallet and switch to a supported network.",
+    "workingOn": "Sorry, we are working on",
+    "switchTo": "Please, switch to",
+    "fetchingPair": "ERROR! Fetching the pair data",
+    "pairNotExist": "The pair with address {pairAddress} does not exist",
+    "fetchingContracts": "Error fetching the contracts"
   }
 }

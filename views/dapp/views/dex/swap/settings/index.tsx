@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';

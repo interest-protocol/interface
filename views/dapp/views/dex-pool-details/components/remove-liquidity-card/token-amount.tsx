@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';

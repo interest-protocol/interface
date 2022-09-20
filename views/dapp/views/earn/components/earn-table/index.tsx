@@ -60,6 +60,7 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   textAlign="center"
                   display={['none', 'block']}
+                  // eslint-disable-next-line react/jsx-no-literals
                 >
                   Token
                 </Typography>

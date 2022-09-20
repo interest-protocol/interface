@@ -196,7 +196,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
                 >
                   <Box>
                     <Typography variant="normal" color="error">
-                      Error!
+                      {t('common.error')}
                     </Typography>
                     <Typography
                       as="span"
@@ -230,6 +230,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
               alignItems="center"
               bg="bottomBackground"
               justifyContent="space-between"
+              // eslint-disable-next-line react/jsx-no-literals
             >
               MetaMask
               <Box

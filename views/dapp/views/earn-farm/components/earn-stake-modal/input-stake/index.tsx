@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { ChangeEvent, FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';

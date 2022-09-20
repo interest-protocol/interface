@@ -20,6 +20,7 @@ export const showTXSuccessToast = async (
       target="__black"
       rel="noreferrer nofollow"
       href={`${explorer ? explorer[0] : ''}/tx/${receipt.transactionHash}`}
+      // eslint-disable-next-line react/jsx-no-literals
     >
       Check on Explorer
     </a>

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';

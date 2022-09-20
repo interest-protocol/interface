@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -19,7 +20,7 @@ const Price: FC<PriceProps> = ({ control }) => {
 
   return (
     <Typography variant="normal" my="L" textAlign="center">
-      {hasZeroValue ? '0' : '1'} {tokenA.symbol} ={' '}
+      {hasZeroValue ? '0' : '1'} {tokenA.symbol} {' = '}
       {hasZeroValue ? '0' : formatMoney(amountB / amountA, 6)} {tokenB.symbol}
     </Typography>
   );

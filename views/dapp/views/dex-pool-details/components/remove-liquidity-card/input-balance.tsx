@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC } from 'react';
 import { useWatch } from 'react-hook-form';
