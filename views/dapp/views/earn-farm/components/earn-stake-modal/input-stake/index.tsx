@@ -1,6 +1,6 @@
-/* eslint-disable react/jsx-no-literals */
 import { ChangeEvent, FC } from 'react';
 
+import { COMMON_STRINGS } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
 import { numberToString, parseInputEventToNumberString } from '@/utils';
 
@@ -15,7 +15,7 @@ const InputStake: FC<InputStakeProps> = ({
 }) => (
   <Box mb="L">
     <Typography as="label" fontSize="S" variant="normal" display="inline-block">
-      {label}:
+      {label + COMMON_STRINGS.colon}
     </Typography>
     <Input
       type="string"
@@ -53,7 +53,7 @@ const InputStake: FC<InputStakeProps> = ({
             active={{ bg: 'accentActive' }}
             onClick={() => setValue('value', numberToString(amount))}
           >
-            max
+            {COMMON_STRINGS.max}
           </Button>
           <Box
             px="L"

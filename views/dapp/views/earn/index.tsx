@@ -1,9 +1,9 @@
-/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
+import { COMMON_STRINGS } from '@/constants';
 import { Box, InfiniteScroll, Typography } from '@/elements';
 import { useGetFarmsSummary, useIdAccount } from '@/hooks';
 import useEventListener from '@/hooks/use-event-listener';
@@ -65,7 +65,7 @@ const Earn: FC = () => {
         >
           <TimesSVG width="100%" height="100%" />
         </Box>
-        <Typography variant="title3">{t('error.fetchingContracts')}</Typography>
+        <Typography variant="title3">{t('earn.fetchingContracts')}</Typography>
       </Box>
     );
 
@@ -81,7 +81,7 @@ const Earn: FC = () => {
           justifyContent={['center', 'flex-start']}
         >
           <Typography variant="normal" ml="M">
-            Farms
+            {COMMON_STRINGS.farms}
           </Typography>
         </Container>
       </Box>

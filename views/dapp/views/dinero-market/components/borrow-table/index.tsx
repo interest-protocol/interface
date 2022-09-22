@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import { BigNumber } from 'ethers';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -7,7 +6,12 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import { getDineroMarketSVGBySymbol, Routes, RoutesEnum } from '@/constants';
+import {
+  COMMON_STRINGS,
+  getDineroMarketSVGBySymbol,
+  Routes,
+  RoutesEnum,
+} from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
 import { FixedPointMath, SECONDS_IN_A_YEAR } from '@/sdk';
 import { capitalize, formatDollars, formatMoney } from '@/utils';
@@ -59,7 +63,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   variant="normal"
                   fontSize="inherit"
                 >
-                  TVL
+                  {COMMON_STRINGS.tvl}
                 </Typography>
               ),
             },
@@ -85,7 +89,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   variant="normal"
                   fontSize="inherit"
                 >
-                  LTV
+                  {COMMON_STRINGS.ltv}
                 </Typography>
               ),
             },
@@ -172,7 +176,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   fontSize="inherit"
                   data-tip="TVL info"
                 >
-                  TVL
+                  {COMMON_STRINGS.tvl}
                 </Typography>
               ),
             },
@@ -200,7 +204,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   fontSize="inherit"
                   data-tip="LTV info"
                 >
-                  LTV
+                  {COMMON_STRINGS.ltv}
                 </Typography>
               ),
             },

@@ -1,5 +1,7 @@
 {
   "common": {
+    "companyName": "Interest Protocol",
+    "dapp": "DApp",
     "earn": "invista",
     "swap": "{isLoading, plural, =1 {trocando...} other {trocar}}",
     "borrow": "empréstimos",
@@ -78,9 +80,6 @@
     "params": "Parametros errados",
     "networkNotSupported": "Por favor, verifique sua carteira e mude para uma rede suportada.",
     "workingOn": "Desculpe, estamos trabalhando no",
-    "switchTo": "Por favor, mude para",
-    "fetchingPair": "ERRO! Buscando os dados do par",
-    "pairNotExist": "O par com endereço {pairAddress} não existe",
-    "fetchingContracts": "Erro ao buscar os contratos"
+    "switchTo": "Por favor, mude para"
   }
 }

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import { useTheme } from '@emotion/react';
 import Head from 'next/head';
 import { useTranslations } from 'next-intl';
@@ -14,11 +13,11 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
     <Head>
       <meta name="theme-color" content={colors.foreground} />
       <meta charSet="utf-8" />
-      <meta name="title" content="Interest Protocol" />
+      <meta name="title" content={t('common.companyName')} />
       <meta name="description" content={t('common.seoDescription')} />
       <meta property="og:locale" content="en_US" />
-      <meta property="og:title" content="Interest Protocol" />
-      <meta property="og:site_name" content="Interest Protocol" />
+      <meta property="og:title" content={t('common.companyName')} />
+      <meta property="og:site_name" content={t('common.companyName')} />
       <meta property="og:description" content={t('common.seoDescription')} />
       <meta property="og:image" content="/android-chrome-256x256.png" />
       <meta
@@ -28,9 +27,9 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
       <meta property="og:image:type" content="image/png" />
       <meta property="og:image:width" content="256" />
       <meta property="og:image:height" content="256" />
-      <meta property="og:image:alt" content="Interest Protocol" />
+      <meta property="og:image:alt" content={t('common.companyName')} />
       <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Interest Protocol" />
+      <meta name="twitter:title" content={t('common.companyName')} />
       <meta name="twitter:site" content="https://interestprotocol.com" />
       <meta name="twitter:image" content="/android-chrome-256x256.png" />
       <meta name="twitter:description" content={t('common.seoDescription')} />
@@ -57,7 +56,9 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
       <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
       <meta name="msapplication-TileColor" content="#da532c" />
       <link rel="apple-touch-icon" href="/logo192.png" />
-      <title>Interest Protocol {pageTitle && `| ${pageTitle}`}</title>
+      <title>
+        {t('common.companyName')} {pageTitle && `| ${pageTitle}`}
+      </title>
     </Head>
   );
 };

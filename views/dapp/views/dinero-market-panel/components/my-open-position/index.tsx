@@ -1,9 +1,9 @@
-/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
+import { COMMON_STRINGS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { InfoSVG } from '@/svg';
@@ -27,7 +27,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
   return (
     <Box p="XL" order={5} gridArea="c" bg="foreground" borderRadius="L">
       <Typography variant="normal" textTransform="uppercase" mt="L">
-        {t('dineroMarketAddress.positionTitle')}:
+        {t('dineroMarketAddress.positionTitle') + COMMON_STRINGS.colon}
       </Typography>
       {MY_POSITION.map(({ name, tip }, i) => (
         <Box my="L" key={v4()} display="flex" justifyContent="space-between">
@@ -57,7 +57,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
       ))}
       <Box mt="XL">
         <Typography variant="normal" textAlign="center" mb="M">
-          DNR: {formatDollars(1)}
+          {COMMON_STRINGS.dnr + COMMON_STRINGS.colon + formatDollars(1)}
         </Typography>
         <Typography as="div" variant="normal" textAlign="center" mb="M">
           {isLoading ? (

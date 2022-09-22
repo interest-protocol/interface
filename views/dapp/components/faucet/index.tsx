@@ -1,10 +1,10 @@
-/* eslint-disable react/jsx-no-literals */
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
-import { Routes, RoutesEnum } from '@/constants';
+import { COMMON_STRINGS, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { FaucetSVG } from '@/svg';
+import { capitalize } from '@/utils';
 
 const Faucet: FC = () => {
   const { push } = useRouter();
@@ -39,7 +39,7 @@ const Faucet: FC = () => {
               <FaucetSVG width="100%" />
             </Box>
             <Typography ml="M" as="span" fontSize="S" variant="normal">
-              Faucet
+              {capitalize(COMMON_STRINGS.faucet)}
             </Typography>
           </Button>
         </Box>

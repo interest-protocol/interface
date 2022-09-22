@@ -1,6 +1,6 @@
-/* eslint-disable react/jsx-no-literals */
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
 import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
@@ -23,6 +23,7 @@ const menuButtonId = 'landing-menu-wrapper-id';
 const menuLangId = 'landing-switch-lang-id';
 
 const Header: FC<HeaderProps> = ({ empty }) => {
+  const t = useTranslations();
   const { push } = useRouter();
   const { currentLocale } = useLocale();
   const [scrollPercentage, setScrollPercentage] = useState(0);
@@ -139,7 +140,7 @@ const Header: FC<HeaderProps> = ({ empty }) => {
               fontWeight="900"
               display={['none', 'block']}
             >
-              Interest Protocol
+              {t('common.companyName')}
             </Typography>
           </Box>
         </Link>
@@ -175,7 +176,7 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                   mr="0.75rem"
                   onClick={() => push(Routes[RoutesEnum.DApp])}
                 >
-                  DApp
+                  {t('common.dapp')}
                 </Button>
               </Box>
             </Box>

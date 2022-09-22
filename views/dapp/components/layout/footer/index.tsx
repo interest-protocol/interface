@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
@@ -7,6 +6,7 @@ import { v4 } from 'uuid';
 
 import { Container, SocialMediaCard } from '@/components';
 import {
+  COMMON_STRINGS,
   Routes,
   RoutesEnum,
   RoutesWithFaucet,
@@ -78,7 +78,7 @@ const Footer: FC = () => {
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
             >
-              Dex
+              {capitalize(COMMON_STRINGS.dex)}
             </Button>
           </Link>
           <Link href={Routes[RoutesEnum.Earn]}>

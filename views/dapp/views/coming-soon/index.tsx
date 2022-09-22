@@ -1,8 +1,8 @@
-/* eslint-disable react/jsx-no-literals */
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
+import { COMMON_STRINGS } from '@/constants';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
@@ -32,7 +32,7 @@ const ComingSoon: FC = () => {
               mt="M"
               hover={{ bg: 'accentActive' }}
             >
-              &larr; {t('common.backToDapp')}
+              {COMMON_STRINGS.arrowLeft + ' ' + t('common.backToDapp')}
             </Button>
           </Link>
         </Box>

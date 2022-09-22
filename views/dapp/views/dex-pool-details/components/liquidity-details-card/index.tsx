@@ -1,8 +1,8 @@
-/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
+import { COMMON_STRINGS } from '@/constants';
 import { Box, Typography } from '@/elements';
 
 import { LiquidityDetailsCardProps } from '../../dex-pool-details.types';
@@ -54,7 +54,7 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
           lineHeight="2rem"
           textTransform="capitalize"
         >
-          {t('common.type')}:{' '}
+          {t('common.type') + COMMON_STRINGS.colon}
           <Typography
             as="strong"
             variant="normal"
@@ -67,14 +67,15 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
           </Typography>
         </Typography>
         <Typography variant="normal" lineHeight="2rem">
-          {t('dexPoolPairAddress.sectionCustomDetail2')}:{' '}
+          {t('dexPoolPairAddress.sectionCustomDetail2') + COMMON_STRINGS.colon}
           <Typography
             as="strong"
             variant="normal"
             fontWeight="600"
             fontSize="inherit"
           >
-            {isStable ? '0.05' : '0.3'}%
+            {isStable ? '0.05' : '0.3'}
+            {COMMON_STRINGS.percentage}
           </Typography>
         </Typography>
       </Box>

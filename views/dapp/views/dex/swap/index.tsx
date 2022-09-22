@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import { getAddress } from 'ethers/lib/utils';
 import { not, pathOr } from 'ramda';
 import { FC, useMemo, useState } from 'react';
@@ -33,6 +32,7 @@ import SwapButton from './swap-button';
 import SwapManager from './swap-manager';
 import SwapMessage from './swap-message';
 
+const ARROWS = '⥯';
 const Swap: FC = () => {
   const { chainId, account } = useIdAccount();
   const [localSettings, setLocalSettings] = useLocalStorage<LocalSwapSettings>(
@@ -251,7 +251,7 @@ const Swap: FC = () => {
                 boxShadow: '0 0 0.5rem #0055FF',
               }}
             >
-              ⥯
+              {ARROWS}
             </Box>
             <InputBalance
               name="tokenOut"

@@ -1,7 +1,7 @@
-/* eslint-disable react/jsx-no-literals */
 import Link from 'next/link';
 import { FC } from 'react';
 
+import { COMMON_STRINGS } from '@/constants';
 import { SOCIAL_MEDIAS } from '@/constants/social-media';
 import { Box, Dropdown, Typography } from '@/elements';
 import { BarsSVG, GitBookSVG } from '@/svg';
@@ -67,7 +67,7 @@ const MobileMenu: FC = () => (
                     bg: 'warning',
                   }}
                 >
-                  Feedback
+                  {COMMON_STRINGS.feedback}
                 </Typography>
               </a>
             </Box>

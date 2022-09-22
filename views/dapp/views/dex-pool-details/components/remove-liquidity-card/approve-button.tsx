@@ -1,8 +1,8 @@
-/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
+import { COMMON_STRINGS } from '@/constants';
 import { Button } from '@/elements';
 import { capitalize } from '@/utils';
 
@@ -30,8 +30,13 @@ const ApproveButton: FC<ApproveButtonProps> = ({
         t('common.approve', {
           isLoading: Number(loading),
         })
-      )}{' '}
-      {symbol0}/{symbol1} LP
+      ) +
+        ' ' +
+        symbol0 +
+        COMMON_STRINGS.per +
+        symbol1 +
+        ' ' +
+        COMMON_STRINGS.lp}
     </Button>
   );
 };

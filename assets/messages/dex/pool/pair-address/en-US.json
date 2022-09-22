@@ -3,6 +3,8 @@
     "title": "{type} Summary",
     "sectionCustomDetail2": "Swap Fee",
     "removeLiquidity": "Remove Liquidity",
-    "addLiquidity": "Add Liquidity"
+    "addLiquidity": "Add Liquidity",
+    "fetchingPair": "ERROR! Fetching the pair data",
+    "pairNotExist": "The pair with address {pairAddress} does not exist"
   }
 }

@@ -1,11 +1,10 @@
-/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { ChangeEvent, FC, useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { addAllowance } from '@/api/erc20';
-import { TOKENS_SVG_MAP } from '@/constants';
+import { COMMON_STRINGS, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
 import { useGetSigner, useIdAccount } from '@/hooks';
 import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
@@ -156,7 +155,8 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
             onClick={handleApprove}
             hover={{ bg: 'accentActive' }}
           >
-            {capitalize(t('common.approve', { isLoading: 0 }))} Token
+            {capitalize(t('common.approve', { isLoading: 0 })) +
+              capitalize(COMMON_STRINGS.token)}
           </Button>
         ) : (
           <Button
@@ -170,7 +170,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
             variant="secondary"
             disabled={!address}
           >
-            max
+            {COMMON_STRINGS.max}
           </Button>
         )}
         <Typography
@@ -180,7 +180,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           fontSize="0.9rem"
           textTransform="capitalize"
         >
-          {t('common.balance')}:{' '}
+          {t('common.balance') + COMMON_STRINGS.colon}
           {formatMoney(FixedPointMath.toNumber(tokenBalance, decimals), 2)}
         </Typography>
       </Box>

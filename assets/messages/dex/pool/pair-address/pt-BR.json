@@ -3,6 +3,8 @@
     "title": "{type} - Resumo",
     "sectionCustomDetail2": "Taxa de troca",
     "removeLiquidity": "Remove a liquidez",
-    "addLiquidity": "Adicione liquidez"
+    "addLiquidity": "Adicione liquidez",
+    "fetchingPair": "ERRO! Buscando os dados do par",
+    "pairNotExist": "O par com endereço {pairAddress} não existe"
   }
 }

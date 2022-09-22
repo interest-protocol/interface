@@ -1,8 +1,12 @@
-/* eslint-disable react/jsx-no-literals */
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { Routes, RoutesEnum, TOKENS_SVG_MAP } from '@/constants';
+import {
+  COMMON_STRINGS,
+  Routes,
+  RoutesEnum,
+  TOKENS_SVG_MAP,
+} from '@/constants';
 import { Box, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { replaceWrappedNativeTokenWithNativeTokenSymbol } from '@/utils';
@@ -41,7 +45,8 @@ const PoolRow: FC<PoolRowProps> = ({ symbol0, symbol1, pairAddress }) => {
               <FirstIcon width="1.2rem" />
               <SecondIcon width="1.2rem" />
               <Typography mx="M" as="span" variant="normal">
-                {replaceWrappedNativeTokenWithNativeTokenSymbol(symbol0)} /{' '}
+                {replaceWrappedNativeTokenWithNativeTokenSymbol(symbol0)}
+                {' ' + COMMON_STRINGS.per + ' '}
                 {replaceWrappedNativeTokenWithNativeTokenSymbol(symbol1)}
               </Typography>
             </Box>

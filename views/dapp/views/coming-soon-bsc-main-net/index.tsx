@@ -1,8 +1,8 @@
-/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Pulse } from '@/components';
+import { COMMON_STRINGS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
@@ -26,10 +26,10 @@ const ComingSoonBNBMainNet: FC = () => {
               {t('common.soonDescription')}
             </Typography>
             <Typography variant="normal" mt="M">
-              {t('error.workingOn')} <strong>BNB Main Net</strong>.
+              {t('error.workingOn')} <strong>{COMMON_STRINGS.bnbMain}</strong>
             </Typography>
             <Typography variant="normal" mt="M">
-              {t('error.switchTo')} <strong>BNB Test Net</strong>.
+              {t('error.switchTo')} <strong>{COMMON_STRINGS.bnbTest}</strong>
             </Typography>
           </Box>
         </Pulse>

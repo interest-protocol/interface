@@ -1,6 +1,6 @@
-/* eslint-disable react/jsx-no-literals */
 import { FC } from 'react';
 
+import { COMMON_STRINGS } from '@/constants';
 import { Box, Typography } from '@/elements';
 
 import { FaucetSelectCurrencyProps } from '../faucet.types';
@@ -14,7 +14,7 @@ const FaucetSelectCurrency: FC<FaucetSelectCurrencyProps> = ({
 }) => (
   <Box my="M">
     <Typography as="label" fontSize="S" variant="normal" display="inline-block">
-      {label}:
+      {label + COMMON_STRINGS.colon}
     </Typography>
     <Box my="M" display="flex" flexDirection="column" alignItems="stretch">
       <FaucetTokensDropdown

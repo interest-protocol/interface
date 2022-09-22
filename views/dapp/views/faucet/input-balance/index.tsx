@@ -1,8 +1,8 @@
-/* eslint-disable react/jsx-no-literals */
 import { getAddress } from 'ethers/lib/utils';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
+import { COMMON_STRINGS } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
 
 import { FAUCET_TOKEN_MAX_AMOUNT } from '../faucet.data';
@@ -27,7 +27,7 @@ const InputBalance: FC<InputBalanceProps> = ({
         variant="normal"
         display="inline-block"
       >
-        {label}:
+        {label + COMMON_STRINGS.colon}
       </Typography>
       <Input
         min="0"
@@ -66,7 +66,7 @@ const InputBalance: FC<InputBalanceProps> = ({
                 );
               }}
             >
-              max
+              {COMMON_STRINGS.max}
             </Button>
             <Box
               px="L"

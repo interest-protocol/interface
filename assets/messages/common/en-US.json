@@ -1,5 +1,7 @@
 {
   "common": {
+    "companyName": "Interest Protocol",
+    "dapp": "DApp",
     "earn": "earn",
     "swap": "{isLoading, plural, =1 {swapping} other {swap}}",
     "borrow": "borrow",
@@ -78,9 +80,6 @@
     "params": "Wrong params",
     "networkNotSupported": "Please check your wallet and switch to a supported network.",
     "workingOn": "Sorry, we are working on",
-    "switchTo": "Please, switch to",
-    "fetchingPair": "ERROR! Fetching the pair data",
-    "pairNotExist": "The pair with address {pairAddress} does not exist",
-    "fetchingContracts": "Error fetching the contracts"
+    "switchTo": "Please, switch to"
   }
 }

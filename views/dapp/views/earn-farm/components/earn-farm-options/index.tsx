@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import { BigNumber } from 'ethers';
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
@@ -8,7 +7,7 @@ import { FC, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { addAllowance, depositLP, withdrawLP } from '@/api';
-import { Routes, RoutesEnum, StakeState } from '@/constants';
+import { COMMON_STRINGS, Routes, RoutesEnum, StakeState } from '@/constants';
 import { Typography } from '@/elements';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
@@ -346,7 +345,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
                       : 'accentActive',
                 }}
               >
-                +
+                {COMMON_STRINGS.plus}
               </Button>
               <Button
                 variant="primary"
@@ -358,7 +357,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
                   bg: farm.stakingAmount.isZero() ? 'disabled' : 'errorActive',
                 }}
               >
-                -
+                {COMMON_STRINGS.minus}
               </Button>
             </Box>
           )

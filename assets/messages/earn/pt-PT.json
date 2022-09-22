@@ -6,6 +6,7 @@
     "column3Tip": "Taxa anual em percentagem <br/> juro anual gerado",
     "column4": "Alocação",
     "column4Tip": "Representa a % da Interest Token criado em comparação com outros pools.",
-    "column5Tip": "Volátil ou Estável."
+    "column5Tip": "Volátil ou Estável.",
+    "fetchingContracts": "Erro ao buscar os contratos"
   }
 }

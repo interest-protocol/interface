@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -11,6 +10,9 @@ import { parseInputEventToNumberString } from '@/utils';
 import AutoFetch from './auto-fetch';
 import Field from './field';
 import { ISwapSettingsForm, SwapSettingsProps } from './settings.types';
+
+const AUTO = 'Auto';
+const PERCENTAGE = '%';
 
 const SettingsModal: FC<SwapSettingsProps> = ({
   toggle,
@@ -126,10 +128,10 @@ const SettingsModal: FC<SwapSettingsProps> = ({
                 setValue('slippage', '0.1');
               }}
             >
-              Auto
+              {AUTO}
             </Button>
           }
-          suffix={<Typography variant="normal">%</Typography>}
+          suffix={<Typography variant="normal">{PERCENTAGE}</Typography>}
         />
         <Field
           type="number"

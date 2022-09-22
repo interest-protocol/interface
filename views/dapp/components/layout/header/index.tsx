@@ -1,13 +1,14 @@
-/* eslint-disable react/jsx-no-literals */
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { SwitchLang } from '@/components';
+import { COMMON_STRINGS } from '@/constants';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
+import { capitalize } from '@/utils';
 
 import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
@@ -57,7 +58,7 @@ const Header: FC = () => {
               bg: 'warning',
             }}
           >
-            Feedback
+            {capitalize(COMMON_STRINGS.feedback)}
           </Typography>
         </a>
       </Box>
@@ -78,7 +79,7 @@ const Header: FC = () => {
             }
             hover={{ color: 'accentActive' }}
           >
-            DEX
+            {capitalize(COMMON_STRINGS.dex)}
           </Typography>
         </Link>
         <Link href={Routes[RoutesEnum.Earn]}>

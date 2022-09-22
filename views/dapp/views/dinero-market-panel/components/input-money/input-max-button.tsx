@@ -1,8 +1,8 @@
-/* eslint-disable react/jsx-no-literals */
 import { ethers } from 'ethers';
 import { FC, useCallback, useEffect, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
+import { COMMON_STRINGS } from '@/constants';
 import { Button } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { numberToString, safeToBigNumber } from '@/utils';
@@ -113,7 +113,7 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
       active={{ bg: 'accentActive' }}
       bg={isDisabled ? 'disabled' : 'bottomBackground'}
     >
-      max
+      {COMMON_STRINGS.max}
     </Button>
   );
 };

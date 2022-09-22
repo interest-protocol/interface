@@ -1,9 +1,8 @@
-/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
-import { getFarmsSVGByToken } from '@/constants';
+import { COMMON_STRINGS, getFarmsSVGByToken } from '@/constants';
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
 import { TOKEN_SYMBOL } from '@/sdk';
@@ -69,7 +68,7 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
       >
         <Box>
           <Typography variant="normal" fontSize="S" mb="L">
-            TVL
+            {COMMON_STRINGS.tvl}
           </Typography>
           {formatDollars(farm.tvl)}
         </Box>
@@ -86,7 +85,7 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
         </Box>
         <Box>
           <Typography variant="normal" fontSize="S" mb="L">
-            APR
+            {COMMON_STRINGS.apr}
           </Typography>
           {farm.apr.value().isZero() ? '0%' : farm.apr.toPercentage()}
         </Box>

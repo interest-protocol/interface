@@ -1,7 +1,8 @@
-/* eslint-disable react/jsx-no-literals */
 import { pathOr } from 'ramda';
 import { FC } from 'react';
 import { v4 } from 'uuid';
+
+import { COMMON_STRINGS } from '@/constants';
 
 import Box from '../box';
 import { DropdownTableProps } from './dropdown-table.types';
@@ -36,7 +37,9 @@ const DropdownTable: FC<DropdownTableProps> = ({
           headings.length + (ordinate ? 1 : 0)
         }, 1fr)`}
       >
-        {ordinate && <DropdownTableCell as="th">Nº</DropdownTableCell>}
+        {ordinate && (
+          <DropdownTableCell as="th">{COMMON_STRINGS.number}</DropdownTableCell>
+        )}
         {headings.map(({ item, tip }) => (
           <DropdownTableCell as="th" key={v4()} tip={tip}>
             {item}

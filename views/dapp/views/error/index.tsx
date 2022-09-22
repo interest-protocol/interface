@@ -1,8 +1,8 @@
-/* eslint-disable react/jsx-no-literals */
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
+import { COMMON_STRINGS } from '@/constants';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Button, Typography } from '@/elements';
 import { TimesSVG } from '@/svg';
@@ -34,7 +34,7 @@ const ErrorView: FC<{ message: string }> = ({ message }) => {
         </Box>
         <Typography variant="title3">{message}</Typography>
         <Button variant="primary" mt="XL" onClick={goHome}>
-          &larr; {t('common.goHome')}
+          {COMMON_STRINGS.arrowLeft + ' ' + t('common.goHome')}
         </Button>
       </Box>
     </>

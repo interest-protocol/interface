@@ -1,4 +1,5 @@
 export * from './chains';
+export * from './common-string';
 export * from './dex';
 export * from './dinero-markets';
 export * from './erc-20';

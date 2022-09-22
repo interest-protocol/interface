@@ -1,10 +1,9 @@
-/* eslint-disable react/jsx-no-literals */
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import Container from '@/components/container';
-import { Routes, RoutesEnum } from '@/constants';
+import { COMMON_STRINGS, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 
 const DEX: FC = () => {
@@ -129,7 +128,7 @@ const DEX: FC = () => {
             textAlign="center"
             fontSize={['0.875rem', '1.5rem']}
           >
-            K = 3XY + 3XY
+            {COMMON_STRINGS.stableEquation}
             <br />
             <Typography
               variant="large"
@@ -223,7 +222,7 @@ const DEX: FC = () => {
             fontSize={['0.875rem', '1.5rem']}
             textTransform="uppercase"
           >
-            K = Y * X
+            {COMMON_STRINGS.volatileEquation}
             <br />
             <Typography
               variant="large"

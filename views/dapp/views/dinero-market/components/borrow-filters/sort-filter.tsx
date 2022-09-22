@@ -1,9 +1,9 @@
-/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
+import { COMMON_STRINGS } from '@/constants';
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
@@ -38,7 +38,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
         variant="normal"
         display="inline-block"
       >
-        {capitalize(t('common.sort'))}:
+        {capitalize(t('common.sort')) + COMMON_STRINGS.colon}
       </Typography>
       <Box
         display="flex"
@@ -75,7 +75,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    Id
+                    {capitalize(COMMON_STRINGS.id)}
                   </Typography>
                 </Box>
               ),
@@ -89,7 +89,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    TVL
+                    {COMMON_STRINGS.tvl}
                   </Typography>
                 </Box>
               ),
@@ -103,7 +103,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    LTV
+                    {COMMON_STRINGS.ltv}
                   </Typography>
                 </Box>
               ),

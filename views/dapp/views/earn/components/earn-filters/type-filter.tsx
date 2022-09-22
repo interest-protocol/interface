@@ -1,9 +1,9 @@
-/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
+import { COMMON_STRINGS } from '@/constants';
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
@@ -32,7 +32,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
         display="inline-block"
         textTransform="capitalize"
       >
-        {t('common.type')}:
+        {t('common.type') + COMMON_STRINGS.colon}
       </Typography>
       <Box
         display="flex"

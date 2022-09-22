@@ -1,10 +1,9 @@
-/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import { getFarmsSVGByToken, StakeState } from '@/constants';
+import { COMMON_STRINGS, getFarmsSVGByToken, StakeState } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useLocale } from '@/hooks';
 import { LoadingSVG, TimesSVG } from '@/svg';
@@ -98,8 +97,9 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
             isStake
               ? 'earnTokenAddress.modalStakedTitle'
               : 'earnTokenAddress.modalUnstakedTitle'
-          )}{' '}
-          token
+          ) +
+            ' ' +
+            COMMON_STRINGS.token}
         </Typography>
         <Box mt="XL">
           <InputStake
@@ -143,7 +143,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
           </Typography>
           <Box display="flex" justifyContent="space-between">
             <Typography variant="normal" my="L">
-              {farmSymbol} Token
+              {farmSymbol + capitalize(COMMON_STRINGS.token)}
             </Typography>
             <Typography variant="normal" my="L">
               {formatMoney(amount)} {farmSymbol}

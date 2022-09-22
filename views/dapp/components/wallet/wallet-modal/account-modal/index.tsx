@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useSelector } from 'react-redux';
@@ -71,9 +70,9 @@ const AccountModal: FC<AccountModalProps> = ({
             justifyContent="space-between"
           >
             <Typography fontSize="S" variant="normal" color="textSecondary">
-              {capitalize(t('common.connected'))}
-              {'-'}
-              {url === 'metamask' ? 'MetaMask' : 'Wallet Connect'}
+              {capitalize(t('common.connected')) + ' - ' + url === 'metamask'
+                ? 'MetaMask'
+                : 'Wallet Connect'}
             </Typography>
             <Button
               ml="L"

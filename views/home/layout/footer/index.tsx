@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
@@ -7,12 +6,14 @@ import { v4 } from 'uuid';
 import { Container } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Typography } from '@/elements';
+import { useLocale } from '@/hooks';
 import { LogoSVG } from '@/svg';
 
 import SocialMediaCard from '../../components/social-media-card';
 
 const Footer: FC = () => {
   const t = useTranslations();
+  const { currentLocale } = useLocale();
   return (
     <Box as="footer" bg="text" height={['unset', 'unset', 'unset', '3.75rem']}>
       <Container
@@ -43,8 +44,10 @@ const Footer: FC = () => {
             color="textInverted"
             mt={['L', 'L', 'L', 'unset']}
           >
-            © {new Date().getFullYear()}. Interest Protocol from Interest Labs
-            Inc. - 6820994.{' '}
+            {t('landingPage.footerDescription', {
+              currentLocale,
+              currentYear: new Date().getFullYear(),
+            }) + ' '}
             <Typography
               as="span"
               fontSize="S"

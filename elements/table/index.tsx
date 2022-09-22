@@ -1,10 +1,10 @@
-/* eslint-disable react/jsx-no-literals */
 import { pathOr } from 'ramda';
 import React, { FC, useCallback, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Tooltip } from '@/components';
+import { COMMON_STRINGS } from '@/constants';
 import useEventListener from '@/hooks/use-event-listener';
 
 import Box from '../box';
@@ -152,7 +152,7 @@ const TableRow: FC<TableRowProps> = ({
                 variant="normal"
                 color="textSecondary"
               >
-                Nº
+                {COMMON_STRINGS.number}
               </Typography>
             )}
             {headings.map(({ item }) => (
@@ -241,7 +241,7 @@ const Table: FC<ResponsiveTableProps> = ({
                 headings.length + (ordinate ? 1 : 0) + (hasButton ? 1 : 0) - 1
               }, 1fr)`}
             >
-              {ordinate && <Cell as="th">Nº</Cell>}
+              {ordinate && <Cell as="th">{COMMON_STRINGS.number}</Cell>}
               {headings.map(({ item, tip }) => (
                 <Cell as="th" key={v4()} tip={tip}>
                   {item}

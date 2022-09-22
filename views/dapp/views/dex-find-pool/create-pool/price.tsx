@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -8,6 +7,8 @@ import { formatMoney } from '@/utils';
 import { PriceProps } from '../dex-find-pool.types';
 
 const toNumber = (x: string) => (isNaN(+x) ? 0 : x ? +x : 0);
+
+const EQUAL = ' = ';
 
 const Price: FC<PriceProps> = ({ control }) => {
   const tokenA = useWatch({ control, name: 'tokenA' });
@@ -20,7 +21,7 @@ const Price: FC<PriceProps> = ({ control }) => {
 
   return (
     <Typography variant="normal" my="L" textAlign="center">
-      {hasZeroValue ? '0' : '1'} {tokenA.symbol} {' = '}
+      {hasZeroValue ? '0' : '1'} {tokenA.symbol + EQUAL}
       {hasZeroValue ? '0' : formatMoney(amountB / amountA, 6)} {tokenB.symbol}
     </Typography>
   );

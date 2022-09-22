@@ -53,7 +53,9 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
         <Box color="error">
           <TimesSVG width="10rem" />
         </Box>
-        <Typography variant="normal">{t('error.fetchingPair')}</Typography>
+        <Typography variant="normal">
+          {t('dexPoolPairAddress.fetchingPair')}
+        </Typography>
       </Box>
     );
 
@@ -70,7 +72,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
           <TimesSVG width="10rem" />
         </Box>
         <Typography variant="normal">
-          {t('error.pairNotExist', {
+          {t('dexPoolPairAddress.pairNotExist', {
             currentLocale,
             pairAddress: pairAddress,
           })}

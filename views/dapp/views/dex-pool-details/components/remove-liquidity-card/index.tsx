@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
@@ -34,6 +33,7 @@ import RemoveLiquidityManager from './remove-liquidity-manager';
 import TokenAmount from './token-amount';
 
 const to97Percent = getBNPercent(97);
+const LP = 'LP';
 
 const LinearLoader: FC<LinearLoaderProps> = ({ control }) => {
   const loading = useWatch({ control, name: 'loading' });
@@ -180,7 +180,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
             {tokens[0].Icon}
             {tokens[1].Icon}
             <Typography variant="normal" ml="M">
-              LP
+              {LP}
             </Typography>
           </Box>
         }

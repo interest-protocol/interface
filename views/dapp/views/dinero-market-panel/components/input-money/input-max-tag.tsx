@@ -1,11 +1,11 @@
-/* eslint-disable react/jsx-no-literals */
 import { ethers } from 'ethers';
 import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
+import { COMMON_STRINGS } from '@/constants';
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
-import { formatMoney, safeToBigNumber } from '@/utils';
+import { capitalize, formatMoney, safeToBigNumber } from '@/utils';
 
 import {
   calculateDineroLeftToBorrow,
@@ -51,7 +51,7 @@ const InputMaxTag: FC<InputMaxTagProps> = ({
       position="relative"
     >
       <Typography fontSize="S" variant="normal">
-        Max:{' '}
+        {capitalize(COMMON_STRINGS.max) + COMMON_STRINGS.colon}
         <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
           {formatMoney(
             ((isDNR && isBorrow) || (!isDNR && !isBorrow)

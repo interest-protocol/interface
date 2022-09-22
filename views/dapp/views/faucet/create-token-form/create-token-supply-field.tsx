@@ -1,6 +1,6 @@
-/* eslint-disable react/jsx-no-literals */
 import { ChangeEvent, FC } from 'react';
 
+import { COMMON_STRINGS } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
 import { parseInputEventToNumberString } from '@/utils';
 
@@ -15,7 +15,7 @@ const CreateTokenSupplyField: FC<CreateTokenSupplyFieldProps> = ({
 }) => (
   <Box mb="L">
     <Typography as="label" fontSize="S" variant="normal" display="inline-block">
-      {label}:
+      {label + COMMON_STRINGS.colon}
     </Typography>
     <Input
       type="string"
@@ -52,7 +52,7 @@ const CreateTokenSupplyField: FC<CreateTokenSupplyFieldProps> = ({
               setValue('amount', CURRENCY_MAX.toString());
             }}
           >
-            max
+            {COMMON_STRINGS.max}
           </Button>
         </>
       }

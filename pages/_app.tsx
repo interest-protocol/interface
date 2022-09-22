@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import 'react-loading-skeleton/dist/skeleton.css';
 
 import { Global } from '@emotion/react';
@@ -14,10 +13,12 @@ import { Web3Manager } from '@/components';
 import GlobalStyles from '@/design-system/global-styles';
 import { store } from '@/state/index';
 
+const TITLE = 'Interest Protocol';
+
 const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
   <>
     <Head>
-      <title>Interest Protocol</title>
+      <title>{TITLE}</title>
       <meta
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1, viewport-fit=cover"

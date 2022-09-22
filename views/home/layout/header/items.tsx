@@ -1,11 +1,10 @@
-/* eslint-disable react/jsx-no-literals */
 import { useTranslations } from 'next-intl';
 import { always } from 'ramda';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
-import { SOCIAL_MEDIAS } from '@/constants';
+import { COMMON_STRINGS, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { capitalize } from '@/utils';
 
@@ -51,7 +50,7 @@ export const ItemsNetwork: FC = () => {
           title={capitalize(t('common.network', { count: 1 }))}
         >
           <Typography variant="large" mb="1rem" hover={{ color: 'accent' }}>
-            https://ethereum.org/en/
+            {COMMON_STRINGS.ethLink}
           </Typography>
         </a>
         <a
@@ -60,7 +59,7 @@ export const ItemsNetwork: FC = () => {
           title={capitalize(t('common.network', { count: 1 }))}
         >
           <Typography variant="large" mb="1.625rem" hover={{ color: 'accent' }}>
-            https://www.bnbchain.org/en
+            {COMMON_STRINGS.bnbLink}
           </Typography>
         </a>
       </Container>
