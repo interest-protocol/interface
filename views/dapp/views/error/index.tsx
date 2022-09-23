@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Routes, RoutesEnum } from '@/constants/routes';
@@ -8,6 +9,7 @@ import { TimesSVG } from '@/svg';
 const ErrorView: FC<{ message: string }> = ({ message }) => {
   const { push } = useRouter();
   const goHome = () => push(Routes[RoutesEnum.DApp]);
+  const t = useTranslations();
 
   return (
     <>
@@ -31,7 +33,7 @@ const ErrorView: FC<{ message: string }> = ({ message }) => {
         </Box>
         <Typography variant="title3">{message}</Typography>
         <Button variant="primary" mt="XL" onClick={goHome}>
-          &larr; Back To Home
+          &larr; {t('common.back')}
         </Button>
       </Box>
     </>

@@ -1,4 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
+import { mergeDeepRight } from 'ramda';
 
 import DEXPoolDetailsView from '@/views/dapp/views/dex-pool-details';
 
@@ -13,16 +14,25 @@ const DEXPoolDetailsPage: NextPage<DEXPoolDetailsPageProps> = ({
 export const getServerSideProps: GetServerSideProps = async ({
   params,
   locale,
+  ...otherProps
 }) => {
   const { pairAddress } = params || {};
+  const [commonMessages, dexPoolPairMessages] = await Promise.all([
+    import(`../../../../assets/messages/common/${locale}.json`),
+    import(`../../../../assets/messages/dex/pool/pair-address/${locale}.json`),
+  ]);
+
+  const messages = mergeDeepRight(
+    commonMessages.default,
+    dexPoolPairMessages.default
+  );
 
   return {
     props: {
+      ...otherProps,
       pairAddress,
-      messages: {
-        ...require(`../../../../assets/messages/dex/pool/pair-address/${locale}.json`),
-        ...require(`../../../../assets/messages/common/${locale}.json`),
-      },
+      messages,
+      now: new Date().getTime(),
     },
   };
 };

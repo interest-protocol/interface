@@ -7,11 +7,6 @@ export interface IToken {
   address: string;
 }
 
-export interface FaucetModalProps {
-  isOpen: boolean;
-  handleClose: () => void;
-}
-
 export interface IFaucetForm {
   amount: number;
   token: string;
@@ -28,10 +23,6 @@ export interface FaucetFormProps {
   isLoadingData?: boolean;
   removeLocalToken?: RemoveLocalToken;
   tokens: ReadonlyArray<IToken & { balance: BigNumber }>;
-}
-
-export interface FaucetProps {
-  customAction: () => void;
 }
 
 export interface CurrencyIdentifierProps {

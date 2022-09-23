@@ -1,20 +1,15 @@
-import { BigNumber } from 'ethers';
-import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
-import { addAllowance, depositLP, withdrawLP } from '@/api';
 import { Routes, RoutesEnum, StakeState } from '@/constants';
 import { Typography } from '@/elements';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
-import { useGetSigner } from '@/hooks';
-import { TOKEN_SYMBOL, ZERO_BIG_NUMBER } from '@/sdk';
+import { useApprove } from '@/hooks';
+import { TOKEN_SYMBOL } from '@/sdk';
 import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
-import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG } from '@/svg';
 import {
   capitalize,
@@ -25,8 +20,8 @@ import {
   showToast,
   showTXSuccessToast,
   throwError,
-  throwIfInvalidSigner,
 } from '@/utils';
+import { useHarvest } from '@/views/dapp/views/earn-farm/components/earn-farm-options/use-farm-options.hooks';
 
 import EarnCard from '../earn-farm-card';
 import EarnStakeModal from '../earn-stake-modal';
@@ -34,19 +29,22 @@ import { EarnFarmOptionsProps } from './earn-farm-options.types';
 
 const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
   farm,
-  mutate,
+  refetch,
   loading,
   intUSDPrice,
 }) => {
   const t = useTranslations();
   const { push } = useRouter();
   const [modal, setModal] = useState<StakeState | undefined>();
-  const [modalLoading, setModalLoading] = useState<boolean>(false);
   const [loadingPool, setLoadingPool] = useState<boolean>(false);
 
-  const { signer, chainId, account } = useGetSigner();
+  const { writeAsync: _approve } = useApprove(
+    farm.stakingTokenAddress,
+    getCasaDePapelAddress(farm.chainId),
+    { enabled: farm.allowance.isZero() }
+  );
 
-  const dispatch = useDispatch();
+  const { writeAsync: _harvest } = useHarvest(farm);
 
   const farmSymbol =
     farm.id === 0
@@ -54,32 +52,18 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
       : makeFarmSymbol(farm.chainId, farm.token0, farm.token1);
 
   const approve = useCallback(async () => {
-    const { validId, validSigner } = throwIfInvalidSigner(
-      [account],
-      chainId,
-      signer
-    );
-
     try {
       setLoadingPool(true);
-      const tx = await addAllowance(
-        validId,
-        validSigner,
-        account,
-        farm.stakingTokenAddress,
-        getCasaDePapelAddress(validId)
-      );
-
-      await showTXSuccessToast(tx, validId);
-      await mutate();
+      const tx = await _approve?.();
+      await showTXSuccessToast(tx, farm.chainId);
+      await refetch();
     } catch (e) {
       setLoadingPool(false);
-      throwError('Failed to approve', e);
+      throwError(t('error.generic'), e);
     } finally {
       setLoadingPool(false);
-      dispatch(coreActions.updateNativeBalance());
     }
-  }, [chainId, signer]);
+  }, [_approve, refetch, farm.chainId]);
 
   const handleApprove = useCallback(
     () =>
@@ -94,29 +78,18 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
   const harvest = useCallback(async () => {
     if (farm.pendingRewards.isZero()) return;
     setLoadingPool(true);
-    const { validId, validSigner } = throwIfInvalidSigner(
-      [account],
-      chainId,
-      signer
-    );
 
     try {
-      const tx = await depositLP(
-        validId,
-        validSigner,
-        farm.id,
-        ZERO_BIG_NUMBER
-      );
+      const tx = await _harvest?.();
 
-      await showTXSuccessToast(tx, validId);
-      await mutate();
+      await showTXSuccessToast(tx, farm.chainId);
+      await refetch();
     } catch (e) {
-      throwError('Failed to harvest rewards', e);
+      throwError(t('error.generic'), e);
     } finally {
       setLoadingPool(false);
-      dispatch(coreActions.updateNativeBalance());
     }
-  }, [signer, chainId]);
+  }, [_harvest, farm.chainId]);
 
   const handleHarvest = useCallback(
     () =>
@@ -131,91 +104,6 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
   const handleCloseModal = () => setModal(undefined);
 
   const handleChangeModal = (target: StakeState) => () => setModal(target);
-
-  const handleDepositTokens = useCallback(
-    async (amount: BigNumber) => {
-      if (farm.balance.isZero()) return;
-
-      setModalLoading(true);
-      try {
-        const { validId, validSigner } = throwIfInvalidSigner(
-          [account],
-          chainId,
-          signer
-        );
-        const tx = await depositLP(
-          validId,
-          validSigner,
-          farm.id,
-          amount.add(ethers.utils.parseEther('1')).gt(farm.balance)
-            ? farm.balance
-            : amount
-        );
-
-        await showTXSuccessToast(tx, validId);
-        await mutate();
-      } catch (e) {
-        throwError('Failed to deposit', e);
-      } finally {
-        setModalLoading(false);
-        handleCloseModal();
-        dispatch(coreActions.updateNativeBalance());
-      }
-    },
-    [chainId, signer, farm.balance.toString()]
-  );
-
-  const handleWithdrawTokens = useCallback(
-    async (amount: BigNumber) => {
-      if (farm.stakingAmount.isZero()) return;
-
-      setModalLoading(true);
-      try {
-        const { validId, validSigner } = throwIfInvalidSigner(
-          [account],
-          chainId,
-          signer
-        );
-        const tx = await withdrawLP(
-          validId,
-          validSigner,
-          farm.id,
-          amount.add(ethers.utils.parseEther('1')).gt(farm.stakingAmount)
-            ? farm.stakingAmount
-            : amount
-        );
-        await showTXSuccessToast(tx, validId);
-        await mutate();
-      } catch (e) {
-        throw e || new Error('Something Went Wrong');
-      } finally {
-        setModalLoading(false);
-        handleCloseModal();
-        dispatch(coreActions.updateNativeBalance());
-      }
-    },
-    [farm.stakingAmount.toString(), chainId, signer]
-  );
-
-  const handleUnstake = useCallback(
-    (value: BigNumber) =>
-      showToast(handleWithdrawTokens(value), {
-        loading: capitalize(t('common.unstake', { isLoading: 1 })),
-        error: propOr('common.error', 'message'),
-        success: capitalize(t('common.success')),
-      }),
-    [handleWithdrawTokens]
-  );
-
-  const handleStake = useCallback(
-    (value: BigNumber) =>
-      showToast(handleDepositTokens(value), {
-        loading: capitalize(t('common.stake', { isLoading: 1 })),
-        error: propOr('common.error', 'message'),
-        success: capitalize(t('common.success')),
-      }),
-    [handleDepositTokens]
-  );
 
   return (
     <Box
@@ -391,14 +279,12 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
       <EarnStakeModal
         farm={farm}
         modal={modal}
-        onStake={handleStake}
-        loading={modalLoading}
-        onUnstake={handleUnstake}
         handleClose={handleCloseModal}
         amount={FixedPointMath.toNumber(
           modal === StakeState.Stake ? farm.balance : farm.stakingAmount
         )}
         farmSymbol={farmSymbol}
+        refetch={refetch}
       />
     </Box>
   );

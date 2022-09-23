@@ -1,28 +1,20 @@
-import { JsonRpcSigner } from '@ethersproject/providers';
-import { ethers } from 'ethers';
+import { ContractInterface, ethers } from 'ethers';
+import { isEmpty } from 'ramda';
+import { Control, useWatch } from 'react-hook-form';
+import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
-import {
-  erc20MarketBorrow,
-  erc20MarketDeposit,
-  erc20MarketRepay,
-  erc20MarketRequest,
-  erc20MarketWithdraw,
-  lpFreeMarketBorrow,
-  lpFreeMarketDeposit,
-  lpFreeMarketRepay,
-  lpFreeMarketRequest,
-  lpFreeMarketWithdraw,
-  nativeMarketBorrow,
-  nativeMarketDeposit,
-  nativeMarketRepay,
-  nativeMarketRequest,
-  nativeMarketWithdraw,
-} from '@/api';
 import { DineroMarketKind } from '@/constants';
 import { FixedPointMath } from '@/sdk';
-import { safeToBigNumber, showTXSuccessToast } from '@/utils';
+import DineroERC20MarketABI from '@/sdk/abi/dinero-erc-20-market.abi.json';
+import DineroLpFreeMarketABI from '@/sdk/abi/dinero-lp-free-market.abi.json';
+import DineroNativeMarketABI from '@/sdk/abi/dinero-native-market.abi.json';
+import { safeToBigNumber } from '@/utils';
 
-import { DineroMarketData } from './dinero-market.types';
+import {
+  DineroMarketData,
+  HandlerData,
+  IBorrowForm,
+} from './dinero-market.types';
 import { loanElasticToPrincipal } from './dinero-market.utils';
 
 const { defaultAbiCoder } = ethers.utils;
@@ -37,14 +29,12 @@ enum RequestActions {
   Repay,
 }
 
-const handleRepayRequest = async (
-  chainId: number,
-  signer: JsonRpcSigner,
+const handleRepayRequest = (
   market: DineroMarketData,
   account: string,
   collateral: number,
   loan: number
-) => {
+): HandlerData => {
   const bnCollateral = safeToBigNumber(
     collateral,
     market.collateralDecimals,
@@ -54,6 +44,12 @@ const handleRepayRequest = async (
   const safeBNCollateral = bnCollateral.gt(market.userCollateral)
     ? market.userCollateral
     : bnCollateral;
+
+  const functionName = 'request';
+  let args: any[] = [];
+  let enabled = false;
+  const overrides = {};
+  let contractInterface: ContractInterface = '';
 
   /**
    * @description We do not need to calculate the elastic loan, because this market does not have any interest rate.
@@ -64,17 +60,15 @@ const handleRepayRequest = async (
       ? market.userPrincipal
       : loanBN;
 
-    const tx = await lpFreeMarketRequest(
-      signer,
-      market.marketAddress,
+    args = [
       [RequestActions.Repay, RequestActions.Withdraw],
       [
         encodeData(account, safePrincipal),
         encodeData(account, safeBNCollateral),
-      ]
-    );
-
-    return showTXSuccessToast(tx, chainId);
+      ],
+    ];
+    enabled = !safePrincipal.isZero() && !safePrincipal.isZero();
+    contractInterface = DineroLpFreeMarketABI;
   }
 
   if (market.kind === DineroMarketKind.ERC20) {
@@ -90,17 +84,15 @@ const handleRepayRequest = async (
       ? market.userPrincipal
       : estimatedPrincipal;
 
-    const tx = await erc20MarketRequest(
-      signer,
-      market.marketAddress,
+    args = [
       [RequestActions.Repay, RequestActions.Withdraw],
       [
         encodeData(account, safePrincipal),
         encodeData(account, safeBNCollateral),
-      ]
-    );
-
-    return showTXSuccessToast(tx, chainId);
+      ],
+    ];
+    enabled = !safePrincipal.isZero() && !safePrincipal.isZero();
+    contractInterface = DineroERC20MarketABI;
   }
 
   if (market.kind === DineroMarketKind.Native) {
@@ -116,28 +108,31 @@ const handleRepayRequest = async (
       ? market.userPrincipal
       : estimatedPrincipal;
 
-    const tx = await nativeMarketRequest(
-      signer,
-      market.marketAddress,
-      ethers.BigNumber.from(0),
+    args = [
       [RequestActions.Repay, RequestActions.Withdraw],
       [
         encodeData(account, safePrincipal),
         encodeData(account, safeBNCollateral),
-      ]
-    );
-
-    return showTXSuccessToast(tx, chainId);
+      ],
+    ];
+    enabled = !safePrincipal.isZero() && !safePrincipal.isZero();
+    contractInterface = DineroNativeMarketABI;
   }
+
+  return {
+    functionName,
+    args,
+    enabled,
+    overrides,
+    contractInterface,
+  };
 };
 
-const handleRepayCollateral = async (
-  chainId: number,
-  signer: JsonRpcSigner,
+const handleRepayCollateral = (
   market: DineroMarketData,
   account: string,
   collateral: number
-) => {
+): HandlerData => {
   const bnCollateral = safeToBigNumber(
     collateral,
     market.collateralDecimals,
@@ -148,59 +143,46 @@ const handleRepayCollateral = async (
     ? market.userCollateral
     : bnCollateral;
 
-  if (market.kind === DineroMarketKind.LpFreeMarket) {
-    const tx = await lpFreeMarketWithdraw(
-      signer,
-      market.marketAddress,
-      account,
-      safeBNCollateral
-    );
+  const functionName = 'withdraw';
+  const args: any[] = [account, safeBNCollateral];
+  const enabled = !safeBNCollateral.isZero();
+  const overrides = {};
+  /**
+   * @description The withdraw interface should be the same for all contracts.
+   */
+  const contractInterface = DineroNativeMarketABI;
 
-    return showTXSuccessToast(tx, chainId);
-  }
-
-  if (market.kind === DineroMarketKind.ERC20) {
-    const tx = await erc20MarketWithdraw(
-      signer,
-      market.marketAddress,
-      account,
-      safeBNCollateral
-    );
-
-    return showTXSuccessToast(tx, chainId);
-  }
-
-  if (market.kind === DineroMarketKind.Native) {
-    const tx = await nativeMarketWithdraw(
-      signer,
-      market.marketAddress,
-      account,
-      safeBNCollateral
-    );
-
-    return showTXSuccessToast(tx, chainId);
-  }
+  return {
+    functionName,
+    args,
+    enabled,
+    overrides,
+    contractInterface,
+  };
 };
 
-const handleRepayLoan = async (
-  chainId: number,
-  signer: JsonRpcSigner,
+const handleRepayLoan = (
   market: DineroMarketData,
   account: string,
   loan: number
-) => {
+): HandlerData => {
   const loanBN = FixedPointMath.toBigNumber(loan);
   const safeAmount = loanBN.gt(market.dnrBalance) ? market.dnrBalance : loanBN;
 
-  if (market.kind === DineroMarketKind.LpFreeMarket) {
-    const tx = await lpFreeMarketRepay(
-      signer,
-      market.marketAddress,
-      account,
-      safeAmount.gt(market.userPrincipal) ? market.userPrincipal : safeAmount
-    );
+  const functionName = 'repay';
+  let args: any[] = [];
+  const enabled = !safeAmount.isZero();
+  const overrides = {};
+  /**
+   * @description The repay interface should be the same for all contracts.
+   */
+  const contractInterface = DineroNativeMarketABI;
 
-    return showTXSuccessToast(tx, chainId);
+  if (market.kind === DineroMarketKind.LpFreeMarket) {
+    args = [
+      account,
+      safeAmount.gt(market.userPrincipal) ? market.userPrincipal : safeAmount,
+    ];
   }
 
   if (market.kind === DineroMarketKind.ERC20) {
@@ -216,14 +198,7 @@ const handleRepayLoan = async (
       ? market.userPrincipal
       : estimatedPrincipal;
 
-    const tx = await erc20MarketRepay(
-      signer,
-      market.marketAddress,
-      account,
-      safePrincipal
-    );
-
-    return showTXSuccessToast(tx, chainId);
+    args = [account, safePrincipal];
   }
 
   if (market.kind === DineroMarketKind.Native) {
@@ -239,49 +214,52 @@ const handleRepayLoan = async (
       ? market.userPrincipal
       : estimatedPrincipal;
 
-    const tx = await nativeMarketRepay(
-      signer,
-      market.marketAddress,
-      account,
-      safePrincipal
-    );
-
-    return showTXSuccessToast(tx, chainId);
+    args = [account, safePrincipal];
   }
+
+  return {
+    functionName,
+    args,
+    enabled,
+    overrides,
+    contractInterface,
+  };
 };
 
-export const handleRepay = async (
-  chainId: number,
-  signer: JsonRpcSigner,
+export const useRepay = (
   market: DineroMarketData,
   account: string,
-  collateral: number | undefined,
-  loan: number | undefined
+  control: Control<IBorrowForm>
 ) => {
+  const collateral = useWatch({ control, name: 'repay.collateral' });
+  const loan = useWatch({ control, name: 'repay.loan' });
+
+  const safeCollateral = isNaN(+collateral) ? 0 : +collateral;
+  const safeLoan = isNaN(+loan) ? 0 : +loan;
+
+  let data = {} as HandlerData;
   if (!!collateral && !!loan)
-    return handleRepayRequest(
-      chainId,
-      signer,
-      market,
-      account,
-      collateral,
-      loan
-    );
+    data = handleRepayRequest(market, account, safeCollateral, safeLoan);
 
-  if (collateral)
-    return handleRepayCollateral(chainId, signer, market, account, collateral);
+  if (collateral) data = handleRepayCollateral(market, account, safeCollateral);
 
-  if (loan) return handleRepayLoan(chainId, signer, market, account, loan);
+  if (loan) data = handleRepayLoan(market, account, safeLoan);
+
+  const { config } = usePrepareContractWrite({
+    addressOrName: market.marketAddress,
+    ...data,
+    enabled: data.enabled && !isEmpty(data),
+  });
+
+  return useContractWrite(config);
 };
 
-const handleBorrowRequest = async (
-  chainId: number,
-  signer: JsonRpcSigner,
+const handleBorrowRequest = (
   market: DineroMarketData,
   account: string,
   collateral: number,
   loan: number
-) => {
+): HandlerData => {
   const collateralBN = safeToBigNumber(collateral, market.collateralDecimals);
 
   const safeCollateral = collateralBN.gt(market.collateralBalance)
@@ -290,26 +268,28 @@ const handleBorrowRequest = async (
 
   const loanBN = safeToBigNumber(loan);
 
-  if (market.kind === DineroMarketKind.ERC20) {
-    const tx = await erc20MarketRequest(
-      signer,
-      market.marketAddress,
-      [RequestActions.Deposit, RequestActions.Borrow],
-      [encodeData(account, safeCollateral), encodeData(account, loanBN)]
-    );
+  const functionName = 'request';
+  let args: any[] = [];
+  let enabled = false;
+  let overrides = {};
+  let contractInterface: ContractInterface = '';
 
-    return showTXSuccessToast(tx, chainId);
+  if (market.kind === DineroMarketKind.ERC20) {
+    args = [
+      [RequestActions.Deposit, RequestActions.Borrow],
+      [encodeData(account, safeCollateral), encodeData(account, loanBN)],
+    ];
+    enabled = !safeCollateral.isZero() || !loanBN.isZero();
+    contractInterface = DineroERC20MarketABI;
   }
 
   if (market.kind === DineroMarketKind.LpFreeMarket) {
-    const tx = await lpFreeMarketRequest(
-      signer,
-      market.marketAddress,
+    args = [
       [RequestActions.Deposit, RequestActions.Borrow],
-      [encodeData(account, safeCollateral), encodeData(account, loanBN)]
-    );
-
-    return showTXSuccessToast(tx, chainId);
+      [encodeData(account, safeCollateral), encodeData(account, loanBN)],
+    ];
+    enabled = !safeCollateral.isZero() || !loanBN.isZero();
+    contractInterface = DineroLpFreeMarketABI;
   }
 
   if (market.kind === DineroMarketKind.Native) {
@@ -323,25 +303,32 @@ const handleBorrowRequest = async (
           .div(ethers.utils.parseEther('1'))
       : safeCollateral;
 
-    const tx = await nativeMarketRequest(
-      signer,
-      market.marketAddress,
-      amountToSend,
+    args = [
       [RequestActions.Deposit, RequestActions.Borrow],
-      [encodeData(account, amountToSend), encodeData(account, loanBN)]
-    );
+      [encodeData(account, amountToSend), encodeData(account, loanBN)],
+    ];
+    enabled = !amountToSend.isZero() || !loanBN.isZero();
 
-    return showTXSuccessToast(tx, chainId);
+    overrides = {
+      value: amountToSend,
+    };
+    contractInterface = DineroNativeMarketABI;
   }
+
+  return {
+    functionName,
+    args,
+    contractInterface,
+    overrides,
+    enabled,
+  };
 };
 
-const handleBorrowDeposit = async (
-  chainId: number,
-  signer: JsonRpcSigner,
+const handleBorrowDeposit = (
   market: DineroMarketData,
   account: string,
   collateral: number
-) => {
+): HandlerData => {
   const bnCollateral = safeToBigNumber(
     collateral,
     market.collateralDecimals,
@@ -352,26 +339,22 @@ const handleBorrowDeposit = async (
     ? market.collateralBalance
     : bnCollateral;
 
-  if (market.kind === DineroMarketKind.ERC20) {
-    const tx = await erc20MarketDeposit(
-      signer,
-      market.marketAddress,
-      account,
-      safeCollateral
-    );
+  const functionName = 'request';
+  let args: any[] = [];
+  let enabled = false;
+  let overrides = {};
+  let contractInterface: ContractInterface = '';
 
-    return showTXSuccessToast(tx, chainId);
+  if (market.kind === DineroMarketKind.ERC20) {
+    args = [account, safeCollateral];
+    enabled = !safeCollateral.isZero();
+    contractInterface = DineroERC20MarketABI;
   }
 
   if (market.kind === DineroMarketKind.LpFreeMarket) {
-    const tx = await lpFreeMarketDeposit(
-      signer,
-      market.marketAddress,
-      account,
-      safeCollateral
-    );
-
-    return showTXSuccessToast(tx, chainId);
+    args = [account, safeCollateral];
+    enabled = !safeCollateral.isZero();
+    contractInterface = DineroLpFreeMarketABI;
   }
 
   if (market.kind === DineroMarketKind.Native) {
@@ -385,27 +368,40 @@ const handleBorrowDeposit = async (
           .div(ethers.utils.parseEther('1'))
       : safeCollateral;
 
-    const tx = await nativeMarketDeposit(
-      signer,
-      market.marketAddress,
-      account,
-      amountToSend
-    );
-
-    return showTXSuccessToast(tx, chainId);
+    args = [account];
+    enabled = !amountToSend.isZero();
+    contractInterface = DineroNativeMarketABI;
+    overrides = {
+      value: amountToSend,
+    };
   }
+
+  return {
+    functionName,
+    args,
+    enabled,
+    overrides,
+    contractInterface,
+  };
 };
 
-const handleBorrowLoan = async (
-  chainId: number,
-  signer: JsonRpcSigner,
+const handleBorrowLoan = (
   market: DineroMarketData,
   account: string,
   loan: number
-) => {
+): HandlerData => {
   const loanBN = safeToBigNumber(loan);
 
   const amountLeftToBorrow = market.maxBorrowAmount.sub(market.loanElastic);
+
+  const functionName = 'borrow';
+  let args: any[] = [];
+  let enabled = false;
+  const overrides = {};
+  /**
+   * @description The borrow interface should be the same for all contracts.
+   */
+  const contractInterface = DineroNativeMarketABI;
 
   if (market.kind === DineroMarketKind.ERC20) {
     const safeLoanBN = loanBN.gte(amountLeftToBorrow)
@@ -414,14 +410,8 @@ const handleBorrowLoan = async (
           .div(ethers.utils.parseEther('1'))
       : loanBN;
 
-    const tx = await erc20MarketBorrow(
-      signer,
-      market.marketAddress,
-      account,
-      safeLoanBN
-    );
-
-    return showTXSuccessToast(tx, chainId);
+    args = [account, safeLoanBN];
+    enabled = !safeLoanBN.isZero();
   }
 
   if (market.kind === DineroMarketKind.LpFreeMarket) {
@@ -431,14 +421,9 @@ const handleBorrowLoan = async (
     const safeLoanBN = loanBN.gte(amountLeftToBorrow)
       ? amountLeftToBorrow
       : loanBN;
-    const tx = await lpFreeMarketBorrow(
-      signer,
-      market.marketAddress,
-      account,
-      safeLoanBN
-    );
 
-    return showTXSuccessToast(tx, chainId);
+    args = [account, safeLoanBN];
+    enabled = !safeLoanBN.isZero();
   }
 
   if (market.kind === DineroMarketKind.Native) {
@@ -448,37 +433,43 @@ const handleBorrowLoan = async (
           .div(ethers.utils.parseEther('1'))
       : loanBN;
 
-    const tx = await nativeMarketBorrow(
-      signer,
-      market.marketAddress,
-      account,
-      safeLoanBN
-    );
-
-    return showTXSuccessToast(tx, chainId);
+    args = [account, safeLoanBN];
+    enabled = !safeLoanBN.isZero();
   }
+
+  return {
+    functionName,
+    args,
+    enabled,
+    overrides,
+    contractInterface,
+  };
 };
 
-export const handleBorrow = async (
-  chainId: number,
-  signer: JsonRpcSigner,
+export const useBorrow = (
   market: DineroMarketData,
   account: string,
-  collateral: number | undefined,
-  loan: number | undefined
+  control: Control<IBorrowForm>
 ) => {
+  const collateral = useWatch({ control, name: 'borrow.collateral' });
+  const loan = useWatch({ control, name: 'borrow.loan' });
+
+  const safeCollateral = isNaN(+collateral) ? 0 : +collateral;
+  const safeLoan = isNaN(+loan) ? 0 : +loan;
+
+  let data = {} as HandlerData;
   if (!!collateral && !!loan)
-    return handleBorrowRequest(
-      chainId,
-      signer,
-      market,
-      account,
-      collateral,
-      loan
-    );
+    data = handleBorrowRequest(market, account, safeCollateral, safeLoan);
 
-  if (collateral)
-    return handleBorrowDeposit(chainId, signer, market, account, collateral);
+  if (collateral) data = handleBorrowDeposit(market, account, safeCollateral);
 
-  if (loan) return handleBorrowLoan(chainId, signer, market, account, loan);
+  if (loan) data = handleBorrowLoan(market, account, safeLoan);
+
+  const { config } = usePrepareContractWrite({
+    addressOrName: market.marketAddress,
+    ...data,
+    enabled: data.enabled && !isEmpty(data),
+  });
+
+  return useContractWrite(config);
 };

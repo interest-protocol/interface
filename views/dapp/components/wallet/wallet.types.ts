@@ -16,7 +16,7 @@ export interface ConnectWalletProps {
 }
 
 export interface ConnectWalletButtonProps {
-  loading: boolean;
+  loading?: boolean;
 }
 
 export interface AccountModalProps extends ConnectWalletProps {

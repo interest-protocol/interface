@@ -21,7 +21,7 @@ const Wallet: FC = () => {
 
   if (isSwitching) return <SwitchingNetwork />;
 
-  if (isDisconnected || loading) return <ConnectWallet loading={loading} />;
+  if (isDisconnected || loading) return <ConnectWallet />;
 
   if (error || !chain) return <WalletError />;
 

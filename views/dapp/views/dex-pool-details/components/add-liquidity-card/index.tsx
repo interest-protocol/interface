@@ -2,33 +2,24 @@ import { BigNumber } from 'ethers';
 import { useTranslations } from 'next-intl';
 import { identity, o, prop } from 'ramda';
 import { FC, useState } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
-import {
-  addAllowance,
-  addERC20Liquidity,
-  addNativeTokenLiquidity,
-} from '@/api';
 import { Box, Button, Typography } from '@/elements';
-import { useChainId, useGetSigner } from '@/hooks';
-import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
+import { useApprove, useIdAccount } from '@/hooks';
+import { FixedPointMath } from '@/sdk';
 import { LineLoaderSVG } from '@/svg';
 import {
   capitalize,
-  getBNPercent,
   getInterestDexRouterAddress,
   isSameAddressZ,
   showToast,
   showTXSuccessToast,
-  stringToBigNumber,
   throwError,
-  throwIfInvalidSigner,
 } from '@/utils';
 import { WalletGuardButton } from '@/views/dapp/components';
 
-import LiquidityFormMessage from '../liquidity-form-message';
 import {
   AddLiquidityCardProps,
   IAddLiquidityForm,
@@ -36,7 +27,9 @@ import {
 } from './add-liquidity-card.types';
 import AddLiquidityManager from './add-liquidity-manager';
 import BalanceError from './balance-error';
+import ErrorLiquidityMessage from './error-liquidity-message';
 import InputBalance from './input-balance';
+import { useAddLiquidity } from './use-add-lliquidity-card.hooks';
 
 const filterFn = o<IToken, BigNumber, boolean>(
   (x: BigNumber) => x.isZero(),
@@ -47,60 +40,63 @@ const INPUT_NAMES = ['token0Amount', 'token1Amount'] as Array<
   Exclude<keyof IAddLiquidityForm, 'error' | 'locked'>
 >;
 
-const get90Percent = getBNPercent(90);
-
 const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
   tokens,
   isStable,
   fetchingInitialData,
-  mutate,
+  refetch,
 }) => {
+  const { account, chainId } = useIdAccount();
+  const { writeAsync: approveToken0 } = useApprove(
+    tokens[0].address,
+    getInterestDexRouterAddress(chainId),
+    { enabled: tokens[0].allowance.isZero() }
+  );
+
+  const { writeAsync: approveToken1 } = useApprove(
+    tokens[1].address,
+    getInterestDexRouterAddress(chainId),
+    { enabled: tokens[1].allowance.isZero() }
+  );
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
   const [isFetchingQuote, setIsFetchingQuote] = useState(false);
 
-  const { register, setValue, control, getValues } = useForm<IAddLiquidityForm>(
-    {
-      defaultValues: {
-        token0Amount: '0.0',
-        token1Amount: '0.0',
-        error: '',
-        locked: false,
-      },
-    }
-  );
-
-  const { account, signer } = useGetSigner();
-  const chainId = useChainId();
+  const { register, setValue, control } = useForm<IAddLiquidityForm>({
+    defaultValues: {
+      token0Amount: '0.0',
+      token1Amount: '0.0',
+      error: '',
+      locked: false,
+    },
+  });
 
   const needsAllowance = tokens
     .map(({ allowance }) => allowance.isZero())
     .some(identity);
 
+  const { writeAsync: _addLiquidity } = useAddLiquidity({
+    tokens,
+    chainId,
+    account,
+    control,
+    isStable,
+  });
+
   const approveToken = async (token: string) => {
     try {
       setLoading(true);
 
-      const { validId, validSigner } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
+      const tx = isSameAddressZ(tokens[0].address, token)
+        ? await approveToken0?.()
+        : await approveToken1?.();
 
-      const tx = await addAllowance(
-        validId,
-        validSigner,
-        account,
-        token,
-        getInterestDexRouterAddress(validId)
-      );
-
-      await showTXSuccessToast(tx, validId);
+      await showTXSuccessToast(tx, chainId);
     } catch {
-      throwError(`Failed to approve ${tokens[0].symbol}`);
+      throwError(t('error.generic'));
     } finally {
       setLoading(false);
-      await mutate();
+      await refetch();
     }
   };
 
@@ -116,82 +112,13 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
   const addLiquidity = async () => {
     try {
       setLoading(true);
-
-      const { validId, validSigner } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
-
-      const { token0Amount, token1Amount } = getValues();
-      const [token0, token1] = tokens;
-
-      const amount0 = stringToBigNumber(token0Amount, token0.decimals);
-
-      const amount1 = stringToBigNumber(token1Amount, token1.decimals);
-
-      // 5 minutes
-      const deadline = Math.ceil((new Date().getTime() + 5 * 60 * 1000) / 1000);
-
-      if (amount0.isZero() || amount1.isZero()) throwError('No zero amount');
-
-      const safeAmount0 = amount0.gt(token0.balance) ? token0.balance : amount0;
-      const safeAmount1 = amount1.gt(token1.balance) ? token1.balance : amount1;
-
-      // token0 is Native
-      if (isSameAddressZ(token0.address, ZERO_ADDRESS)) {
-        const tx = await addNativeTokenLiquidity(
-          validId,
-          validSigner,
-          safeAmount0,
-          token1.address,
-          isStable,
-          safeAmount1,
-          get90Percent(safeAmount1, token1.decimals),
-          get90Percent(safeAmount0, token0.decimals),
-          account,
-          deadline
-        );
-
-        return await showTXSuccessToast(tx, validId);
-      }
-
-      if (isSameAddressZ(token1.address, ZERO_ADDRESS)) {
-        const tx = await addNativeTokenLiquidity(
-          validId,
-          validSigner,
-          safeAmount1,
-          token0.address,
-          isStable,
-          safeAmount0,
-          get90Percent(safeAmount0, token1.decimals),
-          get90Percent(safeAmount1, token1.decimals),
-          account,
-          deadline
-        );
-
-        return await showTXSuccessToast(tx, validId);
-      }
-
-      const tx = await addERC20Liquidity(
-        validId,
-        validSigner,
-        token0.address,
-        token1.address,
-        isStable,
-        safeAmount0,
-        safeAmount1,
-        get90Percent(safeAmount0, token1.decimals),
-        get90Percent(safeAmount1, token1.decimals),
-        account,
-        deadline
-      );
-      await showTXSuccessToast(tx, validId);
+      const tx = await _addLiquidity?.();
+      await showTXSuccessToast(tx, chainId);
     } catch {
-      throwError('Failed to add liquidity for');
+      throwError(t('error.generic'));
     } finally {
       setLoading(false);
-      await mutate();
+      await refetch();
     }
   };
 
@@ -201,8 +128,6 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
-
-  const error = useWatch({ control, name: 'error' });
 
   return (
     <Box bg="foreground" p="L" borderRadius="M" width="100%">
@@ -253,7 +178,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
       <Box mb="L">
         {(loading || isFetchingQuote) && <LineLoaderSVG width="100%" />}
       </Box>
-      {error && <LiquidityFormMessage color="error" message={error} />}
+      <ErrorLiquidityMessage control={control} />
       {tokens.map(({ symbol, decimals, balance }, index) => (
         <BalanceError
           key={v4()}

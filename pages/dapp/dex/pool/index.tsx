@@ -1,4 +1,5 @@
 import { GetStaticProps, NextPage } from 'next';
+import { mergeDeepRight } from 'ramda';
 
 import DEXView from '@/views/dapp/views/dex';
 
@@ -7,14 +8,24 @@ const DEXPoolPage: NextPage = () => <DEXView />;
 export const getStaticProps: GetStaticProps = async ({
   locale,
   ...otherProps
-}) => ({
-  props: {
-    ...otherProps,
-    messages: {
-      ...require(`../../../../assets/messages/dex/pool/${locale}.json`),
-      ...require(`../../../../assets/messages/common/${locale}.json`),
+}) => {
+  const [commonMessages, dexPoolMessages] = await Promise.all([
+    import(`../../../../assets/messages/common/${locale}.json`),
+    import(`../../../../assets/messages/dex/pool/${locale}.json`),
+  ]);
+
+  const messages = mergeDeepRight(
+    commonMessages.default,
+    dexPoolMessages.default
+  );
+
+  return {
+    props: {
+      ...otherProps,
+      messages,
+      now: new Date().getTime(),
     },
-  },
-});
+  };
+};
 
 export default DEXPoolPage;

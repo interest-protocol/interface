@@ -4,13 +4,9 @@ import { useTranslations } from 'next-intl';
 import { pathOr, prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useBalance } from 'wagmi';
 
 import { isInterestDexPair } from '@/api/interest-dex-factory';
-import {
-  addERC20Liquidity,
-  addNativeTokenLiquidity,
-} from '@/api/interest-dex-router';
 import { Container } from '@/components';
 import {
   ERC_20_DATA,
@@ -20,11 +16,7 @@ import {
   WRAPPED_NATIVE_TOKEN,
 } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
-import {
-  useGetDexAllowancesAndBalances,
-  useGetSigner,
-  useIdAccount,
-} from '@/hooks';
+import { useGetDexAllowancesAndBalances, useIdAccount } from '@/hooks';
 import {
   getIPXPairAddress,
   sortTokens,
@@ -32,7 +24,6 @@ import {
   ZERO_ADDRESS,
   ZERO_BIG_NUMBER,
 } from '@/sdk';
-import { getNativeBalance } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
 import {
   capitalize,
@@ -41,9 +32,7 @@ import {
   isZeroAddress,
   showToast,
   showTXSuccessToast,
-  stringToBigNumber,
   throwError,
-  throwIfInvalidSigner,
 } from '@/utils';
 import { WalletGuardButton } from '@/views/dapp/components';
 
@@ -51,13 +40,13 @@ import GoBack from '../../components/go-back';
 import { OnSelectCurrencyData } from '../dex/swap/swap.types';
 import CreatePool from './create-pool';
 import CreatePoolPopup from './create-pool-popup';
+import { useAddNativeTokenLiquidity } from './dex-find-pool.hooks';
 import { DexFindPoolForm } from './dex-find-pool.types';
 import FindPool from './find-pool';
 
 const FindPoolView: FC = () => {
   const t = useTranslations();
   const { push } = useRouter();
-  const { signer } = useGetSigner();
   const { chainId, account } = useIdAccount();
 
   const [loading, setLoading] = useState(false);
@@ -87,16 +76,24 @@ const FindPoolView: FC = () => {
   const tokenBAddress = useWatch({ control, name: 'tokenB.address' });
   const isStable = useWatch({ control, name: 'isStable' });
 
-  const { balancesError, balancesData, mutate } =
-    useGetDexAllowancesAndBalances(
-      chainId,
-      tokenAAddress || ZERO_ADDRESS,
-      tokenBAddress || ZERO_ADDRESS
-    );
+  const { balancesError, balancesData } = useGetDexAllowancesAndBalances(
+    chainId,
+    tokenAAddress || ZERO_ADDRESS,
+    tokenBAddress || ZERO_ADDRESS
+  );
 
-  const nativeBalance = useSelector(getNativeBalance) as string;
+  const { data: balanceData } = useBalance({ addressOrName: account });
 
-  const nativeBalanceBN = stringToBigNumber(nativeBalance);
+  const nativeBalance = balanceData ? balanceData.value : ZERO_BIG_NUMBER;
+
+  const { writeAsync: addLiquidity } = useAddNativeTokenLiquidity({
+    control,
+    account,
+    chainId,
+    nativeBalance,
+    balancesData,
+    isStable,
+  });
 
   const tokenANeedsAllowance = pathOr(
     ZERO_BIG_NUMBER,
@@ -163,60 +160,17 @@ const FindPoolView: FC = () => {
     try {
       setLoading(true);
       setCreatePoolPopup(false);
-      const { validSigner, validId } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
 
       const [token0Address] = sortTokens(tokenA.address, tokenB.address);
-
-      const token0 = isSameAddressZ(token0Address, tokenA.address)
-        ? tokenA
-        : tokenB;
 
       const token1 = isSameAddressZ(token0Address, tokenA.address)
         ? tokenB
         : tokenA;
 
-      const amount0 = stringToBigNumber(token0.value, token0.decimals);
+      if (isZeroAddress(token0Address)) {
+        const tx = await addLiquidity?.();
 
-      const amount1 = stringToBigNumber(token1.value, token1.decimals);
-
-      if (amount0.isZero() || amount1.isZero()) throwError('No zero amount');
-
-      const token1UserBalance = pathOr(
-        ZERO_BIG_NUMBER,
-        [getAddress(token1.address), 'balance'],
-        balancesData
-      );
-
-      const safeAmount1 = amount1.gt(token1UserBalance)
-        ? token1UserBalance
-        : amount1;
-
-      // 5 minutes
-      const deadline = Math.ceil((new Date().getTime() + 5 * 60 * 1000) / 1000);
-
-      if (isZeroAddress(token0.address)) {
-        const safeAmount0 = amount0.gt(nativeBalanceBN)
-          ? nativeBalanceBN
-          : amount0;
-
-        const tx = await addNativeTokenLiquidity(
-          validId,
-          validSigner,
-          safeAmount0,
-          token1.address,
-          isStable,
-          safeAmount1,
-          safeAmount1,
-          safeAmount0,
-          account,
-          deadline
-        );
-
-        await showTXSuccessToast(tx, validId);
+        await showTXSuccessToast(tx, chainId);
         const address = getIPXPairAddress(
           chainId,
           WRAPPED_NATIVE_TOKEN[chainId].address,
@@ -230,31 +184,9 @@ const FindPoolView: FC = () => {
         }).then();
       }
 
-      const token0UserBalance = pathOr(
-        ZERO_BIG_NUMBER,
-        [getAddress(token0.address), 'balance'],
-        balancesData
-      );
+      const tx = await addLiquidity?.();
 
-      const safeAmount0 = amount0.gt(token0UserBalance)
-        ? token0UserBalance
-        : amount0;
-
-      const tx = await addERC20Liquidity(
-        validId,
-        validSigner,
-        token0.address,
-        token1.address,
-        isStable,
-        safeAmount0,
-        safeAmount1,
-        safeAmount0,
-        safeAmount1,
-        account,
-        deadline
-      );
-
-      await showTXSuccessToast(tx, validId);
+      await showTXSuccessToast(tx, chainId);
 
       const address = getIPXPairAddress(
         chainId,
@@ -335,7 +267,6 @@ const FindPoolView: FC = () => {
       {isCreatingPair && (
         <CreatePool
           getValues={getValues}
-          update={mutate}
           tokenBalances={[
             pathOr(
               ZERO_BIG_NUMBER,

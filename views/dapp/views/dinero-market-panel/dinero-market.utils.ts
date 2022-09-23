@@ -102,6 +102,7 @@ const DEFAULT_MARKET_DATA = {
   chainId: CHAIN_ID.BNB_TEST_NET,
   maxBorrowAmount: ZERO_BIG_NUMBER,
   rewardsBalance: ZERO_BIG_NUMBER,
+  loading: true,
 };
 
 export const getSafeDineroMarketData: GetSafeDineroMarketData = (
@@ -152,6 +153,7 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
         marketMetadata.collateralDecimals
       ),
       rewardsBalance: ZERO_BIG_NUMBER,
+      loading: false,
       ...marketMetadata,
     };
 
@@ -222,6 +224,7 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
       marketMetadata.collateralDecimals
     ),
     rewardsBalance: data.marketData.rewardsBalance,
+    loading: false,
     ...marketMetadata,
   };
 };

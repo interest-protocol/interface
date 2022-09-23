@@ -1,4 +1,5 @@
 import { GetStaticProps, NextPage } from 'next';
+import { mergeDeepRight } from 'ramda';
 
 import Earn from '@/views/dapp/views/earn';
 
@@ -7,14 +8,21 @@ const EarnPage: NextPage = () => <Earn />;
 export const getStaticProps: GetStaticProps = async ({
   locale,
   ...otherProps
-}) => ({
-  props: {
-    ...otherProps,
-    messages: {
-      ...require(`../../../assets/messages/earn/${locale}.json`),
-      ...require(`../../../assets/messages/common/${locale}.json`),
+}) => {
+  const [commonMessages, earnMessages] = await Promise.all([
+    import(`../../../assets/messages/common/${locale}.json`),
+    import(`../../../assets/messages/earn/${locale}.json`),
+  ]);
+
+  const messages = mergeDeepRight(commonMessages.default, earnMessages.default);
+
+  return {
+    props: {
+      ...otherProps,
+      messages,
+      now: new Date().getTime(),
     },
-  },
-});
+  };
+};
 
 export default EarnPage;

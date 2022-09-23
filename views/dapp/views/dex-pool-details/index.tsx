@@ -1,15 +1,14 @@
 import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { useSelector } from 'react-redux';
+import { useBalance } from 'wagmi';
 
 import { Container } from '@/components';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useChainId, useGetPairData, useLocale } from '@/hooks';
-import { TOKEN_SYMBOL } from '@/sdk';
+import { useGetPairData, useIdAccount, useLocale } from '@/hooks';
+import { TOKEN_SYMBOL, ZERO_BIG_NUMBER } from '@/sdk';
 import { FixedPointMath } from '@/sdk';
-import { getNativeBalance } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
 import {
   formatMoney,
@@ -31,10 +30,16 @@ const DefaultIcon = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
   const t = useTranslations();
   const { currentLocale } = useLocale();
-  const { error, data, mutate } = useGetPairData(pairAddress);
-  const chainId = useChainId();
+  const { error, data, refetch } = useGetPairData(pairAddress);
+  const { chainId, account } = useIdAccount();
+  const { data: balanceData } = useBalance({
+    addressOrName: account,
+    watch: true,
+  });
 
-  const nativeBalance = useSelector(getNativeBalance) as string;
+  const nativeBalance = balanceData
+    ? balanceData.value.toString()
+    : ZERO_BIG_NUMBER.toString();
 
   const processedData = useMemo(
     () => processPairData(chainId, data, nativeBalance),
@@ -53,7 +58,9 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
         <Box color="error">
           <TimesSVG width="10rem" />
         </Box>
-        <Typography variant="normal">ERROR! Fetching the pair data</Typography>
+        <Typography variant="normal">
+          {t('dexPoolPairAddress.error.pairData')}
+        </Typography>
       </Box>
     );
 
@@ -70,7 +77,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
           <TimesSVG width="10rem" />
         </Box>
         <Typography variant="normal">
-          The pair with address {pairAddress} does not exist
+          {t('dexPoolPairAddress.error.pairDoesNotExist', { pairAddress })}
         </Typography>
       </Box>
     );
@@ -177,9 +184,13 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
               address: processedData.token1,
             },
           ]}
-          mutate={mutate}
+          refetch={async () => {
+            await refetch();
+          }}
         />
         <RemoveLiquidityCard
+          chainId={chainId}
+          account={account}
           pairAddress={pairAddress}
           isFetchingInitialData={processedData.loading}
           isStable={processedData.isStable}
@@ -225,7 +236,9 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
               decimals: processedData.token1Metadata.decimals.toNumber(),
             },
           ]}
-          mutate={mutate}
+          refetch={async () => {
+            await refetch();
+          }}
         />
       </Box>
     </Container>

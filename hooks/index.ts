@@ -1,3 +1,4 @@
+export * from './use-approve';
 export * from './use-chain-id';
 export * from './use-click-outside-listener-ref';
 export * from './use-debounce';
@@ -7,7 +8,6 @@ export * from './use-get-dinero-market-data-v2';
 export * from './use-get-dinero-markets-summary-v2';
 export * from './use-get-farms-summary';
 export * from './use-get-pair-data';
-export * from './use-get-signer';
 export * from './use-get-user-balances';
 export * from './use-get-user-balances-allowances';
 export * from './use-get-user-farm-data';

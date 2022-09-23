@@ -2,12 +2,9 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 
-import { createToken } from '@/api';
 import { Box, Button, Typography } from '@/elements';
-import { useGetSigner } from '@/hooks';
-import { coreActions } from '@/state/core/core.actions';
+import { useIdAccount } from '@/hooks';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import {
   capitalize,
@@ -15,17 +12,12 @@ import {
   isValidAccount,
   safeGetAddress,
 } from '@/utils';
-import {
-  safeToBigNumber,
-  showToast,
-  showTXSuccessToast,
-  throwError,
-  throwIfInvalidSigner,
-} from '@/utils';
+import { showToast, showTXSuccessToast, throwError } from '@/utils';
 import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
 import { CreateTokenFormProps } from '../faucet.types';
 import CreateTokenField from './create-token-field';
+import { useCreateToken } from './create-token-form.hooks';
 import { TCreateTokenForm } from './create-token-form.types';
 import CreateTokenSupplyField from './create-token-supply-field';
 
@@ -35,8 +27,7 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
 }) => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
-  const { chainId, signer, account } = useGetSigner();
-  const { setValue, register, getValues } = useForm<TCreateTokenForm>({
+  const { setValue, register, control, getValues } = useForm<TCreateTokenForm>({
     defaultValues: {
       name: '',
       symbol: '',
@@ -44,7 +35,9 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
     },
   });
 
-  const dispatch = useDispatch();
+  const { chainId, account } = useIdAccount();
+
+  const { writeAsync: createToken } = useCreateToken(chainId, control);
 
   const handleCreateToken = async () => {
     try {
@@ -58,37 +51,26 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
       if (!name || !symbol || !amount || amount === '0')
         throwError(capitalize(t('error.generic')));
 
-      const { validId, validSigner } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
+      const tx = await createToken?.();
 
-      const tx = await createToken(
-        validId,
-        validSigner,
-        name,
-        symbol,
-        safeToBigNumber(amount)
-      );
+      await showTXSuccessToast(tx, chainId);
 
-      await showTXSuccessToast(tx, validId);
+      if (tx) {
+        const receipt = await tx.wait();
 
-      const receipt = await tx.wait();
+        const { token } = extractCreateTokenEvent(receipt);
 
-      const { token } = extractCreateTokenEvent(receipt);
-
-      if (isValidAccount(token))
-        addLocalToken({
-          symbol,
-          name,
-          address: safeGetAddress(token),
-        });
+        if (isValidAccount(token))
+          addLocalToken({
+            symbol,
+            name,
+            address: safeGetAddress(token),
+          });
+      }
     } catch (error) {
-      throwError('Something went wrong', error);
+      throwError(t('error.generic'), error);
     } finally {
       setLoading(false);
-      dispatch(coreActions.updateNativeBalance());
     }
   };
 

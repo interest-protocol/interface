@@ -77,7 +77,7 @@ const Swap: FC = () => {
   const tokenInAddress = useWatch({ control, name: 'tokenIn.address' });
   const tokenOutAddress = useWatch({ control, name: 'tokenOut.address' });
 
-  const { balancesError, balancesData, mutate, loading } =
+  const { balancesError, balancesData, loading } =
     useGetDexAllowancesAndBalances(
       chainId,
       tokenInAddress || ZERO_ADDRESS,
@@ -302,7 +302,6 @@ const Swap: FC = () => {
           swapBase={swapBase}
           disabled={isDisabled}
           getValues={getValues}
-          updateBalances={mutate}
           setSwapBase={setSwapBase}
           needsApproval={needsApproval}
           localSettings={localSettings}

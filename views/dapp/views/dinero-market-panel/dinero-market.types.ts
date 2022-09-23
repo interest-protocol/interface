@@ -1,4 +1,5 @@
-import { BigNumber } from 'ethers';
+import { Result } from '@ethersproject/abi';
+import { BigNumber, CallOverrides, ContractInterface } from 'ethers';
 import { FC, SVGAttributes } from 'react';
 import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
@@ -71,6 +72,7 @@ export interface DineroMarketData {
   chainId: number;
   maxBorrowAmount: BigNumber;
   rewardsBalance: BigNumber;
+  loading: boolean;
 }
 
 export type GetSafeDineroMarketData = (
@@ -93,6 +95,7 @@ export type GetSafeDineroMarketData = (
         nativeUSDPrice: BigNumber;
         baseTokenUSDPrice: BigNumber;
       })
+    | Result
 ) => DineroMarketData;
 
 type ProcessedMarketData = DineroMarketData;
@@ -223,3 +226,11 @@ export type TGetRepayFields = (
 export type TGetBorrowFields = (
   data: DineroMarketData
 ) => ReadonlyArray<IBorrowFormField>;
+
+export interface HandlerData {
+  functionName: string;
+  contractInterface: ContractInterface;
+  args: any[];
+  overrides: CallOverrides;
+  enabled: boolean;
+}

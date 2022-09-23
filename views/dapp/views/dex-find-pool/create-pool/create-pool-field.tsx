@@ -1,14 +1,11 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { ChangeEvent, FC, useCallback, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
 
-import { addAllowance } from '@/api/erc20';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
-import { useGetSigner, useIdAccount } from '@/hooks';
+import { useApprove, useIdAccount } from '@/hooks';
 import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
-import { coreActions } from '@/state/core/core.actions';
 import {
   capitalize,
   formatMoney,
@@ -17,7 +14,6 @@ import {
   showToast,
   showTXSuccessToast,
   throwError,
-  throwIfInvalidSigner,
 } from '@/utils';
 
 import { CreatePoolFieldProps } from '../dex-find-pool.types';
@@ -27,48 +23,32 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   register,
   setValue,
   needAllowance,
-  update,
   tokenBalance,
   getValues,
 }) => {
   const t = useTranslations();
-  const dispatch = useDispatch();
   const { chainId } = useIdAccount();
-  const { signer, account } = useGetSigner();
   const { address, symbol, decimals } = getValues()[name];
+  const { writeAsync: addAllowance } = useApprove(
+    address,
+    getInterestDexRouterAddress(chainId),
+    { enabled: needAllowance }
+  );
 
   const SVG = TOKENS_SVG_MAP[symbol] || TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
 
-  const approve = useCallback(
-    async (token: string) => {
-      const { validId, validSigner } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
+  const approve = useCallback(async () => {
+    try {
+      const tx = await addAllowance?.();
 
-      try {
-        const tx = await addAllowance(
-          validId,
-          validSigner,
-          account,
-          token,
-          getInterestDexRouterAddress(validId)
-        );
-
-        await showTXSuccessToast(tx, validId);
-      } catch (e) {
-        throwError('Failed to approve', e);
-      } finally {
-        await update();
-        dispatch(coreActions.updateNativeBalance());
-      }
-    },
-    [chainId, signer]
-  );
+      await showTXSuccessToast(tx, chainId);
+    } catch (e) {
+      throwError(t('error.generic'), e);
+    }
+  }, [chainId, addAllowance, chainId]);
 
   const handleApprove = () =>
-    showToast(approve(address), {
+    showToast(approve(), {
       loading: capitalize(t('common.approve', { isLoading: 1 })),
       success: capitalize(t('common.success')),
       error: prop('message'),

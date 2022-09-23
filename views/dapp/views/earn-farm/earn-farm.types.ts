@@ -1,3 +1,4 @@
+import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
 
 import { FixedPointMath } from '@/sdk';
@@ -54,4 +55,5 @@ export type GetSafeUserFarmData = (
         farmData: InterestViewEarn.UserFarmDataStructOutput;
         prices: BigNumber[];
       })
+    | Result
 ) => SafeUserFarmSummaryData;

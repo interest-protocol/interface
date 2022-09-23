@@ -1,16 +1,18 @@
-import { getInterestDEXViewPairData } from '@/api';
+import { useContractRead } from 'wagmi';
+
 import { DEFAULT_ACCOUNT } from '@/constants';
 import { useIdAccount } from '@/hooks/use-id-account';
-
-import { useCallContract } from '../use-call-contract';
+import InterestViewDexABI from '@/sdk/abi/interest-view-dex.abi.json';
+import { getInterestViewDexAddress } from '@/utils';
 
 export const useGetPairData = (pairAddress: string) => {
   const { chainId, account } = useIdAccount();
 
-  return useCallContract(
+  return useContractRead({
+    addressOrName: getInterestViewDexAddress(chainId),
+    contractInterface: InterestViewDexABI,
+    functionName: 'getPairData',
+    args: [pairAddress, account || DEFAULT_ACCOUNT],
     chainId,
-    getInterestDEXViewPairData,
-    [chainId, pairAddress, account || DEFAULT_ACCOUNT],
-    { refreshWhenHidden: false, revalidateOnFocus: false }
-  );
+  });
 };

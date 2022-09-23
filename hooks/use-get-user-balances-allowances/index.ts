@@ -1,22 +1,25 @@
-import { SWRConfiguration } from 'swr';
+import { useContractRead } from 'wagmi';
 
-import { getUserBalancesAndAllowances } from '@/api';
 import { DEFAULT_ACCOUNT } from '@/constants';
+import { UseContractArgs } from '@/interface';
+import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
+import { getInterestViewBalancesAddress } from '@/utils';
 
-import { useCallContract } from '../use-call-contract';
 import { useIdAccount } from './../use-id-account/index';
 
 export const useGetUserBalancesAndAllowances = (
   spender: string,
   tokens: Array<string>,
-  nextConfig: SWRConfiguration = {}
+  args = {} as UseContractArgs
 ) => {
   const { chainId, account } = useIdAccount();
 
-  return useCallContract(
+  return useContractRead({
+    addressOrName: getInterestViewBalancesAddress(chainId),
+    contractInterface: InterestViewBalancesABI,
+    functionName: 'getUserBalancesAndAllowances',
+    args: [account || DEFAULT_ACCOUNT, spender, tokens],
     chainId,
-    getUserBalancesAndAllowances,
-    [chainId, account || DEFAULT_ACCOUNT, spender, tokens, {}],
-    nextConfig
-  );
+    ...args,
+  });
 };

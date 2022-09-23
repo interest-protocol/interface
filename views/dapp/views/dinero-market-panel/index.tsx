@@ -5,9 +5,7 @@ import { pathOr, prop } from 'ramda';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
 
-import { addAllowance } from '@/api';
 import { Container, Tooltip } from '@/components';
 import { getDineroMarketSVGBySymbol } from '@/constants';
 import {
@@ -16,16 +14,15 @@ import {
   RoutesEnum,
 } from '@/constants';
 import { Box } from '@/elements';
-import { useGetDineroMarketDataV2, useGetSigner } from '@/hooks';
+import { useApprove } from '@/hooks';
+import { useGetDineroMarketDataV2 } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
-import { coreActions } from '@/state/core/core.actions';
 import {
   capitalize,
   showToast,
   showTXSuccessToast,
   throwContractCallError,
   throwError,
-  throwIfInvalidSigner,
 } from '@/utils';
 
 import GoBack from '../../components/go-back';
@@ -35,8 +32,8 @@ import LoanInfo from './components/loan-info';
 import MyOpenPosition from './components/my-open-position';
 import UserLTV from './components/user-ltv';
 import YourBalance from './components/your-balance';
-import * as api from './dinero-market.api';
 import { BORROW_DEFAULT_VALUES } from './dinero-market.data';
+import { useBorrow, useRepay } from './dinero-market.hooks';
 import { DineroMarketPanelProps, IBorrowForm } from './dinero-market.types';
 import {
   calculatePositionHealth,
@@ -53,13 +50,12 @@ import DineroMarketSwitch from './dinero-market-switch';
 const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
   const t = useTranslations();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { signer } = useGetSigner();
   const { chainId, account } = useIdAccount();
 
   const {
     data: marketRawData,
     error,
-    mutate,
+    refetch,
   } = useGetDineroMarketDataV2(address);
 
   const kind = pathOr(
@@ -77,7 +73,13 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     [marketRawData, address, chainId]
   );
 
-  const dispatch = useDispatch();
+  const { writeAsync: approve } = useApprove(
+    market.collateralAddress,
+    market.marketAddress,
+    {
+      enabled: market.collateralAllowance.isZero(),
+    }
+  );
 
   const form = useForm<IBorrowForm>({
     mode: 'onChange',
@@ -86,37 +88,20 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     resolver: yupResolver(borrowFormValidation),
   });
 
+  const { writeAsync: borrow } = useBorrow(market, account, form.control);
+  const { writeAsync: repay } = useRepay(market, account, form.control);
+
   const handleAddAllowance = useCallback(async () => {
     setIsSubmitting(true);
     try {
-      const { validId, validSigner } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
-
-      const tx = await addAllowance(
-        validId,
-        validSigner,
-        account,
-        market.collateralAddress,
-        market.marketAddress
-      );
-
-      await showTXSuccessToast(tx, validId);
+      const tx = await approve?.();
+      await showTXSuccessToast(tx, chainId);
     } catch (e) {
-      throwError('Something went wrong', e);
+      throwError(t('error.generic'), e);
     } finally {
       setIsSubmitting(false);
-      dispatch(coreActions.updateNativeBalance());
     }
-  }, [
-    account,
-    chainId,
-    market.marketAddress,
-    market.collateralAddress,
-    signer,
-  ]);
+  }, [approve, chainId]);
 
   const submitAllowance = () =>
     showToast(handleAddAllowance(), {
@@ -151,67 +136,32 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
   const handleRepay = useCallback(async () => {
     try {
       setIsSubmitting(true);
-      const collateral = +form.getValues('repay').collateral;
-      const loan = +form.getValues('repay').loan;
-      if ((!collateral || isNaN(+collateral)) && (!loan || isNaN(+loan)))
-        throwError('Form: Invalid Fields');
+      const tx = await repay?.();
 
-      const { validId, validSigner } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
-
-      await api.handleRepay(
-        validId,
-        validSigner,
-        market,
-        account,
-        collateral,
-        loan
-      );
+      await showTXSuccessToast(tx, chainId);
       form.reset();
     } catch (e: unknown) {
       throwContractCallError(e);
     } finally {
       setIsSubmitting(false);
-      await mutate();
-      dispatch(coreActions.updateNativeBalance());
+      await refetch();
     }
-  }, [chainId, account, form.getValues(), signer, market]);
+  }, [chainId, repay]);
 
   const handleBorrow = useCallback(async () => {
     setIsSubmitting(true);
     try {
-      const collateral = +form.getValues('borrow').collateral;
-      const loan = +form.getValues('borrow').loan;
+      const tx = await borrow?.();
 
-      if ((!collateral || isNaN(+collateral)) && (!loan || isNaN(+loan)))
-        throwError('Form: Invalid Fields');
-
-      const { validId, validSigner } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
-
-      await api.handleBorrow(
-        validId,
-        validSigner,
-        market,
-        account,
-        collateral,
-        loan
-      );
+      await showTXSuccessToast(tx, chainId);
       form.reset();
     } catch (e: unknown) {
       throwContractCallError(e);
     } finally {
       setIsSubmitting(false);
-      await mutate();
-      dispatch(coreActions.updateNativeBalance());
+      await refetch();
     }
-  }, [account, chainId, form.getValues(), signer, market]);
+  }, [borrow, chainId]);
 
   const onSubmitBorrow = async () => {
     if (isFormBorrowEmpty(form)) {
@@ -288,22 +238,19 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
             onSubmitRepay={onSubmitRepay}
             onSubmitBorrow={onSubmitBorrow}
             handleAddAllowance={submitAllowance}
-            isGettingData={market.collateralUSDPrice.isZero() && !error}
+            isGettingData={market.loading && !error}
           />
-          <UserLTV
-            isLoading={market.collateralUSDPrice.isZero() && !error}
-            ltv={currentLTV}
-          />
+          <UserLTV isLoading={market.loading && !error} ltv={currentLTV} />
           <LoanInfo
             kind={market.kind}
             loanInfoData={loanInfoData}
-            isLoading={market.collateralUSDPrice.isZero() && !error}
+            isLoading={market.loading && !error}
           />
           <MyOpenPosition
             myPositionData={myPositionData}
             symbols={[market.symbol0, market.symbol1]}
             collateralUSDPrice={market.collateralUSDPrice}
-            isLoading={market.collateralUSDPrice.isZero() && !error}
+            isLoading={market.loading && !error}
           />
           <YourBalance
             collateralName={market.name}
@@ -316,7 +263,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
               market.symbol0,
               market.symbol1
             )}
-            loading={market.collateralUSDPrice.isZero() && !error}
+            loading={market.loading && !error}
           />
         </Box>
       </Box>

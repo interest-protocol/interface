@@ -14,6 +14,7 @@ const RecommendedPools: FC<RecommendedPoolsProps> = ({ type }) => {
   const { currentLocale } = useLocale();
   const t = useTranslations();
   const chainId = useChainId();
+
   return (
     <Box pb="L" pt="M" mb="L" px="L" bg="foreground" borderRadius="M">
       <Typography variant="normal" width="100%" my="L">

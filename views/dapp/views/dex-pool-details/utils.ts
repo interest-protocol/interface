@@ -1,3 +1,4 @@
+import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
 import { ethers } from 'ethers';
 
@@ -64,7 +65,8 @@ export const processPairData = (
         allowances: BigNumber[];
         balances: BigNumber[];
       })
-    | undefined,
+    | undefined
+    | Result,
   nativeBalance: string
 ) => {
   const defaultERC20Metadata = {

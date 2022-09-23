@@ -1,3 +1,4 @@
+import { Result } from '@ethersproject/abi';
 import { JsonRpcSigner } from '@ethersproject/providers';
 import { BigNumber } from 'ethers';
 import { getAddress } from 'ethers/lib/utils';
@@ -18,6 +19,7 @@ export const processGetUserBalances = (
         balances: BigNumber[];
       })
     | undefined
+    | Result
 ) => {
   if (!data) return { recommendedData: [], localData: [] };
 
@@ -33,14 +35,14 @@ export const processGetUserBalances = (
       mailTokensLength === recommendedBalances.length
         ? mailTokens.map((x, index) => ({
             ...x,
-            balance: recommendedBalances[index],
+            balance: recommendedBalances[index] as BigNumber,
           }))
         : [],
     localData:
       localTokens.length === localBalances.length
         ? localTokens.map((x, index) => ({
             ...x,
-            balance: localBalances[index],
+            balance: localBalances[index] as BigNumber,
           }))
         : [],
   };

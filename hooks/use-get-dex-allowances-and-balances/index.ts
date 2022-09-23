@@ -1,47 +1,56 @@
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { getAddress } from 'ethers/lib/utils';
-import { useSelector } from 'react-redux';
+import { useAccount, useBalance } from 'wagmi';
 
-import { getNativeBalance } from '@/state/core/core.selectors';
-import {
-  getInterestDexRouterAddress,
-  isZeroAddress,
-  stringToBigNumber,
-} from '@/utils';
+import { ZERO_BIG_NUMBER } from '@/sdk';
+import { getInterestDexRouterAddress, isZeroAddress } from '@/utils';
 
 import { useGetUserBalancesAndAllowances } from '../use-get-user-balances-allowances';
+
+export interface BalanceData {
+  balance: BigNumber;
+  allowance: BigNumber;
+}
+
+export interface useGetDexAllowancesAndBalancesReturn {
+  balancesData: Record<string, BalanceData>;
+  balancesError: boolean;
+  loading: boolean;
+}
 
 export const useGetDexAllowancesAndBalances = (
   chainId: number,
   tokenA: string,
   tokenB: string
-) => {
+): useGetDexAllowancesAndBalancesReturn => {
   const filteredTokens = [tokenA, tokenB].filter((x) => !isZeroAddress(x));
 
-  const nativeBalance = useSelector(getNativeBalance) as string;
+  const { address } = useAccount();
+  const { data: balanceData } = useBalance({
+    addressOrName: address,
+    enabled: Boolean(address),
+    watch: true,
+  });
 
-  const nativeBalanceBN = stringToBigNumber(nativeBalance);
+  const nativeBalanceBN = balanceData ? balanceData.value : ZERO_BIG_NUMBER;
 
-  const { data, error, mutate } = useGetUserBalancesAndAllowances(
+  const { data, error } = useGetUserBalancesAndAllowances(
     getInterestDexRouterAddress(chainId),
     filteredTokens,
-    { revalidateOnFocus: false, refreshWhenHidden: false }
+    { watch: true }
   );
+
   if (error)
     return {
       balancesData: {},
-      balancesError: 'Failed to fetch balances',
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      mutate: () => Promise.resolve(),
+      balancesError: true,
       loading: false,
     };
 
   if (!data)
     return {
       balancesData: {},
-      balancesError: '',
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      mutate: () => Promise.resolve(),
+      balancesError: false,
       loading: true,
     };
 
@@ -58,8 +67,7 @@ export const useGetDexAllowancesAndBalances = (
           balance: nativeBalanceBN,
         },
       },
-      balancesError: '',
-      mutate: async () => void (await mutate()),
+      balancesError: false,
       loading: false,
     };
   if (data.balances.length == 2)
@@ -74,8 +82,7 @@ export const useGetDexAllowancesAndBalances = (
           allowance: data.allowances[1],
         },
       },
-      balancesError: '',
-      mutate: async () => void (await mutate()),
+      balancesError: false,
       loading: false,
     };
 
@@ -87,8 +94,7 @@ export const useGetDexAllowancesAndBalances = (
         balance: nativeBalanceBN,
       },
     },
-    balancesError: '',
-    mutate: async () => void (await mutate()),
+    balancesError: false,
     loading: false,
   };
 };

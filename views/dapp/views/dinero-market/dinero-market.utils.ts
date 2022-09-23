@@ -1,3 +1,4 @@
+import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
 import { isAddress } from 'ethers/lib/utils';
 import { always, cond, equals, ifElse, isEmpty, T } from 'ramda';
@@ -28,6 +29,7 @@ export const getSafeDineroMarketSummaryData = (
         lpMarkets: InterestViewDinero.DineroMarketSummaryStructOutput[];
       })
     | undefined
+    | Result
 ): ReadonlyArray<DineroMarketSummary> => {
   if (!chainId || !data) return [];
 

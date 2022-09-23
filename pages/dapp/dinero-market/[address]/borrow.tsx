@@ -1,4 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
+import { mergeDeepRight } from 'ramda';
 
 import { Loading } from '@/views/dapp/components';
 import DineroMarketMode from '@/views/dapp/views/dinero-market-panel';
@@ -21,16 +22,26 @@ const DineroMarketBorrowPage: NextPage<DineroMarketBorrowPageProps> = ({
 export const getServerSideProps: GetServerSideProps = async ({
   locale,
   params,
+  ...otherProps
 }) => {
   const { address } = params || {};
 
+  const [commonMessages, dineroMarketMessages] = await Promise.all([
+    import(`../../../../assets/messages/common/${locale}.json`),
+    import(`../../../../assets/messages/dinero-market/address/${locale}.json`),
+  ]);
+
+  const messages = mergeDeepRight(
+    commonMessages.default,
+    dineroMarketMessages.default
+  );
+
   return {
     props: {
+      ...otherProps,
       address,
-      messages: {
-        ...require(`../../../../assets/messages/dinero-market/address/${locale}.json`),
-        ...require(`../../../../assets/messages/common/${locale}.json`),
-      },
+      messages,
+      now: new Date().getTime(),
     },
   };
 };

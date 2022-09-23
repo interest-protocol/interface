@@ -1,16 +1,19 @@
-import { getUserBalances } from '@/api';
-import { DEFAULT_ACCOUNT } from '@/constants';
+import { useContractRead } from 'wagmi';
 
-import { useCallContract } from '../use-call-contract';
-import { useIdAccount } from './../use-id-account/index';
+import { DEFAULT_ACCOUNT } from '@/constants';
+import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
+import { getInterestViewBalancesAddress } from '@/utils';
+
+import { useIdAccount } from './../use-id-account';
 
 export const useGetUserBalances = (tokens: ReadonlyArray<string>) => {
   const { chainId, account } = useIdAccount();
 
-  return useCallContract(chainId, getUserBalances, [
+  return useContractRead({
+    addressOrName: getInterestViewBalancesAddress(chainId),
+    contractInterface: InterestViewBalancesABI,
+    functionName: 'getUserBalances',
+    args: [account || DEFAULT_ACCOUNT, tokens],
     chainId,
-    account || DEFAULT_ACCOUNT,
-    tokens,
-    {},
-  ]);
+  });
 };

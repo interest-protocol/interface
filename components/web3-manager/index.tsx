@@ -23,7 +23,7 @@ import {
   Web3ManagerWrapperProps,
 } from './web3-manager.type';
 
-const Content: FC<ContentProps> = ({ supportedChains, children }) => {
+const Content: FC<ContentProps> = ({ supportedChains = [], children }) => {
   const { error, isLoading } = useConnect();
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();

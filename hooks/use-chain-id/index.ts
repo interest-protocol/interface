@@ -1,14 +1,13 @@
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useNetwork } from 'wagmi';
 
 import { SUPPORTED_CHAINS_RECORD } from '@/constants';
-import { getChainId } from '@/state/core/core.selectors';
 
 export const useChainId = (): number => {
   const { pathname } = useRouter();
-  const chainId = useSelector(getChainId) as number;
+  const { chain } = useNetwork();
 
-  return SUPPORTED_CHAINS_RECORD[pathname].includes(chainId || -1)
-    ? chainId
+  return SUPPORTED_CHAINS_RECORD[pathname].includes(chain?.id || -1)
+    ? chain!.id
     : SUPPORTED_CHAINS_RECORD[pathname][0];
 };

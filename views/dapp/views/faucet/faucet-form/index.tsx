@@ -4,7 +4,6 @@ import { pathOr, prop } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
-import { useDispatch } from 'react-redux';
 import { v4 } from 'uuid';
 
 import { CopyToClipboard, Tooltip } from '@/components';
@@ -14,9 +13,8 @@ import {
   TOKENS_SVG_MAP,
 } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
-import { useGetSigner, useIdAccount } from '@/hooks';
+import { useIdAccount } from '@/hooks';
 import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
-import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import {
   capitalize,
@@ -26,15 +24,13 @@ import {
   showToast,
   showTXSuccessToast,
   throwError,
-  throwIfInvalidSigner,
 } from '@/utils';
 import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
-import { FAUCET_TOKEN_MAX_AMOUNT } from '../faucet.data';
 import { FaucetFormProps, IFaucetForm } from '../faucet.types';
 import InputBalance from '../input-balance';
-import { getTokenMinter, mint } from '../utilts';
 import CurrencyIdentifier from './faucet-currency-identifier';
+import { useMint } from './faucet-form.hooks';
 import FaucetSelectCurrency from './faucet-select-currency';
 
 const FaucetForm: FC<FaucetFormProps> = ({
@@ -43,10 +39,8 @@ const FaucetForm: FC<FaucetFormProps> = ({
   removeLocalToken,
 }) => {
   const t = useTranslations();
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { chainId, account } = useIdAccount();
-  const { signer } = useGetSigner();
 
   const { register, getValues, setValue, control } = useForm<IFaucetForm>({
     defaultValues: {
@@ -54,6 +48,8 @@ const FaucetForm: FC<FaucetFormProps> = ({
       amount: 0,
     },
   });
+
+  const { writeAsync: mint } = useMint(chainId, account, control);
 
   const onSelectCurrency = (token: string) => {
     setValue('token', token);
@@ -70,37 +66,15 @@ const FaucetForm: FC<FaucetFormProps> = ({
       if (!amount || !isValidAccount(token))
         throwError(capitalize(t('common.error')));
 
-      const { validSigner, validId } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
+      const tx = await mint?.();
 
-      const maxAmount = FAUCET_TOKEN_MAX_AMOUNT[validId][token];
-
-      const safeAmount = amount > maxAmount ? maxAmount : amount;
-
-      const decimals = pathOr(
-        DEFAULT_ERC_20_DECIMALS,
-        [validId, safeGetAddress(token), 'decimals'],
-        ERC_20_DATA
-      );
-
-      const tx = await mint(
-        validSigner,
-        getTokenMinter(validId, token),
-        account,
-        FixedPointMath.toBigNumber(safeAmount, decimals)
-      );
-
-      await showTXSuccessToast(tx, validId);
+      await showTXSuccessToast(tx, chainId);
     } catch (error) {
-      throwError('Something went wrong', error);
+      throwError(t('error.generic'), error);
     } finally {
       setLoading(false);
-      dispatch(coreActions.updateNativeBalance());
     }
-  }, [chainId, signer, account]);
+  }, [chainId, account, mint]);
 
   const onMint = () =>
     showToast(handleOnMint(), {

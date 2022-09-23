@@ -18,7 +18,6 @@ const CreatePool: FC<CreatePoolProps> = ({
   register,
   needAllowance,
   setValue,
-  update,
   tokenBalances,
   getValues,
 }) => {
@@ -52,7 +51,6 @@ const CreatePool: FC<CreatePoolProps> = ({
       {TOKEN_NAMES.map((name, index) => (
         <CreatePoolField
           getValues={getValues}
-          update={update}
           setValue={setValue}
           key={v4()}
           name={name}

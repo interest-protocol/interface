@@ -1,4 +1,5 @@
 import { GetStaticProps, NextPage } from 'next';
+import { mergeDeepRight } from 'ramda';
 
 import Faucet from '@/views/dapp/views/faucet';
 
@@ -7,14 +8,24 @@ const FaucetPage: NextPage = () => <Faucet />;
 export const getStaticProps: GetStaticProps = async ({
   locale,
   ...otherProps
-}) => ({
-  props: {
-    ...otherProps,
-    messages: {
-      ...require(`../../../assets/messages/faucet/${locale}.json`),
-      ...require(`../../../assets/messages/common/${locale}.json`),
+}) => {
+  const [commonMessages, faucetMessages] = await Promise.all([
+    import(`../../../assets/messages/common/${locale}.json`),
+    import(`../../../assets/messages/faucet/${locale}.json`),
+  ]);
+
+  const messages = mergeDeepRight(
+    commonMessages.default,
+    faucetMessages.default
+  );
+
+  return {
+    props: {
+      ...otherProps,
+      messages,
+      now: new Date().getTime(),
     },
-  },
-});
+  };
+};
 
 export default FaucetPage;

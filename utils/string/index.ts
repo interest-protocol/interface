@@ -105,15 +105,6 @@ export const toSignificant = (
 ): string =>
   new Fraction(x, denominator).toSignificant(decimalHouses, format, rounding);
 
-export const makeSWRKey = (
-  args: ReadonlyArray<unknown>,
-  methodName: string
-): string =>
-  args
-    .map(ifElse(isNil, always(''), toString))
-    .concat([methodName])
-    .join('|');
-
 export const parseInputEventToNumberString = (
   event: ChangeEvent<HTMLInputElement>,
   max: number = MAX_NUMBER_INPUT_VALUE

@@ -31,7 +31,6 @@ export interface SwapButtonProps {
   account: string;
   chainId: number;
   localSettings: LocalSwapSettings;
-  updateBalances: () => Promise<void>;
   parsedTokenInBalance: BigNumber;
   swapBase: string | null;
   needsApproval: boolean;
@@ -69,4 +68,31 @@ export interface SwapMessageProps {
   color?: string;
   message: string;
   Icon: FC<SVGAttributes<SVGSVGElement>>;
+}
+
+export interface UseSwapArgs {
+  localSettings: LocalSwapSettings;
+  parsedTokenInBalance: SwapButtonProps['parsedTokenInBalance'];
+  swapBase: SwapButtonProps['swapBase'];
+  tokenIn: SwapFormTokenData;
+  tokenOut: SwapFormTokenData;
+  account: string;
+  chainId: number;
+  needsApproval: boolean;
+}
+
+export interface UseWETHDepositArgs {
+  chainId: number;
+  tokenIn: SwapFormTokenData;
+  tokenOut: SwapFormTokenData;
+  parsedTokenInBalance: SwapButtonProps['parsedTokenInBalance'];
+  needsApproval: boolean;
+}
+
+export interface UseWETHWithdrawArgs {
+  chainId: number;
+  tokenIn: SwapFormTokenData;
+  tokenOut: SwapFormTokenData;
+  parsedTokenInBalance: SwapButtonProps['parsedTokenInBalance'];
+  needsApproval: boolean;
 }

@@ -1,9 +1,6 @@
 import { BigNumber } from 'ethers';
 import { ReactNode } from 'react';
 import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
-import { KeyedMutator } from 'swr';
-
-import { PairMetadataStructOutput } from '../../../../../../types/ethers-contracts/InterestViewDexAbi';
 
 interface TokenData {
   symbol: string;
@@ -19,13 +16,9 @@ export interface RemoveLiquidityCardProps {
   lpAllowance: BigNumber;
   pairAddress: string;
   isFetchingInitialData: boolean;
-  mutate: KeyedMutator<
-    [PairMetadataStructOutput, BigNumber[], BigNumber[]] & {
-      pairMetadata: PairMetadataStructOutput;
-      allowances: BigNumber[];
-      balances: BigNumber[];
-    }
-  >;
+  chainId: number;
+  refetch: () => Promise<void>;
+  account: string;
 }
 
 export interface IRemoveLiquidityForm {
@@ -79,4 +72,13 @@ export interface RemoveLiquidityManagerProps {
   token0Decimals: number;
   token1Decimals: number;
   chainId: number;
+}
+
+export interface UseRemoveLiquidityArgs {
+  tokens: [TokenData, TokenData];
+  control: Control<IRemoveLiquidityForm>;
+  lpBalance: BigNumber;
+  chainId: number;
+  account: string;
+  isStable: boolean;
 }
