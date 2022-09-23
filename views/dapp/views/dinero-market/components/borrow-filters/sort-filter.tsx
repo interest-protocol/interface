@@ -52,11 +52,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
           bgSelected="accentAlternativeBackground"
           emptyMessage="Not found Tokens"
           suffix={
-            <Box
-              ml="L"
-              width="0.6rem"
-              display={['none', 'none', 'none', 'block']}
-            >
+            <Box ml="L" width="0.6rem">
               <ArrowSVG width="100%" />
             </Box>
           }
