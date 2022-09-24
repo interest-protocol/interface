@@ -66,9 +66,11 @@ export const isFormRepayEmpty = (form: UseFormReturn<IBorrowForm>) =>
 const makeSymbol = (
   symbol0: string,
   symbol1: string,
-  kind: DineroMarketKind
+  kind: DineroMarketKind,
+  short = false
 ) => {
-  if (kind === DineroMarketKind.LpFreeMarket) return `${symbol0}-${symbol1}`;
+  if (kind === DineroMarketKind.LpFreeMarket)
+    return short ? 'LP' : `${symbol0}-${symbol1}`;
 
   return `${symbol0}`;
 };
@@ -639,7 +641,12 @@ export const getMyPositionData: TGetMyPositionData = (market) => {
       ).toSignificant(4)
     );
 
-    const symbol = makeSymbol(market.symbol0, market.symbol1, market.kind);
+    const symbol = makeSymbol(
+      market.symbol0,
+      market.symbol1,
+      market.kind,
+      true
+    );
 
     return [
       `${formatMoney(

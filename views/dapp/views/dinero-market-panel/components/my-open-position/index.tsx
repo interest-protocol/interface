@@ -29,15 +29,20 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
         {t('dineroMarketAddress.positionTitle')}:
       </Typography>
       {MY_POSITION.map(({ name, tip }, i) => (
-        <Box my="L" key={v4()} display="flex" justifyContent="space-between">
+        <Box
+          my="L"
+          key={v4()}
+          display={['block', 'block', 'block', 'flex']}
+          justifyContent={['unset', 'unset', 'unset', 'space-between']}
+        >
           <Typography variant="normal" display="flex" alignItems="center">
             <Box
               mr="M"
               as="span"
               width="1rem"
               cursor="help"
-              data-tip={capitalize(t(tip))}
               display="inline-block"
+              data-tip={capitalize(t(tip))}
             >
               <InfoSVG width="100%" />
             </Box>
@@ -46,9 +51,10 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
           <Typography
             variant="normal"
             overflow="hidden"
-            textAlign="right"
-            whiteSpace="nowrap"
             color="textSecondary"
+            ml={['XL', 'XL', 'XL', 'L']}
+            mt={['M', 'M', 'M', 'unset']}
+            textAlign={['unset', 'unset', 'unset', 'right']}
           >
             {myPositionData[i]}
           </Typography>
