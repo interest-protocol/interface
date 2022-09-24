@@ -9,6 +9,7 @@ export { default as BinanceTestSVG } from './binance-test';
 export { default as BitcoinSVG } from './bitcoin';
 export { default as BNBSVG } from './bnb-coin';
 export { default as BRFlagSVG } from './br-flag';
+export { default as BugSVG } from './bug';
 export { default as ChainLinkSVG } from './chain-link';
 export { default as CogsSVG } from './cogs';
 export { default as CoinBaseSVG } from './coin-base';
