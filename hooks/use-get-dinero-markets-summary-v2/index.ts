@@ -1,10 +1,9 @@
-import { useContractRead } from 'wagmi';
-
 import { DEFAULT_ACCOUNT } from '@/constants';
 import { DINERO_MARKET_SUMMARY_CALL_MAP } from '@/constants/dinero-markets';
 import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
 import { getInterestViewDineroV2Address } from '@/utils';
 
+import { useContractRead } from '../use-contract-read';
 import { useIdAccount } from './../use-id-account';
 
 export const useGetDineroMarketsSummaryV2 = () => {
@@ -22,6 +21,5 @@ export const useGetDineroMarketsSummaryV2 = () => {
       callMap.erc20Markets,
       callMap.lpFreeMarkets,
     ],
-    chainId,
   });
 };

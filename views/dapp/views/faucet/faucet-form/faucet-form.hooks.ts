@@ -10,8 +10,9 @@ import MintABI from '@/sdk/abi/mint.abi.json';
 import MintOldABI from '@/sdk/abi/mint-old.abi.json';
 import { isValidAccount, safeGetAddress } from '@/utils';
 import { FAUCET_TOKEN_MAX_AMOUNT } from '@/views/dapp/views/faucet/faucet.data';
-import { IFaucetForm } from '@/views/dapp/views/faucet/faucet.types';
 import { getTokenMinter } from '@/views/dapp/views/faucet/utilts';
+
+import { IFaucetForm } from './faucet-form.types';
 
 const MINT_FN_RECORD = {
   [getAddress(CONTRACTS.DINERO_FAUCET[CHAIN_ID.BNB_TEST_NET])]: true,
@@ -23,7 +24,7 @@ export const useMint = (
   account: string,
   control: Control<IFaucetForm>
 ) => {
-  const amount = useDebounce(useWatch({ control, name: 'amount' }), 500);
+  const amount = useDebounce(useWatch({ control, name: 'amount' }) || 0, 500);
   const token = useDebounce(useWatch({ control, name: 'token' }), 500);
 
   const maxAmount = FAUCET_TOKEN_MAX_AMOUNT[chainId][token];

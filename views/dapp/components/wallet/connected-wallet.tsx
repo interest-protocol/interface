@@ -15,7 +15,6 @@ const ConnectedWallet: FC = () => {
   const { address, isConnected } = useAccount();
   const { data, isError, isLoading } = useBalance({
     addressOrName: address,
-    watch: true,
   });
   const toggleModal = () => {
     setShowModal(not);

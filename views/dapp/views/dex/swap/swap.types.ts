@@ -35,6 +35,7 @@ export interface SwapButtonProps {
   swapBase: string | null;
   needsApproval: boolean;
   control: Control<ISwapForm>;
+  refetch: () => Promise<void>;
 }
 
 export interface SwapManagerProps {

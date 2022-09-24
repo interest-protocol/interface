@@ -1,12 +1,16 @@
 import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { useBalance } from 'wagmi';
 
 import { Container } from '@/components';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useGetPairData, useIdAccount, useLocale } from '@/hooks';
+import {
+  useGetPairData,
+  useIdAccount,
+  useLocale,
+  useNativeBalance,
+} from '@/hooks';
 import { TOKEN_SYMBOL, ZERO_BIG_NUMBER } from '@/sdk';
 import { FixedPointMath } from '@/sdk';
 import { TimesSVG } from '@/svg';
@@ -32,13 +36,11 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
   const { currentLocale } = useLocale();
   const { error, data, refetch } = useGetPairData(pairAddress);
   const { chainId, account } = useIdAccount();
-  const { data: balanceData } = useBalance({
-    addressOrName: account,
-    watch: true,
-  });
+  const { data: balanceData, refetch: refetchNativeBalance } =
+    useNativeBalance();
 
   const nativeBalance = balanceData
-    ? balanceData.value.toString()
+    ? balanceData.toString()
     : ZERO_BIG_NUMBER.toString();
 
   const processedData = useMemo(
@@ -184,9 +186,9 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
               address: processedData.token1,
             },
           ]}
-          refetch={async () => {
-            await refetch();
-          }}
+          refetch={async () =>
+            void (await Promise.all([refetch, refetchNativeBalance]))
+          }
         />
         <RemoveLiquidityCard
           chainId={chainId}
@@ -236,9 +238,9 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
               decimals: processedData.token1Metadata.decimals.toNumber(),
             },
           ]}
-          refetch={async () => {
-            await refetch();
-          }}
+          refetch={async () =>
+            void (await Promise.all([refetch, refetchNativeBalance]))
+          }
         />
       </Box>
     </Container>

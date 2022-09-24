@@ -16,10 +16,16 @@ const { provider } = configureChains(defaultChains, [
   jsonRpcProvider({
     rpc: (_chain) => {
       if (_chain.id === bnbTestNet.id)
-        return { http: RPC_URL[CHAIN_ID.BNB_TEST_NET] };
+        return {
+          http: RPC_URL[CHAIN_ID.BNB_TEST_NET],
+          webSocket: process.env.NEXT_PUBLIC_BSC_TEST_NET_WEB_SOCKET,
+        };
 
       if (_chain.id === chain.rinkeby.id)
-        return { http: RPC_URL[CHAIN_ID.RINKEBY] };
+        return {
+          http: RPC_URL[CHAIN_ID.RINKEBY],
+          webSocket: process.env.NEXT_PUBLIC_RINKEY_WEB_SOCKET,
+        };
       return null;
     },
   }),

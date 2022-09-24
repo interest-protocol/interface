@@ -7,7 +7,7 @@ import { Box, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { isValidAccount, safeGetAddress } from '@/utils';
 
-import { CurrencyIdentifierProps } from '../faucet.types';
+import { CurrencyIdentifierProps } from './faucet-form.types';
 
 const CurrencyIdentifier: FC<CurrencyIdentifierProps> = ({
   tokens,

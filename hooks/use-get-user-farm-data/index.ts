@@ -1,6 +1,5 @@
 import { ethers } from 'ethers';
 import { path } from 'ramda';
-import { useContractRead } from 'wagmi';
 
 import {
   BASE_TOKENS_FARM_MAP,
@@ -10,6 +9,7 @@ import {
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import { getInterestViewEarnAddress } from '@/utils';
 
+import { useContractRead } from '../use-contract-read';
 import { useIdAccount } from '../use-id-account';
 
 export const useGetUserFarmData = (pairAddress: string) => {
@@ -30,6 +30,5 @@ export const useGetUserFarmData = (pairAddress: string) => {
     contractInterface: InterestViewEarnABI,
     functionName: 'getUserFarmData',
     args: [pairAddress, account || DEFAULT_ACCOUNT, poolId, baseTokens],
-    chainId,
   });
 };

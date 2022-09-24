@@ -4,7 +4,6 @@ import { useTranslations } from 'next-intl';
 import { pathOr, prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { useBalance } from 'wagmi';
 
 import { isInterestDexPair } from '@/api/interest-dex-factory';
 import { Container } from '@/components';
@@ -76,15 +75,12 @@ const FindPoolView: FC = () => {
   const tokenBAddress = useWatch({ control, name: 'tokenB.address' });
   const isStable = useWatch({ control, name: 'isStable' });
 
-  const { balancesError, balancesData } = useGetDexAllowancesAndBalances(
-    chainId,
-    tokenAAddress || ZERO_ADDRESS,
-    tokenBAddress || ZERO_ADDRESS
-  );
-
-  const { data: balanceData } = useBalance({ addressOrName: account });
-
-  const nativeBalance = balanceData ? balanceData.value : ZERO_BIG_NUMBER;
+  const { balancesError, balancesData, nativeBalance } =
+    useGetDexAllowancesAndBalances(
+      chainId,
+      tokenAAddress || ZERO_ADDRESS,
+      tokenBAddress || ZERO_ADDRESS
+    );
 
   const { writeAsync: addLiquidity } = useAddNativeTokenLiquidity({
     control,

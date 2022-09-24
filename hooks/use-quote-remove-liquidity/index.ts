@@ -1,10 +1,10 @@
 import { BigNumber } from 'ethers';
-import { useContractRead } from 'wagmi';
 
 import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
 import { getInterestDexRouterAddress } from '@/utils';
 
 import { useChainId } from '../use-chain-id';
+import { useContractRead } from '../use-contract-read';
 
 export const useQuoteRemoveLiquidity = (
   token0: string,
@@ -19,6 +19,5 @@ export const useQuoteRemoveLiquidity = (
     contractInterface: InterestDexRouterABI,
     functionName: 'quoteRemoveLiquidity',
     args: [token0, token1, isStable, amount],
-    chainId,
   });
 };

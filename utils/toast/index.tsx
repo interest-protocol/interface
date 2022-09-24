@@ -20,9 +20,11 @@ export const showTXSuccessToast = async (
     <a
       target="__black"
       rel="noreferrer nofollow"
-      href={`${explorer ? explorer.default : ''}/tx/${receipt.transactionHash}`}
+      href={`${explorer ? explorer.default.url : ''}/tx/${
+        receipt.transactionHash
+      }`}
     >
-      Check on Explorer
+      {explorer?.default.name || 'Check Explorer'}
     </a>
   );
 };

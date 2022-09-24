@@ -77,7 +77,7 @@ const Swap: FC = () => {
   const tokenInAddress = useWatch({ control, name: 'tokenIn.address' });
   const tokenOutAddress = useWatch({ control, name: 'tokenOut.address' });
 
-  const { balancesError, balancesData, loading } =
+  const { balancesError, balancesData, loading, refetch } =
     useGetDexAllowancesAndBalances(
       chainId,
       tokenInAddress || ZERO_ADDRESS,
@@ -316,6 +316,7 @@ const Swap: FC = () => {
             [getAddress(tokenInAddress), 'balance'],
             balancesData
           )}
+          refetch={refetch}
         />
       </Box>
       {localSettings.autoFetch && (

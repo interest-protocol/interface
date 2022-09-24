@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import { useTranslations } from 'next-intl';
-import { pathOr, prop } from 'ramda';
-import { FC, useCallback, useState } from 'react';
+import { pathOr } from 'ramda';
+import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
@@ -12,34 +12,26 @@ import {
   ERC_20_DATA,
   TOKENS_SVG_MAP,
 } from '@/constants';
-import { Box, Button, Typography } from '@/elements';
+import { Box, Typography } from '@/elements';
 import { useIdAccount } from '@/hooks';
 import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
-import { LoadingSVG, TimesSVG } from '@/svg';
-import {
-  capitalize,
-  formatMoney,
-  isValidAccount,
-  safeGetAddress,
-  showToast,
-  showTXSuccessToast,
-  throwError,
-} from '@/utils';
+import { TimesSVG } from '@/svg';
+import { formatMoney, safeGetAddress } from '@/utils';
 import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
-import { FaucetFormProps, IFaucetForm } from '../faucet.types';
 import InputBalance from '../input-balance';
 import CurrencyIdentifier from './faucet-currency-identifier';
-import { useMint } from './faucet-form.hooks';
+import { FaucetFormProps, IFaucetForm } from './faucet-form.types';
 import FaucetSelectCurrency from './faucet-select-currency';
+import MintButton from './mint-button';
 
 const FaucetForm: FC<FaucetFormProps> = ({
   tokens,
   isLoadingData,
   removeLocalToken,
+  refetch,
 }) => {
   const t = useTranslations();
-  const [loading, setLoading] = useState(false);
   const { chainId, account } = useIdAccount();
 
   const { register, getValues, setValue, control } = useForm<IFaucetForm>({
@@ -49,39 +41,10 @@ const FaucetForm: FC<FaucetFormProps> = ({
     },
   });
 
-  const { writeAsync: mint } = useMint(chainId, account, control);
-
   const onSelectCurrency = (token: string) => {
     setValue('token', token);
     setValue('amount', 0);
   };
-
-  const handleOnMint = useCallback(async () => {
-    try {
-      setLoading(true);
-
-      const amount = getValues('amount');
-      const token = getValues('token');
-
-      if (!amount || !isValidAccount(token))
-        throwError(capitalize(t('common.error')));
-
-      const tx = await mint?.();
-
-      await showTXSuccessToast(tx, chainId);
-    } catch (error) {
-      throwError(t('error.generic'), error);
-    } finally {
-      setLoading(false);
-    }
-  }, [chainId, account, mint]);
-
-  const onMint = () =>
-    showToast(handleOnMint(), {
-      loading: `${t('faucet.button', { isLoading: 1 })}`,
-      success: capitalize(t('common.success')),
-      error: prop('message'),
-    });
 
   return (
     <>
@@ -126,33 +89,13 @@ const FaucetForm: FC<FaucetFormProps> = ({
           />
           <Box display="flex" justifyContent="center">
             {account ? (
-              <Button
-                width="100%"
-                onClick={onMint}
-                variant="primary"
-                disabled={loading}
-                hover={{ bg: 'accentAlternativeActive' }}
-                bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
-              >
-                {loading ? (
-                  <Box as="span" display="flex" justifyContent="center">
-                    <Box as="span" display="inline-block" width="1rem">
-                      <LoadingSVG width="100%" />
-                    </Box>
-                    <Typography
-                      as="span"
-                      variant="normal"
-                      ml="M"
-                      fontSize="S"
-                      textTransform="capitalize"
-                    >
-                      {t('faucet.button', { isLoading: 1 })}
-                    </Typography>
-                  </Box>
-                ) : (
-                  t('faucet.button', { isLoading: 0 })
-                )}
-              </Button>
+              <MintButton
+                control={control}
+                chainId={chainId}
+                account={account}
+                getValues={getValues}
+                refetch={refetch}
+              />
             ) : (
               <ConnectWallet />
             )}

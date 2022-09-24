@@ -35,11 +35,7 @@ const SwapViewButton: FC<SwapViewButtonProps> = ({
     disabled={!!loadingText || disabled}
     hover={{ bg: 'accentAlternativeActive' }}
     cursor={loadingText ? 'progress' : disabled ? 'not-allowed' : 'pointer'}
-    bg={
-      !!loadingText || disabled
-        ? 'accentAlternativeActive'
-        : 'accentAlternative'
-    }
+    bg={!!loadingText || disabled ? 'disabled' : 'accentAlternative'}
   >
     {loadingText ? (
       <Box as="span" display="flex" justifyContent="center">
@@ -69,6 +65,7 @@ const SwapButton: FC<SwapButtonProps> = ({
   parsedTokenInBalance,
   localSettings,
   control,
+  refetch,
 }) => {
   const t = useTranslations();
   const [buttonLoadingText, setButtonLoadingText] =
@@ -117,6 +114,9 @@ const SwapButton: FC<SwapButtonProps> = ({
       const tx = await approve?.();
 
       await showTXSuccessToast(tx, chainId);
+
+      if (tx) await tx.wait(5);
+      await refetch();
     } catch (e) {
       throwError(t('error.generic'), e);
     } finally {
@@ -137,6 +137,8 @@ const SwapButton: FC<SwapButtonProps> = ({
     try {
       const tx = await swapTokens?.();
       await showTXSuccessToast(tx, chainId);
+      if (tx) await tx.wait(5);
+      await refetch();
     } catch {
       throwError(t('dexSwap.swapMessage.error'));
     } finally {
@@ -166,6 +168,8 @@ const SwapButton: FC<SwapButtonProps> = ({
       const tx = await wethDeposit?.();
 
       await showTXSuccessToast(tx, chainId);
+      if (tx) await tx.wait(5);
+      await refetch();
     } catch (e) {
       throwError(t('dexSwap.error.wethDeposit'));
     } finally {
@@ -198,6 +202,8 @@ const SwapButton: FC<SwapButtonProps> = ({
       const tx = await wethWithdraw?.();
 
       await showTXSuccessToast(tx, chainId);
+      if (tx) await tx.wait(5);
+      await refetch();
     } catch {
       throwError(t('dexSwap.error.wethWithdraw'));
     } finally {
@@ -259,11 +265,38 @@ const SwapButton: FC<SwapButtonProps> = ({
     return buttonLoadingText as string;
   };
 
+  const handleIsDisabled = () => {
+    if (
+      (disabled || isNaN(+tokenIn.value) || +tokenIn.value === 0) &&
+      !needsApproval
+    )
+      return true;
+
+    if (fetchingAmount || fetchingBaseData || fetchingAmount) return true;
+
+    if (
+      isZeroAddress(tokenIn.address) &&
+      isSameAddress(tokenOut.address, getWETHAddress(chainId))
+    )
+      return !wethDeposit;
+
+    if (
+      isZeroAddress(tokenOut.address) &&
+      isSameAddress(tokenIn.address, getWETHAddress(chainId))
+    )
+      return !wethWithdraw;
+
+    if (!isZeroAddress(tokenIn.address) && !isZeroAddress(tokenOut.address))
+      return !swapTokens;
+
+    return false;
+  };
+
   return (
     <WalletGuardButton>
       <SwapViewButton
         {...handleProps()}
-        disabled={disabled || isNaN(+tokenIn.value) || +tokenIn.value === 0}
+        disabled={handleIsDisabled()}
         loadingText={capitalize(handleLoadingText())}
       />
     </WalletGuardButton>
