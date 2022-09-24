@@ -29,26 +29,32 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
         {t('dineroMarketAddress.positionTitle')}:
       </Typography>
       {MY_POSITION.map(({ name, tip }, i) => (
-        <Box my="L" key={v4()} display="flex" justifyContent="space-between">
+        <Box
+          my="L"
+          key={v4()}
+          display={['block', 'flex']}
+          justifyContent={['unset', 'space-between']}
+        >
           <Typography variant="normal" display="flex" alignItems="center">
             <Box
               mr="M"
               as="span"
               width="1rem"
               cursor="help"
-              data-tip={capitalize(t(tip))}
               display="inline-block"
+              data-tip={capitalize(t(tip))}
             >
               <InfoSVG width="100%" />
             </Box>
             {capitalize(t(name))}
           </Typography>
           <Typography
+            ml={['XL', 'L']}
             variant="normal"
             overflow="hidden"
-            textAlign="right"
-            whiteSpace="nowrap"
+            mt={['M', 'unset']}
             color="textSecondary"
+            textAlign={['left', 'right']}
           >
             {myPositionData[i]}
           </Typography>
