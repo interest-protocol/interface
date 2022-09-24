@@ -12,10 +12,8 @@ import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {
-<<<<<<< HEAD
   const t = useTranslations();
-=======
->>>>>>> 0e0825b (🔥 feat: team section (#129))
+
   const { pathname } = useRouter();
 
   return (
@@ -110,14 +108,9 @@ const Header: FC = () => {
                 : 'inherit'
             }
             hover={{ color: 'accentActive' }}
-<<<<<<< HEAD
             textTransform="capitalize"
           >
             {t('common.borrow')}
-=======
-          >
-            Borrow
->>>>>>> 0e0825b (🔥 feat: team section (#129))
           </Typography>
         </Link>
       </Box>

@@ -57,30 +57,6 @@ export const INIT_CODE_HASH = {
     '0x961ef516c3b1b47b938ac73de08a405baa2cff1017c19e16169d8e55c438d3d4',
 };
 
-<<<<<<< HEAD
-=======
-export const MAIL_MARKET_CONTRACTS_MAP = {
-  [CHAIN_ID.RINKEBY]: {
-    [TOKEN_SYMBOL.UNI]: {
-      marketAddress: ethers.utils.getAddress(
-        '0xAF2060F90FFa67e4597cEb8170Cf2cc2CAA523f4'
-      ),
-      riskyTokenAddress: ethers.utils.getAddress(
-        '0xc17A30Db808A7926E76F5AC81352A214FfFDC334'
-      ),
-    },
-    [TOKEN_SYMBOL.APE]: {
-      marketAddress: ethers.utils.getAddress(
-        '0x17a8a0b27788755b46db9d855a37215f7db03a65'
-      ),
-      riskyTokenAddress: ethers.utils.getAddress(
-        '0xBAe5a5b6ecF2de7424eA8723e3be2A692dCB0637'
-      ),
-    },
-  },
-};
-
->>>>>>> 0e0825b (🔥 feat: team section (#129))
 export const CONTRACTS = {
   DINERO_FAUCET: {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
