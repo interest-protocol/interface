@@ -51,7 +51,7 @@ const Content: FC<ContentProps> = ({ supportedChains = [], children }) => {
         lines={[t('web3Manager.advice')]}
         buttons={supportedChains.map((id) => ({
           text: t('web3Manager.button', {
-            chainName: CHAINS[id].chainName,
+            chainName: CHAINS[id].name,
           }),
           action: () => switchNetwork?.(id),
         }))}

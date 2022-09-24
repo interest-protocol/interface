@@ -14,13 +14,13 @@ export const showTXSuccessToast = async (
   if (!tx) return;
   const receipt = await tx.wait(2);
 
-  const explorer = CHAINS[chainId].blockExplorerUrls;
+  const explorer = CHAINS[chainId].blockExplorers;
 
   toast(
     <a
       target="__black"
       rel="noreferrer nofollow"
-      href={`${explorer ? explorer[0] : ''}/tx/${receipt.transactionHash}`}
+      href={`${explorer ? explorer.default : ''}/tx/${receipt.transactionHash}`}
     >
       Check on Explorer
     </a>
