@@ -14,6 +14,7 @@ export const getStaticProps: GetStaticProps = async ({
       ...require(`../../../assets/messages/faucet/${locale}.json`),
       ...require(`../../../assets/messages/common/${locale}.json`),
     },
+    pageTitle: 'faucet.pageTitle',
   },
 });
 

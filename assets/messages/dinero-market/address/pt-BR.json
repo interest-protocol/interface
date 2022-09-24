@@ -1,5 +1,7 @@
 {
   "dineroMarketAddress": {
+    "pageTitleBorrow": "Peça Dinero emprestado",
+    "pageTitleRepay": "Pague o seu empréstimo",
     "borrowTitle": "Pedir Emprestado",
     "repayTitle": "Reembolsar",
     "borrowCollateralLabel": "Deposite Tokens",

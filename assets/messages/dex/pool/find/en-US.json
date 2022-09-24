@@ -1,5 +1,6 @@
 {
   "dexPoolFind": {
+    "pageTitle": "Find Pool",
     "title": "Find a Pool",
     "button": "{isLoading, plural, =1 {Finding...} other {Find and Enter}}",
     "buttonSameToken": "Choose different tokens",

@@ -14,6 +14,7 @@ export const getStaticProps: GetStaticProps = async ({
       ...require(`../../../assets/messages/dinero-market/${locale}.json`),
       ...require(`../../../assets/messages/common/${locale}.json`),
     },
+    pageTitle: 'dineroMarket.pageTitle',
   },
 });
 

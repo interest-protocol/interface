@@ -1,5 +1,6 @@
 {
   "faucet": {
+    "pageTitle": "Faucet",
     "firstSectionTitle": "Tokens recomendados",
     "secondSectionTitle": "Meus tokens",
     "amountInput": "Digite o montante",

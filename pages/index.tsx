@@ -14,6 +14,7 @@ export const getStaticProps: GetStaticProps = async ({
       ...require(`../assets/messages/landing-page/${locale}.json`),
       ...require(`../assets/messages/common/${locale}.json`),
     },
+    pageTitle: 'landingPage.pageTitle',
   },
 });
 
