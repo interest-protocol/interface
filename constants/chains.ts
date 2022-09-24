@@ -41,12 +41,14 @@ export const RPC_URL = {
 export const CHAINS = {
   [CHAIN_ID.RINKEBY]: rinkeby,
   [CHAIN_ID.BNB_TEST_NET]: {
-    chainId: CHAIN_ID.BNB_TEST_NET,
+    id: CHAIN_ID.BNB_TEST_NET,
     name: 'BNBT',
     network: 'bnbt',
     nativeCurrency: BNB,
     rpcUrls: { default: 'https://data-seed-prebsc-1-s1.binance.org:8545/' },
-    blockExplorers: { url: 'https://testnet.bscscan.com', name: 'BSCScan' },
+    blockExplorers: {
+      default: { url: 'https://testnet.bscscan.com', name: 'BSCScan' },
+    },
     testnet: true,
   },
   [CHAIN_ID.BNB_MAIN_MET]: {

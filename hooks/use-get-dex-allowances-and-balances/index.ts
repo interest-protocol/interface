@@ -26,6 +26,7 @@ export const useGetDexAllowancesAndBalances = (
   const filteredTokens = [tokenA, tokenB].filter((x) => !isZeroAddress(x));
 
   const { address } = useAccount();
+
   const { data: balanceData } = useBalance({
     addressOrName: address,
     enabled: Boolean(address),
@@ -37,7 +38,7 @@ export const useGetDexAllowancesAndBalances = (
   const { data, error } = useGetUserBalancesAndAllowances(
     getInterestDexRouterAddress(chainId),
     filteredTokens,
-    { watch: true }
+    { watch: true, enabled: Boolean(address) }
   );
 
   if (error)
