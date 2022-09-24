@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import EthereumNetwork from '@/components/svg/ethereum-network';
@@ -5,6 +6,7 @@ import priorityHooks from '@/connectors';
 import { Box, Dropdown, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
 import { ArrowSVG, BinanceTestSVG } from '@/svg';
+import { capitalize } from '@/utils';
 
 const { usePriorityChainId } = priorityHooks;
 
@@ -13,6 +15,7 @@ interface SelectNetworkProps {
 }
 
 const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
+  const t = useTranslations();
   const chainId = usePriorityChainId();
 
   return (
@@ -25,8 +28,8 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
             <ArrowSVG width="100%" />
           </Box>
         }
-        title="Choose Network"
-        header="Choose your Network:"
+        title={capitalize(t('common.networkTitle'))}
+        header={capitalize(t('common.networkTitle') + ':')}
         defaultValue={`${chainId}`}
         data={[
           {

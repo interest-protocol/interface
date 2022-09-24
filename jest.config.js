@@ -21,7 +21,6 @@ module.exports = {
     "@/design-system": "<rootDir>/design-system",
     "@/design-system/(.*)$": "<rootDir>/design-system/$1",
     "@/state/(.*)$": "<rootDir>/state/$1",
-    "@/constants": "<rootDir>/constants/index",
     "@/svg/(.*)$": "<rootDir>/components/svg/$1",
     "@/svg": "<rootDir>/components/svg/index",
     "@/utils/(.*)$": "<rootDir>/utils/$1",

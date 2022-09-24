@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC, MouseEvent as ReactMouseEvent } from 'react';
 import toast from 'react-hot-toast';
 import ReactTooltip from 'react-tooltip';
@@ -5,6 +6,7 @@ import ReactTooltip from 'react-tooltip';
 import { Box } from '@/elements';
 import { useIsMounted } from '@/hooks';
 import { CopySVG } from '@/svg';
+import { capitalize } from '@/utils';
 
 import { CopyToClipboardProps } from './copy-to-clipboard';
 
@@ -14,11 +16,12 @@ const CopyToClipboard: FC<CopyToClipboardProps> = ({
   children,
   ...props
 }) => {
+  const t = useTranslations();
   const isMounted = useIsMounted();
   const copyToClipboard = (e: ReactMouseEvent<HTMLDivElement, MouseEvent>) => {
     window.navigator.clipboard.writeText(address || '');
     onClick?.(e);
-    toast('Copied to clipboard');
+    toast(capitalize(t('common.copyClipboard')));
   };
 
   return (
@@ -26,7 +29,7 @@ const CopyToClipboard: FC<CopyToClipboardProps> = ({
       <Box
         as="span"
         cursor="pointer"
-        data-tip="Copy Address"
+        data-tip={capitalize(t('common.copyAddress'))}
         hover={{ color: 'accent' }}
         onClick={copyToClipboard}
         {...props}

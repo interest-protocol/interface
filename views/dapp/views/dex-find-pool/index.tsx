@@ -1,5 +1,6 @@
 import { getAddress } from 'ethers/lib/utils';
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { pathOr, prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -15,6 +16,7 @@ import {
   ERC_20_DATA,
   Routes,
   RoutesEnum,
+  STABLE_COIN_ADDRESSES,
   WRAPPED_NATIVE_TOKEN,
 } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
@@ -33,6 +35,7 @@ import {
 import { getNativeBalance } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
 import {
+  capitalize,
   handleZeroWrappedToken,
   isSameAddressZ,
   isZeroAddress,
@@ -47,16 +50,19 @@ import { WalletGuardButton } from '@/views/dapp/components';
 import GoBack from '../../components/go-back';
 import { OnSelectCurrencyData } from '../dex/swap/swap.types';
 import CreatePool from './create-pool';
+import CreatePoolPopup from './create-pool-popup';
 import { DexFindPoolForm } from './dex-find-pool.types';
 import FindPool from './find-pool';
 
 const FindPoolView: FC = () => {
+  const t = useTranslations();
   const { push } = useRouter();
   const { signer } = useGetSigner();
   const { chainId, account } = useIdAccount();
 
   const [loading, setLoading] = useState(false);
   const [isCreatingPair, setCreatingPair] = useState(false);
+  const [createPoolPopup, setCreatePoolPopup] = useState(false);
   const [isTokenAOpenModal, setTokenAIsOpenModal] = useState(false);
   const [isTokenBOpenModal, setTokenBIsOpenModal] = useState(false);
 
@@ -79,6 +85,7 @@ const FindPoolView: FC = () => {
   // We want the form to re-render if addresses change
   const tokenAAddress = useWatch({ control, name: 'tokenA.address' });
   const tokenBAddress = useWatch({ control, name: 'tokenB.address' });
+  const isStable = useWatch({ control, name: 'isStable' });
 
   const { balancesError, balancesData, mutate } =
     useGetDexAllowancesAndBalances(
@@ -118,7 +125,6 @@ const FindPoolView: FC = () => {
 
   const enterPool = async () => {
     setLoading(true);
-    const { isStable } = getValues();
 
     try {
       const address = getIPXPairAddress(
@@ -146,8 +152,8 @@ const FindPoolView: FC = () => {
 
   const handleEnterPool = () =>
     showToast(enterPool(), {
-      loading: 'Checking pool...',
-      success: 'Success!',
+      loading: capitalize(t('common.check', { isLoading: 1 })),
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -156,7 +162,7 @@ const FindPoolView: FC = () => {
 
     try {
       setLoading(true);
-
+      setCreatePoolPopup(false);
       const { validSigner, validId } = throwIfInvalidSigner(
         [account],
         chainId,
@@ -270,10 +276,26 @@ const FindPoolView: FC = () => {
 
   const handleCreatePair = () =>
     showToast(createPair(), {
-      loading: 'Creating pool...',
-      success: 'Success!',
+      loading: t('dexPoolFind.buttonPool', { isLoading: 1 }),
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
+
+  const bothTokensAreStableCoins = () => {
+    const { tokenA, tokenB } = getValues();
+
+    return (
+      STABLE_COIN_ADDRESSES[chainId].includes(getAddress(tokenA.address)) &&
+      STABLE_COIN_ADDRESSES[chainId].includes(getAddress(tokenB.address))
+    );
+  };
+
+  const handleValidateCreatePair = () => {
+    if (isStable && bothTokensAreStableCoins()) return handleCreatePair();
+    if (!isStable && !bothTokensAreStableCoins()) return handleCreatePair();
+
+    return setCreatePoolPopup(true);
+  };
 
   if (balancesError)
     return (
@@ -282,7 +304,7 @@ const FindPoolView: FC = () => {
           <Box color="error">
             <TimesSVG width="10rem" />
           </Box>
-          Failed to connect to the blockchain
+          {t('dexPoolFind.balanceError')}
         </Box>
       </Container>
     );
@@ -291,23 +313,24 @@ const FindPoolView: FC = () => {
     <Container py="XL" dapp>
       <GoBack routeBack />
       <Typography variant="normal" width="100%">
-        Find Pool
+        {t('dexPoolFind.title')}
       </Typography>
       <FindPool
         control={control}
         setValue={setValue}
-        currencyAChargerArgs={{
+        currencyASelectArgs={{
           isModalOpen: isTokenAOpenModal,
           symbol: getValues('tokenA.symbol'),
           setIsModalOpen: setTokenAIsOpenModal,
           onSelectCurrency: onSelectCurrency('tokenA'),
         }}
-        currencyBChargerArgs={{
+        currencyBSelectArgs={{
           isModalOpen: isTokenBOpenModal,
           symbol: getValues('tokenB.symbol'),
           setIsModalOpen: setTokenBIsOpenModal,
           onSelectCurrency: onSelectCurrency('tokenB'),
         }}
+        setCreatingPair={setCreatingPair}
       />
       {isCreatingPair && (
         <CreatePool
@@ -338,7 +361,7 @@ const FindPoolView: FC = () => {
         bg="foreground"
         maxWidth="30rem"
         borderRadius="M"
-        width={['100%', '30rem']}
+        width={['100%', '100%', '100%', '30rem']}
       >
         <WalletGuardButton>
           {isSameAddressZ(tokenAAddress, tokenBAddress) ? (
@@ -348,7 +371,7 @@ const FindPoolView: FC = () => {
               disabled={true}
               bg="disabled"
             >
-              Choose different tokens
+              {t('dexPoolFind.buttonSameToken')}
             </Button>
           ) : isCreatingPair ? (
             <Button
@@ -371,10 +394,10 @@ const FindPoolView: FC = () => {
               onClick={
                 loading || tokenANeedsAllowance || tokenBNeedsAllowance
                   ? undefined
-                  : handleCreatePair
+                  : handleValidateCreatePair
               }
             >
-              {loading ? 'Creating Pool...' : 'Create Pool'}
+              {t('dexPoolFind.buttonPool', { isLoading: Number(loading) })}
             </Button>
           ) : (
             <Button
@@ -385,11 +408,19 @@ const FindPoolView: FC = () => {
               bg={loading ? 'accentActive' : 'accent'}
               hover={{ bg: loading ? 'disabled' : 'accentActive' }}
             >
-              {loading ? 'Finding Pool...' : 'Find and Enter Pool'}
+              {t('dexPoolFind.button', { isLoading: Number(loading) })}
             </Button>
           )}
         </WalletGuardButton>
       </Box>
+      <CreatePoolPopup
+        isStable={isStable}
+        isOpen={createPoolPopup}
+        onContinue={handleCreatePair}
+        symbol0={getValues('tokenA.symbol')}
+        symbol1={getValues('tokenB.symbol')}
+        onCancel={() => setCreatePoolPopup(false)}
+      />
     </Container>
   );
 };

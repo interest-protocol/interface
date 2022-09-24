@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,6 +10,7 @@ import { useGetSigner } from '@/hooks';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import {
+  capitalize,
   extractCreateTokenEvent,
   isValidAccount,
   safeGetAddress,
@@ -31,6 +33,7 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
   handleClose,
   addLocalToken,
 }) => {
+  const t = useTranslations();
   const [loading, setLoading] = useState(false);
   const { chainId, signer, account } = useGetSigner();
   const { setValue, register, getValues } = useForm<TCreateTokenForm>({
@@ -52,7 +55,8 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
         getValues('amount'),
       ];
 
-      if (!name || !symbol || !amount || amount === '0') return;
+      if (!name || !symbol || !amount || amount === '0')
+        throwError(capitalize(t('error.generic')));
 
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -90,8 +94,8 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
 
   const safeCreateToken = () =>
     showToast(handleCreateToken(), {
-      loading: 'Creating token...',
-      success: 'Success!',
+      loading: `${t('faucet.modalButton', { isLoading: 1 })}`,
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -119,18 +123,26 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
           variant="normal"
           textTransform="uppercase"
         >
-          Create new token
+          {t('faucet.modalTitle')}
         </Typography>
         <Box
           display="grid"
           gridColumnGap="1rem"
           gridTemplateColumns={['1fr', '1f', '1fr', '1fr 1fr']}
         >
-          <CreateTokenField label="Name" name="name" register={register} />
-          <CreateTokenField label="Symbol" name="symbol" register={register} />
+          <CreateTokenField
+            label={t('faucet.modalInputName')}
+            name="name"
+            register={register}
+          />
+          <CreateTokenField
+            label={t('faucet.modalInputSymbol')}
+            name="symbol"
+            register={register}
+          />
         </Box>
         <CreateTokenSupplyField
-          label="Amount"
+          label={t('faucet.modalInputAmount')}
           register={register}
           setValue={setValue}
         />
@@ -149,12 +161,17 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
                 <Box as="span" display="inline-block" width="1rem">
                   <LoadingSVG width="100%" />
                 </Box>
-                <Typography fontSize="S" variant="normal" ml="M">
-                  Creating Token
+                <Typography
+                  fontSize="S"
+                  variant="normal"
+                  ml="M"
+                  textTransform="capitalize"
+                >
+                  {t('faucet.modalButton', { isLoading: 1 })}
                 </Typography>
               </Box>
             ) : (
-              'Create Token'
+              t('faucet.modalButton', { isLoading: 0 })
             )}
           </Button>
         ) : (

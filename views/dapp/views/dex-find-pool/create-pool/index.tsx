@@ -1,14 +1,16 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
+import { InfoSVG } from '@/svg';
 
 import { CreatePoolProps, DexFindPoolForm } from '../dex-find-pool.types';
 import CreatePoolField from './create-pool-field';
 import Price from './price';
 
 const TOKEN_NAMES = ['tokenA', 'tokenB'] as ReadonlyArray<
-  Exclude<keyof DexFindPoolForm, 'isStable'>
+  keyof Omit<DexFindPoolForm, 'isStable'>
 >;
 
 const CreatePool: FC<CreatePoolProps> = ({
@@ -19,40 +21,69 @@ const CreatePool: FC<CreatePoolProps> = ({
   update,
   tokenBalances,
   getValues,
-}) => (
-  <Box
-    p="L"
-    my="L"
-    color="text"
-    width="100%"
-    bg="foreground"
-    maxWidth="30rem"
-    borderRadius="M"
-  >
-    <Typography
+}) => {
+  const t = useTranslations();
+  return (
+    <Box
       p="L"
-      variant="normal"
+      my="L"
+      color="text"
+      width="100%"
+      bg="foreground"
+      maxWidth="30rem"
       borderRadius="M"
-      border="1px solid"
-      bg="bottomBackground"
-      borderColor="textSoft"
     >
-      This pool does not exist! Please, create one now.
-    </Typography>
-    <Price control={control} />
-    {TOKEN_NAMES.map((name, index) => (
-      <CreatePoolField
-        getValues={getValues}
-        update={update}
-        setValue={setValue}
-        key={v4()}
-        name={name}
-        register={register}
-        needAllowance={needAllowance[index]}
-        tokenBalance={tokenBalances[index]}
-      />
-    ))}
-  </Box>
-);
-
+      <Typography variant="normal" textTransform="uppercase" mb="L">
+        {t('dexPoolFind.createPoolTitle', {
+          isStable: Number(getValues('isStable')),
+        })}
+      </Typography>
+      <Typography
+        p="L"
+        variant="normal"
+        borderRadius="M"
+        border="1px solid"
+        bg="bottomBackground"
+        borderColor="textSoft"
+      >
+        {t('dexPoolFind.createPoolAdvice')}
+      </Typography>
+      <Price control={control} />
+      {TOKEN_NAMES.map((name, index) => (
+        <CreatePoolField
+          getValues={getValues}
+          update={update}
+          setValue={setValue}
+          key={v4()}
+          name={name}
+          register={register}
+          needAllowance={needAllowance[index]}
+          tokenBalance={tokenBalances[index]}
+        />
+      ))}
+      <Box
+        p="L"
+        mt="L"
+        display="grid"
+        borderRadius="M"
+        border="1px solid"
+        alignItems="center"
+        bg="bottomBackground"
+        borderColor="textSoft"
+        gridTemplateColumns="3rem auto"
+      >
+        <Box as="span" width="1.5rem" display="inline-block">
+          <InfoSVG width="100%" />
+        </Box>
+        <Typography variant="normal" fontSize="0.85rem">
+          {t(
+            `dexPoolFind.createPoolInfo.${
+              getValues('isStable') ? 'stable' : 'volatile'
+            }`
+          )}
+        </Typography>
+      </Box>
+    </Box>
+  );
+};
 export default CreatePool;

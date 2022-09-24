@@ -1,22 +1,25 @@
+import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
+import { capitalize } from '@/utils';
 
 import { FarmSortByFilter } from '../../earn.types';
 import { SortFilterProps } from './earn-filters.types';
 
 const parseFarmSortByEnum = cond([
-  [equals(FarmSortByFilter.Default), always('Select')],
-  [equals(FarmSortByFilter.Allocation), always('Allocation')],
-  [equals(FarmSortByFilter.TVL), always('TVL')],
-  [equals(FarmSortByFilter.APR), always('APR')],
-  [T, always('Select')],
+  [equals(FarmSortByFilter.Default), always('select')],
+  [equals(FarmSortByFilter.Allocation), always('allocation')],
+  [equals(FarmSortByFilter.TVL), always('tvl')],
+  [equals(FarmSortByFilter.APR), always('apr')],
+  [T, always('select')],
 ]);
 
 const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
+  const t = useTranslations();
   const sortBy = useWatch({ control, name: 'sortBy' });
 
   return (
@@ -28,7 +31,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
         variant="normal"
         display="inline-block"
       >
-        Sort by:
+        {capitalize(t('common.sort'))}:
       </Typography>
       <Box
         display="flex"
@@ -41,20 +44,20 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
           mode="select"
           bg="accentAlternative"
           bgSelected="accentAlternativeBackground"
-          emptyMessage="Not found Tokens"
+          emptyMessage={capitalize(t('common.notFound'))}
           suffix={
-            <Box
-              ml="L"
-              width="0.6rem"
-              display={['none', 'none', 'none', 'block']}
-            >
+            <Box ml="L" width="0.6rem">
               <ArrowSVG width="100%" />
             </Box>
           }
           title={
             <Box display="flex" width="100%" py="M" alignItems="center">
-              <Typography variant="normal" whiteSpace="nowrap">
-                {parseFarmSortByEnum(sortBy)}
+              <Typography
+                variant="normal"
+                whiteSpace="nowrap"
+                textTransform="capitalize"
+              >
+                {t('common.' + parseFarmSortByEnum(sortBy))}
               </Typography>
             </Box>
           }

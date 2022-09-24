@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import Container from '@/components/container';
@@ -6,6 +7,7 @@ import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 
 const DEX: FC = () => {
+  const t = useTranslations();
   const { push } = useRouter();
 
   return (
@@ -52,7 +54,7 @@ const DEX: FC = () => {
             </picture>
           </Box>
         </Box>
-        <Box textAlign={['center', 'center', 'center', 'right']}>
+        <Box textAlign={['center', 'center', 'center', 'right']} maxWidth="50%">
           <Typography
             as="h2"
             variant="normal"
@@ -60,8 +62,9 @@ const DEX: FC = () => {
             fontStyle="normal"
             lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
             fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
+            textTransform="capitalize"
           >
-            Dex
+            {t('common.dex')}
           </Typography>
           <Typography
             variant="normal"
@@ -71,7 +74,7 @@ const DEX: FC = () => {
             mb={['1.25rem', '1.25rem', '1.25rem', '1.875rem']}
             px={['L', 'unset']}
           >
-            Enjoy the lowest slippage and trading fees
+            {t('landingPage.dexSectionSubtitle')}
           </Typography>
           <Button
             width="145px"
@@ -79,7 +82,7 @@ const DEX: FC = () => {
             variant="primary"
             onClick={() => push(Routes[RoutesEnum.DApp])}
           >
-            Swap
+            {t('landingPage.dexSectionButton')}
           </Button>
         </Box>
       </Container>
@@ -110,7 +113,7 @@ const DEX: FC = () => {
             textAlign="center"
             textTransform="capitalize"
           >
-            Stablecoin pairs
+            {t('landingPage.stablePairTitle')}
           </Typography>
           <Box maxWidth="20rem" mx="auto" my="XXXL">
             <ResponsiveImage
@@ -134,10 +137,10 @@ const DEX: FC = () => {
               fontWeight="700"
               my={['unset', 'unset', '1rem', '1rem']}
             >
-              Low slippage
+              {t('landingPage.stablePairDescription')}
             </Typography>
             <br />
-            0.05% Swap fee
+            {t('landingPage.stablePairTax')}
           </Typography>
         </Container>
         <Box
@@ -154,7 +157,7 @@ const DEX: FC = () => {
           ]}
         >
           <Box
-            p="1.75rem"
+            py="XL"
             mx="S"
             display="flex"
             bg="foreground"
@@ -162,13 +165,13 @@ const DEX: FC = () => {
             alignItems="center"
             top={['unset', 'unset', 'unset', '-1.3rem']}
             justifyContent="center"
-            width={['50%', '50%', '50%', '18.25rem']}
+            width={['50%', '50%', '50%', '13.25rem']}
             height={['10rem', '10rem', '10rem', '12.625rem']}
             position={['static', 'static', 'static', 'absolute']}
             transform={['unset', 'unset', 'unset', 'translate(-50%,-20%)']}
           >
-            <Typography variant="title3">
-              Swap between stable and volatile assets seamlessly
+            <Typography variant="title3" lineHeight="2rem">
+              {t('landingPage.dexSectionDescription')}
             </Typography>
           </Box>
           <Box
@@ -180,12 +183,14 @@ const DEX: FC = () => {
             alignItems="center"
             bottom={['none', 'none', 'none', '-2rem']}
             justifyContent="center"
-            width={['50%', '50%', '50%', '18.25rem']}
+            width={['50%', '50%', '50%', '13.25rem']}
             height={['10rem', '10rem', '10rem', '12.625rem']}
             position={['static', 'static', 'static', 'absolute']}
             transform={['unset', 'unset', 'unset', 'translate(-50%,30%)']}
           >
-            <Typography variant="title3">15 minute Swap Oracle</Typography>
+            <Typography variant="title3" lineHeight="2rem">
+              {t('landingPage.dexSectionOracle')}
+            </Typography>
           </Box>
         </Box>
         <Container
@@ -205,7 +210,7 @@ const DEX: FC = () => {
             variant="title2"
             textTransform="capitalize"
           >
-            Volatile pairs
+            {t('landingPage.volatilePairTitle')}
           </Typography>
           <Box maxWidth="20rem" mx="auto" my="XXXL">
             <ResponsiveImage width="100%" alt="Volatile" path="home/volatile" />
@@ -215,6 +220,7 @@ const DEX: FC = () => {
             fontWeight="700"
             textAlign="center"
             fontSize={['0.875rem', '1.5rem']}
+            textTransform="uppercase"
           >
             K = Y * X
             <br />
@@ -224,11 +230,12 @@ const DEX: FC = () => {
               as="span"
               fontWeight="700"
               my={['unset', 'unset', '1rem', '1rem']}
+              textTransform="uppercase"
             >
-              Normal slippage
+              {t('landingPage.volatilePairDescription')}
             </Typography>
             <br />
-            0.3% Swap fee
+            {t('landingPage.volatilePairTax')}
           </Typography>
         </Container>
       </Box>

@@ -1,22 +1,31 @@
+import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
+import { capitalize } from '@/utils';
 
 import { BorrowSortByFilter, SortFilterProps } from './borrow-filters.types';
 
 const parseFarmSortByEnum = cond([
-  [equals(BorrowSortByFilter.Default), always('Select')],
-  [equals(BorrowSortByFilter.TVL), always('TVL')],
-  [equals(BorrowSortByFilter.LTV), always('LTV')],
-  [equals(BorrowSortByFilter.InterestRate), always('Interest Rate')],
-  [equals(BorrowSortByFilter.Fee), always('Liquidation Fee')],
-  [T, always('Select')],
+  [equals(BorrowSortByFilter.Default), always('common.select')],
+  [equals(BorrowSortByFilter.TVL), always('dineroMarket.tableHeaderTVL')],
+  [equals(BorrowSortByFilter.LTV), always('dineroMarket.tableHeaderLTV')],
+  [
+    equals(BorrowSortByFilter.InterestRate),
+    always('dineroMarket.filterSortOptionInterestRate'),
+  ],
+  [
+    equals(BorrowSortByFilter.Fee),
+    always('dineroMarket.filterSortOptionLiquidationFee'),
+  ],
+  [T, always('common.select')],
 ]);
 
 const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
+  const t = useTranslations();
   const sortBy = useWatch({ control, name: 'sortBy' });
 
   return (
@@ -28,7 +37,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
         variant="normal"
         display="inline-block"
       >
-        Sort by:
+        {capitalize(t('common.sort'))}:
       </Typography>
       <Box
         display="flex"
@@ -43,29 +52,25 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
           bgSelected="accentAlternativeBackground"
           emptyMessage="Not found Tokens"
           suffix={
-            <Box
-              ml="L"
-              width="0.6rem"
-              display={['none', 'none', 'none', 'block']}
-            >
+            <Box ml="L" width="0.6rem">
               <ArrowSVG width="100%" />
             </Box>
           }
           title={
             <Box display="flex" width="100%" py="M" alignItems="center">
               <Typography variant="normal" whiteSpace="nowrap">
-                {parseFarmSortByEnum(sortBy)}
+                {capitalize(t(parseFarmSortByEnum(sortBy)))}
               </Typography>
             </Box>
           }
           data={[
             {
               value: 'id',
-              displayOption: 'Name',
+              displayOption: 'Id',
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    Name
+                    Id
                   </Typography>
                 </Box>
               ),
@@ -103,11 +108,13 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
             },
             {
               value: 'interestRate',
-              displayOption: 'Interest Rate',
+              displayOption: capitalize(
+                t('dineroMarket.filterSortOptionInterestRate')
+              ),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    Interest Rate
+                    {t('dineroMarket.filterSortOptionInterestRate')}
                   </Typography>
                 </Box>
               ),
@@ -117,11 +124,15 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
             },
             {
               value: 'fee',
-              displayOption: 'Liquidation Fee',
+              displayOption: capitalize(
+                t('dineroMarket.filterSortOptionLiquidationFee')
+              ),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    Liquidation Fee
+                    {capitalize(
+                      t('dineroMarket.filterSortOptionLiquidationFee')
+                    )}
                   </Typography>
                 </Box>
               ),

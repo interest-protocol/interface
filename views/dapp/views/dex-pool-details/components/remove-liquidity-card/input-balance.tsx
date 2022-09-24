@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -19,6 +20,7 @@ const InputBalance: FC<InputBalanceProps> = ({
   currencyPrefix,
   control,
 }) => {
+  const t = useTranslations();
   const onFocus = (v: ChangeEvent<HTMLInputElement>) => {
     const value = v.target.value;
 
@@ -104,8 +106,8 @@ const InputBalance: FC<InputBalanceProps> = ({
         position="relative"
         bg="bottomBackground"
       >
-        <Typography fontSize="S" variant="normal">
-          Balance:{' '}
+        <Typography fontSize="S" variant="normal" textTransform="capitalize">
+          {t('common.balance')}:{' '}
           <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
             {formatMoney(balance)}
           </Typography>

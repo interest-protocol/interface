@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
@@ -6,7 +7,12 @@ import { v4 } from 'uuid';
 import { getFarmsSVGByToken, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
 import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
-import { formatDollars, formatMoney, makeFarmSymbol } from '@/utils';
+import {
+  capitalize,
+  formatDollars,
+  formatMoney,
+  makeFarmSymbol,
+} from '@/utils';
 
 import { handleFilterFarms } from '../../earn.utils';
 import {
@@ -21,6 +27,8 @@ const EarnTable: FC<EarnTableProps> = ({
   control,
   farms,
 }) => {
+  const t = useTranslations();
+
   const onlyFinished = useWatch({ control, name: 'onlyFinished' });
   const onlyStaked = useWatch({ control, name: 'onlyStaked' });
 
@@ -58,7 +66,7 @@ const EarnTable: FC<EarnTableProps> = ({
               ),
             },
             {
-              tip: 'Total Value Locked',
+              tip: t('earn.column1Tip'),
               item: (
                 <Typography
                   as="span"
@@ -66,12 +74,26 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   fontSize="inherit"
                 >
-                  TVL
+                  {t('common.tvl')}
                 </Typography>
               ),
             },
             {
-              tip: 'Staking amount to farm Int',
+              tip: t('earn.column2Tip'),
+              item: (
+                <Typography
+                  as="span"
+                  cursor="help"
+                  variant="normal"
+                  fontSize="inherit"
+                  textTransform="capitalize"
+                >
+                  {t('common.stake', { isLoading: 1 })}
+                </Typography>
+              ),
+            },
+            {
+              tip: t('earn.column3Tip'),
               item: (
                 <Typography
                   as="span"
@@ -79,30 +101,17 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   fontSize="inherit"
                 >
-                  Staking
+                  {t('common.apr')}
                 </Typography>
               ),
             },
             {
-              tip: 'Annual Percentage Rate<br/> yearly interest generated',
-              item: (
-                <Typography
-                  as="span"
-                  cursor="help"
-                  variant="normal"
-                  fontSize="inherit"
-                >
-                  APR
-                </Typography>
-              ),
+              tip: t('earn.column4Tip'),
+              item: <>{t('earn.column4')}</>,
             },
             {
-              tip: 'It represents the % of Interest Token minted compared to to others pools.',
-              item: <>Allocation</>,
-            },
-            {
-              tip: 'Volatile or Stable.',
-              item: <>Type</>,
+              tip: t('earn.column5Tip'),
+              item: <>{capitalize(t('common.type'))}</>,
             },
           ]}
           backgroundColorMap={filteredFarms.map((farm) => ({
@@ -124,7 +133,7 @@ const EarnTable: FC<EarnTableProps> = ({
                         variant="primary"
                         hover={{ bg: 'accentActive' }}
                       >
-                        Enter
+                        {capitalize(t('common.enter'))}
                       </Button>
                     </Link>
                   ),
@@ -176,8 +185,11 @@ const EarnTable: FC<EarnTableProps> = ({
                       cursor="pointer"
                       width="70%"
                       key={v4()}
+                      textTransform="capitalize"
                     >
-                      {farm.stable ? 'Stable' : 'Volatile'}
+                      {t(farm.stable ? 'common.stable' : 'common.volatile', {
+                        count: 1,
+                      })}
                     </Typography>,
                   ],
                 }))
@@ -192,7 +204,7 @@ const EarnTable: FC<EarnTableProps> = ({
             }))}
             headings={[
               {
-                tip: 'Total Value Locked',
+                tip: t('earn.column1Tip'),
                 item: (
                   <Typography
                     as="span"
@@ -200,12 +212,12 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    TVL
+                    {t('common.tvl')}
                   </Typography>
                 ),
               },
               {
-                tip: 'Staking amount to farm Int',
+                tip: t('earn.column2Tip'),
                 item: (
                   <Typography
                     as="span"
@@ -213,12 +225,12 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    Staking
+                    {t('common.stake', { isLoading: 1 })}
                   </Typography>
                 ),
               },
               {
-                tip: 'Annual Percentage Rate<br/> yearly interest generated',
+                tip: t('earn.column3Tip'),
                 item: (
                   <Typography
                     as="span"
@@ -226,17 +238,17 @@ const EarnTable: FC<EarnTableProps> = ({
                     variant="normal"
                     fontSize="inherit"
                   >
-                    APR
+                    {t('common.apr')}
                   </Typography>
                 ),
               },
               {
-                tip: 'It represents the % of Interest Token minted compared to to others pools.',
-                item: <>Allocation</>,
+                tip: t('earn.column4Tip'),
+                item: <>{t('earn.column4')}</>,
               },
               {
-                tip: 'Volatile or Stable.',
-                item: <>Type</>,
+                tip: t('earn.column5Tip'),
+                item: <>{capitalize(t('common.type'))}</>,
               },
             ]}
             data={
@@ -302,7 +314,7 @@ const EarnTable: FC<EarnTableProps> = ({
                           variant="primary"
                           hover={{ bg: 'accentActive' }}
                         >
-                          Enter
+                          {capitalize(t('common.enter'))}
                         </Button>
                       </Link>
                     ),
@@ -327,8 +339,11 @@ const EarnTable: FC<EarnTableProps> = ({
                         textAlign="center"
                         cursor="pointer"
                         key={v4()}
+                        textTransform="capitalize"
                       >
-                        {farm.stable ? 'Stable' : 'Volatile'}
+                        {t(farm.stable ? 'common.stable' : 'common.volatile', {
+                          count: 1,
+                        })}
                       </Typography>,
                     ],
                   }))

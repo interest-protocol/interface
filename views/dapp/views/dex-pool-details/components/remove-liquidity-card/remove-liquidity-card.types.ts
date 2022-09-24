@@ -30,6 +30,7 @@ export interface RemoveLiquidityCardProps {
 
 export interface IRemoveLiquidityForm {
   loading: boolean;
+  removeLoading: boolean;
   lpAmount: string;
   token0Amount: string;
   token1Amount: string;

@@ -1,0 +1,8 @@
+{
+  "dexPoolPairAddress": {
+    "title": "{type} - Resumo",
+    "sectionCustomDetail2": "Taxa de troca",
+    "removeLiquidity": "Remove a liquidez",
+    "addLiquidity": "Adicione liquidez"
+  }
+}

@@ -1,21 +1,24 @@
+import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
+import { capitalize } from '@/utils';
 
 import { FarmTypeFilter } from '../../earn.types';
 import { TypeFilterProps } from './earn-filters.types';
 
 const parseFarmTypeByEnum = cond([
-  [equals(FarmTypeFilter.All), always('All')],
-  [equals(FarmTypeFilter.Stable), always('Stable')],
-  [equals(FarmTypeFilter.Volatile), always('Volatile')],
-  [T, always('All')],
+  [equals(FarmTypeFilter.All), always('all')],
+  [equals(FarmTypeFilter.Stable), always('stable')],
+  [equals(FarmTypeFilter.Volatile), always('volatile')],
+  [T, always('all')],
 ]);
 
 const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
+  const t = useTranslations();
   const typeFilter = useWatch({ control, name: 'typeFilter' });
 
   return (
@@ -26,8 +29,9 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
         mb="M"
         variant="normal"
         display="inline-block"
+        textTransform="capitalize"
       >
-        Type:
+        {t('common.type')}:
       </Typography>
       <Box
         display="flex"
@@ -40,31 +44,37 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
           mode="select"
           bg="accentAlternative"
           bgSelected="accentAlternativeBackground"
-          emptyMessage="Not found Tokens"
+          emptyMessage={capitalize(t('common.notFound'))}
           suffix={
-            <Box
-              ml="L"
-              width="0.6rem"
-              display={['none', 'none', 'none', 'block']}
-            >
+            <Box ml="L" width="0.6rem">
               <ArrowSVG width="100%" />
             </Box>
           }
           title={
             <Box display="flex" width="100%" py="M" alignItems="center">
-              <Typography variant="normal" whiteSpace="nowrap">
-                {parseFarmTypeByEnum(typeFilter)}
+              <Typography
+                variant="normal"
+                whiteSpace="nowrap"
+                textTransform="capitalize"
+              >
+                {t('common.' + parseFarmTypeByEnum(typeFilter).toLowerCase(), {
+                  count: 2,
+                })}
               </Typography>
             </Box>
           }
           data={[
             {
               value: 'all',
-              displayOption: 'All',
+              displayOption: capitalize(t('common.all')),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
-                  <Typography variant="normal" whiteSpace="nowrap">
-                    All
+                  <Typography
+                    variant="normal"
+                    whiteSpace="nowrap"
+                    textTransform="capitalize"
+                  >
+                    {t('common.all')}
                   </Typography>
                 </Box>
               ),
@@ -74,11 +84,15 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
             },
             {
               value: 'stable',
-              displayOption: 'Stable',
+              displayOption: capitalize(t('common.stable', { count: 2 })),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
-                  <Typography variant="normal" whiteSpace="nowrap">
-                    Stable
+                  <Typography
+                    variant="normal"
+                    whiteSpace="nowrap"
+                    textTransform="capitalize"
+                  >
+                    {t('common.stable', { count: 2 })}
                   </Typography>
                 </Box>
               ),
@@ -88,11 +102,15 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
             },
             {
               value: 'volatile',
-              displayOption: 'Volatile',
+              displayOption: capitalize(t('common.volatile', { count: 2 })),
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
-                  <Typography variant="normal" whiteSpace="nowrap">
-                    Volatile
+                  <Typography
+                    variant="normal"
+                    whiteSpace="nowrap"
+                    textTransform="capitalize"
+                  >
+                    {t('common.volatile', { count: 2 })}
                   </Typography>
                 </Box>
               ),

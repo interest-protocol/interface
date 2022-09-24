@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -11,9 +12,10 @@ const OnlyFinishedFilter: FC<OnlyFinishedFilterProps> = ({
   control,
   setValue,
 }) => {
+  const t = useTranslations();
   const onlyFinished = useWatch({ control, name: 'onlyFinished' });
   const SWITCH_ONLY_FINISHED_DATA = getFilterSwitchDefaultData(
-    ['live', 'finished'],
+    [t('common.live'), t('common.finished')],
     setValue,
     'onlyFinished'
   );
@@ -26,11 +28,12 @@ const OnlyFinishedFilter: FC<OnlyFinishedFilterProps> = ({
         variant="normal"
         display="inline-block"
         textAlign={['center', 'center', 'center', 'left']}
+        textTransform="capitalize"
       >
-        Status
+        {t('common.state')}
       </Typography>
       <Switch
-        defaultValue={onlyFinished ? 'finished' : 'live'}
+        defaultValue={onlyFinished ? t('common.finished') : t('common.live')}
         options={SWITCH_ONLY_FINISHED_DATA}
         bg="background"
         bgSelected="accentAlternative"

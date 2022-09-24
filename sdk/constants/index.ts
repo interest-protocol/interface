@@ -21,6 +21,14 @@ export enum TOKEN_SYMBOL {
   Unknown = '???',
   WBNB = 'WBNB',
   BNB = 'BNB',
+  BUSD = 'BUSD',
+  DAI = 'DAI',
+  FRAX = 'FRAX',
+  USDN = 'USDN',
+  USDP = 'USDP',
+  TUSD = 'TUSD',
+  USDD = 'USDD',
+  VAI = 'VAI',
   UNI = 'UNI',
   APE = 'APE',
   MANA = 'MANA',
@@ -47,27 +55,6 @@ export const BLOCKS_PER_YEAR = {
 export const INIT_CODE_HASH = {
   [CHAIN_ID.BNB_TEST_NET]:
     '0x961ef516c3b1b47b938ac73de08a405baa2cff1017c19e16169d8e55c438d3d4',
-};
-
-export const MAIL_MARKET_CONTRACTS_MAP = {
-  [CHAIN_ID.RINKEBY]: {
-    [TOKEN_SYMBOL.UNI]: {
-      marketAddress: ethers.utils.getAddress(
-        '0xAF2060F90FFa67e4597cEb8170Cf2cc2CAA523f4'
-      ),
-      riskyTokenAddress: ethers.utils.getAddress(
-        '0xc17A30Db808A7926E76F5AC81352A214FfFDC334'
-      ),
-    },
-    [TOKEN_SYMBOL.APE]: {
-      marketAddress: ethers.utils.getAddress(
-        '0x17a8a0b27788755b46db9d855a37215f7db03a65'
-      ),
-      riskyTokenAddress: ethers.utils.getAddress(
-        '0xBAe5a5b6ecF2de7424eA8723e3be2A692dCB0637'
-      ),
-    },
-  },
 };
 
 export const CONTRACTS = {
@@ -199,9 +186,39 @@ export const CONTRACTS = {
     [CHAIN_ID.BNB_TEST_NET]: '0x4a6a823C8E342dc2aa9ccf5f5035E72D8fc5F031',
     [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
   },
-  MAIL_DEPLOYER: {
-    [CHAIN_ID.RINKEBY]: '0x1F233204B0681e4D95ace0c4165D6D1FcE058012',
+  BUSD: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
-    [CHAIN_ID.BNB_MAIN_MET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
+  },
+  DAI: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: '0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3',
+  },
+  FRAX: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: '0x90C97F71E18723b0Cf0dfa30ee176Ab653E89F40',
+  },
+  TUSD: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: '0x14016e85a25aeb13065688cafb43044c2ef86784',
+  },
+  USDD: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: '0xd17479997f34dd9156deef8f95a52d81d265be9c',
+  },
+  USDP: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: '0xb7f8cd00c5a06c0537e2abff0b58033d02e5e094',
+  },
+  VAI: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_MET]: '0x4bd17003473389a42daf6a0a729f6fdb328bbbd7',
   },
 };

@@ -1,15 +1,18 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
+import { SwitchLang } from '@/components';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
-import { Wallet } from '../../index';
+import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {
+  const t = useTranslations();
   const { pathname } = useRouter();
 
   return (
@@ -26,7 +29,7 @@ const Header: FC = () => {
       <Box display="flex" alignItems="center">
         <Link href={Routes[RoutesEnum.Home]}>
           <Box
-            mr="XL"
+            mr="L"
             color="text"
             width="2.5rem"
             height="2.5rem"
@@ -39,6 +42,7 @@ const Header: FC = () => {
         </Link>
         <a href="https://forms.gle/aDP4wHvshLPKkKv97" target="__blank">
           <Typography
+            ml="L"
             px="L"
             py="M"
             width="100%"
@@ -87,8 +91,9 @@ const Header: FC = () => {
               pathname.includes(Routes[RoutesEnum.Earn]) ? 'accent' : 'inherit'
             }
             hover={{ color: 'accentActive' }}
+            textTransform="capitalize"
           >
-            Earn
+            {t('common.earn')}
           </Typography>
         </Link>
         <Link href={Routes[RoutesEnum.DineroMarket]}>
@@ -102,13 +107,15 @@ const Header: FC = () => {
                 : 'inherit'
             }
             hover={{ color: 'accentActive' }}
+            textTransform="capitalize"
           >
-            Borrow
+            {t('common.borrow')}
           </Typography>
         </Link>
       </Box>
       <Box display="flex" justifyContent="flex-end" alignItems="center">
         <Wallet />
+        <SwitchLang />
         <MobileMenu />
       </Box>
     </Box>

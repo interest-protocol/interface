@@ -1,4 +1,5 @@
 import { BigNumber } from 'ethers';
+import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -18,6 +19,7 @@ import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG } from '@/svg';
 import {
   adjustDecimals,
+  capitalize,
   getInterestDexRouterAddress,
   getWETHAddress,
   isSameAddress,
@@ -80,9 +82,10 @@ const SwapButton: FC<SwapButtonProps> = ({
   fetchingBalancesData,
   parsedTokenInBalance,
   updateBalances,
-  getValues,
+  localSettings,
   control,
 }) => {
+  const t = useTranslations();
   const { signer } = useGetSigner();
   const [buttonLoadingText, setButtonLoadingText] =
     useState<string | null>(null);
@@ -93,7 +96,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const handleAddAllowance = useCallback(async () => {
     if (isZeroAddress(tokenInAddress)) return;
-    setButtonLoadingText('Approving...');
+    setButtonLoadingText(t('common.approve', { isLoading: 1 }));
     try {
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -121,14 +124,14 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const submitAllowance = () =>
     showToast(handleAddAllowance(), {
-      loading: 'Approving...',
-      success: 'Success!',
+      loading: capitalize(t('common.approve', { isLoading: 1 })),
+      success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
 
   const handleSwap = useCallback(async () => {
     if (isSameAddress(tokenIn.address, tokenOut.address)) return;
-    setButtonLoadingText('Swapping...');
+    setButtonLoadingText(t('common.swap', { isLoading: 1 }) + '...');
     try {
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -136,7 +139,7 @@ const SwapButton: FC<SwapButtonProps> = ({
         signer
       );
 
-      const { slippage, deadline } = getValues();
+      const { deadline, slippage } = localSettings;
 
       const [tokenInIntegralPart, tokenInDecimalPart] =
         tokenIn.value.split('.');
@@ -241,7 +244,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
       await showTXSuccessToast(tx, validId);
     } catch {
-      throwError('Failed to swap: try a higher slippage or smaller amount');
+      throwError(t('dexSwap.swapMessage.error'));
     } finally {
       dispatch(coreActions.updateNativeBalance());
       await updateBalances();
@@ -251,8 +254,8 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const swap = () =>
     showToast(handleSwap(), {
-      loading: 'Swapping...',
-      success: 'Success!',
+      loading: capitalize(t('common.swap', { isLoading: 1 }) + '...'),
+      success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
 
@@ -263,7 +266,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     )
       return;
 
-    setButtonLoadingText('Wrapping...');
+    setButtonLoadingText(t('common.wrap', { isLoading: 1 }));
     try {
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -297,8 +300,8 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const deposit = () =>
     showToast(handleWETHDeposit(), {
-      loading: 'Wrapping...',
-      success: 'Success!',
+      loading: capitalize(t('common.wrap', { isLoading: 1 })),
+      success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
 
@@ -309,7 +312,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     )
       return;
 
-    setButtonLoadingText('Unwrapping...');
+    setButtonLoadingText(t('common.unwrap', { isLoading: 1 }));
     try {
       const { validId, validSigner } = throwIfInvalidSigner(
         [account],
@@ -343,8 +346,8 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const withdraw = () =>
     showToast(handleWETHWithdraw(), {
-      loading: 'Unwrapping...',
-      success: 'Success!',
+      loading: capitalize(t('common.unwrap', { isLoading: 1 })),
+      success: capitalize(t('common.success')),
       error: ({ message }) => message,
     });
 
@@ -357,14 +360,16 @@ const SwapButton: FC<SwapButtonProps> = ({
     )
       return {
         onClick: deposit,
-        text: `Wrap ${tokenIn.symbol}`,
+        text: `${capitalize(t('common.wrap', { isLoading: 0 }))} ${
+          tokenIn.symbol
+        }`,
       };
 
     // GIVE ALLOWANCE TO ERC20
     if (needsApproval)
       return {
         onClick: submitAllowance,
-        text: 'Approve',
+        text: capitalize(t('common.approve', { isLoading: 0 })),
       };
 
     // WRAPPED NATIVE TOKEN => NATIVE TOKEN
@@ -374,21 +379,23 @@ const SwapButton: FC<SwapButtonProps> = ({
     )
       return {
         onClick: withdraw,
-        text: `Unwrap ${tokenIn.symbol}`,
+        text: `${capitalize(t('common.unwrap', { isLoading: 0 }))} ${
+          tokenIn.symbol
+        }`,
       };
 
     // ERC20 => ERC20 SWAP
     return {
       onClick: swap,
-      text: 'Swap',
+      text: capitalize(t('common.swap', { isLoading: 0 })),
     };
   };
 
-  const handleLoadingText = () => {
-    if (fetchingBalancesData) return 'Fetching balances...';
-    if (fetchingBaseData) return 'Loading...';
-    if (fetchingAmount) return 'Fetching amounts...';
-    return buttonLoadingText;
+  const handleLoadingText = (): string => {
+    if (fetchingBalancesData) return t('common.fetchingBalances') + '...';
+    if (fetchingBaseData) return t('common.load', { isLoading: 1 });
+    if (fetchingAmount) return t('dexSwap.swapMessage.fetchingAmounts') + '...';
+    return buttonLoadingText as string;
   };
 
   return (
@@ -396,7 +403,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       <SwapViewButton
         {...handleProps()}
         disabled={disabled || isNaN(+tokenIn.value) || +tokenIn.value === 0}
-        loadingText={handleLoadingText()}
+        loadingText={capitalize(handleLoadingText())}
       />
     </WalletGuardButton>
   );

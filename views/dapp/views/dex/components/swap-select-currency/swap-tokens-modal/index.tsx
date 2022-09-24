@@ -1,4 +1,5 @@
 import { isAddress } from 'ethers/lib/utils';
+import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, ReactNode, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
@@ -16,7 +17,7 @@ import { Box, Button, Modal, Typography } from '@/elements';
 import { useDebounce, useIdAccount, useLocalStorage } from '@/hooks';
 import { TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
 import { LineLoaderSVG, TimesSVG } from '@/svg';
-import { isSameAddress, isSameAddressZ } from '@/utils';
+import { capitalize, isSameAddress, isSameAddressZ } from '@/utils';
 
 import {
   SwapCurrencyDropdownProps,
@@ -107,6 +108,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   setIsSearching,
   onSelectCurrency,
 }) => {
+  const t = useTranslations();
   const { chainId } = useIdAccount();
   const [showLocal, setShowLocal] = useState(false);
   const search = useWatch({ control, name: 'search' });
@@ -221,7 +223,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
           <Box my="L" textAlign="center">
             {isSearching ? (
               <Typography variant="normal" color="text">
-                Loading...
+                {capitalize(t('common.load', { isLoading: 1 }))}
               </Typography>
             ) : searchedToken ? (
               renderData(
@@ -232,7 +234,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
               )
             ) : (
               <Typography variant="normal" color="text">
-                Token not found
+                {capitalize(t('common.notFound'))}
               </Typography>
             )}
           </Box>
@@ -245,12 +247,12 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                 options={[
                   {
                     value: 'recommended',
-                    displayValue: 'Recommended',
+                    displayValue: t('dexPoolFind.switchOption1'),
                     onSelect: () => setShowLocal(false),
                   },
                   {
                     value: 'local',
-                    displayValue: 'Added by me',
+                    displayValue: t('dexPoolFind.switchOption2'),
                     onSelect: () => setShowLocal(true),
                   },
                 ]}
