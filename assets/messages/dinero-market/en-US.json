@@ -1,5 +1,6 @@
 {
   "dineroMarket": {
+    "pageTitle": "Dinero Market",
     "title": "Borrow Dinero",
     "filterSortOptionInterestRate": "Interest Rate",
     "filterSortOptionLiquidationFee": "Liquidation Fee",

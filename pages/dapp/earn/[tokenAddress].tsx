@@ -25,6 +25,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         ...require(`../../../assets/messages/earn/token-address/${locale}.json`),
         ...require(`../../../assets/messages/common/${locale}.json`),
       },
+      pageTitle: 'earnTokenAddress.pageTitle',
     },
   };
 };
