@@ -31,7 +31,6 @@ const SettingsModal: FC<SwapSettingsProps> = ({
   const dropdownContainerRef =
     useClickOutsideListenerRef<HTMLDivElement>(toggle);
 
-<<<<<<< HEAD
   useEffect(
     () => () => {
       const {
@@ -48,39 +47,16 @@ const SettingsModal: FC<SwapSettingsProps> = ({
       const slippage =
         !!newSlippage && newSlippage !== localSettings.slippage
           ? newSlippage
-=======
-  const newSlippage = useRef<string | null>(null);
-  const newDeadline = useRef<number | null>(null);
-  const autoFetch = useRef<boolean>(localSettings.autoFetch ?? true);
-
-  useEffect(() => {
-    return () => {
-      const deadline =
-        !!newDeadline.current && newDeadline.current !== localSettings.deadline
-          ? newDeadline.current
-          : localSettings.deadline;
-
-      const slippage =
-        !!newSlippage.current && newSlippage.current !== localSettings.slippage
-          ? newSlippage.current
->>>>>>> 0e0825b (🔥 feat: team section (#129))
           : localSettings.slippage;
 
       setLocalSettings({
         slippage,
         deadline,
-<<<<<<< HEAD
         autoFetch,
       });
     },
     []
   );
-=======
-        autoFetch: autoFetch.current,
-      });
-    };
-  }, []);
->>>>>>> 0e0825b (🔥 feat: team section (#129))
 
   return (
     <Box
@@ -189,23 +165,6 @@ const SettingsModal: FC<SwapSettingsProps> = ({
         <AutoFetch
           control={control}
           setter={(value: boolean) => setValue('autoFetch', value)}
-        />
-      </Box>
-      <Box p="S">
-        <Typography
-          m="M"
-          pt="M"
-          pb="L"
-          fontSize="S"
-          variant="normal"
-          color="textSecondary"
-          textTransform="uppercase"
-        >
-          Panel Settings
-        </Typography>
-        <AutoFetch
-          value={autoFetch.current}
-          setter={(value: boolean) => (autoFetch.current = value)}
         />
       </Box>
     </Box>

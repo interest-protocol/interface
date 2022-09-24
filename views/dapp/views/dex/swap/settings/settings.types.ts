@@ -27,9 +27,5 @@ export interface SwapSettingsProps {
 
 export interface AutoFetchProps {
   setter: (value: boolean) => void;
-<<<<<<< HEAD
   control: Control<ISwapSettingsForm>;
-=======
-  value: boolean;
->>>>>>> 0e0825b (🔥 feat: team section (#129))
 }
