@@ -1,5 +1,6 @@
 {
   "dexPoolPairAddress": {
+    "pageTitle": "Pool Details",
     "title": "{type} Summary",
     "sectionCustomDetail2": "Swap Fee",
     "removeLiquidity": "Remove Liquidity",

@@ -1,5 +1,7 @@
 {
   "dineroMarketAddress": {
+    "pageTitleBorrow": "Borrow Dinero",
+    "pageTitleRepay": "Repay Dinero",
     "borrowTitle": "Borrow",
     "repayTitle": "Repay",
     "borrowCollateralLabel": "Deposit Collateral",

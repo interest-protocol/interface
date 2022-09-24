@@ -1,5 +1,6 @@
 {
   "earnTokenAddress": {
+    "pageTitle": "Detalhes da Farm",
     "title": "detalhes",
     "secondCardTitle": "Depositados (Staked)",
     "thirdCardTitle": "Ganhos",

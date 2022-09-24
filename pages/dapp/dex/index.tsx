@@ -15,6 +15,7 @@ export const getStaticProps: GetStaticProps = async ({
       ...require(`../../../assets/messages/dex/pool/find/${locale}.json`),
       ...require(`../../../assets/messages/common/${locale}.json`),
     },
+    pageTitle: 'dexSwap.pageTitle',
   },
 });
 

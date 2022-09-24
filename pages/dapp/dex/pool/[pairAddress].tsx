@@ -23,6 +23,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         ...require(`../../../../assets/messages/dex/pool/pair-address/${locale}.json`),
         ...require(`../../../../assets/messages/common/${locale}.json`),
       },
+      pageTitle: 'dexPoolPairAddress.pageTitle',
     },
   };
 };
