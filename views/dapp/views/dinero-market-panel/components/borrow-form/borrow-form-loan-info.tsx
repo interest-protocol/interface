@@ -53,7 +53,12 @@ const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
   return (
     <Box mt="XXL">
       {INFO.map(({ text, tip }, i) => (
-        <Box key={v4()} display="flex" justifyContent="space-between" p="M">
+        <Box
+          p="M"
+          key={v4()}
+          display={['block', 'block', 'block', 'flex']}
+          justifyContent={['unset', 'unset', 'unset', 'space-between']}
+        >
           <Box display="flex" alignItems="center">
             <Box
               mr="M"
@@ -73,8 +78,12 @@ const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
           <Typography
             as="span"
             variant="normal"
-            textAlign="right"
             whiteSpace="nowrap"
+            color="textSecondary"
+            display="inline-block"
+            ml={['XL', 'XL', 'XL', 'S']}
+            mt={['M', 'M', 'M', 'unset']}
+            textAlign={['unset', 'unset', 'unset', 'right']}
           >
             {loanData[i]}
           </Typography>
