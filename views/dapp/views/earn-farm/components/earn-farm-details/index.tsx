@@ -38,7 +38,6 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
               )} ${capitalize(t('common.farm'))} `}
           {t('earnTokenAddress.title')}
         </Typography>
-<<<<<<< HEAD
         <Typography
           ml="L"
           px="L"
@@ -55,19 +54,6 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
           {t(farm.stable ? 'common.stable' : 'common.volatile', {
             count: 1,
           })}
-=======
-        {formatDollars(farm.tvl)}
-      </Box>
-      <Box>
-        <Typography variant="normal" fontSize="S" mb="L">
-          Status
-        </Typography>
-        {farm.isLive ? 'Live' : 'Finished'}
-      </Box>
-      <Box>
-        <Typography variant="normal" fontSize="S" mb="L">
-          APR
->>>>>>> 0e0825b (🔥 feat: team section (#129))
         </Typography>
       </Box>
       <Box

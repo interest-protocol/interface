@@ -11,10 +11,6 @@ import {
   Subscribe,
   Team,
 } from './components';
-<<<<<<< HEAD
-=======
-import Layout from './layout';
->>>>>>> 0e0825b (🔥 feat: team section (#129))
 
 const Home: FC = () => (
   <>
