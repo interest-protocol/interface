@@ -40,8 +40,8 @@ const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => {
         <Box
           my="L"
           key={v4()}
-          display={['block', 'flex']}
-          justifyContent={['unset', 'space-between']}
+          display={['block', 'block', 'block', 'flex']}
+          justifyContent={['unset', 'unset', 'unset', 'space-between']}
         >
           <Typography variant="normal" display="flex" alignItems="center">
             <Box
@@ -59,11 +59,11 @@ const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => {
           <Typography
             as="div"
             variant="normal"
-            ml={['XL', 'M']}
-            mt={['M', 'unset']}
             whiteSpace="nowrap"
             color="textSecondary"
-            textAlign={['unset', 'right']}
+            ml={['XL', 'XL', 'XL', 'M']}
+            mt={['M', 'M', 'M', 'unset']}
+            textAlign={['unset', 'unset', 'unset', 'right']}
           >
             {isLoading ? (
               <Typography

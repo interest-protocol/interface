@@ -32,8 +32,8 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
         <Box
           my="L"
           key={v4()}
-          display={['block', 'flex']}
-          justifyContent={['unset', 'space-between']}
+          display={['block', 'block', 'block', 'flex']}
+          justifyContent={['unset', 'unset', 'unset', 'space-between']}
         >
           <Typography variant="normal" display="flex" alignItems="center">
             <Box
@@ -49,12 +49,12 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
             {capitalize(t(name))}
           </Typography>
           <Typography
-            ml={['XL', 'L']}
             variant="normal"
             overflow="hidden"
-            mt={['M', 'unset']}
             color="textSecondary"
-            textAlign={['left', 'right']}
+            ml={['XL', 'XL', 'XL', 'L']}
+            mt={['M', 'M', 'M', 'unset']}
+            textAlign={['unset', 'unset', 'unset', 'right']}
           >
             {myPositionData[i]}
           </Typography>
