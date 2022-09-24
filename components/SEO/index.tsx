@@ -9,6 +9,7 @@ import { LayoutProps } from '@/views/home/layout/layout.types';
 const SEO: FC<LayoutProps> = ({ pageTitle }) => {
   const t = useTranslations();
   const { colors } = useTheme() as Theme;
+
   return (
     <Head>
       <meta name="theme-color" content={colors.foreground} />
