@@ -146,7 +146,11 @@ const FaucetForm: FC<FaucetFormProps> = ({
               isLoadingData ? (
                 <Skeleton width="4rem" />
               ) : (
-                <CurrencyIdentifier tokens={tokens} control={control} />
+                <CurrencyIdentifier
+                  chainId={chainId}
+                  tokens={tokens}
+                  control={control}
+                />
               )
             }
           />

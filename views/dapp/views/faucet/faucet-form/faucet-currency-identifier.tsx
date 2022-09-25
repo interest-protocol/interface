@@ -4,17 +4,16 @@ import { useWatch } from 'react-hook-form';
 
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useChainId } from '@/hooks';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { isValidAccount, safeGetAddress } from '@/utils';
 
 import { CurrencyIdentifierProps } from '../faucet.types';
 
 const CurrencyIdentifier: FC<CurrencyIdentifierProps> = ({
+  chainId,
   tokens,
   control,
 }) => {
-  const chainId = useChainId();
   const tokenAddress = useWatch({ control, name: 'token' });
 
   const symbol =

@@ -5,13 +5,13 @@ import { v4 } from 'uuid';
 
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useChainId } from '@/hooks';
 import { CONTRACTS, FixedPointMath } from '@/sdk';
 import { formatMoney } from '@/utils';
 
 import { YourBalanceProps } from './your-balance.types';
 
 const YourBalance: FC<YourBalanceProps> = ({
+  chainId,
   isPair,
   loading,
   dnrBalance,
@@ -22,7 +22,6 @@ const YourBalance: FC<YourBalanceProps> = ({
   collateralDecimals,
 }) => {
   const t = useTranslations();
-  const chainId = useChainId();
 
   return (
     <Box p="XL" order={3} gridArea="e" bg="foreground" borderRadius="L">

@@ -6,7 +6,7 @@ import {
   DINERO_MARKET_METADATA,
   DineroMarketKind,
   FARM_METADATA_MAP,
-  getDineroMarketSVGBySymbol,
+  getDineroMarketSVGByAddress,
   TOKENS_SVG_MAP,
   WBNB_INT_ADDRESS_MAP,
   WRAPPED_NATIVE_TOKEN,
@@ -96,8 +96,6 @@ const DEFAULT_MARKET_DATA = {
   apr: FixedPointMath.from(0),
   symbol0: '',
   symbol1: '',
-  token0: '',
-  token1: '',
   name: '',
   stable: false,
   marketAddress: ZERO_ADDRESS,
@@ -739,10 +737,9 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
       currency:
         market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.symbol0,
       amount: '0',
-      currencyIcons: getDineroMarketSVGBySymbol(
-        market.token0,
-        market.token1,
-        market.chainId
+      currencyIcons: getDineroMarketSVGByAddress(
+        market.chainId,
+        market.marketAddress
       ),
       max: FixedPointMath.toNumber(market.adjustedCollateralBalance),
       name: 'borrow.collateral',
@@ -794,10 +791,9 @@ export const getRepayFields: TGetRepayFields = (market) => {
       currency:
         market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.symbol0,
       amount: '0',
-      currencyIcons: getDineroMarketSVGBySymbol(
-        market.token0,
-        market.token1,
-        market.chainId
+      currencyIcons: getDineroMarketSVGByAddress(
+        market.chainId,
+        market.marketAddress
       ),
       max: safeAmountToWithdraw(market).toNumber(),
       name: 'repay.collateral',

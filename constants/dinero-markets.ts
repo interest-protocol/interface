@@ -1,8 +1,9 @@
 import { ethers } from 'ethers';
+import { pathOr } from 'ramda';
 import { FC, SVGAttributes } from 'react';
 
-import { TOKENS_SVG_MAP } from '@/constants/erc-20';
-import { CHAIN_ID, CONTRACTS, TOKEN_SYMBOL } from '@/sdk';
+import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk';
+import { BitcoinSVG, BNBSVG, EtherSVG, TetherSVG, UnknownCoinSVG } from '@/svg';
 import { getBTCAddress, getETHERC20Address } from '@/utils';
 
 import { WRAPPED_NATIVE_TOKEN } from './dex';
@@ -70,8 +71,6 @@ export const DINERO_MARKET_METADATA = {
       kind: DineroMarketKind.ERC20,
       symbol0: TOKEN_SYMBOL.BTC,
       symbol1: TOKEN_SYMBOL.Unknown,
-      token0: CONTRACTS.BTC[CHAIN_ID.BNB_TEST_NET],
-      token1: '',
       name: 'Bitcoin',
       stable: false,
       collateralDecimals: 18,
@@ -81,8 +80,6 @@ export const DINERO_MARKET_METADATA = {
       kind: DineroMarketKind.ERC20,
       symbol0: TOKEN_SYMBOL.ETH,
       symbol1: TOKEN_SYMBOL.Unknown,
-      token0: CONTRACTS.ERC20_ETH[CHAIN_ID.BNB_TEST_NET],
-      token1: '',
       name: 'Ether',
       stable: false,
       collateralDecimals: 18,
@@ -92,8 +89,6 @@ export const DINERO_MARKET_METADATA = {
       kind: DineroMarketKind.Native,
       symbol0: TOKEN_SYMBOL.BNB,
       symbol1: TOKEN_SYMBOL.Unknown,
-      token0: ethers.constants.AddressZero,
-      token1: '',
       name: 'BNB',
       stable: false,
       collateralDecimals: 18,
@@ -103,8 +98,6 @@ export const DINERO_MARKET_METADATA = {
       kind: DineroMarketKind.LpFreeMarket,
       symbol0: TOKEN_SYMBOL.BNB,
       symbol1: TOKEN_SYMBOL.USDT,
-      token0: ethers.constants.AddressZero,
-      token1: CONTRACTS.USDT[CHAIN_ID.BNB_TEST_NET],
       name: 'BNB-USDT',
       stable: false,
       collateralDecimals: 18,
@@ -115,36 +108,57 @@ export const DINERO_MARKET_METADATA = {
   },
 };
 
-export const getDineroMarketSVGBySymbol = (
-  address0: string,
-  address1: string,
-  chain: number
+const DINERO_MARKET_SVG_MAP = {
+  [CHAIN_ID.BNB_TEST_NET]: {
+    [getBSCTestNetDineroMarkets().BTC]: [
+      { icon: BitcoinSVG, highZIndex: false },
+    ],
+    [getBSCTestNetDineroMarkets().ETH]: [{ icon: EtherSVG, highZIndex: false }],
+    [getBSCTestNetDineroMarkets().NATIVE_TOKEN]: [
+      { icon: BNBSVG, highZIndex: false },
+    ],
+    [getBSCTestNetDineroMarkets().USDT_WBNB_VOLATILE]: [
+      { icon: TetherSVG, highZIndex: true },
+      { icon: BNBSVG, highZIndex: false },
+    ],
+  },
+};
+
+export const getDineroMarketSVGByAddress = (
+  chain: number,
+  marketAddress: string
 ): ReadonlyArray<{
   SVG: FC<SVGAttributes<SVGSVGElement>>;
   highZIndex: boolean;
 }> => {
-  const token1HasLowerZIndex = [
-    ethers.constants.AddressZero,
-    CONTRACTS.WETH[chain],
-  ].includes(address1);
+  const data = pathOr(
+    [
+      {
+        icon: UnknownCoinSVG,
+        highZIndex: false,
+      },
+    ],
+    [chain.toString(), ethers.utils.getAddress(marketAddress)],
+    DINERO_MARKET_SVG_MAP
+  );
 
   // 1 Token
-  if (!TOKENS_SVG_MAP[chain][address1])
+  if (data.length === 1)
     return [
       {
-        SVG: TOKENS_SVG_MAP[chain][address0],
-        highZIndex: false,
+        SVG: data[0].icon,
+        highZIndex: data[0].highZIndex,
       },
     ];
 
   return [
     {
-      SVG: TOKENS_SVG_MAP[chain][address0] ?? TOKENS_SVG_MAP[chain].default,
-      highZIndex: token1HasLowerZIndex,
+      SVG: data[0].icon,
+      highZIndex: data[0].highZIndex,
     },
     {
-      SVG: TOKENS_SVG_MAP[chain][address1] ?? TOKENS_SVG_MAP[chain].default,
-      highZIndex: !token1HasLowerZIndex,
+      SVG: data[1].icon,
+      highZIndex: data[1].highZIndex,
     },
   ];
 };

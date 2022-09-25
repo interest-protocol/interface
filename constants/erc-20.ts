@@ -27,7 +27,10 @@ import {
   VaiSVG,
   WBNBCoinSVG,
 } from '@/svg';
-import { isZeroAddress } from '@/utils';
+import {
+  isZeroAddress,
+  replaceWrappedNativeTokenAddressWithZero,
+} from '@/utils';
 import {
   getAPEAddress,
   getBTCAddress,
@@ -131,7 +134,6 @@ export const TOKENS_SVG_MAP = {
   },
   [CHAIN_ID.RINKEBY]: {
     default: UnknownCoinSVG,
-    // [CONTRACTS.ERC20_ETH[CHAIN_ID.RINKEBY]]: EtherSVG,
     [CONTRACTS.WETH[CHAIN_ID.RINKEBY]]: EtherSVG,
     [CONTRACTS.BUSD[CHAIN_ID.RINKEBY]]: BinanceUSDSVG,
     [CONTRACTS.DAI[CHAIN_ID.RINKEBY]]: DAISVG,
@@ -191,11 +193,21 @@ export const getFarmsSVGByToken = (
 
   return [
     {
-      SVG: TOKENS_SVG_MAP[chainId][ethers.utils.getAddress(Token0.address)],
+      SVG: TOKENS_SVG_MAP[chainId][
+        replaceWrappedNativeTokenAddressWithZero(
+          chainId,
+          ethers.utils.getAddress(Token0.address)
+        )
+      ],
       highZIndex: token1HasLowerZIndex,
     },
     {
-      SVG: TOKENS_SVG_MAP[chainId][ethers.utils.getAddress(Token1.address)],
+      SVG: TOKENS_SVG_MAP[chainId][
+        replaceWrappedNativeTokenAddressWithZero(
+          chainId,
+          ethers.utils.getAddress(Token1.address)
+        )
+      ],
       highZIndex: !token1HasLowerZIndex,
     },
   ];

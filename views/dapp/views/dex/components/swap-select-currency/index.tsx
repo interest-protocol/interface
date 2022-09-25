@@ -73,6 +73,7 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
         </Box>
       </Box>
       <SwapTokensModal
+        chainId={chainId}
         onSelectCurrency={onSelectCurrency}
         currentToken={currentToken}
         fromRight={fromRight}

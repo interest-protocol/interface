@@ -31,6 +31,7 @@ const RecommendedPools: FC<RecommendedPoolsProps> = ({ type }) => {
         ({ token0, token1, pairAddress }) => (
           <PoolRow
             key={v4()}
+            chainId={chainId}
             symbol0={token0.symbol}
             symbol1={token1.symbol}
             address0={token0.address}

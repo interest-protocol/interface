@@ -6,19 +6,17 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import { getDineroMarketSVGBySymbol, Routes, RoutesEnum } from '@/constants';
+import { getDineroMarketSVGByAddress, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
-import { useChainId } from '@/hooks';
 import { FixedPointMath, SECONDS_IN_A_YEAR } from '@/sdk';
 import { capitalize, formatDollars, formatMoney } from '@/utils';
 
 import { handleFilterDineroMarkets } from '../../dinero-market.utils';
 import { BorrowTableProps } from './borrow-table.types';
 
-const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
+const BorrowTable: FC<BorrowTableProps> = ({ control, markets, chainId }) => {
   const t = useTranslations();
   const { push } = useRouter();
-  const chainId = useChainId();
   const sortBy = useWatch({ control, name: 'sortBy' });
   const search = useWatch({ control, name: 'search' });
   const onlyBorrowing = useWatch({ control, name: 'onlyBorrowing' });
@@ -123,7 +121,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
             ),
             items: [
               <Box key={v4()} display="flex" alignItems="center">
-                {getDineroMarketSVGBySymbol(x.token0, x.token1!, chainId).map(
+                {getDineroMarketSVGByAddress(chainId, x.marketAddress).map(
                   ({ SVG, highZIndex }, index) => (
                     <Box
                       mr="M"
@@ -224,23 +222,21 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   justifyContent="center"
                 >
                   <Box display="flex">
-                    {getDineroMarketSVGBySymbol(
-                      x.token0,
-                      x.token1 ?? '',
-                      chainId
-                    ).map(({ SVG, highZIndex }, index) => (
-                      <Box
-                        mr="M"
-                        as="span"
-                        key={v4()}
-                        width="1.6rem"
-                        display="inline-block"
-                        ml={index != 0 ? '-1rem' : 'NONE'}
-                        zIndex={index == 0 && highZIndex ? 3 : 'unset'}
-                      >
-                        <SVG width="100%" />
-                      </Box>
-                    ))}
+                    {getDineroMarketSVGByAddress(chainId, x.marketAddress).map(
+                      ({ SVG, highZIndex }, index) => (
+                        <Box
+                          mr="M"
+                          as="span"
+                          key={v4()}
+                          width="1.6rem"
+                          display="inline-block"
+                          ml={index != 0 ? '-1rem' : 'NONE'}
+                          zIndex={index == 0 && highZIndex ? 3 : 'unset'}
+                        >
+                          <SVG width="100%" />
+                        </Box>
+                      )
+                    )}
                   </Box>
                   <Typography variant="normal" textAlign="center" mt="M">
                     {x.name}

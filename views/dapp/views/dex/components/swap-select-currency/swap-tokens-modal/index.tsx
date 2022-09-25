@@ -14,7 +14,7 @@ import {
   TOKENS_SVG_MAP,
 } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { useChainId, useDebounce, useLocalStorage } from '@/hooks';
+import { useDebounce, useLocalStorage } from '@/hooks';
 import { TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
 import { LineLoaderSVG, TimesSVG } from '@/svg';
 import { capitalize, isSameAddress, isSameAddressZ, noop } from '@/utils';
@@ -107,9 +107,9 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   currentToken,
   setIsSearching,
   onSelectCurrency,
+  chainId,
 }) => {
   const t = useTranslations();
-  const chainId = useChainId();
   const [showLocal, setShowLocal] = useState(false);
   const search = useWatch({ control, name: 'search' });
   const [searchedToken, setSearchedToken] =

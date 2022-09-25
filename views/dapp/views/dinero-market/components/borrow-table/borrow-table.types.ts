@@ -8,4 +8,5 @@ import {
 export interface BorrowTableProps {
   markets: ReadonlyArray<DineroMarketSummary>;
   control: Control<IDineroMarketForm>;
+  chainId: number;
 }

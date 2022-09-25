@@ -3,24 +3,29 @@ import { FC } from 'react';
 
 import { Routes, RoutesEnum, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useChainId } from '@/hooks';
-import { replaceWrappedNativeTokenWithNativeTokenSymbol } from '@/utils';
+import {
+  replaceWrappedNativeTokenAddressWithZero,
+  replaceWrappedNativeTokenWithNativeTokenSymbol,
+} from '@/utils';
 
 import { PoolRowProps } from './pool.types';
 
 const PoolRow: FC<PoolRowProps> = ({
+  chainId,
   symbol0,
   symbol1,
   address0,
   address1,
   pairAddress,
 }) => {
-  const chainId = useChainId();
-
   const FirstIcon =
-    TOKENS_SVG_MAP[chainId][address0] ?? TOKENS_SVG_MAP[chainId].default;
+    TOKENS_SVG_MAP[chainId][
+      replaceWrappedNativeTokenAddressWithZero(chainId, address0)
+    ] ?? TOKENS_SVG_MAP[chainId].default;
   const SecondIcon =
-    TOKENS_SVG_MAP[chainId][address1] ?? TOKENS_SVG_MAP[chainId].default;
+    TOKENS_SVG_MAP[chainId][
+      replaceWrappedNativeTokenAddressWithZero(chainId, address1)
+    ] ?? TOKENS_SVG_MAP[chainId].default;
 
   return (
     <Link
