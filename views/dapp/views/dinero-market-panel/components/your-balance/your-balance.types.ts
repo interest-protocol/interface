@@ -4,6 +4,7 @@ import { DineroCurrencyIcons } from '../../dinero-market.types';
 
 export interface YourBalanceProps {
   isPair: boolean;
+  chainId: number;
   loading: boolean;
   dnrBalance: BigNumber;
   intBalance: BigNumber;

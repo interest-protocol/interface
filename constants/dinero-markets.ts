@@ -1,13 +1,10 @@
 import { ethers } from 'ethers';
+import { pathOr } from 'ramda';
 import { FC, SVGAttributes } from 'react';
 
-import { TOKENS_SVG_MAP } from '@/constants/erc-20';
 import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk';
-import {
-  getBTCAddress,
-  getETHERC20Address,
-  replaceWrappedNativeTokenWithNativeTokenSymbol,
-} from '@/utils';
+import { BitcoinSVG, BNBSVG, EtherSVG, TetherSVG, UnknownCoinSVG } from '@/svg';
+import { getBTCAddress, getETHERC20Address } from '@/utils';
 
 import { WRAPPED_NATIVE_TOKEN } from './dex';
 
@@ -111,38 +108,57 @@ export const DINERO_MARKET_METADATA = {
   },
 };
 
-export const getDineroMarketSVGBySymbol = (
-  symbol0: string,
-  symbol1: string
+const DINERO_MARKET_SVG_MAP = {
+  [CHAIN_ID.BNB_TEST_NET]: {
+    [getBSCTestNetDineroMarkets().BTC]: [
+      { icon: BitcoinSVG, highZIndex: false },
+    ],
+    [getBSCTestNetDineroMarkets().ETH]: [{ icon: EtherSVG, highZIndex: false }],
+    [getBSCTestNetDineroMarkets().NATIVE_TOKEN]: [
+      { icon: BNBSVG, highZIndex: false },
+    ],
+    [getBSCTestNetDineroMarkets().USDT_WBNB_VOLATILE]: [
+      { icon: TetherSVG, highZIndex: true },
+      { icon: BNBSVG, highZIndex: false },
+    ],
+  },
+};
+
+export const getDineroMarketSVGByAddress = (
+  chain: number,
+  marketAddress: string
 ): ReadonlyArray<{
   SVG: FC<SVGAttributes<SVGSVGElement>>;
   highZIndex: boolean;
 }> => {
-  const token1HasLowerZIndex = [TOKEN_SYMBOL.BNB, TOKEN_SYMBOL.WBNB].includes(
-    symbol1 as TOKEN_SYMBOL
+  const data = pathOr(
+    [
+      {
+        icon: UnknownCoinSVG,
+        highZIndex: false,
+      },
+    ],
+    [chain.toString(), ethers.utils.getAddress(marketAddress)],
+    DINERO_MARKET_SVG_MAP
   );
 
   // 1 Token
-  if (symbol1 === (TOKEN_SYMBOL.Unknown as string))
+  if (data.length === 1)
     return [
       {
-        SVG: TOKENS_SVG_MAP[symbol0],
-        highZIndex: false,
+        SVG: data[0].icon,
+        highZIndex: data[0].highZIndex,
       },
     ];
 
   return [
     {
-      SVG: TOKENS_SVG_MAP[
-        replaceWrappedNativeTokenWithNativeTokenSymbol(symbol0 as TOKEN_SYMBOL)
-      ],
-      highZIndex: token1HasLowerZIndex,
+      SVG: data[0].icon,
+      highZIndex: data[0].highZIndex,
     },
     {
-      SVG: TOKENS_SVG_MAP[
-        replaceWrappedNativeTokenWithNativeTokenSymbol(symbol1 as TOKEN_SYMBOL)
-      ],
-      highZIndex: !token1HasLowerZIndex,
+      SVG: data[1].icon,
+      highZIndex: data[1].highZIndex,
     },
   ];
 };

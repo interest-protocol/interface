@@ -3,19 +3,20 @@ import Skeleton from 'react-loading-skeleton';
 
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { TOKEN_SYMBOL } from '@/sdk';
-import { replaceWrappedNativeTokenWithNativeTokenSymbol } from '@/utils';
+import { useChainId } from '@/hooks';
 
 import { LiquidityDetailsCardLineProps } from '../../dex-pool-details.types';
 
 const LiquidityDetailsCardLine: FC<LiquidityDetailsCardLineProps> = ({
   value,
   symbol,
+  address,
   isFetchingInitialData,
 }) => {
+  const chainId = useChainId();
+
   const TokenSVG =
-    TOKENS_SVG_MAP[replaceWrappedNativeTokenWithNativeTokenSymbol(symbol)] ??
-    TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+    TOKENS_SVG_MAP[chainId][address] ?? TOKENS_SVG_MAP[chainId].default;
 
   return (
     <Box display="flex" justifyContent="space-between" my="M">

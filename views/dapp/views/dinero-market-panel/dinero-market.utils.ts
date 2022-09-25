@@ -6,13 +6,14 @@ import {
   DINERO_MARKET_METADATA,
   DineroMarketKind,
   FARM_METADATA_MAP,
-  getDineroMarketSVGBySymbol,
+  getDineroMarketSVGByAddress,
   TOKENS_SVG_MAP,
   WBNB_INT_ADDRESS_MAP,
   WRAPPED_NATIVE_TOKEN,
 } from '@/constants';
 import {
   CHAIN_ID,
+  CONTRACTS,
   FixedPointMath,
   SECONDS_IN_A_YEAR,
   TOKEN_SYMBOL,
@@ -736,7 +737,10 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
       currency:
         market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.symbol0,
       amount: '0',
-      currencyIcons: getDineroMarketSVGBySymbol(market.symbol0, market.symbol1),
+      currencyIcons: getDineroMarketSVGByAddress(
+        market.chainId,
+        market.marketAddress
+      ),
       max: FixedPointMath.toNumber(market.adjustedCollateralBalance),
       name: 'borrow.collateral',
       label: 'dineroMarketAddress.borrowCollateralLabel',
@@ -751,7 +755,7 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
       amountUSD: 1,
       currencyIcons: [
         {
-          SVG: TOKENS_SVG_MAP[TOKEN_SYMBOL.DNR],
+          SVG: TOKENS_SVG_MAP[market.chainId][CONTRACTS.DNR[market.chainId]],
           highZIndex: false,
         },
       ],
@@ -773,7 +777,7 @@ export const getRepayFields: TGetRepayFields = (market) => {
       amountUSD: 1,
       currencyIcons: [
         {
-          SVG: TOKENS_SVG_MAP[TOKEN_SYMBOL.DNR],
+          SVG: TOKENS_SVG_MAP[market.chainId][CONTRACTS.DNR[market.chainId]],
           highZIndex: false,
         },
       ],
@@ -787,7 +791,10 @@ export const getRepayFields: TGetRepayFields = (market) => {
       currency:
         market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.symbol0,
       amount: '0',
-      currencyIcons: getDineroMarketSVGBySymbol(market.symbol0, market.symbol1),
+      currencyIcons: getDineroMarketSVGByAddress(
+        market.chainId,
+        market.marketAddress
+      ),
       max: safeAmountToWithdraw(market).toNumber(),
       name: 'repay.collateral',
       label: 'dineroMarketAddress.repayCollateralLabel',

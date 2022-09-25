@@ -3,7 +3,10 @@ import { ethers } from 'ethers';
 
 import { CHAINS, WRAPPED_NATIVE_TOKEN } from '@/constants';
 import { ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
-import { isSameAddressZ } from '@/utils';
+import {
+  isSameAddressZ,
+  replaceWrappedNativeTokenAddressWithZero,
+} from '@/utils';
 
 import {
   ERC20MetadataStructOutput,
@@ -21,14 +24,6 @@ const processMetadata = (
   return isSameAddressZ(wrappedNativeToken.address, token)
     ? { ...nativeToken, decimals: BigNumber.from(nativeToken.decimals) }
     : metadata;
-};
-
-const processAddress = (chainId: number, token: string) => {
-  const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId];
-
-  return isSameAddressZ(wrappedNativeToken.address, token)
-    ? ZERO_ADDRESS
-    : token;
 };
 
 const processAllowance = (
@@ -105,8 +100,14 @@ export const processPairData = (
       data.pairMetadata.token1,
       data.pairMetadata.token1Metadata
     ),
-    token0: processAddress(chainId, data.pairMetadata.token0),
-    token1: processAddress(chainId, data.pairMetadata.token1),
+    token0: replaceWrappedNativeTokenAddressWithZero(
+      chainId,
+      data.pairMetadata.token0
+    ),
+    token1: replaceWrappedNativeTokenAddressWithZero(
+      chainId,
+      data.pairMetadata.token1
+    ),
     isStable: data.pairMetadata.isStable,
     reserve0: data.pairMetadata.reserve0,
     reserve1: data.pairMetadata.reserve1,

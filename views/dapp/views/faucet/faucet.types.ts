@@ -37,6 +37,7 @@ export interface FaucetProps {
 export interface CurrencyIdentifierProps {
   control: Control<IFaucetForm>;
   tokens: ReadonlyArray<IToken & { balance: BigNumber }>;
+  chainId: number;
 }
 export interface FaucetCurrencyDropdownProps {
   defaultValue: string;

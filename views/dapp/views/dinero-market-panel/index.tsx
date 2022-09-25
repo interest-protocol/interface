@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 
 import { addAllowance } from '@/api';
 import { Container, Tooltip } from '@/components';
-import { getDineroMarketSVGBySymbol } from '@/constants';
+import { getDineroMarketSVGByAddress } from '@/constants';
 import {
   DINERO_MARKET_METADATA,
   DineroMarketKind,
@@ -306,15 +306,16 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
             isLoading={market.collateralUSDPrice.isZero() && !error}
           />
           <YourBalance
+            chainId={market.chainId}
             collateralName={market.name}
             dnrBalance={market.dnrBalance}
             intBalance={market.rewardsBalance}
             collateralBalance={market.collateralBalance}
             collateralDecimals={market.collateralDecimals}
             isPair={market.kind === DineroMarketKind.LpFreeMarket}
-            currencyIcons={getDineroMarketSVGBySymbol(
-              market.symbol0,
-              market.symbol1
+            currencyIcons={getDineroMarketSVGByAddress(
+              market.chainId,
+              market.marketAddress
             )}
             loading={market.collateralUSDPrice.isZero() && !error}
           />

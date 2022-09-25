@@ -15,7 +15,7 @@ import {
 } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useGetSigner, useIdAccount } from '@/hooks';
-import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import {
@@ -146,7 +146,11 @@ const FaucetForm: FC<FaucetFormProps> = ({
               isLoadingData ? (
                 <Skeleton width="4rem" />
               ) : (
-                <CurrencyIdentifier tokens={tokens} control={control} />
+                <CurrencyIdentifier
+                  chainId={chainId}
+                  tokens={tokens}
+                  control={control}
+                />
               )
             }
           />
@@ -211,8 +215,8 @@ const FaucetForm: FC<FaucetFormProps> = ({
                 ))
               : tokens.map(({ symbol, address, balance }) => {
                   const SVG =
-                    TOKENS_SVG_MAP[symbol] ??
-                    TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+                    TOKENS_SVG_MAP[chainId][address] ??
+                    TOKENS_SVG_MAP[chainId].default;
 
                   const decimals = pathOr(
                     DEFAULT_ERC_20_DECIMALS,

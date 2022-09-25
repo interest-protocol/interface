@@ -321,12 +321,14 @@ const FindPoolView: FC = () => {
         currencyASelectArgs={{
           isModalOpen: isTokenAOpenModal,
           symbol: getValues('tokenA.symbol'),
+          address: getValues('tokenA.address'),
           setIsModalOpen: setTokenAIsOpenModal,
           onSelectCurrency: onSelectCurrency('tokenA'),
         }}
         currencyBSelectArgs={{
           isModalOpen: isTokenBOpenModal,
           symbol: getValues('tokenB.symbol'),
+          address: getValues('tokenB.address'),
           setIsModalOpen: setTokenBIsOpenModal,
           onSelectCurrency: onSelectCurrency('tokenB'),
         }}
