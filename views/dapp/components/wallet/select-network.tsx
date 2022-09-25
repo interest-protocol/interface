@@ -1,4 +1,5 @@
 import { useTranslations } from 'next-intl';
+import { values } from 'ramda';
 import { FC } from 'react';
 
 import EthereumNetwork from '@/components/svg/ethereum-network';
@@ -25,17 +26,12 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
         mode="select"
         suffix={
           <Box display="flex" alignItems="center">
-            {!chainId && (
+            {(!chainId || !values(CHAIN_ID).includes(chainId)) && (
               <Box
                 mr="S"
                 as="span"
                 width="1rem"
-                display={[
-                  'inline-block',
-                  'inline-block',
-                  'inline-block',
-                  'none',
-                ]}
+                display={['inline-block', 'none']}
               >
                 <BlockchainSVG width="100%" />
               </Box>

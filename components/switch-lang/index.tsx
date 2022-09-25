@@ -15,8 +15,7 @@ const SwitchLang: FC = () => {
           width="1.25rem"
           height="1.25rem"
           borderRadius="2rem"
-          ml={['L', '0.75rem']}
-          mr={['L', '0.75rem']}
+          mx={['M', '0.75rem']}
         >
           {getSafeLocaleSVG(currentLocale)}
         </Box>
