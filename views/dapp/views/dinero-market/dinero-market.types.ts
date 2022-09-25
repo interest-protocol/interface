@@ -14,6 +14,8 @@ export interface DineroMarketSummary {
   kind: DineroMarketKind;
   symbol0: string;
   symbol1: string;
+  token0: string;
+  token1?: string;
   name: string;
   stable: boolean;
   marketAddress: string;

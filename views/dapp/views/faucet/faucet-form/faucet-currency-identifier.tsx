@@ -4,6 +4,7 @@ import { useWatch } from 'react-hook-form';
 
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
+import { useChainId } from '@/hooks';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { isValidAccount, safeGetAddress } from '@/utils';
 
@@ -13,6 +14,7 @@ const CurrencyIdentifier: FC<CurrencyIdentifierProps> = ({
   tokens,
   control,
 }) => {
+  const chainId = useChainId();
   const tokenAddress = useWatch({ control, name: 'token' });
 
   const symbol =
@@ -24,7 +26,9 @@ const CurrencyIdentifier: FC<CurrencyIdentifierProps> = ({
         )
       : TOKEN_SYMBOL.Unknown;
 
-  const Icon = TOKENS_SVG_MAP[symbol] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+  const Icon =
+    TOKENS_SVG_MAP[chainId][tokenAddress] ??
+    TOKENS_SVG_MAP[chainId][TOKEN_SYMBOL.Unknown];
 
   return (
     <Box display="flex" alignItems="center">

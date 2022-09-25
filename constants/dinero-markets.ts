@@ -2,12 +2,8 @@ import { ethers } from 'ethers';
 import { FC, SVGAttributes } from 'react';
 
 import { TOKENS_SVG_MAP } from '@/constants/erc-20';
-import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk';
-import {
-  getBTCAddress,
-  getETHERC20Address,
-  replaceWrappedNativeTokenWithNativeTokenSymbol,
-} from '@/utils';
+import { CHAIN_ID, CONTRACTS, TOKEN_SYMBOL } from '@/sdk';
+import { getBTCAddress, getETHERC20Address } from '@/utils';
 
 import { WRAPPED_NATIVE_TOKEN } from './dex';
 
@@ -74,6 +70,8 @@ export const DINERO_MARKET_METADATA = {
       kind: DineroMarketKind.ERC20,
       symbol0: TOKEN_SYMBOL.BTC,
       symbol1: TOKEN_SYMBOL.Unknown,
+      token0: CONTRACTS.BTC[CHAIN_ID.BNB_TEST_NET],
+      token1: '',
       name: 'Bitcoin',
       stable: false,
       collateralDecimals: 18,
@@ -83,6 +81,8 @@ export const DINERO_MARKET_METADATA = {
       kind: DineroMarketKind.ERC20,
       symbol0: TOKEN_SYMBOL.ETH,
       symbol1: TOKEN_SYMBOL.Unknown,
+      token0: CONTRACTS.ERC20_ETH[CHAIN_ID.BNB_TEST_NET],
+      token1: '',
       name: 'Ether',
       stable: false,
       collateralDecimals: 18,
@@ -92,6 +92,8 @@ export const DINERO_MARKET_METADATA = {
       kind: DineroMarketKind.Native,
       symbol0: TOKEN_SYMBOL.BNB,
       symbol1: TOKEN_SYMBOL.Unknown,
+      token0: ethers.constants.AddressZero,
+      token1: '',
       name: 'BNB',
       stable: false,
       collateralDecimals: 18,
@@ -101,6 +103,8 @@ export const DINERO_MARKET_METADATA = {
       kind: DineroMarketKind.LpFreeMarket,
       symbol0: TOKEN_SYMBOL.BNB,
       symbol1: TOKEN_SYMBOL.USDT,
+      token0: ethers.constants.AddressZero,
+      token1: CONTRACTS.USDT[CHAIN_ID.BNB_TEST_NET],
       name: 'BNB-USDT',
       stable: false,
       collateralDecimals: 18,
@@ -112,36 +116,34 @@ export const DINERO_MARKET_METADATA = {
 };
 
 export const getDineroMarketSVGBySymbol = (
-  symbol0: string,
-  symbol1: string
+  address0: string,
+  address1: string,
+  chain: number
 ): ReadonlyArray<{
   SVG: FC<SVGAttributes<SVGSVGElement>>;
   highZIndex: boolean;
 }> => {
-  const token1HasLowerZIndex = [TOKEN_SYMBOL.BNB, TOKEN_SYMBOL.WBNB].includes(
-    symbol1 as TOKEN_SYMBOL
-  );
+  const token1HasLowerZIndex = [
+    ethers.constants.AddressZero,
+    CONTRACTS.WETH[chain],
+  ].includes(address1);
 
   // 1 Token
-  if (symbol1 === (TOKEN_SYMBOL.Unknown as string))
+  if (!TOKENS_SVG_MAP[chain][address1])
     return [
       {
-        SVG: TOKENS_SVG_MAP[symbol0],
+        SVG: TOKENS_SVG_MAP[chain][address0],
         highZIndex: false,
       },
     ];
 
   return [
     {
-      SVG: TOKENS_SVG_MAP[
-        replaceWrappedNativeTokenWithNativeTokenSymbol(symbol0 as TOKEN_SYMBOL)
-      ],
+      SVG: TOKENS_SVG_MAP[chain][address0] ?? TOKENS_SVG_MAP[chain].default,
       highZIndex: token1HasLowerZIndex,
     },
     {
-      SVG: TOKENS_SVG_MAP[
-        replaceWrappedNativeTokenWithNativeTokenSymbol(symbol1 as TOKEN_SYMBOL)
-      ],
+      SVG: TOKENS_SVG_MAP[chain][address1] ?? TOKENS_SVG_MAP[chain].default,
       highZIndex: !token1HasLowerZIndex,
     },
   ];

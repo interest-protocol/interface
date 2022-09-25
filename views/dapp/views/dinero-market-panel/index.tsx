@@ -313,8 +313,9 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
             collateralDecimals={market.collateralDecimals}
             isPair={market.kind === DineroMarketKind.LpFreeMarket}
             currencyIcons={getDineroMarketSVGBySymbol(
-              market.symbol0,
-              market.symbol1
+              market.token0,
+              market.token1 ?? '',
+              market.chainId
             )}
             loading={market.collateralUSDPrice.isZero() && !error}
           />

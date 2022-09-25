@@ -5,7 +5,8 @@ import { v4 } from 'uuid';
 
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
+import { useChainId } from '@/hooks';
+import { CONTRACTS, FixedPointMath } from '@/sdk';
 import { formatMoney } from '@/utils';
 
 import { YourBalanceProps } from './your-balance.types';
@@ -21,6 +22,8 @@ const YourBalance: FC<YourBalanceProps> = ({
   collateralDecimals,
 }) => {
   const t = useTranslations();
+  const chainId = useChainId();
+
   return (
     <Box p="XL" order={3} gridArea="e" bg="foreground" borderRadius="L">
       <Typography variant="normal" textTransform="uppercase" mt="L">
@@ -37,7 +40,7 @@ const YourBalance: FC<YourBalanceProps> = ({
             name: 'Dinero',
             symbols: [
               {
-                SVG: TOKENS_SVG_MAP[TOKEN_SYMBOL.DNR],
+                SVG: TOKENS_SVG_MAP[chainId][CONTRACTS.DNR[chainId]],
                 highZIndex: false,
               },
             ],
@@ -57,7 +60,7 @@ const YourBalance: FC<YourBalanceProps> = ({
                     name: 'Interest',
                     symbols: [
                       {
-                        SVG: TOKENS_SVG_MAP[TOKEN_SYMBOL.INT],
+                        SVG: TOKENS_SVG_MAP[chainId][CONTRACTS.INT[chainId]],
                         highZIndex: false,
                       },
                     ],

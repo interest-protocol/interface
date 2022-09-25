@@ -33,6 +33,8 @@ const RecommendedPools: FC<RecommendedPoolsProps> = ({ type }) => {
             key={v4()}
             symbol0={token0.symbol}
             symbol1={token1.symbol}
+            address0={token0.address}
+            address1={token1.address}
             pairAddress={pairAddress}
           />
         )
