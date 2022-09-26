@@ -5,7 +5,7 @@ import { ChangeEvent, FC, useCallback, useMemo } from 'react';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
 import { useApprove, useIdAccount } from '@/hooks';
-import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 import {
   capitalize,
   formatMoney,
