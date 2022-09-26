@@ -5,7 +5,7 @@ import {
   UseFormSetValue,
 } from 'react-hook-form';
 
-import { AddLocalToken } from '@/views/dapp/views/faucet/faucet.types';
+import { AddLocalToken } from '../faucet.types';
 
 export type TCreateTokenFieldNames = 'amount' | 'symbol' | 'name';
 

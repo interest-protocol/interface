@@ -1,21 +1,13 @@
 import { BigNumber } from 'ethers';
 import { Control, UseFormGetValues } from 'react-hook-form';
 
-import {
-  IToken,
-  RemoveLocalToken,
-} from '@/views/dapp/views/faucet/faucet.types';
+import { IFaucetForm, IToken, RemoveLocalToken } from '../faucet.types';
 
 export interface FaucetFormProps {
   isLoadingData?: boolean;
   removeLocalToken?: RemoveLocalToken;
   tokens: ReadonlyArray<IToken & { balance: BigNumber }>;
   refetch: () => Promise<void>;
-}
-
-export interface IFaucetForm {
-  amount: number;
-  token: string;
 }
 
 export interface FaucetSelectCurrencyProps {

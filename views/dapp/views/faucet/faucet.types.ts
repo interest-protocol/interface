@@ -12,3 +12,8 @@ export interface FaucetCurrencyDropdownProps {
 export type AddLocalToken = (item: IToken) => void;
 
 export type RemoveLocalToken = (address: string) => void;
+
+export interface IFaucetForm {
+  amount: number;
+  token: string;
+}
