@@ -21,8 +21,8 @@ export const getStaticProps: GetStaticProps = async ({
       ...otherProps,
       messages,
       now: new Date().getTime(),
+      pageTitle: 'earn.pageTitle',
     },
-    pageTitle: 'earn.pageTitle',
   };
 };
 

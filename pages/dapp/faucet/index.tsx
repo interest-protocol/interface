@@ -24,8 +24,8 @@ export const getStaticProps: GetStaticProps = async ({
       ...otherProps,
       messages,
       now: new Date().getTime(),
+      pageTitle: 'faucet.pageTitle',
     },
-    pageTitle: 'faucet.pageTitle',
   };
 };
 

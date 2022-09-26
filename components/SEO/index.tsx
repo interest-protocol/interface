@@ -5,6 +5,7 @@ import { FC } from 'react';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
 import { Theme } from '@/design-system/landing-page-theme';
+import { capitalize } from '@/utils';
 import { LayoutProps } from '@/views/home/layout/layout.types';
 
 const SEO: FC<LayoutProps> = ({ pageTitle }) => {
@@ -60,7 +61,9 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
       <title>
         Interest Protocol{' '}
         {pageTitle &&
-          `| ${t(pageTitle as MessageKeys<IntlMessages, keyof IntlMessages>)}`}
+          `| ${capitalize(
+            t(pageTitle as MessageKeys<IntlMessages, keyof IntlMessages>)
+          )}`}
       </title>
     </Head>
   );

@@ -26,8 +26,8 @@ export const getStaticProps: GetStaticProps = async ({
       ...otherProps,
       messages,
       now: new Date().getTime(),
+      pageTitle: 'dexSwap.pageTitle',
     },
-    pageTitle: 'dexSwap.pageTitle',
   };
 };
 
