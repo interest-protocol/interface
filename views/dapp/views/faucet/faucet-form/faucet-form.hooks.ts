@@ -12,7 +12,7 @@ import { isValidAccount, safeGetAddress } from '@/utils';
 import { FAUCET_TOKEN_MAX_AMOUNT } from '@/views/dapp/views/faucet/faucet.data';
 import { getTokenMinter } from '@/views/dapp/views/faucet/utilts';
 
-import { IFaucetForm } from './faucet-form.types';
+import { IFaucetForm } from '../faucet.types';
 
 const MINT_FN_RECORD = {
   [getAddress(CONTRACTS.DINERO_FAUCET[CHAIN_ID.BNB_TEST_NET])]: true,
