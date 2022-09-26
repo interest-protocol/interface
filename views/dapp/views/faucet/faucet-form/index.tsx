@@ -19,9 +19,10 @@ import { TimesSVG } from '@/svg';
 import { formatMoney, safeGetAddress } from '@/utils';
 import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
+import { IFaucetForm } from '../faucet.types';
 import InputBalance from '../input-balance';
 import CurrencyIdentifier from './faucet-currency-identifier';
-import { FaucetFormProps, IFaucetForm } from './faucet-form.types';
+import { FaucetFormProps } from './faucet-form.types';
 import FaucetSelectCurrency from './faucet-select-currency';
 import MintButton from './mint-button';
 
