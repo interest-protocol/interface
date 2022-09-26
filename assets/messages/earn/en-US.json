@@ -1,5 +1,6 @@
 {
   "earn": {
+    "pageTitle": "Farms",
     "filterStaked": "Staked only",
     "column1Tip": "Total Value Locked",
     "column2Tip": "Staking amount to farm Int",

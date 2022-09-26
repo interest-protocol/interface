@@ -61,9 +61,13 @@ const Content: FC<ContentProps> = ({ supportedChains = [], children }) => {
   return <>{children}</>;
 };
 
-const Web3Manager: FC<Web3ManagerProps> = ({ children, supportedChains }) => {
+const Web3Manager: FC<Web3ManagerProps> = ({
+  children,
+  supportedChains,
+  pageTitle,
+}) => {
   return (
-    <Layout>
+    <Layout pageTitle={pageTitle}>
       <Content supportedChains={supportedChains}>{children}</Content>
     </Layout>
   );
@@ -71,16 +75,22 @@ const Web3Manager: FC<Web3ManagerProps> = ({ children, supportedChains }) => {
 
 const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
   pathname,
+  pageTitle,
   children,
 }) => {
   return pathname !== Routes.home ? (
     <ThemeProvider theme={DAppTheme}>
-      <Web3Manager supportedChains={SUPPORTED_CHAINS_RECORD[pathname]}>
+      <Web3Manager
+        pageTitle={pageTitle}
+        supportedChains={SUPPORTED_CHAINS_RECORD[pathname]}
+      >
         {children}
       </Web3Manager>
     </ThemeProvider>
   ) : (
-    <ThemeProvider theme={LandingPageTheme}>{children}</ThemeProvider>
+    <ThemeProvider theme={LandingPageTheme}>
+      <Layout pageTitle={pageTitle}>{children}</Layout>
+    </ThemeProvider>
   );
 };
 

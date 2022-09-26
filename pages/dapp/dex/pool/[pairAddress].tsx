@@ -14,9 +14,9 @@ const DEXPoolDetailsPage: NextPage<DEXPoolDetailsPageProps> = ({
 export const getServerSideProps: GetServerSideProps = async ({
   params,
   locale,
-  ...otherProps
 }) => {
   const { pairAddress } = params || {};
+
   const [commonMessages, dexPoolPairMessages] = await Promise.all([
     import(`../../../../assets/messages/common/${locale}.json`),
     import(`../../../../assets/messages/dex/pool/pair-address/${locale}.json`),
@@ -29,9 +29,9 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   return {
     props: {
-      ...otherProps,
       pairAddress,
       messages,
+      pageTitle: 'dexPoolPairAddress.pageTitle',
       now: new Date().getTime(),
     },
   };

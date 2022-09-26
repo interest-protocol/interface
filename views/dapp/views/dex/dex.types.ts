@@ -21,13 +21,14 @@ export interface SwapFormTokenData {
 
 export interface SwapSelectCurrencyProps {
   label?: string;
+  symbol: string;
+  address: string;
   disabled?: boolean;
   fromRight?: boolean;
   currentToken: string;
-  onSelectCurrency: (data: OnSelectCurrencyData) => void;
-  symbol: string;
   isModalOpen: boolean;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  onSelectCurrency: (data: OnSelectCurrencyData) => void;
 }
 
 export interface SwapCurrencyDropdownProps {
@@ -40,6 +41,7 @@ export interface SwapCurrencyDropdownProps {
   control: Control<{ search: string }>;
   onSelectCurrency: SwapSelectCurrencyProps['onSelectCurrency'];
   setIsSearching: Dispatch<SetStateAction<boolean>>;
+  chainId: number;
 }
 
 export interface SwapSearchTokenProps {

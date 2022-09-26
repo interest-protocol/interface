@@ -35,7 +35,8 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
     { enabled: needAllowance }
   );
 
-  const SVG = TOKENS_SVG_MAP[symbol] || TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+  const SVG =
+    TOKENS_SVG_MAP[chainId][address] ?? TOKENS_SVG_MAP[chainId].default;
 
   const approve = useCallback(async () => {
     try {

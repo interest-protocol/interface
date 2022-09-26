@@ -13,6 +13,7 @@ import { FlipMemberCard, Image } from './team.styles';
 
 const Team: FC = () => {
   const t = useTranslations();
+
   return (
     <Box bg="foreground">
       <Container as="section" py={['XL', 'XXL']} textAlign="center">

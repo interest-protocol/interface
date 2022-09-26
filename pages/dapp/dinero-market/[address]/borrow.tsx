@@ -42,6 +42,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       address,
       messages,
       now: new Date().getTime(),
+      pageTitle: 'dineroMarketAddress.pageTitleBorrow',
     },
   };
 };

@@ -32,6 +32,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       tokenAddress,
       messages,
       now: new Date().getTime(),
+      pageTitle: 'earnTokenAddress.pageTitle',
     },
   };
 };

@@ -1,5 +1,6 @@
 {
   "dexSwap": {
+    "pageTitle": "DEX",
     "settingsTransactionTitle": "Transaction Settings",
     "toleranceLabel": "Slippage tolerance?",
     "deadlineLabel": "Transaction deadline",

@@ -12,6 +12,7 @@ export interface AdviceProps {
 
 export interface Web3ManagerProps {
   supportedChains: ReadonlyArray<number>;
+  pageTitle: string;
 }
 
 export interface ContentProps {
@@ -20,4 +21,5 @@ export interface ContentProps {
 
 export interface Web3ManagerWrapperProps {
   pathname: string;
+  pageTitle: string;
 }

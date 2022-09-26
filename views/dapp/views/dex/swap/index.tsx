@@ -223,10 +223,11 @@ const Swap: FC = () => {
               currencySelector={
                 <SwapSelectCurrency
                   currentToken={tokenInAddress}
-                  onSelectCurrency={onSelectCurrency('tokenIn')}
-                  symbol={getValues('tokenIn.symbol')}
                   isModalOpen={isTokenInOpenModal}
+                  symbol={getValues('tokenIn.symbol')}
+                  address={getValues('tokenIn.address')}
                   setIsModalOpen={setTokenInIsOpenModal}
+                  onSelectCurrency={onSelectCurrency('tokenIn')}
                 />
               }
             />
@@ -274,11 +275,12 @@ const Swap: FC = () => {
               currencySelector={
                 <SwapSelectCurrency
                   currentToken={tokenOutAddress}
-                  disabled={isFetchingAmountOutTokenOut}
-                  onSelectCurrency={onSelectCurrency('tokenOut')}
-                  symbol={getValues('tokenOut.symbol')}
                   isModalOpen={isTokenOutOpenModal}
+                  symbol={getValues('tokenOut.symbol')}
+                  disabled={isFetchingAmountOutTokenOut}
+                  address={getValues('tokenOut.address')}
                   setIsModalOpen={setTokenOutIsOpenModal}
+                  onSelectCurrency={onSelectCurrency('tokenOut')}
                 />
               }
             />

@@ -14,7 +14,7 @@ import {
 } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useIdAccount } from '@/hooks';
-import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 import { TimesSVG } from '@/svg';
 import { formatMoney, safeGetAddress } from '@/utils';
 import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
@@ -83,7 +83,11 @@ const FaucetForm: FC<FaucetFormProps> = ({
               isLoadingData ? (
                 <Skeleton width="4rem" />
               ) : (
-                <CurrencyIdentifier tokens={tokens} control={control} />
+                <CurrencyIdentifier
+                  chainId={chainId}
+                  tokens={tokens}
+                  control={control}
+                />
               )
             }
           />
@@ -128,8 +132,8 @@ const FaucetForm: FC<FaucetFormProps> = ({
                 ))
               : tokens.map(({ symbol, address, balance }) => {
                   const SVG =
-                    TOKENS_SVG_MAP[symbol] ??
-                    TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+                    TOKENS_SVG_MAP[chainId][address] ??
+                    TOKENS_SVG_MAP[chainId].default;
 
                   const decimals = pathOr(
                     DEFAULT_ERC_20_DECIMALS,

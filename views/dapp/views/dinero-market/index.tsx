@@ -83,7 +83,7 @@ const DineroMarket: FC = () => {
         register={register}
         setValue={setValue}
       />
-      <BorrowTable control={control} markets={markets} />
+      <BorrowTable chainId={chainId} control={control} markets={markets} />
     </Container>
   );
 };

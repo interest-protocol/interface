@@ -108,7 +108,7 @@
     "pretty-quick": "^3.1.0",
     "rimraf": "^3.0.2",
     "typechain": "^8.0.0",
-    "typescript": "^4.6.2",
+    "typescript": "^4.8.3",
     "vercel": "^24.0.1"
   }
 }

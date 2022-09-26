@@ -5,6 +5,7 @@ export interface DEXPoolDetailsViewProps {
 export interface LiquidityDetailsCardLineProps {
   value: string;
   symbol: string;
+  address: string;
   isFetchingInitialData: boolean;
 }
 

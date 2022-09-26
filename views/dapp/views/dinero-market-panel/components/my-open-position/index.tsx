@@ -30,7 +30,12 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
         {t('dineroMarketAddress.positionTitle')}:
       </Typography>
       {MY_POSITION.map(({ name, tip }, i) => (
-        <Box my="L" key={v4()} display="flex" justifyContent="space-between">
+        <Box
+          my="L"
+          key={v4()}
+          display={['block', 'block', 'block', 'flex']}
+          justifyContent={['unset', 'unset', 'unset', 'space-between']}
+        >
           <Typography variant="normal" display="flex" alignItems="center">
             <Box
               mr="M"
@@ -47,9 +52,10 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
           <Typography
             variant="normal"
             overflow="hidden"
-            textAlign="right"
-            whiteSpace="nowrap"
             color="textSecondary"
+            ml={['XL', 'XL', 'XL', 'L']}
+            mt={['M', 'M', 'M', 'unset']}
+            textAlign={['unset', 'unset', 'unset', 'right']}
           >
             {myPositionData[i]}
           </Typography>
