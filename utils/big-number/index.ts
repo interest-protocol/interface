@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers';
 import { curryN } from 'ramda';
 
-import { FixedPointMath, MAX_NUMBER_INPUT_VALUE, ZERO_BIG_NUMBER } from '@/sdk';
+import { FixedPointMath, MAX_NUMBER_INPUT_VALUE } from '@/sdk';
 
 export const addPositiveNumberStrings = (x: string, y: string): string => {
   if (isNaN(+x) || isNaN(+y) || 0 > +x || 0 > +y) return '0';
