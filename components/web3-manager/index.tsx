@@ -15,6 +15,7 @@ import { DAppTheme, LandingPageTheme } from '@/design-system';
 import { TimesSVG } from '@/svg';
 import { capitalize } from '@/utils';
 import { Layout, Loading } from '@/views/dapp/components';
+import HomePageLayout from '@/views/home/layout';
 
 import Advice from './advice';
 import {
@@ -89,7 +90,7 @@ const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
     </ThemeProvider>
   ) : (
     <ThemeProvider theme={LandingPageTheme}>
-      <Layout pageTitle={pageTitle}>{children}</Layout>
+      <HomePageLayout pageTitle={pageTitle}>{children}</HomePageLayout>
     </ThemeProvider>
   );
 };

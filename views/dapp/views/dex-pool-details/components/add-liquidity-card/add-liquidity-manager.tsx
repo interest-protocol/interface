@@ -1,10 +1,10 @@
 import { ethers } from 'ethers';
 import { FC, useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
 
 import { quoteAddLiquidity } from '@/api';
 import { WRAPPED_NATIVE_TOKEN } from '@/constants';
-import { useDebounce } from '@/hooks';
 import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
 import {
   isSameAddressZ,
@@ -36,8 +36,8 @@ const AddLiquidityManager: FC<AddLiquidityManagerProps> = ({
   const amount1 = useWatch({ name: 'token1Amount', control });
   const locked = useWatch({ name: 'locked', control });
 
-  const debouncedAmount0 = useDebounce(amount0, 1500);
-  const debouncedAmount1 = useDebounce(amount1, 1500);
+  const [debouncedAmount0] = useDebounce(amount0, 1500);
+  const [debouncedAmount1] = useDebounce(amount1, 1500);
 
   // User is typing on token0 Input, we will override both token0Amount and token1Amount
   useEffect(() => {

@@ -1,7 +1,6 @@
 export * from './use-approve';
 export * from './use-chain-id';
 export * from './use-click-outside-listener-ref';
-export * from './use-debounce';
 export * from './use-event-listener';
 export * from './use-get-dex-allowances-and-balances';
 export * from './use-get-dinero-market-data-v2';

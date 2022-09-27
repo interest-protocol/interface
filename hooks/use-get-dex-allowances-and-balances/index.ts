@@ -36,6 +36,10 @@ export const useGetDexAllowancesAndBalances = (
 
   const nativeBalanceBN = balanceData ? balanceData : ZERO_BIG_NUMBER;
 
+  const refetch = async () => {
+    await Promise.all([refetchBalance(), refetchTokenBalances()]);
+  };
+
   const {
     data,
     error,
@@ -79,9 +83,7 @@ export const useGetDexAllowancesAndBalances = (
       },
       balancesError: false,
       loading: false,
-      refetch: async () => {
-        await Promise.all([refetchBalance, refetchTokenBalances]);
-      },
+      refetch,
       nativeBalance: nativeBalanceBN,
     };
   if (data.balances.length == 2)
@@ -98,10 +100,7 @@ export const useGetDexAllowancesAndBalances = (
       },
       balancesError: false,
       loading: false,
-      refetch: async () => {
-        await Promise.all([refetchBalance, refetchTokenBalances]);
-        console.log('refetched');
-      },
+      refetch,
       nativeBalance: nativeBalanceBN,
     };
 
@@ -115,9 +114,7 @@ export const useGetDexAllowancesAndBalances = (
     },
     balancesError: false,
     loading: false,
-    refetch: async () => {
-      await Promise.all([refetchBalance, refetchTokenBalances]);
-    },
+    refetch,
     nativeBalance: nativeBalanceBN,
   };
 };

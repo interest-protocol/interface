@@ -4,7 +4,7 @@ import { CASA_DE_PAPEL_FARM_CALL_MAP, DEFAULT_ACCOUNT } from '@/constants';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import { getInterestViewEarnAddress } from '@/utils';
 
-import { useContractRead } from '../use-contract-read';
+import { useSafeContractRead } from '../use-contract-read';
 import { useIdAccount } from '../use-id-account';
 
 const prop = propOr([]);
@@ -14,7 +14,7 @@ export const useGetFarmsSummary = () => {
 
   const data = propOr({}, chainId.toString(), CASA_DE_PAPEL_FARM_CALL_MAP);
 
-  return useContractRead({
+  return useSafeContractRead({
     addressOrName: getInterestViewEarnAddress(chainId),
     contractInterface: InterestViewEarnABI,
     functionName: 'getFarmsSummary',

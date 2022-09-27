@@ -3,7 +3,7 @@ import { UseContractArgs } from '@/interface';
 import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
 import { getInterestViewBalancesAddress } from '@/utils';
 
-import { useContractRead } from '../use-contract-read';
+import { useSafeContractRead } from '../use-contract-read';
 import { useIdAccount } from './../use-id-account/index';
 
 export const useGetUserBalancesAndAllowances = (
@@ -13,7 +13,7 @@ export const useGetUserBalancesAndAllowances = (
 ) => {
   const { chainId, account } = useIdAccount();
 
-  return useContractRead({
+  return useSafeContractRead({
     addressOrName: getInterestViewBalancesAddress(chainId),
     contractInterface: InterestViewBalancesABI,
     functionName: 'getUserBalancesAndAllowances',

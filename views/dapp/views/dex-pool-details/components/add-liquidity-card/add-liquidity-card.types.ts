@@ -1,3 +1,4 @@
+import { SendTransactionResult } from '@wagmi/core';
 import { BigNumber } from 'ethers';
 import { Dispatch, ReactNode, SetStateAction } from 'react';
 import { Control, UseFormSetValue } from 'react-hook-form';
@@ -20,9 +21,23 @@ export interface IToken {
 
 export interface AddLiquidityCardProps {
   isStable: boolean;
-  tokens: [IToken, IToken];
+  tokens: IToken[];
   fetchingInitialData: boolean;
   refetch: () => Promise<void>;
+}
+
+export interface AddLiquidityCardContentProps {
+  isStable: AddLiquidityCardProps['isStable'];
+  tokens: AddLiquidityCardProps['tokens'];
+  fetchingInitialData: AddLiquidityCardProps['fetchingInitialData'];
+  refetch: AddLiquidityCardProps['refetch'];
+  isFetchingQuote: boolean;
+  control: Control<IAddLiquidityForm>;
+  setValue: UseFormSetValue<IAddLiquidityForm>;
+  chainId: number;
+  account: string;
+  loading: boolean;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface AddLiquidityManagerProps {
@@ -44,13 +59,25 @@ export interface BalanceErrorProps {
 }
 
 export interface UseAddLiquidityArgs {
-  tokens: [IToken, IToken];
-  control: Control<IAddLiquidityForm>;
   chainId: number;
-  isStable: boolean;
   account: string;
+  tokens: IToken[];
+  control: Control<IAddLiquidityForm>;
+  isStable: boolean;
 }
 
 export interface ErrorLiquidityMessageProps {
   control: Control<IAddLiquidityForm>;
 }
+
+export interface AddLiquidityCardButtonProps {
+  loading: boolean;
+  chainId: number;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  refetch: () => Promise<void>;
+  addLiquidity?: () => Promise<SendTransactionResult | undefined>;
+}
+
+export const INPUT_NAMES = ['token0Amount', 'token1Amount'] as Array<
+  Exclude<keyof IAddLiquidityForm, 'error' | 'locked'>
+>;

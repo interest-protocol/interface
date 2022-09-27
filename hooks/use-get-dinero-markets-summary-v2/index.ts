@@ -3,7 +3,7 @@ import { DINERO_MARKET_SUMMARY_CALL_MAP } from '@/constants/dinero-markets';
 import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
 import { getInterestViewDineroV2Address } from '@/utils';
 
-import { useContractRead } from '../use-contract-read';
+import { useSafeContractRead } from '../use-contract-read';
 import { useIdAccount } from './../use-id-account';
 
 export const useGetDineroMarketsSummaryV2 = () => {
@@ -11,7 +11,7 @@ export const useGetDineroMarketsSummaryV2 = () => {
 
   const callMap = DINERO_MARKET_SUMMARY_CALL_MAP[chainId] || {};
 
-  return useContractRead({
+  return useSafeContractRead({
     addressOrName: getInterestViewDineroV2Address(chainId),
     contractInterface: InterestViewDineroV2ABI,
     functionName: 'getDineroMarketsSummary',

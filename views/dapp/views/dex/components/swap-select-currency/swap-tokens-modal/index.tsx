@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, ReactNode, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
 import { v4 } from 'uuid';
 
 import { getInterestDEXViewERC20Metadata } from '@/api';
@@ -14,7 +15,7 @@ import {
   TOKENS_SVG_MAP,
 } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { useDebounce, useLocalStorage } from '@/hooks';
+import { useLocalStorage } from '@/hooks';
 import { TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
 import { LineLoaderSVG, TimesSVG } from '@/svg';
 import { capitalize, isSameAddress, isSameAddressZ, noop } from '@/utils';
@@ -120,7 +121,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
 
   const nativeToken = NATIVE_TOKENS[chainId];
 
-  const debouncedSearch = useDebounce(search, 800);
+  const [debouncedSearch] = useDebounce(search, 800);
 
   const tokenMetaDataArray = TOKEN_META_DATA_ARRAY[chainId];
 

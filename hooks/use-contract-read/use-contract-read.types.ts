@@ -1,11 +1,5 @@
-import { ReadContractConfig, ReadContractResult } from '@wagmi/core';
-import { QueryConfig } from 'wagmi/dist/declarations/src/types';
+import { ReadContractResult } from '@wagmi/core';
 
-export type UseContractReadArgs = ReadContractConfig & {
-  /** If set to `true`, the cache will depend on the block number */
-  cacheOnBlock?: boolean;
-  /** Subscribe to changes */
-  watch?: boolean;
-};
+import { QueryConfig } from '@/interface';
 
 export type UseContractReadConfig = QueryConfig<ReadContractResult, Error>;

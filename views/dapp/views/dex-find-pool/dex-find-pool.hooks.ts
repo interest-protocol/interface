@@ -2,9 +2,9 @@ import { CallOverrides } from 'ethers';
 import { getAddress } from 'ethers/lib/utils';
 import { pathOr } from 'ramda';
 import { useWatch } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
-import { useDebounce } from '@/hooks';
 import { sortTokens, ZERO_BIG_NUMBER } from '@/sdk';
 import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
 import {
@@ -66,9 +66,15 @@ export const useAddNativeTokenLiquidity = ({
 
   const safeAmount0Native = amount0.gt(nativeBalance) ? nativeBalance : amount0;
 
-  const debouncedAmount0 = useDebounce(safeAmount0, 500);
-  const debouncedAmount1 = useDebounce(safeAmount1, 500);
-  const debouncedSafeAmount0Native = useDebounce(safeAmount0Native, 500);
+  const [debouncedAmount0] = useDebounce(safeAmount0, 500, {
+    equalityFn: (x, y) => x.eq(y),
+  });
+  const [debouncedAmount1] = useDebounce(safeAmount1, 500, {
+    equalityFn: (x, y) => x.eq(y),
+  });
+  const [debouncedSafeAmount0Native] = useDebounce(safeAmount0Native, 500, {
+    equalityFn: (x, y) => x.eq(y),
+  });
 
   let args: Array<any> = [];
   let functionName = '';

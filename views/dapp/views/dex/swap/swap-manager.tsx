@@ -1,10 +1,10 @@
 import { prop } from 'ramda';
 import { FC, useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
 
 import { getAmountsOut } from '@/api';
 import { SWAP_BASES, WRAPPED_NATIVE_TOKEN } from '@/constants';
-import { useDebounce } from '@/hooks';
 import { CHAIN_ID, FixedPointMath } from '@/sdk';
 import {
   getWETHAddress,
@@ -35,8 +35,8 @@ const SwapManager: FC<SwapManagerProps> = ({
   const tokenIn = useWatch({ control, name: 'tokenIn' });
   const tokenOut = useWatch({ control, name: 'tokenOut' });
 
-  const debouncedTokenInValue = useDebounce(tokenIn.value, 1500);
-  const debouncedTokenOutValue = useDebounce(tokenOut.value, 1500);
+  const [debouncedTokenInValue] = useDebounce(tokenIn.value, 1500);
+  const [debouncedTokenOutValue] = useDebounce(tokenOut.value, 1500);
 
   const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId]
     ? WRAPPED_NATIVE_TOKEN[chainId]

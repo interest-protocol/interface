@@ -1,6 +1,11 @@
 import { BigNumber } from 'ethers';
 import { Dispatch, FC, SetStateAction, SVGAttributes } from 'react';
-import { Control, UseFormGetValues, UseFormSetValue } from 'react-hook-form';
+import {
+  Control,
+  UseFormGetValues,
+  UseFormReset,
+  UseFormSetValue,
+} from 'react-hook-form';
 
 import { SwapFormTokenData } from '@/views/dapp/views/dex/dex.types';
 

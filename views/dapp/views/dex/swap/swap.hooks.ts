@@ -1,7 +1,7 @@
 import { BigNumber, CallOverrides } from 'ethers';
+import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
-import { useDebounce } from '@/hooks';
 import { ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
 import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
 import WETHABI from '@/sdk/abi/weth.abi.json';
@@ -10,6 +10,7 @@ import {
   getInterestDexRouterAddress,
   getWETHAddress,
   isSameAddress,
+  isSameAddressZ,
   isZeroAddress,
   safeToBigNumber,
 } from '@/utils';
@@ -31,8 +32,14 @@ export const useSwap = ({
   chainId,
   needsApproval,
 }: UseSwapArgs) => {
-  const debouncedTokenIn = useDebounce(tokenIn, 500);
-  const debouncedTokenOut = useDebounce(tokenOut, 500);
+  const [debouncedTokenIn] = useDebounce(tokenIn, 500, {
+    equalityFn: (x, y) =>
+      isSameAddressZ(x.address, y.address) && x.value === y.value,
+  });
+  const [debouncedTokenOut] = useDebounce(tokenOut, 500, {
+    equalityFn: (x, y) =>
+      isSameAddressZ(x.address, y.address) && x.value === y.value,
+  });
 
   const { deadline, slippage } = localSettings;
 
@@ -97,8 +104,9 @@ export const useSwap = ({
     swapBase || ZERO_ADDRESS
   );
 
-  const parsedDeadline = Math.floor(
-    (new Date().getTime() + deadline * 60 * 1000) / 1000
+  const [parsedDeadline] = useDebounce(
+    Math.floor((new Date().getTime() + deadline * 60 * 1000) / 1000),
+    500
   );
 
   let args: Array<any> = [
@@ -152,7 +160,10 @@ export const useWETHDeposit = ({
   parsedTokenInBalance,
   needsApproval,
 }: UseWETHDepositArgs) => {
-  const debouncedTokenIn = useDebounce(tokenIn, 500);
+  const [debouncedTokenIn] = useDebounce(tokenIn, 500, {
+    equalityFn: (x, y) =>
+      isSameAddressZ(x.address, y.address) && x.value === y.value,
+  });
 
   const bnAMount = debouncedTokenIn.value
     ? safeToBigNumber(debouncedTokenIn.value, debouncedTokenIn.decimals)
@@ -184,7 +195,10 @@ export const useWETHWithdraw = ({
   chainId,
   needsApproval,
 }: UseWETHWithdrawArgs) => {
-  const debouncedTokenIn = useDebounce(tokenIn, 500);
+  const [debouncedTokenIn] = useDebounce(tokenIn, 500, {
+    equalityFn: (x, y) =>
+      isSameAddressZ(x.address, y.address) && x.value === y.value,
+  });
 
   const bnAMount = debouncedTokenIn.value
     ? safeToBigNumber(debouncedTokenIn.value, debouncedTokenIn.decimals)

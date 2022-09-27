@@ -1,7 +1,7 @@
 import { useWatch } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
-import { useDebounce } from '@/hooks';
 import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
 import {
   getBNPercent,
@@ -32,12 +32,21 @@ export const useRemoveLiquidity = ({
   const token0BNAmount = stringToBigNumber(token0Amount, tokens[0].decimals);
   const token1BNAmount = stringToBigNumber(token1Amount, tokens[1].decimals);
 
-  const debouncedLPAmount = useDebounce(safeLPAmount, 500);
-  const debouncedToken0Amount = useDebounce(token0BNAmount, 500);
-  const debouncedToken1Amount = useDebounce(token1BNAmount, 500);
+  const [debouncedLPAmount] = useDebounce(safeLPAmount, 500, {
+    equalityFn: (x, y) => x.eq(y),
+  });
+  const [debouncedToken0Amount] = useDebounce(token0BNAmount, 500, {
+    equalityFn: (x, y) => x.eq(y),
+  });
+  const [debouncedToken1Amount] = useDebounce(token1BNAmount, 500, {
+    equalityFn: (x, y) => x.eq(y),
+  });
 
   // 5 minutes
-  const deadline = Math.ceil((new Date().getTime() + 5 * 60 * 1000) / 1000);
+  const [deadline] = useDebounce(
+    Math.ceil((new Date().getTime() + 5 * 60 * 1000) / 1000),
+    10000
+  );
 
   const { config } = usePrepareContractWrite({
     addressOrName: getInterestDexRouterAddress(chainId),

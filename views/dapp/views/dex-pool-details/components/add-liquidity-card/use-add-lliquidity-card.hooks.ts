@@ -13,37 +13,41 @@ import {
 const get90Percent = getBNPercent(90);
 
 import { CallOverrides } from 'ethers';
-
-import { useDebounce } from '@/hooks';
+import { useDebounce } from 'use-debounce';
 
 import { UseAddLiquidityArgs } from './add-liquidity-card.types';
 
 export const useAddLiquidity = ({
-  tokens,
-  control,
   chainId,
   isStable,
   account,
+  control,
+  tokens,
 }: UseAddLiquidityArgs) => {
   const token0Amount = useWatch({ control, name: 'token0Amount' });
   const token1Amount = useWatch({ control, name: 'token1Amount' });
 
   const [token0, token1] = tokens;
 
-  const amount0 = stringToBigNumber(token0Amount, token0.decimals);
+  const amount0 = stringToBigNumber(token0Amount || '0', token0.decimals);
 
-  const amount1 = stringToBigNumber(token1Amount, token1.decimals);
+  const amount1 = stringToBigNumber(token1Amount || '0', token1.decimals);
 
   // 5 minutes
-  const deadline = Math.ceil((new Date().getTime() + 5 * 60 * 1000) / 1000);
-
-  const safeAmount0 = useDebounce(
-    amount0.gt(token0.balance) ? token0.balance : amount0,
-    500
+  const [deadline] = useDebounce(
+    Math.ceil((new Date().getTime() + 5 * 60 * 1000) / 1000),
+    10000
   );
-  const safeAmount1 = useDebounce(
+
+  const [safeAmount0] = useDebounce(
+    amount0.gt(token0.balance) ? token0.balance : amount0,
+    500,
+    { equalityFn: (x, y) => x.eq(y) }
+  );
+  const [safeAmount1] = useDebounce(
     amount1.gt(token1.balance) ? token1.balance : amount1,
-    500
+    500,
+    { equalityFn: (x, y) => x.eq(y) }
   );
 
   let functionName = 'addLiquidity';
@@ -53,7 +57,7 @@ export const useAddLiquidity = ({
     isStable,
     safeAmount0,
     safeAmount1,
-    get90Percent(safeAmount0, token1.decimals),
+    get90Percent(safeAmount0, token0.decimals),
     get90Percent(safeAmount1, token1.decimals),
     account,
     deadline,
@@ -63,7 +67,9 @@ export const useAddLiquidity = ({
     !tokens[0].allowance.isZero() &&
     !tokens[1].allowance.isZero() &&
     !safeAmount0.isZero() &&
-    !safeAmount1.isZero();
+    !safeAmount1.isZero() &&
+    !tokens[0].allowance.isZero() &&
+    !tokens[1].allowance.isZero();
 
   // token0 is Native
   if (isSameAddressZ(token0.address, ZERO_ADDRESS)) {
@@ -96,8 +102,8 @@ export const useAddLiquidity = ({
 
   const { config } = usePrepareContractWrite({
     addressOrName: getInterestDexRouterAddress(chainId),
-    functionName,
     contractInterface: InterestDexRouterABI,
+    functionName,
     args,
     enabled,
     overrides,

@@ -4,7 +4,7 @@ import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
 import { getInterestDexRouterAddress } from '@/utils';
 
 import { useChainId } from '../use-chain-id';
-import { useContractRead } from '../use-contract-read';
+import { useSafeContractRead } from '../use-contract-read';
 
 export const useQuoteRemoveLiquidity = (
   token0: string,
@@ -14,7 +14,7 @@ export const useQuoteRemoveLiquidity = (
 ) => {
   const chainId = useChainId();
 
-  return useContractRead({
+  return useSafeContractRead({
     addressOrName: getInterestDexRouterAddress(chainId),
     contractInterface: InterestDexRouterABI,
     functionName: 'quoteRemoveLiquidity',

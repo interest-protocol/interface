@@ -26,8 +26,7 @@ const CurrencyIdentifier: FC<CurrencyIdentifierProps> = ({
       : TOKEN_SYMBOL.Unknown;
 
   const Icon =
-    TOKENS_SVG_MAP[chainId][tokenAddress] ??
-    TOKENS_SVG_MAP[chainId][TOKEN_SYMBOL.Unknown];
+    TOKENS_SVG_MAP[chainId][tokenAddress] ?? TOKENS_SVG_MAP[chainId].default;
 
   return (
     <Box display="flex" alignItems="center">

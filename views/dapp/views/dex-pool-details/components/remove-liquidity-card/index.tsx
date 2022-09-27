@@ -1,42 +1,17 @@
 import { useTranslations } from 'next-intl';
-import { prop } from 'ramda';
 import { FC } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
-import { Box, Button, Typography } from '@/elements';
-import { useApprove } from '@/hooks';
+import { Box, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
-import { LineLoaderSVG } from '@/svg';
-import {
-  capitalize,
-  getInterestDexRouterAddress,
-  showToast,
-  showTXSuccessToast,
-  throwError,
-} from '@/utils';
-import { WalletGuardButton } from '@/views/dapp/components';
 
-import ApproveButton from './approve-button';
 import InputBalance from './input-balance';
-import RemoveLiquidityButton from './remove-liquidity-button';
-import { useRemoveLiquidity } from './remove-liquidity-card.hooks';
 import {
   IRemoveLiquidityForm,
-  LinearLoaderProps,
   RemoveLiquidityCardProps,
 } from './remove-liquidity-card.types';
+import RemoveLiquidityCardContent from './remove-liquidity-card-content';
 import RemoveLiquidityManager from './remove-liquidity-manager';
-import TokenAmount from './token-amount';
-
-const LinearLoader: FC<LinearLoaderProps> = ({ control }) => {
-  const loading = useWatch({ control, name: 'loading' });
-
-  return loading ? (
-    <Box mb="L">
-      <LineLoaderSVG width="100%" />
-    </Box>
-  ) : null;
-};
 
 const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
   chainId,
@@ -50,10 +25,6 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
   refetch,
 }) => {
   const t = useTranslations();
-  const { writeAsync: approve } = useApprove(
-    pairAddress,
-    getInterestDexRouterAddress(chainId)
-  );
 
   const { register, setValue, control } = useForm<IRemoveLiquidityForm>({
     defaultValues: {
@@ -64,57 +35,6 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
       token1Amount: '0.0',
     },
   });
-
-  const { writeAsync: removeLiquidity } = useRemoveLiquidity({
-    control,
-    chainId,
-    tokens,
-    account,
-    isStable,
-    lpBalance,
-  });
-
-  const approveToken = async () => {
-    try {
-      const tx = await approve?.();
-
-      await showTXSuccessToast(tx, chainId);
-    } catch {
-      throwError(t('error.generic'));
-    } finally {
-      setValue('loading', false);
-      await refetch();
-    }
-  };
-
-  const handleApproveToken = () =>
-    showToast(approveToken(), {
-      loading: `${capitalize(t('common.approve', { isLoading: 1 }))}`,
-      success: capitalize(t('common.success')),
-      error: prop('message'),
-    });
-
-  const remove = async () => {
-    try {
-      setValue('removeLoading', true);
-
-      const tx = await removeLiquidity?.();
-
-      await showTXSuccessToast(tx, chainId);
-    } catch {
-      throwError(t('error.generic'));
-    } finally {
-      setValue('removeLoading', false);
-      await refetch();
-    }
-  };
-
-  const handleRemoveLiquidity = async () =>
-    showToast(remove(), {
-      loading: capitalize(`${t('common.remove', { isLoading: 1 })}`),
-      success: capitalize(t('common.success')),
-      error: prop('message'),
-    });
 
   return (
     <Box bg="foreground" p="L" borderRadius="M" width="100%">
@@ -145,28 +65,19 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
           </Box>
         }
       />
-      <LinearLoader control={control} />
-      <Box
-        my="L"
-        rowGap="1rem"
-        display="grid"
-        gridTemplateColumns="auto auto 1fr"
-      >
-        <TokenAmount
-          Icon={tokens[0].Icon}
-          symbol={tokens[0].symbol}
-          control={control}
-          name="token0Amount"
-          isFetchingInitialData={isFetchingInitialData}
-        />
-        <TokenAmount
-          Icon={tokens[1].Icon}
-          symbol={tokens[1].symbol}
-          control={control}
-          name="token1Amount"
-          isFetchingInitialData={isFetchingInitialData}
-        />
-      </Box>
+      <RemoveLiquidityCardContent
+        chainId={chainId}
+        account={account}
+        setValue={setValue}
+        isStable={isStable}
+        control={control}
+        refetch={refetch}
+        tokens={tokens}
+        isFetchingInitialData={isFetchingInitialData}
+        lpAllowance={lpAllowance}
+        lpBalance={lpBalance}
+        pairAddress={pairAddress}
+      />
       <RemoveLiquidityManager
         chainId={chainId || 0}
         control={control}
@@ -177,41 +88,6 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
         token0Decimals={tokens[0].decimals}
         token1Decimals={tokens[1].decimals}
       />
-      <WalletGuardButton>
-        <Box
-          mt="L"
-          display="grid"
-          gridColumnGap="1rem"
-          gridTemplateColumns={lpAllowance.isZero() ? '1fr' : '1fr 1fr'}
-        >
-          {lpAllowance.isZero() ? (
-            <ApproveButton
-              control={control}
-              onClick={handleApproveToken}
-              symbol0={tokens[0].symbol}
-              symbol1={tokens[1].symbol}
-            />
-          ) : (
-            <>
-              <Button
-                width="100%"
-                variant="primary"
-                bg="bottomBackground"
-                hover={{ bg: 'disabled' }}
-                onClick={() => {
-                  setValue('lpAmount', '0.0');
-                }}
-              >
-                {capitalize(t('common.reset'))}
-              </Button>
-              <RemoveLiquidityButton
-                control={control}
-                onClick={handleRemoveLiquidity}
-              />
-            </>
-          )}
-        </Box>
-      </WalletGuardButton>
     </Box>
   );
 };

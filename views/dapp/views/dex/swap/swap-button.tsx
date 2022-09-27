@@ -33,7 +33,9 @@ const SwapViewButton: FC<SwapViewButtonProps> = ({
     variant="primary"
     onClick={onClick}
     disabled={!!loadingText || disabled}
-    hover={{ bg: 'accentAlternativeActive' }}
+    hover={{
+      bg: !!loadingText || disabled ? 'disabled' : 'accentAlternativeActive',
+    }}
     cursor={loadingText ? 'progress' : disabled ? 'not-allowed' : 'pointer'}
     bg={!!loadingText || disabled ? 'disabled' : 'accentAlternative'}
   >
@@ -122,7 +124,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     } finally {
       setButtonLoadingText(null);
     }
-  }, [account, chainId, approve, tokenInAddress]);
+  }, [account, chainId, approve, tokenInAddress, refetch]);
 
   const submitAllowance = () =>
     showToast(handleAddAllowance(), {
@@ -136,15 +138,15 @@ const SwapButton: FC<SwapButtonProps> = ({
     setButtonLoadingText(t('common.swap', { isLoading: 1 }) + '...');
     try {
       const tx = await swapTokens?.();
-      await showTXSuccessToast(tx, chainId);
-      if (tx) await tx.wait(5);
+      if (tx) await tx.wait(1);
       await refetch();
+      await showTXSuccessToast(tx, chainId);
     } catch {
       throwError(t('dexSwap.swapMessage.error'));
     } finally {
       setButtonLoadingText(null);
     }
-  }, [account, chainId, swapTokens, parsedTokenInBalance, swapBase]);
+  }, [account, chainId, swapTokens, parsedTokenInBalance, swapBase, refetch]);
 
   const swap = () =>
     showToast(handleSwap(), {
@@ -167,8 +169,8 @@ const SwapButton: FC<SwapButtonProps> = ({
 
       const tx = await wethDeposit?.();
 
+      if (tx) await tx.wait(1);
       await showTXSuccessToast(tx, chainId);
-      if (tx) await tx.wait(5);
       await refetch();
     } catch (e) {
       throwError(t('dexSwap.error.wethDeposit'));
@@ -201,8 +203,8 @@ const SwapButton: FC<SwapButtonProps> = ({
 
       const tx = await wethWithdraw?.();
 
+      if (tx) await tx.wait(1);
       await showTXSuccessToast(tx, chainId);
-      if (tx) await tx.wait(5);
       await refetch();
     } catch {
       throwError(t('dexSwap.error.wethWithdraw'));
@@ -266,6 +268,8 @@ const SwapButton: FC<SwapButtonProps> = ({
   };
 
   const handleIsDisabled = () => {
+    if (needsApproval) return !approve;
+
     if (
       (disabled || isNaN(+tokenIn.value) || +tokenIn.value === 0) &&
       !needsApproval

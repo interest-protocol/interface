@@ -1,5 +1,6 @@
 import { readContract, ReadContractConfig } from '@wagmi/core';
-import { QueryFunctionArgs } from 'wagmi/dist/declarations/src/types';
+
+import { QueryFunctionArgs } from '@/interface';
 
 export const queryKey = ({
   addressOrName,

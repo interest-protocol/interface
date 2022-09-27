@@ -18,6 +18,7 @@ import {
 } from '@/sdk';
 import { CogsSVG } from '@/svg';
 import { isSameAddressZ, numberToString } from '@/utils';
+import AddLiquidityButton from '@/views/dapp/views/dex-pool-details/components/add-liquidity-card/add-liquidity-button';
 
 import SwapSelectCurrency from '../components/swap-select-currency';
 import InputBalance from './input-balance';
@@ -137,7 +138,6 @@ const Swap: FC = () => {
       loading,
     ]
   );
-
   return (
     <>
       <Box

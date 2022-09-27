@@ -1,21 +1,17 @@
-import { parseContractResult } from '@wagmi/core';
+import { parseContractResult, ReadContractConfig } from '@wagmi/core';
 import { useMemo } from 'react';
 import { deepEqual, useQuery } from 'wagmi';
 
 import { useChainId } from '../use-chain-id';
-import {
-  UseContractReadArgs,
-  UseContractReadConfig,
-} from './use-contract-read.types';
+import { UseContractReadConfig } from './use-contract-read.types';
 import { queryFn, queryKey } from './use-contract-read.utils';
 
-export function useContractRead({
+export function useSafeContractRead({
   addressOrName,
   contractInterface,
   functionName,
   args,
   overrides,
-  cacheOnBlock = false,
   cacheTime,
   enabled: enabled_ = true,
   isDataEqual = deepEqual,
@@ -25,7 +21,7 @@ export function useContractRead({
   onError,
   onSettled,
   onSuccess,
-}: Omit<UseContractReadArgs, 'chainId'> & UseContractReadConfig) {
+}: Omit<ReadContractConfig, 'chainId'> & UseContractReadConfig) {
   const chainId = useChainId();
 
   const queryKey_ = useMemo(
@@ -37,12 +33,12 @@ export function useContractRead({
         functionName,
         overrides,
       }),
-    [addressOrName, args, cacheOnBlock, chainId, functionName, overrides]
+    [addressOrName, args, chainId, functionName, overrides]
   );
 
   const enabled = useMemo(() => {
     return Boolean(enabled_ && addressOrName && functionName);
-  }, [addressOrName, cacheOnBlock, enabled_, functionName]);
+  }, [addressOrName, enabled_, functionName]);
 
   return useQuery(queryKey_, queryFn({ contractInterface }), {
     cacheTime,

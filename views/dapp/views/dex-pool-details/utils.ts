@@ -23,8 +23,14 @@ const processMetadata = (
   const nativeToken = CHAINS[chainId].nativeCurrency!;
 
   return isSameAddressZ(wrappedNativeToken.address, token)
-    ? { ...nativeToken, decimals: BigNumber.from(nativeToken?.decimals) }
-    : metadata;
+    ? {
+        ...nativeToken,
+        decimals: BigNumber.from(nativeToken?.decimals).toNumber(),
+      }
+    : {
+        ...metadata,
+        decimals: metadata.decimals.toNumber(),
+      };
 };
 
 const processAllowance = (
@@ -67,7 +73,7 @@ export const processPairData = (
   const defaultERC20Metadata = {
     name: '???',
     symbol: '???',
-    decimals: ZERO_BIG_NUMBER,
+    decimals: 18,
   };
 
   const defaultData = {

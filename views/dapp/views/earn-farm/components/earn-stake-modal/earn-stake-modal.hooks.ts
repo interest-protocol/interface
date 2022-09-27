@@ -1,9 +1,9 @@
 import { ethers } from 'ethers';
 import { Control, useWatch } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
 import { StakeState } from '@/constants';
-import { useDebounce } from '@/hooks';
 import CasaDePapelABI from '@/sdk/abi/casa-de-papel.abi.json';
 import { getCasaDePapelAddress, safeToBigNumber } from '@/utils';
 
@@ -14,9 +14,10 @@ export const useAction = (
   control: Control<{ value: string }>,
   modal: StakeState | undefined
 ) => {
-  const amount = useDebounce(
+  const [amount] = useDebounce(
     safeToBigNumber(useWatch({ control, name: 'value' }) || '0'),
-    500
+    500,
+    { equalityFn: (x, y) => x.eq(y) }
   );
 
   const balanceLimit =
