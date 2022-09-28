@@ -88,7 +88,7 @@ const EarnTable: FC<EarnTableProps> = ({
                   fontSize="inherit"
                   textTransform="capitalize"
                 >
-                  {t('common.stake', { isLoading: 1 })}
+                  {t('common.stake', { isLoading: 0 })}
                 </Typography>
               ),
             },
