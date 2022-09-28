@@ -1,11 +1,12 @@
 import { useTranslations } from 'next-intl';
+import { values } from 'ramda';
 import { FC } from 'react';
 
 import EthereumNetwork from '@/components/svg/ethereum-network';
 import priorityHooks from '@/connectors';
 import { Box, Dropdown, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
-import { ArrowSVG, BinanceTestSVG } from '@/svg';
+import { ArrowSVG, BinanceTestSVG, BlockchainSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
 const { usePriorityChainId } = priorityHooks;
@@ -24,11 +25,30 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
         buttonMode
         mode="select"
         suffix={
-          <Box display={['none', 'none', 'none', 'block']} width="0.6rem">
-            <ArrowSVG width="100%" />
+          <Box display="flex" alignItems="center">
+            {(!chainId || !values(CHAIN_ID).includes(chainId)) && (
+              <Box
+                mr="S"
+                as="span"
+                width="1rem"
+                display={['inline-block', 'none']}
+              >
+                <BlockchainSVG width="100%" />
+              </Box>
+            )}
+            <Box as="span" display="inline-block" width="0.6rem">
+              <ArrowSVG width="100%" />
+            </Box>
           </Box>
         }
-        title={capitalize(t('common.networkTitle'))}
+        title={
+          <Typography
+            variant="normal"
+            display={['none', 'none', 'none', 'block']}
+          >
+            {capitalize(t('common.networkTitle'))}
+          </Typography>
+        }
         header={capitalize(t('common.networkTitle') + ':')}
         defaultValue={`${chainId}`}
         data={[
