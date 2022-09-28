@@ -1,119 +1,49 @@
-import { ethers } from 'ethers';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { Box, Button, Typography } from '@/elements';
-import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
-import { LoadingSVG } from '@/svg';
-import { capitalize } from '@/utils';
+import { Box } from '@/elements';
+import { isValidAccount, isZeroAddress } from '@/utils';
 
-import { convertCollateralToDinero } from '../../dinero-market.utils';
+import ApproveButton from './approve-button';
+import BorrowButton from './borrow-button';
 import { BorrowFormButtonProps } from './borrow-form.types';
-
-const { parseEther } = ethers.utils;
+import RepayButton from './repay-button';
 
 const BorrowFormButton: FC<BorrowFormButtonProps> = ({
   data,
-  errors,
-  control,
   isBorrow,
-  setError,
-  onSubmit,
-  clearErrors,
-  isSubmitting,
-  handleAddAllowance,
+  account,
+  refetch,
+  form,
 }) => {
   const t = useTranslations();
-  const repayLoan = useWatch({ control, name: 'repay.loan' });
-  const borrowLoan = useWatch({ control, name: 'borrow.loan' });
-  const repayCollateral = useWatch({ control, name: 'repay.collateral' });
-  const borrowCollateral = useWatch({ control, name: 'borrow.collateral' });
-
-  const handleClick = (fn: () => void) => () => {
-    if (
-      errors.borrow?.loan?.type !== 'max' &&
-      borrowLoan &&
-      parseEther(borrowLoan).gt(
-        convertCollateralToDinero(
-          data.userCollateral.add(FixedPointMath.toBigNumber(borrowCollateral)),
-          data.ltv,
-          data.collateralUSDPrice,
-          data.collateralDecimals
-        )
-      )
-    ) {
-      setError('borrow.loan', {
-        type: 'max',
-        message: 'The Loan must to be less than LTV',
-      });
-      return;
-    }
-
-    if (
-      errors.borrow?.loan?.type === 'max' &&
-      borrowLoan &&
-      convertCollateralToDinero(
-        data.userCollateral,
-        data.ltv,
-        data.collateralUSDPrice,
-        data.collateralDecimals
-      ).gte(parseEther(borrowLoan))
-    )
-      clearErrors('borrow.loan');
-
-    if (
-      errors.borrow?.collateral?.type !== 'max' &&
-      borrowCollateral &&
-      +borrowCollateral >
-        FixedPointMath.toNumber(data.collateralBalance, data.collateralDecimals)
-    ) {
-      setError('borrow.collateral', {
-        type: 'max',
-        message: 'The Collateral must not to be more than your balance',
-      });
-      return;
-    }
-
-    if (
-      errors.borrow?.collateral?.type === 'max' &&
-      borrowCollateral &&
-      +borrowCollateral <= FixedPointMath.toNumber(data.collateralBalance)
-    )
-      clearErrors('borrow.collateral');
-
-    fn();
-  };
+  const repayLoan = useWatch({ control: form.control, name: 'repay.loan' });
+  const repayCollateral = useWatch({
+    control: form.control,
+    name: 'repay.collateral',
+  });
+  const borrowLoan = useWatch({ control: form.control, name: 'borrow.loan' });
+  const borrowCollateral = useWatch({
+    control: form.control,
+    name: 'borrow.collateral',
+  });
 
   return (
     <Box display="flex" justifyContent="center" mt="XXL">
       {isBorrow ? (
         data.collateralAllowance.isZero() ? (
-          <Button
-            display="flex"
-            variant="primary"
-            alignItems="center"
-            disabled={isSubmitting}
-            justifyContent="center"
-            hover={{ bg: 'accentActive' }}
-            onClick={handleClick(handleAddAllowance)}
-            bg={isSubmitting ? 'accentActive' : 'accent'}
-            cursor={isSubmitting ? 'not-allowed' : 'pointer'}
-          >
-            {isSubmitting && (
-              <Box as="span" display="inline-block" width="1rem">
-                <LoadingSVG width="100%" />
-              </Box>
-            )}
-            <Typography
-              fontSize="S"
-              as="span"
-              variant="normal"
-              ml={isSubmitting ? 'L' : 'NONE'}
-            >
-              {capitalize(t('common.approve', { isLoading: 0 }))}
-            </Typography>
-          </Button>
+          <ApproveButton
+            enabled={
+              data.collateralAllowance.isZero() &&
+              isValidAccount(account) &&
+              !isZeroAddress(data.marketAddress)
+            }
+            refetch={refetch}
+            chainId={data.chainId}
+            contract={data.collateralAddress}
+            spender={data.marketAddress}
+          />
         ) : (!borrowLoan && !borrowCollateral) ||
           (+borrowCollateral === 0 && +borrowLoan === 0) ? (
           <Box
@@ -127,38 +57,14 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
             {t('dineroMarketAddress.button.default')}
           </Box>
         ) : (
-          <Button
-            type="submit"
-            display="flex"
-            variant="primary"
-            alignItems="center"
-            disabled={isSubmitting}
-            justifyContent="center"
-            onClick={handleClick(onSubmit)}
-            hover={{ bg: 'accentActive' }}
-            bg={isSubmitting ? 'accentActive' : 'accent'}
-            cursor={isSubmitting ? 'not-allowed' : 'pointer'}
-          >
-            {isSubmitting && (
-              <Box as="span" display="inline-block" width="1rem">
-                <LoadingSVG width="100%" />
-              </Box>
-            )}
-            <Typography
-              fontSize="S"
-              as="span"
-              variant="normal"
-              ml={isSubmitting ? 'L' : 'NONE'}
-            >
-              {t(
-                !!+borrowLoan && !!+borrowCollateral
-                  ? 'dineroMarketAddress.button.addCollateralBorrow'
-                  : +borrowCollateral > 0
-                  ? 'dineroMarketAddress.button.addCollateral'
-                  : 'dineroMarketAddress.button.borrow'
-              )}
-            </Typography>
-          </Button>
+          <BorrowButton
+            borrowLoan={borrowLoan}
+            borrowCollateral={borrowCollateral}
+            refetch={refetch}
+            form={form}
+            data={data}
+            account={account}
+          />
         )
       ) : !+repayLoan && !+repayCollateral ? (
         <Box
@@ -172,37 +78,14 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
           {t('dineroMarketAddress.button.default')}
         </Box>
       ) : (
-        <Button
-          display="flex"
-          variant="primary"
-          alignItems="center"
-          disabled={isSubmitting}
-          justifyContent="center"
-          onClick={handleClick(onSubmit)}
-          hover={{ bg: 'accentActive' }}
-          bg={isSubmitting ? 'accentActive' : 'accent'}
-          cursor={isSubmitting ? 'not-allowed' : 'pointer'}
-        >
-          {isSubmitting && (
-            <Box as="span" display="inline-block" width="1rem">
-              <LoadingSVG width="100%" />
-            </Box>
-          )}
-          <Typography
-            as="span"
-            fontSize="S"
-            variant="normal"
-            ml={isSubmitting ? 'L' : 'NONE'}
-          >
-            {t(
-              !!+repayLoan && !!+repayCollateral
-                ? 'dineroMarketAddress.button.removeCollateralRepay'
-                : +repayCollateral
-                ? 'dineroMarketAddress.button.removeCollateral'
-                : 'dineroMarketAddress.button.repay'
-            )}
-          </Typography>
-        </Button>
+        <RepayButton
+          repayLoan={repayLoan}
+          repayCollateral={repayCollateral}
+          refetch={refetch}
+          form={form}
+          data={data}
+          account={account}
+        />
       )}
     </Box>
   );

@@ -1,26 +1,22 @@
 import { ContractInterface, ethers } from 'ethers';
 import { isEmpty } from 'ramda';
-import { Control, useWatch } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
 import { DineroMarketKind } from '@/constants';
-import { FixedPointMath } from '@/sdk';
+import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
 import DineroERC20MarketABI from '@/sdk/abi/dinero-erc-20-market.abi.json';
 import DineroLpFreeMarketABI from '@/sdk/abi/dinero-lp-free-market.abi.json';
 import DineroNativeMarketABI from '@/sdk/abi/dinero-native-market.abi.json';
-import { safeToBigNumber } from '@/utils';
+import { isValidAccount, isZeroAddress, safeToBigNumber } from '@/utils';
 
-import {
-  DineroMarketData,
-  HandlerData,
-  IBorrowForm,
-} from './dinero-market.types';
+import { DineroMarketData, HandlerData } from './dinero-market.types';
 import { loanElasticToPrincipal } from './dinero-market.utils';
 
 const { defaultAbiCoder } = ethers.utils;
 
 const encodeData = (to: string, amount: ethers.BigNumber) =>
-  defaultAbiCoder.encode(['address', 'uint256'], [to, amount]);
+  defaultAbiCoder.encode(['address', 'uint256'], [to || ZERO_ADDRESS, amount]);
 
 enum RequestActions {
   Deposit,
@@ -78,6 +74,7 @@ const handleRepayRequest = (
       loanElastic: market.loanElastic,
       loanBase: market.loanBase,
       userElastic: safeToBigNumber(loan, 18, 8),
+      now: market.now,
     }).value();
 
     const safePrincipal = estimatedPrincipal.gt(market.userPrincipal)
@@ -102,6 +99,7 @@ const handleRepayRequest = (
       interestRate: market.interestRate,
       lastAccrued: market.lastAccrued,
       userElastic: safeToBigNumber(loan, 18, 8),
+      now: market.now,
     }).value();
 
     const safePrincipal = estimatedPrincipal.gt(market.userPrincipal)
@@ -192,6 +190,7 @@ const handleRepayLoan = (
       loanBase: market.loanBase,
       loanElastic: market.loanElastic,
       userElastic: safeAmount,
+      now: market.now,
     }).value();
 
     const safePrincipal = estimatedPrincipal.gt(market.userPrincipal)
@@ -208,6 +207,7 @@ const handleRepayLoan = (
       loanBase: market.loanBase,
       loanElastic: market.loanElastic,
       userElastic: safeAmount,
+      now: market.now,
     }).value();
 
     const safePrincipal = estimatedPrincipal.gt(market.userPrincipal)
@@ -229,26 +229,32 @@ const handleRepayLoan = (
 export const useRepay = (
   market: DineroMarketData,
   account: string,
-  control: Control<IBorrowForm>
+  collateral: string,
+  loan: string
 ) => {
-  const collateral = useWatch({ control, name: 'repay.collateral' });
-  const loan = useWatch({ control, name: 'repay.loan' });
-
-  const safeCollateral = isNaN(+collateral) ? 0 : +collateral;
-  const safeLoan = isNaN(+loan) ? 0 : +loan;
+  const [safeCollateral] = useDebounce(
+    isNaN(+collateral) ? 0 : +collateral,
+    500
+  );
+  const [safeLoan] = useDebounce(isNaN(+loan) ? 0 : +loan, 500);
 
   let data = {} as HandlerData;
-  if (!!collateral && !!loan)
+  if (!!safeCollateral && !!safeLoan)
     data = handleRepayRequest(market, account, safeCollateral, safeLoan);
 
-  if (collateral) data = handleRepayCollateral(market, account, safeCollateral);
+  if (safeCollateral)
+    data = handleRepayCollateral(market, account, safeCollateral);
 
-  if (loan) data = handleRepayLoan(market, account, safeLoan);
+  if (safeLoan) data = handleRepayLoan(market, account, safeLoan);
 
   const { config } = usePrepareContractWrite({
     addressOrName: market.marketAddress,
     ...data,
-    enabled: data.enabled && !isEmpty(data),
+    enabled:
+      data.enabled &&
+      !isEmpty(data) &&
+      isValidAccount(account) &&
+      !isZeroAddress(market.marketAddress),
   });
 
   return useContractWrite(config);
@@ -339,7 +345,7 @@ const handleBorrowDeposit = (
     ? market.collateralBalance
     : bnCollateral;
 
-  const functionName = 'request';
+  const functionName = 'deposit';
   let args: any[] = [];
   let enabled = false;
   let overrides = {};
@@ -449,26 +455,32 @@ const handleBorrowLoan = (
 export const useBorrow = (
   market: DineroMarketData,
   account: string,
-  control: Control<IBorrowForm>
+  collateral: string,
+  loan: string
 ) => {
-  const collateral = useWatch({ control, name: 'borrow.collateral' });
-  const loan = useWatch({ control, name: 'borrow.loan' });
-
-  const safeCollateral = isNaN(+collateral) ? 0 : +collateral;
-  const safeLoan = isNaN(+loan) ? 0 : +loan;
+  const [safeCollateral] = useDebounce(
+    isNaN(+collateral) ? 0 : +collateral,
+    500
+  );
+  const [safeLoan] = useDebounce(isNaN(+loan) ? 0 : +loan, 500);
 
   let data = {} as HandlerData;
-  if (!!collateral && !!loan)
+  if (!!safeCollateral && !!safeLoan)
     data = handleBorrowRequest(market, account, safeCollateral, safeLoan);
 
-  if (collateral) data = handleBorrowDeposit(market, account, safeCollateral);
+  if (safeCollateral)
+    data = handleBorrowDeposit(market, account, safeCollateral);
 
-  if (loan) data = handleBorrowLoan(market, account, safeLoan);
+  if (safeLoan) data = handleBorrowLoan(market, account, safeLoan);
 
   const { config } = usePrepareContractWrite({
     addressOrName: market.marketAddress,
     ...data,
-    enabled: data.enabled && !isEmpty(data),
+    enabled:
+      data.enabled &&
+      !isEmpty(data) &&
+      isValidAccount(account) &&
+      !isZeroAddress(market.marketAddress),
   });
 
   return useContractWrite(config);

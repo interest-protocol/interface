@@ -8,7 +8,7 @@ import { FixedPointMath } from '@/sdk';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
 
-type TDineroMarketMode = 'borrow' | 'repay';
+export type TDineroMarketMode = 'borrow' | 'repay';
 
 export interface DineroMarketPanelProps {
   address: string;
@@ -33,14 +33,11 @@ export interface IBorrowForm {
 
 export interface FormsProps {
   account: string;
-  isSubmitting: boolean;
   isGettingData: boolean;
   mode: 'borrow' | 'repay';
-  onSubmitRepay: () => void;
-  onSubmitBorrow: () => void;
   data: DineroMarketData;
   form: UseFormReturn<IBorrowForm>;
-  handleAddAllowance: () => Promise<void>;
+  refetch: () => Promise<void>;
 }
 
 export interface DineroMarketData {
@@ -73,10 +70,12 @@ export interface DineroMarketData {
   maxBorrowAmount: BigNumber;
   rewardsBalance: BigNumber;
   loading: boolean;
+  now: number;
 }
 
 export type GetSafeDineroMarketData = (
   chainId: number,
+  now: number,
   market: string,
   data:
     | undefined
@@ -134,6 +133,7 @@ interface TCalculateInterestAccruedArgs {
   loanElastic: ProcessedMarketData['loanElastic'];
   lastAccrued: ProcessedMarketData['lastAccrued'];
   interestRate: ProcessedMarketData['interestRate'];
+  now: number;
 }
 
 export type TCalculateInterestAccrued = (
@@ -146,6 +146,7 @@ interface TLoanPrincipalToElasticArgs {
   lastAccrued: ProcessedMarketData['lastAccrued'];
   loanElastic: ProcessedMarketData['loanElastic'];
   interestRate: ProcessedMarketData['interestRate'];
+  now: number;
 }
 
 export type TLoanPrincipalToElastic = (
@@ -186,6 +187,7 @@ interface TLoanElasticToPrincipalArgs {
   userElastic: BigNumber;
   lastAccrued: ProcessedMarketData['lastAccrued'];
   interestRate: ProcessedMarketData['interestRate'];
+  now: number;
 }
 
 export type TLoanElasticToPrincipal = (

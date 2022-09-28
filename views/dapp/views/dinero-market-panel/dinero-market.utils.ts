@@ -106,10 +106,12 @@ const DEFAULT_MARKET_DATA = {
   maxBorrowAmount: ZERO_BIG_NUMBER,
   rewardsBalance: ZERO_BIG_NUMBER,
   loading: true,
+  now: new Date().getTime(),
 };
 
 export const getSafeDineroMarketData: GetSafeDineroMarketData = (
   chainId: number,
+  now,
   market,
   data
 ) => {
@@ -157,6 +159,7 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
       ),
       rewardsBalance: ZERO_BIG_NUMBER,
       loading: false,
+      now,
       ...marketMetadata,
     };
 
@@ -228,6 +231,7 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
     ),
     rewardsBalance: data.marketData.rewardsBalance,
     loading: false,
+    now,
     ...marketMetadata,
   };
 };
@@ -236,10 +240,9 @@ export const calculateInterestAccrued: TCalculateInterestAccrued = ({
   loanElastic,
   lastAccrued,
   interestRate,
+  now,
 }) => {
   const lasAccrued = lastAccrued.toNumber() * 1000;
-
-  const now = new Date().getTime();
 
   const timeDelta = now - lasAccrued;
 
@@ -255,6 +258,7 @@ export const loanPrincipalToElastic: TLoanPrincipalToElastic = ({
   userPrincipal,
   lastAccrued,
   interestRate,
+  now,
 }): FixedPointMath => {
   if (loanBase.isZero()) return FixedPointMath.from(userPrincipal);
 
@@ -262,6 +266,7 @@ export const loanPrincipalToElastic: TLoanPrincipalToElastic = ({
     loanElastic,
     lastAccrued,
     interestRate,
+    now,
   });
 
   return FixedPointMath.from(
@@ -275,16 +280,20 @@ export const loanElasticToPrincipal: TLoanElasticToPrincipal = ({
   userElastic,
   lastAccrued,
   interestRate,
+  now,
 }): FixedPointMath => {
   if (loanElastic.isZero()) return FixedPointMath.from(userElastic);
   return FixedPointMath.from(
-    userElastic
-      .mul(loanBase)
-      .div(
-        loanElastic.add(
-          calculateInterestAccrued({ loanElastic, lastAccrued, interestRate })
-        )
+    userElastic.mul(loanBase).div(
+      loanElastic.add(
+        calculateInterestAccrued({
+          loanElastic,
+          lastAccrued,
+          interestRate,
+          now,
+        })
       )
+    )
   );
 };
 
@@ -339,6 +348,7 @@ export const calculateDineroLeftToBorrow: TCalculateDineroLeftToBorrow = ({
   interestRate,
   collateralUSDPrice,
   maxBorrowAmount,
+  now,
 }): FixedPointMath => {
   const userElasticLoan = loanPrincipalToElastic({
     loanBase,
@@ -346,6 +356,7 @@ export const calculateDineroLeftToBorrow: TCalculateDineroLeftToBorrow = ({
     userPrincipal,
     lastAccrued,
     interestRate,
+    now,
   });
 
   const collateralInUSD = FixedPointMath.from(ltv)
@@ -372,6 +383,7 @@ export const safeAmountToWithdrawRepay: TSafeAmountToWithdrawRepay = (
     lastAccrued,
     loanElastic,
     interestRate,
+    now,
   },
   repayLoan
 ) => {
@@ -383,6 +395,7 @@ export const safeAmountToWithdrawRepay: TSafeAmountToWithdrawRepay = (
     userPrincipal,
     lastAccrued,
     interestRate,
+    now,
   });
 
   if (repayLoan.gte(userLoanElastic.value()))
@@ -412,6 +425,7 @@ export const safeAmountToWithdraw: TSafeAmountToWithdraw = ({
   userPrincipal,
   adjustedUserCollateral,
   collateralUSDPrice,
+  now,
 }) => {
   if (loanElastic.isZero()) return FixedPointMath.from(adjustedUserCollateral);
 
@@ -421,6 +435,7 @@ export const safeAmountToWithdraw: TSafeAmountToWithdraw = ({
     userPrincipal,
     lastAccrued,
     interestRate,
+    now,
   }).div(ltv);
 
   const collateralInUSD = FixedPointMath.from(adjustedUserCollateral).mul(
@@ -450,6 +465,7 @@ export const calculateBorrowAmount: TCalculateBorrowAmount = ({
   userCollateral,
   collateralUSDPrice,
   collateralDecimals,
+  now,
 }) => {
   const adjustedCollateral = adjustDecimals(userCollateral, collateralDecimals);
 
@@ -459,6 +475,7 @@ export const calculateBorrowAmount: TCalculateBorrowAmount = ({
     userPrincipal,
     lastAccrued,
     interestRate,
+    now,
   });
 
   const collateralValue = FixedPointMath.from(adjustedCollateral)
@@ -535,6 +552,7 @@ export const getRepayPositionHealthData: TGetRepayPositionHealthData = (
     userPrincipal: market.userPrincipal,
     lastAccrued: market.lastAccrued,
     interestRate: market.interestRate,
+    now: market.now,
   });
 
   const newElasticLoan = repay.gte(elasticLoan)
@@ -567,6 +585,7 @@ export const getBorrowPositionHealthData: TGetBorrowPositionHealthData = (
     userPrincipal: market.userPrincipal,
     lastAccrued: market.lastAccrued,
     interestRate: market.interestRate,
+    now: market.now,
   })
     .add(FixedPointMath.toBigNumber(loan))
     .value();
@@ -638,6 +657,7 @@ export const getMyPositionData: TGetMyPositionData = (market) => {
             userPrincipal: market.userPrincipal,
             lastAccrued: market.lastAccrued,
             loanBase: market.loanBase,
+            now: market.now,
           }).value(),
           adjustUserCollateral: market.adjustedUserCollateral,
         }).value(),
@@ -674,6 +694,7 @@ export const getMyPositionData: TGetMyPositionData = (market) => {
             userPrincipal: market.userPrincipal,
             lastAccrued: market.lastAccrued,
             interestRate: market.interestRate,
+            now: market.now,
           }).value(),
           ethers.utils.parseEther('1')
         ).toSignificant(8)
@@ -713,6 +734,7 @@ export const calculateUserCurrentLTV: TCalculateUserCurrentLTV = (
     interestRate,
     collateralUSDPrice,
     adjustedUserCollateral,
+    now,
   },
   borrowCollateral,
   borrowLoan
@@ -727,6 +749,7 @@ export const calculateUserCurrentLTV: TCalculateUserCurrentLTV = (
     userPrincipal,
     lastAccrued,
     interestRate,
+    now,
   }).add(borrowLoan);
 
   return elasticLoan.div(collateralInUSD);
