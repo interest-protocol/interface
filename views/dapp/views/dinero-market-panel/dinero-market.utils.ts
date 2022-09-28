@@ -6,13 +6,14 @@ import {
   DINERO_MARKET_METADATA,
   DineroMarketKind,
   FARM_METADATA_MAP,
-  getDineroMarketSVGBySymbol,
+  getDineroMarketSVGByAddress,
   TOKENS_SVG_MAP,
   WBNB_INT_ADDRESS_MAP,
   WRAPPED_NATIVE_TOKEN,
 } from '@/constants';
 import {
   CHAIN_ID,
+  CONTRACTS,
   FixedPointMath,
   SECONDS_IN_A_YEAR,
   TOKEN_SYMBOL,
@@ -66,9 +67,11 @@ export const isFormRepayEmpty = (form: UseFormReturn<IBorrowForm>) =>
 const makeSymbol = (
   symbol0: string,
   symbol1: string,
-  kind: DineroMarketKind
+  kind: DineroMarketKind,
+  short = false
 ) => {
-  if (kind === DineroMarketKind.LpFreeMarket) return `${symbol0}-${symbol1}`;
+  if (kind === DineroMarketKind.LpFreeMarket)
+    return short ? 'LP' : `${symbol0}-${symbol1}`;
 
   return `${symbol0}`;
 };
@@ -639,7 +642,12 @@ export const getMyPositionData: TGetMyPositionData = (market) => {
       ).toSignificant(4)
     );
 
-    const symbol = makeSymbol(market.symbol0, market.symbol1, market.kind);
+    const symbol = makeSymbol(
+      market.symbol0,
+      market.symbol1,
+      market.kind,
+      true
+    );
 
     return [
       `${formatMoney(
@@ -729,7 +737,10 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
       currency:
         market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.symbol0,
       amount: '0',
-      currencyIcons: getDineroMarketSVGBySymbol(market.symbol0, market.symbol1),
+      currencyIcons: getDineroMarketSVGByAddress(
+        market.chainId,
+        market.marketAddress
+      ),
       max: FixedPointMath.toNumber(market.adjustedCollateralBalance),
       name: 'borrow.collateral',
       label: 'dineroMarketAddress.borrowCollateralLabel',
@@ -744,7 +755,7 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
       amountUSD: 1,
       currencyIcons: [
         {
-          SVG: TOKENS_SVG_MAP[TOKEN_SYMBOL.DNR],
+          SVG: TOKENS_SVG_MAP[market.chainId][CONTRACTS.DNR[market.chainId]],
           highZIndex: false,
         },
       ],
@@ -766,7 +777,7 @@ export const getRepayFields: TGetRepayFields = (market) => {
       amountUSD: 1,
       currencyIcons: [
         {
-          SVG: TOKENS_SVG_MAP[TOKEN_SYMBOL.DNR],
+          SVG: TOKENS_SVG_MAP[market.chainId][CONTRACTS.DNR[market.chainId]],
           highZIndex: false,
         },
       ],
@@ -780,7 +791,10 @@ export const getRepayFields: TGetRepayFields = (market) => {
       currency:
         market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.symbol0,
       amount: '0',
-      currencyIcons: getDineroMarketSVGBySymbol(market.symbol0, market.symbol1),
+      currencyIcons: getDineroMarketSVGByAddress(
+        market.chainId,
+        market.marketAddress
+      ),
       max: safeAmountToWithdraw(market).toNumber(),
       name: 'repay.collateral',
       label: 'dineroMarketAddress.repayCollateralLabel',

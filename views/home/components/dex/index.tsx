@@ -112,6 +112,7 @@ const DEX: FC = () => {
             variant="title2"
             textAlign="center"
             textTransform="capitalize"
+            px={['unset', 'unset', 'unset', '3.6rem']}
           >
             {t('landingPage.stablePairTitle')}
           </Typography>
@@ -127,6 +128,7 @@ const DEX: FC = () => {
             fontWeight="700"
             textAlign="center"
             fontSize={['0.875rem', '1.5rem']}
+            px={['unset', 'unset', 'unset', '3.6rem']}
           >
             K = 3XY + 3XY
             <br />
@@ -209,6 +211,7 @@ const DEX: FC = () => {
             textAlign="center"
             variant="title2"
             textTransform="capitalize"
+            px={['unset', 'unset', 'unset', '3.6rem']}
           >
             {t('landingPage.volatilePairTitle')}
           </Typography>
@@ -219,8 +222,9 @@ const DEX: FC = () => {
             variant="large"
             fontWeight="700"
             textAlign="center"
-            fontSize={['0.875rem', '1.5rem']}
             textTransform="uppercase"
+            fontSize={['0.875rem', '1.5rem']}
+            px={['unset', 'unset', 'unset', '3.6rem']}
           >
             K = Y * X
             <br />

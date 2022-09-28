@@ -34,7 +34,6 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
       <meta name="twitter:site" content="https://interestprotocol.com" />
       <meta name="twitter:image" content="/android-chrome-256x256.png" />
       <meta name="twitter:description" content={t('common.seoDescription')} />
-
       <link rel="icon" href="/favicon.ico" />
       <link
         rel="apple-touch-icon"
@@ -57,7 +56,7 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
       <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
       <meta name="msapplication-TileColor" content="#da532c" />
       <link rel="apple-touch-icon" href="/logo192.png" />
-      <title>Interest Protocol {pageTitle && `| ${pageTitle}`}</title>
+      <title>Interest Protocol {pageTitle && `| ${t(pageTitle)}`}</title>
     </Head>
   );
 };

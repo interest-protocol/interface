@@ -6,7 +6,7 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import { getDineroMarketSVGBySymbol, Routes, RoutesEnum } from '@/constants';
+import { getDineroMarketSVGByAddress, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
 import { FixedPointMath, SECONDS_IN_A_YEAR } from '@/sdk';
 import { capitalize, formatDollars, formatMoney } from '@/utils';
@@ -14,7 +14,7 @@ import { capitalize, formatDollars, formatMoney } from '@/utils';
 import { handleFilterDineroMarkets } from '../../dinero-market.utils';
 import { BorrowTableProps } from './borrow-table.types';
 
-const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
+const BorrowTable: FC<BorrowTableProps> = ({ control, markets, chainId }) => {
   const t = useTranslations();
   const { push } = useRouter();
   const sortBy = useWatch({ control, name: 'sortBy' });
@@ -121,7 +121,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
             ),
             items: [
               <Box key={v4()} display="flex" alignItems="center">
-                {getDineroMarketSVGBySymbol(x.symbol0, x.symbol1).map(
+                {getDineroMarketSVGByAddress(chainId, x.marketAddress).map(
                   ({ SVG, highZIndex }, index) => (
                     <Box
                       mr="M"
@@ -221,8 +221,8 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   flexDirection="column"
                   justifyContent="center"
                 >
-                  <Box display="flex">
-                    {getDineroMarketSVGBySymbol(x.symbol0, x.symbol1).map(
+                  <Box display="flex" ml="M">
+                    {getDineroMarketSVGByAddress(chainId, x.marketAddress).map(
                       ({ SVG, highZIndex }, index) => (
                         <Box
                           mr="M"

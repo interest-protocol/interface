@@ -7,7 +7,7 @@ import { addAllowance } from '@/api/erc20';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
 import { useGetSigner, useIdAccount } from '@/hooks';
-import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 import { coreActions } from '@/state/core/core.actions';
 import {
   capitalize,
@@ -37,7 +37,8 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   const { signer, account } = useGetSigner();
   const { address, symbol, decimals } = getValues()[name];
 
-  const SVG = TOKENS_SVG_MAP[symbol] || TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+  const SVG =
+    TOKENS_SVG_MAP[chainId][address] ?? TOKENS_SVG_MAP[chainId].default;
 
   const approve = useCallback(
     async (token: string) => {

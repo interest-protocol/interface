@@ -31,6 +31,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         ...require(`../../../../assets/messages/dinero-market/address/${locale}.json`),
         ...require(`../../../../assets/messages/common/${locale}.json`),
       },
+      pageTitle: 'dineroMarketAddress.pageTitleRepay',
     },
   };
 };

@@ -1,5 +1,6 @@
 {
   "earn": {
+    "pageTitle": "Farms",
     "filterStaked": "Apenas stake",
     "column1Tip": "Valor Total Retido",
     "column2Tip": "O seu montante de tokens na farm",

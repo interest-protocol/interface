@@ -7,14 +7,10 @@ import { Container } from '@/components';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useChainId, useGetPairData, useLocale } from '@/hooks';
-import { TOKEN_SYMBOL } from '@/sdk';
 import { FixedPointMath } from '@/sdk';
 import { getNativeBalance } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
-import {
-  formatMoney,
-  replaceWrappedNativeTokenWithNativeTokenSymbol,
-} from '@/utils';
+import { formatMoney } from '@/utils';
 
 import GoBack from '../../components/go-back';
 import {
@@ -26,13 +22,13 @@ import HeaderSkeleton from './components/skeleton/header';
 import { DEXPoolDetailsViewProps } from './dex-pool-details.types';
 import { processPairData } from './utils';
 
-const DefaultIcon = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
-
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
   const t = useTranslations();
+  const chainId = useChainId();
   const { currentLocale } = useLocale();
   const { error, data, mutate } = useGetPairData(pairAddress);
-  const chainId = useChainId();
+
+  const DefaultIcon = TOKENS_SVG_MAP[chainId].default;
 
   const nativeBalance = useSelector(getNativeBalance) as string;
 
@@ -76,17 +72,10 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
     );
 
   const FirstIcon =
-    TOKENS_SVG_MAP[
-      replaceWrappedNativeTokenWithNativeTokenSymbol(
-        processedData.token0Metadata.symbol
-      )
-    ] ?? DefaultIcon;
+    TOKENS_SVG_MAP[chainId][processedData.token0] ?? DefaultIcon;
+
   const SecondIcon =
-    TOKENS_SVG_MAP[
-      replaceWrappedNativeTokenWithNativeTokenSymbol(
-        processedData.token1Metadata.symbol
-      )
-    ] ?? DefaultIcon;
+    TOKENS_SVG_MAP[chainId][processedData.token1] ?? DefaultIcon;
 
   return (
     <Container dapp mt="XXL" width="100%">
@@ -127,6 +116,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
           isStable={processedData.isStable}
           lines={[
             {
+              address: processedData.token0,
               symbol: processedData.token0Metadata.symbol,
               value: formatMoney(
                 FixedPointMath.toNumber(
@@ -137,6 +127,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
               isFetchingInitialData: processedData.loading,
             },
             {
+              address: processedData.token1,
               symbol: processedData.token1Metadata.symbol,
               value: formatMoney(
                 FixedPointMath.toNumber(

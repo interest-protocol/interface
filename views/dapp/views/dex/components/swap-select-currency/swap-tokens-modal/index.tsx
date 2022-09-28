@@ -14,10 +14,10 @@ import {
   TOKENS_SVG_MAP,
 } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { useDebounce, useIdAccount, useLocalStorage } from '@/hooks';
+import { useDebounce, useLocalStorage } from '@/hooks';
 import { TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
 import { LineLoaderSVG, TimesSVG } from '@/svg';
-import { capitalize, isSameAddress, isSameAddressZ } from '@/utils';
+import { capitalize, isSameAddress, isSameAddressZ, noop } from '@/utils';
 
 import {
   SwapCurrencyDropdownProps,
@@ -30,13 +30,13 @@ const renderData = (
   onSelectCurrency: (data: OnSelectCurrencyData) => void,
   isLocal: boolean,
   currentToken: string,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  removeUserToken: (address: string) => void = () => {}
+  chainId: number,
+  removeUserToken: (address: string) => void = noop
 ): ReadonlyArray<ReactNode> => {
-  const DefaultTokenSVG = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+  const DefaultTokenSVG = TOKENS_SVG_MAP[chainId].default;
 
   return tokens.map(({ address, symbol, decimals }) => {
-    const SVG = TOKENS_SVG_MAP[symbol] ?? DefaultTokenSVG;
+    const SVG = TOKENS_SVG_MAP[chainId][address] ?? DefaultTokenSVG;
 
     const isDisabled = isSameAddressZ(address, currentToken);
     const handleSelectCurrency = () =>
@@ -107,9 +107,9 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   currentToken,
   setIsSearching,
   onSelectCurrency,
+  chainId,
 }) => {
   const t = useTranslations();
-  const { chainId } = useIdAccount();
   const [showLocal, setShowLocal] = useState(false);
   const search = useWatch({ control, name: 'search' });
   const [searchedToken, setSearchedToken] =
@@ -216,7 +216,8 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
             ] as ReadonlyArray<SwapTokenModalMetadata>,
             onSelectCurrency,
             false,
-            currentToken
+            currentToken,
+            chainId
           )}
         </Box>
         {debouncedSearch ? (
@@ -230,7 +231,8 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                 [searchedToken],
                 onSelectCurrency,
                 showLocal,
-                currentToken
+                currentToken,
+                chainId
               )
             ) : (
               <Typography variant="normal" color="text">
@@ -274,6 +276,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                 onSelectCurrency,
                 showLocal,
                 currentToken,
+                chainId,
                 removeUserToken
               )}
             </Box>

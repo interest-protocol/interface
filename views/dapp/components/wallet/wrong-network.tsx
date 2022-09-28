@@ -15,6 +15,7 @@ const WrongNetwork: FC = () => {
       <Button
         bg="error"
         display="flex"
+        px={['M', 'L']}
         variant="primary"
         alignItems="center"
         onClick={toggleNetworkModal}
@@ -22,7 +23,7 @@ const WrongNetwork: FC = () => {
         <Box as="span" display="inline-block" width="1rem">
           <NetworkSVG width="100%" />
         </Box>
-        <Typography as="span" variant="normal" ml="M">
+        <Typography as="span" variant="normal" ml="M" fontSize={['S', 'M']}>
           Wrong Network
         </Typography>
       </Button>

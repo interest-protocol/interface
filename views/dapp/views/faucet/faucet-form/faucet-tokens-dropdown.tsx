@@ -4,17 +4,19 @@ import { FC } from 'react';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Dropdown, Typography } from '@/elements';
 import { IDropdownData } from '@/elements/dropdown/dropdown.types';
-import { TOKEN_SYMBOL } from '@/sdk';
+import { useChainId } from '@/hooks';
 import { ArrowSVG } from '@/svg';
 
 import { FaucetCurrencyDropdownProps, IToken } from '../faucet.types';
 
 const renderData = (
   data: ReadonlyArray<IToken>,
-  onSelectCurrency: (address: string) => void
+  onSelectCurrency: (address: string) => void,
+  chainId: number
 ): ReadonlyArray<IDropdownData> =>
   data.map(({ symbol, address }) => {
-    const SVG = TOKENS_SVG_MAP[symbol] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+    const SVG =
+      TOKENS_SVG_MAP[chainId][address] ?? TOKENS_SVG_MAP[chainId].default;
 
     return {
       onSelect: () => onSelectCurrency(address),
@@ -58,6 +60,8 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
   onSelectCurrency,
 }) => {
   const t = useTranslations();
+  const chainId = useChainId();
+
   return (
     <Dropdown
       relative
@@ -92,7 +96,7 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
           </Box>
         </Box>
       }
-      data={renderData(tokens, onSelectCurrency)}
+      data={renderData(tokens, onSelectCurrency, chainId)}
     />
   );
 };

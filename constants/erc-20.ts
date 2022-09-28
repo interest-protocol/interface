@@ -16,7 +16,6 @@ import {
   FraxSVG,
   InterestTokenSVG,
   ManaSVG,
-  NeutrinoUSDSVG,
   PaxDollarSVG,
   ShibaInuSVG,
   TetherSVG,
@@ -30,7 +29,7 @@ import {
 } from '@/svg';
 import {
   isZeroAddress,
-  replaceWrappedNativeTokenWithNativeTokenSymbol,
+  replaceWrappedNativeTokenAddressWithZero,
 } from '@/utils';
 import {
   getAPEAddress,
@@ -110,30 +109,54 @@ export const FAUCET_TOKENS = {
 };
 
 export const TOKENS_SVG_MAP = {
-  [TOKEN_SYMBOL.ETH]: EtherSVG,
-  [TOKEN_SYMBOL.WETH]: EtherSVG,
-  [TOKEN_SYMBOL.BUSD]: BinanceUSDSVG,
-  [TOKEN_SYMBOL.DAI]: DAISVG,
-  [TOKEN_SYMBOL.FRAX]: FraxSVG,
-  [TOKEN_SYMBOL.TUSD]: TrueUSDSVG,
-  [TOKEN_SYMBOL.USDD]: USDDSVG,
-  [TOKEN_SYMBOL.USDN]: NeutrinoUSDSVG,
-  [TOKEN_SYMBOL.USDP]: PaxDollarSVG,
-  [TOKEN_SYMBOL.VAI]: VaiSVG,
-  [TOKEN_SYMBOL.DNR]: DineroSVG,
-  [TOKEN_SYMBOL.USDT]: TetherSVG,
-  [TOKEN_SYMBOL.BTC]: BitcoinSVG,
-  [TOKEN_SYMBOL.USDC]: USDCoinSVG,
-  [TOKEN_SYMBOL.UNI]: UniSwapSVG,
-  [TOKEN_SYMBOL.APE]: ApeCoinSVG,
-  [TOKEN_SYMBOL.MANA]: ManaSVG,
-  [TOKEN_SYMBOL.LINK]: ChainLinkSVG,
-  [TOKEN_SYMBOL.SHIB]: ShibaInuSVG,
-  [TOKEN_SYMBOL.INT]: InterestTokenSVG,
-  [TOKEN_SYMBOL.Unknown]: UnknownCoinSVG,
-  [TOKEN_SYMBOL.BNB]: BNBSVG,
-  [TOKEN_SYMBOL.WBNB]: WBNBCoinSVG,
-} as { [key: string]: FC<SVGAttributes<SVGSVGElement>> };
+  [CHAIN_ID.BNB_TEST_NET]: {
+    default: UnknownCoinSVG,
+    [CONTRACTS.ERC20_ETH[CHAIN_ID.BNB_TEST_NET]]: EtherSVG,
+    [CONTRACTS.BUSD[CHAIN_ID.BNB_TEST_NET]]: BinanceUSDSVG,
+    [CONTRACTS.DAI[CHAIN_ID.BNB_TEST_NET]]: DAISVG,
+    [CONTRACTS.FRAX[CHAIN_ID.BNB_TEST_NET]]: FraxSVG,
+    [CONTRACTS.TUSD[CHAIN_ID.BNB_TEST_NET]]: TrueUSDSVG,
+    [CONTRACTS.USDD[CHAIN_ID.BNB_TEST_NET]]: USDDSVG,
+    [CONTRACTS.USDP[CHAIN_ID.BNB_TEST_NET]]: PaxDollarSVG,
+    [CONTRACTS.VAI[CHAIN_ID.BNB_TEST_NET]]: VaiSVG,
+    [CONTRACTS.DNR[CHAIN_ID.BNB_TEST_NET]]: DineroSVG,
+    [CONTRACTS.USDT[CHAIN_ID.BNB_TEST_NET]]: TetherSVG,
+    [CONTRACTS.BTC[CHAIN_ID.BNB_TEST_NET]]: BitcoinSVG,
+    [CONTRACTS.USDC[CHAIN_ID.BNB_TEST_NET]]: USDCoinSVG,
+    [CONTRACTS.UNI[CHAIN_ID.BNB_TEST_NET]]: UniSwapSVG,
+    [CONTRACTS.APE[CHAIN_ID.BNB_TEST_NET]]: ApeCoinSVG,
+    [CONTRACTS.MANA[CHAIN_ID.BNB_TEST_NET]]: ManaSVG,
+    [CONTRACTS.LINK[CHAIN_ID.BNB_TEST_NET]]: ChainLinkSVG,
+    [CONTRACTS.SHIB[CHAIN_ID.BNB_TEST_NET]]: ShibaInuSVG,
+    [CONTRACTS.INT[CHAIN_ID.BNB_TEST_NET]]: InterestTokenSVG,
+    [CONTRACTS.WETH[CHAIN_ID.BNB_TEST_NET]]: WBNBCoinSVG,
+    [ethers.constants.AddressZero]: BNBSVG,
+  },
+  [CHAIN_ID.RINKEBY]: {
+    default: UnknownCoinSVG,
+    [CONTRACTS.WETH[CHAIN_ID.RINKEBY]]: EtherSVG,
+    [CONTRACTS.BUSD[CHAIN_ID.RINKEBY]]: BinanceUSDSVG,
+    [CONTRACTS.DAI[CHAIN_ID.RINKEBY]]: DAISVG,
+    [CONTRACTS.FRAX[CHAIN_ID.RINKEBY]]: FraxSVG,
+    [CONTRACTS.TUSD[CHAIN_ID.RINKEBY]]: TrueUSDSVG,
+    [CONTRACTS.USDD[CHAIN_ID.RINKEBY]]: USDDSVG,
+    [CONTRACTS.USDP[CHAIN_ID.RINKEBY]]: PaxDollarSVG,
+    [CONTRACTS.VAI[CHAIN_ID.RINKEBY]]: VaiSVG,
+    [CONTRACTS.DNR[CHAIN_ID.RINKEBY]]: DineroSVG,
+    [CONTRACTS.USDT[CHAIN_ID.RINKEBY]]: TetherSVG,
+    [CONTRACTS.BTC[CHAIN_ID.RINKEBY]]: BitcoinSVG,
+    [CONTRACTS.USDC[CHAIN_ID.RINKEBY]]: USDCoinSVG,
+    [CONTRACTS.UNI[CHAIN_ID.RINKEBY]]: UniSwapSVG,
+    [CONTRACTS.APE[CHAIN_ID.RINKEBY]]: ApeCoinSVG,
+    [CONTRACTS.MANA[CHAIN_ID.RINKEBY]]: ManaSVG,
+    [CONTRACTS.LINK[CHAIN_ID.RINKEBY]]: ChainLinkSVG,
+    [CONTRACTS.SHIB[CHAIN_ID.RINKEBY]]: ShibaInuSVG,
+    [CONTRACTS.INT[CHAIN_ID.RINKEBY]]: InterestTokenSVG,
+    [ethers.constants.AddressZero]: EtherSVG,
+  },
+} as {
+  [chain: number]: { [address: string]: FC<SVGAttributes<SVGSVGElement>> };
+};
 
 export const getFarmsSVGByToken = (
   chainId: number,
@@ -163,24 +186,26 @@ export const getFarmsSVGByToken = (
   if (isZeroAddress(Token0.address))
     return [
       {
-        SVG: TOKENS_SVG_MAP[Token1.symbol],
+        SVG: TOKENS_SVG_MAP[chainId][ethers.utils.getAddress(Token1.address)],
         highZIndex: false,
       },
     ];
 
   return [
     {
-      SVG: TOKENS_SVG_MAP[
-        replaceWrappedNativeTokenWithNativeTokenSymbol(
-          Token0.symbol as TOKEN_SYMBOL
+      SVG: TOKENS_SVG_MAP[chainId][
+        replaceWrappedNativeTokenAddressWithZero(
+          chainId,
+          ethers.utils.getAddress(Token0.address)
         )
       ],
       highZIndex: token1HasLowerZIndex,
     },
     {
-      SVG: TOKENS_SVG_MAP[
-        replaceWrappedNativeTokenWithNativeTokenSymbol(
-          Token1.symbol as TOKEN_SYMBOL
+      SVG: TOKENS_SVG_MAP[chainId][
+        replaceWrappedNativeTokenAddressWithZero(
+          chainId,
+          ethers.utils.getAddress(Token1.address)
         )
       ],
       highZIndex: !token1HasLowerZIndex,

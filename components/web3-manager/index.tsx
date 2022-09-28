@@ -12,7 +12,8 @@ import { coreActions } from '@/state/core/core.actions';
 import { getAccount, getChainId } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
 import { switchToNetwork } from '@/utils';
-import { Layout, Loading } from '@/views/dapp/components';
+import { Layout as LayoutDapp, Loading } from '@/views/dapp/components';
+import Layout from '@/views/home/layout';
 
 import Advice from './advice';
 import {
@@ -78,6 +79,7 @@ const Content: FC<ContentProps> = ({
 
 const Web3Manager: FC<Web3ManagerProps> = ({
   pathname,
+  pageTitle,
   supportedChains,
   prevPathName,
   children,
@@ -147,7 +149,7 @@ const Web3Manager: FC<Web3ManagerProps> = ({
   }, [account]);
 
   return (
-    <Layout>
+    <LayoutDapp pageTitle={pageTitle}>
       <Content
         error={error}
         chainId={chainId}
@@ -160,12 +162,13 @@ const Web3Manager: FC<Web3ManagerProps> = ({
       >
         {children}
       </Content>
-    </Layout>
+    </LayoutDapp>
   );
 };
 
 const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
   pathname,
+  pageTitle,
   children,
 }) => {
   const prevPathName = usePrevious(pathname);
@@ -174,6 +177,7 @@ const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
     <ThemeProvider theme={DAppTheme}>
       <Web3Manager
         pathname={pathname}
+        pageTitle={pageTitle}
         prevPathName={prevPathName}
         supportedChains={SUPPORTED_CHAINS_RECORD[pathname]}
       >
@@ -181,7 +185,9 @@ const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
       </Web3Manager>
     </ThemeProvider>
   ) : (
-    <ThemeProvider theme={LandingPageTheme}>{children}</ThemeProvider>
+    <ThemeProvider theme={LandingPageTheme}>
+      <Layout pageTitle={pageTitle}>{children}</Layout>
+    </ThemeProvider>
   );
 };
 

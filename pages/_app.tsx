@@ -40,7 +40,10 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
           now={new Date(pageProps.now)}
           timeZone="UTC"
         >
-          <Web3Manager pathname={router.pathname}>
+          <Web3Manager
+            pathname={router.pathname}
+            pageTitle={pageProps.pageTitle}
+          >
             <StrictMode>
               <Component {...pageProps} />
             </StrictMode>
