@@ -19,7 +19,6 @@ import Faucet from '../../faucet';
 
 const Footer: FC = () => {
   const t = useTranslations();
-
   const { pathname } = useRouter();
 
   return (

@@ -1,4 +1,5 @@
 import { useTranslations } from 'next-intl';
+import { always } from 'ramda';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
@@ -7,7 +8,7 @@ import { SOCIAL_MEDIAS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { capitalize } from '@/utils';
 
-export const ItemsCommunity: FC = () => (
+export const ItemsCommunity: FC = always(
   <Box bg="background" pt="1.625rem" mt="1.5rem">
     <Container display="grid" cursor="pointer" gridTemplateColumns="1fr 1fr">
       {SOCIAL_MEDIAS.map((socialMediaData) => (

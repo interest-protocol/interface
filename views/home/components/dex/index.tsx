@@ -222,8 +222,8 @@ const DEX: FC = () => {
             variant="large"
             fontWeight="700"
             textAlign="center"
-            fontSize={['0.875rem', '1.5rem']}
             textTransform="uppercase"
+            fontSize={['0.875rem', '1.5rem']}
             px={['unset', 'unset', 'unset', '3.6rem']}
           >
             K = Y * X

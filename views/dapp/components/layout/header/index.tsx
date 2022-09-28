@@ -13,7 +13,6 @@ import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {
   const t = useTranslations();
-
   const { pathname } = useRouter();
 
   return (
