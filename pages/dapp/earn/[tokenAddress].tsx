@@ -16,7 +16,6 @@ const EarnFarmPage: NextPage<EarnFarmPageProps> = ({ tokenAddress }) => {
 export const getServerSideProps: GetServerSideProps = async ({
   locale,
   params,
-  ...otherProps
 }) => {
   const { tokenAddress } = params || {};
   const [commonMessages, earnMessages] = await Promise.all([
@@ -28,7 +27,6 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   return {
     props: {
-      ...otherProps,
       tokenAddress,
       messages,
       now: new Date().getTime(),

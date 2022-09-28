@@ -16,7 +16,7 @@ import {
 
 import { UseAddNativeTokenLiquidityArgs } from './dex-find-pool.types';
 
-export const useAddNativeTokenLiquidity = ({
+export const useAddLiquidity = ({
   control,
   balancesData,
   nativeBalance,
@@ -62,7 +62,10 @@ export const useAddNativeTokenLiquidity = ({
     : amount1;
 
   // 5 minutes
-  const deadline = Math.ceil((new Date().getTime() + 5 * 60 * 1000) / 1000);
+  const [deadline] = useDebounce(
+    Math.ceil((new Date().getTime() + 5 * 60 * 1000) / 1000),
+    10000
+  );
 
   const safeAmount0Native = amount0.gt(nativeBalance) ? nativeBalance : amount0;
 
@@ -94,7 +97,7 @@ export const useAddNativeTokenLiquidity = ({
     overrides = { value: debouncedSafeAmount0Native };
     functionName = 'addLiquidityNativeToken';
     enabled =
-      !debouncedSafeAmount0Native.isZero() || !debouncedAmount1.isZero();
+      !debouncedSafeAmount0Native.isZero() && !debouncedAmount1.isZero();
   } else {
     args = [
       token0.address,
@@ -109,7 +112,7 @@ export const useAddNativeTokenLiquidity = ({
     ];
     overrides = {};
     functionName = 'addLiquidity';
-    enabled = !debouncedAmount0.isZero() || !debouncedAmount1.isZero();
+    enabled = !debouncedAmount0.isZero() && !debouncedAmount1.isZero();
   }
 
   const { config } = usePrepareContractWrite({

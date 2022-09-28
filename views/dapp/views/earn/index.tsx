@@ -27,7 +27,7 @@ const Earn: FC = () => {
     },
   });
 
-  const { error, data: rawData, refetch } = useGetFarmsSummary();
+  const { error, data: rawData } = useGetFarmsSummary();
 
   const data = useMemo(
     () => getSafeFarmSummaryData(chainId, rawData),
@@ -120,9 +120,6 @@ const Earn: FC = () => {
                 loading={data.loading}
                 isDesktop={isDesktop}
                 intUSDPrice={data.intUSDPrice}
-                refetch={async () => {
-                  refetch();
-                }}
                 control={control}
                 farms={data.farms}
               />

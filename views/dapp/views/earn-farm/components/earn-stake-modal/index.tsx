@@ -1,22 +1,15 @@
 import { useTranslations } from 'next-intl';
-import { propOr } from 'ramda';
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
 
 import { getFarmsSVGByToken, StakeState } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useLocale } from '@/hooks';
-import { LoadingSVG, TimesSVG } from '@/svg';
-import {
-  capitalize,
-  formatMoney,
-  showToast,
-  showTXSuccessToast,
-  throwError,
-} from '@/utils';
+import { TimesSVG } from '@/svg';
+import { capitalize, formatMoney } from '@/utils';
 
-import { useAction } from './earn-stake-modal.hooks';
+import ModalButton from '../buttons/modal-button';
 import { EarnStakeModalProps } from './earn-stake-modal.types';
 import InputStake from './input-stake';
 
@@ -30,13 +23,9 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
 }) => {
   const t = useTranslations();
   const { currentLocale } = useLocale();
-  const { handleSubmit, setValue, register, control } = useForm({
+  const { setValue, register, control } = useForm({
     defaultValues: { value: '0' },
   });
-
-  const { writeAsync: action } = useAction(farm, control, modal);
-
-  const [loading, setLoading] = useState<boolean>(false);
 
   const { isOpen, isStake } = useMemo(
     () => ({
@@ -46,63 +35,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
     [modal]
   );
 
-  const handleWithdrawTokens = useCallback(async () => {
-    if (farm.stakingAmount.isZero()) return;
-
-    setLoading(true);
-    try {
-      const tx = await action?.();
-      await showTXSuccessToast(tx, farm.chainId);
-      await refetch();
-    } catch (e) {
-      throw e || new Error('Something Went Wrong');
-    } finally {
-      setLoading(false);
-      handleClose();
-    }
-  }, [farm.stakingAmount.toString(), action]);
-
-  const handleUnstake = useCallback(
-    () =>
-      showToast(handleWithdrawTokens(), {
-        loading: capitalize(t('common.unstake', { isLoading: 1 })),
-        error: propOr('common.error', 'message'),
-        success: capitalize(t('common.success')),
-      }),
-    [handleWithdrawTokens]
-  );
-
-  const handleDepositTokens = useCallback(async () => {
-    if (farm.balance.isZero()) return;
-
-    setLoading(true);
-    try {
-      const tx = await action?.();
-      await showTXSuccessToast(tx, farm.chainId);
-      await refetch();
-    } catch (e) {
-      throwError(t('error.generic'), e);
-    } finally {
-      setLoading(false);
-      handleClose();
-    }
-  }, [action, farm.balance.toString()]);
-
-  const handleStake = useCallback(
-    () =>
-      showToast(handleDepositTokens(), {
-        loading: capitalize(t('common.stake', { isLoading: 1 })),
-        error: propOr('common.error', 'message'),
-        success: capitalize(t('common.success')),
-      }),
-    [handleDepositTokens]
-  );
-
   const Icons = getFarmsSVGByToken(farm.chainId, farm.token0, farm.token1);
-
-  const onSubmit = async () => {
-    isStake ? await handleStake() : await handleUnstake();
-  };
 
   return (
     <Modal
@@ -122,7 +55,6 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
         bg="foreground"
         borderRadius="L"
         minWidth="20rem"
-        onSubmit={handleSubmit(onSubmit)}
       >
         <Box display="flex" justifyContent="flex-end">
           <Box
@@ -218,23 +150,14 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
           >
             {capitalize(t('common.cancel'))}
           </Button>
-          <Button
-            ml="L"
-            flex="1"
-            display="flex"
-            variant="primary"
-            alignItems="center"
-            justifyContent="center"
-            bg={loading ? 'accentActive' : 'accent'}
-            hover={{ bg: 'accentActive' }}
-          >
-            {loading && (
-              <Box mr="M" width="1rem">
-                <LoadingSVG width="100%" />
-              </Box>
-            )}
-            {capitalize(t('common.confirm', { isLoading: Number(loading) }))}
-          </Button>
+          <ModalButton
+            modal={modal}
+            handleClose={handleClose}
+            control={control}
+            isStake={isStake}
+            refetch={refetch}
+            farm={farm}
+          />
         </Box>
       </Box>
     </Modal>

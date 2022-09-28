@@ -25,6 +25,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   needAllowance,
   tokenBalance,
   getValues,
+  refetch,
 }) => {
   const t = useTranslations();
   const { chainId } = useIdAccount();
@@ -41,12 +42,13 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   const approve = useCallback(async () => {
     try {
       const tx = await addAllowance?.();
-
       await showTXSuccessToast(tx, chainId);
+      if (tx) await tx.wait(2);
+      await refetch();
     } catch (e) {
       throwError(t('error.generic'), e);
     }
-  }, [chainId, addAllowance, chainId]);
+  }, [chainId, addAllowance, chainId, refetch]);
 
   const handleApprove = () =>
     showToast(approve(), {
@@ -134,7 +136,8 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           <Button
             variant="primary"
             onClick={handleApprove}
-            hover={{ bg: 'accentActive' }}
+            hover={{ bg: !addAllowance ? 'disabled' : 'accentActive' }}
+            disabled={!addAllowance}
           >
             {capitalize(t('common.approve', { isLoading: 0 }))} Token
           </Button>

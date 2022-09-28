@@ -8,6 +8,5 @@ export interface EarnTableProps {
   isDesktop: boolean;
   farms: SafeFarmSummaryData['farms'];
   intUSDPrice: BigNumber;
-  refetch: () => Promise<void>;
   control: Control<IEarnForm>;
 }

@@ -5,10 +5,7 @@ import DineroMarket from '@/views/dapp/views/dinero-market';
 
 const DineroMarketPage: NextPage = () => <DineroMarket />;
 
-export const getStaticProps: GetStaticProps = async ({
-  locale,
-  ...otherProps
-}) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dineroMarketMessages] = await Promise.all([
     import(`../../../assets/messages/common/${locale}.json`),
     import(`../../../assets/messages/dinero-market/${locale}.json`),
@@ -21,7 +18,6 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...otherProps,
       messages,
       now: new Date().getTime(),
       pageTitle: 'dineroMarket.pageTitle',

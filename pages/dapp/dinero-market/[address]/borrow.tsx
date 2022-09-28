@@ -22,7 +22,6 @@ const DineroMarketBorrowPage: NextPage<DineroMarketBorrowPageProps> = ({
 export const getServerSideProps: GetServerSideProps = async ({
   locale,
   params,
-  ...otherProps
 }) => {
   const { address } = params || {};
 
@@ -38,7 +37,6 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   return {
     props: {
-      ...otherProps,
       address,
       messages,
       now: new Date().getTime(),

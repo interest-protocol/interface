@@ -5,10 +5,7 @@ import FindPoolView from '@/views/dapp/views/dex-find-pool';
 
 const FindPoolPage: NextPage = () => <FindPoolView />;
 
-export const getStaticProps: GetStaticProps = async ({
-  locale,
-  ...otherProps
-}) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dexPoolFindMessages] = await Promise.all([
     import(`../../../../../assets/messages/common/${locale}.json`),
     import(`../../../../../assets/messages/dex/pool/find/${locale}.json`),
@@ -21,7 +18,6 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...otherProps,
       messages,
       now: new Date().getTime(),
       pageTitle: 'dexPoolFind.pageTitle',

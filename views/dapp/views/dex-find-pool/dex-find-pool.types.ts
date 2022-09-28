@@ -39,6 +39,7 @@ export interface CreatePoolProps {
   setValue: UseFormSetValue<DexFindPoolForm>;
   tokenBalances: [BigNumber, BigNumber];
   getValues: UseFormGetValues<DexFindPoolForm>;
+  refetch: () => Promise<void>;
 }
 
 export interface CreatePoolFieldProps {
@@ -48,6 +49,7 @@ export interface CreatePoolFieldProps {
   setValue: UseFormSetValue<DexFindPoolForm>;
   tokenBalance: BigNumber;
   getValues: UseFormGetValues<DexFindPoolForm>;
+  refetch: () => Promise<void>;
 }
 
 export interface PriceProps {
@@ -61,4 +63,18 @@ export interface UseAddNativeTokenLiquidityArgs {
   isStable: boolean;
   account: string;
   chainId: number;
+}
+
+export interface FindPoolButtonProps {
+  chainId: number;
+  account: string;
+  balancesData: Record<string, BalanceData>;
+  control: Control<DexFindPoolForm>;
+  getValues: UseFormGetValues<DexFindPoolForm>;
+  nativeBalance: BigNumber;
+  tokenAAddress: string;
+  tokenBAddress: string;
+  isStable: boolean;
+  isCreatingPair: boolean;
+  setCreatingPair: Dispatch<SetStateAction<boolean>>;
 }

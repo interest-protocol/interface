@@ -36,10 +36,6 @@ export const useGetDexAllowancesAndBalances = (
 
   const nativeBalanceBN = balanceData ? balanceData : ZERO_BIG_NUMBER;
 
-  const refetch = async () => {
-    await Promise.all([refetchBalance(), refetchTokenBalances()]);
-  };
-
   const {
     data,
     error,
@@ -49,6 +45,10 @@ export const useGetDexAllowancesAndBalances = (
     filteredTokens,
     { enabled: Boolean(address) }
   );
+
+  const refetch = async () => {
+    await Promise.all([refetchBalance(), refetchTokenBalances()]);
+  };
 
   if (error)
     return {

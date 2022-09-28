@@ -1,28 +1,22 @@
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
-import { propOr } from 'ramda';
-import { FC, useCallback, useState } from 'react';
+import { FC, useState } from 'react';
 
 import { Routes, RoutesEnum, StakeState } from '@/constants';
 import { Typography } from '@/elements';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
-import { useApprove } from '@/hooks';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
-import { LoadingSVG } from '@/svg';
 import {
   capitalize,
   formatDollars,
   formatMoney,
-  getCasaDePapelAddress,
   makeFarmSymbol,
-  showToast,
-  showTXSuccessToast,
-  throwError,
 } from '@/utils';
-import { useHarvest } from '@/views/dapp/views/earn-farm/components/earn-farm-options/use-farm-options.hooks';
 
+import ApproveButton from '../buttons/approve-button';
+import HarvestButton from '../buttons/harvest-button';
 import EarnCard from '../earn-farm-card';
 import EarnStakeModal from '../earn-stake-modal';
 import { EarnFarmOptionsProps } from './earn-farm-options.types';
@@ -36,70 +30,11 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
   const t = useTranslations();
   const { push } = useRouter();
   const [modal, setModal] = useState<StakeState | undefined>();
-  const [loadingPool, setLoadingPool] = useState<boolean>(false);
-
-  const { writeAsync: _approve } = useApprove(
-    farm.stakingTokenAddress,
-    getCasaDePapelAddress(farm.chainId),
-    { enabled: farm.allowance.isZero() }
-  );
-
-  const { writeAsync: _harvest } = useHarvest(farm);
 
   const farmSymbol =
     farm.id === 0
       ? TOKEN_SYMBOL.INT
       : makeFarmSymbol(farm.chainId, farm.token0, farm.token1);
-
-  const approve = useCallback(async () => {
-    try {
-      setLoadingPool(true);
-      const tx = await _approve?.();
-      await showTXSuccessToast(tx, farm.chainId);
-      await refetch();
-    } catch (e) {
-      setLoadingPool(false);
-      throwError(t('error.generic'), e);
-    } finally {
-      setLoadingPool(false);
-    }
-  }, [_approve, refetch, farm.chainId]);
-
-  const handleApprove = useCallback(
-    () =>
-      showToast(approve(), {
-        success: capitalize(t('common.success')),
-        error: propOr(capitalize(t('common.error')), 'message'),
-        loading: capitalize(t('common.approve', { isLoading: 1 })),
-      }),
-    [approve]
-  );
-
-  const harvest = useCallback(async () => {
-    if (farm.pendingRewards.isZero()) return;
-    setLoadingPool(true);
-
-    try {
-      const tx = await _harvest?.();
-
-      await showTXSuccessToast(tx, farm.chainId);
-      await refetch();
-    } catch (e) {
-      throwError(t('error.generic'), e);
-    } finally {
-      setLoadingPool(false);
-    }
-  }, [_harvest, farm.chainId]);
-
-  const handleHarvest = useCallback(
-    () =>
-      showToast(harvest(), {
-        success: capitalize(t('common.success')),
-        error: propOr(capitalize(t('common.error')), 'message'),
-        loading: t('earnTokenAddress.thirdCardButton', { isLoading: 1 }),
-      }),
-    [harvest]
-  );
 
   const handleCloseModal = () => setModal(undefined);
 
@@ -169,44 +104,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
         )} ${farmSymbol}`}
         button={
           farm.allowance.isZero() ? (
-            <Button
-              variant="primary"
-              onClick={handleApprove}
-              hover={{ bg: 'accentActive' }}
-            >
-              {loadingPool ? (
-                <Box as="span" display="flex" justifyContent="center">
-                  <Box as="span" display="inline-block" width="1rem">
-                    <LoadingSVG width="100%" />
-                  </Box>
-                  <Typography
-                    as="span"
-                    variant="normal"
-                    ml="M"
-                    fontSize="S"
-                    textTransform="capitalize"
-                  >
-                    {capitalize(t('common.approve', { isLoading: 1 }))}
-                  </Typography>
-                </Box>
-              ) : (
-                <Typography
-                  as="span"
-                  variant="normal"
-                  ml="M"
-                  fontSize="S"
-                  textTransform="capitalize"
-                >
-                  {
-                    (t('common.approve', { isLoading: 0 }) +
-                      ' ' +
-                      t(
-                        farm.id === 0 ? 'common.pool' : 'common.farm'
-                      )) as string
-                  }
-                </Typography>
-              )}
-            </Button>
+            <ApproveButton farm={farm} refetch={refetch} />
           ) : (
             <Box
               display="flex"
@@ -261,20 +159,7 @@ const EarnFarmOptions: FC<EarnFarmOptionsProps> = ({
         amount={`${formatMoney(FixedPointMath.toNumber(farm.pendingRewards))} ${
           TOKEN_SYMBOL.INT
         }`}
-        button={
-          <Button
-            onClick={!farm.pendingRewards.isZero() ? handleHarvest : undefined}
-            variant="primary"
-            disabled={farm.pendingRewards.isZero()}
-            bg={!farm.pendingRewards.isZero() ? 'success' : 'disabled'}
-            cursor={!farm.pendingRewards.isZero() ? 'pointer' : 'not-allowed'}
-            hover={{
-              bg: !farm.pendingRewards.isZero() ? 'successActive' : 'disabled',
-            }}
-          >
-            {t('earnTokenAddress.thirdCardButton', { isLoading: +loadingPool })}
-          </Button>
-        }
+        button={<HarvestButton farm={farm} refetch={refetch} />}
       />
       <EarnStakeModal
         farm={farm}

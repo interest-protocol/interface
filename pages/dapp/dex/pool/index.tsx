@@ -5,10 +5,7 @@ import DEXView from '@/views/dapp/views/dex';
 
 const DEXPoolPage: NextPage = () => <DEXView />;
 
-export const getStaticProps: GetStaticProps = async ({
-  locale,
-  ...otherProps
-}) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dexPoolMessages] = await Promise.all([
     import(`../../../../assets/messages/common/${locale}.json`),
     import(`../../../../assets/messages/dex/pool/${locale}.json`),
@@ -21,7 +18,6 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...otherProps,
       messages,
       now: new Date().getTime(),
       pageTitle: 'dexPool.pageTitle',
