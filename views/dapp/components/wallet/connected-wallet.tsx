@@ -69,8 +69,11 @@ const ConnectedWallet: FC = () => {
         >
           <MetaMaskSVG height="100%" width="100%" />
         </Box>
-        <Typography variant="normal" color="text">
+        <Typography variant="normal" color="text" display={['none', 'block']}>
           {shortAccount(address || ZERO_ADDRESS)}
+        </Typography>
+        <Typography variant="normal" color="text" display={['block', 'none']}>
+          {shortAccount(address || ZERO_ADDRESS, true)}
         </Typography>
       </Button>
       <AccountModal

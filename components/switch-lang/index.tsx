@@ -12,11 +12,10 @@ const SwitchLang: FC = () => {
     <Dropdown
       title={
         <Box
-          ml={['L', '0.75rem']}
-          mr={['L', '0.75rem']}
           width="1.25rem"
           height="1.25rem"
           borderRadius="2rem"
+          mx={['M', '0.75rem']}
         >
           {getSafeLocaleSVG(currentLocale)}
         </Box>
