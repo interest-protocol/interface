@@ -1,18 +1,14 @@
 import { useTranslations } from 'next-intl';
-import { FC, useMemo, useState } from 'react';
+import { FC } from 'react';
+import { v4 } from 'uuid';
+import { useConnect } from 'wagmi';
 
-import priorityHooks from '@/connectors';
-import { metaMask } from '@/connectors/meta-mask';
-// import { walletConnect } from '@/connectors/wallet-connect';
-import { Wallets } from '@/constants';
-import { Box, Button, Modal, Typography } from '@/elements';
-import { BackSVG, LoadingSVG, MetaMaskSVG, TimesSVG } from '@/svg';
+import { WALLET_SVG_MAP, Wallets } from '@/constants';
+import { Box, Modal, Typography } from '@/elements';
+import { TimesSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
 import { ConnectWalletProps, WalletButtonProps } from '../../wallet.types';
-
-const { usePriorityError, usePriorityIsActive, usePriorityIsActivating } =
-  priorityHooks;
 
 const WalletButton: FC<WalletButtonProps> = ({ onClick, name, Icon }) => (
   <Box
@@ -45,38 +41,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
   toggleModal,
 }) => {
   const t = useTranslations();
-  const [modalState, setModalState] = useState({
-    chooser: true,
-    [Wallets.MetaMask]: false,
-    [Wallets.WalletConnect]: false,
-  });
-
-  const error = usePriorityError();
-
-  const isActive = usePriorityIsActive();
-
-  const isActivating = usePriorityIsActivating();
-
-  const hasError = useMemo(
-    () => !!error && !isActive && !isActivating,
-    [error, isActive, isActivating]
-  );
-
-  const swipeToWallet = (wallet?: Wallets) =>
-    setModalState({
-      chooser: false,
-      [Wallets.MetaMask]: false,
-      [Wallets.WalletConnect]: false,
-      [wallet ?? 'chooser']: true,
-    });
-
-  const connectToMetaMask = async () => {
-    try {
-      swipeToWallet(Wallets.MetaMask);
-      !hasError && (await metaMask.activate());
-      // eslint-disable-next-line no-empty
-    } catch {}
-  };
+  const { connect, connectors } = useConnect();
 
   return (
     <Modal
@@ -88,162 +53,46 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
         shouldCloseOnOverlayClick: true,
       }}
     >
-      {modalState.chooser && (
+      <Box
+        p="L"
+        pb="NONE"
+        width="20rem"
+        border="none"
+        display="flex"
+        bg="foreground"
+        borderRadius="L"
+        maxHeight="80vh"
+        minHeight="20rem"
+        flexDirection="column"
+      >
         <Box
-          p="L"
-          pb="NONE"
-          width="20rem"
-          border="none"
+          mb="L"
           display="flex"
-          bg="foreground"
-          borderRadius="L"
-          maxHeight="80vh"
-          minHeight="20rem"
-          flexDirection="column"
+          alignItems="center"
+          justifyContent="space-between"
         >
+          <Typography as="h3" color="text" variant="normal" fontWeight="normal">
+            {capitalize(t('common.connectYourWallet'))}
+          </Typography>
           <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
+            cursor="pointer"
+            color="textSecondary"
+            onClick={toggleModal}
+            hover={{ color: 'text' }}
           >
-            <Typography
-              as="h3"
-              color="text"
-              variant="normal"
-              fontWeight="normal"
-            >
-              {capitalize(t('common.connectYourWallet'))}
-            </Typography>
-            <Box
-              cursor="pointer"
-              color="textSecondary"
-              onClick={toggleModal}
-              hover={{ color: 'text' }}
-            >
-              <TimesSVG width="1.8rem" height="1.8rem" />
-            </Box>
+            <TimesSVG width="1.8rem" height="1.8rem" />
           </Box>
-          <Box mt="L">
+        </Box>
+        {connectors.map((connector) => (
+          <Box mt="S" key={v4()}>
             <WalletButton
-              name="MetaMask"
-              Icon={MetaMaskSVG}
-              onClick={connectToMetaMask}
+              name={connector.name}
+              onClick={() => connect({ connector })}
+              Icon={WALLET_SVG_MAP[connector.id as Wallets]}
             />
           </Box>
-        </Box>
-      )}
-      {modalState[Wallets.MetaMask] && (
-        <Box
-          p="L"
-          pb="NONE"
-          width="20rem"
-          border="none"
-          display="flex"
-          bg="foreground"
-          borderRadius="L"
-          maxHeight="80vh"
-          minHeight="20rem"
-          flexDirection="column"
-        >
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Box color="text" cursor="pointer" onClick={() => swipeToWallet()}>
-              <BackSVG width="1.4rem" height="1.4rem" />
-            </Box>
-            <Box
-              cursor="pointer"
-              color="textSecondary"
-              onClick={toggleModal}
-              hover={{ color: 'text' }}
-            >
-              <TimesSVG width="1.8rem" height="1.8rem" />
-            </Box>
-          </Box>
-          <Box mt="L">
-            <Box
-              p="L"
-              mb="M"
-              color="text"
-              display="flex"
-              borderRadius="M"
-              border="1px solid"
-              alignItems="center"
-              borderColor={hasError ? 'error' : 'textSecondary'}
-            >
-              {!hasError && (
-                <>
-                  <Box color="text">
-                    <LoadingSVG width="1.4rem" height="1.4rem" />
-                  </Box>
-                  <Typography
-                    variant="normal"
-                    ml="L"
-                    textTransform="capitalize"
-                  >
-                    {t('common.initialize', { isLoading: 1 })}
-                  </Typography>
-                </>
-              )}
-              {hasError && (
-                <Box
-                  width="100%"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Box>
-                    <Typography variant="normal" color="error">
-                      Error!
-                    </Typography>
-                    <Typography
-                      as="span"
-                      variant="normal"
-                      fontSize="XS"
-                      color="textSecondary"
-                    >
-                      {capitalize(t('common.unlockWalletDescription'))}
-                    </Typography>
-                  </Box>
-                  <Button
-                    ml="L"
-                    type="button"
-                    variant="secondary"
-                    onClick={async (e) => {
-                      e.stopPropagation();
-                      metaMask.activate();
-                    }}
-                  >
-                    {capitalize(t('common.tryAgain'))}
-                  </Button>
-                </Box>
-              )}
-            </Box>
-            <Box
-              p="L"
-              mb="M"
-              color="text"
-              display="flex"
-              borderRadius="M"
-              alignItems="center"
-              bg="bottomBackground"
-              justifyContent="space-between"
-            >
-              MetaMask
-              <Box
-                width="2rem"
-                height="2rem"
-                display="flex"
-                alignItems="center"
-              >
-                <MetaMaskSVG width="2rem" height="2rem" />
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-      )}
+        ))}
+      </Box>
     </Modal>
   );
 };

@@ -4,6 +4,10 @@
     "title": "{type} - Resumo",
     "sectionCustomDetail2": "Taxa de troca",
     "removeLiquidity": "Remove a liquidez",
-    "addLiquidity": "Adicione liquidez"
+    "addLiquidity": "Adicione liquidez",
+    "error": {
+      "pairData": "Erro ao buscar os dados do par",
+      "pairDoesNotExist": "O mercado com o endereço {pairAddress} não existe."
+    }
   }
 }

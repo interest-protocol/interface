@@ -31,7 +31,7 @@ const Faucet: FC = () => {
     [chainId]
   );
 
-  const { error, data } = useGetUserBalances(
+  const { error, data, refetch } = useGetUserBalances(
     TOKENS.map(prop('address')).concat(localTokens.map(prop('address')))
   );
 
@@ -87,6 +87,9 @@ const Faucet: FC = () => {
           <FaucetForm
             tokens={recommendedData}
             isLoadingData={!recommendedData.length}
+            refetch={async () => {
+              await refetch();
+            }}
           />
           <Typography variant="normal" textTransform="capitalize">
             {t('faucet.secondSectionTitle')}
@@ -95,6 +98,9 @@ const Faucet: FC = () => {
             isLoadingData={!recommendedData.length}
             tokens={localData}
             removeLocalToken={removeLocalToken}
+            refetch={async () => {
+              await refetch();
+            }}
           />
         </Container>
       </Box>

@@ -1,4 +1,4 @@
-import { ContractTransaction } from 'ethers';
+import { SendTransactionResult } from '@wagmi/core';
 import { propOr } from 'ramda';
 import toast from 'react-hot-toast';
 
@@ -8,20 +8,23 @@ import { tryCatch } from '@/utils/promise';
 import { ToastMsgs, ToastOpts } from './toast.types';
 
 export const showTXSuccessToast = async (
-  tx: ContractTransaction,
+  tx: SendTransactionResult | undefined,
   chainId: number
 ): Promise<void> => {
+  if (!tx) return;
   const receipt = await tx.wait(2);
 
-  const explorer = CHAINS[chainId].blockExplorerUrls;
+  const explorer = CHAINS[chainId].blockExplorers;
 
   toast(
     <a
       target="__black"
       rel="noreferrer nofollow"
-      href={`${explorer ? explorer[0] : ''}/tx/${receipt.transactionHash}`}
+      href={`${explorer ? explorer.default.url : ''}/tx/${
+        receipt.transactionHash
+      }`}
     >
-      Check on Explorer
+      {explorer?.default.name || 'Check Explorer'}
     </a>
   );
 };

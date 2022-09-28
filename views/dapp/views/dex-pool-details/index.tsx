@@ -1,14 +1,18 @@
 import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { useSelector } from 'react-redux';
 
 import { Container } from '@/components';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useChainId, useGetPairData, useLocale } from '@/hooks';
+import {
+  useGetPairData,
+  useIdAccount,
+  useLocale,
+  useNativeBalance,
+} from '@/hooks';
+import { ZERO_BIG_NUMBER } from '@/sdk';
 import { FixedPointMath } from '@/sdk';
-import { getNativeBalance } from '@/state/core/core.selectors';
 import { TimesSVG } from '@/svg';
 import { formatMoney } from '@/utils';
 
@@ -24,17 +28,103 @@ import { processPairData } from './utils';
 
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
   const t = useTranslations();
-  const chainId = useChainId();
+
   const { currentLocale } = useLocale();
-  const { error, data, mutate } = useGetPairData(pairAddress);
+
+  const { error, data, refetch } = useGetPairData(pairAddress);
+  const { chainId, account } = useIdAccount();
+  const { data: balanceData, refetch: refetchNativeBalance } =
+    useNativeBalance();
 
   const DefaultIcon = TOKENS_SVG_MAP[chainId].default;
 
-  const nativeBalance = useSelector(getNativeBalance) as string;
+  const nativeBalance = balanceData
+    ? balanceData.toString()
+    : ZERO_BIG_NUMBER.toString();
 
   const processedData = useMemo(
     () => processPairData(chainId, data, nativeBalance),
     [chainId, data, nativeBalance]
+  );
+
+  const FirstIcon =
+    TOKENS_SVG_MAP[chainId][processedData.token0] ?? DefaultIcon;
+
+  const SecondIcon =
+    TOKENS_SVG_MAP[chainId][processedData.token1] ?? DefaultIcon;
+
+  const addLiquidityTokens = useMemo(
+    () => [
+      {
+        symbol: processedData.token0Metadata.symbol,
+        Icon: (
+          <Box as="span" display="inline-block" width="1rem">
+            <FirstIcon width="100%" />
+          </Box>
+        ),
+        balance: processedData.token0Balance,
+        allowance: processedData.token0Allowance,
+        decimals: processedData.token0Metadata.decimals,
+        address: processedData.token0,
+      },
+      {
+        symbol: processedData.token1Metadata.symbol,
+        Icon: (
+          <Box as="span" display="inline-block" width="1rem">
+            <SecondIcon width="100%" />
+          </Box>
+        ),
+        balance: processedData.token1Balance,
+        allowance: processedData.token1Allowance,
+        decimals: processedData.token1Metadata.decimals,
+        address: processedData.token1,
+      },
+    ],
+    [chainId, data]
+  );
+
+  const removeLiquidityTokens = useMemo(
+    () => [
+      {
+        symbol: processedData.token0Metadata.symbol,
+        Icon: processedData.loading ? (
+          <Box
+            as="span"
+            width="1rem"
+            borderRadius="2rem"
+            display="inline-block"
+          >
+            <Skeleton height="100%" borderRadius="2rem" />
+          </Box>
+        ) : (
+          <Box as="span" display="inline-block" width="1rem">
+            <FirstIcon width="100%" />
+          </Box>
+        ),
+        address: processedData.token0,
+        decimals: processedData.token0Metadata.decimals,
+      },
+      {
+        symbol: processedData.token1Metadata.symbol,
+        Icon: processedData.loading ? (
+          <Box
+            as="span"
+            width="1rem"
+            borderRadius="2rem"
+            display="inline-block"
+          >
+            <Skeleton height="100%" borderRadius="2rem" />
+          </Box>
+        ) : (
+          <Box as="span" display="inline-block" width="1rem">
+            <SecondIcon width="100%" />
+          </Box>
+        ),
+        address: processedData.token1,
+        decimals: processedData.token1Metadata.decimals,
+      },
+    ],
+    [chainId, processedData]
   );
 
   if (error)
@@ -49,7 +139,9 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
         <Box color="error">
           <TimesSVG width="10rem" />
         </Box>
-        <Typography variant="normal">ERROR! Fetching the pair data</Typography>
+        <Typography variant="normal">
+          {t('dexPoolPairAddress.error.pairData')}
+        </Typography>
       </Box>
     );
 
@@ -66,16 +158,10 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
           <TimesSVG width="10rem" />
         </Box>
         <Typography variant="normal">
-          The pair with address {pairAddress} does not exist
+          {t('dexPoolPairAddress.error.pairDoesNotExist', { pairAddress })}
         </Typography>
       </Box>
     );
-
-  const FirstIcon =
-    TOKENS_SVG_MAP[chainId][processedData.token0] ?? DefaultIcon;
-
-  const SecondIcon =
-    TOKENS_SVG_MAP[chainId][processedData.token1] ?? DefaultIcon;
 
   return (
     <Container dapp mt="XXL" width="100%">
@@ -121,7 +207,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
               value: formatMoney(
                 FixedPointMath.toNumber(
                   processedData.reserve0,
-                  processedData.token0Metadata.decimals.toNumber()
+                  processedData.token0Metadata.decimals
                 )
               ),
               isFetchingInitialData: processedData.loading,
@@ -132,7 +218,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
               value: formatMoney(
                 FixedPointMath.toNumber(
                   processedData.reserve1,
-                  processedData.token1Metadata.decimals.toNumber()
+                  processedData.token1Metadata.decimals
                 )
               ),
               isFetchingInitialData: processedData.loading,
@@ -142,81 +228,23 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
         <AddLiquidityCard
           fetchingInitialData={processedData.loading}
           isStable={processedData.isStable}
-          tokens={[
-            {
-              symbol: processedData.token0Metadata.symbol,
-              Icon: (
-                <Box as="span" display="inline-block" width="1rem">
-                  <FirstIcon width="100%" />
-                </Box>
-              ),
-              balance: processedData.token0Balance,
-              allowance: processedData.token0Allowance,
-              decimals: processedData.token0Metadata.decimals.toNumber(),
-              address: processedData.token0,
-            },
-            {
-              symbol: processedData.token1Metadata.symbol,
-              Icon: (
-                <Box as="span" display="inline-block" width="1rem">
-                  <SecondIcon width="100%" />
-                </Box>
-              ),
-              balance: processedData.token1Balance,
-              allowance: processedData.token1Allowance,
-              decimals: processedData.token1Metadata.decimals.toNumber(),
-              address: processedData.token1,
-            },
-          ]}
-          mutate={mutate}
+          tokens={addLiquidityTokens}
+          refetch={async () =>
+            void (await Promise.all([refetch(), refetchNativeBalance()]))
+          }
         />
         <RemoveLiquidityCard
+          chainId={chainId}
+          account={account}
           pairAddress={pairAddress}
           isFetchingInitialData={processedData.loading}
           isStable={processedData.isStable}
           lpAllowance={processedData.lpAllowance}
           lpBalance={processedData.lpBalance}
-          tokens={[
-            {
-              symbol: processedData.token0Metadata.symbol,
-              Icon: processedData.loading ? (
-                <Box
-                  as="span"
-                  width="1rem"
-                  borderRadius="2rem"
-                  display="inline-block"
-                >
-                  <Skeleton height="100%" borderRadius="2rem" />
-                </Box>
-              ) : (
-                <Box as="span" display="inline-block" width="1rem">
-                  <FirstIcon width="100%" />
-                </Box>
-              ),
-              address: processedData.token0,
-              decimals: processedData.token0Metadata.decimals.toNumber(),
-            },
-            {
-              symbol: processedData.token1Metadata.symbol,
-              Icon: processedData.loading ? (
-                <Box
-                  as="span"
-                  width="1rem"
-                  borderRadius="2rem"
-                  display="inline-block"
-                >
-                  <Skeleton height="100%" borderRadius="2rem" />
-                </Box>
-              ) : (
-                <Box as="span" display="inline-block" width="1rem">
-                  <SecondIcon width="100%" />
-                </Box>
-              ),
-              address: processedData.token1,
-              decimals: processedData.token1Metadata.decimals.toNumber(),
-            },
-          ]}
-          mutate={mutate}
+          tokens={removeLiquidityTokens}
+          refetch={async () =>
+            void (await Promise.all([refetch(), refetchNativeBalance()]))
+          }
         />
       </Box>
     </Container>

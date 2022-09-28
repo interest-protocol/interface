@@ -1,10 +1,9 @@
 import { ethers } from 'ethers';
 import { useTranslations } from 'next-intl';
-import { pathOr, prop } from 'ramda';
-import { FC, useCallback, useState } from 'react';
+import { pathOr } from 'ramda';
+import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
-import { useDispatch } from 'react-redux';
 import { v4 } from 'uuid';
 
 import { CopyToClipboard, Tooltip } from '@/components';
@@ -13,40 +12,28 @@ import {
   ERC_20_DATA,
   TOKENS_SVG_MAP,
 } from '@/constants';
-import { Box, Button, Typography } from '@/elements';
-import { useGetSigner, useIdAccount } from '@/hooks';
+import { Box, Typography } from '@/elements';
+import { useIdAccount } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
-import { coreActions } from '@/state/core/core.actions';
-import { LoadingSVG, TimesSVG } from '@/svg';
-import {
-  capitalize,
-  formatMoney,
-  isValidAccount,
-  safeGetAddress,
-  showToast,
-  showTXSuccessToast,
-  throwError,
-  throwIfInvalidSigner,
-} from '@/utils';
+import { TimesSVG } from '@/svg';
+import { formatMoney, safeGetAddress } from '@/utils';
 import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
-import { FAUCET_TOKEN_MAX_AMOUNT } from '../faucet.data';
-import { FaucetFormProps, IFaucetForm } from '../faucet.types';
+import { IFaucetForm } from '../faucet.types';
 import InputBalance from '../input-balance';
-import { getTokenMinter, mint } from '../utilts';
 import CurrencyIdentifier from './faucet-currency-identifier';
+import { FaucetFormProps } from './faucet-form.types';
 import FaucetSelectCurrency from './faucet-select-currency';
+import MintButton from './mint-button';
 
 const FaucetForm: FC<FaucetFormProps> = ({
   tokens,
   isLoadingData,
   removeLocalToken,
+  refetch,
 }) => {
   const t = useTranslations();
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
   const { chainId, account } = useIdAccount();
-  const { signer } = useGetSigner();
 
   const { register, getValues, setValue, control } = useForm<IFaucetForm>({
     defaultValues: {
@@ -59,55 +46,6 @@ const FaucetForm: FC<FaucetFormProps> = ({
     setValue('token', token);
     setValue('amount', 0);
   };
-
-  const handleOnMint = useCallback(async () => {
-    try {
-      setLoading(true);
-
-      const amount = getValues('amount');
-      const token = getValues('token');
-
-      if (!amount || !isValidAccount(token))
-        throwError(capitalize(t('common.error')));
-
-      const { validSigner, validId } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
-
-      const maxAmount = FAUCET_TOKEN_MAX_AMOUNT[validId][token];
-
-      const safeAmount = amount > maxAmount ? maxAmount : amount;
-
-      const decimals = pathOr(
-        DEFAULT_ERC_20_DECIMALS,
-        [validId, safeGetAddress(token), 'decimals'],
-        ERC_20_DATA
-      );
-
-      const tx = await mint(
-        validSigner,
-        getTokenMinter(validId, token),
-        account,
-        FixedPointMath.toBigNumber(safeAmount, decimals)
-      );
-
-      await showTXSuccessToast(tx, validId);
-    } catch (error) {
-      throwError('Something went wrong', error);
-    } finally {
-      setLoading(false);
-      dispatch(coreActions.updateNativeBalance());
-    }
-  }, [chainId, signer, account]);
-
-  const onMint = () =>
-    showToast(handleOnMint(), {
-      loading: `${t('faucet.button', { isLoading: 1 })}`,
-      success: capitalize(t('common.success')),
-      error: prop('message'),
-    });
 
   return (
     <>
@@ -156,33 +94,13 @@ const FaucetForm: FC<FaucetFormProps> = ({
           />
           <Box display="flex" justifyContent="center">
             {account ? (
-              <Button
-                width="100%"
-                onClick={onMint}
-                variant="primary"
-                disabled={loading}
-                hover={{ bg: 'accentAlternativeActive' }}
-                bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
-              >
-                {loading ? (
-                  <Box as="span" display="flex" justifyContent="center">
-                    <Box as="span" display="inline-block" width="1rem">
-                      <LoadingSVG width="100%" />
-                    </Box>
-                    <Typography
-                      as="span"
-                      variant="normal"
-                      ml="M"
-                      fontSize="S"
-                      textTransform="capitalize"
-                    >
-                      {t('faucet.button', { isLoading: 1 })}
-                    </Typography>
-                  </Box>
-                ) : (
-                  t('faucet.button', { isLoading: 0 })
-                )}
-              </Button>
+              <MintButton
+                control={control}
+                chainId={chainId}
+                account={account}
+                getValues={getValues}
+                refetch={refetch}
+              />
             ) : (
               <ConnectWallet />
             )}

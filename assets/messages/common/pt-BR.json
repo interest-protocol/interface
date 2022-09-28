@@ -18,6 +18,7 @@
     "farm": "farm",
     "success": "sucesso",
     "notFound": "não encontrado",
+    "loading": "carregando...",
     "approve": "{isLoading, plural, =1 {aprovando...} other {aprovar}}",
     "load": "{isLoading, plural, =1 {carregando...} other {carregar}}",
     "back": "voltar",
@@ -69,5 +70,24 @@
   },
   "error": {
     "generic": "algo deu errado"
+  },
+  "web3Manager": {
+    "title": "{chainName} não é suportada",
+    "advice": "Por favor, mude para uma rede suportada",
+    "button": "Mude para a rede {chainName}"
+  },
+  "wallet": {
+    "wrongNetwork": {
+      "title": "Rede não suportada",
+      "advice": "Conecte-se a uma rede compatível no modal ou na\n carteira."
+    },
+    "switchNetwork": {
+      "title": "A mudar de rede",
+      "advice": "Abra a sua carteira e mude para uma rede compatível."
+    },
+    "error": {
+      "title": "Erro na carteira",
+      "advice": "Abra a sua carteira e/ou reinicie."
+    }
   }
 }

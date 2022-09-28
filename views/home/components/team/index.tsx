@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { toPairs } from 'ramda';
 import { FC } from 'react';
+import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
@@ -121,7 +122,10 @@ const Team: FC = () => {
                       textAlign="left"
                       fontSize="0.9rem"
                     >
-                      {t(bio, depsBio)}
+                      {t(
+                        bio as MessageKeys<IntlMessages, keyof IntlMessages>,
+                        depsBio
+                      )}
                     </Typography>
                   </Box>
                 </Box>
@@ -135,7 +139,9 @@ const Team: FC = () => {
               >
                 {name}
               </Typography>
-              <Typography variant="normal">{t(role)}</Typography>
+              <Typography variant="normal">
+                {t(role as MessageKeys<IntlMessages, keyof IntlMessages>)}
+              </Typography>
               <Box mt="M">
                 {toPairs(social).map(([network, link]) => {
                   const Icon = SOCIAL_SVG[network];

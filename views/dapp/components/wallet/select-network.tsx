@@ -3,21 +3,14 @@ import { values } from 'ramda';
 import { FC } from 'react';
 
 import EthereumNetwork from '@/components/svg/ethereum-network';
-import priorityHooks from '@/connectors';
 import { Box, Dropdown, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
 import { ArrowSVG, BinanceTestSVG, BlockchainSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
-const { usePriorityChainId } = priorityHooks;
-
-interface SelectNetworkProps {
-  switchNetwork: (x: number) => Promise<void>;
-}
-
-const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
+import { SelectNetworkProps } from './wallet.types';
+const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
   const t = useTranslations();
-  const chainId = usePriorityChainId();
 
   return (
     <Box mr="S">

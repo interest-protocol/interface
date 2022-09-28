@@ -1,10 +1,9 @@
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { useSelector } from 'react-redux';
+import { useAccount } from 'wagmi';
 
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
-import { getAccount } from '@/state/core/core.selectors';
 import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
 import { EarnFarmCardProps } from './earn-farm-card.types';
@@ -17,7 +16,7 @@ const EarnFarmCard: FC<EarnFarmCardProps> = ({
   loading,
   amountUSD,
 }) => {
-  const account = useSelector(getAccount) as string | null;
+  const { address } = useAccount();
 
   return (
     <Box
@@ -63,7 +62,7 @@ const EarnFarmCard: FC<EarnFarmCardProps> = ({
       >
         {loading ? (
           <Skeleton height="2.5rem" width="8rem" />
-        ) : account ? (
+        ) : address ? (
           button
         ) : (
           <ConnectWallet />

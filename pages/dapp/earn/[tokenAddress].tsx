@@ -1,4 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
+import { mergeDeepRight } from 'ramda';
 
 import EarnFarm from '@/views/dapp/views/earn-farm';
 
@@ -17,14 +18,18 @@ export const getServerSideProps: GetServerSideProps = async ({
   params,
 }) => {
   const { tokenAddress } = params || {};
+  const [commonMessages, earnMessages] = await Promise.all([
+    import(`../../../assets/messages/common/${locale}.json`),
+    import(`../../../assets/messages/earn/token-address/${locale}.json`),
+  ]);
+
+  const messages = mergeDeepRight(commonMessages.default, earnMessages.default);
 
   return {
     props: {
       tokenAddress,
-      messages: {
-        ...require(`../../../assets/messages/earn/token-address/${locale}.json`),
-        ...require(`../../../assets/messages/common/${locale}.json`),
-      },
+      messages,
+      now: new Date().getTime(),
       pageTitle: 'earnTokenAddress.pageTitle',
     },
   };

@@ -1,16 +1,12 @@
-import { BigNumber } from 'ethers';
-
 import { StakeState } from '@/constants';
 
-import { SafeFarmData } from '../../../earn/earn.types';
+import { SafeUserFarmData } from '../../earn-farm.types';
 
 export interface EarnStakeModalProps {
   amount: number;
-  loading: boolean;
   handleClose: () => void;
   modal: StakeState | undefined;
-  farm: SafeFarmData;
-  onStake: (value: BigNumber) => Promise<void>;
-  onUnstake: (value: BigNumber) => Promise<void>;
+  farm: SafeUserFarmData;
   farmSymbol: string;
+  refetch: () => Promise<void>;
 }

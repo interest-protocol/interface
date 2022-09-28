@@ -11,7 +11,7 @@ import { EarnFarmProps } from './earn-farm.types';
 import { getSafeUserFarmData } from './earn-farm.utils';
 
 const EarnFarm: FC<EarnFarmProps> = ({ address }) => {
-  const { error, data: rawData, mutate } = useGetUserFarmData(address);
+  const { error, data: rawData, refetch } = useGetUserFarmData(address);
 
   const chainId = useChainId();
 
@@ -29,7 +29,9 @@ const EarnFarm: FC<EarnFarmProps> = ({ address }) => {
       <EarnFarmOptions
         farm={data.farm}
         intUSDPrice={data.intUSDPrice}
-        mutate={mutate}
+        refetch={async () => {
+          await refetch();
+        }}
         loading={data.loading}
       />
     </Container>

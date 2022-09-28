@@ -1,14 +1,11 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { ChangeEvent, FC, useCallback, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
 
-import { addAllowance } from '@/api/erc20';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
-import { useGetSigner, useIdAccount } from '@/hooks';
+import { useApprove, useIdAccount } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
-import { coreActions } from '@/state/core/core.actions';
 import {
   capitalize,
   formatMoney,
@@ -17,7 +14,6 @@ import {
   showToast,
   showTXSuccessToast,
   throwError,
-  throwIfInvalidSigner,
 } from '@/utils';
 
 import { CreatePoolFieldProps } from '../dex-find-pool.types';
@@ -27,49 +23,35 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   register,
   setValue,
   needAllowance,
-  update,
   tokenBalance,
   getValues,
+  refetch,
 }) => {
   const t = useTranslations();
-  const dispatch = useDispatch();
   const { chainId } = useIdAccount();
-  const { signer, account } = useGetSigner();
   const { address, symbol, decimals } = getValues()[name];
+  const { writeAsync: addAllowance } = useApprove(
+    address,
+    getInterestDexRouterAddress(chainId),
+    { enabled: needAllowance }
+  );
 
   const SVG =
     TOKENS_SVG_MAP[chainId][address] ?? TOKENS_SVG_MAP[chainId].default;
 
-  const approve = useCallback(
-    async (token: string) => {
-      const { validId, validSigner } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
-
-      try {
-        const tx = await addAllowance(
-          validId,
-          validSigner,
-          account,
-          token,
-          getInterestDexRouterAddress(validId)
-        );
-
-        await showTXSuccessToast(tx, validId);
-      } catch (e) {
-        throwError('Failed to approve', e);
-      } finally {
-        await update();
-        dispatch(coreActions.updateNativeBalance());
-      }
-    },
-    [chainId, signer]
-  );
+  const approve = useCallback(async () => {
+    try {
+      const tx = await addAllowance?.();
+      await showTXSuccessToast(tx, chainId);
+      if (tx) await tx.wait(2);
+      await refetch();
+    } catch (e) {
+      throwError(t('error.generic'), e);
+    }
+  }, [chainId, addAllowance, chainId, refetch]);
 
   const handleApprove = () =>
-    showToast(approve(address), {
+    showToast(approve(), {
       loading: capitalize(t('common.approve', { isLoading: 1 })),
       success: capitalize(t('common.success')),
       error: prop('message'),
@@ -154,7 +136,8 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           <Button
             variant="primary"
             onClick={handleApprove}
-            hover={{ bg: 'accentActive' }}
+            hover={{ bg: !addAllowance ? 'disabled' : 'accentActive' }}
+            disabled={!addAllowance}
           >
             {capitalize(t('common.approve', { isLoading: 0 }))} Token
           </Button>

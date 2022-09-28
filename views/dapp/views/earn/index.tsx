@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -15,7 +16,7 @@ import { getSafeFarmSummaryData } from './earn.utils';
 
 const Earn: FC = () => {
   const { chainId } = useIdAccount();
-
+  const t = useTranslations();
   const { register, setValue, control } = useForm<IEarnForm>({
     defaultValues: {
       search: '',
@@ -26,7 +27,7 @@ const Earn: FC = () => {
     },
   });
 
-  const { error, data: rawData, mutate } = useGetFarmsSummary();
+  const { error, data: rawData } = useGetFarmsSummary();
 
   const data = useMemo(
     () => getSafeFarmSummaryData(chainId, rawData),
@@ -62,7 +63,7 @@ const Earn: FC = () => {
         >
           <TimesSVG width="100%" height="100%" />
         </Box>
-        <Typography variant="title3">Error fetching the contracts</Typography>
+        <Typography variant="title3">{t('error.generic')}</Typography>
       </Box>
     );
 
@@ -109,7 +110,7 @@ const Earn: FC = () => {
                   <LoadingSVG width="100%" />
                 </Box>
                 <Typography fontSize="S" variant="normal" ml="M">
-                  Loading
+                  {t('common.loading')}
                 </Typography>
               </Box>
             }
@@ -119,7 +120,6 @@ const Earn: FC = () => {
                 loading={data.loading}
                 isDesktop={isDesktop}
                 intUSDPrice={data.intUSDPrice}
-                mutate={mutate}
                 control={control}
                 farms={data.farms}
               />

@@ -1,3 +1,4 @@
+import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
 import { ethers } from 'ethers';
 
@@ -19,11 +20,17 @@ const processMetadata = (
   metadata: ERC20MetadataStructOutput
 ) => {
   const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId];
-  const nativeToken = CHAINS[chainId].nativeCurrency;
+  const nativeToken = CHAINS[chainId].nativeCurrency!;
 
   return isSameAddressZ(wrappedNativeToken.address, token)
-    ? { ...nativeToken, decimals: BigNumber.from(nativeToken.decimals) }
-    : metadata;
+    ? {
+        ...nativeToken,
+        decimals: BigNumber.from(nativeToken?.decimals).toNumber(),
+      }
+    : {
+        ...metadata,
+        decimals: metadata.decimals.toNumber(),
+      };
 };
 
 const processAllowance = (
@@ -59,13 +66,14 @@ export const processPairData = (
         allowances: BigNumber[];
         balances: BigNumber[];
       })
-    | undefined,
+    | undefined
+    | Result,
   nativeBalance: string
 ) => {
   const defaultERC20Metadata = {
     name: '???',
     symbol: '???',
-    decimals: ZERO_BIG_NUMBER,
+    decimals: 18,
   };
 
   const defaultData = {
