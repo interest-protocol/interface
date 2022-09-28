@@ -49,8 +49,8 @@ const Faucet: FC = () => {
       >
         <Button
           p="NONE"
-          width="3rem"
-          height="3rem"
+          width="2.5rem"
+          height="2.5rem"
           display="flex"
           variant="primary"
           alignItems="center"
@@ -60,7 +60,7 @@ const Faucet: FC = () => {
           justifyContent="center"
           hover={{ bg: 'accentAlternativeActive' }}
         >
-          <Box as="span" display="inline-block" width="1rem">
+          <Box as="span" display="inline-block" width="40%" height="40%">
             <FaucetSVG width="100%" />
           </Box>
         </Button>
