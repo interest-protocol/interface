@@ -221,7 +221,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets, chainId }) => {
                   flexDirection="column"
                   justifyContent="center"
                 >
-                  <Box display="flex">
+                  <Box display="flex" ml="M">
                     {getDineroMarketSVGByAddress(chainId, x.marketAddress).map(
                       ({ SVG, highZIndex }, index) => (
                         <Box

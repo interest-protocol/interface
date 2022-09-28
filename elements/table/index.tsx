@@ -131,6 +131,8 @@ const TableRow: FC<TableRowProps> = ({
             borderRadius="M"
             overflow="hidden"
             gridAutoFlow="column"
+            columnGap="1rem"
+            gridTemplateColumns="1fr 1fr"
             gridTemplateRows={`repeat(${
               headings.length + (ordinate ? 1 : 0)
             }, 1fr)`}
@@ -152,6 +154,7 @@ const TableRow: FC<TableRowProps> = ({
                 fontSize="S"
                 variant="normal"
                 color="textSecondary"
+                textAlign="right"
               >
                 {item}
               </Typography>
