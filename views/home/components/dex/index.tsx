@@ -159,8 +159,9 @@ const DEX: FC = () => {
           ]}
         >
           <Box
-            py="XL"
+            px="L"
             mx="S"
+            py="XL"
             display="flex"
             bg="foreground"
             textAlign="center"
