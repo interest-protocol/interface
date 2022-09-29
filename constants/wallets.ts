@@ -38,4 +38,5 @@ export const WALLET_SUPPORT_MAP = {
     Wallets.WalletConnect,
     Wallets.CoinbaseWallet,
   ],
+  [CHAIN_ID.UNSUPPORTED]: [],
 };
