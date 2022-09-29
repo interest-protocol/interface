@@ -5,10 +5,7 @@ import Home from '@/views/home';
 
 const HomePage: NextPage = () => <Home />;
 
-export const getStaticProps: GetStaticProps = async ({
-  locale,
-  ...otherProps
-}) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, landingPageMessages] = await Promise.all([
     import(`../assets/messages/common/${locale}.json`),
     import(`../assets/messages/landing-page/${locale}.json`),
@@ -21,7 +18,6 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...otherProps,
       messages,
       now: new Date().getTime(),
       pageTitle: 'landingPage.pageTitle',
