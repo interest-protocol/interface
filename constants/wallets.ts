@@ -2,7 +2,10 @@ import { CHAIN_ID } from '@/sdk';
 import {
   BinanceWalletSVG,
   CoinBaseSVG,
+  MathWalletSVG,
   MetaMaskSVG,
+  OperaWalletSVG,
+  TrustWalletSVG,
   WalletConnectSVG,
 } from '@/svg';
 
@@ -11,32 +14,73 @@ export enum Wallets {
   WalletConnect = 'walletConnect',
   CoinbaseWallet = 'coinbaseWallet',
   BinanceWallet = 'binanceWallet',
+  Injected = 'injected',
 }
 
-export const WALLET_SVG_MAP = {
-  [Wallets.MetaMask]: MetaMaskSVG,
-  [Wallets.WalletConnect]: WalletConnectSVG,
-  [Wallets.CoinbaseWallet]: CoinBaseSVG,
-  [Wallets.BinanceWallet]: BinanceWalletSVG,
+const WALLET_RECORD = {
+  Metamask: {
+    SVG: MetaMaskSVG,
+    id: Wallets.MetaMask,
+    name: 'MetaMask',
+  },
+  CoinbaseWallet: {
+    SVG: CoinBaseSVG,
+    id: Wallets.CoinbaseWallet,
+    name: 'Coinbase Wallet',
+  },
+  BinanceWallet: {
+    SVG: BinanceWalletSVG,
+    id: Wallets.BinanceWallet,
+    name: 'Binance Wallet',
+  },
+  TrustWallet: {
+    SVG: TrustWalletSVG,
+    id: Wallets.Injected,
+    name: 'Trust Wallet',
+  },
+  WalletConnect: {
+    SVG: WalletConnectSVG,
+    id: Wallets.WalletConnect,
+    name: 'Wallet Connect',
+  },
+  OperaWallet: {
+    SVG: OperaWalletSVG,
+    id: Wallets.Injected,
+    name: 'Opera Wallet',
+  },
+  MathWallet: {
+    SVG: MathWalletSVG,
+    id: Wallets.Injected,
+    name: 'Math Wallet',
+  },
 };
 
-export const WALLET_SUPPORT_MAP = {
+export const WALLETS_MAP = {
   [CHAIN_ID.BNB_TEST_NET]: [
-    Wallets.MetaMask,
-    Wallets.WalletConnect,
-    Wallets.CoinbaseWallet,
-    Wallets.BinanceWallet,
+    WALLET_RECORD.Metamask,
+    WALLET_RECORD.CoinbaseWallet,
+    WALLET_RECORD.BinanceWallet,
+    WALLET_RECORD.WalletConnect,
+    WALLET_RECORD.TrustWallet,
+    WALLET_RECORD.MathWallet,
+    WALLET_RECORD.OperaWallet,
   ],
   [CHAIN_ID.BNB_MAIN_MET]: [
-    Wallets.MetaMask,
-    Wallets.WalletConnect,
-    Wallets.CoinbaseWallet,
-    Wallets.BinanceWallet,
+    WALLET_RECORD.Metamask,
+    WALLET_RECORD.CoinbaseWallet,
+    WALLET_RECORD.BinanceWallet,
+    WALLET_RECORD.WalletConnect,
+    WALLET_RECORD.TrustWallet,
+    WALLET_RECORD.MathWallet,
+    WALLET_RECORD.OperaWallet,
   ],
   [CHAIN_ID.RINKEBY]: [
-    Wallets.MetaMask,
-    Wallets.WalletConnect,
-    Wallets.CoinbaseWallet,
+    WALLET_RECORD.Metamask,
+    WALLET_RECORD.CoinbaseWallet,
+    WALLET_RECORD.WalletConnect,
+    WALLET_RECORD.TrustWallet,
+    WALLET_RECORD.MathWallet,
+    WALLET_RECORD.OperaWallet,
   ],
   [CHAIN_ID.UNSUPPORTED]: [],
 };

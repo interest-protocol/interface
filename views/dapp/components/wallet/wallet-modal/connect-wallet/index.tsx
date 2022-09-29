@@ -1,9 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
-import { useConnect } from 'wagmi';
+import { Connector, useConnect } from 'wagmi';
 
-import { WALLET_SUPPORT_MAP, WALLET_SVG_MAP, Wallets } from '@/constants';
+import { WALLETS_MAP } from '@/constants';
 import { Box, Modal, Typography } from '@/elements';
 import { useChainId } from '@/hooks';
 import { TimesSVG } from '@/svg';
@@ -44,6 +44,11 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
   const t = useTranslations();
   const { connect, connectors } = useConnect();
   const chainId = useChainId();
+
+  const CONNECTOR_MAP = connectors.reduce(
+    (acc, connector) => ({ ...acc, [connector.id]: connector }),
+    {} as Record<string, Connector>
+  );
   return (
     <Modal
       background="#000A"
@@ -85,17 +90,19 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
           </Box>
         </Box>
         <Box maxHeight="100%" overflow="auto">
-          {connectors.map((connector) =>
-            WALLET_SUPPORT_MAP[chainId].includes(connector.id as Wallets) ? (
+          {WALLETS_MAP[chainId].map(({ SVG, id, name }) => {
+            const connector = CONNECTOR_MAP[id];
+
+            return connector ? (
               <Box mt="S" key={v4()}>
                 <WalletButton
-                  name={connector.name}
+                  name={name}
                   onClick={() => connect({ connector })}
-                  Icon={WALLET_SVG_MAP[connector.id as Wallets]}
+                  Icon={SVG}
                 />
               </Box>
-            ) : null
-          )}
+            ) : null;
+          })}
         </Box>
       </Box>
     </Modal>
