@@ -160,6 +160,7 @@ const DEX: FC = () => {
         >
           <Box
             py="XL"
+            px="L"
             mx="S"
             display="flex"
             bg="foreground"
