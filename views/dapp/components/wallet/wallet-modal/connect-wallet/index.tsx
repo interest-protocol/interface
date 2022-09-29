@@ -84,17 +84,19 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
             <TimesSVG width="1.8rem" height="1.8rem" />
           </Box>
         </Box>
-        {connectors.map((connector) =>
-          WALLET_SUPPORT_MAP[chainId].includes(connector.id as Wallets) ? (
-            <Box mt="S" key={v4()}>
-              <WalletButton
-                name={connector.name}
-                onClick={() => connect({ connector })}
-                Icon={WALLET_SVG_MAP[connector.id as Wallets]}
-              />
-            </Box>
-          ) : null
-        )}
+        <Box maxHeight="100%" overflow="auto">
+          {connectors.map((connector) =>
+            WALLET_SUPPORT_MAP[chainId].includes(connector.id as Wallets) ? (
+              <Box mt="S" key={v4()}>
+                <WalletButton
+                  name={connector.name}
+                  onClick={() => connect({ connector })}
+                  Icon={WALLET_SVG_MAP[connector.id as Wallets]}
+                />
+              </Box>
+            ) : null
+          )}
+        </Box>
       </Box>
     </Modal>
   );
