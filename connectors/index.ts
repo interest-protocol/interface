@@ -8,6 +8,8 @@ import { publicProvider } from 'wagmi/providers/public';
 import { CHAINS, RPC_URL } from '@/constants';
 import { CHAIN_ID } from '@/sdk';
 
+import { BinanceWalletConnector } from './binance-wallet-connector';
+
 const bnbTestNet = CHAINS[CHAIN_ID.BNB_TEST_NET];
 
 const defaultChains = [chain.rinkeby, bnbTestNet];
@@ -50,5 +52,6 @@ export const wagmiClient = createClient({
         qrcode: true,
       },
     }),
+    new BinanceWalletConnector({ chains: defaultChains }),
   ],
 });

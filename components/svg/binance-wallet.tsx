@@ -1,6 +1,6 @@
 import { FC, SVGAttributes } from 'react';
 
-const BNBWallet: FC<SVGAttributes<SVGSVGElement>> = (props) => (
+const BinanceWallet: FC<SVGAttributes<SVGSVGElement>> = (props) => (
   <svg viewBox="0 0 322 322" fill="none" {...props}>
     <circle cx="161" cy="161" r="161" fill="#292929" />
     <path
@@ -14,4 +14,4 @@ const BNBWallet: FC<SVGAttributes<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-export default BNBWallet;
+export default BinanceWallet;

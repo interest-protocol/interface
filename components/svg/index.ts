@@ -6,6 +6,7 @@ export { default as BarsLPSVG } from './bars-lp';
 export { default as BinanceSVG } from './binance';
 export { default as BinanceUSDSVG } from './binance';
 export { default as BinanceTestSVG } from './binance-test';
+export { default as BinanceWalletSVG } from './binance-wallet';
 export { default as BitcoinSVG } from './bitcoin';
 export { default as BlockchainSVG } from './blockchain';
 export { default as BNBSVG } from './bnb-coin';
