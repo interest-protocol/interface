@@ -1,5 +1,6 @@
 import { chain, configureChains, createClient } from 'wagmi';
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
+import { InjectedConnector } from 'wagmi/connectors/injected';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
@@ -7,6 +8,8 @@ import { publicProvider } from 'wagmi/providers/public';
 
 import { CHAINS, RPC_URL } from '@/constants';
 import { CHAIN_ID } from '@/sdk';
+
+import { BinanceWalletConnector } from './binance-wallet-connector';
 
 const bnbTestNet = CHAINS[CHAIN_ID.BNB_TEST_NET];
 
@@ -49,6 +52,11 @@ export const wagmiClient = createClient({
       options: {
         qrcode: true,
       },
+    }),
+    new BinanceWalletConnector({ chains: defaultChains }),
+    new InjectedConnector({
+      chains: defaultChains,
+      options: { shimDisconnect: true },
     }),
   ],
 });

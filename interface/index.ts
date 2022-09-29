@@ -1,4 +1,5 @@
 import { QueryFunctionContext, UseQueryOptions } from '@tanstack/react-query';
+import type { Ethereum } from '@wagmi/core';
 import { CallOverrides } from 'ethers/lib/ethers';
 
 export type MaybeArray<T> = T | Array<T>;
@@ -26,3 +27,15 @@ export declare type QueryConfig<Data, Error> = Pick<
   | 'onSettled'
   | 'onSuccess'
 >;
+
+declare global {
+  interface Window {
+    BinanceChain?: {
+      bnbSign?: (
+        address: string,
+        message: string
+      ) => Promise<{ publicKey: string; signature: string }>;
+      switchNetwork?: (networkId: string) => Promise<string>;
+    } & Ethereum;
+  }
+}
