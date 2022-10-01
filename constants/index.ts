@@ -3,6 +3,7 @@ export * from './dex';
 export * from './dinero-markets';
 export * from './erc-20';
 export * from './farms';
+export * from './fiat-ramp';
 export * from './routes';
 export * from './social-media';
 export * from './wallets';

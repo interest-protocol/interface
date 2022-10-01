@@ -2,9 +2,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
+import { useAccount, useNetwork } from 'wagmi';
 
 import { SwitchLang } from '@/components';
-import { Routes, RoutesEnum } from '@/constants/routes';
+import {
+  isChainIdSupported,
+  makeFIATWidgetURL,
+  Routes,
+  RoutesEnum,
+} from '@/constants';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
@@ -14,6 +20,10 @@ import MobileMenu from './mobile-menu';
 const Header: FC = () => {
   const t = useTranslations();
   const { pathname } = useRouter();
+  const { chain } = useNetwork();
+  const { address } = useAccount();
+
+  const chainId = chain?.id ?? -1;
 
   return (
     <Box
@@ -40,7 +50,11 @@ const Header: FC = () => {
             <LogoSVG width="100%" aria-label="Logo" fill="currentColor" />
           </Box>
         </Link>
-        <a href="https://forms.gle/aDP4wHvshLPKkKv97" target="__blank">
+        <a
+          href="https://forms.gle/aDP4wHvshLPKkKv97"
+          target="__blank"
+          rel="noopener noreferrer"
+        >
           <Typography
             ml="L"
             px="L"
@@ -114,6 +128,15 @@ const Header: FC = () => {
         </Link>
       </Box>
       <Box display="flex" justifyContent="flex-end" alignItems="center">
+        {address && isChainIdSupported(chainId ?? -1) && (
+          <a
+            href={makeFIATWidgetURL(chainId, address)}
+            target="__blank"
+            rel="noopener noreferrer"
+          >
+            Credit Card
+          </a>
+        )}
         <Wallet />
         <SwitchLang />
         <MobileMenu />
