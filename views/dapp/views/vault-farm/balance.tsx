@@ -4,9 +4,9 @@ import { useForm } from 'react-hook-form';
 import { Box, Button, Typography } from '@/elements';
 
 import InputBalance from './input-balance';
-import { HeaderProps, IVaultFarmForm } from './vault-farm.types';
+import { IVaultFarmForm, VaultDetailBalanceProps } from './vault-farm.types';
 
-const VaultFarmBalance: FC<HeaderProps> = ({ header }) => {
+const VaultFarmBalance: FC<VaultDetailBalanceProps> = ({ symbol, balance }) => {
   const { register, setValue } = useForm<IVaultFarmForm>({
     defaultValues: {
       value: '',
@@ -16,15 +16,6 @@ const VaultFarmBalance: FC<HeaderProps> = ({ header }) => {
   return (
     <Box p="0 2rem 0rem">
       <Box display="flex" justifyContent="space-between" color="textSecondary">
-        {header == 'Unstable' && (
-          <Typography
-            variant="normal"
-            fontSize={['0.65rem', '0.65rem', '0.85rem', '0.85rem']}
-            fontWeight="500"
-          >
-            1% fee for unstaking within 3 days
-          </Typography>
-        )}
         <Typography
           variant="normal"
           fontSize={['0.65rem', '0.65rem', '0.85rem', '0.85rem']}
@@ -32,9 +23,9 @@ const VaultFarmBalance: FC<HeaderProps> = ({ header }) => {
           color="textSecondary"
           ml="M"
           textAlign="right"
-          width={header == 'Unstable' ? 'auto' : '100%'}
+          width="100%"
         >
-          Balance: 0.000
+          Balance: {balance}
         </Typography>
       </Box>
       <InputBalance
@@ -42,9 +33,10 @@ const VaultFarmBalance: FC<HeaderProps> = ({ header }) => {
         max={10}
         register={register}
         setValue={setValue}
+        symbol={symbol}
       />
       <Button variant="primary" width="100%" py="L" mb="1.5rem">
-        Please switch to BSC
+        Approve
       </Button>
     </Box>
   );

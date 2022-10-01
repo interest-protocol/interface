@@ -14,10 +14,11 @@ export interface VaultCardItemProps {
 
 export interface VaultNameProps {
   vault: ReadonlyArray<ERC20>;
-  isAuto?: boolean;
-  caption: string;
+  caption?: string;
 }
-
+export interface VaultDetailsProps {
+  vaults: [VaultNameProps, VaultNameProps];
+}
 export interface VaultRow {
   name: VaultNameProps;
   apy: string;
@@ -28,6 +29,7 @@ export interface VaultRow {
 
 export interface VaultDetails {
   title: string;
+  tip?: string;
   content: string;
 }
 
@@ -36,10 +38,9 @@ export interface VaultData {
   vault: ReadonlyArray<ERC20>;
   vaultDetails: ReadonlyArray<VaultDetails>;
   caption: string;
-  isAuto?: boolean;
   apy: string;
   earn: string;
-  type: 'Investment' | 'Swap';
+  type: 'LP';
   tvl: string;
   version: 1 | 2;
 }

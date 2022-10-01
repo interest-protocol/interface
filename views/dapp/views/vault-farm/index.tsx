@@ -1,11 +1,10 @@
 import { FC, useState } from 'react';
 
-import { Container } from '@/components';
+import { Container, Tooltip } from '@/components';
 import { RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
 
 import GoBack from '../../components/go-back';
-import ZAP from '../vault/components/zap';
 import DATA from '../vault/vault.helpers';
 import VaultFarmBalance from './balance';
 import ButtonTabSelect from './button-tab-select';
@@ -15,7 +14,7 @@ import VaultFarmTitle from './farm-title';
 import { VaultFarmProps } from './vault-farm.types';
 
 const VaultFarm: FC<VaultFarmProps> = ({ farm }) => {
-  const [select, setSelect] = useState('Stable');
+  const [select, setSelect] = useState('stake');
 
   const dataFarm = farm ? DATA.filter((item) => item?.id == farm) : DATA;
 
@@ -31,7 +30,7 @@ const VaultFarm: FC<VaultFarmProps> = ({ farm }) => {
         dapp
         px="M"
         mt="XL"
-        width={['100%', '100%', '100%', '50%']}
+        minWidth="40rem"
         position="relative"
         background="specialBackground"
       >
@@ -46,13 +45,20 @@ const VaultFarm: FC<VaultFarmProps> = ({ farm }) => {
             borderBottomRightRadius="M"
           >
             <VaultFarmTitle
-              vault={dataFarm?.[0]?.vault}
-              isAuto={dataFarm?.[0]?.isAuto}
-              caption={dataFarm?.[0]?.caption}
+              vaults={
+                select === 'stake' ? [DATA[0], DATA[1]] : [DATA[1], DATA[0]]
+              }
             />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
-            <VaultFarmDetails items={dataFarm?.[0]?.vaultDetails} />
-            <VaultFarmBalance header={select} />
+            <VaultFarmDetails
+              items={(select === 'stake' ? DATA[1] : DATA[0]).vaultDetails}
+            />
+            <VaultFarmBalance
+              symbol={
+                (select === 'stake' ? DATA[1] : DATA[0]).vault?.[0].symbol
+              }
+              balance="149.43"
+            />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
             <VaultFarmPool
               VaultPoolDetails={[
@@ -63,8 +69,8 @@ const VaultFarm: FC<VaultFarmProps> = ({ farm }) => {
             />
           </Box>
         </Box>
+        <Tooltip />
       </Container>
-      <ZAP />
     </Box>
   );
 };

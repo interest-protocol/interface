@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
-import { Box, Table, Typography } from '@/elements';
+import { Box, Button, Table, Typography } from '@/elements';
 
 import { VaultTableProps } from '../../vault.types';
 import VaultCard from './vault-card';
@@ -13,11 +13,12 @@ import { DesktopVaultSkeletonRow } from './vault-skeleton-row';
 
 const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
   const { push } = useRouter();
-  const HEADING = ['Vaults Name', 'APY', 'Earn', 'Type', 'TVL'];
+  const HEADING = ['Vaults Name', 'APR', 'Earn', 'Type', 'TVL'];
   return (
     <Container dapp px="M" width="100%">
       <Box display={['none', 'none', 'none', 'block']}>
         <Table
+          hasButton
           headings={HEADING.map((title) => {
             return {
               item: (
@@ -38,10 +39,31 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
               ? DesktopVaultSkeletonRow
               : data.map((item) => {
                   return {
+                    button: (
+                      <Button
+                        variant="primary"
+                        hover={{ bg: 'accentActive' }}
+                        onClick={() =>
+                          push(
+                            {
+                              pathname: Routes[RoutesEnum.VaultFarm],
+                              query: {
+                                farm: item.id as string,
+                              },
+                            },
+                            undefined,
+                            {
+                              shallow: true,
+                            }
+                          )
+                        }
+                      >
+                        Enter
+                      </Button>
+                    ),
                     items: [
                       <VaultName
                         vault={item.vault}
-                        isAuto={item.isAuto}
                         caption={item.caption}
                         key={v4()}
                       />,

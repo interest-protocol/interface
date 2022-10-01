@@ -24,7 +24,7 @@ const FilterTable: FC<FilterTableProps> = ({
       flexDirection={['column', 'column', 'column', 'row']}
     >
       <OptionButton
-        options={['All', 'Investment', 'Swap']}
+        options={['All', 'LP']}
         whoIsSelected={state}
         setWhoIsSelected={setState}
       />

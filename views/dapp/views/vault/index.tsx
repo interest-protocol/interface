@@ -5,7 +5,6 @@ import { Container } from '@/components';
 import { Box } from '@/elements';
 
 import { VaultFilterTable, VaultHeader, VaultTable } from './components';
-import ZAP from './components/zap';
 import DATA from './vault.helpers';
 
 const Vault: FC = () => {
@@ -36,7 +35,7 @@ const Vault: FC = () => {
         py="XL"
         px="NONE"
         width="55%"
-        minWidth="20rem"
+        minWidth="50rem"
         display="flex"
         flexDirection="column"
         justifyContent={['center', 'flex-start']}
@@ -59,7 +58,6 @@ const Vault: FC = () => {
           />
         </Box>
       </Container>
-      <ZAP />
     </Box>
   );
 };

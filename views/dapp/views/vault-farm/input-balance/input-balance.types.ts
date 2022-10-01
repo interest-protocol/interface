@@ -8,4 +8,5 @@ export interface InputBalanceProps {
   register: UseFormRegister<IVaultFarmForm>;
   setValue?: UseFormSetValue<IVaultFarmForm>;
   max: number;
+  symbol: string;
 }
