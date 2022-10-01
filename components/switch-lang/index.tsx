@@ -28,9 +28,9 @@ const SwitchLang: FC = () => {
           displayOption: (
             <Box
               pl="M"
+              height="3rem"
               display="flex"
               minWidth="17rem"
-              height="3rem"
               alignItems="center"
               hover={{
                 color: currentLocale === locale ? 'unset' : 'textInverted',

@@ -12,7 +12,7 @@ import {
   RoutesEnum,
 } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { LogoSVG } from '@/svg';
+import { CreditCardSVG, LogoSVG } from '@/svg';
 
 import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
@@ -127,15 +127,30 @@ const Header: FC = () => {
           </Typography>
         </Link>
       </Box>
-      <Box display="flex" justifyContent="flex-end" alignItems="center">
+      <Box display="flex" justifyContent="flex-end" alignItems="stretch">
         {address && isChainIdSupported(chainId ?? -1) && (
-          <a
-            href={makeFIATWidgetURL(chainId, address)}
-            target="__blank"
-            rel="noopener noreferrer"
-          >
-            Credit Card
-          </a>
+          <Box display={['none', 'none', 'block']}>
+            <a
+              href={makeFIATWidgetURL(chainId, address)}
+              target="__blank"
+              rel="noopener noreferrer"
+            >
+              <Box
+                mr="S"
+                as="span"
+                p="0.7rem"
+                width="3rem"
+                height="2.8rem"
+                borderRadius="M"
+                alignItems="center"
+                display="inline-flex"
+                bg="bottomBackground"
+                justifyContent="center"
+              >
+                <CreditCardSVG width="100%" />
+              </Box>
+            </a>
+          </Box>
         )}
         <Wallet />
         <SwitchLang />
