@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
-import { FC } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { useAccount, useNetwork } from 'wagmi';
 
 import { SwitchLang } from '@/components';
@@ -12,6 +12,7 @@ import {
   RoutesEnum,
 } from '@/constants';
 import { Box, Typography } from '@/elements';
+import useEventListener from '@/hooks/use-event-listener';
 import { CreditCardSVG, LogoSVG } from '@/svg';
 
 import { Wallet } from '../..';
@@ -24,6 +25,15 @@ const Header: FC = () => {
   const { address } = useAccount();
 
   const chainId = chain?.id ?? -1;
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  const handleSetDesktop = useCallback(() => {
+    const mediaIsMobile = !window.matchMedia('(min-width: 64em)').matches;
+    setIsMobile(mediaIsMobile);
+  }, []);
+
+  useEventListener('resize', handleSetDesktop, true);
 
   return (
     <Box
@@ -154,7 +164,7 @@ const Header: FC = () => {
         )}
         <Wallet />
         <SwitchLang />
-        <MobileMenu />
+        {isMobile && <MobileMenu />}
       </Box>
     </Box>
   );

@@ -134,7 +134,7 @@ const Footer: FC = () => {
               {capitalize(t('common.borrow'))}
             </Button>
           </Link>
-          {supportsCreditCard && supportsFaucet && (
+          {(supportsCreditCard || supportsFaucet) && (
             <Dropdown
               bottom
               title={
@@ -196,18 +196,20 @@ const Footer: FC = () => {
                             target="__blank"
                             rel="noopener noreferrer"
                           >
-                            <Box
-                              as="span"
-                              display="inline-block"
-                              width="1.3rem"
-                              mr="M"
-                              ml="L"
-                            >
-                              <CreditCardSVG width="100%" />
+                            <Box display="flex">
+                              <Box
+                                mr="M"
+                                ml="L"
+                                as="span"
+                                width="1.3rem"
+                                display="inline-block"
+                              >
+                                <CreditCardSVG width="100%" />
+                              </Box>
+                              <Typography variant="normal">
+                                Credit Card
+                              </Typography>
                             </Box>
-                            <Typography variant="normal">
-                              Credit Card
-                            </Typography>
                           </a>
                         ),
                         onSelect: noop,

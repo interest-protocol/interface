@@ -48,7 +48,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
           value: `${CHAIN_ID.BNB_TEST_NET}`,
           onSelect: () => switchNetwork(CHAIN_ID.BNB_TEST_NET),
           displayOption: (
-            <Box px="L" display="flex" alignItems="center">
+            <Box pl="L" display="flex" alignItems="center">
               <Box as="span" display="inline-block" width="1.5rem">
                 <BinanceTestSVG width="100%" />
               </Box>
@@ -62,7 +62,6 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               display="flex"
               alignItems="center"
               pl={['NONE', 'NONE', 'NONE', 'S']}
-              pr={['NONE', 'NONE', 'NONE', 'L']}
             >
               <BinanceTestSVG width="1.5rem" height="1.5rem" />
               <Typography
@@ -80,7 +79,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
           value: `${CHAIN_ID.RINKEBY}`,
           onSelect: () => switchNetwork(CHAIN_ID.RINKEBY),
           displayOption: (
-            <Box px="L" display="flex" alignItems="center">
+            <Box pl="L" display="flex" alignItems="center">
               <EthereumNetwork width="1.5rem" height="1.5rem" />
               <Typography variant="normal" mx="M" whiteSpace="nowrap">
                 Rinkeby
@@ -92,7 +91,6 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               display="flex"
               alignItems="center"
               pl={['NONE', 'NONE', 'NONE', 'S']}
-              pr={['NONE', 'NONE', 'NONE', 'L']}
             >
               <EthereumNetwork width="1.5rem" height="1.5rem" />
               <Typography
