@@ -5,12 +5,12 @@ import { v4 } from 'uuid';
 import { Box, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 
-import VaultFarmDetailsItem from './farm-detail-item';
-import { VaultFarmPoolProps } from './vault-farm.types';
+import VaultDetailsItem from './detail-item';
+import { VaultDetailsPoolProps } from './vault-details.types';
 
 const AnimatedBox = animated(Box);
 
-const VaultFarmPool: FC<VaultFarmPoolProps> = ({ VaultPoolDetails }) => {
+const VaultDetailsPool: FC<VaultDetailsPoolProps> = ({ VaultPoolDetails }) => {
   const [openDetails, setOpenDetails] = useState(false);
   const { arrowInvert } = useSpring({
     from: {
@@ -50,7 +50,7 @@ const VaultFarmPool: FC<VaultFarmPoolProps> = ({ VaultPoolDetails }) => {
         <Box p="0 2rem 2rem" cursor="default">
           <Box bg="background" p="1.5rem" borderRadius="0.5rem">
             {VaultPoolDetails.map((item) => (
-              <VaultFarmDetailsItem
+              <VaultDetailsItem
                 {...item}
                 fontSize="0.8rem"
                 color="textSecondary"
@@ -64,4 +64,4 @@ const VaultFarmPool: FC<VaultFarmPoolProps> = ({ VaultPoolDetails }) => {
   );
 };
 
-export default VaultFarmPool;
+export default VaultDetailsPool;

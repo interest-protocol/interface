@@ -29,7 +29,7 @@ const VaultCard: FC<VaultData> = ({
       onClick={() =>
         push(
           {
-            pathname: Routes[RoutesEnum.VaultFarm],
+            pathname: Routes[RoutesEnum.VaultDetails],
             query: {
               farm: id as string,
             },
@@ -81,7 +81,7 @@ const VaultCard: FC<VaultData> = ({
           onClick={() =>
             push(
               {
-                pathname: Routes[RoutesEnum.VaultFarm],
+                pathname: Routes[RoutesEnum.VaultDetails],
                 query: {
                   farm: id as string,
                 },

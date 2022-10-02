@@ -10,7 +10,7 @@ export enum RoutesEnum {
   DineroMarketRepay = 'dinero-market-repay',
   Earn = 'earn',
   Vault = 'vault',
-  VaultFarm = 'vault-farm',
+  VaultDetails = 'vault-details',
   EarnFarm = 'earn-farm',
   DEX = 'dex',
   DEXPool = 'dex-pool',
@@ -35,7 +35,7 @@ export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.DineroMarketRepay]: '/dapp/dinero-market/[address]/repay',
   [RoutesEnum.Earn]: '/dapp/earn',
   [RoutesEnum.Vault]: '/dapp/vault',
-  [RoutesEnum.VaultFarm]: '/dapp/vault/[farm]',
+  [RoutesEnum.VaultDetails]: '/dapp/vault/[address]',
   [RoutesEnum.EarnFarm]: '/dapp/earn/[tokenAddress]',
   [RoutesEnum.Faucet]: '/dapp/faucet',
 };

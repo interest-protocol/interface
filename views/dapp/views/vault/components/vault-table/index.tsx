@@ -46,9 +46,9 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
                         onClick={() =>
                           push(
                             {
-                              pathname: Routes[RoutesEnum.VaultFarm],
+                              pathname: Routes[RoutesEnum.VaultDetails],
                               query: {
-                                farm: item.id as string,
+                                address: item.id as string,
                               },
                             },
                             undefined,
@@ -112,9 +112,9 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
                     handleClick: () =>
                       push(
                         {
-                          pathname: Routes[RoutesEnum.VaultFarm],
+                          pathname: Routes[RoutesEnum.VaultDetails],
                           query: {
-                            farm: item.id as string,
+                            address: item.id as string,
                           },
                         },
                         undefined,

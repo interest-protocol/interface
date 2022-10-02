@@ -1,12 +1,12 @@
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
-import { IVaultFarmForm } from '../vault-farm.types';
+import { IVaultForm } from '../vault-details.types';
 
 export interface InputBalanceProps {
   label?: string;
   name: 'value';
-  register: UseFormRegister<IVaultFarmForm>;
-  setValue?: UseFormSetValue<IVaultFarmForm>;
+  register: UseFormRegister<IVaultForm>;
+  setValue?: UseFormSetValue<IVaultForm>;
   max: number;
   symbol: string;
   address: string;

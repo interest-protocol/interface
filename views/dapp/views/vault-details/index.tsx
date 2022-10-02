@@ -8,15 +8,16 @@ import GoBack from '../../components/go-back';
 import DATA from '../vault/vault.helpers';
 import VaultFarmBalance from './balance';
 import ButtonTabSelect from './button-tab-select';
-import VaultFarmDetails from './farm-details';
-import VaultFarmPool from './farm-pool';
-import VaultFarmTitle from './farm-title';
-import { VaultFarmProps } from './vault-farm.types';
+import VaultDetailsInfo from './details-info';
+import VaultFarmPool from './pool-details';
+import { VaultDetailsProps } from './vault-details.types';
+import VaultDetailsTitle from './vault-title';
 
-const VaultFarm: FC<VaultFarmProps> = ({ farm }) => {
+const VaultDetails: FC<VaultDetailsProps> = ({ vault }) => {
   const [select, setSelect] = useState('stake');
 
-  const dataFarm = farm ? DATA.filter((item) => item?.id == farm) : DATA;
+  const dataVault = vault ? DATA.filter((item) => item?.id == vault) : DATA;
+  console.log(dataVault);
 
   return (
     <Box
@@ -43,13 +44,13 @@ const VaultFarm: FC<VaultFarmProps> = ({ farm }) => {
             borderBottomLeftRadius="M"
             borderBottomRightRadius="M"
           >
-            <VaultFarmTitle
+            <VaultDetailsTitle
               vaults={
                 select === 'stake' ? [DATA[0], DATA[1]] : [DATA[1], DATA[0]]
               }
             />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
-            <VaultFarmDetails
+            <VaultDetailsInfo
               items={(select === 'stake' ? DATA[1] : DATA[0]).vaultDetails}
             />
             <VaultFarmBalance
@@ -64,9 +65,18 @@ const VaultFarm: FC<VaultFarmProps> = ({ farm }) => {
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
             <VaultFarmPool
               VaultPoolDetails={[
-                { title: 'Earn', content: dataFarm?.[0]?.earn },
-                { title: 'Type', content: dataFarm?.[0]?.type },
-                { title: 'TVL', content: dataFarm?.[0]?.tvl },
+                {
+                  title: 'Earn',
+                  content: (select === 'stake' ? DATA[0] : DATA[1])?.earn,
+                },
+                {
+                  title: 'Type',
+                  content: (select === 'stake' ? DATA[0] : DATA[1])?.type,
+                },
+                {
+                  title: 'TVL',
+                  content: (select === 'stake' ? DATA[0] : DATA[1])?.tvl,
+                },
               ]}
             />
           </Box>
@@ -77,4 +87,4 @@ const VaultFarm: FC<VaultFarmProps> = ({ farm }) => {
   );
 };
 
-export default VaultFarm;
+export default VaultDetails;

@@ -1,6 +1,6 @@
 import { VaultDetails } from '../vault/vault.types';
 
-export interface VaultFarmDetailsItemProps {
+export interface VaultDetailsItemProps {
   title: string;
   content: string;
   tip?: string;
@@ -9,12 +9,12 @@ export interface VaultFarmDetailsItemProps {
   version?: ReadonlyArray<string>;
 }
 
-export interface IVaultFarmForm {
+export interface IVaultForm {
   value: string;
 }
 
-export interface VaultFarmProps {
-  farm: string;
+export interface VaultDetailsProps {
+  vault: string;
 }
 
 export interface VaultDetailBalanceProps {
@@ -23,9 +23,9 @@ export interface VaultDetailBalanceProps {
   balance: string;
 }
 
-export interface VaultFarmDetailsProps {
-  items: ReadonlyArray<VaultFarmDetailsItemProps>;
+export interface VaultDetailsInfoProps {
+  items: ReadonlyArray<VaultDetailsItemProps>;
 }
-export interface VaultFarmPoolProps {
+export interface VaultDetailsPoolProps {
   VaultPoolDetails: ReadonlyArray<VaultDetails>;
 }

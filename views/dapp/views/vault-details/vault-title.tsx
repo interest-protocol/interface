@@ -5,7 +5,7 @@ import { Box } from '@/elements';
 import { VaultName } from '../vault/components';
 import { VaultDetailsProps } from '../vault/vault.types';
 
-const VaultFarmTitle: FC<VaultDetailsProps> = ({ vaults }) => (
+const VaultDetailsTitle: FC<VaultDetailsProps> = ({ vaults }) => (
   <Box p="1.5rem 2rem" display="flex">
     <VaultName vault={vaults[0].vault} />
     <Box display="flex" alignItems="center" fontSize="L" pb="M" mx="M">
@@ -15,4 +15,4 @@ const VaultFarmTitle: FC<VaultDetailsProps> = ({ vaults }) => (
   </Box>
 );
 
-export default VaultFarmTitle;
+export default VaultDetailsTitle;

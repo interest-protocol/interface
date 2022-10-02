@@ -3,10 +3,10 @@ import { v4 } from 'uuid';
 
 import { Box } from '@/elements';
 
-import VaultFarmDetailsItem from './farm-detail-item';
-import { VaultFarmDetailsProps } from './vault-farm.types';
+import VaultFarmDetailsItem from './detail-item';
+import { VaultDetailsInfoProps } from './vault-details.types';
 
-const VaultFarmDetails: FC<VaultFarmDetailsProps> = ({ items }) => (
+const VaultDetailsInfo: FC<VaultDetailsInfoProps> = ({ items }) => (
   <Box p="1.5rem 2rem">
     {items?.map((item) => (
       <VaultFarmDetailsItem {...item} fontSize="0.85rem" key={v4()} />
@@ -14,4 +14,4 @@ const VaultFarmDetails: FC<VaultFarmDetailsProps> = ({ items }) => (
   </Box>
 );
 
-export default VaultFarmDetails;
+export default VaultDetailsInfo;

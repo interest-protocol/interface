@@ -4,14 +4,14 @@ import { useForm } from 'react-hook-form';
 import { Box, Button, Typography } from '@/elements';
 
 import InputBalance from './input-balance';
-import { IVaultFarmForm, VaultDetailBalanceProps } from './vault-farm.types';
+import { IVaultForm, VaultDetailBalanceProps } from './vault-details.types';
 
 const VaultFarmBalance: FC<VaultDetailBalanceProps> = ({
   symbol,
   address,
   balance,
 }) => {
-  const { register, setValue } = useForm<IVaultFarmForm>({
+  const { register, setValue } = useForm<IVaultForm>({
     defaultValues: {
       value: '',
     },

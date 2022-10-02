@@ -3,9 +3,9 @@ import { FC } from 'react';
 import { Box, Typography } from '@/elements';
 import { InfoSVG } from '@/svg';
 
-import { VaultFarmDetailsItemProps } from './vault-farm.types';
+import { VaultDetailsItemProps } from './vault-details.types';
 
-const VaultFarmDetailsItem: FC<VaultFarmDetailsItemProps> = ({
+const VaultDetailsItem: FC<VaultDetailsItemProps> = ({
   title,
   content,
   tip,
@@ -49,4 +49,4 @@ const VaultFarmDetailsItem: FC<VaultFarmDetailsItemProps> = ({
   </Box>
 );
 
-export default VaultFarmDetailsItem;
+export default VaultDetailsItem;
