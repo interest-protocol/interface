@@ -1,30 +1,56 @@
+import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
+import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import { Container } from '@/components';
-import { getFarmsSVG } from '@/constants';
-import { Box, DropdownTable, Typography } from '@/elements';
+import { getFarmsSVGByToken, Routes, RoutesEnum } from '@/constants';
+import { Box, Button, Table, Typography } from '@/elements';
+import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
+import {
+  capitalize,
+  formatDollars,
+  formatMoney,
+  makeFarmSymbol,
+} from '@/utils';
 
+import { handleFilterFarms } from '../../earn.utils';
 import {
   DesktopEarnSkeletonRow,
   MobileEarnSkeletonRow,
 } from './earn-skeleton-row';
 import { EarnTableProps } from './earn-table.types';
-import EarnTableCollapsible from './earn-table-collapsible';
 
 const EarnTable: FC<EarnTableProps> = ({
-  data,
-  isPools,
-  intUSDPrice,
   loading,
-}) => (
-  <Box display="flex" flexDirection="column" flex="1">
-    <Container dapp px="M" width="100%">
-      <Typography variant="normal" mt="L">
-        {isPools ? 'POOL' : 'FARM'}
-      </Typography>
-      <Box display={['none', 'none', 'none', 'block']}>
-        <DropdownTable
+  isDesktop,
+  control,
+  farms,
+}) => {
+  const t = useTranslations();
+
+  const onlyFinished = useWatch({ control, name: 'onlyFinished' });
+  const onlyStaked = useWatch({ control, name: 'onlyStaked' });
+
+  const typeFilter = useWatch({ control, name: 'typeFilter' });
+  const search = useWatch({ control, name: 'search' });
+  const sortBy = useWatch({ control, name: 'sortBy' });
+
+  const filteredFarms = handleFilterFarms(
+    farms,
+    sortBy,
+    search,
+    typeFilter,
+    onlyStaked,
+    onlyFinished
+  );
+
+  return (
+    <Box display="flex" flexDirection="column" flex="1">
+      {isDesktop ? (
+        <Table
+          hasButton
+          isDesktop
           headings={[
             {
               item: (
@@ -40,7 +66,7 @@ const EarnTable: FC<EarnTableProps> = ({
               ),
             },
             {
-              tip: isPools ? 'Total Value Locked' : 'liquidity locked',
+              tip: t('earn.column1Tip'),
               item: (
                 <Typography
                   as="span"
@@ -48,12 +74,26 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   fontSize="inherit"
                 >
-                  {isPools ? 'TVL' : 'Liquidity'}
+                  {t('common.tvl')}
                 </Typography>
               ),
             },
             {
-              tip: 'Annual Percentage Rate<br/> yearly interest generated',
+              tip: t('earn.column2Tip'),
+              item: (
+                <Typography
+                  as="span"
+                  cursor="help"
+                  variant="normal"
+                  fontSize="inherit"
+                  textTransform="capitalize"
+                >
+                  {t('common.stake', { isLoading: 0 })}
+                </Typography>
+              ),
+            },
+            {
+              tip: t('earn.column3Tip'),
               item: (
                 <Typography
                   as="span"
@@ -61,143 +101,260 @@ const EarnTable: FC<EarnTableProps> = ({
                   variant="normal"
                   fontSize="inherit"
                 >
-                  APR
+                  {t('common.apr')}
                 </Typography>
               ),
             },
             {
-              tip: 'It represents the % of Interest Token minted compared to to others pools.',
-              item: <>Allocation</>,
+              tip: t('earn.column4Tip'),
+              item: <>{t('earn.column4')}</>,
+            },
+            {
+              tip: t('earn.column5Tip'),
+              item: <>{capitalize(t('common.type'))}</>,
             },
           ]}
+          backgroundColorMap={filteredFarms.map((farm) => ({
+            desktopBg: farm.isLive ? 'foreground' : 'bottomBackground',
+          }))}
           data={
             loading
               ? DesktopEarnSkeletonRow
-              : data.map(({ farm, allocation, apr, farmTokenPrice, tvl }) => {
-                  return {
-                    items: [
-                      <Box
-                        key={v4()}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                      >
-                        <Box display="inline-flex">
-                          {getFarmsSVG(farm.id).map((SVG, index) => (
-                            <Box
-                              key={v4()}
-                              zIndex={getFarmsSVG(farm.id).length - index}
-                              ml={index != 0 ? '-0.5rem' : 'NONE'}
-                            >
-                              <SVG width="1.6rem" height="1.6rem" />
-                            </Box>
-                          ))}
-                        </Box>
-                        <Typography variant="normal" ml="M">
-                          {farm.farmName}
-                        </Typography>
-                      </Box>,
-                      tvl,
-                      apr,
-                      allocation,
-                    ],
-                    dropdown: (
-                      <EarnTableCollapsible
-                        intUSDPrice={intUSDPrice}
-                        farm={farm}
-                        farmTokenPrice={farmTokenPrice}
-                      />
-                    ),
-                  };
-                })
-          }
-        />
-      </Box>
-      <Box display={['flex', 'flex', 'flex', 'none']} alignItems="center">
-        <DropdownTable
-          key={v4()}
-          headings={[
-            {
-              tip: isPools
-                ? 'Total Value Locked'
-                : `Liquidity available in this market`,
-              item: (
-                <Typography
-                  as="span"
-                  cursor="help"
-                  variant="normal"
-                  fontSize="inherit"
-                >
-                  {isPools ? 'TVL' : 'Liquidity'}
-                </Typography>
-              ),
-            },
-            {
-              tip: 'Annual Percentage Rate<br/> yearly interest generated',
-              item: (
-                <Typography
-                  as="span"
-                  cursor="help"
-                  variant="normal"
-                  fontSize="inherit"
-                >
-                  APR
-                </Typography>
-              ),
-            },
-            {
-              tip: 'It represents the % of Interest Token minted compared to to others pools.',
-              item: <>Allocation</>,
-            },
-          ]}
-          data={
-            loading
-              ? MobileEarnSkeletonRow
-              : data.map(({ farm, tvl, allocation, apr, farmTokenPrice }) => ({
-                  sideContent: (
-                    <Box
-                      mb="L"
-                      key={v4()}
-                      display="flex"
-                      alignItems="center"
-                      flexDirection="column"
-                      justifyContent="center"
+              : filteredFarms.map((farm) => ({
+                  button: (
+                    <Link
+                      href={{
+                        pathname: Routes[RoutesEnum.EarnFarm],
+                        query: { tokenAddress: farm.stakingTokenAddress },
+                      }}
                     >
+                      <Button
+                        as="div"
+                        variant="primary"
+                        hover={{ bg: 'accentActive' }}
+                      >
+                        {capitalize(t('common.enter'))}
+                      </Button>
+                    </Link>
+                  ),
+                  items: [
+                    <Box key={v4()} display="flex" alignItems="center">
                       <Box display="inline-flex">
-                        {getFarmsSVG(farm.id).map((SVG, index) => (
+                        {getFarmsSVGByToken(
+                          farm.chainId,
+                          farm.token0,
+                          farm.token1
+                        ).map(({ SVG, highZIndex }, index) => (
                           <Box
                             key={v4()}
-                            zIndex={getFarmsSVG(farm.id).length - index}
+                            width="1.6rem"
                             ml={index != 0 ? '-0.5rem' : 'NONE'}
+                            zIndex={
+                              index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'
+                            }
                           >
-                            <SVG width="1.6rem" height="1.6rem" />
+                            <SVG width="100%" />
                           </Box>
                         ))}
                       </Box>
-                      <Typography
-                        mt="M"
-                        variant="normal"
-                        textAlign="center"
-                        whiteSpace="nowrap"
-                      >
-                        {farm.farmName}
+                      <Typography variant="normal" ml="M">
+                        {farm.id === 0
+                          ? TOKEN_SYMBOL.INT
+                          : makeFarmSymbol(
+                              farm.chainId,
+                              farm.token0,
+                              farm.token1
+                            )}
                       </Typography>
-                    </Box>
-                  ),
-                  items: [tvl, apr, allocation],
-                  dropdown: (
-                    <EarnTableCollapsible
-                      farm={farm}
-                      farmTokenPrice={farmTokenPrice}
-                      intUSDPrice={intUSDPrice}
-                    />
-                  ),
+                    </Box>,
+                    formatDollars(farm.tvl),
+                    formatMoney(FixedPointMath.toNumber(farm.stakingAmount)),
+                    farm.apr.value().isZero() ? '0%' : farm.apr.toPercentage(),
+                    `${
+                      farm.allocation.value().isZero()
+                        ? '0%'
+                        : farm.allocation.toPercentage(2)
+                    }`,
+                    <Typography
+                      variant="normal"
+                      fontSize="0.70rem"
+                      bg={farm.stable ? 'accent' : 'accentAlternativeActive'}
+                      borderRadius="M"
+                      p="0.15rem"
+                      textAlign="center"
+                      cursor="pointer"
+                      width="70%"
+                      key={v4()}
+                      textTransform="capitalize"
+                    >
+                      {t(farm.stable ? 'common.stable' : 'common.volatile', {
+                        count: 1,
+                      })}
+                    </Typography>,
+                  ],
                 }))
           }
         />
-      </Box>
-    </Container>
-  </Box>
-);
+      ) : (
+        <Box display="flex" alignItems="center">
+          <Table
+            hasButton
+            backgroundColorMap={filteredFarms.map((farm) => ({
+              bg: farm.isLive ? 'foreground' : 'bottomBackground',
+            }))}
+            headings={[
+              {
+                tip: t('earn.column1Tip'),
+                item: (
+                  <Typography
+                    as="span"
+                    cursor="help"
+                    variant="normal"
+                    fontSize="inherit"
+                  >
+                    {t('common.tvl')}
+                  </Typography>
+                ),
+              },
+              {
+                tip: t('earn.column2Tip'),
+                item: (
+                  <Typography
+                    as="span"
+                    cursor="help"
+                    variant="normal"
+                    fontSize="inherit"
+                    textTransform="capitalize"
+                  >
+                    {t('common.stake', { isLoading: 0 })}
+                  </Typography>
+                ),
+              },
+              {
+                tip: t('earn.column3Tip'),
+                item: (
+                  <Typography
+                    as="span"
+                    cursor="help"
+                    variant="normal"
+                    fontSize="inherit"
+                  >
+                    {t('common.apr')}
+                  </Typography>
+                ),
+              },
+              {
+                tip: t('earn.column4Tip'),
+                item: <>{t('earn.column4')}</>,
+              },
+              {
+                tip: t('earn.column5Tip'),
+                item: <>{capitalize(t('common.type'))}</>,
+              },
+            ]}
+            data={
+              loading
+                ? MobileEarnSkeletonRow
+                : filteredFarms.map((farm) => ({
+                    mobileSide: (
+                      <Box
+                        mb="L"
+                        key={v4()}
+                        display="flex"
+                        alignItems="center"
+                        flexDirection="column"
+                        justifyContent="center"
+                      >
+                        <Box display="inline-flex">
+                          {getFarmsSVGByToken(
+                            farm.chainId,
+                            farm.token0,
+                            farm.token1
+                          ).map(({ SVG, highZIndex }, index) => (
+                            <Box
+                              key={v4()}
+                              width="1.6rem"
+                              ml={index != 0 ? '-0.5rem' : 'NONE'}
+                              zIndex={
+                                index == 0
+                                  ? highZIndex
+                                    ? 3
+                                    : 'unset'
+                                  : 'unset'
+                              }
+                            >
+                              <SVG width="100%" />
+                            </Box>
+                          ))}
+                        </Box>
+                        <Typography
+                          mt="M"
+                          variant="normal"
+                          textAlign="center"
+                          whiteSpace="nowrap"
+                        >
+                          {farm.id === 0
+                            ? TOKEN_SYMBOL.INT
+                            : makeFarmSymbol(
+                                farm.chainId,
+                                farm.token0,
+                                farm.token1
+                              )}
+                        </Typography>
+                      </Box>
+                    ),
+                    button: (
+                      <Link
+                        href={{
+                          pathname: Routes[RoutesEnum.EarnFarm],
+                          query: { tokenAddress: farm.stakingTokenAddress },
+                        }}
+                      >
+                        <Button
+                          as="div"
+                          variant="primary"
+                          hover={{ bg: 'accentActive' }}
+                        >
+                          {capitalize(t('common.enter'))}
+                        </Button>
+                      </Link>
+                    ),
+                    items: [
+                      formatDollars(farm.tvl),
+                      formatMoney(FixedPointMath.toNumber(farm.stakingAmount)),
+                      farm.apr.value().isZero()
+                        ? '0%'
+                        : farm.apr.toPercentage(),
+                      `${
+                        farm.allocation.value().isZero()
+                          ? '0%'
+                          : farm.allocation.toPercentage(2)
+                      }`,
+                      <Typography
+                        variant="normal"
+                        fontSize="0.70rem"
+                        bg={farm.stable ? 'accent' : 'accentAlternativeActive'}
+                        borderRadius="M"
+                        py="XS"
+                        px="L"
+                        textAlign="center"
+                        cursor="pointer"
+                        key={v4()}
+                        textTransform="capitalize"
+                        as="span"
+                      >
+                        {t(farm.stable ? 'common.stable' : 'common.volatile', {
+                          count: 1,
+                        })}
+                      </Typography>,
+                    ],
+                  }))
+            }
+          />
+        </Box>
+      )}
+    </Box>
+  );
+};
 
 export default EarnTable;

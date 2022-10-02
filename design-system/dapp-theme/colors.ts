@@ -7,6 +7,7 @@ const colors = {
   accentSecondary: primitiveColors.PRIMARY_300,
   accentActive: primitiveColors.PRIMARY_400,
   accentBackground: primitiveColors.NEUTRAL_500,
+  accentAlternativeBackground: primitiveColors.NEUTRAL_900,
   transparentBackground: primitiveColors.NEUTRAL_50,
   bottomBackground: primitiveColors.NEUTRAL_400,
   background: primitiveColors.NEUTRAL_700,

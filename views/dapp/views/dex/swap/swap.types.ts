@@ -5,8 +5,6 @@ import { Control, UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 import { SwapFormTokenData } from '@/views/dapp/views/dex/dex.types';
 
 export interface ISwapForm {
-  slippage: string;
-  deadline: number;
   tokenIn: SwapFormTokenData;
   tokenOut: SwapFormTokenData;
 }
@@ -14,6 +12,7 @@ export interface ISwapForm {
 export interface LocalSwapSettings {
   slippage: string; // 20 equals 20%
   deadline: number; // minutes
+  autoFetch: boolean; // minutes
 }
 
 export interface AmountCacheValue {
@@ -21,27 +20,22 @@ export interface AmountCacheValue {
   amountOut: string;
 }
 
-export interface BalancesData {
-  tokenInBalance: BigNumber;
-  tokenOutBalance: BigNumber;
-  tokenInAllowance: BigNumber;
-  tokenOutAllowance: BigNumber;
-}
-
 export interface SwapButtonProps {
   disabled: boolean;
+  fetchingAmount: boolean;
+  fetchingBaseData: boolean;
+  fetchingBalancesData: boolean;
   tokenInAddress: string;
   getValues: UseFormGetValues<ISwapForm>;
   setSwapBase: Dispatch<SetStateAction<string | null>>;
   account: string;
   chainId: number;
-  updateBalances: () => Promise<void>;
+  localSettings: LocalSwapSettings;
   parsedTokenInBalance: BigNumber;
   swapBase: string | null;
-  loading: boolean;
-  setLoading: Dispatch<SetStateAction<boolean>>;
   needsApproval: boolean;
   control: Control<ISwapForm>;
+  refetch: () => Promise<void>;
 }
 
 export interface SwapManagerProps {
@@ -60,9 +54,8 @@ export interface SwapManagerProps {
 
 export interface SwapViewButtonProps {
   disabled: boolean;
-  loading: boolean;
   onClick: () => void;
-  loadingText: string;
+  loadingText: string | null;
   text: string;
 }
 
@@ -76,4 +69,31 @@ export interface SwapMessageProps {
   color?: string;
   message: string;
   Icon: FC<SVGAttributes<SVGSVGElement>>;
+}
+
+export interface UseSwapArgs {
+  localSettings: LocalSwapSettings;
+  parsedTokenInBalance: SwapButtonProps['parsedTokenInBalance'];
+  swapBase: SwapButtonProps['swapBase'];
+  tokenIn: SwapFormTokenData;
+  tokenOut: SwapFormTokenData;
+  account: string;
+  chainId: number;
+  needsApproval: boolean;
+}
+
+export interface UseWETHDepositArgs {
+  chainId: number;
+  tokenIn: SwapFormTokenData;
+  tokenOut: SwapFormTokenData;
+  parsedTokenInBalance: SwapButtonProps['parsedTokenInBalance'];
+  needsApproval: boolean;
+}
+
+export interface UseWETHWithdrawArgs {
+  chainId: number;
+  tokenIn: SwapFormTokenData;
+  tokenOut: SwapFormTokenData;
+  parsedTokenInBalance: SwapButtonProps['parsedTokenInBalance'];
+  needsApproval: boolean;
 }

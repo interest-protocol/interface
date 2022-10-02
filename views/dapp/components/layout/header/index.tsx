@@ -1,15 +1,18 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
+import { SwitchLang } from '@/components';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Dropdown, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
-import { Wallet } from '../../index';
+import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {
+  const t = useTranslations();
   const { pathname, push } = useRouter();
 
   return (
@@ -26,22 +29,20 @@ const Header: FC = () => {
       <Box display="flex" alignItems="center">
         <Link href={Routes[RoutesEnum.Home]}>
           <Box
-            mr="XL"
+            mr="L"
             color="text"
+            width="2.5rem"
+            height="2.5rem"
             cursor="pointer"
             hover={{ color: 'accent' }}
             active={{ color: 'accentSecondary' }}
           >
-            <LogoSVG
-              width="2.5rem"
-              height="2.5rem"
-              aria-label="Logo"
-              fill="currentColor"
-            />
+            <LogoSVG width="100%" aria-label="Logo" fill="currentColor" />
           </Box>
         </Link>
         <a href="https://forms.gle/aDP4wHvshLPKkKv97" target="__blank">
           <Typography
+            ml="L"
             px="L"
             py="M"
             width="100%"
@@ -79,88 +80,63 @@ const Header: FC = () => {
             DEX
           </Typography>
         </Link>
-        <Box>
-          <Dropdown
-            title={
-              <Typography
-                px="XL"
-                cursor="pointer"
-                variant="normal"
-                color={
-                  pathname === Routes[RoutesEnum.Earn] ||
-                  pathname.includes(Routes[RoutesEnum.Vault])
-                    ? 'accent'
-                    : 'inherit'
-                }
-                hover={{ color: 'accentActive' }}
-              >
-                Earn
-              </Typography>
+        <Dropdown
+          title={
+            <Typography
+              px="XL"
+              cursor="pointer"
+              variant="normal"
+              color={
+                pathname === Routes[RoutesEnum.Earn] ||
+                pathname.includes(Routes[RoutesEnum.Vault])
+                  ? 'accent'
+                  : 'inherit'
+              }
+              hover={{ color: 'accentActive' }}
+            >
+              {t('common.earn')}
+            </Typography>
+          }
+          mode="menu"
+          data={[
+            {
+              value: 'Farm',
+              displayOption: 'Farm',
+              onSelect: () =>
+                push(Routes[RoutesEnum.Earn], undefined, {
+                  shallow: true,
+                }),
+            },
+            {
+              value: 'Vaults',
+              displayOption: 'Vaults',
+              onSelect: () =>
+                push(Routes[RoutesEnum.Vault], undefined, {
+                  shallow: true,
+                }),
+            },
+          ]}
+        />
+        <Link href={Routes[RoutesEnum.DineroMarket]}>
+          <Typography
+            px="XL"
+            cursor="pointer"
+            variant="normal"
+            color={
+              pathname.includes(Routes[RoutesEnum.DineroMarket])
+                ? 'accent'
+                : 'inherit'
             }
-            mode="menu"
-            data={[
-              {
-                value: 'Farm',
-                displayOption: 'Farm',
-                onSelect: () =>
-                  push(Routes[RoutesEnum.Earn], undefined, {
-                    shallow: true,
-                  }),
-              },
-              {
-                value: 'Vaults',
-                displayOption: 'Vaults',
-                onSelect: () =>
-                  push(Routes[RoutesEnum.Vault], undefined, {
-                    shallow: true,
-                  }),
-              },
-            ]}
-          />
-        </Box>
-        <Box>
-          <Dropdown
-            title={
-              <Typography
-                px="XL"
-                cursor="pointer"
-                variant="normal"
-                color={
-                  pathname === Routes[RoutesEnum.DineroMarket] ||
-                  pathname.includes(Routes[RoutesEnum.DineroMarketBorrow]) ||
-                  pathname.includes(Routes[RoutesEnum.DineroMarketRepay])
-                    ? 'accent'
-                    : 'inherit'
-                }
-                hover={{ color: 'accentActive' }}
-              >
-                Borrow
-              </Typography>
-            }
-            mode="menu"
-            data={[
-              {
-                value: 'dinero-market',
-                displayOption: 'Dinero Market',
-                onSelect: () =>
-                  push(Routes[RoutesEnum.DineroMarket], undefined, {
-                    shallow: true,
-                  }),
-              },
-              {
-                value: 'mail-market',
-                displayOption: 'MAIL Market',
-                onSelect: () =>
-                  push(Routes[RoutesEnum.MAILMarket], undefined, {
-                    shallow: true,
-                  }),
-              },
-            ]}
-          />
-        </Box>
+            hover={{ color: 'accentActive' }}
+            textTransform="capitalize"
+          >
+            {t('common.borrow')}
+          </Typography>
+        </Link>
       </Box>
       <Box display="flex" justifyContent="flex-end" alignItems="center">
         <Wallet />
+        <SwitchLang />
         <MobileMenu />
       </Box>
     </Box>

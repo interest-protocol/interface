@@ -1,21 +1,19 @@
+import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { ChangeEvent, FC, useCallback, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
 
-import { addAllowance } from '@/api/erc20';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
-import { useGetSigner, useIdAccount } from '@/hooks';
-import { IntMath, TOKEN_SYMBOL } from '@/sdk';
-import { coreActions } from '@/state/core/core.actions';
+import { useApprove, useIdAccount } from '@/hooks';
+import { FixedPointMath } from '@/sdk';
 import {
+  capitalize,
   formatMoney,
   getInterestDexRouterAddress,
-  parseToSafeStringNumber,
+  parseInputEventToNumberString,
   showToast,
   showTXSuccessToast,
   throwError,
-  throwIfInvalidSigner,
 } from '@/utils';
 
 import { CreatePoolFieldProps } from '../dex-find-pool.types';
@@ -25,49 +23,37 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   register,
   setValue,
   needAllowance,
-  update,
   tokenBalance,
   getValues,
+  refetch,
 }) => {
-  const dispatch = useDispatch();
+  const t = useTranslations();
   const { chainId } = useIdAccount();
-  const { signer, account } = useGetSigner();
   const { address, symbol, decimals } = getValues()[name];
-
-  const SVG = TOKENS_SVG_MAP[symbol] || TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
-
-  const approve = useCallback(
-    async (token: string) => {
-      const { validId, validSigner } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
-
-      try {
-        const tx = await addAllowance(
-          validId,
-          validSigner,
-          account,
-          token,
-          getInterestDexRouterAddress(validId)
-        );
-
-        await showTXSuccessToast(tx, validId);
-      } catch (e) {
-        throwError('Failed to approve', e);
-      } finally {
-        await update();
-        dispatch(coreActions.updateNativeBalance());
-      }
-    },
-    [chainId, signer]
+  const { writeAsync: addAllowance } = useApprove(
+    address,
+    getInterestDexRouterAddress(chainId),
+    { enabled: needAllowance }
   );
 
+  const SVG =
+    TOKENS_SVG_MAP[chainId][address] ?? TOKENS_SVG_MAP[chainId].default;
+
+  const approve = useCallback(async () => {
+    try {
+      const tx = await addAllowance?.();
+      await showTXSuccessToast(tx, chainId);
+      if (tx) await tx.wait(2);
+      await refetch();
+    } catch (e) {
+      throwError(t('error.generic'), e);
+    }
+  }, [chainId, addAllowance, chainId, refetch]);
+
   const handleApprove = () =>
-    showToast(approve(address), {
-      loading: 'Giving allowance...',
-      success: 'Success!',
+    showToast(approve(), {
+      loading: capitalize(t('common.approve', { isLoading: 1 })),
+      success: capitalize(t('common.success')),
       error: prop('message'),
     });
 
@@ -98,16 +84,11 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
         color={isDisabled ? 'textSoft' : 'text'}
         {...register(`${name}.value`, {
           onChange: (v: ChangeEvent<HTMLInputElement>) => {
-            const value = v.target.value;
-
             setValue?.(
               `${name}.value`,
-              parseToSafeStringNumber(
-                isNaN(+value[value.length - 1]) &&
-                  value[value.length - 1] !== '.'
-                  ? value.slice(0, value.length - 1)
-                  : value,
-                IntMath.toNumber(tokenBalance, decimals)
+              parseInputEventToNumberString(
+                v,
+                FixedPointMath.toNumber(tokenBalance, decimals)
               )
             );
           },
@@ -132,7 +113,9 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           >
             <Box my="M" display="flex" alignItems="center">
               <>
-                <SVG width="1rem" height="1rem" />
+                <Box as="span" display="inline-block" width="1rem">
+                  <SVG width="100%" />
+                </Box>
                 <Typography mx="M" as="span" variant="normal">
                   {symbol.length > 4
                     ? symbol.toUpperCase().slice(0, 4)
@@ -153,16 +136,17 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           <Button
             variant="primary"
             onClick={handleApprove}
-            hover={{ bg: 'accentActive' }}
+            hover={{ bg: !addAllowance ? 'disabled' : 'accentActive' }}
+            disabled={!addAllowance}
           >
-            Approve Token
+            {capitalize(t('common.approve', { isLoading: 0 }))} Token
           </Button>
         ) : (
           <Button
             onClick={() =>
               setValue?.(
                 `${name}.value`,
-                IntMath.toNumber(tokenBalance, decimals).toString()
+                FixedPointMath.toNumber(tokenBalance, decimals).toString()
               )
             }
             height="2.4rem"
@@ -177,8 +161,10 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           textAlign="end"
           color="textSecondary"
           fontSize="0.9rem"
+          textTransform="capitalize"
         >
-          Balance: {formatMoney(IntMath.toNumber(tokenBalance, decimals), 2)}
+          {t('common.balance')}:{' '}
+          {formatMoney(FixedPointMath.toNumber(tokenBalance, decimals), 2)}
         </Typography>
       </Box>
     </Box>

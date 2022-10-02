@@ -1,31 +1,76 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, useEffect, useState } from 'react';
-import { animated, config, useSpring } from 'react-spring';
+import { FC, useCallback, useState } from 'react';
+import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
 
-import { Container, SocialMediaCard } from '@/components';
+import { Container, SocialMediaCard, SwitchLang } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
+import { useLocale } from '@/hooks';
+import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
+import useEventListener from '@/hooks/use-event-listener';
 import { BarsLPSVG, LogoSVG, TimesSVG } from '@/svg';
+import { getSafeLocaleSVG } from '@/utils';
 
 import { HeaderProps } from './header.types';
+import LangList from './lang-list';
 import MenuList from './menu-list';
 
 const AnimatedBox = animated(Box);
+const menuButtonId = 'landing-menu-wrapper-id';
+const menuLangId = 'landing-switch-lang-id';
 
 const Header: FC<HeaderProps> = ({ empty }) => {
   const { push } = useRouter();
+  const { currentLocale } = useLocale();
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [switchLang, setSwitchLang] = useState(false);
+
   const fadeStyles = useSpring({
-    config: { ...config.stiff },
     from: { maxHeight: '0rem', minHeight: '0rem' },
     to: {
       minHeight: mobileMenu ? '10rem' : '0rem',
       maxHeight: mobileMenu ? '30rem' : '0rem',
     },
   });
+
+  const fadeLangStyles = useSpring({
+    from: { maxHeight: '0rem', minHeight: '0rem' },
+    to: {
+      minHeight: switchLang ? '3rem' : '0rem',
+      maxHeight: switchLang ? '30rem' : '0rem',
+    },
+  });
+
+  const toggleMenu = () => {
+    setMobileMenu(!mobileMenu);
+    setSwitchLang(false);
+  };
+
+  const toggleSwitchLang = () => {
+    setSwitchLang(!switchLang);
+    setMobileMenu(false);
+  };
+
+  const handleCloseMenu = useCallback((event: any) => {
+    if (
+      event?.path?.some(
+        (node: any) => node?.id == menuButtonId || node?.id == menuLangId
+      ) ||
+      // Safari Stuff
+      event?.target.id === menuButtonId ||
+      event?.target.id === menuLangId ||
+      event?.target.id === `${menuButtonId}-submenu`
+    )
+      return;
+    setMobileMenu(false);
+    setSwitchLang(false);
+  }, []);
+
+  const dropdownContainerRef =
+    useClickOutsideListenerRef<HTMLDivElement>(handleCloseMenu);
 
   const handleChangeScrollPercentage = () =>
     setScrollPercentage(
@@ -34,11 +79,14 @@ const Header: FC<HeaderProps> = ({ empty }) => {
         : 1
     );
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleChangeScrollPercentage);
-    return () =>
-      window.removeEventListener('scroll', handleChangeScrollPercentage);
-  }, []);
+  const handleHideMenuOnResize = () => {
+    setMobileMenu(false);
+    setSwitchLang(false);
+  };
+
+  useEventListener('scroll', handleChangeScrollPercentage, true);
+
+  useEventListener('resize', handleHideMenuOnResize, true);
 
   return (
     <Box
@@ -50,8 +98,16 @@ const Header: FC<HeaderProps> = ({ empty }) => {
       position="fixed"
       backdropFilter="blur(10px)"
       bg={[
-        !mobileMenu ? `rgba(255, 255, 255, ${scrollPercentage})` : 'background',
-        !mobileMenu ? `rgba(255, 255, 255, ${scrollPercentage})` : 'background',
+        !mobileMenu
+          ? !switchLang
+            ? `rgba(255, 255, 255, ${scrollPercentage})`
+            : 'background'
+          : 'background',
+        !mobileMenu
+          ? !switchLang
+            ? `rgba(255, 255, 255, ${scrollPercentage})`
+            : 'background'
+          : 'background',
         `rgba(255, 255, 255, ${scrollPercentage})`,
         `rgba(255, 255, 255, ${scrollPercentage})`,
       ]}
@@ -69,7 +125,9 @@ const Header: FC<HeaderProps> = ({ empty }) => {
             alignItems="center"
             my={['L', 'M']}
           >
-            <LogoSVG width="2rem" />
+            <Box width="2rem">
+              <LogoSVG width="100%" />
+            </Box>
             <Typography
               variant="normal"
               as="h1"
@@ -88,8 +146,8 @@ const Header: FC<HeaderProps> = ({ empty }) => {
           <>
             <Box
               as="nav"
-              display={['none', 'flex']}
               alignItems="center"
+              display={['none', 'flex']}
               flexDirection={['column-reverse', 'row']}
             >
               <Box
@@ -101,36 +159,66 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                 {SOCIAL_MEDIAS.map((socialMediaData) => (
                   <SocialMediaCard {...socialMediaData} key={v4()} />
                 ))}
+                <SwitchLang />
               </Box>
-              <Box textAlign="center" cursor="pointer" my={['L', 'NONE']}>
+              <Box
+                textAlign="center"
+                cursor="pointer"
+                my={['L', 'NONE']}
+                display="flex"
+              >
                 <Button
                   type="button"
                   effect="hover"
                   variant="secondary"
+                  mr="0.75rem"
                   onClick={() => push(Routes[RoutesEnum.DApp])}
                 >
                   DApp
                 </Button>
               </Box>
             </Box>
-            <Box
-              display={['block', 'none']}
-              cursor="pointer"
-              onClick={() => setMobileMenu(!mobileMenu)}
-            >
-              <Box width="2rem" p="S">
-                {mobileMenu ? (
+            <Box display={['flex', 'none']} alignItems="center">
+              <Box
+                ml={['L', '0.75rem']}
+                mr={['L', '0.75rem']}
+                width={switchLang ? '2rem' : '1.25rem'}
+                height={switchLang ? '2rem' : '1.25rem'}
+                borderRadius="2rem"
+                cursor="pointer"
+                onClick={toggleSwitchLang}
+                id={menuLangId}
+              >
+                {switchLang ? (
                   <TimesSVG width="100%" />
                 ) : (
-                  <BarsLPSVG width="100%" />
+                  <Box pointerEvents="none">
+                    {getSafeLocaleSVG(currentLocale)}
+                  </Box>
                 )}
+              </Box>
+              <Box id={menuButtonId} cursor="pointer" onClick={toggleMenu}>
+                <Box width="2rem" p="S" pointerEvents="none">
+                  {mobileMenu ? (
+                    <TimesSVG width="100%" height="100%" />
+                  ) : (
+                    <BarsLPSVG width="100%" />
+                  )}
+                </Box>
               </Box>
             </Box>
           </>
         )}
       </Container>
-      <AnimatedBox overflow="hidden" style={fadeStyles}>
-        <MenuList />
+      <AnimatedBox
+        overflow="hidden"
+        style={fadeStyles}
+        ref={dropdownContainerRef}
+      >
+        <MenuList id={menuButtonId} />
+      </AnimatedBox>
+      <AnimatedBox overflow="hidden" style={fadeLangStyles}>
+        <LangList />
       </AnimatedBox>
     </Box>
   );

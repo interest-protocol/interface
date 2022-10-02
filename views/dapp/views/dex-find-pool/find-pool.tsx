@@ -1,8 +1,10 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Switch } from '@/components';
 import { Box } from '@/elements';
+import { capitalize } from '@/utils';
 
 import SwapSelectCurrency from '../dex/components/swap-select-currency';
 import { FindPoolProps } from './dex-find-pool.types';
@@ -10,12 +12,14 @@ import { FindPoolProps } from './dex-find-pool.types';
 const FindPool: FC<FindPoolProps> = ({
   control,
   setValue,
-  currencyAChargerArgs,
-  currencyBChargerArgs,
+  currencyASelectArgs,
+  currencyBSelectArgs,
+  setCreatingPair,
 }) => {
+  const t = useTranslations();
+  const isStable = useWatch({ control, name: `isStable` });
   const addressA = useWatch({ control, name: `tokenA.address` });
   const addressB = useWatch({ control, name: `tokenB.address` });
-  const isStable = useWatch({ control, name: `isStable` });
 
   return (
     <Box
@@ -23,27 +27,49 @@ const FindPool: FC<FindPoolProps> = ({
       px="L"
       py="XL"
       color="text"
-      width="100%"
       bg="foreground"
       maxWidth="30rem"
       borderRadius="M"
+      width={['100%', '100%', '100%', '30rem']}
     >
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <SwapSelectCurrency currentToken={addressA} {...currencyAChargerArgs} />
-        <Box mx="XL">
+      <Box
+        width="100%"
+        display="flex"
+        alignItems="center"
+        flexWrap={['wrap', 'wrap', 'wrap', 'nowrap']}
+        justifyContent={['center', 'center', 'center', 'space-between']}
+      >
+        <SwapSelectCurrency currentToken={addressA} {...currencyASelectArgs} />
+        <Box
+          width="100%"
+          textAlign="center"
+          order={[1, 1, 1, 0]}
+          mt={['L', 'L', 'L', 'NONE']}
+        >
           <Switch
             thin
             defaultValue={isStable ? 'stable' : 'volatile'}
             options={[
-              { value: 'stable', onSelect: () => setValue('isStable', true) },
+              {
+                value: 'stable',
+                displayValue: capitalize(t('common.stable', { count: 1 })),
+                onSelect: () => {
+                  setValue('isStable', true);
+                  setCreatingPair(false);
+                },
+              },
               {
                 value: 'volatile',
-                onSelect: () => setValue('isStable', false),
+                displayValue: capitalize(t('common.volatile', { count: 1 })),
+                onSelect: () => {
+                  setValue('isStable', false);
+                  setCreatingPair(false);
+                },
               },
             ]}
           />
         </Box>
-        <SwapSelectCurrency currentToken={addressB} {...currencyBChargerArgs} />
+        <SwapSelectCurrency currentToken={addressB} {...currencyBSelectArgs} />
       </Box>
     </Box>
   );

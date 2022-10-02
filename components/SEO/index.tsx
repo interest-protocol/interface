@@ -1,28 +1,27 @@
 import { useTheme } from '@emotion/react';
 import Head from 'next/head';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
+import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
 import { Theme } from '@/design-system/landing-page-theme';
+import { capitalize } from '@/utils';
 import { LayoutProps } from '@/views/home/layout/layout.types';
 
 const SEO: FC<LayoutProps> = ({ pageTitle }) => {
+  const t = useTranslations();
   const { colors } = useTheme() as Theme;
+
   return (
     <Head>
       <meta name="theme-color" content={colors.foreground} />
       <meta charSet="utf-8" />
       <meta name="title" content="Interest Protocol" />
-      <meta
-        name="description"
-        content="Money Markets for all 9000 + Tokens on CMC"
-      />
+      <meta name="description" content={t('common.seoDescription')} />
       <meta property="og:locale" content="en_US" />
       <meta property="og:title" content="Interest Protocol" />
       <meta property="og:site_name" content="Interest Protocol" />
-      <meta
-        property="og:description"
-        content="Money Markets for all 9000 + Tokens on CMC"
-      />
+      <meta property="og:description" content={t('common.seoDescription')} />
       <meta property="og:image" content="/android-chrome-256x256.png" />
       <meta
         property="og:image:secure_url"
@@ -36,11 +35,7 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
       <meta name="twitter:title" content="Interest Protocol" />
       <meta name="twitter:site" content="https://interestprotocol.com" />
       <meta name="twitter:image" content="/android-chrome-256x256.png" />
-      <meta
-        name="twitter:description"
-        content="Money Markets for all 9000 + Tokens on CMC"
-      />
-
+      <meta name="twitter:description" content={t('common.seoDescription')} />
       <link rel="icon" href="/favicon.ico" />
       <link
         rel="apple-touch-icon"
@@ -63,7 +58,13 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
       <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
       <meta name="msapplication-TileColor" content="#da532c" />
       <link rel="apple-touch-icon" href="/logo192.png" />
-      <title>Interest Protocol {pageTitle && `| ${pageTitle}`}</title>
+      <title>
+        Interest Protocol{' '}
+        {pageTitle &&
+          `| ${capitalize(
+            t(pageTitle as MessageKeys<IntlMessages, keyof IntlMessages>)
+          )}`}
+      </title>
     </Head>
   );
 };

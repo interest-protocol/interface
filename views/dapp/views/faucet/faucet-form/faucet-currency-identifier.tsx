@@ -7,9 +7,10 @@ import { Box, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { isValidAccount, safeGetAddress } from '@/utils';
 
-import { CurrencyIdentifierProps } from '../faucet.types';
+import { CurrencyIdentifierProps } from './faucet-form.types';
 
 const CurrencyIdentifier: FC<CurrencyIdentifierProps> = ({
+  chainId,
   tokens,
   control,
 }) => {
@@ -24,11 +25,14 @@ const CurrencyIdentifier: FC<CurrencyIdentifierProps> = ({
         )
       : TOKEN_SYMBOL.Unknown;
 
-  const Icon = TOKENS_SVG_MAP[symbol] ?? TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+  const Icon =
+    TOKENS_SVG_MAP[chainId][tokenAddress] ?? TOKENS_SVG_MAP[chainId].default;
 
   return (
     <Box display="flex" alignItems="center">
-      <Icon width="1rem" />
+      <Box as="span" display="inline-block" width="1rem">
+        <Icon width="100%" />
+      </Box>
       <Typography variant="normal" ml="M">
         {symbol}
       </Typography>

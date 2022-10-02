@@ -1,29 +1,23 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
+import { useAccount, useDisconnect, useNetwork } from 'wagmi';
 
 import { CopyToClipboard } from '@/components';
-import hooks from '@/connectors';
-import { CHAINS } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { CHAIN_ID } from '@/sdk';
-import { getChainId } from '@/state/core/core.selectors';
 import { LinkSVG, TimesSVG, UserSVG } from '@/svg';
-import { shortAccount } from '@/utils';
+import { capitalize, shortAccount } from '@/utils';
 
 import { AccountModalProps } from '../../wallet.types';
 
-const { usePriorityConnector } = hooks;
-
 const AccountModal: FC<AccountModalProps> = ({
-  url,
   account,
   showModal,
   toggleModal,
 }) => {
-  const connector = usePriorityConnector();
-  const chainId = useSelector(getChainId) as number | null;
-
-  const disconnect = () => connector.deactivate();
+  const t = useTranslations();
+  const { connector } = useAccount();
+  const { disconnect } = useDisconnect();
+  const { chain } = useNetwork();
 
   return (
     <Modal
@@ -37,8 +31,14 @@ const AccountModal: FC<AccountModalProps> = ({
     >
       <Box p="L" width="100%" bg="foreground" maxWidth="23rem" borderRadius="L">
         <Box display="flex" alignItems="center" justifyContent="space-between">
-          <Typography as="h3" color="text" variant="normal" fontWeight="normal">
-            Account
+          <Typography
+            as="h3"
+            color="text"
+            variant="normal"
+            fontWeight="normal"
+            textTransform="capitalize"
+          >
+            {t('common.account')}
           </Typography>
           <Box
             color="textSecondary"
@@ -62,16 +62,15 @@ const AccountModal: FC<AccountModalProps> = ({
             justifyContent="space-between"
           >
             <Typography fontSize="S" variant="normal" color="textSecondary">
-              Connected with{' '}
-              {url === 'metamask' ? 'MetaMask' : 'Wallet Connect'}
+              {capitalize(t('common.connected'))} {connector?.name}
             </Typography>
             <Button
               ml="L"
               variant="tertiary"
-              onClick={disconnect}
+              onClick={() => disconnect()}
               hover={{ color: 'text', bg: 'accent' }}
             >
-              Disconnect
+              {capitalize(t('common.disconnect'))}
             </Button>
           </Box>
           <Box display="flex" my="L">
@@ -94,15 +93,13 @@ const AccountModal: FC<AccountModalProps> = ({
               hover={{ color: 'text' }}
             >
               <Typography variant="normal" ml="M" fontSize="S">
-                Copy Address
+                {capitalize(t('common.copy'))}
               </Typography>
             </CopyToClipboard>
             <a
               target="__blank"
               rel="noopener noreferrer"
-              href={`${
-                CHAINS[chainId || CHAIN_ID.UNSUPPORTED].blockExplorerUrls
-              }/address/${account}`}
+              href={`${chain?.blockExplorers?.default.url}/address/${account}`}
             >
               <Box
                 mx="M"
@@ -111,9 +108,11 @@ const AccountModal: FC<AccountModalProps> = ({
                 cursor="pointer"
                 hover={{ color: 'text' }}
               >
-                <LinkSVG width="1rem" height="1rem" />
+                <Box as="span" display="inline-block" width="1rem">
+                  <LinkSVG width="100%" />
+                </Box>
                 <Typography variant="normal" ml="M" fontSize="S">
-                  View on Explorer
+                  {capitalize(t('common.explorer'))}
                 </Typography>
               </Box>
             </a>

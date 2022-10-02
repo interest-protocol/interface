@@ -1,19 +1,16 @@
+import { useTranslations } from 'next-intl';
+import { values } from 'ramda';
 import { FC } from 'react';
 
 import EthereumNetwork from '@/components/svg/ethereum-network';
-import priorityHooks from '@/connectors';
 import { Box, Dropdown, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
-import { ArrowSVG, BinanceTestSVG } from '@/svg';
+import { ArrowSVG, BinanceTestSVG, BlockchainSVG } from '@/svg';
+import { capitalize } from '@/utils';
 
-const { usePriorityChainId } = priorityHooks;
-
-interface SelectNetworkProps {
-  switchNetwork: (x: number) => Promise<void>;
-}
-
-const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
-  const chainId = usePriorityChainId();
+import { SelectNetworkProps } from './wallet.types';
+const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
+  const t = useTranslations();
 
   return (
     <Box mr="S">
@@ -21,12 +18,31 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
         buttonMode
         mode="select"
         suffix={
-          <Box display={['none', 'none', 'none', 'block']}>
-            <ArrowSVG width="0.6rem" height="0.6rem" />
+          <Box display="flex" alignItems="center">
+            {(!chainId || !values(CHAIN_ID).includes(chainId)) && (
+              <Box
+                mr="S"
+                as="span"
+                width="1rem"
+                display={['inline-block', 'none']}
+              >
+                <BlockchainSVG width="100%" />
+              </Box>
+            )}
+            <Box as="span" display="inline-block" width="0.6rem">
+              <ArrowSVG width="100%" />
+            </Box>
           </Box>
         }
-        title="Choose Network"
-        header="Choose your Network:"
+        title={
+          <Typography
+            variant="normal"
+            display={['none', 'none', 'none', 'block']}
+          >
+            {capitalize(t('common.networkTitle'))}
+          </Typography>
+        }
+        header={capitalize(t('common.networkTitle') + ':')}
         defaultValue={`${chainId}`}
         data={[
           {
@@ -34,7 +50,9 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
             onSelect: () => switchNetwork(CHAIN_ID.BNB_TEST_NET),
             displayOption: (
               <Box px="L" display="flex" alignItems="center">
-                <BinanceTestSVG width="1.5rem" height="1.5rem" />
+                <Box as="span" display="inline-block" width="1.5rem">
+                  <BinanceTestSVG width="100%" />
+                </Box>
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
                   BNBT
                 </Typography>

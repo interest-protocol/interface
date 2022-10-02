@@ -26,12 +26,17 @@ const DropdownList: FC<DropdownListProps> = ({
   toggleDropdown,
   setSelectedIndex,
   dropdownWrapperId,
+  bg,
+  bgSelected,
 }) => {
   const [safeMarginLeft, setSafeMarginLeft] = useState<boolean>(false);
   const [safeMarginRight, setSafeMarginRight] = useState<boolean>(false);
 
   const closeDropdown = useCallback((event: any) => {
-    if (event?.path?.some((node: any) => node?.id == dropdownWrapperId)) {
+    if (
+      event?.path?.some((node: any) => node?.id == dropdownWrapperId) ||
+      event?.composedPath()?.some((node: any) => node?.id == dropdownWrapperId)
+    ) {
       return;
     }
     setIsOpen(false);
@@ -91,6 +96,8 @@ const DropdownList: FC<DropdownListProps> = ({
               {...(index === selectedIndex && {
                 closeDropdown: toggleDropdown,
               })}
+              bg={bg}
+              bgSelected={bgSelected}
               {...item}
             />
           ))

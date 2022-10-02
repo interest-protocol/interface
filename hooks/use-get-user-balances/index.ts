@@ -1,16 +1,27 @@
-import { getUserBalances } from '@/api';
+import { useMemo } from 'react';
+
 import { DEFAULT_ACCOUNT } from '@/constants';
+import { UseContractArgs } from '@/interface';
+import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
+import { getInterestViewBalancesAddress } from '@/utils';
 
-import { useCallContract } from '../use-call-contract';
-import { useIdAccount } from './../use-id-account/index';
+import { useSafeContractRead } from '../use-contract-read';
+import { useIdAccount } from './../use-id-account';
 
-export const useGetUserBalances = (tokens: ReadonlyArray<string>) => {
+export const useGetUserBalances = (
+  tokens: ReadonlyArray<string>,
+  extraArgs: UseContractArgs = {}
+) => {
   const { chainId, account } = useIdAccount();
+  const user = account || DEFAULT_ACCOUNT;
+  const args = useMemo(() => [user, tokens], [user, tokens]);
 
-  return useCallContract(chainId, getUserBalances, [
-    chainId,
-    account || DEFAULT_ACCOUNT,
-    tokens,
-    {},
-  ]);
+  return useSafeContractRead({
+    addressOrName: getInterestViewBalancesAddress(chainId),
+    contractInterface: InterestViewBalancesABI,
+    functionName: 'getUserBalances',
+    args: args,
+    enabled: !!tokens.length,
+    ...extraArgs,
+  });
 };

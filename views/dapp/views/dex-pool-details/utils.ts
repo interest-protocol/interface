@@ -1,9 +1,13 @@
+import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
 import { ethers } from 'ethers';
 
 import { CHAINS, WRAPPED_NATIVE_TOKEN } from '@/constants';
 import { ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
-import { isSameAddressZ, stringToBigNumber } from '@/utils';
+import {
+  isSameAddressZ,
+  replaceWrappedNativeTokenAddressWithZero,
+} from '@/utils';
 
 import {
   ERC20MetadataStructOutput,
@@ -16,19 +20,17 @@ const processMetadata = (
   metadata: ERC20MetadataStructOutput
 ) => {
   const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId];
-  const nativeToken = CHAINS[chainId].nativeCurrency;
+  const nativeToken = CHAINS[chainId].nativeCurrency!;
 
   return isSameAddressZ(wrappedNativeToken.address, token)
-    ? { ...nativeToken, decimals: BigNumber.from(nativeToken.decimals) }
-    : metadata;
-};
-
-const processAddress = (chainId: number, token: string) => {
-  const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId];
-
-  return isSameAddressZ(wrappedNativeToken.address, token)
-    ? ZERO_ADDRESS
-    : token;
+    ? {
+        ...nativeToken,
+        decimals: BigNumber.from(nativeToken?.decimals).toNumber(),
+      }
+    : {
+        ...metadata,
+        decimals: metadata.decimals.toNumber(),
+      };
 };
 
 const processAllowance = (
@@ -64,13 +66,14 @@ export const processPairData = (
         allowances: BigNumber[];
         balances: BigNumber[];
       })
-    | undefined,
+    | undefined
+    | Result,
   nativeBalance: string
 ) => {
   const defaultERC20Metadata = {
     name: '???',
     symbol: '???',
-    decimals: ZERO_BIG_NUMBER,
+    decimals: 18,
   };
 
   const defaultData = {
@@ -89,10 +92,10 @@ export const processPairData = (
     token1Allowance: ZERO_BIG_NUMBER,
   };
 
-  if (!data) return { ...defaultData, pairExists: true };
+  if (!data) return { ...defaultData, pairExists: true, loading: true };
 
   if (data.allowances.length === 0)
-    return { ...defaultData, pairExists: false };
+    return { ...defaultData, pairExists: false, loading: false };
 
   return {
     token0Metadata: processMetadata(
@@ -105,8 +108,14 @@ export const processPairData = (
       data.pairMetadata.token1,
       data.pairMetadata.token1Metadata
     ),
-    token0: processAddress(chainId, data.pairMetadata.token0),
-    token1: processAddress(chainId, data.pairMetadata.token1),
+    token0: replaceWrappedNativeTokenAddressWithZero(
+      chainId,
+      data.pairMetadata.token0
+    ),
+    token1: replaceWrappedNativeTokenAddressWithZero(
+      chainId,
+      data.pairMetadata.token1
+    ),
     isStable: data.pairMetadata.isStable,
     reserve0: data.pairMetadata.reserve0,
     reserve1: data.pairMetadata.reserve1,
@@ -135,5 +144,6 @@ export const processPairData = (
       data.allowances[2]
     ),
     pairExists: true,
+    loading: false,
   };
 };

@@ -1,0 +1,332 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "contract ICasaDePapel",
+        "name": "casaDePapel",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IPriceOracle",
+        "name": "oracle",
+        "type": "address"
+      },
+      { "internalType": "contract IERC20", "name": "dnr", "type": "address" },
+      {
+        "internalType": "contract InterestViewBalancesInterface",
+        "name": "interestViewBalances",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IPair",
+        "name": "wbnbIPXLP",
+        "type": "address"
+      },
+      { "internalType": "contract IERC20", "name": "ipx", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "user", "type": "address" },
+      { "internalType": "address", "name": "market", "type": "address" },
+      { "internalType": "address", "name": "baseToken", "type": "address" },
+      {
+        "internalType": "enum InterestViewDinero.DineroMarketType",
+        "name": "kind",
+        "type": "uint8"
+      }
+    ],
+    "name": "getDineroMarketData",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "uint256", "name": "loanBase", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "loanElastic",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "interestRate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lastAccrued",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collateralUSDPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "liquidationFee",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "LTV", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "userCollateral",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "userPrincipal",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collateralAllowance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collateralBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "dnrBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "rewardsBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "pendingRewards",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "maxBorrowAmount",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewDinero.DineroMarketData",
+        "name": "marketData",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "stakingToken",
+            "type": "address"
+          },
+          { "internalType": "bool", "name": "stable", "type": "bool" },
+          { "internalType": "uint256", "name": "reserve0", "type": "uint256" },
+          { "internalType": "uint256", "name": "reserve1", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "allocationPoints",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalStakingAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalSupply",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewDinero.PoolData",
+        "name": "ipxPoolData",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "stakingToken",
+            "type": "address"
+          },
+          { "internalType": "bool", "name": "stable", "type": "bool" },
+          { "internalType": "uint256", "name": "reserve0", "type": "uint256" },
+          { "internalType": "uint256", "name": "reserve1", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "allocationPoints",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalStakingAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalSupply",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewDinero.PoolData",
+        "name": "collateralPoolData",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "totalAllocationPoints",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "interestPerBlock",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewDinero.MintData",
+        "name": "mintData",
+        "type": "tuple"
+      },
+      {
+        "internalType": "uint256",
+        "name": "nativeUSDPrice",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "baseTokenUSDPrice",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "user", "type": "address" },
+      {
+        "internalType": "contract INativeTokenMarket",
+        "name": "_nativeMarket",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IERC20Market[]",
+        "name": "_erc20Markets",
+        "type": "address[]"
+      },
+      {
+        "internalType": "contract ILPFreeMarket[]",
+        "name": "_lpMarkets",
+        "type": "address[]"
+      }
+    ],
+    "name": "getDineroMarketsSummary",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "totalCollateral",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "LTV", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "interestRate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "liquidationFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collateralUSDPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "userElasticLoan",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewDinero.DineroMarketSummary",
+        "name": "nativeMarket",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "totalCollateral",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "LTV", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "interestRate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "liquidationFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collateralUSDPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "userElasticLoan",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewDinero.DineroMarketSummary[]",
+        "name": "erc20Markets",
+        "type": "tuple[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "totalCollateral",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "LTV", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "interestRate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "liquidationFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collateralUSDPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "userElasticLoan",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewDinero.DineroMarketSummary[]",
+        "name": "lpMarkets",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

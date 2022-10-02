@@ -40,3 +40,19 @@ export const processWrappedNativeTokenAddress = (
     ? wrappedNativeToken.address
     : token;
 };
+
+export const replaceWrappedNativeTokenAddressWithZero = (
+  chainId: number,
+  address: string
+) => {
+  const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId]
+    ? WRAPPED_NATIVE_TOKEN[chainId]
+    : WRAPPED_NATIVE_TOKEN[CHAIN_ID.BNB_TEST_NET];
+
+  return isSameAddressZ(address, wrappedNativeToken.address)
+    ? ZERO_ADDRESS
+    : address;
+};
+
+export const getSafeWrappedNativeToken = (chainId: number) =>
+  WRAPPED_NATIVE_TOKEN[chainId] ?? WRAPPED_NATIVE_TOKEN[CHAIN_ID.BNB_TEST_NET];

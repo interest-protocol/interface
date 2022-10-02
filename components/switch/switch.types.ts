@@ -5,7 +5,9 @@ export interface ISwitchOption {
 }
 
 export interface SwitchProps {
+  bg?: string;
   thin?: boolean;
+  bgSelected?: string;
   defaultValue: string | number;
   options: ReadonlyArray<ISwitchOption>;
 }

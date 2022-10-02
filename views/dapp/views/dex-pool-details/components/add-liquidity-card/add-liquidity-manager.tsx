@@ -1,18 +1,19 @@
 import { ethers } from 'ethers';
 import { FC, useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
 
 import { quoteAddLiquidity } from '@/api';
 import { WRAPPED_NATIVE_TOKEN } from '@/constants';
-import { useDebounce } from '@/hooks';
-import { IntMath, ZERO_ADDRESS } from '@/sdk';
+import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
 import {
   isSameAddressZ,
+  numberToString,
   processWrappedNativeTokenAddress,
   stringToBigNumber,
 } from '@/utils';
 
-import { AddLiquidityManagerProps } from './liquidity-form.types';
+import { AddLiquidityManagerProps } from './add-liquidity-card.types';
 
 const processDecimals = (chainId: number, token: string, decimals: number) => {
   const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId];
@@ -35,8 +36,8 @@ const AddLiquidityManager: FC<AddLiquidityManagerProps> = ({
   const amount1 = useWatch({ name: 'token1Amount', control });
   const locked = useWatch({ name: 'locked', control });
 
-  const debouncedAmount0 = useDebounce(amount0, 1500);
-  const debouncedAmount1 = useDebounce(amount1, 1500);
+  const [debouncedAmount0] = useDebounce(amount0, 1500);
+  const [debouncedAmount1] = useDebounce(amount1, 1500);
 
   // User is typing on token0 Input, we will override both token0Amount and token1Amount
   useEffect(() => {
@@ -59,27 +60,25 @@ const AddLiquidityManager: FC<AddLiquidityManagerProps> = ({
         setValue('locked', true);
         setValue(
           'token0Amount',
-          IntMath.toNumber(
-            amountA,
-            processDecimals(chainId, tokens[0].address, tokens[0].decimals),
-            0,
-            12
-          ).toLocaleString('fullwide', {
-            useGrouping: false,
-            maximumSignificantDigits: 6,
-          })
+          numberToString(
+            FixedPointMath.toNumber(
+              amountA,
+              processDecimals(chainId, tokens[0].address, tokens[0].decimals),
+              0,
+              12
+            )
+          )
         );
         setValue(
           'token1Amount',
-          IntMath.toNumber(
-            amountB,
-            processDecimals(chainId, tokens[1].address, tokens[1].decimals),
-            0,
-            12
-          ).toLocaleString('fullwide', {
-            useGrouping: false,
-            maximumSignificantDigits: 6,
-          })
+          numberToString(
+            FixedPointMath.toNumber(
+              amountB,
+              processDecimals(chainId, tokens[1].address, tokens[1].decimals),
+              0,
+              12
+            )
+          )
         );
       })
       .catch(() => setValue('error', 'Failed to find quote'))
@@ -111,16 +110,14 @@ const AddLiquidityManager: FC<AddLiquidityManagerProps> = ({
         setValue('locked', true);
         setValue(
           'token0Amount',
-          IntMath.toNumber(amountB, tokens[1].decimals, 0, 12).toLocaleString(
-            'fullwide',
-            { useGrouping: false, maximumSignificantDigits: 6 }
+          numberToString(
+            FixedPointMath.toNumber(amountB, tokens[0].decimals, 0, 12)
           )
         );
         setValue(
           'token1Amount',
-          IntMath.toNumber(amountA, tokens[0].decimals, 0, 12).toLocaleString(
-            'fullwide',
-            { useGrouping: false, maximumSignificantDigits: 6 }
+          numberToString(
+            FixedPointMath.toNumber(amountA, tokens[1].decimals, 0, 12)
           )
         );
       })

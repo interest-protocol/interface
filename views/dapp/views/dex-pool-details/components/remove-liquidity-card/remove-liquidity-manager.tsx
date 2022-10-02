@@ -1,10 +1,14 @@
 import { FC, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
 
 import { useQuoteRemoveLiquidity } from '@/hooks';
-import { useDebounce } from '@/hooks';
-import { IntMath } from '@/sdk';
-import { processWrappedNativeTokenAddress, stringToBigNumber } from '@/utils';
+import { FixedPointMath } from '@/sdk';
+import {
+  numberToString,
+  processWrappedNativeTokenAddress,
+  stringToBigNumber,
+} from '@/utils';
 
 import LiquidityFormMessage from '../liquidity-form-message';
 import { RemoveLiquidityManagerProps } from './remove-liquidity-card.types';
@@ -22,7 +26,7 @@ const RemoveLiquidityManager: FC<RemoveLiquidityManagerProps> = ({
   const amount = useWatch({ control, name: 'lpAmount' });
 
   const [lastDebouncedAmount, setLastDebouncedAmount] = useState('0.0');
-  const debouncedAmount = useDebounce(amount, 1500);
+  const [debouncedAmount] = useDebounce(amount, 1500);
 
   const { error, data } = useQuoteRemoveLiquidity(
     processWrappedNativeTokenAddress(chainId, token0Address),
@@ -44,22 +48,14 @@ const RemoveLiquidityManager: FC<RemoveLiquidityManagerProps> = ({
     if (data) {
       setValue(
         'token0Amount',
-        IntMath.toNumber(data.amountA, token0Decimals, 12).toLocaleString(
-          'fullwide',
-          {
-            useGrouping: false,
-            maximumSignificantDigits: 6,
-          }
+        numberToString(
+          FixedPointMath.toNumber(data.amountA, token0Decimals, 12)
         )
       );
       setValue(
         'token1Amount',
-        IntMath.toNumber(data.amountB, token1Decimals, 12).toLocaleString(
-          'fullwide',
-          {
-            useGrouping: false,
-            maximumSignificantDigits: 6,
-          }
+        numberToString(
+          FixedPointMath.toNumber(data.amountB, token1Decimals, 12)
         )
       );
       setValue('loading', false);

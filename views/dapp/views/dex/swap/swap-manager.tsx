@@ -1,15 +1,16 @@
 import { prop } from 'ramda';
 import { FC, useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
 
 import { getAmountsOut } from '@/api';
 import { SWAP_BASES, WRAPPED_NATIVE_TOKEN } from '@/constants';
-import { useDebounce } from '@/hooks';
-import { IntMath } from '@/sdk';
+import { CHAIN_ID, FixedPointMath } from '@/sdk';
 import {
   getWETHAddress,
   isSameAddress,
   isZeroAddress,
+  numberToString,
   safeToBigNumber,
 } from '@/utils';
 
@@ -34,10 +35,12 @@ const SwapManager: FC<SwapManagerProps> = ({
   const tokenIn = useWatch({ control, name: 'tokenIn' });
   const tokenOut = useWatch({ control, name: 'tokenOut' });
 
-  const debouncedTokenInValue = useDebounce(tokenIn.value, 1500);
-  const debouncedTokenOutValue = useDebounce(tokenOut.value, 1500);
+  const [debouncedTokenInValue] = useDebounce(tokenIn.value, 1500);
+  const [debouncedTokenOutValue] = useDebounce(tokenOut.value, 1500);
 
-  const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId];
+  const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId]
+    ? WRAPPED_NATIVE_TOKEN[chainId]
+    : WRAPPED_NATIVE_TOKEN[CHAIN_ID.BNB_TEST_NET];
 
   const tokenInAddress = isZeroAddress(tokenIn.address)
     ? wrappedNativeToken.address
@@ -53,7 +56,12 @@ const SwapManager: FC<SwapManagerProps> = ({
 
     const key = `${tokenInAddress}-${tokenOutAddress}-${debouncedTokenOutValue}`;
 
-    if (!debouncedTokenOutValue) return;
+    if (
+      !debouncedTokenOutValue ||
+      +debouncedTokenOutValue === 0 ||
+      isNaN(+debouncedTokenOutValue)
+    )
+      return;
 
     // If the user is swapping between NATIVE TOKEN <=> WRAPPED NATIVE TOKEN. The amounts are always the same
     if (
@@ -65,8 +73,6 @@ const SwapManager: FC<SwapManagerProps> = ({
       setValue('tokenIn.value', debouncedTokenOutValue);
       return;
     }
-
-    if (debouncedTokenOutValue == '0') return;
 
     const value = AMOUNT_OUT_CACHE.get(key);
 
@@ -108,15 +114,9 @@ const SwapManager: FC<SwapManagerProps> = ({
           return;
         }
 
-        const value = IntMath.toNumber(
-          data.amountOut,
-          tokenIn.decimals,
-          0,
-          12
-        ).toLocaleString('fullwide', {
-          useGrouping: false,
-          maximumSignificantDigits: 6,
-        });
+        const value = numberToString(
+          FixedPointMath.toNumber(data.amountOut, tokenIn.decimals, 0, 12)
+        );
         setSwapBase(data.base);
         setValue('tokenIn.value', value);
         setHasNoMarket(false);
@@ -138,10 +138,7 @@ const SwapManager: FC<SwapManagerProps> = ({
     tokenInAddress,
     tokenOutAddress,
     chainId,
-    tokenIn.setByUser,
     hasNoMarket,
-    tokenIn.address,
-    tokenOut.address,
     wrappedNativeToken,
   ]);
 
@@ -149,9 +146,16 @@ const SwapManager: FC<SwapManagerProps> = ({
   // We need to disable tokenIn input and fetch a value
   useEffect(() => {
     if (isFetchingAmountOutTokenIn || tokenOut.setByUser) return;
+
     const key = `${tokenOutAddress}-${tokenInAddress}-${debouncedTokenInValue}`;
 
-    if (!debouncedTokenInValue) return;
+    if (
+      !debouncedTokenInValue ||
+      +debouncedTokenInValue === 0 ||
+      isNaN(+debouncedTokenInValue)
+    )
+      return;
+
     // If the user is swapping between NATIVE TOKEN <=> WRAPPED NATIVE TOKEN. The amounts are always the same
     if (
       (isZeroAddress(tokenIn.address) &&
@@ -162,7 +166,6 @@ const SwapManager: FC<SwapManagerProps> = ({
       setValue('tokenOut.value', debouncedTokenInValue);
       return;
     }
-    if (debouncedTokenInValue == '0') return;
 
     const value = AMOUNT_OUT_CACHE.get(key);
 
@@ -203,15 +206,9 @@ const SwapManager: FC<SwapManagerProps> = ({
           return;
         }
 
-        const value = IntMath.toNumber(
-          data.amountOut,
-          tokenOut.decimals,
-          0,
-          12
-        ).toLocaleString('fullwide', {
-          useGrouping: false,
-          maximumSignificantDigits: 6,
-        });
+        const value = numberToString(
+          FixedPointMath.toNumber(data.amountOut, tokenOut.decimals, 0, 12)
+        );
         setSwapBase(data.base);
         setHasNoMarket(false);
         setValue('tokenOut.value', value);
@@ -230,12 +227,9 @@ const SwapManager: FC<SwapManagerProps> = ({
     debouncedTokenInValue,
     setValue,
     tokenInAddress,
-    tokenOut.address,
-    chainId,
-    tokenOut.setByUser,
-    hasNoMarket,
-    tokenIn.address,
     tokenOutAddress,
+    chainId,
+    hasNoMarket,
   ]);
 
   return null;

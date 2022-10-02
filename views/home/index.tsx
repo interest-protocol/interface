@@ -2,12 +2,18 @@ import { FC } from 'react';
 
 import { Box } from '@/elements';
 
-import { Automate, Borrow, DEX, Earn, Hero } from './components';
-import Subscribe from './components/subscribe';
-import Layout from './layout';
+import {
+  Automate,
+  Borrow,
+  DEX,
+  Earn,
+  Hero,
+  Subscribe,
+  Team,
+} from './components';
 
 const Home: FC = () => (
-  <Layout>
+  <>
     <Box
       backgroundImage={[
         'none',
@@ -20,8 +26,9 @@ const Home: FC = () => (
     <Borrow />
     <DEX />
     <Automate />
+    <Team />
     <Subscribe />
-  </Layout>
+  </>
 );
 
 export default Home;

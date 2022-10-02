@@ -1,7 +1,12 @@
+import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
-import { formatMoney, parseToSafeStringNumber } from '@/utils';
+import {
+  formatMoney,
+  numberToString,
+  parseInputEventToNumberString,
+} from '@/utils';
 
 import { InputBalanceProps } from './input-balance.types';
 
@@ -13,6 +18,7 @@ const InputBalance: FC<InputBalanceProps> = ({
   disabled,
   currencyPrefix,
 }) => {
+  const t = useTranslations();
   const onFocus = (v: ChangeEvent<HTMLInputElement>) => {
     const value = v.target.value;
 
@@ -22,23 +28,18 @@ const InputBalance: FC<InputBalanceProps> = ({
   return (
     <Box display="flex" flexDirection="column-reverse" alignItems="flex-end">
       <Input
-        max={balance}
+        max={numberToString(balance)}
         type="text"
         onFocus={onFocus}
         placeholder="0.0"
         disabled={disabled}
         {...register(name, {
           onChange: (v: ChangeEvent<HTMLInputElement>) => {
-            const value = v.target.value;
-
             setValue?.(
               name,
-              parseToSafeStringNumber(
-                isNaN(+value[value.length - 1]) &&
-                  value[value.length - 1] !== '.'
-                  ? value.slice(0, value.length - 1)
-                  : value,
-                balance ? +balance : undefined
+              parseInputEventToNumberString(
+                v,
+                balance ? +numberToString(balance) : undefined
               )
             );
             setValue('locked', false);
@@ -73,7 +74,7 @@ const InputBalance: FC<InputBalanceProps> = ({
               onClick={() => {
                 if (disabled) return;
                 if (!setValue) return;
-                setValue(name, balance.toString());
+                setValue(name, numberToString(balance));
                 setValue('locked', false);
               }}
             >
@@ -100,8 +101,8 @@ const InputBalance: FC<InputBalanceProps> = ({
         borderRadius="M"
         position="relative"
       >
-        <Typography fontSize="S" variant="normal">
-          Balance:{' '}
+        <Typography fontSize="S" variant="normal" textTransform="capitalize">
+          {t('common.balance')}:{' '}
           <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
             {formatMoney(balance)}
           </Typography>

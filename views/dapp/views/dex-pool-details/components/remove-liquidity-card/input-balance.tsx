@@ -1,7 +1,13 @@
+import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC } from 'react';
+import { useWatch } from 'react-hook-form';
 
 import { Box, Button, Input, Typography } from '@/elements';
-import { formatMoney, parseToSafeStringNumber } from '@/utils';
+import {
+  formatMoney,
+  numberToString,
+  parseInputEventToNumberString,
+} from '@/utils';
 
 import { InputBalanceProps } from './remove-liquidity-card.types';
 
@@ -10,34 +16,36 @@ const InputBalance: FC<InputBalanceProps> = ({
   balance,
   register,
   setValue,
-  disabled,
+  disabled: _disabled,
   currencyPrefix,
+  control,
 }) => {
+  const t = useTranslations();
   const onFocus = (v: ChangeEvent<HTMLInputElement>) => {
     const value = v.target.value;
 
     value === '0.0' && setValue?.(name, '');
   };
 
+  const loading = useWatch({ control, name: 'loading' });
+
+  const disabled = _disabled || loading;
+
   return (
     <Box display="flex" flexDirection="column-reverse" alignItems="flex-end">
       <Input
         type="text"
-        max={balance}
+        max={numberToString(balance)}
         placeholder="0.0"
         onFocus={onFocus}
         disabled={disabled}
         {...register(name, {
           onChange: (v: ChangeEvent<HTMLInputElement>) => {
-            const value = v.target.value;
             setValue?.(
               name,
-              parseToSafeStringNumber(
-                isNaN(+value[value.length - 1]) &&
-                  value[value.length - 1] !== '.'
-                  ? value.slice(0, value.length - 1)
-                  : value,
-                balance ? +balance : undefined
+              parseInputEventToNumberString(
+                v,
+                balance ? +numberToString(balance) : undefined
               )
             );
           },
@@ -72,7 +80,7 @@ const InputBalance: FC<InputBalanceProps> = ({
               onClick={() => {
                 if (disabled) return;
                 if (!setValue) return;
-                setValue(name, balance.toString());
+                setValue(name, numberToString(balance));
               }}
             >
               max
@@ -98,8 +106,8 @@ const InputBalance: FC<InputBalanceProps> = ({
         position="relative"
         bg="bottomBackground"
       >
-        <Typography fontSize="S" variant="normal">
-          Balance:{' '}
+        <Typography fontSize="S" variant="normal" textTransform="capitalize">
+          {t('common.balance')}:{' '}
           <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
             {formatMoney(balance)}
           </Typography>

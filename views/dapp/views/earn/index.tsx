@@ -1,21 +1,47 @@
-import { FC, useMemo } from 'react';
+import { useTranslations } from 'next-intl';
+import { FC, useCallback, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { Box, Typography } from '@/elements';
-import { useGetFarmsSummary } from '@/hooks';
-import { useIdAccount } from '@/hooks/use-id-account';
-import { TimesSVG } from '@/svg';
-import { getSafeFarmSummaryData } from '@/utils';
+import { Container } from '@/components';
+import { Box, InfiniteScroll, Typography } from '@/elements';
+import { useGetFarmsSummary, useIdAccount } from '@/hooks';
+import useEventListener from '@/hooks/use-event-listener';
+import { LoadingSVG, TimesSVG } from '@/svg';
+import { noop } from '@/utils';
 
-import { EarnHeader, EarnTable } from './components';
+import { EarnTable } from './components';
+import EarnFilters from './components/earn-filters';
+import { FarmSortByFilter, FarmTypeFilter, IEarnForm } from './earn.types';
+import { getSafeFarmSummaryData } from './earn.utils';
 
 const Earn: FC = () => {
-  const { error, data: rawData } = useGetFarmsSummary();
   const { chainId } = useIdAccount();
+  const t = useTranslations();
+  const { register, setValue, control } = useForm<IEarnForm>({
+    defaultValues: {
+      search: '',
+      sortBy: FarmSortByFilter.Default,
+      typeFilter: FarmTypeFilter.All,
+      onlyFinished: false,
+      onlyStaked: false,
+    },
+  });
+
+  const { error, data: rawData } = useGetFarmsSummary();
 
   const data = useMemo(
     () => getSafeFarmSummaryData(chainId, rawData),
     [rawData, chainId]
   );
+
+  const [isDesktop, setDesktop] = useState(false);
+
+  const handleSetDesktop = useCallback(() => {
+    const mediaIsDesktop = window.matchMedia('(min-width: 64em)').matches;
+    setDesktop(mediaIsDesktop);
+  }, []);
+
+  useEventListener('resize', handleSetDesktop, true);
 
   if (error)
     return (
@@ -37,34 +63,70 @@ const Earn: FC = () => {
         >
           <TimesSVG width="100%" height="100%" />
         </Box>
-        <Typography variant="title3">Error fetching the contracts</Typography>
+        <Typography variant="title3">{t('error.generic')}</Typography>
       </Box>
     );
 
   return (
-    <Box
-      height="100%"
-      display="flex"
-      position="relative"
-      flexDirection="column"
-      justifyContent="space-between"
-    >
+    <Box display="flex" flexDirection="column" flex="1">
       <Box>
-        <EarnHeader />
-        <Box mt="XL">
-          <EarnTable
-            isPools
-            data={data.pools}
-            loading={data.loading}
-            intUSDPrice={data.intUSDPrice}
-          />
-          <EarnTable
-            data={data.farms}
-            loading={data.loading}
-            intUSDPrice={data.intUSDPrice}
-          />
-        </Box>
+        <Container
+          dapp
+          py="XL"
+          width="100%"
+          display="flex"
+          alignItems="center"
+          justifyContent={['center', 'flex-start']}
+        >
+          <Typography variant="normal" ml="M">
+            Farms
+          </Typography>
+        </Container>
       </Box>
+      <Container
+        dapp
+        width="100%"
+        height="100%"
+        display="flex"
+        position="relative"
+        flexDirection="column"
+        justifyContent="space-between"
+      >
+        <Box>
+          <EarnFilters
+            control={control}
+            register={register}
+            setValue={setValue}
+          />
+          <InfiniteScroll
+            overflow="visible !important"
+            hasMore={false}
+            next={noop}
+            scrollableTarget="body"
+            dataLength={data.farms.length}
+            loader={
+              <Box display="flex" alignItems="center" justifyContent="center">
+                <Box as="span" display="inline-block" width="1rem">
+                  <LoadingSVG width="100%" />
+                </Box>
+                <Typography fontSize="S" variant="normal" ml="M">
+                  {t('common.loading')}
+                </Typography>
+              </Box>
+            }
+          >
+            <Box>
+              <EarnTable
+                loading={data.loading}
+                isDesktop={isDesktop}
+                intUSDPrice={data.intUSDPrice}
+                control={control}
+                farms={data.farms}
+              />
+            </Box>
+          </InfiniteScroll>
+        </Box>
+      </Container>
     </Box>
   );
 };

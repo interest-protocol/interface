@@ -1,11 +1,11 @@
-import { always, ifElse, isNil, toString } from 'ramda';
+import { ChangeEvent } from 'react';
 
-import { Fraction, MAX_NUMBER_INPUT_VALUE, Rounding } from '@/sdk';
+import { MAX_NUMBER_INPUT_VALUE, TOKEN_SYMBOL } from '@/sdk';
 
 const isExponential = (number: number) => number.toString().includes('e');
 
-export const shortAccount = (account: string): string =>
-  `${account.slice(0, 6)}...${account.slice(-4)}`;
+export const shortAccount = (account: string, mobile = false): string =>
+  `${account.slice(0, mobile ? 2 : 6)}...${account.slice(-4)}`;
 
 const removeZero = (array: ReadonlyArray<string>): string => {
   if (!array.length) return '';
@@ -28,7 +28,9 @@ const treatDecimals = (money: number, maxDecimals: number) => {
   const integralDigits = integralPart.toString().length;
 
   const newMoney = Number(
-    integralDigits > 9
+    integralDigits > 12
+      ? `${integralPart.slice(0, -12)}.${integralPart.slice(-12, -10)}`
+      : integralDigits > 9
       ? `${integralPart.slice(0, -9)}.${integralPart.slice(-9, -7)}`
       : integralDigits > 6
       ? `${integralPart.slice(0, -6)}.${integralPart.slice(-6, -4)}`
@@ -75,39 +77,43 @@ export const formatMoney = (money: number, maxFractionDigits = 20): string => {
     maximumFractionDigits,
     minimumFractionDigits,
   }).format(newMoney)}${
-    integralDigits > 9 ? 'B' : integralDigits > 6 ? 'M' : ''
+    integralDigits > 12
+      ? 'T'
+      : integralDigits > 9
+      ? 'B'
+      : integralDigits > 6
+      ? 'M'
+      : ''
   }`.slice(1);
 };
 
 export const formatDollars = (money: number): string =>
   '$' + formatMoney(money, 6);
 
-export const toSignificant = (
-  x: string,
-  decimalHouses: number,
-  denominator = 1,
-  format?: Record<string, string>,
-  rounding?: Rounding
-): string =>
-  new Fraction(x, denominator).toSignificant(decimalHouses, format, rounding);
-
-export const makeSWRKey = (
-  args: ReadonlyArray<unknown>,
-  methodName: string
-): string =>
-  args
-    .map(ifElse(isNil, always(''), toString))
-    .concat([methodName])
-    .join('|');
-
-export const parseToSafeStringNumber = (
-  x: string,
+export const parseInputEventToNumberString = (
+  event: ChangeEvent<HTMLInputElement>,
   max: number = MAX_NUMBER_INPUT_VALUE
-): string =>
-  isNaN(+x)
+): string => {
+  const value = event.target.value;
+
+  const x =
+    isNaN(+value[value.length - 1]) && value[value.length - 1] !== '.'
+      ? value.slice(0, value.length - 1)
+      : value;
+
+  return isNaN(+x)
     ? ''
     : +x >= max
     ? max.toString()
     : x.charAt(0) == '0' && !x.startsWith('0.')
     ? String(Number(x))
     : x;
+};
+
+export const maybeLPTokenName = (symbol0?: string, symbol1?: string): string =>
+  `${symbol0 ?? ''}${
+    symbol1 && symbol1 !== TOKEN_SYMBOL.Unknown ? `-${symbol1}` : ''
+  }`;
+
+export const capitalize = (str: string | undefined): string =>
+  str ? str.charAt(0).toUpperCase() + str.slice(1) : '';

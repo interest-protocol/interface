@@ -1,7 +1,9 @@
 import { isAddress } from 'ethers/lib/utils';
+import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, ReactNode, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
 import { v4 } from 'uuid';
 
 import { getInterestDEXViewERC20Metadata } from '@/api';
@@ -12,11 +14,11 @@ import {
   TOKEN_META_DATA_ARRAY,
   TOKENS_SVG_MAP,
 } from '@/constants';
-import { Box, Modal, Typography } from '@/elements';
-import { useDebounce, useIdAccount, useLocalStorage } from '@/hooks';
+import { Box, Button, Modal, Typography } from '@/elements';
+import { useLocalStorage } from '@/hooks';
 import { TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
 import { LineLoaderSVG, TimesSVG } from '@/svg';
-import { isSameAddress, isSameAddressZ } from '@/utils';
+import { capitalize, isSameAddress, isSameAddressZ, noop } from '@/utils';
 
 import {
   SwapCurrencyDropdownProps,
@@ -29,13 +31,13 @@ const renderData = (
   onSelectCurrency: (data: OnSelectCurrencyData) => void,
   isLocal: boolean,
   currentToken: string,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  removeUserToken: (address: string) => void = () => {}
+  chainId: number,
+  removeUserToken: (address: string) => void = noop
 ): ReadonlyArray<ReactNode> => {
-  const DefaultTokenSVG = TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+  const DefaultTokenSVG = TOKENS_SVG_MAP[chainId].default;
 
   return tokens.map(({ address, symbol, decimals }) => {
-    const SVG = TOKENS_SVG_MAP[symbol] ?? DefaultTokenSVG;
+    const SVG = TOKENS_SVG_MAP[chainId][address] ?? DefaultTokenSVG;
 
     const isDisabled = isSameAddressZ(address, currentToken);
     const handleSelectCurrency = () =>
@@ -62,7 +64,9 @@ const renderData = (
         }}
       >
         <Box my="M" display="flex" alignItems="center">
-          <SVG width="1rem" height="1rem" />
+          <Box as="span" display="inline-block" width="1rem">
+            <SVG width="100%" />
+          </Box>
           <Typography mx="M" as="span" variant="normal">
             {symbol?.toUpperCase()}
           </Typography>
@@ -87,7 +91,7 @@ const renderData = (
               removeUserToken(address);
             }}
           >
-            <TimesSVG width="1rem" />
+            <TimesSVG width="100%" />
           </Box>
         )}
       </Box>
@@ -104,8 +108,9 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   currentToken,
   setIsSearching,
   onSelectCurrency,
+  chainId,
 }) => {
-  const { chainId } = useIdAccount();
+  const t = useTranslations();
   const [showLocal, setShowLocal] = useState(false);
   const search = useWatch({ control, name: 'search' });
   const [searchedToken, setSearchedToken] =
@@ -116,7 +121,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
 
   const nativeToken = NATIVE_TOKENS[chainId];
 
-  const debouncedSearch = useDebounce(search, 800);
+  const [debouncedSearch] = useDebounce(search, 800);
 
   const tokenMetaDataArray = TOKEN_META_DATA_ARRAY[chainId];
 
@@ -181,6 +186,20 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
       }}
       background="#0004"
     >
+      <Box display="flex" justifyContent="flex-end">
+        <Box display="flex" textAlign="right" justifyContent="flex-end" mb="M">
+          <Button
+            px="L"
+            variant="primary"
+            onClick={toggleModal}
+            hover={{
+              bg: 'accentActive',
+            }}
+          >
+            <TimesSVG width="1rem" />
+          </Button>
+        </Box>
+      </Box>
       <Box bg="foreground" p="L" borderRadius="M" maxWidth="27rem">
         {Input}
         {isSearching && <LineLoaderSVG width="100%" />}
@@ -198,25 +217,27 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
             ] as ReadonlyArray<SwapTokenModalMetadata>,
             onSelectCurrency,
             false,
-            currentToken
+            currentToken,
+            chainId
           )}
         </Box>
         {debouncedSearch ? (
           <Box my="L" textAlign="center">
             {isSearching ? (
               <Typography variant="normal" color="text">
-                Loading...
+                {capitalize(t('common.load', { isLoading: 1 }))}
               </Typography>
             ) : searchedToken ? (
               renderData(
                 [searchedToken],
                 onSelectCurrency,
                 showLocal,
-                currentToken
+                currentToken,
+                chainId
               )
             ) : (
               <Typography variant="normal" color="text">
-                Token not found
+                {capitalize(t('common.notFound'))}
               </Typography>
             )}
           </Box>
@@ -229,12 +250,12 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                 options={[
                   {
                     value: 'recommended',
-                    displayValue: 'Recommended',
+                    displayValue: t('dexPoolFind.switchOption1'),
                     onSelect: () => setShowLocal(false),
                   },
                   {
                     value: 'local',
-                    displayValue: 'Added by me',
+                    displayValue: t('dexPoolFind.switchOption2'),
                     onSelect: () => setShowLocal(true),
                   },
                 ]}
@@ -256,6 +277,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                 onSelectCurrency,
                 showLocal,
                 currentToken,
+                chainId,
                 removeUserToken
               )}
             </Box>

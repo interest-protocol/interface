@@ -1,69 +1,120 @@
-import { ethers } from 'ethers';
-import { useSelector } from 'react-redux';
+import { BigNumber, ethers } from 'ethers';
+import { getAddress } from 'ethers/lib/utils';
+import { useAccount } from 'wagmi';
 
-import { sortTokens, ZERO_BIG_NUMBER } from '@/sdk';
-import { getNativeBalance } from '@/state/core/core.selectors';
-import {
-  getInterestDexRouterAddress,
-  isZeroAddress,
-  stringToBigNumber,
-} from '@/utils';
+import { useNativeBalance } from '@/hooks/use-native-balance';
+import { ZERO_BIG_NUMBER } from '@/sdk';
+import { asyncNoop, getInterestDexRouterAddress, isZeroAddress } from '@/utils';
 
 import { useGetUserBalancesAndAllowances } from '../use-get-user-balances-allowances';
 
-const BALANCES_ALLOWANCES_STATE = {
-  token0Balance: ZERO_BIG_NUMBER,
-  token1Balance: ZERO_BIG_NUMBER,
-  token0Allowance: ZERO_BIG_NUMBER,
-  token1Allowance: ZERO_BIG_NUMBER,
-};
+export interface BalanceData {
+  balance: BigNumber;
+  allowance: BigNumber;
+}
+
+export interface useGetDexAllowancesAndBalancesReturn {
+  balancesData: Record<string, BalanceData>;
+  balancesError: boolean;
+  loading: boolean;
+  refetch: () => Promise<void>;
+  nativeBalance: BigNumber;
+}
 
 export const useGetDexAllowancesAndBalances = (
   chainId: number,
   tokenA: string,
   tokenB: string
-) => {
-  const sortedTokens = sortTokens(tokenA, tokenB).filter(
-    (x) => !isZeroAddress(x)
-  );
+): useGetDexAllowancesAndBalancesReturn => {
+  const filteredTokens = [tokenA, tokenB].filter((x) => !isZeroAddress(x));
 
-  const nativeBalance = useSelector(getNativeBalance) as string;
+  const { address } = useAccount();
 
-  const nativeBalanceBN = stringToBigNumber(nativeBalance);
+  const { data: balanceData, refetch: refetchBalance } = useNativeBalance({
+    enabled: Boolean(address),
+  });
 
-  const { data, error, mutate } = useGetUserBalancesAndAllowances(
+  const nativeBalanceBN = balanceData ? balanceData : ZERO_BIG_NUMBER;
+
+  const {
+    data,
+    error,
+    refetch: refetchTokenBalances,
+  } = useGetUserBalancesAndAllowances(
     getInterestDexRouterAddress(chainId),
-    sortedTokens
+    filteredTokens,
+    { enabled: Boolean(address) }
   );
+
+  const refetch = async () => {
+    await Promise.all([refetchBalance(), refetchTokenBalances()]);
+  };
 
   if (error)
     return {
-      balancesData: BALANCES_ALLOWANCES_STATE,
-      balancesError: 'Failed to fetch balances',
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      mutate: () => Promise.resolve(),
+      balancesData: {},
+      balancesError: true,
+      loading: false,
+      refetch: asyncNoop,
+      nativeBalance: nativeBalanceBN,
     };
 
   if (!data)
     return {
-      balancesData: BALANCES_ALLOWANCES_STATE,
-      balancesError: '',
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      mutate: () => Promise.resolve(),
+      balancesData: {},
+      balancesError: false,
+      loading: true,
+      refetch: asyncNoop,
+      nativeBalance: nativeBalanceBN,
     };
 
-  const isToken0Native = sortedTokens.length === 1;
+  // One of the tokens is the native token
+  if (data.balances.length === 1)
+    return {
+      balancesData: {
+        [getAddress(filteredTokens[0])]: {
+          balance: data.balances[0],
+          allowance: data.allowances[0],
+        },
+        [ethers.constants.AddressZero]: {
+          allowance: ethers.constants.MaxUint256,
+          balance: nativeBalanceBN,
+        },
+      },
+      balancesError: false,
+      loading: false,
+      refetch,
+      nativeBalance: nativeBalanceBN,
+    };
+  if (data.balances.length == 2)
+    return {
+      balancesData: {
+        [getAddress(filteredTokens[0])]: {
+          balance: data.balances[0],
+          allowance: data.allowances[0],
+        },
+        [getAddress(filteredTokens[1])]: {
+          balance: data.balances[1],
+          allowance: data.allowances[1],
+        },
+      },
+      balancesError: false,
+      loading: false,
+      refetch,
+      nativeBalance: nativeBalanceBN,
+    };
 
+  // if the user selects native token for tokenA and tokenB
   return {
     balancesData: {
-      token0Balance: isToken0Native ? nativeBalanceBN : data.balances[0],
-      token1Balance: data.balances[isToken0Native ? 0 : 1],
-      token0Allowance: isToken0Native
-        ? ethers.constants.MaxUint256
-        : data.allowances[0],
-      token1Allowance: isToken0Native ? data.allowances[0] : data.allowances[1],
+      [ethers.constants.AddressZero]: {
+        allowance: ethers.constants.MaxUint256,
+        balance: nativeBalanceBN,
+      },
     },
-    balancesError: '',
-    mutate: async () => void (await mutate()),
+    balancesError: false,
+    loading: false,
+    refetch,
+    nativeBalance: nativeBalanceBN,
   };
 };

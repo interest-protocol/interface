@@ -1,19 +1,23 @@
-import { not } from 'ramda';
+import { getAddress } from 'ethers/lib/utils';
+import { not, pathOr } from 'ramda';
 import { FC, useMemo, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 
-import { ERC_20_DATA } from '@/constants';
+import { ERC_20_DATA, UNKNOWN_ERC_20 } from '@/constants';
 import { Box } from '@/elements';
 import {
   useGetDexAllowancesAndBalances,
   useIdAccount,
   useLocalStorage,
 } from '@/hooks';
-import { IntMath, TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
-import { getNativeBalance } from '@/state/core/core.selectors';
+import {
+  FixedPointMath,
+  TOKEN_SYMBOL,
+  ZERO_ADDRESS,
+  ZERO_BIG_NUMBER,
+} from '@/sdk';
 import { CogsSVG } from '@/svg';
-import { handleTokenBalance, isSameAddress, isZeroAddress } from '@/utils';
+import { isSameAddressZ, numberToString } from '@/utils';
 
 import SwapSelectCurrency from '../components/swap-select-currency';
 import InputBalance from './input-balance';
@@ -32,33 +36,34 @@ const Swap: FC = () => {
   const { chainId, account } = useIdAccount();
   const [localSettings, setLocalSettings] = useLocalStorage<LocalSwapSettings>(
     'interest-swap-settings',
-    { slippage: '1', deadline: 5 }
+    { slippage: '1', deadline: 5, autoFetch: true }
   );
+
+  const INT = pathOr(UNKNOWN_ERC_20, [chainId, TOKEN_SYMBOL.INT], ERC_20_DATA);
+
+  const ETH = pathOr(UNKNOWN_ERC_20, [chainId, TOKEN_SYMBOL.ETH], ERC_20_DATA);
 
   const { register, control, setValue, getValues } = useForm<ISwapForm>({
     defaultValues: {
       tokenIn: {
-        address: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].address,
+        address: INT.address,
         value: '0',
-        decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].decimals,
-        symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].symbol,
+        decimals: INT.decimals,
+        symbol: INT.symbol,
         setByUser: false,
       },
       tokenOut: {
-        address: ERC_20_DATA[chainId][TOKEN_SYMBOL.ETH].address,
+        address: ETH.address,
         value: '0',
-        decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.ETH].decimals,
-        symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.ETH].symbol,
+        decimals: ETH.decimals,
+        symbol: ETH.symbol,
         setByUser: false,
       },
-      slippage: localSettings.slippage,
-      deadline: localSettings.deadline,
     },
   });
 
   const [showSettings, setShowSettings] = useState(false);
   const [hasNoMarket, setHasNoMarket] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [isFetchingAmountOutTokenIn, setFetchingAmountOutTokenIn] =
     useState(false);
   const [isFetchingAmountOutTokenOut, setFetchingAmountOutTokenOut] =
@@ -72,29 +77,20 @@ const Swap: FC = () => {
   const tokenInAddress = useWatch({ control, name: 'tokenIn.address' });
   const tokenOutAddress = useWatch({ control, name: 'tokenOut.address' });
 
-  const { balancesError, balancesData, mutate } =
+  const { balancesError, balancesData, loading, refetch } =
     useGetDexAllowancesAndBalances(
       chainId,
       tokenInAddress || ZERO_ADDRESS,
       tokenOutAddress || ZERO_ADDRESS
     );
 
-  const nativeBalance = useSelector(getNativeBalance) as string;
-
-  const parsedTokenInBalance = handleTokenBalance(
-    tokenInAddress,
-    balancesData.token0Balance,
-    nativeBalance
-  );
-
-  const parsedTokenOutBalance = handleTokenBalance(
-    tokenOutAddress,
-    balancesData.token1Balance,
-    nativeBalance
-  );
-
-  const needsApproval =
-    !isZeroAddress(tokenInAddress) && balancesData.token0Allowance.isZero();
+  const needsApproval = loading
+    ? false
+    : pathOr(
+        ZERO_BIG_NUMBER,
+        [getAddress(tokenInAddress), 'allowance'],
+        balancesData
+      ).isZero();
 
   const toggleSettings = () => setShowSettings(not);
 
@@ -112,8 +108,8 @@ const Swap: FC = () => {
       setValue(`${name}.address`, address);
       setValue(`${name}.decimals`, decimals);
       setValue(`${name}.symbol`, symbol);
-      setValue('tokenOut.value', '0');
-      setValue('tokenIn.value', '0');
+      setValue('tokenOut.value', '0.0');
+      setValue('tokenIn.value', '0.0');
       setHasNoMarket(false);
       setTokenInIsOpenModal(false);
       setTokenOutIsOpenModal(false);
@@ -122,12 +118,13 @@ const Swap: FC = () => {
   const isDisabled = useMemo(
     () =>
       !!(
-        isSameAddress(tokenInAddress, tokenOutAddress) ||
+        isSameAddressZ(tokenInAddress, tokenOutAddress) ||
         isFetchingAmountOutTokenOut ||
         isFetchingAmountOutTokenIn ||
         amountOutError ||
         balancesError ||
-        hasNoMarket
+        hasNoMarket ||
+        loading
       ),
     [
       tokenInAddress,
@@ -137,9 +134,9 @@ const Swap: FC = () => {
       amountOutError,
       balancesError,
       hasNoMarket,
+      loading,
     ]
   );
-
   return (
     <>
       <Box
@@ -177,9 +174,6 @@ const Swap: FC = () => {
             {showSettings && (
               <Settings
                 toggle={toggleSettings}
-                control={control}
-                register={register}
-                setValue={setValue}
                 setLocalSettings={setLocalSettings}
                 localSettings={localSettings}
               />
@@ -195,11 +189,27 @@ const Swap: FC = () => {
             justifyContent="space-evenly"
           >
             <InputBalance
-              balance={IntMath.toNumber(
-                parsedTokenInBalance,
-                getValues().tokenIn.decimals,
+              balance={FixedPointMath.toNumber(
+                pathOr(
+                  ZERO_BIG_NUMBER,
+                  [getAddress(tokenInAddress), 'balance'],
+                  balancesData
+                ),
+                getValues('tokenIn.decimals'),
                 0,
                 12
+              )}
+              max={numberToString(
+                FixedPointMath.toNumber(
+                  pathOr(
+                    ZERO_BIG_NUMBER,
+                    [getAddress(tokenInAddress), 'balance'],
+                    balancesData
+                  ),
+                  getValues('tokenIn.decimals'),
+                  0,
+                  12
+                )
               )}
               name="tokenIn"
               register={register}
@@ -209,25 +219,18 @@ const Swap: FC = () => {
                 setValue(`tokenIn.setByUser`, true);
                 setValue(`tokenOut.setByUser`, false);
               }}
-              max={IntMath.toNumber(
-                parsedTokenInBalance,
-                getValues().tokenIn.decimals,
-                0,
-                12
-              ).toString()}
               currencySelector={
                 <SwapSelectCurrency
                   currentToken={tokenInAddress}
-                  onSelectCurrency={onSelectCurrency('tokenIn')}
-                  symbol={getValues().tokenIn.symbol}
                   isModalOpen={isTokenInOpenModal}
+                  symbol={getValues('tokenIn.symbol')}
+                  address={getValues('tokenIn.address')}
                   setIsModalOpen={setTokenInIsOpenModal}
+                  onSelectCurrency={onSelectCurrency('tokenIn')}
                 />
               }
             />
             <Box
-              mx="auto"
-              my="-1.5rem"
               width="3rem"
               height="3rem"
               display="flex"
@@ -235,11 +238,14 @@ const Swap: FC = () => {
               cursor="pointer"
               borderRadius="50%"
               border="1px solid"
+              mx={['XL', 'auto']}
               position="relative"
               alignItems="center"
               borderColor="accent"
               onClick={flipTokens}
               justifyContent="center"
+              mt={['-1rem', '-1.5rem']}
+              mb={['-1.2rem', '-1.5rem']}
               hover={{
                 boxShadow: '0 0 0.5rem #0055FF',
               }}
@@ -251,8 +257,12 @@ const Swap: FC = () => {
               register={register}
               setValue={setValue}
               disabled={isFetchingAmountOutTokenOut}
-              balance={IntMath.toNumber(
-                parsedTokenOutBalance,
+              balance={FixedPointMath.toNumber(
+                pathOr(
+                  ZERO_BIG_NUMBER,
+                  [getAddress(tokenOutAddress), 'balance'],
+                  balancesData
+                ),
                 getValues().tokenOut.decimals,
                 0,
                 12
@@ -264,11 +274,12 @@ const Swap: FC = () => {
               currencySelector={
                 <SwapSelectCurrency
                   currentToken={tokenOutAddress}
-                  disabled={isFetchingAmountOutTokenOut}
-                  onSelectCurrency={onSelectCurrency('tokenOut')}
-                  symbol={getValues().tokenOut.symbol}
                   isModalOpen={isTokenOutOpenModal}
+                  symbol={getValues('tokenOut.symbol')}
+                  disabled={isFetchingAmountOutTokenOut}
+                  address={getValues('tokenOut.address')}
                   setIsModalOpen={setTokenOutIsOpenModal}
+                  onSelectCurrency={onSelectCurrency('tokenOut')}
                 />
               }
             />
@@ -281,39 +292,49 @@ const Swap: FC = () => {
           <SwapMessage {...SWAP_MESSAGES['error-amount-out']} />
         )}
         {balancesError && <SwapMessage {...SWAP_MESSAGES['error-balances']} />}
-        {isSameAddress(tokenInAddress, tokenOutAddress) && (
+        {isSameAddressZ(tokenInAddress, tokenOutAddress) && (
           <SwapMessage {...SWAP_MESSAGES['error-same-token']} />
         )}
         {hasNoMarket && <SwapMessage {...SWAP_MESSAGES['info-no-pool']} />}
         <SwapButton
-          disabled={isDisabled}
-          getValues={getValues}
-          tokenInAddress={tokenInAddress}
-          setSwapBase={setSwapBase}
-          swapBase={swapBase}
           chainId={chainId}
           account={account}
           control={control}
-          parsedTokenInBalance={parsedTokenInBalance}
-          updateBalances={mutate}
-          loading={loading}
-          setLoading={setLoading}
+          swapBase={swapBase}
+          disabled={isDisabled}
+          getValues={getValues}
+          setSwapBase={setSwapBase}
           needsApproval={needsApproval}
+          localSettings={localSettings}
+          fetchingBalancesData={loading}
+          tokenInAddress={tokenInAddress}
+          fetchingBaseData={!balancesData && !balancesError}
+          fetchingAmount={
+            isFetchingAmountOutTokenOut || isFetchingAmountOutTokenIn
+          }
+          parsedTokenInBalance={pathOr(
+            ZERO_BIG_NUMBER,
+            [getAddress(tokenInAddress), 'balance'],
+            balancesData
+          )}
+          refetch={refetch}
         />
       </Box>
-      <SwapManager
-        control={control}
-        chainId={chainId}
-        setValue={setValue}
-        isFetchingAmountOutTokenIn={isFetchingAmountOutTokenIn}
-        isFetchingAmountOutTokenOut={isFetchingAmountOutTokenOut}
-        hasNoMarket={hasNoMarket}
-        setHasNoMarket={setHasNoMarket}
-        setFetchingAmountOutTokenIn={setFetchingAmountOutTokenIn}
-        setFetchingAmountOutTokenOut={setFetchingAmountOutTokenOut}
-        setSwapBase={setSwapBase}
-        setAmountOutError={setAmountOutError}
-      />
+      {localSettings.autoFetch && (
+        <SwapManager
+          control={control}
+          chainId={chainId}
+          setValue={setValue}
+          isFetchingAmountOutTokenIn={isFetchingAmountOutTokenIn}
+          isFetchingAmountOutTokenOut={isFetchingAmountOutTokenOut}
+          hasNoMarket={hasNoMarket}
+          setHasNoMarket={setHasNoMarket}
+          setFetchingAmountOutTokenIn={setFetchingAmountOutTokenIn}
+          setFetchingAmountOutTokenOut={setFetchingAmountOutTokenOut}
+          setSwapBase={setSwapBase}
+          setAmountOutError={setAmountOutError}
+        />
+      )}
     </>
   );
 };

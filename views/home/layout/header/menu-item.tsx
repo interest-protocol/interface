@@ -10,7 +10,7 @@ import { MenuItemProps } from './header.types';
 
 const AnimatedBox = animated(Box);
 
-const MenuItem: FC<MenuItemProps> = ({ title, isDropdown, link, data }) => {
+const MenuItem: FC<MenuItemProps> = ({ title, isDropdown, link, data, id }) => {
   const { push } = useRouter();
   const [openDropDown, setOpenDropDown] = useState(false);
   const fadeStyles = useSpring({
@@ -30,15 +30,19 @@ const MenuItem: FC<MenuItemProps> = ({ title, isDropdown, link, data }) => {
       cursor="pointer"
       transition="transform 3s"
     >
-      <Container width="100%">
+      <Container
+        width="100%"
+        id={id ? `${id}-submenu` : undefined}
+        onClick={() => {
+          isDropdown && setOpenDropDown(!openDropDown);
+          link && push(link);
+        }}
+      >
         <Box
           display="flex"
           justifyContent="space-between"
           alignItems="center"
-          onClick={() => {
-            isDropdown && setOpenDropDown(!openDropDown);
-            link && push(link);
-          }}
+          pointerEvents="none"
           hover={{ color: 'accent' }}
           color={openDropDown ? 'accent' : 'unset'}
         >

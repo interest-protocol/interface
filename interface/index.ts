@@ -1,60 +1,41 @@
-import { BigNumber } from 'ethers';
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IEmptyObject {}
-
-export interface IReserves {
-  reserve0: BigNumber;
-  reserve1: BigNumber;
-  blockTimestampLast: number;
-}
-
-export interface IPoolData {
-  stakingToken: string;
-  allocationPoints: BigNumber;
-  totalSupply: BigNumber;
-}
-
-export interface ICasaDePapelMinting {
-  totalAllocationPoints: BigNumber;
-  interestTokenPerBlock: BigNumber;
-}
+import { QueryFunctionContext, UseQueryOptions } from '@tanstack/react-query';
+import type { Ethereum } from '@wagmi/core';
+import { CallOverrides } from 'ethers/lib/ethers';
 
 export type MaybeArray<T> = T | Array<T>;
 
-export interface LocalMAILMarketData {
-  market: string;
-  token: string;
-  symbol: string;
-  name: string;
-}
+export type UseContractArgs = {
+  cacheOnBlock?: boolean;
+  overrides?: CallOverrides;
+  enabled?: boolean;
+  staleTime?: number;
+};
 
-export interface MailMarketsSummaryData {
-  name: string;
-  token: string;
-  symbol: string;
-  market: string;
-  borrowRates: BigNumber[];
-  supplyRates: BigNumber[];
-}
+export declare type QueryFunctionArgs<T extends (...args: any) => any> =
+  QueryFunctionContext<ReturnType<T>>;
 
-export interface ERC20Metadata<T> {
-  name: string;
-  symbol: string;
-  decimals: T;
-}
+export declare type QueryConfig<Data, Error> = Pick<
+  UseQueryOptions<Data, Error>,
+  | 'cacheTime'
+  | 'enabled'
+  | 'isDataEqual'
+  | 'keepPreviousData'
+  | 'staleTime'
+  | 'select'
+  | 'suspense'
+  | 'onError'
+  | 'onSettled'
+  | 'onSuccess'
+>;
 
-export interface ERC20MetadataWithAddress<T = BigNumber>
-  extends ERC20Metadata<T> {
-  address: string;
-}
-
-export interface ModalProps {
-  isOpen: boolean;
-  handleClose: () => void;
-}
-
-export interface InterestDexRoute {
-  from: string;
-  to: string;
+declare global {
+  interface Window {
+    BinanceChain?: {
+      bnbSign?: (
+        address: string,
+        message: string
+      ) => Promise<{ publicKey: string; signature: string }>;
+      switchNetwork?: (networkId: string) => Promise<string>;
+    } & Ethereum;
+  }
 }

@@ -1,9 +1,9 @@
 import { ethers } from 'ethers';
-import { pathOr, prop } from 'ramda';
-import { FC, useCallback, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { pathOr } from 'ramda';
+import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
-import { useDispatch } from 'react-redux';
 import { v4 } from 'uuid';
 
 import { CopyToClipboard, Tooltip } from '@/components';
@@ -12,38 +12,28 @@ import {
   ERC_20_DATA,
   TOKENS_SVG_MAP,
 } from '@/constants';
-import { Box, Button, Typography } from '@/elements';
-import { useGetSigner, useIdAccount } from '@/hooks';
-import { IntMath, TOKEN_SYMBOL } from '@/sdk';
-import { coreActions } from '@/state/core/core.actions';
-import { LoadingSVG, TimesSVG } from '@/svg';
-import {
-  formatMoney,
-  isValidAccount,
-  safeGetAddress,
-  showToast,
-  showTXSuccessToast,
-  throwError,
-  throwIfInvalidSigner,
-} from '@/utils';
+import { Box, Typography } from '@/elements';
+import { useIdAccount } from '@/hooks';
+import { FixedPointMath } from '@/sdk';
+import { TimesSVG } from '@/svg';
+import { formatMoney, safeGetAddress } from '@/utils';
 import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
-import { FAUCET_TOKEN_MAX_AMOUNT } from '../faucet.data';
-import { FaucetFormProps, IFaucetForm } from '../faucet.types';
+import { IFaucetForm } from '../faucet.types';
 import InputBalance from '../input-balance';
-import { getTokenMinter, mint } from '../utilts';
 import CurrencyIdentifier from './faucet-currency-identifier';
+import { FaucetFormProps } from './faucet-form.types';
 import FaucetSelectCurrency from './faucet-select-currency';
+import MintButton from './mint-button';
 
 const FaucetForm: FC<FaucetFormProps> = ({
   tokens,
   isLoadingData,
   removeLocalToken,
+  refetch,
 }) => {
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  const t = useTranslations();
   const { chainId, account } = useIdAccount();
-  const { signer } = useGetSigner();
 
   const { register, getValues, setValue, control } = useForm<IFaucetForm>({
     defaultValues: {
@@ -56,54 +46,6 @@ const FaucetForm: FC<FaucetFormProps> = ({
     setValue('token', token);
     setValue('amount', 0);
   };
-
-  const handleOnMint = useCallback(async () => {
-    try {
-      setLoading(true);
-
-      const amount = getValues('amount');
-      const token = getValues('token');
-
-      if (!amount || !isValidAccount(token)) return;
-
-      const { validSigner, validId } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
-
-      const maxAmount = FAUCET_TOKEN_MAX_AMOUNT[validId][token];
-
-      const safeAmount = amount > maxAmount ? maxAmount : amount;
-
-      const decimals = pathOr(
-        DEFAULT_ERC_20_DECIMALS,
-        [validId, safeGetAddress(token), 'decimals'],
-        ERC_20_DATA
-      );
-
-      const tx = await mint(
-        validSigner,
-        getTokenMinter(validId, token),
-        account,
-        IntMath.toBigNumber(safeAmount, decimals)
-      );
-
-      await showTXSuccessToast(tx, validId);
-    } catch (error) {
-      throwError('Something went wrong', error);
-    } finally {
-      setLoading(false);
-      dispatch(coreActions.updateNativeBalance());
-    }
-  }, [chainId, signer, account]);
-
-  const onMint = () =>
-    showToast(handleOnMint(), {
-      loading: 'Minting...',
-      success: 'Success!',
-      error: prop('message'),
-    });
 
   return (
     <>
@@ -127,14 +69,14 @@ const FaucetForm: FC<FaucetFormProps> = ({
         >
           <FaucetSelectCurrency
             tokens={tokens}
-            label="Choose Token"
+            label={t('faucet.tokenInput')}
             defaultValue={tokens?.[0]?.address ?? ethers.constants.AddressZero}
             onSelectCurrency={onSelectCurrency}
           />
           <InputBalance
             name="amount"
             register={register}
-            label="Type Amount"
+            label={t('faucet.amountInput')}
             setValue={setValue}
             chainId={chainId}
             control={control}
@@ -142,31 +84,23 @@ const FaucetForm: FC<FaucetFormProps> = ({
               isLoadingData ? (
                 <Skeleton width="4rem" />
               ) : (
-                <CurrencyIdentifier tokens={tokens} control={control} />
+                <CurrencyIdentifier
+                  chainId={chainId}
+                  tokens={tokens}
+                  control={control}
+                />
               )
             }
           />
           <Box display="flex" justifyContent="center">
             {account ? (
-              <Button
-                width="100%"
-                onClick={onMint}
-                variant="primary"
-                disabled={loading}
-                hover={{ bg: 'accentAlternativeActive' }}
-                bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
-              >
-                {loading ? (
-                  <Box as="span" display="flex" justifyContent="center">
-                    <LoadingSVG width="1rem" height="1rem" />
-                    <Typography as="span" variant="normal" ml="M" fontSize="S">
-                      Minting...
-                    </Typography>
-                  </Box>
-                ) : (
-                  'Mint'
-                )}
-              </Button>
+              <MintButton
+                control={control}
+                chainId={chainId}
+                account={account}
+                getValues={getValues}
+                refetch={refetch}
+              />
             ) : (
               <ConnectWallet />
             )}
@@ -183,7 +117,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
           flexDirection="column"
         >
           <Typography variant="normal" textTransform="uppercase" my="L">
-            Your balance:
+            {t('common.yourBalance')}
           </Typography>
           <Box
             display="grid"
@@ -194,13 +128,13 @@ const FaucetForm: FC<FaucetFormProps> = ({
             {isLoadingData
               ? Array.from({ length: 5 }).map(() => (
                   <Box mb="L" key={v4()}>
-                    <Skeleton height="1rem" />
+                    <Skeleton />
                   </Box>
                 ))
               : tokens.map(({ symbol, address, balance }) => {
                   const SVG =
-                    TOKENS_SVG_MAP[symbol] ??
-                    TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+                    TOKENS_SVG_MAP[chainId][address] ??
+                    TOKENS_SVG_MAP[chainId].default;
 
                   const decimals = pathOr(
                     DEFAULT_ERC_20_DECIMALS,
@@ -217,9 +151,11 @@ const FaucetForm: FC<FaucetFormProps> = ({
                       justifyContent="space-between"
                     >
                       <Box display="flex" alignItems="center">
-                        <SVG width="1rem" height="1rem" />
+                        <SVG width="1rem" />
                         <Typography ml="M" variant="normal">
-                          {formatMoney(IntMath.toNumber(balance, decimals))}
+                          {formatMoney(
+                            FixedPointMath.toNumber(balance, decimals)
+                          )}
                         </Typography>
                       </Box>
                       <Box
@@ -249,7 +185,9 @@ const FaucetForm: FC<FaucetFormProps> = ({
                             }}
                             onClick={() => removeLocalToken(address)}
                           >
-                            <TimesSVG width="1rem" />
+                            <Box as="span" display="inline-block" width="1rem">
+                              <TimesSVG width="100%" />
+                            </Box>
                           </Box>
                         )}
                       </Box>

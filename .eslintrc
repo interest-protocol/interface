@@ -4,7 +4,6 @@
       "alias": {
         "map": [
           ["@/components", "./components"],
-          ["@/context", "./context"],
           ["@/connectors", "./connectors"],
           ["@/constants", "./constants"],
           ["@/design-system", "./design-system"],

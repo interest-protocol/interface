@@ -1,26 +1,27 @@
 import { isAddress } from 'ethers/lib/utils';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useAccount } from 'wagmi';
 
 import { SUPPORTED_CHAINS_RECORD } from '@/constants';
-import { getAccount, getChainId } from '@/state/core/core.selectors';
 
-export const useIdAccount = () => {
+import { useChainId } from './../use-chain-id';
+
+export const useIdAccount = (): { chainId: number; account: string } => {
   const { pathname } = useRouter();
-  const account = useSelector(getAccount) as string;
-  const chainId = useSelector(getChainId) as number;
+  const chainId = useChainId();
+  const { address } = useAccount();
 
-  if (!account)
+  if (!address)
     return {
-      chainId: SUPPORTED_CHAINS_RECORD[pathname][0],
-      account,
+      chainId,
+      account: '',
     };
 
   // sanity check
-  return isAddress(account)
+  return isAddress(address)
     ? {
-        chainId: chainId ?? SUPPORTED_CHAINS_RECORD[pathname][0],
-        account,
+        chainId,
+        account: address,
       }
     : {
         chainId: SUPPORTED_CHAINS_RECORD[pathname][0],

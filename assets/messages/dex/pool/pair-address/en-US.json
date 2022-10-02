@@ -1,0 +1,13 @@
+{
+  "dexPoolPairAddress": {
+    "pageTitle": "Pool Details",
+    "title": "{type} Summary",
+    "sectionCustomDetail2": "Swap Fee",
+    "removeLiquidity": "Remove Liquidity",
+    "addLiquidity": "Add Liquidity",
+    "error": {
+      "pairData": "Failed to fetch pair's data",
+      "pairDoesNotExist": "The pair with address {pairAddress} does not exist"
+    }
+  }
+}

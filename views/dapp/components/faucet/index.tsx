@@ -34,7 +34,9 @@ const Faucet: FC = () => {
             bg="accentAlternative"
             hover={{ bg: 'accentAlternativeActive' }}
           >
-            <FaucetSVG width="1rem" height="1rem" />
+            <Box as="span" display="inline-block" width="1rem">
+              <FaucetSVG width="100%" />
+            </Box>
             <Typography ml="M" as="span" fontSize="S" variant="normal">
               Faucet
             </Typography>
@@ -47,8 +49,8 @@ const Faucet: FC = () => {
       >
         <Button
           p="NONE"
-          width="3rem"
-          height="3rem"
+          width="2.5rem"
+          height="2.5rem"
           display="flex"
           variant="primary"
           alignItems="center"
@@ -58,7 +60,9 @@ const Faucet: FC = () => {
           justifyContent="center"
           hover={{ bg: 'accentAlternativeActive' }}
         >
-          <FaucetSVG width="1rem" height="1rem" />
+          <Box as="span" display="inline-block" width="40%" height="40%">
+            <FaucetSVG width="100%" />
+          </Box>
         </Button>
       </Box>
     </>

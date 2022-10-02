@@ -23,6 +23,8 @@ const Dropdown: FC<DropdownProps> = ({
   customItems,
   emptyMessage,
   defaultValue,
+  bg,
+  bgSelected,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState<number>(
@@ -63,12 +65,12 @@ const Dropdown: FC<DropdownProps> = ({
           alignItems="center"
           display="inline-flex"
           onClick={toggleDropdown}
-          bg={isOpen ? 'accentActive' : 'bottomBackground'}
+          bg={isOpen ? bg || 'accentActive' : 'bottomBackground'}
           hover={{
-            bg: 'accent',
+            bg: bg || 'accent',
           }}
           active={{
-            bg: 'accentActive',
+            bg: bgSelected || 'accentActive',
           }}
         >
           {mode === 'select' && selectedIndex !== -1
@@ -83,7 +85,7 @@ const Dropdown: FC<DropdownProps> = ({
           cursor="pointer"
           whiteSpace="nowrap"
           onClick={toggleDropdown}
-          color={isOpen ? 'accent' : 'text'}
+          color={isOpen ? bg || 'accent' : 'text'}
         >
           {mode === 'select' && selectedIndex !== -1
             ? data[selectedIndex].displayTitle ||
@@ -108,6 +110,8 @@ const Dropdown: FC<DropdownProps> = ({
         toggleDropdown={toggleDropdown}
         setSelectedIndex={setSelectedIndex}
         dropdownWrapperId={dropdownWrapperId}
+        bg={bg}
+        bgSelected={bgSelected}
       />
     </Box>
   );
