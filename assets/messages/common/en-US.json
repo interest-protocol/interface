@@ -36,7 +36,7 @@
     "wrap": "{isLoading, plural, =1 {wrapping...} other {wrap}}",
     "unwrap": "{isLoading, plural, =1 {unwrapping...} other {unwrap}}",
     "fetchingBalances": "fetching balances",
-    "networkTitle": "choose your Network",
+    "networkTitle": "choose Network",
     "account": "account",
     "connected": "connected with",
     "disconnect": "disconnect",
