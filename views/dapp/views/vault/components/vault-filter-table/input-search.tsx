@@ -1,7 +1,6 @@
 import { ChangeEvent, FC } from 'react';
 
-import { Box, Button, Input } from '@/elements';
-import { SearchSVG } from '@/svg';
+import { Box, Input } from '@/elements';
 
 import { InputSearchProps } from './filter-table.types';
 
@@ -26,11 +25,6 @@ const InputSearch: FC<InputSearchProps> = ({ register, setValue }) => (
           setValue?.(`search.value`, v.target.value);
         },
       })}
-      Suffix={
-        <Button variant="secondary" bg="transparent">
-          <SearchSVG color="#ddd" height="1rem" />
-        </Button>
-      }
     />
   </Box>
 );

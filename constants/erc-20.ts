@@ -34,6 +34,7 @@ import {
 import {
   getAPEAddress,
   getBTCAddress,
+  getBUSDAddress,
   getDNRAddress,
   getETHERC20Address,
   getIntAddress,
@@ -331,6 +332,13 @@ const BNB_TEST_ERC20_ARRAY = [
     decimals: 18,
     name: 'Dinero',
     address: getDNRAddress(CHAIN_ID.BNB_TEST_NET),
+    chainId: CHAIN_ID.BNB_TEST_NET,
+  },
+  {
+    symbol: TOKEN_SYMBOL.BUSD,
+    decimals: 18,
+    name: 'USD Binance',
+    address: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
     chainId: CHAIN_ID.BNB_TEST_NET,
   },
   {

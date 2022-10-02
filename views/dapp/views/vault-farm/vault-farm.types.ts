@@ -19,6 +19,7 @@ export interface VaultFarmProps {
 
 export interface VaultDetailBalanceProps {
   symbol: string;
+  address: string;
   balance: string;
 }
 

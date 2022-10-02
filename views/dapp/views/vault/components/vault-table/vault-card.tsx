@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import { Routes, RoutesEnum } from '@/constants';
-import { Box, Typography } from '@/elements';
+import { Box, Button, Typography } from '@/elements';
 
 import { VaultData } from '../../vault.types';
 import VaultCardItem from './vault-card-item';
@@ -11,11 +11,10 @@ import VaultName from './vault-name';
 const VaultCard: FC<VaultData> = ({
   id,
   vault,
-  apy,
+  apr,
   earn,
   type,
   tvl,
-  isAuto,
   caption,
 }) => {
   const { push } = useRouter();
@@ -48,7 +47,7 @@ const VaultCard: FC<VaultData> = ({
         justifyContent="space-between"
         alignItems="center"
       >
-        <VaultName vault={vault} isAuto={isAuto} caption={caption} />
+        <VaultName vault={vault} caption={caption} />
         <Box color="accent" display="flex" flexDirection="column">
           <Typography
             variant={'normal'}
@@ -57,7 +56,7 @@ const VaultCard: FC<VaultData> = ({
             lineHeight="1rem"
             textAlign="right"
           >
-            APY
+            APR
           </Typography>
           <Typography
             variant={'normal'}
@@ -66,7 +65,7 @@ const VaultCard: FC<VaultData> = ({
             lineHeight="1.313rem"
             textAlign="right"
           >
-            {apy}
+            {apr}
           </Typography>
         </Box>
       </Box>
@@ -74,6 +73,29 @@ const VaultCard: FC<VaultData> = ({
       <VaultCardItem title="Earn" content={earn} />
       <VaultCardItem title="Platform" content={type} />
       <VaultCardItem title="TVL" content={tvl} />
+      <Box mx="auto" px="L" py="M">
+        <Button
+          variant="primary"
+          width="100%"
+          hover={{ bg: 'accentActive' }}
+          onClick={() =>
+            push(
+              {
+                pathname: Routes[RoutesEnum.VaultFarm],
+                query: {
+                  farm: id as string,
+                },
+              },
+              undefined,
+              {
+                shallow: true,
+              }
+            )
+          }
+        >
+          Enter
+        </Button>
+      </Box>
     </Box>
   );
 };

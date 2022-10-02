@@ -10,7 +10,12 @@ const VaultFarmDetailsItem: FC<VaultFarmDetailsItemProps> = ({
   content,
   tip,
 }) => (
-  <Box display="flex" justifyContent="space-between" mb="0.75rem">
+  <Box
+    display="flex"
+    flexDirection={['column', 'column', 'column', 'row']}
+    justifyContent="space-between"
+    mb="0.75rem"
+  >
     <Typography variant="normal" display="flex" alignItems="center">
       {tip && (
         <Box
@@ -37,6 +42,7 @@ const VaultFarmDetailsItem: FC<VaultFarmDetailsItemProps> = ({
       color={'text'}
       fontSize={'1rem'}
       fontWeight="500"
+      pl={['XL', 'XL', 'XL', 'unset']}
     >
       {content}
     </Typography>

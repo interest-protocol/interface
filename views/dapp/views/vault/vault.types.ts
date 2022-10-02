@@ -21,7 +21,7 @@ export interface VaultDetailsProps {
 }
 export interface VaultRow {
   name: VaultNameProps;
-  apy: string;
+  apr: string;
   earn: string;
   type: string;
   tvl: string;
@@ -38,7 +38,7 @@ export interface VaultData {
   vault: ReadonlyArray<ERC20>;
   vaultDetails: ReadonlyArray<VaultDetails>;
   caption: string;
-  apy: string;
+  apr: string;
   earn: string;
   type: 'LP';
   tvl: string;

@@ -6,7 +6,11 @@ import { Box, Button, Typography } from '@/elements';
 import InputBalance from './input-balance';
 import { IVaultFarmForm, VaultDetailBalanceProps } from './vault-farm.types';
 
-const VaultFarmBalance: FC<VaultDetailBalanceProps> = ({ symbol, balance }) => {
+const VaultFarmBalance: FC<VaultDetailBalanceProps> = ({
+  symbol,
+  address,
+  balance,
+}) => {
   const { register, setValue } = useForm<IVaultFarmForm>({
     defaultValues: {
       value: '',
@@ -34,6 +38,7 @@ const VaultFarmBalance: FC<VaultDetailBalanceProps> = ({ symbol, balance }) => {
         register={register}
         setValue={setValue}
         symbol={symbol}
+        address={address}
       />
       <Button variant="primary" width="100%" py="L" mb="1.5rem">
         Approve

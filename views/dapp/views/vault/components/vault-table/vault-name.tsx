@@ -3,13 +3,16 @@ import { v4 } from 'uuid';
 
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { TOKEN_SYMBOL } from '@/sdk';
+import { useChainId } from '@/hooks';
 
 import { VaultNameProps } from '../../vault.types';
 
 const VaultName: FC<VaultNameProps> = ({ vault, caption }) => {
-  const returnSVG = (symbol: string) => {
-    const SVG = TOKENS_SVG_MAP[symbol] || TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
+  const chainId = useChainId();
+
+  const returnSVG = (address: string) => {
+    const SVG =
+      TOKENS_SVG_MAP[chainId][address] || TOKENS_SVG_MAP[chainId].default;
     return (
       <SVG
         width={vault?.length == 1 ? '100%' : '80%'}
@@ -20,9 +23,13 @@ const VaultName: FC<VaultNameProps> = ({ vault, caption }) => {
 
   return (
     <Box display="flex">
-      <Box width="2.5rem" height="2.5rem" my="auto">
+      <Box
+        width={['1.5rem', '1.5rem', '1.5rem', '2.5rem']}
+        height={['1.5rem', '1.5rem', '1.5rem', '2.5rem']}
+        my="auto"
+      >
         {vault?.length == 1 ? (
-          returnSVG(vault?.[0].symbol)
+          returnSVG(vault?.[0]?.address)
         ) : (
           <Box position="relative" width="100%" height="100%">
             <Box
@@ -33,7 +40,7 @@ const VaultName: FC<VaultNameProps> = ({ vault, caption }) => {
               display="flex"
               justifyContent="flex-end"
             >
-              {returnSVG(vault?.[0].symbol)}
+              {returnSVG(vault?.[0]?.address)}
             </Box>
             <Box
               position="absolute"
@@ -42,32 +49,32 @@ const VaultName: FC<VaultNameProps> = ({ vault, caption }) => {
               width="100%"
               key={v4()}
             >
-              {returnSVG(vault?.[1].symbol)}
+              {returnSVG(vault?.[1].address)}
             </Box>
           </Box>
         )}
       </Box>
-      <Box ml="S">
+      <Box ml="S" display="flex" justifyContent="center" flexDirection="column">
         <Typography
           variant="normal"
           color="textSecondary"
           as="p"
-          fontSize="0.75rem"
+          fontSize={['0.5rem', '0.5rem', '0.5rem', '0.75rem']}
           fontWeight="400"
         >
           {caption}
         </Typography>
         <Typography
           variant="normal"
-          fontSize="1.125rem"
+          fontSize={['1rem', '1rem', '1rem', '1.125rem']}
           textTransform="uppercase"
           lineHeight="1.313rem"
           fontWeight="500"
-          mt="M"
+          mt={['S', 'S', 'S', 'M']}
         >
           {vault?.length == 1
-            ? vault?.[0].symbol
-            : vault?.[0].symbol + '-' + vault?.[1].symbol}
+            ? vault?.[0]?.symbol
+            : vault?.[0]?.symbol + '-' + vault?.[1].symbol}
         </Typography>
       </Box>
     </Box>

@@ -2,8 +2,7 @@ import { ChangeEvent, FC } from 'react';
 
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
-import { TOKEN_SYMBOL } from '@/sdk';
-import { parseToSafeStringNumber } from '@/utils';
+import { useChainId } from '@/hooks';
 
 import { InputBalanceProps } from './input-balance.types';
 
@@ -14,10 +13,13 @@ const InputBalance: FC<InputBalanceProps> = ({
   setValue,
   max,
   symbol,
+  address,
 }) => {
-  const returnSVG = (symbol: string) => {
-    const SVG = TOKENS_SVG_MAP[symbol] || TOKENS_SVG_MAP[TOKEN_SYMBOL.Unknown];
-    return <SVG width={'50%'} height={'50%'} />;
+  const chainId = useChainId();
+  const returnSVG = (address: string) => {
+    const SVG =
+      TOKENS_SVG_MAP[chainId][address] || TOKENS_SVG_MAP[chainId].default;
+    return <SVG width="100%" height="100%" />;
   };
   return (
     <Box mb="L">
@@ -34,13 +36,13 @@ const InputBalance: FC<InputBalanceProps> = ({
       )}
       <Input
         min="0"
-        type="string"
+        type="number"
         textAlign="right"
-        fontSize="1.5rem"
+        fontSize={['1rem', '1rem', '1rem', '1.5rem']}
         placeholder={'0'}
         {...register(name, {
           onChange: (v: ChangeEvent<HTMLInputElement>) =>
-            setValue?.(name, parseToSafeStringNumber(v.target.value)),
+            setValue?.(name, v.target.value),
         })}
         shieldProps={{
           p: 'S',
@@ -59,9 +61,9 @@ const InputBalance: FC<InputBalanceProps> = ({
         Prefix={
           <>
             <Button
-              px="L"
+              px={['M', 'M', 'M', 'L']}
               mx="M"
-              fontSize="S"
+              fontSize={['XS', 'XS', 'XS', 'S']}
               height="80%"
               variant="secondary"
               bg="bottomBackground"
@@ -69,13 +71,15 @@ const InputBalance: FC<InputBalanceProps> = ({
               active={{ bg: 'accentActive' }}
               onClick={() => setValue?.('value', max.toString())}
             >
-              MAX
+              max
             </Button>
-            {returnSVG(symbol)}{' '}
+            <Box width="1.8rem" display="flex">
+              {returnSVG(address)}
+            </Box>{' '}
             <Typography
               ml="M"
               variant="normal"
-              fontSize="1rem"
+              fontSize={['0.75rem', '0.75rem', '0.75rem', '1rem']}
               fontWeight="500"
               color="textSecondary"
               textAlign="end"

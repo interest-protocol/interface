@@ -9,4 +9,5 @@ export interface InputBalanceProps {
   setValue?: UseFormSetValue<IVaultFarmForm>;
   max: number;
   symbol: string;
+  address: string;
 }

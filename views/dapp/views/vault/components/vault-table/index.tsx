@@ -76,7 +76,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
                         textAlign="center"
                         key={v4()}
                       >
-                        {item.apy}
+                        {item.apr}
                       </Typography>,
                       <Typography
                         variant={'normal'}

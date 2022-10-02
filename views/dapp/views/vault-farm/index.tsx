@@ -23,14 +23,13 @@ const VaultFarm: FC<VaultFarmProps> = ({ farm }) => {
       flex="1"
       display="flex"
       flexDirection="column"
-      width={['80%', '80%', '80%', '100%']}
+      width="100%"
+      maxWidth="40rem"
       mx="auto"
     >
       <Container
-        dapp
         px="M"
         mt="XL"
-        minWidth="40rem"
         position="relative"
         background="specialBackground"
       >
@@ -55,7 +54,10 @@ const VaultFarm: FC<VaultFarmProps> = ({ farm }) => {
             />
             <VaultFarmBalance
               symbol={
-                (select === 'stake' ? DATA[1] : DATA[0]).vault?.[0].symbol
+                (select === 'stake' ? DATA[0] : DATA[1]).vault?.[0].symbol
+              }
+              address={
+                (select === 'stake' ? DATA[0] : DATA[1]).vault?.[0].address
               }
               balance="149.43"
             />

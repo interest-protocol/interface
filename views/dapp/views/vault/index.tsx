@@ -29,13 +29,13 @@ const Vault: FC = () => {
       position="relative"
       flexDirection="column"
       justifyContent="space-between"
+      maxWidth="50rem"
+      mx="auto"
     >
       <Container
         dapp
         py="XL"
         px="NONE"
-        width="55%"
-        minWidth="50rem"
         display="flex"
         flexDirection="column"
         justifyContent={['center', 'flex-start']}
