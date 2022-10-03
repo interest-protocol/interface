@@ -28,9 +28,9 @@ const SwitchLang: FC = () => {
           displayOption: (
             <Box
               pl="M"
+              height="3rem"
               display="flex"
               minWidth="17rem"
-              height="3rem"
               alignItems="center"
               hover={{
                 color: currentLocale === locale ? 'unset' : 'textInverted',
@@ -38,10 +38,10 @@ const SwitchLang: FC = () => {
             >
               <Box
                 mx="0.75rem"
+                borderRadius="2rem"
+                backgroundSize="cover"
                 width={['1.5rem', '1.25rem']}
                 height={['1.5rem', '1.25rem']}
-                backgroundSize="cover"
-                borderRadius="2rem"
               >
                 {getSafeLocaleSVG(locale)}
               </Box>

@@ -9,5 +9,5 @@ const SVG_RECORD = {
   [LocalesEnum.BR]: <BRFlagSVG width="100%" height="100%" />,
 } as { [key: string]: ReactElement };
 
-export const getSafeLocaleSVG = (locale: string) =>
-  SVG_RECORD[locale] || <USFlagSVG width="100%" height="100%" />;
+export const getSafeLocaleSVG = (locale: string): ReactElement =>
+  SVG_RECORD[locale] ?? <USFlagSVG width="100%" height="100%" />;
