@@ -1,0 +1,13 @@
+{
+  "vaultAddress": {
+    "pageTitle": "Vault Details",
+    "detail1": "Deposit Collateral",
+    "detail1Tip": "Amount of collateral available in the vault",
+    "detail2": "Dinero received per deposit",
+    "detail2Tip": "Amount of money received",
+    "detail3": "Maximum vault amount",
+    "detail3Tip": "Maximum vault amount",
+    "openButton": "{isOpen, plural, =1 {Details} other {Hide}}",
+    "earn": "Earn"
+  }
+}

@@ -1,16 +1,19 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Box, Button, Typography } from '@/elements';
+import { capitalize } from '@/utils';
 
 import InputBalance from './input-balance';
 import { IVaultForm, VaultDetailBalanceProps } from './vault-details.types';
 
-const VaultFarmBalance: FC<VaultDetailBalanceProps> = ({
+const VaultDetailsBalance: FC<VaultDetailBalanceProps> = ({
   symbol,
   address,
   balance,
 }) => {
+  const t = useTranslations();
   const { register, setValue } = useForm<IVaultForm>({
     defaultValues: {
       value: '',
@@ -29,7 +32,7 @@ const VaultFarmBalance: FC<VaultDetailBalanceProps> = ({
           textAlign="right"
           width="100%"
         >
-          Balance: {balance}
+          {capitalize(t('common.balance'))} : {balance}
         </Typography>
       </Box>
       <InputBalance
@@ -41,10 +44,10 @@ const VaultFarmBalance: FC<VaultDetailBalanceProps> = ({
         address={address}
       />
       <Button variant="primary" width="100%" py="L" mb="1.5rem">
-        Approve
+        {capitalize(t('common.approve', { isLoading: 0 }))}
       </Button>
     </Box>
   );
 };
 
-export default VaultFarmBalance;
+export default VaultDetailsBalance;

@@ -1,4 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
+import { mergeDeepRight } from 'ramda';
 
 import VaultDetails from '../../../views/dapp/views/vault-details/index';
 
@@ -17,18 +18,22 @@ export const getServerSideProps: GetServerSideProps = async ({
   params,
 }) => {
   const { address } = params || {};
-  const [commonMessages] = await Promise.all([
+  const [commonMessages, vaultAddressMessages] = await Promise.all([
     import(`../../../assets/messages/common/${locale}.json`),
+    import(`../../../assets/messages/vault/address/${locale}.json`),
   ]);
 
-  const messages = commonMessages.default;
+  const messages = mergeDeepRight(
+    commonMessages.default,
+    vaultAddressMessages.default
+  );
 
   return {
     props: {
       address,
       messages,
       now: new Date().getTime(),
-      pageTitle: 'common.earn',
+      pageTitle: 'vaultAddress.pageTitle',
     },
   };
 };

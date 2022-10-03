@@ -1,8 +1,10 @@
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
+import { capitalize } from '@/utils';
 
 import { VaultData } from '../../vault.types';
 import VaultCardItem from './vault-card-item';
@@ -17,6 +19,7 @@ const VaultCard: FC<VaultData> = ({
   tvl,
   caption,
 }) => {
+  const t = useTranslations();
   const { push } = useRouter();
 
   return (
@@ -70,8 +73,8 @@ const VaultCard: FC<VaultData> = ({
         </Box>
       </Box>
       <Typography variant="normal" as="hr" color="#33373B" my="M" />
-      <VaultCardItem title="Earn" content={earn} />
-      <VaultCardItem title="Platform" content={type} />
+      <VaultCardItem title={t('vault.column3')} content={earn} />
+      <VaultCardItem title={t('common.type')} content={type} />
       <VaultCardItem title="TVL" content={tvl} />
       <Box mx="auto" px="L" py="M">
         <Button
@@ -93,7 +96,7 @@ const VaultCard: FC<VaultData> = ({
             )
           }
         >
-          Enter
+          {capitalize(t('common.enter'))}
         </Button>
       </Box>
     </Box>

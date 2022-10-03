@@ -1,10 +1,12 @@
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
+import { capitalize } from '@/utils';
 
 import { VaultTableProps } from '../../vault.types';
 import VaultCard from './vault-card';
@@ -13,7 +15,14 @@ import { DesktopVaultSkeletonRow } from './vault-skeleton-row';
 
 const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
   const { push } = useRouter();
-  const HEADING = ['Vaults Name', 'APR', 'Earn', 'Type', 'TVL'];
+  const t = useTranslations();
+  const HEADING = [
+    t('vault.column1'),
+    'APR',
+    t('vault.column3'),
+    capitalize(t('common.type')),
+    'TVL',
+  ];
   return (
     <Container dapp px="M" width="100%">
       <Box display={['none', 'none', 'none', 'block']}>
@@ -58,7 +67,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
                           )
                         }
                       >
-                        Enter
+                        {capitalize(t('common.enter'))}
                       </Button>
                     ),
                     items: [

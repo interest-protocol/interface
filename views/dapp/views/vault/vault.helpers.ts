@@ -11,18 +11,18 @@ const DATA: VaultData[] = [
     vault: [ERC_20_DATA[CHAIN_ID.BNB_TEST_NET][TOKEN_SYMBOL.DNR]],
     vaultDetails: [
       {
-        title: 'Deposit Collateral',
-        tip: 'Amount of collateral available in the vault',
+        title: 'vaultAddress.detail1',
+        tip: 'vaultAddress.detail1Tip',
         content: '1,959.61 ' + TOKEN_SYMBOL.DNR,
       },
       {
-        title: 'Dinero receive per deposit',
-        tip: 'Amount of money received',
+        title: 'vaultAddress.detail2',
+        tip: 'vaultAddress.detail2Tip',
         content: '59.61 ' + TOKEN_SYMBOL.BUSD,
       },
       {
-        title: 'Maximum vault amount',
-        tip: 'Maximum vault amount',
+        title: 'vaultAddress.detail3',
+        tip: 'vaultAddress.detail3Tip',
         content: '1,959.61 / 15M',
       },
     ],
@@ -38,18 +38,18 @@ const DATA: VaultData[] = [
     vault: [ERC_20_DATA[CHAIN_ID.BNB_TEST_NET][TOKEN_SYMBOL.BUSD]],
     vaultDetails: [
       {
-        title: 'Deposit Collateral',
-        tip: 'Amount of collateral available in the vault',
+        title: 'vaultAddress.detail1',
+        tip: 'vaultAddress.detail1Tip',
         content: '3,959.61 ' + TOKEN_SYMBOL.BUSD,
       },
       {
-        title: 'Dinero received per deposit',
-        tip: 'Amount of money received',
+        title: 'vaultAddress.detail2',
+        tip: 'vaultAddress.detail2Tip',
         content: '359.61 ' + TOKEN_SYMBOL.DNR,
       },
       {
-        title: 'Maximum vault amount',
-        tip: 'Maximum vault amount',
+        title: 'vaultAddress.detail3',
+        tip: 'vaultAddress.detail3Tip',
         content: '3,959.61 / 55M',
       },
     ],

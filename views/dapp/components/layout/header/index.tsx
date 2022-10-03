@@ -14,6 +14,7 @@ import {
 import { Box, Dropdown, Typography } from '@/elements';
 import useEventListener from '@/hooks/use-event-listener';
 import { CreditCardSVG, LogoSVG } from '@/svg';
+import { capitalize } from '@/utils';
 
 import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
@@ -119,7 +120,7 @@ const Header: FC = () => {
                 }
                 hover={{ color: 'accentActive' }}
               >
-                {t('common.earn')}
+                {capitalize(t('common.earn'))}
               </Typography>
             }
             mode="menu"

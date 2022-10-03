@@ -6,10 +6,10 @@ import { Box, Typography } from '@/elements';
 
 import GoBack from '../../components/go-back';
 import DATA from '../vault/vault.helpers';
-import VaultFarmBalance from './balance';
+import VaultDetailsBalance from './balance';
 import ButtonTabSelect from './button-tab-select';
 import VaultDetailsInfo from './details-info';
-import VaultFarmPool from './pool-details';
+import VaultDetailsPool from './pool-details';
 import { VaultDetailsProps } from './vault-details.types';
 import VaultDetailsTitle from './vault-title';
 
@@ -53,7 +53,7 @@ const VaultDetails: FC<VaultDetailsProps> = ({ vault }) => {
             <VaultDetailsInfo
               items={(select === 'stake' ? DATA[1] : DATA[0]).vaultDetails}
             />
-            <VaultFarmBalance
+            <VaultDetailsBalance
               symbol={
                 (select === 'stake' ? DATA[0] : DATA[1]).vault?.[0].symbol
               }
@@ -63,18 +63,18 @@ const VaultDetails: FC<VaultDetailsProps> = ({ vault }) => {
               balance="149.43"
             />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
-            <VaultFarmPool
+            <VaultDetailsPool
               VaultPoolDetails={[
                 {
-                  title: 'Earn',
+                  title: 'vaultAddress.earn',
                   content: (select === 'stake' ? DATA[0] : DATA[1])?.earn,
                 },
                 {
-                  title: 'Type',
+                  title: 'common.type',
                   content: (select === 'stake' ? DATA[0] : DATA[1])?.type,
                 },
                 {
-                  title: 'TVL',
+                  title: 'common.tvl',
                   content: (select === 'stake' ? DATA[0] : DATA[1])?.tvl,
                 },
               ]}

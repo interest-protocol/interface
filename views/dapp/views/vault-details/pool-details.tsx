@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC, useRef, useState } from 'react';
 import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
@@ -11,6 +12,7 @@ import { VaultDetailsPoolProps } from './vault-details.types';
 const AnimatedBox = animated(Box);
 
 const VaultDetailsPool: FC<VaultDetailsPoolProps> = ({ VaultPoolDetails }) => {
+  const t = useTranslations();
   const [openDetails, setOpenDetails] = useState(false);
   const detailRef = useRef<HTMLDivElement>(null);
 
@@ -44,7 +46,7 @@ const VaultDetailsPool: FC<VaultDetailsPoolProps> = ({ VaultPoolDetails }) => {
           mr="M"
           fontSize="0.9rem"
         >
-          {openDetails ? 'Hide ' : 'Details '}
+          {t('vaultAddress.openButton', { isOpen: +!openDetails })}
         </Typography>
         <AnimatedBox style={{ transform: arrowInvert }}>
           <ArrowSVG width="0.5rem" />

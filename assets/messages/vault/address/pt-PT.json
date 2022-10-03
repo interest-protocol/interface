@@ -1,0 +1,13 @@
+{
+  "vaultAddress": {
+    "pageTitle": "Detalhes da Vault",
+    "detail1": "Tokens Depositados",
+    "detail1Tip": "Quantidade de tokens disponível na Vault",
+    "detail2": "Dinero recebidos por depósito",
+    "detail2Tip": "Quantidade de dinero recebido",
+    "detail3": "Quantidade Máxima na Vault",
+    "detail3Tip": "Quantidade Máxima na Vault",
+    "openButton": "{isOpen, plural, =1 {Detalhes} other {Esconder}}",
+    "earn": "Investimento"
+  }
+}
