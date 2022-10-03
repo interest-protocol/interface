@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
 
@@ -12,11 +12,15 @@ const AnimatedBox = animated(Box);
 
 const VaultDetailsPool: FC<VaultDetailsPoolProps> = ({ VaultPoolDetails }) => {
   const [openDetails, setOpenDetails] = useState(false);
-  const { arrowInvert } = useSpring({
+  const detailRef = useRef<HTMLDivElement>(null);
+
+  const { mHeight, arrowInvert } = useSpring({
     from: {
+      mHeight: '0%',
       arrowInvert: 'scaleY(1)',
     },
     to: {
+      mHeight: `${openDetails ? detailRef.current?.offsetHeight ?? 0 : 0}px`,
       arrowInvert: !openDetails ? 'scaleY(1)' : 'scaleY(-1)',
     },
     config: {
@@ -46,8 +50,8 @@ const VaultDetailsPool: FC<VaultDetailsPoolProps> = ({ VaultPoolDetails }) => {
           <ArrowSVG width="0.5rem" />
         </AnimatedBox>
       </Box>
-      {openDetails && (
-        <Box p="0 2rem 2rem" cursor="default">
+      <AnimatedBox style={{ height: mHeight }} overflow="hidden">
+        <Box p="0 2rem 2rem" cursor="default" ref={detailRef}>
           <Box bg="background" p="1.5rem" borderRadius="0.5rem">
             {VaultPoolDetails.map((item) => (
               <VaultDetailsItem
@@ -59,7 +63,7 @@ const VaultDetailsPool: FC<VaultDetailsPoolProps> = ({ VaultPoolDetails }) => {
             ))}
           </Box>
         </Box>
-      )}
+      </AnimatedBox>
     </>
   );
 };

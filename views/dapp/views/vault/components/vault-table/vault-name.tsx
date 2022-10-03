@@ -7,7 +7,7 @@ import { useChainId } from '@/hooks';
 
 import { VaultNameProps } from '../../vault.types';
 
-const VaultName: FC<VaultNameProps> = ({ vault, caption }) => {
+const VaultName: FC<VaultNameProps> = ({ vault }) => {
   const chainId = useChainId();
 
   const returnSVG = (address: string) => {
@@ -23,11 +23,7 @@ const VaultName: FC<VaultNameProps> = ({ vault, caption }) => {
 
   return (
     <Box display="flex">
-      <Box
-        width={['1.5rem', '1.5rem', '1.5rem', '2.5rem']}
-        height={['1.5rem', '1.5rem', '1.5rem', '2.5rem']}
-        my="auto"
-      >
+      <Box width="1.5rem" height="1.5rem" my="auto">
         {vault?.length == 1 ? (
           returnSVG(vault?.[0]?.address)
         ) : (
@@ -57,20 +53,9 @@ const VaultName: FC<VaultNameProps> = ({ vault, caption }) => {
       <Box ml="S" display="flex" justifyContent="center" flexDirection="column">
         <Typography
           variant="normal"
-          color="textSecondary"
-          as="p"
-          fontSize={['0.5rem', '0.5rem', '0.5rem', '0.75rem']}
-          fontWeight="400"
-        >
-          {caption}
-        </Typography>
-        <Typography
-          variant="normal"
-          fontSize={['1rem', '1rem', '1rem', '1.125rem']}
           textTransform="uppercase"
           lineHeight="1.313rem"
           fontWeight="500"
-          mt={['S', 'S', 'S', 'M']}
         >
           {vault?.length == 1
             ? vault?.[0]?.symbol
