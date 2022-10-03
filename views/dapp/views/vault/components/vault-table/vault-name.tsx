@@ -10,6 +10,8 @@ import { VaultNameProps } from '../../vault.types';
 const VaultName: FC<VaultNameProps> = ({ vault }) => {
   const chainId = useChainId();
 
+  console.log(vault, 'see vault');
+
   const returnSVG = (address: string) => {
     const SVG =
       TOKENS_SVG_MAP[chainId][address] || TOKENS_SVG_MAP[chainId].default;

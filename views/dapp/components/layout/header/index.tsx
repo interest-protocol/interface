@@ -80,43 +80,45 @@ const Header: FC = () => {
             DEX
           </Typography>
         </Link>
-        <Dropdown
-          title={
-            <Typography
-              px="XL"
-              cursor="pointer"
-              variant="normal"
-              color={
-                pathname === Routes[RoutesEnum.Earn] ||
-                pathname.includes(Routes[RoutesEnum.Vault])
-                  ? 'accent'
-                  : 'inherit'
-              }
-              hover={{ color: 'accentActive' }}
-            >
-              {t('common.earn')}
-            </Typography>
-          }
-          mode="menu"
-          data={[
-            {
-              value: 'Farm',
-              displayOption: 'Farm',
-              onSelect: () =>
-                push(Routes[RoutesEnum.Earn], undefined, {
-                  shallow: true,
-                }),
-            },
-            {
-              value: 'Vaults',
-              displayOption: 'Vaults',
-              onSelect: () =>
-                push(Routes[RoutesEnum.Vault], undefined, {
-                  shallow: true,
-                }),
-            },
-          ]}
-        />
+        <Box borderRight="1px solid" borderColor="bottomBackground" px="XL">
+          <Dropdown
+            title={
+              <Typography
+                textAlign="center"
+                cursor="pointer"
+                variant="normal"
+                color={
+                  pathname === Routes[RoutesEnum.Earn] ||
+                  pathname.includes(Routes[RoutesEnum.Vault])
+                    ? 'accent'
+                    : 'inherit'
+                }
+                hover={{ color: 'accentActive' }}
+              >
+                {t('common.earn')}
+              </Typography>
+            }
+            mode="menu"
+            data={[
+              {
+                value: 'Farm',
+                displayOption: 'Farm',
+                onSelect: () =>
+                  push(Routes[RoutesEnum.Earn], undefined, {
+                    shallow: true,
+                  }),
+              },
+              {
+                value: 'Vaults',
+                displayOption: 'Vaults',
+                onSelect: () =>
+                  push(Routes[RoutesEnum.Vault], undefined, {
+                    shallow: true,
+                  }),
+              },
+            ]}
+          />
+        </Box>
         <Link href={Routes[RoutesEnum.DineroMarket]}>
           <Typography
             px="XL"

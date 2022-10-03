@@ -80,53 +80,55 @@ const Footer: FC = () => {
               Dex
             </Button>
           </Link>
-          <Dropdown
-            bottom
-            title={
-              <Typography
-                mx="S"
-                px="1.5rem"
-                bg="textSoft"
-                fontSize="M"
-                height="3rem"
-                display="flex"
-                variant="normal"
-                borderRadius="M"
-                alignItems="center"
-                justifyContent="center"
-                boxShadow="0 0 15px rgba(0,0,0,.3)"
-                color={
-                  pathname === Routes[RoutesEnum.Earn] ||
-                  pathname.includes(Routes[RoutesEnum.Vault])
-                    ? 'accent'
-                    : 'inherit'
-                }
-                hover={{ bg: 'accent', color: 'text' }}
-                active={{ bg: 'accentActive', color: 'text' }}
-              >
-                {capitalize(t('common.earn'))}
-              </Typography>
-            }
-            mode="menu"
-            data={[
-              {
-                value: 'Farm',
-                displayOption: 'Farm',
-                onSelect: () =>
-                  push(Routes[RoutesEnum.Earn], undefined, {
-                    shallow: true,
-                  }),
-              },
-              {
-                value: 'Vaults',
-                displayOption: 'Vaults',
-                onSelect: () =>
-                  push(Routes[RoutesEnum.Vault], undefined, {
-                    shallow: true,
-                  }),
-              },
-            ]}
-          />
+
+          <Box borderRight="1px solid" borderColor="bottomBackground" px="XL">
+            <Dropdown
+              bottom
+              title={
+                <Typography
+                  px="1.5rem"
+                  bg="textSoft"
+                  fontSize="M"
+                  height="3rem"
+                  display="flex"
+                  variant="normal"
+                  borderRadius="M"
+                  alignItems="center"
+                  justifyContent="center"
+                  boxShadow="0 0 15px rgba(0,0,0,.3)"
+                  color={
+                    pathname === Routes[RoutesEnum.Earn] ||
+                    pathname.includes(Routes[RoutesEnum.Vault])
+                      ? 'accent'
+                      : 'inherit'
+                  }
+                  hover={{ bg: 'accent', color: 'text' }}
+                  active={{ bg: 'accentActive', color: 'text' }}
+                >
+                  {capitalize(t('common.earn'))}
+                </Typography>
+              }
+              mode="menu"
+              data={[
+                {
+                  value: 'Farm',
+                  displayOption: 'Farm',
+                  onSelect: () =>
+                    push(Routes[RoutesEnum.Earn], undefined, {
+                      shallow: true,
+                    }),
+                },
+                {
+                  value: 'Vaults',
+                  displayOption: 'Vaults',
+                  onSelect: () =>
+                    push(Routes[RoutesEnum.Vault], undefined, {
+                      shallow: true,
+                    }),
+                },
+              ]}
+            />
+          </Box>
           <Link href={Routes[RoutesEnum.DineroMarket]}>
             <Button
               mx="S"

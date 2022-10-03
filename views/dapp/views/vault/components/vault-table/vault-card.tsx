@@ -31,7 +31,7 @@ const VaultCard: FC<VaultData> = ({
           {
             pathname: Routes[RoutesEnum.VaultDetails],
             query: {
-              farm: id as string,
+              address: id as string,
             },
           },
           undefined,
@@ -83,7 +83,7 @@ const VaultCard: FC<VaultData> = ({
               {
                 pathname: Routes[RoutesEnum.VaultDetails],
                 query: {
-                  farm: id as string,
+                  address: id as string,
                 },
               },
               undefined,
