@@ -47,6 +47,8 @@ export const RoutesWithFaucet = [
   Routes[RoutesEnum.DEXPool],
   Routes[RoutesEnum.DEXFindPool],
   Routes[RoutesEnum.DEXPoolDetails],
+  Routes[RoutesEnum.Vault],
+  Routes[RoutesEnum.VaultDetails],
 ];
 
 export const routesList = Object.keys(Routes) as ReadonlyArray<RoutesEnum>;
