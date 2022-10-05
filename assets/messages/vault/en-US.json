@@ -1,7 +1,7 @@
 {
   "vault": {
     "pageTitle": "Vaults",
-    "title": "{count, plural, =1 {Vault} other {Vaults}}",
+    "title": "{count, plural, =1 {Vault (#)} other {Vaults (#)}}",
     "column1": "Vaults Name",
     "column3": "Earn"
   }
