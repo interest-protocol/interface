@@ -18,7 +18,7 @@ const VaultDetailsPool: FC<VaultDetailsPoolProps> = ({ VaultPoolDetails }) => {
 
   const { mHeight, arrowInvert } = useSpring({
     from: {
-      mHeight: '0%',
+      mHeight: `0px`,
       arrowInvert: 'scaleY(1)',
     },
     to: {

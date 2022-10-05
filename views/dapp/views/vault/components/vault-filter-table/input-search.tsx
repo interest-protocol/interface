@@ -10,8 +10,13 @@ const InputSearch: FC<InputSearchProps> = ({ register, setValue }) => {
   const t = useTranslations();
   return (
     <Box
-      mr="M"
-      bg="foreground"
+      mr={['unset', 'unset', 'unset', 'M']}
+      bg={[
+        'bottomBackground',
+        'bottomBackground',
+        'bottomBackground',
+        'foreground',
+      ]}
       borderRadius="M"
       display="flex"
       alignItems="center"
@@ -24,9 +29,9 @@ const InputSearch: FC<InputSearchProps> = ({ register, setValue }) => {
         shieldProps={{
           width: '100%',
         }}
-        {...register(`search.value`, {
+        {...register(`search`, {
           onChange: (v: ChangeEvent<HTMLInputElement>) => {
-            setValue?.(`search.value`, v.target.value);
+            setValue?.(`search`, v.target.value);
           },
         })}
       />

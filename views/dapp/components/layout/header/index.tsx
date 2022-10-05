@@ -187,7 +187,9 @@ const Header: FC = () => {
           </Box>
         )}
         <Wallet />
-        <SwitchLang />
+        <Box display="flex" alignItems="stretch">
+          <SwitchLang />
+        </Box>
         {isMobile && <MobileMenu />}
       </Box>
     </Box>

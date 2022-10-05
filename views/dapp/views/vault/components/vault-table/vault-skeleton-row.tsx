@@ -21,6 +21,9 @@ export const DesktopVaultSkeletonRow = [
       <Box key={v4()}>
         <Skeleton />
       </Box>,
+      <Box key={v4()}>
+        <Skeleton />
+      </Box>,
     ],
   },
 ];

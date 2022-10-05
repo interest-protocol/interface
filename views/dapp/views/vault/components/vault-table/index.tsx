@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
+import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
@@ -9,11 +10,12 @@ import { Box, Button, Table, Typography } from '@/elements';
 import { capitalize } from '@/utils';
 
 import { VaultTableProps } from '../../vault.types';
+import { handleFilterVaults } from '../../vault.utils';
 import VaultCard from './vault-card';
 import VaultName from './vault-name';
 import { DesktopVaultSkeletonRow } from './vault-skeleton-row';
 
-const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
+const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
   const { push } = useRouter();
   const t = useTranslations();
   const HEADING = [
@@ -23,8 +25,12 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
     capitalize(t('common.type')),
     'TVL',
   ];
+  const typeFilter = useWatch({ control, name: 'type' });
+  const search = useWatch({ control, name: 'search' });
+
+  const filteredVaults = handleFilterVaults(data, search, typeFilter);
   return (
-    <Container dapp px="M" width="100%">
+    <Container>
       <Box display={['none', 'none', 'none', 'block']}>
         <Table
           hasButton
@@ -46,7 +52,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading }) => {
           data={
             loading
               ? DesktopVaultSkeletonRow
-              : data.map((item) => {
+              : filteredVaults.map((item) => {
                   return {
                     button: (
                       <Button

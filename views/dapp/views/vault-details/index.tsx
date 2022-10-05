@@ -24,13 +24,13 @@ const VaultDetails: FC<VaultDetailsProps> = ({ vault }) => {
       flex="1"
       display="flex"
       flexDirection="column"
-      width="100%"
-      maxWidth="40rem"
+      width={['100%', '100%', '100%', '35rem']}
       mx="auto"
     >
       <Container
-        px="M"
+        width="100%"
         mt="XL"
+        px="M"
         position="relative"
         background="specialBackground"
       >
@@ -65,14 +65,6 @@ const VaultDetails: FC<VaultDetailsProps> = ({ vault }) => {
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
             <VaultDetailsPool
               VaultPoolDetails={[
-                {
-                  title: 'vaultAddress.earn',
-                  content: (select === 'stake' ? DATA[0] : DATA[1])?.earn,
-                },
-                {
-                  title: 'common.type',
-                  content: (select === 'stake' ? DATA[0] : DATA[1])?.type,
-                },
                 {
                   title: 'common.tvl',
                   content: (select === 'stake' ? DATA[0] : DATA[1])?.tvl,

@@ -1,10 +1,17 @@
 import { Dispatch, SetStateAction } from 'react';
+import {
+  Control,
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormSetValue,
+} from 'react-hook-form';
 
 import { ERC20 } from '@/sdk';
 
 export interface VaultTableProps {
   data: ReadonlyArray<VaultData>;
   loading: boolean;
+  control: Control<IVaultForm>;
 }
 
 export interface VaultCardItemProps {
@@ -48,4 +55,19 @@ export interface VaultData {
 export interface StateProps {
   state: string;
   setState: Dispatch<SetStateAction<string>>;
+}
+
+export interface IVaultForm {
+  search: string;
+  type: boolean;
+}
+
+export interface VaultFiltersProps extends VaultFilterManagerProps {
+  register: UseFormRegister<IVaultForm>;
+}
+
+export interface VaultFilterManagerProps {
+  control: Control<IVaultForm>;
+  setValue: UseFormSetValue<IVaultForm>;
+  getValues: UseFormGetValues<IVaultForm>;
 }

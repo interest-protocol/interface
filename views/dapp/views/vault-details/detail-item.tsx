@@ -37,7 +37,7 @@ const VaultDetailsItem: FC<VaultDetailsItemProps> = ({
           variant="normal"
           color="text"
           fontSize="1rem"
-          fontWeight="400"
+          fontWeight="500"
         >
           {capitalize(
             t(title as MessageKeys<IntlMessages, keyof IntlMessages>)
@@ -46,10 +46,10 @@ const VaultDetailsItem: FC<VaultDetailsItemProps> = ({
       </Typography>
       <Typography
         variant="normal"
-        color={'text'}
-        fontSize={'1rem'}
-        fontWeight="500"
-        pl={['XL', 'XL', 'XL', 'unset']}
+        color="textSecondary"
+        fontSize="1rem"
+        fontWeight="200"
+        pl={[tip ? 'XL' : 'M', tip ? 'XL' : 'M', tip ? 'XL' : 'M', 'unset']}
       >
         {content}
       </Typography>

@@ -12,7 +12,6 @@ const VaultHeader: FC<{ size: string | number }> = ({ size }) => {
     <Container
       dapp
       py="XL"
-      px="NONE"
       width="100%"
       display="flex"
       alignItems="center"

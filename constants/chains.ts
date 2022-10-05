@@ -32,7 +32,7 @@ export const RPC_URL = {
   [CHAIN_ID.BNB_TEST_NET]: process.env.NEXT_PUBLIC_BSC_TEST_NET_JSON_RPC
     ? process.env.NEXT_PUBLIC_BSC_TEST_NET_JSON_RPC
     : 'https://data-seed-prebsc-2-s1.binance.org:8545/',
-  [CHAIN_ID.BNB_MAIN_MET]: process.env.NEXT_PUBLIC_BSC_RPC_URL
+  [CHAIN_ID.BNB_MAIN_NET]: process.env.NEXT_PUBLIC_BSC_RPC_URL
     ? process.env.NEXT_PUBLIC_BSC_RPC_URL
     : 'https://bsc-dataseed.binance.org/',
   [CHAIN_ID.RINKEBY]: process.env.NEXT_PUBLIC_RINKEBY_URL
@@ -53,8 +53,8 @@ export const CHAINS = {
     },
     testnet: true,
   },
-  [CHAIN_ID.BNB_MAIN_MET]: {
-    id: CHAIN_ID.BNB_MAIN_MET,
+  [CHAIN_ID.BNB_MAIN_NET]: {
+    id: CHAIN_ID.BNB_MAIN_NET,
     name: 'BNB',
     network: 'bnb',
     nativeCurrency: BNB,

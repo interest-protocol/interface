@@ -16,6 +16,7 @@ export interface OnlyFinishedFilterProps {
   control: Control<IEarnForm>;
   setValue: UseFormSetValue<IEarnForm>;
 }
+
 export interface SortFilterProps {
   control: Control<IEarnForm>;
   setValue: UseFormSetValue<IEarnForm>;

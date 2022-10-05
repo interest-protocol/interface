@@ -36,7 +36,7 @@ const InputBalance: FC<InputBalanceProps> = ({
       )}
       <Input
         min="0"
-        type="number"
+        type="text"
         textAlign="right"
         fontSize={['1rem', '1rem', '1rem', '1.5rem']}
         placeholder={'0'}

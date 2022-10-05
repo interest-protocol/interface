@@ -1,17 +1,24 @@
-import { Dispatch, SetStateAction } from 'react';
-import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import {
+  Control,
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormSetValue,
+} from 'react-hook-form';
 
-import { StateProps } from '../../vault.types';
+import { IVaultForm } from '../../vault.types';
 
 export interface IButtonOption {
-  options: ReadonlyArray<string>;
-  whoIsSelected: string;
-  setWhoIsSelected: Dispatch<SetStateAction<string>>;
+  options: ReadonlyArray<boolean>;
+  setValue: UseFormSetValue<IVaultForm>;
+  getValues: UseFormGetValues<IVaultForm>;
+}
+
+export interface LPFilterProps {
+  control: Control<IVaultForm>;
+  setValue: UseFormSetValue<IVaultForm>;
 }
 
 export interface InputSearchProps {
-  register: UseFormRegister<any>;
-  setValue?: UseFormSetValue<any>;
+  register: UseFormRegister<IVaultForm>;
+  setValue: UseFormSetValue<IVaultForm>;
 }
-
-export interface FilterTableProps extends StateProps, InputSearchProps {}

@@ -17,7 +17,7 @@ const getBNBTestNetData = (tokenSymbol: TOKEN_SYMBOL) => ({
 });
 
 export const SWAP_BASES = {
-  [CHAIN_ID.BNB_MAIN_MET]: [],
+  [CHAIN_ID.BNB_MAIN_NET]: [],
   [CHAIN_ID.RINKEBY]: [],
   [CHAIN_ID.BNB_TEST_NET]: [
     getBNBTestNetData(TOKEN_SYMBOL.ETH),
@@ -26,7 +26,7 @@ export const SWAP_BASES = {
 };
 
 export const RECOMMENDED_POOLS = {
-  [CHAIN_ID.BNB_MAIN_MET]: {
+  [CHAIN_ID.BNB_MAIN_NET]: {
     [PoolType.Volatile]: [],
     [PoolType.Stable]: [],
   },
