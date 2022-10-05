@@ -43,13 +43,13 @@ const Vault: FC = () => {
         justifyContent={['center', 'flex-start']}
       >
         <VaultHeader size={DATA.length} />
-        <VaultFilterTable
-          register={register}
-          setValue={setValue}
-          getValues={getValues}
-          control={control}
-        />
         <Box width="100%">
+          <VaultFilterTable
+            register={register}
+            setValue={setValue}
+            getValues={getValues}
+            control={control}
+          />
           <VaultTable data={DATA} control={control} loading={loading} />
         </Box>
       </Container>

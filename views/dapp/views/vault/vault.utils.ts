@@ -25,8 +25,23 @@ export const getFilterSwitchDefaultData = (
 
 export const handleFilterVaults = (
   data: ReadonlyArray<VaultData>,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   search: string,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   type: boolean
-) => data;
+): ReadonlyArray<VaultData> => {
+  console.log(type + ' ::::: type filter');
+
+  return search !== ''
+    ? data.filter(
+        (item) =>
+          item.vault?.[0]?.symbol
+            .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase()) ||
+          item.vault?.[0]?.address
+            .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase()) ||
+          item.vault?.[0]?.name
+            .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase())
+      )
+    : data;
+};

@@ -18,11 +18,7 @@ const TypeFilter: FC<LPFilterProps> = ({ control, setValue }) => {
   );
 
   return (
-    <Box
-      display="inline-block"
-      flexDirection="column"
-      my={['M', 'M', 'M', 'NONE']}
-    >
+    <Box display="inline-block" flexDirection="column">
       <Switch
         defaultValue={type ? 'LP' : t('common.all')}
         options={SWITCH_ON_OFF_DATA}

@@ -27,6 +27,7 @@ const VaultCard: FC<VaultData> = ({
       width="100%"
       borderRadius="L"
       bg="foreground"
+      cursor="pointer"
       py="M"
       my="M"
       onClick={() =>
@@ -53,7 +54,7 @@ const VaultCard: FC<VaultData> = ({
         <VaultName vault={vault} caption={caption} />
         <Box color="accent" display="flex" flexDirection="column">
           <Typography
-            variant={'normal'}
+            variant="normal"
             fontWeight="500"
             fontSize="0.85rem"
             lineHeight="1rem"
@@ -62,7 +63,7 @@ const VaultCard: FC<VaultData> = ({
             APR
           </Typography>
           <Typography
-            variant={'normal'}
+            variant="normal"
             fontWeight="500"
             fontSize="0.85rem"
             lineHeight="1.313rem"

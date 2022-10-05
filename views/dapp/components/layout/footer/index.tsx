@@ -124,8 +124,8 @@ const Footer: FC = () => {
               mode="menu"
               data={[
                 {
-                  value: 'Farm',
-                  displayOption: 'Farm',
+                  value: 'Farms',
+                  displayOption: 'Farms',
                   onSelect: () =>
                     push(Routes[RoutesEnum.Earn], undefined, {
                       shallow: true,

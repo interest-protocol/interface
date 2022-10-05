@@ -27,8 +27,8 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
   ];
   const typeFilter = useWatch({ control, name: 'type' });
   const search = useWatch({ control, name: 'search' });
-
   const filteredVaults = handleFilterVaults(data, search, typeFilter);
+
   return (
     <Container>
       <Box display={['none', 'none', 'none', 'block']}>
@@ -143,7 +143,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
         />
       </Box>
       <Box display={['flex', 'flex', 'flex', 'none']} flexDirection="column">
-        {data.map((item) => (
+        {filteredVaults.map((item) => (
           <VaultCard {...item} key={v4()} />
         ))}
       </Box>
