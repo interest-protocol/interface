@@ -11,20 +11,22 @@ import { capitalize } from '@/utils';
 
 import { VaultTableProps } from '../../vault.types';
 import { handleFilterVaults } from '../../vault.utils';
-import VaultCard from './vault-card';
 import VaultName from './vault-name';
-import { DesktopVaultSkeletonRow } from './vault-skeleton-row';
+import {
+  DesktopVaultSkeletonRow,
+  MobileVaultSkeletonRow,
+} from './vault-skeleton-row';
 
 const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
   const { push } = useRouter();
   const t = useTranslations();
-  const HEADING = [
-    t('vault.column1'),
+  const HEADING_MOBILE = [
     'APR',
     t('vault.column3'),
     capitalize(t('common.type')),
     'TVL',
   ];
+  const HEADING = [t('vault.column1'), ...HEADING_MOBILE];
   const typeFilter = useWatch({ control, name: 'type' });
   const search = useWatch({ control, name: 'search' });
   const filteredVaults = handleFilterVaults(data, search, typeFilter);
@@ -143,9 +145,99 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
         />
       </Box>
       <Box display={['flex', 'flex', 'flex', 'none']} flexDirection="column">
-        {filteredVaults.map((item) => (
-          <VaultCard {...item} key={v4()} />
-        ))}
+        <Table
+          hasButton
+          headings={HEADING_MOBILE.map((title) => {
+            return {
+              item: (
+                <Box
+                  height="100%"
+                  display="flex"
+                  justifyContent="flex-end"
+                  alignItems="center"
+                >
+                  <Typography fontSize="0.9rem" variant="normal">
+                    {title}
+                  </Typography>
+                </Box>
+              ),
+            };
+          })}
+          data={
+            loading
+              ? MobileVaultSkeletonRow
+              : filteredVaults.map((item) => ({
+                  mobileSide: (
+                    <VaultName
+                      vault={item.vault}
+                      caption={item.caption}
+                      isColumn={true}
+                      key={v4()}
+                    />
+                  ),
+                  button: (
+                    <Button
+                      variant="primary"
+                      hover={{ bg: 'accentActive' }}
+                      onClick={() =>
+                        push(
+                          {
+                            pathname: Routes[RoutesEnum.VaultDetails],
+                            query: {
+                              address: item.id as string,
+                            },
+                          },
+                          undefined,
+                          {
+                            shallow: true,
+                          }
+                        )
+                      }
+                    >
+                      {capitalize(t('common.enter'))}
+                    </Button>
+                  ),
+                  items: [
+                    <Typography
+                      variant="normal"
+                      fontWeight="400"
+                      fontSize="0.9rem"
+                      lineHeight="1.313rem"
+                      key={v4()}
+                    >
+                      {item.apr}
+                    </Typography>,
+                    <Typography
+                      variant="normal"
+                      fontWeight="400"
+                      fontSize="0.9rem"
+                      lineHeight="1.313rem"
+                      key={v4()}
+                    >
+                      {item.earn}
+                    </Typography>,
+                    <Typography
+                      variant="normal"
+                      fontWeight="400"
+                      fontSize="0.9rem"
+                      lineHeight="1.313rem"
+                      key={v4()}
+                    >
+                      {item.type}
+                    </Typography>,
+                    <Typography
+                      variant="normal"
+                      fontWeight="400"
+                      fontSize="0.9rem"
+                      lineHeight="1.313rem"
+                      key={v4()}
+                    >
+                      {item.tvl}
+                    </Typography>,
+                  ],
+                }))
+          }
+        />
       </Box>
     </Container>
   );

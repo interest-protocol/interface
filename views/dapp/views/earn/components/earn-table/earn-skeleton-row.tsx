@@ -24,12 +24,24 @@ export const DesktopEarnSkeletonRow = [
 
 export const MobileEarnSkeletonRow = [
   {
-    sideContent: (
+    mobileSide: (
       <Box
         mb="L"
         key={v4()}
         minWidth="6rem"
-        minHeight="4rem"
+        minHeight="3rem"
+        borderRadius="L"
+        overflow="hidden"
+      >
+        <Skeleton height="100%" />
+      </Box>
+    ),
+    button: (
+      <Box
+        mb="L"
+        key={v4()}
+        minWidth="8rem"
+        minHeight="2.5rem"
         borderRadius="L"
         overflow="hidden"
       >

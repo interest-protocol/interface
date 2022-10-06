@@ -52,28 +52,9 @@ const VaultCard: FC<VaultData> = ({
         alignItems="center"
       >
         <VaultName vault={vault} caption={caption} />
-        <Box color="accent" display="flex" flexDirection="column">
-          <Typography
-            variant="normal"
-            fontWeight="500"
-            fontSize="0.85rem"
-            lineHeight="1rem"
-            textAlign="right"
-          >
-            APR
-          </Typography>
-          <Typography
-            variant="normal"
-            fontWeight="500"
-            fontSize="0.85rem"
-            lineHeight="1.313rem"
-            textAlign="right"
-          >
-            {apr}
-          </Typography>
-        </Box>
       </Box>
       <Typography variant="normal" as="hr" color="#33373B" my="M" />
+      <VaultCardItem title={t('common.apr')} content={apr} />
       <VaultCardItem title={t('vault.column3')} content={earn} />
       <VaultCardItem title={t('common.type')} content={type} />
       <VaultCardItem title="TVL" content={tvl} />

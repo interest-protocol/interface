@@ -24,10 +24,11 @@ const VaultDetails: FC<VaultDetailsProps> = ({ vault }) => {
       flex="1"
       display="flex"
       flexDirection="column"
-      width={['100%', '100%', '100%', '35rem']}
+      width={['100%', '100%', '35rem', '35rem']}
       mx="auto"
     >
       <Container
+        dapp
         width="100%"
         mt="XL"
         px="M"

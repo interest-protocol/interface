@@ -22,6 +22,7 @@ export interface VaultCardItemProps {
 export interface VaultNameProps {
   vault: ReadonlyArray<ERC20>;
   caption?: string;
+  isColumn?: boolean;
 }
 export interface VaultDetailsProps {
   vaults: [VaultNameProps, VaultNameProps];

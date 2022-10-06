@@ -30,12 +30,24 @@ export const DesktopVaultSkeletonRow = [
 
 export const MobileVaultSkeletonRow = [
   {
-    sideContent: (
+    mobileSide: (
       <Box
         mb="L"
         key={v4()}
         minWidth="6rem"
-        minHeight="4rem"
+        minHeight="3rem"
+        borderRadius="L"
+        overflow="hidden"
+      >
+        <Skeleton height="100%" />
+      </Box>
+    ),
+    button: (
+      <Box
+        mb="L"
+        key={v4()}
+        minWidth="8rem"
+        minHeight="2.5rem"
         borderRadius="L"
         overflow="hidden"
       >
@@ -43,6 +55,9 @@ export const MobileVaultSkeletonRow = [
       </Box>
     ),
     items: [
+      <Box key={v4()}>
+        <Skeleton />
+      </Box>,
       <Box key={v4()}>
         <Skeleton />
       </Box>,

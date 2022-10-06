@@ -7,7 +7,7 @@ import { useChainId } from '@/hooks';
 
 import { VaultNameProps } from '../../vault.types';
 
-const VaultName: FC<VaultNameProps> = ({ vault }) => {
+const VaultName: FC<VaultNameProps> = ({ vault, isColumn }) => {
   const chainId = useChainId();
 
   const returnSVG = (address: string) => {
@@ -22,8 +22,16 @@ const VaultName: FC<VaultNameProps> = ({ vault }) => {
   };
 
   return (
-    <Box display="flex">
-      <Box width="1.5rem" height="1.5rem" my="auto">
+    <Box
+      display="flex"
+      flexDirection={isColumn ? 'column' : 'row'}
+      alignItems="center"
+    >
+      <Box
+        width={isColumn ? '1.8rem' : '1.5rem'}
+        height={isColumn ? '1.8rem' : '1.5rem'}
+        my="auto"
+      >
         {vault?.length == 1 ? (
           returnSVG(vault?.[0]?.address)
         ) : (
@@ -50,7 +58,13 @@ const VaultName: FC<VaultNameProps> = ({ vault }) => {
           </Box>
         )}
       </Box>
-      <Box ml="M" display="flex" justifyContent="center" flexDirection="column">
+      <Box
+        ml={isColumn ? 'unset' : 'M'}
+        mt={isColumn ? 'M' : 'unset'}
+        display="flex"
+        justifyContent="center"
+        flexDirection="column"
+      >
         <Typography
           variant="normal"
           textTransform="uppercase"
