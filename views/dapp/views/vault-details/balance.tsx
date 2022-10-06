@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Box, Button, Typography } from '@/elements';
 import { capitalize } from '@/utils';
 
+import { WalletGuardButton } from '../../components';
 import InputBalance from './input-balance';
 import { IVaultForm, VaultDetailBalanceProps } from './vault-details.types';
 
@@ -43,9 +44,11 @@ const VaultDetailsBalance: FC<VaultDetailBalanceProps> = ({
         symbol={symbol}
         address={address}
       />
-      <Button variant="primary" width="100%" py="L" mb="1.5rem">
-        {capitalize(t('common.approve', { isLoading: 0 }))}
-      </Button>
+      <WalletGuardButton>
+        <Button variant="primary" width="100%" py="L" mb="1.5rem">
+          {capitalize(t('common.approve', { isLoading: 0 }))}
+        </Button>
+      </WalletGuardButton>
     </Box>
   );
 };

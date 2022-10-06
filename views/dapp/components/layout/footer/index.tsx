@@ -96,8 +96,8 @@ const Footer: FC = () => {
                 <Typography
                   px="1.5rem"
                   bg={
-                    pathname === Routes[RoutesEnum.Earn] ||
-                    pathname.includes(Routes[RoutesEnum.Vault])
+                    pathname === Routes[RoutesEnum.Farms] ||
+                    pathname.includes(Routes[RoutesEnum.Vaults])
                       ? 'accent'
                       : 'textSoft'
                   }
@@ -110,8 +110,8 @@ const Footer: FC = () => {
                   justifyContent="center"
                   boxShadow="0 0 15px rgba(0,0,0,.3)"
                   color={
-                    pathname === Routes[RoutesEnum.Earn] ||
-                    pathname.includes(Routes[RoutesEnum.Vault])
+                    pathname === Routes[RoutesEnum.Farms] ||
+                    pathname.includes(Routes[RoutesEnum.Vaults])
                       ? 'text'
                       : 'inherit'
                   }
@@ -127,7 +127,7 @@ const Footer: FC = () => {
                   value: 'Farms',
                   displayOption: 'Farms',
                   onSelect: () =>
-                    push(Routes[RoutesEnum.Earn], undefined, {
+                    push(Routes[RoutesEnum.Farms], undefined, {
                       shallow: true,
                     }),
                 },
@@ -135,7 +135,7 @@ const Footer: FC = () => {
                   value: 'Vaults',
                   displayOption: 'Vaults',
                   onSelect: () =>
-                    push(Routes[RoutesEnum.Vault], undefined, {
+                    push(Routes[RoutesEnum.Vaults], undefined, {
                       shallow: true,
                     }),
                 },

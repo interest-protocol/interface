@@ -13,11 +13,9 @@ import VaultDetailsPool from './pool-details';
 import { VaultDetailsProps } from './vault-details.types';
 import VaultDetailsTitle from './vault-title';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const VaultDetails: FC<VaultDetailsProps> = ({ vault }) => {
   const [select, setSelect] = useState('stake');
-
-  const dataVault = vault ? DATA.filter((item) => item?.id == vault) : DATA;
-  console.log(dataVault);
 
   return (
     <Box
@@ -36,7 +34,7 @@ const VaultDetails: FC<VaultDetailsProps> = ({ vault }) => {
         background="specialBackground"
       >
         <Box display="flex" justifyContent="space-between">
-          <GoBack route={RoutesEnum.Vault} />
+          <GoBack route={RoutesEnum.Vaults} />
         </Box>
         <Box mb="XL">
           <ButtonTabSelect state={select} setState={setSelect} />

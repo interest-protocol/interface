@@ -113,8 +113,8 @@ const Header: FC = () => {
                 cursor="pointer"
                 variant="normal"
                 color={
-                  pathname === Routes[RoutesEnum.Earn] ||
-                  pathname.includes(Routes[RoutesEnum.Vault])
+                  pathname === Routes[RoutesEnum.Farms] ||
+                  pathname.includes(Routes[RoutesEnum.Vaults])
                     ? 'accent'
                     : 'inherit'
                 }
@@ -129,7 +129,7 @@ const Header: FC = () => {
                 value: 'Farms',
                 displayOption: 'Farms',
                 onSelect: () =>
-                  push(Routes[RoutesEnum.Earn], undefined, {
+                  push(Routes[RoutesEnum.Farms], undefined, {
                     shallow: true,
                   }),
               },
@@ -137,7 +137,7 @@ const Header: FC = () => {
                 value: 'Vaults',
                 displayOption: 'Vaults',
                 onSelect: () =>
-                  push(Routes[RoutesEnum.Vault], undefined, {
+                  push(Routes[RoutesEnum.Vaults], undefined, {
                     shallow: true,
                   }),
               },

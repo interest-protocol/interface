@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { UseFormSetValue } from 'react-hook-form';
 
 import { ISwitchOption } from '@/components/switch/switch.types';
@@ -27,10 +28,8 @@ export const handleFilterVaults = (
   data: ReadonlyArray<VaultData>,
   search: string,
   type: boolean
-): ReadonlyArray<VaultData> => {
-  console.log(type + ' ::::: type filter');
-
-  return search !== ''
+): ReadonlyArray<VaultData> =>
+  search !== ''
     ? data.filter(
         (item) =>
           item.vault?.[0]?.symbol
@@ -44,4 +43,3 @@ export const handleFilterVaults = (
             .includes(search.toLocaleLowerCase())
       )
     : data;
-};

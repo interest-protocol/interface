@@ -65,7 +65,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                             {
                               pathname: Routes[RoutesEnum.VaultDetails],
                               query: {
-                                address: item.id as string,
+                                address: item.vault?.[0]?.address,
                               },
                             },
                             undefined,
@@ -131,7 +131,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                         {
                           pathname: Routes[RoutesEnum.VaultDetails],
                           query: {
-                            address: item.id as string,
+                            address: item.vault?.[0]?.address,
                           },
                         },
                         undefined,
@@ -184,7 +184,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                           {
                             pathname: Routes[RoutesEnum.VaultDetails],
                             query: {
-                              address: item.id as string,
+                              address: item.vault?.[0]?.address,
                             },
                           },
                           undefined,
