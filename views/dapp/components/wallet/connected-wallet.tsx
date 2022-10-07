@@ -26,8 +26,8 @@ const ConnectedWallet: FC = () => {
   };
 
   const WalletSVG =
-    WALLETS_MAP[chainId].find((wallet) => wallet.id === connector?.id)?.SVG ??
-    NoWalletSVG;
+    WALLETS_MAP[chainId].find((wallet) => wallet.name === connector?.name)
+      ?.SVG ?? NoWalletSVG;
 
   return isConnected ? (
     <Box
