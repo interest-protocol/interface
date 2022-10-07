@@ -2,8 +2,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
+import { event } from 'react-ga';
 
 import { SwitchLang } from '@/components';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
@@ -14,6 +16,13 @@ import MobileMenu from './mobile-menu';
 const Header: FC = () => {
   const t = useTranslations();
   const { pathname } = useRouter();
+
+  const trackHeaderNavigation = (action: GAAction, label: string) => () =>
+    event({
+      label,
+      action,
+      category: GACategory.HeaderNavigation,
+    });
 
   return (
     <Box
@@ -27,7 +36,10 @@ const Header: FC = () => {
       gridTemplateColumns="repeat(3, 1fr)"
     >
       <Box display="flex" alignItems="center">
-        <Link href={Routes[RoutesEnum.Home]}>
+        <Link
+          href={Routes[RoutesEnum.Home]}
+          onClick={trackHeaderNavigation(GAAction.Access, RoutesEnum.Home)}
+        >
           <Box
             mr="L"
             color="text"
@@ -40,7 +52,11 @@ const Header: FC = () => {
             <LogoSVG width="100%" aria-label="Logo" fill="currentColor" />
           </Box>
         </Link>
-        <a href="https://forms.gle/aDP4wHvshLPKkKv97" target="__blank">
+        <a
+          href="https://forms.gle/aDP4wHvshLPKkKv97"
+          target="__blank"
+          onClick={trackHeaderNavigation(GAAction.Access, 'feedback')}
+        >
           <Typography
             ml="L"
             px="L"
@@ -65,7 +81,10 @@ const Header: FC = () => {
         justifyContent="center"
         display={['none', 'none', 'flex']}
       >
-        <Link href={Routes[RoutesEnum.DEX]}>
+        <Link
+          href={Routes[RoutesEnum.DEX]}
+          onClick={trackHeaderNavigation(GAAction.Access, RoutesEnum.DEX)}
+        >
           <Typography
             px="XL"
             cursor="pointer"
@@ -80,7 +99,10 @@ const Header: FC = () => {
             DEX
           </Typography>
         </Link>
-        <Link href={Routes[RoutesEnum.Earn]}>
+        <Link
+          href={Routes[RoutesEnum.Earn]}
+          onClick={trackHeaderNavigation(GAAction.Access, RoutesEnum.Earn)}
+        >
           <Typography
             px="XL"
             cursor="pointer"
@@ -96,7 +118,13 @@ const Header: FC = () => {
             {t('common.earn')}
           </Typography>
         </Link>
-        <Link href={Routes[RoutesEnum.DineroMarket]}>
+        <Link
+          href={Routes[RoutesEnum.DineroMarket]}
+          onClick={trackHeaderNavigation(
+            GAAction.Access,
+            RoutesEnum.DineroMarket
+          )}
+        >
           <Typography
             px="XL"
             cursor="pointer"
