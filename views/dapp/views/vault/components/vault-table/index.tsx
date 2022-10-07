@@ -21,15 +21,22 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
   const { push } = useRouter();
   const t = useTranslations();
   const HEADING_MOBILE = [
+    t('vault.column2'),
     'APR',
-    t('vault.column3'),
+    t('vault.column4'),
     capitalize(t('common.type')),
     'TVL',
   ];
   const HEADING = [t('vault.column1'), ...HEADING_MOBILE];
   const typeFilter = useWatch({ control, name: 'type' });
   const search = useWatch({ control, name: 'search' });
-  const filteredVaults = handleFilterVaults(data, search, typeFilter);
+  const onlyDeposit = useWatch({ control, name: 'onlyDeposit' });
+  const filteredVaults = handleFilterVaults(
+    data,
+    search,
+    typeFilter,
+    onlyDeposit
+  );
 
   return (
     <Container>
@@ -84,6 +91,16 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                         caption={item.caption}
                         key={v4()}
                       />,
+                      <Typography
+                        variant={'normal'}
+                        fontWeight="400"
+                        fontSize="0.9rem"
+                        lineHeight="1.313rem"
+                        textAlign="center"
+                        key={v4()}
+                      >
+                        {item.deposit}
+                      </Typography>,
                       <Typography
                         variant={'normal'}
                         fontWeight="500"
@@ -199,6 +216,15 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                   ),
                   items: [
                     <Typography
+                      variant={'normal'}
+                      fontWeight="400"
+                      fontSize="0.9rem"
+                      lineHeight="1.313rem"
+                      key={v4()}
+                    >
+                      {item.deposit}
+                    </Typography>,
+                    <Typography
                       variant="normal"
                       fontWeight="400"
                       fontSize="0.9rem"
@@ -235,6 +261,19 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                       {item.tvl}
                     </Typography>,
                   ],
+                  handleClick: () =>
+                    push(
+                      {
+                        pathname: Routes[RoutesEnum.VaultDetails],
+                        query: {
+                          address: item.vault?.[0]?.address,
+                        },
+                      },
+                      undefined,
+                      {
+                        shallow: true,
+                      }
+                    ),
                 }))
           }
         />

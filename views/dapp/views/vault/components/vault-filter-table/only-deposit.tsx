@@ -8,29 +8,28 @@ import { Box, Typography } from '@/elements';
 import { getFilterSwitchDefaultData } from '../../vault.utils';
 import { SwitchFilterProps } from './filter-table.types';
 
-const TypeFilter: FC<SwitchFilterProps> = ({ control, setValue }) => {
+const OnlyDeposit: FC<SwitchFilterProps> = ({ control, setValue }) => {
   const t = useTranslations();
-  const type = useWatch({ control, name: 'type' });
+  const onlyDeposit = useWatch({ control, name: 'onlyDeposit' });
   const SWITCH_ON_OFF_DATA = getFilterSwitchDefaultData(
-    [t('common.all'), 'LP'],
+    [t('common.off'), t('common.on')],
     setValue,
-    'type'
+    'onlyDeposit'
   );
 
   return (
-    <Box display="flex" flexDirection="column">
+    <Box display="flex" flexDirection="column" my={['M', 'M', 'M', 'NONE']}>
       <Typography
         mb="M"
         fontSize="S"
         variant="normal"
         display="inline-block"
         textAlign={['center', 'center', 'center', 'left']}
-        textTransform="capitalize"
       >
-        {t('common.type')}
+        {t('vault.depositFilterLabel')}
       </Typography>
       <Switch
-        defaultValue={type ? 'LP' : t('common.all')}
+        defaultValue={onlyDeposit ? t('common.on') : t('common.off')}
         options={SWITCH_ON_OFF_DATA}
         bg="background"
         bgSelected="accentAlternative"
@@ -39,4 +38,4 @@ const TypeFilter: FC<SwitchFilterProps> = ({ control, setValue }) => {
   );
 };
 
-export default TypeFilter;
+export default OnlyDeposit;

@@ -45,19 +45,19 @@ const VaultDetails: FC<VaultDetailsProps> = ({ vault }) => {
           >
             <VaultDetailsTitle
               vaults={
-                select === 'stake' ? [DATA[0], DATA[1]] : [DATA[1], DATA[0]]
+                select === 'stake' ? [DATA[1], DATA[0]] : [DATA[0], DATA[1]]
               }
             />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
             <VaultDetailsInfo
-              items={(select === 'stake' ? DATA[1] : DATA[0]).vaultDetails}
+              items={(select === 'stake' ? DATA[0] : DATA[1]).vaultDetails}
             />
             <VaultDetailsBalance
               symbol={
-                (select === 'stake' ? DATA[0] : DATA[1]).vault?.[0].symbol
+                (select === 'stake' ? DATA[1] : DATA[0]).vault?.[0].symbol
               }
               address={
-                (select === 'stake' ? DATA[0] : DATA[1]).vault?.[0].address
+                (select === 'stake' ? DATA[1] : DATA[0]).vault?.[0].address
               }
               balance="149.43"
             />
@@ -66,7 +66,7 @@ const VaultDetails: FC<VaultDetailsProps> = ({ vault }) => {
               VaultPoolDetails={[
                 {
                   title: 'common.tvl',
-                  content: (select === 'stake' ? DATA[0] : DATA[1])?.tvl,
+                  content: (select === 'stake' ? DATA[1] : DATA[0])?.tvl,
                 },
               ]}
             />

@@ -14,6 +14,7 @@ const Vault: FC = () => {
     defaultValues: {
       search: '',
       type: false,
+      onlyDeposit: false,
     },
   });
 

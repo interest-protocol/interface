@@ -8,7 +8,7 @@ import { IVaultForm, VaultData } from './vault.types';
 export const getFilterSwitchDefaultData = (
   values: ReadonlyArray<string>,
   setValue: UseFormSetValue<IVaultForm>,
-  name: 'type'
+  name: 'type' | 'onlyDeposit'
 ): [ISwitchOption, ISwitchOption] => [
   {
     value: values[0],
@@ -27,7 +27,8 @@ export const getFilterSwitchDefaultData = (
 export const handleFilterVaults = (
   data: ReadonlyArray<VaultData>,
   search: string,
-  type: boolean
+  type: boolean,
+  onlyDeposit: boolean
 ): ReadonlyArray<VaultData> =>
   search !== ''
     ? data.filter(

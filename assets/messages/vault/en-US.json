@@ -3,6 +3,8 @@
     "pageTitle": "Vaults",
     "title": "{count, plural, =1 {Vault (#)} other {Vaults (#)}}",
     "column1": "Vaults Name",
-    "column3": "Earn"
+    "column4": "Earn",
+    "column2": "Deposit",
+    "depositFilterLabel": "Only Deposit"
   }
 }

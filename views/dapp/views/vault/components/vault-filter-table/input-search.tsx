@@ -10,7 +10,6 @@ const InputSearch: FC<InputSearchProps> = ({ register, setValue }) => {
   const t = useTranslations();
   return (
     <Box
-      mr={['unset', 'unset', 'unset', 'M']}
       bg={[
         'bottomBackground',
         'bottomBackground',

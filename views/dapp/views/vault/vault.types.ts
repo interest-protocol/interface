@@ -48,6 +48,7 @@ export interface VaultData {
   caption: string;
   apr: string;
   earn: string;
+  deposit: string;
   type: 'LP';
   tvl: string;
   version: 1 | 2;
@@ -61,6 +62,7 @@ export interface StateProps {
 export interface IVaultForm {
   search: string;
   type: boolean;
+  onlyDeposit: boolean;
 }
 
 export interface VaultFiltersProps extends VaultFilterManagerProps {

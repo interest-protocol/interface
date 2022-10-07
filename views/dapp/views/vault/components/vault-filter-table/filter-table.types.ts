@@ -13,7 +13,7 @@ export interface IButtonOption {
   getValues: UseFormGetValues<IVaultForm>;
 }
 
-export interface LPFilterProps {
+export interface SwitchFilterProps {
   control: Control<IVaultForm>;
   setValue: UseFormSetValue<IVaultForm>;
 }

@@ -5,6 +5,7 @@ import { Box } from '@/elements';
 
 import { VaultFiltersProps } from '../../vault.types';
 import InputSearch from './input-search';
+import OnlyDeposit from './only-deposit';
 import TypeFilter from './type-filter';
 
 const FilterTable: FC<VaultFiltersProps> = ({
@@ -22,9 +23,10 @@ const FilterTable: FC<VaultFiltersProps> = ({
         display="flex"
         bg={['foreground', 'foreground', 'foreground', 'transparent']}
         justifyContent="space-between"
-        alignItems="center"
+        alignItems={['center', 'center', 'center', 'flex-end']}
         flexDirection={['column', 'column', 'column', 'row']}
       >
+        <OnlyDeposit control={control} setValue={setValue} />
         <TypeFilter control={control} setValue={setValue} />
         <Box
           height={['auto', 'auto', 'auto', '3rem']}
