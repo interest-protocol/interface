@@ -110,7 +110,7 @@ const Farms: FC = () => {
                   <LoadingSVG width="100%" />
                 </Box>
                 <Typography fontSize="S" variant="normal" ml="M">
-                  {t('common.load {isLoading:1}')}
+                  {t('common.load', { isLoading: 1 })}
                 </Typography>
               </Box>
             }
