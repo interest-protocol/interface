@@ -35,6 +35,7 @@ export interface VaultDetails {
 }
 
 export interface VaultData {
+  vaultAddress: string;
   depositTokenSymbol: string;
   depositTokenAddress: string;
   depositAmount: BigNumber;
