@@ -1,9 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Result } from '@ethersproject/abi';
+import { ethers } from 'ethers';
 import { UseFormSetValue } from 'react-hook-form';
 
 import { ISwitchOption } from '@/components/switch/switch.types';
+import { VAULTS_RESPONSE_MAP, VaultTypes } from '@/constants/vaults';
+import { TOKEN_SYMBOL, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
 
-import { IVaultForm, VaultData } from './vault.types';
+import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestViewEarnAbi';
+import { IVaultForm, ProcessVaultsSummaryData, VaultData } from './vault.types';
 
 export const getFilterSwitchDefaultData = (
   values: ReadonlyArray<string>,
@@ -44,3 +48,36 @@ export const handleFilterVaults = (
             .includes(search.toLocaleLowerCase())
       )
     : data;
+
+const DEFAULT_VAULT_INFO = {
+  vaultAddress: ZERO_ADDRESS,
+  depositTokenSymbol: TOKEN_SYMBOL.Unknown as string,
+  depositTokenAddress: ethers.constants.AddressZero,
+  depositAmount: ZERO_BIG_NUMBER,
+  depositTokenDecimals: 18,
+  apr: null,
+  earn: null,
+  type: VaultTypes.DV,
+  tvl: ZERO_BIG_NUMBER,
+};
+
+export const processVaultsSummaryData: ProcessVaultsSummaryData = (
+  chainId,
+  data
+) => {
+  const responseMap = VAULTS_RESPONSE_MAP[chainId];
+  if (!data || !chainId || !responseMap)
+    return {
+      data: [DEFAULT_VAULT_INFO],
+      loading: true,
+    };
+
+  return {
+    data: data.map(({ tvl, depositAmount }, index) => ({
+      tvl,
+      depositAmount,
+      ...VAULTS_RESPONSE_MAP[chainId].dineroVaults[index],
+    })),
+    loading: false,
+  };
+};

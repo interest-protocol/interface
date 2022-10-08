@@ -67,6 +67,63 @@
   },
   {
     "inputs": [
+      {
+        "internalType": "contract IDineroVault",
+        "name": "vault",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IERC20",
+        "name": "underlying",
+        "type": "address"
+      },
+      { "internalType": "address", "name": "user", "type": "address" }
+    ],
+    "name": "getUserDineroVault",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "maxDineroAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "mintedDineroAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "depositAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "underlyingBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "underlyingAllowance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "dineroBalance",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewEarn.UserDineroVaultData",
+        "name": "data",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
       { "internalType": "contract IERC20", "name": "token", "type": "address" },
       { "internalType": "address", "name": "user", "type": "address" },
       { "internalType": "uint256", "name": "poolId", "type": "uint256" },
@@ -176,6 +233,34 @@
         "type": "tuple"
       },
       { "internalType": "uint256[]", "name": "prices", "type": "uint256[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "user", "type": "address" },
+      {
+        "internalType": "contract IDineroVault[]",
+        "name": "_dineroVaults",
+        "type": "address[]"
+      }
+    ],
+    "name": "getVaultsSummary",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "uint256", "name": "tvl", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "depositAmount",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewEarn.DineroVaultSummary[]",
+        "name": "dineroVaults",
+        "type": "tuple[]"
+      }
     ],
     "stateMutability": "view",
     "type": "function"

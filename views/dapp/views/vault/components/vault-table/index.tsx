@@ -28,15 +28,16 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
     'TVL',
   ];
   const HEADING = [t('vault.column1'), ...HEADING_MOBILE];
-  const typeFilter = useWatch({ control, name: 'type' });
-  const search = useWatch({ control, name: 'search' });
-  const onlyDeposit = useWatch({ control, name: 'onlyDeposit' });
-  const filteredVaults = handleFilterVaults(
-    data,
-    search,
-    typeFilter,
-    onlyDeposit
-  );
+  // const typeFilter = useWatch({ control, name: 'type' });
+  // const search = useWatch({ control, name: 'search' });
+  // const onlyDeposit = useWatch({ control, name: 'onlyDeposit' });
+  //
+  // const filteredVaults = handleFilterVaults(
+  //   data,
+  //   search,
+  //   typeFilter,
+  //   onlyDeposit
+  // );
 
   return (
     <Container>
@@ -61,7 +62,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
           data={
             loading
               ? DesktopVaultSkeletonRow
-              : filteredVaults.map((item) => {
+              : data.map((item) => {
                   return {
                     button: (
                       <Button
@@ -72,7 +73,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                             {
                               pathname: Routes[RoutesEnum.VaultDetails],
                               query: {
-                                address: item.vault?.[0]?.address,
+                                address: item.depositTokenAddress,
                               },
                             },
                             undefined,
@@ -183,7 +184,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
           data={
             loading
               ? MobileVaultSkeletonRow
-              : filteredVaults.map((item) => ({
+              : data.map((item) => ({
                   mobileSide: (
                     <VaultName
                       vault={item.vault}

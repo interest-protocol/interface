@@ -1,15 +1,19 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
 import { Box } from '@/elements';
+import { useIdAccount } from '@/hooks';
 
 import { VaultFilterTable, VaultHeader, VaultTable } from './components';
-import DATA from './vault.helpers';
+import { useGetVaultsSummary } from './vault.hooks';
 import { IVaultForm } from './vault.types';
+import { processVaultsSummaryData } from './vault.utils';
 
 const Vault: FC = () => {
-  const [loading, setLoading] = useState(true);
+  const { chainId, account } = useIdAccount();
+  const { error, data } = useGetVaultsSummary(chainId, account);
+
   const { register, control, setValue, getValues } = useForm<IVaultForm>({
     defaultValues: {
       search: '',
@@ -18,12 +22,12 @@ const Vault: FC = () => {
     },
   });
 
-  useEffect(() => {
-    loading &&
-      setTimeout(() => {
-        setLoading(false);
-      }, Math.floor(Math.random() * 3000));
-  }, []);
+  const processedData = useMemo(
+    () => processVaultsSummaryData(chainId, data),
+    [chainId, data]
+  );
+
+  if (error) return <div>Error</div>;
 
   return (
     <Box
@@ -43,15 +47,19 @@ const Vault: FC = () => {
         flexDirection="column"
         justifyContent={['center', 'flex-start']}
       >
-        <VaultHeader size={DATA.length} />
+        <VaultHeader size={processedData.data.length} />
         <Box width="100%">
-          <VaultFilterTable
-            register={register}
-            setValue={setValue}
-            getValues={getValues}
-            control={control}
-          />
-          <VaultTable data={DATA} control={control} loading={loading} />
+          {/*<VaultFilterTable*/}
+          {/*  register={register}*/}
+          {/*  setValue={setValue}*/}
+          {/*  getValues={getValues}*/}
+          {/*  control={control}*/}
+          {/*/>*/}
+          {/*<VaultTable*/}
+          {/*  data={processedData.data}*/}
+          {/*  control={control}*/}
+          {/*  loading={processedData.loading}*/}
+          {/*/>*/}
         </Box>
       </Container>
     </Box>

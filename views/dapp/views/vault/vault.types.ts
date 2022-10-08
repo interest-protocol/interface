@@ -1,3 +1,5 @@
+import { Result } from '@ethersproject/abi';
+import { BigNumber } from 'ethers';
 import { Dispatch, SetStateAction } from 'react';
 import {
   Control,
@@ -6,17 +8,15 @@ import {
   UseFormSetValue,
 } from 'react-hook-form';
 
+import { VaultTypes } from '@/constants';
 import { ERC20 } from '@/sdk';
+
+import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestViewEarnAbi';
 
 export interface VaultTableProps {
   data: ReadonlyArray<VaultData>;
   loading: boolean;
   control: Control<IVaultForm>;
-}
-
-export interface VaultCardItemProps {
-  title: string;
-  content: string;
 }
 
 export interface VaultNameProps {
@@ -27,13 +27,6 @@ export interface VaultNameProps {
 export interface VaultDetailsProps {
   vaults: [VaultNameProps, VaultNameProps];
 }
-export interface VaultRow {
-  name: VaultNameProps;
-  apr: string;
-  earn: string;
-  type: string;
-  tvl: string;
-}
 
 export interface VaultDetails {
   title: string;
@@ -42,16 +35,14 @@ export interface VaultDetails {
 }
 
 export interface VaultData {
-  id: any;
-  vault: ReadonlyArray<ERC20>;
-  vaultDetails: ReadonlyArray<VaultDetails>;
-  caption: string;
-  apr: string;
-  earn: string;
-  deposit: string;
-  type: 'LP';
-  tvl: string;
-  version: 1 | 2;
+  depositTokenSymbol: string;
+  depositTokenAddress: string;
+  depositAmount: BigNumber;
+  depositTokenDecimals: number;
+  apr: null | BigNumber;
+  earn: null | BigNumber; // To be decided
+  type: VaultTypes;
+  tvl: BigNumber;
 }
 
 export interface StateProps {
@@ -74,3 +65,13 @@ export interface VaultFilterManagerProps {
   setValue: UseFormSetValue<IVaultForm>;
   getValues: UseFormGetValues<IVaultForm>;
 }
+
+export type ProcessVaultsSummaryData = (
+  chainId: number,
+  data:
+    | Result
+    | undefined
+    | ([InterestViewEarn.DineroVaultSummaryStructOutput[]] & {
+        dineroVaults: InterestViewEarn.DineroVaultSummaryStructOutput[];
+      })
+) => { loading: boolean; data: ReadonlyArray<VaultData> };

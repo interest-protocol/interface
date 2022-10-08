@@ -5,7 +5,7 @@ import { DINERO_MARKET_DATA_CALL_MAP } from '@/constants/dinero-markets';
 import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
 import { getInterestViewDineroV2Address } from '@/utils';
 
-import { useSafeContractRead } from '../use-contract-read';
+import { useSafeContractRead } from '../use-safe-contract-read';
 import { useIdAccount } from './../use-id-account';
 
 export const useGetDineroMarketDataV2 = (market: string) => {
