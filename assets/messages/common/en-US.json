@@ -18,7 +18,6 @@
     "farm": "farm",
     "success": "success",
     "notFound": "not found",
-    "loading": "loading...",
     "approve": "{isLoading, plural, =1 {approving...} other {approve}}",
     "load": "{isLoading, plural, =1 {loading...} other {load}}",
     "back": "back",
