@@ -1,12 +1,19 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
-import { FC } from 'react';
+import { FC, useCallback, useState } from 'react';
+import { useAccount, useNetwork } from 'wagmi';
 
 import { SwitchLang } from '@/components';
-import { Routes, RoutesEnum } from '@/constants/routes';
+import {
+  isChainIdSupported,
+  makeFIATWidgetURL,
+  Routes,
+  RoutesEnum,
+} from '@/constants';
 import { Box, Typography } from '@/elements';
-import { LogoSVG } from '@/svg';
+import useEventListener from '@/hooks/use-event-listener';
+import { CreditCardSVG, LogoSVG } from '@/svg';
 
 import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
@@ -14,6 +21,19 @@ import MobileMenu from './mobile-menu';
 const Header: FC = () => {
   const t = useTranslations();
   const { pathname } = useRouter();
+  const { chain } = useNetwork();
+  const { address } = useAccount();
+
+  const chainId = chain?.id ?? -1;
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  const handleSetDesktop = useCallback(() => {
+    const mediaIsMobile = !window.matchMedia('(min-width: 64em)').matches;
+    setIsMobile(mediaIsMobile);
+  }, []);
+
+  useEventListener('resize', handleSetDesktop, true);
 
   return (
     <Box
@@ -40,7 +60,11 @@ const Header: FC = () => {
             <LogoSVG width="100%" aria-label="Logo" fill="currentColor" />
           </Box>
         </Link>
-        <a href="https://forms.gle/aDP4wHvshLPKkKv97" target="__blank">
+        <a
+          href="https://forms.gle/aDP4wHvshLPKkKv97"
+          target="__blank"
+          rel="noopener noreferrer"
+        >
           <Typography
             ml="L"
             px="L"
@@ -113,10 +137,34 @@ const Header: FC = () => {
           </Typography>
         </Link>
       </Box>
-      <Box display="flex" justifyContent="flex-end" alignItems="center">
+      <Box display="flex" justifyContent="flex-end" alignItems="stretch">
+        {address && isChainIdSupported(chainId ?? -1) && (
+          <Box display={['none', 'none', 'block']}>
+            <a
+              href={makeFIATWidgetURL(chainId, address)}
+              target="__blank"
+              rel="noopener noreferrer"
+            >
+              <Box
+                mr="S"
+                as="span"
+                p="0.7rem"
+                width="3rem"
+                height="2.8rem"
+                borderRadius="M"
+                alignItems="center"
+                display="inline-flex"
+                bg="bottomBackground"
+                justifyContent="center"
+              >
+                <CreditCardSVG width="100%" />
+              </Box>
+            </a>
+          </Box>
+        )}
         <Wallet />
         <SwitchLang />
-        <MobileMenu />
+        {isMobile && <MobileMenu />}
       </Box>
     </Box>
   );

@@ -18,6 +18,7 @@
     "farm": "farm",
     "success": "success",
     "notFound": "not found",
+    "loading": "loading...",
     "approve": "{isLoading, plural, =1 {approving...} other {approve}}",
     "load": "{isLoading, plural, =1 {loading...} other {load}}",
     "back": "back",
@@ -35,7 +36,7 @@
     "wrap": "{isLoading, plural, =1 {wrapping...} other {wrap}}",
     "unwrap": "{isLoading, plural, =1 {unwrapping...} other {unwrap}}",
     "fetchingBalances": "fetching balances",
-    "networkTitle": "choose your Network",
+    "networkTitle": "choose Network",
     "account": "account",
     "connected": "connected with",
     "disconnect": "disconnect",
@@ -69,5 +70,24 @@
   },
   "error": {
     "generic": "something went wrong"
+  },
+  "web3Manager": {
+    "title": "{chainName} is not supported",
+    "advice": "Please, switch to a supported chain",
+    "button": "Switch to {chainName}"
+  },
+  "wallet": {
+    "wrongNetwork": {
+      "title": "Wrong Network",
+      "advice": "Please connect to a supported network in the dropdown menu or in your wallet."
+    },
+    "switchNetwork": {
+      "title": "Switching networks",
+      "advice": "Please check your wallet and switch to a supported network."
+    },
+    "error": {
+      "title": "Wallet error",
+      "advice": "Please check your wallet or/and restart."
+    }
   }
 }

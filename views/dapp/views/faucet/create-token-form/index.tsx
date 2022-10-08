@@ -1,32 +1,18 @@
 import { useTranslations } from 'next-intl';
-import { prop } from 'ramda';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 
-import { createToken } from '@/api';
 import { Box, Button, Typography } from '@/elements';
-import { useGetSigner } from '@/hooks';
-import { coreActions } from '@/state/core/core.actions';
-import { LoadingSVG, TimesSVG } from '@/svg';
-import {
-  capitalize,
-  extractCreateTokenEvent,
-  isValidAccount,
-  safeGetAddress,
-} from '@/utils';
-import {
-  safeToBigNumber,
-  showToast,
-  showTXSuccessToast,
-  throwError,
-  throwIfInvalidSigner,
-} from '@/utils';
+import { useIdAccount } from '@/hooks';
+import { TimesSVG } from '@/svg';
 import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
-import { CreateTokenFormProps } from '../faucet.types';
+import CreateTokenButton from './create-token-button';
 import CreateTokenField from './create-token-field';
-import { TCreateTokenForm } from './create-token-form.types';
+import {
+  CreateTokenFormProps,
+  TCreateTokenForm,
+} from './create-token-form.types';
 import CreateTokenSupplyField from './create-token-supply-field';
 
 const CreateTokenForm: FC<CreateTokenFormProps> = ({
@@ -34,9 +20,7 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
   addLocalToken,
 }) => {
   const t = useTranslations();
-  const [loading, setLoading] = useState(false);
-  const { chainId, signer, account } = useGetSigner();
-  const { setValue, register, getValues } = useForm<TCreateTokenForm>({
+  const { setValue, register, control, getValues } = useForm<TCreateTokenForm>({
     defaultValues: {
       name: '',
       symbol: '',
@@ -44,60 +28,7 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
     },
   });
 
-  const dispatch = useDispatch();
-
-  const handleCreateToken = async () => {
-    try {
-      setLoading(true);
-      const [name, symbol, amount] = [
-        getValues('name'),
-        getValues('symbol'),
-        getValues('amount'),
-      ];
-
-      if (!name || !symbol || !amount || amount === '0')
-        throwError(capitalize(t('error.generic')));
-
-      const { validId, validSigner } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
-
-      const tx = await createToken(
-        validId,
-        validSigner,
-        name,
-        symbol,
-        safeToBigNumber(amount)
-      );
-
-      await showTXSuccessToast(tx, validId);
-
-      const receipt = await tx.wait();
-
-      const { token } = extractCreateTokenEvent(receipt);
-
-      if (isValidAccount(token))
-        addLocalToken({
-          symbol,
-          name,
-          address: safeGetAddress(token),
-        });
-    } catch (error) {
-      throwError('Something went wrong', error);
-    } finally {
-      setLoading(false);
-      dispatch(coreActions.updateNativeBalance());
-    }
-  };
-
-  const safeCreateToken = () =>
-    showToast(handleCreateToken(), {
-      loading: `${t('faucet.modalButton', { isLoading: 1 })}`,
-      success: capitalize(t('common.success')),
-      error: prop('message'),
-    });
+  const { chainId, account } = useIdAccount();
 
   return (
     <Box width={['90vw', '70vw', '50vw', '30rem']}>
@@ -147,33 +78,12 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
           setValue={setValue}
         />
         {account ? (
-          <Button
-            mt="L"
-            width="100%"
-            variant="primary"
-            disabled={loading}
-            onClick={safeCreateToken}
-            hover={{ bg: 'accentAlternativeActive' }}
-            bg={loading ? 'accentAlternativeActive' : 'accentAlternative'}
-          >
-            {loading ? (
-              <Box display="flex" alignItems="center" justifyContent="center">
-                <Box as="span" display="inline-block" width="1rem">
-                  <LoadingSVG width="100%" />
-                </Box>
-                <Typography
-                  fontSize="S"
-                  variant="normal"
-                  ml="M"
-                  textTransform="capitalize"
-                >
-                  {t('faucet.modalButton', { isLoading: 1 })}
-                </Typography>
-              </Box>
-            ) : (
-              t('faucet.modalButton', { isLoading: 0 })
-            )}
-          </Button>
+          <CreateTokenButton
+            chainId={chainId}
+            control={control}
+            getValues={getValues}
+            addLocalToken={addLocalToken}
+          />
         ) : (
           <Box display="flex" justifyContent="center">
             <ConnectWallet />

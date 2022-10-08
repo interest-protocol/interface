@@ -1,58 +1,35 @@
 import { not } from 'ramda';
-import { FC, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { FC, useState } from 'react';
+import { useAccount, useBalance } from 'wagmi';
 
-import priorityHooks from '@/connectors';
-import { LoadingState } from '@/constants';
-import {
-  getNativeCurrencySymbol,
-  isChainIdSupported,
-} from '@/constants/chains';
+import { WALLETS_MAP } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
-import { FixedPointMath } from '@/sdk';
-import { coreActions } from '@/state/core/core.actions';
-import { getCoreData } from '@/state/core/core.selectors';
-import { CoreState } from '@/state/core/core.types';
-import { LoadingSVG, MetaMaskSVG } from '@/svg';
-import { isValidAccount, shortAccount } from '@/utils';
+import { useChainId } from '@/hooks';
+import { ZERO_ADDRESS } from '@/sdk';
+import { LoadingSVG } from '@/svg';
+import { shortAccount } from '@/utils';
 
 import ConnectWallet from './connect-wallet';
 import AccountModal from './wallet-modal/account-modal';
 
-const {
-  usePriorityConnector,
-  useSelectedAccount,
-  useSelectedProvider,
-  usePriorityChainId,
-} = priorityHooks;
+const NoWalletSVG = () => <>?</>;
 
 const ConnectedWallet: FC = () => {
-  const connector = usePriorityConnector();
-  const provider = useSelectedProvider(connector);
-  const account = useSelectedAccount(connector);
-  const chainId = usePriorityChainId();
-  const dispatch = useDispatch();
-  const coreData = useSelector(getCoreData) as CoreState;
-
+  const chainId = useChainId();
   const [showModal, setShowModal] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (
-      chainId &&
-      isChainIdSupported(chainId) &&
-      account &&
-      isValidAccount(account) &&
-      chainId !== coreData.chainId
-    ) {
-      dispatch(coreActions.connectWallet({ chainId, account }));
-    }
-  }, [chainId, account]);
-
+  const { address, isConnected, connector } = useAccount();
+  const { data, isError, isLoading } = useBalance({
+    addressOrName: address,
+  });
   const toggleModal = () => {
     setShowModal(not);
   };
 
-  return coreData.account ? (
+  const WalletSVG =
+    WALLETS_MAP[chainId].find((wallet) => wallet.name === connector?.name)
+      ?.SVG ?? NoWalletSVG;
+
+  return isConnected ? (
     <Box
       bg="textSoft"
       display="flex"
@@ -67,10 +44,8 @@ const ConnectedWallet: FC = () => {
         whiteSpace="nowrap"
         display={['none', 'inline-block']}
       >
-        {coreData.loading !== LoadingState.Fetching ? (
-          `${FixedPointMath.from(
-            coreData.nativeBalance
-          ).toNumber()} ${getNativeCurrencySymbol(chainId || 0)}`
+        {!isLoading && !isError && data ? (
+          `${data.formatted.slice(0, 6)} ${data.symbol}`
         ) : (
           <Box as="span" display="inline-block" width="1rem">
             <LoadingSVG width="100%" />
@@ -101,18 +76,17 @@ const ConnectedWallet: FC = () => {
           overflow="hidden"
           borderRadius="50%"
         >
-          <MetaMaskSVG height="100%" width="100%" />
+          <WalletSVG height="100%" width="100%" />
         </Box>
         <Typography variant="normal" color="text" display={['none', 'block']}>
-          {shortAccount(coreData.account)}
+          {shortAccount(address || ZERO_ADDRESS)}
         </Typography>
         <Typography variant="normal" color="text" display={['block', 'none']}>
-          {shortAccount(coreData.account, true)}
+          {shortAccount(address || ZERO_ADDRESS, true)}
         </Typography>
       </Button>
       <AccountModal
-        url={provider?.connection.url || ''}
-        account={coreData.account}
+        account={address || ZERO_ADDRESS}
         showModal={showModal}
         toggleModal={toggleModal}
       />

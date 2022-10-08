@@ -118,7 +118,7 @@ const TableRow: FC<TableRowProps> = ({
         onClick={handleClick}
         display={['block', 'block', 'block', 'none']}
         hover={{
-          bg: handleClick ? 'bottomBackground' : 'transparent',
+          bg: 'bottomBackground',
         }}
       >
         <Box display="flex" flexDirection="column" p="L">

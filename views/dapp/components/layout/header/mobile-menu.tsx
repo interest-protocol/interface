@@ -6,19 +6,13 @@ import { Box, Dropdown, Typography } from '@/elements';
 import { BarsSVG, GitBookSVG } from '@/svg';
 
 const MobileMenu: FC = () => (
-  <Box display={['block', 'block', 'none']}>
+  <>
     <Dropdown
       buttonMode
       mode="menu"
       header="FOLLOW US:"
       title={
-        <Box
-          width="1.6rem"
-          height="1.6rem"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
+        <Box display="flex" alignItems="center" justifyContent="center" mx="S">
           <Box as="span" display="inline-block" width="1rem">
             <BarsSVG width="100%" />
           </Box>
@@ -74,7 +68,7 @@ const MobileMenu: FC = () => (
         },
       ]}
     />
-  </Box>
+  </>
 );
 
 export default MobileMenu;

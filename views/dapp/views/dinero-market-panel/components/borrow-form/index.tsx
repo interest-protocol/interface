@@ -14,17 +14,11 @@ import BorrowFormSelectLTV from './borrow-form-select-ltv';
 const BorrowForm: FC<BorrowFormProps> = ({
   data,
   fields,
-  control,
-  loading,
-  onSubmit,
   isBorrow,
-  setValue,
-  register,
-  setError,
-  clearErrors,
-  isSubmitting,
-  handleAddAllowance,
-  formState: { errors },
+  account,
+  refetch,
+  isGettingData,
+  form,
 }) => (
   <Box
     p="XL"
@@ -35,7 +29,7 @@ const BorrowForm: FC<BorrowFormProps> = ({
     borderRadius="L"
   >
     {fields.map((input) =>
-      loading ? (
+      isGettingData ? (
         <Box mb="L" key={v4()}>
           <Typography variant="normal" width="10rem" fontSize="S" mt="M" mb="L">
             <Skeleton />
@@ -46,33 +40,33 @@ const BorrowForm: FC<BorrowFormProps> = ({
         <InputMoney
           key={v4()}
           data={data}
-          errors={errors}
-          control={control}
+          errors={form.formState.errors}
+          control={form.control}
           isBorrow={isBorrow}
-          register={register}
-          setValue={setValue}
+          register={form.register}
+          setValue={form.setValue}
           {...input}
         />
       )
     )}
     <BorrowFormSelectLTV
       data={data}
-      control={control}
-      setValue={setValue}
+      control={form.control}
+      setValue={form.setValue}
       isBorrow={!!isBorrow}
     />
-    <BorrowFormLoanInfo control={control} data={data} isBorrow={!!isBorrow} />
+    <BorrowFormLoanInfo
+      control={form.control}
+      data={data}
+      isBorrow={!!isBorrow}
+    />
     <WalletGuardButton>
       <BorrowFormButton
-        data={data}
-        errors={errors}
-        control={control}
         isBorrow={isBorrow}
-        onSubmit={onSubmit}
-        setError={setError}
-        clearErrors={clearErrors}
-        isSubmitting={isSubmitting}
-        handleAddAllowance={handleAddAllowance}
+        data={data}
+        form={form}
+        account={account}
+        refetch={refetch}
       />
     </WalletGuardButton>
   </Box>

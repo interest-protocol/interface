@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
+import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
@@ -57,9 +58,18 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
                 whiteSpace="nowrap"
                 textTransform="capitalize"
               >
-                {t('common.' + parseFarmTypeByEnum(typeFilter).toLowerCase(), {
-                  count: 2,
-                })}
+                {t(
+                  ('common.' +
+                    parseFarmTypeByEnum(
+                      typeFilter
+                    ).toLowerCase()) as MessageKeys<
+                    IntlMessages,
+                    keyof IntlMessages
+                  >,
+                  {
+                    count: 2,
+                  }
+                )}
               </Typography>
             </Box>
           }

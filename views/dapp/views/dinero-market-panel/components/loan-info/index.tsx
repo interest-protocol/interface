@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 import { v4 } from 'uuid';
 
 import { DineroMarketKind } from '@/constants';
@@ -49,12 +50,12 @@ const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => {
               as="span"
               width="1rem"
               cursor="help"
-              data-tip={capitalize(t(tip))}
+              data-tip={capitalize(t(tip as MessageKeys<IntlMessages, any>))}
               display="inline-block"
             >
               <InfoSVG width="100%" />
             </Box>
-            {capitalize(t(name))}
+            {capitalize(t(name as MessageKeys<IntlMessages, any>))}
           </Typography>
           <Typography
             as="div"

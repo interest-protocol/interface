@@ -1,10 +1,10 @@
 import { BigNumber } from 'ethers';
 
-import { quoteRemoveLiquidity } from '@/api';
-import { ZERO_BIG_NUMBER } from '@/sdk';
+import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
+import { getInterestDexRouterAddress } from '@/utils';
 
-import { useCallContract } from '../use-call-contract';
 import { useChainId } from '../use-chain-id';
+import { useSafeContractRead } from '../use-contract-read';
 
 export const useQuoteRemoveLiquidity = (
   token0: string,
@@ -14,18 +14,10 @@ export const useQuoteRemoveLiquidity = (
 ) => {
   const chainId = useChainId();
 
-  const apiCall = amount.isZero()
-    ? (Promise.resolve({
-        amountA: ZERO_BIG_NUMBER,
-        amountB: ZERO_BIG_NUMBER,
-      }) as unknown as typeof quoteRemoveLiquidity)
-    : quoteRemoveLiquidity;
-
-  return useCallContract(chainId, apiCall, [
-    chainId,
-    token0,
-    token1,
-    isStable,
-    amount,
-  ]);
+  return useSafeContractRead({
+    addressOrName: getInterestDexRouterAddress(chainId),
+    contractInterface: InterestDexRouterABI,
+    functionName: 'quoteRemoveLiquidity',
+    args: [token0, token1, isStable, amount],
+  });
 };

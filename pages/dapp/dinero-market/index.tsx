@@ -1,21 +1,28 @@
 import { GetStaticProps, NextPage } from 'next';
+import { mergeDeepRight } from 'ramda';
 
 import DineroMarket from '@/views/dapp/views/dinero-market';
 
 const DineroMarketPage: NextPage = () => <DineroMarket />;
 
-export const getStaticProps: GetStaticProps = async ({
-  locale,
-  ...otherProps
-}) => ({
-  props: {
-    ...otherProps,
-    messages: {
-      ...require(`../../../assets/messages/dinero-market/${locale}.json`),
-      ...require(`../../../assets/messages/common/${locale}.json`),
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  const [commonMessages, dineroMarketMessages] = await Promise.all([
+    import(`../../../assets/messages/common/${locale}.json`),
+    import(`../../../assets/messages/dinero-market/${locale}.json`),
+  ]);
+
+  const messages = mergeDeepRight(
+    commonMessages.default,
+    dineroMarketMessages.default
+  );
+
+  return {
+    props: {
+      messages,
+      now: new Date().getTime(),
+      pageTitle: 'dineroMarket.pageTitle',
     },
-    pageTitle: 'dineroMarket.pageTitle',
-  },
-});
+  };
+};
 
 export default DineroMarketPage;

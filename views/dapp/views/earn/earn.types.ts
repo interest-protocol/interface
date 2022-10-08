@@ -1,3 +1,4 @@
+import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
 import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
@@ -73,4 +74,5 @@ export type GetSafeFarmSummaryData = (
         prices: BigNumber[];
       })
     | undefined
+    | Result
 ) => SafeFarmSummaryData;

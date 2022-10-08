@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
+import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
@@ -59,7 +60,14 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
           title={
             <Box display="flex" width="100%" py="M" alignItems="center">
               <Typography variant="normal" whiteSpace="nowrap">
-                {capitalize(t(parseFarmSortByEnum(sortBy)))}
+                {capitalize(
+                  t(
+                    parseFarmSortByEnum(sortBy) as MessageKeys<
+                      IntlMessages,
+                      keyof IntlMessages
+                    >
+                  )
+                )}
               </Typography>
             </Box>
           }

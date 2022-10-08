@@ -20,6 +20,7 @@ export interface DropdownItemProps extends Omit<IDropdownData, 'value'> {
 }
 
 export interface DropdownProps {
+  bg?: string;
   search?: string;
   bottom?: boolean;
   title: ReactNode;
@@ -28,6 +29,7 @@ export interface DropdownProps {
   header?: ReactNode;
   footer?: ReactNode;
   relative?: boolean;
+  bgSelected?: string;
   fromRight?: boolean;
   buttonMode?: boolean;
   emptyMessage?: string;
@@ -36,8 +38,7 @@ export interface DropdownProps {
   mode: 'select' | 'menu';
   defaultValue?: ReactNode;
   data: ReadonlyArray<IDropdownData>;
-  bg?: string;
-  bgSelected?: string;
+  callback?: (isOpen: boolean) => void;
 }
 
 export interface DropdownListProps {

@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
 
 import { useQuoteRemoveLiquidity } from '@/hooks';
-import { useDebounce } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
 import {
   numberToString,
@@ -26,7 +26,7 @@ const RemoveLiquidityManager: FC<RemoveLiquidityManagerProps> = ({
   const amount = useWatch({ control, name: 'lpAmount' });
 
   const [lastDebouncedAmount, setLastDebouncedAmount] = useState('0.0');
-  const debouncedAmount = useDebounce(amount, 1500);
+  const [debouncedAmount] = useDebounce(amount, 1500);
 
   const { error, data } = useQuoteRemoveLiquidity(
     processWrappedNativeTokenAddress(chainId, token0Address),

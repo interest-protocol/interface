@@ -7,6 +7,7 @@ import DropdownList from './dropdown-list';
 const dropdownWrapperId = 'dropdown-wrapper';
 
 const Dropdown: FC<DropdownProps> = ({
+  bg,
   data,
   mode,
   title,
@@ -16,26 +17,31 @@ const Dropdown: FC<DropdownProps> = ({
   suffix,
   footer,
   relative,
+  callback,
   minWidth,
   fromRight,
+  bgSelected,
   buttonMode,
   customTitle,
   customItems,
   emptyMessage,
   defaultValue,
-  bg,
-  bgSelected,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState<number>(
     data.findIndex(({ value }) => value === defaultValue)
   );
 
-  const toggleDropdown = () => setIsOpen((state) => !state);
+  const toggleDropdown = () =>
+    setIsOpen((state) => {
+      callback?.(!state);
+      return !state;
+    });
 
   return (
     <Box
       display="flex"
+      alignItems="center"
       id={dropdownWrapperId}
       position={relative ? 'relative' : 'static'}
     >
@@ -44,8 +50,8 @@ const Dropdown: FC<DropdownProps> = ({
           width="100%"
           cursor="pointer"
           alignItems="center"
-          display="inline-flex"
           whiteSpace="nowrap"
+          display="inline-flex"
           onClick={toggleDropdown}
         >
           {data[selectedIndex].displayTitle ||
@@ -58,9 +64,9 @@ const Dropdown: FC<DropdownProps> = ({
           px="0.7rem"
           py="0.7rem"
           width="100%"
+          height="100%"
           cursor="pointer"
           borderRadius="M"
-          maxHeight="2.8rem"
           alignItems="center"
           display="inline-flex"
           onClick={toggleDropdown}
@@ -76,6 +82,7 @@ const Dropdown: FC<DropdownProps> = ({
             ? data[selectedIndex].displayTitle ||
               data[selectedIndex].displayOption
             : title}
+          {suffix && <Box as="span" px="S" display="inline-block" />}
           {suffix}
         </Box>
       ) : (

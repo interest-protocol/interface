@@ -1,14 +1,15 @@
 import { ethers } from 'ethers';
 import { path } from 'ramda';
 
-import { getUserFarmData } from '@/api';
 import {
   BASE_TOKENS_FARM_MAP,
   DEFAULT_ACCOUNT,
   TOKEN_FARM_ID_MAP,
 } from '@/constants';
+import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
+import { getInterestViewEarnAddress } from '@/utils';
 
-import { useCallContract } from '../use-call-contract';
+import { useSafeContractRead } from '../use-contract-read';
 import { useIdAccount } from '../use-id-account';
 
 export const useGetUserFarmData = (pairAddress: string) => {
@@ -24,12 +25,10 @@ export const useGetUserFarmData = (pairAddress: string) => {
     BASE_TOKENS_FARM_MAP
   );
 
-  return useCallContract(chainId, getUserFarmData, [
-    chainId,
-    pairAddress,
-    account || DEFAULT_ACCOUNT,
-    poolId,
-    baseTokens,
-    {},
-  ]);
+  return useSafeContractRead({
+    addressOrName: getInterestViewEarnAddress(chainId),
+    contractInterface: InterestViewEarnABI,
+    functionName: 'getUserFarmData',
+    args: [pairAddress, account || DEFAULT_ACCOUNT, poolId, baseTokens],
+  });
 };

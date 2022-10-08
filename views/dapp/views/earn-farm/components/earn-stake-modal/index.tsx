@@ -6,9 +6,10 @@ import { v4 } from 'uuid';
 import { getFarmsSVGByToken, StakeState } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useLocale } from '@/hooks';
-import { LoadingSVG, TimesSVG } from '@/svg';
-import { capitalize, formatMoney, safeToBigNumber } from '@/utils';
+import { TimesSVG } from '@/svg';
+import { capitalize, formatMoney } from '@/utils';
 
+import ModalButton from '../buttons/modal-button';
 import { EarnStakeModalProps } from './earn-stake-modal.types';
 import InputStake from './input-stake';
 
@@ -16,15 +17,13 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
   farm,
   modal,
   amount,
-  loading,
-  onStake,
-  onUnstake,
   handleClose,
   farmSymbol,
+  refetch,
 }) => {
   const t = useTranslations();
   const { currentLocale } = useLocale();
-  const { handleSubmit, setValue, register } = useForm({
+  const { setValue, register, control } = useForm({
     defaultValues: { value: '0' },
   });
 
@@ -37,12 +36,6 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
   );
 
   const Icons = getFarmsSVGByToken(farm.chainId, farm.token0, farm.token1);
-
-  const onSubmit = ({ value }: { value: string }) => {
-    isStake
-      ? onStake(safeToBigNumber(value))
-      : onUnstake(safeToBigNumber(value));
-  };
 
   return (
     <Modal
@@ -62,7 +55,6 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
         bg="foreground"
         borderRadius="L"
         minWidth="20rem"
-        onSubmit={handleSubmit(onSubmit)}
       >
         <Box display="flex" justifyContent="flex-end">
           <Box
@@ -158,23 +150,14 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
           >
             {capitalize(t('common.cancel'))}
           </Button>
-          <Button
-            ml="L"
-            flex="1"
-            display="flex"
-            variant="primary"
-            alignItems="center"
-            justifyContent="center"
-            bg={loading ? 'accentActive' : 'accent'}
-            hover={{ bg: 'accentActive' }}
-          >
-            {loading && (
-              <Box mr="M" width="1rem">
-                <LoadingSVG width="100%" />
-              </Box>
-            )}
-            {capitalize(t('common.confirm', { isLoading: Number(loading) }))}
-          </Button>
+          <ModalButton
+            modal={modal}
+            handleClose={handleClose}
+            control={control}
+            isStake={isStake}
+            refetch={refetch}
+            farm={farm}
+          />
         </Box>
       </Box>
     </Modal>

@@ -6,13 +6,19 @@ import { Box, Typography } from '@/elements';
 
 import { TokenAmountProps } from './remove-liquidity-card.types';
 
-const TokenAmount: FC<TokenAmountProps> = ({ Icon, symbol, control, name }) => {
+const TokenAmount: FC<TokenAmountProps> = ({
+  Icon,
+  symbol,
+  control,
+  name,
+  isFetchingInitialData,
+}) => {
   const amount = useWatch({ control, name });
   return (
     <>
       {Icon}
       <Typography variant="normal" ml="M">
-        {symbol == '???' ? (
+        {isFetchingInitialData ? (
           <Box width="2.5rem">
             <Skeleton />
           </Box>

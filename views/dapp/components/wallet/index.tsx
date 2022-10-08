@@ -1,94 +1,48 @@
-import { ProviderRpcError } from '@web3-react/types';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC } from 'react';
+import { useAccount, useConnect, useNetwork } from 'wagmi';
+import { useSwitchNetwork } from 'wagmi';
 
-import hooks from '@/connectors';
-import { isChainIdSupported } from '@/constants/chains';
-import { Button } from '@/elements';
-import { switchToNetwork } from '@/utils/web3-provider';
+import { isChainIdSupported } from '@/constants';
 
 import ConnectWallet from './connect-wallet';
 import ConnectedWallet from './connected-wallet';
 import SelectNetwork from './select-network';
 import SwitchingNetwork from './switching-network';
+import WalletError from './wallet-error';
 import WrongNetwork from './wrong-network';
 
-const {
-  usePriorityIsActive,
-  usePriorityChainId,
-  usePriorityIsActivating,
-  usePriorityConnector,
-  usePriorityError,
-} = hooks;
-
 const Wallet: FC = () => {
-  const [targetChainId, setTargetChainId] = useState(0);
-  const [isSwitchingNetworks, setIsSwitchingNetworks] = useState(false);
-  const [failedSwitchingNetwork, setFailedSwitchingNetwork] = useState(false);
+  const { isLoading, error } = useConnect();
+  const { isConnecting, isReconnecting, isDisconnected } = useAccount();
+  const { switchNetwork, isLoading: isSwitching } = useSwitchNetwork();
+  const { chain } = useNetwork();
 
-  const error = usePriorityError();
-  const chainId = usePriorityChainId();
-  const isActive = usePriorityIsActive();
-  const connector = usePriorityConnector();
-  const isActivating = usePriorityIsActivating();
+  const loading = isLoading || isReconnecting || isConnecting;
 
-  const switchNetwork = useCallback(
-    async (x: number): Promise<void> => {
-      setTargetChainId(x);
-      try {
-        if (!connector) return;
-        setIsSwitchingNetworks(true);
-        await switchToNetwork(connector, x);
-      } catch {
-        setFailedSwitchingNetwork(true);
-      } finally {
-        setIsSwitchingNetworks(false);
-      }
-    },
-    [connector]
-  );
+  if (isSwitching) return <SwitchingNetwork />;
 
-  useEffect(() => {
-    let isMounted = true;
-    if (!isMounted) return;
-    if (!isSwitchingNetworks && !failedSwitchingNetwork)
-      (async () => {
-        try {
-          setIsSwitchingNetworks(true);
-          if ((error as ProviderRpcError)?.code === 1013)
-            await connector.activate(targetChainId);
-        } catch {
-          setFailedSwitchingNetwork(true);
-        } finally {
-          setIsSwitchingNetworks(false);
-        }
-      })();
-    return () => {
-      isMounted = false;
-    };
-  }, [error]);
+  if (isDisconnected || loading) return <ConnectWallet />;
 
-  if (!isActive && !isActivating) return <ConnectWallet />;
+  if (error || !chain) return <WalletError />;
 
-  if (isSwitchingNetworks) return <SwitchingNetwork />;
-
-  if (failedSwitchingNetwork)
-    return (
-      <Button variant="primary" bg="error">
-        Switch Network Manually
-      </Button>
-    );
-
-  if (!!chainId && !isChainIdSupported(chainId))
+  if (!!chain && !isChainIdSupported(chain.id))
     return (
       <>
-        <SelectNetwork switchNetwork={switchNetwork} />
+        {switchNetwork && (
+          <SelectNetwork switchNetwork={switchNetwork} chainId={chain.id} />
+        )}
         <WrongNetwork />
       </>
     );
 
   return (
     <>
-      <SelectNetwork switchNetwork={switchNetwork} />
+      {switchNetwork && (
+        <SelectNetwork
+          switchNetwork={switchNetwork}
+          chainId={chain?.id || -1}
+        />
+      )}
       <ConnectedWallet />
     </>
   );

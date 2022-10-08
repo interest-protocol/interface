@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { Box, Typography } from '@/elements';
 
-import { FaucetSelectCurrencyProps } from '../faucet.types';
+import { FaucetSelectCurrencyProps } from './faucet-form.types';
 import FaucetTokensDropdown from './faucet-tokens-dropdown';
 
 const FaucetSelectCurrency: FC<FaucetSelectCurrencyProps> = ({

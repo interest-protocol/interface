@@ -1,4 +1,4 @@
-import { UseFormReturn, UseFormStateReturn } from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 
 import {
   DineroMarketData,
@@ -6,27 +6,21 @@ import {
   IBorrowFormField,
 } from '../../dinero-market.types';
 
-export interface BorrowFormButtonProps
-  extends Pick<
-    UseFormReturn<IBorrowForm>,
-    'control' | 'setError' | 'clearErrors'
-  > {
+export interface BorrowFormButtonProps {
+  form: UseFormReturn<IBorrowForm>;
   isBorrow?: boolean;
-  onSubmit: () => void;
-  isSubmitting: boolean;
   data: DineroMarketData;
-  errors: UseFormStateReturn<IBorrowForm>['errors'];
-  handleAddAllowance: () => Promise<void>;
-}
-export interface BorrowFormProps extends UseFormReturn<IBorrowForm> {
   account: string;
-  loading?: boolean;
+  refetch: () => Promise<void>;
+}
+export interface BorrowFormProps {
+  form: UseFormReturn<IBorrowForm>;
+  account: string;
   isBorrow?: boolean;
-  onSubmit: () => void;
-  isSubmitting: boolean;
   data: DineroMarketData;
   fields: ReadonlyArray<IBorrowFormField>;
-  handleAddAllowance: () => Promise<void>;
+  refetch: () => Promise<void>;
+  isGettingData: boolean;
 }
 
 export interface BorrowFormSelectLTVProps
@@ -39,4 +33,30 @@ export interface BorrowFormLoanInfoProps
   extends Pick<UseFormReturn<IBorrowForm>, 'control'> {
   data: DineroMarketData;
   isBorrow: boolean;
+}
+
+export interface ApproveButtonProps {
+  enabled: boolean;
+  spender: string;
+  contract: string;
+  chainId: number;
+  refetch: () => Promise<void>;
+}
+
+export interface BorrowButtonProps {
+  data: DineroMarketData;
+  account: string;
+  form: UseFormReturn<IBorrowForm>;
+  refetch: () => Promise<void>;
+  borrowLoan: string;
+  borrowCollateral: string;
+}
+
+export interface RepayButtonProps {
+  data: DineroMarketData;
+  account: string;
+  form: UseFormReturn<IBorrowForm>;
+  refetch: () => Promise<void>;
+  repayLoan: string;
+  repayCollateral: string;
 }

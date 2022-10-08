@@ -1,8 +1,8 @@
 import { FC, useRef, useState } from 'react';
 import { animated, useSpring } from 'react-spring';
+import { useDebounce } from 'use-debounce';
 import { v4 } from 'uuid';
 
-import { useDebounce } from '@/hooks';
 import { ArrowSVG } from '@/svg';
 
 import Box from '../box';
@@ -47,7 +47,7 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
     },
   });
 
-  const debouncedDropdownValue = useDebounce(isOpenDropdown, 500);
+  const [debouncedDropdownValue] = useDebounce(isOpenDropdown, 500);
 
   const toggleDropdown = () => setIsOpenDropdown((a) => !a);
 

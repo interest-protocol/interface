@@ -183,7 +183,7 @@ export const getFarmsSVGByToken = (
   );
 
   // IPX pool
-  if (isZeroAddress(Token0.address))
+  if (isZeroAddress(token0))
     return [
       {
         SVG: TOKENS_SVG_MAP[chainId][ethers.utils.getAddress(Token1.address)],

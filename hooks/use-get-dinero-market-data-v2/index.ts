@@ -1,11 +1,12 @@
 import { pathOr } from 'ramda';
 
-import { getDineroMarketDataV2 } from '@/api/interest-view-dinero-v2';
 import { DEFAULT_ACCOUNT } from '@/constants';
 import { DINERO_MARKET_DATA_CALL_MAP } from '@/constants/dinero-markets';
+import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
+import { getInterestViewDineroV2Address } from '@/utils';
 
-import { useCallContract } from '../use-call-contract';
-import { useIdAccount } from './../use-id-account/index';
+import { useSafeContractRead } from '../use-contract-read';
+import { useIdAccount } from './../use-id-account';
 
 export const useGetDineroMarketDataV2 = (market: string) => {
   const { account, chainId } = useIdAccount();
@@ -16,11 +17,10 @@ export const useGetDineroMarketDataV2 = (market: string) => {
     DINERO_MARKET_DATA_CALL_MAP
   );
 
-  return useCallContract(chainId, getDineroMarketDataV2, [
-    chainId,
-    account || DEFAULT_ACCOUNT,
-    market,
-    data.baseToken,
-    data.kind,
-  ]);
+  return useSafeContractRead({
+    addressOrName: getInterestViewDineroV2Address(chainId),
+    contractInterface: InterestViewDineroV2ABI,
+    functionName: 'getDineroMarketData',
+    args: [account || DEFAULT_ACCOUNT, market, data.baseToken, data.kind],
+  });
 };

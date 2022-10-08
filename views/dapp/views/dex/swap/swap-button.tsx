@@ -1,24 +1,11 @@
-import { BigNumber } from 'ethers';
 import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
 import { useWatch } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 
-import {
-  addAllowance,
-  swapExactNativeTokenForTokens,
-  swapExactTokensForNativeToken,
-  swapExactTokensForTokens,
-  wethDeposit,
-  wethWithdraw,
-} from '@/api';
 import { Box, Button, Typography } from '@/elements';
-import { useGetSigner } from '@/hooks';
-import { ZERO_ADDRESS } from '@/sdk';
-import { coreActions } from '@/state/core/core.actions';
+import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
 import {
-  adjustDecimals,
   capitalize,
   getInterestDexRouterAddress,
   getWETHAddress,
@@ -28,12 +15,11 @@ import {
   showToast,
   showTXSuccessToast,
   throwError,
-  throwIfInvalidSigner,
 } from '@/utils';
 import { WalletGuardButton } from '@/views/dapp/components';
 
+import { useSwap, useWETHDeposit, useWETHWithdraw } from './swap.hooks';
 import { SwapButtonProps, SwapViewButtonProps } from './swap.types';
-import { handleRoute } from './swap.utils';
 
 const SwapViewButton: FC<SwapViewButtonProps> = ({
   text,
@@ -47,13 +33,11 @@ const SwapViewButton: FC<SwapViewButtonProps> = ({
     variant="primary"
     onClick={onClick}
     disabled={!!loadingText || disabled}
-    hover={{ bg: 'accentAlternativeActive' }}
+    hover={{
+      bg: !!loadingText || disabled ? 'disabled' : 'accentAlternativeActive',
+    }}
     cursor={loadingText ? 'progress' : disabled ? 'not-allowed' : 'pointer'}
-    bg={
-      !!loadingText || disabled
-        ? 'accentAlternativeActive'
-        : 'accentAlternative'
-    }
+    bg={!!loadingText || disabled ? 'disabled' : 'accentAlternative'}
   >
     {loadingText ? (
       <Box as="span" display="flex" justifyContent="center">
@@ -81,46 +65,66 @@ const SwapButton: FC<SwapButtonProps> = ({
   fetchingBaseData,
   fetchingBalancesData,
   parsedTokenInBalance,
-  updateBalances,
   localSettings,
   control,
+  refetch,
 }) => {
   const t = useTranslations();
-  const { signer } = useGetSigner();
   const [buttonLoadingText, setButtonLoadingText] =
     useState<string | null>(null);
-  const dispatch = useDispatch();
+
+  const { writeAsync: approve } = useApprove(
+    tokenInAddress,
+    getInterestDexRouterAddress(chainId),
+    { enabled: needsApproval }
+  );
 
   const tokenIn = useWatch({ control, name: 'tokenIn' });
   const tokenOut = useWatch({ control, name: 'tokenOut' });
+
+  const { writeAsync: swapTokens } = useSwap({
+    tokenIn,
+    tokenOut,
+    swapBase,
+    account,
+    chainId,
+    parsedTokenInBalance,
+    localSettings,
+    needsApproval,
+  });
+
+  const { writeAsync: wethDeposit } = useWETHDeposit({
+    tokenIn,
+    tokenOut,
+    chainId,
+    parsedTokenInBalance,
+    needsApproval,
+  });
+
+  const { writeAsync: wethWithdraw } = useWETHWithdraw({
+    tokenIn,
+    tokenOut,
+    chainId,
+    parsedTokenInBalance,
+    needsApproval,
+  });
 
   const handleAddAllowance = useCallback(async () => {
     if (isZeroAddress(tokenInAddress)) return;
     setButtonLoadingText(t('common.approve', { isLoading: 1 }));
     try {
-      const { validId, validSigner } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
+      const tx = await approve?.();
 
-      const tx = await addAllowance(
-        validId,
-        validSigner,
-        account,
-        tokenInAddress,
-        getInterestDexRouterAddress(validId)
-      );
-      await updateBalances();
-      await showTXSuccessToast(tx, validId);
+      await showTXSuccessToast(tx, chainId);
+
+      if (tx) await tx.wait(5);
+      await refetch();
     } catch (e) {
-      throwError('Something went wrong', e);
+      throwError(t('error.generic'), e);
     } finally {
-      await updateBalances();
-      dispatch(coreActions.updateNativeBalance());
       setButtonLoadingText(null);
     }
-  }, [account, chainId, signer, tokenInAddress]);
+  }, [account, chainId, approve, tokenInAddress, refetch]);
 
   const submitAllowance = () =>
     showToast(handleAddAllowance(), {
@@ -133,124 +137,16 @@ const SwapButton: FC<SwapButtonProps> = ({
     if (isSameAddress(tokenIn.address, tokenOut.address)) return;
     setButtonLoadingText(t('common.swap', { isLoading: 1 }) + '...');
     try {
-      const { validId, validSigner } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
-
-      const { deadline, slippage } = localSettings;
-
-      const [tokenInIntegralPart, tokenInDecimalPart] =
-        tokenIn.value.split('.');
-
-      const bnAmountIn = adjustDecimals(
-        BigNumber.from(tokenInIntegralPart),
-        0,
-        tokenIn.decimals
-      ).add(
-        tokenInDecimalPart
-          ? adjustDecimals(
-              BigNumber.from(tokenInDecimalPart),
-              tokenInDecimalPart.length,
-              tokenIn.decimals
-            )
-          : 0
-      );
-
-      const [tokenOutIntegralPart, tokenOutDecimalPart] =
-        tokenOut.value.split('.');
-
-      const bnAmountOut = adjustDecimals(
-        BigNumber.from(tokenOutIntegralPart),
-        0,
-        tokenOut.decimals
-      ).add(
-        tokenOutDecimalPart
-          ? adjustDecimals(
-              BigNumber.from(tokenOutDecimalPart),
-              tokenOutDecimalPart.length,
-              tokenOut.decimals
-            )
-          : 0
-      );
-
-      const safeAmountIn = bnAmountIn.gte(parsedTokenInBalance)
-        ? parsedTokenInBalance
-        : bnAmountIn;
-
-      const slippageAmount = bnAmountOut
-        .mul(
-          adjustDecimals(
-            BigNumber.from(Math.floor(+slippage * 100)),
-            0,
-            tokenOut.decimals
-          )
-        ) // Since we multiplied slippage by 100, we need to add 4 decimal houses here
-        .div(BigNumber.from(10).pow(tokenOut.decimals + 4));
-
-      const minAmountOut = bnAmountOut.sub(slippageAmount);
-
-      const route = handleRoute(
-        validId,
-        tokenIn.address,
-        tokenOut.address,
-        swapBase || ZERO_ADDRESS
-      );
-
-      const parsedDeadline = Math.floor(
-        (new Date().getTime() + deadline * 60 * 1000) / 1000
-      );
-
-      if (isZeroAddress(tokenIn.address)) {
-        const tx = await swapExactNativeTokenForTokens(
-          validId,
-          validSigner,
-          safeAmountIn,
-          minAmountOut,
-          route,
-          validSigner._address,
-          parsedDeadline
-        );
-
-        await showTXSuccessToast(tx, validId);
-        return;
-      }
-
-      if (isZeroAddress(tokenOut.address)) {
-        const tx = await swapExactTokensForNativeToken(
-          validId,
-          validSigner,
-          safeAmountIn,
-          minAmountOut,
-          route,
-          validSigner._address,
-          parsedDeadline
-        );
-
-        await showTXSuccessToast(tx, validId);
-        return;
-      }
-
-      const tx = await swapExactTokensForTokens(
-        validId,
-        validSigner,
-        safeAmountIn,
-        minAmountOut,
-        route,
-        validSigner._address,
-        parsedDeadline
-      );
-
-      await showTXSuccessToast(tx, validId);
+      const tx = await swapTokens?.();
+      if (tx) await tx.wait(1);
+      await refetch();
+      await showTXSuccessToast(tx, chainId);
     } catch {
       throwError(t('dexSwap.swapMessage.error'));
     } finally {
-      dispatch(coreActions.updateNativeBalance());
-      await updateBalances();
       setButtonLoadingText(null);
     }
-  }, [account, chainId, signer, parsedTokenInBalance, swapBase]);
+  }, [account, chainId, swapTokens, parsedTokenInBalance, swapBase, refetch]);
 
   const swap = () =>
     showToast(handleSwap(), {
@@ -268,32 +164,17 @@ const SwapButton: FC<SwapButtonProps> = ({
 
     setButtonLoadingText(t('common.wrap', { isLoading: 1 }));
     try {
-      const { validId, validSigner } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
-
       // sanity check
-      if (!isSameAddress(tokenOut.address, getWETHAddress(validId))) return;
+      if (!isSameAddress(tokenOut.address, getWETHAddress(chainId))) return;
 
-      const bnAMount = safeToBigNumber(tokenIn.value, tokenIn.decimals);
+      const tx = await wethDeposit?.();
 
-      if (bnAMount.isZero())
-        throwError(`You cannot deposit 0 tokens ${tokenIn.symbol}`);
-
-      const safeAmount = bnAMount.gte(parsedTokenInBalance)
-        ? parsedTokenInBalance
-        : bnAMount;
-
-      const tx = await wethDeposit(validId, validSigner, safeAmount);
-
-      await showTXSuccessToast(tx, validId);
+      if (tx) await tx.wait(1);
+      await showTXSuccessToast(tx, chainId);
+      await refetch();
     } catch (e) {
-      throwError('Failed to deposit');
+      throwError(t('dexSwap.error.wethDeposit'));
     } finally {
-      dispatch(coreActions.updateNativeBalance());
-      await updateBalances();
       setButtonLoadingText(null);
     }
   };
@@ -314,32 +195,20 @@ const SwapButton: FC<SwapButtonProps> = ({
 
     setButtonLoadingText(t('common.unwrap', { isLoading: 1 }));
     try {
-      const { validId, validSigner } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
-
       // sanity check
-      if (!isSameAddress(tokenIn.address, getWETHAddress(validId))) return;
+      if (!isSameAddress(tokenIn.address, getWETHAddress(chainId))) return;
 
-      const bnAMount = safeToBigNumber(tokenIn.value, tokenIn.decimals);
+      if (safeToBigNumber(tokenIn.value, tokenIn.decimals).isZero())
+        throwError(t('dexSwap.error.wethWithdraw'));
 
-      if (bnAMount.isZero())
-        throwError(`You cannot withdraw 0 tokens ${tokenOut.symbol}`);
+      const tx = await wethWithdraw?.();
 
-      const safeAmount = bnAMount.gte(parsedTokenInBalance)
-        ? parsedTokenInBalance
-        : bnAMount;
-
-      const tx = await wethWithdraw(validId, validSigner, safeAmount);
-
-      await showTXSuccessToast(tx, validId);
+      if (tx) await tx.wait(1);
+      await showTXSuccessToast(tx, chainId);
+      await refetch();
     } catch {
-      throwError('Failed to unwrapped');
+      throwError(t('dexSwap.error.wethWithdraw'));
     } finally {
-      dispatch(coreActions.updateNativeBalance());
-      await updateBalances();
       setButtonLoadingText(null);
     }
   };
@@ -398,11 +267,40 @@ const SwapButton: FC<SwapButtonProps> = ({
     return buttonLoadingText as string;
   };
 
+  const handleIsDisabled = () => {
+    if (needsApproval) return !approve;
+
+    if (
+      (disabled || isNaN(+tokenIn.value) || +tokenIn.value === 0) &&
+      !needsApproval
+    )
+      return true;
+
+    if (fetchingAmount || fetchingBaseData || fetchingAmount) return true;
+
+    if (
+      isZeroAddress(tokenIn.address) &&
+      isSameAddress(tokenOut.address, getWETHAddress(chainId))
+    )
+      return !wethDeposit;
+
+    if (
+      isZeroAddress(tokenOut.address) &&
+      isSameAddress(tokenIn.address, getWETHAddress(chainId))
+    )
+      return !wethWithdraw;
+
+    if (!isZeroAddress(tokenIn.address) && !isZeroAddress(tokenOut.address))
+      return !swapTokens;
+
+    return false;
+  };
+
   return (
     <WalletGuardButton>
       <SwapViewButton
         {...handleProps()}
-        disabled={disabled || isNaN(+tokenIn.value) || +tokenIn.value === 0}
+        disabled={handleIsDisabled()}
         loadingText={capitalize(handleLoadingText())}
       />
     </WalletGuardButton>
