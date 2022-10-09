@@ -1,5 +1,5 @@
+import { ethers } from 'ethers';
 import { FC } from 'react';
-import { v4 } from 'uuid';
 
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
@@ -7,18 +7,14 @@ import { useChainId } from '@/hooks';
 
 import { VaultNameProps } from '../../vault.types';
 
-const VaultName: FC<VaultNameProps> = ({ vault, isColumn }) => {
+const VaultName: FC<VaultNameProps> = ({ symbol, address, isColumn }) => {
   const chainId = useChainId();
 
-  const returnSVG = (address: string) => {
+  const returnSVG = () => {
     const SVG =
-      TOKENS_SVG_MAP[chainId][address] || TOKENS_SVG_MAP[chainId].default;
-    return (
-      <SVG
-        width={vault?.length == 1 ? '100%' : '80%'}
-        height={vault?.length == 1 ? '100%' : '80%'}
-      />
-    );
+      TOKENS_SVG_MAP[chainId][ethers.utils.getAddress(address)] ||
+      TOKENS_SVG_MAP[chainId].default;
+    return <SVG width="100%" height="100%" />;
   };
 
   return (
@@ -32,31 +28,7 @@ const VaultName: FC<VaultNameProps> = ({ vault, isColumn }) => {
         height={isColumn ? '1.8rem' : '1.5rem'}
         my="auto"
       >
-        {vault?.length == 1 ? (
-          returnSVG(vault?.[0]?.address)
-        ) : (
-          <Box position="relative" width="100%" height="100%">
-            <Box
-              position="absolute"
-              right="0"
-              width="100%"
-              key={v4()}
-              display="flex"
-              justifyContent="flex-end"
-            >
-              {returnSVG(vault?.[0]?.address)}
-            </Box>
-            <Box
-              position="absolute"
-              right="0.5rem"
-              bottom="-0.5rem"
-              width="100%"
-              key={v4()}
-            >
-              {returnSVG(vault?.[1].address)}
-            </Box>
-          </Box>
-        )}
+        {returnSVG()}
       </Box>
       <Box
         ml={isColumn ? 'unset' : 'M'}
@@ -71,9 +43,7 @@ const VaultName: FC<VaultNameProps> = ({ vault, isColumn }) => {
           lineHeight="1.313rem"
           fontWeight="500"
         >
-          {vault?.length == 1
-            ? vault?.[0]?.symbol
-            : vault?.[0]?.symbol + '-' + vault?.[1].symbol}
+          {symbol}
         </Typography>
       </Box>
     </Box>

@@ -12,6 +12,7 @@ import { VaultTypes } from '@/constants';
 import { ERC20 } from '@/sdk';
 
 import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestViewEarnAbi';
+import { VaultTypeFilter } from './components/vault-filter-table/filter-table.types';
 
 export interface VaultTableProps {
   data: ReadonlyArray<VaultData>;
@@ -20,8 +21,8 @@ export interface VaultTableProps {
 }
 
 export interface VaultNameProps {
-  vault: ReadonlyArray<ERC20>;
-  caption?: string;
+  symbol: string;
+  address: string;
   isColumn?: boolean;
 }
 export interface VaultDetailsProps {
@@ -53,7 +54,7 @@ export interface StateProps {
 
 export interface IVaultForm {
   search: string;
-  type: boolean;
+  type: VaultTypeFilter;
   onlyDeposit: boolean;
 }
 

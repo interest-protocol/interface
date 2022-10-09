@@ -7,6 +7,7 @@ import { v4 } from 'uuid';
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
+import { FixedPointMath } from '@/sdk';
 import { capitalize } from '@/utils';
 
 import { VaultTableProps } from '../../vault.types';
@@ -28,16 +29,16 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
     'TVL',
   ];
   const HEADING = [t('vault.column1'), ...HEADING_MOBILE];
-  // const typeFilter = useWatch({ control, name: 'type' });
-  // const search = useWatch({ control, name: 'search' });
-  // const onlyDeposit = useWatch({ control, name: 'onlyDeposit' });
-  //
-  // const filteredVaults = handleFilterVaults(
-  //   data,
-  //   search,
-  //   typeFilter,
-  //   onlyDeposit
-  // );
+  const typeFilter = useWatch({ control, name: 'type' });
+  const search = useWatch({ control, name: 'search' });
+  const onlyDeposit = useWatch({ control, name: 'onlyDeposit' });
+
+  const filteredVaults = handleFilterVaults(
+    data,
+    search,
+    typeFilter,
+    onlyDeposit
+  );
 
   return (
     <Container>
@@ -62,7 +63,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
           data={
             loading
               ? DesktopVaultSkeletonRow
-              : data.map((item) => {
+              : filteredVaults.map((item) => {
                   return {
                     button: (
                       <Button
@@ -73,7 +74,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                             {
                               pathname: Routes[RoutesEnum.VaultDetails],
                               query: {
-                                address: item.depositTokenAddress,
+                                address: item.vaultAddress,
                               },
                             },
                             undefined,
@@ -88,8 +89,8 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                     ),
                     items: [
                       <VaultName
-                        vault={item.vault}
-                        caption={item.caption}
+                        address={item.depositTokenAddress}
+                        symbol={item.depositTokenSymbol}
                         key={v4()}
                       />,
                       <Typography
@@ -100,18 +101,10 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                         textAlign="center"
                         key={v4()}
                       >
-                        {item.deposit}
-                      </Typography>,
-                      <Typography
-                        variant={'normal'}
-                        fontWeight="500"
-                        fontSize="1.1rem"
-                        lineHeight="1.313rem"
-                        color="accent"
-                        textAlign="center"
-                        key={v4()}
-                      >
-                        {item.apr}
+                        {FixedPointMath.toNumber(
+                          item.depositAmount,
+                          item.depositTokenDecimals
+                        )}
                       </Typography>,
                       <Typography
                         variant={'normal'}
@@ -121,7 +114,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                         textAlign="center"
                         key={v4()}
                       >
-                        {item.earn}
+                        {item.apr ? FixedPointMath.toNumber(item.apr) : 'N/A'}
                       </Typography>,
                       <Typography
                         variant={'normal'}
@@ -131,7 +124,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                         textAlign="center"
                         key={v4()}
                       >
-                        {item.type}
+                        {item.earn ? FixedPointMath.toNumber(item.earn) : 'N/A'}
                       </Typography>,
                       <Typography
                         variant={'normal'}
@@ -141,7 +134,17 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                         textAlign="center"
                         key={v4()}
                       >
-                        {item.tvl}
+                        {item.type ? 'N/A' : 'DV'}
+                      </Typography>,
+                      <Typography
+                        variant={'normal'}
+                        fontWeight="400"
+                        fontSize="0.9rem"
+                        lineHeight="1.313rem"
+                        textAlign="center"
+                        key={v4()}
+                      >
+                        {item.tvl ? FixedPointMath.toNumber(item.tvl) : 'N/A'}
                       </Typography>,
                     ],
                     handleClick: () =>
@@ -149,7 +152,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                         {
                           pathname: Routes[RoutesEnum.VaultDetails],
                           query: {
-                            address: item.vault?.[0]?.address,
+                            address: item.vaultAddress,
                           },
                         },
                         undefined,
@@ -184,12 +187,11 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
           data={
             loading
               ? MobileVaultSkeletonRow
-              : data.map((item) => ({
+              : filteredVaults.map((item) => ({
                   mobileSide: (
                     <VaultName
-                      vault={item.vault}
-                      caption={item.caption}
-                      isColumn={true}
+                      address={item.depositTokenAddress}
+                      symbol={item.depositTokenSymbol}
                       key={v4()}
                     />
                   ),
@@ -202,7 +204,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                           {
                             pathname: Routes[RoutesEnum.VaultDetails],
                             query: {
-                              address: item.vault?.[0]?.address,
+                              address: item.vaultAddress,
                             },
                           },
                           undefined,
@@ -223,7 +225,10 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                       lineHeight="1.313rem"
                       key={v4()}
                     >
-                      {item.deposit}
+                      {FixedPointMath.toNumber(
+                        item.depositAmount,
+                        item.depositTokenDecimals
+                      )}
                     </Typography>,
                     <Typography
                       variant="normal"
@@ -232,7 +237,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                       lineHeight="1.313rem"
                       key={v4()}
                     >
-                      {item.apr}
+                      {item.apr ? FixedPointMath.toNumber(item.apr) : 'N/A'}
                     </Typography>,
                     <Typography
                       variant="normal"
@@ -241,7 +246,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                       lineHeight="1.313rem"
                       key={v4()}
                     >
-                      {item.earn}
+                      {item.earn ? FixedPointMath.toNumber(item.earn) : 'N/A'}
                     </Typography>,
                     <Typography
                       variant="normal"
@@ -250,7 +255,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                       lineHeight="1.313rem"
                       key={v4()}
                     >
-                      {item.type}
+                      {item.type ? 'N/A' : 'DV'}
                     </Typography>,
                     <Typography
                       variant="normal"
@@ -259,7 +264,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                       lineHeight="1.313rem"
                       key={v4()}
                     >
-                      {item.tvl}
+                      {item.tvl ? FixedPointMath.toNumber(item.tvl) : 'N/A'}
                     </Typography>,
                   ],
                   handleClick: () =>
@@ -267,7 +272,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                       {
                         pathname: Routes[RoutesEnum.VaultDetails],
                         query: {
-                          address: item.vault?.[0]?.address,
+                          address: item.vaultAddress,
                         },
                       },
                       undefined,

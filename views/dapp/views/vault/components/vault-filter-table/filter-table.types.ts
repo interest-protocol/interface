@@ -7,13 +7,17 @@ import {
 
 import { IVaultForm } from '../../vault.types';
 
+export enum VaultTypeFilter {
+  All,
+  DV,
+}
 export interface IButtonOption {
   options: ReadonlyArray<boolean>;
   setValue: UseFormSetValue<IVaultForm>;
   getValues: UseFormGetValues<IVaultForm>;
 }
 
-export interface SwitchFilterProps {
+export interface FilterProps {
   control: Control<IVaultForm>;
   setValue: UseFormSetValue<IVaultForm>;
 }

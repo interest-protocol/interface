@@ -1,7 +1,8 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Container } from '@/components';
-import { Box } from '@/elements';
+import { Box, Typography } from '@/elements';
 
 import { VaultFiltersProps } from '../../vault.types';
 import InputSearch from './input-search';
@@ -13,15 +14,16 @@ const FilterTable: FC<VaultFiltersProps> = ({
   control,
   setValue,
 }) => {
+  const t = useTranslations();
   return (
     <Container>
       <Box
         width="100%"
         borderRadius="1rem"
         mt="L"
-        p={['L', 'L', 'L', 'unset']}
+        p={['L', 'L', 'L', 'L']}
         display="flex"
-        bg={['foreground', 'foreground', 'foreground', 'transparent']}
+        bg="foreground"
         justifyContent="space-between"
         alignItems={['center', 'center', 'center', 'flex-end']}
         flexDirection={['column', 'column', 'column', 'row']}
@@ -29,11 +31,20 @@ const FilterTable: FC<VaultFiltersProps> = ({
         <OnlyDeposit control={control} setValue={setValue} />
         <TypeFilter control={control} setValue={setValue} />
         <Box
-          height={['auto', 'auto', 'auto', '3rem']}
-          display="flex"
+          my="M"
           mt={['L', 'L', 'L', 'unset']}
           width={['100%', '100%', '100%', 'unset']}
         >
+          <Typography
+            as="label"
+            fontSize="S"
+            mb="M"
+            variant="normal"
+            display="inline-block"
+            textTransform="capitalize"
+          >
+            {t('common.search')}
+          </Typography>
           <InputSearch register={register} setValue={setValue} />
         </Box>
       </Box>

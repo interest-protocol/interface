@@ -6,9 +6,9 @@ import { Switch } from '@/components';
 import { Box, Typography } from '@/elements';
 
 import { getFilterSwitchDefaultData } from '../../vault.utils';
-import { SwitchFilterProps } from './filter-table.types';
+import { FilterProps } from './filter-table.types';
 
-const OnlyDeposit: FC<SwitchFilterProps> = ({ control, setValue }) => {
+const OnlyDeposit: FC<FilterProps> = ({ control, setValue }) => {
   const t = useTranslations();
   const onlyDeposit = useWatch({ control, name: 'onlyDeposit' });
   const SWITCH_ON_OFF_DATA = getFilterSwitchDefaultData(

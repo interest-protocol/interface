@@ -10,12 +10,7 @@ const InputSearch: FC<InputSearchProps> = ({ register, setValue }) => {
   const t = useTranslations();
   return (
     <Box
-      bg={[
-        'bottomBackground',
-        'bottomBackground',
-        'bottomBackground',
-        'foreground',
-      ]}
+      bg="bottomBackground"
       borderRadius="M"
       display="flex"
       alignItems="center"

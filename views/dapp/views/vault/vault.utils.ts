@@ -1,12 +1,17 @@
-import { Result } from '@ethersproject/abi';
 import { ethers } from 'ethers';
+import { isAddress } from 'ethers/lib/utils';
+import { always, cond, equals, ifElse, isEmpty, not, o, prop, T } from 'ramda';
 import { UseFormSetValue } from 'react-hook-form';
 
 import { ISwitchOption } from '@/components/switch/switch.types';
 import { VAULTS_RESPONSE_MAP, VaultTypes } from '@/constants/vaults';
 import { TOKEN_SYMBOL, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
+import {
+  isSameAddress,
+  replaceWrappedNativeTokenWithNativeTokenSymbol,
+} from '@/utils';
 
-import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestViewEarnAbi';
+import { VaultTypeFilter } from './components/vault-filter-table/filter-table.types';
 import { IVaultForm, ProcessVaultsSummaryData, VaultData } from './vault.types';
 
 export const getFilterSwitchDefaultData = (
@@ -28,24 +33,61 @@ export const getFilterSwitchDefaultData = (
   },
 ];
 
+const searchOperation = cond([
+  [isEmpty, always(T)],
+  [
+    T,
+    (search: string) => {
+      const parsedSearch = search.toLocaleLowerCase();
+      return ({ depositTokenSymbol, depositTokenAddress }: VaultData) => {
+        if (isAddress(search))
+          return isSameAddress(search, depositTokenAddress);
+
+        const vaultName = `${replaceWrappedNativeTokenWithNativeTokenSymbol(
+          depositTokenSymbol
+        )}`;
+
+        return (
+          vaultName.toLocaleLowerCase().includes(parsedSearch) ||
+          vaultName
+            .toLocaleLowerCase()
+            .replace(/[^a-zA-Z]/g, '')
+            .includes(parsedSearch.replace(/[^a-zA-Z]/g, ''))
+        );
+      };
+    },
+  ],
+]);
+
+const typeOperation = cond([
+  [equals(VaultTypeFilter.All), always(prop<string, boolean>('all'))],
+  [equals(VaultTypeFilter.DV), always(o(not, prop<'all', boolean>('all')))],
+  [T, always(T)],
+]) as any;
+
+const onlyDepositOperation = ifElse<
+  any[],
+  (x: VaultData) => boolean,
+  (x: VaultData) => boolean
+>(
+  equals(true),
+  always(({ depositAmount }) => !depositAmount.isZero()),
+  always(T)
+);
+
 export const handleFilterVaults = (
   data: ReadonlyArray<VaultData>,
   search: string,
-  type: boolean,
+  type: VaultTypeFilter,
   onlyDeposit: boolean
 ): ReadonlyArray<VaultData> =>
-  search !== ''
-    ? data.filter(
-        (item) =>
-          item.vault?.[0]?.symbol
-            .toLocaleLowerCase()
-            .includes(search.toLocaleLowerCase()) ||
-          item.vault?.[0]?.address
-            .toLocaleLowerCase()
-            .includes(search.toLocaleLowerCase()) ||
-          item.vault?.[0]?.name
-            .toLocaleLowerCase()
-            .includes(search.toLocaleLowerCase())
+  data
+    ? data.filter((x) =>
+        [
+          typeOperation(!type),
+          searchOperation(search.trim()),
+          onlyDepositOperation(onlyDeposit),
+        ].every((pred) => pred(x))
       )
     : data;
 
