@@ -1,3 +1,5 @@
+import { BigNumber } from 'ethers';
+
 import { VaultDetails } from '../vault/vault.types';
 
 export interface VaultDetailsItemProps {
@@ -20,7 +22,7 @@ export interface VaultDetailsProps {
 export interface VaultDetailBalanceProps {
   symbol: string;
   address: string;
-  balance: string;
+  balance: BigNumber;
 }
 
 export interface VaultDetailsInfoProps {

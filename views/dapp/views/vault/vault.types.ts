@@ -9,7 +9,6 @@ import {
 } from 'react-hook-form';
 
 import { VaultTypes } from '@/constants';
-import { ERC20 } from '@/sdk';
 
 import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestViewEarnAbi';
 import { VaultTypeFilter } from './components/vault-filter-table/filter-table.types';
@@ -26,7 +25,14 @@ export interface VaultNameProps {
   isColumn?: boolean;
 }
 export interface VaultDetailsProps {
-  vaults: [VaultNameProps, VaultNameProps];
+  token1: {
+    symbol: string;
+    address: string;
+  };
+  token2: {
+    symbol: string;
+    address: string;
+  };
 }
 
 export interface VaultDetails {

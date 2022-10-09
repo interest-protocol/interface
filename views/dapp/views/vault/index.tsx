@@ -1,3 +1,4 @@
+import { ethers } from 'ethers';
 import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -29,6 +30,13 @@ const Vault: FC = () => {
   const processedData = useMemo(
     () => processVaultsSummaryData(chainId, data),
     [chainId, data]
+  );
+
+  console.log(
+    ethers.utils.getAddress('0x10f3c9debac2398d5c791641c8847459353233b4'),
+    'address',
+    data,
+    processedData
   );
 
   if (error)

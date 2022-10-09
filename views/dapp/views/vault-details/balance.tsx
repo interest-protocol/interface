@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Box, Button, Typography } from '@/elements';
+import { FixedPointMath } from '@/sdk';
 import { capitalize } from '@/utils';
 
 import { WalletGuardButton } from '../../components';
@@ -33,7 +34,7 @@ const VaultDetailsBalance: FC<VaultDetailBalanceProps> = ({
           textAlign="right"
           width="100%"
         >
-          {capitalize(t('common.balance'))} : {balance}
+          {capitalize(t('common.balance'))} : {FixedPointMath.toNumber(balance)}
         </Typography>
       </Box>
       <InputBalance

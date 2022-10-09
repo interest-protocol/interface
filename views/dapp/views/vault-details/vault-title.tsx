@@ -5,15 +5,15 @@ import { Box, Typography } from '@/elements';
 import { VaultName } from '../vault/components';
 import { VaultDetailsProps } from '../vault/vault.types';
 
-const VaultDetailsTitle: FC<VaultDetailsProps> = ({ vaults }) => (
+const VaultDetailsTitle: FC<VaultDetailsProps> = ({ token1, token2 }) => (
   <Box p="1.5rem 2rem" display="flex">
-    <VaultName vault={vaults[0].vault} />
+    <VaultName symbol={token1.symbol} address={token1.address} />
     <Box display="flex" alignItems="center" fontSize="L" mx="M">
       <Typography variant="normal" as="span" pb="S">
         →
       </Typography>
     </Box>
-    <VaultName vault={vaults[1].vault} />
+    <VaultName symbol={token2.symbol} address={token2.address} />
   </Box>
 );
 

@@ -1,17 +1,46 @@
 import { FC, useState } from 'react';
 
 import { Container, Tooltip } from '@/components';
-import { RoutesEnum } from '@/constants';
+import { ERC_20_DATA, RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
+import { CHAIN_ID, FixedPointMath, TOKEN_SYMBOL, ZERO_BIG_NUMBER } from '@/sdk';
 
 import GoBack from '../../components/go-back';
-import DATA from '../vault/vault.helpers';
 import VaultDetailsBalance from './balance';
 import ButtonTabSelect from './button-tab-select';
 import VaultDetailsInfo from './details-info';
 import VaultDetailsPool from './pool-details';
 import { VaultDetailsProps } from './vault-details.types';
 import VaultDetailsTitle from './vault-title';
+
+const DATA = {
+  token1: {
+    symbol: 'BUSD',
+    address: ERC_20_DATA[CHAIN_ID.BNB_TEST_NET][TOKEN_SYMBOL.BUSD].address,
+  },
+  token2: {
+    symbol: 'DNR',
+    address: ERC_20_DATA[CHAIN_ID.BNB_TEST_NET][TOKEN_SYMBOL.DNR].address,
+  },
+  deposit: {
+    title: 'vaultAddress.detail1',
+    tip: 'vaultAddress.detail1Tip',
+    content: ZERO_BIG_NUMBER,
+  },
+  vault: {
+    title: 'vaultAddress.detail2',
+    tip: 'vaultAddress.detail2Tip',
+    content: ZERO_BIG_NUMBER,
+  },
+  amout: {
+    title: 'vaultAddress.detail3',
+    tip: 'vaultAddress.detail3Tip',
+    content: ZERO_BIG_NUMBER,
+  },
+  limit: ZERO_BIG_NUMBER,
+  balance: ZERO_BIG_NUMBER,
+  tvl: ZERO_BIG_NUMBER,
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const VaultDetails: FC<VaultDetailsProps> = ({ vault }) => {
@@ -44,29 +73,56 @@ const VaultDetails: FC<VaultDetailsProps> = ({ vault }) => {
             borderBottomRightRadius="M"
           >
             <VaultDetailsTitle
-              vaults={
-                select === 'stake' ? [DATA[1], DATA[0]] : [DATA[0], DATA[1]]
-              }
+              token1={select === 'stake' ? DATA.token1 : DATA.token2}
+              token2={select === 'stake' ? DATA.token2 : DATA.token1}
             />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
             <VaultDetailsInfo
-              items={(select === 'stake' ? DATA[0] : DATA[1]).vaultDetails}
+              items={[
+                {
+                  title: DATA.deposit.title,
+                  tip: DATA.deposit.tip,
+                  content:
+                    select === 'stake'
+                      ? FixedPointMath.toNumber(DATA.vault.content) +
+                        ' ' +
+                        DATA.token1.symbol
+                      : FixedPointMath.toNumber(DATA.vault.content) +
+                        ' ' +
+                        DATA.token2.symbol,
+                },
+                {
+                  title: DATA.vault.title,
+                  tip: DATA.vault.tip,
+                  content:
+                    select === 'stake'
+                      ? FixedPointMath.toNumber(DATA.vault.content) +
+                        ' ' +
+                        DATA.token2.symbol
+                      : FixedPointMath.toNumber(DATA.vault.content) +
+                        ' ' +
+                        DATA.token1.symbol,
+                },
+                {
+                  title: DATA.amout.title,
+                  tip: DATA.amout.tip,
+                  content:
+                    FixedPointMath.toNumber(DATA.amout.content) +
+                    ' / ' +
+                    FixedPointMath.toNumber(DATA.limit),
+                },
+              ]}
             />
             <VaultDetailsBalance
-              symbol={
-                (select === 'stake' ? DATA[1] : DATA[0]).vault?.[0].symbol
-              }
-              address={
-                (select === 'stake' ? DATA[1] : DATA[0]).vault?.[0].address
-              }
-              balance="149.43"
+              {...(select === 'stake' ? DATA.token1 : DATA.token2)}
+              balance={DATA.balance}
             />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
             <VaultDetailsPool
               VaultPoolDetails={[
                 {
                   title: 'common.tvl',
-                  content: (select === 'stake' ? DATA[1] : DATA[0])?.tvl,
+                  content: FixedPointMath.toNumber(DATA.tvl) + '',
                 },
               ]}
             />
