@@ -17,6 +17,7 @@ export const VAULTS_CALL_MAP = {
 
 export enum VaultTypes {
   DV,
+  All, // Only to be used by the filter component. A single vault should never have this type.
 }
 
 export const VAULTS_RESPONSE_MAP = {

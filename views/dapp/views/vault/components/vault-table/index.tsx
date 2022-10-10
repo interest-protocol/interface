@@ -11,7 +11,7 @@ import { FixedPointMath } from '@/sdk';
 import { capitalize } from '@/utils';
 
 import { VaultTableProps } from '../../vault.types';
-import { handleFilterVaults } from '../../vault.utils';
+import { handleFilterVaults, parseVaultType } from '../../vault.utils';
 import VaultName from './vault-name';
 import {
   DesktopVaultSkeletonRow,
@@ -134,7 +134,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                         textAlign="center"
                         key={v4()}
                       >
-                        {item.type ? 'N/A' : 'DV'}
+                        {parseVaultType(item.type)}
                       </Typography>,
                       <Typography
                         variant={'normal'}
@@ -255,7 +255,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                       lineHeight="1.313rem"
                       key={v4()}
                     >
-                      {item.type ? 'N/A' : 'DV'}
+                      {parseVaultType(item.type)}
                     </Typography>,
                     <Typography
                       variant="normal"

@@ -1,15 +1,14 @@
-import { ethers } from 'ethers';
 import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
+import { VaultTypes } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useIdAccount } from '@/hooks';
 import { TimesSVG } from '@/svg';
 
 import { VaultFilterTable, VaultHeader, VaultTable } from './components';
-import { VaultTypeFilter } from './components/vault-filter-table/filter-table.types';
 import { useGetVaultsSummary } from './vault.hooks';
 import { IVaultForm } from './vault.types';
 import { processVaultsSummaryData } from './vault.utils';
@@ -22,7 +21,7 @@ const Vault: FC = () => {
   const { register, control, setValue, getValues } = useForm<IVaultForm>({
     defaultValues: {
       search: '',
-      type: VaultTypeFilter.All,
+      type: VaultTypes.All,
       onlyDeposit: false,
     },
   });
@@ -30,13 +29,6 @@ const Vault: FC = () => {
   const processedData = useMemo(
     () => processVaultsSummaryData(chainId, data),
     [chainId, data]
-  );
-
-  console.log(
-    ethers.utils.getAddress('0x10f3c9debac2398d5c791641c8847459353233b4'),
-    'address',
-    data,
-    processedData
   );
 
   if (error)

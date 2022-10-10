@@ -11,7 +11,6 @@ import {
 import { VaultTypes } from '@/constants';
 
 import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestViewEarnAbi';
-import { VaultTypeFilter } from './components/vault-filter-table/filter-table.types';
 
 export interface VaultTableProps {
   data: ReadonlyArray<VaultData>;
@@ -41,6 +40,10 @@ export interface VaultDetails {
   content: string;
 }
 
+export interface VaultHeaderProps {
+  size: number;
+}
+
 export interface VaultData {
   vaultAddress: string;
   depositTokenSymbol: string;
@@ -60,7 +63,7 @@ export interface StateProps {
 
 export interface IVaultForm {
   search: string;
-  type: VaultTypeFilter;
+  type: VaultTypes;
   onlyDeposit: boolean;
 }
 

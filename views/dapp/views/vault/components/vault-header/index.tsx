@@ -5,7 +5,9 @@ import { Container } from '@/components';
 import { Typography } from '@/elements';
 import { useLocale } from '@/hooks';
 
-const VaultHeader: FC<{ size: string | number }> = ({ size }) => {
+import { VaultHeaderProps } from '../../vault.types';
+
+const VaultHeader: FC<VaultHeaderProps> = ({ size }) => {
   const { currentLocale } = useLocale();
   const t = useTranslations();
   return (

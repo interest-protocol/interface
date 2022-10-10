@@ -3,15 +3,16 @@ import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
+import { VaultTypes } from '@/constants';
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
-import { FilterProps, VaultTypeFilter } from './filter-table.types';
+import { FilterProps } from './filter-table.types';
 
 const parseVaultTypeByEnum = cond([
-  [equals(VaultTypeFilter.All), always('All')],
-  [equals(VaultTypeFilter.DV), always('DV')],
+  [equals(VaultTypes.All), always('All')],
+  [equals(VaultTypes.DV), always('DV')],
   [T, always('All')],
 ]);
 
@@ -75,7 +76,7 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
-                setValue('type', VaultTypeFilter.All);
+                setValue('type', VaultTypes.All);
               },
             },
             {
@@ -93,7 +94,7 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
-                setValue('type', VaultTypeFilter.DV);
+                setValue('type', VaultTypes.DV);
               },
             },
           ]}
