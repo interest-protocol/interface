@@ -4,18 +4,16 @@ import { FC } from 'react';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useChainId } from '@/hooks';
+import { CHAIN_ID } from '@/sdk';
 
 import { VaultNameProps } from '../../vault.types';
 
 const VaultName: FC<VaultNameProps> = ({ symbol, address, isColumn }) => {
   const chainId = useChainId();
 
-  const returnSVG = () => {
-    const SVG =
-      TOKENS_SVG_MAP[chainId][ethers.utils.getAddress(address)] ||
-      TOKENS_SVG_MAP[chainId].default;
-    return <SVG width="100%" height="100%" />;
-  };
+  const SVG = TOKENS_SVG_MAP[chainId]
+    ? TOKENS_SVG_MAP[chainId][ethers.utils.getAddress(address)]
+    : TOKENS_SVG_MAP[CHAIN_ID.BNB_TEST_NET].default;
 
   return (
     <Box
@@ -28,7 +26,7 @@ const VaultName: FC<VaultNameProps> = ({ symbol, address, isColumn }) => {
         height={isColumn ? '1.8rem' : '1.5rem'}
         my="auto"
       >
-        {returnSVG()}
+        <SVG width="100%" height="100%" />
       </Box>
       <Box
         ml={isColumn ? 'unset' : 'M'}

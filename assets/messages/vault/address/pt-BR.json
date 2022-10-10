@@ -8,6 +8,7 @@
     "detail3": "Quantidade Máxima na Vault",
     "detail3Tip": "Quantidade Máxima na Vault",
     "openButton": "{isOpen, plural, =1 {Detalhes} other {Esconder}}",
-    "earn": "Investimento"
+    "deposit": "{isLoading, plural, =1 {depositando...} other {deposite}}",
+    "withdraw": "{isLoading, plural, =1 {removendo...} other {remova}}"
   }
 }

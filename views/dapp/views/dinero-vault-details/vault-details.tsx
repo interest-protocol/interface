@@ -7,11 +7,11 @@ import { Box, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 
 import VaultDetailsItem from './detail-item';
-import { VaultDetailsPoolProps } from './vault-details.types';
+import { VaultDetailsProps } from './vault-details.types';
 
 const AnimatedBox = animated(Box);
 
-const VaultDetailsPool: FC<VaultDetailsPoolProps> = ({ VaultPoolDetails }) => {
+const VaultDetails: FC<VaultDetailsProps> = ({ VaultPoolDetails }) => {
   const t = useTranslations();
   const [openDetails, setOpenDetails] = useState(false);
   const detailRef = useRef<HTMLDivElement>(null);
@@ -70,4 +70,4 @@ const VaultDetailsPool: FC<VaultDetailsPoolProps> = ({ VaultPoolDetails }) => {
   );
 };
 
-export default VaultDetailsPool;
+export default VaultDetails;

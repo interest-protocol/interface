@@ -1,3 +1,4 @@
+export { default as ApproveButton } from './approve-button';
 export { default as Container } from './container';
 export { default as CopyToClipboard } from './copy-to-clipboard';
 export { default as NextIntlProvider } from './next-intl-provider';

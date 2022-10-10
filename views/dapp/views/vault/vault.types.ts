@@ -34,12 +34,6 @@ export interface VaultDetailsProps {
   };
 }
 
-export interface VaultDetails {
-  title: string;
-  tip?: string;
-  content: string;
-}
-
 export interface VaultHeaderProps {
   size: number;
 }

@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { mergeDeepRight } from 'ramda';
 
-import VaultDetails from '../../../views/dapp/views/vault-details/index';
+import VaultDetails from '../../../views/dapp/views/dinero-vault-details/index';
 
 interface VaultDetailsPageProps {
   address: string | undefined | null;

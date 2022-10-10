@@ -1,8 +1,10 @@
+import { ethers } from 'ethers';
 import { ChangeEvent, FC } from 'react';
 
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
 import { useChainId } from '@/hooks';
+import { CHAIN_ID } from '@/sdk';
 
 import { InputBalanceProps } from './input-balance.types';
 
@@ -18,7 +20,8 @@ const InputBalance: FC<InputBalanceProps> = ({
   const chainId = useChainId();
   const returnSVG = (address: string) => {
     const SVG =
-      TOKENS_SVG_MAP[chainId][address] || TOKENS_SVG_MAP[chainId].default;
+      TOKENS_SVG_MAP[chainId][ethers.utils.getAddress(address)] ||
+      TOKENS_SVG_MAP[CHAIN_ID.BNB_TEST_NET].default;
     return <SVG width="100%" height="100%" />;
   };
   return (

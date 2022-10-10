@@ -260,7 +260,7 @@ export const CONTRACTS = {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
-      '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56'
+      '0xAdb5730a1d44F07b1333cc063AF04B5a7eB70f53'
     ),
   },
   DAI: {

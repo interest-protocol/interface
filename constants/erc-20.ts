@@ -141,6 +141,11 @@ export const FAUCET_TOKENS = {
       address: getUSDCAddress(CHAIN_ID.BNB_TEST_NET),
       name: 'USD Coin',
     },
+    {
+      symbol: TOKEN_SYMBOL.BUSD,
+      address: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+      name: 'BUSD',
+    },
   ],
 };
 

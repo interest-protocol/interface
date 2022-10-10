@@ -4,6 +4,7 @@ import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
+import { ApproveButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { LoadingSVG } from '@/svg';
@@ -21,7 +22,6 @@ import {
   convertCollateralToDinero,
   isFormBorrowEmpty,
 } from '../../dinero-market.utils';
-import ApproveButton from './approve-button';
 import { BorrowButtonProps } from './borrow-form.types';
 
 const { parseEther } = ethers.utils;
@@ -144,6 +144,12 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       chainId={data.chainId}
       contract={data.collateralAddress}
       spender={data.marketAddress}
+      buttonProps={{
+        display: 'flex',
+        variant: 'primary',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
     />
   ) : (!borrowLoan && !borrowCollateral) ||
     (+borrowCollateral === 0 && +borrowLoan === 0) ? (

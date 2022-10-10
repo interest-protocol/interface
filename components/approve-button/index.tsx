@@ -6,7 +6,7 @@ import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
 
-import { ApproveButtonProps } from './borrow-form.types';
+import { ApproveButtonProps } from './approve-button.types';
 
 const ApproveButton: FC<ApproveButtonProps> = ({
   enabled,
@@ -14,6 +14,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
   contract,
   chainId,
   refetch,
+  buttonProps = { variant: 'primary' },
 }) => {
   const t = useTranslations();
 
@@ -44,15 +45,12 @@ const ApproveButton: FC<ApproveButtonProps> = ({
 
   return (
     <Button
-      display="flex"
-      variant="primary"
-      alignItems="center"
       disabled={loading || !approve}
-      justifyContent="center"
       hover={{ bg: !approve ? 'disabled' : 'accentActive' }}
       onClick={submitAllowance}
       bg={!approve ? 'disabled' : loading ? 'accentActive' : 'accent'}
       cursor={loading || !approve ? 'not-allowed' : 'pointer'}
+      {...buttonProps}
     >
       {loading && (
         <Box as="span" display="inline-block" width="1rem">
