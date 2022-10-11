@@ -67,7 +67,7 @@ const Farms: FC = () => {
         <Typography variant="title3">{t('error.generic')}</Typography>
       </Box>
     );
-  if (!data || !chainId) return <Loading />;
+
   return (
     <Box display="flex" flexDirection="column" flex="1">
       <Box>
