@@ -38,6 +38,7 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
         alignItems="stretch"
         width={['100%', '100%', '100%', '10rem']}
         height="3rem"
+        position="relative"
       >
         <Dropdown
           buttonMode
@@ -50,7 +51,7 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
             </Box>
           }
           title={
-            <Box display="flex" width="100%" py="M" alignItems="center">
+            <Box display="flex" width="100%" py="S" alignItems="center">
               <Typography
                 variant="normal"
                 whiteSpace="nowrap"
@@ -65,7 +66,7 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
               value: 'all',
               displayOption: capitalize(t('common.all')),
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="S" alignItems="center">
                   <Typography
                     variant="normal"
                     whiteSpace="nowrap"
@@ -83,7 +84,7 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
               value: 'dv',
               displayOption: 'DV',
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="S" alignItems="center">
                   <Typography
                     variant="normal"
                     whiteSpace="nowrap"

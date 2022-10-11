@@ -9,7 +9,6 @@ import useEventListener from '@/hooks/use-event-listener';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import { noop } from '@/utils';
 
-import { Loading } from '../../components';
 import FarmsFilters from './components/farms-filters';
 import FarmsTable from './components/farms-table';
 import { FarmSortByFilter, FarmTypeFilter, IFarmsForm } from './farms.types';

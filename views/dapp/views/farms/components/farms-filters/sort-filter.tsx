@@ -53,7 +53,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
             </Box>
           }
           title={
-            <Box display="flex" width="100%" py="M" alignItems="center">
+            <Box display="flex" width="100%" py="S" alignItems="center">
               <Typography
                 variant="normal"
                 whiteSpace="nowrap"
@@ -73,7 +73,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               value: 'id',
               displayOption: 'Id',
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="S" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
                     Id
                   </Typography>
@@ -87,7 +87,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               value: 'tvl',
               displayOption: 'TVL',
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="S" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
                     TVL
                   </Typography>
@@ -101,7 +101,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               value: 'apr',
               displayOption: 'APR',
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="S" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
                     APR
                   </Typography>
@@ -115,7 +115,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               value: 'Allocation',
               displayOption: 'Allocation',
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="S" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
                     Allocation
                   </Typography>

@@ -53,7 +53,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
             </Box>
           }
           title={
-            <Box display="flex" width="100%" py="M" alignItems="center">
+            <Box display="flex" width="100%" py="S" alignItems="center">
               <Typography
                 variant="normal"
                 whiteSpace="nowrap"
@@ -79,7 +79,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
               value: 'all',
               displayOption: capitalize(t('common.all')),
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="S" alignItems="center">
                   <Typography
                     variant="normal"
                     whiteSpace="nowrap"
@@ -97,7 +97,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
               value: 'stable',
               displayOption: capitalize(t('common.stable', { count: 2 })),
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="S" alignItems="center">
                   <Typography
                     variant="normal"
                     whiteSpace="nowrap"
@@ -115,7 +115,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
               value: 'volatile',
               displayOption: capitalize(t('common.volatile', { count: 2 })),
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="S" alignItems="center">
                   <Typography
                     variant="normal"
                     whiteSpace="nowrap"
