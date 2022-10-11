@@ -71,10 +71,12 @@ const ConnectedWallet: FC = () => {
       >
         <Box
           mr="L"
+          as="span"
           width="1.2rem"
           height="1.2rem"
           overflow="hidden"
           borderRadius="50%"
+          display="inline-block"
         >
           <WalletSVG height="100%" width="100%" />
         </Box>
