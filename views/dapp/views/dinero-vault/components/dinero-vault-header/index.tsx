@@ -5,9 +5,9 @@ import { Container } from '@/components';
 import { Typography } from '@/elements';
 import { useLocale } from '@/hooks';
 
-import { VaultHeaderProps } from '../../vault.types';
+import { DineroVaultHeaderProps } from '../../vault.types';
 
-const VaultHeader: FC<VaultHeaderProps> = ({ size }) => {
+const DineroVaultHeader: FC<DineroVaultHeaderProps> = ({ size }) => {
   const { currentLocale } = useLocale();
   const t = useTranslations();
   return (
@@ -20,7 +20,7 @@ const VaultHeader: FC<VaultHeaderProps> = ({ size }) => {
       justifyContent={['center', 'center', 'center', 'flex-start']}
     >
       <Typography variant="normal" fontWeight="bold">
-        {t('vault.title', {
+        {t('dineroVault.title', {
           currentLocale,
           count: size,
         })}
@@ -29,4 +29,4 @@ const VaultHeader: FC<VaultHeaderProps> = ({ size }) => {
   );
 };
 
-export default VaultHeader;
+export default DineroVaultHeader;

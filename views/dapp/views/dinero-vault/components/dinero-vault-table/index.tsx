@@ -5,30 +5,34 @@ import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
+import TokenView from '@/components/token-view';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { capitalize } from '@/utils';
 
-import { VaultTableProps } from '../../vault.types';
+import { DineroVaultTableProps } from '../../vault.types';
 import { handleFilterVaults, parseVaultType } from '../../vault.utils';
-import VaultName from './vault-name';
 import {
   DesktopVaultSkeletonRow,
   MobileVaultSkeletonRow,
 } from './vault-skeleton-row';
 
-const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
+const DineroVaultTable: FC<DineroVaultTableProps> = ({
+  data,
+  loading,
+  control,
+}) => {
   const { push } = useRouter();
   const t = useTranslations();
   const HEADING_MOBILE = [
-    t('vault.column2'),
+    t('dineroVault.column2'),
     'APR',
-    t('vault.column4'),
+    t('dineroVault.column4'),
     capitalize(t('common.type')),
     'TVL',
   ];
-  const HEADING = [t('vault.column1'), ...HEADING_MOBILE];
+  const HEADING = [t('dineroVault.column1'), ...HEADING_MOBILE];
   const typeFilter = useWatch({ control, name: 'type' });
   const search = useWatch({ control, name: 'search' });
   const onlyDeposit = useWatch({ control, name: 'onlyDeposit' });
@@ -54,6 +58,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                   variant="normal"
                   textAlign="center"
                   display={['none', 'block']}
+                  key={v4()}
                 >
                   {title}
                 </Typography>
@@ -72,7 +77,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                         onClick={() =>
                           push(
                             {
-                              pathname: Routes[RoutesEnum.VaultDetails],
+                              pathname: Routes[RoutesEnum.DineroVaultDetails],
                               query: {
                                 address: item.vaultAddress,
                               },
@@ -83,12 +88,13 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                             }
                           )
                         }
+                        key={v4()}
                       >
                         {capitalize(t('common.enter'))}
                       </Button>
                     ),
                     items: [
-                      <VaultName
+                      <TokenView
                         address={item.depositTokenAddress}
                         symbol={item.depositTokenSymbol}
                         key={v4()}
@@ -150,7 +156,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                     handleClick: () =>
                       push(
                         {
-                          pathname: Routes[RoutesEnum.VaultDetails],
+                          pathname: Routes[RoutesEnum.DineroVaultDetails],
                           query: {
                             address: item.vaultAddress,
                           },
@@ -176,8 +182,9 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                   display="flex"
                   justifyContent="flex-end"
                   alignItems="center"
+                  as="span"
                 >
-                  <Typography fontSize="0.9rem" variant="normal">
+                  <Typography as="span" fontSize="0.9rem" variant="normal">
                     {title}
                   </Typography>
                 </Box>
@@ -189,7 +196,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
               ? MobileVaultSkeletonRow
               : filteredVaults.map((item) => ({
                   mobileSide: (
-                    <VaultName
+                    <TokenView
                       address={item.depositTokenAddress}
                       symbol={item.depositTokenSymbol}
                       key={v4()}
@@ -202,7 +209,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                       onClick={() =>
                         push(
                           {
-                            pathname: Routes[RoutesEnum.VaultDetails],
+                            pathname: Routes[RoutesEnum.DineroVaultDetails],
                             query: {
                               address: item.vaultAddress,
                             },
@@ -270,7 +277,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                   handleClick: () =>
                     push(
                       {
-                        pathname: Routes[RoutesEnum.VaultDetails],
+                        pathname: Routes[RoutesEnum.DineroVaultDetails],
                         query: {
                           address: item.vaultAddress,
                         },
@@ -288,4 +295,4 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
   );
 };
 
-export default VaultTable;
+export default DineroVaultTable;

@@ -10,12 +10,12 @@ import { useGetUserDineroVault } from '@/views/dapp/views/dinero-vault-details/d
 
 import GoBack from '../../components/go-back';
 import ButtonTabSelect from './button-tab-select';
-import VaultDetailsInfo from './details-info';
+import DineroVaultDetailsInfo from './details-info';
+import { DineroVaultDetailsDetailsProps } from './dinero-vault-details.types';
+import DineroVaultDetailsFooter from './dinero-vault-details-footer';
+import DineroVaultDetailsTitle from './dinero-vault-title';
 import { processDineroVault } from './dinero-vaults-details.utils';
-import VaultForm from './form/vault-form';
-import VaultDetails from './vault-details';
-import { DineroVaultDetailsDetailsProps } from './vault-details.types';
-import VaultDetailsTitle from './vault-title';
+import DineroVaultForm from './form/dinero-vault-form';
 
 const DineroVaultDetails: FC<DineroVaultDetailsDetailsProps> = ({ vault }) => {
   const [stakeState, setStakeState] = useState(StakeState.Stake);
@@ -65,7 +65,7 @@ const DineroVaultDetails: FC<DineroVaultDetailsDetailsProps> = ({ vault }) => {
         background="specialBackground"
       >
         <Box display="flex" justifyContent="space-between">
-          <GoBack route={RoutesEnum.Vaults} />
+          <GoBack route={RoutesEnum.DineroVault} />
         </Box>
         <Box mb="XL">
           <ButtonTabSelect state={stakeState} setState={setStakeState} />
@@ -74,16 +74,17 @@ const DineroVaultDetails: FC<DineroVaultDetailsDetailsProps> = ({ vault }) => {
             borderBottomLeftRadius="M"
             borderBottomRightRadius="M"
           >
-            <VaultDetailsTitle
+            <DineroVaultDetailsTitle
               token1={isStake ? underlyingToken : dineroToken}
               token2={isStake ? dineroToken : underlyingToken}
+              isLoading={processedData.loading}
             />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
-            <VaultDetailsInfo
+            <DineroVaultDetailsInfo
               items={[
                 {
-                  title: 'vaultAddress.detail1',
-                  tip: 'vaultAddress.detail1Tip',
+                  title: 'dineroVaultAddress.detail1',
+                  tip: 'dineroVaultAddress.detail1Tip',
                   content:
                     FixedPointMath.toNumber(
                       processedData.data.depositAmount,
@@ -91,10 +92,11 @@ const DineroVaultDetails: FC<DineroVaultDetailsDetailsProps> = ({ vault }) => {
                     ) +
                     ' ' +
                     processedData.data.depositTokenSymbol,
+                  isLoading: processedData.loading,
                 },
                 {
-                  title: 'vaultAddress.detail2',
-                  tip: 'vaultAddress.detail2Tip',
+                  title: 'dineroVaultAddress.detail2',
+                  tip: 'dineroVaultAddress.detail2Tip',
                   content:
                     FixedPointMath.toNumber(
                       processedData.data.depositAmount,
@@ -102,27 +104,30 @@ const DineroVaultDetails: FC<DineroVaultDetailsDetailsProps> = ({ vault }) => {
                     ) +
                     ' ' +
                     TOKEN_SYMBOL.DNR,
+                  isLoading: processedData.loading,
                 },
                 {
-                  title: 'vaultAddress.detail3',
-                  tip: 'vaultAddress.detail3Tip',
+                  title: 'dineroVaultAddress.detail3',
+                  tip: 'dineroVaultAddress.detail3Tip',
                   content:
                     FixedPointMath.toNumber(
                       processedData.data.mintedDineroAmount
                     ) +
                     ' / ' +
                     FixedPointMath.toNumber(processedData.data.maxDineroAmount),
+                  isLoading: processedData.loading,
                 },
               ]}
             />
-            <VaultForm
+            <DineroVaultForm
               stakeState={stakeState}
               data={processedData.data}
               refetch={async () => void (await refetch())}
+              isLoading={processedData.loading}
             />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
-            <VaultDetails
-              VaultPoolDetails={[
+            <DineroVaultDetailsFooter
+              dineroVaultDetailsFooterItems={[
                 {
                   title: 'common.tvl',
                   content: String(
@@ -130,6 +135,7 @@ const DineroVaultDetails: FC<DineroVaultDetailsDetailsProps> = ({ vault }) => {
                       processedData.data.mintedDineroAmount
                     )
                   ),
+                  isLoading: processedData.loading,
                 },
               ]}
             />

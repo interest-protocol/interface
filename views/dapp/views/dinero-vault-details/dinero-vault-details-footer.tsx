@@ -6,12 +6,14 @@ import { v4 } from 'uuid';
 import { Box, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 
-import VaultDetailsItem from './detail-item';
-import { VaultDetailsProps } from './vault-details.types';
+import { DineroVaultDetailsFooterProps } from './dinero-vault-details.types';
+import DineroVaultDetailsFooterItem from './dinero-vault-details-footer-item';
 
 const AnimatedBox = animated(Box);
 
-const VaultDetails: FC<VaultDetailsProps> = ({ VaultPoolDetails }) => {
+const DineroVaultDetailsFooter: FC<DineroVaultDetailsFooterProps> = ({
+  dineroVaultDetailsFooterItems,
+}) => {
   const t = useTranslations();
   const [openDetails, setOpenDetails] = useState(false);
   const detailRef = useRef<HTMLDivElement>(null);
@@ -46,7 +48,7 @@ const VaultDetails: FC<VaultDetailsProps> = ({ VaultPoolDetails }) => {
           mr="M"
           fontSize="0.9rem"
         >
-          {t('vaultAddress.openButton', { isOpen: +!openDetails })}
+          {t('dineroVaultAddress.openButton', { isOpen: +!openDetails })}
         </Typography>
         <AnimatedBox style={{ transform: arrowInvert }}>
           <ArrowSVG width="0.5rem" />
@@ -55,8 +57,8 @@ const VaultDetails: FC<VaultDetailsProps> = ({ VaultPoolDetails }) => {
       <AnimatedBox style={{ height: mHeight }} overflow="hidden">
         <Box p="0 2rem 2rem" cursor="default" ref={detailRef}>
           <Box bg="background" p="1.5rem" borderRadius="0.5rem">
-            {VaultPoolDetails.map((item) => (
-              <VaultDetailsItem
+            {dineroVaultDetailsFooterItems.map((item) => (
+              <DineroVaultDetailsFooterItem
                 {...item}
                 fontSize="0.8rem"
                 color="textSecondary"
@@ -70,4 +72,4 @@ const VaultDetails: FC<VaultDetailsProps> = ({ VaultPoolDetails }) => {
   );
 };
 
-export default VaultDetails;
+export default DineroVaultDetailsFooter;

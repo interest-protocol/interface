@@ -5,7 +5,7 @@ import { StakeState } from '@/constants';
 import { Box, Button } from '@/elements';
 import { capitalize } from '@/utils';
 
-import { ButtonTabSelectProps } from './vault-details.types';
+import { ButtonTabSelectProps } from './dinero-vault-details.types';
 
 const ButtonTabSelect: FC<ButtonTabSelectProps> = ({ state, setState }) => {
   const isStake = state === StakeState.Stake;

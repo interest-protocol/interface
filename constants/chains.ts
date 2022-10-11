@@ -18,8 +18,8 @@ export const SUPPORTED_CHAINS_RECORD = {
   [Routes[RoutesEnum.DEXPool]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DEXFindPool]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DEXPoolDetails]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.Vaults]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.VaultDetails]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.DineroVault]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.DineroVaultDetails]]: [CHAIN_ID.BNB_TEST_NET],
 };
 
 export const BNB: Chain['nativeCurrency'] = {

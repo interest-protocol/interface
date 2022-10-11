@@ -1,17 +1,19 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
 import { Box, Typography } from '@/elements';
 import { InfoSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
-import { VaultDetailsItemProps } from './vault-details.types';
+import { DineroVaultDetailsFooterItemProps } from './dinero-vault-details.types';
 
-const VaultDetailsItem: FC<VaultDetailsItemProps> = ({
+const DineroVaultDetailsFooterItem: FC<DineroVaultDetailsFooterItemProps> = ({
   title,
   content,
   tip,
+  isLoading,
 }) => {
   const t = useTranslations();
   return (
@@ -38,23 +40,30 @@ const VaultDetailsItem: FC<VaultDetailsItemProps> = ({
           color="text"
           fontSize="1rem"
           fontWeight="500"
+          as="span"
         >
           {capitalize(
             t(title as MessageKeys<IntlMessages, keyof IntlMessages>)
           )}
         </Typography>
       </Typography>
-      <Typography
-        variant="normal"
-        color="textSecondary"
-        fontSize="1rem"
-        fontWeight="200"
-        pl={[tip ? 'XL' : 'M', tip ? 'XL' : 'M', tip ? 'XL' : 'M', 'unset']}
-      >
-        {content}
-      </Typography>
+      {!isLoading ? (
+        <Typography
+          variant="normal"
+          color="textSecondary"
+          fontSize="1rem"
+          fontWeight="200"
+          pl={[tip ? 'XL' : 'M', tip ? 'XL' : 'M', tip ? 'XL' : 'M', 'unset']}
+        >
+          {content}
+        </Typography>
+      ) : (
+        <Box as="span" width="5rem">
+          <Skeleton />
+        </Box>
+      )}
     </Box>
   );
 };
 
-export default VaultDetailsItem;
+export default DineroVaultDetailsFooterItem;

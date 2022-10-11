@@ -4,12 +4,12 @@ import { FC } from 'react';
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
 
-import { VaultFiltersProps } from '../../vault.types';
+import { DineroVaultFilterTableProps } from '../../vault.types';
 import InputSearch from './input-search';
 import OnlyDeposit from './only-deposit';
 import TypeFilter from './type-filter';
 
-const FilterTable: FC<VaultFiltersProps> = ({
+const DineroVaultFilterTable: FC<DineroVaultFilterTableProps> = ({
   register,
   control,
   setValue,
@@ -52,4 +52,4 @@ const FilterTable: FC<VaultFiltersProps> = ({
   );
 };
 
-export default FilterTable;
+export default DineroVaultFilterTable;

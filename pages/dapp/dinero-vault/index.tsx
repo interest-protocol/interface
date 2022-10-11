@@ -1,14 +1,14 @@
 import { GetStaticProps, NextPage } from 'next';
 import { mergeDeepRight } from 'ramda';
 
-import Vault from '@/views/dapp/views/vault';
+import DineroVault from '@/views/dapp/views/dinero-vault';
 
-const VaultPage: NextPage = () => <Vault />;
+const DineroVaultPage: NextPage = () => <DineroVault />;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, vaultMessages] = await Promise.all([
     import(`../../../assets/messages/common/${locale}.json`),
-    import(`../../../assets/messages/vault/${locale}.json`),
+    import(`../../../assets/messages/dinero-vault/${locale}.json`),
   ]);
 
   const messages = mergeDeepRight(
@@ -20,9 +20,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     props: {
       messages,
       now: new Date().getTime(),
-      pageTitle: 'vault.pageTitle',
+      pageTitle: 'dineroVault.pageTitle',
     },
   };
 };
 
-export default VaultPage;
+export default DineroVaultPage;

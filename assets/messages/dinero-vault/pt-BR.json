@@ -1,7 +1,7 @@
 {
-  "vault": {
+  "dineroVault": {
     "pageTitle": "Vaults",
-    "title": "{count, plural, =1 {Vault (#) } other {Vaults (#) }}",
+    "title": "{count, plural, =1 {Vault (#)} other {Vaults (#)}}",
     "column1": "Nome do Vault",
     "column4": "Ganhos",
     "column2": "Depósito",

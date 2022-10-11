@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import { DV_VAULT_RESPONSE_MAP } from '@/constants';
 import { CHAIN_ID, TOKEN_SYMBOL, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
 
-import { ProcessDineroVault } from './vault-details.types';
+import { ProcessDineroVault } from './dinero-vault-details.types';
 
 const DEFAULT_DATA = {
   vaultAddress: ZERO_ADDRESS,

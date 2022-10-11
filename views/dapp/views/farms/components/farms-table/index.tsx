@@ -128,11 +128,7 @@ const FarmsTable: FC<FarmsTableProps> = ({
                         query: { tokenAddress: farm.stakingTokenAddress },
                       }}
                     >
-                      <Button
-                        as="div"
-                        variant="primary"
-                        hover={{ bg: 'accentActive' }}
-                      >
+                      <Button variant="primary" hover={{ bg: 'accentActive' }}>
                         {capitalize(t('common.enter'))}
                       </Button>
                     </Link>
@@ -311,7 +307,6 @@ const FarmsTable: FC<FarmsTableProps> = ({
                         }}
                       >
                         <Button
-                          as="div"
                           variant="primary"
                           hover={{ bg: 'accentActive' }}
                         >

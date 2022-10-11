@@ -1,5 +1,5 @@
 {
-  "vault": {
+  "dineroVault": {
     "pageTitle": "Vaults",
     "title": "{count, plural, =1 {Vault (#)} other {Vaults (#)}}",
     "column1": "Vaults Name",

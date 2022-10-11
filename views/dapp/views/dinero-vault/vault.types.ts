@@ -12,33 +12,16 @@ import { VaultTypes } from '@/constants';
 
 import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestViewEarnAbi';
 
-export interface VaultTableProps {
-  data: ReadonlyArray<VaultData>;
+export interface DineroVaultTableProps {
+  data: ReadonlyArray<DineroVaultData>;
   loading: boolean;
   control: Control<IVaultForm>;
 }
-
-export interface VaultNameProps {
-  symbol: string;
-  address: string;
-  isColumn?: boolean;
-}
-export interface VaultDetailsProps {
-  token1: {
-    symbol: string;
-    address: string;
-  };
-  token2: {
-    symbol: string;
-    address: string;
-  };
-}
-
-export interface VaultHeaderProps {
+export interface DineroVaultHeaderProps {
   size: number;
 }
 
-export interface VaultData {
+export interface DineroVaultData {
   vaultAddress: string;
   depositTokenSymbol: string;
   depositTokenAddress: string;
@@ -61,11 +44,12 @@ export interface IVaultForm {
   onlyDeposit: boolean;
 }
 
-export interface VaultFiltersProps extends VaultFilterManagerProps {
+export interface DineroVaultFilterTableProps
+  extends DineroVaultFilterManagerProps {
   register: UseFormRegister<IVaultForm>;
 }
 
-export interface VaultFilterManagerProps {
+export interface DineroVaultFilterManagerProps {
   control: Control<IVaultForm>;
   setValue: UseFormSetValue<IVaultForm>;
   getValues: UseFormGetValues<IVaultForm>;
@@ -79,4 +63,4 @@ export type ProcessVaultsSummaryData = (
     | ([InterestViewEarn.DineroVaultSummaryStructOutput[]] & {
         dineroVaults: InterestViewEarn.DineroVaultSummaryStructOutput[];
       })
-) => { loading: boolean; data: ReadonlyArray<VaultData> };
+) => { loading: boolean; data: ReadonlyArray<DineroVaultData> };

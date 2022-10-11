@@ -1,5 +1,5 @@
 {
-  "vaultAddress": {
+  "dineroVaultAddress": {
     "pageTitle": "Vault Details",
     "detail1": "Deposited Collateral",
     "detail1Tip": "Amount of collateral the user has deposited in the vault",

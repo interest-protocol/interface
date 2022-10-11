@@ -6,9 +6,9 @@ import { Box, Typography } from '@/elements';
 import { useChainId } from '@/hooks';
 import { CHAIN_ID } from '@/sdk';
 
-import { VaultNameProps } from '../../vault.types';
+import { TokenViewProps } from './token-view.types';
 
-const VaultName: FC<VaultNameProps> = ({ symbol, address, isColumn }) => {
+const TokenView: FC<TokenViewProps> = ({ symbol, address, isColumn }) => {
   const chainId = useChainId();
 
   const SVG = TOKENS_SVG_MAP[chainId]
@@ -48,4 +48,4 @@ const VaultName: FC<VaultNameProps> = ({ symbol, address, isColumn }) => {
   );
 };
 
-export default VaultName;
+export default TokenView;

@@ -8,12 +8,16 @@ import { Box, Typography } from '@/elements';
 import { useIdAccount } from '@/hooks';
 import { TimesSVG } from '@/svg';
 
-import { VaultFilterTable, VaultHeader, VaultTable } from './components';
+import {
+  DineroVaultFilterTable,
+  DineroVaultHeader,
+  DineroVaultTable,
+} from './components';
 import { useGetVaultsSummary } from './vault.hooks';
 import { IVaultForm } from './vault.types';
 import { processVaultsSummaryData } from './vault.utils';
 
-const Vault: FC = () => {
+const DineroVault: FC = () => {
   const t = useTranslations();
   const { chainId, account } = useIdAccount();
   const { error, data } = useGetVaultsSummary(chainId, account);
@@ -73,15 +77,15 @@ const Vault: FC = () => {
         flexDirection="column"
         justifyContent={['center', 'flex-start']}
       >
-        <VaultHeader size={processedData.data.length} />
+        <DineroVaultHeader size={processedData.data.length} />
         <Box width="100%">
-          <VaultFilterTable
+          <DineroVaultFilterTable
             register={register}
             setValue={setValue}
             getValues={getValues}
             control={control}
           />
-          <VaultTable
+          <DineroVaultTable
             data={processedData.data}
             control={control}
             loading={processedData.loading}
@@ -92,4 +96,4 @@ const Vault: FC = () => {
   );
 };
 
-export default Vault;
+export default DineroVault;

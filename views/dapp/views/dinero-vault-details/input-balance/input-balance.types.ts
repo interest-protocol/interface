@@ -1,6 +1,6 @@
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
-import { IVaultForm } from '../vault-details.types';
+import { IVaultForm } from '../dinero-vault-details.types';
 
 export interface InputBalanceProps {
   label?: string;
@@ -10,4 +10,5 @@ export interface InputBalanceProps {
   max: number;
   symbol: string;
   address: string;
+  isLoading: boolean;
 }

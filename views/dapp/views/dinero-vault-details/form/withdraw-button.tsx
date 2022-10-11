@@ -7,7 +7,7 @@ import { Button } from '@/elements';
 import { capitalize, showTXSuccessToast, throwError } from '@/utils';
 
 import { useWithdraw } from '../dinero-vault-details.hooks';
-import { WithdrawButtonProps } from '../vault-details.types';
+import { WithdrawButtonProps } from '../dinero-vault-details.types';
 
 const WithdrawButton: FC<WithdrawButtonProps> = ({
   control,
@@ -45,7 +45,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       mb="1.5rem"
       bg={!writeAsync ? 'disabled' : 'primary'}
     >
-      {capitalize(t('vaultAddress.withdraw', { isLoading: +loading }))}
+      {capitalize(t('dineroVaultAddress.withdraw', { isLoading: +loading }))}
     </Button>
   );
 };

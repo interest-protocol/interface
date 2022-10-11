@@ -7,40 +7,54 @@ import { StakeState } from '@/constants';
 
 import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestViewEarnAbi';
 
-export interface VaultDetails {
+export interface DineroVaultDetails {
   title: string;
   tip?: string;
   content: string;
+  isLoading: boolean;
 }
 
-export interface VaultDetailsItemProps {
+export interface DineroVaultDetailsFooterItemProps {
   title: string;
   content: string;
   tip?: string;
   fontSize?: string;
   color?: string;
   version?: ReadonlyArray<string>;
+  isLoading: boolean;
 }
 
 export interface IVaultForm {
   value: string;
+}
+export interface DineroVaultDetailsTitleProps {
+  token1: {
+    symbol: string;
+    address: string;
+  };
+  token2: {
+    symbol: string;
+    address: string;
+  };
+  isLoading: boolean;
 }
 
 export interface DineroVaultDetailsDetailsProps {
   vault: string;
 }
 
-export interface VaultFormProps {
+export interface DineroVaultFormProps {
   data: DineroVaultData;
   refetch: () => Promise<void>;
   stakeState: StakeState;
+  isLoading: boolean;
 }
 
-export interface VaultDetailsInfoProps {
-  items: ReadonlyArray<VaultDetailsItemProps>;
+export interface DineroVaultDetailsInfoProps {
+  items: ReadonlyArray<DineroVaultDetailsFooterItemProps>;
 }
-export interface VaultDetailsProps {
-  VaultPoolDetails: ReadonlyArray<VaultDetails>;
+export interface DineroVaultDetailsFooterProps {
+  dineroVaultDetailsFooterItems: ReadonlyArray<DineroVaultDetails>;
 }
 
 export interface DineroVaultData {

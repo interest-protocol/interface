@@ -7,7 +7,7 @@ import { Button } from '@/elements';
 import { capitalize, showTXSuccessToast, throwError } from '@/utils';
 
 import { useDeposit } from '../dinero-vault-details.hooks';
-import { DepositButtonProps } from '../vault-details.types';
+import { DepositButtonProps } from '../dinero-vault-details.types';
 
 const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
   const t = useTranslations();
@@ -41,7 +41,7 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
       mb="1.5rem"
       bg={!writeAsync ? 'disabled' : 'primary'}
     >
-      {capitalize(t('vaultAddress.deposit', { isLoading: +loading }))}
+      {capitalize(t('dineroVaultAddress.deposit', { isLoading: +loading }))}
     </Button>
   );
 };

@@ -8,7 +8,11 @@ import { VAULTS_RESPONSE_MAP, VaultTypes } from '@/constants/vaults';
 import { TOKEN_SYMBOL, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
 import { isSameAddress } from '@/utils';
 
-import { IVaultForm, ProcessVaultsSummaryData, VaultData } from './vault.types';
+import {
+  DineroVaultData,
+  IVaultForm,
+  ProcessVaultsSummaryData,
+} from './vault.types';
 
 const VAULT_TYPE_VALUE = {
   [VaultTypes.DV]: 'DV',
@@ -50,7 +54,7 @@ const searchOperation = cond([
         depositTokenSymbol,
         depositTokenAddress,
         vaultAddress,
-      }: VaultData) => {
+      }: DineroVaultData) => {
         if (isAddress(search))
           return (
             isSameAddress(search, depositTokenAddress) ||
@@ -70,13 +74,13 @@ const searchOperation = cond([
   ],
 ]);
 
-const typeOperation = (x: VaultTypes) => (vault: VaultData) =>
+const typeOperation = (x: VaultTypes) => (vault: DineroVaultData) =>
   x === VaultTypes.All ? true : x === vault.type;
 
 const onlyDepositOperation = ifElse<
   any[],
-  (x: VaultData) => boolean,
-  (x: VaultData) => boolean
+  (x: DineroVaultData) => boolean,
+  (x: DineroVaultData) => boolean
 >(
   equals(true),
   always(({ depositAmount }) => !depositAmount.isZero()),
@@ -84,11 +88,11 @@ const onlyDepositOperation = ifElse<
 );
 
 export const handleFilterVaults = (
-  data: ReadonlyArray<VaultData>,
+  data: ReadonlyArray<DineroVaultData>,
   search: string,
   type: VaultTypes,
   onlyDeposit: boolean
-): ReadonlyArray<VaultData> =>
+): ReadonlyArray<DineroVaultData> =>
   data
     ? data.filter((x) =>
         [

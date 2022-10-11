@@ -67,7 +67,6 @@ const Footer: FC = () => {
         >
           <Link href={Routes[RoutesEnum.DEX]}>
             <Button
-              as="div"
               ml="S"
               px="0.8rem"
               fontSize="M"
@@ -97,7 +96,7 @@ const Footer: FC = () => {
                   px="1.5rem"
                   bg={
                     pathname === Routes[RoutesEnum.Farms] ||
-                    pathname.includes(Routes[RoutesEnum.Vaults])
+                    pathname.includes(Routes[RoutesEnum.DineroVault])
                       ? 'accent'
                       : 'textSoft'
                   }
@@ -111,7 +110,7 @@ const Footer: FC = () => {
                   boxShadow="0 0 15px rgba(0,0,0,.3)"
                   color={
                     pathname === Routes[RoutesEnum.Farms] ||
-                    pathname.includes(Routes[RoutesEnum.Vaults])
+                    pathname.includes(Routes[RoutesEnum.DineroVault])
                       ? 'text'
                       : 'inherit'
                   }
@@ -135,7 +134,7 @@ const Footer: FC = () => {
                   value: 'Vaults',
                   displayOption: 'Vaults',
                   onSelect: () =>
-                    push(Routes[RoutesEnum.Vaults], undefined, {
+                    push(Routes[RoutesEnum.DineroVault], undefined, {
                       shallow: true,
                     }),
                 },
@@ -144,7 +143,6 @@ const Footer: FC = () => {
           </Box>
           <Link href={Routes[RoutesEnum.DineroMarket]}>
             <Button
-              as="div"
               ml="S"
               px="0.8rem"
               fontSize="M"

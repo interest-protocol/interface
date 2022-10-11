@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
+import Skeleton from 'react-loading-skeleton';
 
 import { ApproveButton } from '@/components';
 import { StakeState } from '@/constants';
@@ -10,12 +11,20 @@ import { TOKEN_SYMBOL } from '@/sdk';
 import { capitalize } from '@/utils';
 
 import { WalletGuardButton } from '../../../components';
+import {
+  DineroVaultFormProps,
+  IVaultForm,
+} from '../dinero-vault-details.types';
 import InputBalance from '../input-balance';
-import { IVaultForm, VaultFormProps } from '../vault-details.types';
 import DepositButton from './deposit-button';
 import WithdrawButton from './withdraw-button';
 
-const VaultForm: FC<VaultFormProps> = ({ data, refetch, stakeState }) => {
+const DineroVaultForm: FC<DineroVaultFormProps> = ({
+  data,
+  refetch,
+  stakeState,
+  isLoading,
+}) => {
   const t = useTranslations();
   const { register, setValue, control } = useForm<IVaultForm>({
     defaultValues: {
@@ -36,11 +45,20 @@ const VaultForm: FC<VaultFormProps> = ({ data, refetch, stakeState }) => {
           ml="M"
           textAlign="right"
           width="100%"
+          as="p"
+          display="flex"
+          justifyContent="flex-end"
         >
           {capitalize(t('common.balance'))} :{' '}
-          {FixedPointMath.toNumber(
-            isStake ? data.underlyingBalance : data.dineroBalance,
-            isStake ? data.depositTokenDecimals : data.dineroDecimals
+          {!isLoading ? (
+            FixedPointMath.toNumber(
+              isStake ? data.underlyingBalance : data.dineroBalance,
+              isStake ? data.depositTokenDecimals : data.dineroDecimals
+            )
+          ) : (
+            <Box as="span" width="2rem">
+              <Skeleton />
+            </Box>
           )}
         </Typography>
       </Box>
@@ -54,30 +72,38 @@ const VaultForm: FC<VaultFormProps> = ({ data, refetch, stakeState }) => {
         setValue={setValue}
         symbol={isStake ? data.depositTokenSymbol : TOKEN_SYMBOL.DNR}
         address={isStake ? data.depositTokenAddress : data.dineroAddress}
+        isLoading={isLoading}
       />
-      <WalletGuardButton>
-        {data.underlyingAllowance.isZero() ? (
-          <ApproveButton
-            buttonProps={{
-              variant: 'primary',
-              width: '100%',
-              py: 'L',
-              mb: '1.5rem',
-            }}
-            refetch={refetch}
-            chainId={data.chainId}
-            contract={data.depositTokenAddress}
-            spender={data.vaultAddress}
-            enabled={data.underlyingAllowance.isZero()}
-          />
-        ) : isStake ? (
-          <DepositButton data={data} refetch={refetch} control={control} />
-        ) : (
-          <WithdrawButton data={data} refetch={refetch} control={control} />
-        )}
-      </WalletGuardButton>
+
+      {!isLoading ? (
+        <WalletGuardButton>
+          {data.underlyingAllowance.isZero() ? (
+            <ApproveButton
+              buttonProps={{
+                variant: 'primary',
+                width: '100%',
+                py: 'L',
+                mb: '1.5rem',
+              }}
+              refetch={refetch}
+              chainId={data.chainId}
+              contract={data.depositTokenAddress}
+              spender={data.vaultAddress}
+              enabled={data.underlyingAllowance.isZero()}
+            />
+          ) : isStake ? (
+            <DepositButton data={data} refetch={refetch} control={control} />
+          ) : (
+            <WithdrawButton data={data} refetch={refetch} control={control} />
+          )}
+        </WalletGuardButton>
+      ) : (
+        <Box width="100%" height="2.5rem" mb="1.5rem">
+          <Skeleton height="100%" />
+        </Box>
+      )}
     </Box>
   );
 };
 
-export default VaultForm;
+export default DineroVaultForm;

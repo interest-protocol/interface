@@ -7,7 +7,7 @@ import { useSafeContractRead } from '@/hooks';
 import DineroVaultABI from '@/sdk/abi/dinero-vault.abi.json';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import { getInterestViewEarnAddress, safeToBigNumber } from '@/utils';
-import { DineroVaultData } from '@/views/dapp/views/dinero-vault-details/vault-details.types';
+import { DineroVaultData } from '@/views/dapp/views/dinero-vault-details/dinero-vault-details.types';
 
 export const useGetUserDineroVault = (
   chainId: number,
