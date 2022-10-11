@@ -18,15 +18,13 @@ const DineroVaultFilterTable: FC<DineroVaultFilterTableProps> = ({
   return (
     <Container>
       <Box
-        width="100%"
-        borderRadius="1rem"
-        mt="L"
-        p={['L', 'L', 'L', 'L']}
-        display="flex"
+        p="L"
+        my="L"
+        borderRadius="L"
         bg="foreground"
+        width="100%"
+        display="flex"
         justifyContent="space-between"
-        alignItems={['center', 'center', 'center', 'flex-end']}
-        flexDirection={['column', 'column', 'column', 'row']}
       >
         <OnlyDeposit control={control} setValue={setValue} />
         <TypeFilter control={control} setValue={setValue} />

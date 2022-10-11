@@ -37,13 +37,13 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
         flexDirection="column"
         alignItems="stretch"
         width={['100%', '100%', '100%', '10rem']}
+        height="3rem"
       >
         <Dropdown
           buttonMode
           mode="select"
           bg="accentAlternative"
           bgSelected="accentAlternativeBackground"
-          emptyMessage={capitalize(t('common.notFound'))}
           suffix={
             <Box ml="L" width="0.6rem">
               <ArrowSVG width="100%" />

@@ -39,6 +39,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
         flexDirection="column"
         alignItems="stretch"
         width={['100%', '100%', '100%', '10rem']}
+        height="3rem"
       >
         <Dropdown
           buttonMode
