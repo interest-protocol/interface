@@ -65,7 +65,11 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
       <InputBalance
         name="value"
         max={FixedPointMath.toNumber(
-          isStake ? data.underlyingBalance : data.underlyingBalance,
+          isStake
+            ? data.underlyingBalance
+            : data.depositAmount.gt(data.dineroBalance)
+            ? data.dineroBalance
+            : data.depositAmount,
           isStake ? data.depositTokenDecimals : data.dineroDecimals
         )}
         register={register}
