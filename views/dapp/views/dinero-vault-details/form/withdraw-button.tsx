@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { Button } from '@/elements';
+import { Box, Button } from '@/elements';
+import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
 
 import { useWithdraw } from '../dinero-vault-details.hooks';
@@ -56,6 +57,11 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       mb="1.5rem"
       bg={!writeAsync ? 'disabled' : 'primary'}
     >
+      {loading && (
+        <Box as="span" display="inline-block" width="1rem" mr="M">
+          <LoadingSVG width="100%" />
+        </Box>
+      )}
       {capitalize(t('vaultAddress.withdraw', { isLoading: +loading }))}
     </Button>
   );
