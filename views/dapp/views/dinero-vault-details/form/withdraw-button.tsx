@@ -1,10 +1,11 @@
 import { useTranslations } from 'next-intl';
+import { prop } from 'ramda';
 import { useState } from 'react';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Button } from '@/elements';
-import { capitalize, showTXSuccessToast, throwError } from '@/utils';
+import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
 
 import { useWithdraw } from '../dinero-vault-details.hooks';
 import { WithdrawButtonProps } from '../dinero-vault-details.types';
@@ -20,7 +21,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
 
   const { writeAsync } = useWithdraw(data, value);
 
-  const withdraw = async () => {
+  const handleWithdraw = async () => {
     setLoading(true);
     try {
       const tx = await writeAsync?.();
@@ -35,9 +36,19 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
     }
   };
 
+  const onSubmitWithdraw = async () => {
+    if (!data.chainId || !data) return;
+
+    await showToast(handleWithdraw(), {
+      success: capitalize(t('common.success')),
+      error: prop('message'),
+      loading: capitalize(t('common.submit', { isLoading: 1 })),
+    });
+  };
+
   return (
     <Button
-      onClick={withdraw}
+      onClick={onSubmitWithdraw}
       disabled={!writeAsync || loading}
       variant="primary"
       width="100%"
@@ -45,7 +56,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       mb="1.5rem"
       bg={!writeAsync ? 'disabled' : 'primary'}
     >
-      {capitalize(t('dineroVaultAddress.withdraw', { isLoading: +loading }))}
+      {capitalize(t('vaultAddress.withdraw', { isLoading: +loading }))}
     </Button>
   );
 };

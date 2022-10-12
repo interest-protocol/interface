@@ -114,7 +114,7 @@ const Header: FC = () => {
                 variant="normal"
                 color={
                   pathname === Routes[RoutesEnum.Farms] ||
-                  pathname.includes(Routes[RoutesEnum.DineroVault])
+                  pathname.includes(Routes[RoutesEnum.Vault])
                     ? 'accent'
                     : 'inherit'
                 }
@@ -137,7 +137,7 @@ const Header: FC = () => {
                 value: 'Vaults',
                 displayOption: 'Vaults',
                 onSelect: () =>
-                  push(Routes[RoutesEnum.DineroVault], undefined, {
+                  push(Routes[RoutesEnum.Vault], undefined, {
                     shallow: true,
                   }),
               },

@@ -20,7 +20,7 @@ const DineroVaultHeader: FC<DineroVaultHeaderProps> = ({ size }) => {
       justifyContent={['center', 'center', 'center', 'flex-start']}
     >
       <Typography variant="normal" fontWeight="bold">
-        {t('dineroVault.title', {
+        {t('vault.title', {
           currentLocale,
           count: size,
         })}

@@ -1,4 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
+import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
 import DineroVaultDetails from '@/views/dapp/views/dinero-vault-details';
@@ -9,7 +10,8 @@ interface VaultDetailsPageProps {
 }
 
 const VaultDetailsPage: NextPage<VaultDetailsPageProps> = ({ address }) => {
-  if (!address) return <ErrorView message="Wrong params" />;
+  const t = useTranslations();
+  if (!address) return <ErrorView message={t('error.wrongParams')} />;
 
   return <DineroVaultDetails vault={address as string} />;
 };
@@ -21,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   const { address } = params || {};
   const [commonMessages, vaultAddressMessages] = await Promise.all([
     import(`../../../assets/messages/common/${locale}.json`),
-    import(`../../../assets/messages/dinero-vault/address/${locale}.json`),
+    import(`../../../assets/messages/vault/address/${locale}.json`),
   ]);
 
   const messages = mergeDeepRight(
@@ -34,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       address,
       messages,
       now: new Date().getTime(),
-      pageTitle: 'dineroVaultAddress.pageTitle',
+      pageTitle: 'vaultAddress.pageTitle',
     },
   };
 };

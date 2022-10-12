@@ -9,8 +9,8 @@ export enum RoutesEnum {
   DineroMarketBorrow = 'dinero-market-borrow',
   DineroMarketRepay = 'dinero-market-repay',
   Farms = 'farms',
-  DineroVault = 'dinero-vault',
-  DineroVaultDetails = 'vault-details',
+  Vault = 'vault',
+  VaultDetails = 'vault-details',
   FarmDetails = 'farm-details',
   DEX = 'dex',
   DEXPool = 'dex-pool',
@@ -34,8 +34,8 @@ export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.DineroMarketBorrow]: '/dapp/dinero-market/[address]/borrow',
   [RoutesEnum.DineroMarketRepay]: '/dapp/dinero-market/[address]/repay',
   [RoutesEnum.Farms]: '/dapp/farms',
-  [RoutesEnum.DineroVault]: '/dapp/dinero-vault',
-  [RoutesEnum.DineroVaultDetails]: '/dapp/dinero-vault/[address]',
+  [RoutesEnum.Vault]: '/dapp/vault',
+  [RoutesEnum.VaultDetails]: '/dapp/vault/[address]',
   [RoutesEnum.FarmDetails]: '/dapp/farms/[tokenAddress]',
   [RoutesEnum.Faucet]: '/dapp/faucet',
 };
@@ -47,8 +47,8 @@ export const RoutesWithFaucet = [
   Routes[RoutesEnum.DEXPool],
   Routes[RoutesEnum.DEXFindPool],
   Routes[RoutesEnum.DEXPoolDetails],
-  Routes[RoutesEnum.DineroVault],
-  Routes[RoutesEnum.DineroVaultDetails],
+  Routes[RoutesEnum.Vault],
+  Routes[RoutesEnum.VaultDetails],
 ];
 
 export const routesList = Object.keys(Routes) as ReadonlyArray<RoutesEnum>;

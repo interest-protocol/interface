@@ -26,13 +26,13 @@ const DineroVaultTable: FC<DineroVaultTableProps> = ({
   const { push } = useRouter();
   const t = useTranslations();
   const HEADING_MOBILE = [
-    t('dineroVault.column2'),
+    t('vault.column2'),
     'APR',
-    t('dineroVault.column4'),
+    t('vault.column4'),
     capitalize(t('common.type')),
     'TVL',
   ];
-  const HEADING = [t('dineroVault.column1'), ...HEADING_MOBILE];
+  const HEADING = [t('vault.column1'), ...HEADING_MOBILE];
   const typeFilter = useWatch({ control, name: 'type' });
   const search = useWatch({ control, name: 'search' });
   const onlyDeposit = useWatch({ control, name: 'onlyDeposit' });
@@ -77,7 +77,7 @@ const DineroVaultTable: FC<DineroVaultTableProps> = ({
                         onClick={() =>
                           push(
                             {
-                              pathname: Routes[RoutesEnum.DineroVaultDetails],
+                              pathname: Routes[RoutesEnum.VaultDetails],
                               query: {
                                 address: item.vaultAddress,
                               },
@@ -156,7 +156,7 @@ const DineroVaultTable: FC<DineroVaultTableProps> = ({
                     handleClick: () =>
                       push(
                         {
-                          pathname: Routes[RoutesEnum.DineroVaultDetails],
+                          pathname: Routes[RoutesEnum.VaultDetails],
                           query: {
                             address: item.vaultAddress,
                           },
@@ -209,7 +209,7 @@ const DineroVaultTable: FC<DineroVaultTableProps> = ({
                       onClick={() =>
                         push(
                           {
-                            pathname: Routes[RoutesEnum.DineroVaultDetails],
+                            pathname: Routes[RoutesEnum.VaultDetails],
                             query: {
                               address: item.vaultAddress,
                             },
@@ -277,7 +277,7 @@ const DineroVaultTable: FC<DineroVaultTableProps> = ({
                   handleClick: () =>
                     push(
                       {
-                        pathname: Routes[RoutesEnum.DineroVaultDetails],
+                        pathname: Routes[RoutesEnum.VaultDetails],
                         query: {
                           address: item.vaultAddress,
                         },

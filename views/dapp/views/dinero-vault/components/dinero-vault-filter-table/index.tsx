@@ -24,7 +24,8 @@ const DineroVaultFilterTable: FC<DineroVaultFilterTableProps> = ({
         bg="foreground"
         width="100%"
         display="flex"
-        justifyContent="space-between"
+        justifyContent={['center', 'center', 'center', 'space-between']}
+        flexWrap="wrap"
       >
         <OnlyDeposit control={control} setValue={setValue} />
         <TypeFilter control={control} setValue={setValue} />

@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC, useMemo, useState } from 'react';
 
 import { Container, Tooltip } from '@/components';
@@ -5,6 +6,7 @@ import { RoutesEnum, StakeState } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useIdAccount } from '@/hooks';
 import { FixedPointMath, TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
+import { TimesSVG } from '@/svg';
 import { getDNRAddress } from '@/utils';
 import { useGetUserDineroVault } from '@/views/dapp/views/dinero-vault-details/dinero-vault-details.hooks';
 
@@ -18,6 +20,7 @@ import { processDineroVault } from './dinero-vaults-details.utils';
 import DineroVaultForm from './form/dinero-vault-form';
 
 const DineroVaultDetails: FC<DineroVaultDetailsDetailsProps> = ({ vault }) => {
+  const t = useTranslations();
   const [stakeState, setStakeState] = useState(StakeState.Stake);
 
   const { chainId, account } = useIdAccount();
@@ -32,7 +35,29 @@ const DineroVaultDetails: FC<DineroVaultDetailsDetailsProps> = ({ vault }) => {
     [vault, chainId, account, data]
   );
 
-  if (error) return <div>error</div>;
+  if (error)
+    return (
+      <Box
+        height="100%"
+        display="flex"
+        alignItems="center"
+        flexDirection="column"
+        justifyContent="center"
+      >
+        <Box
+          mb="L"
+          width="10rem"
+          height="10rem"
+          color="error"
+          overflow="hidden"
+          borderRadius="50%"
+          border="0.3rem solid"
+        >
+          <TimesSVG width="100%" height="100%" />
+        </Box>
+        <Typography variant="title3">{t('error.generic')}</Typography>
+      </Box>
+    );
 
   const isStake = stakeState === StakeState.Stake;
 
@@ -65,7 +90,7 @@ const DineroVaultDetails: FC<DineroVaultDetailsDetailsProps> = ({ vault }) => {
         background="specialBackground"
       >
         <Box display="flex" justifyContent="space-between">
-          <GoBack route={RoutesEnum.DineroVault} />
+          <GoBack route={RoutesEnum.Vault} />
         </Box>
         <Box mb="XL">
           <ButtonTabSelect state={stakeState} setState={setStakeState} />
@@ -83,8 +108,8 @@ const DineroVaultDetails: FC<DineroVaultDetailsDetailsProps> = ({ vault }) => {
             <DineroVaultDetailsInfo
               items={[
                 {
-                  title: 'dineroVaultAddress.detail1',
-                  tip: 'dineroVaultAddress.detail1Tip',
+                  title: 'vaultAddress.detail1',
+                  tip: 'vaultAddress.detail1Tip',
                   content:
                     FixedPointMath.toNumber(
                       processedData.data.depositAmount,
@@ -95,8 +120,8 @@ const DineroVaultDetails: FC<DineroVaultDetailsDetailsProps> = ({ vault }) => {
                   isLoading: processedData.loading,
                 },
                 {
-                  title: 'dineroVaultAddress.detail2',
-                  tip: 'dineroVaultAddress.detail2Tip',
+                  title: 'vaultAddress.detail2',
+                  tip: 'vaultAddress.detail2Tip',
                   content:
                     FixedPointMath.toNumber(
                       processedData.data.depositAmount,
@@ -107,8 +132,8 @@ const DineroVaultDetails: FC<DineroVaultDetailsDetailsProps> = ({ vault }) => {
                   isLoading: processedData.loading,
                 },
                 {
-                  title: 'dineroVaultAddress.detail3',
-                  tip: 'dineroVaultAddress.detail3Tip',
+                  title: 'vaultAddress.detail3',
+                  tip: 'vaultAddress.detail3Tip',
                   content:
                     FixedPointMath.toNumber(
                       processedData.data.mintedDineroAmount

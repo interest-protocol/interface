@@ -1,5 +1,5 @@
 {
-  "dineroVaultAddress": {
+  "vaultAddress": {
     "pageTitle": "Detalhes da Vault",
     "detail1": "Tokens Depositados",
     "detail1Tip": "Quantidade de tokens disponível na Vault",

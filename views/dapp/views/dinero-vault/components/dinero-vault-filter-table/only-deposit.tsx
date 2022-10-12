@@ -26,7 +26,7 @@ const OnlyDeposit: FC<FilterProps> = ({ control, setValue }) => {
         display="inline-block"
         textAlign={['center', 'center', 'center', 'left']}
       >
-        {t('dineroVault.depositFilterLabel')}
+        {t('vault.depositFilterLabel')}
       </Typography>
       <Switch
         defaultValue={onlyDeposit ? t('common.on') : t('common.off')}

@@ -1,4 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
+import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
 import ErrorView from '@/views/dapp/views/error';
@@ -9,7 +10,8 @@ interface FarmDetailsPageProps {
 }
 
 const FarmDetailsPage: NextPage<FarmDetailsPageProps> = ({ tokenAddress }) => {
-  if (!tokenAddress) return <ErrorView message="Wrong params" />;
+  const t = useTranslations();
+  if (!tokenAddress) return <ErrorView message={t('error.wrongParams')} />;
 
   return <FarmDetails address={tokenAddress} />;
 };

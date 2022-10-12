@@ -48,7 +48,7 @@ const DineroVaultDetailsFooter: FC<DineroVaultDetailsFooterProps> = ({
           mr="M"
           fontSize="0.9rem"
         >
-          {t('dineroVaultAddress.openButton', { isOpen: +!openDetails })}
+          {t('vaultAddress.openButton', { isOpen: +!openDetails })}
         </Typography>
         <AnimatedBox style={{ transform: arrowInvert }}>
           <ArrowSVG width="0.5rem" />
