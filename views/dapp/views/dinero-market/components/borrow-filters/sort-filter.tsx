@@ -38,7 +38,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
         variant="normal"
         display="inline-block"
       >
-        {capitalize(t('common.sort')) + COMMON_STRINGS.colon}
+        {`${capitalize(t('common.sort'))} :`}
       </Typography>
       <Box
         display="flex"

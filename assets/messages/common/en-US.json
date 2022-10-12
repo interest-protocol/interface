@@ -80,6 +80,7 @@
     "params": "Wrong params",
     "networkNotSupported": "Please check your wallet and switch to a supported network.",
     "workingOn": "Sorry, we are working on",
-    "switchTo": "Please, switch to"
+    "switchTo": "Please, switch to",
+    "fetchingContracts": "Error fetching the contracts"
   }
 }

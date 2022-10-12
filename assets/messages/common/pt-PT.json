@@ -80,6 +80,7 @@
     "params": "Parametros errados",
     "networkNotSupported": "Por favor, verifique sua carteira e mude para uma rede suportada.",
     "workingOn": "Desculpe, estamos trabalhando no",
-    "switchTo": "Por favor, mude para"
+    "switchTo": "Por favor, mude para",
+    "fetchingContracts": "Erro ao buscar os contratos"
   }
 }

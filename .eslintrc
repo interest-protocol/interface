@@ -57,6 +57,15 @@
     "@emotion/import-from-emotion": "error",
     "@emotion/styled-import": "error",
     "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error"
+    "simple-import-sort/exports": "error",
+    "react/jsx-no-literals": [
+      "error",
+      {
+        "noStrings": true,
+        "allowedStrings": [],
+        "ignoreProps": true,
+        "noAttributeStrings": false
+      }
+    ]
   }
 }
