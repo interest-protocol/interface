@@ -18,7 +18,12 @@ const TokenView: FC<TokenViewProps> = ({ symbol, address, isColumn }) => {
   return (
     <Box
       display="flex"
-      flexDirection={isColumn ? 'column' : 'row'}
+      flexDirection={[
+        'column',
+        'column',
+        'column',
+        isColumn ? 'column' : 'row',
+      ]}
       alignItems="center"
     >
       <Box
@@ -30,7 +35,7 @@ const TokenView: FC<TokenViewProps> = ({ symbol, address, isColumn }) => {
       </Box>
       <Box
         ml={isColumn ? 'unset' : 'M'}
-        mt={isColumn ? 'M' : 'unset'}
+        mt={['M', 'M', 'M', isColumn ? 'M' : 'unset']}
         display="flex"
         justifyContent="center"
         flexDirection="column"

@@ -55,6 +55,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       width="100%"
       py="L"
       mb="1.5rem"
+      display="flex"
       alignItems="center"
       justifyContent="center"
       bg={!writeAsync ? 'disabled' : 'primary'}
