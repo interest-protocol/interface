@@ -96,7 +96,8 @@ const Footer: FC = () => {
                   px="1.5rem"
                   bg={
                     pathname === Routes[RoutesEnum.Farms] ||
-                    pathname.includes(Routes[RoutesEnum.Vaults])
+                    pathname.includes(Routes[RoutesEnum.Vaults]) ||
+                    pathname.includes(Routes[RoutesEnum.DineroVault])
                       ? 'accent'
                       : 'textSoft'
                   }

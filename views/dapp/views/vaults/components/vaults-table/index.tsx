@@ -22,13 +22,13 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
   const { push } = useRouter();
   const t = useTranslations();
   const HEADING_MOBILE = [
-    t('vault.column2'),
+    t('vaults.column2'),
     'APR',
-    t('vault.column4'),
+    t('vaults.column4'),
     capitalize(t('common.type')),
     'TVL',
   ];
-  const HEADING = [t('vault.column1'), ...HEADING_MOBILE];
+  const HEADING = [t('vaults.column1'), ...HEADING_MOBILE];
   const typeFilter = useWatch({ control, name: 'type' });
   const search = useWatch({ control, name: 'search' });
   const onlyDeposit = useWatch({ control, name: 'onlyDeposit' });
@@ -73,10 +73,9 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                         onClick={() =>
                           push(
                             {
-                              pathname: Routes[RoutesEnum.VaultType],
+                              pathname: Routes[RoutesEnum.DineroVault],
                               query: {
                                 address: item.vaultAddress,
-                                type: item.type,
                               },
                             },
                             undefined,
@@ -153,10 +152,9 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                     handleClick: () =>
                       push(
                         {
-                          pathname: Routes[RoutesEnum.VaultType],
+                          pathname: Routes[RoutesEnum.DineroVault],
                           query: {
                             address: item.vaultAddress,
-                            type: item.type,
                           },
                         },
                         undefined,
@@ -207,10 +205,9 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                       onClick={() =>
                         push(
                           {
-                            pathname: Routes[RoutesEnum.VaultType],
+                            pathname: Routes[RoutesEnum.DineroVault],
                             query: {
                               address: item.vaultAddress,
-                              type: item.type,
                             },
                           },
                           undefined,
@@ -276,10 +273,9 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                   handleClick: () =>
                     push(
                       {
-                        pathname: Routes[RoutesEnum.VaultType],
+                        pathname: Routes[RoutesEnum.DineroVault],
                         query: {
                           address: item.vaultAddress,
-                          type: item.type,
                         },
                       },
                       undefined,

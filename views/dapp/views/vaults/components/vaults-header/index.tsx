@@ -20,7 +20,7 @@ const VaultHeader: FC<VaultHeaderProps> = ({ size }) => {
       justifyContent={['center', 'center', 'center', 'flex-start']}
     >
       <Typography variant="normal" fontWeight="bold">
-        {t('vault.title', {
+        {t('vaults.title', {
           currentLocale,
           count: size,
         })}

@@ -4,9 +4,9 @@ import Skeleton from 'react-loading-skeleton';
 import TokenView from '@/components/token-view';
 import { Box, Typography } from '@/elements';
 
-import { DineroVaultDetailsTitleProps } from './dinero-vaults.types';
+import { DineroVaultDetailsTitleProps } from './dinero-vault.types';
 
-const DineroVaultDetailsTitle: FC<DineroVaultDetailsTitleProps> = ({
+const DineroVaultTitle: FC<DineroVaultDetailsTitleProps> = ({
   token1,
   token2,
   isLoading,
@@ -27,4 +27,4 @@ const DineroVaultDetailsTitle: FC<DineroVaultDetailsTitleProps> = ({
     </Box>
   );
 
-export default DineroVaultDetailsTitle;
+export default DineroVaultTitle;

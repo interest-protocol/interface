@@ -1,6 +1,6 @@
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
-import { IVaultForm } from '../dinero-vaults.types';
+import { IVaultForm } from '../dinero-vault.types';
 
 export interface InputBalanceProps {
   label?: string;

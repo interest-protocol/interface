@@ -39,7 +39,7 @@ export interface DineroVaultDetailsTitleProps {
   isLoading: boolean;
 }
 
-export interface DineroVaultDetailsDetailsProps {
+export interface DineroVaultProps {
   vault: string;
 }
 
@@ -50,10 +50,10 @@ export interface DineroVaultFormProps {
   isLoading: boolean;
 }
 
-export interface DineroVaultDetailsInfoProps {
+export interface DineroVaultInfoProps {
   items: ReadonlyArray<DineroVaultDetailsFooterItemProps>;
 }
-export interface DineroVaultDetailsFooterProps {
+export interface DineroVaultFooterProps {
   dineroVaultDetailsFooterItems: ReadonlyArray<DineroVault>;
 }
 

@@ -11,7 +11,7 @@ import { TOKEN_SYMBOL } from '@/sdk';
 import { capitalize } from '@/utils';
 
 import { WalletGuardButton } from '../../../components';
-import { DineroVaultFormProps, IVaultForm } from '../dinero-vaults.types';
+import { DineroVaultFormProps, IVaultForm } from '../dinero-vault.types';
 import InputBalance from '../input-balance';
 import DepositButton from './deposit-button';
 import WithdrawButton from './withdraw-button';

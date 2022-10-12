@@ -8,18 +8,18 @@ import { useIdAccount } from '@/hooks';
 import { FixedPointMath, TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
 import { TimesSVG } from '@/svg';
 import { getDNRAddress } from '@/utils';
-import { useGetUserDineroVault } from '@/views/dapp/views/dinero-vaults/dinero-vaults.hooks';
+import { useGetUserDineroVault } from '@/views/dapp/views/dinero-vault/dinero-vault.hooks';
 
 import GoBack from '../../components/go-back';
 import ButtonTabSelect from './button-tab-select';
-import DineroVaultDetailsInfo from './details-info';
-import { DineroVaultDetailsDetailsProps } from './dinero-vaults.types';
-import DineroVaultDetailsFooter from './dinero-vaults-footer';
-import DineroVaultDetailsTitle from './dinero-vaults-title';
-import { processDineroVault } from './dinero-vaults.utils';
+import DineroVaultInfo from './details-info';
+import { DineroVaultProps } from './dinero-vault.types';
+import { processDineroVault } from './dinero-vault.utils';
+import DineroVaultFooter from './dinero-vault-footer';
+import DineroVaultTitle from './dinero-vault-title';
 import DineroVaultForm from './form/dinero-vault-form';
 
-const DineroVault: FC<DineroVaultDetailsDetailsProps> = ({ vault }) => {
+const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
   const t = useTranslations();
   const [stakeState, setStakeState] = useState(StakeState.Stake);
 
@@ -99,13 +99,13 @@ const DineroVault: FC<DineroVaultDetailsDetailsProps> = ({ vault }) => {
             borderBottomLeftRadius="M"
             borderBottomRightRadius="M"
           >
-            <DineroVaultDetailsTitle
+            <DineroVaultTitle
               token1={isStake ? underlyingToken : dineroToken}
               token2={isStake ? dineroToken : underlyingToken}
               isLoading={processedData.loading}
             />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
-            <DineroVaultDetailsInfo
+            <DineroVaultInfo
               items={[
                 {
                   title: 'dineroVault.detail1',
@@ -151,7 +151,7 @@ const DineroVault: FC<DineroVaultDetailsDetailsProps> = ({ vault }) => {
               isLoading={processedData.loading}
             />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
-            <DineroVaultDetailsFooter
+            <DineroVaultFooter
               dineroVaultDetailsFooterItems={[
                 {
                   title: 'common.tvl',

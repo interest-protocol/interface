@@ -114,7 +114,8 @@ const Header: FC = () => {
                 variant="normal"
                 color={
                   pathname === Routes[RoutesEnum.Farms] ||
-                  pathname.includes(Routes[RoutesEnum.Vaults])
+                  pathname.includes(Routes[RoutesEnum.Vaults]) ||
+                  pathname.includes(Routes[RoutesEnum.DineroVault])
                     ? 'accent'
                     : 'inherit'
                 }

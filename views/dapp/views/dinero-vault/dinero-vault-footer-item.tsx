@@ -7,9 +7,9 @@ import { Box, Typography } from '@/elements';
 import { InfoSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
-import { DineroVaultDetailsFooterItemProps } from './dinero-vaults.types';
+import { DineroVaultDetailsFooterItemProps } from './dinero-vault.types';
 
-const DineroVaultDetailsFooterItem: FC<DineroVaultDetailsFooterItemProps> = ({
+const DineroVaultFooterItem: FC<DineroVaultDetailsFooterItemProps> = ({
   title,
   content,
   tip,
@@ -66,4 +66,4 @@ const DineroVaultDetailsFooterItem: FC<DineroVaultDetailsFooterItemProps> = ({
   );
 };
 
-export default DineroVaultDetailsFooterItem;
+export default DineroVaultFooterItem;

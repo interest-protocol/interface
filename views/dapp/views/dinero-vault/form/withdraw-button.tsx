@@ -8,17 +8,21 @@ import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
 
-import { useDeposit } from '../dinero-vaults.hooks';
-import { DepositButtonProps } from '../dinero-vaults.types';
+import { useWithdraw } from '../dinero-vault.hooks';
+import { WithdrawButtonProps } from '../dinero-vault.types';
 
-const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
+const WithdrawButton: FC<WithdrawButtonProps> = ({
+  control,
+  data,
+  refetch,
+}) => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
   const value = useWatch({ control, name: 'value' });
 
-  const { writeAsync } = useDeposit(data, value);
+  const { writeAsync } = useWithdraw(data, value);
 
-  const handleDeposit = async () => {
+  const handleWithdraw = async () => {
     setLoading(true);
     try {
       const tx = await writeAsync?.();
@@ -33,10 +37,10 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
     }
   };
 
-  const onSubmitDeposit = async () => {
+  const onSubmitWithdraw = async () => {
     if (!data.chainId || !data) return;
 
-    await showToast(handleDeposit(), {
+    await showToast(handleWithdraw(), {
       success: capitalize(t('common.success')),
       error: prop('message'),
       loading: capitalize(t('common.submit', { isLoading: 1 })),
@@ -45,13 +49,12 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
 
   return (
     <Button
-      onClick={onSubmitDeposit}
+      onClick={onSubmitWithdraw}
       disabled={!writeAsync || loading}
       variant="primary"
       width="100%"
       py="L"
       mb="1.5rem"
-      display="flex"
       alignItems="center"
       justifyContent="center"
       bg={!writeAsync ? 'disabled' : 'primary'}
@@ -61,9 +64,9 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
           <LoadingSVG width="100%" />
         </Box>
       )}
-      {capitalize(t('dineroVault.deposit', { isLoading: +loading }))}
+      {capitalize(t('dineroVault.withdraw', { isLoading: +loading }))}
     </Button>
   );
 };
 
-export default DepositButton;
+export default WithdrawButton;

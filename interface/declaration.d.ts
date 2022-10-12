@@ -13,9 +13,9 @@ type DineroMarketMessages =
 type FarmsTokenAddressMessages =
   typeof import('../assets/messages/farms/token-address/en-US.json');
 type FarmsMessages = typeof import('../assets/messages/farms/en-US.json');
-type VaultMessages = typeof import('../assets/messages/vault/en-US.json');
+type VaultsMessages = typeof import('../assets/messages/vaults/en-US.json');
 type DineroVaultMessages =
-  typeof import('../assets/messages/vault/dinero-vaults/en-US.json');
+  typeof import('../assets/messages/dinero-vault/en-US.json');
 type FaucetMessages = typeof import('../assets/messages/faucet/en-US.json');
 type LandingPageMessages =
   typeof import('../assets/messages/landing-page/en-US.json');
@@ -30,7 +30,7 @@ declare interface IntlMessages
     DineroMarketMessages,
     FarmsTokenAddressMessages,
     FarmsMessages,
-    VaultMessages,
+    VaultsMessages,
     FaucetMessages,
     DineroVaultMessages,
     LandingPageMessages {}

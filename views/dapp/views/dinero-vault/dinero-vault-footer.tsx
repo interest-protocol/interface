@@ -6,12 +6,12 @@ import { v4 } from 'uuid';
 import { Box, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 
-import { DineroVaultDetailsFooterProps } from './dinero-vaults.types';
-import DineroVaultDetailsFooterItem from './dinero-vaults-footer-item';
+import { DineroVaultFooterProps } from './dinero-vault.types';
+import DineroVaultFooterItem from './dinero-vault-footer-item';
 
 const AnimatedBox = animated(Box);
 
-const DineroVaultDetailsFooter: FC<DineroVaultDetailsFooterProps> = ({
+const DineroVaultFooter: FC<DineroVaultFooterProps> = ({
   dineroVaultDetailsFooterItems,
 }) => {
   const t = useTranslations();
@@ -58,7 +58,7 @@ const DineroVaultDetailsFooter: FC<DineroVaultDetailsFooterProps> = ({
         <Box p="0 2rem 2rem" cursor="default" ref={detailRef}>
           <Box bg="background" p="1.5rem" borderRadius="0.5rem">
             {dineroVaultDetailsFooterItems.map((item) => (
-              <DineroVaultDetailsFooterItem
+              <DineroVaultFooterItem
                 {...item}
                 fontSize="0.8rem"
                 color="textSecondary"
@@ -72,4 +72,4 @@ const DineroVaultDetailsFooter: FC<DineroVaultDetailsFooterProps> = ({
   );
 };
 
-export default DineroVaultDetailsFooter;
+export default DineroVaultFooter;

@@ -6,21 +6,21 @@ import Vault from '@/views/dapp/views/vaults';
 const VaultPage: NextPage = () => <Vault />;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const [commonMessages, vaultMessages] = await Promise.all([
+  const [commonMessages, vaultsMessages] = await Promise.all([
     import(`../../../assets/messages/common/${locale}.json`),
-    import(`../../../assets/messages/vault/${locale}.json`),
+    import(`../../../assets/messages/vaults/${locale}.json`),
   ]);
 
   const messages = mergeDeepRight(
     commonMessages.default,
-    vaultMessages.default
+    vaultsMessages.default
   );
 
   return {
     props: {
       messages,
       now: new Date().getTime(),
-      pageTitle: 'vault.pageTitle',
+      pageTitle: 'vaults.pageTitle',
     },
   };
 };
