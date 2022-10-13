@@ -1,6 +1,5 @@
 import { ethers } from 'ethers';
 import { ChangeEvent, FC } from 'react';
-import Skeleton from 'react-loading-skeleton';
 
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
@@ -17,7 +16,6 @@ const InputBalance: FC<InputBalanceProps> = ({
   max,
   symbol,
   address,
-  isLoading,
 }) => {
   const chainId = useChainId();
   const returnSVG = (address: string) => {
@@ -78,27 +76,19 @@ const InputBalance: FC<InputBalanceProps> = ({
             >
               max
             </Button>
-            {!isLoading ? (
-              <>
-                <Box width="1.8rem" display="flex">
-                  {returnSVG(address)}{' '}
-                </Box>
-                <Typography
-                  ml="M"
-                  variant="normal"
-                  fontSize={['0.75rem', '0.75rem', '0.75rem', '1rem']}
-                  fontWeight="500"
-                  color="textSecondary"
-                  textAlign="end"
-                >
-                  {symbol}
-                </Typography>
-              </>
-            ) : (
-              <Box width="5rem">
-                <Skeleton />
-              </Box>
-            )}
+            <Box width="1.8rem" display="flex">
+              {returnSVG(address)}{' '}
+            </Box>
+            <Typography
+              ml="M"
+              variant="normal"
+              fontSize={['0.75rem', '0.75rem', '0.75rem', '1rem']}
+              fontWeight="500"
+              color="textSecondary"
+              textAlign="end"
+            >
+              {symbol}
+            </Typography>
           </>
         }
       />

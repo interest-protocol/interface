@@ -1,6 +1,5 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
-import Skeleton from 'react-loading-skeleton';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
 import { Box, Typography } from '@/elements';
@@ -13,7 +12,6 @@ const DineroVaultFooterItem: FC<DineroVaultDetailsFooterItemProps> = ({
   title,
   content,
   tip,
-  isLoading,
 }) => {
   const t = useTranslations();
   return (
@@ -47,21 +45,15 @@ const DineroVaultFooterItem: FC<DineroVaultDetailsFooterItemProps> = ({
           )}
         </Typography>
       </Typography>
-      {!isLoading ? (
-        <Typography
-          variant="normal"
-          color="textSecondary"
-          fontSize="1rem"
-          fontWeight="200"
-          pl={[tip ? 'XL' : 'M', tip ? 'XL' : 'M', tip ? 'XL' : 'M', 'unset']}
-        >
-          {content}
-        </Typography>
-      ) : (
-        <Box as="span" width="5rem">
-          <Skeleton />
-        </Box>
-      )}
+      <Typography
+        variant="normal"
+        color="textSecondary"
+        fontSize="1rem"
+        fontWeight="200"
+        pl={[tip ? 'XL' : 'M', tip ? 'XL' : 'M', tip ? 'XL' : 'M', 'unset']}
+      >
+        {content}
+      </Typography>
     </Box>
   );
 };

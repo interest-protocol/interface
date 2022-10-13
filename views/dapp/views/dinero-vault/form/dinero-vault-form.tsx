@@ -1,7 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
-import Skeleton from 'react-loading-skeleton';
 
 import { ApproveButton } from '@/components';
 import { StakeState } from '@/constants';
@@ -20,7 +19,6 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
   data,
   refetch,
   stakeState,
-  isLoading,
 }) => {
   const t = useTranslations();
   const { register, setValue, control } = useForm<IVaultForm>({
@@ -47,15 +45,9 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
           justifyContent="flex-end"
         >
           {capitalize(t('common.balance'))} :{' '}
-          {!isLoading ? (
-            FixedPointMath.toNumber(
-              isStake ? data.underlyingBalance : data.dineroBalance,
-              isStake ? data.depositTokenDecimals : data.dineroDecimals
-            )
-          ) : (
-            <Box as="span" width="2rem">
-              <Skeleton />
-            </Box>
+          {FixedPointMath.toNumber(
+            isStake ? data.underlyingBalance : data.dineroBalance,
+            isStake ? data.depositTokenDecimals : data.dineroDecimals
           )}
         </Typography>
       </Box>
@@ -73,36 +65,29 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
         setValue={setValue}
         symbol={isStake ? data.depositTokenSymbol : TOKEN_SYMBOL.DNR}
         address={isStake ? data.depositTokenAddress : data.dineroAddress}
-        isLoading={isLoading}
       />
 
-      {!isLoading ? (
-        <WalletGuardButton>
-          {data.underlyingAllowance.isZero() ? (
-            <ApproveButton
-              buttonProps={{
-                variant: 'primary',
-                width: '100%',
-                py: 'L',
-                mb: '1.5rem',
-              }}
-              refetch={refetch}
-              chainId={data.chainId}
-              contract={data.depositTokenAddress}
-              spender={data.vaultAddress}
-              enabled={data.underlyingAllowance.isZero()}
-            />
-          ) : isStake ? (
-            <DepositButton data={data} refetch={refetch} control={control} />
-          ) : (
-            <WithdrawButton data={data} refetch={refetch} control={control} />
-          )}
-        </WalletGuardButton>
-      ) : (
-        <Box width="100%" height="2.5rem" mb="1.5rem">
-          <Skeleton height="100%" />
-        </Box>
-      )}
+      <WalletGuardButton>
+        {data.underlyingAllowance.isZero() ? (
+          <ApproveButton
+            buttonProps={{
+              variant: 'primary',
+              width: '100%',
+              py: 'L',
+              mb: '1.5rem',
+            }}
+            refetch={refetch}
+            chainId={data.chainId}
+            contract={data.depositTokenAddress}
+            spender={data.vaultAddress}
+            enabled={data.underlyingAllowance.isZero()}
+          />
+        ) : isStake ? (
+          <DepositButton data={data} refetch={refetch} control={control} />
+        ) : (
+          <WithdrawButton data={data} refetch={refetch} control={control} />
+        )}
+      </WalletGuardButton>
     </Box>
   );
 };

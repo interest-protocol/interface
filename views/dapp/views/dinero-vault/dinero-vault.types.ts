@@ -11,7 +11,6 @@ export interface DineroVault {
   title: string;
   tip?: string;
   content: string;
-  isLoading: boolean;
 }
 
 export interface DineroVaultDetailsFooterItemProps {
@@ -21,7 +20,6 @@ export interface DineroVaultDetailsFooterItemProps {
   fontSize?: string;
   color?: string;
   version?: ReadonlyArray<string>;
-  isLoading: boolean;
 }
 
 export interface IVaultForm {
@@ -36,7 +34,6 @@ export interface DineroVaultDetailsTitleProps {
     symbol: string;
     address: string;
   };
-  isLoading: boolean;
 }
 
 export interface DineroVaultProps {
@@ -47,7 +44,6 @@ export interface DineroVaultFormProps {
   data: VaultData;
   refetch: () => Promise<void>;
   stakeState: StakeState;
-  isLoading: boolean;
 }
 
 export interface DineroVaultInfoProps {

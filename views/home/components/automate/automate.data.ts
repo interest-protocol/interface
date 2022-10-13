@@ -1,1 +1,1 @@
-export const EARN_TYPES = ['vaults', 'farm', 'staking'];
+export const EARN_TYPES = ['vault', 'farm', 'staking'];

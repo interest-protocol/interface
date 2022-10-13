@@ -6,7 +6,7 @@ import { RoutesEnum, StakeState } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useIdAccount } from '@/hooks';
 import { FixedPointMath, TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
-import { TimesSVG } from '@/svg';
+import { LoadingSVG, TimesSVG } from '@/svg';
 import { getDNRAddress } from '@/utils';
 import { useGetUserDineroVault } from '@/views/dapp/views/dinero-vault/dinero-vault.hooks';
 
@@ -34,6 +34,21 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
     () => processDineroVault(chainId, vault, data),
     [vault, chainId, account, data]
   );
+
+  if (processedData.loading)
+    return (
+      <Box
+        flex="1"
+        display="flex"
+        flexDirection="column"
+        width={['100%', '100%', '35rem', '35rem']}
+        mx="auto"
+      >
+        <Box as="span" display="flex" width="2rem" m="auto">
+          <LoadingSVG width="100%" />
+        </Box>
+      </Box>
+    );
 
   if (error)
     return (
@@ -102,7 +117,6 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
             <DineroVaultTitle
               token1={isStake ? underlyingToken : dineroToken}
               token2={isStake ? dineroToken : underlyingToken}
-              isLoading={processedData.loading}
             />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
             <DineroVaultInfo
@@ -117,7 +131,6 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
                     ) +
                     ' ' +
                     processedData.data.depositTokenSymbol,
-                  isLoading: processedData.loading,
                 },
                 {
                   title: 'dineroVault.detail2',
@@ -129,7 +142,6 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
                     ) +
                     ' ' +
                     TOKEN_SYMBOL.DNR,
-                  isLoading: processedData.loading,
                 },
                 {
                   title: 'dineroVault.detail3',
@@ -140,7 +152,6 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
                     ) +
                     ' / ' +
                     FixedPointMath.toNumber(processedData.data.maxDineroAmount),
-                  isLoading: processedData.loading,
                 },
               ]}
             />
@@ -148,7 +159,6 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
               stakeState={stakeState}
               data={processedData.data}
               refetch={async () => void (await refetch())}
-              isLoading={processedData.loading}
             />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
             <DineroVaultFooter
@@ -160,7 +170,6 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
                       processedData.data.mintedDineroAmount
                     )
                   ),
-                  isLoading: processedData.loading,
                 },
               ]}
             />

@@ -10,5 +10,4 @@ export interface InputBalanceProps {
   max: number;
   symbol: string;
   address: string;
-  isLoading: boolean;
 }
