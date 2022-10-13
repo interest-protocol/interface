@@ -9,12 +9,12 @@ const DineroVaultTitle: FC<DineroVaultDetailsTitleProps> = ({
   token1,
   token2,
 }) => (
-  <Box p="1.5rem 2rem" display="flex">
+  <Box py="1.5rem" px=" 2rem" display="flex">
     <TokenView symbol={token1.symbol} address={token1.address} />
-    <Box display="flex" alignItems="center" fontSize="L" mx="M" pb="0.2rem">
+    <Box display="flex" alignItems="center" fontSize="L" mx="M">
       <Typography
-        variant="normal"
         as="span"
+        variant="normal"
         height="100%"
         display="flex"
         alignItems="center"
