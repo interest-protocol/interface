@@ -11,7 +11,7 @@ const DineroVaultTitle: FC<DineroVaultDetailsTitleProps> = ({
 }) => (
   <Box p="1.5rem 2rem" display="flex">
     <TokenView symbol={token1.symbol} address={token1.address} />
-    <Box display="flex" alignItems="center" fontSize="L" mx="M" pb="S">
+    <Box display="flex" alignItems="center" fontSize="L" mx="M" pb="0.2rem">
       <Typography
         variant="normal"
         as="span"

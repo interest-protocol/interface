@@ -44,7 +44,7 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
           display="flex"
           justifyContent="flex-end"
         >
-          {capitalize(t('common.balance'))} :{' '}
+          {capitalize(t('common.balance')) + ': '}
           {FixedPointMath.toNumber(
             isStake ? data.underlyingBalance : data.dineroBalance,
             isStake ? data.depositTokenDecimals : data.dineroDecimals
