@@ -20,7 +20,7 @@ const DineroVaultFooterItem: FC<DineroVaultDetailsFooterItemProps> = ({
       display="flex"
       flexDirection={['column', 'column', 'column', 'row']}
       justifyContent="space-between"
-      alignItems="center"
+      alignItems={['unset', 'unset', 'unset', 'center']}
     >
       <Typography variant="normal">
         {tip && (

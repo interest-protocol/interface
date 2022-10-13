@@ -62,6 +62,8 @@ const DineroVaultFooter: FC<DineroVaultFooterProps> = ({
             height="4rem"
             width="100%"
             display="flex"
+            flexDirection="column"
+            justifyContent="center"
             borderRadius="0.5rem"
           >
             {dineroVaultDetailsFooterItems.map((item) => (
