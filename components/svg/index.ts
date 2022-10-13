@@ -46,6 +46,7 @@ export { default as OperaWalletSVG } from './opera-wallet';
 export { default as PaxDollarSVG } from './pax-dollar';
 export { default as ProgressSVG } from './progress';
 export { default as PTFlagSVG } from './pt-flag';
+export { default as RightArrowSVG } from './right-arrow';
 export { default as ShibaInuSVG } from './shiba-inu';
 export { default as ShieldSVG } from './shield';
 export { default as TelegramSVG } from './telegram';
