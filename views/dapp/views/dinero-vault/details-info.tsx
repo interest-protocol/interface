@@ -9,7 +9,9 @@ import DineroVaultItem from './dinero-vault-footer-item';
 const DineroVaultInfo: FC<DineroVaultInfoProps> = ({ items }) => (
   <Box p="1.5rem 2rem">
     {items?.map((item) => (
-      <DineroVaultItem {...item} fontSize="0.85rem" key={v4()} />
+      <Box key={v4()} mb="0.75rem">
+        <DineroVaultItem {...item} fontSize="0.85rem" />
+      </Box>
     ))}
   </Box>
 );

@@ -16,12 +16,13 @@ const DineroVaultFooterItem: FC<DineroVaultDetailsFooterItemProps> = ({
   const t = useTranslations();
   return (
     <Box
+      width="100%"
       display="flex"
       flexDirection={['column', 'column', 'column', 'row']}
       justifyContent="space-between"
-      mb="0.75rem"
+      alignItems="center"
     >
-      <Typography variant="normal" display="flex" alignItems="center">
+      <Typography variant="normal">
         {tip && (
           <Box
             mr="M"

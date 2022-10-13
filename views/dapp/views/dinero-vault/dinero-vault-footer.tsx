@@ -56,7 +56,14 @@ const DineroVaultFooter: FC<DineroVaultFooterProps> = ({
       </Box>
       <AnimatedBox style={{ height: mHeight }} overflow="hidden">
         <Box p="0 2rem 2rem" cursor="default" ref={detailRef}>
-          <Box bg="background" p="1.5rem" borderRadius="0.5rem">
+          <Box
+            bg="background"
+            px="1.5rem"
+            height="4rem"
+            width="100%"
+            display="flex"
+            borderRadius="0.5rem"
+          >
             {dineroVaultDetailsFooterItems.map((item) => (
               <DineroVaultFooterItem
                 {...item}
