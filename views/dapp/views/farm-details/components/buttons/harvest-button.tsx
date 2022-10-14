@@ -36,7 +36,7 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
     showToast(harvest(), {
       success: capitalize(t('common.success')),
       error: propOr(capitalize(t('common.error')), 'message'),
-      loading: t('earnTokenAddress.thirdCardButton', { isLoading: 1 }),
+      loading: t('farmsDetails.thirdCardButton', { isLoading: 1 }),
     });
 
   return (
@@ -55,7 +55,7 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
             : 'disabled',
       }}
     >
-      {t('earnTokenAddress.thirdCardButton', { isLoading: +loadingPool })}
+      {t('farmsDetails.thirdCardButton', { isLoading: +loadingPool })}
     </Button>
   );
 };

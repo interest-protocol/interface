@@ -8,7 +8,7 @@ import { ZERO_BIG_NUMBER } from '@/sdk';
 import CasaDePapelABI from '@/sdk/abi/casa-de-papel.abi.json';
 import { getCasaDePapelAddress, safeToBigNumber } from '@/utils';
 
-import { SafeUserFarmData } from '../../earn-farm.types';
+import { SafeUserFarmData } from '../../farm-details.types';
 
 export const useHarvest = (farm: SafeUserFarmData) => {
   const { config } = usePrepareContractWrite({
