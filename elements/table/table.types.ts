@@ -9,7 +9,7 @@ export interface IHeading {
 
 type TItems = ReadonlyArray<ReactNode>;
 
-interface IRow {
+export interface IRow {
   items: TItems;
   button?: ReactNode;
   mobileSide?: ReactNode;

@@ -2,12 +2,12 @@ import { CHAIN_ID } from '@/sdk';
 
 const TRANSAK_NETWORK_MAP = {
   [CHAIN_ID.BNB_TEST_NET]: 'BSC',
-  [CHAIN_ID.BNB_MAIN_MET]: 'BSC',
+  [CHAIN_ID.BNB_MAIN_NET]: 'BSC',
   [CHAIN_ID.RINKEBY]: 'ethereum',
 };
 const TRANSAK_CURRENCY_MAP = {
   [CHAIN_ID.BNB_TEST_NET]: 'BNB',
-  [CHAIN_ID.BNB_MAIN_MET]: 'BNB',
+  [CHAIN_ID.BNB_MAIN_NET]: 'BNB',
   [CHAIN_ID.RINKEBY]: 'ETH',
 };
 

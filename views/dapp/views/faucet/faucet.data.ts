@@ -4,6 +4,7 @@ import { CHAIN_ID } from '@/sdk';
 import {
   getAPEAddress,
   getBTCAddress,
+  getBUSDAddress,
   getDNRAddress,
   getETHERC20Address,
   getUNIAddress,
@@ -27,5 +28,6 @@ export const FAUCET_TOKEN_MAX_AMOUNT = {
     [getAddress(getUSDTAddress(CHAIN_ID.BNB_TEST_NET))]: 1_000_000,
     [getAddress(getUSDCAddress(CHAIN_ID.BNB_TEST_NET))]: 1_000_000,
     [getAddress(getETHERC20Address(CHAIN_ID.BNB_TEST_NET))]: 50,
+    [getAddress(getBUSDAddress(CHAIN_ID.BNB_TEST_NET))]: 250_000,
   },
 };

@@ -34,6 +34,7 @@ import {
 import {
   getAPEAddress,
   getBTCAddress,
+  getBUSDAddress,
   getDNRAddress,
   getETHERC20Address,
   getIntAddress,
@@ -104,6 +105,11 @@ export const FAUCET_TOKENS = {
       symbol: TOKEN_SYMBOL.USDC,
       address: getUSDCAddress(CHAIN_ID.BNB_TEST_NET),
       name: 'USD Coin',
+    },
+    {
+      symbol: TOKEN_SYMBOL.BUSD,
+      address: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+      name: 'BUSD',
     },
   ],
 };
@@ -299,6 +305,13 @@ const BNB_TEST_ERC20_ARRAY = [
     chainId: CHAIN_ID.BNB_TEST_NET,
   },
   {
+    symbol: TOKEN_SYMBOL.BUSD,
+    decimals: 18,
+    name: 'USD Binance',
+    address: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+    chainId: CHAIN_ID.BNB_TEST_NET,
+  },
+  {
     symbol: TOKEN_SYMBOL.INT,
     decimals: 18,
     name: 'Interest Token',
@@ -393,16 +406,16 @@ export const STABLE_COIN_ADDRESSES = {
     ethers.utils.getAddress(CONTRACTS.USDC[CHAIN_ID.BNB_TEST_NET]),
     ethers.utils.getAddress(CONTRACTS.USDT[CHAIN_ID.BNB_TEST_NET]),
   ],
-  [CHAIN_ID.BNB_MAIN_MET]: [
-    ethers.utils.getAddress(CONTRACTS.BUSD[CHAIN_ID.BNB_MAIN_MET]),
-    ethers.utils.getAddress(CONTRACTS.DAI[CHAIN_ID.BNB_MAIN_MET]),
-    ethers.utils.getAddress(CONTRACTS.FRAX[CHAIN_ID.BNB_MAIN_MET]),
-    ethers.utils.getAddress(CONTRACTS.TUSD[CHAIN_ID.BNB_MAIN_MET]),
-    ethers.utils.getAddress(CONTRACTS.USDC[CHAIN_ID.BNB_MAIN_MET]),
-    ethers.utils.getAddress(CONTRACTS.USDD[CHAIN_ID.BNB_MAIN_MET]),
-    ethers.utils.getAddress(CONTRACTS.USDP[CHAIN_ID.BNB_MAIN_MET]),
-    ethers.utils.getAddress(CONTRACTS.USDT[CHAIN_ID.BNB_MAIN_MET]),
-    ethers.utils.getAddress(CONTRACTS.VAI[CHAIN_ID.BNB_MAIN_MET]),
+  [CHAIN_ID.BNB_MAIN_NET]: [
+    ethers.utils.getAddress(CONTRACTS.BUSD[CHAIN_ID.BNB_MAIN_NET]),
+    ethers.utils.getAddress(CONTRACTS.DAI[CHAIN_ID.BNB_MAIN_NET]),
+    ethers.utils.getAddress(CONTRACTS.FRAX[CHAIN_ID.BNB_MAIN_NET]),
+    ethers.utils.getAddress(CONTRACTS.TUSD[CHAIN_ID.BNB_MAIN_NET]),
+    ethers.utils.getAddress(CONTRACTS.USDC[CHAIN_ID.BNB_MAIN_NET]),
+    ethers.utils.getAddress(CONTRACTS.USDD[CHAIN_ID.BNB_MAIN_NET]),
+    ethers.utils.getAddress(CONTRACTS.USDP[CHAIN_ID.BNB_MAIN_NET]),
+    ethers.utils.getAddress(CONTRACTS.USDT[CHAIN_ID.BNB_MAIN_NET]),
+    ethers.utils.getAddress(CONTRACTS.VAI[CHAIN_ID.BNB_MAIN_NET]),
   ],
   [CHAIN_ID.RINKEBY]: [],
 };

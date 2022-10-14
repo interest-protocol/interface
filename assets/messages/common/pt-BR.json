@@ -18,7 +18,6 @@
     "farm": "farm",
     "success": "sucesso",
     "notFound": "não encontrado",
-    "loading": "carregando...",
     "approve": "{isLoading, plural, =1 {aprovando...} other {aprovar}}",
     "load": "{isLoading, plural, =1 {carregando...} other {carregar}}",
     "back": "voltar",
@@ -66,10 +65,12 @@
     "copyAddress": "copie o endereço",
     "error": "erro",
     "submit": "{isLoading, plural, =1 {processando...} other {processe}}",
-    "allocation": "alocação"
+    "allocation": "alocação",
+    "backHome": "Voltar ao Início"
   },
   "error": {
-    "generic": "algo deu errado"
+    "generic": "algo deu errado",
+    "wrongParams": "Parâmetros errados"
   },
   "web3Manager": {
     "title": "{chainName} não é suportada",

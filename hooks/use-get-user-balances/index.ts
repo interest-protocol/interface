@@ -5,7 +5,7 @@ import { UseContractArgs } from '@/interface';
 import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
 import { getInterestViewBalancesAddress } from '@/utils';
 
-import { useSafeContractRead } from '../use-contract-read';
+import { useSafeContractRead } from '../use-safe-contract-read';
 import { useIdAccount } from './../use-id-account';
 
 export const useGetUserBalances = (

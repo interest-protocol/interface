@@ -110,11 +110,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets, chainId }) => {
                   query: { address: x.marketAddress },
                 }}
               >
-                <Button
-                  as="div"
-                  variant="primary"
-                  hover={{ bg: 'accentActive' }}
-                >
+                <Button variant="primary" hover={{ bg: 'accentActive' }}>
                   {capitalize(t('common.enter'))}
                 </Button>
               </Link>
@@ -252,7 +248,6 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets, chainId }) => {
                 >
                   <Button
                     key={v4()}
-                    as="div"
                     variant="primary"
                     hover={{ bg: 'accentActive' }}
                   >

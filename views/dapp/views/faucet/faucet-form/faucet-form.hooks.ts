@@ -17,6 +17,7 @@ import { IFaucetForm } from '../faucet.types';
 const MINT_FN_RECORD = {
   [getAddress(CONTRACTS.DINERO_FAUCET[CHAIN_ID.BNB_TEST_NET])]: true,
   [getAddress(CONTRACTS.BTC[CHAIN_ID.BNB_TEST_NET])]: true,
+  [getAddress(CONTRACTS.BUSD[CHAIN_ID.BNB_TEST_NET])]: true,
 };
 
 export const useMint = (
@@ -25,7 +26,7 @@ export const useMint = (
   control: Control<IFaucetForm>
 ) => {
   const [amount] = useDebounce(useWatch({ control, name: 'amount' }) || 0, 500);
-  const [token] = useDebounce(useWatch({ control, name: 'token' }), 500);
+  const token = useWatch({ control, name: 'token' });
 
   const maxAmount = FAUCET_TOKEN_MAX_AMOUNT[chainId][token];
 
