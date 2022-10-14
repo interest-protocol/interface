@@ -11,7 +11,7 @@ const TRANSAK_CURRENCY_MAP = {
   [CHAIN_ID.RINKEBY]: 'ETH',
 };
 
-export const makeFIATWidgetURL = (chainId: number, address: string) =>
+export const makeFIATWidgetURL = (chainId: number, address: string): string =>
   `${process.env.NEXT_PUBLIC_TRANSAK_WIDGET_URL}&exchangeScreenTitle=Buy%20${
     TRANSAK_CURRENCY_MAP[chainId] || 'BNB'
   }&isFeeCalculationHidden=true&disableWalletAddressForm=true&hideMenu=true&cryptoCurrencyCode=${

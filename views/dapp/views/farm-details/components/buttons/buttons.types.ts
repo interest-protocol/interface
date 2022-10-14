@@ -2,7 +2,7 @@ import { Control } from 'react-hook-form';
 
 import { StakeState } from '@/constants';
 
-import { SafeUserFarmData } from '../../farm-details.types';
+import { SafeUserFarmData } from '../../earn-farm.types';
 
 export interface ApproveButtonProps {
   refetch: () => Promise<void>;

@@ -14,6 +14,7 @@ const DineroMarketBorrowPage: NextPage<DineroMarketBorrowPageProps> = ({
   address,
 }) => {
   const t = useTranslations();
+
   if (address === undefined) return <Loading />;
 
   if (address === null) return <Error message={t('error.wrongParams')} />;
