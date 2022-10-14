@@ -32,12 +32,9 @@ export const MobileVaultSkeletonRow = [
   {
     mobileSide: (
       <Box
-        mb="L"
-        key={v4()}
-        minWidth="6rem"
-        minHeight="3rem"
-        borderRadius="L"
-        overflow="hidden"
+        display="flex"
+        flexDirection={['column', 'column', 'column', 'row']}
+        alignItems="center"
       >
         <Skeleton height="100%" />
       </Box>

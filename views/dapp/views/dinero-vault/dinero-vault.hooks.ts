@@ -14,14 +14,17 @@ export const useGetUserDineroVault = (
   account: string | undefined,
   vaultAddress: string
 ) => {
-  const underlying =
-    DV_VAULT_DETAILS_CALL_MAP[chainId][ethers.utils.getAddress(vaultAddress)];
+  const isValidAddress = ethers.utils.isAddress(vaultAddress);
+
+  const underlying = isValidAddress
+    ? DV_VAULT_DETAILS_CALL_MAP[chainId][ethers.utils.getAddress(vaultAddress)]
+    : ethers.constants.AddressZero;
 
   return useSafeContractRead({
     addressOrName: getInterestViewEarnAddress(chainId),
     contractInterface: InterestViewEarnABI,
     functionName: 'getUserDineroVault',
-    enabled: !!vaultAddress && !!underlying,
+    enabled: !!vaultAddress && !!underlying && isValidAddress,
     args: [vaultAddress, underlying, account || DEFAULT_ACCOUNT],
   });
 };
