@@ -67,8 +67,7 @@ const Footer: FC = () => {
         >
           <Link href={Routes[RoutesEnum.DEX]}>
             <Button
-              mx="S"
-              as="div"
+              ml="S"
               px="0.8rem"
               fontSize="M"
               height="2.5rem"
@@ -88,33 +87,64 @@ const Footer: FC = () => {
               Dex
             </Button>
           </Link>
-          <Link href={Routes[RoutesEnum.Earn]}>
-            <Button
-              mx="S"
-              as="div"
-              px="0.8rem"
-              fontSize="M"
-              height="2.5rem"
-              display="flex"
-              variant="primary"
-              alignItems="center"
-              justifyContent="center"
-              boxShadow="0 0 15px rgba(0,0,0,.3)"
-              bg={
-                pathname.includes(Routes[RoutesEnum.Earn])
-                  ? 'accent'
-                  : 'textSoft'
+
+          <Box ml="S">
+            <Dropdown
+              bottom
+              title={
+                <Typography
+                  px="1.5rem"
+                  bg={
+                    pathname === Routes[RoutesEnum.Farms] ||
+                    pathname.includes(Routes[RoutesEnum.Vaults]) ||
+                    pathname.includes(Routes[RoutesEnum.DineroVault])
+                      ? 'accent'
+                      : 'textSoft'
+                  }
+                  fontSize="M"
+                  height="2.5rem"
+                  display="flex"
+                  variant="normal"
+                  borderRadius="M"
+                  alignItems="center"
+                  justifyContent="center"
+                  boxShadow="0 0 15px rgba(0,0,0,.3)"
+                  color={
+                    pathname === Routes[RoutesEnum.Farms] ||
+                    pathname.includes(Routes[RoutesEnum.Vaults])
+                      ? 'text'
+                      : 'inherit'
+                  }
+                  hover={{ bg: 'accent', color: 'text' }}
+                  active={{ bg: 'accentActive', color: 'text' }}
+                >
+                  {capitalize(t('common.earn'))}
+                </Typography>
               }
-              hover={{ bg: 'accent', color: 'text' }}
-              active={{ bg: 'accentActive', color: 'text' }}
-            >
-              {capitalize(t('common.earn'))}
-            </Button>
-          </Link>
+              mode="menu"
+              data={[
+                {
+                  value: 'Farms',
+                  displayOption: 'Farms',
+                  onSelect: () =>
+                    push(Routes[RoutesEnum.Farms], undefined, {
+                      shallow: true,
+                    }),
+                },
+                {
+                  value: 'Vaults',
+                  displayOption: 'Vaults',
+                  onSelect: () =>
+                    push(Routes[RoutesEnum.Vaults], undefined, {
+                      shallow: true,
+                    }),
+                },
+              ]}
+            />
+          </Box>
           <Link href={Routes[RoutesEnum.DineroMarket]}>
             <Button
-              mx="S"
-              as="div"
+              ml="S"
               px="0.8rem"
               fontSize="M"
               height="2.5rem"
@@ -134,91 +164,93 @@ const Footer: FC = () => {
               {capitalize(t('common.borrow'))}
             </Button>
           </Link>
-          {(supportsCreditCard || supportsFaucet) && (
-            <Dropdown
-              bottom
-              title={
-                <Typography
-                  width="2.5rem"
-                  height="2.5rem"
-                  display="flex"
-                  variant="normal"
-                  alignItems="center"
-                  borderRadius="2rem"
-                  bg="accentAlternative"
-                  justifyContent="center"
-                  hover={{ bg: 'accentAlternativeActive' }}
-                >
-                  <Box
-                    as="span"
-                    color="text"
-                    width="1.3rem"
+          <Box ml="S">
+            {(supportsCreditCard || supportsFaucet) && (
+              <Dropdown
+                bottom
+                title={
+                  <Typography
+                    width="2.5rem"
+                    height="2.5rem"
+                    display="flex"
+                    variant="normal"
                     alignItems="center"
-                    display="inline-flex"
+                    borderRadius="2rem"
+                    bg="accentAlternative"
+                    justifyContent="center"
+                    hover={{ bg: 'accentAlternativeActive' }}
                   >
-                    <HorizontalDotsSVG width="100%" />
-                  </Box>
-                </Typography>
-              }
-              mode="menu"
-              data={(supportsFaucet
-                ? [
-                    {
-                      value: 'faucet',
-                      displayOption: (
-                        <>
-                          <Box
-                            mr="M"
-                            ml="L"
-                            as="span"
-                            width="1.3rem"
-                            display="inline-block"
-                          >
-                            <FaucetSVG width="100%" />
-                          </Box>
-                          <Typography variant="normal">Faucet</Typography>
-                        </>
-                      ),
-                      onSelect: () => {
-                        push(Routes[RoutesEnum.Faucet]);
-                      },
-                    },
-                  ]
-                : []
-              ).concat(
-                supportsCreditCard
+                    <Box
+                      as="span"
+                      color="text"
+                      width="1.3rem"
+                      alignItems="center"
+                      display="inline-flex"
+                    >
+                      <HorizontalDotsSVG width="100%" />
+                    </Box>
+                  </Typography>
+                }
+                mode="menu"
+                data={(supportsFaucet
                   ? [
                       {
-                        value: 'credit-card',
+                        value: 'faucet',
                         displayOption: (
-                          <a
-                            href={makeFIATWidgetURL(chainId, address)}
-                            target="__blank"
-                            rel="noopener noreferrer"
-                          >
-                            <Box display="flex">
-                              <Box
-                                mr="M"
-                                ml="L"
-                                as="span"
-                                width="1.3rem"
-                                display="inline-block"
-                              >
-                                <CreditCardSVG width="100%" />
-                              </Box>
-                              <Typography variant="normal">
-                                Credit Card
-                              </Typography>
+                          <>
+                            <Box
+                              mr="M"
+                              ml="L"
+                              as="span"
+                              width="1.3rem"
+                              display="inline-block"
+                            >
+                              <FaucetSVG width="100%" />
                             </Box>
-                          </a>
+                            <Typography variant="normal">Faucet</Typography>
+                          </>
                         ),
-                        onSelect: noop,
+                        onSelect: () => {
+                          push(Routes[RoutesEnum.Faucet]);
+                        },
                       },
                     ]
                   : []
-              )}
-            />
-          )}
+                ).concat(
+                  supportsCreditCard
+                    ? [
+                        {
+                          value: 'credit-card',
+                          displayOption: (
+                            <a
+                              href={makeFIATWidgetURL(chainId, address)}
+                              target="__blank"
+                              rel="noopener noreferrer"
+                            >
+                              <Box display="flex">
+                                <Box
+                                  mr="M"
+                                  ml="L"
+                                  as="span"
+                                  width="1.3rem"
+                                  display="inline-block"
+                                >
+                                  <CreditCardSVG width="100%" />
+                                </Box>
+                                <Typography variant="normal">
+                                  Credit Card
+                                </Typography>
+                              </Box>
+                            </a>
+                          ),
+                          onSelect: noop,
+                        },
+                      ]
+                    : []
+                )}
+              />
+            )}
+          </Box>
         </Box>
       </Container>
     </Box>

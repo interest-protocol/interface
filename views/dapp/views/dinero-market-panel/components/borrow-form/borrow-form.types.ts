@@ -35,14 +35,6 @@ export interface BorrowFormLoanInfoProps
   isBorrow: boolean;
 }
 
-export interface ApproveButtonProps {
-  enabled: boolean;
-  spender: string;
-  contract: string;
-  chainId: number;
-  refetch: () => Promise<void>;
-}
-
 export interface BorrowButtonProps {
   data: DineroMarketData;
   account: string;

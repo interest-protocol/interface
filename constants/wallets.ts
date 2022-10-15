@@ -65,7 +65,7 @@ export const WALLETS_MAP = {
     WALLET_RECORD.MathWallet,
     WALLET_RECORD.OperaWallet,
   ],
-  [CHAIN_ID.BNB_MAIN_MET]: [
+  [CHAIN_ID.BNB_MAIN_NET]: [
     WALLET_RECORD.Metamask,
     WALLET_RECORD.CoinbaseWallet,
     WALLET_RECORD.BinanceWallet,

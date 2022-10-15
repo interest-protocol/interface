@@ -4,8 +4,8 @@ import { CASA_DE_PAPEL_FARM_CALL_MAP, DEFAULT_ACCOUNT } from '@/constants';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import { getInterestViewEarnAddress } from '@/utils';
 
-import { useSafeContractRead } from '../use-contract-read';
 import { useIdAccount } from '../use-id-account';
+import { useSafeContractRead } from '../use-safe-contract-read';
 
 const prop = propOr([]);
 

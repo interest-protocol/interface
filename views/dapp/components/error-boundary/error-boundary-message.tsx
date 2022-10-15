@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Routes, RoutesEnum } from '@/constants/routes';
@@ -25,13 +26,14 @@ const Container: FC<BoxProps> = (props) => (
   />
 );
 
-const GoHome = () => (
-  <Link href={Routes[RoutesEnum.DApp]}>
-    <Button as="div" variant="primary">
-      Back Home
-    </Button>
-  </Link>
-);
+const GoHome = () => {
+  const t = useTranslations();
+  return (
+    <Link href={Routes[RoutesEnum.DApp]}>
+      <Button variant="primary">{t('common.backHome')}</Button>
+    </Link>
+  );
+};
 
 const BoundaryMessage: FC<BoundaryMessageProps> = ({ error }) => (
   <Container>

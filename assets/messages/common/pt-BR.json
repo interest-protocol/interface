@@ -66,10 +66,12 @@
     "copyAddress": "copie o endereço",
     "error": "erro",
     "submit": "{isLoading, plural, =1 {processando...} other {processe}}",
-    "allocation": "alocação"
+    "allocation": "alocação",
+    "backHome": "Voltar ao Início"
   },
   "error": {
-    "generic": "algo deu errado"
+    "generic": "algo deu errado",
+    "wrongParams": "Parâmetros errados"
   },
   "web3Manager": {
     "title": "{chainName} não é suportada",

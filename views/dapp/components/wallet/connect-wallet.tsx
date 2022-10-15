@@ -43,7 +43,7 @@ const ConnectWallet: FC<ConnectWalletButtonProps> = ({ loading }) => {
               variant="normal"
               whiteSpace="nowrap"
             >
-              {capitalize(t('common.loading'))}
+              {capitalize(t('common.load', { isLoading: 1 }))}
             </Typography>
           </>
         ) : (

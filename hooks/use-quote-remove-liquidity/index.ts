@@ -4,7 +4,7 @@ import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
 import { getInterestDexRouterAddress } from '@/utils';
 
 import { useChainId } from '../use-chain-id';
-import { useSafeContractRead } from '../use-contract-read';
+import { useSafeContractRead } from '../use-safe-contract-read';
 
 export const useQuoteRemoveLiquidity = (
   token0: string,

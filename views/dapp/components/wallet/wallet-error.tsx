@@ -26,7 +26,7 @@ const WalletError: FC = () => {
           <BugSVG width="100%" />
         </Box>
         <Typography as="span" variant="normal" ml="M">
-          {capitalize(t('common.loading'))}
+          {capitalize(t('common.load', { isLoading: 1 }))}
         </Typography>
       </Button>
       <WalletErrorModal isOpen={showModal} handleClose={toggleModal} />

@@ -11,16 +11,17 @@ import {
   Routes,
   RoutesEnum,
 } from '@/constants';
-import { Box, Typography } from '@/elements';
+import { Box, Dropdown, Typography } from '@/elements';
 import useEventListener from '@/hooks/use-event-listener';
 import { CreditCardSVG, LogoSVG } from '@/svg';
+import { capitalize } from '@/utils';
 
 import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {
   const t = useTranslations();
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
   const { chain } = useNetwork();
   const { address } = useAccount();
 
@@ -104,22 +105,46 @@ const Header: FC = () => {
             DEX
           </Typography>
         </Link>
-        <Link href={Routes[RoutesEnum.Earn]}>
-          <Typography
-            px="XL"
-            cursor="pointer"
-            variant="normal"
-            borderRight="1px solid"
-            borderColor="bottomBackground"
-            color={
-              pathname.includes(Routes[RoutesEnum.Earn]) ? 'accent' : 'inherit'
+        <Box borderRight="1px solid" borderColor="bottomBackground" px="XL">
+          <Dropdown
+            title={
+              <Typography
+                textAlign="center"
+                cursor="pointer"
+                variant="normal"
+                color={
+                  pathname === Routes[RoutesEnum.Farms] ||
+                  pathname.includes(Routes[RoutesEnum.Vaults]) ||
+                  pathname.includes(Routes[RoutesEnum.DineroVault])
+                    ? 'accent'
+                    : 'inherit'
+                }
+                hover={{ color: 'accentActive' }}
+              >
+                {capitalize(t('common.earn'))}
+              </Typography>
             }
-            hover={{ color: 'accentActive' }}
-            textTransform="capitalize"
-          >
-            {t('common.earn')}
-          </Typography>
-        </Link>
+            mode="menu"
+            data={[
+              {
+                value: 'Farms',
+                displayOption: 'Farms',
+                onSelect: () =>
+                  push(Routes[RoutesEnum.Farms], undefined, {
+                    shallow: true,
+                  }),
+              },
+              {
+                value: 'Vaults',
+                displayOption: 'Vaults',
+                onSelect: () =>
+                  push(Routes[RoutesEnum.Vaults], undefined, {
+                    shallow: true,
+                  }),
+              },
+            ]}
+          />
+        </Box>
         <Link href={Routes[RoutesEnum.DineroMarket]}>
           <Typography
             px="XL"
@@ -163,7 +188,9 @@ const Header: FC = () => {
           </Box>
         )}
         <Wallet />
-        <SwitchLang />
+        <Box display="flex" alignItems="stretch">
+          <SwitchLang />
+        </Box>
         {isMobile && <MobileMenu />}
       </Box>
     </Box>

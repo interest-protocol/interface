@@ -8,7 +8,6 @@ import { useChainId, useGetDineroMarketsSummaryV2 } from '@/hooks';
 import { DineroSVG, TimesSVG } from '@/svg';
 import BorrowFilters from '@/views/dapp/views/dinero-market/components/borrow-filters';
 
-import Loading from '../../components/loading';
 import { BorrowTable } from './components';
 import { BorrowSortByFilter } from './components/borrow-filters/borrow-filters.types';
 import { IDineroMarketForm } from './dinero-market.types';
@@ -55,8 +54,6 @@ const DineroMarket: FC = () => {
         <Typography variant="title3">Error fetching the contracts</Typography>
       </Box>
     );
-
-  if (!data || !chainId) return <Loading />;
 
   return (
     <Container

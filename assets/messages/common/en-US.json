@@ -66,10 +66,12 @@
     "copyAddress": "copy address",
     "error": "error",
     "submit": "{isLoading, plural, =1 {submitting...} other {submit}}",
-    "allocation": "allocation"
+    "allocation": "allocation",
+    "backHome": "Back Home"
   },
   "error": {
-    "generic": "something went wrong"
+    "generic": "something went wrong",
+    "wrongParams": "Wrong params"
   },
   "web3Manager": {
     "title": "{chainName} is not supported",
