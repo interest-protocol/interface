@@ -7,6 +7,7 @@
     "pool": "pool",
     "balance": "saldo",
     "yourBalance": "saldo",
+    "synthetics": "sintéticos",
     "volatile": "{count, plural, =1 {volátil} other {voláteis}}",
     "stable": "{count, plural, =1 {estável} other {estáveis}}",
     "liquidity": "liquidez",
