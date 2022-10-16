@@ -3,7 +3,6 @@ import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { COMMON_STRINGS } from '@/constants';
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
@@ -32,7 +31,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
         variant="normal"
         display="inline-block"
       >
-        {capitalize(t('common.sort')) + COMMON_STRINGS.colon}
+        {capitalize(t('common.sort')) + t('special.colon')}
       </Typography>
       <Box
         display="flex"
@@ -73,7 +72,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    {capitalize(COMMON_STRINGS.id)}
+                    {capitalize(t('common.id'))}
                   </Typography>
                 </Box>
               ),
@@ -86,8 +85,12 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               displayOption: 'TVL',
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
-                  <Typography variant="normal" whiteSpace="nowrap">
-                    {COMMON_STRINGS.tvl}
+                  <Typography
+                    variant="normal"
+                    whiteSpace="nowrap"
+                    textTransform="uppercase"
+                  >
+                    {t('common.tvl')}
                   </Typography>
                 </Box>
               ),
@@ -101,7 +104,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    {COMMON_STRINGS.apr}
+                    {t('common.apr')}
                   </Typography>
                 </Box>
               ),
@@ -115,7 +118,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    {capitalize(COMMON_STRINGS.allocation)}
+                    {capitalize(t('common.allocation'))}
                   </Typography>
                 </Box>
               ),

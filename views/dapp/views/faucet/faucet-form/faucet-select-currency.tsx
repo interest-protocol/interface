@@ -1,6 +1,6 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
-import { COMMON_STRINGS } from '@/constants';
 import { Box, Typography } from '@/elements';
 
 import { FaucetSelectCurrencyProps } from '../faucet.types';
@@ -11,19 +11,27 @@ const FaucetSelectCurrency: FC<FaucetSelectCurrencyProps> = ({
   tokens,
   defaultValue,
   onSelectCurrency,
-}) => (
-  <Box my="M">
-    <Typography as="label" fontSize="S" variant="normal" display="inline-block">
-      {label + COMMON_STRINGS.colon}
-    </Typography>
-    <Box my="M" display="flex" flexDirection="column" alignItems="stretch">
-      <FaucetTokensDropdown
-        tokens={tokens}
-        defaultValue={defaultValue}
-        onSelectCurrency={onSelectCurrency}
-      />
+}) => {
+  const t = useTranslations();
+  return (
+    <Box my="M">
+      <Typography
+        as="label"
+        fontSize="S"
+        variant="normal"
+        display="inline-block"
+      >
+        {label + t('special.colon')}
+      </Typography>
+      <Box my="M" display="flex" flexDirection="column" alignItems="stretch">
+        <FaucetTokensDropdown
+          tokens={tokens}
+          defaultValue={defaultValue}
+          onSelectCurrency={onSelectCurrency}
+        />
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 export default FaucetSelectCurrency;

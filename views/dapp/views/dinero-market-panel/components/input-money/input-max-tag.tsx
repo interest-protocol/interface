@@ -1,8 +1,8 @@
 import { ethers } from 'ethers';
+import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { COMMON_STRINGS } from '@/constants';
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
 import { capitalize, formatMoney, safeToBigNumber } from '@/utils';
@@ -20,6 +20,7 @@ const InputMaxTag: FC<InputMaxTagProps> = ({
   control,
   isBorrow,
 }) => {
+  const t = useTranslations();
   const depositCollateral = useWatch({ control, name: 'borrow.collateral' });
   const repayLoan = useWatch({ control, name: 'repay.loan' });
 
@@ -51,7 +52,7 @@ const InputMaxTag: FC<InputMaxTagProps> = ({
       position="relative"
     >
       <Typography fontSize="S" variant="normal">
-        {capitalize(COMMON_STRINGS.max) + COMMON_STRINGS.colon}
+        {capitalize(t('common.max')) + t('special.colon')}
         <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
           {formatMoney(
             ((isDNR && isBorrow) || (!isDNR && !isBorrow)

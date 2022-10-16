@@ -3,7 +3,6 @@ import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
-import { COMMON_STRINGS } from '@/constants';
 import { Box, InfiniteScroll, Typography } from '@/elements';
 import { useGetFarmsSummary, useIdAccount } from '@/hooks';
 import useEventListener from '@/hooks/use-event-listener';
@@ -14,6 +13,8 @@ import { EarnTable } from './components';
 import EarnFilters from './components/earn-filters';
 import { FarmSortByFilter, FarmTypeFilter, IEarnForm } from './earn.types';
 import { getSafeFarmSummaryData } from './earn.utils';
+
+const FARMS = 'farms';
 
 const Earn: FC = () => {
   const t = useTranslations();
@@ -80,8 +81,8 @@ const Earn: FC = () => {
           alignItems="center"
           justifyContent={['center', 'flex-start']}
         >
-          <Typography variant="normal" ml="M">
-            {COMMON_STRINGS.farms}
+          <Typography variant="normal" ml="M" textTransform="capitalize">
+            {FARMS}
           </Typography>
         </Container>
       </Box>

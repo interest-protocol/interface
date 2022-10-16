@@ -5,7 +5,6 @@
     "filterSortOptionLiquidationFee": "Liquidation Fee",
     "filterBorrowing": "Borrowing only",
     "tableHeaderCollateral": "Collateral",
-    "tableHeaderTVL": "TVL",
     "tableHeaderTVLTip": "Total Value Locked",
     "tableHeaderBorrowing": "Borrowing",
     "tableHeaderBorrowingTip": "The current amount of DNR you are borrowing being borrowed",

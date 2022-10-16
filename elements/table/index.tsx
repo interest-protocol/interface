@@ -1,10 +1,10 @@
+import { useTranslations } from 'next-intl';
 import { pathOr } from 'ramda';
 import React, { FC, useCallback, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Tooltip } from '@/components';
-import { COMMON_STRINGS } from '@/constants';
 import useEventListener from '@/hooks/use-event-listener';
 
 import Box from '../box';
@@ -61,6 +61,7 @@ const TableRow: FC<TableRowProps> = ({
   handleClick,
   specialRowHover,
 }) => {
+  const t = useTranslations();
   const incomingBg = bg ?? 'foreground';
   const incomingDesktopBg = desktopBg ?? 'unset';
 
@@ -152,7 +153,7 @@ const TableRow: FC<TableRowProps> = ({
                 variant="normal"
                 color="textSecondary"
               >
-                {COMMON_STRINGS.number}
+                {t('common.number')}
               </Typography>
             )}
             {headings.map(({ item }) => (
@@ -207,6 +208,7 @@ const Table: FC<ResponsiveTableProps> = ({
   specialRowHover,
   backgroundColorMap,
 }) => {
+  const t = useTranslations();
   const [desktop, setDesktop] = useState(!!isDesktop);
 
   const handleSetDesktop = useCallback(() => {
@@ -241,7 +243,7 @@ const Table: FC<ResponsiveTableProps> = ({
                 headings.length + (ordinate ? 1 : 0) + (hasButton ? 1 : 0) - 1
               }, 1fr)`}
             >
-              {ordinate && <Cell as="th">{COMMON_STRINGS.number}</Cell>}
+              {ordinate && <Cell as="th">{t('common.number')}</Cell>}
               {headings.map(({ item, tip }) => (
                 <Cell as="th" key={v4()} tip={tip}>
                   {item}

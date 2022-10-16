@@ -1,8 +1,8 @@
 import { getAddress } from 'ethers/lib/utils';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { COMMON_STRINGS } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
 
 import { FAUCET_TOKEN_MAX_AMOUNT } from '../faucet.data';
@@ -17,6 +17,7 @@ const InputBalance: FC<InputBalanceProps> = ({
   chainId,
   control,
 }) => {
+  const t = useTranslations();
   const token = useWatch({ control, name: 'token' });
 
   return (
@@ -27,7 +28,7 @@ const InputBalance: FC<InputBalanceProps> = ({
         variant="normal"
         display="inline-block"
       >
-        {label + COMMON_STRINGS.colon}
+        {label + t('special.colon')}
       </Typography>
       <Input
         min="0"
@@ -66,7 +67,7 @@ const InputBalance: FC<InputBalanceProps> = ({
                 );
               }}
             >
-              {COMMON_STRINGS.max}
+              {t('common.max')}
             </Button>
             <Box
               px="L"

@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC } from 'react';
 import { v4 } from 'uuid';
 
-import { COMMON_STRINGS } from '@/constants';
 import { Box, Input, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { capitalize, parseInputEventToNumberString } from '@/utils';
@@ -39,7 +38,7 @@ const InputMoney: FC<InputMoneyProps> = ({
         variant="normal"
         display="inline-block"
       >
-        {capitalize(t(label)) + COMMON_STRINGS.colon}
+        {capitalize(t(label)) + t('special.colon')}
       </Typography>
       <Box display="flex" flexDirection="column" alignItems="flex-end">
         <InputMaxTag

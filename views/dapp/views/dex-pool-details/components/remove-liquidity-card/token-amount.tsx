@@ -1,13 +1,14 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
 
-import { COMMON_STRINGS } from '@/constants';
 import { Box, Typography } from '@/elements';
 
 import { TokenAmountProps } from './remove-liquidity-card.types';
 
 const TokenAmount: FC<TokenAmountProps> = ({ Icon, symbol, control, name }) => {
+  const t = useTranslations();
   const amount = useWatch({ control, name });
   return (
     <>
@@ -21,7 +22,7 @@ const TokenAmount: FC<TokenAmountProps> = ({ Icon, symbol, control, name }) => {
           symbol
         )}
       </Typography>
-      <Typography variant="normal">{COMMON_STRINGS.colon + amount}</Typography>
+      <Typography variant="normal">{t('special.colon') + amount}</Typography>
     </>
   );
 };

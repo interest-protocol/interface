@@ -1,8 +1,8 @@
 import { ethers } from 'ethers';
+import { useTranslations } from 'next-intl';
 import { FC, useCallback, useEffect, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { COMMON_STRINGS } from '@/constants';
 import { Button } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { numberToString, safeToBigNumber } from '@/utils';
@@ -20,6 +20,7 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
   control,
   setValue,
 }) => {
+  const t = useTranslations();
   const borrowCollateral = useWatch({ control, name: 'borrow.collateral' });
   const borrowLoan = useWatch({ control, name: 'borrow.loan' });
   const repayLoan = useWatch({ control, name: 'repay.loan' });
@@ -113,7 +114,7 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
       active={{ bg: 'accentActive' }}
       bg={isDisabled ? 'disabled' : 'bottomBackground'}
     >
-      {COMMON_STRINGS.max}
+      {t('common.max')}
     </Button>
   );
 };

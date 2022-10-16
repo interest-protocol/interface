@@ -6,12 +6,7 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import {
-  COMMON_STRINGS,
-  getDineroMarketSVGBySymbol,
-  Routes,
-  RoutesEnum,
-} from '@/constants';
+import { getDineroMarketSVGBySymbol, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
 import { FixedPointMath, SECONDS_IN_A_YEAR } from '@/sdk';
 import { capitalize, formatDollars, formatMoney } from '@/utils';
@@ -62,8 +57,9 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   cursor="help"
                   variant="normal"
                   fontSize="inherit"
+                  textTransform="uppercase"
                 >
-                  {COMMON_STRINGS.tvl}
+                  {t('common.tvl')}
                 </Typography>
               ),
             },
@@ -88,8 +84,9 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   cursor="help"
                   variant="normal"
                   fontSize="inherit"
+                  textTransform="uppercase"
                 >
-                  {COMMON_STRINGS.ltv}
+                  {t('common.ltv')}
                 </Typography>
               ),
             },
@@ -175,8 +172,9 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   variant="normal"
                   fontSize="inherit"
                   data-tip="TVL info"
+                  textTransform="uppercase"
                 >
-                  {COMMON_STRINGS.tvl}
+                  {t('common.tvl')}
                 </Typography>
               ),
             },
@@ -203,8 +201,9 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets }) => {
                   variant="normal"
                   fontSize="inherit"
                   data-tip="LTV info"
+                  textTransform="uppercase"
                 >
-                  {COMMON_STRINGS.ltv}
+                  {t('common.ltv')}
                 </Typography>
               ),
             },

@@ -3,7 +3,6 @@ import { FC } from 'react';
 
 import EthereumNetwork from '@/components/svg/ethereum-network';
 import priorityHooks from '@/connectors';
-import { COMMON_STRINGS } from '@/constants';
 import { Box, Dropdown, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
 import { ArrowSVG, BinanceTestSVG } from '@/svg';
@@ -42,7 +41,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
                   <BinanceTestSVG width="100%" />
                 </Box>
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
-                  {COMMON_STRINGS.bnbt}
+                  {t('common.bnbt')}
                 </Typography>
               </Box>
             ),
@@ -60,7 +59,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
                   whiteSpace="nowrap"
                   display={['none', 'none', 'none', 'block']}
                 >
-                  {COMMON_STRINGS.bnbt}
+                  {t('common.bnbt')}
                 </Typography>
               </Box>
             ),
@@ -72,7 +71,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
               <Box px="L" display="flex" alignItems="center">
                 <EthereumNetwork width="1.5rem" height="1.5rem" />
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
-                  {COMMON_STRINGS.rinkeby}
+                  {t('common.rinkeby')}
                 </Typography>
               </Box>
             ),
@@ -90,7 +89,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork }) => {
                   whiteSpace="nowrap"
                   display={['none', 'none', 'none', 'block']}
                 >
-                  {COMMON_STRINGS.rinkeby}
+                  {t('common.rinkeby')}
                 </Typography>
               </Box>
             ),

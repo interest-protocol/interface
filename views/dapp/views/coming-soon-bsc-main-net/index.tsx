@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Pulse } from '@/components';
-import { COMMON_STRINGS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
@@ -26,10 +25,10 @@ const ComingSoonBNBMainNet: FC = () => {
               {t('common.soonDescription')}
             </Typography>
             <Typography variant="normal" mt="M">
-              {t('error.workingOn')} <strong>{COMMON_STRINGS.bnbMain}</strong>
+              {t('error.workingOn')} <strong>{t('common.bnbMain')}</strong>
             </Typography>
             <Typography variant="normal" mt="M">
-              {t('error.switchTo')} <strong>{COMMON_STRINGS.bnbTest}</strong>
+              {t('error.switchTo')} <strong>{t('common.bnbTest')}</strong>
             </Typography>
           </Box>
         </Pulse>

@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
-import { COMMON_STRINGS } from '@/constants';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Typography } from '@/elements';
 
@@ -26,7 +25,7 @@ const GoBack: FC<GoBackProps> = ({ route, routeBack }) => {
       onClick={backToHome}
       hover={{ color: 'accentActive' }}
     >
-      {COMMON_STRINGS.arrowLeft + ' ' + t('common.back')}
+      {t('special.arrowLeft') + ' ' + t('common.back')}
     </Typography>
   ) : null;
 };

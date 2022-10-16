@@ -3,7 +3,7 @@ import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
-import { COMMON_STRINGS, TOKENS_SVG_MAP } from '@/constants';
+import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
 import { formatMoney } from '@/utils';
@@ -24,7 +24,7 @@ const YourBalance: FC<YourBalanceProps> = ({
   return (
     <Box p="XL" order={3} gridArea="e" bg="foreground" borderRadius="L">
       <Typography variant="normal" textTransform="uppercase" mt="L">
-        {t('common.yourBalance') + COMMON_STRINGS.colon}
+        {t('common.yourBalance') + t('special.colon')}
       </Typography>
       {loading ? (
         <Box my="XL" rowGap="0.7rem" display="grid" gridTemplateRows="1fr 1fr">

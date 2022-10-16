@@ -1,12 +1,14 @@
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
-import { COMMON_STRINGS, Routes, RoutesEnum } from '@/constants';
+import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { FaucetSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
 const Faucet: FC = () => {
+  const t = useTranslations();
   const { push } = useRouter();
 
   const gotoFaucetPage = () => push(Routes[RoutesEnum.Faucet]);
@@ -39,7 +41,7 @@ const Faucet: FC = () => {
               <FaucetSVG width="100%" />
             </Box>
             <Typography ml="M" as="span" fontSize="S" variant="normal">
-              {capitalize(COMMON_STRINGS.faucet)}
+              {capitalize(t('common.faucet'))}
             </Typography>
           </Button>
         </Box>

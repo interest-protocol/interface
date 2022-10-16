@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 
-import { COMMON_STRINGS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { InfoSVG, ProgressSVG } from '@/svg';
 import { toFixedToPrecision } from '@/utils';
@@ -48,7 +47,7 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => {
           ) : (
             toFixedToPrecision(ltv, 4)
           )}
-          {COMMON_STRINGS.rangeOf100}
+          {t('common.rangeOf100')}
         </Typography>
       </Box>
       <Box color={(ltv ?? 0) > 70 ? 'error' : 'accent'} mt="L">

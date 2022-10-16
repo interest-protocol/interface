@@ -4,7 +4,6 @@ import { FC, useCallback, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import { COMMON_STRINGS } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { Fraction } from '@/sdk/entities/fraction';
@@ -167,7 +166,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
                 : 'bottomBackground'
             }
           >
-            {item + COMMON_STRINGS.percentage}
+            {item + t('special.percentage')}
           </Button>
         ))}
       </Box>

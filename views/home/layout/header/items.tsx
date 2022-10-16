@@ -4,7 +4,7 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
-import { COMMON_STRINGS, SOCIAL_MEDIAS } from '@/constants';
+import { SOCIAL_MEDIAS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { capitalize } from '@/utils';
 
@@ -41,6 +41,8 @@ export const ItemsCommunity: FC = always(
 export const ItemsNetwork: FC = () => {
   const t = useTranslations();
 
+  const ETHLINK = 'https://ethereum.org/en/';
+  const BNBLINK = 'https://www.bnbchain.org/en';
   return (
     <Box bg="background" pt="1.625rem" width="100vw">
       <Container>
@@ -50,7 +52,7 @@ export const ItemsNetwork: FC = () => {
           title={capitalize(t('common.network', { count: 1 }))}
         >
           <Typography variant="large" mb="1rem" hover={{ color: 'accent' }}>
-            {COMMON_STRINGS.ethLink}
+            {ETHLINK}
           </Typography>
         </a>
         <a
@@ -59,7 +61,7 @@ export const ItemsNetwork: FC = () => {
           title={capitalize(t('common.network', { count: 1 }))}
         >
           <Typography variant="large" mb="1.625rem" hover={{ color: 'accent' }}>
-            {COMMON_STRINGS.bnbLink}
+            {BNBLINK}
           </Typography>
         </a>
       </Container>

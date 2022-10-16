@@ -4,7 +4,6 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { SwitchLang } from '@/components';
-import { COMMON_STRINGS } from '@/constants';
 import { Routes, RoutesEnum } from '@/constants/routes';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
@@ -58,7 +57,7 @@ const Header: FC = () => {
               bg: 'warning',
             }}
           >
-            {capitalize(COMMON_STRINGS.feedback)}
+            {capitalize(t('common.feedback'))}
           </Typography>
         </a>
       </Box>
@@ -79,7 +78,7 @@ const Header: FC = () => {
             }
             hover={{ color: 'accentActive' }}
           >
-            {capitalize(COMMON_STRINGS.dex)}
+            {capitalize(t('common.dex'))}
           </Typography>
         </Link>
         <Link href={Routes[RoutesEnum.Earn]}>

@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
-import { COMMON_STRINGS, getFarmsSVGByToken } from '@/constants';
+import { getFarmsSVGByToken } from '@/constants';
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
 import { TOKEN_SYMBOL } from '@/sdk';
@@ -67,8 +67,13 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
         gridTemplateColumns={['1fr 1fr', '1fr 1fr 1fr 1fr']}
       >
         <Box>
-          <Typography variant="normal" fontSize="S" mb="L">
-            {COMMON_STRINGS.tvl}
+          <Typography
+            variant="normal"
+            fontSize="S"
+            mb="L"
+            textTransform="uppercase"
+          >
+            {t('common.ltv')}
           </Typography>
           {formatDollars(farm.tvl)}
         </Box>
@@ -85,7 +90,7 @@ const EarnFarmDetails: FC<EarnFarmDetailsProps> = ({ farm }) => {
         </Box>
         <Box>
           <Typography variant="normal" fontSize="S" mb="L">
-            {COMMON_STRINGS.apr}
+            {t('common.apr')}
           </Typography>
           {farm.apr.value().isZero() ? '0%' : farm.apr.toPercentage()}
         </Box>

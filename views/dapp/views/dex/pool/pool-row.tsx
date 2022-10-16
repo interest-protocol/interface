@@ -1,12 +1,8 @@
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
-import {
-  COMMON_STRINGS,
-  Routes,
-  RoutesEnum,
-  TOKENS_SVG_MAP,
-} from '@/constants';
+import { Routes, RoutesEnum, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { replaceWrappedNativeTokenWithNativeTokenSymbol } from '@/utils';
@@ -14,6 +10,8 @@ import { replaceWrappedNativeTokenWithNativeTokenSymbol } from '@/utils';
 import { PoolRowProps } from './pool.types';
 
 const PoolRow: FC<PoolRowProps> = ({ symbol0, symbol1, pairAddress }) => {
+  const t = useTranslations();
+
   // Visually we want to abstract the Wrapped Native Token mechanism
   const FirstIcon =
     TOKENS_SVG_MAP[replaceWrappedNativeTokenWithNativeTokenSymbol(symbol0)] ??
@@ -46,7 +44,7 @@ const PoolRow: FC<PoolRowProps> = ({ symbol0, symbol1, pairAddress }) => {
               <SecondIcon width="1.2rem" />
               <Typography mx="M" as="span" variant="normal">
                 {replaceWrappedNativeTokenWithNativeTokenSymbol(symbol0)}
-                {' ' + COMMON_STRINGS.per + ' '}
+                {' ' + t('special.per') + ' '}
                 {replaceWrappedNativeTokenWithNativeTokenSymbol(symbol1)}
               </Typography>
             </Box>

@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { COMMON_STRINGS } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
 import {
   formatMoney,
@@ -84,7 +83,7 @@ const InputBalance: FC<InputBalanceProps> = ({
                 setValue(name, numberToString(balance));
               }}
             >
-              {COMMON_STRINGS.max}
+              {t('common.max')}
             </Button>
             <Box
               px="L"
@@ -108,7 +107,7 @@ const InputBalance: FC<InputBalanceProps> = ({
         bg="bottomBackground"
       >
         <Typography fontSize="S" variant="normal" textTransform="capitalize">
-          {t('common.balance') + COMMON_STRINGS.colon}
+          {t('common.balance') + t('special.colon')}
           <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
             {formatMoney(balance)}
           </Typography>

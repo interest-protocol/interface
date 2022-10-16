@@ -1,8 +1,7 @@
+import { useTranslations } from 'next-intl';
 import { pathOr } from 'ramda';
 import { FC } from 'react';
 import { v4 } from 'uuid';
-
-import { COMMON_STRINGS } from '@/constants';
 
 import Box from '../box';
 import { DropdownTableProps } from './dropdown-table.types';
@@ -19,8 +18,9 @@ const DropdownTable: FC<DropdownTableProps> = ({
   ordinate,
   isDesktop,
   backgroundColorMap,
-}) =>
-  isDesktop ? (
+}) => {
+  const t = useTranslations();
+  return isDesktop ? (
     <Box display={['none', 'none', 'none', 'block']} width="100%">
       <Box
         my="M"
@@ -38,7 +38,7 @@ const DropdownTable: FC<DropdownTableProps> = ({
         }, 1fr)`}
       >
         {ordinate && (
-          <DropdownTableCell as="th">{COMMON_STRINGS.number}</DropdownTableCell>
+          <DropdownTableCell as="th">{t('common.number')}</DropdownTableCell>
         )}
         {headings.map(({ item, tip }) => (
           <DropdownTableCell as="th" key={v4()} tip={tip}>
@@ -94,5 +94,5 @@ const DropdownTable: FC<DropdownTableProps> = ({
       ))}
     </Box>
   );
-
+};
 export default DropdownTable;

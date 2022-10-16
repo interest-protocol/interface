@@ -3,7 +3,7 @@ import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import { COMMON_STRINGS, getFarmsSVGByToken, StakeState } from '@/constants';
+import { getFarmsSVGByToken, StakeState } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useLocale } from '@/hooks';
 import { LoadingSVG, TimesSVG } from '@/svg';
@@ -99,7 +99,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
               : 'earnTokenAddress.modalUnstakedTitle'
           ) +
             ' ' +
-            COMMON_STRINGS.token}
+            t('common.token')}
         </Typography>
         <Box mt="XL">
           <InputStake
@@ -143,7 +143,7 @@ const EarnStakeModal: FC<EarnStakeModalProps> = ({
           </Typography>
           <Box display="flex" justifyContent="space-between">
             <Typography variant="normal" my="L">
-              {farmSymbol + capitalize(COMMON_STRINGS.token)}
+              {farmSymbol + capitalize(t('common.token'))}
             </Typography>
             <Typography variant="normal" my="L">
               {formatMoney(amount)} {farmSymbol}

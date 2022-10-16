@@ -6,7 +6,6 @@ import { v4 } from 'uuid';
 
 import { Container, SocialMediaCard } from '@/components';
 import {
-  COMMON_STRINGS,
   Routes,
   RoutesEnum,
   RoutesWithFaucet,
@@ -78,7 +77,7 @@ const Footer: FC = () => {
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
             >
-              {capitalize(COMMON_STRINGS.dex)}
+              {capitalize(t('common.dex'))}
             </Button>
           </Link>
           <Link href={Routes[RoutesEnum.Earn]}>

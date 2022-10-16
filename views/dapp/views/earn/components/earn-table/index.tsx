@@ -74,6 +74,7 @@ const EarnTable: FC<EarnTableProps> = ({
                   cursor="help"
                   variant="normal"
                   fontSize="inherit"
+                  textTransform="uppercase"
                 >
                   {t('common.tvl')}
                 </Typography>
@@ -212,6 +213,7 @@ const EarnTable: FC<EarnTableProps> = ({
                     cursor="help"
                     variant="normal"
                     fontSize="inherit"
+                    textTransform="uppercase"
                   >
                     {t('common.tvl')}
                   </Typography>

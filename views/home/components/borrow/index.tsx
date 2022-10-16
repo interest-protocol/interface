@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Container } from '@/components';
-import { COMMON_STRINGS, Routes, RoutesEnum } from '@/constants';
+import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 import { capitalize } from '@/utils';
 
@@ -293,7 +293,7 @@ const Borrow: FC = () => {
                   />
                 </FloatingCoins>
                 <Typography variant="normal" ml="L">
-                  {capitalize(COMMON_STRINGS.dinero)}
+                  {capitalize(t('common.dinero'))}
                 </Typography>
               </Box>
               <Box width="10%">

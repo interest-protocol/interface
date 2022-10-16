@@ -3,7 +3,6 @@ import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { COMMON_STRINGS } from '@/constants';
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
@@ -12,7 +11,7 @@ import { BorrowSortByFilter, SortFilterProps } from './borrow-filters.types';
 
 const parseFarmSortByEnum = cond([
   [equals(BorrowSortByFilter.Default), always('common.select')],
-  [equals(BorrowSortByFilter.TVL), always('dineroMarket.tableHeaderTVL')],
+  [equals(BorrowSortByFilter.TVL), always('common.tvl')],
   [equals(BorrowSortByFilter.LTV), always('dineroMarket.tableHeaderLTV')],
   [
     equals(BorrowSortByFilter.InterestRate),
@@ -75,7 +74,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    {capitalize(COMMON_STRINGS.id)}
+                    {capitalize(t('common.id'))}
                   </Typography>
                 </Box>
               ),
@@ -84,12 +83,16 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               },
             },
             {
-              value: 'tvl',
+              value: t('common.tvl'),
               displayOption: 'TVL',
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
-                  <Typography variant="normal" whiteSpace="nowrap">
-                    {COMMON_STRINGS.tvl}
+                  <Typography
+                    variant="normal"
+                    whiteSpace="nowrap"
+                    textTransform="uppercase"
+                  >
+                    {t('common.tvl')}
                   </Typography>
                 </Box>
               ),
@@ -98,12 +101,16 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               },
             },
             {
-              value: 'ltv',
+              value: t('common.ltv'),
               displayOption: 'LTV',
               displayTitle: (
                 <Box display="flex" width="100%" py="M" alignItems="center">
-                  <Typography variant="normal" whiteSpace="nowrap">
-                    {COMMON_STRINGS.ltv}
+                  <Typography
+                    variant="normal"
+                    whiteSpace="nowrap"
+                    textTransform="uppercase"
+                  >
+                    {t('common.ltv')}
                   </Typography>
                 </Box>
               ),

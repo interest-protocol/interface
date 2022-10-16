@@ -3,13 +3,14 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import Container from '@/components/container';
-import { COMMON_STRINGS, Routes, RoutesEnum } from '@/constants';
+import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 
 const DEX: FC = () => {
   const t = useTranslations();
   const { push } = useRouter();
-
+  const STABLEEQUATION = 'K = 3XY + 3XY';
+  const VOLATILEEQUATION = 'K = Y * X';
   return (
     <Box bg={['#F0F0F0', '#F0F0F0', '#F0F0F0', 'background']} as="section">
       <Container
@@ -128,7 +129,7 @@ const DEX: FC = () => {
             textAlign="center"
             fontSize={['0.875rem', '1.5rem']}
           >
-            {COMMON_STRINGS.stableEquation}
+            {STABLEEQUATION}
             <br />
             <Typography
               variant="large"
@@ -222,7 +223,7 @@ const DEX: FC = () => {
             fontSize={['0.875rem', '1.5rem']}
             textTransform="uppercase"
           >
-            {COMMON_STRINGS.volatileEquation}
+            {VOLATILEEQUATION}
             <br />
             <Typography
               variant="large"

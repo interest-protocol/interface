@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { COMMON_STRINGS } from '@/constants';
 import { Button } from '@/elements';
 import { capitalize } from '@/utils';
 
@@ -16,6 +15,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
 }) => {
   const t = useTranslations();
   const loading = useWatch({ control, name: 'loading' });
+  const LP = 'LP';
 
   return (
     <Button
@@ -33,10 +33,10 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       ) +
         ' ' +
         symbol0 +
-        COMMON_STRINGS.per +
+        t('special.per') +
         symbol1 +
         ' ' +
-        COMMON_STRINGS.lp}
+        LP}
     </Button>
   );
 };
