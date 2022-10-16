@@ -1,64 +1,26 @@
 import { getAddress } from 'ethers/lib/utils';
-import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
-import { pathOr, prop } from 'ramda';
-import { FC, useState } from 'react';
+import { pathOr } from 'ramda';
+import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 
-import { isInterestDexPair } from '@/api/interest-dex-factory';
-import {
-  addERC20Liquidity,
-  addNativeTokenLiquidity,
-} from '@/api/interest-dex-router';
 import { Container } from '@/components';
-import {
-  ERC_20_DATA,
-  Routes,
-  RoutesEnum,
-  WRAPPED_NATIVE_TOKEN,
-} from '@/constants';
-import { Box, Button, Typography } from '@/elements';
-import {
-  useGetDexAllowancesAndBalances,
-  useGetSigner,
-  useIdAccount,
-} from '@/hooks';
-import {
-  getIPXPairAddress,
-  sortTokens,
-  TOKEN_SYMBOL,
-  ZERO_ADDRESS,
-  ZERO_BIG_NUMBER,
-} from '@/sdk';
-import { getNativeBalance } from '@/state/core/core.selectors';
+import { ERC_20_DATA } from '@/constants';
+import { Box, Typography } from '@/elements';
+import { useGetDexAllowancesAndBalances, useIdAccount } from '@/hooks';
+import { TOKEN_SYMBOL, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
 import { TimesSVG } from '@/svg';
-import {
-  capitalize,
-  handleZeroWrappedToken,
-  isSameAddressZ,
-  isZeroAddress,
-  showToast,
-  showTXSuccessToast,
-  stringToBigNumber,
-  throwError,
-  throwIfInvalidSigner,
-} from '@/utils';
-import { WalletGuardButton } from '@/views/dapp/components';
 
 import GoBack from '../../components/go-back';
 import { OnSelectCurrencyData } from '../dex/swap/swap.types';
 import CreatePool from './create-pool';
 import { DexFindPoolForm } from './dex-find-pool.types';
 import FindPool from './find-pool';
+import FindPoolButton from './find-pool-button';
 
-const FindPoolView: FC = () => {
-  const t = useTranslations();
-  const { push } = useRouter();
-  const { signer } = useGetSigner();
+const FindPoolView = () => {
   const { chainId, account } = useIdAccount();
-
-  const [loading, setLoading] = useState(false);
+  const t = useTranslations();
   const [isCreatingPair, setCreatingPair] = useState(false);
   const [isTokenAOpenModal, setTokenAIsOpenModal] = useState(false);
   const [isTokenBOpenModal, setTokenBIsOpenModal] = useState(false);
@@ -81,18 +43,15 @@ const FindPoolView: FC = () => {
 
   // We want the form to re-render if addresses change
   const tokenAAddress = useWatch({ control, name: 'tokenA.address' });
+  const isStable = useWatch({ control, name: 'isStable' });
   const tokenBAddress = useWatch({ control, name: 'tokenB.address' });
 
-  const { balancesError, balancesData, mutate } =
+  const { balancesError, balancesData, nativeBalance, refetch } =
     useGetDexAllowancesAndBalances(
       chainId,
       tokenAAddress || ZERO_ADDRESS,
       tokenBAddress || ZERO_ADDRESS
     );
-
-  const nativeBalance = useSelector(getNativeBalance) as string;
-
-  const nativeBalanceBN = stringToBigNumber(nativeBalance);
 
   const tokenANeedsAllowance = pathOr(
     ZERO_BIG_NUMBER,
@@ -119,165 +78,6 @@ const FindPoolView: FC = () => {
       setCreatingPair(false);
     };
 
-  const enterPool = async () => {
-    setLoading(true);
-    const { isStable } = getValues();
-
-    try {
-      const address = getIPXPairAddress(
-        chainId,
-        handleZeroWrappedToken(chainId, tokenAAddress),
-        handleZeroWrappedToken(chainId, tokenBAddress),
-        isStable
-      );
-
-      const doesPairExist = await isInterestDexPair(chainId, address);
-
-      if (doesPairExist)
-        return push({
-          pathname: Routes[RoutesEnum.DEXPoolDetails],
-          query: { pairAddress: address },
-        }).then();
-
-      setCreatingPair(true);
-    } catch {
-      throwError('Error connecting');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleEnterPool = () =>
-    showToast(enterPool(), {
-      loading: capitalize(t('common.check', { isLoading: 1 })),
-      success: capitalize(t('common.success')),
-      error: prop('message'),
-    });
-
-  const createPair = async () => {
-    const { tokenA, tokenB, isStable } = getValues();
-
-    try {
-      setLoading(true);
-
-      const { validSigner, validId } = throwIfInvalidSigner(
-        [account],
-        chainId,
-        signer
-      );
-
-      const [token0Address] = sortTokens(tokenA.address, tokenB.address);
-
-      const token0 = isSameAddressZ(token0Address, tokenA.address)
-        ? tokenA
-        : tokenB;
-
-      const token1 = isSameAddressZ(token0Address, tokenA.address)
-        ? tokenB
-        : tokenA;
-
-      const amount0 = stringToBigNumber(token0.value, token0.decimals);
-
-      const amount1 = stringToBigNumber(token1.value, token1.decimals);
-
-      if (amount0.isZero() || amount1.isZero()) throwError('No zero amount');
-
-      const token1UserBalance = pathOr(
-        ZERO_BIG_NUMBER,
-        [getAddress(token1.address), 'balance'],
-        balancesData
-      );
-
-      const safeAmount1 = amount1.gt(token1UserBalance)
-        ? token1UserBalance
-        : amount1;
-
-      // 5 minutes
-      const deadline = Math.ceil((new Date().getTime() + 5 * 60 * 1000) / 1000);
-
-      if (isZeroAddress(token0.address)) {
-        const safeAmount0 = amount0.gt(nativeBalanceBN)
-          ? nativeBalanceBN
-          : amount0;
-
-        const tx = await addNativeTokenLiquidity(
-          validId,
-          validSigner,
-          safeAmount0,
-          token1.address,
-          isStable,
-          safeAmount1,
-          safeAmount1,
-          safeAmount0,
-          account,
-          deadline
-        );
-
-        await showTXSuccessToast(tx, validId);
-        const address = getIPXPairAddress(
-          chainId,
-          WRAPPED_NATIVE_TOKEN[chainId].address,
-          token1.address,
-          isStable
-        );
-
-        return push({
-          pathname: Routes[RoutesEnum.DEXPoolDetails],
-          query: { pairAddress: address },
-        }).then();
-      }
-
-      const token0UserBalance = pathOr(
-        ZERO_BIG_NUMBER,
-        [getAddress(token0.address), 'balance'],
-        balancesData
-      );
-
-      const safeAmount0 = amount0.gt(token0UserBalance)
-        ? token0UserBalance
-        : amount0;
-
-      const tx = await addERC20Liquidity(
-        validId,
-        validSigner,
-        token0.address,
-        token1.address,
-        isStable,
-        safeAmount0,
-        safeAmount1,
-        safeAmount0,
-        safeAmount1,
-        account,
-        deadline
-      );
-
-      await showTXSuccessToast(tx, validId);
-
-      const address = getIPXPairAddress(
-        chainId,
-        token0Address,
-        token1.address,
-        isStable
-      );
-
-      return push({
-        pathname: Routes[RoutesEnum.DEXPoolDetails],
-        query: { pairAddress: address },
-      }).then();
-    } catch (e) {
-      throwError('Failed to create pair');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleCreatePair = () =>
-    showToast(createPair(), {
-      loading: t('dexPoolFind.buttonPool', { isLoading: 1 }),
-      success: capitalize(t('common.success')),
-      error: prop('message'),
-    });
-
   if (balancesError)
     return (
       <Container py="XXL">
@@ -299,23 +99,25 @@ const FindPoolView: FC = () => {
       <FindPool
         control={control}
         setValue={setValue}
-        currencyAChargerArgs={{
+        currencyASelectArgs={{
           isModalOpen: isTokenAOpenModal,
           symbol: getValues('tokenA.symbol'),
+          address: getValues('tokenA.address'),
           setIsModalOpen: setTokenAIsOpenModal,
           onSelectCurrency: onSelectCurrency('tokenA'),
         }}
-        currencyBChargerArgs={{
+        currencyBSelectArgs={{
           isModalOpen: isTokenBOpenModal,
           symbol: getValues('tokenB.symbol'),
+          address: getValues('tokenB.address'),
           setIsModalOpen: setTokenBIsOpenModal,
           onSelectCurrency: onSelectCurrency('tokenB'),
         }}
+        setCreatingPair={setCreatingPair}
       />
       {isCreatingPair && (
         <CreatePool
           getValues={getValues}
-          update={mutate}
           tokenBalances={[
             pathOr(
               ZERO_BIG_NUMBER,
@@ -332,67 +134,22 @@ const FindPoolView: FC = () => {
           register={register}
           needAllowance={[tokenANeedsAllowance, tokenBNeedsAllowance]}
           setValue={setValue}
+          refetch={refetch}
         />
       )}
-      <Box
-        p="L"
-        my="L"
-        color="text"
-        bg="foreground"
-        maxWidth="30rem"
-        borderRadius="M"
-        width={['100%', '30rem']}
-      >
-        <WalletGuardButton>
-          {isSameAddressZ(tokenAAddress, tokenBAddress) ? (
-            <Button
-              width="100%"
-              variant="primary"
-              disabled={true}
-              bg="disabled"
-            >
-              {t('dexPoolFind.buttonSameToken')}
-            </Button>
-          ) : isCreatingPair ? (
-            <Button
-              width="100%"
-              variant="primary"
-              disabled={loading || tokenANeedsAllowance || tokenBNeedsAllowance}
-              bg={
-                tokenANeedsAllowance || tokenBNeedsAllowance
-                  ? 'disabled'
-                  : loading
-                  ? 'accentActive'
-                  : 'accent'
-              }
-              hover={{
-                bg:
-                  loading || tokenANeedsAllowance || tokenBNeedsAllowance
-                    ? 'disabled'
-                    : 'accentActive',
-              }}
-              onClick={
-                loading || tokenANeedsAllowance || tokenBNeedsAllowance
-                  ? undefined
-                  : handleCreatePair
-              }
-            >
-              {t('dexPoolFind.buttonPool', { isLoading: Number(loading) })}
-            </Button>
-          ) : (
-            <Button
-              width="100%"
-              variant="primary"
-              disabled={loading}
-              onClick={handleEnterPool}
-              bg={loading ? 'accentActive' : 'accent'}
-              hover={{ bg: loading ? 'disabled' : 'accentActive' }}
-            >
-              {t('dexPoolFind.button', { isLoading: Number(loading) })}
-            </Button>
-          )}
-        </WalletGuardButton>
-      </Box>
+      <FindPoolButton
+        chainId={chainId}
+        account={account}
+        control={control}
+        getValues={getValues}
+        tokenAAddress={tokenAAddress}
+        tokenBAddress={tokenBAddress}
+        isStable={isStable}
+        nativeBalance={nativeBalance}
+        balancesData={balancesData}
+        setCreatingPair={setCreatingPair}
+        isCreatingPair={isCreatingPair}
+      />
     </Container>
   );
 };

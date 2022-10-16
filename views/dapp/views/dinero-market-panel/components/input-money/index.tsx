@@ -1,5 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC } from 'react';
+import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 import { v4 } from 'uuid';
 
 import { Box, Input, Typography } from '@/elements';
@@ -38,7 +39,8 @@ const InputMoney: FC<InputMoneyProps> = ({
         variant="normal"
         display="inline-block"
       >
-        {capitalize(t(label)) + t('special.colon')}
+        {capitalize(t(label as MessageKeys<IntlMessages, keyof IntlMessages>)) +
+          t('special.colon')}
       </Typography>
       <Box display="flex" flexDirection="column" alignItems="flex-end">
         <InputMaxTag

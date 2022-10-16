@@ -30,9 +30,7 @@ const GoHome = () => {
   const t = useTranslations();
   return (
     <Link href={Routes[RoutesEnum.DApp]}>
-      <Button as="div" variant="primary">
-        {t('common.goHome')}
-      </Button>
+      <Button variant="primary">{t('common.backHome')}</Button>
     </Link>
   );
 };

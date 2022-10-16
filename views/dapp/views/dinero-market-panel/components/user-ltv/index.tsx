@@ -26,13 +26,7 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => {
           </Box>
           {t('dineroMarketAddress.userLTVTitle')}
         </Typography>
-        <Typography
-          as="div"
-          variant="normal"
-          textAlign="right"
-          whiteSpace="nowrap"
-          color="textSecondary"
-        >
+        <Box textAlign="right" whiteSpace="nowrap" color="textSecondary">
           {isLoading ? (
             <Typography
               as="span"
@@ -48,7 +42,7 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => {
             toFixedToPrecision(ltv, 4)
           )}
           {t('common.rangeOf100')}
-        </Typography>
+        </Box>
       </Box>
       <Box color={(ltv ?? 0) > 70 ? 'error' : 'accent'} mt="L">
         <ProgressSVG progress={ltv || 0} width="100%" height="100%" />

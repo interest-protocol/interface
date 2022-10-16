@@ -113,6 +113,7 @@ const DEX: FC = () => {
             variant="title2"
             textAlign="center"
             textTransform="capitalize"
+            px={['unset', 'unset', 'unset', '3.6rem']}
           >
             {t('landingPage.stablePairTitle')}
           </Typography>
@@ -128,6 +129,7 @@ const DEX: FC = () => {
             fontWeight="700"
             textAlign="center"
             fontSize={['0.875rem', '1.5rem']}
+            px={['unset', 'unset', 'unset', '3.6rem']}
           >
             {STABLEEQUATION}
             <br />
@@ -158,8 +160,9 @@ const DEX: FC = () => {
           ]}
         >
           <Box
-            py="XL"
+            px="L"
             mx="S"
+            py="XL"
             display="flex"
             bg="foreground"
             textAlign="center"
@@ -210,6 +213,7 @@ const DEX: FC = () => {
             textAlign="center"
             variant="title2"
             textTransform="capitalize"
+            px={['unset', 'unset', 'unset', '3.6rem']}
           >
             {t('landingPage.volatilePairTitle')}
           </Typography>
@@ -220,8 +224,9 @@ const DEX: FC = () => {
             variant="large"
             fontWeight="700"
             textAlign="center"
-            fontSize={['0.875rem', '1.5rem']}
             textTransform="uppercase"
+            fontSize={['0.875rem', '1.5rem']}
+            px={['unset', 'unset', 'unset', '3.6rem']}
           >
             {VOLATILEEQUATION}
             <br />

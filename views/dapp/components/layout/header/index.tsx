@@ -1,12 +1,19 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
-import { FC } from 'react';
+import { FC, useCallback, useState } from 'react';
+import { useAccount, useNetwork } from 'wagmi';
 
 import { SwitchLang } from '@/components';
-import { Routes, RoutesEnum } from '@/constants/routes';
-import { Box, Typography } from '@/elements';
-import { LogoSVG } from '@/svg';
+import {
+  isChainIdSupported,
+  makeFIATWidgetURL,
+  Routes,
+  RoutesEnum,
+} from '@/constants';
+import { Box, Dropdown, Typography } from '@/elements';
+import useEventListener from '@/hooks/use-event-listener';
+import { CreditCardSVG, LogoSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
 import { Wallet } from '../..';
@@ -14,7 +21,20 @@ import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {
   const t = useTranslations();
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
+  const { chain } = useNetwork();
+  const { address } = useAccount();
+
+  const chainId = chain?.id ?? -1;
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  const handleSetDesktop = useCallback(() => {
+    const mediaIsMobile = !window.matchMedia('(min-width: 64em)').matches;
+    setIsMobile(mediaIsMobile);
+  }, []);
+
+  useEventListener('resize', handleSetDesktop, true);
 
   return (
     <Box
@@ -41,7 +61,11 @@ const Header: FC = () => {
             <LogoSVG width="100%" aria-label="Logo" fill="currentColor" />
           </Box>
         </Link>
-        <a href="https://forms.gle/aDP4wHvshLPKkKv97" target="__blank">
+        <a
+          href="https://forms.gle/aDP4wHvshLPKkKv97"
+          target="__blank"
+          rel="noopener noreferrer"
+        >
           <Typography
             ml="L"
             px="L"
@@ -81,22 +105,46 @@ const Header: FC = () => {
             {capitalize(t('common.dex'))}
           </Typography>
         </Link>
-        <Link href={Routes[RoutesEnum.Earn]}>
-          <Typography
-            px="XL"
-            cursor="pointer"
-            variant="normal"
-            borderRight="1px solid"
-            borderColor="bottomBackground"
-            color={
-              pathname.includes(Routes[RoutesEnum.Earn]) ? 'accent' : 'inherit'
+        <Box borderRight="1px solid" borderColor="bottomBackground" px="XL">
+          <Dropdown
+            title={
+              <Typography
+                textAlign="center"
+                cursor="pointer"
+                variant="normal"
+                color={
+                  pathname === Routes[RoutesEnum.Farms] ||
+                  pathname.includes(Routes[RoutesEnum.Vaults]) ||
+                  pathname.includes(Routes[RoutesEnum.DineroVault])
+                    ? 'accent'
+                    : 'inherit'
+                }
+                hover={{ color: 'accentActive' }}
+              >
+                {capitalize(t('common.earn'))}
+              </Typography>
             }
-            hover={{ color: 'accentActive' }}
-            textTransform="capitalize"
-          >
-            {t('common.earn')}
-          </Typography>
-        </Link>
+            mode="menu"
+            data={[
+              {
+                value: 'Farms',
+                displayOption: 'Farms',
+                onSelect: () =>
+                  push(Routes[RoutesEnum.Farms], undefined, {
+                    shallow: true,
+                  }),
+              },
+              {
+                value: 'Vaults',
+                displayOption: 'Vaults',
+                onSelect: () =>
+                  push(Routes[RoutesEnum.Vaults], undefined, {
+                    shallow: true,
+                  }),
+              },
+            ]}
+          />
+        </Box>
         <Link href={Routes[RoutesEnum.DineroMarket]}>
           <Typography
             px="XL"
@@ -114,10 +162,36 @@ const Header: FC = () => {
           </Typography>
         </Link>
       </Box>
-      <Box display="flex" justifyContent="flex-end" alignItems="center">
+      <Box display="flex" justifyContent="flex-end" alignItems="stretch">
+        {address && isChainIdSupported(chainId ?? -1) && (
+          <Box display={['none', 'none', 'block']}>
+            <a
+              href={makeFIATWidgetURL(chainId, address)}
+              target="__blank"
+              rel="noopener noreferrer"
+            >
+              <Box
+                mr="S"
+                as="span"
+                p="0.7rem"
+                width="3rem"
+                height="2.8rem"
+                borderRadius="M"
+                alignItems="center"
+                display="inline-flex"
+                bg="bottomBackground"
+                justifyContent="center"
+              >
+                <CreditCardSVG width="100%" />
+              </Box>
+            </a>
+          </Box>
+        )}
         <Wallet />
-        <SwitchLang />
-        <MobileMenu />
+        <Box display="flex" alignItems="stretch">
+          <SwitchLang />
+        </Box>
+        {isMobile && <MobileMenu />}
       </Box>
     </Box>
   );

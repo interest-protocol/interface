@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 import { v4 } from 'uuid';
 
 import { DineroMarketKind } from '@/constants';
@@ -37,26 +38,31 @@ const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => {
         typeof LOAN_INFO_MAP,
         typeof LOAN_INFO_MAP[keyof typeof LOAN_INFO_MAP]
       >([], kind.toString(), LOAN_INFO_MAP).map(({ name, tip }, i) => (
-        <Box my="L" key={v4()} display="flex" justifyContent="space-between">
+        <Box
+          my="L"
+          key={v4()}
+          display={['block', 'block', 'block', 'flex']}
+          justifyContent={['unset', 'unset', 'unset', 'space-between']}
+        >
           <Typography variant="normal" display="flex" alignItems="center">
             <Box
               mr="L"
               as="span"
               width="1rem"
               cursor="help"
-              data-tip={capitalize(t(tip))}
+              data-tip={capitalize(t(tip as MessageKeys<IntlMessages, any>))}
               display="inline-block"
             >
               <InfoSVG width="100%" />
             </Box>
-            {capitalize(t(name))}
+            {capitalize(t(name as MessageKeys<IntlMessages, any>))}
           </Typography>
-          <Typography
-            as="div"
-            variant="normal"
-            textAlign="right"
+          <Box
             whiteSpace="nowrap"
             color="textSecondary"
+            ml={['XL', 'XL', 'XL', 'M']}
+            mt={['M', 'M', 'M', 'unset']}
+            textAlign={['unset', 'unset', 'unset', 'right']}
           >
             {isLoading ? (
               <Typography
@@ -70,7 +76,7 @@ const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => {
             ) : (
               loanInfoData[i]
             )}
-          </Typography>
+          </Box>
         </Box>
       ))}
     </Box>

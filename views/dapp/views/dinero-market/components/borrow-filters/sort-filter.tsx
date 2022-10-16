@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
+import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
@@ -37,13 +38,14 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
         variant="normal"
         display="inline-block"
       >
-        {`${capitalize(t('common.sort'))} :`}
+        {capitalize(t('common.sort')) + t('special.colon')}
       </Typography>
       <Box
         display="flex"
         alignItems="stretch"
         flexDirection="column"
         width={['100%', '100%', '100%', '10rem']}
+        height="3rem"
       >
         <Dropdown
           buttonMode
@@ -52,18 +54,21 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
           bgSelected="accentAlternativeBackground"
           emptyMessage="Not found Tokens"
           suffix={
-            <Box
-              ml="L"
-              width="0.6rem"
-              display={['none', 'none', 'none', 'block']}
-            >
+            <Box ml="L" width="0.6rem">
               <ArrowSVG width="100%" />
             </Box>
           }
           title={
-            <Box display="flex" width="100%" py="M" alignItems="center">
+            <Box display="flex" width="100%" py="XS" alignItems="center">
               <Typography variant="normal" whiteSpace="nowrap">
-                {capitalize(t(parseFarmSortByEnum(sortBy)))}
+                {capitalize(
+                  t(
+                    parseFarmSortByEnum(sortBy) as MessageKeys<
+                      IntlMessages,
+                      keyof IntlMessages
+                    >
+                  )
+                )}
               </Typography>
             </Box>
           }
@@ -72,7 +77,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               value: 'id',
               displayOption: 'Id',
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="XS" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
                     {capitalize(t('common.id'))}
                   </Typography>
@@ -86,7 +91,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               value: t('common.tvl'),
               displayOption: 'TVL',
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="XS" alignItems="center">
                   <Typography
                     variant="normal"
                     whiteSpace="nowrap"
@@ -104,7 +109,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               value: t('common.ltv'),
               displayOption: 'LTV',
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="XS" alignItems="center">
                   <Typography
                     variant="normal"
                     whiteSpace="nowrap"
@@ -124,7 +129,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 t('dineroMarket.filterSortOptionInterestRate')
               ),
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="XS" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
                     {t('dineroMarket.filterSortOptionInterestRate')}
                   </Typography>
@@ -140,7 +145,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 t('dineroMarket.filterSortOptionLiquidationFee')
               ),
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="XS" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
                     {capitalize(
                       t('dineroMarket.filterSortOptionLiquidationFee')

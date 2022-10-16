@@ -10,6 +10,7 @@ import { RemoveLiquidityButtonProps } from './remove-liquidity-card.types';
 const RemoveLiquidityButton: FC<RemoveLiquidityButtonProps> = ({
   onClick,
   control,
+  disabled,
 }) => {
   const t = useTranslations();
   const loading = useWatch({ control, name: 'removeLoading' });
@@ -19,9 +20,9 @@ const RemoveLiquidityButton: FC<RemoveLiquidityButtonProps> = ({
       width="100%"
       variant="primary"
       onClick={onClick}
-      disabled={loading}
-      hover={{ bg: 'errorActive' }}
-      bg={loading ? 'disabled' : 'error'}
+      disabled={loading || disabled}
+      hover={{ bg: loading || disabled ? 'disabled' : 'errorActive' }}
+      bg={loading || disabled ? 'disabled' : 'error'}
     >
       {capitalize(t('common.remove', { isLoading: Number(loading) }))}
     </Button>

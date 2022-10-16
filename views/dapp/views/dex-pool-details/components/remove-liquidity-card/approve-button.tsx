@@ -12,6 +12,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
   symbol0,
   symbol1,
   control,
+  disabled,
 }) => {
   const t = useTranslations();
   const loading = useWatch({ control, name: 'loading' });
@@ -19,12 +20,12 @@ const ApproveButton: FC<ApproveButtonProps> = ({
 
   return (
     <Button
-      bg={loading ? 'disabled' : 'accent'}
+      bg={loading || disabled ? 'disabled' : 'accent'}
       width="100%"
       variant="primary"
-      hover={{ bg: 'accentActive' }}
+      hover={{ bg: loading || disabled ? 'disabled' : 'accentActive' }}
       onClick={onClick}
-      disabled={loading}
+      disabled={loading || disabled}
     >
       {capitalize(
         t('common.approve', {

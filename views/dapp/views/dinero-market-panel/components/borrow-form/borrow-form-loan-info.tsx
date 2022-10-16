@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
+import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 import { v4 } from 'uuid';
 
 import Box from '@/elements/box';
@@ -53,28 +54,41 @@ const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
   return (
     <Box mt="XXL">
       {INFO.map(({ text, tip }, i) => (
-        <Box key={v4()} display="flex" justifyContent="space-between" p="M">
+        <Box
+          p="M"
+          key={v4()}
+          display={['block', 'block', 'block', 'flex']}
+          justifyContent={['unset', 'unset', 'unset', 'space-between']}
+        >
           <Box display="flex" alignItems="center">
             <Box
               mr="M"
               width="1rem"
               cursor="help"
               display="flex"
-              data-tip={capitalize(t(tip))}
+              data-tip={capitalize(
+                t(tip as MessageKeys<IntlMessages, keyof IntlMessages>)
+              )}
               minWidth="1rem"
               alignItems="center"
             >
               <InfoSVG width="100%" />
             </Box>
             <Typography variant="normal" as="span">
-              {capitalize(t(text))}
+              {capitalize(
+                t(text as MessageKeys<IntlMessages, keyof IntlMessages>)
+              )}
             </Typography>
           </Box>
           <Typography
             as="span"
             variant="normal"
-            textAlign="right"
             whiteSpace="nowrap"
+            color="textSecondary"
+            display="inline-block"
+            ml={['XL', 'XL', 'XL', 'S']}
+            mt={['M', 'M', 'M', 'unset']}
+            textAlign={['unset', 'unset', 'unset', 'right']}
           >
             {loanData[i]}
           </Typography>

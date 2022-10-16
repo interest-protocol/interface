@@ -1,17 +1,11 @@
-import { always, ifElse, isNil, toString } from 'ramda';
 import { ChangeEvent } from 'react';
 
-import {
-  Fraction,
-  MAX_NUMBER_INPUT_VALUE,
-  Rounding,
-  TOKEN_SYMBOL,
-} from '@/sdk';
+import { MAX_NUMBER_INPUT_VALUE, TOKEN_SYMBOL } from '@/sdk';
 
 const isExponential = (number: number) => number.toString().includes('e');
 
-export const shortAccount = (account: string): string =>
-  `${account.slice(0, 6)}...${account.slice(-4)}`;
+export const shortAccount = (account: string, mobile = false): string =>
+  `${account.slice(0, mobile ? 2 : 6)}...${account.slice(-4)}`;
 
 const removeZero = (array: ReadonlyArray<string>): string => {
   if (!array.length) return '';
@@ -95,24 +89,6 @@ export const formatMoney = (money: number, maxFractionDigits = 20): string => {
 
 export const formatDollars = (money: number): string =>
   '$' + formatMoney(money, 6);
-
-export const toSignificant = (
-  x: string,
-  decimalHouses: number,
-  denominator = 1,
-  format?: Record<string, string>,
-  rounding?: Rounding
-): string =>
-  new Fraction(x, denominator).toSignificant(decimalHouses, format, rounding);
-
-export const makeSWRKey = (
-  args: ReadonlyArray<unknown>,
-  methodName: string
-): string =>
-  args
-    .map(ifElse(isNil, always(''), toString))
-    .concat([methodName])
-    .join('|');
 
 export const parseInputEventToNumberString = (
   event: ChangeEvent<HTMLInputElement>,

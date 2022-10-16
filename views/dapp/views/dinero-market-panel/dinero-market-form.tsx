@@ -9,11 +9,8 @@ const DineroMarketForm: FC<FormsProps> = ({
   data,
   form,
   account,
-  isSubmitting,
   isGettingData,
-  onSubmitRepay,
-  onSubmitBorrow,
-  handleAddAllowance,
+  refetch,
 }) => {
   const repayFieldsData = useMemo(() => getRepayFields(data), [data]);
 
@@ -26,24 +23,20 @@ const DineroMarketForm: FC<FormsProps> = ({
           isBorrow
           data={data}
           account={account}
-          loading={isGettingData}
-          onSubmit={onSubmitBorrow}
+          isGettingData={isGettingData}
           fields={borrowFieldsData}
-          isSubmitting={isSubmitting}
-          handleAddAllowance={handleAddAllowance}
-          {...form}
+          refetch={refetch}
+          form={form}
         />
       )}
       {mode === 'repay' && (
         <BorrowForm
           data={data}
           account={account}
-          loading={isGettingData}
-          onSubmit={onSubmitRepay}
+          isGettingData={isGettingData}
           fields={repayFieldsData}
-          isSubmitting={isSubmitting}
-          handleAddAllowance={handleAddAllowance}
-          {...form}
+          refetch={refetch}
+          form={form}
         />
       )}
     </>

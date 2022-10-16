@@ -9,16 +9,6 @@ export type GetContract<T> = (
   provider: StaticJsonRpcProvider | JsonRpcSigner
 ) => T;
 
-export type GetSignerContract<T> = (
-  chainId: number,
-  signer: JsonRpcSigner
-) => T;
-
-export type GetDineroMarketSignerContract<T> = (
-  provider: JsonRpcSigner,
-  marketAddress: string
-) => T;
-
 export interface CreateTokenEventArgs extends Result {
   token: string;
   creator: string;

@@ -2,13 +2,18 @@ import { useTheme } from '@emotion/react';
 import Head from 'next/head';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
+import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
 import { Theme } from '@/design-system/landing-page-theme';
+import { capitalize } from '@/utils';
 import { LayoutProps } from '@/views/home/layout/layout.types';
+
+const INTEREST_PROTOCOL = 'Interest Protocol';
 
 const SEO: FC<LayoutProps> = ({ pageTitle }) => {
   const t = useTranslations();
   const { colors } = useTheme() as Theme;
+
   return (
     <Head>
       <meta name="theme-color" content={colors.foreground} />
@@ -33,7 +38,6 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
       <meta name="twitter:site" content="https://interestprotocol.com" />
       <meta name="twitter:image" content="/android-chrome-256x256.png" />
       <meta name="twitter:description" content={t('common.seoDescription')} />
-
       <link rel="icon" href="/favicon.ico" />
       <link
         rel="apple-touch-icon"
@@ -57,7 +61,11 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
       <meta name="msapplication-TileColor" content="#da532c" />
       <link rel="apple-touch-icon" href="/logo192.png" />
       <title>
-        {t('common.companyName')} {pageTitle && `| ${pageTitle}`}
+        {pageTitle &&
+          `${capitalize(
+            t(pageTitle as MessageKeys<IntlMessages, keyof IntlMessages>)
+          )} | `}
+        {INTEREST_PROTOCOL}
       </title>
     </Head>
   );

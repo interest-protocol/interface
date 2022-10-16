@@ -78,7 +78,7 @@ const Swap: FC = () => {
   const tokenInAddress = useWatch({ control, name: 'tokenIn.address' });
   const tokenOutAddress = useWatch({ control, name: 'tokenOut.address' });
 
-  const { balancesError, balancesData, mutate, loading } =
+  const { balancesError, balancesData, loading, refetch } =
     useGetDexAllowancesAndBalances(
       chainId,
       tokenInAddress || ZERO_ADDRESS,
@@ -138,7 +138,6 @@ const Swap: FC = () => {
       loading,
     ]
   );
-
   return (
     <>
       <Box
@@ -224,10 +223,11 @@ const Swap: FC = () => {
               currencySelector={
                 <SwapSelectCurrency
                   currentToken={tokenInAddress}
-                  onSelectCurrency={onSelectCurrency('tokenIn')}
-                  symbol={getValues('tokenIn.symbol')}
                   isModalOpen={isTokenInOpenModal}
+                  symbol={getValues('tokenIn.symbol')}
+                  address={getValues('tokenIn.address')}
                   setIsModalOpen={setTokenInIsOpenModal}
+                  onSelectCurrency={onSelectCurrency('tokenIn')}
                 />
               }
             />
@@ -275,11 +275,12 @@ const Swap: FC = () => {
               currencySelector={
                 <SwapSelectCurrency
                   currentToken={tokenOutAddress}
-                  disabled={isFetchingAmountOutTokenOut}
-                  onSelectCurrency={onSelectCurrency('tokenOut')}
-                  symbol={getValues('tokenOut.symbol')}
                   isModalOpen={isTokenOutOpenModal}
+                  symbol={getValues('tokenOut.symbol')}
+                  disabled={isFetchingAmountOutTokenOut}
+                  address={getValues('tokenOut.address')}
                   setIsModalOpen={setTokenOutIsOpenModal}
+                  onSelectCurrency={onSelectCurrency('tokenOut')}
                 />
               }
             />
@@ -303,7 +304,6 @@ const Swap: FC = () => {
           swapBase={swapBase}
           disabled={isDisabled}
           getValues={getValues}
-          updateBalances={mutate}
           setSwapBase={setSwapBase}
           needsApproval={needsApproval}
           localSettings={localSettings}
@@ -318,6 +318,7 @@ const Swap: FC = () => {
             [getAddress(tokenInAddress), 'balance'],
             balancesData
           )}
+          refetch={refetch}
         />
       </Box>
       {localSettings.autoFetch && (

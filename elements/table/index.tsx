@@ -120,20 +120,12 @@ const TableRow: FC<TableRowProps> = ({
         onClick={handleClick}
         display={['block', 'block', 'block', 'none']}
         hover={{
-          bg: handleClick ? 'bottomBackground' : 'transparent',
+          bg: 'bottomBackground',
         }}
       >
-        <Box display="flex" p="L">
-          <Box
-            my="L"
-            mx="M"
-            display="flex"
-            alignItems="center"
-            flexDirection="column"
-            justifyContent="space-evenly"
-          >
+        <Box display="flex" flexDirection="column" p="L">
+          <Box my="L" display="flex" justifyContent="center">
             {mobileSide}
-            {!!button && button}
           </Box>
           <Box
             key={v4()}
@@ -141,14 +133,15 @@ const TableRow: FC<TableRowProps> = ({
             borderRadius="M"
             overflow="hidden"
             gridAutoFlow="column"
+            columnGap="1rem"
+            gridTemplateColumns="1fr 1fr"
             gridTemplateRows={`repeat(${
               headings.length + (ordinate ? 1 : 0)
             }, 1fr)`}
           >
             {ordinate && (
               <Typography
-                py="M"
-                px="M"
+                p="M"
                 fontSize="S"
                 variant="normal"
                 color="textSecondary"
@@ -158,26 +151,17 @@ const TableRow: FC<TableRowProps> = ({
             )}
             {headings.map(({ item }) => (
               <Typography
-                py="M"
-                px="M"
+                p="M"
                 key={v4()}
                 fontSize="S"
                 variant="normal"
                 color="textSecondary"
+                textAlign="right"
               >
                 {item}
               </Typography>
             ))}
-            {ordinate && (
-              <Box
-                py="M"
-                px="M"
-                borderBottom="0.1rem solid"
-                borderColor="textDescriptionHigh"
-              >
-                {index + 1}
-              </Box>
-            )}
+            {ordinate && <Box p="M">{index + 1}</Box>}
             {items.map((item) => (
               <Box
                 key={v4()}
@@ -185,11 +169,12 @@ const TableRow: FC<TableRowProps> = ({
                 alignItems="stretch"
                 flexDirection="column"
               >
-                <Box py="M" px="M">
-                  {item}
-                </Box>
+                <Box p="M">{item}</Box>
               </Box>
             ))}
+          </Box>
+          <Box my="L" display="flex" justifyContent="center">
+            {!!button && button}
           </Box>
         </Box>
       </Box>

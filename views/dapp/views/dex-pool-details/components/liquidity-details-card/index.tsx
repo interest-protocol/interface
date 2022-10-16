@@ -43,6 +43,7 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
             key={v4()}
             value={line.value}
             symbol={line.symbol}
+            address={line.address}
             isFetchingInitialData={line.isFetchingInitialData}
           />
         ))}

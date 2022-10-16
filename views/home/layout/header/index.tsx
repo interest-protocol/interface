@@ -194,7 +194,9 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                 {switchLang ? (
                   <TimesSVG width="100%" />
                 ) : (
-                  getSafeLocaleSVG(currentLocale)
+                  <Box pointerEvents="none">
+                    {getSafeLocaleSVG(currentLocale)}
+                  </Box>
                 )}
               </Box>
               <Box id={menuButtonId} cursor="pointer" onClick={toggleMenu}>

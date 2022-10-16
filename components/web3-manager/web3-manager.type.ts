@@ -12,21 +12,14 @@ export interface AdviceProps {
 
 export interface Web3ManagerProps {
   supportedChains: ReadonlyArray<number>;
-  pathname: string;
-  prevPathName: string | undefined;
+  pageTitle: string;
 }
 
 export interface ContentProps {
-  error: Error | undefined;
-  triedEagerly: boolean;
-  isActivating: boolean;
-  chainId: number | undefined;
-  triedSwitchToRightNetwork: boolean;
   supportedChains: ReadonlyArray<number>;
-  handleSwitchToNetwork: (x: number) => () => Promise<void | null>;
-  reduxChainId: number | null;
 }
 
 export interface Web3ManagerWrapperProps {
   pathname: string;
+  pageTitle: string;
 }

@@ -1,9 +1,6 @@
 import { BigNumber } from 'ethers';
 import { ReactNode } from 'react';
 import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
-import { KeyedMutator } from 'swr';
-
-import { PairMetadataStructOutput } from '../../../../../../types/ethers-contracts/InterestViewDexAbi';
 
 interface TokenData {
   symbol: string;
@@ -14,18 +11,28 @@ interface TokenData {
 
 export interface RemoveLiquidityCardProps {
   isStable: boolean;
-  tokens: [TokenData, TokenData];
+  tokens: TokenData[];
   lpBalance: BigNumber;
   lpAllowance: BigNumber;
   pairAddress: string;
   isFetchingInitialData: boolean;
-  mutate: KeyedMutator<
-    [PairMetadataStructOutput, BigNumber[], BigNumber[]] & {
-      pairMetadata: PairMetadataStructOutput;
-      allowances: BigNumber[];
-      balances: BigNumber[];
-    }
-  >;
+  chainId: number;
+  refetch: () => Promise<void>;
+  account: string;
+}
+
+export interface RemoveLiquidityCardContentProps {
+  isStable: boolean;
+  tokens: TokenData[];
+  lpBalance: BigNumber;
+  lpAllowance: BigNumber;
+  pairAddress: string;
+  isFetchingInitialData: boolean;
+  chainId: number;
+  refetch: () => Promise<void>;
+  account: string;
+  control: Control<IRemoveLiquidityForm>;
+  setValue: UseFormSetValue<IRemoveLiquidityForm>;
 }
 
 export interface IRemoveLiquidityForm {
@@ -55,11 +62,13 @@ export interface ApproveButtonProps {
   control: Control<IRemoveLiquidityForm>;
   symbol0: string;
   symbol1: string;
+  disabled: boolean;
 }
 
 export interface RemoveLiquidityButtonProps {
   onClick: () => Promise<undefined | void>;
   control: Control<IRemoveLiquidityForm>;
+  disabled: boolean;
 }
 
 export interface TokenAmountProps {
@@ -79,4 +88,13 @@ export interface RemoveLiquidityManagerProps {
   token0Decimals: number;
   token1Decimals: number;
   chainId: number;
+}
+
+export interface UseRemoveLiquidityArgs {
+  tokens: TokenData[];
+  control: Control<IRemoveLiquidityForm>;
+  lpBalance: BigNumber;
+  chainId: number;
+  account: string;
+  isStable: boolean;
 }

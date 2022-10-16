@@ -33,7 +33,7 @@ const ErrorView: FC<{ message: string }> = ({ message }) => {
         </Box>
         <Typography variant="title3">{message}</Typography>
         <Button variant="primary" mt="XL" onClick={goHome}>
-          {t('special.arrowLeft') + ' ' + t('common.goHome')}
+          {t('special.arrowLeft') + ' ' + t('common.back')}
         </Button>
       </Box>
     </>

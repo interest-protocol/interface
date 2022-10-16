@@ -11,10 +11,9 @@ import {
   Subscribe,
   Team,
 } from './components';
-import Layout from './layout';
 
 const Home: FC = () => (
-  <Layout>
+  <>
     <Box
       backgroundImage={[
         'none',
@@ -29,7 +28,7 @@ const Home: FC = () => (
     <Automate />
     <Team />
     <Subscribe />
-  </Layout>
+  </>
 );
 
 export default Home;

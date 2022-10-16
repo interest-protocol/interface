@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
@@ -29,26 +30,32 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
         {t('dineroMarketAddress.positionTitle') + t('special.colon')}
       </Typography>
       {MY_POSITION.map(({ name, tip }, i) => (
-        <Box my="L" key={v4()} display="flex" justifyContent="space-between">
+        <Box
+          my="L"
+          key={v4()}
+          display={['block', 'block', 'block', 'flex']}
+          justifyContent={['unset', 'unset', 'unset', 'space-between']}
+        >
           <Typography variant="normal" display="flex" alignItems="center">
             <Box
               mr="M"
               as="span"
               width="1rem"
               cursor="help"
-              data-tip={capitalize(t(tip))}
+              data-tip={capitalize(t(tip as MessageKeys<IntlMessages, any>))}
               display="inline-block"
             >
               <InfoSVG width="100%" />
             </Box>
-            {capitalize(t(name))}
+            {capitalize(t(name as MessageKeys<IntlMessages, any>))}
           </Typography>
           <Typography
             variant="normal"
             overflow="hidden"
-            textAlign="right"
-            whiteSpace="nowrap"
             color="textSecondary"
+            ml={['XL', 'XL', 'XL', 'L']}
+            mt={['M', 'M', 'M', 'unset']}
+            textAlign={['unset', 'unset', 'unset', 'right']}
           >
             {myPositionData[i]}
           </Typography>
@@ -58,7 +65,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
         <Typography variant="normal" textAlign="center" mb="M">
           {t('common.dineroSymbol') + t('special.colon') + formatDollars(1)}
         </Typography>
-        <Typography as="div" variant="normal" textAlign="center" mb="M">
+        <Box textAlign="center" mb="M">
           {isLoading ? (
             <Typography
               as="span"
@@ -74,7 +81,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
               formatDollars(FixedPointMath.from(collateralUSDPrice).toNumber())
             }`
           )}
-        </Typography>
+        </Box>
       </Box>
     </Box>
   );

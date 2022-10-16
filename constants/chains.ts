@@ -1,5 +1,6 @@
-import type { AddEthereumChainParameter } from '@web3-react/types';
-import { __, includes, pathOr } from 'ramda';
+import { rinkeby } from '@wagmi/core/chains';
+import { __, includes } from 'ramda';
+import { Chain } from 'wagmi';
 
 import { RoutesEnum } from '@/constants/routes';
 import { CHAIN_ID } from '@/sdk/constants';
@@ -7,8 +8,8 @@ import { CHAIN_ID } from '@/sdk/constants';
 import { Routes } from './routes';
 
 export const SUPPORTED_CHAINS_RECORD = {
-  [Routes[RoutesEnum.Earn]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.EarnFarm]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.Farms]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.FarmDetails]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.Faucet]]: [CHAIN_ID.RINKEBY, CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DineroMarket]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DineroMarketRepay]]: [CHAIN_ID.BNB_TEST_NET],
@@ -17,17 +18,13 @@ export const SUPPORTED_CHAINS_RECORD = {
   [Routes[RoutesEnum.DEXPool]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DEXFindPool]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DEXPoolDetails]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.Vaults]]: [CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.DineroVault]]: [CHAIN_ID.BNB_TEST_NET],
 };
 
-export const BNB: AddEthereumChainParameter['nativeCurrency'] = {
+export const BNB: Chain['nativeCurrency'] = {
   name: 'Binance Coin',
   symbol: 'BNB',
-  decimals: 18,
-};
-
-const ETH: AddEthereumChainParameter['nativeCurrency'] = {
-  name: 'Ether',
-  symbol: 'ETH',
   decimals: 18,
 };
 
@@ -35,7 +32,7 @@ export const RPC_URL = {
   [CHAIN_ID.BNB_TEST_NET]: process.env.NEXT_PUBLIC_BSC_TEST_NET_JSON_RPC
     ? process.env.NEXT_PUBLIC_BSC_TEST_NET_JSON_RPC
     : 'https://data-seed-prebsc-2-s1.binance.org:8545/',
-  [CHAIN_ID.BNB_MAIN_MET]: process.env.NEXT_PUBLIC_BSC_RPC_URL
+  [CHAIN_ID.BNB_MAIN_NET]: process.env.NEXT_PUBLIC_BSC_RPC_URL
     ? process.env.NEXT_PUBLIC_BSC_RPC_URL
     : 'https://bsc-dataseed.binance.org/',
   [CHAIN_ID.RINKEBY]: process.env.NEXT_PUBLIC_RINKEBY_URL
@@ -44,64 +41,48 @@ export const RPC_URL = {
 };
 
 export const CHAINS = {
-  [CHAIN_ID.RINKEBY]: {
-    chainId: CHAIN_ID.RINKEBY,
-    chainName: 'Rinkeby',
-    nativeCurrency: ETH,
-    rpcUrls: ['https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'],
-    blockExplorerUrls: ['https://rinkeby.etherscan.io/'],
-  },
+  [CHAIN_ID.RINKEBY]: rinkeby,
   [CHAIN_ID.BNB_TEST_NET]: {
-    chainId: CHAIN_ID.BNB_TEST_NET,
-    chainName: 'BNBT',
+    id: CHAIN_ID.BNB_TEST_NET,
+    name: 'BNBT',
+    network: 'bnbt',
     nativeCurrency: BNB,
-    rpcUrls: [
-      'https://data-seed-prebsc-1-s1.binance.org:8545/',
-      'https://data-seed-prebsc-2-s1.binance.org:8545/',
-      'https://data-seed-prebsc-1-s2.binance.org:8545/',
-      'https://data-seed-prebsc-2-s2.binance.org:8545/',
-      'https://data-seed-prebsc-1-s3.binance.org:8545/',
-      'https://data-seed-prebsc-2-s3.binance.org:8545/',
-    ],
-    blockExplorerUrls: ['https://testnet.bscscan.com'],
+    rpcUrls: { default: 'https://data-seed-prebsc-1-s1.binance.org:8545/' },
+    blockExplorers: {
+      default: { url: 'https://testnet.bscscan.com', name: 'BSCScan' },
+    },
+    testnet: true,
   },
-  [CHAIN_ID.BNB_MAIN_MET]: {
-    chainId: CHAIN_ID.BNB_MAIN_MET,
-    chainName: 'BNB',
+  [CHAIN_ID.BNB_MAIN_NET]: {
+    id: CHAIN_ID.BNB_MAIN_NET,
+    name: 'BNB',
+    network: 'bnb',
     nativeCurrency: BNB,
-    rpcUrls: [
-      'https://bsc-dataseed.binance.org/',
-      'https://bsc-dataseed1.defibit.io/',
-      'https://bsc-dataseed1.ninicoin.io/',
-    ],
-    blockExplorerUrls: ['https://bscscan.com'],
+    rpcUrls: {
+      default: 'https://bsc-dataseed.binance.org/',
+    },
+    blockExplorers: {
+      default: { url: 'https://bscscan.com', name: 'BSCScan' },
+    },
+    testnet: false,
   },
   [CHAIN_ID.UNSUPPORTED]: {
-    symbol: '???',
-    chainId: CHAIN_ID.UNSUPPORTED,
-    chainName: 'Unsupported Network',
+    id: CHAIN_ID.UNSUPPORTED,
+    name: 'Unsupported Network',
+    network: 'unsupported network',
     nativeCurrency: {
       name: '???',
       symbol: '???',
       decimals: 18,
     },
-    rpcUrls: [''],
-    blockExplorerUrls: [''],
+    rpcUrls: { default: '' },
+    blockExplorers: {
+      default: { url: '', name: '' },
+    },
   },
-} as Record<string, AddEthereumChainParameter>;
-
-export const URLS = Object.keys(CHAINS).reduce((acc, chainId) => {
-  const rpcUrls = CHAINS[chainId].rpcUrls;
-
-  if (!rpcUrls.length) return acc;
-
-  return { ...acc, [+chainId]: rpcUrls };
-}, {});
+} as Record<string, Chain>;
 
 export const isChainIdSupported = includes(__, [
   CHAIN_ID.BNB_TEST_NET,
   CHAIN_ID.RINKEBY,
 ]);
-
-export const getNativeCurrencySymbol = (chainId: number): string =>
-  pathOr('???', [chainId.toString(), 'nativeCurrency', 'symbol'], CHAINS);

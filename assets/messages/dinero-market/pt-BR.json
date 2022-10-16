@@ -1,5 +1,6 @@
 {
   "dineroMarket": {
+    "pageTitle": "Empréstimos em Dinero",
     "title": "Peça Dinero Emprestado",
     "filterSortOptionInterestRate": "Taxas de juros",
     "filterSortOptionLiquidationFee": "Taxa de liquidação",

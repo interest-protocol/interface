@@ -14,3 +14,6 @@ export async function tryCatch<T>(
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export const asyncNoop = async () => {};
