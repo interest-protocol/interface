@@ -10,6 +10,7 @@ import { capitalize } from '@/utils';
 
 import { FilterProps } from './filter-table.types';
 
+const DV = 'DV';
 const parseVaultTypeByEnum = cond([
   [equals(VaultTypes.All), always('All')],
   [equals(VaultTypes.DV), always('DV')],
@@ -30,7 +31,7 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
         display="inline-block"
         textTransform="capitalize"
       >
-        {t('common.type')}:
+        {t('common.type') + t('special.colon')}
       </Typography>
       <Box
         display="flex"
@@ -90,7 +91,7 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
                     whiteSpace="nowrap"
                     textTransform="capitalize"
                   >
-                    DV
+                    {DV}
                   </Typography>
                 </Box>
               ),

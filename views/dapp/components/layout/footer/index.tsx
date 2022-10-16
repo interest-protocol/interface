@@ -207,7 +207,12 @@ const Footer: FC = () => {
                             >
                               <FaucetSVG width="100%" />
                             </Box>
-                            <Typography variant="normal">Faucet</Typography>
+                            <Typography
+                              variant="normal"
+                              textTransform="capitalize"
+                            >
+                              {t('common.faucet')}
+                            </Typography>
                           </>
                         ),
                         onSelect: () => {
@@ -238,7 +243,7 @@ const Footer: FC = () => {
                                   <CreditCardSVG width="100%" />
                                 </Box>
                                 <Typography variant="normal">
-                                  Credit Card
+                                  {t('common.creditCard')}
                                 </Typography>
                               </Box>
                             </a>

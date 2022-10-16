@@ -86,7 +86,8 @@
     "rinkeby": "Rinkeby",
     "bnbMain": "BNB Main Net",
     "bnbTest": "BNB Test Net",
-    "rangeOf100": "% of 100%"
+    "rangeOf100": "% of 100%",
+    "creditCard": "Credit Card"
   },
   "special": {
     "colon": ": ",

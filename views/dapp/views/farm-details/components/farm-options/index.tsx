@@ -131,7 +131,7 @@ const FarmOptions: FC<FarmOptionsProps> = ({
                       : 'accentActive',
                 }}
               >
-                +
+                {t('special.plus')}
               </Button>
               <Button
                 variant="primary"
@@ -143,7 +143,7 @@ const FarmOptions: FC<FarmOptionsProps> = ({
                   bg: farm.stakingAmount.isZero() ? 'disabled' : 'errorActive',
                 }}
               >
-                -
+                {t('special.minus')}
               </Button>
             </Box>
           )

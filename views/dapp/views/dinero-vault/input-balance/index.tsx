@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC } from 'react';
 
 import { TOKENS_SVG_MAP } from '@/constants';
@@ -17,6 +18,7 @@ const InputBalance: FC<InputBalanceProps> = ({
   symbol,
   address,
 }) => {
+  const t = useTranslations();
   const chainId = useChainId();
   const returnSVG = (address: string) => {
     const SVG =
@@ -74,7 +76,7 @@ const InputBalance: FC<InputBalanceProps> = ({
               active={{ bg: 'accentActive' }}
               onClick={() => setValue?.('value', max.toString())}
             >
-              max
+              {t('common.max')}
             </Button>
             <Box width="1.8rem" display="flex">
               {returnSVG(address)}{' '}
