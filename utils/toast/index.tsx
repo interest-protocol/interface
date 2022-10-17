@@ -3,6 +3,7 @@ import { propOr } from 'ramda';
 import toast from 'react-hot-toast';
 
 import { CHAINS } from '@/constants';
+import Typography from '@/elements/typography';
 import { tryCatch } from '@/utils/promise';
 
 import { ToastMsgs, ToastOpts } from './toast.types';
@@ -24,7 +25,19 @@ export const showTXSuccessToast = async (
         receipt.transactionHash
       }`}
     >
-      {explorer?.default.name || 'Check Explorer'}
+      {explorer ? (
+        <Typography
+          variant="normal"
+          color="accent"
+          textDecoration="underline"
+          fontWeight="700"
+          cursor="pointer"
+        >
+          {explorer?.default.name}
+        </Typography>
+      ) : (
+        'Check Explorer'
+      )}
     </a>
   );
 };
