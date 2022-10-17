@@ -175,11 +175,9 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
               dineroVaultDetailsFooterItems={[
                 {
                   title: 'common.tvl',
-                  content: String(
-                    formatMoney(
-                      FixedPointMath.toNumber(
-                        processedData.data.mintedDineroAmount
-                      )
+                  content: formatMoney(
+                    FixedPointMath.toNumber(
+                      processedData.data.mintedDineroAmount
                     )
                   ),
                 },
