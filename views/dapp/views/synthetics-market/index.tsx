@@ -1,16 +1,16 @@
 import { useTranslations } from 'next-intl';
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
-import { useChainId, useGetDineroMarketsSummaryV2 } from '@/hooks';
+import { useChainId } from '@/hooks';
 import { BinanceUSDSVG, TimesSVG } from '@/svg';
 
-import { SyntheticsFilters, SyntheticsTable } from './components';
+import { SyntheticsFilters, SyntheticsList } from './components';
 import { BorrowSortByFilter } from './components/synthetics-filters/synthetics-filters.types';
+import { markets } from './synthetics-market.mock';
 import { IDineroMarketForm } from './synthetics-market.types';
-import { getSafeDineroMarketSummaryData } from './synthetics-market.utils';
 
 const SyntheticsMarket: FC = () => {
   const { register, setValue, control } = useForm<IDineroMarketForm>({
@@ -23,14 +23,8 @@ const SyntheticsMarket: FC = () => {
   const t = useTranslations();
   const chainId = useChainId();
 
-  const { data, error } = useGetDineroMarketsSummaryV2();
-
-  const markets = useMemo(
-    () => getSafeDineroMarketSummaryData(chainId, data),
-    [data, chainId]
-  );
-
-  if (error)
+  // eslint-disable-next-line no-constant-condition
+  if (false)
     return (
       <Box
         height="100%"
@@ -79,7 +73,7 @@ const SyntheticsMarket: FC = () => {
         register={register}
         setValue={setValue}
       />
-      <SyntheticsTable chainId={chainId} control={control} markets={markets} />
+      <SyntheticsList chainId={chainId} control={control} markets={markets} />
     </Container>
   );
 };

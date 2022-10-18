@@ -5,7 +5,7 @@ import {
   IDineroMarketForm,
 } from '../../synthetics-market.types';
 
-export interface SyntheticsTableProps {
+export interface SyntheticsListProps {
   markets: ReadonlyArray<DineroMarketSummary>;
   control: Control<IDineroMarketForm>;
   chainId: number;

@@ -1,7 +1,7 @@
 {
   "syntheticsMarket": {
-    "pageTitle": "Synthesizing in BUSD",
-    "title": "Synthesize BinanceUSD",
+    "pageTitle": "Synthetics",
+    "title": "Create synthetics using BUSD",
     "filterSortOptionInterestRate": "Interest Rate",
     "filterSortOptionLiquidationFee": "Liquidation Fee",
     "filterSynthesized": "Synthesized only",
@@ -10,13 +10,13 @@
       "TVL": "TVL",
       "TVLTip": "Total Value Locked",
       "synthesized": "Synthesized",
-      "borrowingTip": "The current amount of DNR you are borrowing being borrowed",
+      "synthesizedTip": "The current amount of BUSD you are synthesizing being synthesized",
       "LTV": "LTV",
       "LTVTip": "Loan to Value",
       "interestCost": "Interest Cost (APR)",
       "interestCostTip": "The annual cost of a loan to a borrower, <br /> expressed as a percentage",
-      "liquidation": "Liquidation Fee",
-      "liquidationTip": "A penalty fee charged to a borrower when his/her position is liquidated.<br />It is expressed as a percentage of the loan"
+      "fee": "Fee",
+      "feeTip": "A penalty fee charged to a borrower when his/her position is liquidated.<br />It is expressed as a percentage of the loan"
     }
   }
 }

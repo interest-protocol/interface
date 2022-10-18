@@ -6,6 +6,7 @@ export * from './farms';
 export * from './fiat-ramp';
 export * from './routes';
 export * from './social-media';
+export * from './synthetics-markets';
 export * from './vaults';
 export * from './wallets';
 

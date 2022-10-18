@@ -1,2 +1,2 @@
 export { default as SyntheticsFilters } from './synthetics-filters';
-export { default as SyntheticsTable } from './synthetics-table';
+export { default as SyntheticsList } from './synthetics-list';

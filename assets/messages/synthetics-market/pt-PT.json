@@ -1,7 +1,7 @@
 {
   "syntheticsMarket": {
     "pageTitle": "Sintetização em BUSD",
-    "title": "Sintetize Binance USD",
+    "title": "Criar sintéticos usando BUSD",
     "filterSortOptionInterestRate": "Taxas de juros",
     "filterSortOptionLiquidationFee": "Taxa de liquidação",
     "filterSynthesized": "Apenas Sintetizados",
@@ -10,13 +10,13 @@
       "TVL": "TVL",
       "TVLTip": "Valor Total Retido",
       "synthesized": "Sintetizado",
-      "borrowingTip": "Quantidade corrente de Dinero emprestado",
+      "synthesizedTip": "Quantidade corrente de BUSD sintetizado",
       "LTV": "LTV",
       "LTVTip": "Rácio de empréstimo/garantia",
       "interestCost": "Custo dos juros (APR)",
       "interestCostTip": "O custo anual de um empréstimo a um usuário, <br /> expresso percentualmente",
-      "liquidation": "Taxa de liquidação",
-      "liquidationTip": "Taxa de penalização cobrada a um usuário quando a sua posição é liquidada.<br />É expressa como uma percentagem do empréstimo"
+      "fee": "Taxa de liquidação",
+      "feeTip": "Taxa de penalização cobrada a um usuário quando a sua posição é liquidada.<br />É expressa como uma percentagem do empréstimo"
     }
   }
 }

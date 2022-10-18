@@ -305,4 +305,62 @@ export const CONTRACTS = {
       '0x4bd17003473389a42daf6a0a729f6fdb328bbbd7'
     ),
   },
+  iBTC: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0x9FC30ec4dC3b01735d989A5386e3fBF92Cf4Fc34'
+    ),
+  },
+  iBRL: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0xb0eFf131660FFcb4F513Ea90b89BBe664726A95D'
+    ),
+  },
+  iETH: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0x4D9Ca8fF5A0415D6d0435a487f0c3Ad90FE9d431'
+    ),
+  },
+  iGBP: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0x49B542cd9C0416Bb0071bb79F71863bce66DDae5'
+    ),
+  },
+  iXAU: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0x5e1FbC8e681ff33426c0124BC0D73664008ccff2'
+    ),
+  },
+  iJPY: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0x8921c7351bd80C3b58e0d92C66Cd23CdBC3c2cD7'
+    ),
+  },
+  // TODO: remove fake addresses
+  iAUD: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: 'sAUD',
+  },
+  iCHF: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: 'sCHF',
+  },
+  iEUR: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: 'sEUR',
+  },
 };
