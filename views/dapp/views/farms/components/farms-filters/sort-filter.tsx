@@ -117,7 +117,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               displayTitle: (
                 <Box display="flex" width="100%" py="S" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    Allocation
+                    {capitalize(t('common.allocation'))}
                   </Typography>
                 </Box>
               ),
