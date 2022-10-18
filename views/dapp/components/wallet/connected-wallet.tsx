@@ -12,7 +12,7 @@ import { shortAccount } from '@/utils';
 import ConnectWallet from './connect-wallet';
 import AccountModal from './wallet-modal/account-modal';
 
-const NoWalletSVG = () => <>?</>;
+const NoWallet = () => <>?</>;
 
 const ConnectedWallet: FC = () => {
   const chainId = useChainId();
@@ -27,7 +27,7 @@ const ConnectedWallet: FC = () => {
 
   const WalletSVG =
     WALLETS_MAP[chainId].find((wallet) => wallet.name === connector?.name)
-      ?.SVG ?? NoWalletSVG;
+      ?.SVG ?? NoWallet;
 
   return isConnected ? (
     <Box
