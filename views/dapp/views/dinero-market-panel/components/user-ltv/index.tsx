@@ -41,8 +41,7 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => {
           ) : (
             toFixedToPrecision(ltv, 4)
           )}
-          {'% '}
-          of 100%
+          {t('dineroMarketAddress.rangeOf')}
         </Box>
       </Box>
       <Box color={(ltv ?? 0) > 70 ? 'error' : 'accent'} mt="L">
