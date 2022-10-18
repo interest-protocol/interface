@@ -17,7 +17,7 @@ export enum BorrowSortByFilter {
 
 export type SortFilterProps = FilterProps;
 
-export type OnlyBorrowingFilterProps = FilterProps;
+export type OnlySynthesizedFilterProps = FilterProps;
 
 export interface BorrowFiltersProps extends FilterProps {
   register: UseFormRegister<IDineroMarketForm>;

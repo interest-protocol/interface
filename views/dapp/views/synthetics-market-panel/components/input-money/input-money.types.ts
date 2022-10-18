@@ -4,7 +4,7 @@ import {
   DineroCurrencyIcons,
   DineroMarketData,
   IBorrowForm,
-} from '../../dinero-market.types';
+} from '../../synthetics-market.types';
 
 export interface InputMoneyProps
   extends Pick<

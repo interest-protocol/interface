@@ -9,7 +9,7 @@ import { numberToString, safeToBigNumber } from '@/utils';
 import {
   calculateDineroLeftToBorrow,
   safeAmountToWithdrawRepay,
-} from '../../dinero-market.utils';
+} from '../../synthetics-market.utils';
 import { InputMaxButtonProps } from './input-money.types';
 
 const InputMaxButton: FC<InputMaxButtonProps> = ({

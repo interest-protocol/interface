@@ -4,9 +4,9 @@ import { FC } from 'react';
 import { Box, Input, Typography } from '@/elements';
 import { capitalize } from '@/utils';
 
-import { BorrowFiltersProps } from './borrow-filters.types';
-import OnlyBorrowingFilter from './only-borrowing-filter';
+import OnlyBorrowingFilter from './only-synthesized-filter';
 import SortFilter from './sort-filter';
+import { BorrowFiltersProps } from './synthetics-filters.types';
 
 const BorrowFilters: FC<BorrowFiltersProps> = ({
   setValue,
@@ -14,6 +14,7 @@ const BorrowFilters: FC<BorrowFiltersProps> = ({
   control,
 }) => {
   const t = useTranslations();
+
   return (
     <Box
       p="L"

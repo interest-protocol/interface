@@ -10,8 +10,8 @@ import DineroLpFreeMarketABI from '@/sdk/abi/dinero-lp-free-market.abi.json';
 import DineroNativeMarketABI from '@/sdk/abi/dinero-native-market.abi.json';
 import { isValidAccount, isZeroAddress, safeToBigNumber } from '@/utils';
 
-import { DineroMarketData, HandlerData } from './dinero-market.types';
-import { loanElasticToPrincipal } from './dinero-market.utils';
+import { DineroMarketData, HandlerData } from './synthetics-market.types';
+import { loanElasticToPrincipal } from './synthetics-market.utils';
 
 const { defaultAbiCoder } = ethers.utils;
 

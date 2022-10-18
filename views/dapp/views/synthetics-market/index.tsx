@@ -6,10 +6,9 @@ import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
 import { useChainId, useGetDineroMarketsSummaryV2 } from '@/hooks';
 import { BinanceUSDSVG, TimesSVG } from '@/svg';
-import BorrowFilters from '@/views/dapp/views/dinero-market/components/borrow-filters';
 
-import { BorrowTable } from './components';
-import { BorrowSortByFilter } from './components/borrow-filters/borrow-filters.types';
+import { SyntheticsFilters, SyntheticsTable } from './components';
+import { BorrowSortByFilter } from './components/synthetics-filters/synthetics-filters.types';
 import { IDineroMarketForm } from './synthetics-market.types';
 import { getSafeDineroMarketSummaryData } from './synthetics-market.utils';
 
@@ -75,12 +74,12 @@ const SyntheticsMarket: FC = () => {
           {t('syntheticsMarket.title')}
         </Typography>
       </Box>
-      <BorrowFilters
+      <SyntheticsFilters
         control={control}
         register={register}
         setValue={setValue}
       />
-      <BorrowTable chainId={chainId} control={control} markets={markets} />
+      <SyntheticsTable chainId={chainId} control={control} markets={markets} />
     </Container>
   );
 };

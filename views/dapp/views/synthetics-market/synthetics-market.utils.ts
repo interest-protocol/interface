@@ -13,7 +13,7 @@ import { TOKEN_SYMBOL } from '@/sdk';
 import { isSameAddress } from '@/utils';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
-import { BorrowSortByFilter } from './components/borrow-filters/borrow-filters.types';
+import { BorrowSortByFilter } from './components/synthetics-filters/synthetics-filters.types';
 import {
   DineroMarketSummary,
   IDineroMarketForm,

@@ -4,7 +4,7 @@ import {
   DineroMarketData,
   IBorrowForm,
   IBorrowFormField,
-} from '../../dinero-market.types';
+} from '../../synthetics-market.types';
 
 export interface BorrowFormButtonProps {
   form: UseFormReturn<IBorrowForm>;

@@ -13,7 +13,7 @@ import { numberToString } from '@/utils';
 import {
   calculateBorrowAmount,
   calculateUserCurrentLTV,
-} from '../../dinero-market.utils';
+} from '../../synthetics-market.utils';
 import { BorrowFormSelectLTVProps } from './borrow-form.types';
 
 const LTV_ARRAY = [0, 25, 50, 75, 100];
@@ -127,8 +127,8 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
         >
           {t(
             isBorrow
-              ? 'dineroMarketAddress.borrowCardInfo'
-              : 'dineroMarketAddress.repayCardInfo'
+              ? 'syntheticsMarketAddress.borrowCardInfo'
+              : 'syntheticsMarketAddress.repayCardInfo'
           )}
         </Typography>
       </Box>

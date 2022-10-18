@@ -1,8 +1,8 @@
 import { FC, useMemo } from 'react';
 
 import BorrowForm from './components/borrow-form';
-import { FormsProps } from './dinero-market.types';
-import { getBorrowFields, getRepayFields } from './dinero-market.utils';
+import { FormsProps } from './synthetics-market.types';
+import { getBorrowFields, getRepayFields } from './synthetics-market.utils';
 
 const DineroMarketForm: FC<FormsProps> = ({
   mode,

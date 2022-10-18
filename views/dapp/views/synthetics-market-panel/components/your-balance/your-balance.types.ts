@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers';
 
-import { DineroCurrencyIcons } from '../../dinero-market.types';
+import { DineroCurrencyIcons } from '../../synthetics-market.types';
 
 export interface YourBalanceProps {
   isPair: boolean;

@@ -1,20 +1,22 @@
 {
   "syntheticsMarket": {
-    "pageTitle": "Synthetics Market",
-    "title": "Synthesize BUSD",
+    "pageTitle": "Synthesizing in BUSD",
+    "title": "Synthesize BinanceUSD",
     "filterSortOptionInterestRate": "Interest Rate",
     "filterSortOptionLiquidationFee": "Liquidation Fee",
-    "filterBorrowing": "Borrowing only",
-    "tableHeaderCollateral": "Collateral",
-    "tableHeaderTVL": "TVL",
-    "tableHeaderTVLTip": "Total Value Locked",
-    "tableHeaderBorrowing": "Borrowing",
-    "tableHeaderBorrowingTip": "The current amount of DNR you are borrowing being borrowed",
-    "tableHeaderLTV": "LTV",
-    "tableHeaderLTVTip": "Loan to Value",
-    "tableHeaderInterestCost": "Interest Cost (APR)",
-    "tableHeaderInterestCostTip": "The annual cost of a loan to a borrower, <br /> expressed as a percentage",
-    "tableHeaderLiquidation": "Liquidation Fee",
-    "tableHeaderLiquidationTip": "A penalty fee charged to a borrower when his/her position is liquidated.<br />It is expressed as a percentage of the loan"
+    "filterSynthesized": "Synthesized only",
+    "tableHeading": {
+      "collateral": "Collateral",
+      "TVL": "TVL",
+      "TVLTip": "Total Value Locked",
+      "synthesized": "Synthesized",
+      "borrowingTip": "The current amount of DNR you are borrowing being borrowed",
+      "LTV": "LTV",
+      "LTVTip": "Loan to Value",
+      "interestCost": "Interest Cost (APR)",
+      "interestCostTip": "The annual cost of a loan to a borrower, <br /> expressed as a percentage",
+      "liquidation": "Liquidation Fee",
+      "liquidationTip": "A penalty fee charged to a borrower when his/her position is liquidated.<br />It is expressed as a percentage of the loan"
+    }
   }
 }

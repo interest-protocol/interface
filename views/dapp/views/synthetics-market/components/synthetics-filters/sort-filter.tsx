@@ -8,19 +8,22 @@ import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
-import { BorrowSortByFilter, SortFilterProps } from './borrow-filters.types';
+import {
+  BorrowSortByFilter,
+  SortFilterProps,
+} from './synthetics-filters.types';
 
 const parseFarmSortByEnum = cond([
   [equals(BorrowSortByFilter.Default), always('common.select')],
-  [equals(BorrowSortByFilter.TVL), always('dineroMarket.tableHeaderTVL')],
-  [equals(BorrowSortByFilter.LTV), always('dineroMarket.tableHeaderLTV')],
+  [equals(BorrowSortByFilter.TVL), always('syntheticsMarket.tableHeaderTVL')],
+  [equals(BorrowSortByFilter.LTV), always('syntheticsMarket.tableHeaderLTV')],
   [
     equals(BorrowSortByFilter.InterestRate),
-    always('dineroMarket.filterSortOptionInterestRate'),
+    always('syntheticsMarket.filterSortOptionInterestRate'),
   ],
   [
     equals(BorrowSortByFilter.Fee),
-    always('dineroMarket.filterSortOptionLiquidationFee'),
+    always('syntheticsMarket.filterSortOptionLiquidationFee'),
   ],
   [T, always('common.select')],
 ]);
@@ -118,12 +121,12 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
             {
               value: 'interestRate',
               displayOption: capitalize(
-                t('dineroMarket.filterSortOptionInterestRate')
+                t('syntheticsMarket.filterSortOptionInterestRate')
               ),
               displayTitle: (
                 <Box display="flex" width="100%" py="XS" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    {t('dineroMarket.filterSortOptionInterestRate')}
+                    {t('syntheticsMarket.filterSortOptionInterestRate')}
                   </Typography>
                 </Box>
               ),
@@ -134,13 +137,13 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
             {
               value: 'fee',
               displayOption: capitalize(
-                t('dineroMarket.filterSortOptionLiquidationFee')
+                t('syntheticsMarket.filterSortOptionLiquidationFee')
               ),
               displayTitle: (
                 <Box display="flex" width="100%" py="XS" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
                     {capitalize(
-                      t('dineroMarket.filterSortOptionLiquidationFee')
+                      t('syntheticsMarket.filterSortOptionLiquidationFee')
                     )}
                   </Typography>
                 </Box>

@@ -60,7 +60,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
             borderRadius="M"
             cursor="not-allowed"
           >
-            {t('dineroMarketAddress.button.default')}
+            {t('syntheticsMarketAddress.button.default')}
           </Box>
         ) : (
           <BorrowButton
@@ -81,7 +81,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
           borderRadius="M"
           cursor="not-allowed"
         >
-          {t('dineroMarketAddress.button.default')}
+          {t('syntheticsMarketAddress.button.default')}
         </Box>
       ) : (
         <RepayButton

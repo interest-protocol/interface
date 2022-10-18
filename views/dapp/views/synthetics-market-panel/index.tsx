@@ -23,19 +23,25 @@ import LoanInfo from './components/loan-info';
 import MyOpenPosition from './components/my-open-position';
 import UserLTV from './components/user-ltv';
 import YourBalance from './components/your-balance';
-import { BORROW_DEFAULT_VALUES } from './dinero-market.data';
-import { DineroMarketPanelProps, IBorrowForm } from './dinero-market.types';
+import { BORROW_DEFAULT_VALUES } from './synthetics-market.data';
+import {
+  IBorrowForm,
+  SyntheticsMarketPanelProps,
+} from './synthetics-market.types';
 import {
   calculatePositionHealth,
   getLoanInfoData,
   getMyPositionData,
   getSafeDineroMarketData,
   loanPrincipalToElastic,
-} from './dinero-market.utils';
-import DineroMarketForm from './dinero-market-form';
-import DineroMarketSwitch from './dinero-market-switch';
+} from './synthetics-market.utils';
+import DineroMarketForm from './synthetics-market-form';
+import DineroMarketSwitch from './synthetics-market-switch';
 
-const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
+const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
+  address,
+  mode,
+}) => {
   const { chainId, account } = useIdAccount();
 
   const {
@@ -172,4 +178,4 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
   );
 };
 
-export default DineroMarketPanel;
+export default SyntheticsMarketPanel;

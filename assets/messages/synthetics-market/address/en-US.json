@@ -1,5 +1,5 @@
 {
-  "dineroMarketAddress": {
+  "syntheticsMarketAddress": {
     "pageTitleBorrow": "Borrow Dinero",
     "pageTitleRepay": "Repay Dinero",
     "borrowTitle": "Borrow",

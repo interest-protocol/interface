@@ -52,7 +52,7 @@ import {
   TLoanPrincipalToElastic,
   TSafeAmountToWithdraw,
   TSafeAmountToWithdrawRepay,
-} from './dinero-market.types';
+} from './synthetics-market.types';
 
 export const isFormBorrowEmpty = (form: UseFormReturn<IBorrowForm>) =>
   form.formState.errors.borrow ||
@@ -769,7 +769,7 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
       ),
       max: FixedPointMath.toNumber(market.adjustedCollateralBalance),
       name: 'borrow.collateral',
-      label: 'dineroMarketAddress.borrowCollateralLabel',
+      label: 'syntheticsMarketAddress.borrowCollateralLabel',
       amountUSD: market.collateralUSDPrice.isZero()
         ? 0
         : FixedPointMath.toNumber(market.collateralUSDPrice),
@@ -786,7 +786,7 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
         },
       ],
       name: 'borrow.loan',
-      label: 'dineroMarketAddress.borrowDineroLabel',
+      label: 'syntheticsMarketAddress.borrowDineroLabel',
       currency: TOKEN_SYMBOL.DNR,
       disabled:
         market.collateralBalance.isZero() && market.userCollateral.isZero(),
@@ -808,7 +808,7 @@ export const getRepayFields: TGetRepayFields = (market) => {
         },
       ],
       name: 'repay.loan',
-      label: 'dineroMarketAddress.repayDineroLabel',
+      label: 'syntheticsMarketAddress.repayDineroLabel',
       max: FixedPointMath.from(market.dnrBalance).toNumber(),
       currency: TOKEN_SYMBOL.DNR,
       disabled: market.loanElastic.isZero() || market.dnrBalance.isZero(),
@@ -823,7 +823,7 @@ export const getRepayFields: TGetRepayFields = (market) => {
       ),
       max: safeAmountToWithdraw(market).toNumber(),
       name: 'repay.collateral',
-      label: 'dineroMarketAddress.repayCollateralLabel',
+      label: 'syntheticsMarketAddress.repayCollateralLabel',
       amountUSD: market?.collateralUSDPrice.isZero()
         ? 0
         : FixedPointMath.toNumber(market.collateralUSDPrice),

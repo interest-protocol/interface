@@ -12,8 +12,8 @@ import {
   throwContractCallError,
 } from '@/utils';
 
-import { useRepay } from '../../dinero-market.hooks';
-import { isFormRepayEmpty } from '../../dinero-market.utils';
+import { useRepay } from '../../synthetics-market.hooks';
+import { isFormRepayEmpty } from '../../synthetics-market.utils';
 import { RepayButtonProps } from './borrow-form.types';
 
 const RepayButton: FC<RepayButtonProps> = ({
@@ -51,7 +51,7 @@ const RepayButton: FC<RepayButtonProps> = ({
 
   const onSubmitRepay = async () => {
     if (isFormRepayEmpty(form)) {
-      toast.error(t('dineroMarketAddress.toastError'));
+      toast.error(t('syntheticsMarketAddress.toastError'));
       return;
     }
 
@@ -89,10 +89,10 @@ const RepayButton: FC<RepayButtonProps> = ({
       >
         {t(
           !!+repayLoan && !!+repayCollateral
-            ? 'dineroMarketAddress.button.removeCollateralRepay'
+            ? 'syntheticsMarketAddress.button.removeCollateralRepay'
             : +repayCollateral
-            ? 'dineroMarketAddress.button.removeCollateral'
-            : 'dineroMarketAddress.button.repay'
+            ? 'syntheticsMarketAddress.button.removeCollateral'
+            : 'syntheticsMarketAddress.button.repay'
         )}
       </Typography>
     </Button>

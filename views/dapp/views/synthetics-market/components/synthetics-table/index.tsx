@@ -12,9 +12,13 @@ import { FixedPointMath, SECONDS_IN_A_YEAR } from '@/sdk';
 import { capitalize, formatDollars, formatMoney } from '@/utils';
 
 import { handleFilterDineroMarkets } from '../../synthetics-market.utils';
-import { BorrowTableProps } from './borrow-table.types';
+import { SyntheticsTableProps } from './synthetics-table.types';
 
-const BorrowTable: FC<BorrowTableProps> = ({ control, markets, chainId }) => {
+const SyntheticsTable: FC<SyntheticsTableProps> = ({
+  control,
+  markets,
+  chainId,
+}) => {
   const t = useTranslations();
   const { push } = useRouter();
   const sortBy = useWatch({ control, name: 'sortBy' });
@@ -45,12 +49,12 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets, chainId }) => {
                   textAlign="center"
                   display={['none', 'block']}
                 >
-                  {t('dineroMarket.tableHeaderCollateral')}
+                  {t('syntheticsMarket.tableHeading.collateral')}
                 </Typography>
               ),
             },
             {
-              tip: t('dineroMarket.tableHeaderTVLTip'),
+              tip: t('syntheticsMarket.tableHeading.TVLTip'),
               item: (
                 <Typography
                   as="span"
@@ -63,7 +67,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets, chainId }) => {
               ),
             },
             {
-              tip: t('dineroMarket.tableHeaderBorrowingTip'),
+              tip: t('syntheticsMarket.tableHeading.borrowingTip'),
               item: (
                 <Typography
                   as="span"
@@ -71,12 +75,12 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets, chainId }) => {
                   variant="normal"
                   fontSize="inherit"
                 >
-                  {t('dineroMarket.tableHeaderBorrowing')}
+                  {t('syntheticsMarket.tableHeading.synthesized')}
                 </Typography>
               ),
             },
             {
-              tip: t('dineroMarket.tableHeaderLTVTip'),
+              tip: t('syntheticsMarket.tableHeading.LTVTip'),
               item: (
                 <Typography
                   as="span"
@@ -89,12 +93,12 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets, chainId }) => {
               ),
             },
             {
-              tip: t('dineroMarket.tableHeaderInterestCostTip'),
-              item: <>{t('dineroMarket.tableHeaderInterestCost')}</>,
+              tip: t('syntheticsMarket.tableHeading.interestCostTip'),
+              item: <>{t('syntheticsMarket.tableHeading.interestCost')}</>,
             },
             {
-              tip: t('dineroMarket.tableHeaderLiquidationTip'),
-              item: <>{t('dineroMarket.tableHeaderLiquidation')}</>,
+              tip: t('syntheticsMarket.tableHeading.liquidationTip'),
+              item: <>{t('syntheticsMarket.tableHeading.liquidation')}</>,
             },
           ]}
           data={filteredMarkets.map((x) => ({
@@ -106,7 +110,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets, chainId }) => {
             button: (
               <Link
                 href={{
-                  pathname: Routes[RoutesEnum.DineroMarketBorrow],
+                  pathname: Routes[RoutesEnum.SyntheticsMarketBorrow],
                   query: { address: x.marketAddress },
                 }}
               >
@@ -181,7 +185,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets, chainId }) => {
                   fontSize="inherit"
                   data-tip="TVL info"
                 >
-                  {t('dineroMarket.tableHeaderBorrowing')}
+                  {t('syntheticsMarket.tableHeading.synthesized')}
                 </Typography>
               ),
             },
@@ -200,84 +204,82 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets, chainId }) => {
               ),
             },
             {
-              item: <>{t('dineroMarket.tableHeaderInterestCost')}</>,
+              item: <>{t('syntheticsMarket.tableHeading.interestCost')}</>,
             },
             {
-              item: <>{t('dineroMarket.tableHeaderLiquidation')}</>,
+              item: <>{t('syntheticsMarket.tableHeading.liquidation')}</>,
             },
           ]}
-          data={filteredMarkets.map((x) => {
-            return {
-              mobileSide: (
-                <Box
-                  flex="1"
-                  key={v4()}
-                  display="flex"
-                  alignItems="center"
-                  flexDirection="column"
-                  justifyContent="center"
-                >
-                  <Box display="flex" ml="M">
-                    {getDineroMarketSVGByAddress(chainId, x.marketAddress).map(
-                      ({ SVG, highZIndex }, index) => (
-                        <Box
-                          mr="M"
-                          as="span"
-                          key={v4()}
-                          width="1.6rem"
-                          display="inline-block"
-                          ml={index != 0 ? '-1rem' : 'NONE'}
-                          zIndex={index == 0 && highZIndex ? 3 : 'unset'}
-                        >
-                          <SVG width="100%" />
-                        </Box>
-                      )
-                    )}
-                  </Box>
-                  <Typography variant="normal" textAlign="center" mt="M">
-                    {x.name}
-                  </Typography>
+          data={filteredMarkets.map((x) => ({
+            mobileSide: (
+              <Box
+                flex="1"
+                key={v4()}
+                display="flex"
+                alignItems="center"
+                flexDirection="column"
+                justifyContent="center"
+              >
+                <Box display="flex" ml="M">
+                  {getDineroMarketSVGByAddress(chainId, x.marketAddress).map(
+                    ({ SVG, highZIndex }, index) => (
+                      <Box
+                        mr="M"
+                        as="span"
+                        key={v4()}
+                        width="1.6rem"
+                        display="inline-block"
+                        ml={index != 0 ? '-1rem' : 'NONE'}
+                        zIndex={index == 0 && highZIndex ? 3 : 'unset'}
+                      >
+                        <SVG width="100%" />
+                      </Box>
+                    )
+                  )}
                 </Box>
-              ),
-              button: (
-                <Link
-                  href={{
-                    pathname: Routes[RoutesEnum.DineroMarketBorrow],
-                    query: { address: x.marketAddress },
-                  }}
+                <Typography variant="normal" textAlign="center" mt="M">
+                  {x.name}
+                </Typography>
+              </Box>
+            ),
+            button: (
+              <Link
+                href={{
+                  pathname: Routes[RoutesEnum.SyntheticsMarketBorrow],
+                  query: { address: x.marketAddress },
+                }}
+              >
+                <Button
+                  key={v4()}
+                  variant="primary"
+                  hover={{ bg: 'accentActive' }}
                 >
-                  <Button
-                    key={v4()}
-                    variant="primary"
-                    hover={{ bg: 'accentActive' }}
-                  >
-                    {capitalize(t('common.enter'))}
-                  </Button>
-                </Link>
+                  {capitalize(t('common.enter'))}
+                </Button>
+              </Link>
+            ),
+            items: [
+              formatDollars(
+                FixedPointMath.from(
+                  x.totalCollateral
+                    .mul(x.collateralUSDPrice)
+                    .div(BigNumber.from(10).pow(x.collateralDecimals))
+                ).toNumber()
               ),
-              items: [
-                formatDollars(
-                  FixedPointMath.from(
-                    x.totalCollateral
-                      .mul(x.collateralUSDPrice)
-                      .div(BigNumber.from(10).pow(x.collateralDecimals))
-                  ).toNumber()
-                ),
-                formatMoney(FixedPointMath.toNumber(x.userElasticLoan)),
-                FixedPointMath.from(x.LTV).toPercentage(0),
-                x.interestRate.isZero()
-                  ? 'N/A'
-                  : FixedPointMath.from(
-                      x.interestRate.mul(SECONDS_IN_A_YEAR)
-                    ).toPercentage(2),
-                FixedPointMath.from(x.liquidationFee).toPercentage(2),
-              ],
-            };
-          })}
+              formatMoney(FixedPointMath.toNumber(x.userElasticLoan)),
+              FixedPointMath.from(x.LTV).toPercentage(0),
+              x.interestRate.isZero()
+                ? 'N/A'
+                : FixedPointMath.from(
+                    x.interestRate.mul(SECONDS_IN_A_YEAR)
+                  ).toPercentage(2),
+              FixedPointMath.from(x.liquidationFee).toPercentage(2),
+            ],
+          }))}
         />
       </Box>
     </>
   );
 };
 
-export default BorrowTable;
+export default SyntheticsTable;

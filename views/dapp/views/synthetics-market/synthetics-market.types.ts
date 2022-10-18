@@ -2,7 +2,7 @@ import { BigNumber } from 'ethers';
 
 import { DineroMarketKind } from '@/constants';
 
-import { BorrowSortByFilter } from './components/borrow-filters/borrow-filters.types';
+import { BorrowSortByFilter } from './components/synthetics-filters/synthetics-filters.types';
 
 export interface DineroMarketSummary {
   totalCollateral: BigNumber;

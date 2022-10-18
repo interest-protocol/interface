@@ -1,20 +1,22 @@
 {
   "syntheticsMarket": {
-    "pageTitle": "Empréstimos em Dinero",
-    "title": "Peça Dinero Emprestado",
+    "pageTitle": "Sintetização em BUSD",
+    "title": "Sintetize BinanceUSD",
     "filterSortOptionInterestRate": "Taxas de juros",
     "filterSortOptionLiquidationFee": "Taxa de liquidação",
-    "filterBorrowing": "Apenas Empréstimo",
-    "tableHeaderCollateral": "Garantia",
-    "tableHeaderTVL": "TVL",
-    "tableHeaderTVLTip": "Valor Total Retido",
-    "tableHeaderBorrowing": "Emprestimo",
-    "tableHeaderBorrowingTip": "Quantidade corrente de Dinero emprestado",
-    "tableHeaderLTV": "LTV",
-    "tableHeaderLTVTip": "Rácio de empréstimo/garantia",
-    "tableHeaderInterestCost": "Custo dos juros (APR)",
-    "tableHeaderInterestCostTip": "O custo anual de um empréstimo a um usuário, <br /> expresso percentualmente",
-    "tableHeaderLiquidation": "Taxa de liquidação",
-    "tableHeaderLiquidationTip": "Taxa de penalização cobrada a um usuário quando a sua posição é liquidada.<br />É expressa como uma percentagem do empréstimo"
+    "filterSynthesized": "Apenas Sintetizados",
+    "tableHeading": {
+      "collateral": "Garantia",
+      "TVL": "TVL",
+      "TVLTip": "Valor Total Retido",
+      "synthesized": "Sintetizado",
+      "borrowingTip": "Quantidade corrente de Dinero emprestado",
+      "LTV": "LTV",
+      "LTVTip": "Rácio de empréstimo/garantia",
+      "interestCost": "Custo dos juros (APR)",
+      "interestCostTip": "O custo anual de um empréstimo a um usuário, <br /> expresso percentualmente",
+      "liquidation": "Taxa de liquidação",
+      "liquidationTip": "Taxa de penalização cobrada a um usuário quando a sua posição é liquidada.<br />É expressa como uma percentagem do empréstimo"
+    }
   }
 }

@@ -13,15 +13,15 @@ import { capitalize } from '@/utils';
 import { LoanInfoProps } from './loan-info.types';
 
 const CustomInfo = [1, 2, 3].map((index) => ({
-  tip: 'dineroMarketAddress.loanInfoCustomTip' + index,
-  name: 'dineroMarketAddress.loanInfoCustomName' + index,
+  tip: 'syntheticsMarketAddress.loanInfoCustomTip' + index,
+  name: 'syntheticsMarketAddress.loanInfoCustomName' + index,
 }));
 
 const LOAN_INFO_MAP = {
   [DineroMarketKind.LpFreeMarket]: CustomInfo.concat(
     [1, 2, 3].map((index) => ({
-      tip: 'dineroMarketAddress.loanInfoLpFreeMarketTip' + index,
-      name: 'dineroMarketAddress.loanInfoLpFreeMarketName' + index,
+      tip: 'syntheticsMarketAddress.loanInfoLpFreeMarketTip' + index,
+      name: 'syntheticsMarketAddress.loanInfoLpFreeMarketName' + index,
     }))
   ),
   [DineroMarketKind.ERC20]: CustomInfo,

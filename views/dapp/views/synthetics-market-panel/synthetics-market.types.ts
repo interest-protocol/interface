@@ -8,14 +8,14 @@ import { FixedPointMath } from '@/sdk';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
 
-export type TDineroMarketMode = 'borrow' | 'repay';
+export type TSyntheticsMarketMode = 'borrow' | 'repay';
 
-export interface DineroMarketPanelProps {
+export interface SyntheticsMarketPanelProps {
   address: string;
-  mode: TDineroMarketMode;
+  mode: TSyntheticsMarketMode;
 }
 
-export interface DineroMarketSwitchProps extends DineroMarketPanelProps {
+export interface DineroMarketSwitchProps extends SyntheticsMarketPanelProps {
   resetField: UseFormResetField<IBorrowForm>;
 }
 

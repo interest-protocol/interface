@@ -20,11 +20,11 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => {
             width="1rem"
             cursor="help"
             display="inline-block"
-            data-tip={t('dineroMarketAddress.userLTVTip')}
+            data-tip={t('syntheticsMarketAddress.userLTVTip')}
           >
             <InfoSVG width="100%" />
           </Box>
-          {t('dineroMarketAddress.userLTVTitle')}
+          {t('syntheticsMarketAddress.userLTVTitle')}
         </Typography>
         <Box textAlign="right" whiteSpace="nowrap" color="textSecondary">
           {isLoading ? (

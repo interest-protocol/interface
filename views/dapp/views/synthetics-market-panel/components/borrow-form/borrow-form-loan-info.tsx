@@ -12,12 +12,12 @@ import { capitalize } from '@/utils';
 import {
   getBorrowPositionHealthData,
   getRepayPositionHealthData,
-} from '../../dinero-market.utils';
+} from '../../synthetics-market.utils';
 import { BorrowFormLoanInfoProps } from './borrow-form.types';
 
 const INFO = [1, 2, 3, 4].map((item) => ({
-  text: 'dineroMarketAddress.borrowFormLoanInfoText' + item,
-  tip: 'dineroMarketAddress.borrowFormLoanInfoTip' + item,
+  text: 'syntheticsMarketAddress.borrowFormLoanInfoText' + item,
+  tip: 'syntheticsMarketAddress.borrowFormLoanInfoTip' + item,
 }));
 
 const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({

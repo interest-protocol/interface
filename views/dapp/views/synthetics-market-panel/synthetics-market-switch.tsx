@@ -7,8 +7,8 @@ import { Switch } from '@/components';
 import { ISwitchOption } from '@/components/switch/switch.types';
 import { Routes, RoutesEnum } from '@/constants/routes';
 
-import { BORROW_DEFAULT_VALUES } from './dinero-market.data';
-import { DineroMarketSwitchProps } from './dinero-market.types';
+import { BORROW_DEFAULT_VALUES } from './synthetics-market.data';
+import { DineroMarketSwitchProps } from './synthetics-market.types';
 
 const FORM_FIELDS = [
   'borrow.loan',
@@ -48,12 +48,12 @@ const DineroMarketSwitch: FC<DineroMarketSwitchProps> = ({
       {
         value: 'borrow',
         onSelect: switchTo('borrow'),
-        displayValue: t('dineroMarketAddress.borrowTitle'),
+        displayValue: t('syntheticsMarketAddress.borrowTitle'),
       },
       {
         value: 'repay',
         onSelect: switchTo('repay'),
-        displayValue: t('dineroMarketAddress.repayTitle'),
+        displayValue: t('syntheticsMarketAddress.repayTitle'),
       },
     ],
     [mode]

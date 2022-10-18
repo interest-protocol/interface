@@ -17,11 +17,11 @@ import {
   throwContractCallError,
 } from '@/utils';
 
-import { useBorrow } from '../../dinero-market.hooks';
+import { useBorrow } from '../../synthetics-market.hooks';
 import {
   convertCollateralToDinero,
   isFormBorrowEmpty,
-} from '../../dinero-market.utils';
+} from '../../synthetics-market.utils';
 import { BorrowButtonProps } from './borrow-form.types';
 
 const { parseEther } = ethers.utils;
@@ -161,7 +161,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       borderRadius="M"
       cursor="not-allowed"
     >
-      {t('dineroMarketAddress.button.default')}
+      {t('syntheticsMarketAddress.button.default')}
     </Box>
   ) : (
     <Button
@@ -188,10 +188,10 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       >
         {t(
           !!+borrowLoan && !!+borrowCollateral
-            ? 'dineroMarketAddress.button.addCollateralBorrow'
+            ? 'syntheticsMarketAddress.button.addCollateralBorrow'
             : +borrowCollateral > 0
-            ? 'dineroMarketAddress.button.addCollateral'
-            : 'dineroMarketAddress.button.borrow'
+            ? 'syntheticsMarketAddress.button.addCollateral'
+            : 'syntheticsMarketAddress.button.borrow'
         )}
       </Typography>
     </Button>

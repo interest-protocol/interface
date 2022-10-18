@@ -7,12 +7,11 @@ import {
   FlexboxProps,
   LayoutProps,
   PositionProps,
+  ResponsiveValue,
   SpaceProps,
   TextShadowProps,
   TypographyProps as TypoProps,
 } from 'styled-system';
-
-import { MaybeArray } from '@/interface';
 
 export interface TypographyProps
   extends LayoutProps,
@@ -28,10 +27,10 @@ export interface TypographyProps
   hover?: SystemStyleObject;
   active?: SystemStyleObject;
   as?: keyof JSX.IntrinsicElements;
-  cursor?: MaybeArray<CSSProperties['cursor']>;
-  whiteSpace?: MaybeArray<CSSProperties['whiteSpace']>;
-  textTransform?: MaybeArray<CSSProperties['textTransform']>;
-  variant: MaybeArray<
+  cursor?: ResponsiveValue<CSSProperties['cursor']>;
+  whiteSpace?: ResponsiveValue<CSSProperties['whiteSpace']>;
+  textTransform?: ResponsiveValue<CSSProperties['textTransform']>;
+  variant: ResponsiveValue<
     'title1' | 'title2' | 'title3' | 'title4' | 'normal' | 'large' | 'button'
   >;
 }

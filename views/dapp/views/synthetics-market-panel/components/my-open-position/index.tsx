@@ -12,8 +12,8 @@ import { capitalize, formatDollars, maybeLPTokenName } from '@/utils';
 import { MyOpenPositionProps } from './my-open-position.types';
 
 const MY_POSITION = [1, 2, 3, 4, 5, 6].map((item) => ({
-  name: 'dineroMarketAddress.positionName' + item,
-  tip: 'dineroMarketAddress.positionTip' + item,
+  name: 'syntheticsMarketAddress.positionName' + item,
+  tip: 'syntheticsMarketAddress.positionTip' + item,
 }));
 
 const MyOpenPosition: FC<MyOpenPositionProps> = ({
@@ -27,7 +27,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
   return (
     <Box p="XL" order={5} gridArea="c" bg="foreground" borderRadius="L">
       <Typography variant="normal" textTransform="uppercase" mt="L">
-        {t('dineroMarketAddress.positionTitle')}:
+        {t('syntheticsMarketAddress.positionTitle')}:
       </Typography>
       {MY_POSITION.map(({ name, tip }, i) => (
         <Box

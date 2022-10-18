@@ -6,9 +6,9 @@ import { Switch } from '@/components';
 import { Box, Typography } from '@/elements';
 
 import { getFilterSwitchDefaultData } from '../../synthetics-market.utils';
-import { OnlyBorrowingFilterProps } from './borrow-filters.types';
+import { OnlySynthesizedFilterProps } from './synthetics-filters.types';
 
-const OnlyBorrowingFilter: FC<OnlyBorrowingFilterProps> = ({
+const OnlySynthesizedFilter: FC<OnlySynthesizedFilterProps> = ({
   control,
   setValue,
 }) => {
@@ -37,7 +37,7 @@ const OnlyBorrowingFilter: FC<OnlyBorrowingFilterProps> = ({
         variant="normal"
         textAlign={['center', 'center', 'center', 'left']}
       >
-        {t('dineroMarket.filterBorrowing')}
+        {t('syntheticsMarket.filterSynthesized')}
       </Typography>
       <Switch
         bg="background"
@@ -49,4 +49,4 @@ const OnlyBorrowingFilter: FC<OnlyBorrowingFilterProps> = ({
   );
 };
 
-export default OnlyBorrowingFilter;
+export default OnlySynthesizedFilter;

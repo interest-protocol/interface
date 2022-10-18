@@ -2,8 +2,6 @@ import { QueryFunctionContext, UseQueryOptions } from '@tanstack/react-query';
 import type { Ethereum } from '@wagmi/core';
 import { CallOverrides } from 'ethers/lib/ethers';
 
-export type MaybeArray<T> = T | Array<T>;
-
 export type UseContractArgs = {
   cacheOnBlock?: boolean;
   overrides?: CallOverrides;

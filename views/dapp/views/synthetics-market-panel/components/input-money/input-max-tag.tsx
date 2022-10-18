@@ -9,7 +9,7 @@ import { formatMoney, safeToBigNumber } from '@/utils';
 import {
   calculateDineroLeftToBorrow,
   safeAmountToWithdrawRepay,
-} from '../../dinero-market.utils';
+} from '../../synthetics-market.utils';
 import { InputMaxTagProps } from './input-money.types';
 
 const InputMaxTag: FC<InputMaxTagProps> = ({
