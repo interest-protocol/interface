@@ -1,6 +1,6 @@
 import { FC, SVGAttributes } from 'react';
 
-const Bscscan: FC<SVGAttributes<SVGSVGElement>> = (props) => (
+const BscScan: FC<SVGAttributes<SVGSVGElement>> = (props) => (
   <svg viewBox="0 0 121.378 121.333" {...props}>
     <g id="bscscan-logo-circle" transform="translate(-219.378 -213.334)">
       <path
@@ -19,4 +19,4 @@ const Bscscan: FC<SVGAttributes<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-export default Bscscan;
+export default BscScan;
