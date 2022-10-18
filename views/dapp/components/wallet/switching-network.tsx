@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { not } from 'ramda';
 import { FC, useState } from 'react';
 
@@ -7,6 +8,7 @@ import { LoadingSVG } from '@/svg';
 import { SwitchingNetworkModal } from './wallet-modal';
 
 const SwitchingNetwork: FC = () => {
+  const t = useTranslations();
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const toggleModal = () => setIsOpenModal(not);
@@ -26,7 +28,7 @@ const SwitchingNetwork: FC = () => {
           <LoadingSVG width="100%" />
         </Box>
         <Typography variant="normal" ml="M" my="S" whiteSpace="nowrap">
-          Switching Network
+          {t('wallet.switchNetwork.title')}
         </Typography>
       </Button>
       <SwitchingNetworkModal isOpen={isOpenModal} handleClose={toggleModal} />

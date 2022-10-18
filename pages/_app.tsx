@@ -15,7 +15,7 @@ import GlobalStyles from '@/design-system/global-styles';
 const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
   <>
     <Head>
-      <title>Interest Protocol</title>
+      <title>{'Interest Protocol'}</title>
       <meta
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1, viewport-fit=cover"

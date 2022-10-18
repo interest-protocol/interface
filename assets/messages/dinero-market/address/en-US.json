@@ -46,6 +46,7 @@
     "userLTVTitle": "Risk",
     "userLTVTip": "If this value reaches 100%, <br />you might get liquidated",
     "toastError": "Borrow or collateral amount are wrong",
+    "rangeOf": "% of 100%",
     "button": {
       "default": "No Request",
       "addCollateralBorrow": "Add Collateral and Borrow",
