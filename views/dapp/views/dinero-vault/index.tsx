@@ -7,7 +7,7 @@ import { Box, Typography } from '@/elements';
 import { useIdAccount } from '@/hooks';
 import { FixedPointMath, TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
 import { LoadingSVG, TimesSVG } from '@/svg';
-import { getDNRAddress } from '@/utils';
+import { formatMoney, getDNRAddress } from '@/utils';
 import { useGetUserDineroVault } from '@/views/dapp/views/dinero-vault/dinero-vault.hooks';
 
 import GoBack from '../../components/go-back';
@@ -125,9 +125,11 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
                   title: 'dineroVault.detail1',
                   tip: 'dineroVault.detail1Tip',
                   content:
-                    FixedPointMath.toNumber(
-                      processedData.data.depositAmount,
-                      processedData.data.depositTokenDecimals
+                    formatMoney(
+                      FixedPointMath.toNumber(
+                        processedData.data.depositAmount,
+                        processedData.data.depositTokenDecimals
+                      )
                     ) +
                     ' ' +
                     processedData.data.depositTokenSymbol,
@@ -136,9 +138,11 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
                   title: 'dineroVault.detail2',
                   tip: 'dineroVault.detail2Tip',
                   content:
-                    FixedPointMath.toNumber(
-                      processedData.data.depositAmount,
-                      processedData.data.dineroDecimals
+                    formatMoney(
+                      FixedPointMath.toNumber(
+                        processedData.data.depositAmount,
+                        processedData.data.dineroDecimals
+                      )
                     ) +
                     ' ' +
                     TOKEN_SYMBOL.DNR,
@@ -147,11 +151,17 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
                   title: 'dineroVault.detail3',
                   tip: 'dineroVault.detail3Tip',
                   content:
-                    FixedPointMath.toNumber(
-                      processedData.data.mintedDineroAmount
+                    formatMoney(
+                      FixedPointMath.toNumber(
+                        processedData.data.mintedDineroAmount
+                      )
                     ) +
                     ' / ' +
-                    FixedPointMath.toNumber(processedData.data.maxDineroAmount),
+                    formatMoney(
+                      FixedPointMath.toNumber(
+                        processedData.data.maxDineroAmount
+                      )
+                    ),
                 },
               ]}
             />
@@ -165,7 +175,7 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
               dineroVaultDetailsFooterItems={[
                 {
                   title: 'common.tvl',
-                  content: String(
+                  content: formatMoney(
                     FixedPointMath.toNumber(
                       processedData.data.mintedDineroAmount
                     )
