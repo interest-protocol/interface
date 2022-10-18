@@ -46,7 +46,7 @@
     "userLTVTitle": "Risco",
     "userLTVTip": "Se este valor atingir 100%, <br /> poderá ser liquidado",
     "toastError": "Empréstimo ou montante da garantia estão errados",
-    "rangeOf": "% of 100%",
+    "rangeOf": "% de 100%",
     "button": {
       "default": "Inactivo",
       "addCollateralBorrow": "Adicionar Garantia e Pedir Emprestado",
