@@ -9,7 +9,7 @@ export const SOCIAL_SVG = {
 export const ADVISOR_MEMBERS = [
   {
     name: 'João Simões',
-    role: 'landingPage.roleAdvisor',
+    role: 'CCG Advisory COO',
     image: 'joao-simoes',
     social: {
       companyName: 'https://www.ccgadvisory.com/our-board/',

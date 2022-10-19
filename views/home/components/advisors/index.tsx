@@ -11,7 +11,7 @@ import { LogoSVG } from '@/svg';
 import { ADVISOR_MEMBERS, SOCIAL_SVG } from './advisor.data';
 import { Image } from './advisor.styles';
 
-const Advisor: FC = () => {
+const Advisors: FC = () => {
   const t = useTranslations();
 
   return (
@@ -131,9 +131,7 @@ const Advisor: FC = () => {
                 >
                   {name}
                 </Typography>
-                <Typography variant="normal">
-                  {t(role as MessageKeys<IntlMessages, keyof IntlMessages>)}
-                </Typography>
+                <Typography variant="normal">{role}</Typography>
                 <Box mt="M">
                   {toPairs(social).map(([network, link]) => {
                     const Icon = SOCIAL_SVG[network];
@@ -167,4 +165,4 @@ const Advisor: FC = () => {
     </Box>
   );
 };
-export default Advisor;
+export default Advisors;

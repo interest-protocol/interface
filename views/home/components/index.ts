@@ -1,4 +1,4 @@
-export { default as Advisor } from './advisor';
+export { default as Advisors } from './advisors';
 export { default as Automate } from './automate';
 export { default as Borrow } from './borrow';
 export { default as DEX } from './dex';

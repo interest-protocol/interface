@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { Box } from '@/elements';
 
 import {
-  Advisor,
+  Advisors,
   Automate,
   Borrow,
   DEX,
@@ -28,7 +28,7 @@ const Home: FC = () => (
     <DEX />
     <Automate />
     <Team />
-    <Advisor />
+    <Advisors />
     <Subscribe />
   </>
 );
