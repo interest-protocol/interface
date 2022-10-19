@@ -13,11 +13,11 @@ const OnlySynthesizedFilter: FC<OnlySynthesizedFilterProps> = ({
   setValue,
 }) => {
   const t = useTranslations();
-  const onlyBorrowing = useWatch({ control, name: 'onlyBorrowing' });
+  const onlyBorrowing = useWatch({ control, name: 'onlyMinted' });
   const SWITCH_ON_OFF_DATA = getFilterSwitchDefaultData(
     [t('common.off'), t('common.on')],
     setValue,
-    'onlyBorrowing'
+    'onlyMinted'
   );
 
   return (
