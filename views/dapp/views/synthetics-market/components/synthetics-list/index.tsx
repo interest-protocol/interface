@@ -95,16 +95,18 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
                 fontWeight="600"
                 variant="normal"
               >
-                {formatDollars(0)}
+                {formatDollars(FixedPointMath.toNumber(x.syntheticUSDPrice))}
               </Typography>
               <Typography
                 my="S"
                 fontSize="S"
                 cursor="help"
                 variant="normal"
-                data-tip={t('syntheticsMarket.tableHeading.synthesizedTip')}
+                data-tip={t('syntheticsMarket.tableHeading.TVLTip')}
               >
-                {formatMoney(FixedPointMath.toNumber(x.userSyntheticMinted))}
+                {`${formatDollars(
+                  FixedPointMath.from(x.tvlInUSD).toNumber()
+                )} TVL`}
               </Typography>
               <Box
                 my="S"
@@ -112,9 +114,11 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
                 cursor="help"
                 display="flex"
                 alignItems="center"
-                data-tip={t('syntheticsMarket.tableHeading.TVLTip')}
+                data-tip={t(
+                  'syntheticsMarket.tableHeading.userSyntheticMinted'
+                )}
               >
-                {formatDollars(FixedPointMath.from(x.tvlInUSD).toNumber())}
+                {formatMoney(FixedPointMath.toNumber(x.userSyntheticMinted))}
               </Box>
             </Box>
             <Box display="flex" justifyContent="space-between" mt="L">

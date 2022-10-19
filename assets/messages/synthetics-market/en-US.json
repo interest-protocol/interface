@@ -10,7 +10,7 @@
       "TVL": "TVL",
       "TVLTip": "Total Value Locked",
       "synthesized": "Synthesized",
-      "synthesizedTip": "The current amount of BUSD you are synthesizing being synthesized",
+      "userSyntheticMinted": "The number of synthetic tokens you have minted.",
       "LTV": "LTV",
       "LTVTip": "Loan to Value",
       "interestCost": "Interest Cost (APR)",
