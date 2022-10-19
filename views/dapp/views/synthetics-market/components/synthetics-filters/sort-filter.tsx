@@ -2,27 +2,31 @@ import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
-import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
 import { Box, Dropdown, Typography } from '@/elements';
+import { TTranslatedMessage } from '@/interface';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
-import {
-  BorrowSortByFilter,
-  SortFilterProps,
-} from './synthetics-filters.types';
+import { SyntheticMarketSortByFilter } from '../../synthetics-market.types';
+import { SortFilterProps } from './synthetics-filters.types';
 
 const parseFarmSortByEnum = cond([
-  [equals(BorrowSortByFilter.Default), always('common.select')],
-  [equals(BorrowSortByFilter.TVL), always('syntheticsMarket.tableHeaderTVL')],
-  [equals(BorrowSortByFilter.LTV), always('syntheticsMarket.tableHeaderLTV')],
+  [equals(SyntheticMarketSortByFilter.Default), always('common.select')],
   [
-    equals(BorrowSortByFilter.InterestRate),
-    always('syntheticsMarket.filterSortOptionInterestRate'),
+    equals(SyntheticMarketSortByFilter.TVL),
+    always('syntheticsMarket.tableHeader.TVL'),
   ],
   [
-    equals(BorrowSortByFilter.Fee),
+    equals(SyntheticMarketSortByFilter.LTV),
+    always('syntheticsMarket.tableHeader.LTV'),
+  ],
+  [
+    equals(SyntheticMarketSortByFilter.Price),
+    always('syntheticsMarket.filterSortOptionPrice'),
+  ],
+  [
+    equals(SyntheticMarketSortByFilter.TransferFee),
     always('syntheticsMarket.filterSortOptionLiquidationFee'),
   ],
   [T, always('common.select')],
@@ -65,12 +69,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
             <Box display="flex" width="100%" py="XS" alignItems="center">
               <Typography variant="normal" whiteSpace="nowrap">
                 {capitalize(
-                  t(
-                    parseFarmSortByEnum(sortBy) as MessageKeys<
-                      IntlMessages,
-                      keyof IntlMessages
-                    >
-                  )
+                  t(parseFarmSortByEnum(sortBy) as TTranslatedMessage)
                 )}
               </Typography>
             </Box>
@@ -87,7 +86,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
-                setValue('sortBy', BorrowSortByFilter.Default);
+                setValue('sortBy', SyntheticMarketSortByFilter.Default);
               },
             },
             {
@@ -101,7 +100,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
-                setValue('sortBy', BorrowSortByFilter.TVL);
+                setValue('sortBy', SyntheticMarketSortByFilter.TVL);
               },
             },
             {
@@ -115,23 +114,23 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
-                setValue('sortBy', BorrowSortByFilter.LTV);
+                setValue('sortBy', SyntheticMarketSortByFilter.LTV);
               },
             },
             {
-              value: 'interestRate',
+              value: 'price',
               displayOption: capitalize(
-                t('syntheticsMarket.filterSortOptionInterestRate')
+                t('syntheticsMarket.filterSortOptionPrice')
               ),
               displayTitle: (
                 <Box display="flex" width="100%" py="XS" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
-                    {t('syntheticsMarket.filterSortOptionInterestRate')}
+                    {t('syntheticsMarket.filterSortOptionPrice')}
                   </Typography>
                 </Box>
               ),
               onSelect: () => {
-                setValue('sortBy', BorrowSortByFilter.InterestRate);
+                setValue('sortBy', SyntheticMarketSortByFilter.Price);
               },
             },
             {
@@ -149,7 +148,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
-                setValue('sortBy', BorrowSortByFilter.Fee);
+                setValue('sortBy', SyntheticMarketSortByFilter.TransferFee);
               },
             },
           ]}

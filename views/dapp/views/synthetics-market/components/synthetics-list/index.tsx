@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
@@ -13,7 +12,7 @@ import {
 } from '@/constants';
 import colors from '@/design-system/landing-page-theme/colors';
 import { Box, Typography } from '@/elements';
-import { FixedPointMath, SECONDS_IN_A_YEAR } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 import { InfoSVG } from '@/svg';
 import { formatDollars, formatMoney } from '@/utils';
 import { getLPToastOption } from '@/views/home/layout/layout.utils';
@@ -30,13 +29,13 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
   const { push } = useRouter();
   const sortBy = useWatch({ control, name: 'sortBy' });
   const search = useWatch({ control, name: 'search' });
-  const onlyBorrowing = useWatch({ control, name: 'onlyBorrowing' });
+  const onlyMinted = useWatch({ control, name: 'onlyMinted' });
 
   const filteredMarkets = handleFilterDineroMarkets(
     markets,
     sortBy,
     search,
-    onlyBorrowing
+    onlyMinted
   );
 
   return (
@@ -105,7 +104,7 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
                 variant="normal"
                 data-tip={t('syntheticsMarket.tableHeading.synthesizedTip')}
               >
-                {formatMoney(FixedPointMath.toNumber(x.userElasticLoan))}
+                {formatMoney(FixedPointMath.toNumber(x.userSyntheticMinted))}
               </Typography>
               <Box
                 my="S"
@@ -115,13 +114,7 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
                 alignItems="center"
                 data-tip={t('syntheticsMarket.tableHeading.TVLTip')}
               >
-                {formatDollars(
-                  FixedPointMath.from(
-                    x.totalCollateral
-                      .mul(x.collateralUSDPrice)
-                      .div(BigNumber.from(10).pow(x.collateralDecimals))
-                  ).toNumber()
-                )}
+                {formatDollars(FixedPointMath.from(x.tvlInUSD).toNumber())}
               </Box>
             </Box>
             <Box display="flex" justifyContent="space-between" mt="L">
@@ -155,12 +148,7 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
                 <Typography as="span" variant="normal" fontSize="inherit">
                   {t('syntheticsMarket.tableHeading.fee')}
                 </Typography>
-                :{' '}
-                {x.interestRate.isZero()
-                  ? 'N/A'
-                  : FixedPointMath.from(
-                      x.interestRate.mul(SECONDS_IN_A_YEAR)
-                    ).toPercentage(2)}
+                : {FixedPointMath.from(x.transferFee).toPercentage(2)}
               </Box>
             </Box>
           </Box>

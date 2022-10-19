@@ -7,6 +7,13 @@ interface FilterProps {
   setValue: UseFormSetValue<ISyntheticMarketSummaryForm>;
 }
 
+export enum SyntheticsSortByFilter {
+  Default,
+  TVL,
+  LTV,
+  Fee,
+}
+
 export type SortFilterProps = FilterProps;
 
 export type OnlySynthesizedFilterProps = FilterProps;

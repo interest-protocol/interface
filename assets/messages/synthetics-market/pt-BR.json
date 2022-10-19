@@ -2,7 +2,7 @@
   "syntheticsMarket": {
     "pageTitle": "Sintéticos",
     "title": "Criando sintéticos usando BUSD",
-    "filterSortOptionInterestRate": "Taxas de juros",
+    "filterSortOptionPrice": "Preço",
     "filterSortOptionLiquidationFee": "Taxa de liquidação",
     "filterSynthesized": "Apenas Sintetizados",
     "tableHeading": {

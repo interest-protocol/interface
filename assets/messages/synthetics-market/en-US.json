@@ -2,7 +2,7 @@
   "syntheticsMarket": {
     "pageTitle": "Synthetics",
     "title": "Create synthetics using BUSD",
-    "filterSortOptionInterestRate": "Interest Rate",
+    "filterSortOptionPrice": "Price",
     "filterSortOptionLiquidationFee": "Liquidation Fee",
     "filterSynthesized": "Synthesized only",
     "tableHeading": {

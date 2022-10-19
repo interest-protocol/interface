@@ -118,7 +118,7 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
         left={['unset', 'unset', '-5rem', 'unset', '-5rem']}
         position={['static', 'static', 'absolute', 'static', 'absolute']}
       >
-        <GoBack route={RoutesEnum.DineroMarket} />
+        <GoBack route={RoutesEnum.SyntheticsMarket} />
       </Box>
       <Box>
         <Box bg="foreground" textAlign="center" p="L" borderRadius="L">

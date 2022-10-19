@@ -1,12 +1,12 @@
 import { Control } from 'react-hook-form';
 
 import {
-  DineroMarketSummary,
-  IDineroMarketForm,
+  ISyntheticMarketSummary,
+  ISyntheticMarketSummaryForm,
 } from '../../synthetics-market.types';
 
 export interface SyntheticsListProps {
-  markets: ReadonlyArray<DineroMarketSummary>;
-  control: Control<IDineroMarketForm>;
+  markets: ReadonlyArray<ISyntheticMarketSummary>;
+  control: Control<ISyntheticMarketSummaryForm>;
   chainId: number;
 }

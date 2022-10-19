@@ -28,14 +28,10 @@ const SyntheticsMarket: FC = () => {
 
   const { error, data } = useGetSyntheticMarketsSummary(account, chainId);
 
-  const processedData = useMemo(
+  const markets = useMemo(
     () => processSyntheticMarketSummaryData(chainId, data),
     [chainId, account, data]
   );
-
-  console.log(processedData);
-
-  return <div>hello world</div>;
 
   if (error)
     return (
@@ -61,34 +57,34 @@ const SyntheticsMarket: FC = () => {
       </Box>
     );
 
-  // return (
-  //   <Container
-  //     dapp
-  //     width="100%"
-  //     height="100%"
-  //     display="flex"
-  //     flexDirection="column"
-  //   >
-  //     <Box
-  //       py="XL"
-  //       width="100%"
-  //       display="flex"
-  //       alignItems="center"
-  //       justifyContent={['center', 'flex-start']}
-  //     >
-  //       <BinanceUSDSVG width="2rem" height="2rem" />
-  //       <Typography variant="normal" ml="M">
-  //         {t('syntheticsMarket.title')}
-  //       </Typography>
-  //     </Box>
-  //     <SyntheticsFilters
-  //       control={control}
-  //       register={register}
-  //       setValue={setValue}
-  //     />
-  //     <SyntheticsList chainId={chainId} control={control} markets={[]} />
-  //   </Container>
-  // );
+  return (
+    <Container
+      dapp
+      width="100%"
+      height="100%"
+      display="flex"
+      flexDirection="column"
+    >
+      <Box
+        py="XL"
+        width="100%"
+        display="flex"
+        alignItems="center"
+        justifyContent={['center', 'flex-start']}
+      >
+        <BinanceUSDSVG width="2rem" height="2rem" />
+        <Typography variant="normal" ml="M">
+          {t('syntheticsMarket.title')}
+        </Typography>
+      </Box>
+      <SyntheticsFilters
+        control={control}
+        register={register}
+        setValue={setValue}
+      />
+      <SyntheticsList chainId={chainId} control={control} markets={markets} />
+    </Container>
+  );
 };
 
 export default SyntheticsMarket;
