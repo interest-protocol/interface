@@ -30,6 +30,7 @@
     "dexSectionButton": "Swap",
     "footerCopyrights": "All rights reserved.",
     "teamTitle": "Meet Our Team",
+    "advisorTitle": "Advisors",
     "roleCFO": "Co-Founder & CFO",
     "roleCEO": "Co-Founder & CEO",
     "developer": "Developer",
@@ -38,6 +39,7 @@
     "bioNelumba": "Crypto advocate since 2017. Co-founder of a medical emergency tech company that has saved over 1000 lives. Responsible for fundraising and managing the Interest Protocol finances.",
     "bioPitra": "{year1, plural, =1 {# year} other {# years}} in web development. {year2, plural, =1 {# year} other {# years}} in crypto. A React ninja working on Interest Protocol's interface.",
     "bioKipanda": "{year1, plural, =1 {# year} other {# years}} of software development. Working as a frontend developer at Interest Protocol.",
+    "bioJoao": "João is a skilled fintech and fund manager with more than seven years of experience. His master's thesis entitled \"Crypto-Currencies: Does Sentiment Play a Role?\" won a prize from the Ministry of Culture in Portugal.",
     "subscribeErrors": {
       "1008": "contact already added"
     }

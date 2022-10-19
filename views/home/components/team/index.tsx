@@ -4,19 +4,19 @@ import { FC } from 'react';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 import { v4 } from 'uuid';
 
-import { Container } from '@/components';
+import { Container, FlipMemberCard } from '@/components';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
 import { SOCIAL_SVG, TEAM_MEMBERS } from './team.data';
-import { FlipMemberCard, Image } from './team.styles';
+import { Image } from './team.styles';
 
 const Team: FC = () => {
   const t = useTranslations();
 
   return (
     <Box bg="foreground">
-      <Container as="section" py={['XL', 'XXL']} textAlign="center">
+      <Container as="section" pt={['XL', 'XXL']} pb={'L'} textAlign="center">
         <Typography
           as="h2"
           variant="normal"
