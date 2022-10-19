@@ -1,29 +1,41 @@
 import { useTranslations } from 'next-intl';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
-import { useChainId } from '@/hooks';
+import { useIdAccount } from '@/hooks';
 import { BinanceUSDSVG, TimesSVG } from '@/svg';
 
 import { SyntheticsFilters, SyntheticsList } from './components';
-import { BorrowSortByFilter } from './components/synthetics-filters/synthetics-filters.types';
-import { markets } from './synthetics-market.mock';
-import { IDineroMarketForm } from './synthetics-market.types';
+import { useGetSyntheticMarketsSummary } from './synthetics-market.hooks';
+import {
+  ISyntheticMarketSummaryForm,
+  SyntheticMarketSortByFilter,
+} from './synthetics-market.types';
+import { processSyntheticMarketSummaryData } from './synthetics-market.utils';
 
 const SyntheticsMarket: FC = () => {
-  const { register, setValue, control } = useForm<IDineroMarketForm>({
+  const { register, setValue, control } = useForm<ISyntheticMarketSummaryForm>({
     defaultValues: {
       search: '',
-      sortBy: BorrowSortByFilter.Default,
-      onlyBorrowing: false,
+      sortBy: SyntheticMarketSortByFilter.Default,
+      onlyMinted: false,
     },
   });
   const t = useTranslations();
-  const chainId = useChainId();
+  const { chainId, account } = useIdAccount();
 
-  const error = false;
+  const { error, data } = useGetSyntheticMarketsSummary(account, chainId);
+
+  const processedData = useMemo(
+    () => processSyntheticMarketSummaryData(chainId, data),
+    [chainId, account, data]
+  );
+
+  console.log(processedData);
+
+  return <div>hello world</div>;
 
   if (error)
     return (
@@ -49,34 +61,34 @@ const SyntheticsMarket: FC = () => {
       </Box>
     );
 
-  return (
-    <Container
-      dapp
-      width="100%"
-      height="100%"
-      display="flex"
-      flexDirection="column"
-    >
-      <Box
-        py="XL"
-        width="100%"
-        display="flex"
-        alignItems="center"
-        justifyContent={['center', 'flex-start']}
-      >
-        <BinanceUSDSVG width="2rem" height="2rem" />
-        <Typography variant="normal" ml="M">
-          {t('syntheticsMarket.title')}
-        </Typography>
-      </Box>
-      <SyntheticsFilters
-        control={control}
-        register={register}
-        setValue={setValue}
-      />
-      <SyntheticsList chainId={chainId} control={control} markets={markets} />
-    </Container>
-  );
+  // return (
+  //   <Container
+  //     dapp
+  //     width="100%"
+  //     height="100%"
+  //     display="flex"
+  //     flexDirection="column"
+  //   >
+  //     <Box
+  //       py="XL"
+  //       width="100%"
+  //       display="flex"
+  //       alignItems="center"
+  //       justifyContent={['center', 'flex-start']}
+  //     >
+  //       <BinanceUSDSVG width="2rem" height="2rem" />
+  //       <Typography variant="normal" ml="M">
+  //         {t('syntheticsMarket.title')}
+  //       </Typography>
+  //     </Box>
+  //     <SyntheticsFilters
+  //       control={control}
+  //       register={register}
+  //       setValue={setValue}
+  //     />
+  //     <SyntheticsList chainId={chainId} control={control} markets={[]} />
+  //   </Container>
+  // );
 };
 
 export default SyntheticsMarket;

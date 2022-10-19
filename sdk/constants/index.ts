@@ -37,6 +37,12 @@ export enum TOKEN_SYMBOL {
   WETH = 'WETH',
   USDC = 'USDC',
   USDT = 'USDT',
+  iBTC = 'iBTC',
+  iETH = 'iETH',
+  iXAU = 'iXAU',
+  iGBP = 'iGBP',
+  iJPY = 'iJPY',
+  iBRL = 'iBRL',
 }
 
 export const MAX_NUMBER_INPUT_VALUE = 9000000000000000;
@@ -137,7 +143,7 @@ export const CONTRACTS = {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
-      '0xCBda3668853636BBBB652b874e8535a02096C916'
+      '0x8912e39E743199d242D4698bb8d616fFF172Bee0'
     ),
   },
   INTEREST_VIEW_EARN: {
@@ -346,21 +352,5 @@ export const CONTRACTS = {
     [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
       '0x8921c7351bd80C3b58e0d92C66Cd23CdBC3c2cD7'
     ),
-  },
-  // TODO: remove fake addresses
-  iAUD: {
-    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
-    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
-    [CHAIN_ID.BNB_TEST_NET]: 'sAUD',
-  },
-  iCHF: {
-    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
-    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
-    [CHAIN_ID.BNB_TEST_NET]: 'sCHF',
-  },
-  iEUR: {
-    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
-    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
-    [CHAIN_ID.BNB_TEST_NET]: 'sEUR',
   },
 };

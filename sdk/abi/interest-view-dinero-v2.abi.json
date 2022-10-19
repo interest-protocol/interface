@@ -328,5 +328,40 @@
     ],
     "stateMutability": "view",
     "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "user", "type": "address" },
+      {
+        "internalType": "contract ISyntheticMarket[]",
+        "name": "markets",
+        "type": "address[]"
+      }
+    ],
+    "name": "getSyntheticMarketsSummary",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "uint256", "name": "TVL", "type": "uint256" },
+          { "internalType": "uint256", "name": "LTV", "type": "uint256" },
+          { "internalType": "uint256", "name": "fee", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "syntheticUSDPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "userSyntMinted",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewDinero.SyntheticMarketSummary[]",
+        "name": "data",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   }
 ]

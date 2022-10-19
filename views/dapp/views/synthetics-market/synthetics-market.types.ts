@@ -1,28 +1,31 @@
 import { BigNumber } from 'ethers';
 
-import { DineroMarketKind } from '@/constants';
-
-import { BorrowSortByFilter } from './components/synthetics-filters/synthetics-filters.types';
-
-export interface DineroMarketSummary {
-  totalCollateral: BigNumber;
-  LTV: BigNumber;
-  interestRate: BigNumber;
-  liquidationFee: BigNumber;
-  collateralUSDPrice: BigNumber;
-  userElasticLoan: BigNumber;
-  kind: DineroMarketKind;
-  symbol0: string;
-  symbol1: string;
-  name: string;
-  stable: boolean;
-  marketAddress: string;
-  collateralDecimals: number;
-  collateralAddress: string;
+export enum SyntheticMarketSortByFilter {
+  Default,
+  TVL,
+  LTV,
+  TransferFee,
+  Price,
+  Symbol,
 }
 
-export interface IDineroMarketForm {
+export interface ISyntheticMarketSummary {
+  TVL: BigNumber;
+  LTV: BigNumber;
+  transferFee: BigNumber;
+  syntheticUSDPrice: BigNumber;
+  userSyntheticMinted: BigNumber;
+  syntheticAddress: string;
+  marketAddress: string;
+  symbol: string;
+  chainId: number;
+  tvlInUSD: BigNumber;
+  id: number;
+  name: string;
+}
+
+export interface ISyntheticMarketSummaryForm {
   search: string;
-  onlyBorrowing: boolean;
-  sortBy: BorrowSortByFilter;
+  onlyMinted: boolean;
+  sortBy: SyntheticMarketSortByFilter;
 }

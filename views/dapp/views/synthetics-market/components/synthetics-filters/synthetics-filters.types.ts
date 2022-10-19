@@ -1,24 +1,16 @@
 import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
-import { IDineroMarketForm } from '../../synthetics-market.types';
+import { ISyntheticMarketSummaryForm } from '../../synthetics-market.types';
 
 interface FilterProps {
-  control: Control<IDineroMarketForm>;
-  setValue: UseFormSetValue<IDineroMarketForm>;
-}
-
-export enum BorrowSortByFilter {
-  Default,
-  TVL,
-  LTV,
-  InterestRate,
-  Fee,
+  control: Control<ISyntheticMarketSummaryForm>;
+  setValue: UseFormSetValue<ISyntheticMarketSummaryForm>;
 }
 
 export type SortFilterProps = FilterProps;
 
 export type OnlySynthesizedFilterProps = FilterProps;
 
-export interface BorrowFiltersProps extends FilterProps {
-  register: UseFormRegister<IDineroMarketForm>;
+export interface SyntheticMarketFiltersProps extends FilterProps {
+  register: UseFormRegister<ISyntheticMarketSummaryForm>;
 }
