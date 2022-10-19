@@ -11,10 +11,12 @@ import {
   Routes,
   RoutesEnum,
 } from '@/constants';
+import colors from '@/design-system/landing-page-theme/colors';
 import { Box, Typography } from '@/elements';
 import { FixedPointMath, SECONDS_IN_A_YEAR } from '@/sdk';
 import { InfoSVG } from '@/svg';
 import { formatDollars, formatMoney } from '@/utils';
+import { getLPToastOption } from '@/views/home/layout/layout.utils';
 
 import { handleFilterDineroMarkets } from '../../synthetics-market.utils';
 import { SyntheticsListProps } from './synthetics-list.types';
@@ -93,15 +95,8 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
                 fontSize="L"
                 fontWeight="600"
                 variant="normal"
-                data-tip={t('syntheticsMarket.tableHeading.TVLTip')}
               >
-                {formatDollars(
-                  FixedPointMath.from(
-                    x.totalCollateral
-                      .mul(x.collateralUSDPrice)
-                      .div(BigNumber.from(10).pow(x.collateralDecimals))
-                  ).toNumber()
-                )}
+                {formatDollars(0)}
               </Typography>
               <Typography
                 my="S"
@@ -112,6 +107,22 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
               >
                 {formatMoney(FixedPointMath.toNumber(x.userElasticLoan))}
               </Typography>
+              <Box
+                my="S"
+                fontSize="S"
+                cursor="help"
+                display="flex"
+                alignItems="center"
+                data-tip={t('syntheticsMarket.tableHeading.TVLTip')}
+              >
+                {formatDollars(
+                  FixedPointMath.from(
+                    x.totalCollateral
+                      .mul(x.collateralUSDPrice)
+                      .div(BigNumber.from(10).pow(x.collateralDecimals))
+                  ).toNumber()
+                )}
+              </Box>
             </Box>
             <Box display="flex" justifyContent="space-between" mt="L">
               <Box my="S" fontSize="S" display="flex" alignItems="center">
@@ -155,7 +166,12 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
           </Box>
         ))}
       </Box>
-      <Toaster />
+
+      <Toaster
+        position="bottom-right"
+        reverseOrder={false}
+        toastOptions={getLPToastOption(colors)}
+      />
     </>
   );
 };
