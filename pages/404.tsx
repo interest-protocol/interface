@@ -1,9 +1,9 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { GetStaticProps, NextPage } from 'next';
 import Error from 'next/error';
 
 const ErrorPage: NextPage = () => <Error statusCode={404} />;
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const messages = (await import(`../assets/messages/common/${locale}.json`))
     .default;
 
