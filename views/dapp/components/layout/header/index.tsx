@@ -153,9 +153,8 @@ const Header: FC = () => {
                 cursor="pointer"
                 variant="normal"
                 color={
-                  pathname === Routes[RoutesEnum.Farms] ||
-                  pathname.includes(Routes[RoutesEnum.Vaults]) ||
-                  pathname.includes(Routes[RoutesEnum.DineroVault])
+                  pathname.includes(Routes[RoutesEnum.DineroMarket]) ||
+                  pathname.includes(Routes[RoutesEnum.SyntheticsMarket])
                     ? 'accent'
                     : 'inherit'
                 }
@@ -167,8 +166,8 @@ const Header: FC = () => {
             mode="menu"
             data={[
               {
-                value: 'borrow',
-                displayOption: capitalize(t('common.borrow')),
+                value: 'dinero',
+                displayOption: capitalize(t('common.dinero')),
                 onSelect: () =>
                   push(Routes[RoutesEnum.DineroMarket], undefined, {
                     shallow: true,

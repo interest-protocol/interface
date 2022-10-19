@@ -23,8 +23,9 @@ const SyntheticsMarket: FC = () => {
   const t = useTranslations();
   const chainId = useChainId();
 
-  // eslint-disable-next-line no-constant-condition
-  if (false)
+  const error = false;
+
+  if (error)
     return (
       <Box
         height="100%"

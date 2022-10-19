@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
+import { Toaster } from 'react-hot-toast';
 import { v4 } from 'uuid';
 
 import {
@@ -12,6 +13,7 @@ import {
 } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { FixedPointMath, SECONDS_IN_A_YEAR } from '@/sdk';
+import { InfoSVG } from '@/svg';
 import { formatDollars, formatMoney } from '@/utils';
 
 import { handleFilterDineroMarkets } from '../../synthetics-market.utils';
@@ -37,7 +39,11 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
 
   return (
     <>
-      <Box display="grid" gridTemplateColumns="1fr 1fr 1fr" gridGap="1rem">
+      <Box
+        display="grid"
+        gridGap="1rem"
+        gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr 1fr']}
+      >
         {filteredMarkets.map((x) => (
           <Box
             p="XL"
@@ -108,26 +114,34 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
               </Typography>
             </Box>
             <Box display="flex" justifyContent="space-between" mt="L">
-              <Box my="S" fontSize="S">
-                <Typography
+              <Box my="S" fontSize="S" display="flex" alignItems="center">
+                <Box
+                  mr="S"
                   as="span"
+                  width="1rem"
                   cursor="help"
-                  variant="normal"
-                  fontSize="inherit"
+                  display="inline-block"
                   data-tip={t('syntheticsMarket.tableHeading.LTVTip')}
                 >
+                  <InfoSVG width="100%" />
+                </Box>
+                <Typography as="span" variant="normal" fontSize="inherit">
                   LTV
                 </Typography>
                 : {FixedPointMath.from(x.LTV).toPercentage(0)}
               </Box>
-              <Box my="S" fontSize="S">
-                <Typography
+              <Box my="S" fontSize="S" display="flex" alignItems="center">
+                <Box
+                  mr="S"
                   as="span"
+                  width="1rem"
                   cursor="help"
-                  variant="normal"
-                  fontSize="inherit"
+                  display="inline-block"
                   data-tip={t('syntheticsMarket.tableHeading.feeTip')}
                 >
+                  <InfoSVG width="100%" />
+                </Box>
+                <Typography as="span" variant="normal" fontSize="inherit">
                   {t('syntheticsMarket.tableHeading.fee')}
                 </Typography>
                 :{' '}
@@ -141,6 +155,7 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
           </Box>
         ))}
       </Box>
+      <Toaster />
     </>
   );
 };
