@@ -15,7 +15,8 @@ export interface SyntheticsMarketPanelProps {
   mode: TSyntheticsMarketMode;
 }
 
-export interface DineroMarketSwitchProps extends SyntheticsMarketPanelProps {
+export interface SyntheticsMarketSwitchProps
+  extends SyntheticsMarketPanelProps {
   resetField: UseFormResetField<IBorrowForm>;
 }
 

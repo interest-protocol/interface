@@ -1,7 +1,10 @@
-import { DineroMarketKind } from '@/constants';
+import { TTranslatedMessage } from '@/interface';
 
 export interface LoanInfoProps {
-  kind: DineroMarketKind;
   isLoading: boolean;
   loanInfoData: ReadonlyArray<string>;
 }
+
+export type TLoanInfo = ReadonlyArray<
+  Record<'tip' | 'name', TTranslatedMessage>
+>;

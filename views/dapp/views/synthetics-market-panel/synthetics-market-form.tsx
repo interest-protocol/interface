@@ -4,7 +4,7 @@ import BorrowForm from './components/borrow-form';
 import { FormsProps } from './synthetics-market.types';
 import { getBorrowFields, getRepayFields } from './synthetics-market.utils';
 
-const DineroMarketForm: FC<FormsProps> = ({
+const SyntheticsMarketForm: FC<FormsProps> = ({
   mode,
   data,
   form,
@@ -43,4 +43,4 @@ const DineroMarketForm: FC<FormsProps> = ({
   );
 };
 
-export default DineroMarketForm;
+export default SyntheticsMarketForm;

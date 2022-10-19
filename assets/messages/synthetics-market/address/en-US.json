@@ -35,8 +35,6 @@
     "loanInfoCustomTip1": "A LTV of 50% means that for every 1 dollar of collateral, a user can borrow up to 0.50 cents of DNR.",
     "loanInfoCustomName2": "Liquidation fee",
     "loanInfoCustomTip2": "This is a penalty the borrower pays in collateral to the liquidator.",
-    "loanInfoCustomName3": "Interest",
-    "loanInfoCustomTip3": "This is the cost of borrowing DNR. It is expressed as an annual percentage of your loan value. The tax is paid in DNR.",
     "loanInfoLpFreeMarketName1": "APR (rewards)",
     "loanInfoLpFreeMarketTip1": "The profits from farming your collateral. It is expressed as an annual percentage and calculated in USD.",
     "loanInfoLpFreeMarketName2": "Pending Rewards",

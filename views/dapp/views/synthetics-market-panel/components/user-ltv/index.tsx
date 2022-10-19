@@ -10,6 +10,7 @@ import { UserLTVProps } from './user-ltv.types';
 
 const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => {
   const t = useTranslations();
+
   return (
     <Box p="XL" order={1} gridArea="b" bg="foreground" borderRadius="L">
       <Box display="flex" justifyContent="space-between">

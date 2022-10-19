@@ -35,8 +35,8 @@ import {
   getSafeDineroMarketData,
   loanPrincipalToElastic,
 } from './synthetics-market.utils';
-import DineroMarketForm from './synthetics-market-form';
-import DineroMarketSwitch from './synthetics-market-switch';
+import SyntheticsMarketForm from './synthetics-market-form';
+import SyntheticsMarketSwitch from './synthetics-market-switch';
 
 const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
   address,
@@ -44,9 +44,12 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
 }) => {
   const { chainId, account } = useIdAccount();
 
+  const error = false;
+
   const {
     data: marketRawData,
-    error,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    error: errorData,
     refetch,
   } = useGetDineroMarketDataV2(address);
 
@@ -119,7 +122,7 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
       </Box>
       <Box>
         <Box bg="foreground" textAlign="center" p="L" borderRadius="L">
-          <DineroMarketSwitch
+          <SyntheticsMarketSwitch
             mode={mode}
             address={address}
             resetField={form.resetField}
@@ -135,7 +138,7 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
           flexDirection={['column', 'column', 'column', 'unset']}
           gridTemplateAreas="'a b''a b''a c''a d''a d''a d''e d''e d''e d''f d'"
         >
-          <DineroMarketForm
+          <SyntheticsMarketForm
             mode={mode}
             form={form}
             data={market}
@@ -147,7 +150,6 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
           />
           <UserLTV isLoading={market.loading && !error} ltv={currentLTV} />
           <LoanInfo
-            kind={market.kind}
             loanInfoData={loanInfoData}
             isLoading={market.loading && !error}
           />

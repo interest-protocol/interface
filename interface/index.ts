@@ -1,6 +1,7 @@
 import { QueryFunctionContext, UseQueryOptions } from '@tanstack/react-query';
 import type { Ethereum } from '@wagmi/core';
 import { CallOverrides } from 'ethers/lib/ethers';
+import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
 export type UseContractArgs = {
   cacheOnBlock?: boolean;
@@ -37,3 +38,5 @@ declare global {
     } & Ethereum;
   }
 }
+
+export type TTranslatedMessage = MessageKeys<IntlMessages, keyof IntlMessages>;

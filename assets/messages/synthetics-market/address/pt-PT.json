@@ -35,8 +35,6 @@
     "loanInfoCustomTip1": "Um LTV de 50% significa que um usuário pode pedir 50 cêntimos de DNR emprestado para cada 1 dólar de garantia.",
     "loanInfoCustomName2": "Taxa de liquidação",
     "loanInfoCustomTip2": "Multa que o usuário paga por ser liquidado.",
-    "loanInfoCustomName3": "Juros",
-    "loanInfoCustomTip3": "Este é o custo de pedir DNR emprestado. É expresso como uma percentagem anual do valor do empréstimo. O imposto é pago em DNR.",
     "loanInfoLpFreeMarketName1": "APR (ganhos)",
     "loanInfoLpFreeMarketTip1": "Os lucros de ter a sua collateral nas farms. É expresso como uma percentagem e calculado na base de dólares.",
     "loanInfoLpFreeMarketName2": "Ganhos por recolher",

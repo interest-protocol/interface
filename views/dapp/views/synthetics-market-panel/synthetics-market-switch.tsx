@@ -8,7 +8,7 @@ import { ISwitchOption } from '@/components/switch/switch.types';
 import { Routes, RoutesEnum } from '@/constants/routes';
 
 import { BORROW_DEFAULT_VALUES } from './synthetics-market.data';
-import { DineroMarketSwitchProps } from './synthetics-market.types';
+import { SyntheticsMarketSwitchProps } from './synthetics-market.types';
 
 const FORM_FIELDS = [
   'borrow.loan',
@@ -17,7 +17,7 @@ const FORM_FIELDS = [
   'repay.collateral',
 ] as ReadonlyArray<FieldPath<typeof BORROW_DEFAULT_VALUES>>;
 
-const DineroMarketSwitch: FC<DineroMarketSwitchProps> = ({
+const SyntheticsMarketSwitch: FC<SyntheticsMarketSwitchProps> = ({
   mode,
   address,
   resetField,
@@ -62,4 +62,4 @@ const DineroMarketSwitch: FC<DineroMarketSwitchProps> = ({
   return <Switch defaultValue={mode} options={options} />;
 };
 
-export default DineroMarketSwitch;
+export default SyntheticsMarketSwitch;
