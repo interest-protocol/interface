@@ -2,7 +2,9 @@ import { SendTransactionResult } from '@wagmi/core';
 import { propOr } from 'ramda';
 import toast from 'react-hot-toast';
 
-import { CHAINS } from '@/constants';
+import { CHAINS, EXPLORER_MAP } from '@/constants';
+import Box from '@/elements/box';
+import Typography from '@/elements/typography';
 import { tryCatch } from '@/utils/promise';
 
 import { ToastMsgs, ToastOpts } from './toast.types';
@@ -16,6 +18,7 @@ export const showTXSuccessToast = async (
 
   const explorer = CHAINS[chainId].blockExplorers;
 
+  const SVG = EXPLORER_MAP[chainId];
   toast(
     <a
       target="__black"
@@ -24,7 +27,24 @@ export const showTXSuccessToast = async (
         receipt.transactionHash
       }`}
     >
-      {explorer?.default.name || 'Check Explorer'}
+      {explorer ? (
+        <Box display="flex" alignItems="center">
+          <Box width="1.5rem" height="1.5rem" mr="M">
+            <SVG width="100%" height="100%" />
+          </Box>
+          <Typography
+            variant="normal"
+            color="accent"
+            textDecoration="underline"
+            fontWeight="700"
+            cursor="pointer"
+          >
+            {explorer?.default.name}
+          </Typography>
+        </Box>
+      ) : (
+        'Check Explorer'
+      )}
     </a>
   );
 };
