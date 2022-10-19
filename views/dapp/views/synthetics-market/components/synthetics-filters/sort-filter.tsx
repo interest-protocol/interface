@@ -15,11 +15,11 @@ const parseFarmSortByEnum = cond([
   [equals(SyntheticMarketSortByFilter.Default), always('common.select')],
   [
     equals(SyntheticMarketSortByFilter.TVL),
-    always('syntheticsMarket.tableHeader.TVL'),
+    always('syntheticsMarket.tableHeading.TVL'),
   ],
   [
     equals(SyntheticMarketSortByFilter.LTV),
-    always('syntheticsMarket.tableHeader.LTV'),
+    always('syntheticsMarket.tableHeading.LTV'),
   ],
   [
     equals(SyntheticMarketSortByFilter.Price),
