@@ -7,7 +7,7 @@ import { StakeState } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { TOKEN_SYMBOL } from '@/sdk';
-import { capitalize } from '@/utils';
+import { capitalize, formatMoney } from '@/utils';
 
 import { WalletGuardButton } from '../../../components';
 import { DineroVaultFormProps, IVaultForm } from '../dinero-vault.types';
@@ -45,9 +45,11 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
           justifyContent="flex-end"
         >
           {capitalize(t('common.balance')) + ': '}
-          {FixedPointMath.toNumber(
-            isStake ? data.underlyingBalance : data.dineroBalance,
-            isStake ? data.depositTokenDecimals : data.dineroDecimals
+          {formatMoney(
+            FixedPointMath.toNumber(
+              isStake ? data.underlyingBalance : data.dineroBalance,
+              isStake ? data.depositTokenDecimals : data.dineroDecimals
+            )
           )}
         </Typography>
       </Box>

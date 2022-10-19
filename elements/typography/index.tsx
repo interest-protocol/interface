@@ -42,6 +42,7 @@ const Typography = forwardRef(
           cursor: true,
           whiteSpace: true,
           textTransform: true,
+          textDecoration: true,
         })
       )
     );

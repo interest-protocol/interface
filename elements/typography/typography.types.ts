@@ -30,7 +30,13 @@ export interface TypographyProps
   cursor?: ResponsiveValue<CSSProperties['cursor']>;
   whiteSpace?: ResponsiveValue<CSSProperties['whiteSpace']>;
   textTransform?: ResponsiveValue<CSSProperties['textTransform']>;
-  variant: ResponsiveValue<
-    'title1' | 'title2' | 'title3' | 'title4' | 'normal' | 'large' | 'button'
-  >;
+  textDecoration?: ResponsiveValue<CSSProperties['textDecoration']>;
+  variant:
+    | 'title1'
+    | 'title2'
+    | 'title3'
+    | 'title4'
+    | 'normal'
+    | 'large'
+    | 'button';
 }
