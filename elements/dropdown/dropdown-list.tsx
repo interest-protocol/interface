@@ -4,7 +4,6 @@ import { v4 } from 'uuid';
 
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
 
-import Box from '../box';
 import RefBox from '../ref-box';
 import Typography from '../typography';
 import { DropdownListProps } from './dropdown.types';
