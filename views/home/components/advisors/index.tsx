@@ -8,8 +8,8 @@ import { Container, FlipMemberCard } from '@/components';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
-import { ADVISOR_MEMBERS, SOCIAL_SVG } from './advisor.data';
-import { Image } from './advisor.styles';
+import { ADVISOR_MEMBERS, SOCIAL_SVG } from './advisors.data';
+import { Image } from './advisors.styles';
 
 const Advisors: FC = () => {
   const t = useTranslations();
