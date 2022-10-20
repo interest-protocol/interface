@@ -1,7 +1,7 @@
-# Interest Protocol](https://www.interestprotocol.com/)
+# [Interest Protocol](https://www.interestprotocol.com/)
 
 Is a protocol to swap and lend crypto, commodities, gold, and fiat currencies.
-LOGO](./public/logo.png)
+[LOGO](./public/logo.png)
 
 ## Contributing
 
@@ -58,7 +58,7 @@ You must install it in your Editor text
 
 ## Technologies
 
-- [Typescript](https://typescriptlang.org)\*)
+- [Typescript](https://typescriptlang.org)\*
 - [Styled System](https://styled-system.com)\*#
 - [Emotion](https://emotion.sh/docs/introduction)\*\*
 - [NextJS](https://nextjs.org/docs/getting-started)\*\*
