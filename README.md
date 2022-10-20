@@ -1,6 +1,6 @@
-# <p> <img width="20px"height="20px" src="./public/logo.png" />[Interest Protocol](https://www.interestprotocol.com/)</p>
+# [Interest Protocol](https://www.interestprotocol.com/)
 
-Is a protocol to swap and lend crypto, commodities, gold, and fiat currencies.
+ <p> <img width="20px"height="20px" src="./public/logo.png" /></p> Is a protocol to swap and lend crypto, commodities, gold, and fiat currencies.
 
 ## Contributing
 
