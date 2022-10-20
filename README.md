@@ -1,4 +1,4 @@
-# ![LOGO](./public/logo.png) [Interest Protocol](https://www.interestprotocol.com/)
+# <p> <img width="20px"height="20px" src="./public/logo.png" />[Interest Protocol](https://www.interestprotocol.com/)</p>
 
 Is a protocol to swap and lend crypto, commodities, gold, and fiat currencies.
 
