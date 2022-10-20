@@ -3,15 +3,36 @@ import { isEmpty } from 'ramda';
 import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
-import { DineroMarketKind } from '@/constants';
+import { DEFAULT_ACCOUNT, DineroMarketKind } from '@/constants';
+import { useSafeContractRead } from '@/hooks';
 import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
 import DineroERC20MarketABI from '@/sdk/abi/dinero-erc-20-market.abi.json';
 import DineroLpFreeMarketABI from '@/sdk/abi/dinero-lp-free-market.abi.json';
 import DineroNativeMarketABI from '@/sdk/abi/dinero-native-market.abi.json';
+import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
 import { isValidAccount, isZeroAddress, safeToBigNumber } from '@/utils';
+import { getInterestViewDineroV2Address } from '@/utils';
 
 import { DineroMarketData, HandlerData } from './synthetics-market.types';
 import { loanElasticToPrincipal } from './synthetics-market.utils';
+
+export const useGetSyntheticUserMarketData = (
+  marketAddress: string,
+  chainId: number,
+  account: string
+) => {
+  const isMarketAddressValid = ethers.utils.isAddress(marketAddress);
+
+  return useSafeContractRead({
+    addressOrName: getInterestViewDineroV2Address(chainId),
+    contractInterface: InterestViewDineroV2ABI,
+    functionName: 'getSyntheticUserMarketData',
+    args: [account || DEFAULT_ACCOUNT, marketAddress],
+    enabled: isMarketAddressValid && !!chainId,
+  });
+};
+
+// ALL THE HOOKS BELOW WILL CHANGE
 
 const { defaultAbiCoder } = ethers.utils;
 

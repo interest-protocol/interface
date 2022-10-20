@@ -2,14 +2,10 @@ import { BigNumber, ethers } from 'ethers';
 import { UseFormReturn } from 'react-hook-form';
 
 import {
-  DINERO_MARKET_DATA_CALL_MAP,
-  DINERO_MARKET_METADATA,
   DineroMarketKind,
-  FARM_METADATA_MAP,
   getDineroMarketSVGByAddress,
+  SYNTHETIC_PANEL_RESPONSE_MAP,
   TOKENS_SVG_MAP,
-  WBNB_INT_ADDRESS_MAP,
-  WRAPPED_NATIVE_TOKEN,
 } from '@/constants';
 import {
   CHAIN_ID,
@@ -22,19 +18,12 @@ import {
 } from '@/sdk';
 import { Fraction } from '@/sdk/entities/fraction';
 import { closeTo } from '@/sdk/utils';
-import {
-  adjustDecimals,
-  calculateFarmBaseAPR,
-  calculateFarmTokenPrice,
-  calculateIntUSDPrice,
-  formatMoney,
-  numberToString,
-} from '@/utils';
+import { adjustDecimals, formatMoney, numberToString } from '@/utils';
 
 import {
-  GetSafeDineroMarketData,
   IBorrowForm,
   IBorrowFormField,
+  ProcessSyntheticData,
   TCalculateBorrowAmount,
   TCalculateDineroLeftToBorrow,
   TCalculateExpectedLiquidationPrice,
@@ -77,162 +66,70 @@ const makeSymbol = (
 };
 
 const DEFAULT_MARKET_DATA = {
-  kind: DineroMarketKind.ERC20,
-  loanElastic: ZERO_BIG_NUMBER,
-  loanBase: ZERO_BIG_NUMBER,
-  userPrincipal: ZERO_BIG_NUMBER,
+  userSyntMinted: ZERO_BIG_NUMBER,
   userCollateral: ZERO_BIG_NUMBER,
   adjustedUserCollateral: ZERO_BIG_NUMBER,
-  interestRate: ZERO_BIG_NUMBER,
-  lastAccrued: ZERO_BIG_NUMBER,
-  collateralUSDPrice: ZERO_BIG_NUMBER,
+  transferFee: ZERO_BIG_NUMBER,
   liquidationFee: ZERO_BIG_NUMBER,
+  tvl: ZERO_BIG_NUMBER,
+  tvlInUSD: ZERO_BIG_NUMBER,
   ltv: ZERO_BIG_NUMBER,
   collateralAllowance: ZERO_BIG_NUMBER,
   collateralBalance: ZERO_BIG_NUMBER,
   adjustedCollateralBalance: ZERO_BIG_NUMBER,
-  dnrBalance: ZERO_BIG_NUMBER,
+  syntBalance: ZERO_BIG_NUMBER,
+  syntUSDPrice: ZERO_BIG_NUMBER,
+  syntAddress: ZERO_ADDRESS,
   pendingRewards: ZERO_BIG_NUMBER,
-  apr: FixedPointMath.from(0),
-  symbol0: '',
-  symbol1: '',
+  symbol: '',
   name: '',
-  stable: false,
   marketAddress: ZERO_ADDRESS,
   collateralDecimals: 18,
   collateralAddress: ZERO_ADDRESS,
-  intUSDPrice: ZERO_BIG_NUMBER,
   chainId: CHAIN_ID.BNB_TEST_NET,
-  maxBorrowAmount: ZERO_BIG_NUMBER,
-  rewardsBalance: ZERO_BIG_NUMBER,
-  loading: true,
-  now: new Date().getTime(),
 };
 
-export const getSafeDineroMarketData: GetSafeDineroMarketData = (
-  chainId: number,
-  now,
+export const processSyntheticData: ProcessSyntheticData = (
+  chainId,
   market,
   data
 ) => {
-  if (!chainId || !data) return DEFAULT_MARKET_DATA;
-
-  const marketMetadata =
-    DINERO_MARKET_METADATA[chainId][ethers.utils.getAddress(market)];
-
-  const farmsMetadata = FARM_METADATA_MAP[chainId];
-
-  const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId];
-
-  const baseToken = DINERO_MARKET_DATA_CALL_MAP[chainId][market].baseToken;
-
-  if (!marketMetadata || !farmsMetadata || !wrappedNativeToken)
+  if (!ethers.utils.isAddress(market) || !chainId || !data)
     return DEFAULT_MARKET_DATA;
 
-  if (marketMetadata.kind !== DineroMarketKind.LpFreeMarket)
-    return {
-      loanBase: data.marketData.loanBase,
-      loanElastic: data.marketData.loanElastic,
-      interestRate: data.marketData.interestRate,
-      lastAccrued: data.marketData.lastAccrued,
-      collateralUSDPrice: data.marketData.collateralUSDPrice,
-      liquidationFee: data.marketData.liquidationFee,
-      ltv: data.marketData.LTV,
-      userCollateral: data.marketData.userCollateral,
-      userPrincipal: data.marketData.userPrincipal,
-      collateralAllowance: data.marketData.collateralAllowance,
-      collateralBalance: data.marketData.collateralBalance,
-      dnrBalance: data.marketData.dnrBalance,
-      pendingRewards: ZERO_BIG_NUMBER,
-      apr: FixedPointMath.from(0),
-      intUSDPrice: ZERO_BIG_NUMBER,
-      marketAddress: market,
-      chainId,
-      maxBorrowAmount: data.marketData.maxBorrowAmount,
-      adjustedCollateralBalance: adjustDecimals(
-        data.marketData.collateralBalance,
-        marketMetadata.collateralDecimals
-      ),
-      adjustedUserCollateral: adjustDecimals(
-        data.marketData.userCollateral,
-        marketMetadata.collateralDecimals
-      ),
-      rewardsBalance: ZERO_BIG_NUMBER,
-      loading: false,
-      now,
-      ...marketMetadata,
-    };
+  const responseMap =
+    SYNTHETIC_PANEL_RESPONSE_MAP[chainId][ethers.utils.getAddress(market)];
 
-  const nativeIntPoolMetadata = farmsMetadata[WBNB_INT_ADDRESS_MAP[chainId]];
-
-  const tokenPriceMap = {
-    [wrappedNativeToken.address]: data.nativeUSDPrice,
-    [baseToken]: data.baseTokenUSDPrice,
-  };
-
-  const intUSDPrice = calculateIntUSDPrice(
-    chainId,
-    nativeIntPoolMetadata.token0,
-    nativeIntPoolMetadata.token1,
-    data.ipxPoolData.reserve0,
-    data.ipxPoolData.reserve1,
-    tokenPriceMap
-  );
-
-  const collateralPoolMetadata =
-    farmsMetadata[
-      ethers.utils.getAddress(data.collateralPoolData.stakingToken)
-    ];
-
-  const stakeTokenUSDPrice = calculateFarmTokenPrice(
-    chainId,
-    collateralPoolMetadata.token0,
-    collateralPoolMetadata.token1,
-    data.collateralPoolData.reserve0,
-    data.collateralPoolData.reserve1,
-    tokenPriceMap,
-    data.collateralPoolData.totalSupply
-  );
+  if (!responseMap) return DEFAULT_MARKET_DATA;
 
   return {
-    loanBase: data.marketData.loanBase,
-    loanElastic: data.marketData.loanElastic,
-    interestRate: data.marketData.interestRate,
-    lastAccrued: data.marketData.lastAccrued,
-    collateralUSDPrice: data.marketData.collateralUSDPrice,
-    liquidationFee: data.marketData.liquidationFee,
-    ltv: data.marketData.LTV,
-    userCollateral: data.marketData.userCollateral,
-    userPrincipal: data.marketData.userPrincipal,
-    collateralAllowance: data.marketData.collateralAllowance,
-    collateralBalance: data.marketData.collateralBalance,
-    dnrBalance: data.marketData.dnrBalance,
-    pendingRewards: data.marketData.pendingRewards,
-    marketAddress: market,
-    intUSDPrice,
-    chainId,
-    maxBorrowAmount: data.marketData.maxBorrowAmount,
-    apr: calculateFarmBaseAPR(
-      chainId,
-      data.mintData.totalAllocationPoints,
-      data.collateralPoolData.allocationPoints,
-      data.mintData.interestPerBlock,
-      intUSDPrice,
-      data.collateralPoolData.totalStakingAmount,
-      stakeTokenUSDPrice.value()
-    ),
-    adjustedCollateralBalance: adjustDecimals(
-      data.marketData.collateralBalance,
-      marketMetadata.collateralDecimals
-    ),
+    userSyntMinted: data.userSyntMinted,
+    userCollateral: data.userCollateral,
     adjustedUserCollateral: adjustDecimals(
-      data.marketData.userCollateral,
-      marketMetadata.collateralDecimals
+      data.userCollateral,
+      responseMap.collateralDecimals
     ),
-    rewardsBalance: data.marketData.rewardsBalance,
-    loading: false,
-    now,
-    ...marketMetadata,
+    transferFee: data.transferFee,
+    liquidationFee: data.liquidationFee,
+    tvl: data.TVL,
+    tvlInUSD: FixedPointMath.from(data.TVL).mul(data.syntheticUSDPrice).value(),
+    ltv: data.LTV,
+    collateralAllowance: data.collateralAllowance,
+    collateralBalance: data.collateralBalance,
+    adjustedCollateralBalance: adjustDecimals(
+      data.collateralBalance,
+      responseMap.collateralDecimals
+    ),
+    syntBalance: data.syntBalance,
+    syntUSDPrice: data.syntheticUSDPrice,
+    syntAddress: responseMap.syntAddress,
+    pendingRewards: data.pendingRewards,
+    symbol: responseMap.symbol,
+    name: responseMap.name,
+    marketAddress: responseMap.marketAddress,
+    collateralDecimals: responseMap.collateralDecimals,
+    collateralAddress: responseMap.collateralAddress,
+    chainId,
   };
 };
 

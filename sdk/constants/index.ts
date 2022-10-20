@@ -143,7 +143,7 @@ export const CONTRACTS = {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
-      '0x3c621c70443687bB8406e2242bB79F949eFB69B5'
+      '0x597bf55aE7D483d0AF1c6eF66a49Ad2b08A1916a'
     ),
   },
   INTEREST_VIEW_EARN: {

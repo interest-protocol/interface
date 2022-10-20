@@ -4,7 +4,7 @@ import { FC, SVGAttributes } from 'react';
 import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
 import { DineroMarketKind } from '@/constants';
-import { FixedPointMath } from '@/sdk';
+import { CHAIN_ID, FixedPointMath, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
 
@@ -41,6 +41,30 @@ export interface FormsProps {
   refetch: () => Promise<void>;
 }
 
+export interface SyntheticMarketData {
+  userSyntMinted: BigNumber;
+  userCollateral: BigNumber;
+  adjustedUserCollateral: BigNumber;
+  transferFee: BigNumber;
+  liquidationFee: BigNumber;
+  tvl: BigNumber;
+  tvlInUSD: BigNumber;
+  ltv: BigNumber;
+  collateralAllowance: BigNumber;
+  collateralBalance: BigNumber;
+  adjustedCollateralBalance: BigNumber;
+  syntBalance: BigNumber;
+  syntUSDPrice: BigNumber;
+  syntAddress: string;
+  pendingRewards: BigNumber;
+  symbol: string;
+  name: string;
+  marketAddress: string;
+  collateralDecimals: number;
+  collateralAddress: string;
+  chainId: number;
+}
+
 export interface DineroMarketData {
   kind: DineroMarketKind;
   loanElastic: BigNumber;
@@ -74,29 +98,11 @@ export interface DineroMarketData {
   now: number;
 }
 
-export type GetSafeDineroMarketData = (
+export type ProcessSyntheticData = (
   chainId: number,
-  now: number,
   market: string,
-  data:
-    | undefined
-    | ([
-        InterestViewDinero.DineroMarketDataStructOutput,
-        InterestViewDinero.PoolDataStructOutput,
-        InterestViewDinero.PoolDataStructOutput,
-        InterestViewDinero.MintDataStructOutput,
-        BigNumber,
-        BigNumber
-      ] & {
-        marketData: InterestViewDinero.DineroMarketDataStructOutput;
-        ipxPoolData: InterestViewDinero.PoolDataStructOutput;
-        collateralPoolData: InterestViewDinero.PoolDataStructOutput;
-        mintData: InterestViewDinero.MintDataStructOutput;
-        nativeUSDPrice: BigNumber;
-        baseTokenUSDPrice: BigNumber;
-      })
-    | Result
-) => DineroMarketData;
+  data: undefined | InterestViewDinero.SyntheticMarketDataStructOutput | Result
+) => SyntheticMarketData;
 
 type ProcessedMarketData = DineroMarketData;
 
