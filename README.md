@@ -1,7 +1,7 @@
 # [Interest Protocol](https://www.interestprotocol.com/)
 
 Is a protocol to swap and lend crypto, commodities, gold, and fiat currencies.
-[LOGO](./public/logo.png)
+![LOGO](./public/logo.png)
 
 ## Contributing
 
