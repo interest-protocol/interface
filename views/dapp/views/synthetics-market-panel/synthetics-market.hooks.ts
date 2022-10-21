@@ -13,7 +13,7 @@ import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json'
 import { isValidAccount, isZeroAddress, safeToBigNumber } from '@/utils';
 import { getInterestViewDineroV2Address } from '@/utils';
 
-import { DineroMarketData, HandlerData } from './synthetics-market.types';
+import { SyntheticMarketData, HandlerData } from './synthetics-market.types';
 import { loanElasticToPrincipal } from './synthetics-market.utils';
 
 export const useGetSyntheticUserMarketData = (
@@ -47,7 +47,7 @@ enum RequestActions {
 }
 
 const handleRepayRequest = (
-  market: DineroMarketData,
+  market: SyntheticMarketData,
   account: string,
   collateral: number,
   loan: number
@@ -148,7 +148,7 @@ const handleRepayRequest = (
 };
 
 const handleRepayCollateral = (
-  market: DineroMarketData,
+  market: SyntheticMarketData,
   account: string,
   collateral: number
 ): HandlerData => {
@@ -181,7 +181,7 @@ const handleRepayCollateral = (
 };
 
 const handleRepayLoan = (
-  market: DineroMarketData,
+  market: SyntheticMarketData,
   account: string,
   loan: number
 ): HandlerData => {
@@ -248,7 +248,7 @@ const handleRepayLoan = (
 };
 
 export const useRepay = (
-  market: DineroMarketData,
+  market: SyntheticMarketData,
   account: string,
   collateral: string,
   loan: string
@@ -282,7 +282,7 @@ export const useRepay = (
 };
 
 const handleBorrowRequest = (
-  market: DineroMarketData,
+  market: SyntheticMarketData,
   account: string,
   collateral: number,
   loan: number
@@ -352,7 +352,7 @@ const handleBorrowRequest = (
 };
 
 const handleBorrowDeposit = (
-  market: DineroMarketData,
+  market: SyntheticMarketData,
   account: string,
   collateral: number
 ): HandlerData => {
@@ -413,7 +413,7 @@ const handleBorrowDeposit = (
 };
 
 const handleBorrowLoan = (
-  market: DineroMarketData,
+  market: SyntheticMarketData,
   account: string,
   loan: number
 ): HandlerData => {
@@ -474,7 +474,7 @@ const handleBorrowLoan = (
 };
 
 export const useBorrow = (
-  market: DineroMarketData,
+  market: SyntheticMarketData,
   account: string,
   collateral: string,
   loan: string

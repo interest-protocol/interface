@@ -4,7 +4,7 @@ import { FC, SVGAttributes } from 'react';
 import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
 import { DineroMarketKind } from '@/constants';
-import { CHAIN_ID, FixedPointMath, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
 
@@ -17,10 +17,10 @@ export interface SyntheticsMarketPanelProps {
 
 export interface SyntheticsMarketSwitchProps
   extends SyntheticsMarketPanelProps {
-  resetField: UseFormResetField<IBorrowForm>;
+  resetField: UseFormResetField<ISyntheticForm>;
 }
 
-export interface IBorrowForm {
+export interface ISyntheticForm {
   repay: {
     collateral: string;
     loan: string;
@@ -36,8 +36,8 @@ export interface FormsProps {
   account: string;
   isGettingData: boolean;
   mode: 'borrow' | 'repay';
-  data: DineroMarketData;
-  form: UseFormReturn<IBorrowForm>;
+  data: SyntheticMarketData;
+  form: UseFormReturn<ISyntheticForm>;
   refetch: () => Promise<void>;
 }
 
@@ -65,7 +65,7 @@ export interface SyntheticMarketData {
   chainId: number;
 }
 
-export interface DineroMarketData {
+export interface SyntheticMarketData {
   kind: DineroMarketKind;
   loanElastic: BigNumber;
   loanBase: BigNumber;
@@ -104,8 +104,6 @@ export type ProcessSyntheticData = (
   data: undefined | InterestViewDinero.SyntheticMarketDataStructOutput | Result
 ) => SyntheticMarketData;
 
-type ProcessedMarketData = DineroMarketData;
-
 interface TGetPositionHealthDataInternalArgs {
   userCollateralAmount: BigNumber;
   userElasticAmount: BigNumber;
@@ -114,32 +112,31 @@ interface TGetPositionHealthDataInternalArgs {
 
 export type TGetPositionHealthDataInternal = (
   data: TGetPositionHealthDataInternalArgs,
-  market: DineroMarketData
+  market: SyntheticMarketData
 ) => [string, string, string, string];
 
 export type TGetBorrowPositionHealthData = (
-  data: DineroMarketData,
+  data: SyntheticMarketData,
   borrow: { loan: string; collateral: string }
 ) => [string, string, string, string];
 
 export type TGetRepayPositionHealthData = (
-  data: DineroMarketData,
+  data: SyntheticMarketData,
   borrow: { loan: string; collateral: string }
 ) => [string, string, string, string];
 
 export type TGetInfoLoanData = (
-  data: DineroMarketData,
-  kind: DineroMarketKind
+  data: SyntheticMarketData
 ) => ReadonlyArray<string>;
 
 export type TGetMyPositionData = (
-  data: DineroMarketData
+  data: SyntheticMarketData
 ) => [string, string, string, string, string, string];
 
 interface TCalculateInterestAccruedArgs {
-  loanElastic: ProcessedMarketData['loanElastic'];
-  lastAccrued: ProcessedMarketData['lastAccrued'];
-  interestRate: ProcessedMarketData['interestRate'];
+  loanElastic: SyntheticMarketData['loanElastic'];
+  lastAccrued: SyntheticMarketData['lastAccrued'];
+  interestRate: SyntheticMarketData['interestRate'];
   now: number;
 }
 
@@ -148,11 +145,11 @@ export type TCalculateInterestAccrued = (
 ) => BigNumber;
 
 interface TLoanPrincipalToElasticArgs {
-  loanBase: ProcessedMarketData['loanBase'];
-  userPrincipal: ProcessedMarketData['userPrincipal'];
-  lastAccrued: ProcessedMarketData['lastAccrued'];
-  loanElastic: ProcessedMarketData['loanElastic'];
-  interestRate: ProcessedMarketData['interestRate'];
+  loanBase: SyntheticMarketData['loanBase'];
+  userPrincipal: SyntheticMarketData['userPrincipal'];
+  lastAccrued: SyntheticMarketData['lastAccrued'];
+  loanElastic: SyntheticMarketData['loanElastic'];
+  interestRate: SyntheticMarketData['interestRate'];
   now: number;
 }
 
@@ -172,69 +169,56 @@ export type TCalculateExpectedLiquidationPrice = (
 ) => FixedPointMath;
 
 export type TCalculatePositionHealth = (
-  data: ProcessedMarketData,
+  data: SyntheticMarketData,
   userLoanElastic: BigNumber
 ) => FixedPointMath;
 
 export type TCalculateDineroLeftToBorrow = (
-  data: ProcessedMarketData
+  data: SyntheticMarketData
 ) => FixedPointMath;
 
 export type TSafeAmountToWithdraw = (
-  data: ProcessedMarketData
+  data: SyntheticMarketData
 ) => FixedPointMath;
 
 export type TCalculateBorrowAmount = (
-  data: ProcessedMarketData
-) => FixedPointMath;
-
-interface TLoanElasticToPrincipalArgs {
-  loanBase: ProcessedMarketData['loanBase'];
-  loanElastic: ProcessedMarketData['loanElastic'];
-  userElastic: BigNumber;
-  lastAccrued: ProcessedMarketData['lastAccrued'];
-  interestRate: ProcessedMarketData['interestRate'];
-  now: number;
-}
-
-export type TLoanElasticToPrincipal = (
-  data: TLoanElasticToPrincipalArgs
+  data: SyntheticMarketData
 ) => FixedPointMath;
 
 export type TSafeAmountToWithdrawRepay = (
-  data: ProcessedMarketData,
+  data: SyntheticMarketData,
   repayLoan: BigNumber
 ) => FixedPointMath;
 
 export type TCalculateUserCurrentLTV = (
-  data: ProcessedMarketData,
+  data: SyntheticMarketData,
   borrowCollateral: BigNumber,
   borrowLoan: BigNumber
 ) => FixedPointMath;
 
-export type DineroCurrencyIcons = ReadonlyArray<{
+export type SyntheticsCurrencyIcons = ReadonlyArray<{
   SVG: FC<SVGAttributes<SVGSVGElement>>;
   highZIndex: boolean;
 }>;
 
-export interface IBorrowFormField {
+export interface ISyntheticFormField {
   max?: number;
   label: string;
   amount: string;
   currency: string;
   amountUSD: number;
   disabled: boolean;
-  currencyIcons: DineroCurrencyIcons;
+  currencyIcons: SyntheticsCurrencyIcons;
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
 }
 
 export type TGetRepayFields = (
-  data: DineroMarketData
-) => ReadonlyArray<IBorrowFormField>;
+  data: SyntheticMarketData
+) => ReadonlyArray<ISyntheticFormField>;
 
 export type TGetBorrowFields = (
-  data: DineroMarketData
-) => ReadonlyArray<IBorrowFormField>;
+  data: SyntheticMarketData
+) => ReadonlyArray<ISyntheticFormField>;
 
 export interface HandlerData {
   functionName: string;

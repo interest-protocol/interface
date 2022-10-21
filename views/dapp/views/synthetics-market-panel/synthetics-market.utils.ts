@@ -21,8 +21,8 @@ import { closeTo } from '@/sdk/utils';
 import { adjustDecimals, formatMoney, numberToString } from '@/utils';
 
 import {
-  IBorrowForm,
-  IBorrowFormField,
+  ISyntheticForm,
+  ISyntheticFormField,
   ProcessSyntheticData,
   TCalculateBorrowAmount,
   TCalculateDineroLeftToBorrow,
@@ -43,12 +43,12 @@ import {
   TSafeAmountToWithdrawRepay,
 } from './synthetics-market.types';
 
-export const isFormBorrowEmpty = (form: UseFormReturn<IBorrowForm>) =>
+export const isFormBorrowEmpty = (form: UseFormReturn<ISyntheticForm>) =>
   form.formState.errors.borrow ||
   form.formState.errors.borrow?.['loan'] ||
   form.formState.errors.borrow?.['collateral'];
 
-export const isFormRepayEmpty = (form: UseFormReturn<IBorrowForm>) =>
+export const isFormRepayEmpty = (form: UseFormReturn<ISyntheticForm>) =>
   form.formState.errors.repay ||
   form.formState.errors.repay?.['loan'] ||
   form.formState.errors.repay?.['collateral'];
@@ -314,29 +314,11 @@ export const safeAmountToWithdrawRepay: TSafeAmountToWithdrawRepay = (
 };
 
 export const safeAmountToWithdraw: TSafeAmountToWithdraw = ({
-  ltv,
-  loanBase,
-  lastAccrued,
-  loanElastic,
-  interestRate,
-  userPrincipal,
+  syntUSDPrice,
   adjustedUserCollateral,
-  collateralUSDPrice,
-  now,
 }) => {
-  if (loanElastic.isZero()) return FixedPointMath.from(adjustedUserCollateral);
-
-  const userNeededCollateralInUSD = loanPrincipalToElastic({
-    loanBase,
-    loanElastic,
-    userPrincipal,
-    lastAccrued,
-    interestRate,
-    now,
-  }).div(ltv);
-
   const collateralInUSD = FixedPointMath.from(adjustedUserCollateral).mul(
-    collateralUSDPrice
+    syntUSDPrice
   );
 
   const amount = userNeededCollateralInUSD.gte(collateralInUSD)
@@ -501,11 +483,8 @@ export const getBorrowPositionHealthData: TGetBorrowPositionHealthData = (
   );
 };
 
-export const getLoanInfoData: TGetInfoLoanData = (market, kind) => {
-  if (!market && kind === DineroMarketKind.LpFreeMarket)
-    return ['0%', '0%', '0%', '0%', '0', '0'];
-
-  if (!market) return ['0%', '0%', '0%'];
+export const getLoanInfoData: TGetInfoLoanData = (market) => {
+  if (!market) return ['0%', '0%', '0%', '0', '0'];
 
   const ltv = FixedPointMath.from(market.ltv).toPercentage();
 
@@ -513,29 +492,17 @@ export const getLoanInfoData: TGetInfoLoanData = (market, kind) => {
     market.liquidationFee
   ).toPercentage();
 
-  if (market.kind === DineroMarketKind.LpFreeMarket)
-    return [
-      ltv,
-      liquidationFee,
-      'N/A',
-      market.apr.toPercentage(),
-      `${formatMoney(
-        FixedPointMath.from(market.pendingRewards).toNumber()
-      )} Int`, // IPX has 18 decimals.
-      `$${formatMoney(
-        // IPX has 18 decimals.
-        FixedPointMath.from(market.pendingRewards)
-          .mul(market.intUSDPrice)
-          .toNumber()
-      )}`,
-    ];
-
   return [
     ltv,
     liquidationFee,
-    FixedPointMath.from(
-      market.interestRate.mul(SECONDS_IN_A_YEAR)
-    ).toPercentage(),
+    'N/A',
+    `${formatMoney(FixedPointMath.from(market.pendingRewards).toNumber())} Int`, // IPX has 18 decimals.
+    `$${formatMoney(
+      // IPX has 18 decimals.
+      FixedPointMath.from(market.pendingRewards)
+        .mul(market.syntUSDPrice)
+        .toNumber()
+    )}`,
   ];
 };
 
@@ -554,7 +521,6 @@ export const getMyPositionData: TGetMyPositionData = (market) => {
             userPrincipal: market.userPrincipal,
             lastAccrued: market.lastAccrued,
             loanBase: market.loanBase,
-            now: market.now,
           }).value(),
           adjustUserCollateral: market.adjustedUserCollateral,
         }).value(),
@@ -657,8 +623,7 @@ export const getBorrowFields: TGetBorrowFields = (market) => {
 
   return [
     {
-      currency:
-        market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.symbol0,
+      currency: market.symbol,
       amount: '0',
       currencyIcons: getDineroMarketSVGByAddress(
         market.chainId,
@@ -700,19 +665,18 @@ export const getRepayFields: TGetRepayFields = (market) => {
       amountUSD: 1,
       currencyIcons: [
         {
-          SVG: TOKENS_SVG_MAP[market.chainId][CONTRACTS.DNR[market.chainId]],
+          SVG: TOKENS_SVG_MAP[market.chainId][CONTRACTS.BUSD[market.chainId]],
           highZIndex: false,
         },
       ],
       name: 'repay.loan',
       label: 'syntheticsMarketAddress.repayDineroLabel',
-      max: FixedPointMath.from(market.dnrBalance).toNumber(),
+      max: FixedPointMath.from(market.collateralBalance).toNumber(),
       currency: TOKEN_SYMBOL.DNR,
-      disabled: market.loanElastic.isZero() || market.dnrBalance.isZero(),
+      disabled: market.collateralBalance.isZero(),
     },
     {
-      currency:
-        market.kind === DineroMarketKind.LpFreeMarket ? 'LP' : market.symbol0,
+      currency: market.symbol,
       amount: '0',
       currencyIcons: getDineroMarketSVGByAddress(
         market.chainId,
@@ -726,5 +690,5 @@ export const getRepayFields: TGetRepayFields = (market) => {
         : FixedPointMath.toNumber(market.collateralUSDPrice),
       disabled: market.userCollateral.isZero(),
     },
-  ] as ReadonlyArray<IBorrowFormField>;
+  ] as ReadonlyArray<ISyntheticFormField>;
 };

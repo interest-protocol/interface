@@ -1,14 +1,14 @@
 import { Control, UseFormReturn, UseFormStateReturn } from 'react-hook-form';
 
 import {
-  DineroCurrencyIcons,
-  DineroMarketData,
-  IBorrowForm,
+  ISyntheticForm,
+  SyntheticMarketData,
+  SyntheticsCurrencyIcons,
 } from '../../synthetics-market.types';
 
 export interface InputMoneyProps
   extends Pick<
-    UseFormReturn<IBorrowForm>,
+    UseFormReturn<ISyntheticForm>,
     'register' | 'setValue' | 'control'
   > {
   max?: number;
@@ -17,31 +17,31 @@ export interface InputMoneyProps
   currency: string;
   amountUSD: number;
   isBorrow?: boolean;
-  data: DineroMarketData;
-  errors: UseFormStateReturn<IBorrowForm>['errors'];
-  currencyIcons: DineroCurrencyIcons;
+  data: SyntheticMarketData;
+  errors: UseFormStateReturn<ISyntheticForm>['errors'];
+  currencyIcons: SyntheticsCurrencyIcons;
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
   disabled: boolean;
 }
 
 export interface InputMoneySuffixProps
-  extends Pick<UseFormReturn<IBorrowForm>, 'control'> {
+  extends Pick<UseFormReturn<ISyntheticForm>, 'control'> {
   amountUSD: number;
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
 }
 
 export interface InputMaxButtonProps
-  extends Pick<UseFormReturn<IBorrowForm>, 'setValue' | 'control'> {
+  extends Pick<UseFormReturn<ISyntheticForm>, 'setValue' | 'control'> {
   max?: number;
   isBorrow?: boolean;
-  data: DineroMarketData;
+  data: SyntheticMarketData;
   name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
 }
 
 export type TErrorMessageLabels = ['borrow' | 'repay', 'loan' | 'collateral'];
 
 export interface InputErrorMessageProps {
-  errors: UseFormStateReturn<IBorrowForm>['errors'];
+  errors: UseFormStateReturn<ISyntheticForm>['errors'];
   labels: TErrorMessageLabels;
 }
 
@@ -49,6 +49,6 @@ export interface InputMaxTagProps {
   max?: number;
   isDNR: boolean;
   isBorrow: boolean;
-  data: DineroMarketData;
-  control: Control<IBorrowForm>;
+  data: SyntheticMarketData;
+  control: Control<ISyntheticForm>;
 }
