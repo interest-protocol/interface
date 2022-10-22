@@ -12,11 +12,11 @@ Feel invited to contribute, if you are comfortable, follow the instructions in [
 
 To run this project you will need to add the following environment variables to your .env
 
-`GETRESPONSE_API_KEY = apiKey`
+`GETRESPONSE_API_KEY=apiKey`
 
 `GETRESPONSE_LIST_TOKEN=listToken`.
 
-`NEXT_PUBLIC_BSC_TEST_NET_JSON_RPC = test-net-json-rpc`
+`NEXT_PUBLIC_BSC_TEST_NET_JSON_RPC=test-net-json-rpc`
 
 `NEXT_PUBLIC_BSC_RPC_URL=main-net-json-rpc`
 
