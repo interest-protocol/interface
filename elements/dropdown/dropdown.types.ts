@@ -28,7 +28,6 @@ export interface DropdownProps {
   suffix?: ReactNode;
   header?: ReactNode;
   footer?: ReactNode;
-  relative?: boolean;
   bgSelected?: string;
   fromRight?: boolean;
   buttonMode?: boolean;
