@@ -64,7 +64,6 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
 
   return (
     <Dropdown
-      relative
       mode="select"
       defaultValue={defaultValue}
       emptyMessage={t('faucet.notFoundToken')}
