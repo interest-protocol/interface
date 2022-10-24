@@ -61,7 +61,7 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
             flexDirection="column"
             onClick={() =>
               push({
-                pathname: Routes[RoutesEnum.SyntheticsMarketBorrow],
+                pathname: Routes[RoutesEnum.SyntheticsMarketMint],
                 query: { address: x.marketAddress },
               })
             }
