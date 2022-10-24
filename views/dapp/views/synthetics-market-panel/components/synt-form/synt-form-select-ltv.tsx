@@ -11,10 +11,10 @@ import { InfoSVG } from '@/svg';
 import { numberToString } from '@/utils';
 
 import {
-  calculateBorrowAmount,
+  calculateMintAmount,
   calculateUserCurrentLTV,
 } from '../../synthetics-market.utils';
-import { BorrowFormSelectLTVProps } from './borrow-form.types';
+import { SyntFormSelectLTVProps } from './synt-form.types';
 
 const LTV_ARRAY = [0, 25, 50, 75, 100];
 
@@ -23,33 +23,34 @@ const INITIAL_STATE = LTV_ARRAY.reduce(
   {} as Record<number, boolean>
 );
 
-const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
+const SyntFormSelectLtv: FC<SyntFormSelectLTVProps> = ({
   data,
   control,
-  isBorrow,
+  isMint,
   setValue,
 }) => {
   const t = useTranslations();
   const [selectedState, setSelected] = useState(INITIAL_STATE);
 
-  const borrowCollateral = useWatch({
+  const mintCollateral = useWatch({
     control,
-    name: 'borrow.collateral',
-  });
-  const borrowLoan = useWatch({
-    control,
-    name: 'borrow.loan',
+    name: 'mint.collateral',
   });
 
-  const handleSetBorrowLoan = (intendedLTV: number) => {
+  const mintSynt = useWatch({
+    control,
+    name: 'mint.synt',
+  });
+
+  const handleSetMintSynt = (intendedLTV: number) => {
     if (!data) return;
     setValue(
-      'borrow.loan',
-      calculateBorrowAmount({
+      'mint.synt',
+      calculateMintAmount({
         ...data,
         ltv: FixedPointMath.toBigNumber(intendedLTV, 16),
         userCollateral: data.userCollateral.add(
-          FixedPointMath.toBigNumber(borrowCollateral)
+          FixedPointMath.toBigNumber(mintCollateral)
         ),
       })
         .toNumber()
@@ -57,15 +58,15 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
     );
   };
 
-  const handleSetRepayLoan = (intendedLTV: number) => {
+  const handleSetBurnSynt = (intendedLTV: number) => {
     if (!data) return;
 
     setValue(
-      'repay.loan',
+      'burn.synt',
       numberToString(
         intendedLTV === 100
-          ? FixedPointMath.from(data.dnrBalance).toNumber()
-          : FixedPointMath.from(data.dnrBalance)
+          ? FixedPointMath.from(data.syntBalance).toNumber()
+          : FixedPointMath.from(data.syntBalance)
               .mul(FixedPointMath.toBigNumber(intendedLTV / 100))
               .toNumber()
       )
@@ -82,28 +83,28 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
 
   const isDisabled = useCallback(
     (item: number): boolean => {
-      if (!isBorrow) return data.dnrBalance.isZero();
+      if (!isMint) return data.syntBalance.isZero();
 
       const collateralBalance = data.collateralBalance.add(data.userCollateral);
 
-      if (isBorrow && collateralBalance.isZero()) return true;
+      if (isMint && collateralBalance.isZero()) return true;
 
       if (item >= ltvRatio) return true;
 
       return calculateUserCurrentLTV(
         data,
-        FixedPointMath.toBigNumber(borrowCollateral),
-        FixedPointMath.toBigNumber(borrowLoan)
+        FixedPointMath.toBigNumber(mintCollateral),
+        FixedPointMath.toBigNumber(mintSynt)
       ).gte(data.ltv);
     },
     [
       ltvRatio,
-      isBorrow,
-      data.dnrBalance.toString(),
+      isMint,
+      data.syntBalance.toString(),
       data.collateralBalance.toString(),
       data,
-      borrowCollateral,
-      borrowLoan,
+      mintCollateral,
+      mintSynt,
     ]
   );
 
@@ -126,7 +127,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
           whiteSpace="pre-line"
         >
           {t(
-            isBorrow
+            isMint
               ? 'syntheticsMarketAddress.borrowCardInfo'
               : 'syntheticsMarketAddress.repayCardInfo'
           )}
@@ -146,7 +147,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
             alignItems="center"
             justifyContent="center"
             onClick={() => {
-              isBorrow ? handleSetBorrowLoan(item) : handleSetRepayLoan(item);
+              isMint ? handleSetMintSynt(item) : handleSetBurnSynt(item);
 
               setSelected({ ...INITIAL_STATE, [item]: true });
             }}
@@ -174,4 +175,4 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
   );
 };
 
-export default BorrowFormSelectLTV;
+export default SyntFormSelectLtv;

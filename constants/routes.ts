@@ -7,8 +7,8 @@ export enum RoutesEnum {
   DApp = 'dapp',
   DineroMarket = 'dinero-market',
   SyntheticsMarket = 'synthetics-market',
-  SyntheticsMarketBorrow = 'synthetics-market-borrow',
-  SyntheticsMarketRepay = 'synthetics-market-repay',
+  SyntheticsMarketMint = 'synthetics-market-mint',
+  SyntheticsMarketBurn = 'synthetics-market-burn',
   DineroMarketBorrow = 'dinero-market-borrow',
   DineroMarketRepay = 'dinero-market-repay',
   Farms = 'farms',
@@ -36,10 +36,9 @@ export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.DineroMarket]: '/dapp/dinero-market',
   [RoutesEnum.SyntheticsMarket]: '/dapp/synthetics-market',
   [RoutesEnum.DineroMarketBorrow]: '/dapp/dinero-market/[address]/borrow',
-  [RoutesEnum.SyntheticsMarketBorrow]:
-    '/dapp/synthetics-market/[address]/borrow',
+  [RoutesEnum.SyntheticsMarketMint]: '/dapp/synthetics-market/[address]/mint',
   [RoutesEnum.DineroMarketRepay]: '/dapp/dinero-market/[address]/repay',
-  [RoutesEnum.SyntheticsMarketRepay]: '/dapp/synthetics-market/[address]/repay',
+  [RoutesEnum.SyntheticsMarketBurn]: '/dapp/synthetics-market/[address]/burn',
   [RoutesEnum.Farms]: '/dapp/farms',
   [RoutesEnum.DineroVault]: '/dapp/dinero-vault/[address]',
   [RoutesEnum.Vaults]: '/dapp/vaults',
@@ -57,5 +56,3 @@ export const RoutesWithFaucet = [
   Routes[RoutesEnum.Vaults],
   Routes[RoutesEnum.DineroVault],
 ];
-
-export const routesList = Object.keys(Routes) as ReadonlyArray<RoutesEnum>;

@@ -4,6 +4,7 @@ import {
   ISyntheticForm,
   SyntheticMarketData,
   SyntheticsCurrencyIcons,
+  TValidSyntFormFieldNames,
 } from '../../synthetics-market.types';
 
 export interface InputMoneyProps
@@ -16,29 +17,29 @@ export interface InputMoneyProps
   amount: string;
   currency: string;
   amountUSD: number;
-  isBorrow?: boolean;
+  isMint?: boolean;
   data: SyntheticMarketData;
   errors: UseFormStateReturn<ISyntheticForm>['errors'];
   currencyIcons: SyntheticsCurrencyIcons;
-  name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
+  name: TValidSyntFormFieldNames;
   disabled: boolean;
 }
 
 export interface InputMoneySuffixProps
   extends Pick<UseFormReturn<ISyntheticForm>, 'control'> {
   amountUSD: number;
-  name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
+  name: TValidSyntFormFieldNames;
 }
 
 export interface InputMaxButtonProps
   extends Pick<UseFormReturn<ISyntheticForm>, 'setValue' | 'control'> {
   max?: number;
-  isBorrow?: boolean;
+  isMint?: boolean;
   data: SyntheticMarketData;
-  name: 'repay.collateral' | 'repay.loan' | 'borrow.collateral' | 'borrow.loan';
+  name: TValidSyntFormFieldNames;
 }
 
-export type TErrorMessageLabels = ['borrow' | 'repay', 'loan' | 'collateral'];
+export type TErrorMessageLabels = ['mint' | 'burn', 'synt' | 'collateral'];
 
 export interface InputErrorMessageProps {
   errors: UseFormStateReturn<ISyntheticForm>['errors'];
@@ -47,8 +48,8 @@ export interface InputErrorMessageProps {
 
 export interface InputMaxTagProps {
   max?: number;
-  isDNR: boolean;
-  isBorrow: boolean;
+  isBUSD: boolean;
+  isMint: boolean;
   data: SyntheticMarketData;
   control: Control<ISyntheticForm>;
 }

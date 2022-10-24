@@ -22,17 +22,16 @@ import {
   convertCollateralToDinero,
   isFormBorrowEmpty,
 } from '../../synthetics-market.utils';
-import { BorrowButtonProps } from './borrow-form.types';
+import { MintButtonProps } from './synt-form.types';
 
 const { parseEther } = ethers.utils;
 
-const BorrowButton: FC<BorrowButtonProps> = ({
+const MintButton: FC<MintButtonProps> = ({
   refetch,
   data,
-  account,
   form,
-  borrowLoan,
-  borrowCollateral,
+  mintCollateral,
+  mintSynt,
 }) => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
@@ -198,4 +197,4 @@ const BorrowButton: FC<BorrowButtonProps> = ({
   );
 };
 
-export default BorrowButton;
+export default MintButton;

@@ -6,20 +6,18 @@ import { Loading } from '@/views/dapp/components';
 import Error from '@/views/dapp/views/error';
 import SyntheticsMarketMode from '@/views/dapp/views/synthetics-market-panel';
 
-interface DineroMarketRepayPageProps {
-  address: string | undefined | null;
+interface SyntheticsMintPageProps {
+  address: string | null | undefined;
 }
 
-const DineroMarketRepayPage: NextPage<DineroMarketRepayPageProps> = ({
-  address,
-}) => {
+const SyntheticsMintPage: NextPage<SyntheticsMintPageProps> = ({ address }) => {
   const t = useTranslations();
 
   if (address === undefined) return <Loading />;
 
   if (address === null) return <Error message={t('error.wrongParams')} />;
 
-  return <SyntheticsMarketMode address={address} mode="repay" />;
+  return <SyntheticsMarketMode address={address} mode="mint" />;
 };
 
 export const getServerSideProps: GetServerSideProps = async ({
@@ -45,9 +43,9 @@ export const getServerSideProps: GetServerSideProps = async ({
       address,
       messages,
       now: new Date().getTime(),
-      pageTitle: 'syntheticsMarketAddress.pageTitleRepay',
+      pageTitle: 'syntheticsMarketAddress.pageTitleBorrow',
     },
   };
 };
 
-export default DineroMarketRepayPage;
+export default SyntheticsMintPage;

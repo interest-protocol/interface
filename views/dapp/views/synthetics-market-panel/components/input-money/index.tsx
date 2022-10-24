@@ -25,7 +25,7 @@ const InputMoney: FC<InputMoneyProps> = ({
   currency,
   setValue,
   disabled,
-  isBorrow,
+  isMint,
   amountUSD,
   currencyIcons,
 }) => {
@@ -46,8 +46,8 @@ const InputMoney: FC<InputMoneyProps> = ({
           max={max}
           data={data}
           control={control}
-          isBorrow={!!isBorrow}
-          isDNR={currency === TOKEN_SYMBOL.DNR}
+          isMint={!!isMint}
+          isBUSD={currency === TOKEN_SYMBOL.BUSD}
         />
         <Input
           type="string"
@@ -88,7 +88,7 @@ const InputMoney: FC<InputMoneyProps> = ({
                 name={name}
                 data={data}
                 control={control}
-                isBorrow={isBorrow}
+                isMint={isMint}
                 setValue={setValue}
               />
               <Box

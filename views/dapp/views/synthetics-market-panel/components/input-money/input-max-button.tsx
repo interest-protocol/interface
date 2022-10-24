@@ -7,7 +7,7 @@ import { FixedPointMath } from '@/sdk';
 import { numberToString, safeToBigNumber } from '@/utils';
 
 import {
-  calculateDineroLeftToBorrow,
+  calculateSyntLeftToMint,
   safeAmountToWithdrawRepay,
 } from '../../synthetics-market.utils';
 import { InputMaxButtonProps } from './input-money.types';
@@ -19,16 +19,16 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
   control,
   setValue,
 }) => {
-  const borrowCollateral = useWatch({ control, name: 'borrow.collateral' });
-  const borrowLoan = useWatch({ control, name: 'borrow.loan' });
-  const repayLoan = useWatch({ control, name: 'repay.loan' });
-  const repayCollateral = useWatch({ control, name: 'repay.collateral' });
+  const mintCollateral = useWatch({ control, name: 'mint.collateral' });
+  const mintSynt = useWatch({ control, name: 'mint.synt' });
+  const burnCollateral = useWatch({ control, name: 'burn.collateral' });
+  const burnSynt = useWatch({ control, name: 'burn.synt' });
 
-  const maxBorrowLoan = numberToString(
-    calculateDineroLeftToBorrow({
+  const maxSyntMint = numberToString(
+    calculateSyntLeftToMint({
       ...data,
       adjustedUserCollateral: data.adjustedUserCollateral.add(
-        safeToBigNumber(+borrowCollateral || 0)
+        safeToBigNumber(+mintCollateral || 0)
       ),
     })
       .mul(ethers.utils.parseEther('0.9'))
@@ -36,65 +36,64 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
   );
 
   const maxRepayCollateral = numberToString(
-    safeAmountToWithdrawRepay(data, safeToBigNumber(+repayLoan)).toNumber()
+    safeAmountToWithdrawRepay(data, safeToBigNumber(+burnSynt)).toNumber()
   );
 
   useEffect(() => {
-    if (+borrowLoan > +maxBorrowLoan) setValue('borrow.loan', maxBorrowLoan);
-  }, [borrowLoan]);
+    if (+mintSynt > +maxSyntMint) setValue('mint.synt', maxSyntMint);
+  }, [mintSynt, maxSyntMint]);
 
   useEffect(() => {
-    if (+repayCollateral > +maxRepayCollateral)
-      setValue('repay.collateral', maxRepayCollateral);
-  }, [repayCollateral]);
+    if (+burnCollateral > +maxRepayCollateral)
+      setValue('burn.collateral', maxRepayCollateral);
+  }, [burnCollateral, maxRepayCollateral]);
 
   useEffect(() => {
-    if (FixedPointMath.toBigNumber(repayLoan).gt(data.dnrBalance))
+    if (FixedPointMath.toBigNumber(burnSynt).gt(data.syntBalance))
       setValue(
-        'repay.loan',
-        numberToString(FixedPointMath.from(data.dnrBalance).toNumber())
+        'burn.synt',
+        numberToString(FixedPointMath.from(data.syntBalance).toNumber())
       );
 
     if (
-      FixedPointMath.toBigNumber(borrowCollateral).gt(
+      FixedPointMath.toBigNumber(mintCollateral).gt(
         data.adjustedCollateralBalance
       )
     )
       setValue(
-        'borrow.collateral',
+        'mint.collateral',
         numberToString(
           FixedPointMath.from(data.adjustedCollateralBalance).toNumber()
         )
       );
-  }, [repayLoan, borrowCollateral]);
+  }, [burnSynt, mintCollateral]);
 
   const handleSetInnerMax = useCallback(() => {
-    if (name === 'borrow.loan') {
-      setValue(name, maxBorrowLoan);
+    if (name === 'mint.synt') {
+      setValue(name, maxSyntMint);
       return;
     }
 
-    if (name === 'repay.collateral') {
+    if (name === 'burn.collateral') {
       setValue(name, maxRepayCollateral);
       return;
     }
 
     setValue(name, max ? numberToString(max) : '0');
-  }, [repayLoan, borrowCollateral, data]);
+  }, [maxSyntMint, maxRepayCollateral, data, max]);
 
   const isDisabled = useMemo(() => {
-    if (name === 'repay.collateral') return data.userCollateral.isZero();
+    if (name === 'burn.collateral') return data.userCollateral.isZero();
 
-    if (name === 'repay.loan')
-      return data.loanElastic.isZero() || data.dnrBalance.isZero();
+    if (name === 'burn.synt')
+      return data.userSyntMinted.isZero() || data.syntBalance.isZero();
 
-    if (name === 'borrow.collateral') return data.collateralBalance.isZero();
+    if (name === 'mint.collateral') return data.collateralBalance.isZero();
 
     return false;
   }, [
     data.userCollateral.toString(),
-    data.loanElastic.toString(),
-    data.dnrBalance.toString(),
+    data.syntBalance.toString(),
     data.collateralBalance.toString(),
     name,
   ]);

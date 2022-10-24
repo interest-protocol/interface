@@ -57,13 +57,13 @@ export const LOAN_INFO_MAP = {
   ],
 };
 
-export const BORROW_DEFAULT_VALUES = {
-  borrow: {
-    loan: '0',
+export const SYNT_FORM_DEFAULT_VALUES = {
+  mint: {
+    synt: '0',
     collateral: '0',
   },
-  repay: {
+  burn: {
     collateral: '0',
-    loan: '0',
+    synt: '0',
   },
 };

@@ -6,16 +6,15 @@ import { Box, Typography } from '@/elements';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import InputMoney from '../input-money';
-import { BorrowFormProps } from './borrow-form.types';
-import BorrowFormButton from './borrow-form-button';
-import BorrowFormLoanInfo from './borrow-form-loan-info';
-import BorrowFormSelectLTV from './borrow-form-select-ltv';
+import { SyntFormProps } from './synt-form.types';
+import SyntFormButton from './synt-form-button';
+import SyntFormLoanInfo from './synt-form-loan-info';
+import SyntFormSelectLtv from './synt-form-select-ltv';
 
-const BorrowForm: FC<BorrowFormProps> = ({
+const SyntForm: FC<SyntFormProps> = ({
   data,
   fields,
-  isBorrow,
-  account,
+  isMint,
   refetch,
   isGettingData,
   form,
@@ -42,34 +41,29 @@ const BorrowForm: FC<BorrowFormProps> = ({
           data={data}
           errors={form.formState.errors}
           control={form.control}
-          isBorrow={isBorrow}
+          isMint={isMint}
           register={form.register}
           setValue={form.setValue}
           {...input}
         />
       )
     )}
-    <BorrowFormSelectLTV
+    <SyntFormSelectLtv
       data={data}
       control={form.control}
       setValue={form.setValue}
-      isBorrow={!!isBorrow}
+      isMint={!!isMint}
     />
-    <BorrowFormLoanInfo
-      control={form.control}
-      data={data}
-      isBorrow={!!isBorrow}
-    />
+    <SyntFormLoanInfo control={form.control} data={data} isMint={!!isMint} />
     <WalletGuardButton>
-      <BorrowFormButton
-        isBorrow={isBorrow}
+      <SyntFormButton
+        isMint={!!isMint}
         data={data}
         form={form}
-        account={account}
         refetch={refetch}
       />
     </WalletGuardButton>
   </Box>
 );
 
-export default BorrowForm;
+export default SyntForm;

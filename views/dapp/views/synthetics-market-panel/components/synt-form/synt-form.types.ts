@@ -6,49 +6,45 @@ import {
 } from '../../synthetics-market.types';
 import { SyntheticMarketData } from './../../synthetics-market.types';
 
-export interface BorrowFormButtonProps {
+export interface SyntFormButtonProps {
   form: UseFormReturn<ISyntheticForm>;
-  isBorrow?: boolean;
+  isMint?: boolean;
   data: SyntheticMarketData;
-  account: string;
   refetch: () => Promise<void>;
 }
-export interface BorrowFormProps {
+export interface SyntFormProps {
   form: UseFormReturn<ISyntheticForm>;
-  account: string;
-  isBorrow?: boolean;
+  isMint?: boolean;
   data: SyntheticMarketData;
   fields: ReadonlyArray<ISyntheticFormField>;
   refetch: () => Promise<void>;
   isGettingData: boolean;
 }
 
-export interface BorrowFormSelectLTVProps
+export interface SyntFormSelectLTVProps
   extends Pick<UseFormReturn<ISyntheticForm>, 'control' | 'setValue'> {
-  isBorrow: boolean;
+  isMint: boolean;
   data: SyntheticMarketData;
 }
 
-export interface BorrowFormLoanInfoProps
+export interface SyntFormLoanInfoProps
   extends Pick<UseFormReturn<ISyntheticForm>, 'control'> {
   data: SyntheticMarketData;
-  isBorrow: boolean;
+  isMint: boolean;
 }
 
-export interface BorrowButtonProps {
+export interface MintButtonProps {
   data: SyntheticMarketData;
-  account: string;
   form: UseFormReturn<ISyntheticForm>;
   refetch: () => Promise<void>;
-  borrowLoan: string;
-  borrowCollateral: string;
+  mintSynt: string;
+  mintCollateral: string;
 }
 
-export interface RepayButtonProps {
+export interface BurnButtonProps {
   data: SyntheticMarketData;
-  account: string;
   form: UseFormReturn<ISyntheticForm>;
   refetch: () => Promise<void>;
-  repayLoan: string;
-  repayCollateral: string;
+  burnSynt: string;
+  burnCollateral: string;
 }

@@ -7,7 +7,7 @@ import { v4 } from 'uuid';
 import { Box, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { InfoSVG } from '@/svg';
-import { capitalize, formatDollars, maybeLPTokenName } from '@/utils';
+import { capitalize, formatDollars } from '@/utils';
 
 import { MyOpenPositionProps } from './my-open-position.types';
 
@@ -17,10 +17,10 @@ const MY_POSITION = [1, 2, 3, 4, 5, 6].map((item) => ({
 }));
 
 const MyOpenPosition: FC<MyOpenPositionProps> = ({
-  symbols,
+  symbol,
   isLoading,
   myPositionData,
-  collateralUSDPrice,
+  syntUSDPrice,
 }) => {
   const t = useTranslations();
 
@@ -76,10 +76,9 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
               <Skeleton />
             </Typography>
           ) : (
-            `${maybeLPTokenName(...symbols)}: ${
-              collateralUSDPrice &&
-              formatDollars(FixedPointMath.from(collateralUSDPrice).toNumber())
-            }`
+            `${symbol}: ${formatDollars(
+              FixedPointMath.from(syntUSDPrice).toNumber()
+            )}`
           )}
         </Box>
       </Box>

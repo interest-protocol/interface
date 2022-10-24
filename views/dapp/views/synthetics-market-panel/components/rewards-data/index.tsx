@@ -8,14 +8,14 @@ import { TTranslatedMessage } from '@/interface';
 import { InfoSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
-import { LoanInfoProps, TLoanInfo } from './loan-info.types';
+import { RewardsDataProps, TInfo } from './rewards-data.types';
 
 const CustomInfo = [1, 2].map((index) => ({
   tip: ('syntheticsMarketAddress.loanInfoCustomTip' +
     index) as TTranslatedMessage,
   name: ('syntheticsMarketAddress.loanInfoCustomName' +
     index) as TTranslatedMessage,
-})) as TLoanInfo;
+})) as TInfo;
 
 const LOAN_INFO_MAP = CustomInfo.concat(
   [1, 2, 3].map((index) => ({
@@ -24,9 +24,9 @@ const LOAN_INFO_MAP = CustomInfo.concat(
     name: ('syntheticsMarketAddress.loanInfoLpFreeMarketName' +
       index) as TTranslatedMessage,
   }))
-) as TLoanInfo;
+) as TInfo;
 
-const LoanInfo: FC<LoanInfoProps> = ({ isLoading, loanInfoData }) => {
+const RewardsData: FC<RewardsDataProps> = ({ isLoading, info }) => {
   const t = useTranslations();
 
   return (
@@ -68,7 +68,7 @@ const LoanInfo: FC<LoanInfoProps> = ({ isLoading, loanInfoData }) => {
                 <Skeleton />
               </Typography>
             ) : (
-              loanInfoData[i]
+              info[i]
             )}
           </Box>
         </Box>
@@ -76,4 +76,4 @@ const LoanInfo: FC<LoanInfoProps> = ({ isLoading, loanInfoData }) => {
     </Box>
   );
 };
-export default LoanInfo;
+export default RewardsData;

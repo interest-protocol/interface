@@ -4,6 +4,7 @@ import { FC, SVGAttributes } from 'react';
 
 import { CHAIN_ID, CONTRACTS, TOKEN_SYMBOL } from '@/sdk';
 import {
+  BinanceUSDSVG,
   SynthBitcoinSVG,
   SynthBRLSVG,
   SynthEthereumSVG,
@@ -112,9 +113,33 @@ const SYNTHETICS_MARKET_SVG_MAP = {
   },
 };
 
+const SYNTHETICS_MARKET_COLLATERAL_SVG_MAP = {
+  [CHAIN_ID.BNB_TEST_NET]: {
+    [getBSCTestNetSyntheticsMarkets().iBTC!]: [
+      { icon: BinanceUSDSVG, highZIndex: false },
+    ],
+    [getBSCTestNetSyntheticsMarkets().iBRL!]: [
+      { icon: BinanceUSDSVG, highZIndex: false },
+    ],
+    [getBSCTestNetSyntheticsMarkets().iETH!]: [
+      { icon: BinanceUSDSVG, highZIndex: false },
+    ],
+    [getBSCTestNetSyntheticsMarkets().iGBP!]: [
+      { icon: BinanceUSDSVG, highZIndex: false },
+    ],
+    [getBSCTestNetSyntheticsMarkets().iXAU!]: [
+      { icon: BinanceUSDSVG, highZIndex: false },
+    ],
+    [getBSCTestNetSyntheticsMarkets().iJPY!]: [
+      { icon: BinanceUSDSVG, highZIndex: false },
+    ],
+  },
+};
+
 export const getSyntheticsMarketSVGByAddress = (
   chain: number,
-  marketAddress: string
+  marketAddress: string,
+  isCollateral = false
 ): ReadonlyArray<{
   SVG: FC<SVGAttributes<SVGSVGElement>>;
   highZIndex: boolean;
@@ -127,7 +152,9 @@ export const getSyntheticsMarketSVGByAddress = (
       },
     ],
     [chain.toString(), ethers.utils.getAddress(marketAddress)],
-    SYNTHETICS_MARKET_SVG_MAP
+    isCollateral
+      ? SYNTHETICS_MARKET_SVG_MAP
+      : SYNTHETICS_MARKET_COLLATERAL_SVG_MAP
   );
 
   // 1 Token

@@ -14,9 +14,9 @@ import {
 
 import { useRepay } from '../../synthetics-market.hooks';
 import { isFormRepayEmpty } from '../../synthetics-market.utils';
-import { RepayButtonProps } from './borrow-form.types';
+import { BurnButtonProps } from './synt-form.types';
 
-const RepayButton: FC<RepayButtonProps> = ({
+const BurnButton: FC<BurnButtonProps> = ({
   data,
   account,
   form,
@@ -99,4 +99,4 @@ const RepayButton: FC<RepayButtonProps> = ({
   );
 };
 
-export default RepayButton;
+export default BurnButton;

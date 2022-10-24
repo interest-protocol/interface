@@ -6,11 +6,11 @@ import { Loading } from '@/views/dapp/components';
 import Error from '@/views/dapp/views/error';
 import SyntheticsMarketMode from '@/views/dapp/views/synthetics-market-panel';
 
-interface DineroMarketBorrowPageProps {
-  address: string | null | undefined;
+interface SyntheticsPageBurnPageProps {
+  address: string | undefined | null;
 }
 
-const DineroMarketBorrowPage: NextPage<DineroMarketBorrowPageProps> = ({
+const SyntheticsPageBurnPage: NextPage<SyntheticsPageBurnPageProps> = ({
   address,
 }) => {
   const t = useTranslations();
@@ -19,7 +19,7 @@ const DineroMarketBorrowPage: NextPage<DineroMarketBorrowPageProps> = ({
 
   if (address === null) return <Error message={t('error.wrongParams')} />;
 
-  return <SyntheticsMarketMode address={address} mode="borrow" />;
+  return <SyntheticsMarketMode address={address} mode="burn" />;
 };
 
 export const getServerSideProps: GetServerSideProps = async ({
@@ -45,9 +45,9 @@ export const getServerSideProps: GetServerSideProps = async ({
       address,
       messages,
       now: new Date().getTime(),
-      pageTitle: 'syntheticsMarketAddress.pageTitleBorrow',
+      pageTitle: 'syntheticsMarketAddress.pageTitleRepay',
     },
   };
 };
 
-export default DineroMarketBorrowPage;
+export default SyntheticsPageBurnPage;

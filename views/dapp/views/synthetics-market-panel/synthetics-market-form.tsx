@@ -1,40 +1,37 @@
 import { FC, useMemo } from 'react';
 
-import BorrowForm from './components/borrow-form';
+import SyntForm from './components/synt-form';
 import { FormsProps } from './synthetics-market.types';
-import { getBorrowFields, getRepayFields } from './synthetics-market.utils';
+import { getBurnFields, getMintFields } from './synthetics-market.utils';
 
 const SyntheticsMarketForm: FC<FormsProps> = ({
   mode,
   data,
   form,
-  account,
   isGettingData,
   refetch,
 }) => {
-  const repayFieldsData = useMemo(() => getRepayFields(data), [data]);
+  const mintFieldsData = useMemo(() => getMintFields(data), [data]);
 
-  const borrowFieldsData = useMemo(() => getBorrowFields(data), [data]);
+  const burnFieldsData = useMemo(() => getBurnFields(data), [data]);
 
   return (
     <>
-      {mode === 'borrow' && (
-        <BorrowForm
-          isBorrow
+      {mode === 'mint' && (
+        <SyntForm
+          isMint
           data={data}
-          account={account}
           isGettingData={isGettingData}
-          fields={borrowFieldsData}
+          fields={mintFieldsData}
           refetch={refetch}
           form={form}
         />
       )}
-      {mode === 'repay' && (
-        <BorrowForm
+      {mode === 'burn' && (
+        <SyntForm
           data={data}
-          account={account}
           isGettingData={isGettingData}
-          fields={repayFieldsData}
+          fields={burnFieldsData}
           refetch={refetch}
           form={form}
         />

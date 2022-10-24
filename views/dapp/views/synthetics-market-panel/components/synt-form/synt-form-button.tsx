@@ -6,37 +6,39 @@ import { ApproveButton } from '@/components';
 import { Box } from '@/elements';
 import { isValidAccount, isZeroAddress } from '@/utils';
 
-import BorrowButton from './borrow-button';
-import { BorrowFormButtonProps } from './borrow-form.types';
-import RepayButton from './repay-button';
+import BurnButton from './burn-button';
+import MintButton from './mint-button';
+import { SyntFormButtonProps } from './synt-form.types';
 
-const BorrowFormButton: FC<BorrowFormButtonProps> = ({
+const SyntFormButton: FC<SyntFormButtonProps> = ({
   data,
-  isBorrow,
-  account,
+  isMint,
   refetch,
   form,
 }) => {
   const t = useTranslations();
-  const repayLoan = useWatch({ control: form.control, name: 'repay.loan' });
-  const repayCollateral = useWatch({
+  const burnSynt = useWatch({ control: form.control, name: 'burn.synt' });
+
+  const burnCollateral = useWatch({
     control: form.control,
-    name: 'repay.collateral',
+    name: 'burn.collateral',
   });
-  const borrowLoan = useWatch({ control: form.control, name: 'borrow.loan' });
-  const borrowCollateral = useWatch({
+
+  const mintSynt = useWatch({ control: form.control, name: 'mint.synt' });
+
+  const mintCollateral = useWatch({
     control: form.control,
-    name: 'borrow.collateral',
+    name: 'mint.collateral',
   });
 
   return (
     <Box display="flex" justifyContent="center" mt="XXL">
-      {isBorrow ? (
+      {isMint ? (
         data.collateralAllowance.isZero() ? (
           <ApproveButton
             enabled={
               data.collateralAllowance.isZero() &&
-              isValidAccount(account) &&
+              isValidAccount(data.account) &&
               !isZeroAddress(data.marketAddress)
             }
             refetch={refetch}
@@ -50,8 +52,8 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
               justifyContent: 'center',
             }}
           />
-        ) : (!borrowLoan && !borrowCollateral) ||
-          (+borrowCollateral === 0 && +borrowLoan === 0) ? (
+        ) : (!mintSynt && !mintCollateral) ||
+          (+mintCollateral === 0 && +mintSynt === 0) ? (
           <Box
             py="L"
             px="XL"
@@ -63,16 +65,15 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
             {t('syntheticsMarketAddress.button.default')}
           </Box>
         ) : (
-          <BorrowButton
-            borrowLoan={borrowLoan}
-            borrowCollateral={borrowCollateral}
+          <MintButton
+            mintSynt={mintSynt}
+            mintCollateral={mintCollateral}
             refetch={refetch}
             form={form}
             data={data}
-            account={account}
           />
         )
-      ) : !+repayLoan && !+repayCollateral ? (
+      ) : !+burnSynt && !+burnCollateral ? (
         <Box
           py="L"
           px="XL"
@@ -84,17 +85,16 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
           {t('syntheticsMarketAddress.button.default')}
         </Box>
       ) : (
-        <RepayButton
-          repayLoan={repayLoan}
-          repayCollateral={repayCollateral}
+        <BurnButton
+          burnSynt={burnSynt}
+          burnCollateral={burnCollateral}
           refetch={refetch}
           form={form}
           data={data}
-          account={account}
         />
       )}
     </Box>
   );
 };
 
-export default BorrowFormButton;
+export default SyntFormButton;

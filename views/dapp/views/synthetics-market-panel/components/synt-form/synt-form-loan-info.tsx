@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 import { v4 } from 'uuid';
@@ -10,47 +10,47 @@ import { InfoSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
 import {
-  getBorrowPositionHealthData,
-  getRepayPositionHealthData,
+  getBurnPositionHealthData,
+  getMintPositionHealthData,
 } from '../../synthetics-market.utils';
-import { BorrowFormLoanInfoProps } from './borrow-form.types';
+import { SyntFormLoanInfoProps } from './synt-form.types';
 
 const INFO = [1, 2, 3, 4].map((item) => ({
   text: 'syntheticsMarketAddress.borrowFormLoanInfoText' + item,
   tip: 'syntheticsMarketAddress.borrowFormLoanInfoTip' + item,
 }));
 
-const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
+const SyntFormLoanInfo: FC<SyntFormLoanInfoProps> = ({
   control,
   data,
-  isBorrow,
+  isMint,
 }) => {
   const t = useTranslations();
-  const borrowLoan = useWatch({ control, name: 'borrow.loan' });
-  const borrowCollateral = useWatch({
+
+  const mintSynt = useWatch({ control, name: 'mint.synt' });
+
+  const mintCollateral = useWatch({
     control,
-    name: 'borrow.collateral',
+    name: 'mint.collateral',
   });
 
-  const repayLoan = useWatch({ control, name: 'repay.loan' });
-  const repayCollateral = useWatch({
+  const burnSynt = useWatch({ control, name: 'burn.synt' });
+
+  const burnCollateral = useWatch({
     control,
-    name: 'repay.collateral',
+    name: 'burn.collateral',
   });
 
-  const loanData = useMemo(
-    () =>
-      isBorrow
-        ? getBorrowPositionHealthData(data, {
-            collateral: borrowCollateral || '0',
-            loan: borrowLoan || '0',
-          })
-        : getRepayPositionHealthData(data, {
-            collateral: repayCollateral || '0',
-            loan: repayLoan || '0',
-          }),
-    [data, borrowCollateral, borrowLoan, isBorrow, repayLoan, repayCollateral]
-  );
+  const loanData = isMint
+    ? getMintPositionHealthData(data, {
+        collateral: mintCollateral || '0',
+        synt: mintSynt || '0',
+      })
+    : getBurnPositionHealthData(data, {
+        collateral: burnCollateral || '0',
+        synt: burnSynt || '0',
+      });
+
   return (
     <Box mt="XXL">
       {INFO.map(({ text, tip }, i) => (
@@ -98,4 +98,4 @@ const BorrowFormLoanInfo: FC<BorrowFormLoanInfoProps> = ({
   );
 };
 
-export default BorrowFormLoanInfo;
+export default SyntFormLoanInfo;

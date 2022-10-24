@@ -10,20 +10,20 @@ import { useIdAccount } from '@/hooks/use-id-account';
 
 import GoBack from '../../components/go-back';
 import ErrorPage from '../error';
-import { borrowFormValidation } from './components/borrow-form/borrow-form.validator';
-import LoanInfo from './components/loan-info';
 import MyOpenPosition from './components/my-open-position';
+import RewardsData from './components/rewards-data';
 import UserLTV from './components/user-ltv';
 import YourBalance from './components/your-balance';
-import { BORROW_DEFAULT_VALUES } from './synthetics-market.data';
+import { syntheticsFormValidation } from './synthetics-form.validator';
+import { SYNT_FORM_DEFAULT_VALUES } from './synthetics-market.data';
 import { useGetSyntheticUserMarketData } from './synthetics-market.hooks';
 import {
   ISyntheticForm,
   SyntheticsMarketPanelProps,
 } from './synthetics-market.types';
 import {
-  getLoanInfoData,
   getMyPositionData,
+  getRewardsInfo,
   processSyntheticData,
 } from './synthetics-market.utils';
 import SyntheticsMarketForm from './synthetics-market-form';
@@ -42,18 +42,18 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
   );
 
   const market = useMemo(
-    () => processSyntheticData(chainId, address, data),
-    [chainId, address, data]
+    () => processSyntheticData(chainId, account, address, data),
+    [chainId, address, data, account]
   );
 
   const form = useForm<ISyntheticForm>({
     mode: 'onChange',
     reValidateMode: 'onChange',
-    defaultValues: BORROW_DEFAULT_VALUES,
-    resolver: yupResolver(borrowFormValidation),
+    defaultValues: SYNT_FORM_DEFAULT_VALUES,
+    resolver: yupResolver(syntheticsFormValidation),
   });
 
-  const loanInfoData = getLoanInfoData(market);
+  const rewardsInfo = getRewardsInfo(market);
   const myPositionData = getMyPositionData(market);
 
   if (error) return <ErrorPage message="Something went wrong" />;
@@ -96,19 +96,18 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
             mode={mode}
             form={form}
             data={market}
-            account={account}
-            isGettingData={!market && !error}
+            isGettingData={market.loading}
             refetch={async () => {
               await refetch();
             }}
           />
           <UserLTV isLoading={!market && !error} ltv={market.ltv.toNumber()} />
-          <LoanInfo loanInfoData={loanInfoData} isLoading={!market && !error} />
+          <RewardsData info={rewardsInfo} isLoading={market.loading} />
           <MyOpenPosition
             symbol={market.symbol}
-            isLoading={!market && !error}
+            isLoading={market.loading}
             myPositionData={myPositionData}
-            collateralUSDPrice={market.syntUSDPrice}
+            syntUSDPrice={market.syntUSDPrice}
           />
           <YourBalance
             chainId={market.chainId}

@@ -7,7 +7,7 @@ import Typography from '@/elements/typography';
 import { formatMoney, safeToBigNumber } from '@/utils';
 
 import {
-  calculateDineroLeftToBorrow,
+  calculateSyntLeftToMint,
   safeAmountToWithdrawRepay,
 } from '../../synthetics-market.utils';
 import { InputMaxTagProps } from './input-money.types';
@@ -15,29 +15,29 @@ import { InputMaxTagProps } from './input-money.types';
 const InputMaxTag: FC<InputMaxTagProps> = ({
   max,
   data,
-  isDNR,
+  isBUSD,
   control,
-  isBorrow,
+  isMint,
 }) => {
-  const depositCollateral = useWatch({ control, name: 'borrow.collateral' });
-  const repayLoan = useWatch({ control, name: 'repay.loan' });
+  const mintCollateral = useWatch({ control, name: 'mint.collateral' });
+  const burnSynt = useWatch({ control, name: 'burn.synt' });
 
   const recalculatedMax = useMemo(
     () =>
-      isBorrow
-        ? calculateDineroLeftToBorrow({
+      isMint
+        ? calculateSyntLeftToMint({
             ...data,
             adjustedUserCollateral: data.adjustedUserCollateral.add(
-              safeToBigNumber(+depositCollateral)
+              safeToBigNumber(+mintCollateral)
             ),
           })
             .mul(ethers.utils.parseEther('0.9'))
             .toNumber()
         : safeAmountToWithdrawRepay(
             data,
-            safeToBigNumber(+repayLoan)
+            safeToBigNumber(+burnSynt)
           ).toNumber(),
-    [depositCollateral, repayLoan, isBorrow]
+    [mintCollateral, burnSynt, isMint]
   );
 
   return (
@@ -53,7 +53,7 @@ const InputMaxTag: FC<InputMaxTagProps> = ({
         Max:{' '}
         <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
           {formatMoney(
-            ((isDNR && isBorrow) || (!isDNR && !isBorrow)
+            ((isMint && !isBUSD) || (!isMint && isBUSD)
               ? recalculatedMax
               : max) ?? 0
           )}
