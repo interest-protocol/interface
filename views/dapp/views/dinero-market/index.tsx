@@ -51,7 +51,7 @@ const DineroMarket: FC = () => {
         >
           <TimesSVG width="100%" height="100%" />
         </Box>
-        <Typography variant="title3">Error fetching the contracts</Typography>
+        <Typography variant="title3">{t('error.generic')}</Typography>
       </Box>
     );
 

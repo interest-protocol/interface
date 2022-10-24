@@ -31,6 +31,7 @@ export interface TypographyProps
   cursor?: MaybeArray<CSSProperties['cursor']>;
   whiteSpace?: MaybeArray<CSSProperties['whiteSpace']>;
   textTransform?: MaybeArray<CSSProperties['textTransform']>;
+  textDecoration?: MaybeArray<CSSProperties['textDecoration']>;
   variant: MaybeArray<
     'title1' | 'title2' | 'title3' | 'title4' | 'normal' | 'large' | 'button'
   >;

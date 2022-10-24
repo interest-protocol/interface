@@ -16,7 +16,6 @@ const Dropdown: FC<DropdownProps> = ({
   bottom,
   suffix,
   footer,
-  relative,
   callback,
   minWidth,
   fromRight,
@@ -42,8 +41,8 @@ const Dropdown: FC<DropdownProps> = ({
     <Box
       display="flex"
       alignItems="center"
+      position="relative"
       id={dropdownWrapperId}
-      position={relative ? 'relative' : 'static'}
     >
       {mode === 'select' && selectedIndex !== -1 && customTitle ? (
         <Box
