@@ -3,10 +3,10 @@ import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container, Tooltip } from '@/components';
-import { getDineroMarketSVGByAddress } from '@/constants';
 import { RoutesEnum } from '@/constants';
 import { Box } from '@/elements';
 import { useIdAccount } from '@/hooks/use-id-account';
+import { FixedPointMath } from '@/sdk';
 
 import GoBack from '../../components/go-back';
 import ErrorPage from '../error';
@@ -101,27 +101,18 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
               await refetch();
             }}
           />
-          <UserLTV isLoading={!market && !error} ltv={market.ltv.toNumber()} />
+          <UserLTV
+            isLoading={market.loading}
+            ltv={FixedPointMath.toNumber(market.ltv)}
+          />
           <RewardsData info={rewardsInfo} isLoading={market.loading} />
           <MyOpenPosition
-            symbol={market.symbol}
+            symbol={market.syntSymbol}
             isLoading={market.loading}
             myPositionData={myPositionData}
             syntUSDPrice={market.syntUSDPrice}
           />
-          <YourBalance
-            chainId={market.chainId}
-            loading={!market && !error}
-            collateralName={market.name}
-            dnrBalance={market.collateralBalance}
-            intBalance={market.pendingRewards}
-            collateralBalance={market.collateralBalance}
-            collateralDecimals={market.collateralDecimals}
-            currencyIcons={getDineroMarketSVGByAddress(
-              market.chainId,
-              market.marketAddress
-            )}
-          />
+          <YourBalance data={market} />
         </Box>
       </Box>
       <Tooltip />

@@ -5,21 +5,12 @@ import { v4 } from 'uuid';
 
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { CONTRACTS, FixedPointMath } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 import { formatMoney } from '@/utils';
 
 import { YourBalanceProps } from './your-balance.types';
 
-const YourBalance: FC<YourBalanceProps> = ({
-  chainId,
-  loading,
-  dnrBalance,
-  intBalance,
-  currencyIcons,
-  collateralName,
-  collateralBalance,
-  collateralDecimals,
-}) => {
+const YourBalance: FC<YourBalanceProps> = ({ data }) => {
   const t = useTranslations();
 
   return (
@@ -27,7 +18,7 @@ const YourBalance: FC<YourBalanceProps> = ({
       <Typography variant="normal" textTransform="uppercase" mt="L">
         {t('common.yourBalance')}:
       </Typography>
-      {loading ? (
+      {data.loading ? (
         <Box my="XL" rowGap="0.7rem" display="grid" gridTemplateRows="1fr 1fr">
           <Skeleton wrapper={Box} />
           <Skeleton wrapper={Box} />
@@ -35,32 +26,26 @@ const YourBalance: FC<YourBalanceProps> = ({
       ) : (
         [
           {
-            name: 'Dinero',
+            name: data.syntSymbol,
             symbols: [
               {
-                SVG: TOKENS_SVG_MAP[chainId][CONTRACTS.DNR[chainId]],
+                SVG: TOKENS_SVG_MAP[data.chainId][data.syntAddress],
                 highZIndex: false,
               },
             ],
-            balance: dnrBalance,
+            balance: data.syntBalance,
           },
           {
-            name: collateralName,
-            symbols: currencyIcons,
-            balance: collateralBalance,
-            decimals: collateralDecimals,
-          },
-          {
-            name: 'Interest',
+            name: data.collateralSymbol,
             symbols: [
               {
-                SVG: TOKENS_SVG_MAP[chainId][CONTRACTS.INT[chainId]],
+                SVG: TOKENS_SVG_MAP[data.chainId][data.collateralAddress],
                 highZIndex: false,
               },
             ],
-            balance: intBalance,
+            balance: data.adjustedCollateralBalance,
           },
-        ].map(({ name, symbols, balance, decimals }) => (
+        ].map(({ name, symbols, balance }) => (
           <Box
             my="L"
             key={v4()}
@@ -93,7 +78,7 @@ const YourBalance: FC<YourBalanceProps> = ({
               whiteSpace="nowrap"
               color="textSecondary"
             >
-              {formatMoney(FixedPointMath.toNumber(balance, decimals ?? 18))}
+              {formatMoney(FixedPointMath.toNumber(balance))}
             </Typography>
           </Box>
         ))

@@ -153,8 +153,8 @@ export const getSyntheticsMarketSVGByAddress = (
     ],
     [chain.toString(), ethers.utils.getAddress(marketAddress)],
     isCollateral
-      ? SYNTHETICS_MARKET_SVG_MAP
-      : SYNTHETICS_MARKET_COLLATERAL_SVG_MAP
+      ? SYNTHETICS_MARKET_COLLATERAL_SVG_MAP
+      : SYNTHETICS_MARKET_SVG_MAP
   );
 
   // 1 Token
@@ -182,52 +182,64 @@ export const SYNTHETIC_PANEL_RESPONSE_MAP = {
   [CHAIN_ID.BNB_MAIN_NET]: {},
   [CHAIN_ID.BNB_TEST_NET]: {
     [getBSCTestNetSyntheticsMarkets().iBTC!]: {
-      symbol: TOKEN_SYMBOL.iBTC,
-      name: 'Interest Bitcoin',
+      syntSymbol: TOKEN_SYMBOL.iBTC,
+      syntName: 'Interest Bitcoin',
       collateralDecimals: 18,
       marketAddress: getBSCTestNetSyntheticsMarkets().iBTC!,
       collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
       syntAddress: CONTRACTS.iBTC[CHAIN_ID.BNB_TEST_NET],
+      collateralName: 'BUSD Token',
+      collateralSymbol: TOKEN_SYMBOL.BUSD,
     },
     [getBSCTestNetSyntheticsMarkets().iBRL!]: {
-      symbol: TOKEN_SYMBOL.iBRL,
-      name: 'Interest Brazilian Real',
+      syntSymbol: TOKEN_SYMBOL.iBRL,
+      syntName: 'Interest Brazilian Real',
       collateralDecimals: 18,
       marketAddress: getBSCTestNetSyntheticsMarkets().iBRL!,
       collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
       syntAddress: CONTRACTS.iBRL[CHAIN_ID.BNB_TEST_NET],
+      collateralName: 'BUSD Token',
+      collateralSymbol: TOKEN_SYMBOL.BUSD,
     },
     [getBSCTestNetSyntheticsMarkets().iETH!]: {
-      symbol: TOKEN_SYMBOL.iETH,
-      name: 'Interest Ether',
+      syntSymbol: TOKEN_SYMBOL.iETH,
+      syntName: 'Interest Ether',
       collateralDecimals: 18,
       marketAddress: getBSCTestNetSyntheticsMarkets().iETH!,
       collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
       syntAddress: CONTRACTS.iETH[CHAIN_ID.BNB_TEST_NET],
+      collateralName: 'BUSD Token',
+      collateralSymbol: TOKEN_SYMBOL.BUSD,
     },
     [getBSCTestNetSyntheticsMarkets().iGBP!]: {
-      symbol: TOKEN_SYMBOL.iGBP,
-      name: 'Interest Pound Sterling',
+      syntSymbol: TOKEN_SYMBOL.iGBP,
+      syntName: 'Interest Pound Sterling',
       collateralDecimals: 18,
       marketAddress: getBSCTestNetSyntheticsMarkets().iGBP!,
       collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
       syntAddress: CONTRACTS.iGBP[CHAIN_ID.BNB_TEST_NET],
+      collateralName: 'BUSD Token',
+      collateralSymbol: TOKEN_SYMBOL.BUSD,
     },
     [getBSCTestNetSyntheticsMarkets().iXAU!]: {
-      symbol: TOKEN_SYMBOL.iXAU,
-      name: 'Interest Gold',
+      syntSymbol: TOKEN_SYMBOL.iXAU,
+      syntName: 'Interest Gold',
       collateralDecimals: 18,
       marketAddress: getBSCTestNetSyntheticsMarkets().iXAU!,
       collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
       syntAddress: CONTRACTS.iXAU[CHAIN_ID.BNB_TEST_NET],
+      collateralName: 'BUSD Token',
+      collateralSymbol: TOKEN_SYMBOL.BUSD,
     },
     [getBSCTestNetSyntheticsMarkets().iJPY!]: {
-      symbol: TOKEN_SYMBOL.iJPY,
-      name: 'Interest Japanese Yen',
+      syntSymbol: TOKEN_SYMBOL.iJPY,
+      syntName: 'Interest Japanese Yen',
       collateralDecimals: 18,
       marketAddress: getBSCTestNetSyntheticsMarkets().iJPY!,
       collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
       syntAddress: CONTRACTS.iJPY[CHAIN_ID.BNB_TEST_NET],
+      collateralName: 'BUSD Token',
+      collateralSymbol: TOKEN_SYMBOL.BUSD,
     },
   },
   [CHAIN_ID.UNSUPPORTED]: {},

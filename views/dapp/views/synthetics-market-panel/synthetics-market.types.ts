@@ -60,14 +60,16 @@ export interface SyntheticMarketData {
   syntUSDPrice: BigNumber;
   syntAddress: string;
   pendingRewards: BigNumber;
-  symbol: string;
-  name: string;
+  syntSymbol: string;
+  syntName: string;
   marketAddress: string;
   collateralDecimals: number;
   collateralAddress: string;
   chainId: number;
   loading: boolean;
   account: string;
+  collateralName: string;
+  collateralSymbol: string;
 }
 
 export type ProcessSyntheticData = (
@@ -78,25 +80,24 @@ export type ProcessSyntheticData = (
 ) => SyntheticMarketData;
 
 interface TGetPositionHealthDataInternalArgs {
-  userCollateralAmount: BigNumber;
-  userElasticAmount: BigNumber;
-  loanElastic: BigNumber;
+  userSyntMinted: BigNumber;
+  userAdjustedCollateral: BigNumber;
 }
 
 export type TGetPositionHealthDataInternal = (
   data: TGetPositionHealthDataInternalArgs,
   market: SyntheticMarketData
-) => [string, string, string, string];
+) => [string, string, string];
 
 export type TGetMintPositionHealthData = (
   data: SyntheticMarketData,
   borrow: { synt: string; collateral: string }
-) => [string, string, string, string];
+) => [string, string, string];
 
 export type TGetBurnPositionHealthData = (
   data: SyntheticMarketData,
-  borrow: { synt: string; collateral: string }
-) => [string, string, string, string];
+  userData: { synt: string; collateral: string }
+) => [string, string, string];
 
 export type TGetRewardsInfo = (
   data: SyntheticMarketData
