@@ -1,16 +1,18 @@
-import { ContractInterface, ethers } from 'ethers';
+import { ethers } from 'ethers';
 import { isEmpty } from 'ramda';
 import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
-import { DEFAULT_ACCOUNT, DineroMarketKind } from '@/constants';
+import { DEFAULT_ACCOUNT } from '@/constants';
 import { useSafeContractRead } from '@/hooks';
+import { HandlerData } from '@/interface';
 import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
 import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
+import SyntheticMinterABI from '@/sdk/abi/synthetics-minter.abi.json';
 import { isValidAccount, isZeroAddress, safeToBigNumber } from '@/utils';
 import { getInterestViewDineroV2Address } from '@/utils';
 
-import { HandlerData, SyntheticMarketData } from './synthetics-market.types';
+import { SyntheticMarketData } from './synthetics-market.types';
 
 export const useGetSyntheticUserMarketData = (
   marketAddress: string,
@@ -28,477 +30,269 @@ export const useGetSyntheticUserMarketData = (
   });
 };
 
-// ALL THE HOOKS BELOW WILL CHANGE
-
 const { defaultAbiCoder } = ethers.utils;
 
 const encodeData = (to: string, amount: ethers.BigNumber) =>
   defaultAbiCoder.encode(['address', 'uint256'], [to || ZERO_ADDRESS, amount]);
-//
-// enum RequestActions {
-//   Deposit,
-//   Withdraw,
-//   Borrow,
-//   Repay,
-// }
-//
-// const handleRepayRequest = (
-//   market: SyntheticMarketData,
-//   account: string,
-//   collateral: number,
-//   loan: number
-// ): HandlerData => {
-//   const bnCollateral = safeToBigNumber(
-//     collateral,
-//     market.collateralDecimals,
-//     8
-//   );
-//
-//   const safeBNCollateral = bnCollateral.gt(market.userCollateral)
-//     ? market.userCollateral
-//     : bnCollateral;
-//
-//   const functionName = 'request';
-//   let args: any[] = [];
-//   let enabled = false;
-//   const overrides = {};
-//   let contractInterface: ContractInterface = '';
-//
-//   /**
-//    * @description We do not need to calculate the elastic loan, because this market does not have any interest rate.
-//    */
-//   if (market.kind === DineroMarketKind.LpFreeMarket) {
-//     const loanBN = FixedPointMath.toBigNumber(loan);
-//     const safePrincipal = loanBN.gt(market.userPrincipal)
-//       ? market.userPrincipal
-//       : loanBN;
-//
-//     args = [
-//       [RequestActions.Repay, RequestActions.Withdraw],
-//       [
-//         encodeData(account, safePrincipal),
-//         encodeData(account, safeBNCollateral),
-//       ],
-//     ];
-//     enabled = !safePrincipal.isZero() && !safePrincipal.isZero();
-//     contractInterface = DineroLpFreeMarketABI;
-//   }
-//
-//   if (market.kind === DineroMarketKind.ERC20) {
-//     const estimatedPrincipal = loanElasticToPrincipal({
-//       interestRate: market.interestRate,
-//       lastAccrued: market.lastAccrued,
-//       loanElastic: market.loanElastic,
-//       loanBase: market.loanBase,
-//       userElastic: safeToBigNumber(loan, 18, 8),
-//       now: market.now,
-//     }).value();
-//
-//     const safePrincipal = estimatedPrincipal.gt(market.userPrincipal)
-//       ? market.userPrincipal
-//       : estimatedPrincipal;
-//
-//     args = [
-//       [RequestActions.Repay, RequestActions.Withdraw],
-//       [
-//         encodeData(account, safePrincipal),
-//         encodeData(account, safeBNCollateral),
-//       ],
-//     ];
-//     enabled = !safePrincipal.isZero() && !safePrincipal.isZero();
-//     contractInterface = DineroERC20MarketABI;
-//   }
-//
-//   if (market.kind === DineroMarketKind.Native) {
-//     const estimatedPrincipal = loanElasticToPrincipal({
-//       loanBase: market.loanBase,
-//       loanElastic: market.loanElastic,
-//       interestRate: market.interestRate,
-//       lastAccrued: market.lastAccrued,
-//       userElastic: safeToBigNumber(loan, 18, 8),
-//       now: market.now,
-//     }).value();
-//
-//     const safePrincipal = estimatedPrincipal.gt(market.userPrincipal)
-//       ? market.userPrincipal
-//       : estimatedPrincipal;
-//
-//     args = [
-//       [RequestActions.Repay, RequestActions.Withdraw],
-//       [
-//         encodeData(account, safePrincipal),
-//         encodeData(account, safeBNCollateral),
-//       ],
-//     ];
-//     enabled = !safePrincipal.isZero() && !safePrincipal.isZero();
-//     contractInterface = DineroNativeMarketABI;
-//   }
-//
-//   return {
-//     functionName,
-//     args,
-//     enabled,
-//     overrides,
-//     contractInterface,
-//   };
-// };
-//
-// const handleRepayCollateral = (
-//   market: SyntheticMarketData,
-//   account: string,
-//   collateral: number
-// ): HandlerData => {
-//   const bnCollateral = safeToBigNumber(
-//     collateral,
-//     market.collateralDecimals,
-//     8
-//   );
-//
-//   const safeBNCollateral = bnCollateral.gt(market.userCollateral)
-//     ? market.userCollateral
-//     : bnCollateral;
-//
-//   const functionName = 'withdraw';
-//   const args: any[] = [account, safeBNCollateral];
-//   const enabled = !safeBNCollateral.isZero();
-//   const overrides = {};
-//   /**
-//    * @description The withdraw interface should be the same for all contracts.
-//    */
-//   const contractInterface = DineroNativeMarketABI;
-//
-//   return {
-//     functionName,
-//     args,
-//     enabled,
-//     overrides,
-//     contractInterface,
-//   };
-// };
-//
-// const handleRepayLoan = (
-//   market: SyntheticMarketData,
-//   account: string,
-//   loan: number
-// ): HandlerData => {
-//   const loanBN = FixedPointMath.toBigNumber(loan);
-//   const safeAmount = loanBN.gt(market.dnrBalance) ? market.dnrBalance : loanBN;
-//
-//   const functionName = 'repay';
-//   let args: any[] = [];
-//   const enabled = !safeAmount.isZero();
-//   const overrides = {};
-//   /**
-//    * @description The repay interface should be the same for all contracts.
-//    */
-//   const contractInterface = DineroNativeMarketABI;
-//
-//   if (market.kind === DineroMarketKind.LpFreeMarket) {
-//     args = [
-//       account,
-//       safeAmount.gt(market.userPrincipal) ? market.userPrincipal : safeAmount,
-//     ];
-//   }
-//
-//   if (market.kind === DineroMarketKind.ERC20) {
-//     const estimatedPrincipal = loanElasticToPrincipal({
-//       lastAccrued: market.lastAccrued,
-//       interestRate: market.interestRate,
-//       loanBase: market.loanBase,
-//       loanElastic: market.loanElastic,
-//       userElastic: safeAmount,
-//       now: market.now,
-//     }).value();
-//
-//     const safePrincipal = estimatedPrincipal.gt(market.userPrincipal)
-//       ? market.userPrincipal
-//       : estimatedPrincipal;
-//
-//     args = [account, safePrincipal];
-//   }
-//
-//   if (market.kind === DineroMarketKind.Native) {
-//     const estimatedPrincipal = loanElasticToPrincipal({
-//       lastAccrued: market.lastAccrued,
-//       interestRate: market.interestRate,
-//       loanBase: market.loanBase,
-//       loanElastic: market.loanElastic,
-//       userElastic: safeAmount,
-//       now: market.now,
-//     }).value();
-//
-//     const safePrincipal = estimatedPrincipal.gt(market.userPrincipal)
-//       ? market.userPrincipal
-//       : estimatedPrincipal;
-//
-//     args = [account, safePrincipal];
-//   }
-//
-//   return {
-//     functionName,
-//     args,
-//     enabled,
-//     overrides,
-//     contractInterface,
-//   };
-// };
-//
-// export const useRepay = (
-//   market: SyntheticMarketData,
-//   account: string,
-//   collateral: string,
-//   loan: string
-// ) => {
-//   const [safeCollateral] = useDebounce(
-//     isNaN(+collateral) ? 0 : +collateral,
-//     500
-//   );
-//   const [safeLoan] = useDebounce(isNaN(+loan) ? 0 : +loan, 500);
-//
-//   let data = {} as HandlerData;
-//   if (!!safeCollateral && !!safeLoan)
-//     data = handleRepayRequest(market, account, safeCollateral, safeLoan);
-//
-//   if (safeCollateral)
-//     data = handleRepayCollateral(market, account, safeCollateral);
-//
-//   if (safeLoan) data = handleRepayLoan(market, account, safeLoan);
-//
-//   const { config } = usePrepareContractWrite({
-//     addressOrName: market.marketAddress,
-//     ...data,
-//     enabled:
-//       data.enabled &&
-//       !isEmpty(data) &&
-//       isValidAccount(account) &&
-//       !isZeroAddress(market.marketAddress),
-//   });
-//
-//   return useContractWrite(config);
-// };
-//
-// const handleBorrowRequest = (
-//   market: SyntheticMarketData,
-//   account: string,
-//   collateral: number,
-//   loan: number
-// ): HandlerData => {
-//   const collateralBN = safeToBigNumber(collateral, market.collateralDecimals);
-//
-//   const safeCollateral = collateralBN.gt(market.collateralBalance)
-//     ? market.collateralBalance
-//     : collateralBN;
-//
-//   const loanBN = safeToBigNumber(loan);
-//
-//   const functionName = 'request';
-//   let args: any[] = [];
-//   let enabled = false;
-//   let overrides = {};
-//   let contractInterface: ContractInterface = '';
-//
-//   if (market.kind === DineroMarketKind.ERC20) {
-//     args = [
-//       [RequestActions.Deposit, RequestActions.Borrow],
-//       [encodeData(account, safeCollateral), encodeData(account, loanBN)],
-//     ];
-//     enabled = !safeCollateral.isZero() || !loanBN.isZero();
-//     contractInterface = DineroERC20MarketABI;
-//   }
-//
-//   if (market.kind === DineroMarketKind.LpFreeMarket) {
-//     args = [
-//       [RequestActions.Deposit, RequestActions.Borrow],
-//       [encodeData(account, safeCollateral), encodeData(account, loanBN)],
-//     ];
-//     enabled = !safeCollateral.isZero() || !loanBN.isZero();
-//     contractInterface = DineroLpFreeMarketABI;
-//   }
-//
-//   if (market.kind === DineroMarketKind.Native) {
-//     const amountToSend = collateralBN.gte(
-//       market.collateralBalance.sub(
-//         safeToBigNumber(1, market.collateralDecimals - 1)
-//       )
-//     )
-//       ? market.collateralBalance
-//           .mul(ethers.utils.parseEther('0.95')) // gas
-//           .div(ethers.utils.parseEther('1'))
-//       : safeCollateral;
-//
-//     args = [
-//       [RequestActions.Deposit, RequestActions.Borrow],
-//       [encodeData(account, amountToSend), encodeData(account, loanBN)],
-//     ];
-//     enabled = !amountToSend.isZero() || !loanBN.isZero();
-//
-//     overrides = {
-//       value: amountToSend,
-//     };
-//     contractInterface = DineroNativeMarketABI;
-//   }
-//
-//   return {
-//     functionName,
-//     args,
-//     contractInterface,
-//     overrides,
-//     enabled,
-//   };
-// };
-//
-// const handleBorrowDeposit = (
-//   market: SyntheticMarketData,
-//   account: string,
-//   collateral: number
-// ): HandlerData => {
-//   const bnCollateral = safeToBigNumber(
-//     collateral,
-//     market.collateralDecimals,
-//     8
-//   );
-//
-//   const safeCollateral = bnCollateral.gt(market.collateralBalance)
-//     ? market.collateralBalance
-//     : bnCollateral;
-//
-//   const functionName = 'deposit';
-//   let args: any[] = [];
-//   let enabled = false;
-//   let overrides = {};
-//   let contractInterface: ContractInterface = '';
-//
-//   if (market.kind === DineroMarketKind.ERC20) {
-//     args = [account, safeCollateral];
-//     enabled = !safeCollateral.isZero();
-//     contractInterface = DineroERC20MarketABI;
-//   }
-//
-//   if (market.kind === DineroMarketKind.LpFreeMarket) {
-//     args = [account, safeCollateral];
-//     enabled = !safeCollateral.isZero();
-//     contractInterface = DineroLpFreeMarketABI;
-//   }
-//
-//   if (market.kind === DineroMarketKind.Native) {
-//     const amountToSend = bnCollateral.gte(
-//       market.collateralBalance.sub(
-//         safeToBigNumber(1, market.collateralDecimals - 1)
-//       )
-//     )
-//       ? market.collateralBalance
-//           .mul(ethers.utils.parseEther('0.95')) // gas
-//           .div(ethers.utils.parseEther('1'))
-//       : safeCollateral;
-//
-//     args = [account];
-//     enabled = !amountToSend.isZero();
-//     contractInterface = DineroNativeMarketABI;
-//     overrides = {
-//       value: amountToSend,
-//     };
-//   }
-//
-//   return {
-//     functionName,
-//     args,
-//     enabled,
-//     overrides,
-//     contractInterface,
-//   };
-// };
-//
-// const handleBorrowLoan = (
-//   market: SyntheticMarketData,
-//   account: string,
-//   loan: number
-// ): HandlerData => {
-//   const loanBN = safeToBigNumber(loan);
-//
-//   const amountLeftToBorrow = market.maxBorrowAmount.sub(market.loanElastic);
-//
-//   const functionName = 'borrow';
-//   let args: any[] = [];
-//   let enabled = false;
-//   const overrides = {};
-//   /**
-//    * @description The borrow interface should be the same for all contracts.
-//    */
-//   const contractInterface = DineroNativeMarketABI;
-//
-//   if (market.kind === DineroMarketKind.ERC20) {
-//     const safeLoanBN = loanBN.gte(amountLeftToBorrow)
-//       ? amountLeftToBorrow // room for interest rate
-//           .mul(ethers.utils.parseEther('0.98'))
-//           .div(ethers.utils.parseEther('1'))
-//       : loanBN;
-//
-//     args = [account, safeLoanBN];
-//     enabled = !safeLoanBN.isZero();
-//   }
-//
-//   if (market.kind === DineroMarketKind.LpFreeMarket) {
-//     /**
-//      * @description This market has no interest rate
-//      */
-//     const safeLoanBN = loanBN.gte(amountLeftToBorrow)
-//       ? amountLeftToBorrow
-//       : loanBN;
-//
-//     args = [account, safeLoanBN];
-//     enabled = !safeLoanBN.isZero();
-//   }
-//
-//   if (market.kind === DineroMarketKind.Native) {
-//     const safeLoanBN = loanBN.gte(amountLeftToBorrow)
-//       ? amountLeftToBorrow // room for interest rate
-//           .mul(ethers.utils.parseEther('0.98'))
-//           .div(ethers.utils.parseEther('1'))
-//       : loanBN;
-//
-//     args = [account, safeLoanBN];
-//     enabled = !safeLoanBN.isZero();
-//   }
-//
-//   return {
-//     functionName,
-//     args,
-//     enabled,
-//     overrides,
-//     contractInterface,
-//   };
-// };
-//
-// export const useBorrow = (
-//   market: SyntheticMarketData,
-//   account: string,
-//   collateral: string,
-//   loan: string
-// ) => {
-//   const [safeCollateral] = useDebounce(
-//     isNaN(+collateral) ? 0 : +collateral,
-//     500
-//   );
-//   const [safeLoan] = useDebounce(isNaN(+loan) ? 0 : +loan, 500);
-//
-//   let data = {} as HandlerData;
-//   if (!!safeCollateral && !!safeLoan)
-//     data = handleBorrowRequest(market, account, safeCollateral, safeLoan);
-//
-//   if (safeCollateral)
-//     data = handleBorrowDeposit(market, account, safeCollateral);
-//
-//   if (safeLoan) data = handleBorrowLoan(market, account, safeLoan);
-//
-//   const { config } = usePrepareContractWrite({
-//     addressOrName: market.marketAddress,
-//     ...data,
-//     enabled:
-//       data.enabled &&
-//       !isEmpty(data) &&
-//       isValidAccount(account) &&
-//       !isZeroAddress(market.marketAddress),
-//   });
-//
-//   return useContractWrite(config);
-// };
+
+enum RequestActions {
+  Deposit,
+  Withdraw,
+  Mint,
+  Burn,
+}
+
+const handleBurnRequest = (
+  market: SyntheticMarketData,
+  collateral: number,
+  synt: number
+): HandlerData => {
+  const bnCollateral = safeToBigNumber(
+    collateral,
+    market.collateralDecimals,
+    8
+  );
+
+  const safeBNCollateral = bnCollateral.gt(market.userCollateral)
+    ? market.userCollateral
+    : bnCollateral;
+
+  const syntBN = FixedPointMath.toBigNumber(synt);
+
+  const maxBNSyntToBurn = syntBN.gt(market.userSyntMinted)
+    ? market.userSyntMinted
+    : syntBN;
+
+  const safeBNSynt = maxBNSyntToBurn.gt(market.syntBalance)
+    ? market.syntBalance
+    : maxBNSyntToBurn;
+
+  const functionName = 'request';
+  const args = [
+    [RequestActions.Burn, RequestActions.Withdraw],
+    [
+      encodeData(market.account, safeBNSynt),
+      encodeData(market.account, safeBNCollateral),
+    ],
+  ];
+
+  const enabled = !safeBNSynt.isZero() && !safeBNCollateral.isZero();
+  const overrides = {};
+  const contractInterface = SyntheticMinterABI;
+
+  return {
+    functionName,
+    args,
+    enabled,
+    overrides,
+    contractInterface,
+  };
+};
+
+const handleWithdrawCollateral = (
+  market: SyntheticMarketData,
+  collateral: number
+): HandlerData => {
+  const bnCollateral = safeToBigNumber(
+    collateral,
+    market.collateralDecimals,
+    8
+  );
+
+  const safeBNCollateral = bnCollateral.gt(market.userCollateral)
+    ? market.userCollateral
+    : bnCollateral;
+
+  const functionName = 'withdraw';
+  const args = [market.account, safeBNCollateral];
+  const enabled = !safeBNCollateral.isZero();
+  const overrides = {};
+  const contractInterface = SyntheticMinterABI;
+
+  return {
+    functionName,
+    args,
+    enabled,
+    overrides,
+    contractInterface,
+  };
+};
+
+const handleBurnSynt = (
+  market: SyntheticMarketData,
+  synt: number
+): HandlerData => {
+  const syntBN = FixedPointMath.toBigNumber(synt);
+
+  const safeAmount = syntBN.gt(market.syntBalance)
+    ? market.syntBalance
+    : syntBN;
+
+  const maxAmount = safeAmount.gt(market.userSyntMinted)
+    ? market.userSyntMinted
+    : safeAmount;
+
+  const functionName = 'burn';
+  const args = [market.account, maxAmount];
+  const enabled = !maxAmount.isZero();
+  const overrides = {};
+  const contractInterface = SyntheticMinterABI;
+
+  return {
+    functionName,
+    args,
+    enabled,
+    overrides,
+    contractInterface,
+  };
+};
+
+export const useBurn = (
+  market: SyntheticMarketData,
+  collateral: string,
+  synt: string
+) => {
+  const [safeCollateral] = useDebounce(
+    isNaN(+collateral) ? 0 : +collateral,
+    500
+  );
+  const [safeSynt] = useDebounce(isNaN(+synt) ? 0 : +synt, 500);
+
+  let data = {} as HandlerData;
+
+  if (!!safeCollateral && !!safeSynt)
+    data = handleBurnRequest(market, safeCollateral, safeSynt);
+
+  if (safeCollateral) data = handleWithdrawCollateral(market, safeCollateral);
+
+  if (safeSynt) data = handleBurnSynt(market, safeSynt);
+
+  const { config } = usePrepareContractWrite({
+    addressOrName: market.marketAddress,
+    ...data,
+    enabled:
+      data.enabled &&
+      !isEmpty(data) &&
+      isValidAccount(market.account) &&
+      !isZeroAddress(market.marketAddress),
+  });
+
+  return useContractWrite(config);
+};
+
+const handleMintRequest = (
+  market: SyntheticMarketData,
+  collateral: number,
+  synt: number
+): HandlerData => {
+  const collateralBN = safeToBigNumber(collateral, market.collateralDecimals);
+
+  const safeCollateral = collateralBN.gt(market.collateralBalance)
+    ? market.collateralBalance
+    : collateralBN;
+
+  const syntBN = safeToBigNumber(synt);
+
+  const functionName = 'request';
+  const args = [
+    [RequestActions.Deposit, RequestActions.Mint],
+    [
+      encodeData(market.account, safeCollateral),
+      encodeData(market.account, syntBN),
+    ],
+  ];
+  const enabled = !safeCollateral.isZero() && !syntBN.isZero();
+  const overrides = {};
+  const contractInterface = SyntheticMinterABI;
+
+  return {
+    functionName,
+    args,
+    contractInterface,
+    overrides,
+    enabled,
+  };
+};
+
+const handleDepositCollateral = (
+  market: SyntheticMarketData,
+  collateral: number
+): HandlerData => {
+  const bnCollateral = safeToBigNumber(
+    collateral,
+    market.collateralDecimals,
+    8
+  );
+
+  const safeCollateral = bnCollateral.gt(market.collateralBalance)
+    ? market.collateralBalance
+    : bnCollateral;
+
+  const functionName = 'deposit';
+  const args = [market.account, safeCollateral];
+  const enabled = !safeCollateral.isZero();
+  const overrides = {};
+  const contractInterface = SyntheticMinterABI;
+
+  return {
+    functionName,
+    args,
+    enabled,
+    overrides,
+    contractInterface,
+  };
+};
+
+const handleMintSynt = (
+  market: SyntheticMarketData,
+  synt: number
+): HandlerData => {
+  const syntBN = safeToBigNumber(synt);
+
+  const functionName = 'mint';
+  const args = [market.account, syntBN];
+  const enabled = !syntBN.isZero();
+  const overrides = {};
+  const contractInterface = SyntheticMinterABI;
+
+  return {
+    functionName,
+    args,
+    enabled,
+    overrides,
+    contractInterface,
+  };
+};
+
+export const useMint = (
+  market: SyntheticMarketData,
+  collateral: string,
+  synt: string
+) => {
+  const [safeCollateral] = useDebounce(
+    isNaN(+collateral) ? 0 : +collateral,
+    500
+  );
+  const [safeSynt] = useDebounce(isNaN(+synt) ? 0 : +synt, 500);
+
+  let data = {} as HandlerData;
+
+  if (!!safeCollateral && !!safeSynt)
+    data = handleMintRequest(market, safeCollateral, safeSynt);
+
+  if (safeCollateral) data = handleDepositCollateral(market, safeCollateral);
+
+  if (safeSynt) data = handleMintSynt(market, safeSynt);
+
+  const { config } = usePrepareContractWrite({
+    addressOrName: market.marketAddress,
+    ...data,
+    enabled:
+      data.enabled &&
+      !isEmpty(data) &&
+      isValidAccount(market.account) &&
+      !isZeroAddress(market.marketAddress),
+  });
+
+  return useContractWrite(config);
+};

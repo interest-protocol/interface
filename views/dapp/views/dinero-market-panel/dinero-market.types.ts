@@ -228,11 +228,3 @@ export type TGetRepayFields = (
 export type TGetBorrowFields = (
   data: DineroMarketData
 ) => ReadonlyArray<IBorrowFormField>;
-
-export interface HandlerData {
-  functionName: string;
-  contractInterface: ContractInterface;
-  args: any[];
-  overrides: CallOverrides;
-  enabled: boolean;
-}

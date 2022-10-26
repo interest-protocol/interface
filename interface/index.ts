@@ -1,5 +1,6 @@
 import { QueryFunctionContext, UseQueryOptions } from '@tanstack/react-query';
 import type { Ethereum } from '@wagmi/core';
+import { ContractInterface } from 'ethers';
 import { CallOverrides } from 'ethers/lib/ethers';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
@@ -40,3 +41,11 @@ declare global {
 }
 
 export type TTranslatedMessage = MessageKeys<IntlMessages, keyof IntlMessages>;
+
+export interface HandlerData {
+  functionName: string;
+  contractInterface: ContractInterface;
+  args: any[];
+  overrides: CallOverrides;
+  enabled: boolean;
+}

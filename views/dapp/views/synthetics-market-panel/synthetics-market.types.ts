@@ -169,11 +169,3 @@ export type TGetBurnFields = (
 export type TGetMintFields = (
   data: SyntheticMarketData
 ) => ReadonlyArray<ISyntheticFormField>;
-
-export interface HandlerData {
-  functionName: string;
-  contractInterface: ContractInterface;
-  args: any[];
-  overrides: CallOverrides;
-  enabled: boolean;
-}

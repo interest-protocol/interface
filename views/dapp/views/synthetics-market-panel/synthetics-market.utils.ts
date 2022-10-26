@@ -9,7 +9,6 @@ import {
   CHAIN_ID,
   FixedPointMath,
   ONE_ETHER,
-  TOKEN_SYMBOL,
   ZERO_ADDRESS,
   ZERO_BIG_NUMBER,
 } from '@/sdk';
