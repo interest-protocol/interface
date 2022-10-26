@@ -1,4 +1,4 @@
-import { BigNumber, ethers } from 'ethers';
+import { ethers } from 'ethers';
 import { UseFormReturn } from 'react-hook-form';
 
 import {
