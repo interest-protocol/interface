@@ -30,6 +30,7 @@ import {
   TCalculateSyntExpectedLiquidationPrice,
   TCalculateSyntLeftToMint,
   TCalculateUserCurrentLTV,
+  TConvertCollateralToSynt,
   TGetBurnFields,
   TGetBurnPositionHealthData,
   TGetMintFields,
@@ -418,15 +419,14 @@ export const getMyPositionData: TGetMyPositionData = (market) => {
   }
 };
 
-export const convertCollateralToDinero = (
-  collateralAmount: BigNumber,
-  ltv: BigNumber,
-  collateralUSDPrice: BigNumber,
-  collateralDecimals: number
-): BigNumber =>
-  FixedPointMath.from(adjustDecimals(collateralAmount, collateralDecimals))
+export const convertCollateralToSynt: TConvertCollateralToSynt = ({
+  ltv,
+  syntUSDPrice,
+  adjustedCollateralAmount,
+}) =>
+  FixedPointMath.from(adjustedCollateralAmount)
     .mul(ltv)
-    .mul(collateralUSDPrice)
+    .div(syntUSDPrice)
     .value();
 
 export const calculateUserCurrentLTV: TCalculateUserCurrentLTV = (

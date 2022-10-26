@@ -169,3 +169,13 @@ export type TGetBurnFields = (
 export type TGetMintFields = (
   data: SyntheticMarketData
 ) => ReadonlyArray<ISyntheticFormField>;
+
+interface ConvertCollateralToSyntData {
+  adjustedCollateralAmount: BigNumber;
+  ltv: BigNumber;
+  syntUSDPrice: BigNumber;
+}
+
+export type TConvertCollateralToSynt = (
+  data: ConvertCollateralToSyntData
+) => BigNumber;

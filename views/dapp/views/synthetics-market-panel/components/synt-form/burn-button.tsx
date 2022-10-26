@@ -7,12 +7,14 @@ import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
   capitalize,
+  isZeroAddress,
   showToast,
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
 
-import { isFormRepayEmpty } from '../../synthetics-market.utils';
+import { useBurn } from '../../synthetics-market.hooks';
+import { isFormBurnEmpty } from '../../synthetics-market.utils';
 import { BurnButtonProps } from './synt-form.types';
 
 const BurnButton: FC<BurnButtonProps> = ({
@@ -25,116 +27,73 @@ const BurnButton: FC<BurnButtonProps> = ({
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
 
-  return <button>burn</button>;
+  const { writeAsync: burn } = useBurn(data, burnCollateral, burnSynt);
 
-  // const { writeAsync: repay } = useRepay(
-  //   data,
-  //   account,
-  //   repayCollateral,
-  //   repayLoan
-  // );
-  //
-  // const handleRepay = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const tx = await repay?.();
-  //
-  //     await showTXSuccessToast(tx, data.chainId);
-  //     form.reset();
-  //   } catch (e: unknown) {
-  //     throwContractCallError(e);
-  //   } finally {
-  //     setLoading(false);
-  //     await refetch();
-  //   }
-  // };
-  //
-  // const onSubmitRepay = async () => {
-  //   if (isFormRepayEmpty(form)) {
-  //     toast.error(t('syntheticsMarketAddress.toastError'));
-  //     return;
-  //   }
-  //
-  //   if (!data.chainId || !account || !data) return;
-  //
-  //   await showToast(handleRepay(), {
-  //     success: capitalize(t('common.success')),
-  //     error: prop('message'),
-  //     loading: capitalize(t('common.submit', { isLoading: 1 })),
-  //   });
-  // };
+  const handleBurn = async () => {
+    try {
+      setLoading(true);
+      const tx = await burn?.();
 
-  // return (
-  //   <Button
-  //     display="flex"
-  //     variant="primary"
-  //     alignItems="center"
-  //     disabled={loading || !repay}
-  //     justifyContent="center"
-  //     onClick={onSubmitRepay}
-  //     hover={{ bg: !repay ? 'disabled' : 'accentActive' }}
-  //     bg={!repay ? 'disabled' : loading ? 'accentActive' : 'accent'}
-  //     cursor={loading || !repay ? 'not-allowed' : 'pointer'}
-  //   >
-  {
-    /*{loading && (*/
-  }
-  {
-    /*  <Box as="span" display="inline-block" width="1rem">*/
-  }
-  {
-    /*    <LoadingSVG width="100%" />*/
-  }
-  {
-    /*  </Box>*/
-  }
-  {
-    /*)}*/
-  }
-  {
-    /*<Typography*/
-  }
-  {
-    /*  as="span"*/
-  }
-  {
-    /*  fontSize="S"*/
-  }
-  {
-    /*  variant="normal"*/
-  }
-  {
-    /*  ml={loading ? 'L' : 'NONE'}*/
-  }
-  {
-    /*>*/
-  }
-  {
-    /*  {t(*/
-  }
-  {
-    /*    !!+repayLoan && !!+repayCollateral*/
-  }
-  {
-    /*      ? 'syntheticsMarketAddress.button.removeCollateralRepay'*/
-  }
-  {
-    /*      : +repayCollateral*/
-  }
-  {
-    /*      ? 'syntheticsMarketAddress.button.removeCollateral'*/
-  }
-  {
-    /*      : 'syntheticsMarketAddress.button.repay'*/
-  }
-  {
-    /*  )}*/
-  }
-  {
-    /*</Typography>*/
-  }
-  // </Button>
-  // );
+      await tx?.wait(2);
+
+      await showTXSuccessToast(tx, data.chainId);
+      form.reset();
+    } catch (e: unknown) {
+      throwContractCallError(e);
+    } finally {
+      setLoading(false);
+      await refetch();
+    }
+  };
+
+  const onSubmitBurn = async () => {
+    if (isFormBurnEmpty(form)) {
+      toast.error(t('syntheticsMarketAddress.toastError'));
+      return;
+    }
+
+    if (!data || !data.chainId || isZeroAddress(data.account)) return;
+
+    await showToast(handleBurn(), {
+      success: capitalize(t('common.success')),
+      error: prop('message'),
+      loading: capitalize(t('common.submit', { isLoading: 1 })),
+    });
+  };
+
+  return (
+    <Button
+      display="flex"
+      variant="primary"
+      alignItems="center"
+      disabled={loading || !burn}
+      justifyContent="center"
+      onClick={onSubmitBurn}
+      hover={{ bg: !burn ? 'disabled' : 'accentActive' }}
+      bg={!burn ? 'disabled' : loading ? 'accentActive' : 'accent'}
+      cursor={loading || !burn ? 'not-allowed' : 'pointer'}
+    >
+      {loading && (
+        <Box as="span" display="inline-block" width="1rem">
+          <LoadingSVG width="100%" />
+        </Box>
+      )}
+      <Typography
+        as="span"
+        fontSize="S"
+        variant="normal"
+        ml={loading ? 'L' : 'NONE'}
+      >
+        {t(
+          !!+burnSynt && !!+burnCollateral
+            ? 'syntheticsMarketAddress.button.removeCollateralRepay'
+            : +burnCollateral
+            ? 'syntheticsMarketAddress.button.removeCollateral'
+            : 'syntheticsMarketAddress.button.repay'
+        )}
+      </Typography>
+    </Button>
+  );
 };
 
 export default BurnButton;
