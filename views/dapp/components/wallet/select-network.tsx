@@ -2,10 +2,16 @@ import { useTranslations } from 'next-intl';
 import { values } from 'ramda';
 import { FC } from 'react';
 
-import EthereumNetwork from '@/components/svg/ethereum-network';
 import { Box, Dropdown, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
-import { ArrowSVG, BinanceTestSVG, BlockchainSVG } from '@/svg';
+import {
+  AdaSVG,
+  ArrowSVG,
+  BinanceTestSVG,
+  BlockchainSVG,
+  BNBSVG,
+  LoadingSVG,
+} from '@/svg';
 import { capitalize } from '@/utils';
 
 import { SelectNetworkProps } from './wallet.types';
@@ -76,14 +82,24 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
           ),
         },
         {
-          value: `${CHAIN_ID.RINKEBY}`,
-          onSelect: () => switchNetwork(CHAIN_ID.RINKEBY),
+          value: ``,
           displayOption: (
-            <Box pl="L" display="flex" alignItems="center">
-              <EthereumNetwork width="1.5rem" height="1.5rem" />
-              <Typography variant="normal" mx="M" whiteSpace="nowrap">
-                Rinkeby
-              </Typography>
+            <Box
+              px="L"
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              width="100%"
+            >
+              <Box display="flex" alignItems="center">
+                <BNBSVG width="1.5rem" height="1.5rem" fill="white" />
+                <Typography variant="normal" mx="M" whiteSpace="nowrap">
+                  BNB
+                </Typography>
+              </Box>
+              <Box as="span" display="inline-block" width="1rem">
+                <LoadingSVG width="100%" />
+              </Box>
             </Box>
           ),
           displayTitle: (
@@ -92,17 +108,58 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               alignItems="center"
               pl={['NONE', 'NONE', 'NONE', 'S']}
             >
-              <EthereumNetwork width="1.5rem" height="1.5rem" />
+              <BNBSVG width="1.5rem" height="1.5rem" fill="white" />
               <Typography
                 mx="M"
                 variant="normal"
                 whiteSpace="nowrap"
                 display={['none', 'none', 'none', 'block']}
               >
-                Rinkeby
+                BNB
               </Typography>
             </Box>
           ),
+          disabled: true,
+        },
+        {
+          value: ``,
+          displayOption: (
+            <Box
+              px="L"
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              width="100%"
+            >
+              <Box display="flex" alignItems="center">
+                <AdaSVG width="1.5rem" height="1.5rem" fill="white" />
+                <Typography variant="normal" mx="M" whiteSpace="nowrap">
+                  ADA
+                </Typography>
+              </Box>
+              <Box as="span" display="inline-block" width="1rem">
+                <LoadingSVG width="100%" />
+              </Box>
+            </Box>
+          ),
+          displayTitle: (
+            <Box
+              display="flex"
+              alignItems="center"
+              pl={['NONE', 'NONE', 'NONE', 'S']}
+            >
+              <AdaSVG width="1.5rem" height="1.5rem" fill="white" />
+              <Typography
+                mx="M"
+                variant="normal"
+                whiteSpace="nowrap"
+                display={['none', 'none', 'none', 'block']}
+              >
+                ADA
+              </Typography>
+            </Box>
+          ),
+          disabled: true,
         },
       ]}
     />
