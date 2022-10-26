@@ -55,6 +55,11 @@
       "repay": "Reembolsar",
       "removeCollateral": "Remover a Garantia",
       "removeCollateralRepay": "Remover a Garantia e Reembolsar"
+    },
+    "form": {
+      "loanMustLess": "O empréstimo deve ser inferior ao LTV",
+      "collateralMustNot": "A garantia não deve ser superior ao seu saldo",
+      "amountWrong": "O empréstimo ou a garantia estão incorretos"
     }
   }
 }

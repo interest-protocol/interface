@@ -55,6 +55,11 @@
       "repay": "Repay Loan",
       "removeCollateral": "Remove Collateral",
       "removeCollateralRepay": "Remove Collateral and Repay Loan"
+    },
+    "form": {
+      "loanMustLess": "The Loan must to be less than LTV",
+      "collateralMustNot": "The Collateral must not to be more than your balance",
+      "amountWrong": "Borrow or collateral amount are wrong"
     }
   }
 }

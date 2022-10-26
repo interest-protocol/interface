@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ethers } from 'ethers';
+import { useTranslations } from 'next-intl';
 import { pathOr } from 'ramda';
 import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -36,6 +37,7 @@ import DineroMarketForm from './dinero-market-form';
 import DineroMarketSwitch from './dinero-market-switch';
 
 const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
+  const t = useTranslations();
   const { chainId, account } = useIdAccount();
 
   const {
@@ -93,7 +95,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     [market]
   );
 
-  if (error) return <ErrorPage message="Something went wrong" />;
+  if (error) return <ErrorPage message={t('error.generic')} />;
 
   return (
     <Container
