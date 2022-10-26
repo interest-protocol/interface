@@ -82,6 +82,7 @@ const InputBalance: FC<InputBalanceProps> = ({
             </Button>
             <Box
               px="L"
+              width="4.5rem"
               display="flex"
               maxHeight="1rem"
               alignItems="center"

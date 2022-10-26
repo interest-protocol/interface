@@ -19,7 +19,7 @@ const TokenAmount: FC<TokenAmountProps> = ({
       {Icon}
       <Typography variant="normal" ml="M">
         {isFetchingInitialData ? (
-          <Box width="2.5rem">
+          <Box width="2.5rem" as="span">
             <Skeleton />
           </Box>
         ) : (

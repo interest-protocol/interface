@@ -60,23 +60,30 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
           disabled={loading || isFetchingQuote || allowance.isZero()}
           currencyPrefix={
             fetchingInitialData ? (
-              <>
+              <Box
+                display="flex"
+                width="4.5rem"
+                maxHeight="1rem"
+                alignItems="center"
+                justifyContent="center"
+              >
                 <Box width="1rem" height="1rem" borderRadius="2rem">
                   <Skeleton height="100%" borderRadius="2rem" />
                 </Box>
                 <Box width="2.5rem" ml="L">
                   <Skeleton />
                 </Box>
-              </>
+              </Box>
             ) : (
               <Box
                 display="flex"
                 width="4.5rem"
                 maxHeight="1rem"
                 alignItems="center"
+                justifyContent="center"
               >
                 {Icon}
-                <Typography variant="normal" ml="M" maxHeight="1rem">
+                <Typography variant="normal" ml="M" maxHeight="100%">
                   {symbol}
                 </Typography>
               </Box>
