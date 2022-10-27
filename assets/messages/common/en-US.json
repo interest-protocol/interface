@@ -67,7 +67,8 @@
     "error": "error",
     "submit": "{isLoading, plural, =1 {submitting...} other {submit}}",
     "allocation": "allocation",
-    "backHome": "Back Home"
+    "backHome": "Back Home",
+    "soon": "soon"
   },
   "error": {
     "generic": "something went wrong",

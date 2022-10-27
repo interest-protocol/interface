@@ -2,16 +2,10 @@ import { useTranslations } from 'next-intl';
 import { values } from 'ramda';
 import { FC } from 'react';
 
+import EthereumNetwork from '@/components/svg/ethereum-network';
 import { Box, Dropdown, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
-import {
-  AdaSVG,
-  ArrowSVG,
-  BinanceTestSVG,
-  BlockchainSVG,
-  BNBSVG,
-  LoadingSVG,
-} from '@/svg';
+import { AdaSVG, ArrowSVG, BinanceTestSVG, BlockchainSVG, BNBSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
 import { SelectNetworkProps } from './wallet.types';
@@ -97,9 +91,18 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
                   BNB
                 </Typography>
               </Box>
-              <Box as="span" display="inline-block" width="1rem">
-                <LoadingSVG width="100%" />
-              </Box>
+              <Typography
+                px="M"
+                py="M"
+                fontSize="XS"
+                variant="normal"
+                borderRadius="M"
+                textAlign="center"
+                bg="accentAlternative"
+                textTransform="uppercase"
+              >
+                {t('common.soon')}
+              </Typography>
             </Box>
           ),
           displayTitle: (
@@ -137,9 +140,18 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
                   ADA
                 </Typography>
               </Box>
-              <Box as="span" display="inline-block" width="1rem">
-                <LoadingSVG width="100%" />
-              </Box>
+              <Typography
+                px="M"
+                py="M"
+                fontSize="XS"
+                variant="normal"
+                borderRadius="M"
+                textAlign="center"
+                bg="accentAlternative"
+                textTransform="uppercase"
+              >
+                {t('common.soon')}
+              </Typography>
             </Box>
           ),
           displayTitle: (
@@ -156,6 +168,55 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
                 display={['none', 'none', 'none', 'block']}
               >
                 ADA
+              </Typography>
+            </Box>
+          ),
+          disabled: true,
+        },
+        {
+          value: ``,
+          displayOption: (
+            <Box
+              px="L"
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              width="100%"
+            >
+              <Box display="flex" alignItems="center">
+                <EthereumNetwork width="1.5rem" height="1.5rem" fill="white" />
+                <Typography variant="normal" mx="M" whiteSpace="nowrap">
+                  GOERLI
+                </Typography>
+              </Box>
+              <Typography
+                px="M"
+                py="M"
+                fontSize="XS"
+                variant="normal"
+                borderRadius="M"
+                textAlign="center"
+                bg="accentAlternative"
+                textTransform="uppercase"
+              >
+                {t('common.soon')}
+              </Typography>
+            </Box>
+          ),
+          displayTitle: (
+            <Box
+              display="flex"
+              alignItems="center"
+              pl={['NONE', 'NONE', 'NONE', 'S']}
+            >
+              <EthereumNetwork width="1.5rem" height="1.5rem" fill="white" />
+              <Typography
+                mx="M"
+                variant="normal"
+                whiteSpace="nowrap"
+                display={['none', 'none', 'none', 'block']}
+              >
+                GOERLI
               </Typography>
             </Box>
           ),
