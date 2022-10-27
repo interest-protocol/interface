@@ -21,9 +21,9 @@ import {
   numberToString,
 } from '@/utils';
 
+import { TTranslatedMessage } from './../../../../interface/index';
 import {
   ISyntheticForm,
-  ISyntheticFormField,
   ProcessSyntheticData,
   TCalculateMintAmount,
   TCalculatePositionHealth,
@@ -459,7 +459,8 @@ export const getMintFields: TGetMintFields = (market) => {
       ),
       max: FixedPointMath.toNumber(market.adjustedCollateralBalance),
       name: 'mint.collateral',
-      label: 'syntheticsMarketAddress.borrowCollateralLabel',
+      label:
+        'syntheticsMarketAddress.mint.collateralLabel' as TTranslatedMessage,
       amountUSD: 1,
       disabled: market.collateralBalance.isZero(),
     },
@@ -472,7 +473,8 @@ export const getMintFields: TGetMintFields = (market) => {
         market.marketAddress
       ),
       name: 'mint.synt',
-      label: 'syntheticsMarketAddress.borrowDineroLabel',
+      label:
+        'syntheticsMarketAddress.mint.syntheticLabel' as TTranslatedMessage,
       currency: market.syntSymbol,
       disabled:
         market.collateralBalance.isZero() && market.userCollateral.isZero(),
@@ -492,10 +494,11 @@ export const getBurnFields: TGetBurnFields = (market) => {
         market.marketAddress
       ),
       name: 'burn.synt',
-      label: 'syntheticsMarketAddress.repayDineroLabel',
-      max: FixedPointMath.from(market.syntBalance).toNumber(),
       currency: market.syntSymbol,
       disabled: market.syntBalance.isZero(),
+      label:
+        'syntheticsMarketAddress.burn.syntheticLabel' as TTranslatedMessage,
+      max: FixedPointMath.from(market.syntBalance).toNumber(),
     },
     {
       currency: market.collateralSymbol,
@@ -507,9 +510,10 @@ export const getBurnFields: TGetBurnFields = (market) => {
       ),
       max: safeAmountToWithdraw(market).toNumber(),
       name: 'burn.collateral',
-      label: 'syntheticsMarketAddress.repayCollateralLabel',
+      label:
+        'syntheticsMarketAddress.burn.collateralLabel' as TTranslatedMessage,
       amountUSD: 1,
       disabled: market.userCollateral.isZero(),
     },
-  ] as ReadonlyArray<ISyntheticFormField>;
+  ];
 };

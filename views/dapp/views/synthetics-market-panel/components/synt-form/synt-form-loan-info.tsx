@@ -1,23 +1,25 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
-import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 import { v4 } from 'uuid';
 
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
+import { TTranslatedMessage } from '@/interface';
 import { InfoSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
+import { TInfo } from '../../synthetics-market.types';
 import {
   getBurnPositionHealthData,
   getMintPositionHealthData,
 } from '../../synthetics-market.utils';
 import { SyntFormLoanInfoProps } from './synt-form.types';
 
-const INFO = [1, 2, 3, 4].map((item) => ({
-  text: 'syntheticsMarketAddress.borrowFormLoanInfoText' + item,
-  tip: 'syntheticsMarketAddress.borrowFormLoanInfoTip' + item,
+const INFO: TInfo = [1, 2, 3, 4].map((item) => ({
+  name: ('syntheticsMarketAddress.formLoanInfoText' +
+    item) as TTranslatedMessage,
+  tip: ('syntheticsMarketAddress.formLoanInfoTip' + item) as TTranslatedMessage,
 }));
 
 const SyntFormLoanInfo: FC<SyntFormLoanInfoProps> = ({
@@ -51,9 +53,14 @@ const SyntFormLoanInfo: FC<SyntFormLoanInfoProps> = ({
         synt: burnSynt || '0',
       });
 
+  const translationValues = {
+    syntheticSymbol: data.syntSymbol,
+    syntheticName: data.syntName,
+  };
+
   return (
     <Box mt="XXL">
-      {INFO.map(({ text, tip }, i) => (
+      {INFO.map(({ name, tip }, i) => (
         <Box
           p="M"
           key={v4()}
@@ -66,18 +73,14 @@ const SyntFormLoanInfo: FC<SyntFormLoanInfoProps> = ({
               width="1rem"
               cursor="help"
               display="flex"
-              data-tip={capitalize(
-                t(tip as MessageKeys<IntlMessages, keyof IntlMessages>)
-              )}
+              data-tip={capitalize(t(tip, translationValues))}
               minWidth="1rem"
               alignItems="center"
             >
               <InfoSVG width="100%" />
             </Box>
             <Typography variant="normal" as="span">
-              {capitalize(
-                t(text as MessageKeys<IntlMessages, keyof IntlMessages>)
-              )}
+              {capitalize(t(name, translationValues))}
             </Typography>
           </Box>
           <Typography

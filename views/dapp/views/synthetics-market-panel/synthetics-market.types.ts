@@ -3,6 +3,7 @@ import { BigNumber } from 'ethers';
 import { FC, SVGAttributes } from 'react';
 import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
+import { TTranslatedMessage } from '@/interface';
 import { FixedPointMath } from '@/sdk';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
@@ -152,14 +153,14 @@ export type SyntheticsCurrencyIcons = ReadonlyArray<{
 }>;
 
 export interface ISyntheticFormField {
-  label: string;
+  max?: number;
   amount: string;
   currency: string;
-  amountUSD: number;
   disabled: boolean;
-  max?: number;
-  currencyIcons: SyntheticsCurrencyIcons;
+  amountUSD: number;
+  label: TTranslatedMessage;
   name: TValidSyntFormFieldNames;
+  currencyIcons: SyntheticsCurrencyIcons;
 }
 
 export type TGetBurnFields = (
@@ -179,3 +180,8 @@ interface ConvertCollateralToSyntData {
 export type TConvertCollateralToSynt = (
   data: ConvertCollateralToSyntData
 ) => BigNumber;
+
+export type TInfo = ReadonlyArray<{
+  name: TTranslatedMessage;
+  tip: TTranslatedMessage;
+}>;

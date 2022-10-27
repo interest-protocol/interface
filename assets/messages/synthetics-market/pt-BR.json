@@ -4,19 +4,17 @@
     "title": "Criando sintéticos usando BUSD",
     "filterSortOptionPrice": "Preço",
     "filterSortOptionLiquidationFee": "Taxa de liquidação",
-    "filterSynthesized": "Apenas Sintetizados",
+    "filterMinted": "Apenas Criados",
     "tableHeading": {
       "collateral": "Garantia",
       "TVL": "TVL",
       "TVLTip": "Valor Total Retido",
-      "synthesized": "Sintetizado",
+      "minted": "Criados",
       "userSyntheticMinted": "Quantidade de sintéticos que o usuário criou.",
       "LTV": "LTV",
       "LTVTip": "Rácio de empréstimo/garantia",
-      "interestCost": "Custo dos juros (APR)",
-      "interestCostTip": "O custo anual de um empréstimo a um usuário, <br /> expresso percentualmente",
       "fee": "Taxa de liquidação",
-      "feeTip": "Taxa de penalização cobrada a um usuário quando a sua posição é liquidada.<br />É expressa como uma percentagem do empréstimo"
+      "feeTip": "Taxa de penalização cobrada a um usuário quando a sua posição é liquidada.<br />É expressa como uma percentagem da quantia criada"
     }
   }
 }

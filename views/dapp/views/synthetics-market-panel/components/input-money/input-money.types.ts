@@ -1,5 +1,7 @@
 import { Control, UseFormReturn, UseFormStateReturn } from 'react-hook-form';
 
+import { TTranslatedMessage } from '@/interface';
+
 import {
   ISyntheticForm,
   SyntheticMarketData,
@@ -13,12 +15,12 @@ export interface InputMoneyProps
     'register' | 'setValue' | 'control'
   > {
   max?: number;
-  label: string;
   amount: string;
   currency: string;
   amountUSD: number;
   isMint?: boolean;
   data: SyntheticMarketData;
+  label: TTranslatedMessage;
   errors: UseFormStateReturn<ISyntheticForm>['errors'];
   currencyIcons: SyntheticsCurrencyIcons;
   name: TValidSyntFormFieldNames;

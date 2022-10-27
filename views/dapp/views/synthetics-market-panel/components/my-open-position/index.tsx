@@ -1,19 +1,20 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
+import { TTranslatedMessage } from '@/interface';
 import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { InfoSVG } from '@/svg';
 import { capitalize, formatDollars } from '@/utils';
 
+import { TInfo } from '../../synthetics-market.types';
 import { MyOpenPositionProps } from './my-open-position.types';
 
-const MY_POSITION = [1, 2, 3, 4, 5, 6].map((item) => ({
-  name: 'syntheticsMarketAddress.positionName' + item,
-  tip: 'syntheticsMarketAddress.positionTip' + item,
+const MY_POSITION: TInfo = [1, 2, 3, 4, 5, 6].map((item) => ({
+  name: ('syntheticsMarketAddress.positionName' + item) as TTranslatedMessage,
+  tip: ('syntheticsMarketAddress.positionTip' + item) as TTranslatedMessage,
 }));
 
 const MyOpenPosition: FC<MyOpenPositionProps> = ({
@@ -23,6 +24,10 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
   syntUSDPrice,
 }) => {
   const t = useTranslations();
+
+  const translationValues = {
+    syntheticSymbol: symbol,
+  };
 
   return (
     <Box p="XL" order={5} gridArea="c" bg="foreground" borderRadius="L">
@@ -42,12 +47,12 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
               as="span"
               width="1rem"
               cursor="help"
-              data-tip={capitalize(t(tip as MessageKeys<IntlMessages, any>))}
+              data-tip={capitalize(t(tip, translationValues))}
               display="inline-block"
             >
               <InfoSVG width="100%" />
             </Box>
-            {capitalize(t(name as MessageKeys<IntlMessages, any>))}
+            {t(name, translationValues)}
           </Typography>
           <Typography
             variant="normal"

@@ -182,10 +182,10 @@ const MintButton: FC<MintButtonProps> = ({
       >
         {t(
           !!+mintSynt && !!+mintCollateral
-            ? 'syntheticsMarketAddress.button.addCollateralBorrow'
+            ? 'syntheticsMarketAddress.button.addCollateralMint'
             : +mintCollateral > 0
             ? 'syntheticsMarketAddress.button.addCollateral'
-            : 'syntheticsMarketAddress.button.borrow'
+            : 'syntheticsMarketAddress.button.mint'
         )}
       </Typography>
     </Button>

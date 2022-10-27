@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       address,
       messages,
       now: new Date().getTime(),
-      pageTitle: 'syntheticsMarketAddress.pageTitleBorrow',
+      pageTitle: 'syntheticsMarketAddress.mint.pageTitle',
     },
   };
 };

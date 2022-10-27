@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -13,6 +14,7 @@ import ErrorPage from '../error';
 import MyOpenPosition from './components/my-open-position';
 import RewardsData from './components/rewards-data';
 import UserLTV from './components/user-ltv';
+import WithdrawRewards from './components/withdraw-rewards';
 import YourBalance from './components/your-balance';
 import { syntheticsFormValidation } from './synthetics-form.validator';
 import { SYNT_FORM_DEFAULT_VALUES } from './synthetics-market.data';
@@ -33,6 +35,7 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
   address,
   mode,
 }) => {
+  const t = useTranslations();
   const { chainId, account } = useIdAccount();
 
   const { error, data, refetch } = useGetSyntheticUserMarketData(
@@ -56,7 +59,7 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
   const rewardsInfo = getRewardsInfo(market);
   const myPositionData = getMyPositionData(market);
 
-  if (error) return <ErrorPage message="Something went wrong" />;
+  if (error) return <ErrorPage message={t('common.error')} />;
 
   return (
     <Container
@@ -84,13 +87,12 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
         </Box>
         <Box
           my="L"
-          rowGap="0.7rem"
-          columnGap="0.7rem"
+          gridGap="0.7rem"
           gridTemplateColumns="1fr 1fr"
           display={['flex', 'flex', 'flex', 'grid']}
           alignItems={['stretch', 'stretch', 'stretch', 'start']}
           flexDirection={['column', 'column', 'column', 'unset']}
-          gridTemplateAreas="'a b''a b''a c''a d''a d''a d''e d''e d''e d''f d'"
+          gridTemplateAreas="'a b''a b''a c''a d''a d''a d''a d''e d''e d''e g''e 0'"
         >
           <SyntheticsMarketForm
             mode={mode}
@@ -113,6 +115,7 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
             syntUSDPrice={market.syntUSDPrice}
           />
           <YourBalance data={market} />
+          <WithdrawRewards />
         </Box>
       </Box>
       <Tooltip />

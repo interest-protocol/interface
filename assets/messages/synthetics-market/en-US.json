@@ -4,19 +4,17 @@
     "title": "Create synthetics using BUSD",
     "filterSortOptionPrice": "Price",
     "filterSortOptionLiquidationFee": "Liquidation Fee",
-    "filterSynthesized": "Synthesized only",
+    "filterMinted": "Minted only",
     "tableHeading": {
       "collateral": "Collateral",
       "TVL": "TVL",
       "TVLTip": "Total Value Locked",
-      "synthesized": "Synthesized",
+      "minted": "Minted",
       "userSyntheticMinted": "The number of synthetic tokens you have minted.",
       "LTV": "LTV",
       "LTVTip": "Loan to Value",
-      "interestCost": "Interest Cost (APR)",
-      "interestCostTip": "The annual cost of a loan to a borrower, <br /> expressed as a percentage",
       "fee": "Fee",
-      "feeTip": "A penalty fee charged to a borrower when his/her position is liquidated.<br />It is expressed as a percentage of the loan"
+      "feeTip": "A penalty fee charged to a Minter when his/her position is liquidated.<br />It is expressed as a percentage of the mint"
     }
   }
 }

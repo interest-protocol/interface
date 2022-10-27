@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       address,
       messages,
       now: new Date().getTime(),
-      pageTitle: 'syntheticsMarketAddress.pageTitleRepay',
+      pageTitle: 'syntheticsMarketAddress.burn.pageTitle',
     },
   };
 };

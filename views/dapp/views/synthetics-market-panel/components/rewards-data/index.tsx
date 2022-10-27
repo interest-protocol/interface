@@ -8,23 +8,24 @@ import { TTranslatedMessage } from '@/interface';
 import { InfoSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
-import { RewardsDataProps, TInfo } from './rewards-data.types';
+import { TInfo } from '../../synthetics-market.types';
+import { RewardsDataProps } from './rewards-data.types';
 
-const CustomInfo = [1, 2].map((index) => ({
+const CustomInfo: TInfo = [1, 2].map((index) => ({
   tip: ('syntheticsMarketAddress.loanInfoCustomTip' +
     index) as TTranslatedMessage,
   name: ('syntheticsMarketAddress.loanInfoCustomName' +
     index) as TTranslatedMessage,
-})) as TInfo;
+}));
 
-const LOAN_INFO_MAP = CustomInfo.concat(
+const LOAN_INFO_MAP: TInfo = CustomInfo.concat(
   [1, 2, 3].map((index) => ({
     tip: ('syntheticsMarketAddress.loanInfoLpFreeMarketTip' +
       index) as TTranslatedMessage,
     name: ('syntheticsMarketAddress.loanInfoLpFreeMarketName' +
       index) as TTranslatedMessage,
   }))
-) as TInfo;
+);
 
 const RewardsData: FC<RewardsDataProps> = ({ isLoading, info }) => {
   const t = useTranslations();

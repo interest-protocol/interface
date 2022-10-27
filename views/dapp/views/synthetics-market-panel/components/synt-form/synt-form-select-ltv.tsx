@@ -126,11 +126,9 @@ const SyntFormSelectLtv: FC<SyntFormSelectLTVProps> = ({
           lineHeight="1.1rem"
           whiteSpace="pre-line"
         >
-          {t(
-            isMint
-              ? 'syntheticsMarketAddress.borrowCardInfo'
-              : 'syntheticsMarketAddress.repayCardInfo'
-          )}
+          {t(`syntheticsMarketAddress.${isMint ? 'mint' : 'burn'}.cardInfo`, {
+            syntheticSymbol: data.syntSymbol,
+          })}
         </Typography>
       </Box>
       <Box display="flex" justifyContent="space-between" my="L">

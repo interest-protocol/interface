@@ -86,10 +86,10 @@ const BurnButton: FC<BurnButtonProps> = ({
       >
         {t(
           !!+burnSynt && !!+burnCollateral
-            ? 'syntheticsMarketAddress.button.removeCollateralRepay'
+            ? 'syntheticsMarketAddress.button.removeCollateralBurn'
             : +burnCollateral
             ? 'syntheticsMarketAddress.button.removeCollateral'
-            : 'syntheticsMarketAddress.button.repay'
+            : 'syntheticsMarketAddress.button.burn'
         )}
       </Typography>
     </Button>

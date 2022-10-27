@@ -37,7 +37,7 @@ const OnlySynthesizedFilter: FC<OnlySynthesizedFilterProps> = ({
         variant="normal"
         textAlign={['center', 'center', 'center', 'left']}
       >
-        {t('syntheticsMarket.filterSynthesized')}
+        {t('syntheticsMarket.filterMinted')}
       </Typography>
       <Switch
         bg="background"

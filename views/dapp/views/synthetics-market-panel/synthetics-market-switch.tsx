@@ -45,14 +45,14 @@ const SyntheticsMarketSwitch: FC<SyntheticsMarketSwitchProps> = ({
 
   const options: [ISwitchOption, ISwitchOption] = [
     {
-      value: 'borrow',
+      value: 'mint',
       onSelect: switchTo('mint'),
-      displayValue: t('syntheticsMarketAddress.borrowTitle'),
+      displayValue: t('syntheticsMarketAddress.mint.title'),
     },
     {
-      value: 'repay',
+      value: 'burn',
       onSelect: switchTo('burn'),
-      displayValue: t('syntheticsMarketAddress.repayTitle'),
+      displayValue: t('syntheticsMarketAddress.burn.title'),
     },
   ];
 

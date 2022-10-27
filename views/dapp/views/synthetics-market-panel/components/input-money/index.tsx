@@ -1,6 +1,5 @@
 import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC } from 'react';
-import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 import { v4 } from 'uuid';
 
 import { Box, Input, Typography } from '@/elements';
@@ -31,6 +30,7 @@ const InputMoney: FC<InputMoneyProps> = ({
 }) => {
   const t = useTranslations();
   const labels = name.split('.') as TErrorMessageLabels;
+
   return (
     <Box mb="L">
       <Typography
@@ -39,7 +39,7 @@ const InputMoney: FC<InputMoneyProps> = ({
         variant="normal"
         display="inline-block"
       >
-        {capitalize(t(label as MessageKeys<IntlMessages, keyof IntlMessages>))}:
+        {capitalize(t(label))}:
       </Typography>
       <Box display="flex" flexDirection="column" alignItems="flex-end">
         <InputMaxTag
