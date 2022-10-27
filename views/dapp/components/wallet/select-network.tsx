@@ -186,7 +186,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               <Box display="flex" alignItems="center">
                 <EthereumNetwork width="1.5rem" height="1.5rem" fill="white" />
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
-                  GOERLI
+                  Goerli
                 </Typography>
               </Box>
               <Typography
@@ -216,7 +216,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
                 whiteSpace="nowrap"
                 display={['none', 'none', 'none', 'block']}
               >
-                GOERLI
+                Goerli
               </Typography>
             </Box>
           ),
