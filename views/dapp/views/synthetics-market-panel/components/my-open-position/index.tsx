@@ -67,9 +67,6 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
         </Box>
       ))}
       <Box mt="XL">
-        <Typography variant="normal" textAlign="center" mb="M">
-          BUSD: {formatDollars(1)}
-        </Typography>
         <Box textAlign="center" mb="M">
           {isLoading ? (
             <Typography
@@ -86,6 +83,9 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
             )}`
           )}
         </Box>
+        <Typography variant="normal" textAlign="center" mb="M">
+          BUSD: {formatDollars(1)}
+        </Typography>
       </Box>
     </Box>
   );
