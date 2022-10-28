@@ -296,3 +296,15 @@ export const useMint = (
 
   return useContractWrite(config);
 };
+
+export const useGetRewards = (market: SyntheticMarketData) => {
+  const { config } = usePrepareContractWrite({
+    addressOrName: market.marketAddress,
+    functionName: 'getRewards',
+    contractInterface: SyntheticMinterABI,
+    enabled:
+      isValidAccount(market.account) && !isZeroAddress(market.marketAddress),
+  });
+
+  return useContractWrite(config);
+};
