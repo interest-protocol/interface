@@ -11,21 +11,10 @@ import { capitalize } from '@/utils';
 import { TInfo } from '../../synthetics-market.types';
 import { RewardsDataProps } from './rewards-data.types';
 
-const CustomInfo: TInfo = [1, 2].map((index) => ({
-  tip: ('syntheticsMarketAddress.loanInfoCustomTip' +
-    index) as TTranslatedMessage,
-  name: ('syntheticsMarketAddress.loanInfoCustomName' +
-    index) as TTranslatedMessage,
+const LOAN_INFO_MAP: TInfo = [1, 2, 3, 4].map((index) => ({
+  tip: ('syntheticsMarketAddress.syntInfoTip' + index) as TTranslatedMessage,
+  name: ('syntheticsMarketAddress.syntInfoName' + index) as TTranslatedMessage,
 }));
-
-const LOAN_INFO_MAP: TInfo = CustomInfo.concat(
-  [1, 2, 3].map((index) => ({
-    tip: ('syntheticsMarketAddress.loanInfoLpFreeMarketTip' +
-      index) as TTranslatedMessage,
-    name: ('syntheticsMarketAddress.loanInfoLpFreeMarketName' +
-      index) as TTranslatedMessage,
-  }))
-);
 
 const RewardsData: FC<RewardsDataProps> = ({ isLoading, info }) => {
   const t = useTranslations();
@@ -77,4 +66,5 @@ const RewardsData: FC<RewardsDataProps> = ({ isLoading, info }) => {
     </Box>
   );
 };
+
 export default RewardsData;

@@ -14,15 +14,15 @@ import {
   getBurnPositionHealthData,
   getMintPositionHealthData,
 } from '../../synthetics-market.utils';
-import { SyntFormLoanInfoProps } from './synt-form.types';
+import { SyntFormSyntInfoProps } from './synt-form.types';
 
-const INFO: TInfo = [1, 2, 3, 4].map((item) => ({
-  name: ('syntheticsMarketAddress.formLoanInfoText' +
+const INFO: TInfo = [1, 2, 3].map((item) => ({
+  name: ('syntheticsMarketAddress.formSyntInfoText' +
     item) as TTranslatedMessage,
-  tip: ('syntheticsMarketAddress.formLoanInfoTip' + item) as TTranslatedMessage,
+  tip: ('syntheticsMarketAddress.formSyntInfoTip' + item) as TTranslatedMessage,
 }));
 
-const SyntFormLoanInfo: FC<SyntFormLoanInfoProps> = ({
+const SyntFormSyntInfo: FC<SyntFormSyntInfoProps> = ({
   control,
   data,
   isMint,
@@ -101,4 +101,4 @@ const SyntFormLoanInfo: FC<SyntFormLoanInfoProps> = ({
   );
 };
 
-export default SyntFormLoanInfo;
+export default SyntFormSyntInfo;

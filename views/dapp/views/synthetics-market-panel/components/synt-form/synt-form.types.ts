@@ -27,7 +27,7 @@ export interface SyntFormSelectLTVProps
   data: SyntheticMarketData;
 }
 
-export interface SyntFormLoanInfoProps
+export interface SyntFormSyntInfoProps
   extends Pick<UseFormReturn<ISyntheticForm>, 'control'> {
   data: SyntheticMarketData;
   isMint: boolean;

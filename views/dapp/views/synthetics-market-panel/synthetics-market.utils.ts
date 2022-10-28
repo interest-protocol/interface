@@ -361,7 +361,7 @@ export const getRewardsInfo: TGetRewardsInfo = (market) => {
     ltv,
     liquidationFee,
     `${formatMoney(fixedPointMathRewards.toNumber())} ${market.syntSymbol}`, // Synt assets have 18 decimals
-    `$${formatDollars(
+    `${formatDollars(
       // Synt assets have 18 decimals
       fixedPointMathRewards.mul(market.syntUSDPrice).toNumber()
     )}`,

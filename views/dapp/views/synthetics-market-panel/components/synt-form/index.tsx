@@ -8,8 +8,8 @@ import { WalletGuardButton } from '@/views/dapp/components';
 import InputMoney from '../input-money';
 import { SyntFormProps } from './synt-form.types';
 import SyntFormButton from './synt-form-button';
-import SyntFormLoanInfo from './synt-form-loan-info';
 import SyntFormSelectLtv from './synt-form-select-ltv';
+import SyntFormSyntInfo from './synt-form-synt-info';
 
 const SyntForm: FC<SyntFormProps> = ({
   data,
@@ -54,7 +54,7 @@ const SyntForm: FC<SyntFormProps> = ({
       setValue={form.setValue}
       isMint={!!isMint}
     />
-    <SyntFormLoanInfo control={form.control} data={data} isMint={!!isMint} />
+    <SyntFormSyntInfo control={form.control} data={data} isMint={!!isMint} />
     <WalletGuardButton>
       <SyntFormButton
         isMint={!!isMint}
