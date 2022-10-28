@@ -5,6 +5,7 @@ import {
   getSyntheticsMarketSVGByAddress,
   SYNTHETIC_PANEL_RESPONSE_MAP,
 } from '@/constants';
+import { TTranslatedMessage } from '@/interface';
 import {
   CHAIN_ID,
   FixedPointMath,
@@ -21,7 +22,6 @@ import {
   numberToString,
 } from '@/utils';
 
-import { TTranslatedMessage } from './../../../../interface/index';
 import {
   ISyntheticForm,
   ProcessSyntheticData,
