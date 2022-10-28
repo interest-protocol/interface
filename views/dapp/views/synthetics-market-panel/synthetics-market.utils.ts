@@ -410,7 +410,7 @@ export const getMyPositionData: TGetMyPositionData = (market) => {
           calculateSyntLeftToMint(market).value(),
           ethers.utils.parseEther('1')
         ).toSignificant(4)
-      )} ${market.syntName}`,
+      )} ${symbol}`,
       `${Fraction.from(
         safeAmountToWithdraw(market).value(),
         ethers.utils.parseEther('1')

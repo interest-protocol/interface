@@ -55,7 +55,6 @@ const SyntFormSyntInfo: FC<SyntFormSyntInfoProps> = ({
 
   const translationValues = {
     syntheticSymbol: data.syntSymbol,
-    syntheticName: data.syntName,
   };
 
   return (

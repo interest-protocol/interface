@@ -7,7 +7,7 @@ import { Container, Tooltip } from '@/components';
 import { RoutesEnum } from '@/constants';
 import { Box } from '@/elements';
 import { useIdAccount } from '@/hooks/use-id-account';
-import { FixedPointMath } from '@/sdk';
+import { ZERO_BIG_NUMBER } from '@/sdk';
 
 import GoBack from '../../components/go-back';
 import ErrorPage from '../error';
@@ -24,6 +24,7 @@ import {
   SyntheticsMarketPanelProps,
 } from './synthetics-market.types';
 import {
+  calculatePositionHealth,
   getMyPositionData,
   getRewardsInfo,
   processSyntheticData,
@@ -105,7 +106,14 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
           />
           <UserLTV
             isLoading={market.loading}
-            ltv={FixedPointMath.toNumber(market.ltv)}
+            ltv={
+              100 -
+              calculatePositionHealth(market, ZERO_BIG_NUMBER).toNumber(
+                16,
+                0,
+                4
+              )
+            }
           />
           <RewardsData info={rewardsInfo} isLoading={market.loading} />
           <MyOpenPosition
