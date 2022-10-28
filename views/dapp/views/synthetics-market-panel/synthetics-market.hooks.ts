@@ -303,7 +303,9 @@ export const useGetRewards = (market: SyntheticMarketData) => {
     functionName: 'getRewards',
     contractInterface: SyntheticMinterABI,
     enabled:
-      isValidAccount(market.account) && !isZeroAddress(market.marketAddress),
+      isValidAccount(market.account) &&
+      !isZeroAddress(market.marketAddress) &&
+      !market.pendingRewards.isZero(),
   });
 
   return useContractWrite(config);
