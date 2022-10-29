@@ -6,7 +6,7 @@ import { v4 } from 'uuid';
 
 import { Container, SocialMediaCard, SwitchLang } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
-import { Box, Button, Typography } from '@/elements';
+import { Box, Button, RefBox, Typography } from '@/elements';
 import { useLocale } from '@/hooks';
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
 import useEventListener from '@/hooks/use-event-listener';
@@ -17,7 +17,7 @@ import { HeaderProps } from './header.types';
 import LangList from './lang-list';
 import MenuList from './menu-list';
 
-const AnimatedBox = animated(Box);
+const AnimatedBox = animated(RefBox);
 const menuButtonId = 'landing-menu-wrapper-id';
 const menuLangId = 'landing-switch-lang-id';
 

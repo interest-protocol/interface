@@ -142,28 +142,59 @@ const Footer: FC = () => {
               ]}
             />
           </Box>
-          <Link href={Routes[RoutesEnum.DineroMarket]}>
-            <Button
-              ml="S"
-              px="0.8rem"
-              fontSize="M"
-              height="2.5rem"
-              display="flex"
-              variant="primary"
-              alignItems="center"
-              justifyContent="center"
-              boxShadow="0 0 15px rgba(0,0,0,.3)"
-              bg={
-                pathname.includes(Routes[RoutesEnum.DineroMarket])
-                  ? 'accent'
-                  : 'textSoft'
+          <Box ml="S">
+            <Dropdown
+              bottom
+              title={
+                <Typography
+                  px="1.5rem"
+                  bg={
+                    pathname.includes(Routes[RoutesEnum.DineroMarket]) ||
+                    pathname.includes(Routes[RoutesEnum.SyntheticsMarket])
+                      ? 'accent'
+                      : 'textSoft'
+                  }
+                  fontSize="M"
+                  height="2.5rem"
+                  display="flex"
+                  variant="normal"
+                  borderRadius="M"
+                  alignItems="center"
+                  justifyContent="center"
+                  boxShadow="0 0 15px rgba(0,0,0,.3)"
+                  color={
+                    pathname === Routes[RoutesEnum.DineroMarket] ||
+                    pathname.includes(Routes[RoutesEnum.SyntheticsMarket])
+                      ? 'text'
+                      : 'inherit'
+                  }
+                  hover={{ bg: 'accent', color: 'text' }}
+                  active={{ bg: 'accentActive', color: 'text' }}
+                >
+                  {capitalize(t('common.market'))}
+                </Typography>
               }
-              hover={{ bg: 'accent', color: 'text' }}
-              active={{ bg: 'accentActive', color: 'text' }}
-            >
-              {capitalize(t('common.borrow'))}
-            </Button>
-          </Link>
+              mode="menu"
+              data={[
+                {
+                  value: 'dinero',
+                  displayOption: capitalize(t('common.dinero')),
+                  onSelect: () =>
+                    push(Routes[RoutesEnum.DineroMarket], undefined, {
+                      shallow: true,
+                    }),
+                },
+                {
+                  value: 'synthetics',
+                  displayOption: capitalize(t('common.synthetics')),
+                  onSelect: () =>
+                    push(Routes[RoutesEnum.SyntheticsMarket], undefined, {
+                      shallow: true,
+                    }),
+                },
+              ]}
+            />
+          </Box>
           <Box ml="S">
             {(supportsCreditCard || supportsFaucet) && (
               <Dropdown

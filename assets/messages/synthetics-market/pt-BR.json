@@ -1,0 +1,20 @@
+{
+  "syntheticsMarket": {
+    "pageTitle": "Sintéticos",
+    "title": "Criando sintéticos usando BUSD",
+    "filterSortOptionPrice": "Preço",
+    "filterSortOptionLiquidationFee": "Taxa de liquidação",
+    "filterMinted": "Apenas Criados",
+    "tableHeading": {
+      "collateral": "Garantia",
+      "TVL": "TVL",
+      "TVLTip": "Valor Total Retido",
+      "minted": "Criados",
+      "userSyntheticMinted": "Quantidade de sintéticos que o usuário criou.",
+      "LTV": "LTV",
+      "LTVTip": "Rácio de empréstimo/garantia",
+      "fee": "Taxa de liquidação",
+      "feeTip": "Taxa de penalização cobrada a um usuário quando a sua posição é liquidada.<br />É expressa como uma percentagem da quantia criada"
+    }
+  }
+}

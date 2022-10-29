@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Box, Button, Typography } from '@/elements';
+import { Box, Button, RefBox, Typography } from '@/elements';
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
 import { TimesSVG } from '@/svg';
 import { parseInputEventToNumberString } from '@/utils';
@@ -59,7 +59,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
   );
 
   return (
-    <Box
+    <RefBox
       pb="L"
       zIndex={1}
       color="text"
@@ -167,7 +167,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           setter={(value: boolean) => setValue('autoFetch', value)}
         />
       </Box>
-    </Box>
+    </RefBox>
   );
 };
 

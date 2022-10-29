@@ -4,13 +4,14 @@ import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
 import { DineroMarketKind } from '@/constants';
+import { HandlerData } from '@/interface';
 import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
 import DineroERC20MarketABI from '@/sdk/abi/dinero-erc-20-market.abi.json';
 import DineroLpFreeMarketABI from '@/sdk/abi/dinero-lp-free-market.abi.json';
 import DineroNativeMarketABI from '@/sdk/abi/dinero-native-market.abi.json';
 import { isValidAccount, isZeroAddress, safeToBigNumber } from '@/utils';
 
-import { DineroMarketData, HandlerData } from './dinero-market.types';
+import { DineroMarketData } from './dinero-market.types';
 import { loanElasticToPrincipal } from './dinero-market.utils';
 
 const { defaultAbiCoder } = ethers.utils;
@@ -242,10 +243,11 @@ export const useRepay = (
   if (!!safeCollateral && !!safeLoan)
     data = handleRepayRequest(market, account, safeCollateral, safeLoan);
 
-  if (safeCollateral)
+  if (safeCollateral && !safeLoan)
     data = handleRepayCollateral(market, account, safeCollateral);
 
-  if (safeLoan) data = handleRepayLoan(market, account, safeLoan);
+  if (safeLoan && !safeCollateral)
+    data = handleRepayLoan(market, account, safeLoan);
 
   const { config } = usePrepareContractWrite({
     addressOrName: market.marketAddress,
@@ -468,10 +470,11 @@ export const useBorrow = (
   if (!!safeCollateral && !!safeLoan)
     data = handleBorrowRequest(market, account, safeCollateral, safeLoan);
 
-  if (safeCollateral)
+  if (safeCollateral && !safeLoan)
     data = handleBorrowDeposit(market, account, safeCollateral);
 
-  if (safeLoan) data = handleBorrowLoan(market, account, safeLoan);
+  if (safeLoan && !safeCollateral)
+    data = handleBorrowLoan(market, account, safeLoan);
 
   const { config } = usePrepareContractWrite({
     addressOrName: market.marketAddress,
