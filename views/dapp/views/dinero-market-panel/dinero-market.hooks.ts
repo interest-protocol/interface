@@ -243,10 +243,11 @@ export const useRepay = (
   if (!!safeCollateral && !!safeLoan)
     data = handleRepayRequest(market, account, safeCollateral, safeLoan);
 
-  if (safeCollateral)
+  if (safeCollateral && !safeLoan)
     data = handleRepayCollateral(market, account, safeCollateral);
 
-  if (safeLoan) data = handleRepayLoan(market, account, safeLoan);
+  if (safeLoan && !safeCollateral)
+    data = handleRepayLoan(market, account, safeLoan);
 
   const { config } = usePrepareContractWrite({
     addressOrName: market.marketAddress,
@@ -469,10 +470,11 @@ export const useBorrow = (
   if (!!safeCollateral && !!safeLoan)
     data = handleBorrowRequest(market, account, safeCollateral, safeLoan);
 
-  if (safeCollateral)
+  if (safeCollateral && !safeLoan)
     data = handleBorrowDeposit(market, account, safeCollateral);
 
-  if (safeLoan) data = handleBorrowLoan(market, account, safeLoan);
+  if (safeLoan && !safeCollateral)
+    data = handleBorrowLoan(market, account, safeLoan);
 
   const { config } = usePrepareContractWrite({
     addressOrName: market.marketAddress,

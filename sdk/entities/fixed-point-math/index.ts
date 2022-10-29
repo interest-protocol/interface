@@ -81,30 +81,27 @@ export class FixedPointMath {
 
   public div(x: BigNumberish | FixedPointMath): FixedPointMath {
     if (this.isZero(x)) return FixedPointMath.from(0);
-    this._value = this._value.mul(ONE_ETHER).div(this.parseValue(x));
-    return this;
+    return new FixedPointMath(
+      this._value.mul(ONE_ETHER).div(this.parseValue(x))
+    );
   }
 
   public mul(x: BigNumberish | FixedPointMath): FixedPointMath {
-    this._value = this._value
-      .mul(this.parseValue(this.parseValue(x)))
-      .div(ONE_ETHER);
-    return this;
+    return new FixedPointMath(
+      this._value.mul(this.parseValue(this.parseValue(x))).div(ONE_ETHER)
+    );
   }
 
   public add(x: BigNumberish | FixedPointMath): FixedPointMath {
-    this._value = this._value.add(this.parseValue(x));
-    return this;
+    return new FixedPointMath(this._value.add(this.parseValue(x)));
   }
 
   public sub(x: BigNumberish | FixedPointMath): FixedPointMath {
-    this._value = this._value.sub(this.parseValue(x));
-    return this;
+    return new FixedPointMath(this._value.sub(this.parseValue(x)));
   }
 
   public pow(x: BigNumberish | FixedPointMath): FixedPointMath {
-    this._value = this._value.pow(this.parseValue(x));
-    return this;
+    return new FixedPointMath(this._value.pow(this.parseValue(x)));
   }
 
   public toPercentage(toSignificant = 2): string {

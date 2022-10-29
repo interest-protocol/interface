@@ -163,9 +163,10 @@ export const useBurn = (
   if (!!safeCollateral && !!safeSynt)
     data = handleBurnRequest(market, safeCollateral, safeSynt);
 
-  if (safeCollateral) data = handleWithdrawCollateral(market, safeCollateral);
+  if (safeCollateral && !safeSynt)
+    data = handleWithdrawCollateral(market, safeCollateral);
 
-  if (safeSynt) data = handleBurnSynt(market, safeSynt);
+  if (safeSynt && !safeCollateral) data = handleBurnSynt(market, safeSynt);
 
   const { config } = usePrepareContractWrite({
     addressOrName: market.marketAddress,
@@ -280,9 +281,10 @@ export const useMint = (
   if (!!safeCollateral && !!safeSynt)
     data = handleMintRequest(market, safeCollateral, safeSynt);
 
-  if (safeCollateral) data = handleDepositCollateral(market, safeCollateral);
+  if (safeCollateral && !safeSynt)
+    data = handleDepositCollateral(market, safeCollateral);
 
-  if (safeSynt) data = handleMintSynt(market, safeSynt);
+  if (safeSynt && !safeCollateral) data = handleMintSynt(market, safeSynt);
 
   const { config } = usePrepareContractWrite({
     addressOrName: market.marketAddress,

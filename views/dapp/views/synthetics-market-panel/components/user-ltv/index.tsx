@@ -1,6 +1,5 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
-import Skeleton from 'react-loading-skeleton';
 
 import { Box, Typography } from '@/elements';
 import { InfoSVG, ProgressSVG } from '@/svg';
@@ -8,7 +7,7 @@ import { toFixedToPrecision } from '@/utils';
 
 import { UserLTVProps } from './user-ltv.types';
 
-const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => {
+const UserLTV: FC<UserLTVProps> = ({ ltv }) => {
   const t = useTranslations();
 
   return (
@@ -28,20 +27,7 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => {
           {t('syntheticsMarketAddress.userLTVTitle')}
         </Typography>
         <Box textAlign="right" whiteSpace="nowrap" color="textSecondary">
-          {isLoading ? (
-            <Typography
-              as="span"
-              width="4rem"
-              variant="normal"
-              display="inline-block"
-            >
-              <Skeleton />
-            </Typography>
-          ) : ltv > 100 ? (
-            100
-          ) : (
-            toFixedToPrecision(ltv, 4)
-          )}
+          {ltv >= 100 ? 100 : toFixedToPrecision(ltv, 4)}
           {'% '}
           of 100%
         </Box>

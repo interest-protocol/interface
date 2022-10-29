@@ -139,24 +139,23 @@ export const calculateSyntExpectedLiquidationPrice: TCalculateSyntExpectedLiquid
     if (adjustedUserCollateral.isZero())
       return FixedPointMath.from(syntUSDPrice);
 
-    const fixedPointUserSyntMinted =
-      FixedPointMath.from(syntMinted).mul(syntUSDPrice);
+    const fixedPointUserSyntMinted = FixedPointMath.from(syntMinted);
 
     const userCollateralValue = FixedPointMath.from(adjustedUserCollateral).mul(
       ltv
     );
 
-    return fixedPointUserSyntMinted.div(userCollateralValue);
+    return userCollateralValue.div(fixedPointUserSyntMinted);
   };
 
 export const calculatePositionHealth: TCalculatePositionHealth = (
-  { ltv, userSyntMinted, adjustedUserCollateral, syntUSDPrice },
+  { ltv, adjustedUserCollateral, syntUSDPrice },
   newSyntAmount
-): FixedPointMath => {
-  if (userSyntMinted.isZero())
-    return FixedPointMath.from(ethers.utils.parseEther('1'));
+) => {
+  if (newSyntAmount.isZero()) return FixedPointMath.from(0);
 
-  if (adjustedUserCollateral.isZero()) return FixedPointMath.from(0);
+  if (adjustedUserCollateral.isZero() && !newSyntAmount.isZero())
+    return FixedPointMath.from(ethers.utils.parseEther('1'));
 
   const userCollateralValue = FixedPointMath.from(adjustedUserCollateral).mul(
     ltv
@@ -168,9 +167,7 @@ export const calculatePositionHealth: TCalculatePositionHealth = (
   if (fixedMathUserSyntInUSD.gte(userCollateralValue))
     return FixedPointMath.from(0);
 
-  return FixedPointMath.from(ethers.utils.parseEther('1')).sub(
-    fixedMathUserSyntInUSD.div(userCollateralValue)
-  );
+  return fixedMathUserSyntInUSD.div(userCollateralValue);
 };
 
 export const calculateSyntLeftToMint: TCalculateSyntLeftToMint = ({
@@ -290,7 +287,11 @@ const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
         ).toSignificant(4)
       )
     )}`,
-    `${roundPositionHealthNumber} %`,
+    `${
+      roundPositionHealthNumber > 100
+        ? 100 - roundPositionHealthNumber
+        : roundPositionHealthNumber
+    } %`,
   ];
 };
 
@@ -410,7 +411,7 @@ export const getMyPositionData: TGetMyPositionData = (market) => {
           calculateSyntLeftToMint(market).value(),
           ethers.utils.parseEther('1')
         ).toSignificant(4)
-      )} ${market.syntName}`,
+      )} ${symbol}`,
       `${Fraction.from(
         safeAmountToWithdraw(market).value(),
         ethers.utils.parseEther('1')
