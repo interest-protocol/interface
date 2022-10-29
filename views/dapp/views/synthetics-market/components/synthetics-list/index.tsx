@@ -104,9 +104,7 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
                 variant="normal"
                 data-tip={t('syntheticsMarket.tableHeading.TVLTip')}
               >
-                {`${formatDollars(
-                  FixedPointMath.from(x.tvlInUSD).toNumber()
-                )} TVL`}
+                {`${formatDollars(FixedPointMath.from(x.TVL).toNumber())} TVL`}
               </Typography>
               <Box
                 my="S"
