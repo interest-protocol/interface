@@ -13,8 +13,8 @@
       "userSyntheticMinted": "Quantidade de sintéticos que o usuário criou.",
       "LTV": "LTV",
       "LTVTip": "Rácio de empréstimo/garantia",
-      "fee": "Taxa de liquidação",
-      "feeTip": "Taxa de penalização cobrada a um usuário quando a sua posição é liquidada.<br />É expressa como uma percentagem da quantia criada"
+      "fee": "Taxa",
+      "feeTip": "Os activos sintéticos têm uma taxa de<br /> transação para beneficiar os criadores."
     }
   }
 }

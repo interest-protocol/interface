@@ -14,7 +14,7 @@
       "LTV": "LTV",
       "LTVTip": "Loan to Value",
       "fee": "Fee",
-      "feeTip": "A penalty fee charged to a Minter when his/her position is liquidated.<br />It is expressed as a percentage of the mint"
+      "feeTip": "Synthetic assets incur a fee when transferred to reward<br /> the creators."
     }
   }
 }
