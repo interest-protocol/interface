@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import { FC } from 'react';
 import { Toaster } from 'react-hot-toast';
 
 import { SEO, Tooltip } from '@/components';
@@ -8,6 +7,7 @@ import { DAppTheme } from '@/design-system';
 import radii from '@/design-system/common/radii';
 import colors from '@/design-system/dapp-theme/colors';
 import { Box } from '@/elements';
+import { NestedFC } from '@/interface';
 
 import ErrorBoundary from '../error-boundary';
 import Faucet from '../faucet';
@@ -15,7 +15,7 @@ import Footer from './footer';
 import Header from './header';
 import { LayoutProps } from './layout.types';
 
-const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
+const Layout: NestedFC<LayoutProps> = ({ pageTitle = '', children }) => {
   const { pathname } = useRouter();
   return (
     <ErrorBoundary>

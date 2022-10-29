@@ -1,6 +1,8 @@
 import { IntlError, IntlErrorCode, NextIntlProvider } from 'next-intl';
-import { ComponentProps, FC } from 'react';
+import { ComponentProps } from 'react';
 import { IntlProvider } from 'use-intl';
+
+import { NestedFC } from '@/interface';
 
 type NextIntlProviderProps = Omit<
   ComponentProps<typeof IntlProvider>,
@@ -34,7 +36,10 @@ function getMessageFallback({
   }
 }
 
-const Provider: FC<NextIntlProviderProps> = ({ children, ...otherProps }) => (
+const Provider: NestedFC<NextIntlProviderProps> = ({
+  children,
+  ...otherProps
+}) => (
   <NextIntlProvider
     onError={onError}
     getMessageFallback={getMessageFallback}

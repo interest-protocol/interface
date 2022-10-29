@@ -1,11 +1,10 @@
-import { FC } from 'react';
-
 import { Box } from '@/elements';
 import { useIdAccount } from '@/hooks/use-id-account';
+import { NestedFC } from '@/interface';
 
 import ConnectWallet from '../wallet/connect-wallet';
 
-const WalletGuardButton: FC = ({ children }) =>
+const WalletGuardButton: NestedFC = ({ children }) =>
   useIdAccount().account ? (
     <>{children}</>
   ) : (

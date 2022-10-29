@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { NestedFC } from '@/interface';
 
 import Box from '../box';
 import { DropdownTableCellProps } from './dropdown-table.types';
 
-const DropdownTableCell: FC<DropdownTableCellProps> = ({
+const DropdownTableCell: NestedFC<DropdownTableCellProps> = ({
   as,
   tip,
   children,

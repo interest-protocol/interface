@@ -1,11 +1,14 @@
-import { FC } from 'react';
 import ReactModal, { setAppElement } from 'react-modal';
+
+import { NestedFC } from '@/interface';
 
 import { ModalProps } from './modal.types';
 
 setAppElement('#__next');
 
-const Modal: FC<ModalProps> = ({ modalProps, children, background }) => (
+const Modal: NestedFC<ModalProps> = ({ modalProps, children, background }) => (
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   <ReactModal
     {...modalProps}
     style={{

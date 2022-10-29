@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@emotion/react';
 import { useTranslations } from 'next-intl';
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   allChains,
   useAccount,
@@ -12,6 +12,7 @@ import {
 import { Routes, SUPPORTED_CHAINS_RECORD } from '@/constants';
 import { CHAINS } from '@/constants/chains';
 import { DAppTheme, LandingPageTheme } from '@/design-system';
+import { NestedFC } from '@/interface';
 import { TimesSVG } from '@/svg';
 import { capitalize } from '@/utils';
 import { Layout, Loading } from '@/views/dapp/components';
@@ -24,7 +25,10 @@ import {
   Web3ManagerWrapperProps,
 } from './web3-manager.type';
 
-const Content: FC<ContentProps> = ({ supportedChains = [], children }) => {
+const Content: NestedFC<ContentProps> = ({
+  supportedChains = [],
+  children,
+}) => {
   const { error, isLoading } = useConnect();
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
@@ -62,7 +66,7 @@ const Content: FC<ContentProps> = ({ supportedChains = [], children }) => {
   return <>{children}</>;
 };
 
-const Web3Manager: FC<Web3ManagerProps> = ({
+const Web3Manager: NestedFC<Web3ManagerProps> = ({
   children,
   supportedChains,
   pageTitle,
@@ -72,7 +76,7 @@ const Web3Manager: FC<Web3ManagerProps> = ({
   </Layout>
 );
 
-const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
+const Web3ManagerWrapper: NestedFC<Web3ManagerWrapperProps> = ({
   pathname,
   pageTitle,
   children,

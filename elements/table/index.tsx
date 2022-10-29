@@ -1,10 +1,11 @@
 import { pathOr } from 'ramda';
-import React, { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Tooltip } from '@/components';
 import useEventListener from '@/hooks/use-event-listener';
+import { NestedFC } from '@/interface';
 
 import Box from '../box';
 import Typography from '../typography';
@@ -14,7 +15,11 @@ import {
   TableRowProps,
 } from './table.types';
 
-const Cell: FC<{ as: 'td' | 'th'; tip?: string }> = ({ as, tip, children }) => (
+const Cell: NestedFC<{ as: 'td' | 'th'; tip?: string }> = ({
+  as,
+  tip,
+  children,
+}) => (
   <Box
     py="L"
     px="M"
