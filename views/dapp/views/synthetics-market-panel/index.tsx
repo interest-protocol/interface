@@ -117,7 +117,12 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
             syntUSDPrice={market.syntUSDPrice}
           />
           <YourBalance data={market} />
-          <GetRewards market={market} />
+          <GetRewards
+            market={market}
+            refetch={async () => {
+              await refetch();
+            }}
+          />
         </Box>
       </Box>
       <Tooltip />
