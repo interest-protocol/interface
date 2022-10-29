@@ -14,7 +14,7 @@
       "LTV": "LTV",
       "LTVTip": "Rácio de empréstimo/garantia",
       "fee": "Taxa",
-      "feeTip": "Taxa de penalização cobrada a um usuário quando a sua posição é liquidada.<br />É expressa como uma percentagem da quantia criada"
+      "feeTip": "Os ativos sintéticos incorrem em uma taxa quando<br /> transferidos para criadores de recompensa."
     }
   }
 }
