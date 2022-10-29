@@ -19,7 +19,6 @@ export interface ISyntheticMarketSummary {
   marketAddress: string;
   symbol: string;
   chainId: number;
-  tvlInUSD: BigNumber;
   id: number;
   name: string;
 }

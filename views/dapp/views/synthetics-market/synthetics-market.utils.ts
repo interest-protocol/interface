@@ -5,8 +5,7 @@ import { UseFormSetValue } from 'react-hook-form';
 
 import { ISwitchOption } from '@/components/switch/switch.types';
 import { SYNTHETICS_RESPONSE_MAP } from '@/constants/synthetics';
-import { FixedPointMath } from '@/sdk';
-import { isSameAddress } from '@/utils';
+import { adjustDecimals, isSameAddress } from '@/utils';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
 import {
@@ -37,14 +36,11 @@ export const processSyntheticMarketSummaryData = (
       marketAddress: responseMapData.marketAddress,
       LTV: apiData.LTV,
       symbol: responseMapData.symbol,
-      TVL: apiData.TVL,
+      TVL: adjustDecimals(apiData.TVL, responseMapData.collateralDecimals),
       syntheticAddress: responseMapData.syntheticAddress,
       syntheticUSDPrice: apiData.syntheticUSDPrice,
       userSyntheticMinted: apiData.userSyntMinted,
       transferFee: apiData.fee,
-      tvlInUSD: FixedPointMath.from(apiData)
-        .mul(apiData.syntheticUSDPrice)
-        .value(),
       id: index,
       name: responseMapData.name,
     };
@@ -85,7 +81,7 @@ const sortByLTV = (x: ISyntheticMarketSummary, y: ISyntheticMarketSummary) =>
   x.LTV.lt(y.LTV) ? 1 : -1;
 
 const sortByTVLFn = (x: ISyntheticMarketSummary, y: ISyntheticMarketSummary) =>
-  x.tvlInUSD.lt(y.tvlInUSD) ? 1 : -1;
+  x.TVL.lt(y.TVL) ? 1 : -1;
 
 const sortById = (x: ISyntheticMarketSummary, y: ISyntheticMarketSummary) =>
   x.id < y.id ? 1 : -1;
