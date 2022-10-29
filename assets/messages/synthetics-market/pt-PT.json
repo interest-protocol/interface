@@ -14,7 +14,7 @@
       "LTV": "LTV",
       "LTVTip": "Rácio de empréstimo/garantia",
       "fee": "Taxa",
-      "feeTip": "Os activos sintéticos incorrem numa taxa quando<br /> transferidos para recompensar os criadores."
+      "feeTip": "Os activos sintéticos têm uma taxa de<br /> transação para beneficiar os criadores."
     }
   }
 }
