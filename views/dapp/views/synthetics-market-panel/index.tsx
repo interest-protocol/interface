@@ -11,10 +11,10 @@ import { FixedPointMath } from '@/sdk';
 
 import GoBack from '../../components/go-back';
 import ErrorPage from '../error';
+import GetRewards from './components/get-rewards';
 import MyOpenPosition from './components/my-open-position';
 import RewardsData from './components/rewards-data';
 import UserLTV from './components/user-ltv';
-import WithdrawRewards from './components/withdraw-rewards';
 import YourBalance from './components/your-balance';
 import { syntheticsFormValidation } from './synthetics-form.validator';
 import { SYNT_FORM_DEFAULT_VALUES } from './synthetics-market.data';
@@ -115,7 +115,7 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
             syntUSDPrice={market.syntUSDPrice}
           />
           <YourBalance data={market} />
-          <WithdrawRewards />
+          <GetRewards market={market} />
         </Box>
       </Box>
       <Tooltip />

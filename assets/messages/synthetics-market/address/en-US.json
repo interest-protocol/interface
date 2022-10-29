@@ -49,7 +49,7 @@
       "addCollateralMint": "Add Collateral and Mint",
       "addCollateral": "Add Collateral",
       "mint": "Mint",
-      "withdrawRewards": "Withdraw Rewards",
+      "getRewards": "Get Rewards",
       "burn": "Burn Synthetic",
       "removeCollateral": "Remove Collateral",
       "removeCollateralBurn": "Remove Collateral and Burn Synthetic"

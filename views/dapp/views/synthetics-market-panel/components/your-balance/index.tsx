@@ -1,6 +1,5 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
-import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { TOKENS_SVG_MAP } from '@/constants';
@@ -18,73 +17,66 @@ const YourBalance: FC<YourBalanceProps> = ({ data }) => {
       <Typography variant="normal" textTransform="uppercase" mt="L">
         {t('common.yourBalance')}:
       </Typography>
-      {data.loading ? (
-        <Box my="XL" rowGap="0.7rem" display="grid" gridTemplateRows="1fr 1fr">
-          <Skeleton wrapper={Box} />
-          <Skeleton wrapper={Box} />
-        </Box>
-      ) : (
-        <Box>
-          {[
-            {
-              name: data.syntSymbol,
-              symbols: [
-                {
-                  SVG: TOKENS_SVG_MAP[data.chainId][data.syntAddress],
-                  highZIndex: false,
-                },
-              ],
-              balance: data.syntBalance,
-            },
-            {
-              name: data.collateralSymbol,
-              symbols: [
-                {
-                  SVG: TOKENS_SVG_MAP[data.chainId][data.collateralAddress],
-                  highZIndex: false,
-                },
-              ],
-              balance: data.adjustedCollateralBalance,
-            },
-          ].map(({ name, symbols, balance }) => (
-            <Box
-              my="L"
-              key={v4()}
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Box display="flex" alignItems="center">
-                <Box display="inline-flex">
-                  {symbols.map(({ SVG, highZIndex }, index) => (
-                    <Box
-                      key={v4()}
-                      width="1.6rem"
-                      ml={index != 0 ? '-0.5rem' : 'NONE'}
-                      zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
-                    >
-                      <SVG width="100%" />
-                    </Box>
-                  ))}
-                </Box>
-                <Typography ml="M" variant="normal">
-                  {name}
-                </Typography>
+      <Box>
+        {[
+          {
+            name: data.syntSymbol,
+            symbols: [
+              {
+                SVG: TOKENS_SVG_MAP[data.chainId][data.syntAddress],
+                highZIndex: false,
+              },
+            ],
+            balance: data.syntBalance,
+          },
+          {
+            name: data.collateralSymbol,
+            symbols: [
+              {
+                SVG: TOKENS_SVG_MAP[data.chainId][data.collateralAddress],
+                highZIndex: false,
+              },
+            ],
+            balance: data.adjustedCollateralBalance,
+          },
+        ].map(({ name, symbols, balance }) => (
+          <Box
+            my="L"
+            key={v4()}
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Box display="flex" alignItems="center">
+              <Box display="inline-flex">
+                {symbols.map(({ SVG, highZIndex }, index) => (
+                  <Box
+                    key={v4()}
+                    width="1.6rem"
+                    ml={index != 0 ? '-0.5rem' : 'NONE'}
+                    zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
+                  >
+                    <SVG width="100%" />
+                  </Box>
+                ))}
               </Box>
-              <Typography
-                variant="normal"
-                maxWidth="10rem"
-                overflow="hidden"
-                textAlign="right"
-                whiteSpace="nowrap"
-                color="textSecondary"
-              >
-                {formatMoney(FixedPointMath.toNumber(balance))}
+              <Typography ml="M" variant="normal">
+                {name}
               </Typography>
             </Box>
-          ))}
-        </Box>
-      )}
+            <Typography
+              variant="normal"
+              maxWidth="10rem"
+              overflow="hidden"
+              textAlign="right"
+              whiteSpace="nowrap"
+              color="textSecondary"
+            >
+              {formatMoney(FixedPointMath.toNumber(balance))}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
     </Box>
   );
 };
