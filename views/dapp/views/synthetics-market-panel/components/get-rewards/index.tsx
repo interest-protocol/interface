@@ -49,13 +49,15 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
     <Box p="XL" order={4} gridArea="g" bg="foreground" borderRadius="L">
       <Button
         width="100%"
+        display="flex"
         variant="primary"
-        onClick={onGetRewards}
+        alignItems="center"
         disabled={disabled}
+        onClick={onGetRewards}
         bg={disabled ? 'disabled' : 'accent'}
       >
         {loading && (
-          <Box as="span" display="inline-block" width="1rem">
+          <Box as="span" display="inline-block" width="1rem" ml="1rem">
             <LoadingSVG width="100%" />
           </Box>
         )}
