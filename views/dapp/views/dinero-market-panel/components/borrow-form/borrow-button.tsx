@@ -63,7 +63,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       ) {
         form.setError('borrow.loan', {
           type: 'max',
-          message: t('dineroMarketAddress.form.loanMustLess'),
+          message: t('dineroMarketAddress.form.ltvError'),
         });
         return;
       }
@@ -91,7 +91,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       ) {
         form.setError('borrow.collateral', {
           type: 'max',
-          message: t('dineroMarketAddress.form.collateralMustNot'),
+          message: t('dineroMarketAddress.form.collateralError'),
         });
         return;
       }
@@ -120,7 +120,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
 
   const onSubmitBorrow = async () => {
     if (isFormBorrowEmpty(form)) {
-      toast.error(t('dineroMarketAddress.form.amountWrong'));
+      toast.error(t('dineroMarketAddress.form.amountError'));
       return;
     }
     if (!data.chainId || !account || !data || data.collateralAllowance.isZero())
