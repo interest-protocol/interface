@@ -6,7 +6,7 @@ import { Container } from '@/components';
 import { Box, InfiniteScroll, Typography } from '@/elements';
 import { useGetFarmsSummary, useIdAccount } from '@/hooks';
 import useEventListener from '@/hooks/use-event-listener';
-import { LoadingSVG, TimesSVG } from '@/svg';
+import { BNBSVG, LoadingSVG, TimesSVG } from '@/svg';
 import { noop } from '@/utils';
 
 import FarmsFilters from './components/farms-filters';
@@ -79,7 +79,7 @@ const Farms: FC = () => {
           justifyContent={['center', 'flex-start']}
         >
           <Typography variant="normal" ml="M">
-            Farms
+            Farms <BNBSVG width="100%" height="100%" />
           </Typography>
         </Container>
       </Box>
