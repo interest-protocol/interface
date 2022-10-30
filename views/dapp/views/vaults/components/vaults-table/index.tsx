@@ -64,106 +64,92 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
           data={
             loading
               ? DesktopVaultSkeletonRow
-              : filteredVaults.map((item) => {
-                  return {
-                    button: (
-                      <Button
-                        variant="primary"
-                        hover={{ bg: 'accentActive' }}
-                        onClick={() =>
-                          push(
-                            {
-                              pathname: Routes[RoutesEnum.DineroVault],
-                              query: {
-                                address: item.vaultAddress,
-                              },
-                            },
-                            undefined,
-                            {
-                              shallow: true,
-                            }
-                          )
-                        }
-                        key={v4()}
-                      >
-                        {capitalize(t('common.enter'))}
-                      </Button>
-                    ),
-                    items: [
-                      <TokenView
-                        address={item.depositTokenAddress}
-                        symbol={item.depositTokenSymbol}
-                        key={v4()}
-                      />,
-                      <Typography
-                        variant={'normal'}
-                        fontWeight="400"
-                        fontSize="0.9rem"
-                        lineHeight="1.313rem"
-                        textAlign="center"
-                        key={v4()}
-                      >
-                        {FixedPointMath.toNumber(
-                          item.depositAmount,
-                          item.depositTokenDecimals
-                        )}
-                      </Typography>,
-                      <Typography
-                        variant={'normal'}
-                        fontWeight="400"
-                        fontSize="0.9rem"
-                        lineHeight="1.313rem"
-                        textAlign="center"
-                        key={v4()}
-                      >
-                        {item.apr ? FixedPointMath.toNumber(item.apr) : 'N/A'}
-                      </Typography>,
-                      <Typography
-                        variant={'normal'}
-                        fontWeight="400"
-                        fontSize="0.9rem"
-                        lineHeight="1.313rem"
-                        textAlign="center"
-                        key={v4()}
-                      >
-                        {item.earn ? FixedPointMath.toNumber(item.earn) : 'N/A'}
-                      </Typography>,
-                      <Typography
-                        variant={'normal'}
-                        fontWeight="400"
-                        fontSize="0.9rem"
-                        lineHeight="1.313rem"
-                        textAlign="center"
-                        key={v4()}
-                      >
-                        {parseVaultType(item.type)}
-                      </Typography>,
-                      <Typography
-                        variant={'normal'}
-                        fontWeight="400"
-                        fontSize="0.9rem"
-                        lineHeight="1.313rem"
-                        textAlign="center"
-                        key={v4()}
-                      >
-                        {item.tvl ? FixedPointMath.toNumber(item.tvl) : 'N/A'}
-                      </Typography>,
-                    ],
-                    handleClick: () =>
-                      push(
-                        {
+              : filteredVaults.map((item) => ({
+                  button: (
+                    <Button
+                      variant="primary"
+                      hover={{ bg: 'accentActive' }}
+                      onClick={() =>
+                        push({
                           pathname: Routes[RoutesEnum.DineroVault],
                           query: {
                             address: item.vaultAddress,
                           },
-                        },
-                        undefined,
-                        {
-                          shallow: true,
-                        }
-                      ),
-                  };
-                })
+                        })
+                      }
+                      key={v4()}
+                    >
+                      {capitalize(t('common.enter'))}
+                    </Button>
+                  ),
+                  items: [
+                    <TokenView
+                      address={item.depositTokenAddress}
+                      symbol={item.depositTokenSymbol}
+                      key={v4()}
+                    />,
+                    <Typography
+                      variant={'normal'}
+                      fontWeight="400"
+                      fontSize="0.9rem"
+                      lineHeight="1.313rem"
+                      textAlign="center"
+                      key={v4()}
+                    >
+                      {FixedPointMath.toNumber(
+                        item.depositAmount,
+                        item.depositTokenDecimals
+                      )}
+                    </Typography>,
+                    <Typography
+                      variant={'normal'}
+                      fontWeight="400"
+                      fontSize="0.9rem"
+                      lineHeight="1.313rem"
+                      textAlign="center"
+                      key={v4()}
+                    >
+                      {item.apr ? FixedPointMath.toNumber(item.apr) : 'N/A'}
+                    </Typography>,
+                    <Typography
+                      variant={'normal'}
+                      fontWeight="400"
+                      fontSize="0.9rem"
+                      lineHeight="1.313rem"
+                      textAlign="center"
+                      key={v4()}
+                    >
+                      {item.earn ? FixedPointMath.toNumber(item.earn) : 'N/A'}
+                    </Typography>,
+                    <Typography
+                      variant={'normal'}
+                      fontWeight="400"
+                      fontSize="0.9rem"
+                      lineHeight="1.313rem"
+                      textAlign="center"
+                      key={v4()}
+                    >
+                      {parseVaultType(item.type)}
+                    </Typography>,
+                    <Typography
+                      variant={'normal'}
+                      fontWeight="400"
+                      fontSize="0.9rem"
+                      lineHeight="1.313rem"
+                      textAlign="center"
+                      key={v4()}
+                    >
+                      {item.tvl ? FixedPointMath.toNumber(item.tvl) : 'N/A'}
+                    </Typography>,
+                  ],
+                  handleClick: () =>
+                    push({
+                      pathname: Routes[RoutesEnum.DineroVault],
+                      query: {
+                        address: item.vaultAddress,
+                      },
+                    }),
+                }))
           }
         />
       </Box>
@@ -203,18 +189,12 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                       variant="primary"
                       hover={{ bg: 'accentActive' }}
                       onClick={() =>
-                        push(
-                          {
-                            pathname: Routes[RoutesEnum.DineroVault],
-                            query: {
-                              address: item.vaultAddress,
-                            },
+                        push({
+                          pathname: Routes[RoutesEnum.DineroVault],
+                          query: {
+                            address: item.vaultAddress,
                           },
-                          undefined,
-                          {
-                            shallow: true,
-                          }
-                        )
+                        })
                       }
                     >
                       {capitalize(t('common.enter'))}
@@ -271,18 +251,12 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
                     </Typography>,
                   ],
                   handleClick: () =>
-                    push(
-                      {
-                        pathname: Routes[RoutesEnum.DineroVault],
-                        query: {
-                          address: item.vaultAddress,
-                        },
+                    push({
+                      pathname: Routes[RoutesEnum.DineroVault],
+                      query: {
+                        address: item.vaultAddress,
                       },
-                      undefined,
-                      {
-                        shallow: true,
-                      }
-                    ),
+                    }),
                 }))
           }
         />

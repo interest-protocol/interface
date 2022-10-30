@@ -126,18 +126,12 @@ const Footer: FC = () => {
                 {
                   value: 'Farms',
                   displayOption: 'Farms',
-                  onSelect: () =>
-                    push(Routes[RoutesEnum.Farms], undefined, {
-                      shallow: true,
-                    }),
+                  onSelect: () => push(Routes[RoutesEnum.Farms]),
                 },
                 {
                   value: 'Vaults',
                   displayOption: 'Vaults',
-                  onSelect: () =>
-                    push(Routes[RoutesEnum.Vaults], undefined, {
-                      shallow: true,
-                    }),
+                  onSelect: () => push(Routes[RoutesEnum.Vaults]),
                 },
               ]}
             />
@@ -179,18 +173,12 @@ const Footer: FC = () => {
                 {
                   value: 'dinero',
                   displayOption: capitalize(t('common.dinero')),
-                  onSelect: () =>
-                    push(Routes[RoutesEnum.DineroMarket], undefined, {
-                      shallow: true,
-                    }),
+                  onSelect: () => push(Routes[RoutesEnum.DineroMarket]),
                 },
                 {
                   value: 'synthetics',
                   displayOption: capitalize(t('common.synthetics')),
-                  onSelect: () =>
-                    push(Routes[RoutesEnum.SyntheticsMarket], undefined, {
-                      shallow: true,
-                    }),
+                  onSelect: () => push(Routes[RoutesEnum.SyntheticsMarket]),
                 },
               ]}
             />

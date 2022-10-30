@@ -32,7 +32,7 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
           },
         },
       }}
-      messages={pageProps.messages}
+      messages={pageProps?.messages}
       now={new Date(pageProps.now)}
       timeZone="UTC"
     >
