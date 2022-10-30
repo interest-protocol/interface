@@ -69,7 +69,8 @@
     "error": "erro",
     "submit": "{isLoading, plural, =1 {processando...} other {processe}}",
     "allocation": "alocação",
-    "backHome": "Voltar ao Início"
+    "backHome": "Voltar ao Início",
+    "soon": "em breve"
   },
   "error": {
     "generic": "algo deu errado",
