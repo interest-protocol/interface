@@ -1,11 +1,11 @@
-import { GetStaticProps, NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { mergeDeepRight } from 'ramda';
 
 import DEXView from '@/views/dapp/views/dex';
 
 const DEXPage: NextPage = () => <DEXView />;
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   const [commonMessages, dexSwapMessages, dexPoolFindMessages] =
     await Promise.all([
       import(`../../../assets/messages/common/${locale}.json`),
