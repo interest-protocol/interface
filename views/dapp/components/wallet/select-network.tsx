@@ -5,7 +5,13 @@ import { FC } from 'react';
 import EthereumNetwork from '@/components/svg/ethereum-network';
 import { Box, Dropdown, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
-import { AdaSVG, ArrowSVG, BinanceTestSVG, BlockchainSVG, BNBSVG } from '@/svg';
+import {
+  AdaSVG,
+  ArrowSVG,
+  BinanceSVG,
+  BinanceTestSVG,
+  BlockchainSVG,
+} from '@/svg';
 import { capitalize } from '@/utils';
 
 import { SelectNetworkProps } from './wallet.types';
@@ -50,7 +56,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
           displayOption: (
             <Box pl="L" display="flex" alignItems="center">
               <Box as="span" display="inline-block" width="1.5rem">
-                <BinanceTestSVG width="100%" />
+                <BinanceTestSVG width="1.5rem" height="1.5rem" fill="white" />
               </Box>
               <Typography variant="normal" mx="M" whiteSpace="nowrap">
                 BNBT
@@ -63,7 +69,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               alignItems="center"
               pl={['NONE', 'NONE', 'NONE', 'S']}
             >
-              <BinanceTestSVG width="1.5rem" height="1.5rem" />
+              <BinanceTestSVG width="1.5rem" height="1.5rem" fill="white" />
               <Typography
                 mx="M"
                 variant="normal"
@@ -86,7 +92,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               width="100%"
             >
               <Box display="flex" alignItems="center">
-                <BNBSVG width="1.5rem" height="1.5rem" fill="white" />
+                <BinanceSVG width="1.5rem" height="1.5rem" />
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
                   BNB
                 </Typography>
@@ -111,7 +117,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               alignItems="center"
               pl={['NONE', 'NONE', 'NONE', 'S']}
             >
-              <BNBSVG width="1.5rem" height="1.5rem" fill="white" />
+              <BinanceSVG width="1.5rem" height="1.5rem" />
               <Typography
                 mx="M"
                 variant="normal"
@@ -135,9 +141,9 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               width="100%"
             >
               <Box display="flex" alignItems="center">
-                <AdaSVG width="1.5rem" height="1.5rem" fill="white" />
+                <AdaSVG width="1.5rem" height="1.5rem" />
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
-                  ADA
+                  ADA EVM
                 </Typography>
               </Box>
               <Typography
@@ -160,14 +166,14 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               alignItems="center"
               pl={['NONE', 'NONE', 'NONE', 'S']}
             >
-              <AdaSVG width="1.5rem" height="1.5rem" fill="white" />
+              <AdaSVG width="1.5rem" height="1.5rem" />
               <Typography
                 mx="M"
                 variant="normal"
                 whiteSpace="nowrap"
                 display={['none', 'none', 'none', 'block']}
               >
-                ADA
+                ADA EVM
               </Typography>
             </Box>
           ),
@@ -184,7 +190,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               width="100%"
             >
               <Box display="flex" alignItems="center">
-                <EthereumNetwork width="1.5rem" height="1.5rem" fill="white" />
+                <EthereumNetwork width="1.5rem" height="1.5rem" />
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
                   Goerli
                 </Typography>
