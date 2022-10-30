@@ -28,8 +28,7 @@ const UserLTV: FC<UserLTVProps> = ({ ltv }) => {
         </Typography>
         <Box textAlign="right" whiteSpace="nowrap" color="textSecondary">
           {ltv >= 100 ? 100 : toFixedToPrecision(ltv, 4)}
-          {'% '}
-          of 100%
+          {t('syntheticsMarketAddress.rangeOf')}
         </Box>
       </Box>
       <Box color={(ltv ?? 0) > 70 ? 'error' : 'accent'} mt="L">
@@ -38,4 +37,5 @@ const UserLTV: FC<UserLTVProps> = ({ ltv }) => {
     </Box>
   );
 };
+
 export default UserLTV;

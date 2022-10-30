@@ -44,6 +44,7 @@
     "userLTVTitle": "Risco",
     "userLTVTip": "Se este valor atingir 100%, <br /> poderá ser liquidado",
     "toastError": "f ou montante da garantia estão errados",
+    "rangeOf": "% de 100%",
     "button": {
       "default": "Inactivo",
       "addCollateralMint": "Adicionar Garantia e Criar",
