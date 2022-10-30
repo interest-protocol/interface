@@ -57,15 +57,15 @@ You must install it in your Editor text
 
 ## Technologies
 
-- [Typescript](https://typescriptlang.org)\*
-- [Styled System](https://styled-system.com)\*#
-- [Emotion](https://emotion.sh/docs/introduction)\*\*
-- [NextJS](https://nextjs.org/docs/getting-started)\*\*
+- [Typescript](https://typescriptlang.org)
+- [Styled System](https://styled-system.com)
+- [Emotion](https://emotion.sh/docs/introduction)
+- [NextJS](https://nextjs.org/docs/getting-started)
 - [Jest](https://jestjs.io)
 - [Redux](https://redux.js.org/)
 - [Ramda](https://ramdajs.com/)
-- [wagmi](https://wagmi.sh/)
-- [typechain](https://wagmi.sh/)
+- [Wagmi](https://wagmi.sh/)
+- [Typechain](https://wagmi.sh/)
 
 ## Live
 

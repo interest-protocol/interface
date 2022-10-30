@@ -30,7 +30,7 @@ Below are instructions on how to optimally report a bug:
 
 #### In the Repository
 
-- **Try to reproduce the bug in the master branch**: The bug may have already been passed in the latest version, always check before reporting the issue.
+- **Try to reproduce the bug in the main branch**: The bug may have already been passed in the latest version, always check before reporting the issue.
 - **Check to see if the issue hasn't already been reported**: It could be that your issue has already been reported by someone else, make sure it is not on the list.
 - **Open a git issue**: Explain what happened, and give as much detail as possible so we can try to reproduce the same situation.
 
