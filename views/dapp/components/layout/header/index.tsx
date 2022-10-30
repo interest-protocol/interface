@@ -145,22 +145,45 @@ const Header: FC = () => {
             ]}
           />
         </Box>
-        <Link href={Routes[RoutesEnum.DineroMarket]}>
-          <Typography
-            px="XL"
-            cursor="pointer"
-            variant="normal"
-            color={
-              pathname.includes(Routes[RoutesEnum.DineroMarket])
-                ? 'accent'
-                : 'inherit'
+        <Box pl="XL">
+          <Dropdown
+            title={
+              <Typography
+                textAlign="center"
+                cursor="pointer"
+                variant="normal"
+                color={
+                  pathname.includes(Routes[RoutesEnum.DineroMarket]) ||
+                  pathname.includes(Routes[RoutesEnum.SyntheticsMarket])
+                    ? 'accent'
+                    : 'inherit'
+                }
+                hover={{ color: 'accentActive' }}
+              >
+                {capitalize(t('common.market'))}
+              </Typography>
             }
-            hover={{ color: 'accentActive' }}
-            textTransform="capitalize"
-          >
-            {t('common.borrow')}
-          </Typography>
-        </Link>
+            mode="menu"
+            data={[
+              {
+                value: 'dinero',
+                displayOption: capitalize(t('common.dinero')),
+                onSelect: () =>
+                  push(Routes[RoutesEnum.DineroMarket], undefined, {
+                    shallow: true,
+                  }),
+              },
+              {
+                value: 'synths',
+                displayOption: capitalize(t('common.synthetics')),
+                onSelect: () =>
+                  push(Routes[RoutesEnum.SyntheticsMarket], undefined, {
+                    shallow: true,
+                  }),
+              },
+            ]}
+          />
+        </Box>
       </Box>
       <Box display="flex" justifyContent="flex-end" alignItems="stretch">
         {address && isChainIdSupported(chainId ?? -1) && (
