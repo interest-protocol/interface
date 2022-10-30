@@ -7,16 +7,16 @@ Feel free to contribute in any way you like, and if you feel comfortable doing s
 - **api** contains all the external requests to our application
 - **assets** contains the system's multi-language files
 - **components** contains the generic components used inside the application
-- **connectors** contains the files for connecting to the wallets
-- **constants** contains the constants to be manipulated in the application
+- **connectors** contains the the logic to connect to web3 wallets
+- **constants** contains the constant values and settings
 - **design-system** contains the files that standardize the design system used in the app, from breakpoints to the color system
 - **elements** contains the atomic components used within the generic components
-- **hooks** contains the generic hooks
+- **hooks** contains generic React hooks
 - **pages** contains page components for next.js
-- **server** contains the mail server files
-- **types** contains the generic types
+- **server** contains the server API logic
+- **types** contains application wise types and interfaces
 - **utils** contains generic utility functions used in the application
-- **Views** contain building blocks for each page. inside we have views of the landing page and the DApp
+- **Views** contains the view building blocks for each page.
 
 ## Issue reports
 
@@ -26,7 +26,7 @@ Below are instructions on how to optimally report a bug:
 
 #### In the Application
 
-- **Feedback Button**: in the header, there is a button on the left side next to the logo (on mobile, open the menu on the right, and in the last position is the "Feedback" button). Fill out the _Google Forms_ form and report what happened.
+- **Feedback Button**: in the header, there is a button on the left side of application logo (on mobile, open the menu on the right, and in the last position is the "Feedback" button). Fill out the _Google Forms_ form and report what happened.
 
 #### In the Repository
 
