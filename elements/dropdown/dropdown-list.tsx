@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
 
-import Box from '../box';
+import RefBox from '../ref-box';
 import Typography from '../typography';
 import { DropdownListProps } from './dropdown.types';
 import DropdownItem from './dropdown-item';
@@ -63,7 +63,7 @@ const DropdownList: FC<DropdownListProps> = ({
   );
 
   return isOpen ? (
-    <Box
+    <RefBox
       p="M"
       zIndex={1}
       bg="foreground"
@@ -117,7 +117,7 @@ const DropdownList: FC<DropdownListProps> = ({
           {footer}
         </Typography>
       )}
-    </Box>
+    </RefBox>
   ) : null;
 };
 

@@ -3,7 +3,7 @@ import { FC, useRef, useState } from 'react';
 import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
 
-import { Box, Typography } from '@/elements';
+import { Box, RefBox, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 
 import { DineroVaultFooterProps } from './dinero-vault.types';
@@ -55,7 +55,7 @@ const DineroVaultFooter: FC<DineroVaultFooterProps> = ({
         </AnimatedBox>
       </Box>
       <AnimatedBox style={{ height: mHeight }} overflow="hidden">
-        <Box p="0 2rem 2rem" cursor="default" ref={detailRef}>
+        <RefBox p="0 2rem 2rem" cursor="default" ref={detailRef}>
           <Box
             bg="background"
             px="1.5rem"
@@ -75,7 +75,7 @@ const DineroVaultFooter: FC<DineroVaultFooterProps> = ({
               />
             ))}
           </Box>
-        </Box>
+        </RefBox>
       </AnimatedBox>
     </>
   );
