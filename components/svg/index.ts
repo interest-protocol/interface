@@ -1,3 +1,4 @@
+export { default as AdaSVG } from './ada';
 export { default as ApeCoinSVG } from './ape-coin';
 export { default as ArrowSVG } from './arrow';
 export { default as ArrowSpecialSVG } from './arrow-special';
