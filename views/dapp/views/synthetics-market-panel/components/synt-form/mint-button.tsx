@@ -109,7 +109,7 @@ const MintButton: FC<MintButtonProps> = ({
 
   const onSubmitMint = async () => {
     if (isFormMintEmpty(form)) {
-      toast.error('Borrow or collateral amount are wrong');
+      toast.error(t('syntheticsMarketAddress.toastError'));
       return;
     }
     if (
