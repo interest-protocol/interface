@@ -44,6 +44,7 @@
     "userLTVTitle": "Risk",
     "userLTVTip": "If this value reaches 100%, <br />you might get liquidated",
     "toastError": "Mint or collateral amount are wrong",
+    "rangeOf": "% of 100%",
     "button": {
       "default": "No Request",
       "addCollateralMint": "Add Collateral and Mint",
