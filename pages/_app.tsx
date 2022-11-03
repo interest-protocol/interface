@@ -1,16 +1,17 @@
 import 'react-loading-skeleton/dist/skeleton.css';
 
 import { Global } from '@emotion/react';
+import GlobalStyles from 'design-system/global-styles';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import NextProgress from 'next-progress';
 import { ReactNode, StrictMode } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import { WagmiConfig } from 'wagmi';
 
 import { NextIntlProvider, Web3Manager } from '@/components';
 import { wagmiClient } from '@/connectors';
-import GlobalStyles from '@/design-system/global-styles';
+
+import { Box } from '../elements';
 
 const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
   <>
@@ -21,7 +22,6 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
         content="width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1, viewport-fit=cover"
       />
     </Head>
-    <NextProgress options={{ showSpinner: false }} />
     <NextIntlProvider
       formats={{
         dateTime: {
@@ -39,14 +39,24 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
       <WagmiConfig client={wagmiClient}>
         <SkeletonTheme baseColor="#202020" highlightColor="#444">
           <Global styles={GlobalStyles} />
-          <Web3Manager
+          <Box
+            as="aside"
+            padding="3rem"
+            cursor="pointer"
+            background="tomato"
+            marginLeft={['3rem', '6rem']}
+            hover={{ background: 'red' }}
+          >
+            STYLIN
+          </Box>
+          {/* <Web3Manager
             pageTitle={pageProps.pageTitle}
             pathname={router.pathname}
           >
             <StrictMode>
               <Component {...pageProps} />
             </StrictMode>
-          </Web3Manager>
+          </Web3Manager> */}
         </SkeletonTheme>
       </WagmiConfig>
     </NextIntlProvider>

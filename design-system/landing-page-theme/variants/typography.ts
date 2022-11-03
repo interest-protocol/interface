@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import fontSizes from '@/design-system/common/font-sizes';
+import fontSizes from 'design-system/common/font-sizes';
 
 const title1 = css`
   font-family: 'Montserrat';
