@@ -1,6 +1,6 @@
 import 'react-loading-skeleton/dist/skeleton.css';
 
-import { Global } from '@emotion/react';
+import { Global, ThemeProvider } from '@emotion/react';
 import GlobalStyles from 'design-system/global-styles';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -10,8 +10,9 @@ import { WagmiConfig } from 'wagmi';
 
 import { NextIntlProvider, Web3Manager } from '@/components';
 import { wagmiClient } from '@/connectors';
+import { LandingPageTheme } from '@/design-system';
 
-import { Box } from '../elements';
+import { Box, Button } from '../elements';
 
 const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
   <>
@@ -39,16 +40,19 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
       <WagmiConfig client={wagmiClient}>
         <SkeletonTheme baseColor="#202020" highlightColor="#444">
           <Global styles={GlobalStyles} />
-          <Box
-            as="aside"
-            padding="3rem"
-            cursor="pointer"
-            background="tomato"
-            marginLeft={['3rem', '6rem']}
-            hover={{ background: 'red' }}
-          >
-            STYLIN
-          </Box>
+          <ThemeProvider theme={LandingPageTheme}>
+            <Box
+              as="aside"
+              padding="3rem"
+              cursor="pointer"
+              background="tomato"
+              marginLeft={['3rem', '6rem']}
+              hover={{ background: 'red' }}
+            >
+              STYLIN
+              <Button variant="primary">Agree</Button>
+            </Box>
+          </ThemeProvider>
           {/* <Web3Manager
             pageTitle={pageProps.pageTitle}
             pathname={router.pathname}

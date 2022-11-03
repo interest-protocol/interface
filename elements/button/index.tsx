@@ -1,50 +1,31 @@
 import styled from '@emotion/styled';
-import { css } from '@styled-system/css';
 import { forwardRef } from 'react';
-import {
-  border,
-  color,
-  compose,
-  display,
-  flexbox,
-  layout,
-  position,
-  shadow,
-  space,
-  system,
-  typography,
-  variant,
-} from 'styled-system';
+
+import { Theme } from '@/design-system/dapp-theme';
+import { renderStyles, renderVariant } from '@/stylin';
+import { RenderStylesProps } from '@/stylin/stylin.types';
 
 import { ButtonProps } from './button.types';
 
-const Button = forwardRef(({ hover, active, ...props }: ButtonProps, ref) => {
-  const ButtonElement = styled.button(
-    css({
-      ...(hover && { transition: 'all 250ms ease-in-out', ':hover': hover }),
-      ...(active && { ':active': active }),
-    }),
-    variant({ scale: 'buttons' }),
-    variant({ prop: 'effect', scale: 'effects' }),
-    compose(
-      color,
-      space,
-      border,
-      shadow,
-      display,
-      position,
-      layout,
-      flexbox,
-      typography,
-      system({
-        cursor: true,
-      })
-    )
-  );
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  return <ButtonElement {...props} ref={ref} />;
-});
+const Button = forwardRef(
+  ({ hover, active, variant, children, ...props }: ButtonProps, ref) => {
+    const ButtonElement = styled.button(
+      renderStyles({
+        styles: props as RenderStylesProps['styles'],
+        pseudo: { ...(hover && { hover }), ...(active && { active }) },
+      }),
+      ({ theme }) => renderVariant('buttons')(variant, theme as Theme)
+    );
+
+    return (
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      <ButtonElement {...props} ref={ref}>
+        {children}
+      </ButtonElement>
+    );
+  }
+);
 
 Button.displayName = 'Button';
 

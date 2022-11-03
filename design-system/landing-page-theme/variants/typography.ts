@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-
 import fontSizes from 'design-system/common/font-sizes';
 
 const title1 = css`
