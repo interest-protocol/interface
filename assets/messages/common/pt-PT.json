@@ -7,6 +7,8 @@
     "pool": "pool",
     "balance": "saldo",
     "yourBalance": "saldo",
+    "synthetics": "sintéticos",
+    "dinero": "Dinero",
     "volatile": "{count, plural, =1 {volátil} other {voláteis}}",
     "stable": "{count, plural, =1 {estável} other {estáveis}}",
     "liquidity": "liquidez",
@@ -67,7 +69,8 @@
     "error": "erro",
     "submit": "{isLoading, plural, =1 {processando...} other {processe}}",
     "allocation": "alocação",
-    "backHome": "Voltar ao Início"
+    "backHome": "Voltar ao Início",
+    "soon": "em breve"
   },
   "error": {
     "generic": "algo deu errado",

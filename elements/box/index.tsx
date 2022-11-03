@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { css } from '@styled-system/css';
-import React, { forwardRef } from 'react';
+import { FC } from 'react';
 import {
   background,
   border,
@@ -19,11 +19,14 @@ import {
 
 import { BoxProps } from './box.types';
 
-const Box = forwardRef(({ as, hover, active, ...props }: BoxProps, ref) => {
+const Box: FC<BoxProps> = ({ as, hover, active, ...props }) => {
   const BoxElement = styled(as || 'div')(
     css({
       ...(hover && { transition: 'all 250ms ease-in-out', ':hover': hover }),
-      ...(active && { transition: 'all 250ms ease-in-out', ':active': active }),
+      ...(active && {
+        transition: 'all 250ms ease-in-out',
+        ':active': active,
+      }),
     }),
     variant({
       prop: 'effect',
@@ -59,9 +62,7 @@ const Box = forwardRef(({ as, hover, active, ...props }: BoxProps, ref) => {
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  return <BoxElement {...props} ref={ref} />;
-});
-
-Box.displayName = 'Box';
+  return <BoxElement {...props} />;
+};
 
 export default Box;
