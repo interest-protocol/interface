@@ -59,7 +59,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
                 <BinanceTestSVG width="1.5rem" height="1.5rem" fill="white" />
               </Box>
               <Typography variant="normal" mx="M" whiteSpace="nowrap">
-                BNBT
+                BSCT
               </Typography>
             </Box>
           ),
@@ -76,7 +76,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
                 whiteSpace="nowrap"
                 display={['none', 'none', 'none', 'block']}
               >
-                BNBT
+                BSCT
               </Typography>
             </Box>
           ),
@@ -94,7 +94,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               <Box display="flex" alignItems="center">
                 <BinanceSVG width="1.5rem" height="1.5rem" />
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
-                  BNB
+                  BSC
                 </Typography>
               </Box>
               <Typography
@@ -124,7 +124,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
                 whiteSpace="nowrap"
                 display={['none', 'none', 'none', 'block']}
               >
-                BNB
+                BSC
               </Typography>
             </Box>
           ),
