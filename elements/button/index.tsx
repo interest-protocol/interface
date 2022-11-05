@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { forwardRef } from 'react';
 
-import { Theme } from '@/design-system/dapp-theme';
+import { Theme } from '@/design-system/landing-page-theme';
 import { renderStyles, renderVariant } from '@/stylin';
 import { RenderStylesProps } from '@/stylin/stylin.types';
 
@@ -10,10 +10,14 @@ import { ButtonProps } from './button.types';
 const Button = forwardRef(
   ({ hover, active, variant, children, ...props }: ButtonProps, ref) => {
     const ButtonElement = styled.button(
-      renderStyles({
-        styles: props as RenderStylesProps['styles'],
-        pseudo: { ...(hover && { hover }), ...(active && { active }) },
-      }),
+      ({ theme }) =>
+        renderStyles(
+          {
+            styles: props as RenderStylesProps['styles'],
+            pseudo: { ...(hover && { hover }), ...(active && { active }) },
+          },
+          theme as Theme
+        ),
       ({ theme }) => renderVariant('buttons')(variant, theme as Theme)
     );
 
