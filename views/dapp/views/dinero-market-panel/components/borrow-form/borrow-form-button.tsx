@@ -2,10 +2,10 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
+import { ApproveButton } from '@/components';
 import { Box } from '@/elements';
 import { isValidAccount, isZeroAddress } from '@/utils';
 
-import ApproveButton from './approve-button';
 import BorrowButton from './borrow-button';
 import { BorrowFormButtonProps } from './borrow-form.types';
 import RepayButton from './repay-button';
@@ -43,6 +43,12 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
             chainId={data.chainId}
             contract={data.collateralAddress}
             spender={data.marketAddress}
+            buttonProps={{
+              display: 'flex',
+              variant: 'primary',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
           />
         ) : (!borrowLoan && !borrowCollateral) ||
           (+borrowCollateral === 0 && +borrowLoan === 0) ? (

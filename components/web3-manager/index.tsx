@@ -66,20 +66,18 @@ const Web3Manager: FC<Web3ManagerProps> = ({
   children,
   supportedChains,
   pageTitle,
-}) => {
-  return (
-    <Layout pageTitle={pageTitle}>
-      <Content supportedChains={supportedChains}>{children}</Content>
-    </Layout>
-  );
-};
+}) => (
+  <Layout pageTitle={pageTitle}>
+    <Content supportedChains={supportedChains}>{children}</Content>
+  </Layout>
+);
 
 const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
   pathname,
   pageTitle,
   children,
-}) => {
-  return pathname !== Routes.home ? (
+}) =>
+  pathname !== Routes.home ? (
     <ThemeProvider theme={DAppTheme}>
       <Web3Manager
         pageTitle={pageTitle}
@@ -93,6 +91,5 @@ const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
       <HomePageLayout pageTitle={pageTitle}>{children}</HomePageLayout>
     </ThemeProvider>
   );
-};
 
 export default Web3ManagerWrapper;

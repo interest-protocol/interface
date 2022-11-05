@@ -59,11 +59,11 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
       <meta name="msapplication-TileColor" content="#da532c" />
       <link rel="apple-touch-icon" href="/logo192.png" />
       <title>
-        Interest Protocol{' '}
         {pageTitle &&
-          `| ${capitalize(
+          `${capitalize(
             t(pageTitle as MessageKeys<IntlMessages, keyof IntlMessages>)
-          )}`}
+          )} | `}
+        Interest Protocol
       </title>
     </Head>
   );

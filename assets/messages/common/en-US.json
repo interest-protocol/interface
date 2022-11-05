@@ -7,6 +7,8 @@
     "pool": "pool",
     "balance": "balance",
     "yourBalance": "your balance",
+    "synthetics": "synthetics",
+    "dinero": "Dinero",
     "volatile": "{count, plural, =1 {volatile} other {volatile}}",
     "stable": "{count, plural, =1 {stable} other {stable}}",
     "liquidity": "liquidity",
@@ -36,7 +38,7 @@
     "wrap": "{isLoading, plural, =1 {wrapping...} other {wrap}}",
     "unwrap": "{isLoading, plural, =1 {unwrapping...} other {unwrap}}",
     "fetchingBalances": "fetching balances",
-    "networkTitle": "choose your Network",
+    "networkTitle": "choose Network",
     "account": "account",
     "connected": "connected with",
     "disconnect": "disconnect",
@@ -66,10 +68,13 @@
     "copyAddress": "copy address",
     "error": "error",
     "submit": "{isLoading, plural, =1 {submitting...} other {submit}}",
-    "allocation": "allocation"
+    "allocation": "allocation",
+    "backHome": "Back Home",
+    "soon": "soon"
   },
   "error": {
-    "generic": "something went wrong"
+    "generic": "something went wrong",
+    "wrongParams": "Wrong params"
   },
   "web3Manager": {
     "title": "{chainName} is not supported",

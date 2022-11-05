@@ -2,23 +2,32 @@ import { not } from 'ramda';
 import { FC, useState } from 'react';
 import { useAccount, useBalance } from 'wagmi';
 
+import { WALLETS_MAP } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
+import { useChainId } from '@/hooks';
 import { ZERO_ADDRESS } from '@/sdk';
-import { LoadingSVG, MetaMaskSVG } from '@/svg';
+import { LoadingSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 
 import ConnectWallet from './connect-wallet';
 import AccountModal from './wallet-modal/account-modal';
 
+const NoWallet = () => <>?</>;
+
 const ConnectedWallet: FC = () => {
+  const chainId = useChainId();
   const [showModal, setShowModal] = useState<boolean>(false);
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, connector } = useAccount();
   const { data, isError, isLoading } = useBalance({
     addressOrName: address,
   });
   const toggleModal = () => {
     setShowModal(not);
   };
+
+  const WalletSVG =
+    WALLETS_MAP[chainId].find((wallet) => wallet.name === connector?.name)
+      ?.SVG ?? NoWallet;
 
   return isConnected ? (
     <Box
@@ -62,12 +71,14 @@ const ConnectedWallet: FC = () => {
       >
         <Box
           mr="L"
+          as="span"
           width="1.2rem"
           height="1.2rem"
           overflow="hidden"
           borderRadius="50%"
+          display="inline-block"
         >
-          <MetaMaskSVG height="100%" width="100%" />
+          <WalletSVG height="100%" width="100%" />
         </Box>
         <Typography variant="normal" color="text" display={['none', 'block']}>
           {shortAccount(address || ZERO_ADDRESS)}

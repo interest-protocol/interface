@@ -17,3 +17,4 @@ export * from './use-locale';
 export * from './use-native-balance';
 export * from './use-previous';
 export * from './use-quote-remove-liquidity';
+export * from './use-safe-contract-read';

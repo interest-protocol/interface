@@ -22,7 +22,8 @@
         "name": "wbnbIPXLP",
         "type": "address"
       },
-      { "internalType": "contract IERC20", "name": "ipx", "type": "address" }
+      { "internalType": "contract IERC20", "name": "ipx", "type": "address" },
+      { "internalType": "contract IERC20", "name": "busd", "type": "address" }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -324,6 +325,110 @@
         "internalType": "struct InterestViewDinero.DineroMarketSummary[]",
         "name": "lpMarkets",
         "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "user", "type": "address" },
+      {
+        "internalType": "contract ISyntheticMarket[]",
+        "name": "markets",
+        "type": "address[]"
+      }
+    ],
+    "name": "getSyntheticMarketsSummary",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "uint256", "name": "TVL", "type": "uint256" },
+          { "internalType": "uint256", "name": "LTV", "type": "uint256" },
+          { "internalType": "uint256", "name": "fee", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "syntheticUSDPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "userSyntMinted",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewDinero.SyntheticMarketSummary[]",
+        "name": "data",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "user", "type": "address" },
+      {
+        "internalType": "contract ISyntheticMarket",
+        "name": "market",
+        "type": "address"
+      }
+    ],
+    "name": "getSyntheticUserMarketData",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "userSyntMinted",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "transferFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "syntheticUSDPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "liquidationFee",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "TVL", "type": "uint256" },
+          { "internalType": "uint256", "name": "LTV", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "userCollateral",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collateralAllowance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collateralBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "syntBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "pendingRewards",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct InterestViewDinero.SyntheticMarketData",
+        "name": "data",
+        "type": "tuple"
       }
     ],
     "stateMutability": "view",

@@ -57,9 +57,7 @@ const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => {
             </Box>
             {capitalize(t(name as MessageKeys<IntlMessages, any>))}
           </Typography>
-          <Typography
-            as="div"
-            variant="normal"
+          <Box
             whiteSpace="nowrap"
             color="textSecondary"
             ml={['XL', 'XL', 'XL', 'M']}
@@ -78,7 +76,7 @@ const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => {
             ) : (
               loanInfoData[i]
             )}
-          </Typography>
+          </Box>
         </Box>
       ))}
     </Box>

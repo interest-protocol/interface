@@ -4,6 +4,7 @@ import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
+import { ApproveButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { LoadingSVG } from '@/svg';
@@ -21,7 +22,6 @@ import {
   convertCollateralToDinero,
   isFormBorrowEmpty,
 } from '../../dinero-market.utils';
-import ApproveButton from './approve-button';
 import { BorrowButtonProps } from './borrow-form.types';
 
 const { parseEther } = ethers.utils;
@@ -63,7 +63,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       ) {
         form.setError('borrow.loan', {
           type: 'max',
-          message: 'The Loan must to be less than LTV',
+          message: t('dineroMarketAddress.form.ltvError'),
         });
         return;
       }
@@ -91,7 +91,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       ) {
         form.setError('borrow.collateral', {
           type: 'max',
-          message: 'The Collateral must not to be more than your balance',
+          message: t('dineroMarketAddress.form.collateralError'),
         });
         return;
       }
@@ -120,7 +120,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
 
   const onSubmitBorrow = async () => {
     if (isFormBorrowEmpty(form)) {
-      toast.error('Borrow or collateral amount are wrong');
+      toast.error(t('dineroMarketAddress.form.amountError'));
       return;
     }
     if (!data.chainId || !account || !data || data.collateralAllowance.isZero())
@@ -144,6 +144,12 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       chainId={data.chainId}
       contract={data.collateralAddress}
       spender={data.marketAddress}
+      buttonProps={{
+        display: 'flex',
+        variant: 'primary',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
     />
   ) : (!borrowLoan && !borrowCollateral) ||
     (+borrowCollateral === 0 && +borrowLoan === 0) ? (

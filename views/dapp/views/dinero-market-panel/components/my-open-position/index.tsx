@@ -65,7 +65,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
         <Typography variant="normal" textAlign="center" mb="M">
           DNR: {formatDollars(1)}
         </Typography>
-        <Typography as="div" variant="normal" textAlign="center" mb="M">
+        <Box textAlign="center" mb="M">
           {isLoading ? (
             <Typography
               as="span"
@@ -81,7 +81,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
               formatDollars(FixedPointMath.from(collateralUSDPrice).toNumber())
             }`
           )}
-        </Typography>
+        </Box>
       </Box>
     </Box>
   );

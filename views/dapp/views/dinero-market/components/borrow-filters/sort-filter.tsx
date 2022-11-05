@@ -45,6 +45,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
         alignItems="stretch"
         flexDirection="column"
         width={['100%', '100%', '100%', '10rem']}
+        height="3rem"
       >
         <Dropdown
           buttonMode
@@ -58,7 +59,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
             </Box>
           }
           title={
-            <Box display="flex" width="100%" py="M" alignItems="center">
+            <Box display="flex" width="100%" py="XS" alignItems="center">
               <Typography variant="normal" whiteSpace="nowrap">
                 {capitalize(
                   t(
@@ -76,7 +77,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               value: 'id',
               displayOption: 'Id',
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="XS" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
                     Id
                   </Typography>
@@ -90,7 +91,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               value: 'tvl',
               displayOption: 'TVL',
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="XS" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
                     TVL
                   </Typography>
@@ -104,7 +105,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               value: 'ltv',
               displayOption: 'LTV',
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="XS" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
                     LTV
                   </Typography>
@@ -120,7 +121,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 t('dineroMarket.filterSortOptionInterestRate')
               ),
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="XS" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
                     {t('dineroMarket.filterSortOptionInterestRate')}
                   </Typography>
@@ -136,7 +137,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 t('dineroMarket.filterSortOptionLiquidationFee')
               ),
               displayTitle: (
-                <Box display="flex" width="100%" py="M" alignItems="center">
+                <Box display="flex" width="100%" py="XS" alignItems="center">
                   <Typography variant="normal" whiteSpace="nowrap">
                     {capitalize(
                       t('dineroMarket.filterSortOptionLiquidationFee')

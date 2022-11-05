@@ -46,6 +46,7 @@
     "userLTVTitle": "Risk",
     "userLTVTip": "If this value reaches 100%, <br />you might get liquidated",
     "toastError": "Borrow or collateral amount are wrong",
+    "rangeOf": "% of 100%",
     "button": {
       "default": "No Request",
       "addCollateralBorrow": "Add Collateral and Borrow",
@@ -54,6 +55,11 @@
       "repay": "Repay Loan",
       "removeCollateral": "Remove Collateral",
       "removeCollateralRepay": "Remove Collateral and Repay Loan"
+    },
+    "form": {
+      "ltvError": "Your LTV is too high",
+      "collateralError": "The Collateral must not to be more than your balance",
+      "amountError": "Borrow or collateral amount are wrong"
     }
   }
 }

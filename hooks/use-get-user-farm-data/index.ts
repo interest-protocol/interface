@@ -9,8 +9,8 @@ import {
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import { getInterestViewEarnAddress } from '@/utils';
 
-import { useSafeContractRead } from '../use-contract-read';
 import { useIdAccount } from '../use-id-account';
+import { useSafeContractRead } from '../use-safe-contract-read';
 
 export const useGetUserFarmData = (pairAddress: string) => {
   const { chainId, account } = useIdAccount();

@@ -58,6 +58,10 @@ export const getUSDCAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.USDC
 );
 
+export const getBUSDAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.BUSD
+);
+
 export const getUSDTAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.USDT
 );

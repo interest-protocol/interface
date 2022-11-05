@@ -1,8 +1,8 @@
 import { QueryFunctionContext, UseQueryOptions } from '@tanstack/react-query';
 import type { Ethereum } from '@wagmi/core';
+import { ContractInterface } from 'ethers';
 import { CallOverrides } from 'ethers/lib/ethers';
-
-export type MaybeArray<T> = T | Array<T>;
+import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
 export type UseContractArgs = {
   cacheOnBlock?: boolean;
@@ -38,4 +38,14 @@ declare global {
       switchNetwork?: (networkId: string) => Promise<string>;
     } & Ethereum;
   }
+}
+
+export type TTranslatedMessage = MessageKeys<IntlMessages, keyof IntlMessages>;
+
+export interface HandlerData {
+  functionName: string;
+  contractInterface: ContractInterface;
+  args: any[];
+  overrides: CallOverrides;
+  enabled: boolean;
 }
