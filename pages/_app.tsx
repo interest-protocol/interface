@@ -40,27 +40,14 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
       <WagmiConfig client={wagmiClient}>
         <SkeletonTheme baseColor="#202020" highlightColor="#444">
           <Global styles={GlobalStyles} />
-          <ThemeProvider theme={LandingPageTheme}>
-            <Box
-              as="aside"
-              padding="3rem"
-              cursor="pointer"
-              background="tomato"
-              marginLeft={['3rem', '6rem']}
-              hover={{ background: 'red' }}
-            >
-              STYLIN
-              <Button variant="primary">Agree</Button>
-            </Box>
-          </ThemeProvider>
-          {/* <Web3Manager
+          <Web3Manager
             pageTitle={pageProps.pageTitle}
             pathname={router.pathname}
           >
             <StrictMode>
               <Component {...pageProps} />
             </StrictMode>
-          </Web3Manager> */}
+          </Web3Manager>
         </SkeletonTheme>
       </WagmiConfig>
     </NextIntlProvider>

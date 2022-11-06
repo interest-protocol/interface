@@ -7,9 +7,27 @@ import { Theme } from '@/design-system/landing-page-theme';
 
 type TStyleEffect = 'hover' | 'active';
 
-type TStyleValue = ResponsiveValue<string | number>;
+export type TStyleValue = ResponsiveValue<string | number>;
 
-export type TStyleKeys = keyof CSSProperties;
+export enum StylinCustomProperties {
+  bg = 'bg',
+  m = 'm',
+  mx = 'mx',
+  my = 'my',
+  mt = 'mt',
+  mr = 'mr',
+  mb = 'mb',
+  ml = 'ml',
+  p = 'p',
+  px = 'px',
+  py = 'py',
+  pt = 'pt',
+  pr = 'pr',
+  pb = 'pb',
+  pl = 'pl',
+}
+
+export type TStyleKeys = keyof CSSProperties & StylinCustomProperties;
 
 export type TStyles = Record<TStyleKeys, TStyleValue>;
 export type TPseudos = Record<TStyleEffect, TStyleValue>;
@@ -25,11 +43,13 @@ export type TRenderStyles = (
 ) => SerializedStyles;
 
 export type TRenderResponsiveStyles = (
+  theme: Theme,
   prop: TStyleKeys,
   value: TStyleValue
 ) => Array<CSSInterpolation>;
 
 export type TRenderPseudoSelector = (
+  theme: Theme,
   selector: string,
   styles: RenderStylesProps['styles']
 ) => {

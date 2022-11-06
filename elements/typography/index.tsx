@@ -1,57 +1,33 @@
 import styled from '@emotion/styled';
-import { css } from '@styled-system/css';
 import React, { forwardRef } from 'react';
-import {
-  border,
-  boxShadow,
-  color,
-  compose,
-  flexbox,
-  layout,
-  position,
-  space,
-  system,
-  textShadow,
-  typography,
-  variant,
-} from 'styled-system';
+
+import { Theme } from '@/design-system/landing-page-theme';
+import { renderStyles, renderVariant } from '@/stylin';
+import { TPseudos, TStyles } from '@/stylin/stylin.types';
 
 import { TypographyProps } from './typography.types';
 
-const Typography = forwardRef(
-  ({ as, hover, active, ...props }: TypographyProps, ref) => {
-    const TypographyElement = styled(as || 'p')(
-      css({
-        ...(hover && { transition: 'all 250ms ease-in-out', ':hover': hover }),
-        ...(active && { ':active': active }),
-      }),
-      variant({
-        scale: 'typography',
-      }),
-      compose(
-        space,
-        color,
-        layout,
-        border,
-        flexbox,
-        position,
-        boxShadow,
-        typography,
-        textShadow,
-        system({
-          cursor: true,
-          whiteSpace: true,
-          textTransform: true,
-          textDecoration: true,
-        })
+const Typography = forwardRef(({ as, ...props }: TypographyProps, ref) => {
+  const TypographyElement = styled(as || 'p')<TypographyProps>(
+    ({ theme, variant }) =>
+      renderVariant('typography')(variant, theme as Theme),
+    ({ theme, active, hover, ...rest }) =>
+      renderStyles(
+        {
+          styles: rest as TStyles,
+          pseudo: {
+            ...(hover && { hover }),
+            ...(active && { active }),
+          } as TPseudos,
+        },
+        theme as Theme
       )
-    );
+  );
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return <TypographyElement ref={ref} {...props} />;
-  }
-);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return <TypographyElement ref={ref} {...props} />;
+});
 
 Typography.displayName = 'Typography';
 

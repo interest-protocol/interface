@@ -9,9 +9,8 @@ type VariantKeys = Omit<
 
 const renderVariant =
   (key: keyof VariantKeys) =>
-  (variant: string, theme: Theme): SerializedStyles =>
-    (theme[key] as Record<string, SerializedStyles>)?.[
-      variant
-    ] as SerializedStyles;
+  (variant: string | undefined, theme: Theme): SerializedStyles =>
+    (theme[key] as Record<string, SerializedStyles>)?.[variant!] ??
+    ({} as SerializedStyles);
 
 export default renderVariant;

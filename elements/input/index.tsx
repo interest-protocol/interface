@@ -1,17 +1,10 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import css from '@styled-system/css';
 import React, { forwardRef } from 'react';
-import {
-  border,
-  color,
-  compose,
-  display,
-  layout,
-  shadow,
-  space,
-  system,
-  typography,
-} from 'styled-system';
+
+import { Theme } from '@/design-system/landing-page-theme';
+import { renderStyles } from '@/stylin';
+import { TPseudos, TStyles } from '@/stylin/stylin.types';
 
 import Box from '../box';
 import { InputProps } from './input.types';
@@ -36,29 +29,24 @@ const Input = forwardRef(
         height: '100%',
         border: 'none',
         outline: 'none',
-        bg: 'transparent',
+        background: 'transparent',
         overflow: 'hidden',
         '&:-internal-autofill-selected': {
-          bg: 'transparent',
+          background: 'transparent',
         },
         '&:focus-visible': {
           outline: 'none',
         },
         ...(focus && { transition: 'all 250ms ease-in-out', ':focus': focus }),
       }),
-      compose(
-        color,
-        space,
-        border,
-        shadow,
-        display,
-        layout,
-        typography,
-        system({
-          cursor: true,
-          outline: true,
-        })
-      )
+      ({ theme, ...rest }) =>
+        renderStyles(
+          {
+            styles: rest as TStyles,
+            pseudo: {} as TPseudos,
+          },
+          theme as Theme
+        )
     );
 
     return (

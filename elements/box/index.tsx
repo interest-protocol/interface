@@ -9,8 +9,7 @@ import { BoxProps } from './box.types';
 
 const Box: FC<BoxProps> = ({ as, ...props }: BoxProps) => {
   const StyledBox = styled(as || 'div')<BoxProps>(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ({ children, theme, active, hover, ...styles }) =>
+    ({ theme, active, hover, ...styles }) =>
       renderStyles(
         {
           styles: styles as TStyles,
