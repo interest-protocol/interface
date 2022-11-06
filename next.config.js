@@ -1,4 +1,8 @@
 module.exports = {
+  reactStrictMode: true,
+  compiler: {
+    emotion: true,
+  },
   async redirects() {
     return [
       {

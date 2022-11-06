@@ -1,6 +1,8 @@
 import 'react-loading-skeleton/dist/skeleton.css';
 
-import { Global } from '@emotion/react';
+import createCache from '@emotion/cache';
+import { CacheProvider, Global } from '@emotion/react';
+import {} from '@emotion/react';
 import GlobalStyles from 'design-system/global-styles';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -10,6 +12,8 @@ import { WagmiConfig } from 'wagmi';
 
 import { NextIntlProvider, Web3Manager } from '@/components';
 import { wagmiClient } from '@/connectors';
+
+const cache = createCache({ key: 'interest-protocol' });
 
 const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
   <>
@@ -37,14 +41,16 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
       <WagmiConfig client={wagmiClient}>
         <SkeletonTheme baseColor="#202020" highlightColor="#444">
           <Global styles={GlobalStyles} />
-          <Web3Manager
-            pageTitle={pageProps.pageTitle}
-            pathname={router.pathname}
-          >
-            <StrictMode>
-              <Component {...pageProps} />
-            </StrictMode>
-          </Web3Manager>
+          <CacheProvider value={cache}>
+            <Web3Manager
+              pageTitle={pageProps.pageTitle}
+              pathname={router.pathname}
+            >
+              <StrictMode>
+                <Component {...pageProps} />
+              </StrictMode>
+            </Web3Manager>
+          </CacheProvider>
         </SkeletonTheme>
       </WagmiConfig>
     </NextIntlProvider>
