@@ -1,6 +1,6 @@
 import 'react-loading-skeleton/dist/skeleton.css';
 
-import { Global, ThemeProvider } from '@emotion/react';
+import { Global } from '@emotion/react';
 import GlobalStyles from 'design-system/global-styles';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -10,9 +10,6 @@ import { WagmiConfig } from 'wagmi';
 
 import { NextIntlProvider, Web3Manager } from '@/components';
 import { wagmiClient } from '@/connectors';
-import { LandingPageTheme } from '@/design-system';
-
-import { Box, Button } from '../elements';
 
 const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
   <>
