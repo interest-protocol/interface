@@ -10,7 +10,7 @@ import { ButtonProps } from './button.types';
 const Button = forwardRef((props: ButtonProps, ref) => {
   const ButtonElement = styled.button<ButtonProps>(
     ({ theme, variant }) => renderVariant('buttons')(variant, theme as Theme),
-    ({ theme, effect }) => renderVariant('effects')(variant, theme as Theme),
+    ({ theme, effect }) => renderVariant('effects')(effect, theme as Theme),
     ({ theme, hover, active, ...styles }) =>
       renderStyles(
         {
