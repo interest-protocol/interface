@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
+import { event } from 'react-ga';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import {
@@ -68,7 +70,21 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
       loading: `${capitalize(t('common.approve', { isLoading: 1 }))}`,
       success: capitalize(t('common.success')),
       error: prop('message'),
-    });
+    })
+      .then(() =>
+        event({
+          label: 'LP Pair Approved',
+          action: GAAction.ApproveTokenLP,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'LP Pair not Approved',
+          action: GAAction.ApproveTokenLP,
+          category: GACategory.Operation,
+        })
+      );
 
   const remove = async () => {
     try {
@@ -90,7 +106,21 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
       loading: capitalize(`${t('common.remove', { isLoading: 1 })}`),
       success: capitalize(t('common.success')),
       error: prop('message'),
-    });
+    })
+      .then(() =>
+        event({
+          label: 'Liquidity removed',
+          action: GAAction.PairAddressRemoveLiquidity,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'Liquidity not removed',
+          action: GAAction.PairAddressRemoveLiquidity,
+          category: GACategory.Operation,
+        })
+      );
 
   return (
     <>

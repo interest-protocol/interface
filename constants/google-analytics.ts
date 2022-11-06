@@ -1,8 +1,31 @@
 export enum GACategory {
   SocialNetwork = 'SOCIAL_NETWORK',
   HeaderNavigation = 'HEADER_NAVIGATION',
+  Operation = 'OPERATION',
+  FarmFilters = 'FARMS_FILTERS',
+  VaultFilters = 'VAULTS_FILTERS',
+  DineroMarketFilters = 'DINERO_FILTERS',
+  SyntheticsMarketFilters = 'SYNTHETICS_FILTERS',
 }
 
 export enum GAAction {
   Access = 'ACCESS',
+  Swap = 'SWAP',
+  Switch = 'SWITCH FILTER',
+  PairAddressAddLiquidity = 'ADD LIQUIDITY IN PAIR ADDRESS',
+  PairAddressRemoveLiquidity = 'REMOVE LIQUIDITY IN PAIR ADDRESS',
+  ApproveTokenLP = 'APPROVE TOKENS',
+  CreatePair = 'CREATE PAIR',
+  CreateToken = 'OPEN MODAL CREATE TOKEN',
+  FindAndEnterPool = 'FIND AND ENTER POOL',
+  Deposit = 'DEPOSIT',
+  Withdraw = 'WITHDRAW',
+  Harvest = 'HARVEST',
+  Allowance = 'ALLOWANCE',
+  Borrow = 'BORROW',
+  Repay = 'REPAY',
+  Mint = 'MINT',
+  Burn = 'BURN',
+  GetRewards = 'GET REWARDS',
+  Faucet = 'Faucet',
 }

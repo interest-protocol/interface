@@ -1,9 +1,11 @@
 import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { event } from 'react-ga';
 import { useWatch } from 'react-hook-form';
 
 import { VaultTypes } from '@/constants';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
@@ -19,6 +21,14 @@ const parseVaultTypeByEnum = cond([
 const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
   const t = useTranslations();
   const type = useWatch({ control, name: 'type' });
+
+  useEffect(() => {
+    event({
+      label: 'type = ' + type,
+      action: GAAction.Switch,
+      category: GACategory.FarmFilters,
+    });
+  }, [type]);
 
   return (
     <Box width={['100%', '100%', '100%', 'unset']} my={['M', 'M', 'M', 'NONE']}>

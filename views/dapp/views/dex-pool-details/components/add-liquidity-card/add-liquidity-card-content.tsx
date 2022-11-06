@@ -2,9 +2,11 @@ import { BigNumber } from 'ethers';
 import { useTranslations } from 'next-intl';
 import { identity, o, prop } from 'ramda';
 import { FC } from 'react';
+import { event } from 'react-ga';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LineLoaderSVG } from '@/svg';
@@ -88,7 +90,21 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
       )}`,
       success: capitalize(t('common.success')),
       error: prop('message'),
-    });
+    })
+      .then(() =>
+        event({
+          label: 'Token Approved',
+          action: GAAction.ApproveTokenLP,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'Token Approved',
+          action: GAAction.ApproveTokenLP,
+          category: GACategory.Operation,
+        })
+      );
 
   const { writeAsync: addLiquidity } = useAddLiquidity({
     chainId,

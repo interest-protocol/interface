@@ -1,9 +1,11 @@
 import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { event } from 'react-ga';
 import { useWatch } from 'react-hook-form';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
@@ -22,6 +24,14 @@ const parseFarmSortByEnum = cond([
 const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
   const t = useTranslations();
   const sortBy = useWatch({ control, name: 'sortBy' });
+
+  useEffect(() => {
+    event({
+      label: 'sortBy = ' + sortBy,
+      action: GAAction.Switch,
+      category: GACategory.FarmFilters,
+    });
+  }, [sortBy]);
 
   return (
     <Box width={['48%', '48%', '48%', 'unset']} my={['M', 'M', 'M', 'NONE']}>

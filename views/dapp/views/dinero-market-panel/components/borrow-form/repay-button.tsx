@@ -1,8 +1,10 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
+import { event } from 'react-ga';
 import toast from 'react-hot-toast';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -61,7 +63,21 @@ const RepayButton: FC<RepayButtonProps> = ({
       success: capitalize(t('common.success')),
       error: prop('message'),
       loading: capitalize(t('common.submit', { isLoading: 1 })),
-    });
+    })
+      .then(() =>
+        event({
+          label: 'Repay successful',
+          action: GAAction.Borrow,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'Repay unsuccessful',
+          action: GAAction.Borrow,
+          category: GACategory.Operation,
+        })
+      );
   };
 
   return (

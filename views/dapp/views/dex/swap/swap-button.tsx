@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
+import { event } from 'react-ga';
 import { useWatch } from 'react-hook-form';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
@@ -184,7 +186,21 @@ const SwapButton: FC<SwapButtonProps> = ({
       loading: capitalize(t('common.wrap', { isLoading: 1 })),
       success: capitalize(t('common.success')),
       error: ({ message }) => message,
-    });
+    })
+      .then(() =>
+        event({
+          label: 'Swap was successful',
+          action: GAAction.Swap,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'Swap not done successfully',
+          action: GAAction.Swap,
+          category: GACategory.Operation,
+        })
+      );
 
   const handleWETHWithdraw = async () => {
     if (

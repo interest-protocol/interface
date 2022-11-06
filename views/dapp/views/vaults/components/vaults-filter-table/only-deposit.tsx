@@ -1,8 +1,10 @@
 import { useTranslations } from 'next-intl';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { event } from 'react-ga';
 import { useWatch } from 'react-hook-form';
 
 import { Switch } from '@/components';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Typography } from '@/elements';
 
 import { getFilterSwitchDefaultData } from '../../vaults.utils';
@@ -16,6 +18,14 @@ const OnlyDeposit: FC<FilterProps> = ({ control, setValue }) => {
     setValue,
     'onlyDeposit'
   );
+
+  useEffect(() => {
+    event({
+      label: 'onlyDeposit = ' + onlyDeposit ? 'on' : 'off',
+      action: GAAction.Switch,
+      category: GACategory.VaultFilters,
+    });
+  }, [onlyDeposit]);
 
   return (
     <Box display="flex" flexDirection="column" my={['M', 'M', 'M', 'NONE']}>

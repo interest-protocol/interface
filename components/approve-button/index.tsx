@@ -1,6 +1,8 @@
 import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
+import { event } from 'react-ga';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
@@ -41,7 +43,21 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       loading: capitalize(`${t('common.approve', { isLoading: 1 })}`),
       success: capitalize(t('common.success')),
       error: ({ message }) => message,
-    });
+    })
+      .then(() =>
+        event({
+          label: 'Allowance approved',
+          action: GAAction.Allowance,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'Allowance not approved',
+          action: GAAction.Allowance,
+          category: GACategory.Operation,
+        })
+      );
 
   return (
     <Button

@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
+import { event } from 'react-ga';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
@@ -46,7 +48,21 @@ const ModalButton: FC<ModalButtonProps> = ({
       loading: capitalize(t('common.unstake', { isLoading: 1 })),
       error: propOr('common.error', 'message'),
       success: capitalize(t('common.success')),
-    });
+    })
+      .then(() =>
+        event({
+          label: 'Deposit unstake successful',
+          action: GAAction.Deposit,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'Deposit unstake unsuccessful',
+          action: GAAction.Deposit,
+          category: GACategory.Operation,
+        })
+      );
 
   const handleDepositTokens = async () => {
     if (farm.balance.isZero()) return;
@@ -69,7 +85,21 @@ const ModalButton: FC<ModalButtonProps> = ({
       loading: capitalize(t('common.stake', { isLoading: 1 })),
       error: propOr('common.error', 'message'),
       success: capitalize(t('common.success')),
-    });
+    })
+      .then(() =>
+        event({
+          label: 'Deposit stake successful',
+          action: GAAction.Deposit,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'Deposit stake unsuccessful',
+          action: GAAction.Deposit,
+          category: GACategory.Operation,
+        })
+      );
 
   const onSubmit = async () => {
     isStake ? await handleStake() : await handleUnstake();

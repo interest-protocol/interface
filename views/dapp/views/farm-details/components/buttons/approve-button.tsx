@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
+import { event } from 'react-ga';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Typography } from '@/elements';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
@@ -50,7 +52,21 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
         success: capitalize(t('common.success')),
         error: propOr(capitalize(t('common.error')), 'message'),
         loading: capitalize(t('common.approve', { isLoading: 1 })),
-      }),
+      })
+        .then(() =>
+          event({
+            label: 'Farm Approved',
+            action: GAAction.ApproveTokenLP,
+            category: GACategory.Operation,
+          })
+        )
+        .catch(() =>
+          event({
+            label: 'Farm not Approved',
+            action: GAAction.ApproveTokenLP,
+            category: GACategory.Operation,
+          })
+        ),
     [approve]
   );
 

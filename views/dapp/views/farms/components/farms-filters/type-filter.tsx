@@ -1,9 +1,11 @@
 import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { event } from 'react-ga';
 import { useWatch } from 'react-hook-form';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
@@ -21,6 +23,14 @@ const parseFarmTypeByEnum = cond([
 const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
   const t = useTranslations();
   const typeFilter = useWatch({ control, name: 'typeFilter' });
+
+  useEffect(() => {
+    event({
+      label: 'TypeFilter = ' + typeFilter,
+      action: GAAction.Switch,
+      category: GACategory.FarmFilters,
+    });
+  }, [typeFilter]);
 
   return (
     <Box width={['48%', '48%', '48%', 'unset']} my={['M', 'M', 'M', 'NONE']}>

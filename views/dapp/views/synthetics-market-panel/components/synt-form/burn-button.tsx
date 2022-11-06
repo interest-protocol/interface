@@ -1,8 +1,10 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
+import { event } from 'react-ga';
 import toast from 'react-hot-toast';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -58,7 +60,21 @@ const BurnButton: FC<BurnButtonProps> = ({
       success: capitalize(t('common.success')),
       error: prop('message'),
       loading: capitalize(t('common.submit', { isLoading: 1 })),
-    });
+    })
+      .then(() =>
+        event({
+          label: 'Burn successful',
+          action: GAAction.Burn,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'Burn successfully',
+          action: GAAction.Burn,
+          category: GACategory.Operation,
+        })
+      );
   };
 
   return (

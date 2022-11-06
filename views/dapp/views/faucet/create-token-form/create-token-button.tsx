@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
+import { event } from 'react-ga';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -61,7 +63,21 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
       loading: `${t('faucet.modalButton', { isLoading: 1 })}`,
       success: capitalize(t('common.success')),
       error: prop('message'),
-    });
+    })
+      .then(() =>
+        event({
+          label: 'Token created successfully',
+          action: GAAction.CreateToken,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'Token was not created',
+          action: GAAction.CreateToken,
+          category: GACategory.Operation,
+        })
+      );
 
   return (
     <Button

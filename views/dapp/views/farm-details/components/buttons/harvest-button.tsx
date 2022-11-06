@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useState } from 'react';
+import { event } from 'react-ga';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import Button from '@/elements/button';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
 
@@ -37,7 +39,21 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
       success: capitalize(t('common.success')),
       error: propOr(capitalize(t('common.error')), 'message'),
       loading: t('farmsDetails.thirdCardButton', { isLoading: 1 }),
-    });
+    })
+      .then(() =>
+        event({
+          label: 'Successful harvest',
+          action: GAAction.ApproveTokenLP,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'Unsuccessful harvest',
+          action: GAAction.ApproveTokenLP,
+          category: GACategory.Operation,
+        })
+      );
 
   return (
     <Button

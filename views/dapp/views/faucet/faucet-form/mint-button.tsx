@@ -2,7 +2,9 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { useCallback, useState } from 'react';
 import { FC } from 'react';
+import { event } from 'react-ga';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -54,7 +56,21 @@ const MintButton: FC<MintButtonProps> = ({
       loading: `${t('faucet.button', { isLoading: 1 })}`,
       success: capitalize(t('common.success')),
       error: prop('message'),
-    });
+    })
+      .then(() =>
+        event({
+          label: 'Mint successful',
+          action: GAAction.Faucet,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'Mint unsuccessful',
+          action: GAAction.Faucet,
+          category: GACategory.Operation,
+        })
+      );
 
   return (
     <Button

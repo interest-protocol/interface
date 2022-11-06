@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { pathOr, prop } from 'ramda';
 import { FC, useState } from 'react';
+import { event } from 'react-ga';
 
 import { isInterestDexPair } from '@/api';
 import {
@@ -11,6 +12,7 @@ import {
   STABLE_COIN_ADDRESSES,
   WRAPPED_NATIVE_TOKEN,
 } from '@/constants';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { getIPXPairAddress, sortTokens, ZERO_BIG_NUMBER } from '@/sdk';
 import {
@@ -99,7 +101,21 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       loading: capitalize(t('common.check', { isLoading: 1 })),
       success: capitalize(t('common.success')),
       error: prop('message'),
-    });
+    })
+      .then(() =>
+        event({
+          label: 'Pool found successful',
+          action: GAAction.FindAndEnterPool,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'Pool not found successful',
+          action: GAAction.FindAndEnterPool,
+          category: GACategory.Operation,
+        })
+      );
 
   const createPair = async () => {
     const { tokenA, tokenB, isStable } = getValues();
@@ -145,7 +161,21 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       loading: t('dexPoolFind.buttonPool', { isLoading: 1 }),
       success: capitalize(t('common.success')),
       error: prop('message'),
-    });
+    })
+      .then(() =>
+        event({
+          label: 'Pair created successfully',
+          action: GAAction.CreatePair,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'Pair not created successful',
+          action: GAAction.CreatePair,
+          category: GACategory.Operation,
+        })
+      );
 
   const bothTokensAreStableCoins = () => {
     const { tokenA, tokenB } = getValues();

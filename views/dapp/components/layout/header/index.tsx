@@ -207,6 +207,10 @@ const Header: FC = () => {
             <a
               href={makeFIATWidgetURL(chainId, address)}
               target="__blank"
+              onClick={trackHeaderNavigation(
+                GAAction.Access,
+                makeFIATWidgetURL(chainId, address)
+              )}
               rel="noopener noreferrer"
             >
               <Box

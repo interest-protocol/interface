@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
+import { event } from 'react-ga';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
 import { LoadingSVG } from '@/svg';
@@ -43,7 +45,21 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
       success: capitalize(t('common.success')),
       error: prop('message'),
       loading: capitalize(t('common.submit', { isLoading: 1 })),
-    });
+    })
+      .then(() =>
+        event({
+          label: 'Rewards obtained successfully',
+          action: GAAction.Mint,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'Rewards obtained unsuccessfully',
+          action: GAAction.Mint,
+          category: GACategory.Operation,
+        })
+      );
 
   return (
     <Box p="XL" order={4} gridArea="g" bg="foreground" borderRadius="L">

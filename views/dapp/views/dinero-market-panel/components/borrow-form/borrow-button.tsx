@@ -2,9 +2,11 @@ import { ethers } from 'ethers';
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
+import { event } from 'react-ga';
 import toast from 'react-hot-toast';
 
 import { ApproveButton } from '@/components';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { LoadingSVG } from '@/svg';
@@ -130,7 +132,21 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       success: capitalize(t('common.success')),
       error: prop('message'),
       loading: capitalize(t('common.submit', { isLoading: 1 })),
-    });
+    })
+      .then(() =>
+        event({
+          label: 'Loan successful',
+          action: GAAction.Borrow,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'Loan unsuccessful',
+          action: GAAction.Borrow,
+          category: GACategory.Operation,
+        })
+      );
   };
 
   return data.collateralAllowance.isZero() ? (

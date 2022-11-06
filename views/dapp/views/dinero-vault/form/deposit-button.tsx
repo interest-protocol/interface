@@ -2,8 +2,10 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { useState } from 'react';
 import { FC } from 'react';
+import { event } from 'react-ga';
 import { useWatch } from 'react-hook-form';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
@@ -40,7 +42,21 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
       success: capitalize(t('common.success')),
       error: prop('message'),
       loading: capitalize(t('common.submit', { isLoading: 1 })),
-    });
+    })
+      .then(() =>
+        event({
+          label: 'Deposited successfully',
+          action: GAAction.Deposit,
+          category: GACategory.Operation,
+        })
+      )
+      .catch(() =>
+        event({
+          label: 'Deposited unsuccessfully.',
+          action: GAAction.Deposit,
+          category: GACategory.Operation,
+        })
+      );
   };
 
   return (
