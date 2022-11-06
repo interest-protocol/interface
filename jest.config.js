@@ -1,11 +1,14 @@
-module.exports = {
+
+const nextJest = require('next/jest')
+
+// Providing the path to your Next.js app which will enable loading next.config.js and .env files
+const createJestConfig = nextJest({ dir: './' })
+
+const customJestConfig = {
   roots: ['<rootDir>'],
   moduleFileExtensions: ['js', 'ts', 'tsx', 'json'],
   testPathIgnorePatterns: ['<rootDir>[/\\\\](node_modules|.next)[/\\\\]'],
   transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(ts|tsx)$'],
-  transform: {
-    '^.+\\.(ts|tsx)$': 'babel-jest'
-  },
   moduleNameMapper: {
     '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
     '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/__test__/__mocks__/fileMock.js',
@@ -34,4 +37,6 @@ module.exports = {
     "@/views/(.*)$": "<rootDir>/views/$1",
   },
   moduleDirectories: ['node_modules']
-};
+}
+
+module.exports = createJestConfig(customJestConfig);
