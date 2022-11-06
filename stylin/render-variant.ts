@@ -1,16 +1,11 @@
 import { SerializedStyles } from '@emotion/react';
 
-import { Theme } from '@/design-system/landing-page-theme';
+import { TRenderVariant } from './stylin.types';
 
-type VariantKeys = Omit<
-  Theme,
-  'radii' | 'space' | 'colors' | 'fontSizes' | 'breakpoints'
->;
-
-const renderVariant =
-  (key: keyof VariantKeys) =>
-  (variant: string | undefined, theme: Theme): SerializedStyles =>
-    (theme[key] as Record<string, SerializedStyles>)?.[variant!] ??
+const renderVariant: TRenderVariant =
+  ({ scale, property }) =>
+  ({ theme, ...props }) =>
+    (theme[scale] as Record<string, SerializedStyles>)?.[props[property]!] ??
     ({} as SerializedStyles);
 
 export default renderVariant;

@@ -4,18 +4,18 @@ import { CSSInterpolation } from '@emotion/serialize';
 import renderPseudoSelector from './render-pseudo-selector';
 import renderResponsiveStyle from './render-responsive-style';
 import { TRenderStyles, TStyleKeys, TStyleValue } from './stylin.types';
-import { getStyles } from './utils';
+import { getPseudos, getStyles } from './utils';
 
-const renderStyles: TRenderStyles = ({ styles, pseudo }, theme) =>
+const renderStyles: TRenderStyles = (props, theme) =>
   css(
-    ...getStyles(styles).reduce(
+    ...getStyles(props).reduce(
       (acc, [prop, value]) =>
         acc.concat(
           renderResponsiveStyle(theme, prop as TStyleKeys, value as TStyleValue)
         ),
       [] as Array<CSSInterpolation>
     ),
-    ...Object.entries(pseudo).reduce(
+    ...getPseudos(props).reduce(
       (acc, [selector, pseudoStyles]) =>
         acc.concat(renderPseudoSelector(theme, selector, pseudoStyles!)),
       [] as Array<Record<string, CSSInterpolation>>

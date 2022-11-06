@@ -1,24 +1,57 @@
 import type { CSSProperties } from 'react';
 
-import { StylinCustomProperties } from '../stylin.types';
+export type StylinCustomPropertiesType =
+  | 'bg'
+  | 'm'
+  | 'mx'
+  | 'my'
+  | 'mt'
+  | 'mr'
+  | 'mb'
+  | 'ml'
+  | 'p'
+  | 'px'
+  | 'py'
+  | 'pt'
+  | 'pr'
+  | 'pb'
+  | 'pl';
+
+export const StylinCustomProperties = {
+  bg: 'bg',
+  m: 'm',
+  mx: 'mx',
+  my: 'my',
+  mt: 'mt',
+  mr: 'mr',
+  mb: 'mb',
+  ml: 'ml',
+  p: 'p',
+  px: 'px',
+  py: 'py',
+  pt: 'pt',
+  pr: 'pr',
+  pb: 'pb',
+  pl: 'pl',
+};
 
 export const CUSTOM_PROPERTY_MAP: Record<
-  StylinCustomProperties,
+  StylinCustomPropertiesType,
   ReadonlyArray<keyof CSSProperties>
 > = {
-  [StylinCustomProperties.bg]: ['background'],
-  [StylinCustomProperties.m]: ['margin'],
-  [StylinCustomProperties.my]: ['marginTop', 'marginBottom'],
-  [StylinCustomProperties.mx]: ['marginLeft', 'marginRight'],
-  [StylinCustomProperties.mt]: ['marginTop'],
-  [StylinCustomProperties.mr]: ['marginRight'],
-  [StylinCustomProperties.mb]: ['marginBottom'],
-  [StylinCustomProperties.ml]: ['marginLeft'],
-  [StylinCustomProperties.p]: ['padding'],
-  [StylinCustomProperties.px]: ['paddingLeft', 'paddingRight'],
-  [StylinCustomProperties.py]: ['paddingTop', 'paddingBottom'],
-  [StylinCustomProperties.pt]: ['paddingTop'],
-  [StylinCustomProperties.pr]: ['paddingRight'],
-  [StylinCustomProperties.pb]: ['paddingBottom'],
-  [StylinCustomProperties.pl]: ['paddingLeft'],
+  bg: ['background'],
+  m: ['margin'],
+  my: ['marginTop', 'marginBottom'],
+  mx: ['marginLeft', 'marginRight'],
+  mt: ['marginTop'],
+  mr: ['marginRight'],
+  mb: ['marginBottom'],
+  ml: ['marginLeft'],
+  p: ['padding'],
+  px: ['paddingLeft', 'paddingRight'],
+  py: ['paddingTop', 'paddingBottom'],
+  pt: ['paddingTop'],
+  pr: ['paddingRight'],
+  pb: ['paddingBottom'],
+  pl: ['paddingLeft'],
 };

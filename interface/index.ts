@@ -5,6 +5,9 @@ import { CallOverrides } from 'ethers/lib/ethers';
 import { FC, ReactNode } from 'react';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IEmptyObj {}
+
 export type UseContractArgs = {
   cacheOnBlock?: boolean;
   overrides?: CallOverrides;

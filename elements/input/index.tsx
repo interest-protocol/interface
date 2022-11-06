@@ -1,10 +1,7 @@
 import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 import React, { forwardRef } from 'react';
 
-import { Theme } from '@/design-system/landing-page-theme';
-import { renderStyles } from '@/stylin';
-import { TPseudos, TStyles } from '@/stylin/stylin.types';
+import stylin from '@/stylin';
 
 import Box from '../box';
 import { InputProps } from './input.types';
@@ -13,7 +10,6 @@ import { InputFieldProps } from './input.types';
 const Input = forwardRef(
   (
     {
-      focus,
       Prefix,
       Suffix,
       shieldProps,
@@ -23,7 +19,7 @@ const Input = forwardRef(
     }: InputProps,
     ref
   ) => {
-    const InputField = styled.input<InputFieldProps>(
+    const InputField = stylin<InputFieldProps>('input')(
       css({
         width: '100%',
         height: '100%',
@@ -37,16 +33,7 @@ const Input = forwardRef(
         '&:focus-visible': {
           outline: 'none',
         },
-        ...(focus && { transition: 'all 250ms ease-in-out', ':focus': focus }),
-      }),
-      ({ theme, ...rest }) =>
-        renderStyles(
-          {
-            styles: rest as TStyles,
-            pseudo: {} as TPseudos,
-          },
-          theme as Theme
-        )
+      })
     );
 
     return (

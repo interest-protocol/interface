@@ -10,3 +10,4 @@ export const CSS_STYLING_MAP = [
 
 export * from './css-custom-properties';
 export * from './css-properties';
+export * from './css-pseudo-selectors';

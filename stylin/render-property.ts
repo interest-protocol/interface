@@ -1,17 +1,10 @@
-import { CSSInterpolation } from '@emotion/serialize';
 import { CSSProperties } from 'react';
 
-import { Theme } from '@/design-system/landing-page-theme';
-
-import { CUSTOM_PROPERTY_MAP } from './constants/css-custom-properties';
+import { CUSTOM_PROPERTY_MAP, StylinCustomProperties } from './constants';
 import renderThemedStyle from './render-themed-style';
-import { StylinCustomProperties, TStyleKeys } from './stylin.types';
+import { TRenderProperty } from './stylin.types';
 
-const renderProperty = (
-  theme: Theme,
-  prop: TStyleKeys,
-  value: string | number
-): CSSInterpolation => {
+const renderProperty: TRenderProperty = (theme, prop, value) => {
   if (StylinCustomProperties[prop])
     return (
       CUSTOM_PROPERTY_MAP[StylinCustomProperties[prop]] as ReadonlyArray<

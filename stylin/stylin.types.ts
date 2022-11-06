@@ -1,44 +1,47 @@
 import { SerializedStyles } from '@emotion/react';
 import { CSSInterpolation } from '@emotion/serialize';
+import { StyledComponent } from '@emotion/styled';
 import { CSSProperties } from 'react';
 import { ResponsiveValue } from 'styled-system';
 
 import { Theme } from '@/design-system/landing-page-theme';
+import { IEmptyObj } from '@/interface';
 
-type TStyleEffect = 'hover' | 'active';
+import { CSSPseudoSelectors, StylinCustomPropertiesType } from './constants';
 
 export type TStyleValue = ResponsiveValue<string | number>;
 
-export enum StylinCustomProperties {
-  bg = 'bg',
-  m = 'm',
-  mx = 'mx',
-  my = 'my',
-  mt = 'mt',
-  mr = 'mr',
-  mb = 'mb',
-  ml = 'ml',
-  p = 'p',
-  px = 'px',
-  py = 'py',
-  pt = 'pt',
-  pr = 'pr',
-  pb = 'pb',
-  pl = 'pl',
-}
+type VariantKeys = Omit<
+  Theme,
+  'radii' | 'space' | 'colors' | 'fontSizes' | 'breakpoints'
+>;
 
-export type TStyleKeys = keyof CSSProperties & StylinCustomProperties;
+interface IVariantProperty {
+  scale: keyof VariantKeys;
+  property: string;
+}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type TStylinElementProps = GenericWithTheme<Record<string, any>>;
+
+export type TRenderVariant = (
+  args: IVariantProperty
+) => (props: TStylinElementProps) => SerializedStyles;
+
+export type TStyleKeys = keyof CSSProperties & StylinCustomPropertiesType;
+
+export type TPseudoKeys = keyof typeof CSSPseudoSelectors;
 
 export type TStyles = Record<TStyleKeys, TStyleValue>;
-export type TPseudos = Record<TStyleEffect, TStyleValue>;
+export type TPseudos = Record<TPseudoKeys, TStyleValue>;
 
-export interface RenderStylesProps {
-  styles: TStyles;
-  pseudo: TPseudos;
-}
+export type RenderStylesProps = TStyles | TPseudos;
+
+export type GenericWithTheme<T> = T & { theme: Theme };
+
+export type TStylinFn<T> = (props: GenericWithTheme<T>) => SerializedStyles;
 
 export type TRenderStyles = (
-  { styles, pseudo }: RenderStylesProps,
+  props: RenderStylesProps,
   theme: Theme
 ) => SerializedStyles;
 
@@ -57,3 +60,19 @@ export type TRenderPseudoSelector = (
 };
 
 export type TGetBreakpoint = (index: number) => string;
+
+export type TCreateStylinComponent<T extends IEmptyObj> = (
+  ...styles: ReadonlyArray<SerializedStyles | TStylinFn<T>>
+) => StyledComponent<T>;
+
+export type TRenderProperty = (
+  theme: Theme,
+  prop: TStyleKeys,
+  value: string | number
+) => CSSInterpolation;
+
+export type TRenderThemedStyle = (
+  theme: Theme,
+  property: keyof CSSProperties,
+  style: string | number
+) => string | number;
