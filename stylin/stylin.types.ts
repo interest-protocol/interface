@@ -51,7 +51,7 @@ export type TRenderResponsiveStyles = (
 export type TRenderPseudoSelector = (
   theme: Theme,
   selector: string,
-  styles: RenderStylesProps['styles']
+  styles: TStyles
 ) => {
   [selector: string]: CSSInterpolation;
 };
