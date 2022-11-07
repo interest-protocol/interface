@@ -1,17 +1,16 @@
 import { useTranslations } from 'next-intl';
-import { MouseEvent as ReactMouseEvent } from 'react';
+import { FC, MouseEvent as ReactMouseEvent } from 'react';
 import toast from 'react-hot-toast';
 import ReactTooltip from 'react-tooltip';
 
 import { Box } from '@/elements';
 import { useIsMounted } from '@/hooks';
-import { FCWithChildren } from '@/interface';
 import { CopySVG } from '@/svg';
 import { capitalize } from '@/utils';
 
 import { CopyToClipboardProps } from './copy-to-clipboard';
 
-const CopyToClipboard: FCWithChildren<CopyToClipboardProps> = ({
+const CopyToClipboard: FC<CopyToClipboardProps> = ({
   address,
   onClick,
   children,
