@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, RefAttributes } from 'react';
 
 import stylin from '@/stylin';
 
@@ -19,7 +19,9 @@ const Input = forwardRef(
     }: InputProps,
     ref
   ) => {
-    const InputField = stylin<InputFieldProps>('input')(
+    const InputField = stylin<InputFieldProps & RefAttributes<unknown>>(
+      'input'
+    )(
       css({
         width: '100%',
         height: '100%',
@@ -49,16 +51,7 @@ const Input = forwardRef(
           </Box>
         )}
         <Box flex="1">
-          <InputField
-            px="L"
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            color="text"
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            ref={ref}
-            {...props}
-          />
+          <InputField px="L" color="text" ref={ref} {...props} />
         </Box>
         {Suffix && (
           <Box

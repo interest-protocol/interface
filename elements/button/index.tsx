@@ -1,20 +1,16 @@
-import { forwardRef } from 'react';
+import { forwardRef, RefAttributes } from 'react';
 
 import stylin, { variant } from '@/stylin';
 
 import { ButtonProps } from './button.types';
 
 const Button = forwardRef((props: ButtonProps, ref) => {
-  const ButtonElement = stylin<ButtonProps>('button')(
+  const ButtonElement = stylin<ButtonProps & RefAttributes<unknown>>('button')(
     variant({ scale: 'buttons', property: 'variant' }),
     variant({ scale: 'effects', property: 'effect' })
   );
 
-  return (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    <ButtonElement {...props} ref={ref} />
-  );
+  return <ButtonElement {...props} ref={ref} />;
 });
 
 Button.displayName = 'Button';

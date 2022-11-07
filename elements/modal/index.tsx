@@ -1,18 +1,16 @@
-import ReactModal, { setAppElement } from 'react-modal';
+import ReactModal from 'react-modal';
 
 import { FCWithChildren } from '@/interface';
 
 import { ModalProps } from './modal.types';
 
-setAppElement('#__next');
+ReactModal.setAppElement('#__next');
 
 const Modal: FCWithChildren<ModalProps> = ({
   modalProps,
   children,
   background,
 }) => (
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   <ReactModal
     {...modalProps}
     style={{

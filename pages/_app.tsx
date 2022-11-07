@@ -2,8 +2,6 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 import createCache from '@emotion/cache';
 import { CacheProvider, Global } from '@emotion/react';
-import {} from '@emotion/react';
-import GlobalStyles from 'design-system/global-styles';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ReactNode, StrictMode } from 'react';
@@ -12,6 +10,7 @@ import { WagmiConfig } from 'wagmi';
 
 import { NextIntlProvider, Web3Manager } from '@/components';
 import { wagmiClient } from '@/connectors';
+import { GlobalStyles } from '@/design-system';
 
 const cache = createCache({ key: 'interest-protocol' });
 

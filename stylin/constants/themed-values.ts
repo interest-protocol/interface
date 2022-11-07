@@ -2,11 +2,14 @@ import { CSSProperties } from 'react';
 
 import { Theme } from '@/design-system/landing-page-theme';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-export const THEMED_VALUES_MAP: Record<
-  Partial<keyof CSSProperties>,
-  keyof Pick<Theme, 'radii' | 'space' | 'colors' | 'fontSizes' | 'breakpoints'>
+export const THEMED_VALUES_MAP: Partial<
+  Record<
+    keyof CSSProperties,
+    keyof Pick<
+      Theme,
+      'radii' | 'space' | 'colors' | 'fontSizes' | 'breakpoints'
+    >
+  >
 > = {
   margin: 'space',
   marginTop: 'space',
