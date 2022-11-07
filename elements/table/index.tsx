@@ -1,25 +1,21 @@
 import { pathOr } from 'ramda';
-import { FC, useCallback, useState } from 'react';
+import { FC, ReactNode, useCallback, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Tooltip } from '@/components';
 import useEventListener from '@/hooks/use-event-listener';
-import { FCWithChildren } from '@/interface';
 
 import Box from '../box';
 import Typography from '../typography';
 import {
+  CellProps,
   ResponsiveTableProps,
   TableLoadingProps,
   TableRowProps,
 } from './table.types';
 
-const Cell: FCWithChildren<{ as: 'td' | 'th'; tip?: string }> = ({
-  as,
-  tip,
-  children,
-}) => (
+const Cell: FC<CellProps> = ({ as, tip, children }) => (
   <Box
     py="L"
     px="M"
