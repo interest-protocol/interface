@@ -54,5 +54,4 @@ export interface HandlerData {
   enabled: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type FCWithChildren<T = {}> = FC<T & { children: ReactNode }>;
+export type FCWithChildren<T = IEmptyObj> = FC<T & { children: ReactNode }>;
