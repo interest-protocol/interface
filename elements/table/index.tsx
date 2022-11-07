@@ -5,7 +5,7 @@ import { v4 } from 'uuid';
 
 import { Tooltip } from '@/components';
 import useEventListener from '@/hooks/use-event-listener';
-import { NestedFC } from '@/interface';
+import { FCWithChildren } from '@/interface';
 
 import Box from '../box';
 import Typography from '../typography';
@@ -15,7 +15,7 @@ import {
   TableRowProps,
 } from './table.types';
 
-const Cell: NestedFC<{ as: 'td' | 'th'; tip?: string }> = ({
+const Cell: FCWithChildren<{ as: 'td' | 'th'; tip?: string }> = ({
   as,
   tip,
   children,

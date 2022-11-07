@@ -1,7 +1,7 @@
 import { Toaster } from 'react-hot-toast';
 
 import colors from '@/design-system/landing-page-theme/colors';
-import { NestedFC } from '@/interface';
+import { FCWithChildren } from '@/interface';
 
 import SEO from '../../../components/SEO';
 import { Box } from '../../../elements';
@@ -10,7 +10,7 @@ import Header from './header';
 import { LayoutProps } from './layout.types';
 import { getLPToastOption } from './layout.utils';
 
-const Layout: NestedFC<LayoutProps> = ({ pageTitle = '', children }) => (
+const Layout: FCWithChildren<LayoutProps> = ({ pageTitle = '', children }) => (
   <Box>
     <SEO pageTitle={pageTitle} />
     <Toaster

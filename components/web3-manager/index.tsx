@@ -12,7 +12,7 @@ import {
 import { Routes, SUPPORTED_CHAINS_RECORD } from '@/constants';
 import { CHAINS } from '@/constants/chains';
 import { DAppTheme, LandingPageTheme } from '@/design-system';
-import { NestedFC } from '@/interface';
+import { FCWithChildren } from '@/interface';
 import { TimesSVG } from '@/svg';
 import { capitalize } from '@/utils';
 import { Layout, Loading } from '@/views/dapp/components';
@@ -25,7 +25,7 @@ import {
   Web3ManagerWrapperProps,
 } from './web3-manager.type';
 
-const Content: NestedFC<ContentProps> = ({
+const Content: FCWithChildren<ContentProps> = ({
   supportedChains = [],
   children,
 }) => {
@@ -66,7 +66,7 @@ const Content: NestedFC<ContentProps> = ({
   return <>{children}</>;
 };
 
-const Web3Manager: NestedFC<Web3ManagerProps> = ({
+const Web3Manager: FCWithChildren<Web3ManagerProps> = ({
   children,
   supportedChains,
   pageTitle,
@@ -76,7 +76,7 @@ const Web3Manager: NestedFC<Web3ManagerProps> = ({
   </Layout>
 );
 
-const Web3ManagerWrapper: NestedFC<Web3ManagerWrapperProps> = ({
+const Web3ManagerWrapper: FCWithChildren<Web3ManagerWrapperProps> = ({
   pathname,
   pageTitle,
   children,

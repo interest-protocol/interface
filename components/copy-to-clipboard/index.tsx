@@ -5,13 +5,13 @@ import ReactTooltip from 'react-tooltip';
 
 import { Box } from '@/elements';
 import { useIsMounted } from '@/hooks';
-import { NestedFC } from '@/interface';
+import { FCWithChildren } from '@/interface';
 import { CopySVG } from '@/svg';
 import { capitalize } from '@/utils';
 
 import { CopyToClipboardProps } from './copy-to-clipboard';
 
-const CopyToClipboard: NestedFC<CopyToClipboardProps> = ({
+const CopyToClipboard: FCWithChildren<CopyToClipboardProps> = ({
   address,
   onClick,
   children,

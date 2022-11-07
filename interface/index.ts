@@ -55,4 +55,4 @@ export interface HandlerData {
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export type NestedFC<T = {}> = FC<T & { children?: ReactNode }>;
+export type FCWithChildren<T = {}> = FC<T & { children: ReactNode }>;

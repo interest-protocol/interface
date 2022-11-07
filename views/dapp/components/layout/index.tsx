@@ -7,7 +7,7 @@ import { DAppTheme } from '@/design-system';
 import radii from '@/design-system/common/radii';
 import colors from '@/design-system/dapp-theme/colors';
 import { Box } from '@/elements';
-import { NestedFC } from '@/interface';
+import { FCWithChildren } from '@/interface';
 
 import ErrorBoundary from '../error-boundary';
 import Faucet from '../faucet';
@@ -15,7 +15,7 @@ import Footer from './footer';
 import Header from './header';
 import { LayoutProps } from './layout.types';
 
-const Layout: NestedFC<LayoutProps> = ({ pageTitle = '', children }) => {
+const Layout: FCWithChildren<LayoutProps> = ({ pageTitle = '', children }) => {
   const { pathname } = useRouter();
   return (
     <ErrorBoundary>
