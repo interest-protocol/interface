@@ -17,6 +17,7 @@ import { LayoutProps } from './layout.types';
 
 const Layout: FCWithChildren<LayoutProps> = ({ pageTitle = '', children }) => {
   const { pathname } = useRouter();
+
   return (
     <ErrorBoundary>
       <Box color="text" height="100vh" display="flex" flexDirection="column">

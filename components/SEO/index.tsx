@@ -11,7 +11,12 @@ import { LayoutProps } from '@/views/home/layout/layout.types';
 const SEO: FC<LayoutProps> = ({ pageTitle }) => {
   const t = useTranslations();
   const { colors } = useTheme() as Theme;
-
+  const title =
+    (pageTitle
+      ? `${capitalize(
+          t(pageTitle as MessageKeys<IntlMessages, keyof IntlMessages>)
+        )} | `
+      : '') + 'Interest Protocol';
   return (
     <Head>
       <meta name="theme-color" content={colors.foreground} />
@@ -58,13 +63,7 @@ const SEO: FC<LayoutProps> = ({ pageTitle }) => {
       <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
       <meta name="msapplication-TileColor" content="#da532c" />
       <link rel="apple-touch-icon" href="/logo192.png" />
-      <title>
-        {pageTitle &&
-          `${capitalize(
-            t(pageTitle as MessageKeys<IntlMessages, keyof IntlMessages>)
-          )} | `}
-        Interest Protocol
-      </title>
+      <title>{title}</title>
     </Head>
   );
 };
