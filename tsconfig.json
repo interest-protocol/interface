@@ -43,13 +43,19 @@
       "@/api/*": ["./api/*"],
       "@/api": ["./api"],
       "@/state/*": ["./state/*"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "exclude": ["node_modules"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "interface/declaration.d.ts"
+    "interface/declaration.d.ts",
+    ".next/types/**/*.ts"
   ]
 }

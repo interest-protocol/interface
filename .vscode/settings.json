@@ -46,5 +46,7 @@
     "XXXL",
     "Zasset",
     "ZUSD"
-  ]
+  ],
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }

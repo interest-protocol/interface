@@ -12,6 +12,7 @@ export * from './use-get-user-balances-allowances';
 export * from './use-get-user-farm-data';
 export * from './use-id-account';
 export * from './use-is-mounted';
+export * from './use-is-mounted-twice';
 export * from './use-local-storage';
 export * from './use-locale';
 export * from './use-native-balance';

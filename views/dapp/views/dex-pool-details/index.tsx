@@ -8,6 +8,7 @@ import { Box, Typography } from '@/elements';
 import {
   useGetPairData,
   useIdAccount,
+  useIsMountedTwice,
   useLocale,
   useNativeBalance,
 } from '@/hooks';
@@ -16,6 +17,7 @@ import { FixedPointMath } from '@/sdk';
 import { TimesSVG } from '@/svg';
 import { formatMoney } from '@/utils';
 
+import { Loading } from '../../components';
 import GoBack from '../../components/go-back';
 import {
   AddLiquidityCard,
@@ -28,6 +30,8 @@ import { processPairData } from './utils';
 
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
   const t = useTranslations();
+
+  const isMountedTwice = useIsMountedTwice();
 
   const { currentLocale } = useLocale();
 
@@ -126,6 +130,8 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
     ],
     [chainId, processedData]
   );
+
+  if (!isMountedTwice) return <Loading />;
 
   if (error)
     return (

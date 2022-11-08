@@ -12,13 +12,15 @@
   "version": "0.1.0",
   "private": false,
   "dependencies": {
-    "@emotion/react": "^11.4.0",
-    "@emotion/styled": "^11.3.0",
+    "@emotion/css": "^11.10.5",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@hookform/resolvers": "^2.8.8",
     "api-getresponse": "^1.0.0",
     "decimal.js-light": "^2.5.1",
+    "eslint-config-next": "^13.0.2",
     "ethers": "^5.7.1",
-    "next": "^13.0.0",
+    "next": "^13.0.2",
     "next-intl": "^2.7.4",
     "ramda": "^0.28.0",
     "react": "^18.2.0",
@@ -67,6 +69,9 @@
       "last 1 safari version"
     ]
   },
+  "engines": {
+    "node": "^16.10.0"
+  },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
@@ -82,6 +87,7 @@
     "@types/react-dom": "^18.0.8",
     "@types/react-infinite-scroller": "^1.2.3",
     "@types/react-modal": "^3.13.1",
+    "@types/styled-system": "^5.1.15",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
     "@typescript-eslint/parser": "^4.22.1",

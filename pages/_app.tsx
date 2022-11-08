@@ -12,7 +12,7 @@ import { NextIntlProvider, Web3Manager } from '@/components';
 import { wagmiClient } from '@/connectors';
 import { GlobalStyles } from '@/design-system';
 
-const cache = createCache({ key: 'interest-protocol' });
+const cache = createCache({ key: 'stylin' });
 
 const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
   <>
