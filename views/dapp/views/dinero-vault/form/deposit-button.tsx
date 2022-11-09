@@ -29,6 +29,11 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
       await refetch();
       await showTXSuccessToast(tx, data.chainId);
     } catch (e) {
+      event({
+        label: 'Error: Handle Deposit - dinero vault deposit button',
+        action: GAAction.GENERIC,
+        category: GACategory.Error,
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);

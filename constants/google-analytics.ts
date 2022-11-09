@@ -2,6 +2,8 @@ export enum GACategory {
   SocialNetwork = 'SOCIAL_NETWORK',
   HeaderNavigation = 'HEADER_NAVIGATION',
   Operation = 'OPERATION',
+  Error = 'ERROR',
+  Wallet = 'WALLET',
   FarmFilters = 'FARMS_FILTERS',
   VaultFilters = 'VAULTS_FILTERS',
   DineroMarketFilters = 'DINERO_FILTERS',
@@ -28,4 +30,6 @@ export enum GAAction {
   Burn = 'BURN',
   GetRewards = 'GET REWARDS',
   Faucet = 'Faucet',
+  WalletConnected = 'WALLET CONNECTED',
+  GENERIC = 'GENERIC',
 }

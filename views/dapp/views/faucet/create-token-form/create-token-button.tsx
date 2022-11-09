@@ -52,6 +52,11 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
           });
       }
     } catch (error) {
+      event({
+        label: 'Error: Handle create token - faucet create token form',
+        action: GAAction.GENERIC,
+        category: GACategory.Error,
+      });
       throwError(t('error.generic'), error);
     } finally {
       setLoading(false);

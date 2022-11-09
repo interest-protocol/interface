@@ -21,14 +21,13 @@ const OnlySynthesizedFilter: FC<OnlySynthesizedFilterProps> = ({
     setValue,
     'onlyMinted'
   );
-
-  useEffect(() => {
+  const trackGAFilter = () =>
     event({
       label: 'onlyBorrowing = ' + onlyBorrowing ? 'on' : 'off',
       action: GAAction.Switch,
       category: GACategory.SyntheticsMarketFilters,
     });
-  }, [onlyBorrowing]);
+  useEffect(() => trackGAFilter(), [onlyBorrowing]);
 
   return (
     <Box

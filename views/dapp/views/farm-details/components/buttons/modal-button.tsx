@@ -36,6 +36,11 @@ const ModalButton: FC<ModalButtonProps> = ({
       await showTXSuccessToast(tx, farm.chainId);
       await refetch();
     } catch (e) {
+      event({
+        label: 'Error: Handle withdraw tokens - farm details',
+        action: GAAction.GENERIC,
+        category: GACategory.Error,
+      });
       throw e || new Error(t('error.generic'));
     } finally {
       setLoading(false);
@@ -73,6 +78,11 @@ const ModalButton: FC<ModalButtonProps> = ({
       await showTXSuccessToast(tx, farm.chainId);
       await refetch();
     } catch (e) {
+      event({
+        label: 'Error: Handle Deposit Tokens - farm details',
+        action: GAAction.GENERIC,
+        category: GACategory.Error,
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);

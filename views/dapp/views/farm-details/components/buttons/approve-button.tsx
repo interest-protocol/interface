@@ -40,6 +40,11 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
       await refetch();
     } catch (e) {
       setLoadingPool(false);
+      event({
+        label: 'Error: Approve - farm details',
+        action: GAAction.GENERIC,
+        category: GACategory.Error,
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoadingPool(false);

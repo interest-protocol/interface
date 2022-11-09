@@ -33,6 +33,11 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       await refetch();
       await showTXSuccessToast(tx, data.chainId);
     } catch (e) {
+      event({
+        label: 'Error: Handle Withdraw - dinero vault withdraw',
+        action: GAAction.GENERIC,
+        category: GACategory.Error,
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);

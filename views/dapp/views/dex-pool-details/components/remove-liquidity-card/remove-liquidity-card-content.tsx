@@ -58,6 +58,11 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
 
       await showTXSuccessToast(tx, chainId);
     } catch {
+      event({
+        label: 'Error: Approve token - remove liquidity card',
+        action: GAAction.GENERIC,
+        category: GACategory.Error,
+      });
       throwError(t('error.generic'));
     } finally {
       setValue('loading', false);
@@ -94,6 +99,11 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
 
       await showTXSuccessToast(tx, chainId);
     } catch {
+      event({
+        label: 'Error: remove - remove liquidity card',
+        action: GAAction.GENERIC,
+        category: GACategory.Error,
+      });
       throwError(t('error.generic'));
     } finally {
       setValue('removeLoading', false);

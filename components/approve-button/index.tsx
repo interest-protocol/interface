@@ -32,6 +32,11 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       await refetch();
       await showTXSuccessToast(tx, chainId);
     } catch (e) {
+      event({
+        label: 'Error: Add Allowance',
+        action: GAAction.GENERIC,
+        category: GACategory.Error,
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);
@@ -43,21 +48,13 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       loading: capitalize(`${t('common.approve', { isLoading: 1 })}`),
       success: capitalize(t('common.success')),
       error: ({ message }) => message,
-    })
-      .then(() =>
-        event({
-          label: 'Allowance approved',
-          action: GAAction.Allowance,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'Allowance not approved',
-          action: GAAction.Allowance,
-          category: GACategory.Operation,
-        })
-      );
+    }).catch(() =>
+      event({
+        label: 'Allowance not approved',
+        action: GAAction.Allowance,
+        category: GACategory.Operation,
+      })
+    );
 
   return (
     <Button

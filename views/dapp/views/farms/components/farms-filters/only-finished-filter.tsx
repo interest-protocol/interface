@@ -21,14 +21,13 @@ const OnlyFinishedFilter: FC<OnlyFinishedFilterProps> = ({
     setValue,
     'onlyFinished'
   );
-
-  useEffect(() => {
+  const trackGAFilter = () =>
     event({
       label: 'onlyFinished = ' + onlyFinished ? 'finished' : 'live',
       action: GAAction.Switch,
       category: GACategory.FarmFilters,
     });
-  }, [onlyFinished]);
+  useEffect(() => trackGAFilter(), [onlyFinished]);
 
   return (
     <Box display="flex" flexDirection="column" my={['M', 'M', 'M', 'NONE']}>

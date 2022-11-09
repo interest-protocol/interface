@@ -18,14 +18,13 @@ const OnlyDeposit: FC<FilterProps> = ({ control, setValue }) => {
     setValue,
     'onlyDeposit'
   );
-
-  useEffect(() => {
+  const trackGAFilter = () =>
     event({
       label: 'onlyDeposit = ' + onlyDeposit ? 'on' : 'off',
       action: GAAction.Switch,
       category: GACategory.VaultFilters,
     });
-  }, [onlyDeposit]);
+  useEffect(() => trackGAFilter(), [onlyDeposit]);
 
   return (
     <Box display="flex" flexDirection="column" my={['M', 'M', 'M', 'NONE']}>

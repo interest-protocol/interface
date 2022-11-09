@@ -21,14 +21,13 @@ const parseVaultTypeByEnum = cond([
 const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
   const t = useTranslations();
   const type = useWatch({ control, name: 'type' });
-
-  useEffect(() => {
+  const trackGAFilter = () =>
     event({
       label: 'type = ' + type,
       action: GAAction.Switch,
       category: GACategory.FarmFilters,
     });
-  }, [type]);
+  useEffect(() => trackGAFilter(), [type]);
 
   return (
     <Box width={['100%', '100%', '100%', 'unset']} my={['M', 'M', 'M', 'NONE']}>

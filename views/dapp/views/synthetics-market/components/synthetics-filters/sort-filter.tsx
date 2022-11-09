@@ -37,14 +37,13 @@ const parseFarmSortByEnum = cond([
 const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
   const t = useTranslations();
   const sortBy = useWatch({ control, name: 'sortBy' });
-
-  useEffect(() => {
+  const trackGAFilter = () =>
     event({
       label: 'sortBy = ' + sortBy,
       action: GAAction.Switch,
       category: GACategory.SyntheticsMarketFilters,
     });
-  }, [sortBy]);
+  useEffect(() => trackGAFilter(), [sortBy]);
 
   return (
     <Box my={['M', 'M', 'M', 'NONE']} gridColumn={['1', '2']}>

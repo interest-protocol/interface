@@ -1,8 +1,10 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { ChangeEvent, FC, useCallback, useMemo } from 'react';
+import { event } from 'react-ga';
 
 import { TOKENS_SVG_MAP } from '@/constants';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Input, Typography } from '@/elements';
 import { useApprove, useIdAccount } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
@@ -46,6 +48,11 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
       if (tx) await tx.wait(2);
       await refetch();
     } catch (e) {
+      event({
+        label: 'Error: Approve Create Pool Field',
+        action: GAAction.GENERIC,
+        category: GACategory.Error,
+      });
       throwError(t('error.generic'), e);
     }
   }, [chainId, addAllowance, chainId, refetch]);

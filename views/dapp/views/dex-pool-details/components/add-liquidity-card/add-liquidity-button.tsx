@@ -24,6 +24,11 @@ const AddLiquidityButton: FC<AddLiquidityCardButtonProps> = ({
       const tx = await addLiquidity?.();
       await showTXSuccessToast(tx, chainId);
     } catch {
+      event({
+        label: 'Error: Add Liquidity',
+        action: GAAction.GENERIC,
+        category: GACategory.Error,
+      });
       throwError(t('error.generic'));
     } finally {
       setLoading(false);

@@ -28,6 +28,11 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
 
       await showTXSuccessToast(tx, farm.chainId);
     } catch (e) {
+      event({
+        label: 'Error: Harvest - farm details harvest',
+        action: GAAction.GENERIC,
+        category: GACategory.Error,
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoadingPool(false);

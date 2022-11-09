@@ -122,6 +122,11 @@ const SwapButton: FC<SwapButtonProps> = ({
       if (tx) await tx.wait(5);
       await refetch();
     } catch (e) {
+      event({
+        label: 'Error: Add Allowance',
+        action: GAAction.GENERIC,
+        category: GACategory.Error,
+      });
       throwError(t('error.generic'), e);
     } finally {
       setButtonLoadingText(null);

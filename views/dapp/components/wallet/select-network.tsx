@@ -1,8 +1,10 @@
 import { useTranslations } from 'next-intl';
 import { values } from 'ramda';
 import { FC } from 'react';
+import { event } from 'react-ga';
 
 import EthereumNetwork from '@/components/svg/ethereum-network';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Dropdown, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
 import {
@@ -52,7 +54,14 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
       data={[
         {
           value: `${CHAIN_ID.BNB_TEST_NET}`,
-          onSelect: () => switchNetwork(CHAIN_ID.BNB_TEST_NET),
+          onSelect: () => {
+            event({
+              label: 'BSCT',
+              action: GAAction.WalletConnected,
+              category: GACategory.Wallet,
+            });
+            switchNetwork(CHAIN_ID.BNB_TEST_NET);
+          },
           displayOption: (
             <Box pl="L" display="flex" alignItems="center">
               <Box as="span" display="inline-block" width="1.5rem">
@@ -83,6 +92,13 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
         },
         {
           value: ``,
+          onSelect: () => {
+            event({
+              label: 'BSC',
+              action: GAAction.WalletConnected,
+              category: GACategory.Wallet,
+            });
+          },
           displayOption: (
             <Box
               px="L"
@@ -132,6 +148,13 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
         },
         {
           value: ``,
+          onSelect: () => {
+            event({
+              label: 'ADA EVM',
+              action: GAAction.WalletConnected,
+              category: GACategory.Wallet,
+            });
+          },
           displayOption: (
             <Box
               px="L"
@@ -181,6 +204,13 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
         },
         {
           value: ``,
+          onSelect: () => {
+            event({
+              label: 'Goerli',
+              action: GAAction.WalletConnected,
+              category: GACategory.Wallet,
+            });
+          },
           displayOption: (
             <Box
               px="L"

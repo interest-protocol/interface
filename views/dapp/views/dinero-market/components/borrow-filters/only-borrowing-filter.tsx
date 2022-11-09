@@ -21,14 +21,13 @@ const OnlyBorrowingFilter: FC<OnlyBorrowingFilterProps> = ({
     setValue,
     'onlyBorrowing'
   );
-
-  useEffect(() => {
+  const trackGAFilter = () =>
     event({
       label: 'onlyBorrowing = ' + onlyBorrowing ? 'on' : 'off',
       action: GAAction.Switch,
       category: GACategory.DineroMarketFilters,
     });
-  }, [onlyBorrowing]);
+  useEffect(() => trackGAFilter(), [onlyBorrowing]);
 
   return (
     <Box

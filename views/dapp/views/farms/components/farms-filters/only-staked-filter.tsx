@@ -18,14 +18,13 @@ const OnlyStakedFilter: FC<OnlyStakedFilterProps> = ({ control, setValue }) => {
     setValue,
     'onlyStaked'
   );
-
-  useEffect(() => {
+  const trackGAFilter = () =>
     event({
       label: 'OnlyStaked = ' + onlyStaked ? 'on' : 'off',
       action: GAAction.Switch,
       category: GACategory.FarmFilters,
     });
-  }, [onlyStaked]);
+  useEffect(() => trackGAFilter(), [onlyStaked]);
 
   return (
     <Box display="flex" flexDirection="column" my={['M', 'M', 'M', 'NONE']}>

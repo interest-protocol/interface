@@ -76,6 +76,11 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
 
       await showTXSuccessToast(tx, chainId);
     } catch {
+      event({
+        label: 'Error: Approve token - add liquidity card',
+        action: GAAction.GENERIC,
+        category: GACategory.Error,
+      });
       throwError(t('error.generic'));
     } finally {
       setLoading(false);

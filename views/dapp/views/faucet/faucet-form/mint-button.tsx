@@ -45,6 +45,11 @@ const MintButton: FC<MintButtonProps> = ({
       await showTXSuccessToast(tx, chainId);
       await refetch();
     } catch (error) {
+      event({
+        label: 'Error: Handle on mint - faucet',
+        action: GAAction.GENERIC,
+        category: GACategory.Error,
+      });
       throwError(t('error.generic'), error);
     } finally {
       setLoading(false);

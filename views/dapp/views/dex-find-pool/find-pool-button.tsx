@@ -150,6 +150,11 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
         query: { pairAddress: address },
       }).then();
     } catch (e) {
+      event({
+        label: 'Error: Create Pair',
+        action: GAAction.GENERIC,
+        category: GACategory.Error,
+      });
       throwError(t('error.generic'));
     } finally {
       setLoading(false);

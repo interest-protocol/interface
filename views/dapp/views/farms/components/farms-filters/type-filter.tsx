@@ -23,14 +23,13 @@ const parseFarmTypeByEnum = cond([
 const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
   const t = useTranslations();
   const typeFilter = useWatch({ control, name: 'typeFilter' });
-
-  useEffect(() => {
+  const trackGAFilter = () =>
     event({
       label: 'TypeFilter = ' + typeFilter,
       action: GAAction.Switch,
       category: GACategory.FarmFilters,
     });
-  }, [typeFilter]);
+  useEffect(() => trackGAFilter(), [typeFilter]);
 
   return (
     <Box width={['48%', '48%', '48%', 'unset']} my={['M', 'M', 'M', 'NONE']}>
