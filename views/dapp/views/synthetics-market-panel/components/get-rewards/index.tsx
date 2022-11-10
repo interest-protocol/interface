@@ -1,9 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
-import { event } from 'react-ga';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
 import { LoadingSVG } from '@/svg';
@@ -13,6 +11,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useGetRewards } from '../../synthetics-market.hooks';
 import { GetRewardsProps } from './get-rewards.types';
@@ -34,6 +33,7 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
       await refetch();
       await showTXSuccessToast(tx, market.chainId);
     } catch (e: unknown) {
+      logException('Transaction Error: getRewards - GetRewards');
       throwContractCallError(e);
     } finally {
       setLoading(false);
@@ -45,21 +45,7 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
       success: capitalize(t('common.success')),
       error: prop('message'),
       loading: capitalize(t('common.submit', { isLoading: 1 })),
-    })
-      .then(() =>
-        event({
-          label: 'Rewards obtained successfully',
-          action: GAAction.Mint,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'Rewards obtained unsuccessfully',
-          action: GAAction.Mint,
-          category: GACategory.Operation,
-        })
-      );
+    });
 
   return (
     <Box p="XL" order={4} gridArea="g" bg="foreground" borderRadius="L">

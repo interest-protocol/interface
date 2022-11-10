@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
+import { event } from 'react-ga';
 import { v4 } from 'uuid';
 import { useAccount, useNetwork } from 'wagmi';
 
@@ -14,9 +15,10 @@ import {
   RoutesWithFaucet,
   SOCIAL_MEDIAS,
 } from '@/constants';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Dropdown, Typography } from '@/elements';
 import { CreditCardSVG, FaucetSVG, GitBookSVG, HorizontalDotsSVG } from '@/svg';
-import { capitalize, noop } from '@/utils';
+import { capitalize } from '@/utils';
 
 const Footer: FC = () => {
   const t = useTranslations();
@@ -28,6 +30,13 @@ const Footer: FC = () => {
 
   const supportsFaucet = RoutesWithFaucet.includes(pathname);
   const supportsCreditCard = address && isChainIdSupported(chainId ?? -1);
+
+  const trackHeaderNavigation = (label: string) => () =>
+    event({
+      label,
+      action: GAAction.MobileNavigate,
+      category: GACategory.HeaderNavigation,
+    });
 
   return (
     <Box
@@ -83,6 +92,7 @@ const Footer: FC = () => {
               }
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
+              onClick={() => trackHeaderNavigation(RoutesEnum.DEX)}
             >
               Dex
             </Button>
@@ -126,18 +136,22 @@ const Footer: FC = () => {
                 {
                   value: 'Farms',
                   displayOption: 'Farms',
-                  onSelect: () =>
+                  onSelect: () => {
+                    trackHeaderNavigation(RoutesEnum.Farms);
                     push(Routes[RoutesEnum.Farms], undefined, {
                       shallow: true,
-                    }),
+                    });
+                  },
                 },
                 {
                   value: 'Vaults',
                   displayOption: 'Vaults',
-                  onSelect: () =>
+                  onSelect: () => {
+                    trackHeaderNavigation(RoutesEnum.Vaults);
                     push(Routes[RoutesEnum.Vaults], undefined, {
                       shallow: true,
-                    }),
+                    });
+                  },
                 },
               ]}
             />
@@ -179,18 +193,22 @@ const Footer: FC = () => {
                 {
                   value: 'dinero',
                   displayOption: capitalize(t('common.dinero')),
-                  onSelect: () =>
+                  onSelect: () => {
+                    trackHeaderNavigation(RoutesEnum.DineroMarket);
                     push(Routes[RoutesEnum.DineroMarket], undefined, {
                       shallow: true,
-                    }),
+                    });
+                  },
                 },
                 {
                   value: 'synthetics',
                   displayOption: capitalize(t('common.synthetics')),
-                  onSelect: () =>
+                  onSelect: () => {
+                    trackHeaderNavigation(RoutesEnum.SyntheticsMarket);
                     push(Routes[RoutesEnum.SyntheticsMarket], undefined, {
                       shallow: true,
-                    }),
+                    });
+                  },
                 },
               ]}
             />
@@ -242,6 +260,7 @@ const Footer: FC = () => {
                           </>
                         ),
                         onSelect: () => {
+                          trackHeaderNavigation(RoutesEnum.Faucet);
                           push(Routes[RoutesEnum.Faucet]);
                         },
                       },
@@ -274,7 +293,9 @@ const Footer: FC = () => {
                               </Box>
                             </a>
                           ),
-                          onSelect: noop,
+                          onSelect: trackHeaderNavigation(
+                            makeFIATWidgetURL(chainId, address)
+                          ),
                         },
                       ]
                     : []

@@ -1,10 +1,8 @@
 import { useTranslations } from 'next-intl';
-import { FC, useEffect } from 'react';
-import { event } from 'react-ga';
+import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Switch } from '@/components';
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Typography } from '@/elements';
 
 import { getFilterSwitchDefaultData } from '../../dinero-market.utils';
@@ -16,18 +14,12 @@ const OnlyBorrowingFilter: FC<OnlyBorrowingFilterProps> = ({
 }) => {
   const t = useTranslations();
   const onlyBorrowing = useWatch({ control, name: 'onlyBorrowing' });
+
   const SWITCH_ON_OFF_DATA = getFilterSwitchDefaultData(
     [t('common.off'), t('common.on')],
     setValue,
     'onlyBorrowing'
   );
-  const trackGAFilter = () =>
-    event({
-      label: 'onlyBorrowing = ' + onlyBorrowing ? 'on' : 'off',
-      action: GAAction.Switch,
-      category: GACategory.DineroMarketFilters,
-    });
-  useEffect(() => trackGAFilter(), [onlyBorrowing]);
 
   return (
     <Box

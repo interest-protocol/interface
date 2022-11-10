@@ -1,5 +1,7 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 
+import { logException } from '@/utils/analytics';
+
 import { Props, State } from './error-boundary.types';
 import BoundaryMessage from './error-boundary-message';
 
@@ -13,8 +15,9 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo): void {
-    console.warn('> error :::', error);
-    console.warn('> error info :::', info);
+    logException(
+      `${error.name}: ${error.message}; Stack: ${info.componentStack}`
+    );
   }
 
   render = (): ReactNode =>

@@ -13,6 +13,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import ApproveButton from './approve-button';
@@ -58,11 +59,7 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
 
       await showTXSuccessToast(tx, chainId);
     } catch {
-      event({
-        label: 'Error: Approve token - remove liquidity card',
-        action: GAAction.GENERIC,
-        category: GACategory.Error,
-      });
+      logException('Transaction Error: Approve token - remove liquidity');
       throwError(t('error.generic'));
     } finally {
       setValue('loading', false);
@@ -75,21 +72,7 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
       loading: `${capitalize(t('common.approve', { isLoading: 1 }))}`,
       success: capitalize(t('common.success')),
       error: prop('message'),
-    })
-      .then(() =>
-        event({
-          label: 'LP Pair Approved',
-          action: GAAction.ApproveTokenLP,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'LP Pair not Approved',
-          action: GAAction.ApproveTokenLP,
-          category: GACategory.Operation,
-        })
-      );
+    });
 
   const remove = async () => {
     try {
@@ -99,11 +82,7 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
 
       await showTXSuccessToast(tx, chainId);
     } catch {
-      event({
-        label: 'Error: remove - remove liquidity card',
-        action: GAAction.GENERIC,
-        category: GACategory.Error,
-      });
+      console.log('Transaction Error: removeLiquidity - remove liquidity');
       throwError(t('error.generic'));
     } finally {
       setValue('removeLoading', false);
@@ -116,21 +95,7 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
       loading: capitalize(`${t('common.remove', { isLoading: 1 })}`),
       success: capitalize(t('common.success')),
       error: prop('message'),
-    })
-      .then(() =>
-        event({
-          label: 'Liquidity removed',
-          action: GAAction.PairAddressRemoveLiquidity,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'Liquidity not removed',
-          action: GAAction.PairAddressRemoveLiquidity,
-          category: GACategory.Operation,
-        })
-      );
+    });
 
   return (
     <>

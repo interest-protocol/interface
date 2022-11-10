@@ -2,7 +2,6 @@ export enum GACategory {
   SocialNetwork = 'SOCIAL_NETWORK',
   HeaderNavigation = 'HEADER_NAVIGATION',
   Operation = 'OPERATION',
-  Error = 'ERROR',
   Wallet = 'WALLET',
   FarmFilters = 'FARMS_FILTERS',
   VaultFilters = 'VAULTS_FILTERS',
@@ -11,13 +10,10 @@ export enum GACategory {
 }
 
 export enum GAAction {
+  DesktopNavigate = 'DESKTOP_NAVIGATE',
+  MobileNavigate = 'MOBILE_NAVIGATE',
   Access = 'ACCESS',
-  Swap = 'SWAP',
   Switch = 'SWITCH_FILTER',
-  PairAddressAddLiquidity = 'ADD_LIQUIDITY_IN_PAIR_ADDRESS',
-  PairAddressRemoveLiquidity = 'REMOVE_LIQUIDITY_IN_PAIR_ADDRESS',
-  ApproveToken = 'APPROVE TOKEN',
-  CreatePair = 'CREATE PAIR',
   CreateToken = 'OPEN_MODAL_CREATE_TOKEN',
   FindAndEnterPool = 'FIND_AND_ENTER_POOL',
   Deposit = 'DEPOSIT',
@@ -27,5 +23,5 @@ export enum GAAction {
   Mint = 'MINT',
   Burn = 'BURN',
   Faucet = 'Faucet',
-  WalletConnected = 'WALLET_CONNECTED',
+  SwitchNetwork = 'SWITCH_NETWORK',
 }

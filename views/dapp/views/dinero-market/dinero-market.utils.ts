@@ -2,6 +2,7 @@ import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
 import { isAddress } from 'ethers/lib/utils';
 import { always, cond, equals, ifElse, isEmpty, T } from 'ramda';
+import { event } from 'react-ga';
 import { UseFormSetValue } from 'react-hook-form';
 
 import { ISwitchOption } from '@/components/switch/switch.types';
@@ -9,6 +10,7 @@ import {
   DINERO_MARKET_METADATA,
   DINERO_MARKET_SUMMARY_CALL_MAP,
 } from '@/constants/dinero-markets';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { isSameAddress } from '@/utils';
 
@@ -81,12 +83,22 @@ export const getFilterSwitchDefaultData = (
   {
     value: values[0],
     onSelect: () => {
+      event({
+        label: 'onlyBorrowing = off',
+        action: GAAction.Switch,
+        category: GACategory.DineroMarketFilters,
+      });
       setValue(name, false);
     },
   },
   {
     value: values[1],
     onSelect: () => {
+      event({
+        label: 'onlyBorrowing = on',
+        action: GAAction.Switch,
+        category: GACategory.DineroMarketFilters,
+      });
       setValue(name, true);
     },
   },

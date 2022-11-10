@@ -2,11 +2,9 @@ import { BigNumber } from 'ethers';
 import { useTranslations } from 'next-intl';
 import { identity, o, prop } from 'ramda';
 import { FC } from 'react';
-import { event } from 'react-ga';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LineLoaderSVG } from '@/svg';
@@ -18,6 +16,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import AddLiquidityButton from './add-liquidity-button';
@@ -76,11 +75,7 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
 
       await showTXSuccessToast(tx, chainId);
     } catch {
-      event({
-        label: 'Error: Approve token - add liquidity card',
-        action: GAAction.GENERIC,
-        category: GACategory.Error,
-      });
+      logException('Transaction Error: approveToken - AddLiquidityCardContent');
       throwError(t('error.generic'));
     } finally {
       setLoading(false);
@@ -95,21 +90,7 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
       )}`,
       success: capitalize(t('common.success')),
       error: prop('message'),
-    })
-      .then(() =>
-        event({
-          label: 'Token Approved',
-          action: GAAction.ApproveTokenLP,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'Token Approved',
-          action: GAAction.ApproveTokenLP,
-          category: GACategory.Operation,
-        })
-      );
+    });
 
   const { writeAsync: addLiquidity } = useAddLiquidity({
     chainId,

@@ -8,10 +8,10 @@ import { Box, Dropdown, Typography } from '@/elements';
 import { BarsSVG, GitBookSVG } from '@/svg';
 
 const MobileMenu: FC = () => {
-  const trackHeaderNavigation = (action: GAAction, label: string) => () =>
+  const trackHeaderNavigation = (label: string) => () =>
     event({
       label,
-      action,
+      action: GAAction.MobileNavigate,
       category: GACategory.HeaderNavigation,
     });
 
@@ -65,7 +65,7 @@ const MobileMenu: FC = () => {
                 <a
                   href="https://forms.gle/aDP4wHvshLPKkKv97"
                   target="__blank"
-                  onClick={trackHeaderNavigation(GAAction.Access, 'feedback')}
+                  onClick={trackHeaderNavigation('feedback')}
                 >
                   <Typography
                     px="M"

@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { CHAINS, EXPLORER_MAP } from '@/constants';
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
+import { logException } from '@/utils/analytics';
 import { tryCatch } from '@/utils/promise';
 
 import { ToastMsgs, ToastOpts } from './toast.types';
@@ -58,5 +59,7 @@ export function showToast<T>(
   },
   options: ToastOpts = undefined
 ): Promise<T | undefined> {
-  return tryCatch(toast.promise(fn, msgs, options), console.log);
+  return tryCatch(toast.promise(fn, msgs, options), (x) =>
+    logException(propOr('message', 'error', x))
+  );
 }

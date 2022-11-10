@@ -1,9 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
-import { event } from 'react-ga';
 import { useWatch } from 'react-hook-form';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
@@ -18,6 +16,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import { useSwap, useWETHDeposit, useWETHWithdraw } from './swap.hooks';
@@ -122,11 +121,9 @@ const SwapButton: FC<SwapButtonProps> = ({
       if (tx) await tx.wait(5);
       await refetch();
     } catch (e) {
-      event({
-        label: 'Error: Add Allowance',
-        action: GAAction.GENERIC,
-        category: GACategory.Error,
-      });
+      logException(
+        `TransactionError: approve - SwapButton - ${tokenInAddress}`
+      );
       throwError(t('error.generic'), e);
     } finally {
       setButtonLoadingText(null);
@@ -191,21 +188,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       loading: capitalize(t('common.wrap', { isLoading: 1 })),
       success: capitalize(t('common.success')),
       error: ({ message }) => message,
-    })
-      .then(() =>
-        event({
-          label: 'Swap was successful',
-          action: GAAction.Swap,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'Swap not done successfully',
-          action: GAAction.Swap,
-          category: GACategory.Operation,
-        })
-      );
+    });
 
   const handleWETHWithdraw = async () => {
     if (

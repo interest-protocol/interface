@@ -24,6 +24,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 import CreatePoolPopup from '@/views/dapp/views/dex-find-pool/create-pool-popup';
 import { useAddLiquidity } from '@/views/dapp/views/dex-find-pool/dex-find-pool.hooks';
@@ -87,10 +88,17 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
         return await push({
           pathname: Routes[RoutesEnum.DEXPoolDetails],
           query: { pairAddress: address },
-        }).then();
+        }).then(() =>
+          event({
+            label: 'Pool found successful',
+            action: GAAction.FindAndEnterPool,
+            category: GACategory.Operation,
+          })
+        );
 
       setCreatingPair(true);
     } catch {
+      logException('Transaction Error: isInterestDexPair - FindPoolButton');
       throwError('Error connecting');
       setLoading(false);
     }
@@ -101,21 +109,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       loading: capitalize(t('common.check', { isLoading: 1 })),
       success: capitalize(t('common.success')),
       error: prop('message'),
-    })
-      .then(() =>
-        event({
-          label: 'Pool found successful',
-          action: GAAction.FindAndEnterPool,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'Pool not found successful',
-          action: GAAction.FindAndEnterPool,
-          category: GACategory.Operation,
-        })
-      );
+    });
 
   const createPair = async () => {
     const { tokenA, tokenB, isStable } = getValues();
@@ -150,11 +144,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
         query: { pairAddress: address },
       }).then();
     } catch (e) {
-      event({
-        label: 'Error: Create Pair',
-        action: GAAction.GENERIC,
-        category: GACategory.Error,
-      });
+      logException('Transaction Error: addLiquidity - FindPoolButton');
       throwError(t('error.generic'));
     } finally {
       setLoading(false);
@@ -166,21 +156,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       loading: t('dexPoolFind.buttonPool', { isLoading: 1 }),
       success: capitalize(t('common.success')),
       error: prop('message'),
-    })
-      .then(() =>
-        event({
-          label: 'Pair created successfully',
-          action: GAAction.CreatePair,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'Pair not created successful',
-          action: GAAction.CreatePair,
-          category: GACategory.Operation,
-        })
-      );
+    });
 
   const bothTokensAreStableCoins = () => {
     const { tokenA, tokenB } = getValues();

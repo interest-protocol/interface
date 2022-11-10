@@ -57,7 +57,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
           onSelect: () => {
             event({
               label: 'BSCT',
-              action: GAAction.WalletConnected,
+              action: GAAction.SwitchNetwork,
               category: GACategory.Wallet,
             });
             switchNetwork(CHAIN_ID.BNB_TEST_NET);
@@ -95,7 +95,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
           onSelect: () => {
             event({
               label: 'BSC',
-              action: GAAction.WalletConnected,
+              action: GAAction.SwitchNetwork,
               category: GACategory.Wallet,
             });
           },
@@ -151,7 +151,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
           onSelect: () => {
             event({
               label: 'ADA EVM',
-              action: GAAction.WalletConnected,
+              action: GAAction.SwitchNetwork,
               category: GACategory.Wallet,
             });
           },
@@ -207,7 +207,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
           onSelect: () => {
             event({
               label: 'Goerli',
-              action: GAAction.WalletConnected,
+              action: GAAction.SwitchNetwork,
               category: GACategory.Wallet,
             });
           },

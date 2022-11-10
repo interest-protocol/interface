@@ -38,10 +38,10 @@ const Header: FC = () => {
 
   useEventListener('resize', handleSetDesktop, true);
 
-  const trackHeaderNavigation = (action: GAAction, label: string) => () =>
+  const trackHeaderNavigation = (label: string) => () =>
     event({
       label,
-      action,
+      action: GAAction.DesktopNavigate,
       category: GACategory.HeaderNavigation,
     });
 
@@ -59,7 +59,7 @@ const Header: FC = () => {
       <Box display="flex" alignItems="center">
         <Link
           href={Routes[RoutesEnum.Home]}
-          onClick={trackHeaderNavigation(GAAction.Access, RoutesEnum.Home)}
+          onClick={trackHeaderNavigation(RoutesEnum.Home)}
         >
           <Box
             mr="L"
@@ -76,7 +76,7 @@ const Header: FC = () => {
         <a
           href="https://forms.gle/aDP4wHvshLPKkKv97"
           target="__blank"
-          onClick={trackHeaderNavigation(GAAction.Access, 'feedback')}
+          onClick={trackHeaderNavigation('feedback')}
           rel="noopener noreferrer"
         >
           <Typography
@@ -105,7 +105,7 @@ const Header: FC = () => {
       >
         <Link
           href={Routes[RoutesEnum.DEX]}
-          onClick={trackHeaderNavigation(GAAction.Access, RoutesEnum.DEX)}
+          onClick={trackHeaderNavigation(RoutesEnum.DEX)}
         >
           <Typography
             px="XL"
@@ -208,7 +208,6 @@ const Header: FC = () => {
               href={makeFIATWidgetURL(chainId, address)}
               target="__blank"
               onClick={trackHeaderNavigation(
-                GAAction.Access,
                 makeFIATWidgetURL(chainId, address)
               )}
               rel="noopener noreferrer"
