@@ -2,13 +2,12 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { useState } from 'react';
 import { FC } from 'react';
-import { event } from 'react-ga';
 import { useWatch } from 'react-hook-form';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useDeposit } from '../dinero-vault.hooks';
 import { DepositButtonProps } from '../dinero-vault.types';
@@ -29,11 +28,9 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
       await refetch();
       await showTXSuccessToast(tx, data.chainId);
     } catch (e) {
-      event({
-        label: 'Error: Handle Deposit - dinero vault deposit button',
-        action: GAAction.GENERIC,
-        category: GACategory.Error,
-      });
+      logException('Transaction Error: writeAsync - DepositButton', [
+        'views\\dapp\\views\\dinero-vault\\form\\deposit-button.tsx',
+      ]);
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);
@@ -47,21 +44,7 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
       success: capitalize(t('common.success')),
       error: prop('message'),
       loading: capitalize(t('common.submit', { isLoading: 1 })),
-    })
-      .then(() =>
-        event({
-          label: 'Deposited successfully',
-          action: GAAction.Deposit,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'Deposited unsuccessfully.',
-          action: GAAction.Deposit,
-          category: GACategory.Operation,
-        })
-      );
+    });
   };
 
   return (

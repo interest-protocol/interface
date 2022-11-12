@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
-import { event } from 'react-ga';
 import { v4 } from 'uuid';
 import { useAccount, useNetwork } from 'wagmi';
 
@@ -19,6 +18,7 @@ import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Dropdown, Typography } from '@/elements';
 import { CreditCardSVG, FaucetSVG, GitBookSVG, HorizontalDotsSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logEvent } from '@/utils/analytics';
 
 const Footer: FC = () => {
   const t = useTranslations();
@@ -32,11 +32,7 @@ const Footer: FC = () => {
   const supportsCreditCard = address && isChainIdSupported(chainId ?? -1);
 
   const trackHeaderNavigation = (label: string) => () =>
-    event({
-      label,
-      action: GAAction.MobileNavigate,
-      category: GACategory.HeaderNavigation,
-    });
+    logEvent(GACategory.HeaderNavigation, GAAction.MobileNavigate, label);
 
   return (
     <Box

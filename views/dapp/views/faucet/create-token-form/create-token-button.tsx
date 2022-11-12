@@ -1,9 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
-import { event } from 'react-ga';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -15,6 +13,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useCreateToken } from './create-token-form.hooks';
 import { CreateTokenButtonProps } from './create-token-form.types';
@@ -52,11 +51,9 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
           });
       }
     } catch (error) {
-      event({
-        label: 'Error: Handle create token - faucet create token form',
-        action: GAAction.GENERIC,
-        category: GACategory.Error,
-      });
+      logException('Transaction Error: createToken - handleCreateToken', [
+        'views\\dapp\\views\\faucet\\create-token-form\\create-token-button.tsx',
+      ]);
       throwError(t('error.generic'), error);
     } finally {
       setLoading(false);
@@ -68,21 +65,7 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
       loading: `${t('faucet.modalButton', { isLoading: 1 })}`,
       success: capitalize(t('common.success')),
       error: prop('message'),
-    })
-      .then(() =>
-        event({
-          label: 'Token created successfully',
-          action: GAAction.CreateToken,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'Token was not created',
-          action: GAAction.CreateToken,
-          category: GACategory.Operation,
-        })
-      );
+    });
 
   return (
     <Button

@@ -2,9 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { useCallback, useState } from 'react';
 import { FC } from 'react';
-import { event } from 'react-ga';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -14,6 +12,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useMint } from './faucet-form.hooks';
 import { MintButtonProps } from './faucet-form.types';
@@ -45,11 +44,9 @@ const MintButton: FC<MintButtonProps> = ({
       await showTXSuccessToast(tx, chainId);
       await refetch();
     } catch (error) {
-      event({
-        label: 'Error: Handle on mint - faucet',
-        action: GAAction.GENERIC,
-        category: GACategory.Error,
-      });
+      logException('Transaction Error: mint - handleOnMint', [
+        'views\\dapp\\views\\faucet\\faucet-form\\mint-button.tsx',
+      ]);
       throwError(t('error.generic'), error);
     } finally {
       setLoading(false);
@@ -61,21 +58,7 @@ const MintButton: FC<MintButtonProps> = ({
       loading: `${t('faucet.button', { isLoading: 1 })}`,
       success: capitalize(t('common.success')),
       error: prop('message'),
-    })
-      .then(() =>
-        event({
-          label: 'Mint successful',
-          action: GAAction.Faucet,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'Mint unsuccessful',
-          action: GAAction.Faucet,
-          category: GACategory.Operation,
-        })
-      );
+    });
 
   return (
     <Button

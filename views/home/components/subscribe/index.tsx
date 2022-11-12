@@ -24,7 +24,9 @@ const Subscribe: FC = () => {
           if (data.httpStatus == 200) return data;
         })
         .catch((x) => {
-          logException(propOr('code', 'email subscription error', x));
+          logException(propOr('code', 'email subscription error', x), [
+            'views\\home\\components\\subscribe\\index.tsx',
+          ]);
           throw x;
         }),
       {

@@ -1,11 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
-import { event } from 'react-ga';
 import toast from 'react-hot-toast';
 
 import { ApproveButton } from '@/components';
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -17,6 +15,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useMint } from '../../synthetics-market.hooks';
 import {
@@ -103,6 +102,9 @@ const MintButton: FC<MintButtonProps> = ({
       await showTXSuccessToast(tx, data.chainId);
       form.reset();
     } catch (e: unknown) {
+      logException('Transaction Error: mint - handleMint', [
+        'views\\dapp\\views\\synthetics-market-panel\\components\\synt-form\\mint-button.tsx',
+      ]);
       throwContractCallError(e);
     } finally {
       setLoading(false);
@@ -126,21 +128,7 @@ const MintButton: FC<MintButtonProps> = ({
       success: capitalize(t('common.success')),
       error: prop('message'),
       loading: capitalize(t('common.submit', { isLoading: 1 })),
-    })
-      .then(() =>
-        event({
-          label: 'Mint successful',
-          action: GAAction.Mint,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'Mint successfully',
-          action: GAAction.Mint,
-          category: GACategory.Operation,
-        })
-      );
+    });
   };
 
   return data.collateralAllowance.isZero() ? (

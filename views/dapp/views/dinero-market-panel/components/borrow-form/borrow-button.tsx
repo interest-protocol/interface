@@ -2,11 +2,9 @@ import { ethers } from 'ethers';
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
-import { event } from 'react-ga';
 import toast from 'react-hot-toast';
 
 import { ApproveButton } from '@/components';
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { LoadingSVG } from '@/svg';
@@ -18,6 +16,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useBorrow } from '../../dinero-market.hooks';
 import {
@@ -114,6 +113,9 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       await showTXSuccessToast(tx, data.chainId);
       form.reset();
     } catch (e: unknown) {
+      logException('Transaction Error: borrow - BorrowButton', [
+        'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\borrow-button.tsx',
+      ]);
       throwContractCallError(e);
     } finally {
       setLoading(false);
@@ -123,6 +125,9 @@ const BorrowButton: FC<BorrowButtonProps> = ({
   const onSubmitBorrow = async () => {
     if (isFormBorrowEmpty(form)) {
       toast.error(t('dineroMarketAddress.form.amountError'));
+      logException('Form Borrow is Empty', [
+        'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\borrow-button.tsx',
+      ]);
       return;
     }
     if (!data.chainId || !account || !data || data.collateralAllowance.isZero())
@@ -132,21 +137,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       success: capitalize(t('common.success')),
       error: prop('message'),
       loading: capitalize(t('common.submit', { isLoading: 1 })),
-    })
-      .then(() =>
-        event({
-          label: 'Loan successful',
-          action: GAAction.Borrow,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'Loan unsuccessful',
-          action: GAAction.Borrow,
-          category: GACategory.Operation,
-        })
-      );
+    });
   };
 
   return data.collateralAllowance.isZero() ? (

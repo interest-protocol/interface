@@ -60,6 +60,6 @@ export function showToast<T>(
   options: ToastOpts = undefined
 ): Promise<T | undefined> {
   return tryCatch(toast.promise(fn, msgs, options), (x) =>
-    logException(propOr('message', 'error', x))
+    logException(propOr('message', 'error', x), ['utils\\toast\\index.tsx'])
   );
 }

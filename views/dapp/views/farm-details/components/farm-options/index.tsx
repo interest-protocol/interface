@@ -14,6 +14,7 @@ import {
   formatMoney,
   makeFarmSymbol,
 } from '@/utils';
+import { logModalView } from '@/utils/analytics';
 
 import ApproveButton from '../buttons/approve-button';
 import HarvestButton from '../buttons/harvest-button';
@@ -38,7 +39,12 @@ const FarmOptions: FC<FarmOptionsProps> = ({
 
   const handleCloseModal = () => setModal(undefined);
 
-  const handleChangeModal = (target: StakeState) => () => setModal(target);
+  const handleChangeModal = (target: StakeState) => () => {
+    logModalView(
+      target === StakeState.Stake ? 'Staked Token' : 'Unstaked Token'
+    );
+    setModal(target);
+  };
 
   return (
     <Box

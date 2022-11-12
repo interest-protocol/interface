@@ -1,11 +1,10 @@
 import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useState } from 'react';
-import { event } from 'react-ga';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import Button from '@/elements/button';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useHarvest } from './buttons.hooks';
 import { HarvestButtonProps } from './buttons.types';
@@ -28,11 +27,9 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
 
       await showTXSuccessToast(tx, farm.chainId);
     } catch (e) {
-      event({
-        label: 'Error: Harvest - farm details harvest',
-        action: GAAction.GENERIC,
-        category: GACategory.Error,
-      });
+      logException('Transaction Error: _harvest - HarvestButton', [
+        'views\\dapp\\views\\farm-details\\components\\buttons\\harvest-button.tsx',
+      ]);
       throwError(t('error.generic'), e);
     } finally {
       setLoadingPool(false);
@@ -44,21 +41,7 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
       success: capitalize(t('common.success')),
       error: propOr(capitalize(t('common.error')), 'message'),
       loading: t('farmsDetails.thirdCardButton', { isLoading: 1 }),
-    })
-      .then(() =>
-        event({
-          label: 'Successful harvest',
-          action: GAAction.ApproveTokenLP,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'Unsuccessful harvest',
-          action: GAAction.ApproveTokenLP,
-          category: GACategory.Operation,
-        })
-      );
+    });
 
   return (
     <Button

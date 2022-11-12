@@ -16,7 +16,8 @@ class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, info: ErrorInfo): void {
     logException(
-      `${error.name}: ${error.message}; Stack: ${info.componentStack}`
+      `${error.name}: ${error.message}; Stack: ${info.componentStack}`,
+      ['views\\dapp\\components\\error-boundary\\index.tsx']
     );
   }
 

@@ -8,6 +8,7 @@ import { useChainId } from '@/hooks';
 import { ZERO_ADDRESS } from '@/sdk';
 import { LoadingSVG } from '@/svg';
 import { shortAccount } from '@/utils';
+import { logModalView } from '@/utils/analytics';
 
 import ConnectWallet from './connect-wallet';
 import AccountModal from './wallet-modal/account-modal';
@@ -61,7 +62,10 @@ const ConnectedWallet: FC = () => {
         maxHeight="2.8rem"
         display="inline-flex"
         bg="bottomBackground"
-        onClick={toggleModal}
+        onClick={() => {
+          toggleModal();
+          logModalView('Account');
+        }}
         hover={{
           bg: 'accent',
         }}

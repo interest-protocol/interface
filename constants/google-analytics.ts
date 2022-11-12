@@ -13,6 +13,7 @@ export enum GAAction {
   DesktopNavigate = 'DESKTOP_NAVIGATE',
   MobileNavigate = 'MOBILE_NAVIGATE',
   Access = 'ACCESS',
+  Approve = 'APPROVE',
   Switch = 'SWITCH_FILTER',
   CreateToken = 'OPEN_MODAL_CREATE_TOKEN',
   FindAndEnterPool = 'FIND_AND_ENTER_POOL',

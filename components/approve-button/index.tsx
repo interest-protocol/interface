@@ -31,7 +31,9 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       await refetch();
       await showTXSuccessToast(tx, chainId);
     } catch (e) {
-      logException(`Transaction Error: approve - ApproveButton - ${contract}`);
+      logException(`Transaction Error: approve - ApproveButton - ${contract}`, [
+        'components\\approve-button\\index.tsx',
+      ]);
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);

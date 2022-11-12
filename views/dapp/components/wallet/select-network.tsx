@@ -1,7 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { values } from 'ramda';
 import { FC } from 'react';
-import { event } from 'react-ga';
 
 import EthereumNetwork from '@/components/svg/ethereum-network';
 import { GAAction, GACategory } from '@/constants/google-analytics';
@@ -15,6 +14,7 @@ import {
   BlockchainSVG,
 } from '@/svg';
 import { capitalize } from '@/utils';
+import { logEvent } from '@/utils/analytics';
 
 import { SelectNetworkProps } from './wallet.types';
 const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
@@ -55,11 +55,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
         {
           value: `${CHAIN_ID.BNB_TEST_NET}`,
           onSelect: () => {
-            event({
-              label: 'BSCT',
-              action: GAAction.SwitchNetwork,
-              category: GACategory.Wallet,
-            });
+            logEvent(GACategory.Wallet, GAAction.SwitchNetwork, 'BSCT');
             switchNetwork(CHAIN_ID.BNB_TEST_NET);
           },
           displayOption: (
@@ -93,11 +89,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
         {
           value: ``,
           onSelect: () => {
-            event({
-              label: 'BSC',
-              action: GAAction.SwitchNetwork,
-              category: GACategory.Wallet,
-            });
+            logEvent(GACategory.Wallet, GAAction.SwitchNetwork, 'BSC');
           },
           displayOption: (
             <Box
@@ -149,11 +141,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
         {
           value: ``,
           onSelect: () => {
-            event({
-              label: 'ADA EVM',
-              action: GAAction.SwitchNetwork,
-              category: GACategory.Wallet,
-            });
+            logEvent(GACategory.Wallet, GAAction.SwitchNetwork, 'ADA EVM');
           },
           displayOption: (
             <Box
@@ -205,11 +193,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
         {
           value: ``,
           onSelect: () => {
-            event({
-              label: 'Goerli',
-              action: GAAction.SwitchNetwork,
-              category: GACategory.Wallet,
-            });
+            logEvent(GACategory.Wallet, GAAction.SwitchNetwork, 'Goerli');
           },
           displayOption: (
             <Box

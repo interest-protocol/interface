@@ -1,10 +1,8 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
-import { event } from 'react-ga';
 import toast from 'react-hot-toast';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -14,6 +12,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useBurn } from '../../synthetics-market.hooks';
 import { isFormBurnEmpty } from '../../synthetics-market.utils';
@@ -41,6 +40,9 @@ const BurnButton: FC<BurnButtonProps> = ({
       await showTXSuccessToast(tx, data.chainId);
       form.reset();
     } catch (e: unknown) {
+      logException('Transaction Error: burn - handleBurn', [
+        'views\\dapp\\views\\synthetics-market-panel\\components\\synt-form\\burn-button.tsx',
+      ]);
       throwContractCallError(e);
     } finally {
       setLoading(false);
@@ -60,21 +62,7 @@ const BurnButton: FC<BurnButtonProps> = ({
       success: capitalize(t('common.success')),
       error: prop('message'),
       loading: capitalize(t('common.submit', { isLoading: 1 })),
-    })
-      .then(() =>
-        event({
-          label: 'Burn successful',
-          action: GAAction.Burn,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'Burn successfully',
-          action: GAAction.Burn,
-          category: GACategory.Operation,
-        })
-      );
+    });
   };
 
   return (

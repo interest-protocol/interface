@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
-import { event } from 'react-ga';
+import { OutboundLink } from 'react-ga';
 import { useAccount, useNetwork } from 'wagmi';
 
 import { SwitchLang } from '@/components';
@@ -17,6 +17,7 @@ import { Box, Dropdown, Typography } from '@/elements';
 import useEventListener from '@/hooks/use-event-listener';
 import { CreditCardSVG, LogoSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logEvent } from '@/utils/analytics';
 
 import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
@@ -39,11 +40,7 @@ const Header: FC = () => {
   useEventListener('resize', handleSetDesktop, true);
 
   const trackHeaderNavigation = (label: string) => () =>
-    event({
-      label,
-      action: GAAction.DesktopNavigate,
-      category: GACategory.HeaderNavigation,
-    });
+    logEvent(GACategory.HeaderNavigation, GAAction.DesktopNavigate, label);
 
   return (
     <Box
@@ -73,10 +70,10 @@ const Header: FC = () => {
             <LogoSVG width="100%" aria-label="Logo" fill="currentColor" />
           </Box>
         </Link>
-        <a
-          href="https://forms.gle/aDP4wHvshLPKkKv97"
-          target="__blank"
-          onClick={trackHeaderNavigation('feedback')}
+        <OutboundLink
+          eventLabel="Feedback"
+          to="https://forms.gle/aDP4wHvshLPKkKv97"
+          target="_blank"
           rel="noopener noreferrer"
         >
           <Typography
@@ -96,7 +93,7 @@ const Header: FC = () => {
           >
             Feedback
           </Typography>
-        </a>
+        </OutboundLink>
       </Box>
       <Box
         alignItems="center"

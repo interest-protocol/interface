@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { pathOr, prop } from 'ramda';
 import { FC, useState } from 'react';
-import { event } from 'react-ga';
 
 import { isInterestDexPair } from '@/api';
 import {
@@ -24,7 +23,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logEvent, logException } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 import CreatePoolPopup from '@/views/dapp/views/dex-find-pool/create-pool-popup';
 import { useAddLiquidity } from '@/views/dapp/views/dex-find-pool/dex-find-pool.hooks';
@@ -89,16 +88,18 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
           pathname: Routes[RoutesEnum.DEXPoolDetails],
           query: { pairAddress: address },
         }).then(() =>
-          event({
-            label: 'Pool found successful',
-            action: GAAction.FindAndEnterPool,
-            category: GACategory.Operation,
-          })
+          logEvent(
+            GACategory.Operation,
+            GAAction.FindAndEnterPool,
+            'Pool found successful'
+          )
         );
 
       setCreatingPair(true);
     } catch {
-      logException('Transaction Error: isInterestDexPair - FindPoolButton');
+      logException('Transaction Error: isInterestDexPair - FindPoolButton', [
+        'views\\dapp\\views\\dex-find-pool\\find-pool-button.tsx',
+      ]);
       throwError('Error connecting');
       setLoading(false);
     }
@@ -144,7 +145,9 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
         query: { pairAddress: address },
       }).then();
     } catch (e) {
-      logException('Transaction Error: addLiquidity - FindPoolButton');
+      logException('Transaction Error: addLiquidity - FindPoolButton', [
+        'views\\dapp\\views\\dex-find-pool\\find-pool-button.tsx',
+      ]);
       throwError(t('error.generic'));
     } finally {
       setLoading(false);

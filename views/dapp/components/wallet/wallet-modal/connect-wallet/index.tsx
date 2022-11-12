@@ -4,10 +4,12 @@ import { v4 } from 'uuid';
 import { Connector, useConnect } from 'wagmi';
 
 import { WALLETS_MAP } from '@/constants';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Modal, Typography } from '@/elements';
 import { useChainId } from '@/hooks';
 import { TimesSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logEvent } from '@/utils/analytics';
 
 import { ConnectWalletProps, WalletButtonProps } from '../../wallet.types';
 
@@ -97,7 +99,14 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
               <Box mt="S" key={v4()}>
                 <WalletButton
                   name={name}
-                  onClick={() => connect({ connector })}
+                  onClick={() => {
+                    logEvent(
+                      GACategory.Wallet,
+                      GAAction.Access,
+                      'Wallet:' + name
+                    );
+                    connect({ connector });
+                  }}
                   Icon={SVG}
                 />
               </Box>

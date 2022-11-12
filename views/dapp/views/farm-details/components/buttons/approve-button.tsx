@@ -1,9 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
-import { event } from 'react-ga';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Typography } from '@/elements';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
@@ -16,6 +14,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { ApproveButtonProps } from './buttons.types';
 
@@ -40,11 +39,9 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
       await refetch();
     } catch (e) {
       setLoadingPool(false);
-      event({
-        label: 'Error: Approve - farm details',
-        action: GAAction.GENERIC,
-        category: GACategory.Error,
-      });
+      logException('Transaction Error: _approve - ApproveButton', [
+        'views\\dapp\\views\\farm-details\\components\\buttons\\approve-button.tsx',
+      ]);
       throwError(t('error.generic'), e);
     } finally {
       setLoadingPool(false);
@@ -57,21 +54,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
         success: capitalize(t('common.success')),
         error: propOr(capitalize(t('common.error')), 'message'),
         loading: capitalize(t('common.approve', { isLoading: 1 })),
-      })
-        .then(() =>
-          event({
-            label: 'Farm Approved',
-            action: GAAction.ApproveTokenLP,
-            category: GACategory.Operation,
-          })
-        )
-        .catch(() =>
-          event({
-            label: 'Farm not Approved',
-            action: GAAction.ApproveTokenLP,
-            category: GACategory.Operation,
-          })
-        ),
+      }),
     [approve]
   );
 

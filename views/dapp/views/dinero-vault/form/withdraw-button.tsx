@@ -2,13 +2,12 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { useState } from 'react';
 import { FC } from 'react';
-import { event } from 'react-ga';
 import { useWatch } from 'react-hook-form';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useWithdraw } from '../dinero-vault.hooks';
 import { WithdrawButtonProps } from '../dinero-vault.types';
@@ -33,11 +32,9 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       await refetch();
       await showTXSuccessToast(tx, data.chainId);
     } catch (e) {
-      event({
-        label: 'Error: Handle Withdraw - dinero vault withdraw',
-        action: GAAction.GENERIC,
-        category: GACategory.Error,
-      });
+      logException('Transaction Error: writeAsync - WithdrawButton', [
+        'views\\dapp\\views\\dinero-vault\\form\\withdraw-button.tsx',
+      ]);
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);
@@ -51,21 +48,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       success: capitalize(t('common.success')),
       error: prop('message'),
       loading: capitalize(t('common.submit', { isLoading: 1 })),
-    })
-      .then(() =>
-        event({
-          label: 'Withdrawn successfully',
-          action: GAAction.Withdraw,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'Withdrawn unsuccessfully.',
-          action: GAAction.Withdraw,
-          category: GACategory.Operation,
-        })
-      );
+    });
   };
 
   return (

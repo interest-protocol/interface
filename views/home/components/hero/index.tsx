@@ -1,5 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
+import { OutboundLink } from 'react-ga';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
@@ -58,11 +59,15 @@ const Hero: FC = () => {
           >
             {t('landingPage.headerSubtitle')}
           </Typography>
-          <a href="https://docs.interestprotocol.com/" target="__blank">
+          <OutboundLink
+            eventLabel={'Read docs'}
+            to="https://docs.interestprotocol.com/"
+            target="_blank"
+          >
             <Button type="button" variant="primary" effect="hover">
               {t('landingPage.headerButton')}
             </Button>
-          </a>
+          </OutboundLink>
         </Box>
       </Container>
       <Box

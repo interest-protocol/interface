@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { toPairs } from 'ramda';
 import { FC } from 'react';
+import { OutboundLink } from 'react-ga';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 import { v4 } from 'uuid';
 
@@ -136,8 +137,11 @@ const Advisors: FC = () => {
                   {toPairs(social).map(([network, link]) => {
                     const Icon = SOCIAL_SVG[network];
                     return (
-                      <a
-                        href={link}
+                      <OutboundLink
+                        eventLabel={
+                          'Advisors Member ' + name + ' - Network: ' + network
+                        }
+                        to={link as string}
                         target="_blank"
                         rel="noreferrer"
                         key={v4()}
@@ -153,7 +157,7 @@ const Advisors: FC = () => {
                         >
                           <Icon width="100%" />
                         </Box>
-                      </a>
+                      </OutboundLink>
                     );
                   })}
                 </Box>

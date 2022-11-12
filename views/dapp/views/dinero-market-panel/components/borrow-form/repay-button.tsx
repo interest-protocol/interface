@@ -1,10 +1,8 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
-import { event } from 'react-ga';
 import toast from 'react-hot-toast';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -13,6 +11,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useRepay } from '../../dinero-market.hooks';
 import { isFormRepayEmpty } from '../../dinero-market.utils';
@@ -44,6 +43,9 @@ const RepayButton: FC<RepayButtonProps> = ({
       await showTXSuccessToast(tx, data.chainId);
       form.reset();
     } catch (e: unknown) {
+      logException('Transaction Error: repay - RepayButton', [
+        'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\repay-button.tsx',
+      ]);
       throwContractCallError(e);
     } finally {
       setLoading(false);
@@ -54,6 +56,9 @@ const RepayButton: FC<RepayButtonProps> = ({
   const onSubmitRepay = async () => {
     if (isFormRepayEmpty(form)) {
       toast.error(t('dineroMarketAddress.toastError'));
+      logException('Form Repay is Empty', [
+        'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\repay-button.tsx',
+      ]);
       return;
     }
 
@@ -63,21 +68,7 @@ const RepayButton: FC<RepayButtonProps> = ({
       success: capitalize(t('common.success')),
       error: prop('message'),
       loading: capitalize(t('common.submit', { isLoading: 1 })),
-    })
-      .then(() =>
-        event({
-          label: 'Repay successful',
-          action: GAAction.Borrow,
-          category: GACategory.Operation,
-        })
-      )
-      .catch(() =>
-        event({
-          label: 'Repay unsuccessful',
-          action: GAAction.Borrow,
-          category: GACategory.Operation,
-        })
-      );
+    });
   };
 
   return (

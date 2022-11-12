@@ -2,7 +2,6 @@ import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
 import { isAddress } from 'ethers/lib/utils';
 import { always, cond, equals, ifElse, isEmpty, T } from 'ramda';
-import { event } from 'react-ga';
 import { UseFormSetValue } from 'react-hook-form';
 
 import { ISwitchOption } from '@/components/switch/switch.types';
@@ -13,6 +12,7 @@ import {
 import { GAAction, GACategory } from '@/constants/google-analytics';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { isSameAddress } from '@/utils';
+import { logEvent } from '@/utils/analytics';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
 import { BorrowSortByFilter } from './components/borrow-filters/borrow-filters.types';
@@ -83,22 +83,22 @@ export const getFilterSwitchDefaultData = (
   {
     value: values[0],
     onSelect: () => {
-      event({
-        label: 'onlyBorrowing = off',
-        action: GAAction.Switch,
-        category: GACategory.DineroMarketFilters,
-      });
+      logEvent(
+        GACategory.DineroMarketFilters,
+        GAAction.Switch,
+        'onlyBorrowing = off'
+      );
       setValue(name, false);
     },
   },
   {
     value: values[1],
     onSelect: () => {
-      event({
-        label: 'onlyBorrowing = on',
-        action: GAAction.Switch,
-        category: GACategory.DineroMarketFilters,
-      });
+      logEvent(
+        GACategory.DineroMarketFilters,
+        GAAction.Switch,
+        'onlyBorrowing = on'
+      );
       setValue(name, true);
     },
   },

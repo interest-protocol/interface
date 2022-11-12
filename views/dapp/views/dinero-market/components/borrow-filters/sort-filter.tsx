@@ -1,7 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
-import { FC, useEffect } from 'react';
-import { event } from 'react-ga';
+import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
@@ -9,6 +8,7 @@ import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logEvent } from '@/utils/analytics';
 
 import { BorrowSortByFilter, SortFilterProps } from './borrow-filters.types';
 
@@ -30,14 +30,6 @@ const parseFarmSortByEnum = cond([
 const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
   const t = useTranslations();
   const sortBy = useWatch({ control, name: 'sortBy' });
-
-  const trackGAFilter = () =>
-    event({
-      label: 'sortBy = ' + sortBy,
-      action: GAAction.Switch,
-      category: GACategory.DineroMarketFilters,
-    });
-  useEffect(() => trackGAFilter(), [sortBy]);
 
   return (
     <Box my={['M', 'M', 'M', 'NONE']} gridColumn={['1', '2']}>
@@ -94,6 +86,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.DineroMarketFilters,
+                  GAAction.Switch,
+                  'Sort by: id'
+                );
                 setValue('sortBy', BorrowSortByFilter.Default);
               },
             },
@@ -108,6 +105,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.DineroMarketFilters,
+                  GAAction.Switch,
+                  'Sort by: tvl'
+                );
                 setValue('sortBy', BorrowSortByFilter.TVL);
               },
             },
@@ -122,6 +124,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.DineroMarketFilters,
+                  GAAction.Switch,
+                  'Sort by: ltv'
+                );
                 setValue('sortBy', BorrowSortByFilter.LTV);
               },
             },
@@ -138,6 +145,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.DineroMarketFilters,
+                  GAAction.Switch,
+                  'Sort by: interestRate'
+                );
                 setValue('sortBy', BorrowSortByFilter.InterestRate);
               },
             },
@@ -156,6 +168,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.DineroMarketFilters,
+                  GAAction.Switch,
+                  'Sort by: Fee'
+                );
                 setValue('sortBy', BorrowSortByFilter.Fee);
               },
             },

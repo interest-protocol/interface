@@ -111,7 +111,13 @@ const SwapButton: FC<SwapButtonProps> = ({
   });
 
   const handleAddAllowance = useCallback(async () => {
-    if (isZeroAddress(tokenInAddress)) return;
+    if (isZeroAddress(tokenInAddress)) {
+      logException(
+        `TransactionError: approve - SwapButton - ${tokenInAddress}`,
+        ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
+      );
+      return;
+    }
     setButtonLoadingText(t('common.approve', { isLoading: 1 }));
     try {
       const tx = await approve?.();
@@ -121,9 +127,9 @@ const SwapButton: FC<SwapButtonProps> = ({
       if (tx) await tx.wait(5);
       await refetch();
     } catch (e) {
-      logException(
-        `TransactionError: approve - SwapButton - ${tokenInAddress}`
-      );
+      logException(`TransactionError: add allowance ${tokenInAddress}`, [
+        'views\\dapp\\views\\dex\\swap\\swap-button.tsx',
+      ]);
       throwError(t('error.generic'), e);
     } finally {
       setButtonLoadingText(null);
@@ -146,6 +152,9 @@ const SwapButton: FC<SwapButtonProps> = ({
       await refetch();
       await showTXSuccessToast(tx, chainId);
     } catch {
+      logException(`TransactionError: handle swap ${tokenInAddress}`, [
+        'views\\dapp\\views\\dex\\swap\\swap-button.tsx',
+      ]);
       throwError(t('dexSwap.swapMessage.error'));
     } finally {
       setButtonLoadingText(null);
@@ -163,8 +172,13 @@ const SwapButton: FC<SwapButtonProps> = ({
     if (
       isSameAddress(tokenIn.address, tokenOut.address) ||
       !isZeroAddress(tokenIn.address)
-    )
+    ) {
+      logException(
+        `TransactionError: handle WETH Deposit. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
+        ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
+      );
       return;
+    }
 
     setButtonLoadingText(t('common.wrap', { isLoading: 1 }));
     try {
@@ -177,6 +191,10 @@ const SwapButton: FC<SwapButtonProps> = ({
       await showTXSuccessToast(tx, chainId);
       await refetch();
     } catch (e) {
+      logException(
+        `TransactionError: handle WETH Deposit. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
+        ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
+      );
       throwError(t('dexSwap.error.wethDeposit'));
     } finally {
       setButtonLoadingText(null);
@@ -194,8 +212,13 @@ const SwapButton: FC<SwapButtonProps> = ({
     if (
       isSameAddress(tokenIn.address, tokenOut.address) ||
       !isZeroAddress(tokenOut.address)
-    )
+    ) {
+      logException(
+        `TransactionError: handle WETH Withdraw. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
+        ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
+      );
       return;
+    }
 
     setButtonLoadingText(t('common.unwrap', { isLoading: 1 }));
     try {
@@ -211,6 +234,10 @@ const SwapButton: FC<SwapButtonProps> = ({
       await showTXSuccessToast(tx, chainId);
       await refetch();
     } catch {
+      logException(
+        `TransactionError: handle WETH Withdraw. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
+        ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
+      );
       throwError(t('dexSwap.error.wethWithdraw'));
     } finally {
       setButtonLoadingText(null);

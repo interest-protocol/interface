@@ -1,10 +1,8 @@
 import { useTranslations } from 'next-intl';
-import { FC, useEffect } from 'react';
-import { event } from 'react-ga';
+import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { Switch } from '@/components';
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Typography } from '@/elements';
 import { getFilterSwitchDefaultData } from '@/views/dapp/views/farms/components/farms.data';
 
@@ -18,13 +16,6 @@ const OnlyStakedFilter: FC<OnlyStakedFilterProps> = ({ control, setValue }) => {
     setValue,
     'onlyStaked'
   );
-  const trackGAFilter = () =>
-    event({
-      label: 'OnlyStaked = ' + onlyStaked ? 'on' : 'off',
-      action: GAAction.Switch,
-      category: GACategory.FarmFilters,
-    });
-  useEffect(() => trackGAFilter(), [onlyStaked]);
 
   return (
     <Box display="flex" flexDirection="column" my={['M', 'M', 'M', 'NONE']}>

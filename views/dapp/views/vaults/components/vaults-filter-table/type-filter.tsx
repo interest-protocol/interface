@@ -1,7 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
-import { FC, useEffect } from 'react';
-import { event } from 'react-ga';
+import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { VaultTypes } from '@/constants';
@@ -9,6 +8,7 @@ import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logEvent } from '@/utils/analytics';
 
 import { FilterProps } from './filter-table.types';
 
@@ -21,13 +21,6 @@ const parseVaultTypeByEnum = cond([
 const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
   const t = useTranslations();
   const type = useWatch({ control, name: 'type' });
-  const trackGAFilter = () =>
-    event({
-      label: 'type = ' + type,
-      action: GAAction.Switch,
-      category: GACategory.FarmFilters,
-    });
-  useEffect(() => trackGAFilter(), [type]);
 
   return (
     <Box width={['100%', '100%', '100%', 'unset']} my={['M', 'M', 'M', 'NONE']}>
@@ -86,6 +79,11 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.VaultFilters,
+                  GAAction.Switch,
+                  'type = all'
+                );
                 setValue('type', VaultTypes.All);
               },
             },
@@ -104,6 +102,7 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(GACategory.VaultFilters, GAAction.Switch, 'type = dv');
                 setValue('type', VaultTypes.DV);
               },
             },
