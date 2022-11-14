@@ -1,17 +1,7 @@
-import styled from '@emotion/styled';
-import css from '@styled-system/css';
-import React, { forwardRef } from 'react';
-import {
-  border,
-  color,
-  compose,
-  display,
-  layout,
-  shadow,
-  space,
-  system,
-  typography,
-} from 'styled-system';
+import { css } from '@emotion/react';
+import React, { forwardRef, RefAttributes } from 'react';
+
+import stylin from '@/stylin';
 
 import Box from '../box';
 import { InputProps } from './input.types';
@@ -20,7 +10,6 @@ import { InputFieldProps } from './input.types';
 const Input = forwardRef(
   (
     {
-      focus,
       Prefix,
       Suffix,
       shieldProps,
@@ -30,35 +19,23 @@ const Input = forwardRef(
     }: InputProps,
     ref
   ) => {
-    const InputField = styled.input<InputFieldProps>(
+    const InputField = stylin<InputFieldProps & RefAttributes<unknown>>(
+      'input'
+    )(
       css({
         width: '100%',
         height: '100%',
         border: 'none',
         outline: 'none',
-        bg: 'transparent',
+        background: 'transparent',
         overflow: 'hidden',
         '&:-internal-autofill-selected': {
-          bg: 'transparent',
+          background: 'transparent',
         },
         '&:focus-visible': {
           outline: 'none',
         },
-        ...(focus && { transition: 'all 250ms ease-in-out', ':focus': focus }),
-      }),
-      compose(
-        color,
-        space,
-        border,
-        shadow,
-        display,
-        layout,
-        typography,
-        system({
-          cursor: true,
-          outline: true,
-        })
-      )
+      })
     );
 
     return (
@@ -74,16 +51,7 @@ const Input = forwardRef(
           </Box>
         )}
         <Box flex="1">
-          <InputField
-            px="L"
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            color="text"
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            ref={ref}
-            {...props}
-          />
+          <InputField px="L" color="text" ref={ref} {...props} />
         </Box>
         {Suffix && (
           <Box

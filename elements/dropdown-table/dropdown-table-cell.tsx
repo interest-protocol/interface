@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { FCWithChildren } from '@/interface';
 
 import Box from '../box';
 import { DropdownTableCellProps } from './dropdown-table.types';
 
-const DropdownTableCell: FC<DropdownTableCellProps> = ({
+const DropdownTableCell: FCWithChildren<DropdownTableCellProps> = ({
   as,
   tip,
   children,

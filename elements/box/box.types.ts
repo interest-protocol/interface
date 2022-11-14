@@ -1,4 +1,4 @@
-import { SystemStyleObject } from '@styled-system/css';
+import { CSSInterpolation } from '@emotion/serialize';
 import { CSSProperties, HTMLAttributes } from 'react';
 import {
   BackgroundProps,
@@ -27,8 +27,8 @@ export interface BoxProps
     SpaceProps,
     Omit<HTMLAttributes<HTMLDivElement>, 'color' | 'height'> {
   effect?: 'hover';
-  hover?: SystemStyleObject;
-  active?: SystemStyleObject;
+  hover?: CSSInterpolation;
+  active?: CSSInterpolation;
   as?: keyof JSX.IntrinsicElements;
   rowGap?: ResponsiveValue<CSSProperties['gap']>;
   cursor?: ResponsiveValue<CSSProperties['cursor']>;
