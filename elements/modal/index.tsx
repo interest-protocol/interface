@@ -1,16 +1,11 @@
+import { FC } from 'react';
 import ReactModal from 'react-modal';
-
-import { FCWithChildren } from '@/interface';
 
 import { ModalProps } from './modal.types';
 
 ReactModal.setAppElement('#__next');
 
-const Modal: FCWithChildren<ModalProps> = ({
-  modalProps,
-  children,
-  background,
-}) => (
+const Modal: FC<ModalProps> = ({ modalProps, children, background }) => (
   <ReactModal
     {...modalProps}
     style={{
