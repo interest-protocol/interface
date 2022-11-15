@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
-import { OutboundLink } from 'react-ga';
 import { useAccount, useNetwork } from 'wagmi';
 
 import { SwitchLang } from '@/components';
@@ -70,10 +69,9 @@ const Header: FC = () => {
             <LogoSVG width="100%" aria-label="Logo" fill="currentColor" />
           </Box>
         </Link>
-        <OutboundLink
-          eventLabel="Feedback"
-          to="https://forms.gle/aDP4wHvshLPKkKv97"
-          target="_blank"
+        <a
+          href="https://forms.gle/aDP4wHvshLPKkKv97"
+          target="__blank"
           rel="noopener noreferrer"
         >
           <Typography
@@ -93,7 +91,7 @@ const Header: FC = () => {
           >
             Feedback
           </Typography>
-        </OutboundLink>
+        </a>
       </Box>
       <Box
         alignItems="center"

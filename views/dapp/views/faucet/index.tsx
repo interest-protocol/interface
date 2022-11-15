@@ -4,10 +4,11 @@ import { FC, useCallback, useMemo, useState } from 'react';
 
 import { Container } from '@/components';
 import { FAUCET_TOKENS } from '@/constants';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetUserBalances, useIdAccount, useLocalStorage } from '@/hooks';
 import { flippedAppend, isSameAddress } from '@/utils';
-import { logModalView } from '@/utils/analytics';
+import { logEvent } from '@/utils/analytics';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
@@ -81,7 +82,11 @@ const Faucet: FC = () => {
               variant="primary"
               onClick={() => {
                 toggleCreateToken();
-                logModalView('Create new token');
+                logEvent(
+                  GACategory.Modal,
+                  GAAction.CreateToken,
+                  'Create new token'
+                );
               }}
               hover={{ bg: 'accentActive' }}
             >

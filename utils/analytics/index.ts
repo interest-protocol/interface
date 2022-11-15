@@ -1,27 +1,22 @@
-import {
-  event,
-  exception,
-  initialize,
-  modalview,
-  pageview,
-  set,
-} from 'react-ga';
+import ReactGA from 'react-ga4';
 
 export const initGA = (): void => {
-  initialize(process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_KEY ?? 'UA-4107603268-1');
+  ReactGA.initialize(
+    process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID ?? 'G-3M99P49E9B'
+  );
 };
 
 export const logPageView = (): void => {
-  set({ page: window.location.pathname });
-  pageview(window.location.pathname);
+  ReactGA.set({ page: window.location.pathname });
+  ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
 };
 
 export const logModalView = (modalName = ''): void => {
-  if (modalName) modalview(modalName);
+  if (modalName) console.log(modalName);
 };
 
 export const logEvent = (category = '', action = '', label: string): void => {
-  if (category && action) event({ category, action, label });
+  if (category && action) ReactGA.event({ category, action, label });
 };
 
 export const logException = (
@@ -29,5 +24,5 @@ export const logException = (
   trackerName: string[],
   fatal = false
 ): void => {
-  if (description) exception({ description, fatal }, trackerName);
+  if (description) console.log({ description, fatal }, trackerName);
 };

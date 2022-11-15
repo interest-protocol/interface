@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { OutboundLink } from 'react-ga';
 
 import { Box } from '@/elements';
 
@@ -11,7 +10,7 @@ const SocialMediaCard: FC<SocialMediaCardProps> = ({
   title,
   isMenu,
 }) => (
-  <OutboundLink eventLabel={'Social Media: ' + title} to={link} target="_blank">
+  <a href={link} target="__blank" title={title}>
     <Box
       width={isMenu ? '1.667rem' : '1rem'}
       display="flex"
@@ -26,7 +25,7 @@ const SocialMediaCard: FC<SocialMediaCardProps> = ({
     >
       <Logo height="100%" />
     </Box>
-  </OutboundLink>
+  </a>
 );
 
 export default SocialMediaCard;

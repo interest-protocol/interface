@@ -3,12 +3,13 @@ import { FC, useState } from 'react';
 import { useAccount, useBalance } from 'wagmi';
 
 import { WALLETS_MAP } from '@/constants';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { useChainId } from '@/hooks';
 import { ZERO_ADDRESS } from '@/sdk';
 import { LoadingSVG } from '@/svg';
 import { shortAccount } from '@/utils';
-import { logModalView } from '@/utils/analytics';
+import { logEvent } from '@/utils/analytics';
 
 import ConnectWallet from './connect-wallet';
 import AccountModal from './wallet-modal/account-modal';
@@ -64,7 +65,11 @@ const ConnectedWallet: FC = () => {
         bg="bottomBackground"
         onClick={() => {
           toggleModal();
-          logModalView('Account');
+          logEvent(
+            GACategory.Modal,
+            GAAction.AccountDetails,
+            'Account details'
+          );
         }}
         hover={{
           bg: 'accent',
