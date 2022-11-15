@@ -1,11 +1,12 @@
 import { useTranslations } from 'next-intl';
-import { FC, useMemo } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
 import { VaultTypes } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useIdAccount } from '@/hooks';
+import useEventListener from '@/hooks/use-event-listener';
 import { TimesSVG } from '@/svg';
 
 import { VaultFilterTable, VaultHeader, VaultTable } from './components';
@@ -30,6 +31,15 @@ const Vault: FC = () => {
     () => processVaultsSummaryData(chainId, data),
     [chainId, data]
   );
+
+  const [isDesktop, setDesktop] = useState(false);
+
+  const handleSetDesktop = useCallback(() => {
+    const mediaIsDesktop = window.matchMedia('(min-width: 64em)').matches;
+    setDesktop(mediaIsDesktop);
+  }, []);
+
+  useEventListener('resize', handleSetDesktop, true);
 
   if (error)
     return (
@@ -81,6 +91,7 @@ const Vault: FC = () => {
           control={control}
         />
         <VaultTable
+          isDesktop={isDesktop}
           data={processedData.data}
           control={control}
           loading={processedData.loading}

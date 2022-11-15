@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 
-export const CSS_PROPERTIES_MAP: ReadonlyArray<keyof CSSProperties> = [
+export const CSS_PROPERTIES_ARRAY: ReadonlyArray<keyof CSSProperties> = [
   'alignContent',
   'alignItems',
   'alignSelf',
