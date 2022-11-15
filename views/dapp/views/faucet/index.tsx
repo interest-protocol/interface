@@ -66,7 +66,6 @@ const Faucet: FC = () => {
           width="100%"
           position="relative"
           py={['XL', 'XL', 'XL', 'XXL']}
-          background="specialBackground"
         >
           <Box
             left={['unset', 'unset', '-5rem', 'unset', '-5rem']}

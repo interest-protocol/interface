@@ -96,14 +96,7 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
       width={['100%', '100%', '35rem', '35rem']}
       mx="auto"
     >
-      <Container
-        dapp
-        width="100%"
-        mt="XL"
-        px="M"
-        position="relative"
-        background="specialBackground"
-      >
+      <Container dapp width="100%" mt="XL" px="M" position="relative">
         <Box display="flex" justifyContent="space-between">
           <GoBack route={RoutesEnum.Vaults} />
         </Box>

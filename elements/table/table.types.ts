@@ -51,3 +51,9 @@ export interface TableRowProps {
 export interface TableLoadingProps {
   columns: number;
 }
+
+export interface CellProps {
+  as: 'td' | 'th';
+  tip?: string;
+  children?: ReactNode;
+}

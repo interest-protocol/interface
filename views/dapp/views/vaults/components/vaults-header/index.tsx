@@ -1,8 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
-import { Container } from '@/components';
-import { Typography } from '@/elements';
+import { Box, Typography } from '@/elements';
 import { useLocale } from '@/hooks';
 
 import { VaultHeaderProps } from '../../vaults.types';
@@ -10,9 +9,9 @@ import { VaultHeaderProps } from '../../vaults.types';
 const VaultHeader: FC<VaultHeaderProps> = ({ size }) => {
   const { currentLocale } = useLocale();
   const t = useTranslations();
+
   return (
-    <Container
-      dapp
+    <Box
       py="XL"
       width="100%"
       display="flex"
@@ -25,7 +24,7 @@ const VaultHeader: FC<VaultHeaderProps> = ({ size }) => {
           count: size,
         })}
       </Typography>
-    </Container>
+    </Box>
   );
 };
 

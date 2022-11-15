@@ -97,15 +97,13 @@ export const handleFilterVaults = (
   type: VaultTypes,
   onlyDeposit: boolean
 ): ReadonlyArray<VaultData> =>
-  data
-    ? data.filter((x) =>
-        [
-          typeOperation(type),
-          searchOperation(search.trim()),
-          onlyDepositOperation(onlyDeposit),
-        ].every((pred) => pred(x))
-      )
-    : data;
+  data.filter((x) =>
+    [
+      typeOperation(type),
+      searchOperation(search.trim()),
+      onlyDepositOperation(onlyDeposit),
+    ].every((pred) => pred(x))
+  );
 
 const DEFAULT_VAULT_INFO = {
   vaultAddress: ZERO_ADDRESS,
