@@ -1,4 +1,3 @@
-import { SystemStyleObject } from '@styled-system/css';
 import { CSSProperties, HTMLAttributes } from 'react';
 import {
   BorderProps,
@@ -13,6 +12,8 @@ import {
   TypographyProps as TypoProps,
 } from 'styled-system';
 
+import { TStyles } from '@/stylin/stylin.types';
+
 export interface TypographyProps
   extends LayoutProps,
     TypoProps,
@@ -24,8 +25,8 @@ export interface TypographyProps
     BoxShadowProps,
     TextShadowProps,
     Omit<HTMLAttributes<HTMLElement>, 'color'> {
-  hover?: SystemStyleObject;
-  active?: SystemStyleObject;
+  hover?: TStyles;
+  active?: TStyles;
   as?: keyof JSX.IntrinsicElements;
   cursor?: ResponsiveValue<CSSProperties['cursor']>;
   whiteSpace?: ResponsiveValue<CSSProperties['whiteSpace']>;

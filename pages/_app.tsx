@@ -11,6 +11,13 @@ import { WagmiConfig } from 'wagmi';
 import { NextIntlProvider, Web3Manager } from '@/components';
 import { wagmiClient } from '@/connectors';
 import GlobalStyles from '@/design-system/global-styles';
+import { TTranslatedMessage } from '@/interface';
+
+interface PageProps {
+  now: number;
+  pageTitle: string;
+  messages: TTranslatedMessage;
+}
 
 const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
   <>
@@ -32,15 +39,15 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
           },
         },
       }}
-      messages={pageProps.messages}
-      now={new Date(pageProps.now)}
+      messages={(pageProps as PageProps).messages}
+      now={new Date((pageProps as PageProps).now)}
       timeZone="UTC"
     >
       <WagmiConfig client={wagmiClient}>
         <SkeletonTheme baseColor="#202020" highlightColor="#444">
           <Global styles={GlobalStyles} />
           <Web3Manager
-            pageTitle={pageProps.pageTitle}
+            pageTitle={(pageProps as PageProps).pageTitle}
             pathname={router.pathname}
           >
             <StrictMode>

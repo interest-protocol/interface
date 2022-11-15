@@ -1,4 +1,3 @@
-import { SystemStyleObject } from '@styled-system/css';
 import { ButtonHTMLAttributes, CSSProperties, ElementType } from 'react';
 import {
   BackgroundProps,
@@ -13,6 +12,8 @@ import {
   TypographyProps,
 } from 'styled-system';
 
+import { TStyles } from '@/stylin/stylin.types';
+
 export interface ButtonProps
   extends ColorProps,
     SpaceProps,
@@ -26,8 +27,8 @@ export interface ButtonProps
     TypographyProps,
     Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'> {
   effect?: 'hover';
-  hover?: SystemStyleObject;
-  active?: SystemStyleObject;
+  hover?: TStyles;
+  active?: TStyles;
   cursor?: CSSProperties['cursor'];
   variant: 'primary' | 'secondary' | 'tertiary' | 'neutral' | 'special';
   as?: ElementType;

@@ -11,6 +11,7 @@
           ["@/hooks", "./hooks"],
           ["@/interface", "./interface"],
           ["@/sdk", "./sdk"],
+          ["@/stylin", "./stylin"],
           ["@/utils", "./utils"],
           ["@/views", "./views"],
           ["@/api", "./api"],
