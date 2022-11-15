@@ -37,13 +37,8 @@ const Footer: FC = () => {
       width="100%"
       boxShadow="0 0 0.5rem #0003"
       bottom={['0', '0', '0', 'unset']}
-      pt={['NONE', 'NONE', 'NONE', 'XL']}
-      pb={[
-        'env(safe-area-inset-bottom)',
-        'env(safe-area-inset-bottom)',
-        'env(safe-area-inset-bottom)',
-        'XL',
-      ]}
+      pt={['NONE', 'NONE', 'XL']}
+      pb={['env(safe-area-inset-bottom)', 'env(safe-area-inset-bottom)', 'XL']}
       position={['fixed', 'fixed', 'fixed', 'static']}
       bg={['foreground', 'foreground', 'foreground', 'foreground']}
     >
