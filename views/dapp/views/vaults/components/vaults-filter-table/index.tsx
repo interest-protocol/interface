@@ -1,7 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
-import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
 
 import { VaultFilterTableProps } from '../../vaults.types';

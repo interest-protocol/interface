@@ -4,7 +4,6 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import { v4 } from 'uuid';
 
-import { Container } from '@/components';
 import TokenView from '@/components/token-view';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Table, Typography } from '@/elements';
@@ -41,8 +40,8 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
   );
 
   return (
-    <Container>
-      <Box display={['none', 'none', 'none', 'block']}>
+    <>
+      <Box display={['none', 'none', 'none', 'block']} width="100%">
         <Table
           hasButton
           headings={HEADING.map((title) => {
@@ -287,7 +286,7 @@ const VaultTable: FC<VaultTableProps> = ({ data, loading, control }) => {
           }
         />
       </Box>
-    </Container>
+    </>
   );
 };
 
