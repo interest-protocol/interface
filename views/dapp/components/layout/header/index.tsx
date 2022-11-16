@@ -54,6 +54,8 @@ const Header: FC = () => {
             color="text"
             width="2.5rem"
             height="2.5rem"
+            maxWidth="50px"
+            maxHeight="50px"
             cursor="pointer"
             hover={{ color: 'accent' }}
             active={{ color: 'accentSecondary' }}
