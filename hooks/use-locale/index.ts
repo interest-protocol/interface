@@ -13,7 +13,6 @@ export const useLocale = () => {
     setCookie(locale);
     await push({ pathname, query }, asPath, {
       locale,
-      unstable_skipClientCache: true,
     });
   };
 
