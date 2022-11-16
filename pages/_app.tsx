@@ -19,7 +19,11 @@ interface PageProps {
   messages: TTranslatedMessage;
 }
 
-const MyApp = ({ Component, pageProps = {}, router }: AppProps): ReactNode => (
+type Props = Omit<AppProps<PageProps>, 'pageProps'> & {
+  pageProps: PageProps;
+};
+
+const MyApp = ({ Component, pageProps, router }: Props): ReactNode => (
   <>
     <Head>
       <title>Interest Protocol</title>
@@ -39,15 +43,15 @@ const MyApp = ({ Component, pageProps = {}, router }: AppProps): ReactNode => (
           },
         },
       }}
-      messages={(pageProps as PageProps).messages}
-      now={new Date((pageProps as PageProps).now)}
+      messages={pageProps.messages}
+      now={new Date(pageProps.now)}
       timeZone="UTC"
     >
       <WagmiConfig client={wagmiClient}>
         <SkeletonTheme baseColor="#202020" highlightColor="#444">
           <Global styles={GlobalStyles} />
           <Web3Manager
-            pageTitle={(pageProps as PageProps).pageTitle}
+            pageTitle={pageProps.pageTitle}
             pathname={router.pathname}
           >
             <StrictMode>

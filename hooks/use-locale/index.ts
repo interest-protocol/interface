@@ -9,9 +9,12 @@ const setCookie = (locale: string) => {
 export const useLocale = () => {
   const { locale, push, asPath, locales, pathname, query } = useRouter();
 
-  const changeLocale = async (locale: string) => {
-    await push({ pathname, query }, asPath, { locale });
+  const changeLocale = (locale: string) => {
     setCookie(locale);
+    push({ pathname, query }, asPath, {
+      locale,
+      unstable_skipClientCache: true,
+    });
   };
 
   return {
