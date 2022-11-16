@@ -19,7 +19,7 @@ interface PageProps {
   messages: TTranslatedMessage;
 }
 
-const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
+const MyApp = ({ Component, pageProps = {}, router }: AppProps): ReactNode => (
   <>
     <Head>
       <title>Interest Protocol</title>
