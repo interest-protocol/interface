@@ -49,7 +49,7 @@ const SyntFormSelectLtv: FC<SyntFormSelectLTVProps> = ({
       calculateMintAmount({
         ...data,
         ltv: FixedPointMath.toBigNumber(intendedLTV, 16),
-        userCollateral: data.userCollateral.add(
+        adjustedUserCollateral: data.adjustedUserCollateral.add(
           FixedPointMath.toBigNumber(mintCollateral)
         ),
       })
