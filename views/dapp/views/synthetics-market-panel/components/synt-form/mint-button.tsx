@@ -15,6 +15,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useMint } from '../../synthetics-market.hooks';
 import {
@@ -101,6 +102,9 @@ const MintButton: FC<MintButtonProps> = ({
       await showTXSuccessToast(tx, data.chainId);
       form.reset();
     } catch (e: unknown) {
+      logException('Transaction Error: mint - handleMint', [
+        'views\\dapp\\views\\synthetics-market-panel\\components\\synt-form\\mint-button.tsx',
+      ]);
       throwContractCallError(e);
     } finally {
       setLoading(false);

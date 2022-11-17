@@ -7,6 +7,7 @@ import { useWatch } from 'react-hook-form';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useWithdraw } from '../dinero-vault.hooks';
 import { WithdrawButtonProps } from '../dinero-vault.types';
@@ -31,6 +32,9 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       await refetch();
       await showTXSuccessToast(tx, data.chainId);
     } catch (e) {
+      logException('Transaction Error: writeAsync - WithdrawButton', [
+        'views\\dapp\\views\\dinero-vault\\form\\withdraw-button.tsx',
+      ]);
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);

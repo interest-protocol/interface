@@ -12,6 +12,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useMint } from './faucet-form.hooks';
 import { MintButtonProps } from './faucet-form.types';
@@ -43,6 +44,9 @@ const MintButton: FC<MintButtonProps> = ({
       await showTXSuccessToast(tx, chainId);
       await refetch();
     } catch (error) {
+      logException('Transaction Error: mint - handleOnMint', [
+        'views\\dapp\\views\\faucet\\faucet-form\\mint-button.tsx',
+      ]);
       throwError(t('error.generic'), error);
     } finally {
       setLoading(false);

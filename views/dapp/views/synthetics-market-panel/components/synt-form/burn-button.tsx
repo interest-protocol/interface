@@ -12,6 +12,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useBurn } from '../../synthetics-market.hooks';
 import { isFormBurnEmpty } from '../../synthetics-market.utils';
@@ -39,6 +40,9 @@ const BurnButton: FC<BurnButtonProps> = ({
       await showTXSuccessToast(tx, data.chainId);
       form.reset();
     } catch (e: unknown) {
+      logException('Transaction Error: burn - handleBurn', [
+        'views\\dapp\\views\\synthetics-market-panel\\components\\synt-form\\burn-button.tsx',
+      ]);
       throwContractCallError(e);
     } finally {
       setLoading(false);

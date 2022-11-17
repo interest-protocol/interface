@@ -3,6 +3,7 @@ import { values } from 'ramda';
 import { FC } from 'react';
 
 import EthereumNetwork from '@/components/svg/ethereum-network';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Dropdown, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
 import {
@@ -13,6 +14,7 @@ import {
   BlockchainSVG,
 } from '@/svg';
 import { capitalize } from '@/utils';
+import { logEvent } from '@/utils/analytics';
 
 import { SelectNetworkProps } from './wallet.types';
 const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
@@ -52,7 +54,10 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
       data={[
         {
           value: `${CHAIN_ID.BNB_TEST_NET}`,
-          onSelect: () => switchNetwork(CHAIN_ID.BNB_TEST_NET),
+          onSelect: () => {
+            logEvent(GACategory.Wallet, GAAction.SwitchNetwork, 'BSCT');
+            switchNetwork(CHAIN_ID.BNB_TEST_NET);
+          },
           displayOption: (
             <Box pl="L" display="flex" alignItems="center">
               <Box as="span" display="inline-block" width="1.5rem">
@@ -83,6 +88,9 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
         },
         {
           value: ``,
+          onSelect: () => {
+            logEvent(GACategory.Wallet, GAAction.SwitchNetwork, 'BSC');
+          },
           displayOption: (
             <Box
               px="L"
@@ -132,6 +140,9 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
         },
         {
           value: ``,
+          onSelect: () => {
+            logEvent(GACategory.Wallet, GAAction.SwitchNetwork, 'ADA EVM');
+          },
           displayOption: (
             <Box
               px="L"
@@ -181,6 +192,9 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
         },
         {
           value: ``,
+          onSelect: () => {
+            logEvent(GACategory.Wallet, GAAction.SwitchNetwork, 'Goerli');
+          },
           displayOption: (
             <Box
               px="L"

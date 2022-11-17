@@ -5,6 +5,7 @@ import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { ApproveButtonProps } from './approve-button.types';
 
@@ -30,6 +31,9 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       await refetch();
       await showTXSuccessToast(tx, chainId);
     } catch (e) {
+      logException(`Transaction Error: approve - ApproveButton - ${contract}`, [
+        'components\\approve-button\\index.tsx',
+      ]);
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);

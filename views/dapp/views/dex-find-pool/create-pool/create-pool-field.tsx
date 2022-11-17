@@ -15,6 +15,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { CreatePoolFieldProps } from '../dex-find-pool.types';
 
@@ -46,6 +47,9 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
       if (tx) await tx.wait(2);
       await refetch();
     } catch (e) {
+      logException('Transaction Error: addAllowance - CreatePoolField', [
+        'views\\dapp\\views\\dex-find-pool\\create-pool\\create-pool-field.tsx',
+      ]);
       throwError(t('error.generic'), e);
     }
   }, [chainId, addAllowance, chainId, refetch]);

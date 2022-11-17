@@ -13,6 +13,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useCreateToken } from './create-token-form.hooks';
 import { CreateTokenButtonProps } from './create-token-form.types';
@@ -50,6 +51,9 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
           });
       }
     } catch (error) {
+      logException('Transaction Error: createToken - handleCreateToken', [
+        'views\\dapp\\views\\faucet\\create-token-form\\create-token-button.tsx',
+      ]);
       throwError(t('error.generic'), error);
     } finally {
       setLoading(false);

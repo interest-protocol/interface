@@ -4,9 +4,11 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logEvent } from '@/utils/analytics';
 
 import { FarmSortByFilter } from '../../farms.types';
 import { SortFilterProps } from './farms-filters.types';
@@ -80,6 +82,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.FarmFilters,
+                  GAAction.Switch,
+                  'Sort by = id'
+                );
                 setValue('sortBy', FarmSortByFilter.Default);
               },
             },
@@ -94,6 +101,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.FarmFilters,
+                  GAAction.Switch,
+                  'Sort by = tvl'
+                );
                 setValue('sortBy', FarmSortByFilter.TVL);
               },
             },
@@ -108,6 +120,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.FarmFilters,
+                  GAAction.Switch,
+                  'Sort by = apr'
+                );
                 setValue('sortBy', FarmSortByFilter.APR);
               },
             },
@@ -122,6 +139,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.FarmFilters,
+                  GAAction.Switch,
+                  'Sort by = Allocation'
+                );
                 setValue('sortBy', FarmSortByFilter.Allocation);
               },
             },

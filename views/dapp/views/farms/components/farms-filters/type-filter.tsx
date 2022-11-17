@@ -4,9 +4,11 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logEvent } from '@/utils/analytics';
 
 import { FarmTypeFilter } from '../../farms.types';
 import { TypeFilterProps } from './farms-filters.types';
@@ -90,6 +92,11 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.FarmFilters,
+                  GAAction.Switch,
+                  'TypeFilter = all'
+                );
                 setValue('typeFilter', FarmTypeFilter.All);
               },
             },
@@ -108,6 +115,11 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.FarmFilters,
+                  GAAction.Switch,
+                  'TypeFilter = stable'
+                );
                 setValue('typeFilter', FarmTypeFilter.Stable);
               },
             },
@@ -126,6 +138,11 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.FarmFilters,
+                  GAAction.Switch,
+                  'TypeFilter = volatile'
+                );
                 setValue('typeFilter', FarmTypeFilter.Volatile);
               },
             },

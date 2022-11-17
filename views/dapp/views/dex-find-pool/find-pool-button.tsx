@@ -11,6 +11,7 @@ import {
   STABLE_COIN_ADDRESSES,
   WRAPPED_NATIVE_TOKEN,
 } from '@/constants';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { getIPXPairAddress, sortTokens, ZERO_BIG_NUMBER } from '@/sdk';
 import {
@@ -22,6 +23,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logEvent, logException } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 import CreatePoolPopup from '@/views/dapp/views/dex-find-pool/create-pool-popup';
 import { useAddLiquidity } from '@/views/dapp/views/dex-find-pool/dex-find-pool.hooks';
@@ -85,10 +87,19 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
         return await push({
           pathname: Routes[RoutesEnum.DEXPoolDetails],
           query: { pairAddress: address },
-        }).then();
+        }).then(() =>
+          logEvent(
+            GACategory.Operation,
+            GAAction.FindAndEnterPool,
+            'Pool found successful'
+          )
+        );
 
       setCreatingPair(true);
     } catch {
+      logException('Transaction Error: isInterestDexPair - FindPoolButton', [
+        'views\\dapp\\views\\dex-find-pool\\find-pool-button.tsx',
+      ]);
       throwError('Error connecting');
       setLoading(false);
     }
@@ -134,6 +145,9 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
         query: { pairAddress: address },
       }).then();
     } catch (e) {
+      logException('Transaction Error: addLiquidity - FindPoolButton', [
+        'views\\dapp\\views\\dex-find-pool\\find-pool-button.tsx',
+      ]);
       throwError(t('error.generic'));
     } finally {
       setLoading(false);

@@ -11,6 +11,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useRepay } from '../../dinero-market.hooks';
 import { isFormRepayEmpty } from '../../dinero-market.utils';
@@ -42,6 +43,9 @@ const RepayButton: FC<RepayButtonProps> = ({
       await showTXSuccessToast(tx, data.chainId);
       form.reset();
     } catch (e: unknown) {
+      logException('Transaction Error: repay - RepayButton', [
+        'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\repay-button.tsx',
+      ]);
       throwContractCallError(e);
     } finally {
       setLoading(false);
@@ -52,6 +56,9 @@ const RepayButton: FC<RepayButtonProps> = ({
   const onSubmitRepay = async () => {
     if (isFormRepayEmpty(form)) {
       toast.error(t('dineroMarketAddress.toastError'));
+      logException('Form Repay is Empty', [
+        'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\repay-button.tsx',
+      ]);
       return;
     }
 

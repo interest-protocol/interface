@@ -4,9 +4,11 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { VaultTypes } from '@/constants';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logEvent } from '@/utils/analytics';
 
 import { FilterProps } from './filter-table.types';
 
@@ -77,6 +79,11 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.VaultFilters,
+                  GAAction.Switch,
+                  'type = all'
+                );
                 setValue('type', VaultTypes.All);
               },
             },
@@ -95,6 +102,7 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(GACategory.VaultFilters, GAAction.Switch, 'type = dv');
                 setValue('type', VaultTypes.DV);
               },
             },

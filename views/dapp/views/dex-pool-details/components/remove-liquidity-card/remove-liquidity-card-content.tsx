@@ -11,6 +11,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import ApproveButton from './approve-button';
@@ -56,6 +57,9 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
 
       await showTXSuccessToast(tx, chainId);
     } catch {
+      logException('Transaction Error: Approve token - remove liquidity', [
+        'views\\dapp\\views\\dex-pool-details\\components\\remove-liquidity-card\\remove-liquidity-card-content.tsx',
+      ]);
       throwError(t('error.generic'));
     } finally {
       setValue('loading', false);
@@ -78,6 +82,9 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
 
       await showTXSuccessToast(tx, chainId);
     } catch {
+      logException('Transaction Error: removeLiquidity - remove liquidity', [
+        'views\\dapp\\views\\dex-pool-details\\components\\remove-liquidity-card\\remove-liquidity-card-content.tsx',
+      ]);
       throwError(t('error.generic'));
     } finally {
       setValue('removeLoading', false);
