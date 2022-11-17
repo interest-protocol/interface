@@ -1,6 +1,7 @@
 import 'react-loading-skeleton/dist/skeleton.css';
 
-import { Global } from '@emotion/react';
+import createEmotionCache from '@emotion/cache';
+import { CacheProvider as EmotionCacheProvider, Global } from '@emotion/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextProgress from 'next-progress';
@@ -10,9 +11,11 @@ import { WagmiConfig } from 'wagmi';
 
 import { NextIntlProvider, Web3Manager } from '@/components';
 import { wagmiClient } from '@/connectors';
-import GlobalStyles from '@/design-system/global-styles';
+import { GlobalStyles } from '@/design-system';
 import { TTranslatedMessage } from '@/interface';
 import { initGA, logPageView } from '@/utils/analytics';
+
+const emotionCache = createEmotionCache({ key: 'stylin' });
 
 interface PageProps {
   now: number;
@@ -20,7 +23,11 @@ interface PageProps {
   messages: TTranslatedMessage;
 }
 
-const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => {
+type Props = Omit<AppProps<PageProps>, 'pageProps'> & {
+  pageProps: PageProps;
+};
+
+const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
   useEffect(() => {
     initGA();
     // `routeChangeComplete` won't run for the first page load unless the query string is
@@ -57,21 +64,23 @@ const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => {
             },
           },
         }}
-        messages={(pageProps as PageProps).messages}
-        now={new Date((pageProps as PageProps).now)}
+        messages={pageProps.messages}
+        now={new Date(pageProps.now)}
         timeZone="UTC"
       >
         <WagmiConfig client={wagmiClient}>
           <SkeletonTheme baseColor="#202020" highlightColor="#444">
-            <Global styles={GlobalStyles} />
-            <Web3Manager
-              pageTitle={(pageProps as PageProps).pageTitle}
-              pathname={router.pathname}
-            >
-              <StrictMode>
-                <Component {...pageProps} />
-              </StrictMode>
-            </Web3Manager>
+            <EmotionCacheProvider value={emotionCache}>
+              <Global styles={GlobalStyles} />
+              <Web3Manager
+                pageTitle={pageProps.pageTitle}
+                pathname={router.pathname}
+              >
+                <StrictMode>
+                  <Component {...pageProps} />
+                </StrictMode>
+              </Web3Manager>
+            </EmotionCacheProvider>
           </SkeletonTheme>
         </WagmiConfig>
       </NextIntlProvider>
