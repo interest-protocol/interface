@@ -14,22 +14,14 @@ export const getFilterSwitchDefaultData = (
   {
     value: values[0],
     onSelect: () => {
-      logEvent(
-        GACategory.FarmFilters,
-        GAAction.Switch,
-        name === 'onlyFinished' ? 'onlyFinished = live' : 'onlyStaked = off'
-      );
+      logEvent(GACategory.FarmFilters, GAAction.Switch, `${name} = off`);
       setValue(name, false);
     },
   },
   {
     value: values[1],
     onSelect: () => {
-      logEvent(
-        GACategory.FarmFilters,
-        GAAction.Switch,
-        name === 'onlyFinished' ? 'onlyFinished = finished' : 'onlyStaked = on'
-      );
+      logEvent(GACategory.FarmFilters, GAAction.Switch, `${name} = on`);
       setValue(name, true);
     },
   },
