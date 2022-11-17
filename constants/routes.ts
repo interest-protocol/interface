@@ -55,4 +55,5 @@ export const RoutesWithFaucet = [
   Routes[RoutesEnum.DEXPoolDetails],
   Routes[RoutesEnum.Vaults],
   Routes[RoutesEnum.DineroVault],
+  Routes[RoutesEnum.SyntheticsMarket],
 ];
