@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 
-import { GACategory } from '@/constants/google-analytics';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
@@ -38,6 +38,7 @@ const ModalButton: FC<ModalButtonProps> = ({
     } catch (e) {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         'Transaction Error: action - handleWithdrawTokens',
         [
           'views\\dapp\\views\\farm-details\\components\\buttons\\modal-button.tsx',
@@ -68,6 +69,7 @@ const ModalButton: FC<ModalButtonProps> = ({
     } catch (e) {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         'Transaction Error: action - handleDepositTokens',
         [
           'views\\dapp\\views\\farm-details\\components\\buttons\\modal-button.tsx',

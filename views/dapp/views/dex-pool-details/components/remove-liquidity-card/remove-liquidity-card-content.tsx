@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
 
-import { GACategory } from '@/constants/google-analytics';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import {
@@ -60,6 +60,7 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
     } catch {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         'Transaction Error: Approve token - remove liquidity',
         [
           'views\\dapp\\views\\dex-pool-details\\components\\remove-liquidity-card\\remove-liquidity-card-content.tsx',
@@ -89,6 +90,7 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
     } catch {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         'Transaction Error: removeLiquidity - remove liquidity',
         [
           'views\\dapp\\views\\dex-pool-details\\components\\remove-liquidity-card\\remove-liquidity-card-content.tsx',

@@ -3,7 +3,7 @@ import { prop } from 'ramda';
 import { useCallback, useState } from 'react';
 import { FC } from 'react';
 
-import { GACategory } from '@/constants/google-analytics';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -45,9 +45,12 @@ const MintButton: FC<MintButtonProps> = ({
       await showTXSuccessToast(tx, chainId);
       await refetch();
     } catch (error) {
-      logException(GACategory.Error, 'Transaction Error: mint - handleOnMint', [
-        'views\\dapp\\views\\faucet\\faucet-form\\mint-button.tsx',
-      ]);
+      logException(
+        GACategory.Error,
+        GAAction.SubmitTransaction,
+        'Transaction Error: mint - handleOnMint',
+        ['views\\dapp\\views\\faucet\\faucet-form\\mint-button.tsx']
+      );
       throwError(t('error.generic'), error);
     } finally {
       setLoading(false);

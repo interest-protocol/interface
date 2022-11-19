@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useState } from 'react';
 
-import { GACategory } from '@/constants/google-analytics';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import Button from '@/elements/button';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
 import { logException } from '@/utils/analytics';
@@ -30,6 +30,7 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
     } catch (e) {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         'Transaction Error: _harvest - HarvestButton',
         [
           'views\\dapp\\views\\farm-details\\components\\buttons\\harvest-button.tsx',

@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 
-import { GACategory } from '@/constants/google-analytics';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -54,6 +54,7 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
     } catch (error) {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         'Transaction Error: createToken - handleCreateToken',
         [
           'views\\dapp\\views\\faucet\\create-token-form\\create-token-button.tsx',

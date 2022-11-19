@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
 
-import { GACategory } from '@/constants/google-analytics';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Button } from '@/elements';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
 import { logException } from '@/utils/analytics';
@@ -26,6 +26,7 @@ const AddLiquidityButton: FC<AddLiquidityCardButtonProps> = ({
     } catch {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         'Transaction Error: addLiquidity - AddLiquidityButton',
         [
           'views\\dapp\\views\\dex-pool-details\\components\\add-liquidity-card\\add-liquidity-button.tsx',

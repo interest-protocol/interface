@@ -99,6 +99,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
     } catch {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         'Transaction Error: isInterestDexPair - FindPoolButton',
         ['views\\dapp\\views\\dex-find-pool\\find-pool-button.tsx']
       );
@@ -149,6 +150,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
     } catch (e) {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         'Transaction Error: addLiquidity - FindPoolButton',
         ['views\\dapp\\views\\dex-find-pool\\find-pool-button.tsx']
       );

@@ -5,7 +5,7 @@ import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { ApproveButton } from '@/components';
-import { GACategory } from '@/constants/google-analytics';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { LoadingSVG } from '@/svg';
@@ -116,6 +116,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
     } catch (e: unknown) {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         'Transaction Error: borrow - BorrowButton',
         [
           'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\borrow-button.tsx',
@@ -130,9 +131,14 @@ const BorrowButton: FC<BorrowButtonProps> = ({
   const onSubmitBorrow = async () => {
     if (isFormBorrowEmpty(form)) {
       toast.error(t('dineroMarketAddress.form.amountError'));
-      logException(GACategory.Error, 'Form Borrow is Empty', [
-        'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\borrow-button.tsx',
-      ]);
+      logException(
+        GACategory.Error,
+        GAAction.SubmitTransaction,
+        'Form Borrow is Empty',
+        [
+          'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\borrow-button.tsx',
+        ]
+      );
       return;
     }
     if (!data.chainId || !account || !data || data.collateralAllowance.isZero())

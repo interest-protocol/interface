@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { GACategory } from '@/constants/google-analytics';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
@@ -35,6 +35,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
     } catch (e) {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         'Transaction Error: writeAsync - WithdrawButton',
         ['views\\dapp\\views\\dinero-vault\\form\\withdraw-button.tsx']
       );

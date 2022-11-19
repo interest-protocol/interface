@@ -3,7 +3,7 @@ import { propOr } from 'ramda';
 import toast from 'react-hot-toast';
 
 import { CHAINS, EXPLORER_MAP } from '@/constants';
-import { GACategory } from '@/constants/google-analytics';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
 import { logException } from '@/utils/analytics';
@@ -61,8 +61,11 @@ export function showToast<T>(
   options: ToastOpts = undefined
 ): Promise<T | undefined> {
   return tryCatch(toast.promise(fn, msgs, options), (x) =>
-    logException(GACategory.Error, propOr('message', 'error', x), [
-      'utils\\toast\\index.tsx',
-    ])
+    logException(
+      GACategory.Error,
+      GAAction.SubmitTransaction,
+      propOr('message', 'error', x),
+      ['utils\\toast\\index.tsx']
+    )
   );
 }

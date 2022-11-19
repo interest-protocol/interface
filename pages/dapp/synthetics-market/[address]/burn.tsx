@@ -2,6 +2,8 @@ import { GetServerSideProps, NextPage } from 'next';
 import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
+import { logException } from '@/utils/analytics';
 import { Loading } from '@/views/dapp/components';
 import Error from '@/views/dapp/views/error';
 import SyntheticsMarketMode from '@/views/dapp/views/synthetics-market-panel';
@@ -17,7 +19,15 @@ const SyntheticsPageBurnPage: NextPage<SyntheticsPageBurnPageProps> = ({
 
   if (address === undefined) return <Loading />;
 
-  if (address === null) return <Error message={t('error.wrongParams')} />;
+  if (address === null) {
+    logException(
+      GACategory.Error,
+      GAAction.ErrorPage,
+      `Error Page: Wrong params`,
+      ['pages\\dapp\\synthetics-market\\[address]\\burn.tsx']
+    );
+    return <Error message={t('error.wrongParams')} />;
+  }
 
   return <SyntheticsMarketMode address={address} mode="burn" />;
 };

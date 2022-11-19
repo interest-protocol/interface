@@ -8,7 +8,7 @@ import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetUserBalances, useIdAccount, useLocalStorage } from '@/hooks';
 import { flippedAppend, isSameAddress } from '@/utils';
-import { logEvent } from '@/utils/analytics';
+import { logEvent, logException } from '@/utils/analytics';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
@@ -55,7 +55,15 @@ const Faucet: FC = () => {
     [localTokens, setLocalTokens]
   );
 
-  if (error) return <ErrorView message="Error fetching balances" />;
+  if (error) {
+    logException(
+      GACategory.Error,
+      GAAction.ErrorPage,
+      `Error Page: Error fetching balances`,
+      ['views\\dapp\\views\\faucet\\index.tsx']
+    );
+    return <ErrorView message={t('error.fetchingBalances')} />;
+  }
 
   return (
     <>

@@ -5,7 +5,7 @@ import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
-import { GACategory } from '@/constants/google-analytics';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LineLoaderSVG } from '@/svg';
@@ -78,6 +78,7 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
     } catch {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         'Transaction Error: approveToken - AddLiquidityCardContent',
         [
           'views\\dapp\\views\\dex-pool-details\\components\\add-liquidity-card\\add-liquidity-card-content.tsx',

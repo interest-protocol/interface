@@ -3,7 +3,7 @@ import { prop } from 'ramda';
 import { ChangeEvent, FC, useCallback, useMemo } from 'react';
 
 import { TOKENS_SVG_MAP } from '@/constants';
-import { GACategory } from '@/constants/google-analytics';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Input, Typography } from '@/elements';
 import { useApprove, useIdAccount } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
@@ -50,6 +50,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
     } catch (e) {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         'Transaction Error: addAllowance - CreatePoolField',
         [
           'views\\dapp\\views\\dex-find-pool\\create-pool\\create-pool-field.tsx',

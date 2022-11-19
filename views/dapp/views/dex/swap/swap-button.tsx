@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { GACategory } from '@/constants/google-analytics';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
@@ -115,6 +115,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     if (isZeroAddress(tokenInAddress)) {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         `TransactionError: approve - SwapButton - ${tokenInAddress}`,
         ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
       );
@@ -131,6 +132,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     } catch (e) {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         `TransactionError: add allowance ${tokenInAddress}`,
         ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
       );
@@ -158,6 +160,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     } catch {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         `TransactionError: handle swap ${tokenInAddress}`,
         ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
       );
@@ -181,6 +184,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     ) {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         `TransactionError: handle WETH Deposit. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
         ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
       );
@@ -200,6 +204,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     } catch (e) {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         `TransactionError: handle WETH Deposit. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
         ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
       );
@@ -223,6 +228,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     ) {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         `TransactionError: handle WETH Withdraw. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
         ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
       );
@@ -245,6 +251,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     } catch {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         `TransactionError: handle WETH Withdraw. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
         ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
       );

@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 
-import { GACategory } from '@/constants/google-analytics';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
 import { LoadingSVG } from '@/svg';
@@ -36,6 +36,7 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
     } catch (e: unknown) {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         'Transaction Error: getRewards - GetRewards',
         [
           'views\\dapp\\views\\synthetics-market-panel\\components\\get-rewards\\index.tsx',

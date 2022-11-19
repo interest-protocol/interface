@@ -18,10 +18,10 @@ export const logEvent = (category = '', action = '', label: string): void => {
 };
 
 export const logException = (
-  category = GACategory.Error,
+  category = '',
+  action = '',
   label = '',
-  trackerName: string[],
-  action = GAAction.Error
+  trackerName: string[]
 ): void => {
   if (category && action)
     ReactGA.event({ category, action, label }, trackerName);

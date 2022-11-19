@@ -1,6 +1,6 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 
-import { GACategory } from '@/constants/google-analytics';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { logException } from '@/utils/analytics';
 
 import { Props, State } from './error-boundary.types';
@@ -18,6 +18,7 @@ class ErrorBoundary extends Component<Props, State> {
   componentDidCatch(error: Error, info: ErrorInfo): void {
     logException(
       GACategory.Error,
+      GAAction.ErrorPage,
       `${error.name}: ${error.message}; Stack: ${info.componentStack}`,
       ['views\\dapp\\components\\error-boundary\\index.tsx']
     );

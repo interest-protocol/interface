@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
 
-import { GACategory } from '@/constants/google-analytics';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
@@ -34,6 +34,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
     } catch (e) {
       logException(
         GACategory.Error,
+        GAAction.SubmitTransaction,
         `Transaction Error: approve - ApproveButton - ${contract}`,
         ['components\\approve-button\\index.tsx']
       );
