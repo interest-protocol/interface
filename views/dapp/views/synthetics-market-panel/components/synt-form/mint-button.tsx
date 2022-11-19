@@ -4,6 +4,7 @@ import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { ApproveButton } from '@/components';
+import { GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -102,7 +103,7 @@ const MintButton: FC<MintButtonProps> = ({
       await showTXSuccessToast(tx, data.chainId);
       form.reset();
     } catch (e: unknown) {
-      logException('Transaction Error: mint - handleMint', [
+      logException(GACategory.Error, 'Transaction Error: mint - handleMint', [
         'views\\dapp\\views\\synthetics-market-panel\\components\\synt-form\\mint-button.tsx',
       ]);
       throwContractCallError(e);

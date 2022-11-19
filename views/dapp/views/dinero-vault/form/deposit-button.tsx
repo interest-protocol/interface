@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
+import { GACategory } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
@@ -28,9 +29,11 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
       await refetch();
       await showTXSuccessToast(tx, data.chainId);
     } catch (e) {
-      logException('Transaction Error: writeAsync - DepositButton', [
-        'views\\dapp\\views\\dinero-vault\\form\\deposit-button.tsx',
-      ]);
+      logException(
+        GACategory.Error,
+        'Transaction Error: writeAsync - DepositButton',
+        ['views\\dapp\\views\\dinero-vault\\form\\deposit-button.tsx']
+      );
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);

@@ -7,6 +7,7 @@ export enum GACategory {
   VaultFilters = 'VAULTS_FILTERS',
   DineroMarketFilters = 'DINERO_FILTERS',
   SyntheticsMarketFilters = 'SYNTHETICS_FILTERS',
+  Error = 'ERROR',
 }
 
 export enum GAAction {
@@ -25,4 +26,5 @@ export enum GAAction {
   AccountDetails = 'ACCOUNT_DETAILS',
   FarmDetailsCard = 'FARM_DETAILS_CARD',
   CreateToken = 'CREATE_NEW_TOKEN',
+  Error = 'ERROR',
 }

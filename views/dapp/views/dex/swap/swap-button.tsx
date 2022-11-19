@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
+import { GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
@@ -113,6 +114,7 @@ const SwapButton: FC<SwapButtonProps> = ({
   const handleAddAllowance = useCallback(async () => {
     if (isZeroAddress(tokenInAddress)) {
       logException(
+        GACategory.Error,
         `TransactionError: approve - SwapButton - ${tokenInAddress}`,
         ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
       );
@@ -127,9 +129,11 @@ const SwapButton: FC<SwapButtonProps> = ({
       if (tx) await tx.wait(5);
       await refetch();
     } catch (e) {
-      logException(`TransactionError: add allowance ${tokenInAddress}`, [
-        'views\\dapp\\views\\dex\\swap\\swap-button.tsx',
-      ]);
+      logException(
+        GACategory.Error,
+        `TransactionError: add allowance ${tokenInAddress}`,
+        ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
+      );
       throwError(t('error.generic'), e);
     } finally {
       setButtonLoadingText(null);
@@ -152,9 +156,11 @@ const SwapButton: FC<SwapButtonProps> = ({
       await refetch();
       await showTXSuccessToast(tx, chainId);
     } catch {
-      logException(`TransactionError: handle swap ${tokenInAddress}`, [
-        'views\\dapp\\views\\dex\\swap\\swap-button.tsx',
-      ]);
+      logException(
+        GACategory.Error,
+        `TransactionError: handle swap ${tokenInAddress}`,
+        ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
+      );
       throwError(t('dexSwap.swapMessage.error'));
     } finally {
       setButtonLoadingText(null);
@@ -174,6 +180,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       !isZeroAddress(tokenIn.address)
     ) {
       logException(
+        GACategory.Error,
         `TransactionError: handle WETH Deposit. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
         ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
       );
@@ -192,6 +199,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       await refetch();
     } catch (e) {
       logException(
+        GACategory.Error,
         `TransactionError: handle WETH Deposit. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
         ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
       );
@@ -214,6 +222,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       !isZeroAddress(tokenOut.address)
     ) {
       logException(
+        GACategory.Error,
         `TransactionError: handle WETH Withdraw. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
         ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
       );
@@ -235,6 +244,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       await refetch();
     } catch {
       logException(
+        GACategory.Error,
         `TransactionError: handle WETH Withdraw. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
         ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
       );

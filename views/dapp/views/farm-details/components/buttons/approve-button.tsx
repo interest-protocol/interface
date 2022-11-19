@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 
+import { GACategory } from '@/constants/google-analytics';
 import { Typography } from '@/elements';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
@@ -39,9 +40,13 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
       await refetch();
     } catch (e) {
       setLoadingPool(false);
-      logException('Transaction Error: _approve - ApproveButton', [
-        'views\\dapp\\views\\farm-details\\components\\buttons\\approve-button.tsx',
-      ]);
+      logException(
+        GACategory.Error,
+        'Transaction Error: _approve - ApproveButton',
+        [
+          'views\\dapp\\views\\farm-details\\components\\buttons\\approve-button.tsx',
+        ]
+      );
       throwError(t('error.generic'), e);
     } finally {
       setLoadingPool(false);

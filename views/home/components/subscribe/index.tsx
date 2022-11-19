@@ -4,6 +4,7 @@ import { propOr } from 'ramda';
 import { FC } from 'react';
 import toast from 'react-hot-toast';
 
+import { GACategory } from '@/constants/google-analytics';
 import { LogoSVG, ShieldSVG } from '@/svg';
 import { capitalize } from '@/utils';
 import { logException } from '@/utils/analytics';
@@ -24,9 +25,11 @@ const Subscribe: FC = () => {
           if (data.httpStatus == 200) return data;
         })
         .catch((x) => {
-          logException(propOr('code', 'email subscription error', x), [
-            'views\\home\\components\\subscribe\\index.tsx',
-          ]);
+          logException(
+            GACategory.Error,
+            propOr('code', 'email subscription error', x),
+            ['views\\home\\components\\subscribe\\index.tsx']
+          );
           throw x;
         }),
       {
