@@ -122,9 +122,11 @@ export const capitalize = (str: string | undefined): string =>
 export const getQueryFromPath = (
   path: string
 ): Record<string, MaybeArray<string>> => {
+  if (!path) return {};
+
   const params = path.split('?')[1].split('&');
 
-  const paramsMap = params.reduce((acc, curr) => {
+  return params.reduce((acc, curr) => {
     const entry = curr.split('=');
 
     const values = entry[1].split(',');
@@ -134,6 +136,4 @@ export const getQueryFromPath = (
       [entry[0]]: values.length > 1 ? values : values[0],
     };
   }, {});
-
-  return paramsMap;
 };
