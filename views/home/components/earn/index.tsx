@@ -183,11 +183,7 @@ const Earn: FC = () => {
               effect="hover"
               variant="primary"
               mt={['1.25rem', '1.25rem', '1.25rem', '3rem']}
-              onClick={() =>
-                push(Routes[RoutesEnum.DEXPool], undefined, {
-                  shallow: true,
-                })
-              }
+              onClick={() => push(Routes[RoutesEnum.DEXPool])}
             >
               <Typography
                 variant="normal"

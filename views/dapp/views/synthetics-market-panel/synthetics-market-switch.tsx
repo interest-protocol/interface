@@ -26,21 +26,15 @@ const SyntheticsMarketSwitch: FC<SyntheticsMarketSwitchProps> = ({
   const t = useTranslations();
   const switchTo = (targetMode: 'mint' | 'burn') => () => {
     FORM_FIELDS.forEach((name) => resetField(name));
-    push(
-      {
-        pathname:
-          Routes[
-            targetMode === 'mint'
-              ? RoutesEnum.SyntheticsMarketMint
-              : RoutesEnum.SyntheticsMarketBurn
-          ],
-        query: { address },
-      },
-      undefined,
-      {
-        shallow: true,
-      }
-    );
+    push({
+      pathname:
+        Routes[
+          targetMode === 'mint'
+            ? RoutesEnum.SyntheticsMarketMint
+            : RoutesEnum.SyntheticsMarketBurn
+        ],
+      query: { address },
+    });
   };
 
   const options: [ISwitchOption, ISwitchOption] = [

@@ -1,11 +1,11 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { GetStaticProps, NextPage } from 'next';
 import { mergeDeepRight } from 'ramda';
 
 import DineroMarket from '@/views/dapp/views/dinero-market';
 
 const DineroMarketPage: NextPage = () => <DineroMarket />;
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dineroMarketMessages] = await Promise.all([
     import(`../../../assets/messages/common/${locale}.json`),
     import(`../../../assets/messages/dinero-market/${locale}.json`),

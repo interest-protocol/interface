@@ -129,9 +129,7 @@ const Footer: FC = () => {
                   displayOption: 'Farms',
                   onSelect: () => {
                     trackHeaderNavigation(RoutesEnum.Farms);
-                    push(Routes[RoutesEnum.Farms], undefined, {
-                      shallow: true,
-                    });
+                    push(Routes[RoutesEnum.Farms]);
                   },
                 },
                 {
@@ -139,9 +137,7 @@ const Footer: FC = () => {
                   displayOption: 'Vaults',
                   onSelect: () => {
                     trackHeaderNavigation(RoutesEnum.Vaults);
-                    push(Routes[RoutesEnum.Vaults], undefined, {
-                      shallow: true,
-                    });
+                    push(Routes[RoutesEnum.Vaults]);
                   },
                 },
               ]}
@@ -186,9 +182,7 @@ const Footer: FC = () => {
                   displayOption: capitalize(t('common.dinero')),
                   onSelect: () => {
                     trackHeaderNavigation(RoutesEnum.DineroMarket);
-                    push(Routes[RoutesEnum.DineroMarket], undefined, {
-                      shallow: true,
-                    });
+                    push(Routes[RoutesEnum.DineroMarket]);
                   },
                 },
                 {
@@ -196,9 +190,7 @@ const Footer: FC = () => {
                   displayOption: capitalize(t('common.synthetics')),
                   onSelect: () => {
                     trackHeaderNavigation(RoutesEnum.SyntheticsMarket);
-                    push(Routes[RoutesEnum.SyntheticsMarket], undefined, {
-                      shallow: true,
-                    });
+                    push(Routes[RoutesEnum.SyntheticsMarket]);
                   },
                 },
               ]}

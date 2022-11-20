@@ -73,18 +73,12 @@ const VaultTable: FC<VaultTableProps> = ({
                     variant="primary"
                     hover={{ bg: 'accentActive' }}
                     onClick={() =>
-                      push(
-                        {
-                          pathname: Routes[RoutesEnum.DineroVault],
-                          query: {
-                            address: item.vaultAddress,
-                          },
+                      push({
+                        pathname: Routes[RoutesEnum.DineroVault],
+                        query: {
+                          address: item.vaultAddress,
                         },
-                        undefined,
-                        {
-                          shallow: true,
-                        }
-                      )
+                      })
                     }
                     key={v4()}
                   >
@@ -152,18 +146,12 @@ const VaultTable: FC<VaultTableProps> = ({
                   </Typography>,
                 ],
                 handleClick: () =>
-                  push(
-                    {
-                      pathname: Routes[RoutesEnum.DineroVault],
-                      query: {
-                        address: item.vaultAddress,
-                      },
+                  push({
+                    pathname: Routes[RoutesEnum.DineroVault],
+                    query: {
+                      address: item.vaultAddress,
                     },
-                    undefined,
-                    {
-                      shallow: true,
-                    }
-                  ),
+                  }),
               };
             })
       }
@@ -204,18 +192,12 @@ const VaultTable: FC<VaultTableProps> = ({
                   variant="primary"
                   hover={{ bg: 'accentActive' }}
                   onClick={() =>
-                    push(
-                      {
-                        pathname: Routes[RoutesEnum.DineroVault],
-                        query: {
-                          address: item.vaultAddress,
-                        },
+                    push({
+                      pathname: Routes[RoutesEnum.DineroVault],
+                      query: {
+                        address: item.vaultAddress,
                       },
-                      undefined,
-                      {
-                        shallow: true,
-                      }
-                    )
+                    })
                   }
                 >
                   {capitalize(t('common.enter'))}
@@ -272,18 +254,12 @@ const VaultTable: FC<VaultTableProps> = ({
                 </Typography>,
               ],
               handleClick: () =>
-                push(
-                  {
-                    pathname: Routes[RoutesEnum.DineroVault],
-                    query: {
-                      address: item.vaultAddress,
-                    },
+                push({
+                  pathname: Routes[RoutesEnum.DineroVault],
+                  query: {
+                    address: item.vaultAddress,
                   },
-                  undefined,
-                  {
-                    shallow: true,
-                  }
-                ),
+                }),
             }))
       }
     />
