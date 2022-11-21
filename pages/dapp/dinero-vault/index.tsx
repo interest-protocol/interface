@@ -1,20 +1,16 @@
 import { GetStaticProps, NextPage } from 'next';
-import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
-import { useRouterQuery } from '@/hooks';
+import { withAddress } from '@/HOC';
 import DineroVault from '@/views/dapp/views/dinero-vault';
-import ErrorView from '@/views/dapp/views/error';
 
-const DineroVaultPage: NextPage = () => {
-  const t = useTranslations();
+interface Props {
+  address: string;
+}
 
-  const address = String(useRouterQuery('address'));
-
-  if (!address) return <ErrorView message={t('error.wrongParams')} />;
-
-  return <DineroVault vault={address as string} />;
-};
+const DineroVaultPage: NextPage<Props> = ({ address }) => (
+  <DineroVault vault={address} />
+);
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dineroVaultMessages] = await Promise.all([
@@ -36,4 +32,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default DineroVaultPage;
+export default withAddress(DineroVaultPage);

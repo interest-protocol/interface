@@ -1,22 +1,14 @@
 import { GetStaticProps, NextPage } from 'next';
-import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
-import { useRouterQuery } from '@/hooks';
-import { isValidAccount } from '@/utils';
-import { Loading } from '@/views/dapp/components';
+import { withAddress } from '@/components/HOC';
 import DineroMarketMode from '@/views/dapp/views/dinero-market-panel';
-import Error from '@/views/dapp/views/error';
 
-const DineroMarketRepayPage: NextPage = () => {
-  const t = useTranslations();
+interface Props {
+  address: string;
+}
 
-  const address = String(useRouterQuery('address'));
-
-  if (!address || !isValidAccount(address)) return <Loading />;
-
-  if (address === 'null') return <Error message={t('error.wrongParams')} />;
-
+const DineroMarketRepayPage: NextPage<Props> = ({ address }) => {
   return <DineroMarketMode address={address} mode="repay" />;
 };
 
@@ -40,4 +32,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default DineroMarketRepayPage;
+export default withAddress(DineroMarketRepayPage);

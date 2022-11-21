@@ -1,23 +1,16 @@
 import { GetStaticProps, NextPage } from 'next';
-import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
-import { useRouterQuery } from '@/hooks';
-import { Loading } from '@/views/dapp/components';
-import Error from '@/views/dapp/views/error';
+import { withAddress } from '@/HOC';
 import SyntheticsMarketMode from '@/views/dapp/views/synthetics-market-panel';
 
-const SyntheticsPageBurnPage: NextPage = () => {
-  const t = useTranslations();
+interface Props {
+  address: string;
+}
 
-  const address = String(useRouterQuery('address'));
-
-  if (address === undefined) return <Loading />;
-
-  if (address === null) return <Error message={t('error.wrongParams')} />;
-
-  return <SyntheticsMarketMode address={address} mode="burn" />;
-};
+const SyntheticsPageBurnPage: NextPage<Props> = ({ address }) => (
+  <SyntheticsMarketMode address={address} mode="burn" />
+);
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, syntheticMarketMessages] = await Promise.all([
@@ -39,4 +32,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default SyntheticsPageBurnPage;
+export default withAddress(SyntheticsPageBurnPage);

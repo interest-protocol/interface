@@ -1,24 +1,16 @@
 import { GetStaticProps, NextPage } from 'next';
-import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
-import { useRouterQuery } from '@/hooks';
-import { isValidAccount } from '@/utils';
-import { Loading } from '@/views/dapp/components';
+import { withAddress } from '@/HOC';
 import DineroMarketMode from '@/views/dapp/views/dinero-market-panel';
-import Error from '@/views/dapp/views/error';
 
-const DineroMarketBorrowPage: NextPage = () => {
-  const t = useTranslations();
+interface Props {
+  address: string;
+}
 
-  const address = String(useRouterQuery('address'));
-
-  if (!address || !isValidAccount(address)) return <Loading />;
-
-  if (address === 'null') return <Error message={t('error.wrongParams')} />;
-
-  return <DineroMarketMode address={address} mode="borrow" />;
-};
+const DineroMarketBorrowPage: NextPage<Props> = ({ address }) => (
+  <DineroMarketMode address={address} mode="borrow" />
+);
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dineroMarketMessages] = await Promise.all([
@@ -40,4 +32,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default DineroMarketBorrowPage;
+export default withAddress(DineroMarketBorrowPage);

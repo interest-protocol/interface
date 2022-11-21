@@ -2,10 +2,18 @@ import { useRouter } from 'next/router';
 
 import { MaybeArray } from '@/interface';
 
-export const useRouterQuery = (param: string): MaybeArray<string> => {
-  const { query, asPath } = useRouter();
+type TUseRouteQuery = (param: string) => {
+  value: MaybeArray<string>;
+  isReady: boolean;
+};
+
+export const useRouterQuery: TUseRouteQuery = (param) => {
+  const { query, asPath, isReady } = useRouter();
 
   const queryParams = new URLSearchParams(asPath);
 
-  return query[param] || queryParams.get(param) || '';
+  return {
+    value: query[param] || queryParams.get(param) || '',
+    isReady,
+  };
 };

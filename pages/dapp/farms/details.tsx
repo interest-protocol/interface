@@ -1,20 +1,16 @@
 import { GetStaticProps, NextPage } from 'next';
-import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
-import { useRouterQuery } from '@/hooks';
-import ErrorView from '@/views/dapp/views/error';
+import { withAddress } from '@/HOC';
 import FarmDetails from '@/views/dapp/views/farm-details';
 
-const FarmDetailsPage: NextPage = () => {
-  const t = useTranslations();
+interface Props {
+  address: string;
+}
 
-  const address = String(useRouterQuery('address'));
-
-  if (!address) return <ErrorView message={t('error.wrongParams')} />;
-
-  return <FarmDetails address={address} />;
-};
+const FarmDetailsPage: NextPage<Props> = ({ address }) => (
+  <FarmDetails address={address} />
+);
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, farmsMessages] = await Promise.all([
@@ -36,4 +32,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default FarmDetailsPage;
+export default withAddress(FarmDetailsPage);

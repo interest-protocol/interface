@@ -1,22 +1,16 @@
 import { GetStaticProps, NextPage } from 'next';
-import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
-import { useRouterQuery } from '@/hooks';
-import { isValidAccount } from '@/utils';
+import { withAddress } from '@/HOC';
 import DEXPoolDetailsView from '@/views/dapp/views/dex-pool-details';
-import ErrorView from '@/views/dapp/views/error';
 
-const DEXPoolDetailsPage: NextPage = () => {
-  const t = useTranslations();
+interface Props {
+  address: string;
+}
 
-  const pairAddress = String(useRouterQuery('address'));
-
-  if (!pairAddress || !isValidAccount(pairAddress))
-    return <ErrorView message={t('error.wrongParams')} />;
-
-  return <DEXPoolDetailsView pairAddress={pairAddress} />;
-};
+const DEXPoolDetailsPage: NextPage<Props> = ({ address }) => (
+  <DEXPoolDetailsView pairAddress={address} />
+);
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dexPoolPairMessages] = await Promise.all([
@@ -38,4 +32,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default DEXPoolDetailsPage;
+export default withAddress(DEXPoolDetailsPage);
