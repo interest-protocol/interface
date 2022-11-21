@@ -114,14 +114,14 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       await showTXSuccessToast(tx, data.chainId);
       form.reset();
     } catch (e: unknown) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: borrow - BorrowButton',
-        [
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: borrow - BorrowButton',
+        trackerName: [
           'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\borrow-button.tsx',
-        ]
-      );
+        ],
+      });
       throwContractCallError(e);
     } finally {
       setLoading(false);
@@ -131,14 +131,14 @@ const BorrowButton: FC<BorrowButtonProps> = ({
   const onSubmitBorrow = async () => {
     if (isFormBorrowEmpty(form)) {
       toast.error(t('dineroMarketAddress.form.amountError'));
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Form Borrow is Empty',
-        [
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Form Borrow is Empty',
+        trackerName: [
           'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\borrow-button.tsx',
-        ]
-      );
+        ],
+      });
       return;
     }
     if (!data.chainId || !account || !data || data.collateralAllowance.isZero())

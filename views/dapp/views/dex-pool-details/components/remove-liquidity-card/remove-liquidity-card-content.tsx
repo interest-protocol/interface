@@ -58,14 +58,14 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
 
       await showTXSuccessToast(tx, chainId);
     } catch {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: Approve token - remove liquidity',
-        [
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: Approve token - remove liquidity',
+        trackerName: [
           'views\\dapp\\views\\dex-pool-details\\components\\remove-liquidity-card\\remove-liquidity-card-content.tsx',
-        ]
-      );
+        ],
+      });
       throwError(t('error.generic'));
     } finally {
       setValue('loading', false);
@@ -88,14 +88,14 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
 
       await showTXSuccessToast(tx, chainId);
     } catch {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: removeLiquidity - remove liquidity',
-        [
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: removeLiquidity - remove liquidity',
+        trackerName: [
           'views\\dapp\\views\\dex-pool-details\\components\\remove-liquidity-card\\remove-liquidity-card-content.tsx',
-        ]
-      );
+        ],
+      });
       throwError(t('error.generic'));
     } finally {
       setValue('removeLoading', false);

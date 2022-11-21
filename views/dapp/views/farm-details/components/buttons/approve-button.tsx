@@ -40,14 +40,14 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
       await refetch();
     } catch (e) {
       setLoadingPool(false);
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: _approve - ApproveButton',
-        [
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: _approve - ApproveButton',
+        trackerName: [
           'views\\dapp\\views\\farm-details\\components\\buttons\\approve-button.tsx',
-        ]
-      );
+        ],
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoadingPool(false);

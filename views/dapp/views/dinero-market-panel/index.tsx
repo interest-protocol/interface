@@ -98,12 +98,12 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
   );
 
   if (error) {
-    logException(
-      GACategory.Error,
-      GAAction.ErrorPage,
-      `Error Page: Something went wrong`,
-      ['views\\dapp\\views\\dinero-market-panel\\index.tsx']
-    );
+    logException({
+      category: GACategory.Error,
+      action: GAAction.ErrorPage,
+      label: `Error Page: Something went wrong`,
+      trackerName: ['views\\dapp\\views\\dinero-market-panel\\index.tsx'],
+    });
     return <ErrorPage message={t('error.generic')} />;
   }
 

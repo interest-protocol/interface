@@ -61,11 +61,11 @@ export function showToast<T>(
   options: ToastOpts = undefined
 ): Promise<T | undefined> {
   return tryCatch(toast.promise(fn, msgs, options), (x) =>
-    logException(
-      GACategory.Error,
-      GAAction.SubmitTransaction,
-      propOr('message', 'error', x),
-      ['utils\\toast\\index.tsx']
-    )
+    logException({
+      category: GACategory.Error,
+      action: GAAction.SubmitTransaction,
+      label: propOr('message', 'error', x),
+      trackerName: ['utils\\toast\\index.tsx'],
+    })
   );
 }

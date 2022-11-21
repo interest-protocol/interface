@@ -113,12 +113,12 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const handleAddAllowance = useCallback(async () => {
     if (isZeroAddress(tokenInAddress)) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        `TransactionError: approve - SwapButton - ${tokenInAddress}`,
-        ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
-      );
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: `TransactionError: approve - SwapButton - ${tokenInAddress}`,
+        trackerName: ['views\\dapp\\views\\dex\\swap\\swap-button.tsx'],
+      });
       return;
     }
     setButtonLoadingText(t('common.approve', { isLoading: 1 }));
@@ -130,12 +130,12 @@ const SwapButton: FC<SwapButtonProps> = ({
       if (tx) await tx.wait(5);
       await refetch();
     } catch (e) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        `TransactionError: add allowance ${tokenInAddress}`,
-        ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
-      );
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: `TransactionError: add allowance ${tokenInAddress}`,
+        trackerName: ['views\\dapp\\views\\dex\\swap\\swap-button.tsx'],
+      });
       throwError(t('error.generic'), e);
     } finally {
       setButtonLoadingText(null);
@@ -158,12 +158,12 @@ const SwapButton: FC<SwapButtonProps> = ({
       await refetch();
       await showTXSuccessToast(tx, chainId);
     } catch {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        `TransactionError: handle swap ${tokenInAddress}`,
-        ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
-      );
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: `TransactionError: handle swap ${tokenInAddress}`,
+        trackerName: ['views\\dapp\\views\\dex\\swap\\swap-button.tsx'],
+      });
       throwError(t('dexSwap.swapMessage.error'));
     } finally {
       setButtonLoadingText(null);
@@ -182,12 +182,12 @@ const SwapButton: FC<SwapButtonProps> = ({
       isSameAddress(tokenIn.address, tokenOut.address) ||
       !isZeroAddress(tokenIn.address)
     ) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        `TransactionError: handle WETH Deposit. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
-        ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
-      );
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: `TransactionError: handle WETH Deposit. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
+        trackerName: ['views\\dapp\\views\\dex\\swap\\swap-button.tsx'],
+      });
       return;
     }
 
@@ -202,12 +202,12 @@ const SwapButton: FC<SwapButtonProps> = ({
       await showTXSuccessToast(tx, chainId);
       await refetch();
     } catch (e) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        `TransactionError: handle WETH Deposit. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
-        ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
-      );
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: `TransactionError: handle WETH Deposit. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
+        trackerName: ['views\\dapp\\views\\dex\\swap\\swap-button.tsx'],
+      });
       throwError(t('dexSwap.error.wethDeposit'));
     } finally {
       setButtonLoadingText(null);
@@ -226,12 +226,12 @@ const SwapButton: FC<SwapButtonProps> = ({
       isSameAddress(tokenIn.address, tokenOut.address) ||
       !isZeroAddress(tokenOut.address)
     ) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        `TransactionError: handle WETH Withdraw. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
-        ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
-      );
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: `TransactionError: handle WETH Withdraw. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
+        trackerName: ['views\\dapp\\views\\dex\\swap\\swap-button.tsx'],
+      });
       return;
     }
 
@@ -249,12 +249,12 @@ const SwapButton: FC<SwapButtonProps> = ({
       await showTXSuccessToast(tx, chainId);
       await refetch();
     } catch {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        `TransactionError: handle WETH Withdraw. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
-        ['views\\dapp\\views\\dex\\swap\\swap-button.tsx']
-      );
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: `TransactionError: handle WETH Withdraw. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
+        trackerName: ['views\\dapp\\views\\dex\\swap\\swap-button.tsx'],
+      });
       throwError(t('dexSwap.error.wethWithdraw'));
     } finally {
       setButtonLoadingText(null);

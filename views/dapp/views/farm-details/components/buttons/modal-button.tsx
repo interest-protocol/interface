@@ -36,14 +36,14 @@ const ModalButton: FC<ModalButtonProps> = ({
       await showTXSuccessToast(tx, farm.chainId);
       await refetch();
     } catch (e) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: action - handleWithdrawTokens',
-        [
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: action - handleWithdrawTokens',
+        trackerName: [
           'views\\dapp\\views\\farm-details\\components\\buttons\\modal-button.tsx',
-        ]
-      );
+        ],
+      });
       throw e || new Error(t('error.generic'));
     } finally {
       setLoading(false);
@@ -67,14 +67,14 @@ const ModalButton: FC<ModalButtonProps> = ({
       await showTXSuccessToast(tx, farm.chainId);
       await refetch();
     } catch (e) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: action - handleDepositTokens',
-        [
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: action - handleDepositTokens',
+        trackerName: [
           'views\\dapp\\views\\farm-details\\components\\buttons\\modal-button.tsx',
-        ]
-      );
+        ],
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);

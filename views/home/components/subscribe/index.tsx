@@ -25,12 +25,12 @@ const Subscribe: FC = () => {
           if (data.httpStatus == 200) return data;
         })
         .catch((x) => {
-          logException(
-            GACategory.Error,
-            GAAction.SubmitTransaction,
-            propOr('code', 'email subscription error', x),
-            ['views\\home\\components\\subscribe\\index.tsx']
-          );
+          logException({
+            category: GACategory.Error,
+            action: GAAction.SubmitTransaction,
+            label: propOr('code', 'email subscription error', x),
+            trackerName: ['views\\home\\components\\subscribe\\index.tsx'],
+          });
           throw x;
         }),
       {

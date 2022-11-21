@@ -48,14 +48,14 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
       if (tx) await tx.wait(2);
       await refetch();
     } catch (e) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: addAllowance - CreatePoolField',
-        [
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: addAllowance - CreatePoolField',
+        trackerName: [
           'views\\dapp\\views\\dex-find-pool\\create-pool\\create-pool-field.tsx',
-        ]
-      );
+        ],
+      });
       throwError(t('error.generic'), e);
     }
   }, [chainId, addAllowance, chainId, refetch]);

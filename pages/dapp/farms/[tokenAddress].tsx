@@ -14,12 +14,12 @@ interface FarmDetailsPageProps {
 const FarmDetailsPage: NextPage<FarmDetailsPageProps> = ({ tokenAddress }) => {
   const t = useTranslations();
   if (!tokenAddress) {
-    logException(
-      GACategory.Error,
-      GAAction.ErrorPage,
-      `Error Page: Wrong params`,
-      ['pages\\dapp\\farms\\[tokenAddress].tsx']
-    );
+    logException({
+      category: GACategory.Error,
+      action: GAAction.ErrorPage,
+      label: `Error Page: Wrong params`,
+      trackerName: ['pages\\dapp\\farms\\[tokenAddress].tsx'],
+    });
     return <ErrorView message={t('error.wrongParams')} />;
   }
 

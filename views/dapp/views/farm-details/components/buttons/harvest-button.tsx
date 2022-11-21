@@ -28,14 +28,14 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
 
       await showTXSuccessToast(tx, farm.chainId);
     } catch (e) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: _harvest - HarvestButton',
-        [
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: _harvest - HarvestButton',
+        trackerName: [
           'views\\dapp\\views\\farm-details\\components\\buttons\\harvest-button.tsx',
-        ]
-      );
+        ],
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoadingPool(false);

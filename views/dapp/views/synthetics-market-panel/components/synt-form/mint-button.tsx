@@ -103,14 +103,14 @@ const MintButton: FC<MintButtonProps> = ({
       await showTXSuccessToast(tx, data.chainId);
       form.reset();
     } catch (e: unknown) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: mint - handleMint',
-        [
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: mint - handleMint',
+        trackerName: [
           'views\\dapp\\views\\synthetics-market-panel\\components\\synt-form\\mint-button.tsx',
-        ]
-      );
+        ],
+      });
       throwContractCallError(e);
     } finally {
       setLoading(false);

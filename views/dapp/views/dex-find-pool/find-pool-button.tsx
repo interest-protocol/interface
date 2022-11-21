@@ -97,12 +97,14 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
 
       setCreatingPair(true);
     } catch {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: isInterestDexPair - FindPoolButton',
-        ['views\\dapp\\views\\dex-find-pool\\find-pool-button.tsx']
-      );
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: isInterestDexPair - FindPoolButton',
+        trackerName: [
+          'views\\dapp\\views\\dex-find-pool\\find-pool-button.tsx',
+        ],
+      });
       throwError('Error connecting');
       setLoading(false);
     }
@@ -148,12 +150,14 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
         query: { pairAddress: address },
       }).then();
     } catch (e) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: addLiquidity - FindPoolButton',
-        ['views\\dapp\\views\\dex-find-pool\\find-pool-button.tsx']
-      );
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: addLiquidity - FindPoolButton',
+        trackerName: [
+          'views\\dapp\\views\\dex-find-pool\\find-pool-button.tsx',
+        ],
+      });
       throwError(t('error.generic'));
     } finally {
       setLoading(false);

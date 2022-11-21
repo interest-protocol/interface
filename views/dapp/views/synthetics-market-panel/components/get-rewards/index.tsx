@@ -34,14 +34,14 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
       await refetch();
       await showTXSuccessToast(tx, market.chainId);
     } catch (e: unknown) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: getRewards - GetRewards',
-        [
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: getRewards - GetRewards',
+        trackerName: [
           'views\\dapp\\views\\synthetics-market-panel\\components\\get-rewards\\index.tsx',
-        ]
-      );
+        ],
+      });
       throwContractCallError(e);
     } finally {
       setLoading(false);

@@ -32,12 +32,12 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       await refetch();
       await showTXSuccessToast(tx, chainId);
     } catch (e) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        `Transaction Error: approve - ApproveButton - ${contract}`,
-        ['components\\approve-button\\index.tsx']
-      );
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: `Transaction Error: approve - ApproveButton - ${contract}`,
+        trackerName: ['components\\approve-button\\index.tsx'],
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);

@@ -33,12 +33,14 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       await refetch();
       await showTXSuccessToast(tx, data.chainId);
     } catch (e) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: writeAsync - WithdrawButton',
-        ['views\\dapp\\views\\dinero-vault\\form\\withdraw-button.tsx']
-      );
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: writeAsync - WithdrawButton',
+        trackerName: [
+          'views\\dapp\\views\\dinero-vault\\form\\withdraw-button.tsx',
+        ],
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);

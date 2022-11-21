@@ -44,14 +44,14 @@ const RepayButton: FC<RepayButtonProps> = ({
       await showTXSuccessToast(tx, data.chainId);
       form.reset();
     } catch (e: unknown) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: repay - RepayButton',
-        [
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: repay - RepayButton',
+        trackerName: [
           'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\repay-button.tsx',
-        ]
-      );
+        ],
+      });
       throwContractCallError(e);
     } finally {
       setLoading(false);
@@ -62,14 +62,14 @@ const RepayButton: FC<RepayButtonProps> = ({
   const onSubmitRepay = async () => {
     if (isFormRepayEmpty(form)) {
       toast.error(t('dineroMarketAddress.toastError'));
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Form Repay is Empty',
-        [
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Form Repay is Empty',
+        trackerName: [
           'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\repay-button.tsx',
-        ]
-      );
+        ],
+      });
       return;
     }
 

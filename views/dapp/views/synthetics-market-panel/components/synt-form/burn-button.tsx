@@ -41,14 +41,14 @@ const BurnButton: FC<BurnButtonProps> = ({
       await showTXSuccessToast(tx, data.chainId);
       form.reset();
     } catch (e: unknown) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: burn - handleBurn',
-        [
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: burn - handleBurn',
+        trackerName: [
           'views\\dapp\\views\\synthetics-market-panel\\components\\synt-form\\burn-button.tsx',
-        ]
-      );
+        ],
+      });
       throwContractCallError(e);
     } finally {
       setLoading(false);

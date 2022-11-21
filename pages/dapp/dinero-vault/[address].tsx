@@ -14,12 +14,12 @@ interface DineroVaultPageProps {
 const DineroVaultPage: NextPage<DineroVaultPageProps> = ({ address }) => {
   const t = useTranslations();
   if (!address) {
-    logException(
-      GACategory.Error,
-      GAAction.ErrorPage,
-      `Error Page: Wrong params`,
-      ['pages\\dapp\\dinero-vault\\[address].tsx']
-    );
+    logException({
+      category: GACategory.Error,
+      action: GAAction.ErrorPage,
+      label: `Error Page: Wrong params`,
+      trackerName: ['pages\\dapp\\dinero-vault\\[address].tsx'],
+    });
     return <ErrorView message={t('error.wrongParams')} />;
   }
 

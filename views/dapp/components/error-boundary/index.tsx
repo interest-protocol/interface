@@ -16,12 +16,12 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo): void {
-    logException(
-      GACategory.Error,
-      GAAction.ErrorPage,
-      `${error.name}: ${error.message}; Stack: ${info.componentStack}`,
-      ['views\\dapp\\components\\error-boundary\\index.tsx']
-    );
+    logException({
+      category: GACategory.Error,
+      action: GAAction.ErrorPage,
+      label: `${error.name}: ${error.message}; Stack: ${info.componentStack}`,
+      trackerName: ['views\\dapp\\components\\error-boundary\\index.tsx'],
+    });
   }
 
   render = (): ReactNode =>

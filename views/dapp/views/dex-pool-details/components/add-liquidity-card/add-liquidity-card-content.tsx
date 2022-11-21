@@ -76,14 +76,14 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
 
       await showTXSuccessToast(tx, chainId);
     } catch {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: approveToken - AddLiquidityCardContent',
-        [
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: approveToken - AddLiquidityCardContent',
+        trackerName: [
           'views\\dapp\\views\\dex-pool-details\\components\\add-liquidity-card\\add-liquidity-card-content.tsx',
-        ]
-      );
+        ],
+      });
       throwError(t('error.generic'));
     } finally {
       setLoading(false);

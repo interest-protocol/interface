@@ -52,14 +52,14 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
           });
       }
     } catch (error) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: createToken - handleCreateToken',
-        [
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: createToken - handleCreateToken',
+        trackerName: [
           'views\\dapp\\views\\faucet\\create-token-form\\create-token-button.tsx',
-        ]
-      );
+        ],
+      });
       throwError(t('error.generic'), error);
     } finally {
       setLoading(false);

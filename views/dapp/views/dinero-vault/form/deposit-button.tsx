@@ -29,12 +29,14 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
       await refetch();
       await showTXSuccessToast(tx, data.chainId);
     } catch (e) {
-      logException(
-        GACategory.Error,
-        GAAction.SubmitTransaction,
-        'Transaction Error: writeAsync - DepositButton',
-        ['views\\dapp\\views\\dinero-vault\\form\\deposit-button.tsx']
-      );
+      logException({
+        category: GACategory.Error,
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: writeAsync - DepositButton',
+        trackerName: [
+          'views\\dapp\\views\\dinero-vault\\form\\deposit-button.tsx',
+        ],
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);

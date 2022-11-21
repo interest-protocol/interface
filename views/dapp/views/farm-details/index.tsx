@@ -26,12 +26,12 @@ const FarmDetails: FC<FarmDetailsProps> = ({ address }) => {
   );
 
   if (error) {
-    logException(
-      GACategory.Error,
-      GAAction.ErrorPage,
-      `Error Page: Error fetching contract`,
-      ['views\\dapp\\views\\farm-details\\index.tsx']
-    );
+    logException({
+      category: GACategory.Error,
+      action: GAAction.ErrorPage,
+      label: `Error Page: Error fetching contract`,
+      trackerName: ['views\\dapp\\views\\farm-details\\index.tsx'],
+    });
     return <ErrorView message={t('error.fetchingContract')} />;
   }
 

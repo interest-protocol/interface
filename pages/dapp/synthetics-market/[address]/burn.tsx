@@ -20,12 +20,12 @@ const SyntheticsPageBurnPage: NextPage<SyntheticsPageBurnPageProps> = ({
   if (address === undefined) return <Loading />;
 
   if (address === null) {
-    logException(
-      GACategory.Error,
-      GAAction.ErrorPage,
-      `Error Page: Wrong params`,
-      ['pages\\dapp\\synthetics-market\\[address]\\burn.tsx']
-    );
+    logException({
+      category: GACategory.Error,
+      action: GAAction.ErrorPage,
+      label: `Error Page: Wrong params`,
+      trackerName: ['pages\\dapp\\synthetics-market\\[address]\\burn.tsx'],
+    });
     return <Error message={t('error.wrongParams')} />;
   }
 

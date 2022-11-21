@@ -62,12 +62,12 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
   const myPositionData = getMyPositionData(market);
 
   if (error) {
-    logException(
-      GACategory.Error,
-      GAAction.ErrorPage,
-      `Error Page: Error fetching balances`,
-      ['views\\dapp\\views\\synthetics-market-panel\\index.tsx']
-    );
+    logException({
+      category: GACategory.Error,
+      action: GAAction.ErrorPage,
+      label: `Error Page: Error fetching balances`,
+      trackerName: ['views\\dapp\\views\\synthetics-market-panel\\index.tsx'],
+    });
     return <ErrorPage message={t('common.error')} />;
   }
 
