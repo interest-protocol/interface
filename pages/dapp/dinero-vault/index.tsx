@@ -1,14 +1,11 @@
-import { GetStaticProps, NextPage } from 'next';
+import { GetStaticProps } from 'next';
 import { mergeDeepRight } from 'ramda';
 
-import { withAddress } from '@/HOC';
+import { withAddressGuard } from '@/HOC';
+import { NextPageWithAddress } from '@/interface';
 import DineroVault from '@/views/dapp/views/dinero-vault';
 
-interface Props {
-  address: string;
-}
-
-const DineroVaultPage: NextPage<Props> = ({ address }) => (
+const DineroVaultPage: NextPageWithAddress = ({ address }) => (
   <DineroVault vault={address} />
 );
 
@@ -32,4 +29,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default withAddress(DineroVaultPage);
+export default withAddressGuard(DineroVaultPage);

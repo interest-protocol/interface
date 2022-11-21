@@ -1,14 +1,11 @@
-import { GetStaticProps, NextPage } from 'next';
+import { GetStaticProps } from 'next';
 import { mergeDeepRight } from 'ramda';
 
-import { withAddress } from '@/HOC';
+import { withAddressGuard } from '@/HOC';
+import { NextPageWithAddress } from '@/interface';
 import FarmDetails from '@/views/dapp/views/farm-details';
 
-interface Props {
-  address: string;
-}
-
-const FarmDetailsPage: NextPage<Props> = ({ address }) => (
+const FarmDetailsPage: NextPageWithAddress = ({ address }) => (
   <FarmDetails address={address} />
 );
 
@@ -32,4 +29,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default withAddress(FarmDetailsPage);
+export default withAddressGuard(FarmDetailsPage);

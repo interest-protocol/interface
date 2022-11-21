@@ -1,14 +1,11 @@
-import { GetStaticProps, NextPage } from 'next';
+import { GetStaticProps } from 'next';
 import { mergeDeepRight } from 'ramda';
 
-import { withAddress } from '@/HOC';
+import { withAddressGuard } from '@/HOC';
+import { NextPageWithAddress } from '@/interface';
 import SyntheticsMarketMode from '@/views/dapp/views/synthetics-market-panel';
 
-interface Props {
-  address: string;
-}
-
-const SyntheticsMintPage: NextPage<Props> = ({ address }) => (
+const SyntheticsMintPage: NextPageWithAddress = ({ address }) => (
   <SyntheticsMarketMode address={address} mode="mint" />
 );
 
@@ -32,4 +29,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default withAddress(SyntheticsMintPage);
+export default withAddressGuard(SyntheticsMintPage);

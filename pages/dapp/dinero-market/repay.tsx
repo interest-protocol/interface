@@ -1,14 +1,11 @@
-import { GetStaticProps, NextPage } from 'next';
+import { GetStaticProps } from 'next';
 import { mergeDeepRight } from 'ramda';
 
-import { withAddress } from '@/components/HOC';
+import { withAddressGuard } from '@/HOC';
+import { NextPageWithAddress } from '@/interface';
 import DineroMarketMode from '@/views/dapp/views/dinero-market-panel';
 
-interface Props {
-  address: string;
-}
-
-const DineroMarketRepayPage: NextPage<Props> = ({ address }) => {
+const DineroMarketRepayPage: NextPageWithAddress = ({ address }) => {
   return <DineroMarketMode address={address} mode="repay" />;
 };
 
@@ -32,4 +29,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default withAddress(DineroMarketRepayPage);
+export default withAddressGuard(DineroMarketRepayPage);

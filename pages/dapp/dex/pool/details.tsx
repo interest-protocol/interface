@@ -1,14 +1,11 @@
-import { GetStaticProps, NextPage } from 'next';
+import { GetStaticProps } from 'next';
 import { mergeDeepRight } from 'ramda';
 
-import { withAddress } from '@/HOC';
+import { withAddressGuard } from '@/HOC';
+import { NextPageWithAddress } from '@/interface';
 import DEXPoolDetailsView from '@/views/dapp/views/dex-pool-details';
 
-interface Props {
-  address: string;
-}
-
-const DEXPoolDetailsPage: NextPage<Props> = ({ address }) => (
+const DEXPoolDetailsPage: NextPageWithAddress = ({ address }) => (
   <DEXPoolDetailsView pairAddress={address} />
 );
 
@@ -32,4 +29,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default withAddress(DEXPoolDetailsPage);
+export default withAddressGuard(DEXPoolDetailsPage);
