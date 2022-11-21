@@ -1,18 +1,15 @@
 import { GetStaticProps, NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
-import { getQueryFromPath } from '@/utils';
+import { useRouterQuery } from '@/hooks';
 import DineroVault from '@/views/dapp/views/dinero-vault';
 import ErrorView from '@/views/dapp/views/error';
 
 const DineroVaultPage: NextPage = () => {
   const t = useTranslations();
 
-  const { asPath } = useRouter();
-
-  const address = String(getQueryFromPath(asPath).address);
+  const address = String(useRouterQuery('address'));
 
   if (!address) return <ErrorView message={t('error.wrongParams')} />;
 

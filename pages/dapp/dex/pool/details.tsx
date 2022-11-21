@@ -1,17 +1,16 @@
 import { GetStaticProps, NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
-import { getQueryFromPath, isValidAccount } from '@/utils';
+import { useRouterQuery } from '@/hooks';
+import { isValidAccount } from '@/utils';
 import DEXPoolDetailsView from '@/views/dapp/views/dex-pool-details';
 import ErrorView from '@/views/dapp/views/error';
 
 const DEXPoolDetailsPage: NextPage = () => {
   const t = useTranslations();
-  const { asPath } = useRouter();
 
-  const pairAddress = String(getQueryFromPath(asPath).address);
+  const pairAddress = String(useRouterQuery('address'));
 
   if (!pairAddress || !isValidAccount(pairAddress))
     return <ErrorView message={t('error.wrongParams')} />;

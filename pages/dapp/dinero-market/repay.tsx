@@ -1,9 +1,8 @@
 import { GetStaticProps, NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
-import { getQueryFromPath } from '@/utils';
+import { useRouterQuery } from '@/hooks';
 import { Loading } from '@/views/dapp/components';
 import DineroMarketMode from '@/views/dapp/views/dinero-market-panel';
 import Error from '@/views/dapp/views/error';
@@ -11,9 +10,7 @@ import Error from '@/views/dapp/views/error';
 const DineroMarketRepayPage: NextPage = () => {
   const t = useTranslations();
 
-  const { asPath } = useRouter();
-
-  const address = String(getQueryFromPath(asPath).address);
+  const address = String(useRouterQuery('address'));
 
   if (address === 'undefined') return <Loading />;
 

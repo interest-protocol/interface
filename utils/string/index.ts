@@ -1,6 +1,5 @@
 import { ChangeEvent } from 'react';
 
-import { MaybeArray } from '@/interface';
 import { MAX_NUMBER_INPUT_VALUE, TOKEN_SYMBOL } from '@/sdk';
 
 const isExponential = (number: number) => number.toString().includes('e');
@@ -118,22 +117,3 @@ export const maybeLPTokenName = (symbol0?: string, symbol1?: string): string =>
 
 export const capitalize = (str: string | undefined): string =>
   str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
-
-export const getQueryFromPath = (
-  path: string
-): Record<string, MaybeArray<string>> => {
-  if (!path) return {};
-
-  const params = path.split('?')[1].split('&');
-
-  return params.reduce((acc, curr) => {
-    const entry = curr.split('=');
-
-    const values = entry[1].split(',');
-
-    return {
-      ...acc,
-      [entry[0]]: values.length > 1 ? values : values[0],
-    };
-  }, {});
-};
