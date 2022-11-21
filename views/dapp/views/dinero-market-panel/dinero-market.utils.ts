@@ -106,7 +106,7 @@ const DEFAULT_MARKET_DATA = {
   maxBorrowAmount: ZERO_BIG_NUMBER,
   rewardsBalance: ZERO_BIG_NUMBER,
   loading: true,
-  now: new Date().getTime(),
+  now: Date.now(),
 };
 
 export const getSafeDineroMarketData: GetSafeDineroMarketData = (

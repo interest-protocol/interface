@@ -23,7 +23,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       messages,
-      now: new Date().getTime(),
+      now: Date.now(),
       pageTitle: 'syntheticsMarketAddress.burn.pageTitle',
     },
   };

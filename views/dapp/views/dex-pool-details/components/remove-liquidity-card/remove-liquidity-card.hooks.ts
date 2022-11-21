@@ -44,7 +44,7 @@ export const useRemoveLiquidity = ({
 
   // 5 minutes
   const [deadline] = useDebounce(
-    Math.ceil((new Date().getTime() + 5 * 60 * 1000) / 1000),
+    Math.ceil((Date.now() + 5 * 60 * 1000) / 1000),
     10000
   );
 
