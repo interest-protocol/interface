@@ -14,9 +14,11 @@ import {
   RoutesWithFaucet,
   SOCIAL_MEDIAS,
 } from '@/constants';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Dropdown, Typography } from '@/elements';
 import { CreditCardSVG, FaucetSVG, GitBookSVG, HorizontalDotsSVG } from '@/svg';
-import { capitalize, noop } from '@/utils';
+import { capitalize } from '@/utils';
+import { logEvent } from '@/utils/analytics';
 
 const Footer: FC = () => {
   const t = useTranslations();
@@ -28,6 +30,9 @@ const Footer: FC = () => {
 
   const supportsFaucet = RoutesWithFaucet.includes(pathname);
   const supportsCreditCard = address && isChainIdSupported(chainId ?? -1);
+
+  const trackHeaderNavigation = (label: string) => () =>
+    logEvent(GACategory.HeaderNavigation, GAAction.MobileNavigate, label);
 
   return (
     <Box
@@ -78,6 +83,7 @@ const Footer: FC = () => {
               }
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
+              onClick={() => trackHeaderNavigation(RoutesEnum.DEX)}
             >
               Dex
             </Button>
@@ -121,18 +127,22 @@ const Footer: FC = () => {
                 {
                   value: 'Farms',
                   displayOption: 'Farms',
-                  onSelect: () =>
+                  onSelect: () => {
+                    trackHeaderNavigation(RoutesEnum.Farms);
                     push(Routes[RoutesEnum.Farms], undefined, {
                       shallow: true,
-                    }),
+                    });
+                  },
                 },
                 {
                   value: 'Vaults',
                   displayOption: 'Vaults',
-                  onSelect: () =>
+                  onSelect: () => {
+                    trackHeaderNavigation(RoutesEnum.Vaults);
                     push(Routes[RoutesEnum.Vaults], undefined, {
                       shallow: true,
-                    }),
+                    });
+                  },
                 },
               ]}
             />
@@ -174,18 +184,22 @@ const Footer: FC = () => {
                 {
                   value: 'dinero',
                   displayOption: capitalize(t('common.dinero')),
-                  onSelect: () =>
+                  onSelect: () => {
+                    trackHeaderNavigation(RoutesEnum.DineroMarket);
                     push(Routes[RoutesEnum.DineroMarket], undefined, {
                       shallow: true,
-                    }),
+                    });
+                  },
                 },
                 {
                   value: 'synthetics',
                   displayOption: capitalize(t('common.synthetics')),
-                  onSelect: () =>
+                  onSelect: () => {
+                    trackHeaderNavigation(RoutesEnum.SyntheticsMarket);
                     push(Routes[RoutesEnum.SyntheticsMarket], undefined, {
                       shallow: true,
-                    }),
+                    });
+                  },
                 },
               ]}
             />
@@ -237,6 +251,7 @@ const Footer: FC = () => {
                           </>
                         ),
                         onSelect: () => {
+                          trackHeaderNavigation(RoutesEnum.Faucet);
                           push(Routes[RoutesEnum.Faucet]);
                         },
                       },
@@ -269,7 +284,9 @@ const Footer: FC = () => {
                               </Box>
                             </a>
                           ),
-                          onSelect: noop,
+                          onSelect: trackHeaderNavigation(
+                            makeFIATWidgetURL(chainId, address)
+                          ),
                         },
                       ]
                     : []

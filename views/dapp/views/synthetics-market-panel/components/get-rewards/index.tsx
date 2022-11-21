@@ -11,6 +11,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useGetRewards } from '../../synthetics-market.hooks';
 import { GetRewardsProps } from './get-rewards.types';
@@ -32,6 +33,9 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
       await refetch();
       await showTXSuccessToast(tx, market.chainId);
     } catch (e: unknown) {
+      logException('Transaction Error: getRewards - GetRewards', [
+        'views\\dapp\\views\\synthetics-market-panel\\components\\get-rewards\\index.tsx',
+      ]);
       throwContractCallError(e);
     } finally {
       setLoading(false);

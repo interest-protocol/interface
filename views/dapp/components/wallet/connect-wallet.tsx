@@ -1,10 +1,12 @@
 import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { useIsMounted } from '@/hooks/use-is-mounted';
 import { LoadingSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logEvent } from '@/utils/analytics';
 
 import { ConnectWalletButtonProps } from './wallet.types';
 import { ConnectWalletModal } from './wallet-modal';
@@ -27,7 +29,10 @@ const ConnectWallet: FC<ConnectWalletButtonProps> = ({ loading }) => {
         alignItems="center"
         display="inline-flex"
         bg="bottomBackground"
-        onClick={toggleModal}
+        onClick={() => {
+          toggleModal();
+          logEvent(GACategory.Modal, GAAction.ConnectWallet, 'Connect Wallet');
+        }}
         justifyContent="center"
         hover={{ bg: 'accent' }}
         active={{ bg: 'accentActive' }}

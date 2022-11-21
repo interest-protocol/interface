@@ -4,6 +4,7 @@ import { FC, useState } from 'react';
 
 import Button from '@/elements/button';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useHarvest } from './buttons.hooks';
 import { HarvestButtonProps } from './buttons.types';
@@ -26,6 +27,9 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
 
       await showTXSuccessToast(tx, farm.chainId);
     } catch (e) {
+      logException('Transaction Error: _harvest - HarvestButton', [
+        'views\\dapp\\views\\farm-details\\components\\buttons\\harvest-button.tsx',
+      ]);
       throwError(t('error.generic'), e);
     } finally {
       setLoadingPool(false);

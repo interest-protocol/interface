@@ -126,7 +126,14 @@ const FarmStakeModal: FC<FarmStakeModalProps> = ({
         </Box>
         <Box mt="XL">
           <Typography variant="normal" textTransform="uppercase">
-            {t(isStake ? 'common.yourBalance' : 'farmsDetails.modalLabelInput')}
+            {t(
+              isStake ? 'common.yourBalance' : 'farmsDetails.modalLabelInput',
+              {
+                type: t(isStake ? 'common.stake' : 'common.unstake', {
+                  isLoading: 0,
+                }),
+              }
+            )}
           </Typography>
           <Box display="flex" justifyContent="space-between">
             <Typography variant="normal" my="L">

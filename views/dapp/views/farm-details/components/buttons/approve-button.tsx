@@ -14,6 +14,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { ApproveButtonProps } from './buttons.types';
 
@@ -38,6 +39,9 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
       await refetch();
     } catch (e) {
       setLoadingPool(false);
+      logException('Transaction Error: _approve - ApproveButton', [
+        'views\\dapp\\views\\farm-details\\components\\buttons\\approve-button.tsx',
+      ]);
       throwError(t('error.generic'), e);
     } finally {
       setLoadingPool(false);
