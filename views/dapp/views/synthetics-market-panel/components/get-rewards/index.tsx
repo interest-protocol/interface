@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
+import { GAAction } from '@/constants/google-analytics';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
 import { LoadingSVG } from '@/svg';
@@ -35,7 +35,6 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
       await showTXSuccessToast(tx, market.chainId);
     } catch (e: unknown) {
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: getRewards - GetRewards',
         trackerName: [

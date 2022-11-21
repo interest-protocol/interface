@@ -57,7 +57,6 @@ const Faucet: FC = () => {
 
   if (error) {
     logException({
-      category: GACategory.Error,
       action: GAAction.ErrorPage,
       label: `Error Page: Error fetching balances`,
       trackerName: ['views\\dapp\\views\\faucet\\index.tsx'],

@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
@@ -37,7 +37,6 @@ const ModalButton: FC<ModalButtonProps> = ({
       await refetch();
     } catch (e) {
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: action - handleWithdrawTokens',
         trackerName: [
@@ -68,7 +67,6 @@ const ModalButton: FC<ModalButtonProps> = ({
       await refetch();
     } catch (e) {
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: action - handleDepositTokens',
         trackerName: [

@@ -98,7 +98,6 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       setCreatingPair(true);
     } catch {
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: isInterestDexPair - FindPoolButton',
         trackerName: [
@@ -151,7 +150,6 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       }).then();
     } catch (e) {
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: addLiquidity - FindPoolButton',
         trackerName: [

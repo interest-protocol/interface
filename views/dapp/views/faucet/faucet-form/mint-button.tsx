@@ -3,7 +3,7 @@ import { prop } from 'ramda';
 import { useCallback, useState } from 'react';
 import { FC } from 'react';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -46,7 +46,6 @@ const MintButton: FC<MintButtonProps> = ({
       await refetch();
     } catch (error) {
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: mint - handleOnMint',
         trackerName: [

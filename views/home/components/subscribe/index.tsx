@@ -4,7 +4,7 @@ import { propOr } from 'ramda';
 import { FC } from 'react';
 import toast from 'react-hot-toast';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
+import { GAAction } from '@/constants/google-analytics';
 import { LogoSVG, ShieldSVG } from '@/svg';
 import { capitalize } from '@/utils';
 import { logException } from '@/utils/analytics';
@@ -26,7 +26,6 @@ const Subscribe: FC = () => {
         })
         .catch((x) => {
           logException({
-            category: GACategory.Error,
             action: GAAction.SubmitTransaction,
             label: propOr('code', 'email subscription error', x),
             trackerName: ['views\\home\\components\\subscribe\\index.tsx'],

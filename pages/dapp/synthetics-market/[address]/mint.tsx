@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
+import { GAAction } from '@/constants/google-analytics';
 import { logException } from '@/utils/analytics';
 import { Loading } from '@/views/dapp/components';
 import Error from '@/views/dapp/views/error';
@@ -19,7 +19,6 @@ const SyntheticsMintPage: NextPage<SyntheticsMintPageProps> = ({ address }) => {
 
   if (address === null) {
     logException({
-      category: GACategory.Error,
       action: GAAction.ErrorPage,
       label: `Error Page: Wrong params`,
       trackerName: ['pages\\dapp\\synthetics-market\\[address]\\mint.tsx'],

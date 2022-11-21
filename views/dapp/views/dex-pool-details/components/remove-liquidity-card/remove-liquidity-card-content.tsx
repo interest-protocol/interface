@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import {
@@ -59,7 +59,6 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
       await showTXSuccessToast(tx, chainId);
     } catch {
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: Approve token - remove liquidity',
         trackerName: [
@@ -89,7 +88,6 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
       await showTXSuccessToast(tx, chainId);
     } catch {
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: removeLiquidity - remove liquidity',
         trackerName: [

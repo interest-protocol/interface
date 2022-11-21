@@ -16,7 +16,7 @@ export const logEvent = (category = '', action = '', label: string): void => {
 };
 
 interface ParamsException {
-  category: string;
+  category?: string;
   action: string;
   label: string;
   trackerName: string[];
@@ -27,6 +27,8 @@ export const logException = ({
   label,
   trackerName,
 }: ParamsException): void => {
+  console.log(category, action, label, trackerName, 'see that');
+
   if (category && action)
     ReactGA.event({ category, action, label }, trackerName);
 };

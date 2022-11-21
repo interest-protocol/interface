@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { ApproveButton } from '@/components';
-import { GAAction, GACategory } from '@/constants/google-analytics';
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -104,7 +104,6 @@ const MintButton: FC<MintButtonProps> = ({
       form.reset();
     } catch (e: unknown) {
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: mint - handleMint',
         trackerName: [

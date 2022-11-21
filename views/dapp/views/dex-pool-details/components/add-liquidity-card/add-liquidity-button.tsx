@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
+import { GAAction } from '@/constants/google-analytics';
 import { Button } from '@/elements';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
 import { logException } from '@/utils/analytics';
@@ -25,7 +25,6 @@ const AddLiquidityButton: FC<AddLiquidityCardButtonProps> = ({
       await showTXSuccessToast(tx, chainId);
     } catch {
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: addLiquidity - AddLiquidityButton',
         trackerName: [

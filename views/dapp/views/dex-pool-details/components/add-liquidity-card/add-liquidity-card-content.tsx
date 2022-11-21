@@ -5,7 +5,7 @@ import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LineLoaderSVG } from '@/svg';
@@ -77,7 +77,6 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
       await showTXSuccessToast(tx, chainId);
     } catch {
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: approveToken - AddLiquidityCardContent',
         trackerName: [

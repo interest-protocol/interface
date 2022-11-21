@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
+import { GAAction } from '@/constants/google-analytics';
 import { logException } from '@/utils/analytics';
 import DineroVault from '@/views/dapp/views/dinero-vault';
 import ErrorView from '@/views/dapp/views/error';
@@ -15,7 +15,6 @@ const DineroVaultPage: NextPage<DineroVaultPageProps> = ({ address }) => {
   const t = useTranslations();
   if (!address) {
     logException({
-      category: GACategory.Error,
       action: GAAction.ErrorPage,
       label: `Error Page: Wrong params`,
       trackerName: ['pages\\dapp\\dinero-vault\\[address].tsx'],

@@ -3,7 +3,7 @@ import { FC, useMemo } from 'react';
 
 import { Container } from '@/components';
 import { RoutesEnum } from '@/constants';
-import { GAAction, GACategory } from '@/constants/google-analytics';
+import { GAAction } from '@/constants/google-analytics';
 import { useChainId, useGetUserFarmData } from '@/hooks';
 import { logException } from '@/utils/analytics';
 
@@ -27,7 +27,6 @@ const FarmDetails: FC<FarmDetailsProps> = ({ address }) => {
 
   if (error) {
     logException({
-      category: GACategory.Error,
       action: GAAction.ErrorPage,
       label: `Error Page: Error fetching contract`,
       trackerName: ['views\\dapp\\views\\farm-details\\index.tsx'],

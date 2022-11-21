@@ -5,7 +5,7 @@ import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { ApproveButton } from '@/components';
-import { GAAction, GACategory } from '@/constants/google-analytics';
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { LoadingSVG } from '@/svg';
@@ -115,7 +115,6 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       form.reset();
     } catch (e: unknown) {
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: borrow - BorrowButton',
         trackerName: [
@@ -132,7 +131,6 @@ const BorrowButton: FC<BorrowButtonProps> = ({
     if (isFormBorrowEmpty(form)) {
       toast.error(t('dineroMarketAddress.form.amountError'));
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Form Borrow is Empty',
         trackerName: [

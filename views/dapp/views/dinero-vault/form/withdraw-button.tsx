@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
@@ -34,7 +34,6 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       await showTXSuccessToast(tx, data.chainId);
     } catch (e) {
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: writeAsync - WithdrawButton',
         trackerName: [

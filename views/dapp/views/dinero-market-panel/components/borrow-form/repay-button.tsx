@@ -3,7 +3,7 @@ import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -45,7 +45,6 @@ const RepayButton: FC<RepayButtonProps> = ({
       form.reset();
     } catch (e: unknown) {
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: repay - RepayButton',
         trackerName: [
@@ -63,7 +62,6 @@ const RepayButton: FC<RepayButtonProps> = ({
     if (isFormRepayEmpty(form)) {
       toast.error(t('dineroMarketAddress.toastError'));
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Form Repay is Empty',
         trackerName: [

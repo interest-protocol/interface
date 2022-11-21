@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
+import { GAAction } from '@/constants/google-analytics';
 import { logException } from '@/utils/analytics';
 import ErrorView from '@/views/dapp/views/error';
 import FarmDetails from '@/views/dapp/views/farm-details';
@@ -15,7 +15,6 @@ const FarmDetailsPage: NextPage<FarmDetailsPageProps> = ({ tokenAddress }) => {
   const t = useTranslations();
   if (!tokenAddress) {
     logException({
-      category: GACategory.Error,
       action: GAAction.ErrorPage,
       label: `Error Page: Wrong params`,
       trackerName: ['pages\\dapp\\farms\\[tokenAddress].tsx'],

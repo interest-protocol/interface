@@ -3,7 +3,7 @@ import { prop } from 'ramda';
 import { ChangeEvent, FC, useCallback, useMemo } from 'react';
 
 import { TOKENS_SVG_MAP } from '@/constants';
-import { GAAction, GACategory } from '@/constants/google-analytics';
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Input, Typography } from '@/elements';
 import { useApprove, useIdAccount } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
@@ -49,7 +49,6 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
       await refetch();
     } catch (e) {
       logException({
-        category: GACategory.Error,
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: addAllowance - CreatePoolField',
         trackerName: [
