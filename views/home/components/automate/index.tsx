@@ -67,9 +67,7 @@ const Automate: FC = () => {
         <Button
           effect="hover"
           variant="primary"
-          onClick={() =>
-            push(Routes[RoutesEnum.Farms], undefined, { shallow: true })
-          }
+          onClick={() => push(Routes[RoutesEnum.Farms])}
         >
           {capitalize(t('common.earn'))}
         </Button>

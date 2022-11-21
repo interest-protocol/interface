@@ -86,7 +86,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       if (doesPairExist)
         return await push({
           pathname: Routes[RoutesEnum.DEXPoolDetails],
-          query: { pairAddress: address },
+          query: { address: address },
         }).then(() =>
           logEvent(
             GACategory.Operation,
@@ -146,7 +146,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
 
       return push({
         pathname: Routes[RoutesEnum.DEXPoolDetails],
-        query: { pairAddress: address },
+        query: { address: address },
       }).then();
     } catch (e) {
       logException({

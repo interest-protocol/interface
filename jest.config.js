@@ -17,6 +17,7 @@ const customJestConfig = {
     "@/api": "<rootDir>/api/index",
     "@/api/(.*)$": "<rootDir>/api/$1",
     "@/sdk": "<rootDir>/sdk/index",
+    "@/HOC": "<rootDir>/components/hoc/index",
     "@/components": "<rootDir>/components/index",
     "@/connectors": "<rootDir>/connectors/index",
     "@/connectors/(.*)$": "<rootDir>/connectors/$1",
