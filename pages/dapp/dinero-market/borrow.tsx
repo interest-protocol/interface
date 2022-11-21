@@ -13,8 +13,7 @@ const DineroMarketBorrowPage: NextPage = () => {
 
   const address = String(useRouterQuery('address'));
 
-  if (!address || !isValidAccount(address))
-    if (address === 'undefined') return <Loading />;
+  if (!address || !isValidAccount(address)) return <Loading />;
 
   if (address === 'null') return <Error message={t('error.wrongParams')} />;
 

@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
 import { useRouterQuery } from '@/hooks';
+import { isValidAccount } from '@/utils';
 import { Loading } from '@/views/dapp/components';
 import DineroMarketMode from '@/views/dapp/views/dinero-market-panel';
 import Error from '@/views/dapp/views/error';
@@ -12,7 +13,7 @@ const DineroMarketRepayPage: NextPage = () => {
 
   const address = String(useRouterQuery('address'));
 
-  if (address === 'undefined') return <Loading />;
+  if (!address || !isValidAccount(address)) return <Loading />;
 
   if (address === 'null') return <Error message={t('error.wrongParams')} />;
 

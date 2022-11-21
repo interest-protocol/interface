@@ -20,14 +20,14 @@ const SyntheticsMintPage: NextPage = () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const [commonMessages, dineroMarketMessages] = await Promise.all([
+  const [commonMessages, syntheticMarketMessages] = await Promise.all([
     import(`../../../assets/messages/common/${locale}.json`),
     import(`../../../assets/messages/synthetics-market/address/${locale}.json`),
   ]);
 
   const messages = mergeDeepRight(
     commonMessages.default,
-    dineroMarketMessages.default
+    syntheticMarketMessages.default
   );
 
   return {
