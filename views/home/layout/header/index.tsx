@@ -120,7 +120,7 @@ const Header: FC<HeaderProps> = ({ empty }) => {
         alignItems="center"
         justifyContent="space-between"
       >
-        <Link href={Routes[RoutesEnum.Home]} shallow>
+        <Link href={Routes[RoutesEnum.Home]}>
           <Box
             cursor="pointer"
             display="flex"

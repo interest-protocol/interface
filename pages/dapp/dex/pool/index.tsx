@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
       messages,
-      now: new Date().getTime(),
+      now: Date.now(),
       pageTitle: 'dexPool.pageTitle',
     },
   };

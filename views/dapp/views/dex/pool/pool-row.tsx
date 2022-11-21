@@ -29,9 +29,8 @@ const PoolRow: FC<PoolRowProps> = ({
 
   return (
     <Link
-      shallow
-      href={Routes[RoutesEnum.DEXPoolDetails]}
-      as={`${Routes[RoutesEnum.DEXPool]}/${pairAddress}/`}
+      href={`${Routes[RoutesEnum.DEXPoolDetails]}?address=${pairAddress}`}
+      as={`${Routes[RoutesEnum.DEXPoolDetails]}?address=${pairAddress}`}
     >
       <Box
         py="M"

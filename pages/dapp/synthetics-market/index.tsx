@@ -1,11 +1,11 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { GetStaticProps, NextPage } from 'next';
 import { mergeDeepRight } from 'ramda';
 
 import SyntheticsMarket from '@/views/dapp/views/synthetics-market';
 
 const SyntheticsMarketPage: NextPage = () => <SyntheticsMarket />;
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, syntheticsMarketMessages] = await Promise.all([
     import(`../../../assets/messages/common/${locale}.json`),
     import(`../../../assets/messages/synthetics-market/${locale}.json`),
@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
       messages,
-      now: new Date().getTime(),
+      now: Date.now(),
       pageTitle: 'syntheticsMarket.pageTitle',
     },
   };

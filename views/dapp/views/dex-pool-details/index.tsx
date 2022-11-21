@@ -58,7 +58,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
       {
         symbol: processedData.token0Metadata.symbol,
         Icon: (
-          <Box as="span" display="inline-block" width="1rem">
+          <Box as="span" display="inline-flex" width="1rem">
             <FirstIcon width="100%" />
           </Box>
         ),
@@ -70,7 +70,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
       {
         symbol: processedData.token1Metadata.symbol,
         Icon: (
-          <Box as="span" display="inline-block" width="1rem">
+          <Box as="span" display="inline-flex" width="1rem">
             <SecondIcon width="100%" />
           </Box>
         ),

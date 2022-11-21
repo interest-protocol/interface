@@ -78,7 +78,7 @@ const FarmOptions: FC<FarmOptionsProps> = ({
                 ? push({ pathname: Routes[RoutesEnum.DEX] }).then()
                 : push({
                     pathname: Routes[RoutesEnum.DEXPoolDetails],
-                    query: { pairAddress: farm.stakingTokenAddress },
+                    query: { address: farm.stakingTokenAddress },
                   }).then()
             }
             hover={{
