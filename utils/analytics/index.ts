@@ -1,5 +1,7 @@
 import ReactGA from 'react-ga4';
 
+import { GACategory } from '@/constants/google-analytics';
+
 export const initGA = (): void => {
   ReactGA.initialize(
     process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID ?? 'G-3M99P49E9B'
@@ -16,13 +18,13 @@ export const logEvent = (category = '', action = '', label: string): void => {
 };
 
 interface ParamsException {
-  category?: string;
+  category?: GACategory;
   action: string;
   label: string;
   trackerName: string[];
 }
 export const logException = ({
-  category = 'Error',
+  category = GACategory.Error,
   action,
   label,
   trackerName,
