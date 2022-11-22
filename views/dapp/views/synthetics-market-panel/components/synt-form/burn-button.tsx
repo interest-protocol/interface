@@ -3,6 +3,7 @@ import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -40,9 +41,13 @@ const BurnButton: FC<BurnButtonProps> = ({
       await showTXSuccessToast(tx, data.chainId);
       form.reset();
     } catch (e: unknown) {
-      logException('Transaction Error: burn - handleBurn', [
-        'views\\dapp\\views\\synthetics-market-panel\\components\\synt-form\\burn-button.tsx',
-      ]);
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: burn - handleBurn',
+        trackerName: [
+          'views\\dapp\\views\\synthetics-market-panel\\components\\synt-form\\burn-button.tsx',
+        ],
+      });
       throwContractCallError(e);
     } finally {
       setLoading(false);

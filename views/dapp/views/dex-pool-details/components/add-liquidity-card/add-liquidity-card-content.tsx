@@ -5,6 +5,7 @@ import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LineLoaderSVG } from '@/svg';
@@ -75,12 +76,13 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
 
       await showTXSuccessToast(tx, chainId);
     } catch {
-      logException(
-        'Transaction Error: approveToken - AddLiquidityCardContent',
-        [
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: approveToken - AddLiquidityCardContent',
+        trackerName: [
           'views\\dapp\\views\\dex-pool-details\\components\\add-liquidity-card\\add-liquidity-card-content.tsx',
-        ]
-      );
+        ],
+      });
       throwError(t('error.generic'));
     } finally {
       setLoading(false);

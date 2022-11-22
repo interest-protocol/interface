@@ -5,6 +5,7 @@ import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { ApproveButton } from '@/components';
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { LoadingSVG } from '@/svg';
@@ -113,9 +114,13 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       await showTXSuccessToast(tx, data.chainId);
       form.reset();
     } catch (e: unknown) {
-      logException('Transaction Error: borrow - BorrowButton', [
-        'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\borrow-button.tsx',
-      ]);
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: borrow - BorrowButton',
+        trackerName: [
+          'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\borrow-button.tsx',
+        ],
+      });
       throwContractCallError(e);
     } finally {
       setLoading(false);
@@ -125,9 +130,13 @@ const BorrowButton: FC<BorrowButtonProps> = ({
   const onSubmitBorrow = async () => {
     if (isFormBorrowEmpty(form)) {
       toast.error(t('dineroMarketAddress.form.amountError'));
-      logException('Form Borrow is Empty', [
-        'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\borrow-button.tsx',
-      ]);
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: 'Form Borrow is Empty',
+        trackerName: [
+          'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\borrow-button.tsx',
+        ],
+      });
       return;
     }
     if (!data.chainId || !account || !data || data.collateralAllowance.isZero())

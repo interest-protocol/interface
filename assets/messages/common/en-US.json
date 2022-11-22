@@ -74,7 +74,9 @@
   },
   "error": {
     "generic": "something went wrong",
-    "wrongParams": "Wrong params"
+    "wrongParams": "Wrong params",
+    "fetchingContract": "Error fetching contract",
+    "fetchingBalances": "Error fetching balances"
   },
   "web3Manager": {
     "title": "{chainName} is not supported",

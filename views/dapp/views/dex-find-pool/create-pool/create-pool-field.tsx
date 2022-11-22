@@ -3,6 +3,7 @@ import { prop } from 'ramda';
 import { ChangeEvent, FC, useCallback, useMemo } from 'react';
 
 import { TOKENS_SVG_MAP } from '@/constants';
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Input, Typography } from '@/elements';
 import { useApprove, useIdAccount } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
@@ -47,9 +48,13 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
       if (tx) await tx.wait(2);
       await refetch();
     } catch (e) {
-      logException('Transaction Error: addAllowance - CreatePoolField', [
-        'views\\dapp\\views\\dex-find-pool\\create-pool\\create-pool-field.tsx',
-      ]);
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: addAllowance - CreatePoolField',
+        trackerName: [
+          'views\\dapp\\views\\dex-find-pool\\create-pool\\create-pool-field.tsx',
+        ],
+      });
       throwError(t('error.generic'), e);
     }
   }, [chainId, addAllowance, chainId, refetch]);
