@@ -1,11 +1,11 @@
-import { GetStaticProps, NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { mergeDeepRight } from 'ramda';
 
 import Faucet from '@/views/dapp/views/faucet';
 
 const FaucetPage: NextPage = () => <Faucet />;
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   const [commonMessages, faucetMessages] = await Promise.all([
     import(`../../../assets/messages/common/${locale}.json`),
     import(`../../../assets/messages/faucet/${locale}.json`),
