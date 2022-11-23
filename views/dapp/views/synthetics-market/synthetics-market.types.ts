@@ -28,3 +28,7 @@ export interface ISyntheticMarketSummaryForm {
   onlyMinted: boolean;
   sortBy: SyntheticMarketSortByFilter;
 }
+
+export interface SyntheticMarketProps {
+  redStone?: boolean;
+}

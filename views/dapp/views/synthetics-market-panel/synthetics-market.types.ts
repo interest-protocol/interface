@@ -18,6 +18,7 @@ export type TValidSyntFormFieldNames =
 
 export interface SyntheticsMarketPanelProps {
   address: string;
+  redStone?: boolean;
   mode: TSyntheticsMarketMode;
 }
 

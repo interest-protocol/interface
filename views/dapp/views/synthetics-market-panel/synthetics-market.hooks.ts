@@ -1,10 +1,11 @@
 import { ethers } from 'ethers';
 import { isEmpty } from 'ramda';
+import { useMemo } from 'react';
 import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
 import { DEFAULT_ACCOUNT } from '@/constants';
-import { useSafeContractRead } from '@/hooks';
+import { useIdAccount, useSafeContractRead } from '@/hooks';
 import { HandlerData } from '@/interface';
 import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
 import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
@@ -13,6 +14,11 @@ import { isValidAccount, isZeroAddress, safeToBigNumber } from '@/utils';
 import { getInterestViewDineroV2Address } from '@/utils';
 
 import { SyntheticMarketData } from './synthetics-market.types';
+import {
+  getMyPositionData,
+  getRewardsInfo,
+  processSyntheticData,
+} from './synthetics-market.utils';
 
 export const useGetSyntheticUserMarketData = (
   marketAddress: string,
@@ -311,4 +317,30 @@ export const useGetRewards = (market: SyntheticMarketData) => {
   });
 
   return useContractWrite(config);
+};
+
+export const useWagmiSynthsPanel = (address: string) => {
+  const { chainId, account } = useIdAccount();
+
+  const { error, data, refetch } = useGetSyntheticUserMarketData(
+    address,
+    chainId,
+    account
+  );
+
+  const market = useMemo(
+    () => processSyntheticData(chainId, account, address, data),
+    [chainId, address, data, account]
+  );
+
+  const rewardsInfo = getRewardsInfo(market);
+  const myPositionData = getMyPositionData(market);
+
+  return {
+    error,
+    rewardsInfo,
+    myPositionData,
+    refetch,
+    market,
+  };
 };

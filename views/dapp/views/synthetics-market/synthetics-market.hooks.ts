@@ -1,8 +1,12 @@
+import { useMemo } from 'react';
+
 import { DEFAULT_ACCOUNT } from '@/constants';
 import { SYNTHETICS_CALL_MAP } from '@/constants/synthetics';
-import { useSafeContractRead } from '@/hooks';
+import { useIdAccount, useSafeContractRead } from '@/hooks';
 import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
 import { getInterestViewDineroV2Address } from '@/utils';
+
+import { processSyntheticMarketSummaryData } from './synthetics-market.utils';
 
 export const useGetSyntheticMarketsSummary = (
   account: string,
@@ -17,4 +21,20 @@ export const useGetSyntheticMarketsSummary = (
     args: [account || DEFAULT_ACCOUNT, callData],
     enabled: !!callData.length,
   });
+};
+
+export const useWagmiSynths = () => {
+  const { chainId, account } = useIdAccount();
+
+  const { error, data } = useGetSyntheticMarketsSummary(account, chainId);
+
+  const markets = useMemo(
+    () => processSyntheticMarketSummaryData(chainId, data),
+    [chainId, account, data]
+  );
+  return {
+    markets,
+    error,
+    chainId,
+  };
 };

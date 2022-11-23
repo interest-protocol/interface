@@ -1,21 +1,20 @@
 import { useTranslations } from 'next-intl';
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
-import { useIdAccount } from '@/hooks';
 import { BinanceUSDSVG, TimesSVG } from '@/svg';
 
 import { SyntheticsFilters, SyntheticsList } from './components';
-import { useGetSyntheticMarketsSummary } from './synthetics-market.hooks';
+import { useWagmiSynths } from './synthetics-market.hooks';
 import {
   ISyntheticMarketSummaryForm,
+  SyntheticMarketProps,
   SyntheticMarketSortByFilter,
 } from './synthetics-market.types';
-import { processSyntheticMarketSummaryData } from './synthetics-market.utils';
 
-const SyntheticsMarket: FC = () => {
+const SyntheticsMarket: FC<SyntheticMarketProps> = ({ redStone }) => {
   const { register, setValue, control } = useForm<ISyntheticMarketSummaryForm>({
     defaultValues: {
       search: '',
@@ -24,14 +23,14 @@ const SyntheticsMarket: FC = () => {
     },
   });
   const t = useTranslations();
-  const { chainId, account } = useIdAccount();
 
-  const { error, data } = useGetSyntheticMarketsSummary(account, chainId);
+  const { markets, error, chainId } = useWagmiSynths();
+  // const redStoneSynths = useRedStoneSynths();
 
-  const markets = useMemo(
-    () => processSyntheticMarketSummaryData(chainId, data),
-    [chainId, account, data]
-  );
+  if (redStone) {
+    // instructions for red stone using redStoneSynths[key]
+    console.log('>> oracle: redstone');
+  }
 
   if (error)
     return (

@@ -1,13 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslations } from 'next-intl';
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container, Tooltip } from '@/components';
 import { RoutesEnum } from '@/constants';
 import { GAAction } from '@/constants/google-analytics';
 import { Box } from '@/elements';
-import { useIdAccount } from '@/hooks/use-id-account';
 import { logException } from '@/utils/analytics';
 
 import GoBack from '../../components/go-back';
@@ -19,37 +18,21 @@ import UserLTV from './components/user-ltv';
 import YourBalance from './components/your-balance';
 import { syntheticsFormValidation } from './synthetics-form.validator';
 import { SYNT_FORM_DEFAULT_VALUES } from './synthetics-market.data';
-import { useGetSyntheticUserMarketData } from './synthetics-market.hooks';
+import { useWagmiSynthsPanel } from './synthetics-market.hooks';
 import {
   ISyntheticForm,
   SyntheticsMarketPanelProps,
 } from './synthetics-market.types';
-import {
-  calculatePositionHealth,
-  getMyPositionData,
-  getRewardsInfo,
-  processSyntheticData,
-} from './synthetics-market.utils';
+import { calculatePositionHealth } from './synthetics-market.utils';
 import SyntheticsMarketForm from './synthetics-market-form';
 import SyntheticsMarketSwitch from './synthetics-market-switch';
 
 const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
-  address,
   mode,
+  address,
+  redStone,
 }) => {
   const t = useTranslations();
-  const { chainId, account } = useIdAccount();
-
-  const { error, data, refetch } = useGetSyntheticUserMarketData(
-    address,
-    chainId,
-    account
-  );
-
-  const market = useMemo(
-    () => processSyntheticData(chainId, account, address, data),
-    [chainId, address, data, account]
-  );
 
   const form = useForm<ISyntheticForm>({
     mode: 'onChange',
@@ -58,8 +41,15 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
     resolver: yupResolver(syntheticsFormValidation),
   });
 
-  const rewardsInfo = getRewardsInfo(market);
-  const myPositionData = getMyPositionData(market);
+  const { error, market, refetch, rewardsInfo, myPositionData } =
+    useWagmiSynthsPanel(address);
+
+  // const redStoneSynths = useRedStoneSynthsPanel();
+
+  if (redStone) {
+    // instructions for red stone using redStoneSynths[key]
+    console.log('>> oracle: redstone');
+  }
 
   if (error) {
     logException({
