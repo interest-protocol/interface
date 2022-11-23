@@ -6,8 +6,10 @@ import {
   DEFAULT_ACCOUNT,
   TOKEN_FARM_ID_MAP,
 } from '@/constants';
+import { GAAction } from '@/constants/google-analytics';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import { getInterestViewEarnAddress } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useIdAccount } from '../use-id-account';
 import { useSafeContractRead } from '../use-safe-contract-read';
@@ -30,5 +32,10 @@ export const useGetUserFarmData = (pairAddress: string) => {
     contractInterface: InterestViewEarnABI,
     functionName: 'getUserFarmData',
     args: [pairAddress, account || DEFAULT_ACCOUNT, poolId, baseTokens],
+    onError: () =>
+      logException({
+        action: GAAction.ErrorPage,
+        label: `Error Page: Something went wrong`,
+      }),
   });
 };
