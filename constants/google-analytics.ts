@@ -29,10 +29,11 @@ export enum GAAction {
   ErrorPage = 'ERROR_PAGE',
   SubmitTransaction = 'SUBMIT_TRANSACTION',
   FetchingPairData = 'FETCHING_PAIR_DATA',
-  QuoteLiquidity = 'QUOTE_LIQUIDITY',
+  QuoteRemoveLiquidity = 'QUOTE_REMOVE_LIQUIDITY',
   FetchingDineroMarket = 'FETCHING_DINERO_MARKET',
   FetchingDineroVault = 'FETCHING_DINERO_VAULT',
   FetchingContract = 'FETCHING_CONTRACTS',
   FetchingBalance = 'FETCHING_BALANCE',
   FetchingBlockchain = 'FETCHING_BLOCKCHAIN',
+  ReadBlockChainData = 'READ_BLOCK_CHAIN_DATA',
 }

@@ -25,7 +25,7 @@ export const useGetDineroMarketsSummaryV2 = () => {
     ],
     onError: () =>
       logException({
-        action: GAAction.FetchingDineroMarket,
+        action: GAAction.ReadBlockChainData,
         label: `Transaction: getDineroMarketsSummary.`,
       }),
   });

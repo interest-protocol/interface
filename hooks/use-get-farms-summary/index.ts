@@ -28,7 +28,7 @@ export const useGetFarmsSummary = () => {
     ],
     onError: () =>
       logException({
-        action: GAAction.FetchingBalance,
+        action: GAAction.ReadBlockChainData,
         label: `Transaction: getFarmsSummary`,
       }),
   });

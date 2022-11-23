@@ -20,7 +20,7 @@ export const useGetSyntheticMarketsSummary = (
     enabled: !!callData.length,
     onError: () =>
       logException({
-        action: GAAction.FetchingBalance,
+        action: GAAction.ReadBlockChainData,
         label: `Transaction: getSyntheticMarketsSummary`,
       }),
   });

@@ -22,8 +22,8 @@ export const useGetUserBalancesAndAllowances = (
     args: [account || DEFAULT_ACCOUNT, spender, tokens],
     onError: () =>
       logException({
-        action: GAAction.ErrorPage,
-        label: `Error Page: Something went wrong.`,
+        action: GAAction.FetchingBalance,
+        label: `Transaction: getUserBalancesAndAllowances`,
       }),
     ...args,
   });
