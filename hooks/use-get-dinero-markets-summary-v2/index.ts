@@ -25,8 +25,8 @@ export const useGetDineroMarketsSummaryV2 = () => {
     ],
     onError: () =>
       logException({
-        action: GAAction.ErrorPage,
-        label: `Error Page: Something went wrong.`,
+        action: GAAction.FetchingDineroMarket,
+        label: `Transaction: getDineroMarketsSummary.`,
       }),
   });
 };

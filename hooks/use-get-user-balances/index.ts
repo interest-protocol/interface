@@ -26,8 +26,8 @@ export const useGetUserBalances = (
     enabled: !!tokens.length,
     onError: () =>
       logException({
-        action: GAAction.ErrorPage,
-        label: `Error Page: Error fetching balances`,
+        action: GAAction.FetchingBalance,
+        label: `Transaction: getUserBalances`,
       }),
     ...extraArgs,
   });

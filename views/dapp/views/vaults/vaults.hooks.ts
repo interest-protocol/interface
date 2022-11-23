@@ -20,8 +20,8 @@ export const useGetVaultsSummary = (
     enabled: !!dineroVaultsArray.length,
     onError: () =>
       logException({
-        action: GAAction.ErrorPage,
-        label: `Error Page: Something went wrong.`,
+        action: GAAction.FetchingBalance,
+        label: `Transaction: getVaultsSummary`,
       }),
   });
 };

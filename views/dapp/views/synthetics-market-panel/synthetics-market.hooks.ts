@@ -31,8 +31,8 @@ export const useGetSyntheticUserMarketData = (
     enabled: isMarketAddressValid && !!chainId,
     onError: () =>
       logException({
-        action: GAAction.ErrorPage,
-        label: `Error Page: Error fetching balances`,
+        action: GAAction.FetchingBlockchain,
+        label: `Transaction: getSyntheticUserMarketData`,
       }),
   });
 };

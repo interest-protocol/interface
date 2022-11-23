@@ -23,8 +23,8 @@ export const useQuoteRemoveLiquidity = (
     args: [token0, token1, isStable, amount],
     onError: () =>
       logException({
-        action: GAAction.ErrorPage,
-        label: `Error Page: Something went wrong.`,
+        action: GAAction.QuoteLiquidity,
+        label: `Transaction: quoteRemoveLiquidity.`,
       }),
   });
 };

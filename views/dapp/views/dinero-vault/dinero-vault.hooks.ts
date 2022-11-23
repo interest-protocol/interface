@@ -30,8 +30,8 @@ export const useGetUserDineroVault = (
     args: [vaultAddress, underlying, account || DEFAULT_ACCOUNT],
     onError: () =>
       logException({
-        action: GAAction.ErrorPage,
-        label: `Error Page: Something went wrong`,
+        action: GAAction.FetchingDineroVault,
+        label: `Transaction: getUserDineroVault`,
       }),
   });
 };

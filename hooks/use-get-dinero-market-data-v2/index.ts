@@ -26,8 +26,8 @@ export const useGetDineroMarketDataV2 = (market: string) => {
     args: [account || DEFAULT_ACCOUNT, market, data.baseToken, data.kind],
     onError: () =>
       logException({
-        action: GAAction.ErrorPage,
-        label: `Error Page: Something went wrong`,
+        action: GAAction.FetchingDineroMarket,
+        label: `Transaction: getDineroMarketData`,
         trackerName: ['views\\dapp\\views\\dinero-market-panel\\index.tsx'],
       }),
   });

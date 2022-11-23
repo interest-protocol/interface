@@ -17,8 +17,8 @@ export const useGetPairData = (pairAddress: string) => {
     args: [pairAddress, account || DEFAULT_ACCOUNT],
     onError: () =>
       logException({
-        action: GAAction.ErrorPage,
-        label: `Error Page: Something went wrong.`,
+        action: GAAction.FetchingPairData,
+        label: `Transaction: getPairData`,
       }),
   });
 };

@@ -34,8 +34,8 @@ export const useGetUserFarmData = (pairAddress: string) => {
     args: [pairAddress, account || DEFAULT_ACCOUNT, poolId, baseTokens],
     onError: () =>
       logException({
-        action: GAAction.ErrorPage,
-        label: `Error Page: Something went wrong`,
+        action: GAAction.FetchingContract,
+        label: `Transaction: getUserFarmData`,
       }),
   });
 };
