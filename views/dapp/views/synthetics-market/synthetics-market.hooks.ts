@@ -22,6 +22,9 @@ export const useGetSyntheticMarketsSummary = (
       logException({
         action: GAAction.ReadBlockchainData,
         label: `Transaction: getSyntheticMarketsSummary`,
+        trackerName: [
+          'views/dapp/views/synthetics-market/synthetics-market.hooks.ts',
+        ],
       }),
   });
 };

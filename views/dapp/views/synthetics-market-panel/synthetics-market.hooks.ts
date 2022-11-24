@@ -31,8 +31,11 @@ export const useGetSyntheticUserMarketData = (
     enabled: isMarketAddressValid && !!chainId,
     onError: () =>
       logException({
-        action: GAAction.FetchingBlockchain,
+        action: GAAction.ReadBlockchainData,
         label: `Transaction: getSyntheticUserMarketData`,
+        trackerName: [
+          'views/dapp/views/synthetics-market-panel/synthetics-market.hooks.ts',
+        ],
       }),
   });
 };
