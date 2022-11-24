@@ -1,26 +1,47 @@
 import { Result } from '@ethersproject/abi';
+import { BigNumber } from 'ethers';
 import { isAddress } from 'ethers/lib/utils';
 import { always, cond, equals, ifElse, isEmpty, T } from 'ramda';
 import { UseFormSetValue } from 'react-hook-form';
 
 import { ISwitchOption } from '@/components/switch/switch.types';
 import { GAAction, GACategory } from '@/constants/google-analytics';
-import { SYNTHETICS_RESPONSE_MAP } from '@/constants/synthetics';
+import {
+  SyntheticOracleType,
+  SYNTHETICS_RESPONSE_MAP,
+} from '@/constants/synthetics';
 import { adjustDecimals, isSameAddress } from '@/utils';
 import { logEvent } from '@/utils/analytics';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
 import {
+  FindSyntheticUSDPrice,
   ISyntheticMarketSummary,
   ISyntheticMarketSummaryForm,
   SyntheticMarketSortByFilter,
 } from './synthetics-market.types';
 
+const findSyntheticUSDPrice: FindSyntheticUSDPrice = ({
+  apiPrice,
+  redStonePrices,
+  redStonePriceIndex,
+  oracleType,
+}) => {
+  if (oracleType === SyntheticOracleType.RedStoneConsumer)
+    // RedStone price oracles always have 8 decimals
+    return adjustDecimals(redStonePrices[redStonePriceIndex], 8);
+  return apiPrice;
+};
+
 export const processSyntheticMarketSummaryData = (
   chainId: number,
   data:
-    | ([InterestViewDinero.SyntheticMarketSummaryStructOutput[]] & {
+    | ([
+        InterestViewDinero.SyntheticMarketSummaryStructOutput[],
+        BigNumber[]
+      ] & {
         data: InterestViewDinero.SyntheticMarketSummaryStructOutput[];
+        redStonePrices: BigNumber[];
       })
     | undefined
     | Result
@@ -28,10 +49,21 @@ export const processSyntheticMarketSummaryData = (
   if (!chainId || !data) return [];
 
   const responseMap = SYNTHETICS_RESPONSE_MAP[chainId];
+  const [marketData, redStonePrices] = data as [
+    InterestViewDinero.SyntheticMarketSummaryStructOutput[],
+    BigNumber[]
+  ] & {
+    data: InterestViewDinero.SyntheticMarketSummaryStructOutput[];
+    redStonePrices: BigNumber[];
+  };
 
-  if (!responseMap.length) return [];
+  if (!responseMap.length || !marketData || !redStonePrices) return [];
 
-  return data.map((apiData, index) => {
+  if (!marketData.length) return [];
+
+  if (marketData[0].TVL == undefined) return [];
+
+  return marketData.map((apiData, index) => {
     const responseMapData = responseMap[index];
     return {
       chainId,
@@ -40,11 +72,18 @@ export const processSyntheticMarketSummaryData = (
       symbol: responseMapData.symbol,
       TVL: adjustDecimals(apiData.TVL, responseMapData.collateralDecimals),
       syntheticAddress: responseMapData.syntheticAddress,
-      syntheticUSDPrice: apiData.syntheticUSDPrice,
+      syntheticUSDPrice: findSyntheticUSDPrice({
+        apiPrice: apiData.syntheticUSDPrice,
+        redStonePriceIndex: responseMapData.redStonePriceIndex,
+        redStonePrices: redStonePrices,
+        oracleType: responseMapData.oracleType,
+      }),
       userSyntheticMinted: apiData.userSyntMinted,
       transferFee: apiData.fee,
       id: index,
       name: responseMapData.name,
+      oracleType: responseMapData.oracleType,
+      collateralAddress: responseMapData.collateralAddress,
     };
   });
 };

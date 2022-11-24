@@ -1,5 +1,7 @@
 import { BigNumber } from 'ethers';
 
+import { SyntheticOracleType } from '@/constants';
+
 export enum SyntheticMarketSortByFilter {
   Default,
   TVL,
@@ -21,6 +23,8 @@ export interface ISyntheticMarketSummary {
   chainId: number;
   id: number;
   name: string;
+  oracleType: SyntheticOracleType;
+  collateralAddress: string;
 }
 
 export interface ISyntheticMarketSummaryForm {
@@ -28,3 +32,14 @@ export interface ISyntheticMarketSummaryForm {
   onlyMinted: boolean;
   sortBy: SyntheticMarketSortByFilter;
 }
+
+interface FindSyntheticMarketPriceArg {
+  oracleType: SyntheticOracleType;
+  redStonePriceIndex: number;
+  apiPrice: BigNumber;
+  redStonePrices: BigNumber[];
+}
+
+export type FindSyntheticUSDPrice = (
+  data: FindSyntheticMarketPriceArg
+) => BigNumber;

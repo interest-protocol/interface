@@ -43,6 +43,9 @@ export enum TOKEN_SYMBOL {
   iGBP = 'iGBP',
   iJPY = 'iJPY',
   iBRL = 'iBRL',
+  iTSLA = 'iTSLA',
+  iBAYC = 'iBAYC',
+  iAAPL = 'iAAPL',
 }
 
 export const MAX_NUMBER_INPUT_VALUE = 9000000000000000;
@@ -143,7 +146,7 @@ export const CONTRACTS = {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
-      '0x271E9170712E9F9F127Ccbe37E35c32a0467BB99'
+      '0x6E6f91a4FDB57ABC88B049D64B014bCa3009FBF0'
     ),
   },
   INTEREST_VIEW_EARN: {
@@ -351,6 +354,27 @@ export const CONTRACTS = {
     [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
       '0x8921c7351bd80C3b58e0d92C66Cd23CdBC3c2cD7'
+    ),
+  },
+  iBAYC: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0x2C3E12E34fdcBDeeC6272978515ad2D0df72D734'
+    ),
+  },
+  iAAPL: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0x67666AAbb73212712519494B9BeE5c7E700dcBDa'
+    ),
+  },
+  iTSLA: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0x1711b0e70819Cb96fBfF4Eb2d2b6E42A9650f8FF'
     ),
   },
 };

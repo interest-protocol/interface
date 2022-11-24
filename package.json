@@ -16,6 +16,7 @@
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@hookform/resolvers": "^2.8.8",
+    "@redstone-finance/evm-connector": "^0.0.12",
     "@vercel/analytics": "^0.1.5",
     "api-getresponse": "^1.0.0",
     "decimal.js-light": "^2.5.1",
