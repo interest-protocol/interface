@@ -34,8 +34,9 @@ export const useGetUserFarmData = (pairAddress: string) => {
     args: [pairAddress, account || DEFAULT_ACCOUNT, poolId, baseTokens],
     onError: () =>
       logException({
-        action: GAAction.FetchingContract,
+        action: GAAction.ReadBlockchainData,
         label: `Transaction: getUserFarmData`,
+        trackerName: ['hooks/use-get-user-farm-data/index.ts'],
       }),
   });
 };

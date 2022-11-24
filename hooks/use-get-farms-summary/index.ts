@@ -28,8 +28,9 @@ export const useGetFarmsSummary = () => {
     ],
     onError: () =>
       logException({
-        action: GAAction.ReadBlockChainData,
+        action: GAAction.ReadBlockchainData,
         label: `Transaction: getFarmsSummary`,
+        trackerName: ['hooks/use-get-farms-summary/index.ts'],
       }),
   });
 };

@@ -26,9 +26,9 @@ export const useGetDineroMarketDataV2 = (market: string) => {
     args: [account || DEFAULT_ACCOUNT, market, data.baseToken, data.kind],
     onError: () =>
       logException({
-        action: GAAction.ReadBlockChainData,
+        action: GAAction.ReadBlockchainData,
         label: `Transaction: getDineroMarketData`,
-        trackerName: ['views\\dapp\\views\\dinero-market-panel\\index.tsx'],
+        trackerName: ['views/dapp/views/dinero-market-panel/index.ts'],
       }),
   });
 };

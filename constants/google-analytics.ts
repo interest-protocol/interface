@@ -7,7 +7,7 @@ export enum GACategory {
   VaultFilters = 'VAULTS_FILTERS',
   DineroMarketFilters = 'DINERO_FILTERS',
   SyntheticsMarketFilters = 'SYNTHETICS_FILTERS',
-  Error = 'ERRORS',
+  Error = 'ERROR',
 }
 
 export enum GAAction {
@@ -26,14 +26,7 @@ export enum GAAction {
   AccountDetails = 'ACCOUNT_DETAILS',
   FarmDetailsCard = 'FARM_DETAILS_CARD',
   CreateToken = 'CREATE_NEW_TOKEN',
-  ErrorPage = 'ERROR_PAGE',
   SubmitTransaction = 'SUBMIT_TRANSACTION',
-  FetchingPairData = 'FETCHING_PAIR_DATA',
-  QuoteRemoveLiquidity = 'QUOTE_REMOVE_LIQUIDITY',
-  FetchingDineroMarket = 'FETCHING_DINERO_MARKET',
-  FetchingDineroVault = 'FETCHING_DINERO_VAULT',
-  FetchingContract = 'FETCHING_CONTRACTS',
-  FetchingBalance = 'FETCHING_BALANCE',
-  FetchingBlockchain = 'FETCHING_BLOCKCHAIN',
-  ReadBlockChainData = 'READ_BLOCK_CHAIN_DATA',
+  ReadBlockchainData = 'READ_BLOCKCHAIN_DATA',
+  ComponentDidCatch = 'COMPONENT_DID_CATCH',
 }

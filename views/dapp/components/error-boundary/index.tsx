@@ -17,9 +17,9 @@ class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, info: ErrorInfo): void {
     logException({
-      action: GAAction.ErrorPage,
+      action: GAAction.ComponentDidCatch,
       label: `${error.name}: ${error.message}; Stack: ${info.componentStack}`,
-      trackerName: ['views\\dapp\\components\\error-boundary\\index.tsx'],
+      trackerName: ['views/dapp/components/error-boundary/index.tsx'],
     });
   }
 

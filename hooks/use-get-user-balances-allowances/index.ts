@@ -22,8 +22,9 @@ export const useGetUserBalancesAndAllowances = (
     args: [account || DEFAULT_ACCOUNT, spender, tokens],
     onError: () =>
       logException({
-        action: GAAction.FetchingBalance,
+        action: GAAction.ReadBlockchainData,
         label: `Transaction: getUserBalancesAndAllowances`,
+        trackerName: ['hooks/use-get-user-balances-allowances/index.ts'],
       }),
     ...args,
   });

@@ -23,8 +23,9 @@ export const useQuoteRemoveLiquidity = (
     args: [token0, token1, isStable, amount],
     onError: () =>
       logException({
-        action: GAAction.QuoteRemoveLiquidity,
-        label: `Transaction: quoteRemoveLiquidity.`,
+        action: GAAction.ReadBlockchainData,
+        label: `Transaction: quoteRemoveLiquidity`,
+        trackerName: ['hooks/use-quote-remove-liquidity/index.ts'],
       }),
   });
 };

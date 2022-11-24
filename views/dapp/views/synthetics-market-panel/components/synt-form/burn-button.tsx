@@ -45,7 +45,7 @@ const BurnButton: FC<BurnButtonProps> = ({
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: burn - handleBurn',
         trackerName: [
-          'views\\dapp\\views\\synthetics-market-panel\\components\\synt-form\\burn-button.tsx',
+          'views/dapp/views/synthetics-market-panel/components/synt-form/burn-button.tsx',
         ],
       });
       throwContractCallError(e);

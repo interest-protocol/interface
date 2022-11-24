@@ -17,8 +17,9 @@ export const useGetPairData = (pairAddress: string) => {
     args: [pairAddress, account || DEFAULT_ACCOUNT],
     onError: () =>
       logException({
-        action: GAAction.FetchingPairData,
+        action: GAAction.ReadBlockchainData,
         label: `Transaction: getPairData`,
+        trackerName: ['hooks/use-get-pair-data/index.ts'],
       }),
   });
 };

@@ -62,7 +62,7 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: Approve token - remove liquidity',
         trackerName: [
-          'views\\dapp\\views\\dex-pool-details\\components\\remove-liquidity-card\\remove-liquidity-card-content.tsx',
+          'views/dapp/views/dex-pool-details/components/remove-liquidity-card/remove-liquidity-card-content.tsx',
         ],
       });
       throwError(t('error.generic'));
@@ -91,7 +91,7 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: removeLiquidity - remove liquidity',
         trackerName: [
-          'views\\dapp\\views\\dex-pool-details\\components\\remove-liquidity-card\\remove-liquidity-card-content.tsx',
+          'views/dapp/views/dex-pool-details/components/remove-liquidity-card/remove-liquidity-card-content.tsx',
         ],
       });
       throwError(t('error.generic'));

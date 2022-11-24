@@ -118,7 +118,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: borrow - BorrowButton',
         trackerName: [
-          'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\borrow-button.tsx',
+          'views/dapp/views/dinero-market-panel/components/borrow-form/borrow-button.tsx',
         ],
       });
       throwContractCallError(e);
@@ -134,7 +134,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
         action: GAAction.SubmitTransaction,
         label: 'Form Borrow is Empty',
         trackerName: [
-          'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\borrow-button.tsx',
+          'views/dapp/views/dinero-market-panel/components/borrow-form/borrow-button.tsx',
         ],
       });
       return;

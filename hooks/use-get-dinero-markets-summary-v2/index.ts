@@ -25,8 +25,9 @@ export const useGetDineroMarketsSummaryV2 = () => {
     ],
     onError: () =>
       logException({
-        action: GAAction.ReadBlockChainData,
-        label: `Transaction: getDineroMarketsSummary.`,
+        action: GAAction.ReadBlockchainData,
+        label: `Transaction: getDineroMarketsSummary`,
+        trackerName: ['hooks/use-get-dinero-markets-summary-v2/index.ts'],
       }),
   });
 };

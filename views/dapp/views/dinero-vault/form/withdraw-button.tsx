@@ -36,9 +36,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       logException({
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: writeAsync - WithdrawButton',
-        trackerName: [
-          'views\\dapp\\views\\dinero-vault\\form\\withdraw-button.tsx',
-        ],
+        trackerName: ['views/dapp/views/dinero-vault/form/withdraw-button.tsx'],
       });
       throwError(t('error.generic'), e);
     } finally {

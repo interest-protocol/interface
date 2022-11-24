@@ -20,7 +20,7 @@ export const useGetVaultsSummary = (
     enabled: !!dineroVaultsArray.length,
     onError: () =>
       logException({
-        action: GAAction.ReadBlockChainData,
+        action: GAAction.ReadBlockchainData,
         label: `Transaction: getVaultsSummary`,
       }),
   });
