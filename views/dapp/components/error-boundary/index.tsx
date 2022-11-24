@@ -1,5 +1,8 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 
+import { GAAction } from '@/constants/google-analytics';
+import { logException } from '@/utils/analytics';
+
 import { Props, State } from './error-boundary.types';
 import BoundaryMessage from './error-boundary-message';
 
@@ -13,8 +16,11 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo): void {
-    console.warn('> error :::', error);
-    console.warn('> error info :::', info);
+    logException({
+      action: GAAction.ComponentDidCatch,
+      label: `${error.name}: ${error.message}; Stack: ${info.componentStack}`,
+      trackerName: ['views/dapp/components/error-boundary/index.tsx'],
+    });
   }
 
   render = (): ReactNode =>

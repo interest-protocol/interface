@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
 
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import {
@@ -11,6 +12,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import ApproveButton from './approve-button';
@@ -56,6 +58,13 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
 
       await showTXSuccessToast(tx, chainId);
     } catch {
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: Approve token - remove liquidity',
+        trackerName: [
+          'views/dapp/views/dex-pool-details/components/remove-liquidity-card/remove-liquidity-card-content.tsx',
+        ],
+      });
       throwError(t('error.generic'));
     } finally {
       setValue('loading', false);
@@ -78,6 +87,13 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
 
       await showTXSuccessToast(tx, chainId);
     } catch {
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: removeLiquidity - remove liquidity',
+        trackerName: [
+          'views/dapp/views/dex-pool-details/components/remove-liquidity-card/remove-liquidity-card-content.tsx',
+        ],
+      });
       throwError(t('error.generic'));
     } finally {
       setValue('removeLoading', false);

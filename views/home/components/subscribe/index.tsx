@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useTranslations } from 'next-intl';
+import { propOr } from 'ramda';
 import { FC } from 'react';
 import toast from 'react-hot-toast';
 
+import { GAAction } from '@/constants/google-analytics';
 import { LogoSVG, ShieldSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { Box, Button, Input, Typography } from '../../../../elements';
 
@@ -14,28 +17,34 @@ const Subscribe: FC = () => {
     event.preventDefault();
     // @ts-ignore
     const email = event.target[0].value;
-    toast
-      .promise(
-        fetch(`/api/v1/mail/subscribe?email=${email}`)
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.httpStatus >= 400) throw data;
-            if (data.httpStatus == 200) return data;
-          }),
-        {
-          loading: t('landingPage.subscribeButton', { isLoading: 1 }),
-          success: capitalize(t('common.success')),
-          error: (error) =>
-            capitalize(
-              t(
-                error.code == 1008
-                  ? 'landingPage.subscribeErrors.1008'
-                  : 'error.generic'
-              )
-            ),
-        }
-      )
-      .catch(console.log);
+    toast.promise(
+      fetch(`/api/v1/mail/subscribe?email=${email}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.httpStatus >= 400) throw data;
+          if (data.httpStatus == 200) return data;
+        })
+        .catch((x) => {
+          logException({
+            action: GAAction.SubmitTransaction,
+            label: propOr('code', 'email subscription error', x),
+            trackerName: ['views\\home\\components\\subscribe\\index.tsx'],
+          });
+          throw x;
+        }),
+      {
+        loading: t('landingPage.subscribeButton', { isLoading: 1 }),
+        success: capitalize(t('common.success')),
+        error: (error) =>
+          capitalize(
+            t(
+              error.code == 1008
+                ? 'landingPage.subscribeErrors.1008'
+                : 'error.generic'
+            )
+          ),
+      }
+    );
   };
 
   return (

@@ -125,7 +125,7 @@ const FarmsTable: FC<FarmsTableProps> = ({
                     <Link
                       href={{
                         pathname: Routes[RoutesEnum.FarmDetails],
-                        query: { tokenAddress: farm.stakingTokenAddress },
+                        query: { address: farm.stakingTokenAddress },
                       }}
                     >
                       <Button variant="primary" hover={{ bg: 'accentActive' }}>
@@ -303,7 +303,7 @@ const FarmsTable: FC<FarmsTableProps> = ({
                       <Link
                         href={{
                           pathname: Routes[RoutesEnum.FarmDetails],
-                          query: { tokenAddress: farm.stakingTokenAddress },
+                          query: { address: farm.stakingTokenAddress },
                         }}
                       >
                         <Button

@@ -11,10 +11,12 @@ import {
   Routes,
   RoutesEnum,
 } from '@/constants';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Dropdown, Typography } from '@/elements';
 import useEventListener from '@/hooks/use-event-listener';
 import { CreditCardSVG, LogoSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logEvent } from '@/utils/analytics';
 
 import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
@@ -36,6 +38,9 @@ const Header: FC = () => {
 
   useEventListener('resize', handleSetDesktop, true);
 
+  const trackHeaderNavigation = (label: string) => () =>
+    logEvent(GACategory.HeaderNavigation, GAAction.DesktopNavigate, label);
+
   return (
     <Box
       py="M"
@@ -48,12 +53,17 @@ const Header: FC = () => {
       gridTemplateColumns="repeat(3, 1fr)"
     >
       <Box display="flex" alignItems="center">
-        <Link href={Routes[RoutesEnum.Home]}>
+        <Link
+          href={Routes[RoutesEnum.Home]}
+          onClick={trackHeaderNavigation(RoutesEnum.Home)}
+        >
           <Box
             mr="L"
             color="text"
             width="2.5rem"
             height="2.5rem"
+            maxWidth="50px"
+            maxHeight="50px"
             cursor="pointer"
             hover={{ color: 'accent' }}
             active={{ color: 'accentSecondary' }}
@@ -90,7 +100,10 @@ const Header: FC = () => {
         justifyContent="center"
         display={['none', 'none', 'flex']}
       >
-        <Link href={Routes[RoutesEnum.DEX]}>
+        <Link
+          href={Routes[RoutesEnum.DEX]}
+          onClick={trackHeaderNavigation(RoutesEnum.DEX)}
+        >
           <Typography
             px="XL"
             cursor="pointer"
@@ -129,18 +142,12 @@ const Header: FC = () => {
               {
                 value: 'Farms',
                 displayOption: 'Farms',
-                onSelect: () =>
-                  push(Routes[RoutesEnum.Farms], undefined, {
-                    shallow: true,
-                  }),
+                onSelect: () => push(Routes[RoutesEnum.Farms]),
               },
               {
                 value: 'Vaults',
                 displayOption: 'Vaults',
-                onSelect: () =>
-                  push(Routes[RoutesEnum.Vaults], undefined, {
-                    shallow: true,
-                  }),
+                onSelect: () => push(Routes[RoutesEnum.Vaults]),
               },
             ]}
           />
@@ -168,18 +175,12 @@ const Header: FC = () => {
               {
                 value: 'dinero',
                 displayOption: capitalize(t('common.dinero')),
-                onSelect: () =>
-                  push(Routes[RoutesEnum.DineroMarket], undefined, {
-                    shallow: true,
-                  }),
+                onSelect: () => push(Routes[RoutesEnum.DineroMarket]),
               },
               {
                 value: 'synths',
                 displayOption: capitalize(t('common.synthetics')),
-                onSelect: () =>
-                  push(Routes[RoutesEnum.SyntheticsMarket], undefined, {
-                    shallow: true,
-                  }),
+                onSelect: () => push(Routes[RoutesEnum.SyntheticsMarket]),
               },
             ]}
           />
@@ -191,6 +192,9 @@ const Header: FC = () => {
             <a
               href={makeFIATWidgetURL(chainId, address)}
               target="__blank"
+              onClick={trackHeaderNavigation(
+                makeFIATWidgetURL(chainId, address)
+              )}
               rel="noopener noreferrer"
             >
               <Box

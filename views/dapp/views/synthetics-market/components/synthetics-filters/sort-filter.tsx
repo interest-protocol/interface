@@ -3,10 +3,12 @@ import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Dropdown, Typography } from '@/elements';
 import { TTranslatedMessage } from '@/interface';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logEvent } from '@/utils/analytics';
 
 import { SyntheticMarketSortByFilter } from '../../synthetics-market.types';
 import { SortFilterProps } from './synthetics-filters.types';
@@ -86,6 +88,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.SyntheticsMarketFilters,
+                  GAAction.Switch,
+                  'Sort by = id'
+                );
                 setValue('sortBy', SyntheticMarketSortByFilter.Default);
               },
             },
@@ -100,6 +107,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.SyntheticsMarketFilters,
+                  GAAction.Switch,
+                  'Sort by = tvl'
+                );
                 setValue('sortBy', SyntheticMarketSortByFilter.TVL);
               },
             },
@@ -114,6 +126,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.SyntheticsMarketFilters,
+                  GAAction.Switch,
+                  'Sort by = ltv'
+                );
                 setValue('sortBy', SyntheticMarketSortByFilter.LTV);
               },
             },
@@ -130,6 +147,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.SyntheticsMarketFilters,
+                  GAAction.Switch,
+                  'Sort by = price'
+                );
                 setValue('sortBy', SyntheticMarketSortByFilter.Price);
               },
             },
@@ -148,6 +170,11 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logEvent(
+                  GACategory.SyntheticsMarketFilters,
+                  GAAction.Switch,
+                  'Sort by = fee'
+                );
                 setValue('sortBy', SyntheticMarketSortByFilter.TransferFee);
               },
             },

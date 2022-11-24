@@ -1,4 +1,3 @@
-import { SystemStyleObject } from '@styled-system/css';
 import { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
 import {
   BorderProps,
@@ -11,6 +10,7 @@ import {
 } from 'styled-system';
 
 import { BoxProps } from '../box/box.types';
+import { TStyles } from './../../stylin/stylin.types';
 
 export interface InputFieldProps
   extends ColorProps,
@@ -24,7 +24,7 @@ export interface InputFieldProps
       InputHTMLAttributes<HTMLInputElement>,
       'color' | 'width' | 'height' | 'size'
     > {
-  focus?: SystemStyleObject;
+  focus?: TStyles;
 }
 
 export interface InputProps extends InputFieldProps {

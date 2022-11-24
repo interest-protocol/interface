@@ -6,12 +6,14 @@ import { v4 } from 'uuid';
 
 import { Container, SocialMediaCard, SwitchLang } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
+import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, RefBox, Typography } from '@/elements';
 import { useLocale } from '@/hooks';
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
 import useEventListener from '@/hooks/use-event-listener';
 import { BarsLPSVG, LogoSVG, TimesSVG } from '@/svg';
 import { getSafeLocaleSVG } from '@/utils';
+import { logEvent } from '@/utils/analytics';
 
 import { HeaderProps } from './header.types';
 import LangList from './lang-list';
@@ -118,7 +120,7 @@ const Header: FC<HeaderProps> = ({ empty }) => {
         alignItems="center"
         justifyContent="space-between"
       >
-        <Link href={Routes[RoutesEnum.Home]} shallow>
+        <Link href={Routes[RoutesEnum.Home]}>
           <Box
             cursor="pointer"
             display="flex"
@@ -172,7 +174,14 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                   effect="hover"
                   variant="secondary"
                   mr="0.75rem"
-                  onClick={() => push(Routes[RoutesEnum.DApp])}
+                  onClick={() => {
+                    logEvent(
+                      GACategory.HeaderNavigation,
+                      GAAction.Access,
+                      'Access to DApp from Home'
+                    );
+                    push(Routes[RoutesEnum.DApp]);
+                  }}
                 >
                   DApp
                 </Button>

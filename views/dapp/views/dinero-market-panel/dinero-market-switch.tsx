@@ -26,21 +26,15 @@ const DineroMarketSwitch: FC<DineroMarketSwitchProps> = ({
   const t = useTranslations();
   const switchTo = (targetMode: 'borrow' | 'repay') => () => {
     FORM_FIELDS.forEach((name) => resetField(name));
-    push(
-      {
-        pathname:
-          Routes[
-            targetMode === 'borrow'
-              ? RoutesEnum.DineroMarketBorrow
-              : RoutesEnum.DineroMarketRepay
-          ],
-        query: { address },
-      },
-      undefined,
-      {
-        shallow: true,
-      }
-    );
+    push({
+      pathname:
+        Routes[
+          targetMode === 'borrow'
+            ? RoutesEnum.DineroMarketBorrow
+            : RoutesEnum.DineroMarketRepay
+        ],
+      query: { address },
+    });
   };
 
   const options: [ISwitchOption, ISwitchOption] = useMemo(

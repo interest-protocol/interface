@@ -3,6 +3,7 @@
     "import/resolver": {
       "alias": {
         "map": [
+          ["@/HOC", "./components/HOC"],
           ["@/components", "./components"],
           ["@/connectors", "./connectors"],
           ["@/constants", "./constants"],
@@ -11,6 +12,7 @@
           ["@/hooks", "./hooks"],
           ["@/interface", "./interface"],
           ["@/sdk", "./sdk"],
+          ["@/stylin", "./stylin"],
           ["@/utils", "./utils"],
           ["@/views", "./views"],
           ["@/api", "./api"],

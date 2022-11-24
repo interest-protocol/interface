@@ -1,7 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
-import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
 
 import { VaultFilterTableProps } from '../../vaults.types';
@@ -15,39 +14,38 @@ const VaultFilterTable: FC<VaultFilterTableProps> = ({
   setValue,
 }) => {
   const t = useTranslations();
+
   return (
-    <Container>
+    <Box
+      p="L"
+      my="L"
+      borderRadius="L"
+      bg="foreground"
+      width="100%"
+      display="flex"
+      justifyContent={['center', 'center', 'center', 'space-between']}
+      flexWrap="wrap"
+    >
+      <OnlyDeposit control={control} setValue={setValue} />
+      <TypeFilter control={control} setValue={setValue} />
       <Box
-        p="L"
-        my="L"
-        borderRadius="L"
-        bg="foreground"
-        width="100%"
-        display="flex"
-        justifyContent={['center', 'center', 'center', 'space-between']}
-        flexWrap="wrap"
+        my="M"
+        mt={['L', 'L', 'L', 'unset']}
+        width={['100%', '100%', '100%', 'unset']}
       >
-        <OnlyDeposit control={control} setValue={setValue} />
-        <TypeFilter control={control} setValue={setValue} />
-        <Box
-          my="M"
-          mt={['L', 'L', 'L', 'unset']}
-          width={['100%', '100%', '100%', 'unset']}
+        <Typography
+          as="label"
+          fontSize="S"
+          mb="M"
+          variant="normal"
+          display="inline-block"
+          textTransform="capitalize"
         >
-          <Typography
-            as="label"
-            fontSize="S"
-            mb="M"
-            variant="normal"
-            display="inline-block"
-            textTransform="capitalize"
-          >
-            {t('common.search')}
-          </Typography>
-          <InputSearch register={register} setValue={setValue} />
-        </Box>
+          {t('common.search')}
+        </Typography>
+        <InputSearch register={register} setValue={setValue} />
       </Box>
-    </Container>
+    </Box>
   );
 };
 

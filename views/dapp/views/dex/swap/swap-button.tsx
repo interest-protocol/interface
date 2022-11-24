@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
@@ -16,6 +17,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import { useSwap, useWETHDeposit, useWETHWithdraw } from './swap.hooks';
@@ -110,7 +112,14 @@ const SwapButton: FC<SwapButtonProps> = ({
   });
 
   const handleAddAllowance = useCallback(async () => {
-    if (isZeroAddress(tokenInAddress)) return;
+    if (isZeroAddress(tokenInAddress)) {
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: `TransactionError: approve - SwapButton - ${tokenInAddress}`,
+        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
+      });
+      return;
+    }
     setButtonLoadingText(t('common.approve', { isLoading: 1 }));
     try {
       const tx = await approve?.();
@@ -120,6 +129,11 @@ const SwapButton: FC<SwapButtonProps> = ({
       if (tx) await tx.wait(5);
       await refetch();
     } catch (e) {
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: `TransactionError: add allowance ${tokenInAddress}`,
+        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
+      });
       throwError(t('error.generic'), e);
     } finally {
       setButtonLoadingText(null);
@@ -142,6 +156,11 @@ const SwapButton: FC<SwapButtonProps> = ({
       await refetch();
       await showTXSuccessToast(tx, chainId);
     } catch {
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: `TransactionError: handle swap ${tokenInAddress}`,
+        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
+      });
       throwError(t('dexSwap.swapMessage.error'));
     } finally {
       setButtonLoadingText(null);
@@ -159,8 +178,14 @@ const SwapButton: FC<SwapButtonProps> = ({
     if (
       isSameAddress(tokenIn.address, tokenOut.address) ||
       !isZeroAddress(tokenIn.address)
-    )
+    ) {
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: `TransactionError: handle WETH Deposit. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
+        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
+      });
       return;
+    }
 
     setButtonLoadingText(t('common.wrap', { isLoading: 1 }));
     try {
@@ -173,6 +198,11 @@ const SwapButton: FC<SwapButtonProps> = ({
       await showTXSuccessToast(tx, chainId);
       await refetch();
     } catch (e) {
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: `TransactionError: handle WETH Deposit. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
+        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
+      });
       throwError(t('dexSwap.error.wethDeposit'));
     } finally {
       setButtonLoadingText(null);
@@ -190,8 +220,14 @@ const SwapButton: FC<SwapButtonProps> = ({
     if (
       isSameAddress(tokenIn.address, tokenOut.address) ||
       !isZeroAddress(tokenOut.address)
-    )
+    ) {
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: `TransactionError: handle WETH Withdraw. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
+        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
+      });
       return;
+    }
 
     setButtonLoadingText(t('common.unwrap', { isLoading: 1 }));
     try {
@@ -207,6 +243,11 @@ const SwapButton: FC<SwapButtonProps> = ({
       await showTXSuccessToast(tx, chainId);
       await refetch();
     } catch {
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: `TransactionError: handle WETH Withdraw. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
+        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
+      });
       throwError(t('dexSwap.error.wethWithdraw'));
     } finally {
       setButtonLoadingText(null);

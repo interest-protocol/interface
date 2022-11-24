@@ -1,56 +1,91 @@
 import 'react-loading-skeleton/dist/skeleton.css';
 
-import { Global } from '@emotion/react';
+import createEmotionCache from '@emotion/cache';
+import { CacheProvider as EmotionCacheProvider, Global } from '@emotion/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextProgress from 'next-progress';
-import { ReactNode, StrictMode } from 'react';
+import { ReactNode, StrictMode, useEffect } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import { WagmiConfig } from 'wagmi';
 
 import { NextIntlProvider, Web3Manager } from '@/components';
 import { wagmiClient } from '@/connectors';
-import GlobalStyles from '@/design-system/global-styles';
+import { GlobalStyles } from '@/design-system';
+import { TTranslatedMessage } from '@/interface';
+import { initGA, logPageView } from '@/utils/analytics';
 
-const MyApp = ({ Component, pageProps, router }: AppProps): ReactNode => (
-  <>
-    <Head>
-      <title>Interest Protocol</title>
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1, viewport-fit=cover"
-      />
-    </Head>
-    <NextProgress options={{ showSpinner: false }} />
-    <NextIntlProvider
-      formats={{
-        dateTime: {
-          short: {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
+const emotionCache = createEmotionCache({ key: 'stylin' });
+
+interface PageProps {
+  now: number;
+  pageTitle: string;
+  messages: TTranslatedMessage;
+}
+
+type Props = Omit<AppProps<PageProps>, 'pageProps'> & {
+  pageProps: PageProps;
+};
+
+const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
+  useEffect(() => {
+    initGA();
+    // `routeChangeComplete` won't run for the first page load unless the query string is
+    // hydrated later on, so here we log a page view if this is the first render and
+    // there's no query string
+    if (!router.asPath.includes('?')) logPageView();
+  }, []);
+
+  useEffect(() => {
+    // Listen for page changes after a navigation or when the query changes
+    router.events.on('routeChangeComplete', logPageView);
+    return () => {
+      router.events.off('routeChangeComplete', logPageView);
+    };
+  }, [router.events]);
+
+  return (
+    <>
+      <Head>
+        <title>Interest Protocol</title>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1, viewport-fit=cover"
+        />
+      </Head>
+      <NextProgress options={{ showSpinner: false }} />
+      <NextIntlProvider
+        formats={{
+          dateTime: {
+            short: {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric',
+            },
           },
-        },
-      }}
-      messages={pageProps.messages}
-      now={new Date(pageProps.now)}
-      timeZone="UTC"
-    >
-      <WagmiConfig client={wagmiClient}>
-        <SkeletonTheme baseColor="#202020" highlightColor="#444">
-          <Global styles={GlobalStyles} />
-          <Web3Manager
-            pageTitle={pageProps.pageTitle}
-            pathname={router.pathname}
-          >
-            <StrictMode>
-              <Component {...pageProps} />
-            </StrictMode>
-          </Web3Manager>
-        </SkeletonTheme>
-      </WagmiConfig>
-    </NextIntlProvider>
-  </>
-);
+        }}
+        messages={pageProps.messages}
+        now={new Date(pageProps.now)}
+        timeZone="UTC"
+      >
+        <WagmiConfig client={wagmiClient}>
+          <SkeletonTheme baseColor="#202020" highlightColor="#444">
+            <EmotionCacheProvider value={emotionCache}>
+              <Global styles={GlobalStyles} />
+              <Web3Manager
+                pageTitle={pageProps.pageTitle}
+                pathname={router.pathname}
+              >
+                <StrictMode>
+                  <Component {...pageProps} />
+                </StrictMode>
+              </Web3Manager>
+            </EmotionCacheProvider>
+          </SkeletonTheme>
+        </WagmiConfig>
+      </NextIntlProvider>
+    </>
+  );
+};
 
 export default MyApp;

@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 
+import { GAAction } from '@/constants/google-analytics';
 import { Typography } from '@/elements';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
@@ -14,6 +15,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { ApproveButtonProps } from './buttons.types';
 
@@ -38,6 +40,13 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
       await refetch();
     } catch (e) {
       setLoadingPool(false);
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: _approve - ApproveButton',
+        trackerName: [
+          'views/dapp/views/farm-details/components/buttons/approve-button.tsx',
+        ],
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoadingPool(false);

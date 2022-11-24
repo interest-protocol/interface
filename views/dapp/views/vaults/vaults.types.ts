@@ -16,6 +16,7 @@ export interface VaultTableProps {
   data: ReadonlyArray<VaultData>;
   loading: boolean;
   control: Control<IVaultForm>;
+  isDesktop: boolean;
 }
 export interface VaultHeaderProps {
   size: number;

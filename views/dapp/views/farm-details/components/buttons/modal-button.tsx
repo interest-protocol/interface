@@ -2,9 +2,11 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useAction } from './buttons.hooks';
 import { ModalButtonProps } from './buttons.types';
@@ -34,6 +36,13 @@ const ModalButton: FC<ModalButtonProps> = ({
       await showTXSuccessToast(tx, farm.chainId);
       await refetch();
     } catch (e) {
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: action - handleWithdrawTokens',
+        trackerName: [
+          'views/dapp/views/farm-details/components/buttons/modal-button.tsx',
+        ],
+      });
       throw e || new Error(t('error.generic'));
     } finally {
       setLoading(false);
@@ -57,6 +66,13 @@ const ModalButton: FC<ModalButtonProps> = ({
       await showTXSuccessToast(tx, farm.chainId);
       await refetch();
     } catch (e) {
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: action - handleDepositTokens',
+        trackerName: [
+          'views/dapp/views/farm-details/components/buttons/modal-button.tsx',
+        ],
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);

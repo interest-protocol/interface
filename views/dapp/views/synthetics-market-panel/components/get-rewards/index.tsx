@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 
+import { GAAction } from '@/constants/google-analytics';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
 import { LoadingSVG } from '@/svg';
@@ -11,6 +12,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useGetRewards } from '../../synthetics-market.hooks';
 import { GetRewardsProps } from './get-rewards.types';
@@ -32,6 +34,13 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
       await refetch();
       await showTXSuccessToast(tx, market.chainId);
     } catch (e: unknown) {
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: getRewards - GetRewards',
+        trackerName: [
+          'views/dapp/views/synthetics-market-panel/components/get-rewards\\index.tsx',
+        ],
+      });
       throwContractCallError(e);
     } finally {
       setLoading(false);

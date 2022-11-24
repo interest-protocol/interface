@@ -14,6 +14,7 @@ const OnlyBorrowingFilter: FC<OnlyBorrowingFilterProps> = ({
 }) => {
   const t = useTranslations();
   const onlyBorrowing = useWatch({ control, name: 'onlyBorrowing' });
+
   const SWITCH_ON_OFF_DATA = getFilterSwitchDefaultData(
     [t('common.off'), t('common.on')],
     setValue,

@@ -8,6 +8,9 @@ module.exports = {
       },
     ];
   },
+  compiler: {
+    emotion: true,
+  },
   experimental: {
     newNextLinkBehavior: true,
   },

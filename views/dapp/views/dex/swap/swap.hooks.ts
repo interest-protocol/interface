@@ -105,7 +105,7 @@ export const useSwap = ({
   );
 
   const [parsedDeadline] = useDebounce(
-    Math.floor((new Date().getTime() + deadline * 60 * 1000) / 1000),
+    Math.floor((Date.now() + deadline * 60 * 1000) / 1000),
     500
   );
 

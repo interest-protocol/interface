@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 
+import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -13,6 +14,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import { logException } from '@/utils/analytics';
 
 import { useCreateToken } from './create-token-form.hooks';
 import { CreateTokenButtonProps } from './create-token-form.types';
@@ -50,6 +52,13 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
           });
       }
     } catch (error) {
+      logException({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Error: createToken - handleCreateToken',
+        trackerName: [
+          'views/dapp/views/faucet/create-token-form/create-token-button.tsx',
+        ],
+      });
       throwError(t('error.generic'), error);
     } finally {
       setLoading(false);

@@ -74,7 +74,9 @@
   },
   "error": {
     "generic": "algo deu errado",
-    "wrongParams": "Parâmetros errados"
+    "wrongParams": "Parâmetros errados",
+    "fetchingContract": "Erro ao obter os contractos",
+    "fetchingBalances": "Erro ao obter os saldos"
   },
   "web3Manager": {
     "title": "{chainName} não é suportada",

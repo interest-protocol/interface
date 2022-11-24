@@ -20,6 +20,7 @@
     "baseUrl": ".",
     "paths": {
       "@/svg": ["./components/svg"],
+      "@/HOC": ["./components/HOC"],
       "@/components": ["./components"],
       "@/components/*": ["./components/*"],
       "@/design-system": ["./design-system"],
@@ -33,6 +34,8 @@
       "@/interface": ["./interface"],
       "@/sdk": ["./sdk"],
       "@/sdk/*": ["./sdk/*"],
+      "@/stylin": ["./stylin"],
+      "@/stylin/*": ["./stylin/*"],
       "@/hooks": ["./hooks"],
       "@/hooks/*": ["./hooks/*"],
       "@/utils": ["./utils"],
