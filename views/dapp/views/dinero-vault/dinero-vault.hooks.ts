@@ -30,8 +30,9 @@ export const useGetUserDineroVault = (
     args: [vaultAddress, underlying, account || DEFAULT_ACCOUNT],
     onError: () =>
       logException({
-        action: GAAction.FetchingDineroVault,
+        action: GAAction.ReadBlockchainData,
         label: `Transaction: getUserDineroVault`,
+        trackerName: ['views/dapp/views/dinero-vault/dinero-vault.hooks.ts'],
       }),
   });
 };
