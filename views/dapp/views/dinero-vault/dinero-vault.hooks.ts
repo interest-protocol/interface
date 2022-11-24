@@ -3,10 +3,12 @@ import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
 import { DEFAULT_ACCOUNT, DV_VAULT_DETAILS_CALL_MAP } from '@/constants';
+import { GAAction } from '@/constants/google-analytics';
 import { useSafeContractRead } from '@/hooks';
 import DineroVaultABI from '@/sdk/abi/dinero-vault.abi.json';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import { getInterestViewEarnAddress, safeToBigNumber } from '@/utils';
+import { logException } from '@/utils/analytics';
 import { VaultData } from '@/views/dapp/views/dinero-vault/dinero-vault.types';
 
 export const useGetUserDineroVault = (
@@ -26,6 +28,12 @@ export const useGetUserDineroVault = (
     functionName: 'getUserDineroVault',
     enabled: !!vaultAddress && !!underlying && isValidAddress,
     args: [vaultAddress, underlying, account || DEFAULT_ACCOUNT],
+    onError: () =>
+      logException({
+        action: GAAction.ReadBlockchainData,
+        label: `Transaction: getUserDineroVault`,
+        trackerName: ['views/dapp/views/dinero-vault/dinero-vault.hooks.ts'],
+      }),
   });
 };
 

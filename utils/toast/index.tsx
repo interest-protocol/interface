@@ -64,7 +64,7 @@ export function showToast<T>(
     logException({
       action: GAAction.SubmitTransaction,
       label: propOr('message', 'error', x),
-      trackerName: ['utils\\toast\\index.tsx'],
+      trackerName: ['utils/toast/index.tsx'],
     })
   );
 }

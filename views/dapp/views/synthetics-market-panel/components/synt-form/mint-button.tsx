@@ -107,7 +107,7 @@ const MintButton: FC<MintButtonProps> = ({
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: mint - handleMint',
         trackerName: [
-          'views\\dapp\\views\\synthetics-market-panel\\components\\synt-form\\mint-button.tsx',
+          'views/dapp/views/synthetics-market-panel/components/synt-form/mint-button.tsx',
         ],
       });
       throwContractCallError(e);

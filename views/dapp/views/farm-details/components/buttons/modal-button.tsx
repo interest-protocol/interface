@@ -40,7 +40,7 @@ const ModalButton: FC<ModalButtonProps> = ({
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: action - handleWithdrawTokens',
         trackerName: [
-          'views\\dapp\\views\\farm-details\\components\\buttons\\modal-button.tsx',
+          'views/dapp/views/farm-details/components/buttons/modal-button.tsx',
         ],
       });
       throw e || new Error(t('error.generic'));
@@ -70,7 +70,7 @@ const ModalButton: FC<ModalButtonProps> = ({
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: action - handleDepositTokens',
         trackerName: [
-          'views\\dapp\\views\\farm-details\\components\\buttons\\modal-button.tsx',
+          'views/dapp/views/farm-details/components/buttons/modal-button.tsx',
         ],
       });
       throwError(t('error.generic'), e);

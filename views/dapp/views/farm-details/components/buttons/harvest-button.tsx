@@ -32,7 +32,7 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: _harvest - HarvestButton',
         trackerName: [
-          'views\\dapp\\views\\farm-details\\components\\buttons\\harvest-button.tsx',
+          'views/dapp/views/farm-details/components/buttons/harvest-button.tsx',
         ],
       });
       throwError(t('error.generic'), e);

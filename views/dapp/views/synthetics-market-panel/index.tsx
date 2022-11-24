@@ -5,10 +5,8 @@ import { useForm } from 'react-hook-form';
 
 import { Container, Tooltip } from '@/components';
 import { RoutesEnum } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import { Box } from '@/elements';
 import { useIdAccount } from '@/hooks/use-id-account';
-import { logException } from '@/utils/analytics';
 
 import GoBack from '../../components/go-back';
 import ErrorPage from '../error';
@@ -61,14 +59,7 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
   const rewardsInfo = getRewardsInfo(market);
   const myPositionData = getMyPositionData(market);
 
-  if (error) {
-    logException({
-      action: GAAction.ErrorPage,
-      label: `Error Page: Error fetching balances`,
-      trackerName: ['views\\dapp\\views\\synthetics-market-panel\\index.tsx'],
-    });
-    return <ErrorPage message={t('common.error')} />;
-  }
+  if (error) return <ErrorPage message={t('common.error')} />;
 
   return (
     <Container

@@ -38,7 +38,7 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: getRewards - GetRewards',
         trackerName: [
-          'views\\dapp\\views\\synthetics-market-panel\\components\\get-rewards\\index.tsx',
+          'views/dapp/views/synthetics-market-panel/components/get-rewards\\index.tsx',
         ],
       });
       throwContractCallError(e);

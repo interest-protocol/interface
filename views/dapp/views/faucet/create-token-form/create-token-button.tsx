@@ -56,7 +56,7 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: createToken - handleCreateToken',
         trackerName: [
-          'views\\dapp\\views\\faucet\\create-token-form\\create-token-button.tsx',
+          'views/dapp/views/faucet/create-token-form/create-token-button.tsx',
         ],
       });
       throwError(t('error.generic'), error);

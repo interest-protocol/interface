@@ -13,11 +13,9 @@ import {
   DineroMarketKind,
   RoutesEnum,
 } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import { Box } from '@/elements';
 import { useGetDineroMarketDataV2 } from '@/hooks';
 import { useIdAccount } from '@/hooks/use-id-account';
-import { logException } from '@/utils/analytics';
 
 import GoBack from '../../components/go-back';
 import ErrorPage from '../error';
@@ -97,14 +95,7 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
     [market]
   );
 
-  if (error) {
-    logException({
-      action: GAAction.ErrorPage,
-      label: `Error Page: Something went wrong`,
-      trackerName: ['views\\dapp\\views\\dinero-market-panel\\index.tsx'],
-    });
-    return <ErrorPage message={t('error.generic')} />;
-  }
+  if (error) return <ErrorPage message={t('error.generic')} />;
 
   return (
     <Container
