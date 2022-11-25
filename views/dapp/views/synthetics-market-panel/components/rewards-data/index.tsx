@@ -8,7 +8,7 @@ import { TTranslatedMessage } from '@/interface';
 import { InfoSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
-import { TInfo } from '../../synthetics-market.types';
+import { TInfo } from '../../synthetics-market-panel.types';
 import { RewardsDataProps } from './rewards-data.types';
 
 const LOAN_INFO_MAP: TInfo = [1, 2, 3, 4].map((index) => ({

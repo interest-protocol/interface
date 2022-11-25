@@ -9,7 +9,7 @@ import { TTranslatedMessage } from '@/interface';
 import { InfoSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
-import { TInfo } from '../../synthetics-market.types';
+import { TInfo } from '../../synthetics-market-panel.types';
 import {
   getBurnPositionHealthData,
   getMintPositionHealthData,

@@ -7,7 +7,7 @@ import {
   SyntheticMarketData,
   SyntheticsCurrencyIcons,
   TValidSyntFormFieldNames,
-} from '../../synthetics-market.types';
+} from '../../synthetics-market-panel.types';
 
 export interface InputMoneyProps
   extends Pick<

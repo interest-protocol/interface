@@ -9,7 +9,7 @@ import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { InfoSVG } from '@/svg';
 import { capitalize, formatDollars } from '@/utils';
 
-import { TInfo } from '../../synthetics-market.types';
+import { TInfo } from '../../synthetics-market-panel.types';
 import { MyOpenPositionProps } from './my-open-position.types';
 
 const MY_POSITION: TInfo = [1, 2, 3, 4, 5, 6].map((item) => ({

@@ -40,7 +40,7 @@ export const useGetSyntheticUserMarketData = (
         action: GAAction.ReadBlockchainData,
         label: `Transaction: getSyntheticUserMarketData`,
         trackerName: [
-          'views/dapp/views/synthetics-market-panel/synthetics-market.hooks.ts',
+          'views/dapp/views/synthetics-market-panel/synthetics-market-panel.hooks.ts',
         ],
       }),
   });

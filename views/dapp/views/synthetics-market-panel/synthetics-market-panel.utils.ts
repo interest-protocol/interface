@@ -40,7 +40,7 @@ import {
   TGetRewardsInfo,
   TSafeAmountToWithdraw,
   TSafeAmountToWithdrawRepay,
-} from './synthetics-market.types';
+} from './synthetics-market-panel.types';
 
 export const isFormMintEmpty = (form: UseFormReturn<ISyntheticForm>) =>
   form.formState.errors.mint ||
