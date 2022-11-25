@@ -7,8 +7,8 @@ import { Switch } from '@/components';
 import { ISwitchOption } from '@/components/switch/switch.types';
 import { Routes, RoutesEnum } from '@/constants/routes';
 
-import { SYNT_FORM_DEFAULT_VALUES } from './synthetics-market.data';
-import { SyntheticsMarketSwitchProps } from './synthetics-market.types';
+import { SYNT_FORM_DEFAULT_VALUES } from './synthetics-market-panel.data';
+import { SyntheticsMarketSwitchProps } from './synthetics-market-panel.types';
 
 const FORM_FIELDS = [
   'mint.collateral',

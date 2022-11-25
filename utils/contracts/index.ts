@@ -4,6 +4,7 @@ import { __, compose, propOr, toString } from 'ramda';
 import InterestDexFactoryABI from '@/sdk/abi/interest-dex-factory.abi.json';
 import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
 import InterestViewDexABI from '@/sdk/abi/interest-view-dex.abi.json';
+import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
 import TokenMinterABI from '@/sdk/abi/token-minter.abi.json';
 import { CONTRACTS } from '@/sdk/constants';
 import { safeGetAddress } from '@/utils/address';
@@ -12,6 +13,7 @@ import {
   InterestDexFactoryAbi,
   InterestDexRouterAbi,
   InterestViewDexAbi,
+  InterestViewDineroV2Abi,
 } from '../../types/ethers-contracts';
 import {
   CreateTokenEventArgs,
@@ -133,3 +135,11 @@ export const getInterestDexFactoryContract: GetContract<InterestDexFactoryAbi> =
       InterestDexFactoryABI,
       provider
     ) as InterestDexFactoryAbi;
+
+export const getInterestViewDineroContract: GetContract<InterestViewDineroV2Abi> =
+  (chainId, provider) =>
+    new ethers.Contract(
+      getInterestViewDineroV2Address(chainId),
+      InterestViewDineroV2ABI,
+      provider
+    ) as InterestViewDineroV2Abi;

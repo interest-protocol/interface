@@ -80,7 +80,7 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: approveToken - AddLiquidityCardContent',
         trackerName: [
-          'views\\dapp\\views\\dex-pool-details\\components\\add-liquidity-card\\add-liquidity-card-content.tsx',
+          'views/dapp/views/dex-pool-details/components/add-liquidity-card/add-liquidity-card-content.tsx',
         ],
       });
       throwError(t('error.generic'));

@@ -52,7 +52,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: addAllowance - CreatePoolField',
         trackerName: [
-          'views\\dapp\\views\\dex-find-pool\\create-pool\\create-pool-field.tsx',
+          'views/dapp/views/dex-find-pool/create-pool/create-pool-field.tsx',
         ],
       });
       throwError(t('error.generic'), e);

@@ -14,12 +14,10 @@ import {
 } from '@/utils';
 import { logException } from '@/utils/analytics';
 
-import { useGetRewards } from '../../synthetics-market.hooks';
 import { GetRewardsProps } from './get-rewards.types';
 
-const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
+const GetRewards: FC<GetRewardsProps> = ({ market, refetch, getRewards }) => {
   const t = useTranslations();
-  const { writeAsync: getRewards } = useGetRewards(market);
   const [loading, setLoading] = useState(false);
 
   const disabled = market.pendingRewards.isZero() || !getRewards;
@@ -38,7 +36,7 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: getRewards - GetRewards',
         trackerName: [
-          'views\\dapp\\views\\synthetics-market-panel\\components\\get-rewards\\index.tsx',
+          'views/dapp/views/synthetics-market-panel/components/get-rewards\\index.tsx',
         ],
       });
       throwContractCallError(e);

@@ -48,9 +48,7 @@ const MintButton: FC<MintButtonProps> = ({
       logException({
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: mint - handleOnMint',
-        trackerName: [
-          'views\\dapp\\views\\faucet\\faucet-form\\mint-button.tsx',
-        ],
+        trackerName: ['views/dapp/views/faucet/faucet-form/mint-button.tsx'],
       });
       throwError(t('error.generic'), error);
     } finally {

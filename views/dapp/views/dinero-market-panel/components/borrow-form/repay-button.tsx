@@ -48,7 +48,7 @@ const RepayButton: FC<RepayButtonProps> = ({
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: repay - RepayButton',
         trackerName: [
-          'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\repay-button.tsx',
+          'views/dapp/views/dinero-market-panel/components/borrow-form/repay-button.tsx',
         ],
       });
       throwContractCallError(e);
@@ -65,7 +65,7 @@ const RepayButton: FC<RepayButtonProps> = ({
         action: GAAction.SubmitTransaction,
         label: 'Form Repay is Empty',
         trackerName: [
-          'views\\dapp\\views\\dinero-market-panel\\components\\borrow-form\\repay-button.tsx',
+          'views/dapp/views/dinero-market-panel/components/borrow-form/repay-button.tsx',
         ],
       });
       return;

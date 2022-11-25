@@ -28,6 +28,7 @@
     "collateral": "garantia",
     "market": "mercado",
     "borrower": "usuário",
+    "poweredBy": "Motivado por",
     "minute": "{count, plural, =1 {minuto} other {minutos}}",
     "enter": "aceder",
     "tvl": "TVL",

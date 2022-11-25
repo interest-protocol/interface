@@ -35,7 +35,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       logException({
         action: GAAction.SubmitTransaction,
         label: `Transaction Error: approve - ApproveButton - ${contract}`,
-        trackerName: ['components\\approve-button\\index.tsx'],
+        trackerName: ['components/approve-button/index.tsx'],
       });
       throwError(t('error.generic'), e);
     } finally {

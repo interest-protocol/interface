@@ -1,19 +1,20 @@
 import { GetStaticProps, NextPage } from 'next';
 import { mergeDeepRight } from 'ramda';
 
+import { SyntheticOracleType } from '@/constants';
 import { withParamsGuard } from '@/HOC';
 import SyntheticsMarketMode from '@/views/dapp/views/synthetics-market-panel';
 
 interface Props {
   address: string;
-  oracle?: 'redstone';
+  oracle: SyntheticOracleType;
 }
 
 const SyntheticsMintPage: NextPage<Props> = ({ address, oracle }) => (
   <SyntheticsMarketMode
     mode="mint"
     address={address}
-    redStone={oracle === 'redstone'}
+    redStone={oracle !== SyntheticOracleType.ChainLink}
   />
 );
 export const getStaticProps: GetStaticProps = async ({ locale }) => {

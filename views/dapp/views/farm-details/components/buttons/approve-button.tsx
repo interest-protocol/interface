@@ -44,7 +44,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: _approve - ApproveButton',
         trackerName: [
-          'views\\dapp\\views\\farm-details\\components\\buttons\\approve-button.tsx',
+          'views/dapp/views/farm-details/components/buttons/approve-button.tsx',
         ],
       });
       throwError(t('error.generic'), e);

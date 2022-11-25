@@ -21,7 +21,7 @@ interface ParamsException {
   category?: GACategory;
   action: string;
   label: string;
-  trackerName: string[];
+  trackerName?: string[];
 }
 export const logException = ({
   category = GACategory.Error,

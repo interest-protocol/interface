@@ -5,6 +5,7 @@ import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
 import { DEFAULT_ACCOUNT } from '@/constants';
+import { GAAction } from '@/constants/google-analytics';
 import { useIdAccount, useSafeContractRead } from '@/hooks';
 import { HandlerData } from '@/interface';
 import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
@@ -12,13 +13,14 @@ import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json'
 import SyntheticMinterABI from '@/sdk/abi/synthetics-minter.abi.json';
 import { isValidAccount, isZeroAddress, safeToBigNumber } from '@/utils';
 import { getInterestViewDineroV2Address } from '@/utils';
+import { logException } from '@/utils/analytics';
 
-import { SyntheticMarketData } from './synthetics-market.types';
+import { SyntheticMarketData } from './synthetics-market-panel.types';
 import {
   getMyPositionData,
   getRewardsInfo,
   processSyntheticData,
-} from './synthetics-market.utils';
+} from './synthetics-market-panel.utils';
 
 export const useGetSyntheticUserMarketData = (
   marketAddress: string,
@@ -33,6 +35,14 @@ export const useGetSyntheticUserMarketData = (
     functionName: 'getSyntheticUserMarketData',
     args: [account || DEFAULT_ACCOUNT, marketAddress],
     enabled: isMarketAddressValid && !!chainId,
+    onError: () =>
+      logException({
+        action: GAAction.ReadBlockchainData,
+        label: `Transaction: getSyntheticUserMarketData`,
+        trackerName: [
+          'views/dapp/views/synthetics-market-panel/synthetics-market.hooks.ts',
+        ],
+      }),
   });
 };
 

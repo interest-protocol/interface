@@ -1,20 +1,21 @@
 import { useTranslations } from 'next-intl';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
-import { BinanceUSDSVG, TimesSVG } from '@/svg';
+import { useIdAccount } from '@/hooks';
+import { TimesSVG } from '@/svg';
 
 import { SyntheticsFilters, SyntheticsList } from './components';
-import { useWagmiSynths } from './synthetics-market.hooks';
+import { useGetSyntheticMarketsSummary } from './synthetics-market.hooks';
 import {
   ISyntheticMarketSummaryForm,
-  SyntheticMarketProps,
   SyntheticMarketSortByFilter,
 } from './synthetics-market.types';
+import { processSyntheticMarketSummaryData } from './synthetics-market.utils';
 
-const SyntheticsMarket: FC<SyntheticMarketProps> = ({ redStone }) => {
+const SyntheticsMarket: FC = () => {
   const { register, setValue, control } = useForm<ISyntheticMarketSummaryForm>({
     defaultValues: {
       search: '',
@@ -23,14 +24,14 @@ const SyntheticsMarket: FC<SyntheticMarketProps> = ({ redStone }) => {
     },
   });
   const t = useTranslations();
+  const { chainId, account } = useIdAccount();
 
-  const { markets, error, chainId } = useWagmiSynths();
-  // const redStoneSynths = useRedStoneSynths();
+  const { error, data } = useGetSyntheticMarketsSummary(account, chainId);
 
-  if (redStone) {
-    // instructions for red stone using redStoneSynths[key]
-    console.log('>> oracle: redstone');
-  }
+  const { markets, loading } = useMemo(
+    () => processSyntheticMarketSummaryData(chainId, data),
+    [chainId, account, data]
+  );
 
   if (error)
     return (
@@ -71,7 +72,6 @@ const SyntheticsMarket: FC<SyntheticMarketProps> = ({ redStone }) => {
         alignItems="center"
         justifyContent={['center', 'flex-start']}
       >
-        <BinanceUSDSVG width="2rem" height="2rem" />
         <Typography variant="normal" ml="M">
           {t('syntheticsMarket.title')}
         </Typography>
@@ -81,7 +81,12 @@ const SyntheticsMarket: FC<SyntheticMarketProps> = ({ redStone }) => {
         register={register}
         setValue={setValue}
       />
-      <SyntheticsList chainId={chainId} control={control} markets={markets} />
+      <SyntheticsList
+        chainId={chainId}
+        control={control}
+        markets={markets}
+        loading={loading}
+      />
     </Container>
   );
 };

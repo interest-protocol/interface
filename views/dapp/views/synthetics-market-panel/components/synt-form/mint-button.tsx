@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
+import { useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import { ApproveButton } from '@/components';
@@ -18,23 +19,23 @@ import {
 } from '@/utils';
 import { logException } from '@/utils/analytics';
 
-import { useMint } from '../../synthetics-market.hooks';
+import { useMint } from '../../synthetics-market-panel.hooks';
 import {
   convertCollateralToSynt,
   isFormMintEmpty,
-} from '../../synthetics-market.utils';
+} from '../../synthetics-market-panel.utils';
 import { MintButtonProps } from './synt-form.types';
 
-const MintButton: FC<MintButtonProps> = ({
-  refetch,
-  data,
-  form,
-  mintCollateral,
-  mintSynt,
-}) => {
+const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
 
+  const mintSynt = useWatch({ control: form.control, name: 'mint.synt' });
+
+  const mintCollateral = useWatch({
+    control: form.control,
+    name: 'mint.collateral',
+  });
   const { writeAsync: mint } = useMint(data, mintCollateral, mintSynt);
 
   const handleMint = async () => {
@@ -107,7 +108,7 @@ const MintButton: FC<MintButtonProps> = ({
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: mint - handleMint',
         trackerName: [
-          'views\\dapp\\views\\synthetics-market-panel\\components\\synt-form\\mint-button.tsx',
+          'views/dapp/views/synthetics-market-panel/components/synt-form/mint-button.tsx',
         ],
       });
       throwContractCallError(e);

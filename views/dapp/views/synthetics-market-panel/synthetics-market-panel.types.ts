@@ -1,12 +1,13 @@
 import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
-import { FC, SVGAttributes } from 'react';
+import { FC, ReactNode, SVGAttributes } from 'react';
 import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
 import { TTranslatedMessage } from '@/interface';
 import { FixedPointMath } from '@/sdk';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
+import { useGetRewards } from './synthetics-market-panel.hooks';
 
 export type TSyntheticsMarketMode = 'mint' | 'burn';
 
@@ -15,17 +16,6 @@ export type TValidSyntFormFieldNames =
   | 'mint.synt'
   | 'burn.collateral'
   | 'burn.synt';
-
-export interface SyntheticsMarketPanelProps {
-  address: string;
-  redStone?: boolean;
-  mode: TSyntheticsMarketMode;
-}
-
-export interface SyntheticsMarketSwitchProps
-  extends SyntheticsMarketPanelProps {
-  resetField: UseFormResetField<ISyntheticForm>;
-}
 
 export interface ISyntheticForm {
   mint: {
@@ -37,9 +27,26 @@ export interface ISyntheticForm {
     synt: string;
   };
 }
+export interface SyntheticsMarketPanelBranchProps {
+  address: string;
+  mode: TSyntheticsMarketMode;
+  form: UseFormReturn<ISyntheticForm>;
+}
+
+export interface SyntheticsMarketPanelProps
+  extends Omit<SyntheticsMarketPanelBranchProps, 'form'> {
+  redStone: boolean;
+}
+
+export interface SyntheticsMarketSwitchProps
+  extends Omit<SyntheticsMarketPanelProps, 'redStone'> {
+  resetField: UseFormResetField<ISyntheticForm>;
+}
 
 export interface FormsProps {
   isGettingData: boolean;
+  burnButton: ReactNode;
+  mintButton: ReactNode;
   mode: TSyntheticsMarketMode;
   data: SyntheticMarketData;
   form: UseFormReturn<ISyntheticForm>;
@@ -186,3 +193,15 @@ export type TInfo = ReadonlyArray<{
   name: TTranslatedMessage;
   tip: TTranslatedMessage;
 }>;
+
+export interface SyntheticsMarketPanelContentProps
+  extends Omit<SyntheticsMarketPanelProps, 'redStone'> {
+  burnButton: ReactNode;
+  mintButton: ReactNode;
+  market: SyntheticMarketData;
+  refetch: () => Promise<void>;
+  rewardsInfo: ReadonlyArray<string>;
+  form: UseFormReturn<ISyntheticForm>;
+  getRewards: ReturnType<typeof useGetRewards>['writeAsync'];
+  myPositionData: [string, string, string, string, string, string];
+}

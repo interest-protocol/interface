@@ -28,7 +28,7 @@ const AddLiquidityButton: FC<AddLiquidityCardButtonProps> = ({
         action: GAAction.SubmitTransaction,
         label: 'Transaction Error: addLiquidity - AddLiquidityButton',
         trackerName: [
-          'views\\dapp\\views\\dex-pool-details\\components\\add-liquidity-card\\add-liquidity-button.tsx',
+          'views/dapp/views/dex-pool-details/components/add-liquidity-card/add-liquidity-button.tsx',
         ],
       });
       throwError(t('error.generic'));

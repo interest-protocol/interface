@@ -3,9 +3,7 @@ import { FC, useMemo } from 'react';
 
 import { Container } from '@/components';
 import { RoutesEnum } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import { useChainId, useGetUserFarmData } from '@/hooks';
-import { logException } from '@/utils/analytics';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
@@ -25,14 +23,7 @@ const FarmDetails: FC<FarmDetailsProps> = ({ address }) => {
     [rawData, chainId, address]
   );
 
-  if (error) {
-    logException({
-      action: GAAction.ErrorPage,
-      label: `Error Page: Error fetching contract`,
-      trackerName: ['views\\dapp\\views\\farm-details\\index.tsx'],
-    });
-    return <ErrorView message={t('error.fetchingContract')} />;
-  }
+  if (error) return <ErrorView message={t('error.fetchingContract')} />;
 
   return (
     <Container dapp width="100%" mt="XL">

@@ -13,7 +13,7 @@ import { TInfo } from '../../synthetics-market.types';
 import {
   getBurnPositionHealthData,
   getMintPositionHealthData,
-} from '../../synthetics-market.utils';
+} from '../../synthetics-market-panel.utils';
 import { SyntFormSyntInfoProps } from './synt-form.types';
 
 const INFO: TInfo = [1, 2, 3].map((item) => ({

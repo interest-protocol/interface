@@ -28,6 +28,7 @@
     "collateral": "collateral",
     "market": "market",
     "borrower": "borrower",
+    "poweredBy": "Powered by",
     "minute": "{count, plural, =1 {minute} other {minutes}}",
     "enter": "enter",
     "tvl": "TVL",

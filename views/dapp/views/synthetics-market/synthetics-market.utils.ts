@@ -1,53 +1,100 @@
-import { Result } from '@ethersproject/abi';
+import { BigNumber } from 'ethers';
 import { isAddress } from 'ethers/lib/utils';
 import { always, cond, equals, ifElse, isEmpty, T } from 'ramda';
 import { UseFormSetValue } from 'react-hook-form';
 
 import { ISwitchOption } from '@/components/switch/switch.types';
 import { GAAction, GACategory } from '@/constants/google-analytics';
-import { SYNTHETICS_RESPONSE_MAP } from '@/constants/synthetics';
+import {
+  SyntheticOracleType,
+  SYNTHETICS_RESPONSE_MAP,
+} from '@/constants/synthetics';
 import { adjustDecimals, isSameAddress } from '@/utils';
 import { logEvent } from '@/utils/analytics';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
 import {
+  FindSyntheticUSDPrice,
   ISyntheticMarketSummary,
   ISyntheticMarketSummaryForm,
+  ProcessSyntheticMarketSummaryData,
   SyntheticMarketSortByFilter,
 } from './synthetics-market.types';
 
-export const processSyntheticMarketSummaryData = (
-  chainId: number,
-  data:
-    | ([InterestViewDinero.SyntheticMarketSummaryStructOutput[]] & {
-        data: InterestViewDinero.SyntheticMarketSummaryStructOutput[];
-      })
-    | undefined
-    | Result
-): ReadonlyArray<ISyntheticMarketSummary> => {
-  if (!chainId || !data) return [];
-
-  const responseMap = SYNTHETICS_RESPONSE_MAP[chainId];
-
-  if (!responseMap.length) return [];
-
-  return data.map((apiData, index) => {
-    const responseMapData = responseMap[index];
-    return {
-      chainId,
-      marketAddress: responseMapData.marketAddress,
-      LTV: apiData.LTV,
-      symbol: responseMapData.symbol,
-      TVL: adjustDecimals(apiData.TVL, responseMapData.collateralDecimals),
-      syntheticAddress: responseMapData.syntheticAddress,
-      syntheticUSDPrice: apiData.syntheticUSDPrice,
-      userSyntheticMinted: apiData.userSyntMinted,
-      transferFee: apiData.fee,
-      id: index,
-      name: responseMapData.name,
-    };
-  });
+const findSyntheticUSDPrice: FindSyntheticUSDPrice = ({
+  apiPrice,
+  redStonePrices,
+  redStonePriceIndex,
+  oracleType,
+}) => {
+  if (oracleType === SyntheticOracleType.RedStoneConsumer)
+    // RedStone price oracles always have 8 decimals
+    return adjustDecimals(redStonePrices[redStonePriceIndex], 8);
+  return apiPrice;
 };
+
+export const processSyntheticMarketSummaryData: ProcessSyntheticMarketSummaryData =
+  (chainId, data) => {
+    if (!chainId || !data) return { markets: [], loading: false };
+
+    const responseMap = SYNTHETICS_RESPONSE_MAP[chainId];
+    const [marketData, redStonePrices] = data as [
+      InterestViewDinero.SyntheticMarketSummaryStructOutput[],
+      BigNumber[]
+    ] & {
+      data: InterestViewDinero.SyntheticMarketSummaryStructOutput[];
+      redStonePrices: BigNumber[];
+    };
+
+    if (
+      !responseMap.length ||
+      !marketData ||
+      !redStonePrices ||
+      !marketData.length
+    )
+      return { markets: [], loading: false };
+
+    if (marketData[0].TVL == undefined) return { markets: [], loading: true };
+
+    return {
+      markets: marketData.map(
+        ({ LTV, TVL, syntheticUSDPrice, userSyntMinted, fee }, index) => {
+          const {
+            name,
+            symbol,
+            oracleType,
+            marketAddress,
+            syntheticAddress,
+            collateralAddress,
+            collateralDecimals,
+            redStonePriceIndex,
+          } = responseMap[index];
+
+          return {
+            LTV,
+            name,
+            symbol,
+            chainId,
+            id: index,
+            oracleType,
+            marketAddress,
+            syntheticAddress,
+            transferFee: fee,
+            collateralAddress,
+            userSyntheticMinted: userSyntMinted,
+            TVL: adjustDecimals(TVL, collateralDecimals),
+            syntheticUSDPrice: findSyntheticUSDPrice({
+              oracleType,
+              redStonePrices,
+              redStonePriceIndex,
+              apiPrice: syntheticUSDPrice,
+            }),
+          };
+        }
+      ),
+      loading: false,
+    };
+  };
 
 export const getFilterSwitchDefaultData = (
   values: ReadonlyArray<string>,

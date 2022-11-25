@@ -2,6 +2,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 import createEmotionCache from '@emotion/cache';
 import { CacheProvider as EmotionCacheProvider, Global } from '@emotion/react';
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextProgress from 'next-progress';
@@ -78,6 +79,7 @@ const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
               >
                 <StrictMode>
                   <Component {...pageProps} />
+                  <VercelAnalytics />
                 </StrictMode>
               </Web3Manager>
             </EmotionCacheProvider>

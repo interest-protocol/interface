@@ -869,6 +869,32 @@
     bech32 "1.1.4"
     ws "7.4.6"
 
+"@ethersproject/providers@5.7.2":
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/@ethersproject/providers/-/providers-5.7.2.tgz#f8b1a4f275d7ce58cf0a2eec222269a08beb18cb"
+  integrity sha512-g34EWZ1WWAVgr4aptGlVBF8mhl3VWjv+8hoAnzStu8Ah22VHBsuGzP17eb6xDVRzw895G4W7vvx60lFFur/1Rg==
+  dependencies:
+    "@ethersproject/abstract-provider" "^5.7.0"
+    "@ethersproject/abstract-signer" "^5.7.0"
+    "@ethersproject/address" "^5.7.0"
+    "@ethersproject/base64" "^5.7.0"
+    "@ethersproject/basex" "^5.7.0"
+    "@ethersproject/bignumber" "^5.7.0"
+    "@ethersproject/bytes" "^5.7.0"
+    "@ethersproject/constants" "^5.7.0"
+    "@ethersproject/hash" "^5.7.0"
+    "@ethersproject/logger" "^5.7.0"
+    "@ethersproject/networks" "^5.7.0"
+    "@ethersproject/properties" "^5.7.0"
+    "@ethersproject/random" "^5.7.0"
+    "@ethersproject/rlp" "^5.7.0"
+    "@ethersproject/sha2" "^5.7.0"
+    "@ethersproject/strings" "^5.7.0"
+    "@ethersproject/transactions" "^5.7.0"
+    "@ethersproject/web" "^5.7.0"
+    bech32 "1.1.4"
+    ws "7.4.6"
+
 "@ethersproject/random@5.7.0", "@ethersproject/random@^5.7.0":
   version "5.7.0"
   resolved "https://registry.yarnpkg.com/@ethersproject/random/-/random-5.7.0.tgz#af19dcbc2484aae078bb03656ec05df66253280c"
@@ -1409,6 +1435,11 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
+"@openzeppelin/contracts@^4.7.3":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.8.0.tgz#6854c37df205dd2c056bdfa1b853f5d732109109"
+  integrity sha512-AGuwhRRL+NaKx73WKRNzeCxOCOCxpaqF+kp8TJ89QzAipSwZy/NoflkWaL9bywXFRhIzXt8j38sfF7KBKCPWLw==
+
 "@pedrouid/environment@^1.0.1":
   version "1.0.1"
   resolved "https://registry.npmjs.org/@pedrouid/environment/-/environment-1.0.1.tgz"
@@ -1488,6 +1519,17 @@
     "@react-spring/core" "~9.5.0"
     "@react-spring/shared" "~9.5.0"
     "@react-spring/types" "~9.5.0"
+
+"@redstone-finance/evm-connector@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@redstone-finance/evm-connector/-/evm-connector-0.0.12.tgz#1ab765d1d1ad7f13d8a0f07cb08151f238cf3e5d"
+  integrity sha512-9QztLINnaOu+jtCxQih1m/f7hEQvO5o8WKm+8AuvrQV1VEaKWxJW/HYMQBZOsnKRkZrxpeB9QWJt0JDH4I1mmQ==
+  dependencies:
+    "@openzeppelin/contracts" "^4.7.3"
+    axios "^1.1.3"
+    ethers "^5.6.8"
+    redstone-protocol "1.0.4"
+    redstone-sdk "1.0.4"
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -1911,6 +1953,11 @@
   dependencies:
     "@typescript-eslint/types" "4.22.1"
     eslint-visitor-keys "^2.0.0"
+
+"@vercel/analytics@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@vercel/analytics/-/analytics-0.1.5.tgz#285275b64a5b47cae0e5d11002fb8856b1ec6b0c"
+  integrity sha512-/k9N8Ea3Yc5A52GlkjzUEbi2vE/izClrOf++ryBkxEfrZM/OZwtHkdNw/QExZ1h/B67RCZLK7bCOnKKrhG7gTg==
 
 "@vercel/build-utils@2.15.0":
   version "2.15.0"
@@ -2418,6 +2465,23 @@ axios@^0.21.0:
   resolved "https://registry.npmjs.org/axios/-/axios-0.21.4.tgz"
   dependencies:
     follow-redirects "^1.14.0"
+
+axios@^0.27.2:
+  version "0.27.2"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.27.2.tgz#207658cc8621606e586c85db4b41a750e756d972"
+  integrity sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==
+  dependencies:
+    follow-redirects "^1.14.9"
+    form-data "^4.0.0"
+
+axios@^1.1.3:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.2.0.tgz#1cb65bd75162c70e9f8d118a905126c4a201d383"
+  integrity sha512-zT7wZyNYu3N5Bu0wuZ6QccIf93Qk1eV8LOewxgjOZFd2DenOs98cJ7+Y6703d0wkaXGY6/nZd4EweJaHz9uzQw==
+  dependencies:
+    follow-redirects "^1.15.0"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
 
 axobject-query@^2.2.0:
   version "2.2.0"
@@ -3980,6 +4044,42 @@ ethereumjs-util@^6.0.0:
     ethjs-util "0.1.6"
     rlp "^2.2.3"
 
+ethers@^5.6.8:
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.7.2.tgz#3a7deeabbb8c030d4126b24f84e525466145872e"
+  integrity sha512-wswUsmWo1aOK8rR7DIKiWSw9DbLWe6x98Jrn8wcTflTVvaXhAMaB5zGAXy0GYQEQp9iO1iSHWVyARQm11zUtyg==
+  dependencies:
+    "@ethersproject/abi" "5.7.0"
+    "@ethersproject/abstract-provider" "5.7.0"
+    "@ethersproject/abstract-signer" "5.7.0"
+    "@ethersproject/address" "5.7.0"
+    "@ethersproject/base64" "5.7.0"
+    "@ethersproject/basex" "5.7.0"
+    "@ethersproject/bignumber" "5.7.0"
+    "@ethersproject/bytes" "5.7.0"
+    "@ethersproject/constants" "5.7.0"
+    "@ethersproject/contracts" "5.7.0"
+    "@ethersproject/hash" "5.7.0"
+    "@ethersproject/hdnode" "5.7.0"
+    "@ethersproject/json-wallets" "5.7.0"
+    "@ethersproject/keccak256" "5.7.0"
+    "@ethersproject/logger" "5.7.0"
+    "@ethersproject/networks" "5.7.1"
+    "@ethersproject/pbkdf2" "5.7.0"
+    "@ethersproject/properties" "5.7.0"
+    "@ethersproject/providers" "5.7.2"
+    "@ethersproject/random" "5.7.0"
+    "@ethersproject/rlp" "5.7.0"
+    "@ethersproject/sha2" "5.7.0"
+    "@ethersproject/signing-key" "5.7.0"
+    "@ethersproject/solidity" "5.7.0"
+    "@ethersproject/strings" "5.7.0"
+    "@ethersproject/transactions" "5.7.0"
+    "@ethersproject/units" "5.7.0"
+    "@ethersproject/wallet" "5.7.0"
+    "@ethersproject/web" "5.7.1"
+    "@ethersproject/wordlists" "5.7.0"
+
 ethers@^5.7.1:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.7.1.tgz#48c83a44900b5f006eb2f65d3ba6277047fd4f33"
@@ -4287,6 +4387,11 @@ follow-redirects@^1.14.0:
   version "1.14.9"
   resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.14.9.tgz"
 
+follow-redirects@^1.14.9, follow-redirects@^1.15.0:
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
+  integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
+
 for-each@^0.3.3:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/for-each/-/for-each-0.3.3.tgz#69b447e88a0a5d32c3e7084f3f1710034b21376e"
@@ -4301,6 +4406,15 @@ for-in@^1.0.2:
 form-data@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-3.0.1.tgz#ebd53791b78356a99af9a300d4282c4d5eb9755f"
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.8"
+    mime-types "^2.1.12"
+
+form-data@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/form-data/-/form-data-4.0.0.tgz#93919daeaf361ee529584b9b31664dc12c9fa452"
+  integrity sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==
   dependencies:
     asynckit "^0.4.0"
     combined-stream "^1.0.8"
@@ -6780,6 +6894,11 @@ property-expr@^2.0.4:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/property-expr/-/property-expr-2.0.5.tgz"
 
+proxy-from-env@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
+  integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
+
 pseudomap@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/pseudomap/-/pseudomap-1.0.2.tgz"
@@ -7004,6 +7123,27 @@ redent@^3.0.0:
   dependencies:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
+
+redstone-oracles-smartweave-contracts@latest:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/redstone-oracles-smartweave-contracts/-/redstone-oracles-smartweave-contracts-1.0.1.tgz#51c802139edf2f46b5f50b9e04995ebbf0e8b3b7"
+  integrity sha512-W+h3KB2gdxmK+WnfDT+iZHVQ25LkdTuV5a4cem5pgzgjo6vf2nqFPlkXcWpYI791mdeobwC4yoSybrTrIXSKfQ==
+
+redstone-protocol@*, redstone-protocol@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/redstone-protocol/-/redstone-protocol-1.0.4.tgz#1849e869cc5962956ed481562a0e42f705d475af"
+  integrity sha512-WVe324Z5HO3gXYIXm4BfUQ6iapESM3Dsw/nUcoYDS5Pw7milQvtPBXyvd+6KgXPfRSrl7bd3oaFqzvpQFDw0ug==
+  dependencies:
+    ethers "^5.6.8"
+
+redstone-sdk@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/redstone-sdk/-/redstone-sdk-1.0.4.tgz#9a5bfe3fe9e21c16bf73fbfa92b886da2c6142ca"
+  integrity sha512-hqqOQwgJn0UwEi+PHZLa6fWPl1K95bCMNiHC/3+w6xznGFgCW4f7CQERWAeoOvidJHYETC7t5JnJ9naZTQUEVw==
+  dependencies:
+    axios "^0.27.2"
+    redstone-oracles-smartweave-contracts latest
+    redstone-protocol "*"
 
 reduce-flatten@^2.0.0:
   version "2.0.0"

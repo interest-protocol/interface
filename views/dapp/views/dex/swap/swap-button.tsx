@@ -116,7 +116,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       logException({
         action: GAAction.SubmitTransaction,
         label: `TransactionError: approve - SwapButton - ${tokenInAddress}`,
-        trackerName: ['views\\dapp\\views\\dex\\swap\\swap-button.tsx'],
+        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
       });
       return;
     }
@@ -132,7 +132,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       logException({
         action: GAAction.SubmitTransaction,
         label: `TransactionError: add allowance ${tokenInAddress}`,
-        trackerName: ['views\\dapp\\views\\dex\\swap\\swap-button.tsx'],
+        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
       });
       throwError(t('error.generic'), e);
     } finally {
@@ -159,7 +159,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       logException({
         action: GAAction.SubmitTransaction,
         label: `TransactionError: handle swap ${tokenInAddress}`,
-        trackerName: ['views\\dapp\\views\\dex\\swap\\swap-button.tsx'],
+        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
       });
       throwError(t('dexSwap.swapMessage.error'));
     } finally {
@@ -182,7 +182,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       logException({
         action: GAAction.SubmitTransaction,
         label: `TransactionError: handle WETH Deposit. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
-        trackerName: ['views\\dapp\\views\\dex\\swap\\swap-button.tsx'],
+        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
       });
       return;
     }
@@ -201,7 +201,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       logException({
         action: GAAction.SubmitTransaction,
         label: `TransactionError: handle WETH Deposit. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
-        trackerName: ['views\\dapp\\views\\dex\\swap\\swap-button.tsx'],
+        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
       });
       throwError(t('dexSwap.error.wethDeposit'));
     } finally {
@@ -224,7 +224,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       logException({
         action: GAAction.SubmitTransaction,
         label: `TransactionError: handle WETH Withdraw. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
-        trackerName: ['views\\dapp\\views\\dex\\swap\\swap-button.tsx'],
+        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
       });
       return;
     }
@@ -246,7 +246,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       logException({
         action: GAAction.SubmitTransaction,
         label: `TransactionError: handle WETH Withdraw. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
-        trackerName: ['views\\dapp\\views\\dex\\swap\\swap-button.tsx'],
+        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
       });
       throwError(t('dexSwap.error.wethWithdraw'));
     } finally {
