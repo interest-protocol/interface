@@ -15,3 +15,8 @@ export interface SyntheticsListCardProps {
   chainId: number;
   data: ISyntheticMarketSummary;
 }
+
+export interface PriceAwareProps {
+  market: ISyntheticMarketSummary;
+  collateralSymbol: string;
+}

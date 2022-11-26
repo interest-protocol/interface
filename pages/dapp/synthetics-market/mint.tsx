@@ -1,21 +1,12 @@
-import { GetStaticProps, NextPage } from 'next';
+import { GetStaticProps } from 'next';
 import { mergeDeepRight } from 'ramda';
 
-import { SyntheticOracleType } from '@/constants';
-import { withParamsGuard } from '@/HOC';
+import { withAddressGuard } from '@/HOC';
+import { NextPageWithAddress } from '@/interface';
 import SyntheticsMarketMode from '@/views/dapp/views/synthetics-market-panel';
 
-interface Props {
-  address: string;
-  oracle: SyntheticOracleType;
-}
-
-const SyntheticsMintPage: NextPage<Props> = ({ address, oracle }) => (
-  <SyntheticsMarketMode
-    mode="mint"
-    address={address}
-    redStone={oracle !== SyntheticOracleType.ChainLink}
-  />
+const SyntheticsMintPage: NextPageWithAddress = ({ address }) => (
+  <SyntheticsMarketMode mode="mint" address={address} />
 );
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, syntheticMarketMessages] = await Promise.all([
@@ -37,4 +28,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default withParamsGuard(['address', 'oracle'], SyntheticsMintPage);
+export default withAddressGuard(SyntheticsMintPage);

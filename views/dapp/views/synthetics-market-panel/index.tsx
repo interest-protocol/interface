@@ -14,7 +14,6 @@ import SyntheticsMarketPanelRedStone from './synthetics-market-panel-red-stone';
 const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
   mode,
   address,
-  redStone,
 }) => {
   const form = useForm<ISyntheticForm>({
     mode: 'onChange',
@@ -23,7 +22,7 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
     resolver: yupResolver(syntheticsFormValidation),
   });
 
-  if (redStone)
+  if (false)
     return (
       <SyntheticsMarketPanelRedStone
         mode={mode}

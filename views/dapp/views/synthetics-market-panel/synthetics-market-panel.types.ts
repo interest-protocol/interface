@@ -33,10 +33,10 @@ export interface SyntheticsMarketPanelBranchProps {
   form: UseFormReturn<ISyntheticForm>;
 }
 
-export interface SyntheticsMarketPanelProps
-  extends Omit<SyntheticsMarketPanelBranchProps, 'form'> {
-  redStone: boolean;
-}
+export type SyntheticsMarketPanelProps = Omit<
+  SyntheticsMarketPanelBranchProps,
+  'form'
+>;
 
 export interface SyntheticsMarketSwitchProps
   extends Omit<SyntheticsMarketPanelProps, 'redStone'> {

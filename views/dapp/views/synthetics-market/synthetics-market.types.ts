@@ -27,16 +27,13 @@ export interface ISyntheticMarketSummary {
   name: string;
   oracleType: SyntheticOracleType;
   collateralAddress: string;
+  dataFeedId: string;
 }
 
 export interface ISyntheticMarketSummaryForm {
   search: string;
   onlyMinted: boolean;
   sortBy: SyntheticMarketSortByFilter;
-}
-
-export interface SyntheticMarketProps {
-  redStone?: boolean;
 }
 
 interface FindSyntheticMarketPriceArg {
@@ -70,3 +67,10 @@ export type TMarketDataAttributes =
   | 'TVL'
   | 'syntheticUSDPrice'
   | 'userSyntMinted';
+
+export interface UseGetTokenUsdPriceArgs {
+  chainId: number;
+  account: string;
+  marketAddress: string;
+  dataFeedId: string;
+}

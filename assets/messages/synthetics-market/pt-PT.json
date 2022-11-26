@@ -2,6 +2,7 @@
   "syntheticsMarket": {
     "pageTitle": "Sintéticos",
     "title": "Criar sintéticos usando Cripto",
+    "subTitle": "Token sintéticos seguem o preço de outros ativos",
     "filterSortOptionPrice": "Preço",
     "filterSortOptionLiquidationFee": "Taxa de liquidação",
     "filterMinted": "Apenas Criados",

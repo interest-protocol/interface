@@ -70,10 +70,12 @@ const SyntheticsMarket: FC = () => {
         width="100%"
         display="flex"
         alignItems="center"
+        flexDirection="column"
         justifyContent={['center', 'flex-start']}
       >
-        <Typography variant="normal" ml="M">
-          {t('syntheticsMarket.title')}
+        <Typography variant="title3">{t('syntheticsMarket.title')}</Typography>
+        <Typography variant="title4" mt="1rem">
+          {t('syntheticsMarket.subTitle')}
         </Typography>
       </Box>
       <SyntheticsFilters
