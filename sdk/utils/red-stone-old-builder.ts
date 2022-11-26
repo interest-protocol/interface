@@ -50,7 +50,7 @@ class RedStonePriceFeed implements PriceFeedConnector {
   }
 }
 
-export class EthersContractWrapperLite<T extends Contract> {
+class EthersContractWrapperLite<T extends Contract> {
   constructor(
     protected readonly baseContract: T,
     protected readonly apiConnector: PriceFeedConnector
