@@ -1,12 +1,12 @@
 import { WrapperBuilder } from '@redstone-finance/evm-connector';
 import { ethers } from 'ethers';
+import { WrapperBuilder as OldWrapperBuilder } from 'redstone-evm-connector';
 import { useQuery } from 'wagmi';
 
 import { DEFAULT_ACCOUNT } from '@/constants';
 import { GAAction } from '@/constants/google-analytics';
 import { SYNTHETICS_CALL_MAP } from '@/constants/synthetics';
 import GetTokenUsdPriceABI from '@/sdk/abi/get-token-usd-price.abi.json';
-import { WrapperBuilder as OldWrapperBuilder } from '@/sdk/utils/red-stone-old-builder';
 import { getInterestViewDineroContract, getStaticWeb3Provider } from '@/utils';
 import { logException } from '@/utils/analytics';
 
