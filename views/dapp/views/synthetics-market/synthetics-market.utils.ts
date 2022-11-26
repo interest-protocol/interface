@@ -22,7 +22,7 @@ import {
   TMarketDataAttributes,
 } from './synthetics-market.types';
 
-const KEYS: ReadonlyArray<TMarketDataAttributes> = [
+const MARKET_DATA_KEYS: ReadonlyArray<TMarketDataAttributes> = [
   'LTV',
   'fee',
   'TVL',
@@ -63,7 +63,11 @@ export const processSyntheticMarketSummaryData: ProcessSyntheticMarketSummaryDat
     )
       return { markets: [], loading: false };
 
-    if (KEYS.some((key) => marketData.some((data) => data[key] == undefined)))
+    if (
+      MARKET_DATA_KEYS.some((key) =>
+        marketData.some((data) => data[key] == undefined)
+      )
+    )
       return { markets: [], loading: true };
 
     return {
