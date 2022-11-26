@@ -30,6 +30,13 @@ const MARKET_DATA_KEYS: ReadonlyArray<TMarketDataAttributes> = [
   'userSyntMinted',
 ];
 
+const isMissingMarketAttribute = (
+  marketData: InterestViewDinero.SyntheticMarketSummaryStructOutput[]
+) =>
+  MARKET_DATA_KEYS.some((key) =>
+    marketData.some((data) => data[key] == undefined)
+  );
+
 const findSyntheticUSDPrice: FindSyntheticUSDPrice = ({
   apiPrice,
   redStonePrices,
@@ -63,11 +70,7 @@ export const processSyntheticMarketSummaryData: ProcessSyntheticMarketSummaryDat
     )
       return { markets: [], loading: false };
 
-    if (
-      MARKET_DATA_KEYS.some((key) =>
-        marketData.some((data) => data[key] == undefined)
-      )
-    )
+    if (isMissingMarketAttribute(marketData))
       return { markets: [], loading: true };
 
     return {
