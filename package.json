@@ -36,7 +36,7 @@
     "react-spring": "^9.5.0",
     "react-switch": "^6.0.0",
     "react-tooltip": "^4.2.21",
-    "redstone-api-extended": "^1.0.12",
+    "redstone-evm-connector": "^2.1.26",
     "toformat": "^2.0.0",
     "use-debounce": "^8.0.4",
     "uuid": "^8.3.2",
