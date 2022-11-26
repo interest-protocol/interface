@@ -11,6 +11,8 @@ import {
 import SyntheticsMarketPanelNormal from './synthetics-market-panel-normal';
 import SyntheticsMarketPanelRedStone from './synthetics-market-panel-red-stone';
 
+const isRedStone = false;
+
 const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
   mode,
   address,
@@ -22,7 +24,7 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
     resolver: yupResolver(syntheticsFormValidation),
   });
 
-  if (false)
+  if (isRedStone)
     return (
       <SyntheticsMarketPanelRedStone
         mode={mode}
