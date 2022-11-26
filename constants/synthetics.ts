@@ -113,6 +113,7 @@ export const SYNTHETICS_RESPONSE_MAP = {
       oracleType: SyntheticOracleType.RedStonePriceAware,
       redStonePriceIndex: 0,
       collateralAddress: getETHERC20Address(CHAIN_ID.BNB_TEST_NET),
+      dataFeedId: '0x60cbe6b18347697f',
     },
     {
       marketAddress: SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iTSLA!,
@@ -123,6 +124,7 @@ export const SYNTHETICS_RESPONSE_MAP = {
       oracleType: SyntheticOracleType.RedStoneConsumer,
       redStonePriceIndex: 0,
       collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+      dataFeedId: '',
     },
     {
       marketAddress: SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iAPPL!,
@@ -133,6 +135,7 @@ export const SYNTHETICS_RESPONSE_MAP = {
       oracleType: SyntheticOracleType.RedStoneConsumer,
       redStonePriceIndex: 1,
       collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+      dataFeedId: '',
     },
     {
       marketAddress: SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iBTC!,
@@ -143,6 +146,7 @@ export const SYNTHETICS_RESPONSE_MAP = {
       oracleType: SyntheticOracleType.ChainLink,
       redStonePriceIndex: 0,
       collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+      dataFeedId: '',
     },
     {
       marketAddress: SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iETH!,
@@ -153,6 +157,7 @@ export const SYNTHETICS_RESPONSE_MAP = {
       oracleType: SyntheticOracleType.ChainLink,
       redStonePriceIndex: 0,
       collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+      dataFeedId: '',
     },
     {
       marketAddress: SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iXAU!,
@@ -163,6 +168,7 @@ export const SYNTHETICS_RESPONSE_MAP = {
       oracleType: SyntheticOracleType.ChainLink,
       redStonePriceIndex: 0,
       collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+      dataFeedId: '',
     },
     {
       marketAddress: SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iGBP!,
@@ -173,6 +179,7 @@ export const SYNTHETICS_RESPONSE_MAP = {
       oracleType: SyntheticOracleType.ChainLink,
       redStonePriceIndex: 0,
       collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+      dataFeedId: '',
     },
     {
       marketAddress: SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iJPY!,
@@ -183,6 +190,7 @@ export const SYNTHETICS_RESPONSE_MAP = {
       oracleType: SyntheticOracleType.ChainLink,
       redStonePriceIndex: 0,
       collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+      dataFeedId: '',
     },
     {
       marketAddress: SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iBRL!,
@@ -193,6 +201,7 @@ export const SYNTHETICS_RESPONSE_MAP = {
       oracleType: SyntheticOracleType.ChainLink,
       redStonePriceIndex: 0,
       collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+      dataFeedId: '',
     },
   ],
   [CHAIN_ID.BNB_MAIN_NET]: [],

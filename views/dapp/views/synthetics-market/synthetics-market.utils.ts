@@ -85,6 +85,7 @@ export const processSyntheticMarketSummaryData: ProcessSyntheticMarketSummaryDat
             collateralAddress,
             collateralDecimals,
             redStonePriceIndex,
+            dataFeedId,
           } = responseMap[index];
 
           return {
@@ -98,6 +99,7 @@ export const processSyntheticMarketSummaryData: ProcessSyntheticMarketSummaryDat
             syntheticAddress,
             transferFee: fee,
             collateralAddress,
+            dataFeedId,
             userSyntheticMinted: userSyntMinted,
             TVL: adjustDecimals(TVL, collateralDecimals),
             syntheticUSDPrice: findSyntheticUSDPrice({

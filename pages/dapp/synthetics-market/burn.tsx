@@ -1,20 +1,12 @@
-import { GetStaticProps, NextPage } from 'next';
+import { GetStaticProps } from 'next';
 import { mergeDeepRight } from 'ramda';
 
-import { withParamsGuard } from '@/HOC';
+import { withAddressGuard } from '@/HOC';
+import { NextPageWithAddress } from '@/interface';
 import SyntheticsMarketMode from '@/views/dapp/views/synthetics-market-panel';
 
-interface Props {
-  address: string;
-  oracle?: 'redstone';
-}
-
-const SyntheticsBurnPage: NextPage<Props> = ({ address, oracle }) => (
-  <SyntheticsMarketMode
-    mode="burn"
-    address={address}
-    redStone={oracle === 'redstone'}
-  />
+const SyntheticsBurnPage: NextPageWithAddress = ({ address }) => (
+  <SyntheticsMarketMode mode="burn" address={address} />
 );
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -37,4 +29,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default withParamsGuard(['address', 'oracle'], SyntheticsBurnPage);
+export default withAddressGuard(SyntheticsBurnPage);

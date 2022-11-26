@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
-import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import {
@@ -24,20 +23,13 @@ import {
   isSameAddress,
 } from '@/utils';
 
+import PriceAware from './price-aware';
 import { SyntheticsListCardProps } from './synthetics-list.types';
 
-const ORACLE_TYPES = {
+const ORACLE_NAME = {
   [SyntheticOracleType.ChainLink]: 'ChainLink',
   [SyntheticOracleType.RedStoneConsumer]: 'RedStone',
   [SyntheticOracleType.RedStonePriceAware]: 'RedStone',
-};
-
-const SyntheticsListCardPriceAware: FC = () => {
-  return (
-    <Box>
-      <Skeleton width="5rem" />
-    </Box>
-  );
 };
 
 const SyntheticsListCard: FC<SyntheticsListCardProps> = ({ chainId, data }) => {
@@ -70,7 +62,7 @@ const SyntheticsListCard: FC<SyntheticsListCardProps> = ({ chainId, data }) => {
       onClick={() =>
         push({
           pathname: Routes[RoutesEnum.SyntheticsMarketMint],
-          query: { address: data.marketAddress, oracle: data.oracleType },
+          query: { address: data.marketAddress },
         })
       }
     >
@@ -104,7 +96,7 @@ const SyntheticsListCard: FC<SyntheticsListCardProps> = ({ chainId, data }) => {
           </Box>
         </Box>
         <Typography variant="normal" textAlign="center" my="M">
-          {data.name.length > 20 ? data.symbol : data.name}
+          {data.symbol}
         </Typography>
         <Typography
           cursor="help"
@@ -113,7 +105,10 @@ const SyntheticsListCard: FC<SyntheticsListCardProps> = ({ chainId, data }) => {
           variant="normal"
         >
           {SyntheticOracleType.RedStonePriceAware == data.oracleType ? (
-            <SyntheticsListCardPriceAware />
+            <PriceAware
+              market={data}
+              collateralSymbol={collateralData.symbol}
+            />
           ) : collateralIsEthers ? (
             `${formatMoney(FixedPointMath.toNumber(data.syntheticUSDPrice))} ${
               collateralData.symbol
@@ -185,7 +180,7 @@ const SyntheticsListCard: FC<SyntheticsListCardProps> = ({ chainId, data }) => {
         </Box>
         <Box mt="M" display="flex" alignItems="center" justifyContent="center">
           <Typography fontSize="S" variant="normal" color="textSecondary">
-            {t('common.poweredBy')} {ORACLE_TYPES[data.oracleType]}
+            {t('common.poweredBy')} {ORACLE_NAME[data.oracleType]}
           </Typography>
           <Box ml="S" mt="XS" width="1.2rem">
             <OracleSVG width="100%" />
