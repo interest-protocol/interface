@@ -19,7 +19,16 @@ import {
   ISyntheticMarketSummaryForm,
   ProcessSyntheticMarketSummaryData,
   SyntheticMarketSortByFilter,
+  TMarketDataAttributes,
 } from './synthetics-market.types';
+
+const KEYS: ReadonlyArray<TMarketDataAttributes> = [
+  'LTV',
+  'fee',
+  'TVL',
+  'syntheticUSDPrice',
+  'userSyntMinted',
+];
 
 const findSyntheticUSDPrice: FindSyntheticUSDPrice = ({
   apiPrice,
@@ -54,7 +63,8 @@ export const processSyntheticMarketSummaryData: ProcessSyntheticMarketSummaryDat
     )
       return { markets: [], loading: false };
 
-    if (marketData[0].TVL == undefined) return { markets: [], loading: true };
+    if (KEYS.some((key) => marketData.some((data) => data[key] == undefined)))
+      return { markets: [], loading: true };
 
     return {
       markets: marketData.map(
