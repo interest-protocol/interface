@@ -69,12 +69,19 @@ const SyntheticsMarket: FC = () => {
         py="XL"
         width="100%"
         display="flex"
-        alignItems="center"
         flexDirection="column"
+        alignItems={['flex-start', 'center']}
         justifyContent={['center', 'flex-start']}
       >
-        <Typography variant="title3">{t('syntheticsMarket.title')}</Typography>
-        <Typography variant="title4" mt="1rem">
+        <Typography variant="title3" textAlign={['left', 'center']}>
+          {t('syntheticsMarket.title')}
+        </Typography>
+        <Typography
+          variant="title4"
+          mt="1rem"
+          fontWeight="400"
+          textAlign={['left', 'center']}
+        >
           {t('syntheticsMarket.subTitle')}
         </Typography>
       </Box>
