@@ -5,7 +5,7 @@ import { FC, useState } from 'react';
 import { GAAction } from '@/constants/google-analytics';
 import Button from '@/elements/button';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 import { useHarvest } from './buttons.hooks';
 import { HarvestButtonProps } from './buttons.types';
@@ -27,6 +27,13 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
       await refetch();
 
       await showTXSuccessToast(tx, farm.chainId);
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Success: _harvest - HarvestButton',
+        trackerName: [
+          'views/dapp/views/farm-details/components/buttons/harvest-button.tsx',
+        ],
+      });
     } catch (e) {
       logException({
         action: GAAction.SubmitTransaction,

@@ -6,7 +6,7 @@ import { GAAction } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 import { useAction } from './buttons.hooks';
 import { ModalButtonProps } from './buttons.types';
@@ -34,6 +34,13 @@ const ModalButton: FC<ModalButtonProps> = ({
       if (tx) tx.wait(2);
 
       await showTXSuccessToast(tx, farm.chainId);
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Success: action - handleWithdrawTokens',
+        trackerName: [
+          'views/dapp/views/farm-details/components/buttons/modal-button.tsx',
+        ],
+      });
       await refetch();
     } catch (e) {
       logException({
@@ -64,6 +71,13 @@ const ModalButton: FC<ModalButtonProps> = ({
     try {
       const tx = await action?.();
       await showTXSuccessToast(tx, farm.chainId);
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Success: action - handleDepositTokens',
+        trackerName: [
+          'views/dapp/views/farm-details/components/buttons/modal-button.tsx',
+        ],
+      });
       await refetch();
     } catch (e) {
       logException({

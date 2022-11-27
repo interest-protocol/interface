@@ -8,7 +8,7 @@ import { GAAction } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 import { useWithdraw } from '../dinero-vault.hooks';
 import { WithdrawButtonProps } from '../dinero-vault.types';
@@ -32,6 +32,11 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
 
       await refetch();
       await showTXSuccessToast(tx, data.chainId);
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Success: writeAsync - WithdrawButton',
+        trackerName: ['views/dapp/views/dinero-vault/form/withdraw-button.tsx'],
+      });
     } catch (e) {
       logException({
         action: GAAction.SubmitTransaction,

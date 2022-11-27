@@ -13,7 +13,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 import { useBurn } from '../../synthetics-market.hooks';
 import { isFormBurnEmpty } from '../../synthetics-market.utils';
@@ -39,6 +39,13 @@ const BurnButton: FC<BurnButtonProps> = ({
       await tx?.wait(2);
 
       await showTXSuccessToast(tx, data.chainId);
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Success: burn - handleBurn',
+        trackerName: [
+          'views/dapp/views/synthetics-market-panel/components/synt-form/burn-button.tsx',
+        ],
+      });
       form.reset();
     } catch (e: unknown) {
       logException({

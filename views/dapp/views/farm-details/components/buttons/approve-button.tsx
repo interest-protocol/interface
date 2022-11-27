@@ -15,7 +15,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 import { ApproveButtonProps } from './buttons.types';
 
@@ -36,7 +36,13 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
       await showTXSuccessToast(tx, farm.chainId);
 
       if (tx) await tx.wait(2);
-
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Success: _approve - ApproveButton',
+        trackerName: [
+          'views/dapp/views/farm-details/components/buttons/approve-button.tsx',
+        ],
+      });
       await refetch();
     } catch (e) {
       setLoadingPool(false);

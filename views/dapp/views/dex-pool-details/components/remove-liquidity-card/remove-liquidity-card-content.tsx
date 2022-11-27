@@ -12,7 +12,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import ApproveButton from './approve-button';
@@ -57,6 +57,13 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
       const tx = await approve?.();
 
       await showTXSuccessToast(tx, chainId);
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Success: Approve token - remove liquidity',
+        trackerName: [
+          'views/dapp/views/dex-pool-details/components/remove-liquidity-card/remove-liquidity-card-content.tsx',
+        ],
+      });
     } catch {
       logException({
         action: GAAction.SubmitTransaction,
@@ -86,6 +93,13 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
       const tx = await removeLiquidity?.();
 
       await showTXSuccessToast(tx, chainId);
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Success: removeLiquidity - remove liquidity',
+        trackerName: [
+          'views/dapp/views/dex-pool-details/components/remove-liquidity-card/remove-liquidity-card-content.tsx',
+        ],
+      });
     } catch {
       logException({
         action: GAAction.SubmitTransaction,

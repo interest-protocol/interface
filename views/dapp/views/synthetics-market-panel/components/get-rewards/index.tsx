@@ -12,7 +12,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 import { useGetRewards } from '../../synthetics-market.hooks';
 import { GetRewardsProps } from './get-rewards.types';
@@ -33,6 +33,13 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
 
       await refetch();
       await showTXSuccessToast(tx, market.chainId);
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Success: getRewards - GetRewards',
+        trackerName: [
+          'views/dapp/views/synthetics-market-panel/components/get-rewards\\index.tsx',
+        ],
+      });
     } catch (e: unknown) {
       logException({
         action: GAAction.SubmitTransaction,

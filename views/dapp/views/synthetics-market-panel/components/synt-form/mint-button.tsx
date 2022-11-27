@@ -16,7 +16,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 import { useMint } from '../../synthetics-market.hooks';
 import {
@@ -101,6 +101,13 @@ const MintButton: FC<MintButtonProps> = ({
       await refetch();
 
       await showTXSuccessToast(tx, data.chainId);
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Success: mint - handleMint',
+        trackerName: [
+          'views/dapp/views/synthetics-market-panel/components/synt-form/mint-button.tsx',
+        ],
+      });
       form.reset();
     } catch (e: unknown) {
       logException({

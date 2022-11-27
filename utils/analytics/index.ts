@@ -32,3 +32,13 @@ export const logException = ({
   if (category && action)
     ReactGA.event({ category, action, label }, trackerName);
 };
+
+export const logSuccess = ({
+  category = GACategory.Success,
+  action,
+  label,
+  trackerName,
+}: ParamsException): void => {
+  if (category && action)
+    ReactGA.event({ category, action, label }, trackerName);
+};

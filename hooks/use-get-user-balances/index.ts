@@ -5,7 +5,7 @@ import { GAAction } from '@/constants/google-analytics';
 import { UseContractArgs } from '@/interface';
 import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
 import { getInterestViewBalancesAddress } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 import { useSafeContractRead } from '../use-safe-contract-read';
 import { useIdAccount } from './../use-id-account';
@@ -27,7 +27,13 @@ export const useGetUserBalances = (
     onError: () =>
       logException({
         action: GAAction.ReadBlockchainData,
-        label: `Transaction: getUserBalances`,
+        label: `Transaction error: getUserBalances`,
+        trackerName: ['hooks/use-get-user-balances/index.ts'],
+      }),
+    onSuccess: () =>
+      logSuccess({
+        action: GAAction.ReadBlockchainData,
+        label: `Transaction success: getUserBalances`,
         trackerName: ['hooks/use-get-user-balances/index.ts'],
       }),
     ...extraArgs,

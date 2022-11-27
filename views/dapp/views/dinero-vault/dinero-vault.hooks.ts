@@ -8,7 +8,7 @@ import { useSafeContractRead } from '@/hooks';
 import DineroVaultABI from '@/sdk/abi/dinero-vault.abi.json';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import { getInterestViewEarnAddress, safeToBigNumber } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 import { VaultData } from '@/views/dapp/views/dinero-vault/dinero-vault.types';
 
 export const useGetUserDineroVault = (
@@ -31,7 +31,13 @@ export const useGetUserDineroVault = (
     onError: () =>
       logException({
         action: GAAction.ReadBlockchainData,
-        label: `Transaction: getUserDineroVault`,
+        label: `Transaction error: getUserDineroVault`,
+        trackerName: ['views/dapp/views/dinero-vault/dinero-vault.hooks.ts'],
+      }),
+    onSuccess: () =>
+      logSuccess({
+        action: GAAction.ReadBlockchainData,
+        label: `Transaction success: getUserDineroVault`,
         trackerName: ['views/dapp/views/dinero-vault/dinero-vault.hooks.ts'],
       }),
   });

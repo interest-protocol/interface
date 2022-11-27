@@ -23,7 +23,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logEvent, logException } from '@/utils/analytics';
+import { logEvent, logException, logSuccess } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 import CreatePoolPopup from '@/views/dapp/views/dex-find-pool/create-pool-popup';
 import { useAddLiquidity } from '@/views/dapp/views/dex-find-pool/dex-find-pool.hooks';
@@ -141,7 +141,11 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
         token1.address,
         isStable
       );
-
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Success: addLiquidity - FindPoolButton',
+        trackerName: ['views/dapp/views/dex-find-pool/find-pool-button.tsx'],
+      });
       return push({
         pathname: Routes[RoutesEnum.DEXPoolDetails],
         query: { address: address },

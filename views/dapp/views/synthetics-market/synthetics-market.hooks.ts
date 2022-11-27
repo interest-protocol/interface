@@ -4,7 +4,7 @@ import { SYNTHETICS_CALL_MAP } from '@/constants/synthetics';
 import { useSafeContractRead } from '@/hooks';
 import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
 import { getInterestViewDineroV2Address } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 export const useGetSyntheticMarketsSummary = (
   account: string,
@@ -21,7 +21,15 @@ export const useGetSyntheticMarketsSummary = (
     onError: () =>
       logException({
         action: GAAction.ReadBlockchainData,
-        label: `Transaction: getSyntheticMarketsSummary`,
+        label: `Transaction success: getSyntheticMarketsSummary`,
+        trackerName: [
+          'views/dapp/views/synthetics-market/synthetics-market.hooks.ts',
+        ],
+      }),
+    onSuccess: () =>
+      logSuccess({
+        action: GAAction.ReadBlockchainData,
+        label: `Transaction success: getSyntheticMarketsSummary`,
         trackerName: [
           'views/dapp/views/synthetics-market/synthetics-market.hooks.ts',
         ],

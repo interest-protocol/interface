@@ -17,7 +17,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import AddLiquidityButton from './add-liquidity-button';
@@ -75,6 +75,13 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
         : await approveToken1?.();
 
       await showTXSuccessToast(tx, chainId);
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Success: approveToken - AddLiquidityCardContent',
+        trackerName: [
+          'views/dapp/views/dex-pool-details/components/add-liquidity-card/add-liquidity-card-content.tsx',
+        ],
+      });
     } catch {
       logException({
         action: GAAction.SubmitTransaction,

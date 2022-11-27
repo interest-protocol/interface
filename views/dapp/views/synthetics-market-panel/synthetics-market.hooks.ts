@@ -12,7 +12,7 @@ import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json'
 import SyntheticMinterABI from '@/sdk/abi/synthetics-minter.abi.json';
 import { isValidAccount, isZeroAddress, safeToBigNumber } from '@/utils';
 import { getInterestViewDineroV2Address } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 import { SyntheticMarketData } from './synthetics-market.types';
 
@@ -32,7 +32,15 @@ export const useGetSyntheticUserMarketData = (
     onError: () =>
       logException({
         action: GAAction.ReadBlockchainData,
-        label: `Transaction: getSyntheticUserMarketData`,
+        label: `Transaction error: getSyntheticUserMarketData`,
+        trackerName: [
+          'views/dapp/views/synthetics-market-panel/synthetics-market.hooks.ts',
+        ],
+      }),
+    onSuccess: () =>
+      logSuccess({
+        action: GAAction.ReadBlockchainData,
+        label: `Transaction success: getSyntheticUserMarketData`,
         trackerName: [
           'views/dapp/views/synthetics-market-panel/synthetics-market.hooks.ts',
         ],

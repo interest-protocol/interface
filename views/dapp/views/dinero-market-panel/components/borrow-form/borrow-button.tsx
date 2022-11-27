@@ -17,7 +17,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 import { useBorrow } from '../../dinero-market.hooks';
 import {
@@ -112,6 +112,13 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       await await refetch();
 
       await showTXSuccessToast(tx, data.chainId);
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Success: borrow - BorrowButton',
+        trackerName: [
+          'views/dapp/views/dinero-market-panel/components/borrow-form/borrow-button.tsx',
+        ],
+      });
       form.reset();
     } catch (e: unknown) {
       logException({

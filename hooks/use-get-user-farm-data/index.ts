@@ -9,7 +9,7 @@ import {
 import { GAAction } from '@/constants/google-analytics';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import { getInterestViewEarnAddress } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 import { useIdAccount } from '../use-id-account';
 import { useSafeContractRead } from '../use-safe-contract-read';
@@ -35,7 +35,13 @@ export const useGetUserFarmData = (pairAddress: string) => {
     onError: () =>
       logException({
         action: GAAction.ReadBlockchainData,
-        label: `Transaction: getUserFarmData`,
+        label: `Transaction error: getUserFarmData`,
+        trackerName: ['hooks/use-get-user-farm-data/index.ts'],
+      }),
+    onSuccess: () =>
+      logSuccess({
+        action: GAAction.ReadBlockchainData,
+        label: `Transaction success: getUserFarmData`,
         trackerName: ['hooks/use-get-user-farm-data/index.ts'],
       }),
   });

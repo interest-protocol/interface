@@ -6,7 +6,7 @@ import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 import { ApproveButtonProps } from './approve-button.types';
 
@@ -31,6 +31,11 @@ const ApproveButton: FC<ApproveButtonProps> = ({
 
       await refetch();
       await showTXSuccessToast(tx, chainId);
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: `Transaction Success: approve - ApproveButton - ${contract}`,
+        trackerName: ['components/approve-button/index.tsx'],
+      });
     } catch (e) {
       logException({
         action: GAAction.SubmitTransaction,

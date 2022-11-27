@@ -14,7 +14,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 import { useCreateToken } from './create-token-form.hooks';
 import { CreateTokenButtonProps } from './create-token-form.types';
@@ -38,6 +38,13 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
       const tx = await createToken?.();
 
       await showTXSuccessToast(tx, chainId);
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Success: createToken - handleCreateToken',
+        trackerName: [
+          'views/dapp/views/faucet/create-token-form/create-token-button.tsx',
+        ],
+      });
 
       if (tx) {
         const receipt = await tx.wait();

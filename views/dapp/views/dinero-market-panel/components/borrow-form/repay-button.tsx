@@ -12,7 +12,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 import { useRepay } from '../../dinero-market.hooks';
 import { isFormRepayEmpty } from '../../dinero-market.utils';
@@ -42,6 +42,13 @@ const RepayButton: FC<RepayButtonProps> = ({
       const tx = await repay?.();
 
       await showTXSuccessToast(tx, data.chainId);
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Success: repay - RepayButton',
+        trackerName: [
+          'views/dapp/views/dinero-market-panel/components/borrow-form/repay-button.tsx',
+        ],
+      });
       form.reset();
     } catch (e: unknown) {
       logException({

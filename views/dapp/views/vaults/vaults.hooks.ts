@@ -4,7 +4,7 @@ import { VAULTS_CALL_MAP } from '@/constants/vaults';
 import { useSafeContractRead } from '@/hooks';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import { getInterestViewEarnAddress } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 export const useGetVaultsSummary = (
   chainId: number,
@@ -21,7 +21,12 @@ export const useGetVaultsSummary = (
     onError: () =>
       logException({
         action: GAAction.ReadBlockchainData,
-        label: `Transaction: getVaultsSummary`,
+        label: `Transaction error: getVaultsSummary`,
+      }),
+    onSuccess: () =>
+      logSuccess({
+        action: GAAction.ReadBlockchainData,
+        label: `Transaction Success: getVaultsSummary`,
       }),
   });
 };

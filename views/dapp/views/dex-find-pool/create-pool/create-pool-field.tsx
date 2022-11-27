@@ -16,7 +16,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logException, logSuccess } from '@/utils/analytics';
 
 import { CreatePoolFieldProps } from '../dex-find-pool.types';
 
@@ -46,6 +46,13 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
       const tx = await addAllowance?.();
       await showTXSuccessToast(tx, chainId);
       if (tx) await tx.wait(2);
+      logSuccess({
+        action: GAAction.SubmitTransaction,
+        label: 'Transaction Success: addAllowance - CreatePoolField',
+        trackerName: [
+          'views/dapp/views/dex-find-pool/create-pool/create-pool-field.tsx',
+        ],
+      });
       await refetch();
     } catch (e) {
       logException({
