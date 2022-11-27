@@ -5,6 +5,7 @@ import { FC, SVGAttributes } from 'react';
 import { CHAIN_ID, CONTRACTS, TOKEN_SYMBOL } from '@/sdk';
 import {
   BinanceUSDSVG,
+  EtherSVG,
   SynthAppleSVG,
   SynthBAYCSVG,
   SynthBitcoinSVG,
@@ -345,6 +346,15 @@ const SYNTHETICS_MARKET_COLLATERAL_SVG_MAP = {
       { icon: BinanceUSDSVG, highZIndex: false },
     ],
     [getBSCTestNetSyntheticsMarkets().iJPY!]: [
+      { icon: BinanceUSDSVG, highZIndex: false },
+    ],
+    [getBSCTestNetSyntheticsMarkets().iBAYC!]: [
+      { icon: EtherSVG, highZIndex: false },
+    ],
+    [getBSCTestNetSyntheticsMarkets().iAPPL!]: [
+      { icon: BinanceUSDSVG, highZIndex: false },
+    ],
+    [getBSCTestNetSyntheticsMarkets().iTSLA!]: [
       { icon: BinanceUSDSVG, highZIndex: false },
     ],
   },
