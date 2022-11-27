@@ -1,14 +1,7 @@
-import Document, {
-  DocumentContext,
-  DocumentInitialProps,
-  Head,
-  Html,
-  Main,
-  NextScript,
-} from 'next/document';
+import { Head, Html, Main, NextScript } from 'next/document';
 import { ReactNode } from 'react';
 
-const MyDocument = (): ReactNode => (
+const Document = (): ReactNode => (
   <Html lang="en">
     <Head>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -25,20 +18,4 @@ const MyDocument = (): ReactNode => (
   </Html>
 );
 
-export const getInitialProps = async (
-  ctx: DocumentContext
-): Promise<DocumentInitialProps> => {
-  const originalRenderPage = ctx.renderPage;
-
-  ctx.renderPage = () =>
-    originalRenderPage({
-      enhanceApp: (App) => App,
-      enhanceComponent: (Component) => Component,
-    });
-
-  const initialProps = await Document.getInitialProps(ctx);
-
-  return initialProps;
-};
-
-export default MyDocument;
+export default Document;
