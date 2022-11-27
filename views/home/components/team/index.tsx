@@ -94,7 +94,7 @@ const Team: FC = () => {
                       position="absolute"
                       backgroundImage="linear-gradient(135deg, #0000 45%, #000A)"
                     >
-                      <LogoSVG width="100%" />
+                      <LogoSVG width="100%" maxSize="8rem" />
                     </Box>
                   </Box>
                   <Box
@@ -113,7 +113,7 @@ const Team: FC = () => {
                     borderBottomColor="accent"
                   >
                     <Box width="4rem">
-                      <LogoSVG width="100%" />
+                      <LogoSVG width="100%" maxSize="4rem" />
                     </Box>
                     <Typography
                       mt="L"

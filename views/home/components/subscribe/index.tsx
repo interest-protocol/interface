@@ -57,7 +57,7 @@ const Subscribe: FC = () => {
       bg="background"
     >
       <Box width="5rem">
-        <LogoSVG width="100%" />
+        <LogoSVG width="100%" maxSize="5rem" />
       </Box>
       <Typography
         mt="M"
