@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
-const DynamicDEX = dynamic(() => import('@/views/dapp/views/dex'), {});
+const DynamicDEX = dynamic(() => import('../../../views/dapp/views/dex'), {});
 
 const DEXPage: NextPage = () => <DynamicDEX />;
 

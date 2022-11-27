@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
-const DynamicHome = dynamic(() => import('@/views/home'), {});
+const DynamicHome = dynamic(() => import('../views/home'), {});
 
 const HomePage: NextPage = () => <DynamicHome />;
 
