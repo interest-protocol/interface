@@ -128,7 +128,7 @@ const Header: FC<HeaderProps> = ({ empty }) => {
             my={['L', 'M']}
           >
             <Box width="2rem" maxWidth="2rem" maxHeight="2rem">
-              <LogoSVG width="100%" />
+              <LogoSVG width="2rem" height="2rem" />
             </Box>
             <Typography
               variant="normal"
