@@ -13,12 +13,15 @@ import {
   throwContractCallError,
 } from '@/utils';
 import { logException } from '@/utils/analytics';
+import { useGetRewards } from '@/views/dapp/views/synthetics-market-panel/synthetics-market-panel.hooks';
 
 import { GetRewardsProps } from './get-rewards.types';
 
-const GetRewards: FC<GetRewardsProps> = ({ market, refetch, getRewards }) => {
+const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
+
+  const { writeAsync: getRewards } = useGetRewards(market);
 
   const disabled = market.pendingRewards.isZero() || !getRewards;
 

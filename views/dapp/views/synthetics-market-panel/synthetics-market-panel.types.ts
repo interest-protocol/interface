@@ -207,7 +207,6 @@ export interface SyntheticsMarketPanelContentProps
   refetch: () => Promise<void>;
   rewardsInfo: ReadonlyArray<string>;
   form: UseFormReturn<ISyntheticForm>;
-  getRewards: ReturnType<typeof useGetRewards>['writeAsync'];
   myPositionData: [string, string, string, string, string, string];
 }
 

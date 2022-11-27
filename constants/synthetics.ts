@@ -18,6 +18,13 @@ import {
 } from '@/svg';
 import { getBUSDAddress, getETHERC20Address } from '@/utils';
 
+export enum SyntheticRequestActions {
+  Deposit,
+  Withdraw,
+  Mint,
+  Burn,
+}
+
 const SYNTHETIC_MARKETS = {
   [CHAIN_ID.BNB_TEST_NET]: {
     iBTC: ethers.utils.getAddress('0x73104FA347919b1D9E4A8daff0F70f0a8A2Cc7e9'),

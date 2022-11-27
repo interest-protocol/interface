@@ -2,12 +2,9 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import ErrorPage from '../error';
-import BurnButton from './components/synt-form/burn-button';
-import MintButton from './components/synt-form/mint-button';
-import {
-  useGetRewards,
-  useRedstoneSynthsPanel,
-} from './synthetics-market-panel.hooks';
+import RedStoneBurnButton from './components/buttons/red-stone-burn-button';
+import RedStoneMintButton from './components/buttons/red-stone-mint-button';
+import { useRedstoneSynthsPanel } from './synthetics-market-panel.hooks';
 import { SyntheticsMarketPanelBranchProps } from './synthetics-market-panel.types';
 import SyntheticsMarketPanelContent from './synthetics-market-panel-content';
 
@@ -19,7 +16,6 @@ const SyntheticsMarketPanelRedStone: FC<SyntheticsMarketPanelBranchProps> = ({
   dataFeedId,
   collateralAddress,
 }) => {
-  console.log('>> Red Stone');
   const t = useTranslations();
 
   const { error, market, refetch, rewardsInfo, myPositionData } =
@@ -30,13 +26,9 @@ const SyntheticsMarketPanelRedStone: FC<SyntheticsMarketPanelBranchProps> = ({
       oracleType,
     });
 
-  console.log(market, 'REDSONE');
-
   const handleRefetch = async () => {
     await refetch();
   };
-
-  const { writeAsync: getRewards } = useGetRewards(market);
 
   if (error) return <ErrorPage message={t('common.error')} />;
 
@@ -46,15 +38,14 @@ const SyntheticsMarketPanelRedStone: FC<SyntheticsMarketPanelBranchProps> = ({
       form={form}
       market={market}
       address={address}
-      getRewards={getRewards}
       rewardsInfo={rewardsInfo}
       myPositionData={myPositionData}
       refetch={handleRefetch}
       burnButton={
-        <BurnButton form={form} data={market} refetch={handleRefetch} />
+        <RedStoneBurnButton form={form} data={market} refetch={handleRefetch} />
       }
       mintButton={
-        <MintButton form={form} data={market} refetch={handleRefetch} />
+        <RedStoneMintButton form={form} data={market} refetch={handleRefetch} />
       }
     />
   );

@@ -37,15 +37,3 @@ export interface SyntFormSyntInfoProps
   data: SyntheticMarketData;
   isMint: boolean;
 }
-
-export interface MintButtonProps {
-  data: SyntheticMarketData;
-  form: UseFormReturn<ISyntheticForm>;
-  refetch: () => Promise<void>;
-}
-
-export interface BurnButtonProps {
-  data: SyntheticMarketData;
-  form: UseFormReturn<ISyntheticForm>;
-  refetch: () => Promise<void>;
-}

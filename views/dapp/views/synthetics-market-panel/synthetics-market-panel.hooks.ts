@@ -10,6 +10,7 @@ import {
   DEFAULT_ACCOUNT,
   REDSTONE_CORE_CONSUMER_DATA,
   SyntheticOracleType,
+  SyntheticRequestActions,
 } from '@/constants';
 import { GAAction } from '@/constants/google-analytics';
 import { useIdAccount, useSafeContractRead } from '@/hooks';
@@ -86,13 +87,6 @@ const { defaultAbiCoder } = ethers.utils;
 const encodeData = (to: string, amount: ethers.BigNumber) =>
   defaultAbiCoder.encode(['address', 'uint256'], [to || ZERO_ADDRESS, amount]);
 
-enum RequestActions {
-  Deposit,
-  Withdraw,
-  Mint,
-  Burn,
-}
-
 const handleBurnRequest = (
   market: SyntheticMarketData,
   collateral: number,
@@ -120,7 +114,7 @@ const handleBurnRequest = (
 
   const functionName = 'request';
   const args = [
-    [RequestActions.Burn, RequestActions.Withdraw],
+    [SyntheticRequestActions.Burn, SyntheticRequestActions.Withdraw],
     [
       encodeData(market.account, safeBNSynt),
       encodeData(market.account, safeBNCollateral),
@@ -247,7 +241,7 @@ const handleMintRequest = (
 
   const functionName = 'request';
   const args = [
-    [RequestActions.Deposit, RequestActions.Mint],
+    [SyntheticRequestActions.Deposit, SyntheticRequestActions.Mint],
     [
       encodeData(market.account, safeCollateral),
       encodeData(market.account, syntBN),

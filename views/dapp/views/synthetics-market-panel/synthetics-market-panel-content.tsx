@@ -5,7 +5,7 @@ import { RoutesEnum } from '@/constants';
 import Box from '@/elements/box';
 
 import GoBack from '../../components/go-back';
-import GetRewards from './components/get-rewards';
+import GetRewards from './components/buttons/get-rewards';
 import MyOpenPosition from './components/my-open-position';
 import RewardsData from './components/rewards-data';
 import UserLTV from './components/user-ltv';
@@ -23,7 +23,6 @@ const SyntheticsMarketPanelContent: FC<SyntheticsMarketPanelContentProps> = ({
   address,
   burnButton,
   mintButton,
-  getRewards,
   rewardsInfo,
   myPositionData,
 }) => (
@@ -83,7 +82,7 @@ const SyntheticsMarketPanelContent: FC<SyntheticsMarketPanelContentProps> = ({
           syntUSDPrice={market.syntUSDPrice}
         />
         <YourBalance data={market} />
-        <GetRewards market={market} refetch={refetch} getRewards={getRewards} />
+        <GetRewards market={market} refetch={refetch} />
       </Box>
     </Box>
     <Tooltip />

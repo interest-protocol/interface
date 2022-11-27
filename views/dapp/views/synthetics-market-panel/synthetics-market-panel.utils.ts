@@ -95,7 +95,8 @@ export const processSyntheticData: ProcessSyntheticData = (
   const responseMap =
     SYNTHETIC_PANEL_RESPONSE_MAP[chainId][ethers.utils.getAddress(market)];
 
-  if (!responseMap) return DEFAULT_MARKET_DATA;
+  // need the fix here
+  if (!responseMap || data.TVL == undefined) return DEFAULT_MARKET_DATA;
 
   return {
     userSyntMinted: data.userSyntMinted,

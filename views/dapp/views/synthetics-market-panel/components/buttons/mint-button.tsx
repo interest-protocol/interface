@@ -24,7 +24,7 @@ import {
   convertCollateralToSynt,
   isFormMintEmpty,
 } from '../../synthetics-market-panel.utils';
-import { MintButtonProps } from './synt-form.types';
+import { MintButtonProps } from './buttons.types';
 
 const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
   const t = useTranslations();
