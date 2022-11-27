@@ -3,6 +3,7 @@ import { BigNumber } from 'ethers';
 import { FC, ReactNode, SVGAttributes } from 'react';
 import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
+import { SyntheticOracleType } from '@/constants';
 import { TTranslatedMessage } from '@/interface';
 import { FixedPointMath } from '@/sdk';
 
@@ -27,19 +28,21 @@ export interface ISyntheticForm {
     synt: string;
   };
 }
-export interface SyntheticsMarketPanelBranchProps {
+export interface SyntheticsMarketPanelProps {
   address: string;
   mode: TSyntheticsMarketMode;
-  form: UseFormReturn<ISyntheticForm>;
 }
 
-export type SyntheticsMarketPanelProps = Omit<
-  SyntheticsMarketPanelBranchProps,
-  'form'
->;
+export interface SyntheticsMarketPanelBranchProps
+  extends SyntheticsMarketPanelProps {
+  form: UseFormReturn<ISyntheticForm>;
+  oracleType: SyntheticOracleType;
+  dataFeedId: string;
+  collateralAddress: string;
+}
 
 export interface SyntheticsMarketSwitchProps
-  extends Omit<SyntheticsMarketPanelProps, 'redStone'> {
+  extends SyntheticsMarketPanelProps {
   resetField: UseFormResetField<ISyntheticForm>;
 }
 
@@ -79,6 +82,8 @@ export interface SyntheticMarketData {
   account: string;
   collateralName: string;
   collateralSymbol: string;
+  dataFeedId: string;
+  oracleType: SyntheticOracleType;
 }
 
 export type ProcessSyntheticData = (
@@ -195,7 +200,7 @@ export type TInfo = ReadonlyArray<{
 }>;
 
 export interface SyntheticsMarketPanelContentProps
-  extends Omit<SyntheticsMarketPanelProps, 'redStone'> {
+  extends SyntheticsMarketPanelProps {
   burnButton: ReactNode;
   mintButton: ReactNode;
   market: SyntheticMarketData;
@@ -204,4 +209,20 @@ export interface SyntheticsMarketPanelContentProps
   form: UseFormReturn<ISyntheticForm>;
   getRewards: ReturnType<typeof useGetRewards>['writeAsync'];
   myPositionData: [string, string, string, string, string, string];
+}
+
+export interface UseSynthsPanelHookArgs {
+  address: string;
+  oracleType: SyntheticOracleType;
+  dataFeedId: string;
+  collateralAddress: string;
+}
+
+export interface UseWagmiGetSyntheticUserMarketDataArgs {
+  marketAddress: string;
+  chainId: number;
+  account: string;
+  oracleType: SyntheticOracleType;
+  dataFeedId: string;
+  collateralAddress: string;
 }

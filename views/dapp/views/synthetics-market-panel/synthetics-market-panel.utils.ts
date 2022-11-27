@@ -4,6 +4,7 @@ import { UseFormReturn } from 'react-hook-form';
 import {
   getSyntheticsMarketSVGByAddress,
   SYNTHETIC_PANEL_RESPONSE_MAP,
+  SyntheticOracleType,
 } from '@/constants';
 import { TTranslatedMessage } from '@/interface';
 import {
@@ -78,6 +79,8 @@ const DEFAULT_MARKET_DATA = {
   account: ZERO_ADDRESS,
   collateralName: 'Unknown',
   collateralSymbol: 'Unknown',
+  dataFeedId: '',
+  oracleType: SyntheticOracleType.ChainLink,
 };
 
 export const processSyntheticData: ProcessSyntheticData = (
@@ -113,7 +116,11 @@ export const processSyntheticData: ProcessSyntheticData = (
       responseMap.collateralDecimals
     ),
     syntBalance: data.syntBalance,
-    syntUSDPrice: data.syntheticUSDPrice,
+    // RedStone prices come with 8 decimals
+    syntUSDPrice:
+      responseMap.oracleType !== SyntheticOracleType.ChainLink
+        ? adjustDecimals(data.syntheticUSDPrice, 8)
+        : data.syntheticUSDPrice,
     syntAddress: responseMap.syntAddress,
     pendingRewards: data.pendingRewards,
     syntSymbol: responseMap.syntSymbol,
@@ -126,6 +133,8 @@ export const processSyntheticData: ProcessSyntheticData = (
     account: account || ZERO_ADDRESS,
     collateralName: responseMap.collateralName,
     collateralSymbol: responseMap.collateralSymbol,
+    dataFeedId: responseMap.dataFeedId,
+    oracleType: responseMap.oracleType,
   };
 };
 

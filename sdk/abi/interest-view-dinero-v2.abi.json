@@ -473,7 +473,14 @@
         "internalType": "contract ISyntheticMarket",
         "name": "market",
         "type": "address"
-      }
+      },
+      { "internalType": "address", "name": "collateral", "type": "address" },
+      {
+        "internalType": "enum InterestViewDinero.SyntheticMarketType",
+        "name": "oracleType",
+        "type": "uint8"
+      },
+      { "internalType": "bytes32", "name": "dataFeedId", "type": "bytes32" }
     ],
     "name": "getSyntheticUserMarketData",
     "outputs": [

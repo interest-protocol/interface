@@ -6,7 +6,7 @@ import BurnButton from './components/synt-form/burn-button';
 import MintButton from './components/synt-form/mint-button';
 import {
   useGetRewards,
-  useWagmiSynthsPanel,
+  useRedstoneSynthsPanel,
 } from './synthetics-market-panel.hooks';
 import { SyntheticsMarketPanelBranchProps } from './synthetics-market-panel.types';
 import SyntheticsMarketPanelContent from './synthetics-market-panel-content';
@@ -15,13 +15,22 @@ const SyntheticsMarketPanelRedStone: FC<SyntheticsMarketPanelBranchProps> = ({
   mode,
   form,
   address,
+  oracleType,
+  dataFeedId,
+  collateralAddress,
 }) => {
   console.log('>> Red Stone');
   const t = useTranslations();
 
-  // Replace to RedStone Data
   const { error, market, refetch, rewardsInfo, myPositionData } =
-    useWagmiSynthsPanel(address);
+    useRedstoneSynthsPanel({
+      address,
+      collateralAddress,
+      dataFeedId,
+      oracleType,
+    });
+
+  console.log(market, 'REDSONE');
 
   const handleRefetch = async () => {
     await refetch();

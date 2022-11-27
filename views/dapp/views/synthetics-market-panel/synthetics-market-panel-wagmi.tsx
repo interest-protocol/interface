@@ -11,15 +11,18 @@ import {
 import { SyntheticsMarketPanelBranchProps } from './synthetics-market-panel.types';
 import SyntheticsMarketPanelContent from './synthetics-market-panel-content';
 
-const SyntheticsMarketPanelNormal: FC<SyntheticsMarketPanelBranchProps> = ({
+const SyntheticsMarketPanelWagmi: FC<SyntheticsMarketPanelBranchProps> = ({
   mode,
   address,
   form,
+  oracleType,
+  dataFeedId,
+  collateralAddress,
 }) => {
   const t = useTranslations();
 
   const { error, market, refetch, rewardsInfo, myPositionData } =
-    useWagmiSynthsPanel(address);
+    useWagmiSynthsPanel({ address, collateralAddress, oracleType, dataFeedId });
 
   const handleRefetch = async () => {
     await refetch();
@@ -49,4 +52,4 @@ const SyntheticsMarketPanelNormal: FC<SyntheticsMarketPanelBranchProps> = ({
   );
 };
 
-export default SyntheticsMarketPanelNormal;
+export default SyntheticsMarketPanelWagmi;

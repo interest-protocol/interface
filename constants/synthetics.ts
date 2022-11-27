@@ -47,6 +47,82 @@ export enum SyntheticOracleType {
   RedStonePriceAware,
 }
 
+export const REDSTONE_CORE_CONSUMER_DATA = {
+  [CHAIN_ID.BNB_TEST_NET]: {
+    dataServiceId: 'redstone-main-demo',
+    uniqueSignersCount: 1,
+    url: 'https://d33trozg86ya9x.cloudfront.net',
+  },
+  [CHAIN_ID.BNB_MAIN_NET]: {
+    dataServiceId: 'redstone-main-demo',
+    uniqueSignersCount: 1,
+    url: 'https://d33trozg86ya9x.cloudfront.net',
+  },
+  [CHAIN_ID.UNSUPPORTED]: {
+    dataServiceId: 'redstone-main-demo',
+    uniqueSignersCount: 1,
+    url: 'https://d33trozg86ya9x.cloudfront.net',
+  },
+  [CHAIN_ID.RINKEBY]: {
+    dataServiceId: 'redstone-main-demo',
+    uniqueSignersCount: 1,
+    url: 'https://d33trozg86ya9x.cloudfront.net',
+  },
+};
+
+export const SYNTHETICS_MARKET_PANEL_CALL_MAP = {
+  [CHAIN_ID.BNB_MAIN_NET]: {},
+  [CHAIN_ID.BNB_TEST_NET]: {
+    [SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iBAYC!]: {
+      dataFeedId: '0x60cbe6b18347697f',
+      oracleType: SyntheticOracleType.RedStonePriceAware,
+      collateralAddress: getETHERC20Address(CHAIN_ID.BNB_TEST_NET),
+    },
+    [SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iTSLA!]: {
+      dataFeedId: 'TSLA',
+      oracleType: SyntheticOracleType.RedStoneConsumer,
+      collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+    },
+    [SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iAPPL!]: {
+      dataFeedId: 'AAPL',
+      oracleType: SyntheticOracleType.RedStoneConsumer,
+      collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+    },
+    [SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iBTC!]: {
+      dataFeedId: '',
+      oracleType: SyntheticOracleType.ChainLink,
+      collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+    },
+    [SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iETH!]: {
+      dataFeedId: '',
+      oracleType: SyntheticOracleType.ChainLink,
+      collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+    },
+    [SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iXAU!]: {
+      dataFeedId: '',
+      oracleType: SyntheticOracleType.ChainLink,
+      collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+    },
+    [SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iGBP!]: {
+      dataFeedId: '',
+      oracleType: SyntheticOracleType.ChainLink,
+      collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+    },
+    [SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iJPY!]: {
+      dataFeedId: '',
+      oracleType: SyntheticOracleType.ChainLink,
+      collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+    },
+    [SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iBRL!]: {
+      dataFeedId: '',
+      oracleType: SyntheticOracleType.ChainLink,
+      collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+    },
+  },
+  [CHAIN_ID.RINKEBY]: {},
+  [CHAIN_ID.UNSUPPORTED]: {},
+};
+
 export const SYNTHETICS_CALL_MAP = {
   [CHAIN_ID.BNB_TEST_NET]: {
     markets: [
@@ -312,6 +388,42 @@ export const getSyntheticsMarketSVGByAddress = (
 export const SYNTHETIC_PANEL_RESPONSE_MAP = {
   [CHAIN_ID.BNB_MAIN_NET]: {},
   [CHAIN_ID.BNB_TEST_NET]: {
+    [getBSCTestNetSyntheticsMarkets().iBAYC!]: {
+      syntSymbol: TOKEN_SYMBOL.iBAYC,
+      syntName: 'Interest Bored Ape Yacht Club',
+      collateralDecimals: 18,
+      marketAddress: getBSCTestNetSyntheticsMarkets().iBAYC!,
+      collateralAddress: getETHERC20Address(CHAIN_ID.BNB_TEST_NET),
+      syntAddress: CONTRACTS.iBAYC[CHAIN_ID.BNB_TEST_NET],
+      collateralName: 'Ether',
+      collateralSymbol: TOKEN_SYMBOL.ETH,
+      dataFeedId: '0x60cbe6b18347697f',
+      oracleType: SyntheticOracleType.RedStonePriceAware,
+    },
+    [getBSCTestNetSyntheticsMarkets().iAPPL!]: {
+      syntSymbol: TOKEN_SYMBOL.iAAPL,
+      syntName: 'Interest Apple',
+      collateralDecimals: 18,
+      marketAddress: getBSCTestNetSyntheticsMarkets().iAPPL!,
+      collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+      syntAddress: CONTRACTS.iAAPL[CHAIN_ID.BNB_TEST_NET],
+      collateralName: 'BUSD Coin',
+      collateralSymbol: TOKEN_SYMBOL.BUSD,
+      dataFeedId: 'APPL',
+      oracleType: SyntheticOracleType.RedStoneConsumer,
+    },
+    [getBSCTestNetSyntheticsMarkets().iTSLA!]: {
+      syntSymbol: TOKEN_SYMBOL.iTSLA,
+      syntName: 'Interest Tesla',
+      collateralDecimals: 18,
+      marketAddress: getBSCTestNetSyntheticsMarkets().iTSLA!,
+      collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
+      syntAddress: CONTRACTS.iTSLA[CHAIN_ID.BNB_TEST_NET],
+      collateralName: 'BUSD Coin',
+      collateralSymbol: TOKEN_SYMBOL.BUSD,
+      dataFeedId: 'TSLA',
+      oracleType: SyntheticOracleType.RedStoneConsumer,
+    },
     [getBSCTestNetSyntheticsMarkets().iBTC!]: {
       syntSymbol: TOKEN_SYMBOL.iBTC,
       syntName: 'Interest Bitcoin',
@@ -321,6 +433,8 @@ export const SYNTHETIC_PANEL_RESPONSE_MAP = {
       syntAddress: CONTRACTS.iBTC[CHAIN_ID.BNB_TEST_NET],
       collateralName: 'BUSD Token',
       collateralSymbol: TOKEN_SYMBOL.BUSD,
+      dataFeedId: '',
+      oracleType: SyntheticOracleType.ChainLink,
     },
     [getBSCTestNetSyntheticsMarkets().iBRL!]: {
       syntSymbol: TOKEN_SYMBOL.iBRL,
@@ -331,6 +445,8 @@ export const SYNTHETIC_PANEL_RESPONSE_MAP = {
       syntAddress: CONTRACTS.iBRL[CHAIN_ID.BNB_TEST_NET],
       collateralName: 'BUSD Token',
       collateralSymbol: TOKEN_SYMBOL.BUSD,
+      dataFeedId: '',
+      oracleType: SyntheticOracleType.ChainLink,
     },
     [getBSCTestNetSyntheticsMarkets().iETH!]: {
       syntSymbol: TOKEN_SYMBOL.iETH,
@@ -341,6 +457,8 @@ export const SYNTHETIC_PANEL_RESPONSE_MAP = {
       syntAddress: CONTRACTS.iETH[CHAIN_ID.BNB_TEST_NET],
       collateralName: 'BUSD Token',
       collateralSymbol: TOKEN_SYMBOL.BUSD,
+      dataFeedId: '',
+      oracleType: SyntheticOracleType.ChainLink,
     },
     [getBSCTestNetSyntheticsMarkets().iGBP!]: {
       syntSymbol: TOKEN_SYMBOL.iGBP,
@@ -351,6 +469,8 @@ export const SYNTHETIC_PANEL_RESPONSE_MAP = {
       syntAddress: CONTRACTS.iGBP[CHAIN_ID.BNB_TEST_NET],
       collateralName: 'BUSD Token',
       collateralSymbol: TOKEN_SYMBOL.BUSD,
+      dataFeedId: '',
+      oracleType: SyntheticOracleType.ChainLink,
     },
     [getBSCTestNetSyntheticsMarkets().iXAU!]: {
       syntSymbol: TOKEN_SYMBOL.iXAU,
@@ -361,6 +481,8 @@ export const SYNTHETIC_PANEL_RESPONSE_MAP = {
       syntAddress: CONTRACTS.iXAU[CHAIN_ID.BNB_TEST_NET],
       collateralName: 'BUSD Token',
       collateralSymbol: TOKEN_SYMBOL.BUSD,
+      dataFeedId: '',
+      oracleType: SyntheticOracleType.ChainLink,
     },
     [getBSCTestNetSyntheticsMarkets().iJPY!]: {
       syntSymbol: TOKEN_SYMBOL.iJPY,
@@ -371,6 +493,8 @@ export const SYNTHETIC_PANEL_RESPONSE_MAP = {
       syntAddress: CONTRACTS.iJPY[CHAIN_ID.BNB_TEST_NET],
       collateralName: 'BUSD Token',
       collateralSymbol: TOKEN_SYMBOL.BUSD,
+      dataFeedId: '',
+      oracleType: SyntheticOracleType.ChainLink,
     },
   },
   [CHAIN_ID.UNSUPPORTED]: {},
