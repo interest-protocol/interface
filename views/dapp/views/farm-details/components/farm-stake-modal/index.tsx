@@ -74,7 +74,7 @@ const FarmStakeModal: FC<FarmStakeModalProps> = ({
               }}
             >
               <Box as="span" display="inline-block" width="1rem">
-                <TimesSVG width="100%" />
+                <TimesSVG width="100%" maxSize="1rem" />
               </Box>
             </Button>
           </Box>
@@ -107,7 +107,7 @@ const FarmStakeModal: FC<FarmStakeModalProps> = ({
                       ml={index != 0 ? '-0.5rem' : 'NONE'}
                       zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
                     >
-                      <SVG width="100%" />
+                      <SVG width="100%" maxSize="1.6rem" />
                     </Box>
                   ))}
                 </Box>

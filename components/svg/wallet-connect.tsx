@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const WalletConnect: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 512 512" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const WalletConnect: FC<SVGProps> = ({ maxSize, ...props }) => (
+  <svg
+    style={{ maxWidth: maxSize, maxHeight: maxSize }}
+    viewBox="0 0 512 512"
+    fill="none"
+    {...props}
+  >
     <path
       fillRule="evenodd"
       clipRule="evenodd"

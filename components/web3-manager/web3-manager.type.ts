@@ -3,7 +3,7 @@ import { FC, ReactNode, SVGAttributes } from 'react';
 export interface AdviceProps {
   title: string;
   lines: ReadonlyArray<ReactNode>;
-  Icon?: FC<SVGAttributes<SVGSVGElement>>;
+  Icon?: FC<SVGAttributes<SVGSVGElement> & { maxSize: string }>;
   buttons?: ReadonlyArray<{
     text: string;
     action: () => void;

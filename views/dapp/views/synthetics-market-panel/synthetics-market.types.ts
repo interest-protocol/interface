@@ -148,7 +148,7 @@ export type TCalculateUserCurrentLTV = (
 ) => FixedPointMath;
 
 export type SyntheticsCurrencyIcons = ReadonlyArray<{
-  SVG: FC<SVGAttributes<SVGSVGElement>>;
+  SVG: FC<SVGAttributes<SVGSVGElement> & { maxSize: string }>;
   highZIndex: boolean;
 }>;
 

@@ -61,7 +61,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
     >
       {loading && (
         <Box as="span" display="inline-block" width="1rem">
-          <LoadingSVG width="100%" />
+          <LoadingSVG width="100%" maxSize="1rem" />
         </Box>
       )}
       <Typography

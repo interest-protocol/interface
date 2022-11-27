@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const Info: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 15 15" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const Info: FC<SVGProps> = ({ maxSize, ...props }) => (
+  <svg
+    style={{ maxWidth: maxSize, maxHeight: maxSize }}
+    viewBox="0 0 15 15"
+    fill="none"
+    {...props}
+  >
     <path
       fillRule="evenodd"
       clipRule="evenodd"

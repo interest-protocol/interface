@@ -51,7 +51,7 @@ const SyntheticsMarket: FC = () => {
           borderRadius="50%"
           border="0.3rem solid"
         >
-          <TimesSVG width="100%" height="100%" />
+          <TimesSVG width="100%" height="100%" maxSize="10rem" />
         </Box>
         <Typography variant="title3">{t('error.generic')}</Typography>
       </Box>
@@ -72,7 +72,7 @@ const SyntheticsMarket: FC = () => {
         alignItems="center"
         justifyContent={['center', 'flex-start']}
       >
-        <BinanceUSDSVG width="2rem" height="2rem" />
+        <BinanceUSDSVG width="2rem" height="2rem" maxSize="2rem" />
         <Typography variant="normal" ml="M">
           {t('syntheticsMarket.title')}
         </Typography>

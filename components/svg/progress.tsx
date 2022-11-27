@@ -1,9 +1,18 @@
 import { FC, SVGAttributes } from 'react';
 
 const Progress: FC<
-  SVGAttributes<SVGSVGElement> & { progress: number; custom?: boolean }
-> = ({ progress, custom, ...props }) => (
-  <svg {...(!custom && { viewBox: '0 0 330 10' })} fill="none" {...props}>
+  SVGAttributes<SVGSVGElement> & {
+    progress: number;
+    custom?: boolean;
+    maxSize: string;
+  }
+> = ({ progress, custom, maxSize, ...props }) => (
+  <svg
+    style={{ maxWidth: maxSize, maxHeight: maxSize }}
+    {...(!custom && { viewBox: '0 0 330 10' })}
+    fill="none"
+    {...props}
+  >
     <rect
       width={custom ? props.width : '330'}
       height="10"

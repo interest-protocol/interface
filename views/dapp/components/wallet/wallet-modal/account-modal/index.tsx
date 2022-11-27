@@ -46,7 +46,7 @@ const AccountModal: FC<AccountModalProps> = ({
             onClick={toggleModal}
             hover={{ color: 'text' }}
           >
-            <TimesSVG width="1.8rem" height="1.8rem" />
+            <TimesSVG width="1.8rem" height="1.8rem" maxSize="1.8rem" />
           </Box>
         </Box>
         <Box
@@ -80,7 +80,7 @@ const AccountModal: FC<AccountModalProps> = ({
               overflow="hidden"
               borderRadius="50%"
             >
-              <UserSVG height="100%" width="100%" />
+              <UserSVG height="100%" width="100%" maxSize="1.5rem" />
             </Box>
             <Typography variant="normal" fontSize="L" color="text" ml="L">
               {shortAccount(account || '')}
@@ -109,7 +109,7 @@ const AccountModal: FC<AccountModalProps> = ({
                 hover={{ color: 'text' }}
               >
                 <Box as="span" display="inline-block" width="1rem">
-                  <LinkSVG width="100%" />
+                  <LinkSVG width="100%" maxSize="1rem" />
                 </Box>
                 <Typography variant="normal" ml="M" fontSize="S">
                   {capitalize(t('common.explorer'))}

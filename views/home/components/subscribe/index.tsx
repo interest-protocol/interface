@@ -101,7 +101,7 @@ const Subscribe: FC = () => {
           </Button>
           <Box display="flex" alignItems="center" mt="M" px="L">
             <Box width="0.7rem">
-              <ShieldSVG width="100%" />
+              <ShieldSVG width="100%" maxSize="0.7rem" />
             </Box>
             <Typography variant="normal" ml="S" fontSize="XS">
               {t('landingPage.subscribeDescription')}

@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const BarsLP: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 32 32" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const BarsLP: FC<SVGProps> = ({ maxSize, ...props }) => (
+  <svg
+    style={{ maxWidth: maxSize, maxHeight: maxSize }}
+    viewBox="0 0 32 32"
+    fill="none"
+    {...props}
+  >
     <path
       d="M13 7L28 7"
       stroke="black"

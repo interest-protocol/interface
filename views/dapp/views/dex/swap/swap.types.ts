@@ -68,7 +68,7 @@ export interface OnSelectCurrencyData {
 export interface SwapMessageProps {
   color?: string;
   message: string;
-  Icon: FC<SVGAttributes<SVGSVGElement>>;
+  Icon: FC<SVGAttributes<SVGSVGElement> & { maxSize: string }>;
 }
 
 export interface UseSwapArgs {

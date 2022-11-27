@@ -147,7 +147,7 @@ export const getSyntheticsMarketSVGByAddress = (
   marketAddress: string,
   isCollateral = false
 ): ReadonlyArray<{
-  SVG: FC<SVGAttributes<SVGSVGElement>>;
+  SVG: FC<SVGAttributes<SVGSVGElement> & { maxSize: string }>;
   highZIndex: boolean;
 }> => {
   const data = pathOr(

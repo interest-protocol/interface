@@ -45,7 +45,7 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
         mx="auto"
       >
         <Box as="span" display="flex" width="2rem" m="auto">
-          <LoadingSVG width="100%" />
+          <LoadingSVG width="100%" maxSize="2rem" />
         </Box>
       </Box>
     );
@@ -68,7 +68,7 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
           borderRadius="50%"
           border="0.3rem solid"
         >
-          <TimesSVG width="100%" height="100%" />
+          <TimesSVG width="100%" height="100%" maxSize="10rem" />
         </Box>
         <Typography variant="title3">{t('error.generic')}</Typography>
       </Box>

@@ -45,7 +45,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
               data-tip={capitalize(t(tip as MessageKeys<IntlMessages, any>))}
               display="inline-block"
             >
-              <InfoSVG width="100%" />
+              <InfoSVG width="100%" maxSize="1rem" />
             </Box>
             {capitalize(t(name as MessageKeys<IntlMessages, any>))}
           </Typography>

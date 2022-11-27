@@ -32,7 +32,7 @@ const LiquidityDetailsCardLine: FC<LiquidityDetailsCardLineProps> = ({
           </>
         ) : (
           <>
-            <TokenSVG width="1.2rem" />
+            <TokenSVG width="1.2rem" maxSize="1.2rem" />
             <Typography
               mx="M"
               as="span"

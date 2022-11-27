@@ -156,7 +156,7 @@ const Team: FC = () => {
                           color: 'accent',
                         }}
                       >
-                        <Icon width="100%" />
+                        <Icon width="100%" maxSize="1.6rem" />
                       </Box>
                     </a>
                   );

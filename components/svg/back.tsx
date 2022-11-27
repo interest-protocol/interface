@@ -1,7 +1,10 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const Back: FC<SVGAttributes<SVGSVGElement>> = (props) => (
+import { SVGProps } from './svg.types';
+
+const Back: FC<SVGProps> = ({ maxSize, ...props }) => (
   <svg
+    style={{ maxWidth: maxSize, maxHeight: maxSize }}
     fill="none"
     strokeWidth="2"
     viewBox="0 0 24 24"

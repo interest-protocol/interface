@@ -206,7 +206,7 @@ export type TCalculateUserCurrentLTV = (
 ) => FixedPointMath;
 
 export type DineroCurrencyIcons = ReadonlyArray<{
-  SVG: FC<SVGAttributes<SVGSVGElement>>;
+  SVG: FC<SVGAttributes<SVGSVGElement> & { maxSize: string }>;
   highZIndex: boolean;
 }>;
 

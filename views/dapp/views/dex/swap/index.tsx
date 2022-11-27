@@ -169,7 +169,7 @@ const Swap: FC = () => {
               }}
               onClick={toggleSettings}
             >
-              <CogsSVG width="1.5rem" />
+              <CogsSVG width="1.5rem" maxSize="1.5rem" />
             </Box>
             {showSettings && (
               <Settings

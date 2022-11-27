@@ -214,7 +214,7 @@ const Header: FC = () => {
                 bg="bottomBackground"
                 justifyContent="center"
               >
-                <CreditCardSVG width="100%" />
+                <CreditCardSVG width="100%" maxSize="3rem" />
               </Box>
             </a>
           </Box>

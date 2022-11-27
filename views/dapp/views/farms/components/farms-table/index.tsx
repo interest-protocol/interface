@@ -149,7 +149,7 @@ const FarmsTable: FC<FarmsTableProps> = ({
                               index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'
                             }
                           >
-                            <SVG width="100%" />
+                            <SVG width="100%" maxSize="1.6rem" />
                           </Box>
                         ))}
                       </Box>
@@ -279,7 +279,7 @@ const FarmsTable: FC<FarmsTableProps> = ({
                                   : 'unset'
                               }
                             >
-                              <SVG width="100%" />
+                              <SVG width="100%" maxSize="1.6rem" />
                             </Box>
                           ))}
                         </Box>

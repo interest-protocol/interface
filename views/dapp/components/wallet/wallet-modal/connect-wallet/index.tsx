@@ -34,7 +34,7 @@ const WalletButton: FC<WalletButtonProps> = ({ onClick, name, Icon }) => (
   >
     {name}
     <Box width="2rem" height="2rem" display="flex" alignItems="center">
-      <Icon width="2rem" height="2rem" />
+      <Icon width="2rem" height="2rem" maxSize="2rem" />
     </Box>
   </Box>
 );
@@ -88,7 +88,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
             onClick={toggleModal}
             hover={{ color: 'text' }}
           >
-            <TimesSVG width="1.8rem" height="1.8rem" />
+            <TimesSVG width="1.8rem" height="1.8rem" maxSize="1.8rem" />
           </Box>
         </Box>
         <Box maxHeight="100%" overflow="auto">

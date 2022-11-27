@@ -128,7 +128,7 @@ export const getDineroMarketSVGByAddress = (
   chain: number,
   marketAddress: string
 ): ReadonlyArray<{
-  SVG: FC<SVGAttributes<SVGSVGElement>>;
+  SVG: FC<SVGAttributes<SVGSVGElement> & { maxSize: string }>;
   highZIndex: boolean;
 }> => {
   const data = pathOr(

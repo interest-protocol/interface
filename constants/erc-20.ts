@@ -179,7 +179,9 @@ export const TOKENS_SVG_MAP = {
     [ethers.constants.AddressZero]: EtherSVG,
   },
 } as {
-  [chain: number]: { [address: string]: FC<SVGAttributes<SVGSVGElement>> };
+  [chain: number]: {
+    [address: string]: FC<SVGAttributes<SVGSVGElement> & { maxSize: string }>;
+  };
 };
 
 export const getFarmsSVGByToken = (
@@ -187,7 +189,7 @@ export const getFarmsSVGByToken = (
   token0: string,
   token1: string
 ): ReadonlyArray<{
-  SVG: FC<SVGAttributes<SVGSVGElement>>;
+  SVG: FC<SVGAttributes<SVGSVGElement> & { maxSize: string }>;
   highZIndex: boolean;
 }> => {
   const Token0 = pathOr(

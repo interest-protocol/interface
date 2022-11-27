@@ -1,10 +1,8 @@
-import React, { FC, SVGAttributes } from 'react';
+import React, { FC } from 'react';
 
-interface LogoProps extends SVGAttributes<SVGSVGElement> {
-  maxSize: string;
-}
+import { SVGProps } from './svg.types';
 
-const LogoSVG: FC<LogoProps> = ({ fill, maxSize, ...props }) => (
+const LogoSVG: FC<SVGProps> = ({ fill, maxSize, ...props }) => (
   <svg
     viewBox="0 0 52 41"
     fill="none"

@@ -50,7 +50,7 @@ const ConnectedWallet: FC = () => {
           `${data.formatted.slice(0, 6)} ${data.symbol}`
         ) : (
           <Box as="span" display="inline-block" width="1rem">
-            <LoadingSVG width="100%" />
+            <LoadingSVG width="100%" maxSize="1rem" />
           </Box>
         )}
       </Typography>
@@ -87,7 +87,7 @@ const ConnectedWallet: FC = () => {
           borderRadius="50%"
           display="inline-block"
         >
-          <WalletSVG height="100%" width="100%" />
+          <WalletSVG height="100%" width="100%" maxSize="1.2rem" />
         </Box>
         <Typography variant="normal" color="text" display={['none', 'block']}>
           {shortAccount(address || ZERO_ADDRESS)}

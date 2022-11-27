@@ -31,7 +31,7 @@ const DineroVaultFooterItem: FC<DineroVaultDetailsFooterItemProps> = ({
             data-tip={t(tip as MessageKeys<IntlMessages, keyof IntlMessages>)}
             display="inline-block"
           >
-            <InfoSVG width="1rem" height="1rem" />
+            <InfoSVG width="1rem" height="1rem" maxSize="1rem" />
           </Box>
         )}
         <Typography

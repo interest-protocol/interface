@@ -126,7 +126,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets, chainId }) => {
                       ml={index != 0 ? '-1rem' : 'NONE'}
                       zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
                     >
-                      <SVG width="100%" />
+                      <SVG width="100%" maxSize="1.6rem" />
                     </Box>
                   )
                 )}
@@ -229,7 +229,7 @@ const BorrowTable: FC<BorrowTableProps> = ({ control, markets, chainId }) => {
                           ml={index != 0 ? '-1rem' : 'NONE'}
                           zIndex={index == 0 && highZIndex ? 3 : 'unset'}
                         >
-                          <SVG width="100%" />
+                          <SVG width="100%" maxSize="1.6rem" />
                         </Box>
                       )
                     )}

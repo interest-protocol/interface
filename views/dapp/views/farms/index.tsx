@@ -61,7 +61,7 @@ const Farms: FC = () => {
           borderRadius="50%"
           border="0.3rem solid"
         >
-          <TimesSVG width="100%" height="100%" />
+          <TimesSVG width="100%" height="100%" maxSize="10rem" />
         </Box>
         <Typography variant="title3">{t('error.generic')}</Typography>
       </Box>
@@ -107,7 +107,7 @@ const Farms: FC = () => {
             loader={
               <Box display="flex" alignItems="center" justifyContent="center">
                 <Box as="span" display="inline-block" width="1rem">
-                  <LoadingSVG width="100%" />
+                  <LoadingSVG width="100%" maxSize="1rem" />
                 </Box>
                 <Typography fontSize="S" variant="normal" ml="M">
                   {t('common.load', { isLoading: 1 })}

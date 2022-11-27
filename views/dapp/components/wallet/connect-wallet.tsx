@@ -40,7 +40,7 @@ const ConnectWallet: FC<ConnectWalletButtonProps> = ({ loading }) => {
         {loading ? (
           <>
             <Box as="span" display="inline-block" width="1rem" mr="M">
-              <LoadingSVG width="100%" />
+              <LoadingSVG width="100%" maxSize="1rem" />
             </Box>
             <Typography
               as="span"

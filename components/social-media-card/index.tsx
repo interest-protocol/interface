@@ -19,7 +19,7 @@ const SocialMediaCard: FC<SocialMediaCardProps> = ({ title, link, Logo }) => (
         transform: 'scale(1.2)',
       }}
     >
-      <Logo width="100%" height="100%" />
+      <Logo width="100%" height="100%" maxSize="1rem" />
     </Box>
   </a>
 );

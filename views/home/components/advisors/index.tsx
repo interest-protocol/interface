@@ -5,6 +5,7 @@ import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 import { v4 } from 'uuid';
 
 import { Container, FlipMemberCard } from '@/components';
+import { SVGProps } from '@/components/svg/svg.types';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
@@ -134,7 +135,7 @@ const Advisors: FC = () => {
                 <Typography variant="normal">{role}</Typography>
                 <Box mt="M">
                   {toPairs(social).map(([network, link]) => {
-                    const Icon = SOCIAL_SVG[network];
+                    const Icon = SOCIAL_SVG[network] as FC<SVGProps>;
                     return (
                       <a
                         href={link}
@@ -151,7 +152,7 @@ const Advisors: FC = () => {
                             color: 'accent',
                           }}
                         >
-                          <Icon width="100%" />
+                          <Icon width="100%" maxSize="1.6rem" />
                         </Box>
                       </a>
                     );

@@ -118,7 +118,7 @@ const SyntFormSelectLtv: FC<SyntFormSelectLTVProps> = ({
         bg="bottomBackground"
       >
         <Box width="1.2rem" ml="M" mr="L">
-          <InfoSVG width="100%" />
+          <InfoSVG width="100%" maxSize="1.2rem" />
         </Box>
         <Typography
           fontSize="S"

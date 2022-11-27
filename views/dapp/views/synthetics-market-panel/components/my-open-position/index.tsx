@@ -50,7 +50,7 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
               data-tip={capitalize(t(tip, translationValues))}
               display="inline-block"
             >
-              <InfoSVG width="100%" />
+              <InfoSVG width="100%" maxSize="1rem" />
             </Box>
             {t(name, translationValues)}
           </Typography>

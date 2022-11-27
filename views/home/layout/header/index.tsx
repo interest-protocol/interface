@@ -199,7 +199,10 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                 id={menuLangId}
               >
                 {switchLang ? (
-                  <TimesSVG width="100%" />
+                  <TimesSVG
+                    width="100%"
+                    maxSize={switchLang ? '2rem' : '1.25rem'}
+                  />
                 ) : (
                   <Box pointerEvents="none">
                     {getSafeLocaleSVG(currentLocale)}
@@ -209,9 +212,9 @@ const Header: FC<HeaderProps> = ({ empty }) => {
               <Box id={menuButtonId} cursor="pointer" onClick={toggleMenu}>
                 <Box width="2rem" p="S" pointerEvents="none">
                   {mobileMenu ? (
-                    <TimesSVG width="100%" height="100%" />
+                    <TimesSVG width="100%" height="100%" maxSize="2rem" />
                   ) : (
-                    <BarsLPSVG width="100%" />
+                    <BarsLPSVG width="100%" maxSize="2rem" />
                   )}
                 </Box>
               </Box>
