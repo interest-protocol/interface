@@ -8,7 +8,6 @@ import { TTranslatedMessage } from '@/interface';
 import { FixedPointMath } from '@/sdk';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
-import { useGetRewards } from './synthetics-market-panel.hooks';
 
 export type TSyntheticsMarketMode = 'mint' | 'burn';
 
