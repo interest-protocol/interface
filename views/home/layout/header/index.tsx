@@ -127,8 +127,8 @@ const Header: FC<HeaderProps> = ({ empty }) => {
             alignItems="center"
             my={['L', 'M']}
           >
-            <Box width="2rem" maxWidth="2rem" maxHeight="2rem">
-              <LogoSVG width="2rem" height="2rem" />
+            <Box width="2rem">
+              <LogoSVG width="2rem" maxSize="2rem" />
             </Box>
             <Typography
               variant="normal"

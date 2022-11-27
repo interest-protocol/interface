@@ -1,11 +1,15 @@
 import React, { FC, SVGAttributes } from 'react';
 
-const LogoSVG: FC<SVGAttributes<SVGSVGElement>> = ({ fill, ...props }) => (
+interface LogoProps extends SVGAttributes<SVGSVGElement> {
+  maxSize: string;
+}
+
+const LogoSVG: FC<LogoProps> = ({ fill, maxSize, ...props }) => (
   <svg
     viewBox="0 0 52 41"
     fill="none"
     {...props}
-    style={{ maxWidth: '2rem', maxHeight: '2rem' }}
+    style={{ maxWidth: maxSize, maxHeight: maxSize }}
   >
     <path
       d="M36.3475 0H41.3852V4.76683C41.3852 8.32266 38.5142 10.3462 36.0225 10.3462H31.0391V4.76683C31.0391 2.32925 33.9641 0 36.3475 0Z"
