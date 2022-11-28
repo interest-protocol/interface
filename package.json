@@ -12,7 +12,6 @@
   "version": "0.1.0",
   "private": false,
   "dependencies": {
-    "@emotion/cache": "^11.10.5",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@hookform/resolvers": "^2.8.8",
