@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { GetStaticProps, NextPage } from 'next';
 import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
@@ -22,10 +22,7 @@ const SyntheticsPageBurnPage: NextPage<SyntheticsPageBurnPageProps> = ({
   return <SyntheticsMarketMode address={address} mode="burn" />;
 };
 
-export const getServerSideProps: GetServerSideProps = async ({
-  locale,
-  params,
-}) => {
+export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
   const { address } = params || {};
 
   const [commonMessages, dineroMarketMessages] = await Promise.all([
