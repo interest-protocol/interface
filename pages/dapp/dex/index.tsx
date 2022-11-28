@@ -1,9 +1,9 @@
 import { GetStaticProps, NextPage } from 'next';
 import { mergeDeepRight } from 'ramda';
 
-import { DEX } from '@/views/home/components';
+import DEXView from '@/views/dapp/views/dex';
 
-const DEXPage: NextPage = () => <DEX />;
+const DEXPage: NextPage = () => <DEXView />;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dexSwapMessages, dexPoolFindMessages] =
