@@ -22,7 +22,7 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => {
             display="inline-block"
             data-tip={t('dineroMarketAddress.userLTVTip')}
           >
-            <InfoSVG width="100%" maxSize="1rem" />
+            <InfoSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
           </Box>
           {t('dineroMarketAddress.userLTVTitle')}
         </Typography>
@@ -49,7 +49,8 @@ const UserLTV: FC<UserLTVProps> = ({ isLoading, ltv }) => {
           progress={ltv || 0}
           width="100%"
           height="100%"
-          maxSize="10rem"
+          maxHeight="10rem"
+          maxWidth="10rem"
         />
       </Box>
     </Box>

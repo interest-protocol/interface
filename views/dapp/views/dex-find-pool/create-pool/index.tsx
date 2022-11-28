@@ -73,7 +73,7 @@ const CreatePool: FC<CreatePoolProps> = ({
         gridTemplateColumns="3rem auto"
       >
         <Box as="span" width="1.5rem" display="inline-block">
-          <InfoSVG width="100%" maxSize="1.5rem" />
+          <InfoSVG width="100%" maxHeight="1.5rem" maxWidth="1.5rem" />
         </Box>
         <Typography variant="normal" fontSize="0.85rem">
           {t(

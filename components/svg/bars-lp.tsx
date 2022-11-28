@@ -2,9 +2,9 @@ import { FC } from 'react';
 
 import { SVGProps } from './svg.types';
 
-const BarsLP: FC<SVGProps> = ({ maxSize, ...props }) => (
+const BarsLP: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxSize, maxHeight: maxSize }}
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
     viewBox="0 0 32 32"
     fill="none"
     {...props}

@@ -69,7 +69,8 @@ const Header: FC = () => {
             active={{ color: 'accentSecondary' }}
           >
             <LogoSVG
-              maxSize="2.5rem"
+              maxHeight="2.5rem"
+              maxWidth="2.5rem"
               width="100%"
               aria-label="Logo"
               fill="currentColor"
@@ -214,7 +215,7 @@ const Header: FC = () => {
                 bg="bottomBackground"
                 justifyContent="center"
               >
-                <CreditCardSVG width="100%" maxSize="3rem" />
+                <CreditCardSVG width="100%" maxHeight="3rem" maxWidth="3rem" />
               </Box>
             </a>
           </Box>

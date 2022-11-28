@@ -2,9 +2,9 @@ import { FC } from 'react';
 
 import { SVGProps } from './svg.types';
 
-const Faucet: FC<SVGProps> = ({ maxSize, ...props }) => (
+const Faucet: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxSize, maxHeight: maxSize }}
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
     viewBox="0 0 15 14"
     fill="none"
     {...props}

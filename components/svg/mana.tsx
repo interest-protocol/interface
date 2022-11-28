@@ -5,9 +5,9 @@ import { SVGProps } from './svg.types';
 
 const id = v4();
 
-const Mana: FC<SVGProps> = ({ maxSize, ...props }) => (
+const Mana: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxSize, maxHeight: maxSize }}
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
     viewBox="0 0 400 400"
     fill="none"
     {...props}

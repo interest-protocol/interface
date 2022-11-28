@@ -2,9 +2,9 @@ import { FC } from 'react';
 
 import { SVGProps } from './svg.types';
 
-const BscScan: FC<SVGProps> = ({ maxSize, ...props }) => (
+const BscScan: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxSize, maxHeight: maxSize }}
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
     viewBox="0 0 121.378 121.333"
     {...props}
   >

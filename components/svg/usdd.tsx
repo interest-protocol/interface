@@ -2,9 +2,9 @@ import { FC } from 'react';
 
 import { SVGProps } from './svg.types';
 
-const USDD: FC<SVGProps> = ({ maxSize, ...props }) => (
+const USDD: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxSize, maxHeight: maxSize }}
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
     viewBox="0 0 42 42"
     fill="none"
     {...props}

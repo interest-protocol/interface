@@ -5,6 +5,7 @@ import { CacheProvider as EmotionCacheProvider, Global } from '@emotion/react';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import Script from 'next/script';
 import NextProgress from 'next-progress';
 import { ReactNode, StrictMode, useEffect } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
@@ -86,6 +87,12 @@ const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
           </SkeletonTheme>
         </WagmiConfig>
       </NextIntlProvider>
+      <Script
+        src="@/design-system"
+        onLoad={() => {
+          console.log('Processou');
+        }}
+      />
     </>
   );
 };

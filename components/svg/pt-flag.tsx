@@ -2,11 +2,11 @@ import { FC } from 'react';
 
 import { SVGProps } from './svg.types';
 
-const PT: FC<SVGProps> = ({ maxSize, ...props }) => (
+const PT: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
     id="flag-icons-pt"
     {...props}
-    style={{ maxWidth: maxSize, maxHeight: maxSize, borderRadius: '50%' }}
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight, borderRadius: '50%' }}
     viewBox="0 0 512 512"
   >
     <path fill="#6da544" d="M0 512h167l37.9-260.3L167 0H0z" />

@@ -2,9 +2,9 @@ import { FC } from 'react';
 
 import { SVGProps } from './svg.types';
 
-const BusinessBag: FC<SVGProps> = ({ maxSize, ...props }) => (
+const BusinessBag: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxSize, maxHeight: maxSize }}
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
     fill="currentColor"
     {...props}
     viewBox="0 0 612 612"

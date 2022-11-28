@@ -2,12 +2,12 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { SVGProps } from './svg.types';
-const Dinero: FC<SVGProps> = ({ maxSize, ...props }) => {
+const Dinero: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => {
   const id = v4();
 
   return (
     <svg
-      style={{ maxWidth: maxSize, maxHeight: maxSize }}
+      style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
       viewBox="0 0 25 25"
       fill="none"
       {...props}

@@ -34,7 +34,8 @@ const TokenView: FC<TokenViewProps> = ({ symbol, address, isColumn }) => {
         <SVG
           width="100%"
           height="100%"
-          maxSize={isColumn ? '1.8rem' : '1.5rem'}
+          maxWidth={isColumn ? '1.8rem' : '1.5rem'}
+          maxHeight={isColumn ? '1.8rem' : '1.5rem'}
         />
       </Box>
       <Box

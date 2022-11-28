@@ -3,12 +3,12 @@ import { v4 } from 'uuid';
 
 import { SVGProps } from './svg.types';
 
-const BinanceTest: FC<SVGProps> = ({ maxSize, ...props }) => {
+const BinanceTest: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => {
   const id = v4();
 
   return (
     <svg
-      style={{ maxWidth: maxSize, maxHeight: maxSize }}
+      style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
       viewBox="0 0 24 24"
       {...props}
     >

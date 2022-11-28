@@ -69,7 +69,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
     >
       {loading && (
         <Box as="span" display="inline-block" width="1rem" mr="M">
-          <LoadingSVG width="100%" maxSize="1rem" />
+          <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
       )}
       {capitalize(t('dineroVault.withdraw', { isLoading: +loading }))}

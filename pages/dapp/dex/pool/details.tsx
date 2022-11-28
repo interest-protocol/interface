@@ -1,12 +1,16 @@
 import { GetStaticProps } from 'next';
+import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
 import { withAddressGuard } from '@/HOC';
 import { NextPageWithAddress } from '@/interface';
-import DEXPoolDetailsView from '@/views/dapp/views/dex-pool-details';
+
+const DynamicDEXPoolDetailsView = dynamic(
+  () => import('../../../../views/dapp/views/dex-pool-details')
+);
 
 const DEXPoolDetailsPage: NextPageWithAddress = ({ address }) => (
-  <DEXPoolDetailsView pairAddress={address} />
+  <DynamicDEXPoolDetailsView pairAddress={address} />
 );
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {

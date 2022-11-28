@@ -87,7 +87,11 @@ const Advisors: FC = () => {
                         position="absolute"
                         backgroundImage="linear-gradient(135deg, #0000 45%, #000A)"
                       >
-                        <LogoSVG width="100%" maxSize="8rem" />
+                        <LogoSVG
+                          width="100%"
+                          maxHeight="8rem"
+                          maxWidth="8rem"
+                        />
                       </Box>
                     </Box>
                     <Box
@@ -106,7 +110,11 @@ const Advisors: FC = () => {
                       borderBottomColor="accent"
                     >
                       <Box width="4rem">
-                        <LogoSVG width="100%" maxSize="4rem" />
+                        <LogoSVG
+                          width="100%"
+                          maxHeight="4rem"
+                          maxWidth="4rem"
+                        />
                       </Box>
                       <Typography
                         mt="L"
@@ -152,7 +160,11 @@ const Advisors: FC = () => {
                             color: 'accent',
                           }}
                         >
-                          <Icon width="100%" maxSize="1.6rem" />
+                          <Icon
+                            width="100%"
+                            maxHeight="1.6rem"
+                            maxWidth="1.6rem"
+                          />
                         </Box>
                       </a>
                     );

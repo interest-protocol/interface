@@ -5,9 +5,9 @@ import { SVGProps } from './svg.types';
 
 const id = v4();
 
-const UniSwap: FC<SVGProps> = ({ maxSize, ...props }) => (
+const UniSwap: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxSize, maxHeight: maxSize }}
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
     viewBox="17 17 86 86"
     fill="none"
     {...props}

@@ -1,9 +1,10 @@
 import { GetStaticProps, NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
-import Vault from '@/views/dapp/views/vaults';
+const DynamicVault = dynamic(() => import('../../../views/dapp/views/vaults'));
 
-const VaultPage: NextPage = () => <Vault />;
+const VaultPage: NextPage = () => <DynamicVault />;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, vaultsMessages] = await Promise.all([

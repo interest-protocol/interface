@@ -1,9 +1,12 @@
 import { GetStaticProps, NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
-import DineroMarket from '@/views/dapp/views/dinero-market';
+const DynamicDineroMarket = dynamic(
+  () => import('../../../views/dapp/views/dinero-market')
+);
 
-const DineroMarketPage: NextPage = () => <DineroMarket />;
+const DineroMarketPage: NextPage = () => <DynamicDineroMarket />;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dineroMarketMessages] = await Promise.all([

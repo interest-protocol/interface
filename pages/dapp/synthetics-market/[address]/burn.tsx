@@ -1,10 +1,14 @@
 import { GetServerSideProps, NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 import { mergeDeepRight } from 'ramda';
 
 import { Loading } from '@/views/dapp/components';
 import Error from '@/views/dapp/views/error';
-import SyntheticsMarketMode from '@/views/dapp/views/synthetics-market-panel';
+
+const DynamicSyntheticsMarketMode = dynamic(
+  () => import('../../../../views/dapp/views/synthetics-market-panel')
+);
 
 interface SyntheticsPageBurnPageProps {
   address: string | undefined | null;
@@ -19,7 +23,7 @@ const SyntheticsPageBurnPage: NextPage<SyntheticsPageBurnPageProps> = ({
 
   if (address === null) return <Error message={t('error.wrongParams')} />;
 
-  return <SyntheticsMarketMode address={address} mode="burn" />;
+  return <DynamicSyntheticsMarketMode address={address} mode="burn" />;
 };
 
 export const getServerSide: GetServerSideProps = async ({ locale, params }) => {

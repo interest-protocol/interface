@@ -106,7 +106,7 @@ const ModalButton: FC<ModalButtonProps> = ({
     >
       {loading && (
         <Box mr="M" width="1rem">
-          <LoadingSVG width="100%" maxSize="1rem" />
+          <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
       )}
       {capitalize(t('common.confirm', { isLoading: Number(loading) }))}

@@ -5,9 +5,9 @@ import { SVGProps } from './svg.types';
 
 const id = v4();
 
-const ApeCoin: FC<SVGProps> = ({ maxSize, ...props }) => (
+const ApeCoin: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxSize, maxHeight: maxSize }}
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
     viewBox="0 0 151 144"
     fill="none"
     {...props}

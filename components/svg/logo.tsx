@@ -2,12 +2,12 @@ import React, { FC } from 'react';
 
 import { SVGProps } from './svg.types';
 
-const LogoSVG: FC<SVGProps> = ({ fill, maxSize, ...props }) => (
+const LogoSVG: FC<SVGProps> = ({ fill, maxHeight, maxWidth, ...props }) => (
   <svg
     viewBox="0 0 52 41"
     fill="none"
     {...props}
-    style={{ maxWidth: maxSize, maxHeight: maxSize }}
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
   >
     <path
       d="M36.3475 0H41.3852V4.76683C41.3852 8.32266 38.5142 10.3462 36.0225 10.3462H31.0391V4.76683C31.0391 2.32925 33.9641 0 36.3475 0Z"

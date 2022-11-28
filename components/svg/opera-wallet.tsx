@@ -3,12 +3,12 @@ import { v4 } from 'uuid';
 
 import { SVGProps } from './svg.types';
 
-const OperaWallet: FC<SVGProps> = ({ maxSize, ...props }) => {
+const OperaWallet: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => {
   const id = v4();
 
   return (
     <svg
-      style={{ maxWidth: maxSize, maxHeight: maxSize }}
+      style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
       viewBox="0 0 256 256"
       fill="none"
       {...props}

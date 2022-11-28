@@ -49,7 +49,7 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
           bgSelected="accentAlternativeBackground"
           suffix={
             <Box ml="L" width="0.6rem">
-              <ArrowSVG width="100%" maxSize="0.6rem" />
+              <ArrowSVG width="100%" maxHeight="0.6rem" maxWidth="0.6rem" />
             </Box>
           }
           title={

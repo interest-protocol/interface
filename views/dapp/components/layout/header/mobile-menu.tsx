@@ -25,7 +25,7 @@ const MobileMenu: FC = () => {
             mx="S"
           >
             <Box as="span" display="inline-block" width="1rem">
-              <BarsSVG width="100%" maxSize="1rem" />
+              <BarsSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
             </Box>
           </Box>
         }

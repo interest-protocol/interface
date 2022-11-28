@@ -37,7 +37,7 @@ const RewardsData: FC<RewardsDataProps> = ({ isLoading, info }) => {
               data-tip={capitalize(t(tip))}
               display="inline-block"
             >
-              <InfoSVG width="100%" maxSize="1rem" />
+              <InfoSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
             </Box>
             {capitalize(t(name))}
           </Typography>

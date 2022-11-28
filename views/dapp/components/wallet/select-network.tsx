@@ -33,11 +33,11 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               width="1rem"
               display={['inline-block', 'none']}
             >
-              <BlockchainSVG width="100%" maxSize="1rem" />
+              <BlockchainSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
             </Box>
           )}
           <Box as="span" display="inline-block" width="0.6rem">
-            <ArrowSVG width="100%" maxSize="0.6rem" />
+            <ArrowSVG width="100%" maxHeight="0.6rem" maxWidth="0.6rem" />
           </Box>
         </Box>
       }
@@ -65,7 +65,8 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
                   width="1.5rem"
                   height="1.5rem"
                   fill="white"
-                  maxSize="1.5rem"
+                  maxHeight="1.5rem"
+                  maxWidth="1.5rem"
                 />
               </Box>
               <Typography variant="normal" mx="M" whiteSpace="nowrap">
@@ -83,7 +84,8 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
                 width="1.5rem"
                 height="1.5rem"
                 fill="white"
-                maxSize="1.5rem"
+                maxHeight="1.5rem"
+                maxWidth="1.5rem"
               />
               <Typography
                 mx="M"
@@ -110,7 +112,12 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               width="100%"
             >
               <Box display="flex" alignItems="center">
-                <BinanceSVG width="1.5rem" height="1.5rem" maxSize="1.5rem" />
+                <BinanceSVG
+                  width="1.5rem"
+                  height="1.5rem"
+                  maxHeight="1.5rem"
+                  maxWidth="1.5rem"
+                />
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
                   BSC
                 </Typography>
@@ -135,7 +142,12 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               alignItems="center"
               pl={['NONE', 'NONE', 'NONE', 'S']}
             >
-              <BinanceSVG width="1.5rem" height="1.5rem" maxSize="1.5rem" />
+              <BinanceSVG
+                width="1.5rem"
+                height="1.5rem"
+                maxHeight="1.5rem"
+                maxWidth="1.5rem"
+              />
               <Typography
                 mx="M"
                 variant="normal"
@@ -162,7 +174,12 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               width="100%"
             >
               <Box display="flex" alignItems="center">
-                <AdaSVG width="1.5rem" height="1.5rem" maxSize="1.5rem" />
+                <AdaSVG
+                  width="1.5rem"
+                  height="1.5rem"
+                  maxHeight="1.5rem"
+                  maxWidth="1.5rem"
+                />
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
                   ADA EVM
                 </Typography>
@@ -187,7 +204,12 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               alignItems="center"
               pl={['NONE', 'NONE', 'NONE', 'S']}
             >
-              <AdaSVG width="1.5rem" height="1.5rem" maxSize="1.5rem" />
+              <AdaSVG
+                width="1.5rem"
+                height="1.5rem"
+                maxHeight="1.5rem"
+                maxWidth="1.5rem"
+              />
               <Typography
                 mx="M"
                 variant="normal"
@@ -217,7 +239,8 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
                 <EthereumNetwork
                   width="1.5rem"
                   height="1.5rem"
-                  maxSize="1.5rem"
+                  maxHeight="1.5rem"
+                  maxWidth="1.5rem"
                 />
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
                   Goerli
@@ -247,7 +270,8 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
                 width="1.5rem"
                 height="1.5rem"
                 fill="white"
-                maxSize="1.5rem"
+                maxHeight="1.5rem"
+                maxWidth="1.5rem"
               />
               <Typography
                 mx="M"

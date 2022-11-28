@@ -5,9 +5,9 @@ import { SVGProps } from './svg.types';
 
 const id = v4();
 
-const SynthXau: FC<SVGProps> = ({ maxSize, ...props }) => (
+const SynthXau: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxSize, maxHeight: maxSize }}
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
     viewBox="65 20 88 90"
     fill="none"
     {...props}

@@ -2,10 +2,10 @@ import { FC } from 'react';
 
 import { SVGProps } from './svg.types';
 
-const EN: FC<SVGProps> = ({ maxSize, ...props }) => (
+const EN: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
     id="flag-icons-us"
-    style={{ maxWidth: maxSize, maxHeight: maxSize, borderRadius: '50%' }}
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight, borderRadius: '50%' }}
     viewBox="0 0 512 512"
     {...props}
   >

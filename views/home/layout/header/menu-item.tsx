@@ -65,7 +65,8 @@ const MenuItem: FC<MenuItemProps> = ({ title, isDropdown, link, data, id }) => {
                 width="100%"
                 height="100%"
                 fill="transparent"
-                maxSize="0.5rem"
+                maxHeight="0.5rem"
+                maxWidth="0.5rem"
               />
             </Box>
           )}
