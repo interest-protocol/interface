@@ -1,9 +1,9 @@
 import { GetStaticProps, NextPage } from 'next';
-import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
-const DynamicHome = dynamic(() => import('../views/home'));
-const HomePage: NextPage = () => <DynamicHome />;
+import Home from '@/views/home';
+
+const HomePage: NextPage = () => <Home />;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, landingPageMessages] = await Promise.all([
