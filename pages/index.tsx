@@ -2,7 +2,13 @@ import { GetStaticProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
-const DynamicHome = dynamic(() => import('../views/home'));
+const DynamicHome = dynamic(() => import('../views/home'), {
+  // eslint-disable-next-line react/display-name
+  loading: () => {
+    console.log('loading');
+    return <p>Carregando ...</p>;
+  },
+});
 
 const HomePage: NextPage = () => <DynamicHome />;
 
