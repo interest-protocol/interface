@@ -22,7 +22,7 @@ const UserLTV: FC<UserLTVProps> = ({ ltv }) => {
             display="inline-block"
             data-tip={t('syntheticsMarketAddress.userLTVTip')}
           >
-            <InfoSVG width="100%" />
+            <InfoSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
           </Box>
           {t('syntheticsMarketAddress.userLTVTitle')}
         </Typography>
@@ -32,7 +32,13 @@ const UserLTV: FC<UserLTVProps> = ({ ltv }) => {
         </Box>
       </Box>
       <Box color={(ltv ?? 0) > 70 ? 'error' : 'accent'} mt="L">
-        <ProgressSVG progress={ltv || 0} width="100%" height="100%" />
+        <ProgressSVG
+          progress={ltv || 0}
+          width="100%"
+          height="100%"
+          maxHeight="10rem"
+          maxWidth="10rem"
+        />
       </Box>
     </Box>
   );

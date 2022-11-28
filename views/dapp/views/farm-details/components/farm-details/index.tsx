@@ -24,7 +24,7 @@ const Details: FC<DetailsProps> = ({ farm }) => {
               ml={index != 0 ? '-1rem' : 'NONE'}
               zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
             >
-              <SVG width="100%" />
+              <SVG width="100%" maxHeight="1.6rem" maxWidth="1.6rem" />
             </Box>
           )
         )}

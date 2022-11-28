@@ -30,7 +30,12 @@ const WrongNetworkModal: FC<InfoModalProps> = ({ isOpen, handleClose }) => {
             color="textSecondary"
             hover={{ color: 'text' }}
           >
-            <TimesSVG width="1.8rem" height="1.8rem" />
+            <TimesSVG
+              width="1.8rem"
+              height="1.8rem"
+              maxHeight="1.8rem"
+              maxWidth="1.8rem"
+            />
           </Box>
         </Box>
         <Typography my="M" fontSize="S" variant="normal" color="textSecondary">

@@ -68,7 +68,13 @@ const Header: FC = () => {
             hover={{ color: 'accent' }}
             active={{ color: 'accentSecondary' }}
           >
-            <LogoSVG width="100%" aria-label="Logo" fill="currentColor" />
+            <LogoSVG
+              maxHeight="2.5rem"
+              maxWidth="2.5rem"
+              width="100%"
+              aria-label="Logo"
+              fill="currentColor"
+            />
           </Box>
         </Link>
         <a
@@ -209,7 +215,7 @@ const Header: FC = () => {
                 bg="bottomBackground"
                 justifyContent="center"
               >
-                <CreditCardSVG width="100%" />
+                <CreditCardSVG width="100%" maxHeight="3rem" maxWidth="3rem" />
               </Box>
             </a>
           </Box>

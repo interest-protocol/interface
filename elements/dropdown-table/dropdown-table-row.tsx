@@ -83,7 +83,7 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
                 display="inline-block"
                 style={{ transform: arrowInvert }}
               >
-                <ArrowSVG width="100%" />
+                <ArrowSVG width="100%" maxHeight="0.5rem" maxWidth="0.5rem" />
               </AnimatedBox>
             </Button>
           )}
@@ -137,7 +137,7 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
                 display="inline-block"
                 style={{ transform: arrowInvert }}
               >
-                <ArrowSVG width="100%" />
+                <ArrowSVG width="100%" maxHeight="0.5rem" maxWidth="0.5rem" />
               </AnimatedBox>
             </Button>
           )}

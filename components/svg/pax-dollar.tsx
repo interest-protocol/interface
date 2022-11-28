@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const PaxDollar: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 96 90" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const PaxDollar: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 96 90"
+    fill="none"
+    {...props}
+  >
     <g clipPath="url(#clip0_89_16)">
       <path
         d="M21.8184 79.0056C24.6654 82.2363 28.1281 84.8718 32.0057 86.7591C35.8832 88.6464 40.0983 89.748 44.4066 90C49.5538 89.7277 54.41 87.5373 58.0109 83.8636C65.1135 77.804 72.5704 72.1692 80.3424 66.9886L84.7061 65.1988C86.5028 64.4318 89.5831 62.642 92.4066 59.3181C95.4868 55.2272 96.0002 50.8806 96.0002 49.3465C95.6589 44.5082 94.0672 39.8401 91.3799 35.7954C84.3671 48.2424 74.3167 58.727 62.158 66.2797C49.9994 73.8324 36.1252 78.2093 21.8184 79.0056V79.0056Z"

@@ -76,7 +76,7 @@ const SyntFormSyntInfo: FC<SyntFormSyntInfoProps> = ({
               minWidth="1rem"
               alignItems="center"
             >
-              <InfoSVG width="100%" />
+              <InfoSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
             </Box>
             <Typography variant="normal" as="span">
               {capitalize(t(name, translationValues))}

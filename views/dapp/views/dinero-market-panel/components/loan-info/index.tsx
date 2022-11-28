@@ -53,7 +53,7 @@ const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => {
               data-tip={capitalize(t(tip as MessageKeys<IntlMessages, any>))}
               display="inline-block"
             >
-              <InfoSVG width="100%" />
+              <InfoSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
             </Box>
             {capitalize(t(name as MessageKeys<IntlMessages, any>))}
           </Typography>

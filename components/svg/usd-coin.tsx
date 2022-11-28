@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const USDCoin: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 2001 2001" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const USDCoin: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 2001 2001"
+    fill="none"
+    {...props}
+  >
     <path
       d="M1000.6 2000.1C1554.8 2000.1 2000.6 1554.3 2000.6 1000.1C2000.6 445.9 1554.8 0.100006 1000.6 0.100006C446.4 0.100006 0.600098 445.9 0.600098 1000.1C0.600098 1554.3 446.4 2000.1 1000.6 2000.1Z"
       fill="#2775CA"

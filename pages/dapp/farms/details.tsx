@@ -1,12 +1,16 @@
 import { GetStaticProps } from 'next';
+import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
 import { withAddressGuard } from '@/HOC';
 import { NextPageWithAddress } from '@/interface';
-import FarmDetails from '@/views/dapp/views/farm-details';
+
+const DynamicFarmDetails = dynamic(
+  () => import('../../../views/dapp/views/farm-details')
+);
 
 const FarmDetailsPage: NextPageWithAddress = ({ address }) => (
-  <FarmDetails address={address} />
+  <DynamicFarmDetails address={address} />
 );
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {

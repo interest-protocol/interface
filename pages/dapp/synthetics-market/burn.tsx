@@ -1,12 +1,16 @@
 import { GetStaticProps } from 'next';
+import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
 import { withAddressGuard } from '@/HOC';
 import { NextPageWithAddress } from '@/interface';
-import SyntheticsMarketMode from '@/views/dapp/views/synthetics-market-panel';
+
+const DynamicSyntheticsMarketMode = dynamic(
+  () => import('../../../views/dapp/views/synthetics-market-panel')
+);
 
 const SyntheticsPageBurnPage: NextPageWithAddress = ({ address }) => (
-  <SyntheticsMarketMode address={address} mode="burn" />
+  <DynamicSyntheticsMarketMode address={address} mode="burn" />
 );
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {

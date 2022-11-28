@@ -1,7 +1,6 @@
 import 'react-loading-skeleton/dist/skeleton.css';
 
-import createEmotionCache from '@emotion/cache';
-import { CacheProvider as EmotionCacheProvider, Global } from '@emotion/react';
+import { Global } from '@emotion/react';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -15,8 +14,6 @@ import { wagmiClient } from '@/connectors';
 import { GlobalStyles } from '@/design-system';
 import { TTranslatedMessage } from '@/interface';
 import { initGA, logPageView } from '@/utils/analytics';
-
-const emotionCache = createEmotionCache({ key: 'stylin' });
 
 interface PageProps {
   now: number;
@@ -71,18 +68,16 @@ const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
       >
         <WagmiConfig client={wagmiClient}>
           <SkeletonTheme baseColor="#202020" highlightColor="#444">
-            <EmotionCacheProvider value={emotionCache}>
-              <Global styles={GlobalStyles} />
-              <Web3Manager
-                pageTitle={pageProps.pageTitle}
-                pathname={router.pathname}
-              >
-                <StrictMode>
-                  <Component {...pageProps} />
-                  <VercelAnalytics />
-                </StrictMode>
-              </Web3Manager>
-            </EmotionCacheProvider>
+            <Global styles={GlobalStyles} />
+            <Web3Manager
+              pageTitle={pageProps.pageTitle}
+              pathname={router.pathname}
+            >
+              <StrictMode>
+                <Component {...pageProps} />
+                <VercelAnalytics />
+              </StrictMode>
+            </Web3Manager>
           </SkeletonTheme>
         </WagmiConfig>
       </NextIntlProvider>

@@ -25,7 +25,7 @@ const SwitchingNetwork: FC = () => {
         px={['L', 'L', 'L', 'XL']}
       >
         <Box my="S" width="1rem">
-          <LoadingSVG width="100%" />
+          <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
         <Typography variant="normal" ml="M" my="S" whiteSpace="nowrap">
           {t('wallet.switchNetwork.title')}

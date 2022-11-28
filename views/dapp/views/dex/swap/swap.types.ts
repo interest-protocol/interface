@@ -1,7 +1,8 @@
 import { BigNumber } from 'ethers';
-import { Dispatch, FC, SetStateAction, SVGAttributes } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { Control, UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 
+import { SVGProps } from '@/components/svg/svg.types';
 import { SwapFormTokenData } from '@/views/dapp/views/dex/dex.types';
 
 export interface ISwapForm {
@@ -68,7 +69,7 @@ export interface OnSelectCurrencyData {
 export interface SwapMessageProps {
   color?: string;
   message: string;
-  Icon: FC<SVGAttributes<SVGSVGElement>>;
+  Icon: FC<SVGProps>;
 }
 
 export interface UseSwapArgs {

@@ -1,10 +1,17 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 import { v4 } from 'uuid';
+
+import { SVGProps } from './svg.types';
 
 const id = v4();
 
-const Mana: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 400 400" fill="none" {...props}>
+const Mana: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 400 400"
+    fill="none"
+    {...props}
+  >
     <path
       d="M200 400C310.457 400 400 310.457 400 200C400 89.5431 310.457 0 200 0C89.5431 0 0 89.5431 0 200C0 310.457 89.5431 400 200 400Z"
       fill={`url(#${id}-0)`}

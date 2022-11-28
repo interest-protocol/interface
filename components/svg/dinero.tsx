@@ -1,11 +1,17 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 import { v4 } from 'uuid';
 
-const Dinero: FC<SVGAttributes<SVGSVGElement>> = (props) => {
+import { SVGProps } from './svg.types';
+const Dinero: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => {
   const id = v4();
 
   return (
-    <svg viewBox="0 0 25 25" fill="none" {...props}>
+    <svg
+      style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+      viewBox="0 0 25 25"
+      fill="none"
+      {...props}
+    >
       <rect width="25" height="25" fill={`url(#${id})`} />
       <defs>
         <pattern

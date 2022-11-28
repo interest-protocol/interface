@@ -49,7 +49,12 @@ const DineroMarket: FC = () => {
           borderRadius="50%"
           border="0.3rem solid"
         >
-          <TimesSVG width="100%" height="100%" />
+          <TimesSVG
+            width="100%"
+            height="100%"
+            maxHeight="10rem"
+            maxWidth="10rem"
+          />
         </Box>
         <Typography variant="title3">{t('error.generic')}</Typography>
       </Box>
@@ -70,7 +75,12 @@ const DineroMarket: FC = () => {
         alignItems="center"
         justifyContent={['center', 'flex-start']}
       >
-        <DineroSVG width="2rem" height="2rem" />
+        <DineroSVG
+          width="2rem"
+          height="2rem"
+          maxHeight="2rem"
+          maxWidth="2rem"
+        />
         <Typography variant="normal" ml="M">
           {t('dineroMarket.title')}
         </Typography>

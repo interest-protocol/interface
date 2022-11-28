@@ -61,7 +61,13 @@ const MenuItem: FC<MenuItemProps> = ({ title, isDropdown, link, data, id }) => {
               height="0.496rem"
               transform={openDropDown ? 'rotate(180deg)' : 'rotate(0deg)'}
             >
-              <ArrowSpecialSVG width="100%" height="100%" fill="transparent" />
+              <ArrowSpecialSVG
+                width="100%"
+                height="100%"
+                fill="transparent"
+                maxHeight="0.5rem"
+                maxWidth="0.5rem"
+              />
             </Box>
           )}
         </Box>

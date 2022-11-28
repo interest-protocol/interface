@@ -24,7 +24,7 @@ const Faucet: FC = () => {
           hover={{ bg: 'accentAlternativeActive' }}
         >
           <Box as="span" display="inline-block" width="1rem">
-            <FaucetSVG width="100%" />
+            <FaucetSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
           </Box>
           <Typography ml="M" as="span" fontSize="S" variant="normal">
             Faucet
