@@ -68,7 +68,7 @@ export interface SyntheticMarketData {
   collateralBalance: BigNumber;
   adjustedCollateralBalance: BigNumber;
   syntBalance: BigNumber;
-  syntUSDPrice: BigNumber;
+  syntPrice: BigNumber;
   syntAddress: string;
   pendingRewards: BigNumber;
   syntSymbol: string;
@@ -83,6 +83,7 @@ export interface SyntheticMarketData {
   collateralSymbol: string;
   dataFeedId: string;
   oracleType: SyntheticOracleType;
+  isCollateralStable: boolean;
 }
 
 export type ProcessSyntheticData = (
@@ -124,7 +125,7 @@ interface TCalculateSyntExpectedLiquidationPriceArgs {
   ltv: BigNumber;
   adjustedUserCollateral: BigNumber;
   syntMinted: BigNumber;
-  syntUSDPrice: BigNumber;
+  syntPrice: BigNumber;
 }
 
 export type TCalculateSyntExpectedLiquidationPrice = (
@@ -169,7 +170,7 @@ export interface ISyntheticFormField {
   amount: string;
   currency: string;
   disabled: boolean;
-  amountUSD: number;
+  price: number;
   label: TTranslatedMessage;
   name: TValidSyntFormFieldNames;
   currencyIcons: SyntheticsCurrencyIcons;
@@ -186,7 +187,7 @@ export type TGetMintFields = (
 interface ConvertCollateralToSyntData {
   adjustedCollateralAmount: BigNumber;
   ltv: BigNumber;
-  syntUSDPrice: BigNumber;
+  syntPrice: BigNumber;
 }
 
 export type TConvertCollateralToSynt = (

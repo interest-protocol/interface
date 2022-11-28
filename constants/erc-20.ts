@@ -44,6 +44,7 @@ import {
   getAPEAddress,
   getBTCAddress,
   getBUSDAddress,
+  getDineroAddress,
   getDNRAddress,
   getETHERC20Address,
   getIntAddress,
@@ -442,4 +443,16 @@ export const STABLE_COIN_ADDRESSES = {
     ethers.utils.getAddress(CONTRACTS.VAI[CHAIN_ID.BNB_MAIN_NET]),
   ],
   [CHAIN_ID.RINKEBY]: [],
+};
+
+export const IS_STABLE_COIN_MAP = {
+  [CHAIN_ID.BNB_TEST_NET]: {
+    [getBUSDAddress(CHAIN_ID.BNB_TEST_NET)]: true,
+    [getUSDCAddress(CHAIN_ID.BNB_TEST_NET)]: true,
+    [getUSDTAddress(CHAIN_ID.BNB_TEST_NET)]: true,
+    [getDineroAddress(CHAIN_ID.BNB_TEST_NET)]: true,
+  },
+  [CHAIN_ID.BNB_MAIN_NET]: {},
+  [CHAIN_ID.UNSUPPORTED]: {},
+  [CHAIN_ID.RINKEBY]: {},
 };
