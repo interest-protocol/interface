@@ -126,7 +126,7 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
     >
       {loading && (
         <Box as="span" display="inline-block" width="1rem">
-          <LoadingSVG width="100%" />
+          <LoadingSVG width="100%" maxWidth="1rem" maxHeight="1rem" />
         </Box>
       )}
       <Typography
