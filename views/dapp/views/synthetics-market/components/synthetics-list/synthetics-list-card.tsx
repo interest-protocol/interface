@@ -76,7 +76,7 @@ const SyntheticsListCard: FC<SyntheticsListCardProps> = ({ chainId, data }) => {
                 ml={index != 0 ? '-1rem' : 'NONE'}
                 zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
               >
-                <SVG width="100%" />
+                <SVG width="100%" maxHeight="4rem" maxWidth="4rem" />
               </Box>
             )
           )}
@@ -92,7 +92,7 @@ const SyntheticsListCard: FC<SyntheticsListCardProps> = ({ chainId, data }) => {
             borderColor="foreground"
             data-tip={t('common.collateral')}
           >
-            <CollateralSVG width="100%" />
+            <CollateralSVG width="100%" maxHeight="1.3rem" maxWidth="1.3rem" />
           </Box>
         </Box>
         <Typography variant="normal" textAlign="center" my="M">
@@ -154,7 +154,7 @@ const SyntheticsListCard: FC<SyntheticsListCardProps> = ({ chainId, data }) => {
               display="inline-block"
               data-tip={t('syntheticsMarket.tableHeading.LTVTip')}
             >
-              <InfoSVG width="100%" />
+              <InfoSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
             </Box>
             <Typography as="span" variant="normal" fontSize="inherit">
               LTV
@@ -170,7 +170,7 @@ const SyntheticsListCard: FC<SyntheticsListCardProps> = ({ chainId, data }) => {
               display="inline-block"
               data-tip={t('syntheticsMarket.tableHeading.feeTip')}
             >
-              <InfoSVG width="100%" />
+              <InfoSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
             </Box>
             <Typography as="span" variant="normal" fontSize="inherit">
               {t('syntheticsMarket.tableHeading.fee')}
@@ -183,7 +183,7 @@ const SyntheticsListCard: FC<SyntheticsListCardProps> = ({ chainId, data }) => {
             {t('common.poweredBy')} {ORACLE_NAME[data.oracleType]}
           </Typography>
           <Box ml="S" mt="XS" width="1.2rem">
-            <OracleSVG width="100%" />
+            <OracleSVG width="100%" maxHeight="1.2rem" maxWidth="1.2rem" />
           </Box>
         </Box>
       </Box>
