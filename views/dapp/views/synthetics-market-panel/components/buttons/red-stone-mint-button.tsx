@@ -222,7 +222,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
     >
       {loading && (
         <Box as="span" display="inline-block" width="1rem">
-          <LoadingSVG width="100%" />
+          <LoadingSVG width="100%" maxWidth="1rem" maxHeight="1rem" />
         </Box>
       )}
       <Typography
