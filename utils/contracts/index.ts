@@ -76,6 +76,10 @@ export const getLINKAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.LINK
 );
 
+export const getDineroAddress: GetContractAddress = makeGetAddress(
+  CONTRACTS.DNR
+);
+
 export const getMANAAddress: GetContractAddress = makeGetAddress(
   CONTRACTS.MANA
 );

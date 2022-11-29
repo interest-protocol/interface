@@ -80,7 +80,7 @@ const SyntheticsMarket: FC = () => {
           variant="title4"
           mt="1rem"
           fontWeight="400"
-          textAlign={['left', 'center']}
+          textAlign="center"
         >
           {t('syntheticsMarket.subTitle')}
         </Typography>

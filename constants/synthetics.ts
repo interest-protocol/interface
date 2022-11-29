@@ -41,7 +41,7 @@ const SYNTHETIC_MARKETS = {
       '0xf3EF86417a8170ad92B2F9A89631141D046B433C'
     ),
     iBAYC: ethers.utils.getAddress(
-      '0x28aB0f6563482E35c70fD768aea9a6bf663b4Efb'
+      '0x4701aCa58DFDC7714fe6e6aC0a4a936F4E7d2FFd'
     ),
   },
   [CHAIN_ID.BNB_MAIN_NET]: {},

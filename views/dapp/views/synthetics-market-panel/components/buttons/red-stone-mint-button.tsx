@@ -62,7 +62,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
               adjustedCollateralAmount: data.adjustedUserCollateral.add(
                 safeToBigNumber(mintCollateral)
               ),
-              syntUSDPrice: data.syntUSDPrice,
+              syntPrice: data.syntPrice,
             })
           )
       ) {
@@ -81,7 +81,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
           adjustedCollateralAmount: data.adjustedUserCollateral.add(
             safeToBigNumber(mintCollateral)
           ),
-          syntUSDPrice: data.syntUSDPrice,
+          syntPrice: data.syntPrice,
         }).gte(safeToBigNumber(mintSynt).add(data.userSyntMinted))
       )
         form.clearErrors('mint.synt');

@@ -1,8 +1,10 @@
 import { BigNumber } from 'ethers';
 
 export interface MyOpenPositionProps {
-  symbol: string;
+  syntSymbol: string;
   isLoading: boolean;
-  syntUSDPrice: BigNumber;
   myPositionData: ReadonlyArray<string>;
+  isStable: boolean;
+  syntPrice: BigNumber;
+  collateralSymbol: string;
 }

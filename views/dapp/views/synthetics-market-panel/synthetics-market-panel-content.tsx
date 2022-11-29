@@ -76,10 +76,12 @@ const SyntheticsMarketPanelContent: FC<SyntheticsMarketPanelContentProps> = ({
         />
         <RewardsData info={rewardsInfo} isLoading={market.loading} />
         <MyOpenPosition
-          symbol={market.syntSymbol}
+          collateralSymbol={market.collateralSymbol}
+          syntSymbol={market.syntSymbol}
+          isStable={market.isCollateralStable}
+          syntPrice={market.syntPrice}
           isLoading={market.loading}
           myPositionData={myPositionData}
-          syntUSDPrice={market.syntUSDPrice}
         />
         <YourBalance data={market} />
         <GetRewards market={market} refetch={refetch} />

@@ -360,7 +360,7 @@ export const CONTRACTS = {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
-      '0x2C3E12E34fdcBDeeC6272978515ad2D0df72D734'
+      '0x77a4F526C17466e394F0B2aBeB1d04AB372eec19'
     ),
   },
   iAAPL: {
