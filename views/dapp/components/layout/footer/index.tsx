@@ -92,6 +92,7 @@ const Footer: FC = () => {
           <Box ml="S">
             <Dropdown
               bottom
+              staticPosition
               title={
                 <Typography
                   px="1.5rem"
@@ -146,6 +147,7 @@ const Footer: FC = () => {
           <Box ml="S">
             <Dropdown
               bottom
+              staticPosition
               title={
                 <Typography
                   px="1.5rem"
