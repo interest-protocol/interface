@@ -94,7 +94,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
             bg: 'background',
           }}
         >
-          <TimesSVG width="1.5rem" />
+          <TimesSVG width="1.5rem" maxHeight="1.5rem" maxWidth="1.5rem" />
         </Button>
       </Box>
       <Box px="L">

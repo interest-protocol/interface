@@ -32,7 +32,12 @@ export const showTXSuccessToast = async (
       {explorer ? (
         <Box display="flex" alignItems="center">
           <Box width="1.5rem" height="1.5rem" mr="M">
-            <SVG width="100%" height="100%" />
+            <SVG
+              width="100%"
+              height="100%"
+              maxHeight="1.5rem"
+              maxWidth="1.5rem"
+            />
           </Box>
           <Typography
             variant="normal"

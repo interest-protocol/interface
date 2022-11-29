@@ -42,7 +42,7 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
           }}
         >
           <Box as="span" display="inline-block" width="1rem">
-            <TimesSVG width="100%" />
+            <TimesSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
           </Box>
         </Button>
       </Box>

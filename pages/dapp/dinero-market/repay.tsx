@@ -1,12 +1,16 @@
 import { GetStaticProps } from 'next';
+import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
 import { withAddressGuard } from '@/HOC';
 import { NextPageWithAddress } from '@/interface';
-import DineroMarketMode from '@/views/dapp/views/dinero-market-panel';
+
+const DynamicDineroMarketMode = dynamic(
+  () => import('../../../views/dapp/views/dinero-market-panel')
+);
 
 const DineroMarketRepayPage: NextPageWithAddress = ({ address }) => {
-  return <DineroMarketMode address={address} mode="repay" />;
+  return <DynamicDineroMarketMode address={address} mode="repay" />;
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {

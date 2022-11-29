@@ -1,7 +1,8 @@
 import { ethers } from 'ethers';
 import { pathOr, reduce } from 'ramda';
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
+import { SVGProps } from '@/components/svg/svg.types';
 import { CHAIN_ID, CONTRACTS, NativeCurrency, TOKEN_SYMBOL } from '@/sdk';
 import { ERC20 } from '@/sdk/entities/erc-20';
 import {
@@ -179,7 +180,9 @@ export const TOKENS_SVG_MAP = {
     [ethers.constants.AddressZero]: EtherSVG,
   },
 } as {
-  [chain: number]: { [address: string]: FC<SVGAttributes<SVGSVGElement>> };
+  [chain: number]: {
+    [address: string]: FC<SVGProps>;
+  };
 };
 
 export const getFarmsSVGByToken = (
@@ -187,7 +190,7 @@ export const getFarmsSVGByToken = (
   token0: string,
   token1: string
 ): ReadonlyArray<{
-  SVG: FC<SVGAttributes<SVGSVGElement>>;
+  SVG: FC<SVGProps>;
   highZIndex: boolean;
 }> => {
   const Token0 = pathOr(

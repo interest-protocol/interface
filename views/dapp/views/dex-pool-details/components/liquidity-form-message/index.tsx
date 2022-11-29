@@ -19,7 +19,7 @@ const LiquidityFormMessage: FC<LiquidityFormMessageProps> = ({
     color={color ?? 'text'}
   >
     <Box mr={['L', 'M']}>
-      <WarningSVG width="1.2rem" />
+      <WarningSVG width="1.2rem" maxHeight="1.2rem" maxWidth="1.2rem" />
     </Box>
     <Typography
       fontSize="S"

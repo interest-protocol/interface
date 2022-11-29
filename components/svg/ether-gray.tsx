@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const EtherGray: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 52 52" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const EtherGray: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 52 52"
+    fill="none"
+    {...props}
+  >
     <circle cx="26" cy="26" r="26" fill="#ECEFF0" />
     <path
       d="M25.9947 5.03174L25.7129 5.98892V33.7618L25.9947 34.0429L38.8863 26.4226L25.9947 5.03174Z"

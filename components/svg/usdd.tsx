@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const USDD: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 42 42" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const USDD: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 42 42"
+    fill="none"
+    {...props}
+  >
     <g clipPath="url(#clip0_89_23)">
       <path
         d="M21 0C32.6 0 42 9.4 42 21C42 32.6 32.6 42 21 42C9.4 42 0 32.6 0 21C0 9.4 9.4 0 21 0Z"

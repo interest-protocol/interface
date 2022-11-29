@@ -44,7 +44,7 @@ const SwapViewButton: FC<SwapViewButtonProps> = ({
     {loadingText ? (
       <Box as="span" display="flex" justifyContent="center">
         <Box as="span" display="inline-block" width="1rem">
-          <LoadingSVG width="100%" />
+          <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
         <Typography as="span" variant="normal" ml="M" fontSize="S">
           {loadingText}

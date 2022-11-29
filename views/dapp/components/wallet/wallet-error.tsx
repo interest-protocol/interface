@@ -23,7 +23,7 @@ const WalletError: FC = () => {
         onClick={toggleModal}
       >
         <Box as="span" display="inline-block" width="1rem">
-          <BugSVG width="100%" />
+          <BugSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
         <Typography as="span" variant="normal" ml="M">
           {capitalize(t('common.load', { isLoading: 1 }))}

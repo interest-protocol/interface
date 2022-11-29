@@ -1,9 +1,12 @@
 import { GetStaticProps, NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
-import SyntheticsMarket from '@/views/dapp/views/synthetics-market';
+const DynamicSyntheticsMarket = dynamic(
+  () => import('../../../views/dapp/views/synthetics-market')
+);
 
-const SyntheticsMarketPage: NextPage = () => <SyntheticsMarket />;
+const SyntheticsMarketPage: NextPage = () => <DynamicSyntheticsMarket />;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, syntheticsMarketMessages] = await Promise.all([

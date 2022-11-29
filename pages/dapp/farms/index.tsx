@@ -1,11 +1,12 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { GetStaticProps, NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
-import Farms from '@/views/dapp/views/farms';
+const DynamicFarms = dynamic(() => import('../../../views/dapp/views/farms'));
 
-const FarmsPage: NextPage = () => <Farms />;
+const FarmsPage: NextPage = () => <DynamicFarms />;
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, farmsMessages] = await Promise.all([
     import(`../../../assets/messages/common/${locale}.json`),
     import(`../../../assets/messages/farms/${locale}.json`),

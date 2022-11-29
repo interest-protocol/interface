@@ -23,7 +23,7 @@ const WrongNetwork: FC = () => {
         onClick={toggleNetworkModal}
       >
         <Box as="span" display="inline-block" width="1rem">
-          <NetworkSVG width="100%" />
+          <NetworkSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
         <Typography as="span" variant="normal" ml="M" fontSize={['S', 'M']}>
           {t('wallet.wrongNetwork.title')}

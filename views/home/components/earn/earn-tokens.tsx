@@ -14,10 +14,10 @@ const LendAndBorrowTokens: FC<LendAndBorrowTokensProps> = ({ icons }) => {
       mb={['0.625rem', '0.625rem', 'unset', 'unset']}
     >
       <Box as="span" maxWidth="2.4rem" display="inline-block">
-        <Icon width="100%" />
+        <Icon width="100%" maxHeight="2.4rem" maxWidth="2.4rem" />
       </Box>
       <Box as="span" maxWidth="2.4rem" ml="-1rem" display="inline-block">
-        <PairIcon width="100%" />
+        <PairIcon width="100%" maxHeight="2.4rem" maxWidth="2.4rem" />
       </Box>
     </Box>
   ) : (
@@ -28,7 +28,7 @@ const LendAndBorrowTokens: FC<LendAndBorrowTokensProps> = ({ icons }) => {
       display="inline-block"
       mb={['0.625rem', '0.625rem', 'unset', 'unset']}
     >
-      <Icon width="100%" />
+      <Icon width="100%" maxHeight="2.4rem" maxWidth="2.4rem" />
     </Box>
   );
 };
