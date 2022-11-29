@@ -1,11 +1,14 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { GetStaticProps, NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
-import FindPoolView from '@/views/dapp/views/dex-find-pool';
+const DynamicFindPoolView = dynamic(
+  () => import('../../../../views/dapp/views/dex-find-pool')
+);
 
-const FindPoolPage: NextPage = () => <FindPoolView />;
+const FindPoolPage: NextPage = () => <DynamicFindPoolView />;
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dexPoolFindMessages] = await Promise.all([
     import(`../../../../assets/messages/common/${locale}.json`),
     import(`../../../../assets/messages/dex/pool/find/${locale}.json`),

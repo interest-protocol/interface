@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const Profits: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 100 100" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const Profits: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 100 100"
+    fill="none"
+    {...props}
+  >
     <circle cx="50" cy="50" r="50" fill="#0055FF" />
     <g filter="url(#filter0_d_549_3129)">
       <path

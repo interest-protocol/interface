@@ -26,7 +26,7 @@ export const ItemsCommunity: FC = () => (
               color: 'accent',
             }}
           >
-            <socialMediaData.Logo />
+            <socialMediaData.Logo maxHeight="1.5rem" maxWidth="1.5rem" />
             <Typography variant="normal" ml="M">
               {socialMediaData.title}
             </Typography>

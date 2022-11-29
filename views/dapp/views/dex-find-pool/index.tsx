@@ -83,7 +83,7 @@ const FindPoolView = () => {
       <Container py="XXL">
         <Box textAlign="center">
           <Box color="error">
-            <TimesSVG width="10rem" />
+            <TimesSVG width="10rem" maxHeight="10rem" maxWidth="10rem" />
           </Box>
           {t('dexPoolFind.balanceError')}
         </Box>

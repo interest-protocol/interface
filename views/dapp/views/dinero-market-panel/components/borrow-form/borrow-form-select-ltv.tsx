@@ -117,7 +117,7 @@ const BorrowFormSelectLTV: FC<BorrowFormSelectLTVProps> = ({
         bg="bottomBackground"
       >
         <Box width="1.2rem" ml="M" mr="L">
-          <InfoSVG width="100%" />
+          <InfoSVG width="100%" maxHeight="1.2rem" maxWidth="1.2rem" />
         </Box>
         <Typography
           fontSize="S"

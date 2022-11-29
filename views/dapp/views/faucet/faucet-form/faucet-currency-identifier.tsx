@@ -31,7 +31,7 @@ const CurrencyIdentifier: FC<CurrencyIdentifierProps> = ({
   return (
     <Box display="flex" alignItems="center">
       <Box as="span" display="inline-block" width="1rem">
-        <Icon width="100%" />
+        <Icon width="100%" maxHeight="1rem" maxWidth="1rem" />
       </Box>
       <Typography variant="normal" ml="M">
         {symbol}

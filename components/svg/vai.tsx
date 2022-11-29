@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const Vai: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 65 64" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const Vai: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 65 64"
+    fill="none"
+    {...props}
+  >
     <path
       d="M32.0313 63.8889C49.7227 63.8889 64.0625 49.588 64.0625 31.9444C64.0625 14.3004 49.7227 0 32.0313 0C14.3392 0 0 14.3004 0 31.9444C0 49.588 14.3392 63.8889 32.0313 63.8889Z"
       fill="#74BB59"

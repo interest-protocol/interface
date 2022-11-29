@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const CoinBase: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 462 462" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const CoinBase: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 462 462"
+    fill="none"
+    {...props}
+  >
     <path
       d="M230.8 0.100098C358.1 0.100098 461.3 103.3 461.3 230.6C461.3 357.9 358.1 461.1 230.8 461.1C103.5 461.1 0.299805 357.9 0.299805 230.6C0.299805 103.3 103.5 0.100098 230.8 0.100098Z"
       fill="#0052FF"

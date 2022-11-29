@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const ShibaInu: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 642 649" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const ShibaInu: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 642 649"
+    fill="none"
+    {...props}
+  >
     <g clipPath="url(#clip0_24_130)">
       <path
         d="M469.853 57.0971C453.153 73.7971 437.853 91.8971 424.253 111.197L419.953 109.797C395.153 101.697 369.453 96.6971 343.553 94.9971C335.753 94.3971 306.653 94.3971 297.153 94.9971C268.453 96.8971 246.453 101.197 221.453 109.897C220.453 110.297 219.553 110.597 218.653 110.897C204.553 91.697 188.853 73.6971 171.553 57.1971C254.553 14.6971 351.653 9.59706 438.553 43.0971C447.853 46.5971 456.953 50.6971 465.853 55.0971L469.853 57.0971Z"

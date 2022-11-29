@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const SynthJPY: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="65 20 88 90" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const SynthJPY: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="65 20 88 90"
+    fill="none"
+    {...props}
+  >
     <g filter="url(#filter0_d_0_1)">
       <path
         d="M109.5 108C132.971 108 152 88.9706 152 65.5C152 42.0294 132.971 23 109.5 23C86.0294 23 67 42.0294 67 65.5C67 88.9706 86.0294 108 109.5 108Z"

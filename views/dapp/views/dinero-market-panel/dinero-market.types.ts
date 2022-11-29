@@ -1,8 +1,9 @@
 import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
+import { SVGProps } from '@/components/svg/svg.types';
 import { DineroMarketKind } from '@/constants';
 import { FixedPointMath } from '@/sdk';
 
@@ -206,7 +207,7 @@ export type TCalculateUserCurrentLTV = (
 ) => FixedPointMath;
 
 export type DineroCurrencyIcons = ReadonlyArray<{
-  SVG: FC<SVGAttributes<SVGSVGElement>>;
+  SVG: FC<SVGProps>;
   highZIndex: boolean;
 }>;
 

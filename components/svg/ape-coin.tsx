@@ -1,10 +1,17 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 import { v4 } from 'uuid';
+
+import { SVGProps } from './svg.types';
 
 const id = v4();
 
-const ApeCoin: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 151 144" fill="none" {...props}>
+const ApeCoin: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 151 144"
+    fill="none"
+    {...props}
+  >
     <path
       d="M74.6001 12C108.7 12 136.3 39.6 136.3 73.7C136.3 107.8 108.7 135.4 74.6001 135.4C40.5001 135.4 12.9001 107.8 12.9001 73.7C12.9001 39.6 40.5001 12 74.6001 12Z"
       fill={`url(#${id}-0)`}

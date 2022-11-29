@@ -68,7 +68,7 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
       >
         {loading && (
           <Box as="span" display="inline-block" width="1rem" mr="0.5rem">
-            <LoadingSVG width="100%" />
+            <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
           </Box>
         )}
         {t('syntheticsMarketAddress.button.getRewards')}

@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const CompoundEther: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 256 256" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const CompoundEther: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 256 256"
+    fill="none"
+    {...props}
+  >
     <path
       d="M128.099 256.1C198.736 256.1 255.999 198.837 255.999 128.2C255.999 57.5626 198.736 0.299805 128.099 0.299805C57.462 0.299805 0.199219 57.5626 0.199219 128.2C0.199219 198.837 57.462 256.1 128.099 256.1Z"
       fill="#EDF0F2"

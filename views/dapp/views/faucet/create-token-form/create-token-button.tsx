@@ -86,7 +86,7 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
       {loading ? (
         <Box display="flex" alignItems="center" justifyContent="center">
           <Box as="span" display="inline-block" width="1rem">
-            <LoadingSVG width="100%" />
+            <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
           </Box>
           <Typography
             fontSize="S"

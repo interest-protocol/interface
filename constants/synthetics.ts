@@ -1,7 +1,8 @@
 import { ethers } from 'ethers';
 import { pathOr } from 'ramda';
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
+import { SVGProps } from '@/components/svg/svg.types';
 import { CHAIN_ID, CONTRACTS, TOKEN_SYMBOL } from '@/sdk';
 import {
   BinanceUSDSVG,
@@ -147,7 +148,7 @@ export const getSyntheticsMarketSVGByAddress = (
   marketAddress: string,
   isCollateral = false
 ): ReadonlyArray<{
-  SVG: FC<SVGAttributes<SVGSVGElement>>;
+  SVG: FC<SVGProps>;
   highZIndex: boolean;
 }> => {
   const data = pathOr(

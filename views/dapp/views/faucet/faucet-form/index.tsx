@@ -151,7 +151,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
                       justifyContent="space-between"
                     >
                       <Box display="flex" alignItems="center">
-                        <SVG width="1rem" />
+                        <SVG width="1rem" maxHeight="1rem" maxWidth="1rem" />
                         <Typography ml="M" variant="normal">
                           {formatMoney(
                             FixedPointMath.toNumber(balance, decimals)
@@ -186,7 +186,11 @@ const FaucetForm: FC<FaucetFormProps> = ({
                             onClick={() => removeLocalToken(address)}
                           >
                             <Box as="span" display="inline-block" width="1rem">
-                              <TimesSVG width="100%" />
+                              <TimesSVG
+                                width="100%"
+                                maxHeight="1rem"
+                                maxWidth="1rem"
+                              />
                             </Box>
                           </Box>
                         )}

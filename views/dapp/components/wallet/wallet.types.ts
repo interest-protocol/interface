@@ -1,4 +1,6 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
+
+import { SVGProps } from '@/components/svg/svg.types';
 
 export interface InfoModalProps {
   isOpen: boolean;
@@ -7,7 +9,7 @@ export interface InfoModalProps {
 export interface WalletButtonProps {
   name: string;
   onClick: () => void;
-  Icon: FC<SVGAttributes<SVGSVGElement>>;
+  Icon: FC<SVGProps>;
 }
 
 export interface ConnectWalletProps {

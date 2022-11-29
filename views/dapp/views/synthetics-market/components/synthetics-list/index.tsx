@@ -81,7 +81,7 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
                       ml={index != 0 ? '-1rem' : 'NONE'}
                       zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
                     >
-                      <SVG width="100%" />
+                      <SVG width="100%" maxHeight="4rem" maxWidth="4rem" />
                     </Box>
                   )
                 )}
@@ -129,7 +129,7 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
                   display="inline-block"
                   data-tip={t('syntheticsMarket.tableHeading.LTVTip')}
                 >
-                  <InfoSVG width="100%" />
+                  <InfoSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
                 </Box>
                 <Typography as="span" variant="normal" fontSize="inherit">
                   LTV
@@ -145,7 +145,7 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
                   display="inline-block"
                   data-tip={t('syntheticsMarket.tableHeading.feeTip')}
                 >
-                  <InfoSVG width="100%" />
+                  <InfoSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
                 </Box>
                 <Typography as="span" variant="normal" fontSize="inherit">
                   {t('syntheticsMarket.tableHeading.fee')}

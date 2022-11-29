@@ -180,7 +180,7 @@ const MintButton: FC<MintButtonProps> = ({
     >
       {loading && (
         <Box as="span" display="inline-block" width="1rem">
-          <LoadingSVG width="100%" />
+          <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
       )}
       <Typography

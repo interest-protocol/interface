@@ -65,7 +65,7 @@ const renderData = (
       >
         <Box my="M" display="flex" alignItems="center">
           <Box as="span" display="inline-block" width="1rem">
-            <SVG width="100%" />
+            <SVG width="100%" maxHeight="1rem" maxWidth="1rem" />
           </Box>
           <Typography mx="M" as="span" variant="normal">
             {symbol?.toUpperCase()}
@@ -91,7 +91,7 @@ const renderData = (
               removeUserToken(address);
             }}
           >
-            <TimesSVG width="100%" />
+            <TimesSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
           </Box>
         )}
       </Box>
@@ -196,7 +196,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
               bg: 'accentActive',
             }}
           >
-            <TimesSVG width="1rem" />
+            <TimesSVG width="1rem" maxHeight="1rem" maxWidth="1rem" />
           </Button>
         </Box>
       </Box>

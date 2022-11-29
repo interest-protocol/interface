@@ -1,11 +1,14 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { GetStaticProps, NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
-import DEXView from '@/views/dapp/views/dex';
+const DynamicDEXPoolSwap = dynamic(
+  () => import('../../../../views/dapp/views/dex/')
+);
 
-const DEXPoolPage: NextPage = () => <DEXView />;
+const DEXPoolPage: NextPage = () => <DynamicDEXPoolSwap />;
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dexPoolMessages] = await Promise.all([
     import(`../../../../assets/messages/common/${locale}.json`),
     import(`../../../../assets/messages/dex/pool/${locale}.json`),

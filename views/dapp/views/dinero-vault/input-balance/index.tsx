@@ -22,7 +22,9 @@ const InputBalance: FC<InputBalanceProps> = ({
     const SVG =
       TOKENS_SVG_MAP[chainId][ethers.utils.getAddress(address)] ||
       TOKENS_SVG_MAP[CHAIN_ID.BNB_TEST_NET].default;
-    return <SVG width="100%" height="100%" />;
+    return (
+      <SVG width="100%" height="100%" maxHeight="1.8rem" maxWidth="1.8rem" />
+    );
   };
   return (
     <Box mb="L">

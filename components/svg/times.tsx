@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const Times: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 35 35" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const Times: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 35 35"
+    fill="none"
+    {...props}
+  >
     <line
       x1="9.25"
       y1="26.1445"

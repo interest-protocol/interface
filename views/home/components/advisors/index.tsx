@@ -5,6 +5,7 @@ import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 import { v4 } from 'uuid';
 
 import { Container, FlipMemberCard } from '@/components';
+import { SVGProps } from '@/components/svg/svg.types';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
@@ -86,7 +87,11 @@ const Advisors: FC = () => {
                         position="absolute"
                         backgroundImage="linear-gradient(135deg, #0000 45%, #000A)"
                       >
-                        <LogoSVG width="100%" />
+                        <LogoSVG
+                          width="100%"
+                          maxHeight="8rem"
+                          maxWidth="8rem"
+                        />
                       </Box>
                     </Box>
                     <Box
@@ -105,7 +110,11 @@ const Advisors: FC = () => {
                       borderBottomColor="accent"
                     >
                       <Box width="4rem">
-                        <LogoSVG width="100%" />
+                        <LogoSVG
+                          width="100%"
+                          maxHeight="4rem"
+                          maxWidth="4rem"
+                        />
                       </Box>
                       <Typography
                         mt="L"
@@ -134,7 +143,7 @@ const Advisors: FC = () => {
                 <Typography variant="normal">{role}</Typography>
                 <Box mt="M">
                   {toPairs(social).map(([network, link]) => {
-                    const Icon = SOCIAL_SVG[network];
+                    const Icon = SOCIAL_SVG[network] as FC<SVGProps>;
                     return (
                       <a
                         href={link}
@@ -151,7 +160,11 @@ const Advisors: FC = () => {
                             color: 'accent',
                           }}
                         >
-                          <Icon width="100%" />
+                          <Icon
+                            width="100%"
+                            maxHeight="1.6rem"
+                            maxWidth="1.6rem"
+                          />
                         </Box>
                       </a>
                     );

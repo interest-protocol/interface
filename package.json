@@ -12,7 +12,6 @@
   "version": "0.1.0",
   "private": false,
   "dependencies": {
-    "@emotion/cache": "^11.10.5",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@hookform/resolvers": "^2.8.8",
@@ -74,6 +73,7 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
+    "@emotion/babel-plugin": "^11.10.5",
     "@emotion/eslint-plugin": "^11.2.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
