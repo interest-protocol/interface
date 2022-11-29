@@ -61,7 +61,7 @@ export type ProcessSyntheticMarketSummaryData = (
     | Result
 ) => { markets: ReadonlyArray<ISyntheticMarketSummary>; loading: boolean };
 
-export type TMarketDataAttributes =
+export type TMarketsDataAttributes =
   | 'LTV'
   | 'fee'
   | 'TVL'

@@ -2,8 +2,13 @@ import { ethers } from 'ethers';
 
 import { DV_VAULT_RESPONSE_MAP } from '@/constants';
 import { CHAIN_ID, TOKEN_SYMBOL, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
+import { hasKeys } from '@/utils';
 
-import { ProcessDineroVault } from './dinero-vault.types';
+import {
+  ProcessDineroVault,
+  TDineroVaultData,
+  TDineroVaultDataKeys,
+} from './dinero-vault.types';
 
 const DEFAULT_DATA = {
   vaultAddress: ZERO_ADDRESS,
@@ -21,12 +26,24 @@ const DEFAULT_DATA = {
   chainId: CHAIN_ID.BNB_TEST_NET,
 };
 
+const DINERO_VAULT_DATA_KEYS: ReadonlyArray<TDineroVaultDataKeys> = [
+  'depositAmount',
+  'dineroBalance',
+  'maxDineroAmount',
+  'mintedDineroAmount',
+  'underlyingAllowance',
+  'underlyingBalance',
+];
+
+const isMissingAttribute = (dineroVaultData: TDineroVaultData) =>
+  !hasKeys<TDineroVaultData>(DINERO_VAULT_DATA_KEYS, dineroVaultData);
+
 export const processDineroVault: ProcessDineroVault = (
   chainId,
   vaultAddress,
   data
 ) => {
-  if (!chainId || !data)
+  if (!chainId || !data || isMissingAttribute(data))
     return {
       loading: true,
       data: DEFAULT_DATA,

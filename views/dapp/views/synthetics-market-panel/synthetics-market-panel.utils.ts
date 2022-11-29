@@ -1,5 +1,7 @@
+import { Result } from '@ethersproject/abi';
 import { ethers } from 'ethers';
 import { UseFormReturn } from 'react-hook-form';
+import { InterestViewDinero } from 'types/ethers-contracts/InterestViewDineroV2Abi';
 
 import {
   getSyntheticsMarketSVGByAddress,
@@ -20,6 +22,7 @@ import {
   adjustDecimals,
   formatDollars,
   formatMoney,
+  hasKeys,
   numberToString,
 } from '@/utils';
 
@@ -39,6 +42,7 @@ import {
   TGetMyPositionData,
   TGetPositionHealthDataInternal,
   TGetRewardsInfo,
+  TMarketDataAttribute,
   TSafeAmountToWithdraw,
   TSafeAmountToWithdrawRepay,
 } from './synthetics-market-panel.types';
@@ -83,6 +87,28 @@ const DEFAULT_MARKET_DATA = {
   oracleType: SyntheticOracleType.ChainLink,
 };
 
+const MARKET_DATA_KEYS: ReadonlyArray<TMarketDataAttribute> = [
+  'userSyntMinted',
+  'transferFee',
+  'syntheticUSDPrice',
+  'liquidationFee',
+  'TVL',
+  'LTV',
+  'userCollateral',
+  'collateralAllowance',
+  'collateralBalance',
+  'syntBalance',
+  'pendingRewards',
+];
+
+const isMissingAttribute = (
+  data: InterestViewDinero.SyntheticMarketDataStructOutput | Result
+) =>
+  !hasKeys<InterestViewDinero.SyntheticMarketDataStructOutput | Result>(
+    MARKET_DATA_KEYS,
+    data
+  );
+
 export const processSyntheticData: ProcessSyntheticData = (
   chainId,
   account,
@@ -95,8 +121,7 @@ export const processSyntheticData: ProcessSyntheticData = (
   const responseMap =
     SYNTHETIC_PANEL_RESPONSE_MAP[chainId][ethers.utils.getAddress(market)];
 
-  // need the fix here
-  if (!responseMap || data.TVL == undefined) return DEFAULT_MARKET_DATA;
+  if (!responseMap || isMissingAttribute(data)) return DEFAULT_MARKET_DATA;
 
   return {
     userSyntMinted: data.userSyntMinted,

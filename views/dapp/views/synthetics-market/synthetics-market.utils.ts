@@ -13,16 +13,17 @@ import { adjustDecimals, isSameAddress } from '@/utils';
 import { logEvent } from '@/utils/analytics';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
+import { hasKeys } from './../../../../utils/array/index';
 import {
   FindSyntheticUSDPrice,
   ISyntheticMarketSummary,
   ISyntheticMarketSummaryForm,
   ProcessSyntheticMarketSummaryData,
   SyntheticMarketSortByFilter,
-  TMarketDataAttributes,
+  TMarketsDataAttributes,
 } from './synthetics-market.types';
 
-const MARKET_DATA_KEYS: ReadonlyArray<TMarketDataAttributes> = [
+const MARKET_DATA_KEYS: ReadonlyArray<TMarketsDataAttributes> = [
   'LTV',
   'fee',
   'TVL',
@@ -30,11 +31,14 @@ const MARKET_DATA_KEYS: ReadonlyArray<TMarketDataAttributes> = [
   'userSyntMinted',
 ];
 
-const isMissingMarketAttribute = (
+const isMissingAttribute = (
   marketData: InterestViewDinero.SyntheticMarketSummaryStructOutput[]
 ) =>
-  MARKET_DATA_KEYS.some((key) =>
-    marketData.some((data) => data[key] == undefined)
+  !marketData.every((data) =>
+    hasKeys<InterestViewDinero.SyntheticMarketSummaryStructOutput>(
+      MARKET_DATA_KEYS,
+      data
+    )
   );
 
 const findSyntheticUSDPrice: FindSyntheticUSDPrice = ({
@@ -70,8 +74,7 @@ export const processSyntheticMarketSummaryData: ProcessSyntheticMarketSummaryDat
     )
       return { markets: [], loading: false };
 
-    if (isMissingMarketAttribute(marketData))
-      return { markets: [], loading: true };
+    if (isMissingAttribute(marketData)) return { markets: [], loading: true };
 
     return {
       markets: marketData.map(

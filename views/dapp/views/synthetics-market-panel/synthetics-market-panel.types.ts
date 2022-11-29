@@ -85,6 +85,19 @@ export interface SyntheticMarketData {
   oracleType: SyntheticOracleType;
 }
 
+export type TMarketDataAttribute =
+  | 'TVL'
+  | 'LTV'
+  | 'transferFee'
+  | 'syntBalance'
+  | 'userSyntMinted'
+  | 'liquidationFee'
+  | 'pendingRewards'
+  | 'userCollateral'
+  | 'syntheticUSDPrice'
+  | 'collateralBalance'
+  | 'collateralAllowance';
+
 export type ProcessSyntheticData = (
   chainId: number,
   account: string,
