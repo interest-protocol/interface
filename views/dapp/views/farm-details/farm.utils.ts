@@ -48,9 +48,12 @@ const FARM_DATA_KEYS: TFarmDataKeys = {
 };
 
 const isMissingAttribute = (farmData: TFarmData) =>
-  keys(FARM_DATA_KEYS).every(
+  keys(FARM_DATA_KEYS).some(
     (key) =>
-      !hasKeys<TFarmData>(FARM_DATA_KEYS[key as keyof TFarmDataKeys], farmData)
+      !hasKeys<TFarmData>(
+        FARM_DATA_KEYS[key as keyof TFarmDataKeys],
+        farmData?.[key]
+      )
   );
 
 export const getSafeUserFarmData: GetSafeUserFarmData = (

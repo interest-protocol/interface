@@ -1,4 +1,5 @@
 import { BigNumber, ethers } from 'ethers';
+import { keys } from 'ramda';
 import { UseFormReturn } from 'react-hook-form';
 
 import {
@@ -28,6 +29,7 @@ import {
   calculateFarmTokenPrice,
   calculateIntUSDPrice,
   formatMoney,
+  hasKeys,
   numberToString,
 } from '@/utils';
 
@@ -41,6 +43,8 @@ import {
   TCalculateInterestAccrued,
   TCalculatePositionHealth,
   TCalculateUserCurrentLTV,
+  TDineroMarketPanelData,
+  TDineroMarketPanelDataKeys,
   TGetBorrowFields,
   TGetBorrowPositionHealthData,
   TGetInfoLoanData,
@@ -109,6 +113,53 @@ const DEFAULT_MARKET_DATA = {
   now: Date.now(),
 };
 
+const DINERO_MARKET_PANEL_KEYS: TDineroMarketPanelDataKeys = {
+  collateralPoolData: [
+    'allocationPoints',
+    'reserve0',
+    'reserve1',
+    'stable',
+    'stakingToken',
+    'totalStakingAmount',
+    'totalSupply',
+  ],
+  ipxPoolData: [
+    'allocationPoints',
+    'reserve0',
+    'reserve1',
+    'stable',
+    'stakingToken',
+    'totalStakingAmount',
+    'totalSupply',
+  ],
+  marketData: [
+    'LTV',
+    'collateralAllowance',
+    'collateralBalance',
+    'collateralUSDPrice',
+    'dnrBalance',
+    'interestRate',
+    'lastAccrued',
+    'liquidationFee',
+    'loanBase',
+    'loanElastic',
+    'maxBorrowAmount',
+    'pendingRewards',
+    'rewardsBalance',
+    'userCollateral',
+    'userPrincipal',
+  ],
+  mintData: ['interestPerBlock', 'totalAllocationPoints'],
+};
+
+const isMissingAttribute = (dineroMarketPanelData: TDineroMarketPanelData) =>
+  !keys(DINERO_MARKET_PANEL_KEYS).every((key) =>
+    hasKeys(
+      DINERO_MARKET_PANEL_KEYS[key as keyof TDineroMarketPanelDataKeys],
+      dineroMarketPanelData?.[key]
+    )
+  );
+
 export const getSafeDineroMarketData: GetSafeDineroMarketData = (
   chainId: number,
   now,
@@ -126,7 +177,12 @@ export const getSafeDineroMarketData: GetSafeDineroMarketData = (
 
   const baseToken = DINERO_MARKET_DATA_CALL_MAP[chainId][market].baseToken;
 
-  if (!marketMetadata || !farmsMetadata || !wrappedNativeToken)
+  if (
+    !marketMetadata ||
+    !farmsMetadata ||
+    !wrappedNativeToken ||
+    isMissingAttribute(data)
+  )
     return DEFAULT_MARKET_DATA;
 
   if (marketMetadata.kind !== DineroMarketKind.LpFreeMarket)
