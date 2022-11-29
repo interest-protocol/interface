@@ -1,6 +1,8 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-export type TTokenIcons = ReadonlyArray<FC<SVGAttributes<SVGSVGElement>>>;
+import { SVGProps } from '@/components/svg/svg.types';
+
+export type TTokenIcons = ReadonlyArray<FC<SVGProps>>;
 
 export interface LendAndBorrowTokensProps {
   icons: TTokenIcons;

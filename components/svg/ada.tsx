@@ -1,7 +1,13 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const Ada: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 950 950" {...props}>
+import { SVGProps } from './svg.types';
+
+const Ada: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 950 950"
+    {...props}
+  >
     <path
       d="M330 474.2C328.6 498 346.9 518.4 370.7 519.7C371.6 519.7 372.4 519.7 373.3 519.7C397.3 519.7 416.6 500.4 416.4 476.4C416.4 452.4 397.1 433.1 373.1 433.3C350.2 433.2 331.2 451.2 330 474.2Z"
       fill={props.fill || '#0033AD'}

@@ -38,7 +38,7 @@ const SyntheticsList: FC<SyntheticsListProps> = ({
       >
         {loading ? (
           <Box mx="auto" mt="XL" width="4rem" gridColumn="1 / span 3">
-            <LoadingSVG width="100%" />
+            <LoadingSVG width="100%" maxHeight="" maxWidth="" />
           </Box>
         ) : (
           filteredMarkets.map((x) => (

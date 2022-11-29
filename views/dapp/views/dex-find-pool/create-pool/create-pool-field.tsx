@@ -123,7 +123,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
             <Box my="M" display="flex" alignItems="center">
               <>
                 <Box as="span" display="inline-block" width="1rem">
-                  <SVG width="100%" />
+                  <SVG width="100%" maxHeight="1rem" maxWidth="1rem" />
                 </Box>
                 <Typography mx="M" as="span" variant="normal">
                   {symbol.length > 4

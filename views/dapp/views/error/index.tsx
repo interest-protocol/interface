@@ -29,7 +29,12 @@ const ErrorView: FC<{ message: string }> = ({ message }) => {
           borderRadius="50%"
           border="0.3rem solid"
         >
-          <TimesSVG width="100%" height="100%" />
+          <TimesSVG
+            width="100%"
+            height="100%"
+            maxHeight="10rem"
+            maxWidth="10rem"
+          />
         </Box>
         <Typography variant="title3">{message}</Typography>
         <Button variant="primary" mt="XL" onClick={goHome}>

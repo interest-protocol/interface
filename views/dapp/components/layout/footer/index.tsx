@@ -219,7 +219,11 @@ const Footer: FC = () => {
                       alignItems="center"
                       display="inline-flex"
                     >
-                      <HorizontalDotsSVG width="100%" />
+                      <HorizontalDotsSVG
+                        width="100%"
+                        maxHeight="1.3rem"
+                        maxWidth="1.3rem"
+                      />
                     </Box>
                   </Typography>
                 }
@@ -237,7 +241,11 @@ const Footer: FC = () => {
                               width="1.3rem"
                               display="inline-block"
                             >
-                              <FaucetSVG width="100%" />
+                              <FaucetSVG
+                                width="100%"
+                                maxHeight="1.3rem"
+                                maxWidth="1.3rem"
+                              />
                             </Box>
                             <Typography variant="normal">Faucet</Typography>
                           </>
@@ -268,7 +276,11 @@ const Footer: FC = () => {
                                   width="1.3rem"
                                   display="inline-block"
                                 >
-                                  <CreditCardSVG width="100%" />
+                                  <CreditCardSVG
+                                    width="100%"
+                                    maxHeight="1.3rem"
+                                    maxWidth="1.3rem"
+                                  />
                                 </Box>
                                 <Typography variant="normal">
                                   Credit Card

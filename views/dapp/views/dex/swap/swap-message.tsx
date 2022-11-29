@@ -19,7 +19,7 @@ const SwapMessage: FC<SwapMessageProps> = ({ color, Icon, message }) => {
       color={color ?? 'text'}
     >
       <Box mr={['L', 'M']}>
-        <Icon width="1.2rem" />
+        <Icon width="1.2rem" maxHeight="1.2rem" maxWidth="1.2rem" />
       </Box>
       <Typography
         fontSize="S"

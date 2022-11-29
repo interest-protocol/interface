@@ -13,7 +13,7 @@ const DineroVaultTitle: FC<DineroVaultDetailsTitleProps> = ({
   <Box py="1.5rem" px=" 2rem" display="flex">
     <TokenView symbol={token1.symbol} address={token1.address} />
     <Box display="flex" alignItems="center" fontSize="L" mx="M" width="0.9rem">
-      <RightArrowSVG width="100%" />
+      <RightArrowSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
     </Box>
     <TokenView symbol={token2.symbol} address={token2.address} />
   </Box>

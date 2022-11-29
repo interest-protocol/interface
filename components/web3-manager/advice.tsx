@@ -16,9 +16,9 @@ const Advice: FC<AdviceProps> = ({ Icon, lines, title, buttons }) => (
   >
     <Box display="flex" flexDirection="column" alignItems="center">
       {Icon ? (
-        <Icon width="6rem" height="6rem" />
+        <Icon width="6rem" height="6rem" maxHeight="6rem" maxWidth="6rem" />
       ) : (
-        <LogoSVG width="6rem" height="6rem" />
+        <LogoSVG width="6rem" height="6rem" maxHeight="6rem" maxWidth="6rem" />
       )}
       <Typography variant="title2" mt="L">
         {title}

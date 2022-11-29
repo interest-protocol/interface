@@ -1,12 +1,16 @@
 import { GetStaticProps } from 'next';
+import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
 import { withAddressGuard } from '@/HOC';
 import { NextPageWithAddress } from '@/interface';
-import DineroVault from '@/views/dapp/views/dinero-vault';
+
+const DynamicDineroVault = dynamic(
+  () => import('../../../views/dapp/views/dinero-vault')
+);
 
 const DineroVaultPage: NextPageWithAddress = ({ address }) => (
-  <DineroVault vault={address} />
+  <DynamicDineroVault vault={address} />
 );
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {

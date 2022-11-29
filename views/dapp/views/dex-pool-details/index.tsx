@@ -59,7 +59,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
         symbol: processedData.token0Metadata.symbol,
         Icon: (
           <Box as="span" display="inline-flex" width="1rem">
-            <FirstIcon width="100%" />
+            <FirstIcon width="100%" maxHeight="1rem" maxWidth="1rem" />
           </Box>
         ),
         balance: processedData.token0Balance,
@@ -71,7 +71,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
         symbol: processedData.token1Metadata.symbol,
         Icon: (
           <Box as="span" display="inline-flex" width="1rem">
-            <SecondIcon width="100%" />
+            <SecondIcon width="100%" maxHeight="1rem" maxWidth="1rem" />
           </Box>
         ),
         balance: processedData.token1Balance,
@@ -98,7 +98,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
           </Box>
         ) : (
           <Box as="span" display="inline-block" width="1rem">
-            <FirstIcon width="100%" />
+            <FirstIcon width="100%" maxHeight="1rem" maxWidth="1rem" />
           </Box>
         ),
         address: processedData.token0,
@@ -117,7 +117,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
           </Box>
         ) : (
           <Box as="span" display="inline-block" width="1rem">
-            <SecondIcon width="100%" />
+            <SecondIcon width="100%" maxHeight="1rem" maxWidth="1rem" />
           </Box>
         ),
         address: processedData.token1,
@@ -137,7 +137,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
         justifyContent="center"
       >
         <Box color="error">
-          <TimesSVG width="10rem" />
+          <TimesSVG width="10rem" maxHeight="10rem" maxWidth="10rem" />
         </Box>
         <Typography variant="normal">
           {t('dexPoolPairAddress.error.pairData')}
@@ -155,7 +155,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
         justifyContent="center"
       >
         <Box color="error">
-          <TimesSVG width="10rem" />
+          <TimesSVG width="10rem" maxHeight="10rem" maxWidth="10rem" />
         </Box>
         <Typography variant="normal">
           {t('dexPoolPairAddress.error.pairDoesNotExist', { pairAddress })}
@@ -171,8 +171,8 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
           <HeaderSkeleton />
         ) : (
           <>
-            <FirstIcon width="2rem" />
-            <SecondIcon width="2rem" />
+            <FirstIcon width="2rem" maxHeight="2rem" maxWidth="2rem" />
+            <SecondIcon width="2rem" maxHeight="2rem" maxWidth="2rem" />
             <Typography variant="normal" ml="L" textTransform="capitalize">
               {processedData.token0Metadata.symbol +
                 ' - ' +

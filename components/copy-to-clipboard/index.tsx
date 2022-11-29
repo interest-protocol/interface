@@ -35,7 +35,7 @@ const CopyToClipboard: FC<CopyToClipboardProps> = ({
         {...props}
       >
         <Box as="span" display="inline-block" width="1rem">
-          <CopySVG width="100%" />
+          <CopySVG width="100%" maxWidth="1rem" maxHeight="1rem" />
         </Box>
         {children}
       </Box>

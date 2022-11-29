@@ -64,7 +64,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
           emptyMessage="Not found Tokens"
           suffix={
             <Box ml="L" width="0.6rem">
-              <ArrowSVG width="100%" />
+              <ArrowSVG width="100%" maxHeight="0.6rem" maxWidth="0.6rem" />
             </Box>
           }
           title={

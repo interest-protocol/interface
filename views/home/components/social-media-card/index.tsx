@@ -23,7 +23,11 @@ const SocialMediaCard: FC<SocialMediaCardProps> = ({
         transform: 'scale(1.2)',
       }}
     >
-      <Logo height="100%" />
+      <Logo
+        height="100%"
+        maxWidth={isMenu ? '1.667rem' : '1rem'}
+        maxHeight={isMenu ? '1.667rem' : '1rem'}
+      />
     </Box>
   </a>
 );

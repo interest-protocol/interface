@@ -51,7 +51,7 @@ const DineroVaultFooter: FC<DineroVaultFooterProps> = ({
           {t('dineroVault.openButton', { isOpen: +!openDetails })}
         </Typography>
         <AnimatedBox style={{ transform: arrowInvert }}>
-          <ArrowSVG width="0.5rem" />
+          <ArrowSVG width="0.5rem" maxHeight="0.5rem" maxWidth="0.5rem" />
         </AnimatedBox>
       </Box>
       <AnimatedBox style={{ height: mHeight }} overflow="hidden">

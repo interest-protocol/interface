@@ -56,7 +56,7 @@ const YourBalance: FC<YourBalanceProps> = ({ data }) => {
                     ml={index != 0 ? '-0.5rem' : 'NONE'}
                     zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
                   >
-                    <SVG width="100%" />
+                    <SVG width="100%" maxHeight="1.6rem" maxWidth="1.6rem" />
                   </Box>
                 ))}
               </Box>

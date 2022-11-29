@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const SynthBitcoin: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="65 20 88 90" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const SynthBitcoin: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="65 20 88 90"
+    fill="none"
+    {...props}
+  >
     <g filter="url(#filter0_d_118_524)">
       <path
         d="M150.728 75.781C145.052 98.549 121.989 112.405 99.2152 106.728C76.4514 101.051 62.5936 77.9896 68.273 55.2234C73.9473 32.4528 97.0103 18.5956 119.777 24.2717C142.548 29.9479 156.405 53.0122 150.728 75.7814L150.728 75.781H150.728Z"

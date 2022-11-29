@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const UnknownCoin: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 950 950" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const UnknownCoin: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 950 950"
+    fill="none"
+    {...props}
+  >
     <g filter="url(#filter0_i_2_16)">
       <circle cx="475" cy="475" r="475" fill="url(#paint0_linear_2_16)" />
     </g>

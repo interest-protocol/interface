@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const MetaMask: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 28 26" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const MetaMask: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 28 26"
+    fill="none"
+    {...props}
+  >
     <path
       d="M25.7647 1L15.5869 8.5308L17.4796 4.09266L25.7647 1Z"
       fill="#E17726"

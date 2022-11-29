@@ -65,7 +65,7 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
     >
       {loading && (
         <Box as="span" display="inline-block" width="1rem" mr="M">
-          <LoadingSVG width="100%" />
+          <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
       )}
       {capitalize(t('dineroVault.deposit', { isLoading: +loading }))}
