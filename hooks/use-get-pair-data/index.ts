@@ -1,9 +1,8 @@
 import { DEFAULT_ACCOUNT } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import { useIdAccount } from '@/hooks/use-id-account';
 import InterestViewDexABI from '@/sdk/abi/interest-view-dex.abi.json';
 import { getInterestViewDexAddress } from '@/utils';
-import { logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
 import { useSafeContractRead } from '../use-safe-contract-read';
 
@@ -16,16 +15,18 @@ export const useGetPairData = (pairAddress: string) => {
     functionName: 'getPairData',
     args: [pairAddress, account || DEFAULT_ACCOUNT],
     onError: () =>
-      logException({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction error: getPairData`,
-        trackerName: ['hooks/use-get-pair-data/index.ts'],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'getPairData',
       }),
     onSuccess: () =>
-      logSuccess({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction success: getPairData`,
-        trackerName: ['hooks/use-get-pair-data/index.ts'],
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'getPairData',
       }),
   });
 };

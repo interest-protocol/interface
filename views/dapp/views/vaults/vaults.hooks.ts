@@ -1,10 +1,9 @@
 import { DEFAULT_ACCOUNT } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import { VAULTS_CALL_MAP } from '@/constants/vaults';
 import { useSafeContractRead } from '@/hooks';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import { getInterestViewEarnAddress } from '@/utils';
-import { logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
 export const useGetVaultsSummary = (
   chainId: number,
@@ -19,14 +18,18 @@ export const useGetVaultsSummary = (
     args: [account || DEFAULT_ACCOUNT, dineroVaultsArray],
     enabled: !!dineroVaultsArray.length,
     onError: () =>
-      logException({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction error: getVaultsSummary`,
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'getVaultsSummary',
       }),
     onSuccess: () =>
-      logSuccess({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction Success: getVaultsSummary`,
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'getVaultsSummary',
       }),
   });
 };

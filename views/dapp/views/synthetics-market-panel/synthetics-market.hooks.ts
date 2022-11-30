@@ -4,7 +4,6 @@ import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
 import { DEFAULT_ACCOUNT } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import { useSafeContractRead } from '@/hooks';
 import { HandlerData } from '@/interface';
 import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
@@ -12,7 +11,7 @@ import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json'
 import SyntheticMinterABI from '@/sdk/abi/synthetics-minter.abi.json';
 import { isValidAccount, isZeroAddress, safeToBigNumber } from '@/utils';
 import { getInterestViewDineroV2Address } from '@/utils';
-import { logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
 import { SyntheticMarketData } from './synthetics-market.types';
 
@@ -30,20 +29,18 @@ export const useGetSyntheticUserMarketData = (
     args: [account || DEFAULT_ACCOUNT, marketAddress],
     enabled: isMarketAddressValid && !!chainId,
     onError: () =>
-      logException({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction error: getSyntheticUserMarketData`,
-        trackerName: [
-          'views/dapp/views/synthetics-market-panel/synthetics-market.hooks.ts',
-        ],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'getSyntheticUserMarketData',
       }),
     onSuccess: () =>
-      logSuccess({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction success: getSyntheticUserMarketData`,
-        trackerName: [
-          'views/dapp/views/synthetics-market-panel/synthetics-market.hooks.ts',
-        ],
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'getSyntheticUserMarketData',
       }),
   });
 };

@@ -1,7 +1,5 @@
 import ReactGA from 'react-ga4';
 
-import { GACategory } from '@/constants/google-analytics';
-
 export const initGA = (): void => {
   ReactGA.initialize(
     process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID ?? 'G-3M99P49E9B'
@@ -13,32 +11,53 @@ export const logPageView = (): void => {
   ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
 };
 
-export const logEvent = (category = '', action = '', label: string): void => {
-  if (category && action) ReactGA.event({ category, action, label });
-};
-
-interface ParamsException {
-  category?: GACategory;
-  action: string;
-  label: string;
-  trackerName?: string[];
+export enum Status {
+  Success = 'S',
+  Error = 'E',
 }
-export const logException = ({
-  category = GACategory.Error,
-  action,
-  label,
-  trackerName,
-}: ParamsException): void => {
-  if (category && action)
-    ReactGA.event({ category, action, label }, trackerName);
+
+export enum Type {
+  Read = 'R',
+  Write = 'W',
+}
+
+export enum Pages {
+  DexSwap = 'Dex-Swap',
+  DexPool = 'DexPool',
+  DexFindPool = 'DexFindPool',
+  DexFindPoolCreatePool = 'DexFindPoolCreatePool',
+  DexPoolDetails = 'DexPoolDetails',
+  DexPoolDetailsRemoveLiquidity = 'DexPoolDetailsRemoveLiquidity',
+  DexPoolDetailsAddLiquidity = 'DexPoolDetailsAddLiquidity',
+  DineroMarket = 'DineroMarket',
+  DineroMarketPanel = 'DineroMarketPanel',
+  DineroVault = 'DineroVault',
+  Vault = 'Vault',
+  Farms = 'Farms',
+  FarmsDetails = 'FarmsDetails',
+  Faucet = 'Faucet',
+  SyntheticsMarket = 'SyntheticsMarket',
+  SyntheticsMarketPanel = 'SyntheticsMarketPanel',
+  Generic = 'Components',
+  Hooks = 'Hooks',
+}
+
+interface LogProps {
+  status: Status;
+  type: Type;
+  pages: Pages;
+  functionName: string;
+}
+
+export const logTransactionEvent = ({
+  status,
+  type,
+  pages,
+  func,
+}: LogProps): void => {
+  ReactGA.event(`${status}_${type}_${pages}_${func}`);
 };
 
-export const logSuccess = ({
-  category = GACategory.Success,
-  action,
-  label,
-  trackerName,
-}: ParamsException): void => {
-  if (category && action)
-    ReactGA.event({ category, action, label }, trackerName);
+export const logGenericEvent = (action: string): void => {
+  ReactGA.event(action);
 };

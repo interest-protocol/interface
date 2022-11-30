@@ -2,10 +2,9 @@ import { pathOr } from 'ramda';
 
 import { DEFAULT_ACCOUNT } from '@/constants';
 import { DINERO_MARKET_DATA_CALL_MAP } from '@/constants/dinero-markets';
-import { GAAction } from '@/constants/google-analytics';
 import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
 import { getInterestViewDineroV2Address } from '@/utils';
-import { logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
 import { useSafeContractRead } from '../use-safe-contract-read';
 import { useIdAccount } from './../use-id-account';
@@ -25,16 +24,18 @@ export const useGetDineroMarketDataV2 = (market: string) => {
     functionName: 'getDineroMarketData',
     args: [account || DEFAULT_ACCOUNT, market, data.baseToken, data.kind],
     onError: () =>
-      logException({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction error: getDineroMarketData`,
-        trackerName: ['views/dapp/views/dinero-market-panel/index.ts'],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'getDineroMarketData',
       }),
     onSuccess: () =>
-      logSuccess({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction success: getDineroMarketData`,
-        trackerName: ['views/dapp/views/dinero-market-panel/index.ts'],
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'getDineroMarketData',
       }),
   });
 };

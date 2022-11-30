@@ -3,7 +3,6 @@ import { prop } from 'ramda';
 import { useCallback, useState } from 'react';
 import { FC } from 'react';
 
-import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -13,7 +12,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
 import { useMint } from './faucet-form.hooks';
 import { MintButtonProps } from './faucet-form.types';
@@ -43,17 +42,19 @@ const MintButton: FC<MintButtonProps> = ({
       const tx = await mint?.();
 
       await showTXSuccessToast(tx, chainId);
-      logSuccess({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Success: mint - handleOnMint',
-        trackerName: ['views/dapp/views/faucet/faucet-form/mint-button.tsx'],
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Write,
+        pages: Pages.Faucet,
+        functionName: 'handleOnMint',
       });
       await refetch();
     } catch (error) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: mint - handleOnMint',
-        trackerName: ['views/dapp/views/faucet/faucet-form/mint-button.tsx'],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Write,
+        pages: Pages.Faucet,
+        functionName: 'handleOnMint',
       });
       throwError(t('error.generic'), error);
     } finally {

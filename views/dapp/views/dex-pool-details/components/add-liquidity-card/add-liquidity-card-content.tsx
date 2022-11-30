@@ -5,7 +5,6 @@ import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
-import { GAAction } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LineLoaderSVG } from '@/svg';
@@ -17,7 +16,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import AddLiquidityButton from './add-liquidity-button';
@@ -75,20 +74,18 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
         : await approveToken1?.();
 
       await showTXSuccessToast(tx, chainId);
-      logSuccess({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Success: approveToken - AddLiquidityCardContent',
-        trackerName: [
-          'views/dapp/views/dex-pool-details/components/add-liquidity-card/add-liquidity-card-content.tsx',
-        ],
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Write,
+        pages: Pages.DexPoolDetailsAddLiquidity,
+        functionName: 'approveToken',
       });
     } catch {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: approveToken - AddLiquidityCardContent',
-        trackerName: [
-          'views/dapp/views/dex-pool-details/components/add-liquidity-card/add-liquidity-card-content.tsx',
-        ],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Write,
+        pages: Pages.DexPoolDetailsAddLiquidity,
+        functionName: 'approveToken',
       });
       throwError(t('error.generic'));
     } finally {

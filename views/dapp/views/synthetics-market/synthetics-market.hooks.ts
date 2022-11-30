@@ -1,10 +1,9 @@
 import { DEFAULT_ACCOUNT } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import { SYNTHETICS_CALL_MAP } from '@/constants/synthetics';
 import { useSafeContractRead } from '@/hooks';
 import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
 import { getInterestViewDineroV2Address } from '@/utils';
-import { logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
 export const useGetSyntheticMarketsSummary = (
   account: string,
@@ -19,20 +18,18 @@ export const useGetSyntheticMarketsSummary = (
     args: [account || DEFAULT_ACCOUNT, callData],
     enabled: !!callData.length,
     onError: () =>
-      logException({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction success: getSyntheticMarketsSummary`,
-        trackerName: [
-          'views/dapp/views/synthetics-market/synthetics-market.hooks.ts',
-        ],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'getSyntheticMarketsSummary',
       }),
     onSuccess: () =>
-      logSuccess({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction success: getSyntheticMarketsSummary`,
-        trackerName: [
-          'views/dapp/views/synthetics-market/synthetics-market.hooks.ts',
-        ],
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'getSyntheticMarketsSummary',
       }),
   });
 };

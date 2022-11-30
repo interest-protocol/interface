@@ -4,10 +4,9 @@ import { always, cond, equals, ifElse, isEmpty, T } from 'ramda';
 import { UseFormSetValue } from 'react-hook-form';
 
 import { ISwitchOption } from '@/components/switch/switch.types';
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { SYNTHETICS_RESPONSE_MAP } from '@/constants/synthetics';
 import { adjustDecimals, isSameAddress } from '@/utils';
-import { logEvent } from '@/utils/analytics';
+import { logGenericEvent } from '@/utils/analytics';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
 import {
@@ -57,22 +56,14 @@ export const getFilterSwitchDefaultData = (
   {
     value: values[0],
     onSelect: () => {
-      logEvent(
-        GACategory.SyntheticsMarketFilters,
-        GAAction.Switch,
-        'onlyMinted = off'
-      );
+      logGenericEvent(`Filter_SyntheticsMarket_OnlyMinted_off`);
       setValue(name, false);
     },
   },
   {
     value: values[1],
     onSelect: () => {
-      logEvent(
-        GACategory.SyntheticsMarketFilters,
-        GAAction.Switch,
-        'onlyMinted = on'
-      );
+      logGenericEvent(`Filter_SyntheticsMarket_OnlyMinted_on`);
       setValue(name, true);
     },
   },

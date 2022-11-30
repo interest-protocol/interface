@@ -2,11 +2,10 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 
-import { GAAction } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
-import { logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
 import { useAction } from './buttons.hooks';
 import { ModalButtonProps } from './buttons.types';
@@ -34,21 +33,19 @@ const ModalButton: FC<ModalButtonProps> = ({
       if (tx) tx.wait(2);
 
       await showTXSuccessToast(tx, farm.chainId);
-      logSuccess({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Success: action - handleWithdrawTokens',
-        trackerName: [
-          'views/dapp/views/farm-details/components/buttons/modal-button.tsx',
-        ],
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Write,
+        pages: Pages.FarmsDetails,
+        functionName: 'handleWithdrawTokens',
       });
       await refetch();
     } catch (e) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: action - handleWithdrawTokens',
-        trackerName: [
-          'views/dapp/views/farm-details/components/buttons/modal-button.tsx',
-        ],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Write,
+        pages: Pages.FarmsDetails,
+        functionName: 'handleWithdrawTokens',
       });
       throw e || new Error(t('error.generic'));
     } finally {
@@ -71,21 +68,19 @@ const ModalButton: FC<ModalButtonProps> = ({
     try {
       const tx = await action?.();
       await showTXSuccessToast(tx, farm.chainId);
-      logSuccess({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Success: action - handleDepositTokens',
-        trackerName: [
-          'views/dapp/views/farm-details/components/buttons/modal-button.tsx',
-        ],
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Write,
+        pages: Pages.FarmsDetails,
+        functionName: 'handleDepositTokens',
       });
       await refetch();
     } catch (e) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: action - handleDepositTokens',
-        trackerName: [
-          'views/dapp/views/farm-details/components/buttons/modal-button.tsx',
-        ],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Write,
+        pages: Pages.FarmsDetails,
+        functionName: 'handleDepositTokens',
       });
       throwError(t('error.generic'), e);
     } finally {

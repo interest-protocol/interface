@@ -4,7 +4,6 @@ import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { ApproveButton } from '@/components';
-import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -16,7 +15,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
 import { useMint } from '../../synthetics-market.hooks';
 import {
@@ -101,21 +100,19 @@ const MintButton: FC<MintButtonProps> = ({
       await refetch();
 
       await showTXSuccessToast(tx, data.chainId);
-      logSuccess({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Success: mint - handleMint',
-        trackerName: [
-          'views/dapp/views/synthetics-market-panel/components/synt-form/mint-button.tsx',
-        ],
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Write,
+        pages: Pages.SyntheticsMarketPanel,
+        functionName: 'handleMint',
       });
       form.reset();
     } catch (e: unknown) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: mint - handleMint',
-        trackerName: [
-          'views/dapp/views/synthetics-market-panel/components/synt-form/mint-button.tsx',
-        ],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Write,
+        pages: Pages.SyntheticsMarketPanel,
+        functionName: 'handleMint',
       });
       throwContractCallError(e);
     } finally {

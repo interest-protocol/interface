@@ -1,11 +1,10 @@
 import { useMemo } from 'react';
 
 import { DEFAULT_ACCOUNT } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import { UseContractArgs } from '@/interface';
 import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
 import { getInterestViewBalancesAddress } from '@/utils';
-import { logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
 import { useSafeContractRead } from '../use-safe-contract-read';
 import { useIdAccount } from './../use-id-account';
@@ -25,16 +24,18 @@ export const useGetUserBalances = (
     args: args,
     enabled: !!tokens.length,
     onError: () =>
-      logException({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction error: getUserBalances`,
-        trackerName: ['hooks/use-get-user-balances/index.ts'],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'getUserBalances',
       }),
     onSuccess: () =>
-      logSuccess({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction success: getUserBalances`,
-        trackerName: ['hooks/use-get-user-balances/index.ts'],
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'getUserBalances',
       }),
     ...extraArgs,
   });

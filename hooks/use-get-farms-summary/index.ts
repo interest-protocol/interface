@@ -1,10 +1,9 @@
 import { propOr } from 'ramda';
 
 import { CASA_DE_PAPEL_FARM_CALL_MAP, DEFAULT_ACCOUNT } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import { getInterestViewEarnAddress } from '@/utils';
-import { logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
 import { useIdAccount } from '../use-id-account';
 import { useSafeContractRead } from '../use-safe-contract-read';
@@ -27,16 +26,18 @@ export const useGetFarmsSummary = () => {
       prop('baseTokens', data),
     ],
     onError: () =>
-      logException({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction error: getFarmsSummary`,
-        trackerName: ['hooks/use-get-farms-summary/index.ts'],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'getFarmsSummary',
       }),
     onSuccess: () =>
-      logSuccess({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction success: getFarmsSummary`,
-        trackerName: ['hooks/use-get-farms-summary/index.ts'],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'getFarmsSummary',
       }),
   });
 };

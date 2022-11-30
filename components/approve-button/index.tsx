@@ -1,12 +1,11 @@
 import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
 
-import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
-import { logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
 import { ApproveButtonProps } from './approve-button.types';
 
@@ -31,16 +30,18 @@ const ApproveButton: FC<ApproveButtonProps> = ({
 
       await refetch();
       await showTXSuccessToast(tx, chainId);
-      logSuccess({
-        action: GAAction.SubmitTransaction,
-        label: `Transaction Success: approve - ApproveButton - ${contract}`,
-        trackerName: ['components/approve-button/index.tsx'],
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Write,
+        pages: Pages.Generic,
+        functionName: 'handleAddAllowance',
       });
     } catch (e) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: `Transaction Error: approve - ApproveButton - ${contract}`,
-        trackerName: ['components/approve-button/index.tsx'],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Write,
+        pages: Pages.Generic,
+        functionName: 'handleAddAllowance',
       });
       throwError(t('error.generic'), e);
     } finally {

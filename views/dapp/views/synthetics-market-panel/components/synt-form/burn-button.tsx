@@ -3,7 +3,6 @@ import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -13,7 +12,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
 import { useBurn } from '../../synthetics-market.hooks';
 import { isFormBurnEmpty } from '../../synthetics-market.utils';
@@ -39,21 +38,25 @@ const BurnButton: FC<BurnButtonProps> = ({
       await tx?.wait(2);
 
       await showTXSuccessToast(tx, data.chainId);
-      logSuccess({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Success: burn - handleBurn',
-        trackerName: [
-          'views/dapp/views/synthetics-market-panel/components/synt-form/burn-button.tsx',
-        ],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Write,
+        pages: Pages.SyntheticsMarketPanel,
+        functionName: 'handleBurn',
+      });
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Write,
+        pages: Pages.SyntheticsMarketPanel,
+        functionName: 'handleBurn',
       });
       form.reset();
     } catch (e: unknown) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: burn - handleBurn',
-        trackerName: [
-          'views/dapp/views/synthetics-market-panel/components/synt-form/burn-button.tsx',
-        ],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Write,
+        pages: Pages.SyntheticsMarketPanel,
+        functionName: 'handleBurn',
       });
       throwContractCallError(e);
     } finally {

@@ -1,15 +1,14 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { SOCIAL_MEDIAS } from '@/constants/social-media';
 import { Box, Dropdown, Typography } from '@/elements';
 import { BarsSVG, GitBookSVG } from '@/svg';
-import { logEvent } from '@/utils/analytics';
+import { logGenericEvent } from '@/utils/analytics';
 
 const MobileMenu: FC = () => {
   const trackHeaderNavigation = (label: string) => () =>
-    logEvent(GACategory.HeaderNavigation, GAAction.MobileNavigate, label);
+    logGenericEvent(`Mobile_Header_${label}`);
 
   return (
     <>

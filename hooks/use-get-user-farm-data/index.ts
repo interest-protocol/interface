@@ -6,10 +6,9 @@ import {
   DEFAULT_ACCOUNT,
   TOKEN_FARM_ID_MAP,
 } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import { getInterestViewEarnAddress } from '@/utils';
-import { logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
 import { useIdAccount } from '../use-id-account';
 import { useSafeContractRead } from '../use-safe-contract-read';
@@ -33,16 +32,18 @@ export const useGetUserFarmData = (pairAddress: string) => {
     functionName: 'getUserFarmData',
     args: [pairAddress, account || DEFAULT_ACCOUNT, poolId, baseTokens],
     onError: () =>
-      logException({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction error: getUserFarmData`,
-        trackerName: ['hooks/use-get-user-farm-data/index.ts'],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'getUserFarmData',
       }),
     onSuccess: () =>
-      logSuccess({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction success: getUserFarmData`,
-        trackerName: ['hooks/use-get-user-farm-data/index.ts'],
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'getUserFarmData',
       }),
   });
 };

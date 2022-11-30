@@ -4,11 +4,10 @@ import { useState } from 'react';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { GAAction } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
-import { logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
 import { useDeposit } from '../dinero-vault.hooks';
 import { DepositButtonProps } from '../dinero-vault.types';
@@ -28,16 +27,18 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
 
       await refetch();
       await showTXSuccessToast(tx, data.chainId);
-      logSuccess({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Success: writeAsync - DepositButton',
-        trackerName: ['views/dapp/views/dinero-vault/form/deposit-button.tsx'],
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Write,
+        pages: Pages.DineroVault,
+        functionName: 'handleDeposit',
       });
     } catch (e) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: writeAsync - DepositButton',
-        trackerName: ['views/dapp/views/dinero-vault/form/deposit-button.tsx'],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Write,
+        pages: Pages.DineroVault,
+        functionName: 'handleDeposit',
       });
       throwError(t('error.generic'), e);
     } finally {

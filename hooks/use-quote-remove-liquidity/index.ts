@@ -1,9 +1,8 @@
 import { BigNumber } from 'ethers';
 
-import { GAAction } from '@/constants/google-analytics';
 import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
 import { getInterestDexRouterAddress } from '@/utils';
-import { logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
 import { useChainId } from '../use-chain-id';
 import { useSafeContractRead } from '../use-safe-contract-read';
@@ -22,16 +21,18 @@ export const useQuoteRemoveLiquidity = (
     functionName: 'quoteRemoveLiquidity',
     args: [token0, token1, isStable, amount],
     onError: () =>
-      logException({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction error: quoteRemoveLiquidity`,
-        trackerName: ['hooks/use-quote-remove-liquidity/index.ts'],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'quoteRemoveLiquidity',
       }),
     onSuccess: () =>
-      logSuccess({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction success: quoteRemoveLiquidity`,
-        trackerName: ['hooks/use-quote-remove-liquidity/index.ts'],
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Read,
+        pages: Pages.Hooks,
+        functionName: 'quoteRemoveLiquidity',
       }),
   });
 };

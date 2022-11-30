@@ -11,7 +11,6 @@ import {
   STABLE_COIN_ADDRESSES,
   WRAPPED_NATIVE_TOKEN,
 } from '@/constants';
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { getIPXPairAddress, sortTokens, ZERO_BIG_NUMBER } from '@/sdk';
 import {
@@ -23,7 +22,7 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logEvent, logException, logSuccess } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 import CreatePoolPopup from '@/views/dapp/views/dex-find-pool/create-pool-popup';
 import { useAddLiquidity } from '@/views/dapp/views/dex-find-pool/dex-find-pool.hooks';
@@ -88,19 +87,21 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
           pathname: Routes[RoutesEnum.DEXPoolDetails],
           query: { address: address },
         }).then(() =>
-          logEvent(
-            GACategory.Operation,
-            GAAction.FindAndEnterPool,
-            'Pool found successful'
-          )
+          logTransactionEvent({
+            status: Status.Success,
+            type: Type.Write,
+            pages: Pages.DexFindPool,
+            functionName: 'enterPool',
+          })
         );
 
       setCreatingPair(true);
     } catch {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: isInterestDexPair - FindPoolButton',
-        trackerName: ['views/dapp/views/dex-find-pool/find-pool-button.tsx'],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Write,
+        pages: Pages.DexFindPool,
+        functionName: 'enterPool',
       });
       throwError('Error connecting');
       setLoading(false);
@@ -141,20 +142,22 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
         token1.address,
         isStable
       );
-      logSuccess({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Success: addLiquidity - FindPoolButton',
-        trackerName: ['views/dapp/views/dex-find-pool/find-pool-button.tsx'],
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Write,
+        pages: Pages.DexFindPool,
+        functionName: 'createPair',
       });
       return push({
         pathname: Routes[RoutesEnum.DEXPoolDetails],
         query: { address: address },
       }).then();
     } catch (e) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: addLiquidity - FindPoolButton',
-        trackerName: ['views/dapp/views/dex-find-pool/find-pool-button.tsx'],
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Write,
+        pages: Pages.DexFindPool,
+        functionName: 'createPair',
       });
       throwError(t('error.generic'));
     } finally {
