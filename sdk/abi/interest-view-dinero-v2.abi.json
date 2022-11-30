@@ -28,6 +28,82 @@
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
+  { "inputs": [], "name": "CalldataMustHaveValidPayload", "type": "error" },
+  { "inputs": [], "name": "CalldataOverOrUnderFlow", "type": "error" },
+  { "inputs": [], "name": "CanNotPickMedianOfEmptyArray", "type": "error" },
+  {
+    "inputs": [],
+    "name": "EachSignerMustProvideTheSameValue",
+    "type": "error"
+  },
+  { "inputs": [], "name": "EmptyCalldataPointersArr", "type": "error" },
+  { "inputs": [], "name": "IncorrectUnsignedMetadataSize", "type": "error" },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "receviedSignersCount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "requiredSignersCount",
+        "type": "uint256"
+      }
+    ],
+    "name": "InsufficientNumberOfUniqueSigners",
+    "type": "error"
+  },
+  { "inputs": [], "name": "InvalidCalldataPointer", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "receivedSigner", "type": "address" }
+    ],
+    "name": "SignerNotAuthorised",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "receivedTimestampSeconds",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "blockTimestamp", "type": "uint256" }
+    ],
+    "name": "TimestampFromTooLongFuture",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "receivedTimestampSeconds",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "blockTimestamp", "type": "uint256" }
+    ],
+    "name": "TimestampIsTooOld",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256[]", "name": "values", "type": "uint256[]" }
+    ],
+    "name": "aggregateValues",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "signerAddress", "type": "address" }
+    ],
+    "name": "getAuthorisedSignerIndex",
+    "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
   {
     "inputs": [
       { "internalType": "address", "name": "user", "type": "address" },
@@ -331,12 +407,32 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "getMaxBlockTimestampDelay",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getMaxDataTimestampDelay",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       { "internalType": "address", "name": "user", "type": "address" },
+      { "internalType": "address[]", "name": "markets", "type": "address[]" },
       {
-        "internalType": "contract ISyntheticMarket[]",
-        "name": "markets",
-        "type": "address[]"
+        "internalType": "enum InterestViewDinero.SyntheticMarketType[]",
+        "name": "syntheticMarketTypes",
+        "type": "uint8[]"
+      },
+      {
+        "internalType": "bytes32[]",
+        "name": "redstoneSymbols",
+        "type": "bytes32[]"
       }
     ],
     "name": "getSyntheticMarketsSummary",
@@ -360,6 +456,11 @@
         "internalType": "struct InterestViewDinero.SyntheticMarketSummary[]",
         "name": "data",
         "type": "tuple[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "redStonePrices",
+        "type": "uint256[]"
       }
     ],
     "stateMutability": "view",
@@ -372,7 +473,14 @@
         "internalType": "contract ISyntheticMarket",
         "name": "market",
         "type": "address"
-      }
+      },
+      { "internalType": "address", "name": "collateral", "type": "address" },
+      {
+        "internalType": "enum InterestViewDinero.SyntheticMarketType",
+        "name": "oracleType",
+        "type": "uint8"
+      },
+      { "internalType": "bytes32", "name": "dataFeedId", "type": "bytes32" }
     ],
     "name": "getSyntheticUserMarketData",
     "outputs": [
@@ -431,6 +539,52 @@
         "type": "tuple"
       }
     ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getUniqueSignersThreshold",
+    "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_receviedSigner",
+        "type": "address"
+      }
+    ],
+    "name": "isSignerAuthorized",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_receivedTimestamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "isTimestampValid",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "receivedTimestampMilliseconds",
+        "type": "uint256"
+      }
+    ],
+    "name": "validateTimestamp",
+    "outputs": [],
     "stateMutability": "view",
     "type": "function"
   }

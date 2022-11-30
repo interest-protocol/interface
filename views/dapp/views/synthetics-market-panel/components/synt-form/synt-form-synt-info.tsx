@@ -9,11 +9,11 @@ import { TTranslatedMessage } from '@/interface';
 import { InfoSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
-import { TInfo } from '../../synthetics-market.types';
+import { TInfo } from '../../synthetics-market-panel.types';
 import {
   getBurnPositionHealthData,
   getMintPositionHealthData,
-} from '../../synthetics-market.utils';
+} from '../../synthetics-market-panel.utils';
 import { SyntFormSyntInfoProps } from './synt-form.types';
 
 const INFO: TInfo = [1, 2, 3].map((item) => ({

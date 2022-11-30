@@ -69,14 +69,24 @@ export interface VaultData {
   chainId: number;
 }
 
+export type TDineroVaultDataKeys =
+  | 'maxDineroAmount'
+  | 'mintedDineroAmount'
+  | 'depositAmount'
+  | 'underlyingBalance'
+  | 'underlyingAllowance'
+  | 'dineroBalance';
+
+export type TDineroVaultData =
+  | Result
+  | undefined
+  | ([InterestViewEarn.UserDineroVaultDataStructOutput] &
+      InterestViewEarn.UserDineroVaultDataStructOutput);
+
 export type ProcessDineroVault = (
   chainId: number,
   vaultAddress: string,
-  data:
-    | Result
-    | undefined
-    | ([InterestViewEarn.UserDineroVaultDataStructOutput] &
-        InterestViewEarn.UserDineroVaultDataStructOutput)
+  data: TDineroVaultData
 ) => {
   loading: boolean;
   data: VaultData;

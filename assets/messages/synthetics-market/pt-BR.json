@@ -1,7 +1,8 @@
 {
   "syntheticsMarket": {
     "pageTitle": "Sintéticos",
-    "title": "Criando sintéticos usando BUSD",
+    "title": "Criando sintéticos usando Cripto",
+    "subTitle": "Token sintéticos seguem o preço de outros ativos",
     "filterSortOptionPrice": "Preço",
     "filterSortOptionLiquidationFee": "Taxa de liquidação",
     "filterMinted": "Apenas Criados",

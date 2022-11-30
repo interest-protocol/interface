@@ -26,9 +26,9 @@
     "positionName2": "{syntheticSymbol} minted",
     "positionTip2": "Number of {syntheticSymbol} tokens minted",
     "positionName3": "{syntheticSymbol} value",
-    "positionTip3": "Value of tokens minted in USD",
+    "positionTip3": "Value of synthetic tokens minted in collateral",
     "positionName4": "Liquidation price",
-    "positionTip4": "Collateral Price at which your Loan<br />Position will be Liquidated",
+    "positionTip4": "Synthetic Price at which your Loan<br />Position will be Liquidated",
     "positionName5": "{syntheticSymbol} left to mint",
     "positionTip5": "{syntheticSymbol} mintable given the collateral<br />deposited",
     "positionName6": "Withdrawable amount",
@@ -54,6 +54,10 @@
       "burn": "Burn Synthetic",
       "removeCollateral": "Remove Collateral",
       "removeCollateralBurn": "Remove Collateral and Burn Synthetic"
+    },
+    "form": {
+      "ltvError": "You are minting beyond the allowed LTV",
+      "collateralError": "The Collateral must not to be greater than your balance"
     }
   }
 }

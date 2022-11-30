@@ -1,9 +1,10 @@
 import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
 import { SVGProps } from '@/components/svg/svg.types';
+import { SyntheticOracleType } from '@/constants';
 import { TTranslatedMessage } from '@/interface';
 import { FixedPointMath } from '@/sdk';
 
@@ -17,16 +18,6 @@ export type TValidSyntFormFieldNames =
   | 'burn.collateral'
   | 'burn.synt';
 
-export interface SyntheticsMarketPanelProps {
-  address: string;
-  mode: TSyntheticsMarketMode;
-}
-
-export interface SyntheticsMarketSwitchProps
-  extends SyntheticsMarketPanelProps {
-  resetField: UseFormResetField<ISyntheticForm>;
-}
-
 export interface ISyntheticForm {
   mint: {
     collateral: string;
@@ -37,9 +28,28 @@ export interface ISyntheticForm {
     synt: string;
   };
 }
+export interface SyntheticsMarketPanelProps {
+  address: string;
+  mode: TSyntheticsMarketMode;
+}
+
+export interface SyntheticsMarketPanelBranchProps
+  extends SyntheticsMarketPanelProps {
+  form: UseFormReturn<ISyntheticForm>;
+  oracleType: SyntheticOracleType;
+  dataFeedId: string;
+  collateralAddress: string;
+}
+
+export interface SyntheticsMarketSwitchProps
+  extends SyntheticsMarketPanelProps {
+  resetField: UseFormResetField<ISyntheticForm>;
+}
 
 export interface FormsProps {
   isGettingData: boolean;
+  burnButton: ReactNode;
+  mintButton: ReactNode;
   mode: TSyntheticsMarketMode;
   data: SyntheticMarketData;
   form: UseFormReturn<ISyntheticForm>;
@@ -59,7 +69,7 @@ export interface SyntheticMarketData {
   collateralBalance: BigNumber;
   adjustedCollateralBalance: BigNumber;
   syntBalance: BigNumber;
-  syntUSDPrice: BigNumber;
+  syntPrice: BigNumber;
   syntAddress: string;
   pendingRewards: BigNumber;
   syntSymbol: string;
@@ -72,7 +82,23 @@ export interface SyntheticMarketData {
   account: string;
   collateralName: string;
   collateralSymbol: string;
+  dataFeedId: string;
+  oracleType: SyntheticOracleType;
+  isCollateralStable: boolean;
 }
+
+export type TMarketDataAttribute =
+  | 'TVL'
+  | 'LTV'
+  | 'transferFee'
+  | 'syntBalance'
+  | 'userSyntMinted'
+  | 'liquidationFee'
+  | 'pendingRewards'
+  | 'userCollateral'
+  | 'syntheticUSDPrice'
+  | 'collateralBalance'
+  | 'collateralAllowance';
 
 export type ProcessSyntheticData = (
   chainId: number,
@@ -113,7 +139,7 @@ interface TCalculateSyntExpectedLiquidationPriceArgs {
   ltv: BigNumber;
   adjustedUserCollateral: BigNumber;
   syntMinted: BigNumber;
-  syntUSDPrice: BigNumber;
+  syntPrice: BigNumber;
 }
 
 export type TCalculateSyntExpectedLiquidationPrice = (
@@ -158,7 +184,7 @@ export interface ISyntheticFormField {
   amount: string;
   currency: string;
   disabled: boolean;
-  amountUSD: number;
+  price: number;
   label: TTranslatedMessage;
   name: TValidSyntFormFieldNames;
   currencyIcons: SyntheticsCurrencyIcons;
@@ -175,7 +201,7 @@ export type TGetMintFields = (
 interface ConvertCollateralToSyntData {
   adjustedCollateralAmount: BigNumber;
   ltv: BigNumber;
-  syntUSDPrice: BigNumber;
+  syntPrice: BigNumber;
 }
 
 export type TConvertCollateralToSynt = (
@@ -186,3 +212,30 @@ export type TInfo = ReadonlyArray<{
   name: TTranslatedMessage;
   tip: TTranslatedMessage;
 }>;
+
+export interface SyntheticsMarketPanelContentProps
+  extends SyntheticsMarketPanelProps {
+  burnButton: ReactNode;
+  mintButton: ReactNode;
+  market: SyntheticMarketData;
+  refetch: () => Promise<void>;
+  rewardsInfo: ReadonlyArray<string>;
+  form: UseFormReturn<ISyntheticForm>;
+  myPositionData: [string, string, string, string, string, string];
+}
+
+export interface UseSynthsPanelHookArgs {
+  address: string;
+  oracleType: SyntheticOracleType;
+  dataFeedId: string;
+  collateralAddress: string;
+}
+
+export interface UseWagmiGetSyntheticUserMarketDataArgs {
+  marketAddress: string;
+  chainId: number;
+  account: string;
+  oracleType: SyntheticOracleType;
+  dataFeedId: string;
+  collateralAddress: string;
+}

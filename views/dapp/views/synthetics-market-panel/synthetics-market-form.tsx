@@ -1,8 +1,8 @@
 import { FC, useMemo } from 'react';
 
 import SyntForm from './components/synt-form';
-import { FormsProps } from './synthetics-market.types';
-import { getBurnFields, getMintFields } from './synthetics-market.utils';
+import { FormsProps } from './synthetics-market-panel.types';
+import { getBurnFields, getMintFields } from './synthetics-market-panel.utils';
 
 const SyntheticsMarketForm: FC<FormsProps> = ({
   mode,
@@ -10,6 +10,8 @@ const SyntheticsMarketForm: FC<FormsProps> = ({
   form,
   isGettingData,
   refetch,
+  mintButton,
+  burnButton,
 }) => {
   const mintFieldsData = useMemo(() => getMintFields(data), [data]);
 
@@ -21,19 +23,23 @@ const SyntheticsMarketForm: FC<FormsProps> = ({
         <SyntForm
           isMint
           data={data}
-          isGettingData={isGettingData}
-          fields={mintFieldsData}
-          refetch={refetch}
           form={form}
+          refetch={refetch}
+          fields={mintFieldsData}
+          mintButton={mintButton}
+          burnButton={burnButton}
+          isGettingData={isGettingData}
         />
       )}
       {mode === 'burn' && (
         <SyntForm
           data={data}
-          isGettingData={isGettingData}
-          fields={burnFieldsData}
-          refetch={refetch}
           form={form}
+          refetch={refetch}
+          fields={burnFieldsData}
+          mintButton={mintButton}
+          burnButton={burnButton}
+          isGettingData={isGettingData}
         />
       )}
     </>

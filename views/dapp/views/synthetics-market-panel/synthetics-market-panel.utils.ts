@@ -1,9 +1,13 @@
+import { Result } from '@ethersproject/abi';
 import { ethers } from 'ethers';
 import { UseFormReturn } from 'react-hook-form';
+import { InterestViewDinero } from 'types/ethers-contracts/InterestViewDineroV2Abi';
 
 import {
   getSyntheticsMarketSVGByAddress,
+  IS_STABLE_COIN_MAP,
   SYNTHETIC_PANEL_RESPONSE_MAP,
+  SyntheticOracleType,
 } from '@/constants';
 import { TTranslatedMessage } from '@/interface';
 import {
@@ -19,6 +23,7 @@ import {
   adjustDecimals,
   formatDollars,
   formatMoney,
+  hasKeys,
   numberToString,
 } from '@/utils';
 
@@ -38,9 +43,10 @@ import {
   TGetMyPositionData,
   TGetPositionHealthDataInternal,
   TGetRewardsInfo,
+  TMarketDataAttribute,
   TSafeAmountToWithdraw,
   TSafeAmountToWithdrawRepay,
-} from './synthetics-market.types';
+} from './synthetics-market-panel.types';
 
 export const isFormMintEmpty = (form: UseFormReturn<ISyntheticForm>) =>
   form.formState.errors.mint ||
@@ -65,7 +71,7 @@ const DEFAULT_MARKET_DATA = {
   collateralBalance: ZERO_BIG_NUMBER,
   adjustedCollateralBalance: ZERO_BIG_NUMBER,
   syntBalance: ZERO_BIG_NUMBER,
-  syntUSDPrice: ZERO_BIG_NUMBER,
+  syntPrice: ZERO_BIG_NUMBER,
   syntAddress: ZERO_ADDRESS,
   pendingRewards: ZERO_BIG_NUMBER,
   syntSymbol: '',
@@ -78,7 +84,32 @@ const DEFAULT_MARKET_DATA = {
   account: ZERO_ADDRESS,
   collateralName: 'Unknown',
   collateralSymbol: 'Unknown',
+  dataFeedId: '',
+  oracleType: SyntheticOracleType.ChainLink,
+  isCollateralStable: false,
 };
+
+const MARKET_DATA_KEYS: ReadonlyArray<TMarketDataAttribute> = [
+  'userSyntMinted',
+  'transferFee',
+  'syntheticUSDPrice',
+  'liquidationFee',
+  'TVL',
+  'LTV',
+  'userCollateral',
+  'collateralAllowance',
+  'collateralBalance',
+  'syntBalance',
+  'pendingRewards',
+];
+
+const isMissingAttribute = (
+  data: InterestViewDinero.SyntheticMarketDataStructOutput | Result
+) =>
+  !hasKeys<InterestViewDinero.SyntheticMarketDataStructOutput | Result>(
+    MARKET_DATA_KEYS,
+    data
+  );
 
 export const processSyntheticData: ProcessSyntheticData = (
   chainId,
@@ -92,7 +123,7 @@ export const processSyntheticData: ProcessSyntheticData = (
   const responseMap =
     SYNTHETIC_PANEL_RESPONSE_MAP[chainId][ethers.utils.getAddress(market)];
 
-  if (!responseMap) return DEFAULT_MARKET_DATA;
+  if (!responseMap || isMissingAttribute(data)) return DEFAULT_MARKET_DATA;
 
   return {
     userSyntMinted: data.userSyntMinted,
@@ -113,7 +144,11 @@ export const processSyntheticData: ProcessSyntheticData = (
       responseMap.collateralDecimals
     ),
     syntBalance: data.syntBalance,
-    syntUSDPrice: data.syntheticUSDPrice,
+    // RedStone prices come with 8 decimals
+    syntPrice:
+      responseMap.oracleType === SyntheticOracleType.RedStoneConsumer
+        ? adjustDecimals(data.syntheticUSDPrice, 8)
+        : data.syntheticUSDPrice,
     syntAddress: responseMap.syntAddress,
     pendingRewards: data.pendingRewards,
     syntSymbol: responseMap.syntSymbol,
@@ -126,18 +161,16 @@ export const processSyntheticData: ProcessSyntheticData = (
     account: account || ZERO_ADDRESS,
     collateralName: responseMap.collateralName,
     collateralSymbol: responseMap.collateralSymbol,
+    dataFeedId: responseMap.dataFeedId,
+    oracleType: responseMap.oracleType,
+    isCollateralStable:
+      IS_STABLE_COIN_MAP[chainId][responseMap.collateralAddress] || false,
   };
 };
 
 export const calculateSyntExpectedLiquidationPrice: TCalculateSyntExpectedLiquidationPrice =
-  ({
-    ltv,
-    syntMinted,
-    adjustedUserCollateral,
-    syntUSDPrice,
-  }): FixedPointMath => {
-    if (adjustedUserCollateral.isZero())
-      return FixedPointMath.from(syntUSDPrice);
+  ({ ltv, syntMinted, adjustedUserCollateral, syntPrice }): FixedPointMath => {
+    if (adjustedUserCollateral.isZero()) return FixedPointMath.from(syntPrice);
 
     const fixedPointUserSyntMinted = FixedPointMath.from(syntMinted);
 
@@ -149,7 +182,7 @@ export const calculateSyntExpectedLiquidationPrice: TCalculateSyntExpectedLiquid
   };
 
 export const calculatePositionHealth: TCalculatePositionHealth = (
-  { ltv, adjustedUserCollateral, syntUSDPrice },
+  { ltv, adjustedUserCollateral, syntPrice },
   newSyntAmount
 ) => {
   if (newSyntAmount.isZero()) return FixedPointMath.from(0);
@@ -162,7 +195,7 @@ export const calculatePositionHealth: TCalculatePositionHealth = (
   );
 
   const fixedMathUserSyntInUSD =
-    FixedPointMath.from(newSyntAmount).mul(syntUSDPrice);
+    FixedPointMath.from(newSyntAmount).mul(syntPrice);
 
   if (fixedMathUserSyntInUSD.gte(userCollateralValue))
     return FixedPointMath.from(0);
@@ -174,19 +207,19 @@ export const calculateSyntLeftToMint: TCalculateSyntLeftToMint = ({
   ltv,
   adjustedUserCollateral,
   userSyntMinted,
-  syntUSDPrice,
+  syntPrice,
 }): FixedPointMath => {
   const collateralInUSD = FixedPointMath.from(ltv).mul(adjustedUserCollateral);
 
-  const syntInUSD = FixedPointMath.from(userSyntMinted).mul(syntUSDPrice);
+  const syntInUSD = FixedPointMath.from(userSyntMinted).mul(syntPrice);
 
   if (syntInUSD.gte(collateralInUSD)) return FixedPointMath.from(0);
 
-  return collateralInUSD.sub(syntInUSD).div(syntUSDPrice);
+  return collateralInUSD.sub(syntInUSD).div(syntPrice);
 };
 
 export const safeAmountToWithdrawRepay: TSafeAmountToWithdrawRepay = (
-  { ltv, adjustedUserCollateral, syntUSDPrice, userSyntMinted },
+  { ltv, adjustedUserCollateral, syntPrice, userSyntMinted },
   burnAmount
 ) => {
   if (userSyntMinted.isZero())
@@ -198,7 +231,7 @@ export const safeAmountToWithdrawRepay: TSafeAmountToWithdrawRepay = (
   const userNeededCollateralInUSD = FixedPointMath.from(
     userSyntMinted.sub(burnAmount)
   )
-    .mul(syntUSDPrice)
+    .mul(syntPrice)
     .div(ltv);
 
   const amount = FixedPointMath.from(
@@ -211,13 +244,13 @@ export const safeAmountToWithdrawRepay: TSafeAmountToWithdrawRepay = (
 };
 
 export const safeAmountToWithdraw: TSafeAmountToWithdraw = ({
-  syntUSDPrice,
+  syntPrice,
   adjustedUserCollateral,
   userSyntMinted,
   ltv,
 }) => {
   const userNeededCollateralInUSD = FixedPointMath.from(userSyntMinted)
-    .mul(syntUSDPrice)
+    .mul(syntPrice)
     .div(ltv);
 
   const amount = userNeededCollateralInUSD.gte(adjustedUserCollateral)
@@ -235,15 +268,15 @@ export const calculateMintAmount: TCalculateMintAmount = ({
   ltv,
   adjustedUserCollateral,
   userSyntMinted,
-  syntUSDPrice,
+  syntPrice,
 }) => {
-  const collateralInUSD = FixedPointMath.from(adjustedUserCollateral).mul(ltv);
-  const fixedPointUserSyntInUSD =
-    FixedPointMath.from(userSyntMinted).mul(syntUSDPrice);
+  const collateral = FixedPointMath.from(adjustedUserCollateral).mul(ltv);
+  const fixedPointUserSyntInCollateral =
+    FixedPointMath.from(userSyntMinted).mul(syntPrice);
 
-  return fixedPointUserSyntInUSD.gte(collateralInUSD)
+  return fixedPointUserSyntInCollateral.gte(collateral)
     ? FixedPointMath.from(ZERO_BIG_NUMBER)
-    : collateralInUSD.sub(fixedPointUserSyntInUSD).div(syntUSDPrice);
+    : collateral.sub(fixedPointUserSyntInCollateral).div(syntPrice);
 };
 
 const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
@@ -251,14 +284,14 @@ const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
   market
 ) => {
   const expectedLiquidationPrice = FixedPointMath.from(userSyntMinted)
-    .mul(market.syntUSDPrice)
+    .mul(market.syntPrice)
     .gte(userAdjustedCollateral)
-    ? FixedPointMath.from(market.syntUSDPrice)
+    ? FixedPointMath.from(market.syntPrice)
     : calculateSyntExpectedLiquidationPrice({
         ltv: market.ltv,
         syntMinted: userSyntMinted,
         adjustedUserCollateral: userAdjustedCollateral,
-        syntUSDPrice: market.syntUSDPrice,
+        syntPrice: market.syntPrice,
       });
 
   const positionHealth = userSyntMinted.isZero()
@@ -275,22 +308,33 @@ const getPositionHealthDataInternal: TGetPositionHealthDataInternal = (
     FixedPointMath.toNumber(positionHealth) * 100
   );
 
+  const formattedExpectedLiquidationPrice = market.isCollateralStable
+    ? formatDollars(
+        Math.floor(
+          +Fraction.from(
+            expectedLiquidationPrice.value(),
+            ethers.utils.parseEther('1')
+          ).toSignificant(4)
+        )
+      )
+    : `${formatMoney(
+        Math.floor(
+          +Fraction.from(
+            expectedLiquidationPrice.value(),
+            ethers.utils.parseEther('1')
+          ).toSignificant(4)
+        )
+      )} ${market.collateralSymbol}`;
+
   return [
     userSyntMinted.isZero()
       ? '0'
       : numberToString(FixedPointMath.from(userSyntMinted).toNumber()),
-    `$${formatMoney(
-      Math.floor(
-        +Fraction.from(
-          expectedLiquidationPrice.value(),
-          ethers.utils.parseEther('1')
-        ).toSignificant(4)
-      )
-    )}`,
+    formattedExpectedLiquidationPrice,
     `${
       roundPositionHealthNumber > 100
-        ? 100 - roundPositionHealthNumber
-        : roundPositionHealthNumber
+        ? roundPositionHealthNumber
+        : 100 - roundPositionHealthNumber
     } %`,
   ];
 };
@@ -358,14 +402,20 @@ export const getRewardsInfo: TGetRewardsInfo = (market) => {
 
   const fixedPointMathRewards = FixedPointMath.from(market.pendingRewards);
 
+  const pendingRewardsValue = market.isCollateralStable
+    ? `${formatDollars(
+        // Synt assets have 18 decimals
+        fixedPointMathRewards.mul(market.syntPrice).toNumber()
+      )}`
+    : `${formatMoney(fixedPointMathRewards.mul(market.syntPrice).toNumber())} ${
+        market.collateralSymbol
+      }`;
+
   return [
     ltv,
     liquidationFee,
-    `${formatMoney(fixedPointMathRewards.toNumber())} ${market.syntSymbol}`, // Synt assets have 18 decimals
-    `${formatDollars(
-      // Synt assets have 18 decimals
-      fixedPointMathRewards.mul(market.syntUSDPrice).toNumber()
-    )}`,
+    `${formatMoney(fixedPointMathRewards.toNumber())} ${market.syntSymbol}`,
+    pendingRewardsValue,
   ];
 };
 
@@ -373,19 +423,28 @@ export const getMyPositionData: TGetMyPositionData = (market) => {
   {
     if (!market) return ['0', '0', '$0', '$0', '0', '0'];
 
-    const liquidationPrice = formatMoney(
-      +Fraction.from(
-        calculateSyntExpectedLiquidationPrice({
-          ltv: market.ltv,
-          syntMinted: market.userSyntMinted,
-          adjustedUserCollateral: market.adjustedUserCollateral,
-          syntUSDPrice: market.syntUSDPrice,
-        }).value(),
-        ethers.utils.parseEther('1')
-      ).toSignificant(4)
-    );
+    const syntheticValue = +Fraction.from(
+      FixedPointMath.from(market.userSyntMinted).mul(market.syntPrice).value(),
+      ethers.utils.parseEther('1')
+    ).toSignificant(8);
 
-    const symbol = market.syntSymbol;
+    const formattedSyntheticValue = market.isCollateralStable
+      ? `${formatDollars(syntheticValue)}`
+      : `${formatMoney(syntheticValue)} ${market.collateralSymbol}`;
+
+    const liquidationValue = +Fraction.from(
+      calculateSyntExpectedLiquidationPrice({
+        ltv: market.ltv,
+        syntMinted: market.userSyntMinted,
+        adjustedUserCollateral: market.adjustedUserCollateral,
+        syntPrice: market.syntPrice,
+      }).value(),
+      ethers.utils.parseEther('1')
+    ).toSignificant(4);
+
+    const formattedLiquidationValue = market.isCollateralStable
+      ? formatDollars(liquidationValue)
+      : `${formatMoney(liquidationValue)} ${market.collateralSymbol}`;
 
     return [
       `${formatMoney(
@@ -396,22 +455,15 @@ export const getMyPositionData: TGetMyPositionData = (market) => {
           market.userSyntMinted,
           ethers.utils.parseEther('1')
         ).toSignificant(8)
-      )} ${symbol}`,
-      `${formatDollars(
-        +Fraction.from(
-          FixedPointMath.from(market.userSyntMinted)
-            .mul(market.syntUSDPrice)
-            .value(),
-          ethers.utils.parseEther('1')
-        ).toSignificant(8)
-      )}`,
-      `$${liquidationPrice} (${symbol}) `,
+      )} ${market.syntSymbol}`,
+      formattedSyntheticValue,
+      `${formattedLiquidationValue} (${market.syntSymbol}) `,
       `${formatMoney(
         +Fraction.from(
           calculateSyntLeftToMint(market).value(),
           ethers.utils.parseEther('1')
         ).toSignificant(4)
-      )} ${symbol}`,
+      )} ${market.syntSymbol}`,
       `${Fraction.from(
         safeAmountToWithdraw(market).value(),
         ethers.utils.parseEther('1')
@@ -422,16 +474,13 @@ export const getMyPositionData: TGetMyPositionData = (market) => {
 
 export const convertCollateralToSynt: TConvertCollateralToSynt = ({
   ltv,
-  syntUSDPrice,
+  syntPrice,
   adjustedCollateralAmount,
 }) =>
-  FixedPointMath.from(adjustedCollateralAmount)
-    .mul(ltv)
-    .div(syntUSDPrice)
-    .value();
+  FixedPointMath.from(adjustedCollateralAmount).mul(ltv).div(syntPrice).value();
 
 export const calculateUserCurrentLTV: TCalculateUserCurrentLTV = (
-  { adjustedUserCollateral, userSyntMinted, syntUSDPrice },
+  { adjustedUserCollateral, userSyntMinted, syntPrice },
   mintCollateral,
   mintSynt
 ) => {
@@ -440,7 +489,7 @@ export const calculateUserCurrentLTV: TCalculateUserCurrentLTV = (
   );
 
   const syntMinted = FixedPointMath.from(userSyntMinted.add(mintSynt)).mul(
-    syntUSDPrice
+    syntPrice
   );
 
   return syntMinted.div(collateralInUSD);
@@ -462,13 +511,13 @@ export const getMintFields: TGetMintFields = (market) => {
       name: 'mint.collateral',
       label:
         'syntheticsMarketAddress.mint.collateralLabel' as TTranslatedMessage,
-      amountUSD: 1,
+      price: 1,
       disabled: market.collateralBalance.isZero(),
     },
     {
       max: calculateMintAmount(market).toNumber(),
       amount: '0',
-      amountUSD: FixedPointMath.from(market.syntUSDPrice).toNumber(),
+      price: FixedPointMath.from(market.syntPrice).toNumber(),
       currencyIcons: getSyntheticsMarketSVGByAddress(
         market.chainId,
         market.marketAddress
@@ -489,7 +538,7 @@ export const getBurnFields: TGetBurnFields = (market) => {
   return [
     {
       amount: '0',
-      amountUSD: FixedPointMath.from(market.syntUSDPrice).toNumber(),
+      price: FixedPointMath.from(market.syntPrice).toNumber(),
       currencyIcons: getSyntheticsMarketSVGByAddress(
         market.chainId,
         market.marketAddress
@@ -513,7 +562,7 @@ export const getBurnFields: TGetBurnFields = (market) => {
       name: 'burn.collateral',
       label:
         'syntheticsMarketAddress.burn.collateralLabel' as TTranslatedMessage,
-      amountUSD: 1,
+      price: 1,
       disabled: market.userCollateral.isZero(),
     },
   ];

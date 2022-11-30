@@ -1,4 +1,3 @@
-import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
 import { ethers } from 'ethers';
 
@@ -9,10 +8,13 @@ import {
   replaceWrappedNativeTokenAddressWithZero,
 } from '@/utils';
 
+import { ERC20MetadataStructOutput } from '../../../../types/ethers-contracts/InterestViewDexAbi';
+import { hasKeys } from './../../../../utils/array/index';
 import {
-  ERC20MetadataStructOutput,
-  PairMetadataStructOutput,
-} from '../../../../types/ethers-contracts/InterestViewDexAbi';
+  TDexPoolDetailsData,
+  TPoolDetailsKeys,
+  TProcessPairData,
+} from './dex-pool-details.types';
 
 const processMetadata = (
   chainId: number,
@@ -58,17 +60,23 @@ const processBalance = (
     : balance;
 };
 
-export const processPairData = (
-  chainId: number,
-  data:
-    | ([PairMetadataStructOutput, BigNumber[], BigNumber[]] & {
-        pairMetadata: PairMetadataStructOutput;
-        allowances: BigNumber[];
-        balances: BigNumber[];
-      })
-    | undefined
-    | Result,
-  nativeBalance: string
+const POOL_DETAILS_KEYS: ReadonlyArray<TPoolDetailsKeys> = [
+  'isStable',
+  'reserve0',
+  'reserve1',
+  'token0',
+  'token0Metadata',
+  'token1',
+  'token1Metadata',
+];
+
+const isMissingAttribute = (data: TDexPoolDetailsData) =>
+  !hasKeys(POOL_DETAILS_KEYS, data?.pairMetadata);
+
+export const processPairData: TProcessPairData = (
+  chainId,
+  data,
+  nativeBalance
 ) => {
   const defaultERC20Metadata = {
     name: '???',
@@ -92,7 +100,8 @@ export const processPairData = (
     token1Allowance: ZERO_BIG_NUMBER,
   };
 
-  if (!data) return { ...defaultData, pairExists: true, loading: true };
+  if (!data || isMissingAttribute(data))
+    return { ...defaultData, pairExists: true, loading: true };
 
   if (data.allowances.length === 0)
     return { ...defaultData, pairExists: false, loading: false };
