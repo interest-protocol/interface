@@ -36,8 +36,8 @@ const UserLTV: FC<UserLTVProps> = ({ ltv }) => {
           progress={ltv || 0}
           width="100%"
           height="100%"
+          maxWidth="unset"
           maxHeight="10rem"
-          maxWidth="10rem"
         />
       </Box>
     </Box>
