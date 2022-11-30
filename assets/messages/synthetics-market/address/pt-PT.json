@@ -56,8 +56,8 @@
       "removeCollateralBurn": "Remover a Garantia e Reembolsar"
     },
     "form": {
-      "ltvError": "Está a criar para além do LTV permitido",
-      "collateralError": "A garantia não deve ser maior do que o seu saldo"
+      "ltvError": "Já alcançaste o limite do LTV permitido.",
+      "collateralError": "Não podes depositar mais que o saldo na tua carteira."
     }
   }
 }
