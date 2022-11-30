@@ -58,7 +58,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
       ) {
         form.setError('mint.synt', {
           type: 'max',
-          message: 'You are minting beyond the allowed LTV',
+          message: t('syntheticsMarketAddress.form.ltvError'),
         });
         return;
       }
@@ -83,7 +83,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
       ) {
         form.setError('mint.collateral', {
           type: 'max',
-          message: 'The Collateral must not to be greater than your balance',
+          message: t('syntheticsMarketAddress.form.collateralError'),
         });
         return;
       }
