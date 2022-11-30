@@ -24,7 +24,7 @@ import {
 } from './components';
 import HeaderSkeleton from './components/skeleton/header';
 import { DEXPoolDetailsViewProps } from './dex-pool-details.types';
-import { processPairData } from './utils';
+import { processPairData } from './dex-pool-details.utils';
 
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
   const t = useTranslations();

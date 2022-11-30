@@ -7,9 +7,9 @@ import { Box, Typography } from '@/elements';
 import { TTranslatedMessage } from '@/interface';
 import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { InfoSVG } from '@/svg';
-import { capitalize, formatDollars } from '@/utils';
+import { capitalize, formatDollars, formatMoney } from '@/utils';
 
-import { TInfo } from '../../synthetics-market.types';
+import { TInfo } from '../../synthetics-market-panel.types';
 import { MyOpenPositionProps } from './my-open-position.types';
 
 const MY_POSITION: TInfo = [1, 2, 3, 4, 5, 6].map((item) => ({
@@ -18,16 +18,26 @@ const MY_POSITION: TInfo = [1, 2, 3, 4, 5, 6].map((item) => ({
 }));
 
 const MyOpenPosition: FC<MyOpenPositionProps> = ({
-  symbol,
   isLoading,
   myPositionData,
-  syntUSDPrice,
+  syntPrice,
+  isStable,
+  collateralSymbol,
+  syntSymbol,
 }) => {
   const t = useTranslations();
 
   const translationValues = {
-    syntheticSymbol: symbol,
+    syntheticSymbol: syntSymbol,
   };
+
+  const collateralValue = isStable
+    ? `${syntSymbol}: ${formatDollars(
+        FixedPointMath.from(syntPrice).toNumber()
+      )}`
+    : `${syntSymbol}: ${formatMoney(
+        FixedPointMath.from(syntPrice).toNumber()
+      )} ${collateralSymbol}`;
 
   return (
     <Box p="XL" order={5} gridArea="c" bg="foreground" borderRadius="L">
@@ -78,14 +88,9 @@ const MyOpenPosition: FC<MyOpenPositionProps> = ({
               <Skeleton />
             </Typography>
           ) : (
-            `${symbol}: ${formatDollars(
-              FixedPointMath.from(syntUSDPrice).toNumber()
-            )}`
+            collateralValue
           )}
         </Box>
-        <Typography variant="normal" textAlign="center" mb="M">
-          BUSD: {formatDollars(1)}
-        </Typography>
       </Box>
     </Box>
   );

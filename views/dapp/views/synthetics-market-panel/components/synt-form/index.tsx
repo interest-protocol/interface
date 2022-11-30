@@ -13,11 +13,13 @@ import SyntFormSyntInfo from './synt-form-synt-info';
 
 const SyntForm: FC<SyntFormProps> = ({
   data,
+  form,
   fields,
   isMint,
   refetch,
+  mintButton,
+  burnButton,
   isGettingData,
-  form,
 }) => (
   <Box
     p="XL"
@@ -57,10 +59,12 @@ const SyntForm: FC<SyntFormProps> = ({
     <SyntFormSyntInfo control={form.control} data={data} isMint={!!isMint} />
     <WalletGuardButton>
       <SyntFormButton
-        isMint={!!isMint}
         data={data}
         form={form}
+        isMint={!!isMint}
         refetch={refetch}
+        mintButton={mintButton}
+        burnButton={burnButton}
       />
     </WalletGuardButton>
   </Box>

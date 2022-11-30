@@ -6,15 +6,15 @@ import { ApproveButton } from '@/components';
 import { Box } from '@/elements';
 import { isValidAccount, isZeroAddress } from '@/utils';
 
-import BurnButton from './burn-button';
-import MintButton from './mint-button';
 import { SyntFormButtonProps } from './synt-form.types';
 
 const SyntFormButton: FC<SyntFormButtonProps> = ({
   data,
+  form,
   isMint,
   refetch,
-  form,
+  mintButton,
+  burnButton,
 }) => {
   const t = useTranslations();
   const burnSynt = useWatch({ control: form.control, name: 'burn.synt' });
@@ -65,13 +65,7 @@ const SyntFormButton: FC<SyntFormButtonProps> = ({
             {t('syntheticsMarketAddress.button.default')}
           </Box>
         ) : (
-          <MintButton
-            mintSynt={mintSynt}
-            mintCollateral={mintCollateral}
-            refetch={refetch}
-            form={form}
-            data={data}
-          />
+          mintButton
         )
       ) : !+burnSynt && !+burnCollateral ? (
         <Box
@@ -85,13 +79,7 @@ const SyntFormButton: FC<SyntFormButtonProps> = ({
           {t('syntheticsMarketAddress.button.default')}
         </Box>
       ) : (
-        <BurnButton
-          burnSynt={burnSynt}
-          burnCollateral={burnCollateral}
-          refetch={refetch}
-          form={form}
-          data={data}
-        />
+        burnButton
       )}
     </Box>
   );

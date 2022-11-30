@@ -25,6 +25,7 @@ import {
   calculateFarmBaseAPR,
   calculateFarmTokenPrice,
   calculateIntUSDPrice,
+  hasKeys,
   isSameAddress,
   replaceWrappedNativeTokenWithNativeTokenSymbol,
 } from '@/utils';
@@ -35,7 +36,28 @@ import {
   FarmTypeFilter,
   GetSafeFarmSummaryData,
   SafeFarmData,
+  TFarmData,
+  TFarmDataKeys,
 } from './farms.types';
+
+const FARM_DATA_KEYS: TFarmDataKeys = {
+  mintData: ['interestPerBlock', 'totalAllocationPoints'],
+  pools: [
+    'allocationPoints',
+    'reserve0',
+    'reserve1',
+    'stable',
+    'stakingAmount',
+    'stakingToken',
+    'totalStakingAmount',
+    'totalSupply',
+  ],
+};
+
+const isMissingAttribute = (farmData: TFarmData) =>
+  !hasKeys(FARM_DATA_KEYS.mintData, farmData?.mintData) ||
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (farmData?.pools).some((data: any) => !hasKeys(FARM_DATA_KEYS.pools, data));
 
 export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
   chainId,
@@ -70,7 +92,7 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
 
   const farmResponseMapData = CASA_DE_PAPEL_FARM_RESPONSE_MAP[chainId];
 
-  if (!farmResponseMapData)
+  if (!farmResponseMapData || isMissingAttribute(data))
     return {
       intUSDPrice: ZERO_BIG_NUMBER,
       totalAllocationPoints: ZERO_BIG_NUMBER,

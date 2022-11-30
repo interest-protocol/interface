@@ -37,23 +37,46 @@ export interface SafeUserFarmSummaryData {
   intUSDPrice: BigNumber;
 }
 
+type TFarmPoolDataKeys =
+  | 'stakingToken'
+  | 'stable'
+  | 'reserve0'
+  | 'reserve1'
+  | 'allocationPoints'
+  | 'totalStakingAmount'
+  | 'totalSupply'
+  | 'stakingAmount';
+
+type TFarmMintDataKeys = 'totalAllocationPoints' | 'interestPerBlock';
+
+type TFarmUserDataKeys = 'allowance' | 'balance' | 'pendingRewards';
+
+export type TFarmDataKeys = {
+  ipxPoolData: ReadonlyArray<TFarmPoolDataKeys>;
+  poolData: ReadonlyArray<TFarmPoolDataKeys>;
+  mintData: ReadonlyArray<TFarmMintDataKeys>;
+  farmData: ReadonlyArray<TFarmUserDataKeys>;
+};
+
+export type TFarmData =
+  | undefined
+  | ([
+      InterestViewEarn.PoolDataStructOutput,
+      InterestViewEarn.PoolDataStructOutput,
+      InterestViewEarn.MintDataStructOutput,
+      InterestViewEarn.UserFarmDataStructOutput,
+      BigNumber[]
+    ] & {
+      ipxPoolData: InterestViewEarn.PoolDataStructOutput;
+      poolData: InterestViewEarn.PoolDataStructOutput;
+      mintData: InterestViewEarn.MintDataStructOutput;
+      farmData: InterestViewEarn.UserFarmDataStructOutput;
+      prices: BigNumber[];
+    })
+  | Result;
+
 export type GetSafeUserFarmData = (
   chainId: number,
   pairAddress: string,
-  data:
-    | undefined
-    | ([
-        InterestViewEarn.PoolDataStructOutput,
-        InterestViewEarn.PoolDataStructOutput,
-        InterestViewEarn.MintDataStructOutput,
-        InterestViewEarn.UserFarmDataStructOutput,
-        BigNumber[]
-      ] & {
-        ipxPoolData: InterestViewEarn.PoolDataStructOutput;
-        poolData: InterestViewEarn.PoolDataStructOutput;
-        mintData: InterestViewEarn.MintDataStructOutput;
-        farmData: InterestViewEarn.UserFarmDataStructOutput;
-        prices: BigNumber[];
-      })
-    | Result
+  data: TFarmData
 ) => SafeUserFarmSummaryData;

@@ -1,24 +1,29 @@
+import { ReactNode } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 import {
   ISyntheticForm,
   ISyntheticFormField,
-} from '../../synthetics-market.types';
-import { SyntheticMarketData } from './../../synthetics-market.types';
+} from '../../synthetics-market-panel.types';
+import { SyntheticMarketData } from './../../synthetics-market-panel.types';
 
 export interface SyntFormButtonProps {
   form: UseFormReturn<ISyntheticForm>;
   isMint?: boolean;
+  mintButton: ReactNode;
+  burnButton: ReactNode;
   data: SyntheticMarketData;
   refetch: () => Promise<void>;
 }
 export interface SyntFormProps {
   form: UseFormReturn<ISyntheticForm>;
   isMint?: boolean;
-  data: SyntheticMarketData;
-  fields: ReadonlyArray<ISyntheticFormField>;
-  refetch: () => Promise<void>;
+  mintButton: ReactNode;
+  burnButton: ReactNode;
   isGettingData: boolean;
+  data: SyntheticMarketData;
+  refetch: () => Promise<void>;
+  fields: ReadonlyArray<ISyntheticFormField>;
 }
 
 export interface SyntFormSelectLTVProps
@@ -31,20 +36,4 @@ export interface SyntFormSyntInfoProps
   extends Pick<UseFormReturn<ISyntheticForm>, 'control'> {
   data: SyntheticMarketData;
   isMint: boolean;
-}
-
-export interface MintButtonProps {
-  data: SyntheticMarketData;
-  form: UseFormReturn<ISyntheticForm>;
-  refetch: () => Promise<void>;
-  mintSynt: string;
-  mintCollateral: string;
-}
-
-export interface BurnButtonProps {
-  data: SyntheticMarketData;
-  form: UseFormReturn<ISyntheticForm>;
-  refetch: () => Promise<void>;
-  burnSynt: string;
-  burnCollateral: string;
 }

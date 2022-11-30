@@ -10,7 +10,12 @@ import InputErrorMessage from './input-error';
 import InputMaxButton from './input-max-button';
 import InputMaxTag from './input-max-tag';
 import { InputMoneyProps, TErrorMessageLabels } from './input-money.types';
-import InputMoneySuffix from './input-money-suffix';
+import InputSuffix from './input-suffix';
+
+const COLLATERAL_SYMBOLS = {
+  [TOKEN_SYMBOL.ETH]: true,
+  [TOKEN_SYMBOL.BUSD]: true,
+} as Record<string, boolean>;
 
 const InputMoney: FC<InputMoneyProps> = ({
   max,
@@ -25,7 +30,7 @@ const InputMoney: FC<InputMoneyProps> = ({
   setValue,
   disabled,
   isMint,
-  amountUSD,
+  price,
   currencyIcons,
 }) => {
   const t = useTranslations();
@@ -47,7 +52,7 @@ const InputMoney: FC<InputMoneyProps> = ({
           data={data}
           control={control}
           isMint={!!isMint}
-          isBUSD={currency === TOKEN_SYMBOL.BUSD}
+          isCollateral={COLLATERAL_SYMBOLS[currency] || false}
         />
         <Input
           type="string"
@@ -75,10 +80,11 @@ const InputMoney: FC<InputMoneyProps> = ({
             },
           }}
           Suffix={
-            <InputMoneySuffix
+            <InputSuffix
               name={name}
               control={control}
-              amountUSD={amountUSD}
+              price={price}
+              isStable={data.isCollateralStable}
             />
           }
           Prefix={

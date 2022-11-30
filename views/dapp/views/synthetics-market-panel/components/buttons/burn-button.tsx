@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
+import { useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import { GAAction } from '@/constants/google-analytics';
@@ -15,19 +16,20 @@ import {
 } from '@/utils';
 import { logException } from '@/utils/analytics';
 
-import { useBurn } from '../../synthetics-market.hooks';
-import { isFormBurnEmpty } from '../../synthetics-market.utils';
-import { BurnButtonProps } from './synt-form.types';
+import { useBurn } from '../../synthetics-market-panel.hooks';
+import { isFormBurnEmpty } from '../../synthetics-market-panel.utils';
+import { BurnButtonProps } from './buttons.types';
 
-const BurnButton: FC<BurnButtonProps> = ({
-  data,
-  form,
-  burnSynt,
-  burnCollateral,
-  refetch,
-}) => {
+const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
+
+  const burnSynt = useWatch({ control: form.control, name: 'burn.synt' });
+
+  const burnCollateral = useWatch({
+    control: form.control,
+    name: 'burn.collateral',
+  });
 
   const { writeAsync: burn } = useBurn(data, burnCollateral, burnSynt);
 

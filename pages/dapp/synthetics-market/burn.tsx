@@ -9,7 +9,7 @@ const DynamicSyntheticsMarketMode = dynamic(
   () => import('../../../views/dapp/views/synthetics-market-panel')
 );
 
-const SyntheticsPageBurnPage: NextPageWithAddress = ({ address }) => (
+const SyntheticsBurnPage: NextPageWithAddress = ({ address }) => (
   <DynamicSyntheticsMarketMode address={address} mode="burn" />
 );
 
@@ -33,4 +33,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default withAddressGuard(SyntheticsPageBurnPage);
+export default withAddressGuard(SyntheticsBurnPage);

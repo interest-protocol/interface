@@ -73,29 +73,63 @@ export interface DineroMarketData {
   loading: boolean;
   now: number;
 }
+type TDineroMarketPanelMarketData =
+  | 'loanBase'
+  | 'loanElastic'
+  | 'interestRate'
+  | 'lastAccrued'
+  | 'collateralUSDPrice'
+  | 'liquidationFee'
+  | 'LTV'
+  | 'userCollateral'
+  | 'userPrincipal'
+  | 'collateralAllowance'
+  | 'collateralBalance'
+  | 'dnrBalance'
+  | 'rewardsBalance'
+  | 'pendingRewards'
+  | 'maxBorrowAmount';
+
+type TDineroMarketPanelPoolData =
+  | 'stakingToken'
+  | 'stable'
+  | 'reserve0'
+  | 'reserve1'
+  | 'allocationPoints'
+  | 'totalStakingAmount'
+  | 'totalSupply';
+
+export type TDineroMarketPanelDataKeys = {
+  marketData: ReadonlyArray<TDineroMarketPanelMarketData>;
+  ipxPoolData: ReadonlyArray<TDineroMarketPanelPoolData>;
+  collateralPoolData: ReadonlyArray<TDineroMarketPanelPoolData>;
+  mintData: ReadonlyArray<'totalAllocationPoints' | 'interestPerBlock'>;
+};
+
+export type TDineroMarketPanelData =
+  | undefined
+  | ([
+      InterestViewDinero.DineroMarketDataStructOutput,
+      InterestViewDinero.PoolDataStructOutput,
+      InterestViewDinero.PoolDataStructOutput,
+      InterestViewDinero.MintDataStructOutput,
+      BigNumber,
+      BigNumber
+    ] & {
+      marketData: InterestViewDinero.DineroMarketDataStructOutput;
+      ipxPoolData: InterestViewDinero.PoolDataStructOutput;
+      collateralPoolData: InterestViewDinero.PoolDataStructOutput;
+      mintData: InterestViewDinero.MintDataStructOutput;
+      nativeUSDPrice: BigNumber;
+      baseTokenUSDPrice: BigNumber;
+    })
+  | Result;
 
 export type GetSafeDineroMarketData = (
   chainId: number,
   now: number,
   market: string,
-  data:
-    | undefined
-    | ([
-        InterestViewDinero.DineroMarketDataStructOutput,
-        InterestViewDinero.PoolDataStructOutput,
-        InterestViewDinero.PoolDataStructOutput,
-        InterestViewDinero.MintDataStructOutput,
-        BigNumber,
-        BigNumber
-      ] & {
-        marketData: InterestViewDinero.DineroMarketDataStructOutput;
-        ipxPoolData: InterestViewDinero.PoolDataStructOutput;
-        collateralPoolData: InterestViewDinero.PoolDataStructOutput;
-        mintData: InterestViewDinero.MintDataStructOutput;
-        nativeUSDPrice: BigNumber;
-        baseTokenUSDPrice: BigNumber;
-      })
-    | Result
+  data: TDineroMarketPanelData
 ) => DineroMarketData;
 
 type ProcessedMarketData = DineroMarketData;

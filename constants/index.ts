@@ -1,5 +1,13 @@
 import { CHAIN_ID } from '@/sdk';
-import { BscScanSVG, EtherScanSVG, UnknownCoinSVG } from '@/svg';
+import {
+  BscScanSVG,
+  ChainLinkSVG,
+  EtherScanSVG,
+  RedStoneSVG,
+  UnknownCoinSVG,
+} from '@/svg';
+
+import { SyntheticOracleType } from './synthetics';
 
 export * from './chains';
 export * from './dex';
@@ -27,4 +35,10 @@ export const EXPLORER_MAP = {
   [CHAIN_ID.BNB_MAIN_NET]: BscScanSVG,
   [CHAIN_ID.BNB_TEST_NET]: BscScanSVG,
   [CHAIN_ID.UNSUPPORTED]: UnknownCoinSVG,
+};
+
+export const ORACLE_SVG_MAP = {
+  [SyntheticOracleType.ChainLink]: ChainLinkSVG,
+  [SyntheticOracleType.RedStoneConsumer]: RedStoneSVG,
+  [SyntheticOracleType.RedStonePriceAware]: RedStoneSVG,
 };

@@ -1,4 +1,4 @@
-import { SyntheticMarketData } from '../../synthetics-market.types';
+import { SyntheticMarketData } from '../../synthetics-market-panel.types';
 
 export interface YourBalanceProps {
   data: SyntheticMarketData;
