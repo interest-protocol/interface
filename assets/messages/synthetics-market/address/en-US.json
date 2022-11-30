@@ -57,8 +57,7 @@
     },
     "form": {
       "ltvError": "You are minting beyond the allowed LTV",
-      "collateralError": "The Collateral must not to be greater than your balance",
-      "amountError": "Borrow or collateral amount are wrong"
+      "collateralError": "The Collateral must not to be greater than your balance"
     }
   }
 }

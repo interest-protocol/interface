@@ -58,8 +58,8 @@
       "removeCollateralBurn": "Remover a Garantia e Reembolsar"
     },
     "form": {
-      "ltvError": "Your LTV is too high",
-      "collateralError": "The Collateral must not to be more than your balance"
+      "ltvError": "Está a criar para além do LTV permitido",
+      "collateralError": "A garantia não deve ser maior do que o seu saldo"
     }
   }
 }
