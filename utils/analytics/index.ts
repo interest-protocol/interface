@@ -53,9 +53,9 @@ export const logTransactionEvent = ({
   status,
   type,
   pages,
-  func,
+  functionName,
 }: LogProps): void => {
-  ReactGA.event(`${status}_${type}_${pages}_${func}`);
+  ReactGA.event(`${status}_${type}_${pages}_${functionName}`);
 };
 
 export const logGenericEvent = (action: string): void => {
