@@ -23,14 +23,14 @@ export const useGetUserBalancesAndAllowances = (
       logTransactionEvent({
         status: Status.Error,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.DexPool,
         functionName: 'getUserBalancesAndAllowances',
       }),
     onSuccess: () =>
       logTransactionEvent({
         status: Status.Success,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.DexPool,
         functionName: 'getUserBalancesAndAllowances',
       }),
     ...args,

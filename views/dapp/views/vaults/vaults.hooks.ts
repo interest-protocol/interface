@@ -21,14 +21,14 @@ export const useGetVaultsSummary = (
       logTransactionEvent({
         status: Status.Error,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.Vault,
         functionName: 'getVaultsSummary',
       }),
     onSuccess: () =>
       logTransactionEvent({
         status: Status.Success,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.Vault,
         functionName: 'getVaultsSummary',
       }),
   });

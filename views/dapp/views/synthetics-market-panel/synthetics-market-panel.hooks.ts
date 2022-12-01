@@ -74,14 +74,14 @@ export const useWagmiGetSyntheticUserMarketData = ({
       logTransactionEvent({
         status: Status.Error,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.SyntheticsMarketPanel,
         functionName: 'getSyntheticUserMarketData',
       }),
     onSuccess: () =>
       logTransactionEvent({
         status: Status.Success,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.SyntheticsMarketPanel,
         functionName: 'getSyntheticUserMarketData',
       }),
   });
