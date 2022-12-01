@@ -427,7 +427,7 @@ export const SYNTHETIC_PANEL_RESPONSE_MAP = {
       syntAddress: CONTRACTS.iAAPL[CHAIN_ID.BNB_TEST_NET],
       collateralName: 'BUSD Coin',
       collateralSymbol: TOKEN_SYMBOL.BUSD,
-      dataFeedId: 'APPL',
+      dataFeedId: 'AAPL',
       oracleType: SyntheticOracleType.RedStoneConsumer,
     },
     [getBSCTestNetSyntheticsMarkets().iTSLA!]: {
