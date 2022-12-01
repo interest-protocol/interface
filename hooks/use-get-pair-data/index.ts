@@ -18,14 +18,14 @@ export const useGetPairData = (pairAddress: string) => {
       logTransactionEvent({
         status: Status.Error,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.DexPoolDetails,
         functionName: 'getPairData',
       }),
     onSuccess: () =>
       logTransactionEvent({
         status: Status.Success,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.DexPoolDetails,
         functionName: 'getPairData',
       }),
   });

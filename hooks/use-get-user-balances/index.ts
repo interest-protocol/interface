@@ -27,14 +27,14 @@ export const useGetUserBalances = (
       logTransactionEvent({
         status: Status.Error,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.Faucet,
         functionName: 'getUserBalances',
       }),
     onSuccess: () =>
       logTransactionEvent({
         status: Status.Success,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.Faucet,
         functionName: 'getUserBalances',
       }),
     ...extraArgs,

@@ -9,7 +9,6 @@ import { WrapperBuilder as OldWrapperBuilder } from 'redstone-evm-connector';
 import { useSigner } from 'wagmi';
 
 import { REDSTONE_CORE_CONSUMER_DATA, SyntheticOracleType } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import SyntheticMinterABI from '@/sdk/abi/synthetics-minter.abi.json';
 import { LoadingSVG } from '@/svg';
@@ -21,7 +20,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
 import { SyntheticsMinterAbi } from '../../../../../../types/ethers-contracts';
 import { isFormBurnEmpty } from '../../synthetics-market-panel.utils';
@@ -83,14 +82,13 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
       await showTXSuccessToast(tx, data.chainId);
       form.reset();
     } catch (e: unknown) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: burn - handleBurn',
-        trackerName: [
-          'views/dapp/views/synthetics-market-panel/components/synt-form/burn-button.tsx',
-        ],
-      });
-      throwContractCallError(e);
+      logTransactionEvent({
+        status: Status.Error,
+        type: Type.Write,
+        pages: Pages.SyntheticsMarketPanel,
+        functionName: 'handleBurn',
+      }),
+        throwContractCallError(e);
     } finally {
       setLoading(false);
       await refetch();

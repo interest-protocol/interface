@@ -6,14 +6,12 @@ import { WrapperBuilder as OldWrapperBuilder } from 'redstone-evm-connector';
 import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite, useQuery } from 'wagmi';
 
-import { DEFAULT_ACCOUNT } from '@/constants';
 import {
   DEFAULT_ACCOUNT,
   REDSTONE_CORE_CONSUMER_DATA,
   SyntheticOracleType,
   SyntheticRequestActions,
 } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import { useIdAccount, useSafeContractRead } from '@/hooks';
 import { HandlerData } from '@/interface';
 import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';

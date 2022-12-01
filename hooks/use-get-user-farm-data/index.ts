@@ -35,14 +35,14 @@ export const useGetUserFarmData = (pairAddress: string) => {
       logTransactionEvent({
         status: Status.Error,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.FarmsDetails,
         functionName: 'getUserFarmData',
       }),
     onSuccess: () =>
       logTransactionEvent({
         status: Status.Success,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.FarmsDetails,
         functionName: 'getUserFarmData',
       }),
   });

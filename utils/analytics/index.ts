@@ -38,8 +38,7 @@ export enum Pages {
   Faucet = 'Faucet',
   SyntheticsMarket = 'SyntheticsMarket',
   SyntheticsMarketPanel = 'SyntheticsMarketPanel',
-  Generic = 'Components',
-  Hooks = 'Hooks',
+  ApproveButton = 'ApproveButton',
 }
 
 interface LogProps {

@@ -24,14 +24,14 @@ export const useQuoteRemoveLiquidity = (
       logTransactionEvent({
         status: Status.Error,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.DexPoolDetailsRemoveLiquidity,
         functionName: 'quoteRemoveLiquidity',
       }),
     onSuccess: () =>
       logTransactionEvent({
         status: Status.Success,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.DexPoolDetailsRemoveLiquidity,
         functionName: 'quoteRemoveLiquidity',
       }),
   });

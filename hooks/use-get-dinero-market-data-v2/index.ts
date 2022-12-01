@@ -27,14 +27,14 @@ export const useGetDineroMarketDataV2 = (market: string) => {
       logTransactionEvent({
         status: Status.Error,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.DineroMarketPanel,
         functionName: 'getDineroMarketData',
       }),
     onSuccess: () =>
       logTransactionEvent({
         status: Status.Success,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.DineroMarketPanel,
         functionName: 'getDineroMarketData',
       }),
   });

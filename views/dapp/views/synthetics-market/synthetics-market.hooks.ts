@@ -5,10 +5,7 @@ import { useQuery } from 'wagmi';
 
 import { DEFAULT_ACCOUNT } from '@/constants';
 import { SYNTHETICS_CALL_MAP } from '@/constants/synthetics';
-import { useSafeContractRead } from '@/hooks';
 import GetTokenUsdPriceABI from '@/sdk/abi/get-token-usd-price.abi.json';
-import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
-import { getInterestViewDineroV2Address } from '@/utils';
 import { getInterestViewDineroContract, getStaticWeb3Provider } from '@/utils';
 import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
 
@@ -24,27 +21,6 @@ export const useGetSyntheticMarketsSummary = (
 ) => {
   const callData = SYNTHETICS_CALL_MAP[chainId] || [];
 
-  return useSafeContractRead({
-    contractInterface: InterestViewDineroV2ABI,
-    addressOrName: getInterestViewDineroV2Address(chainId),
-    functionName: 'getSyntheticMarketsSummary',
-    args: [account || DEFAULT_ACCOUNT, callData],
-    enabled: !!callData.length,
-    onError: () =>
-      logTransactionEvent({
-        status: Status.Error,
-        type: Type.Read,
-        pages: Pages.Hooks,
-        functionName: 'getSyntheticMarketsSummary',
-      }),
-    onSuccess: () =>
-      logTransactionEvent({
-        status: Status.Success,
-        type: Type.Read,
-        pages: Pages.Hooks,
-        functionName: 'getSyntheticMarketsSummary',
-      }),
-  });
   const contract = WrapperBuilder.wrap(
     getInterestViewDineroContract(
       chainId,
@@ -76,7 +52,14 @@ export const useGetSyntheticMarketsSummary = (
         logTransactionEvent({
           status: Status.Error,
           type: Type.Read,
-          pages: Pages.SyntheticsMarket,
+          pages: Pages.Hooks,
+          functionName: 'getSyntheticMarketsSummary',
+        }),
+      onSuccess: () =>
+        logTransactionEvent({
+          status: Status.Success,
+          type: Type.Read,
+          pages: Pages.Hooks,
           functionName: 'getSyntheticMarketsSummary',
         }),
     }
@@ -117,6 +100,13 @@ export const useGetTokenUSDPrice = ({
       onError: () =>
         logTransactionEvent({
           status: Status.Error,
+          type: Type.Read,
+          pages: Pages.SyntheticsMarket,
+          functionName: 'getTokenUSDPrice',
+        }),
+      onSuccess: () =>
+        logTransactionEvent({
+          status: Status.Success,
           type: Type.Read,
           pages: Pages.SyntheticsMarket,
           functionName: 'getTokenUSDPrice',

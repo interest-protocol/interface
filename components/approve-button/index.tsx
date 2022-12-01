@@ -33,14 +33,14 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       logTransactionEvent({
         status: Status.Success,
         type: Type.Write,
-        pages: Pages.Generic,
+        pages: Pages.ApproveButton,
         functionName: 'handleAddAllowance',
       });
     } catch (e) {
       logTransactionEvent({
         status: Status.Error,
         type: Type.Write,
-        pages: Pages.Generic,
+        pages: Pages.ApproveButton,
         functionName: 'handleAddAllowance',
       });
       throwError(t('error.generic'), e);

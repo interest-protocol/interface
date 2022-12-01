@@ -29,14 +29,14 @@ export const useGetFarmsSummary = () => {
       logTransactionEvent({
         status: Status.Error,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.Farms,
         functionName: 'getFarmsSummary',
       }),
     onSuccess: () =>
       logTransactionEvent({
         status: Status.Error,
         type: Type.Read,
-        pages: Pages.Hooks,
+        pages: Pages.Farms,
         functionName: 'getFarmsSummary',
       }),
   });
