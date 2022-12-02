@@ -80,6 +80,12 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
       await tx?.wait(2);
 
       await showTXSuccessToast(tx, data.chainId);
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Write,
+        pages: Pages.SyntheticsMarketPanel,
+        functionName: 'handleBurn',
+      });
       form.reset();
     } catch (e: unknown) {
       logTransactionEvent({

@@ -158,6 +158,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
         alignItems: 'center',
         justifyContent: 'center',
       }}
+      pageName={Pages.SyntheticsMarketPanel}
     />
   ) : (!mintSynt && !mintCollateral) ||
     (+mintSynt === 0 && +mintCollateral === 0) ? (

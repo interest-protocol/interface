@@ -169,6 +169,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
         alignItems: 'center',
         justifyContent: 'center',
       }}
+      pageName={Pages.DineroMarketPanel}
     />
   ) : (!borrowLoan && !borrowCollateral) ||
     (+borrowCollateral === 0 && +borrowLoan === 0) ? (

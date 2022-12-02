@@ -46,6 +46,7 @@ interface LogProps {
   type: Type;
   pages: Pages;
   functionName: string;
+  componentsName: string;
 }
 
 export const logTransactionEvent = ({

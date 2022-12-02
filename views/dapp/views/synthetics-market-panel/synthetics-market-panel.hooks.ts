@@ -457,7 +457,14 @@ export const useRedstoneSynthsPanel = ({
           status: Status.Error,
           type: Type.Read,
           pages: Pages.SyntheticsMarketPanel,
-          functionName: 'getSyntheticUserMarketDatam',
+          functionName: 'getSyntheticUserMarketData-red-stone',
+        }),
+      onSuccess: () =>
+        logTransactionEvent({
+          status: Status.Success,
+          type: Type.Read,
+          pages: Pages.SyntheticsMarketPanel,
+          functionName: 'getSyntheticUserMarketData-red-stone',
         }),
     }
   );

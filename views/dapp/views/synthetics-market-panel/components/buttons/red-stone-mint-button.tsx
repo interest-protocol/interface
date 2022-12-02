@@ -142,6 +142,12 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
       await refetch();
 
       await showTXSuccessToast(tx, data.chainId);
+      logTransactionEvent({
+        status: Status.Success,
+        type: Type.Write,
+        pages: Pages.SyntheticsMarketPanel,
+        functionName: 'handleMint',
+      });
       form.reset();
     } catch (e: unknown) {
       logTransactionEvent({
@@ -193,6 +199,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
         alignItems: 'center',
         justifyContent: 'center',
       }}
+      pageName={Pages.SyntheticsMarketPanel}
     />
   ) : (!mintSynt && !mintCollateral) ||
     (+mintSynt === 0 && +mintCollateral === 0) ? (

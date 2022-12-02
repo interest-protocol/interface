@@ -34,7 +34,7 @@ export const useGetFarmsSummary = () => {
       }),
     onSuccess: () =>
       logTransactionEvent({
-        status: Status.Error,
+        status: Status.Success,
         type: Type.Read,
         pages: Pages.Farms,
         functionName: 'getFarmsSummary',

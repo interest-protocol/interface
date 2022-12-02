@@ -5,7 +5,7 @@ import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import { logTransactionEvent, Status, Type } from '@/utils/analytics';
 
 import { ApproveButtonProps } from './approve-button.types';
 
@@ -16,6 +16,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
   chainId,
   refetch,
   buttonProps = { variant: 'primary' },
+  pageName,
 }) => {
   const t = useTranslations();
 
@@ -33,14 +34,14 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       logTransactionEvent({
         status: Status.Success,
         type: Type.Write,
-        pages: Pages.ApproveButton,
+        pages: pageName,
         functionName: 'handleAddAllowance',
       });
     } catch (e) {
       logTransactionEvent({
         status: Status.Error,
         type: Type.Write,
-        pages: Pages.ApproveButton,
+        pages: pageName,
         functionName: 'handleAddAllowance',
       });
       throwError(t('error.generic'), e);
