@@ -16,7 +16,15 @@ import {
 } from '@/constants';
 import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Dropdown, Typography } from '@/elements';
-import { CreditCardSVG, FaucetSVG, GitBookSVG, HorizontalDotsSVG } from '@/svg';
+import {
+  CreditCardSVG,
+  DexSVG,
+  EarnSVG,
+  FaucetSVG,
+  GitBookSVG,
+  HorizontalDotsSVG,
+  MarketSVG,
+} from '@/svg';
 import { capitalize } from '@/utils';
 import { logEvent } from '@/utils/analytics';
 
@@ -70,11 +78,11 @@ const Footer: FC = () => {
               ml="S"
               px="0.8rem"
               fontSize="M"
-              height="2.5rem"
               display="flex"
+              flexDirection="column"
               variant="primary"
               alignItems="center"
-              justifyContent="center"
+              justifyContent="space-between"
               boxShadow="0 0 15px rgba(0,0,0,.3)"
               bg={
                 pathname.includes(Routes[RoutesEnum.DEX])
@@ -85,6 +93,13 @@ const Footer: FC = () => {
               active={{ bg: 'accentActive', color: 'text' }}
               onClick={() => trackHeaderNavigation(RoutesEnum.DEX)}
             >
+              <DexSVG
+                width="1.4rem"
+                height="1.4rem"
+                maxHeight={'2.5rem'}
+                maxWidth={'auto'}
+                style={{ marginBottom: '8px' }}
+              />
               Dex
             </Button>
           </Link>
@@ -95,7 +110,7 @@ const Footer: FC = () => {
               staticPosition
               title={
                 <Typography
-                  px="1.5rem"
+                  p="0.8rem 1rem"
                   bg={
                     pathname === Routes[RoutesEnum.Farms] ||
                     pathname.includes(Routes[RoutesEnum.Vaults]) ||
@@ -104,9 +119,10 @@ const Footer: FC = () => {
                       : 'textSoft'
                   }
                   fontSize="M"
-                  height="2.5rem"
                   display="flex"
                   variant="normal"
+                  as="div"
+                  flexDirection="column"
                   borderRadius="M"
                   alignItems="center"
                   justifyContent="center"
@@ -120,6 +136,14 @@ const Footer: FC = () => {
                   hover={{ bg: 'accent', color: 'text' }}
                   active={{ bg: 'accentActive', color: 'text' }}
                 >
+                  <EarnSVG
+                    fill="transparent"
+                    width="1.4rem"
+                    height="1.4rem"
+                    maxHeight={'2.5rem'}
+                    maxWidth={'auto'}
+                    style={{ marginBottom: '8px' }}
+                  />
                   {capitalize(t('common.earn'))}
                 </Typography>
               }
@@ -150,7 +174,7 @@ const Footer: FC = () => {
               staticPosition
               title={
                 <Typography
-                  px="1.5rem"
+                  p="0.8rem 1rem"
                   bg={
                     pathname.includes(Routes[RoutesEnum.DineroMarket]) ||
                     pathname.includes(Routes[RoutesEnum.SyntheticsMarket])
@@ -158,9 +182,10 @@ const Footer: FC = () => {
                       : 'textSoft'
                   }
                   fontSize="M"
-                  height="2.5rem"
                   display="flex"
                   variant="normal"
+                  as="div"
+                  flexDirection="column"
                   borderRadius="M"
                   alignItems="center"
                   justifyContent="center"
@@ -172,8 +197,15 @@ const Footer: FC = () => {
                       : 'inherit'
                   }
                   hover={{ bg: 'accent', color: 'text' }}
-                  active={{ bg: 'accentActive', color: 'text' }}
+                  active={{ bg: 'accentActive', color: 'red', fill: 'red' }}
                 >
+                  <MarketSVG
+                    width="1.4rem"
+                    height="1.4rem"
+                    maxHeight={'2.5rem'}
+                    maxWidth={'auto'}
+                    style={{ marginBottom: '8px' }}
+                  />
                   {capitalize(t('common.market'))}
                 </Typography>
               }
