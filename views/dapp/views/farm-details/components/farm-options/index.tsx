@@ -3,7 +3,6 @@ import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
 
 import { Routes, RoutesEnum, StakeState } from '@/constants';
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Typography } from '@/elements';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
@@ -15,7 +14,7 @@ import {
   formatMoney,
   makeFarmSymbol,
 } from '@/utils';
-import { logEvent } from '@/utils/analytics';
+import { logGenericEvent } from '@/utils/analytics';
 
 import ApproveButton from '../buttons/approve-button';
 import HarvestButton from '../buttons/harvest-button';
@@ -41,10 +40,9 @@ const FarmOptions: FC<FarmOptionsProps> = ({
   const handleCloseModal = () => setModal(undefined);
 
   const handleChangeModal = (target: StakeState) => () => {
-    logEvent(
-      GACategory.Modal,
-      GAAction.FarmDetailsCard,
-      target === StakeState.Stake ? 'Staked Token' : 'Unstaked Token'
+    logGenericEvent(
+      'Modal_FarmDetailsCard_' +
+        (target === StakeState.Stake ? 'StakedToken' : 'UnstakedToken')
     );
     setModal(target);
   };

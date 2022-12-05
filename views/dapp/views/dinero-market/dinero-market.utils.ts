@@ -8,10 +8,9 @@ import {
   DINERO_MARKET_METADATA,
   DINERO_MARKET_SUMMARY_CALL_MAP,
 } from '@/constants/dinero-markets';
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { hasKeys, isSameAddress } from '@/utils';
-import { logEvent } from '@/utils/analytics';
+import { logGenericEvent } from '@/utils/analytics';
 
 import { BorrowSortByFilter } from './components/borrow-filters/borrow-filters.types';
 import {
@@ -94,22 +93,14 @@ export const getFilterSwitchDefaultData = (
   {
     value: values[0],
     onSelect: () => {
-      logEvent(
-        GACategory.DineroMarketFilters,
-        GAAction.Switch,
-        'onlyBorrowing = off'
-      );
+      logGenericEvent('FilterDineroMarket_OnlyBorrowing_off');
       setValue(name, false);
     },
   },
   {
     value: values[1],
     onSelect: () => {
-      logEvent(
-        GACategory.DineroMarketFilters,
-        GAAction.Switch,
-        'onlyBorrowing = on'
-      );
+      logGenericEvent('FilterDineroMarket_OnlyBorrowing_on');
       setValue(name, true);
     },
   },

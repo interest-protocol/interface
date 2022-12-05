@@ -1,17 +1,22 @@
 import { useMemo } from 'react';
 
 import { DEFAULT_ACCOUNT } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import { UseContractArgs } from '@/interface';
 import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
 import { getInterestViewBalancesAddress } from '@/utils';
-import { logException } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useSafeContractRead } from '../use-safe-contract-read';
 import { useIdAccount } from './../use-id-account';
 
 export const useGetUserBalances = (
   tokens: ReadonlyArray<string>,
+  page: GAPage,
   extraArgs: UseContractArgs = {}
 ) => {
   const { chainId, account } = useIdAccount();
@@ -25,10 +30,18 @@ export const useGetUserBalances = (
     args: args,
     enabled: !!tokens.length,
     onError: () =>
-      logException({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction: getUserBalances`,
-        trackerName: ['hooks/use-get-user-balances/index.ts'],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Read,
+        page,
+        functionName: 'getUserBalances',
+      }),
+    onSuccess: () =>
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Read,
+        page,
+        functionName: 'getUserBalances',
       }),
     ...extraArgs,
   });

@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
 
-import { GAAction } from '@/constants/google-analytics';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import {
@@ -12,7 +11,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import ApproveButton from './approve-button';
@@ -57,13 +61,18 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
       const tx = await approve?.();
 
       await showTXSuccessToast(tx, chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexPoolDetailsRemoveLiquidity,
+        functionName: 'approveToken',
+      });
     } catch {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: Approve token - remove liquidity',
-        trackerName: [
-          'views/dapp/views/dex-pool-details/components/remove-liquidity-card/remove-liquidity-card-content.tsx',
-        ],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexPoolDetailsRemoveLiquidity,
+        functionName: 'approveToken',
       });
       throwError(t('error.generic'));
     } finally {
@@ -86,13 +95,18 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
       const tx = await removeLiquidity?.();
 
       await showTXSuccessToast(tx, chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexPoolDetailsRemoveLiquidity,
+        functionName: 'remove',
+      });
     } catch {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: removeLiquidity - remove liquidity',
-        trackerName: [
-          'views/dapp/views/dex-pool-details/components/remove-liquidity-card/remove-liquidity-card-content.tsx',
-        ],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexPoolDetailsRemoveLiquidity,
+        functionName: 'remove',
       });
       throwError(t('error.generic'));
     } finally {

@@ -4,11 +4,10 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
-import { logEvent } from '@/utils/analytics';
+import { logGenericEvent } from '@/utils/analytics';
 
 import { BorrowSortByFilter, SortFilterProps } from './borrow-filters.types';
 
@@ -86,11 +85,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
-                logEvent(
-                  GACategory.DineroMarketFilters,
-                  GAAction.Switch,
-                  'Sort by: id'
-                );
+                logGenericEvent('FilterDineroMarket_SortBy_id');
                 setValue('sortBy', BorrowSortByFilter.Default);
               },
             },
@@ -105,11 +100,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
-                logEvent(
-                  GACategory.DineroMarketFilters,
-                  GAAction.Switch,
-                  'Sort by: tvl'
-                );
+                logGenericEvent('FilterDineroMarket_SortBy_tvl');
                 setValue('sortBy', BorrowSortByFilter.TVL);
               },
             },
@@ -124,11 +115,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
-                logEvent(
-                  GACategory.DineroMarketFilters,
-                  GAAction.Switch,
-                  'Sort by: ltv'
-                );
+                logGenericEvent('FilterDineroMarket_SortBy_ltv');
                 setValue('sortBy', BorrowSortByFilter.LTV);
               },
             },
@@ -145,11 +132,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
-                logEvent(
-                  GACategory.DineroMarketFilters,
-                  GAAction.Switch,
-                  'Sort by: interestRate'
-                );
+                logGenericEvent('FilterDineroMarket_SortBy_interestRate');
                 setValue('sortBy', BorrowSortByFilter.InterestRate);
               },
             },
@@ -168,11 +151,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
-                logEvent(
-                  GACategory.DineroMarketFilters,
-                  GAAction.Switch,
-                  'Sort by: Fee'
-                );
+                logGenericEvent('FilterDineroMarket_SortBy_fee');
                 setValue('sortBy', BorrowSortByFilter.Fee);
               },
             },
