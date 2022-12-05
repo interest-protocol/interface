@@ -11,7 +11,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import ApproveButton from './approve-button';
@@ -57,16 +62,16 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
 
       await showTXSuccessToast(tx, chainId);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: Pages.DexPoolDetailsRemoveLiquidity,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexPoolDetailsRemoveLiquidity,
         functionName: 'approveToken',
       });
     } catch {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.DexPoolDetailsRemoveLiquidity,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexPoolDetailsRemoveLiquidity,
         functionName: 'approveToken',
       });
       throwError(t('error.generic'));
@@ -91,16 +96,16 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
 
       await showTXSuccessToast(tx, chainId);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: Pages.DexPoolDetailsRemoveLiquidity,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexPoolDetailsRemoveLiquidity,
         functionName: 'remove',
       });
     } catch {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.DexPoolDetailsRemoveLiquidity,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexPoolDetailsRemoveLiquidity,
         functionName: 'remove',
       });
       throwError(t('error.generic'));

@@ -4,13 +4,19 @@ import { DEFAULT_ACCOUNT } from '@/constants';
 import { UseContractArgs } from '@/interface';
 import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
 import { getInterestViewBalancesAddress } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useSafeContractRead } from '../use-safe-contract-read';
 import { useIdAccount } from './../use-id-account';
 
 export const useGetUserBalances = (
   tokens: ReadonlyArray<string>,
+  page: GAPage,
   extraArgs: UseContractArgs = {}
 ) => {
   const { chainId, account } = useIdAccount();
@@ -25,16 +31,16 @@ export const useGetUserBalances = (
     enabled: !!tokens.length,
     onError: () =>
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Read,
-        pages: Pages.Faucet,
+        status: GAStatus.Error,
+        type: GAType.Read,
+        page,
         functionName: 'getUserBalances',
       }),
     onSuccess: () =>
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Read,
-        pages: Pages.Faucet,
+        status: GAStatus.Success,
+        type: GAType.Read,
+        page,
         functionName: 'getUserBalances',
       }),
     ...extraArgs,

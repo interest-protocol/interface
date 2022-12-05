@@ -16,7 +16,12 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useBorrow } from '../../dinero-market.hooks';
 import {
@@ -112,17 +117,17 @@ const BorrowButton: FC<BorrowButtonProps> = ({
 
       await showTXSuccessToast(tx, data.chainId);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: Pages.DineroMarketPanel,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
         functionName: 'handleBorrow',
       });
       form.reset();
     } catch (e: unknown) {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.DineroMarketPanel,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
         functionName: 'handleBorrow',
       });
       throwContractCallError(e);
@@ -135,9 +140,9 @@ const BorrowButton: FC<BorrowButtonProps> = ({
     if (isFormBorrowEmpty(form)) {
       toast.error(t('dineroMarketAddress.form.amountError'));
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.DineroMarketPanel,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
         functionName: 'onSubmitBorrow',
       });
       return;
@@ -169,7 +174,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
         alignItems: 'center',
         justifyContent: 'center',
       }}
-      pageName={Pages.DineroMarketPanel}
+      pageName={GAPage.DineroMarketPanel}
     />
   ) : (!borrowLoan && !borrowCollateral) ||
     (+borrowCollateral === 0 && +borrowLoan === 0) ? (

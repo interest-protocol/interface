@@ -8,7 +8,7 @@ import { Box, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { capitalize, formatMoney } from '@/utils';
-import { Pages } from '@/utils/analytics';
+import { GAPage } from '@/utils/analytics';
 
 import { WalletGuardButton } from '../../../components';
 import { DineroVaultFormProps, IVaultForm } from '../dinero-vault.types';
@@ -84,7 +84,7 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
             contract={data.depositTokenAddress}
             spender={data.vaultAddress}
             enabled={data.underlyingAllowance.isZero()}
-            pageName={Pages.DineroVault}
+            pageName={GAPage.DineroVault}
           />
         ) : isStake ? (
           <DepositButton data={data} refetch={refetch} control={control} />

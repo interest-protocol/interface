@@ -2,7 +2,12 @@ import { BigNumber } from 'ethers';
 
 import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
 import { getInterestDexRouterAddress } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useChainId } from '../use-chain-id';
 import { useSafeContractRead } from '../use-safe-contract-read';
@@ -22,16 +27,16 @@ export const useQuoteRemoveLiquidity = (
     args: [token0, token1, isStable, amount],
     onError: () =>
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Read,
-        pages: Pages.DexPoolDetailsRemoveLiquidity,
+        status: GAStatus.Error,
+        type: GAType.Read,
+        page: GAPage.DexPoolDetailsRemoveLiquidity,
         functionName: 'quoteRemoveLiquidity',
       }),
     onSuccess: () =>
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Read,
-        pages: Pages.DexPoolDetailsRemoveLiquidity,
+        status: GAStatus.Success,
+        type: GAType.Read,
+        page: GAPage.DexPoolDetailsRemoveLiquidity,
         functionName: 'quoteRemoveLiquidity',
       }),
   });

@@ -12,7 +12,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useMint } from './faucet-form.hooks';
 import { MintButtonProps } from './faucet-form.types';
@@ -43,17 +48,17 @@ const MintButton: FC<MintButtonProps> = ({
 
       await showTXSuccessToast(tx, chainId);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: Pages.Faucet,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.Faucet,
         functionName: 'handleOnMint',
       });
       await refetch();
     } catch (error) {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.Faucet,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.Faucet,
         functionName: 'handleOnMint',
       });
       throwError(t('error.generic'), error);

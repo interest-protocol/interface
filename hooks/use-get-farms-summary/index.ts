@@ -3,7 +3,12 @@ import { propOr } from 'ramda';
 import { CASA_DE_PAPEL_FARM_CALL_MAP, DEFAULT_ACCOUNT } from '@/constants';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import { getInterestViewEarnAddress } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useIdAccount } from '../use-id-account';
 import { useSafeContractRead } from '../use-safe-contract-read';
@@ -27,16 +32,16 @@ export const useGetFarmsSummary = () => {
     ],
     onError: () =>
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Read,
-        pages: Pages.Farms,
+        status: GAStatus.Error,
+        type: GAType.Read,
+        page: GAPage.Farms,
         functionName: 'getFarmsSummary',
       }),
     onSuccess: () =>
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Read,
-        pages: Pages.Farms,
+        status: GAStatus.Success,
+        type: GAType.Read,
+        page: GAPage.Farms,
         functionName: 'getFarmsSummary',
       }),
   });

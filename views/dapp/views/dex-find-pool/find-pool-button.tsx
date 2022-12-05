@@ -22,7 +22,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 import CreatePoolPopup from '@/views/dapp/views/dex-find-pool/create-pool-popup';
 import { useAddLiquidity } from '@/views/dapp/views/dex-find-pool/dex-find-pool.hooks';
@@ -88,9 +93,9 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
           query: { address: address },
         }).then(() =>
           logTransactionEvent({
-            status: Status.Success,
-            type: Type.Write,
-            pages: Pages.DexFindPool,
+            status: GAStatus.Success,
+            type: GAType.Write,
+            page: GAPage.DexFindPool,
             functionName: 'enterPool',
           })
         );
@@ -98,9 +103,9 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       setCreatingPair(true);
     } catch {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.DexFindPool,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexFindPool,
         functionName: 'enterPool',
       });
       throwError('Error connecting');
@@ -143,9 +148,9 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
         isStable
       );
       logTransactionEvent({
-        status: Status.Success,
+        status: GAStatus.Success,
         type: Type.Write,
-        pages: Pages.DexFindPool,
+        page: GAPage.DexFindPool,
         functionName: 'createPair',
       });
       return push({
@@ -154,9 +159,9 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       }).then();
     } catch (e) {
       logTransactionEvent({
-        status: Status.Error,
+        status: GAStatus.Error,
         type: Type.Write,
-        pages: Pages.DexFindPool,
+        page: GAPage.DexFindPool,
         functionName: 'createPair',
       });
       throwError(t('error.generic'));

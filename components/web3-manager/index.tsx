@@ -11,7 +11,7 @@ import {
 
 import { Routes, SUPPORTED_CHAINS_RECORD } from '@/constants';
 import { CHAINS } from '@/constants/chains';
-import { DAppTheme, LandingPageTheme } from '@/design-system';
+import { DAppTheme, LandingGAPageTheme } from '@/design-system';
 import { TimesSVG } from '@/svg';
 import { capitalize } from '@/utils';
 import { Layout, Loading } from '@/views/dapp/components';

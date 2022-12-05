@@ -5,7 +5,7 @@ import { useWatch } from 'react-hook-form';
 import { ApproveButton } from '@/components';
 import { Box } from '@/elements';
 import { isValidAccount, isZeroAddress } from '@/utils';
-import { Pages } from '@/utils/analytics';
+import { GAPage } from '@/utils/analytics';
 
 import { SyntFormButtonProps } from './synt-form.types';
 
@@ -52,7 +52,7 @@ const SyntFormButton: FC<SyntFormButtonProps> = ({
               alignItems: 'center',
               justifyContent: 'center',
             }}
-            pageName={Pages.SyntheticsMarketPanel}
+            pageName={GAPage.SyntheticsMarketPanel}
           />
         ) : (!mintSynt && !mintCollateral) ||
           (+mintCollateral === 0 && +mintSynt === 0) ? (

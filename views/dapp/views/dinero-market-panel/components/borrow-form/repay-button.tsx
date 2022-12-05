@@ -11,7 +11,12 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useRepay } from '../../dinero-market.hooks';
 import { isFormRepayEmpty } from '../../dinero-market.utils';
@@ -42,17 +47,17 @@ const RepayButton: FC<RepayButtonProps> = ({
 
       await showTXSuccessToast(tx, data.chainId);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: Pages.DineroMarketPanel,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
         functionName: 'handleRepay',
       });
       form.reset();
     } catch (e: unknown) {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.DineroMarketPanel,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
         functionName: 'handleRepay',
       });
       throwContractCallError(e);
@@ -66,9 +71,9 @@ const RepayButton: FC<RepayButtonProps> = ({
     if (isFormRepayEmpty(form)) {
       toast.error(t('dineroMarketAddress.toastError'));
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.DineroMarketPanel,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
         functionName: 'onSubmitRepay',
       });
       return;

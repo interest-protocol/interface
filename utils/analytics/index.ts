@@ -11,19 +11,18 @@ export const logPageView = (): void => {
   ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
 };
 
-export enum Status {
+export enum GAStatus {
   Success = 'S',
   Error = 'E',
 }
 
-export enum Type {
+export enum GAType {
   Read = 'R',
   Write = 'W',
 }
 
-export enum Pages {
+export enum GAPage {
   DexSwap = 'Dex-Swap',
-  DexPool = 'DexPool',
   DexFindPool = 'DexFindPool',
   DexFindPoolCreatePool = 'DexFindPoolCreatePool',
   DexPoolDetails = 'DexPoolDetails',
@@ -38,23 +37,22 @@ export enum Pages {
   Faucet = 'Faucet',
   SyntheticsMarket = 'SyntheticsMarket',
   SyntheticsMarketPanel = 'SyntheticsMarketPanel',
-  ApproveButton = 'ApproveButton',
 }
 
 interface LogProps {
-  status: Status;
-  type: Type;
-  pages: Pages;
+  status: GAStatus;
+  type: GAType;
+  page: GAPage;
   functionName: string;
 }
 
 export const logTransactionEvent = ({
   status,
   type,
-  pages,
+  page,
   functionName,
 }: LogProps): void => {
-  ReactGA.event(`${status}_${type}_${pages}_${functionName}`);
+  ReactGA.event(`${status}_${type}_${page}_${functionName}`);
 };
 
 export const logGenericEvent = (action: string): void => {

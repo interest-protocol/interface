@@ -25,7 +25,7 @@ import {
   isZeroAddress,
   safeToBigNumber,
 } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import { GAPage, GAStatus, logTransactionEvent, Type } from '@/utils/analytics';
 
 import {
   GetTokenUsdPriceAbi,
@@ -72,16 +72,16 @@ export const useWagmiGetSyntheticUserMarketData = ({
       dataFeedId === '',
     onError: () =>
       logTransactionEvent({
-        status: Status.Error,
+        status: GAStatus.Error,
         type: Type.Read,
-        pages: Pages.SyntheticsMarketPanel,
+        page: Page.SyntheticsMarketPanel,
         functionName: 'getSyntheticUserMarketData',
       }),
     onSuccess: () =>
       logTransactionEvent({
-        status: Status.Success,
+        status: GAStatus.Success,
         type: Type.Read,
-        pages: Pages.SyntheticsMarketPanel,
+        page: Page.SyntheticsMarketPanel,
         functionName: 'getSyntheticUserMarketData',
       }),
   });
@@ -454,16 +454,16 @@ export const useRedstoneSynthsPanel = ({
         !!dataFeedId,
       onError: () =>
         logTransactionEvent({
-          status: Status.Error,
+          status: GAStatus.Error,
           type: Type.Read,
-          pages: Pages.SyntheticsMarketPanel,
+          page: Page.SyntheticsMarketPanel,
           functionName: 'getSyntheticUserMarketData-red-stone',
         }),
       onSuccess: () =>
         logTransactionEvent({
-          status: Status.Success,
+          status: GAStatus.Success,
           type: Type.Read,
-          pages: Pages.SyntheticsMarketPanel,
+          page: Page.SyntheticsMarketPanel,
           functionName: 'getSyntheticUserMarketData-red-stone',
         }),
     }

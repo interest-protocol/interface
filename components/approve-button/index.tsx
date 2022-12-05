@@ -5,7 +5,7 @@ import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
-import { logTransactionEvent, Status, Type } from '@/utils/analytics';
+import { GAStatus, GAType, logTransactionEvent } from '@/utils/analytics';
 
 import { ApproveButtonProps } from './approve-button.types';
 
@@ -32,16 +32,16 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       await refetch();
       await showTXSuccessToast(tx, chainId);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: pageName,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: pageName,
         functionName: 'handleAddAllowance',
       });
     } catch (e) {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: pageName,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: pageName,
         functionName: 'handleAddAllowance',
       });
       throwError(t('error.generic'), e);

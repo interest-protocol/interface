@@ -15,7 +15,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { CreatePoolFieldProps } from '../dex-find-pool.types';
 
@@ -46,17 +51,17 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
       await showTXSuccessToast(tx, chainId);
       if (tx) await tx.wait(2);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: Pages.DexFindPoolCreatePool,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexFindPoolCreatePool,
         functionName: 'approve',
       });
       await refetch();
     } catch (e) {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.DexFindPoolCreatePool,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexFindPoolCreatePool,
         functionName: 'approve',
       });
       throwError(t('error.generic'), e);

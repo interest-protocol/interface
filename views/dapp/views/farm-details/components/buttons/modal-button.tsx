@@ -5,7 +5,12 @@ import { FC, useCallback, useState } from 'react';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useAction } from './buttons.hooks';
 import { ModalButtonProps } from './buttons.types';
@@ -34,17 +39,17 @@ const ModalButton: FC<ModalButtonProps> = ({
 
       await showTXSuccessToast(tx, farm.chainId);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: Pages.FarmsDetails,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.FarmsDetails,
         functionName: 'handleWithdrawTokens',
       });
       await refetch();
     } catch (e) {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.FarmsDetails,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.FarmsDetails,
         functionName: 'handleWithdrawTokens',
       });
       throw e || new Error(t('error.generic'));
@@ -69,17 +74,17 @@ const ModalButton: FC<ModalButtonProps> = ({
       const tx = await action?.();
       await showTXSuccessToast(tx, farm.chainId);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: Pages.FarmsDetails,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.FarmsDetails,
         functionName: 'handleDepositTokens',
       });
       await refetch();
     } catch (e) {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.FarmsDetails,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.FarmsDetails,
         functionName: 'handleDepositTokens',
       });
       throwError(t('error.generic'), e);

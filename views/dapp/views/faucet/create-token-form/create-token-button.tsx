@@ -13,7 +13,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useCreateToken } from './create-token-form.hooks';
 import { CreateTokenButtonProps } from './create-token-form.types';
@@ -38,9 +43,9 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
 
       await showTXSuccessToast(tx, chainId);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: Pages.Faucet,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.Faucet,
         functionName: 'handleCreateToken',
       });
 
@@ -58,9 +63,9 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
       }
     } catch (error) {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.Faucet,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.Faucet,
         functionName: 'handleCreateToken',
       });
       throwError(t('error.generic'), error);

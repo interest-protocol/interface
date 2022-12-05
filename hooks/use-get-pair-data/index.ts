@@ -2,7 +2,12 @@ import { DEFAULT_ACCOUNT } from '@/constants';
 import { useIdAccount } from '@/hooks/use-id-account';
 import InterestViewDexABI from '@/sdk/abi/interest-view-dex.abi.json';
 import { getInterestViewDexAddress } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useSafeContractRead } from '../use-safe-contract-read';
 
@@ -16,16 +21,16 @@ export const useGetPairData = (pairAddress: string) => {
     args: [pairAddress, account || DEFAULT_ACCOUNT],
     onError: () =>
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Read,
-        pages: Pages.DexPoolDetails,
+        status: GAStatus.Error,
+        type: GAType.Read,
+        page: GAPage.DexPoolDetails,
         functionName: 'getPairData',
       }),
     onSuccess: () =>
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Read,
-        pages: Pages.DexPoolDetails,
+        status: GAStatus.Success,
+        type: GAType.Read,
+        page: GAPage.DexPoolDetails,
         functionName: 'getPairData',
       }),
   });

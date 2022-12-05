@@ -104,7 +104,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
                 <WalletButton
                   name={name}
                   onClick={() => {
-                    logGenericEvent('Wallet:' + name);
+                    logGenericEvent('WALLET_' + name.toUpperCase());
                     connect({ connector });
                   }}
                   Icon={SVG}

@@ -3,7 +3,12 @@ import { VAULTS_CALL_MAP } from '@/constants/vaults';
 import { useSafeContractRead } from '@/hooks';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import { getInterestViewEarnAddress } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 export const useGetVaultsSummary = (
   chainId: number,
@@ -19,16 +24,16 @@ export const useGetVaultsSummary = (
     enabled: !!dineroVaultsArray.length,
     onError: () =>
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Read,
-        pages: Pages.Vault,
+        status: GAStatus.Error,
+        type: GAType.Read,
+        page: GAPage.Vault,
         functionName: 'getVaultsSummary',
       }),
     onSuccess: () =>
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Read,
-        pages: Pages.Vault,
+        status: GAStatus.Success,
+        type: GAType.Read,
+        page: GAPage.Vault,
         functionName: 'getVaultsSummary',
       }),
   });

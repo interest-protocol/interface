@@ -4,7 +4,12 @@ import { FC, useState } from 'react';
 
 import Button from '@/elements/button';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useHarvest } from './buttons.hooks';
 import { HarvestButtonProps } from './buttons.types';
@@ -27,16 +32,16 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
 
       await showTXSuccessToast(tx, farm.chainId);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: Pages.FarmsDetails,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.FarmsDetails,
         functionName: 'harvest',
       });
     } catch (e) {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.FarmsDetails,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.FarmsDetails,
         functionName: 'harvest',
       });
       throwError(t('error.generic'), e);

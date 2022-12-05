@@ -14,7 +14,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { ApproveButtonProps } from './buttons.types';
 
@@ -36,18 +41,18 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
 
       if (tx) await tx.wait(2);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: Pages.FarmsDetails,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.FarmsDetails,
         functionName: 'approve',
       });
       await refetch();
     } catch (e) {
       setLoadingPool(false);
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.FarmsDetails,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.FarmsDetails,
         functionName: 'approve',
       });
       throwError(t('error.generic'), e);

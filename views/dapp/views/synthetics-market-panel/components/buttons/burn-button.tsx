@@ -13,7 +13,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import { GAPage, GAStatus, logTransactionEvent, Type } from '@/utils/analytics';
 
 import { useBurn } from '../../synthetics-market-panel.hooks';
 import { isFormBurnEmpty } from '../../synthetics-market-panel.utils';
@@ -41,17 +41,17 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
 
       await showTXSuccessToast(tx, data.chainId);
       logTransactionEvent({
-        status: Status.Success,
+        status: GAStatus.Success,
         type: Type.Write,
-        pages: Pages.SyntheticsMarketPanel,
+        page: Page.SyntheticsMarketPanel,
         functionName: 'handleBurn',
       });
       form.reset();
     } catch (e: unknown) {
       logTransactionEvent({
-        status: Status.Error,
+        status: GAStatus.Error,
         type: Type.Write,
-        pages: Pages.SyntheticsMarketPanel,
+        page: Page.SyntheticsMarketPanel,
         functionName: 'handleBurn',
       });
       throwContractCallError(e);

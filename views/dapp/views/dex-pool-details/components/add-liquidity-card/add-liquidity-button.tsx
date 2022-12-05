@@ -4,7 +4,12 @@ import { FC } from 'react';
 
 import { Button } from '@/elements';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { AddLiquidityCardButtonProps } from './add-liquidity-card.types';
 
@@ -23,16 +28,16 @@ const AddLiquidityButton: FC<AddLiquidityCardButtonProps> = ({
       const tx = await addLiquidity?.();
       await showTXSuccessToast(tx, chainId);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: Pages.DexPoolDetails,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexPoolDetails,
         functionName: '_addLiquidity',
       });
     } catch {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.DexPoolDetails,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexPoolDetails,
         functionName: '_addLiquidity',
       });
       throwError(t('error.generic'));

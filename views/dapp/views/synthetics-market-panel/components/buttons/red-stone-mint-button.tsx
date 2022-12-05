@@ -23,7 +23,7 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import { GAPage, GAStatus, logTransactionEvent, Type } from '@/utils/analytics';
 
 import { SyntheticsMinterAbi } from '../../../../../../types/ethers-contracts';
 import {
@@ -143,17 +143,17 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
 
       await showTXSuccessToast(tx, data.chainId);
       logTransactionEvent({
-        status: Status.Success,
+        status: GAStatus.Success,
         type: Type.Write,
-        pages: Pages.SyntheticsMarketPanel,
+        page: GAPage.SyntheticsMarketPanel,
         functionName: 'handleMint',
       });
       form.reset();
     } catch (e: unknown) {
       logTransactionEvent({
-        status: Status.Error,
+        status: GAStatus.Error,
         type: Type.Write,
-        pages: Pages.SyntheticsMarketPanel,
+        page: GAPage.SyntheticsMarketPanel,
         functionName: 'handleMint',
       });
       throwContractCallError(e);
@@ -199,7 +199,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
         alignItems: 'center',
         justifyContent: 'center',
       }}
-      pageName={Pages.SyntheticsMarketPanel}
+      pageName={Page.SyntheticsMarketPanel}
     />
   ) : (!mintSynt && !mintCollateral) ||
     (+mintSynt === 0 && +mintCollateral === 0) ? (

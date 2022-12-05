@@ -16,7 +16,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logTransactionEvent, Pages, Status, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import { useSwap, useWETHDeposit, useWETHWithdraw } from './swap.hooks';
@@ -113,9 +118,9 @@ const SwapButton: FC<SwapButtonProps> = ({
   const handleAddAllowance = useCallback(async () => {
     if (isZeroAddress(tokenInAddress)) {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.DexSwap,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
         functionName: 'handleAddAllowance',
       });
       return;
@@ -126,18 +131,18 @@ const SwapButton: FC<SwapButtonProps> = ({
 
       await showTXSuccessToast(tx, chainId);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: Pages.DexSwap,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
         functionName: 'handleAddAllowance',
       });
       if (tx) await tx.wait(5);
       await refetch();
     } catch (e) {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.DexSwap,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
         functionName: 'handleAddAllowance',
       });
       throwError(t('error.generic'), e);
@@ -162,16 +167,16 @@ const SwapButton: FC<SwapButtonProps> = ({
       await refetch();
       await showTXSuccessToast(tx, chainId);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: Pages.DexSwap,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
         functionName: 'handleSwap',
       });
     } catch {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.DexSwap,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
         functionName: 'handleSwap',
       });
       throwError(t('dexSwap.swapMessage.error'));
@@ -193,9 +198,9 @@ const SwapButton: FC<SwapButtonProps> = ({
       !isZeroAddress(tokenIn.address)
     ) {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.DexSwap,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
         functionName: 'handleWETHDeposit',
       });
       return;
@@ -211,17 +216,17 @@ const SwapButton: FC<SwapButtonProps> = ({
       if (tx) await tx.wait(1);
       await showTXSuccessToast(tx, chainId);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: Pages.DexSwap,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
         functionName: 'handleWETHDeposit',
       });
       await refetch();
     } catch (e) {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.DexSwap,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
         functionName: 'handleWETHDeposit',
       });
       throwError(t('dexSwap.error.wethDeposit'));
@@ -243,9 +248,9 @@ const SwapButton: FC<SwapButtonProps> = ({
       !isZeroAddress(tokenOut.address)
     ) {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.DexSwap,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
         functionName: 'handleWETHWithdraw',
       });
       return;
@@ -264,17 +269,17 @@ const SwapButton: FC<SwapButtonProps> = ({
       if (tx) await tx.wait(1);
       await showTXSuccessToast(tx, chainId);
       logTransactionEvent({
-        status: Status.Success,
-        type: Type.Write,
-        pages: Pages.DexSwap,
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
         functionName: 'handleWETHWithdraw',
       });
       await refetch();
     } catch {
       logTransactionEvent({
-        status: Status.Error,
-        type: Type.Write,
-        pages: Pages.DexSwap,
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
         functionName: 'handleWETHWithdraw',
       });
       throwError(t('dexSwap.error.wethWithdraw'));
