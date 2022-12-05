@@ -7,7 +7,7 @@ import { FAUCET_TOKENS } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetUserBalances, useIdAccount, useLocalStorage } from '@/hooks';
 import { flippedAppend, isSameAddress } from '@/utils';
-import { logGenericEvent } from '@/utils/analytics';
+import { GAPage, logGenericEvent } from '@/utils/analytics';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
@@ -33,7 +33,8 @@ const Faucet: FC = () => {
   );
 
   const { error, data, refetch } = useGetUserBalances(
-    TOKENS.map(prop('address')).concat(localTokens.map(prop('address')))
+    TOKENS.map(prop('address')).concat(localTokens.map(prop('address'))),
+    GAPage.Faucet
   );
 
   const { recommendedData, localData } = useMemo(
