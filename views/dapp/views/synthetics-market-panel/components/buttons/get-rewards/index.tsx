@@ -11,7 +11,12 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { GAPage, GAStatus, logTransactionEvent, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 import { useGetRewards } from '@/views/dapp/views/synthetics-market-panel/synthetics-market-panel.hooks';
 
 import { GetRewardsProps } from './get-rewards.types';
@@ -35,14 +40,14 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
       await showTXSuccessToast(tx, market.chainId);
       logTransactionEvent({
         status: GAStatus.Success,
-        type: Type.Write,
+        type: GAType.Write,
         page: GAPage.SyntheticsMarketPanel,
         functionName: 'handleGetRewards',
       });
     } catch (e: unknown) {
       logTransactionEvent({
         status: GAStatus.Error,
-        type: Type.Write,
+        type: GAType.Write,
         page: GAPage.SyntheticsMarketPanel,
         functionName: 'handleGetRewards',
       });

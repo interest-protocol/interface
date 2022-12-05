@@ -16,7 +16,12 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { GAPage, GAStatus, logTransactionEvent, Type } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useMint } from '../../synthetics-market-panel.hooks';
 import {
@@ -103,7 +108,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
       await showTXSuccessToast(tx, data.chainId);
       logTransactionEvent({
         status: GAStatus.Success,
-        type: Type.Write,
+        type: GAType.Write,
         page: GAPage.SyntheticsMarketPanel,
         functionName: 'handleMint',
       });
@@ -111,7 +116,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
     } catch (e: unknown) {
       logTransactionEvent({
         status: GAStatus.Error,
-        type: Type.Write,
+        type: GAType.Write,
         page: GAPage.SyntheticsMarketPanel,
         functionName: 'handleMint',
       });

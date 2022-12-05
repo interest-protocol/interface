@@ -149,7 +149,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       );
       logTransactionEvent({
         status: GAStatus.Success,
-        type: Type.Write,
+        type: GAType.Write,
         page: GAPage.DexFindPool,
         functionName: 'createPair',
       });
@@ -160,7 +160,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
     } catch (e) {
       logTransactionEvent({
         status: GAStatus.Error,
-        type: Type.Write,
+        type: GAType.Write,
         page: GAPage.DexFindPool,
         functionName: 'createPair',
       });
