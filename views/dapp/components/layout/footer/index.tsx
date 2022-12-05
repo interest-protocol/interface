@@ -82,19 +82,18 @@ const Footer: FC = () => {
               variant="primary"
               alignItems="center"
               justifyContent="space-between"
-              boxShadow="0 0 15px rgba(0,0,0,.3)"
               bg={
                 pathname.includes(Routes[RoutesEnum.DEX])
-                  ? 'accent'
-                  : 'textSoft'
+                  ? 'transparent'
+                  : 'red'
               }
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
               onClick={() => trackHeaderNavigation(RoutesEnum.DEX)}
             >
               <DexSVG
-                width="1.4rem"
-                height="1.4rem"
+                width="1.1rem"
+                height="1.1rem"
                 maxHeight={'2.5rem'}
                 maxWidth={'auto'}
                 style={{ marginBottom: '8px' }}
@@ -115,7 +114,7 @@ const Footer: FC = () => {
                     pathname.includes(Routes[RoutesEnum.Vaults]) ||
                     pathname.includes(Routes[RoutesEnum.DineroVault])
                       ? 'accent'
-                      : 'textSoft'
+                      : 'transparent'
                   }
                   fontSize="M"
                   display="flex"
@@ -125,7 +124,6 @@ const Footer: FC = () => {
                   borderRadius="M"
                   alignItems="center"
                   justifyContent="center"
-                  boxShadow="0 0 15px rgba(0,0,0,.3)"
                   color={
                     pathname === Routes[RoutesEnum.Farms] ||
                     pathname.includes(Routes[RoutesEnum.Vaults])
@@ -137,8 +135,8 @@ const Footer: FC = () => {
                 >
                   <EarnSVG
                     fill="transparent"
-                    width="1.4rem"
-                    height="1.4rem"
+                    width="1.1rem"
+                    height="1.1rem"
                     maxHeight={'2.5rem'}
                     maxWidth={'auto'}
                     style={{ marginBottom: '8px' }}
@@ -146,7 +144,7 @@ const Footer: FC = () => {
                   {capitalize(t('common.earn'))}
                 </Typography>
               }
-              mode="menu"
+              mode="select"
               data={[
                 {
                   value: 'Farms',
@@ -178,7 +176,7 @@ const Footer: FC = () => {
                     pathname.includes(Routes[RoutesEnum.DineroMarket]) ||
                     pathname.includes(Routes[RoutesEnum.SyntheticsMarket])
                       ? 'accent'
-                      : 'textSoft'
+                      : 'transparent'
                   }
                   fontSize="M"
                   display="flex"
@@ -188,7 +186,6 @@ const Footer: FC = () => {
                   borderRadius="M"
                   alignItems="center"
                   justifyContent="center"
-                  boxShadow="0 0 15px rgba(0,0,0,.3)"
                   color={
                     pathname === Routes[RoutesEnum.DineroMarket] ||
                     pathname.includes(Routes[RoutesEnum.SyntheticsMarket])
@@ -199,8 +196,8 @@ const Footer: FC = () => {
                   active={{ bg: 'accentActive', color: 'red', fill: 'red' }}
                 >
                   <MarketSVG
-                    width="1.4rem"
-                    height="1.4rem"
+                    width="1.1rem"
+                    height="1.1rem"
                     maxHeight={'2.5rem'}
                     maxWidth={'auto'}
                     style={{ marginBottom: '8px' }}
