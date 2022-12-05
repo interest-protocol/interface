@@ -21,7 +21,7 @@ type VaultsMessages = typeof import('../assets/messages/vaults/en-US.json');
 type DineroVaultMessages =
   typeof import('../assets/messages/dinero-vault/en-US.json');
 type FaucetMessages = typeof import('../assets/messages/faucet/en-US.json');
-type LandingGAPageMessages =
+type LandingPageMessages =
   typeof import('../assets/messages/landing-page/en-US.json');
 
 declare interface IntlMessages
@@ -37,6 +37,6 @@ declare interface IntlMessages
     VaultsMessages,
     FaucetMessages,
     DineroVaultMessages,
-    LandingGAPageMessages,
+    LandingPageMessages,
     SyntheticsMarketMessages,
     SyntheticsMarketAddressMessages {}
