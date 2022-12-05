@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 
-import { GAAction } from '@/constants/google-analytics';
 import { Typography } from '@/elements';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
@@ -15,7 +14,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { ApproveButtonProps } from './buttons.types';
 
@@ -36,16 +40,20 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
       await showTXSuccessToast(tx, farm.chainId);
 
       if (tx) await tx.wait(2);
-
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.FarmsDetails,
+        functionName: 'approve',
+      });
       await refetch();
     } catch (e) {
       setLoadingPool(false);
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: _approve - ApproveButton',
-        trackerName: [
-          'views/dapp/views/farm-details/components/buttons/approve-button.tsx',
-        ],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.FarmsDetails,
+        functionName: 'approve',
       });
       throwError(t('error.generic'), e);
     } finally {

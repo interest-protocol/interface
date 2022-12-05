@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 
-import { GAAction } from '@/constants/google-analytics';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
 import { LoadingSVG } from '@/svg';
@@ -12,7 +11,12 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 import { useGetRewards } from '@/views/dapp/views/synthetics-market-panel/synthetics-market-panel.hooks';
 
 import { GetRewardsProps } from './get-rewards.types';
@@ -34,13 +38,18 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
 
       await refetch();
       await showTXSuccessToast(tx, market.chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.SyntheticsMarketPanel,
+        functionName: 'handleGetRewards',
+      });
     } catch (e: unknown) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: getRewards - GetRewards',
-        trackerName: [
-          'views/dapp/views/synthetics-market-panel/components/get-rewards\\index.tsx',
-        ],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.SyntheticsMarketPanel,
+        functionName: 'handleGetRewards',
       });
       throwContractCallError(e);
     } finally {

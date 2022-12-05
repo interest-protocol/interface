@@ -11,12 +11,11 @@ import {
   Routes,
   RoutesEnum,
 } from '@/constants';
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Dropdown, Typography } from '@/elements';
 import useEventListener from '@/hooks/use-event-listener';
 import { CreditCardSVG, LogoSVG } from '@/svg';
 import { capitalize } from '@/utils';
-import { logEvent } from '@/utils/analytics';
+import { logGenericEvent } from '@/utils/analytics';
 
 import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
@@ -39,7 +38,7 @@ const Header: FC = () => {
   useEventListener('resize', handleSetDesktop, true);
 
   const trackHeaderNavigation = (label: string) => () =>
-    logEvent(GACategory.HeaderNavigation, GAAction.DesktopNavigate, label);
+    logGenericEvent(`Desktop_Header_${label}`);
 
   return (
     <Box

@@ -14,7 +14,6 @@ import {
   RoutesWithFaucet,
   SOCIAL_MEDIAS,
 } from '@/constants';
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Dropdown, Typography } from '@/elements';
 import {
   CreditCardSVG,
@@ -26,7 +25,7 @@ import {
   MarketSVG,
 } from '@/svg';
 import { capitalize } from '@/utils';
-import { logEvent } from '@/utils/analytics';
+import { logGenericEvent } from '@/utils/analytics';
 
 const Footer: FC = () => {
   const t = useTranslations();
@@ -40,7 +39,7 @@ const Footer: FC = () => {
   const supportsCreditCard = address && isChainIdSupported(chainId ?? -1);
 
   const trackHeaderNavigation = (label: string) => () =>
-    logEvent(GACategory.HeaderNavigation, GAAction.MobileNavigate, label);
+    logGenericEvent(`Mobile_Header_${label}`);
 
   return (
     <Box

@@ -10,6 +10,7 @@ import { Box, Typography } from '@/elements';
 import { useGetDexAllowancesAndBalances, useIdAccount } from '@/hooks';
 import { TOKEN_SYMBOL, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
 import { TimesSVG } from '@/svg';
+import { GAPage } from '@/utils/analytics';
 
 import GoBack from '../../components/go-back';
 import { OnSelectCurrencyData } from '../dex/swap/swap.types';
@@ -50,7 +51,8 @@ const FindPoolView = () => {
     useGetDexAllowancesAndBalances(
       chainId,
       tokenAAddress || ZERO_ADDRESS,
-      tokenBAddress || ZERO_ADDRESS
+      tokenBAddress || ZERO_ADDRESS,
+      GAPage.DexFindPool
     );
 
   const tokenANeedsAllowance = pathOr(

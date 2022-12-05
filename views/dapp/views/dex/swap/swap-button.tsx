@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
@@ -17,7 +16,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import { useSwap, useWETHDeposit, useWETHWithdraw } from './swap.hooks';
@@ -113,10 +117,11 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const handleAddAllowance = useCallback(async () => {
     if (isZeroAddress(tokenInAddress)) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: `TransactionError: approve - SwapButton - ${tokenInAddress}`,
-        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleAddAllowance',
       });
       return;
     }
@@ -125,14 +130,20 @@ const SwapButton: FC<SwapButtonProps> = ({
       const tx = await approve?.();
 
       await showTXSuccessToast(tx, chainId);
-
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleAddAllowance',
+      });
       if (tx) await tx.wait(5);
       await refetch();
     } catch (e) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: `TransactionError: add allowance ${tokenInAddress}`,
-        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleAddAllowance',
       });
       throwError(t('error.generic'), e);
     } finally {
@@ -155,11 +166,18 @@ const SwapButton: FC<SwapButtonProps> = ({
       if (tx) await tx.wait(1);
       await refetch();
       await showTXSuccessToast(tx, chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleSwap',
+      });
     } catch {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: `TransactionError: handle swap ${tokenInAddress}`,
-        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleSwap',
       });
       throwError(t('dexSwap.swapMessage.error'));
     } finally {
@@ -179,10 +197,11 @@ const SwapButton: FC<SwapButtonProps> = ({
       isSameAddress(tokenIn.address, tokenOut.address) ||
       !isZeroAddress(tokenIn.address)
     ) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: `TransactionError: handle WETH Deposit. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
-        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleWETHDeposit',
       });
       return;
     }
@@ -196,12 +215,19 @@ const SwapButton: FC<SwapButtonProps> = ({
 
       if (tx) await tx.wait(1);
       await showTXSuccessToast(tx, chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleWETHDeposit',
+      });
       await refetch();
     } catch (e) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: `TransactionError: handle WETH Deposit. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
-        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleWETHDeposit',
       });
       throwError(t('dexSwap.error.wethDeposit'));
     } finally {
@@ -221,10 +247,11 @@ const SwapButton: FC<SwapButtonProps> = ({
       isSameAddress(tokenIn.address, tokenOut.address) ||
       !isZeroAddress(tokenOut.address)
     ) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: `TransactionError: handle WETH Withdraw. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
-        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleWETHWithdraw',
       });
       return;
     }
@@ -241,12 +268,19 @@ const SwapButton: FC<SwapButtonProps> = ({
 
       if (tx) await tx.wait(1);
       await showTXSuccessToast(tx, chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleWETHWithdraw',
+      });
       await refetch();
     } catch {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: `TransactionError: handle WETH Withdraw. TokenIn: ${tokenIn.address},TokenOut: ${tokenOut.address}`,
-        trackerName: ['views/dapp/views/dex/swap/swap-button.tsx'],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleWETHWithdraw',
       });
       throwError(t('dexSwap.error.wethWithdraw'));
     } finally {

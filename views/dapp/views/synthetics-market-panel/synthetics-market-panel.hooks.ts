@@ -12,7 +12,6 @@ import {
   SyntheticOracleType,
   SyntheticRequestActions,
 } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import { useIdAccount, useSafeContractRead } from '@/hooks';
 import { HandlerData } from '@/interface';
 import { FixedPointMath, ZERO_ADDRESS } from '@/sdk';
@@ -26,7 +25,12 @@ import {
   isZeroAddress,
   safeToBigNumber,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import {
   GetTokenUsdPriceAbi,
@@ -72,12 +76,18 @@ export const useWagmiGetSyntheticUserMarketData = ({
       oracleType === SyntheticOracleType.ChainLink &&
       dataFeedId === '',
     onError: () =>
-      logException({
-        action: GAAction.ReadBlockchainData,
-        label: `Transaction: getSyntheticUserMarketData; OracleType: ${oracleType}`,
-        trackerName: [
-          'views/dapp/views/synthetics-market-panel/synthetics-market-panel.hooks.ts',
-        ],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Read,
+        page: GAPage.SyntheticsMarketPanel,
+        functionName: 'getSyntheticUserMarketData',
+      }),
+    onSuccess: () =>
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Read,
+        page: GAPage.SyntheticsMarketPanel,
+        functionName: 'getSyntheticUserMarketData',
       }),
   });
 };
@@ -448,12 +458,18 @@ export const useRedstoneSynthsPanel = ({
         oracleType !== SyntheticOracleType.ChainLink &&
         !!dataFeedId,
       onError: () =>
-        logException({
-          action: GAAction.ReadBlockchainData,
-          label: `Transaction: getSyntheticUserMarketData; OracleType: ${oracleType}`,
-          trackerName: [
-            'views/dapp/views/synthetics-market-panel/synthetics-market-panel.hooks.ts',
-          ],
+        logTransactionEvent({
+          status: GAStatus.Error,
+          type: GAType.Read,
+          page: GAPage.SyntheticsMarketPanel,
+          functionName: 'getSyntheticUserMarketData-red-stone',
+        }),
+      onSuccess: () =>
+        logTransactionEvent({
+          status: GAStatus.Success,
+          type: GAType.Read,
+          page: GAPage.SyntheticsMarketPanel,
+          functionName: 'getSyntheticUserMarketData-red-stone',
         }),
     }
   );

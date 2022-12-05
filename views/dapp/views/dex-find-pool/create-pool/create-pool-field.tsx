@@ -3,7 +3,6 @@ import { prop } from 'ramda';
 import { ChangeEvent, FC, useCallback, useMemo } from 'react';
 
 import { TOKENS_SVG_MAP } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Input, Typography } from '@/elements';
 import { useApprove, useIdAccount } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
@@ -16,7 +15,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { CreatePoolFieldProps } from '../dex-find-pool.types';
 
@@ -46,14 +50,19 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
       const tx = await addAllowance?.();
       await showTXSuccessToast(tx, chainId);
       if (tx) await tx.wait(2);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexFindPoolCreatePool,
+        functionName: 'approve',
+      });
       await refetch();
     } catch (e) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: addAllowance - CreatePoolField',
-        trackerName: [
-          'views/dapp/views/dex-find-pool/create-pool/create-pool-field.tsx',
-        ],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexFindPoolCreatePool,
+        functionName: 'approve',
       });
       throwError(t('error.generic'), e);
     }

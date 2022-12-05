@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 
-import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -14,7 +13,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useCreateToken } from './create-token-form.hooks';
 import { CreateTokenButtonProps } from './create-token-form.types';
@@ -38,6 +42,12 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
       const tx = await createToken?.();
 
       await showTXSuccessToast(tx, chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.Faucet,
+        functionName: 'handleCreateToken',
+      });
 
       if (tx) {
         const receipt = await tx.wait();
@@ -52,12 +62,11 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
           });
       }
     } catch (error) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: createToken - handleCreateToken',
-        trackerName: [
-          'views/dapp/views/faucet/create-token-form/create-token-button.tsx',
-        ],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.Faucet,
+        functionName: 'handleCreateToken',
       });
       throwError(t('error.generic'), error);
     } finally {

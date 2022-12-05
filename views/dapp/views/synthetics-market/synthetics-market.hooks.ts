@@ -4,11 +4,15 @@ import { WrapperBuilder as OldWrapperBuilder } from 'redstone-evm-connector';
 import { useQuery } from 'wagmi';
 
 import { DEFAULT_ACCOUNT } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import { SYNTHETICS_CALL_MAP } from '@/constants/synthetics';
 import GetTokenUsdPriceABI from '@/sdk/abi/get-token-usd-price.abi.json';
 import { getInterestViewDineroContract, getStaticWeb3Provider } from '@/utils';
-import { logException } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import {
   GetTokenUsdPriceAbi,
@@ -50,12 +54,18 @@ export const useGetSyntheticMarketsSummary = (
     {
       enabled: !!callData.markets.length && !!contract.signer.call,
       onError: () =>
-        logException({
-          action: GAAction.ReadBlockchainData,
-          label: `Transaction: getSyntheticMarketsSummary`,
-          trackerName: [
-            'views/dapp/views/synthetics-market/synthetics-market.hooks.ts',
-          ],
+        logTransactionEvent({
+          status: GAStatus.Error,
+          type: GAType.Read,
+          page: GAPage.SyntheticsMarket,
+          functionName: 'getSyntheticMarketsSummary',
+        }),
+      onSuccess: () =>
+        logTransactionEvent({
+          status: GAStatus.Success,
+          type: GAType.Read,
+          page: GAPage.SyntheticsMarket,
+          functionName: 'getSyntheticMarketsSummary',
         }),
     }
   );
@@ -93,12 +103,18 @@ export const useGetTokenUSDPrice = ({
     {
       enabled: !!dataFeedId && !!contract.signer.call,
       onError: () =>
-        logException({
-          action: GAAction.ReadBlockchainData,
-          label: `Transaction: getTokenUSDPrice ${marketAddress}`,
-          trackerName: [
-            'views/dapp/views/synthetics-market/synthetics-market.hooks.ts',
-          ],
+        logTransactionEvent({
+          status: GAStatus.Error,
+          type: GAType.Read,
+          page: GAPage.SyntheticsMarket,
+          functionName: 'getTokenUSDPrice',
+        }),
+      onSuccess: () =>
+        logTransactionEvent({
+          status: GAStatus.Success,
+          type: GAType.Read,
+          page: GAPage.SyntheticsMarket,
+          functionName: 'getTokenUSDPrice',
         }),
     }
   );

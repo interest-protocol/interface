@@ -10,7 +10,6 @@ import { useSigner } from 'wagmi';
 
 import { ApproveButton } from '@/components';
 import { REDSTONE_CORE_CONSUMER_DATA, SyntheticOracleType } from '@/constants';
-import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import SyntheticMinterABI from '@/sdk/abi/synthetics-minter.abi.json';
 import { LoadingSVG } from '@/svg';
@@ -24,7 +23,12 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { SyntheticsMinterAbi } from '../../../../../../types/ethers-contracts';
 import {
@@ -143,14 +147,19 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
       await refetch();
 
       await showTXSuccessToast(tx, data.chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.SyntheticsMarketPanel,
+        functionName: 'handleMint',
+      });
       form.reset();
     } catch (e: unknown) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: mint - handleMint',
-        trackerName: [
-          'views/dapp/views/synthetics-market-panel/components/synt-form/mint-button.tsx',
-        ],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.SyntheticsMarketPanel,
+        functionName: 'handleMint',
       });
       throwContractCallError(e);
     } finally {
@@ -195,6 +204,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
         alignItems: 'center',
         justifyContent: 'center',
       }}
+      pageName={GAPage.SyntheticsMarketPanel}
     />
   ) : (!mintSynt && !mintCollateral) ||
     (+mintSynt === 0 && +mintCollateral === 0) ? (

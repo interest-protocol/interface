@@ -3,7 +3,6 @@ import { values } from 'ramda';
 import { FC } from 'react';
 
 import EthereumNetwork from '@/components/svg/ethereum-network';
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Dropdown, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
 import {
@@ -14,7 +13,7 @@ import {
   BlockchainSVG,
 } from '@/svg';
 import { capitalize } from '@/utils';
-import { logEvent } from '@/utils/analytics';
+import { logGenericEvent } from '@/utils/analytics';
 
 import { SelectNetworkProps } from './wallet.types';
 const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
@@ -55,7 +54,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
         {
           value: `${CHAIN_ID.BNB_TEST_NET}`,
           onSelect: () => {
-            logEvent(GACategory.Wallet, GAAction.SwitchNetwork, 'BSCT');
+            logGenericEvent('Network_BSCT');
             switchNetwork(CHAIN_ID.BNB_TEST_NET);
           },
           displayOption: (
@@ -101,7 +100,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
         {
           value: ``,
           onSelect: () => {
-            logEvent(GACategory.Wallet, GAAction.SwitchNetwork, 'BSC');
+            logGenericEvent('Network_BSC');
           },
           displayOption: (
             <Box
@@ -163,7 +162,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
         {
           value: ``,
           onSelect: () => {
-            logEvent(GACategory.Wallet, GAAction.SwitchNetwork, 'ADA EVM');
+            logGenericEvent('Network_ADA_EVM');
           },
           displayOption: (
             <Box
@@ -225,7 +224,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
         {
           value: ``,
           onSelect: () => {
-            logEvent(GACategory.Wallet, GAAction.SwitchNetwork, 'Goerli');
+            logGenericEvent('Network_Goerli');
           },
           displayOption: (
             <Box

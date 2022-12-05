@@ -8,6 +8,7 @@ export enum GACategory {
   DineroMarketFilters = 'DINERO_FILTERS',
   SyntheticsMarketFilters = 'SYNTHETICS_FILTERS',
   Error = 'ERROR',
+  Success = 'SUCCESS',
 }
 
 export enum GAAction {

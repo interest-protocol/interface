@@ -1,4 +1,5 @@
 import { ButtonProps } from '@/elements/button/button.types';
+import { GAPage } from '@/utils/analytics';
 
 export interface ApproveButtonProps {
   enabled: boolean;
@@ -7,4 +8,5 @@ export interface ApproveButtonProps {
   chainId: number;
   refetch: () => Promise<void>;
   buttonProps?: ButtonProps;
+  pageName: GAPage;
 }

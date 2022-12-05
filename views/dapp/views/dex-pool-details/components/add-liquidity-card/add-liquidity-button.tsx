@@ -2,10 +2,14 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
 
-import { GAAction } from '@/constants/google-analytics';
 import { Button } from '@/elements';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
-import { logException } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { AddLiquidityCardButtonProps } from './add-liquidity-card.types';
 
@@ -23,13 +27,18 @@ const AddLiquidityButton: FC<AddLiquidityCardButtonProps> = ({
       setLoading(true);
       const tx = await addLiquidity?.();
       await showTXSuccessToast(tx, chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexPoolDetails,
+        functionName: '_addLiquidity',
+      });
     } catch {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: addLiquidity - AddLiquidityButton',
-        trackerName: [
-          'views/dapp/views/dex-pool-details/components/add-liquidity-card/add-liquidity-button.tsx',
-        ],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexPoolDetails,
+        functionName: '_addLiquidity',
       });
       throwError(t('error.generic'));
     } finally {
