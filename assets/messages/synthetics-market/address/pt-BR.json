@@ -26,9 +26,9 @@
     "positionName2": "{syntheticSymbol} criados",
     "positionTip2": "Montante de {syntheticSymbol} que foram criados neste mercado",
     "positionName3": "Valor dos {syntheticSymbol}",
-    "positionTip3": "O valor em USD dos {syntheticSymbol} criados neste mercado",
+    "positionTip3": "O valor em colateral dos {syntheticSymbol} criados neste mercado",
     "positionName4": "Preço de liquidação",
-    "positionTip4": "Se o preço da colateral chegar a este valor a sua <br /> posição será liquidada",
+    "positionTip4": "Se o preço do sintético chegar a este valor a sua <br /> posição será liquidada",
     "positionName5": "{syntheticSymbol} por criar",
     "positionTip5": "Montante adicional de {syntheticSymbol} que pode criar",
     "positionName6": "Valor disponível para levantar",
@@ -56,6 +56,10 @@
       "burn": "Queimar Sintético",
       "removeCollateral": "Remover a Garantia",
       "removeCollateralBurn": "Remover a Garantia e Reembolsar"
+    },
+    "form": {
+      "ltvError": "Já alcançou o limite do LTV permitido.",
+      "collateralError": "Não pode depositar mais que o saldo na sua carteira."
     }
   }
 }

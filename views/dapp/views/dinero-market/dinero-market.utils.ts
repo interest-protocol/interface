@@ -1,4 +1,3 @@
-import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
 import { isAddress } from 'ethers/lib/utils';
 import { always, cond, equals, ifElse, isEmpty, T } from 'ramda';
@@ -9,35 +8,46 @@ import {
   DINERO_MARKET_METADATA,
   DINERO_MARKET_SUMMARY_CALL_MAP,
 } from '@/constants/dinero-markets';
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { TOKEN_SYMBOL } from '@/sdk';
-import { isSameAddress } from '@/utils';
-import { logEvent } from '@/utils/analytics';
+import { hasKeys, isSameAddress } from '@/utils';
+import { logGenericEvent } from '@/utils/analytics';
 
-import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
 import { BorrowSortByFilter } from './components/borrow-filters/borrow-filters.types';
-import { DineroMarketSummary, IDineroMarketForm } from './dinero-market.types';
+import {
+  DineroMarketSummary,
+  IDineroMarketForm,
+  TDineroMarketData,
+  TDineroMarketDataKeys,
+  TGetSafeDineroMarketSummaryData,
+} from './dinero-market.types';
 
-export const getSafeDineroMarketSummaryData = (
-  chainId: number,
-  data:
-    | ([
-        InterestViewDinero.DineroMarketSummaryStructOutput,
-        InterestViewDinero.DineroMarketSummaryStructOutput[],
-        InterestViewDinero.DineroMarketSummaryStructOutput[]
-      ] & {
-        nativeMarket: InterestViewDinero.DineroMarketSummaryStructOutput;
-        erc20Markets: InterestViewDinero.DineroMarketSummaryStructOutput[];
-        lpMarkets: InterestViewDinero.DineroMarketSummaryStructOutput[];
-      })
-    | undefined
-    | Result
-): ReadonlyArray<DineroMarketSummary> => {
+const DINERO_MARKET_KEYS: ReadonlyArray<TDineroMarketDataKeys> = [
+  'LTV',
+  'collateralUSDPrice',
+  'interestRate',
+  'liquidationFee',
+  'totalCollateral',
+  'userElasticLoan',
+];
+
+const isMissingAttribute = (dineroMarketData: TDineroMarketData) =>
+  !hasKeys(DINERO_MARKET_KEYS, dineroMarketData?.nativeMarket) ||
+  !dineroMarketData?.erc20Markets.every((data: any) =>
+    hasKeys(DINERO_MARKET_KEYS, data)
+  ) ||
+  !dineroMarketData?.lpMarkets.every((data: any) =>
+    hasKeys(DINERO_MARKET_KEYS, data)
+  );
+
+export const getSafeDineroMarketSummaryData: TGetSafeDineroMarketSummaryData = (
+  chainId,
+  data
+) => {
   if (!chainId || !data) return [];
 
   const callMap = DINERO_MARKET_SUMMARY_CALL_MAP[chainId];
 
-  if (!callMap) return [];
+  if (!callMap || isMissingAttribute(data)) return [];
 
   const nativeMarket = {
     totalCollateral: data.nativeMarket.totalCollateral,
@@ -83,22 +93,14 @@ export const getFilterSwitchDefaultData = (
   {
     value: values[0],
     onSelect: () => {
-      logEvent(
-        GACategory.DineroMarketFilters,
-        GAAction.Switch,
-        'onlyBorrowing = off'
-      );
+      logGenericEvent('FilterDineroMarket_OnlyBorrowing_off');
       setValue(name, false);
     },
   },
   {
     value: values[1],
     onSelect: () => {
-      logEvent(
-        GACategory.DineroMarketFilters,
-        GAAction.Switch,
-        'onlyBorrowing = on'
-      );
+      logGenericEvent('FilterDineroMarket_OnlyBorrowing_on');
       setValue(name, true);
     },
   },

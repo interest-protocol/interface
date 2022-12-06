@@ -37,6 +37,7 @@ export interface BoxProps
   clipPath?: ResponsiveValue<CSSProperties['clipPath']>;
   objectFit?: ResponsiveValue<CSSProperties['objectFit']>;
   transform?: ResponsiveValue<CSSProperties['transform']>;
+  boxSizing?: ResponsiveValue<CSSProperties['boxSizing']>;
   whiteSpace?: ResponsiveValue<CSSProperties['whiteSpace']>;
   transition?: ResponsiveValue<CSSProperties['transition']>;
   backdropFilter?: ResponsiveValue<CSSProperties['filter']>;

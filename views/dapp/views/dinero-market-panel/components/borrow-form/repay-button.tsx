@@ -3,7 +3,6 @@ import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -12,7 +11,12 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useRepay } from '../../dinero-market.hooks';
 import { isFormRepayEmpty } from '../../dinero-market.utils';
@@ -42,14 +46,19 @@ const RepayButton: FC<RepayButtonProps> = ({
       const tx = await repay?.();
 
       await showTXSuccessToast(tx, data.chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
+        functionName: 'handleRepay',
+      });
       form.reset();
     } catch (e: unknown) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: repay - RepayButton',
-        trackerName: [
-          'views/dapp/views/dinero-market-panel/components/borrow-form/repay-button.tsx',
-        ],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
+        functionName: 'handleRepay',
       });
       throwContractCallError(e);
     } finally {
@@ -61,12 +70,11 @@ const RepayButton: FC<RepayButtonProps> = ({
   const onSubmitRepay = async () => {
     if (isFormRepayEmpty(form)) {
       toast.error(t('dineroMarketAddress.toastError'));
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Form Repay is Empty',
-        trackerName: [
-          'views/dapp/views/dinero-market-panel/components/borrow-form/repay-button.tsx',
-        ],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
+        functionName: 'onSubmitRepay',
       });
       return;
     }

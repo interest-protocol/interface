@@ -4,20 +4,20 @@ import { useWatch } from 'react-hook-form';
 
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
-import { formatMoney, safeToBigNumber } from '@/utils';
+import { formatDollars, formatMoney, safeToBigNumber } from '@/utils';
 
 import {
   calculateSyntLeftToMint,
   safeAmountToWithdrawRepay,
-} from '../../synthetics-market.utils';
+} from '../../synthetics-market-panel.utils';
 import { InputMaxTagProps } from './input-money.types';
 
 const InputMaxTag: FC<InputMaxTagProps> = ({
   max,
   data,
-  isBUSD,
   control,
   isMint,
+  isCollateral,
 }) => {
   const mintCollateral = useWatch({ control, name: 'mint.collateral' });
   const burnSynt = useWatch({ control, name: 'burn.synt' });
@@ -40,6 +40,8 @@ const InputMaxTag: FC<InputMaxTagProps> = ({
     [mintCollateral, burnSynt, isMint]
   );
 
+  const format = data.isCollateralStable ? formatDollars : formatMoney;
+
   return (
     <Box
       py="S"
@@ -52,8 +54,8 @@ const InputMaxTag: FC<InputMaxTagProps> = ({
       <Typography fontSize="S" variant="normal">
         Max:{' '}
         <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
-          {formatMoney(
-            ((isMint && !isBUSD) || (!isMint && isBUSD)
+          {format(
+            ((isMint && !isCollateral) || (!isMint && isCollateral)
               ? recalculatedMax
               : max) ?? 0
           )}

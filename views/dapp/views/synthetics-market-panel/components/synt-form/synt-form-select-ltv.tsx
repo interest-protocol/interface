@@ -13,7 +13,7 @@ import { numberToString } from '@/utils';
 import {
   calculateMintAmount,
   calculateUserCurrentLTV,
-} from '../../synthetics-market.utils';
+} from '../../synthetics-market-panel.utils';
 import { SyntFormSelectLTVProps } from './synt-form.types';
 
 const LTV_ARRAY = [0, 25, 50, 75, 100];

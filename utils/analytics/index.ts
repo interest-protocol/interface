@@ -1,7 +1,5 @@
 import ReactGA from 'react-ga4';
 
-import { GACategory } from '@/constants/google-analytics';
-
 export const initGA = (): void => {
   ReactGA.initialize(
     process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID ?? 'G-3M99P49E9B'
@@ -13,22 +11,50 @@ export const logPageView = (): void => {
   ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
 };
 
-export const logEvent = (category = '', action = '', label: string): void => {
-  if (category && action) ReactGA.event({ category, action, label });
+export enum GAStatus {
+  Success = 'S',
+  Error = 'E',
+}
+
+export enum GAType {
+  Read = 'R',
+  Write = 'W',
+}
+
+export enum GAPage {
+  DexSwap = 'Dex-Swap',
+  DexFindPool = 'DexFindPool',
+  DexFindPoolCreatePool = 'DexFindPoolCreatePool',
+  DexPoolDetails = 'DexPoolDetails',
+  DexPoolDetailsRemoveLiquidity = 'DexPoolDetailsRemoveLiquidity',
+  DexPoolDetailsAddLiquidity = 'DexPoolDetailsAddLiquidity',
+  DineroMarket = 'DineroMarket',
+  DineroMarketPanel = 'DineroMarketPanel',
+  DineroVault = 'DineroVault',
+  Vault = 'Vault',
+  Farms = 'Farms',
+  FarmsDetails = 'FarmsDetails',
+  Faucet = 'Faucet',
+  SyntheticsMarket = 'SyntheticsMarket',
+  SyntheticsMarketPanel = 'SyntheticsMarketPanel',
+}
+
+interface LogProps {
+  status: GAStatus;
+  type: GAType;
+  page: GAPage;
+  functionName: string;
+}
+
+export const logTransactionEvent = ({
+  status,
+  type,
+  page,
+  functionName,
+}: LogProps): void => {
+  ReactGA.event(`${status}_${type}_${page}_${functionName}`);
 };
 
-interface ParamsException {
-  category?: GACategory;
-  action: string;
-  label: string;
-  trackerName?: string[];
-}
-export const logException = ({
-  category = GACategory.Error,
-  action,
-  label,
-  trackerName,
-}: ParamsException): void => {
-  if (category && action)
-    ReactGA.event({ category, action, label }, trackerName);
+export const logGenericEvent = (action: string): void => {
+  ReactGA.event(action);
 };

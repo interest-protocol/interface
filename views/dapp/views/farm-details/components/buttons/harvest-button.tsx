@@ -2,10 +2,14 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useState } from 'react';
 
-import { GAAction } from '@/constants/google-analytics';
 import Button from '@/elements/button';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
-import { logException } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useHarvest } from './buttons.hooks';
 import { HarvestButtonProps } from './buttons.types';
@@ -27,13 +31,18 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
       await refetch();
 
       await showTXSuccessToast(tx, farm.chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.FarmsDetails,
+        functionName: 'harvest',
+      });
     } catch (e) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: _harvest - HarvestButton',
-        trackerName: [
-          'views/dapp/views/farm-details/components/buttons/harvest-button.tsx',
-        ],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.FarmsDetails,
+        functionName: 'harvest',
       });
       throwError(t('error.generic'), e);
     } finally {

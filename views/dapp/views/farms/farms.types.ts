@@ -61,18 +61,34 @@ export interface SafeFarmSummaryData {
   intUSDPrice: BigNumber;
 }
 
+export type TFarmDataKeys = {
+  pools: ReadonlyArray<
+    | 'stakingToken'
+    | 'stable'
+    | 'reserve0'
+    | 'reserve1'
+    | 'allocationPoints'
+    | 'totalStakingAmount'
+    | 'totalSupply'
+    | 'stakingAmount'
+  >;
+  mintData: ReadonlyArray<'totalAllocationPoints' | 'interestPerBlock'>;
+};
+
+export type TFarmData =
+  | ([
+      InterestViewEarn.PoolDataStructOutput[],
+      InterestViewEarn.MintDataStructOutput,
+      BigNumber[]
+    ] & {
+      pools: InterestViewEarn.PoolDataStructOutput[];
+      mintData: InterestViewEarn.MintDataStructOutput;
+      prices: BigNumber[];
+    })
+  | undefined
+  | Result;
+
 export type GetSafeFarmSummaryData = (
   chainId: number | null,
-  data:
-    | ([
-        InterestViewEarn.PoolDataStructOutput[],
-        InterestViewEarn.MintDataStructOutput,
-        BigNumber[]
-      ] & {
-        pools: InterestViewEarn.PoolDataStructOutput[];
-        mintData: InterestViewEarn.MintDataStructOutput;
-        prices: BigNumber[];
-      })
-    | undefined
-    | Result
+  data: TFarmData
 ) => SafeFarmSummaryData;

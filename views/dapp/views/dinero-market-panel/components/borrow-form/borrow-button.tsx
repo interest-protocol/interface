@@ -5,7 +5,6 @@ import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { ApproveButton } from '@/components';
-import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { LoadingSVG } from '@/svg';
@@ -17,7 +16,12 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useBorrow } from '../../dinero-market.hooks';
 import {
@@ -112,14 +116,19 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       await await refetch();
 
       await showTXSuccessToast(tx, data.chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
+        functionName: 'handleBorrow',
+      });
       form.reset();
     } catch (e: unknown) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: borrow - BorrowButton',
-        trackerName: [
-          'views/dapp/views/dinero-market-panel/components/borrow-form/borrow-button.tsx',
-        ],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
+        functionName: 'handleBorrow',
       });
       throwContractCallError(e);
     } finally {
@@ -130,12 +139,11 @@ const BorrowButton: FC<BorrowButtonProps> = ({
   const onSubmitBorrow = async () => {
     if (isFormBorrowEmpty(form)) {
       toast.error(t('dineroMarketAddress.form.amountError'));
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Form Borrow is Empty',
-        trackerName: [
-          'views/dapp/views/dinero-market-panel/components/borrow-form/borrow-button.tsx',
-        ],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
+        functionName: 'onSubmitBorrow',
       });
       return;
     }
@@ -166,6 +174,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
         alignItems: 'center',
         justifyContent: 'center',
       }}
+      pageName={GAPage.DineroMarketPanel}
     />
   ) : (!borrowLoan && !borrowCollateral) ||
     (+borrowCollateral === 0 && +borrowLoan === 0) ? (

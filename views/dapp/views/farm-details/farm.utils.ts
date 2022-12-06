@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+import { keys } from 'ramda';
 
 import {
   FARM_METADATA_MAP,
@@ -12,16 +13,55 @@ import {
   calculateFarmBaseAPR,
   calculateFarmTokenPrice,
   calculateIntUSDPrice,
+  hasKeys,
 } from '@/utils';
 
-import { GetSafeUserFarmData } from './farm-details.types';
+import {
+  GetSafeUserFarmData,
+  TFarmData,
+  TFarmDataKeys,
+} from './farm-details.types';
+
+const FARM_DATA_KEYS: TFarmDataKeys = {
+  ipxPoolData: [
+    'allocationPoints',
+    'reserve0',
+    'reserve1',
+    'stable',
+    'stakingAmount',
+    'stakingToken',
+    'totalStakingAmount',
+    'totalSupply',
+  ],
+  poolData: [
+    'allocationPoints',
+    'reserve0',
+    'reserve1',
+    'stable',
+    'stakingAmount',
+    'stakingToken',
+    'totalStakingAmount',
+    'totalSupply',
+  ],
+  farmData: ['allowance', 'balance', 'pendingRewards'],
+  mintData: ['interestPerBlock', 'totalAllocationPoints'],
+};
+
+const isMissingAttribute = (farmData: TFarmData) =>
+  keys(FARM_DATA_KEYS).some(
+    (key) =>
+      !hasKeys<TFarmData>(
+        FARM_DATA_KEYS[key as keyof TFarmDataKeys],
+        farmData?.[key]
+      )
+  );
 
 export const getSafeUserFarmData: GetSafeUserFarmData = (
-  chainId: number,
+  chainId,
   pairAddress,
   data
 ) => {
-  if (!data)
+  if (!chainId || !data || isMissingAttribute(data))
     return {
       intUSDPrice: ZERO_BIG_NUMBER,
       loading: true,

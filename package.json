@@ -15,6 +15,7 @@
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@hookform/resolvers": "^2.8.8",
+    "@redstone-finance/evm-connector": "^0.0.12",
     "@vercel/analytics": "^0.1.5",
     "api-getresponse": "^1.0.0",
     "decimal.js-light": "^2.5.1",
@@ -34,6 +35,7 @@
     "react-spring": "^9.5.0",
     "react-switch": "^6.0.0",
     "react-tooltip": "^4.2.21",
+    "redstone-evm-connector": "^2.1.26",
     "toformat": "^2.0.0",
     "use-debounce": "^8.0.4",
     "uuid": "^8.3.2",
@@ -109,5 +111,8 @@
     "typechain": "^8.0.0",
     "typescript": "^4.8.3",
     "vercel": "^24.0.1"
+  },
+  "engines": {
+    "node": "16.18.1"
   }
 }

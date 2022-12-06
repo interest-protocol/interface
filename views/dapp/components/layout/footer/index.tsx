@@ -14,11 +14,18 @@ import {
   RoutesWithFaucet,
   SOCIAL_MEDIAS,
 } from '@/constants';
-import { GAAction, GACategory } from '@/constants/google-analytics';
 import { Box, Button, Dropdown, Typography } from '@/elements';
-import { CreditCardSVG, FaucetSVG, GitBookSVG, HorizontalDotsSVG } from '@/svg';
+import {
+  CreditCardSVG,
+  DexSVG,
+  EarnSVG,
+  FaucetSVG,
+  GitBookSVG,
+  HorizontalDotsSVG,
+  MarketSVG,
+} from '@/svg';
 import { capitalize } from '@/utils';
-import { logEvent } from '@/utils/analytics';
+import { logGenericEvent } from '@/utils/analytics';
 
 const Footer: FC = () => {
   const t = useTranslations();
@@ -32,7 +39,7 @@ const Footer: FC = () => {
   const supportsCreditCard = address && isChainIdSupported(chainId ?? -1);
 
   const trackHeaderNavigation = (label: string) => () =>
-    logEvent(GACategory.HeaderNavigation, GAAction.MobileNavigate, label);
+    logGenericEvent(`Mobile_Header_${label}`);
 
   return (
     <Box
@@ -70,21 +77,27 @@ const Footer: FC = () => {
               ml="S"
               px="0.8rem"
               fontSize="M"
-              height="2.5rem"
               display="flex"
+              flexDirection="column"
               variant="primary"
               alignItems="center"
-              justifyContent="center"
-              boxShadow="0 0 15px rgba(0,0,0,.3)"
+              justifyContent="space-between"
               bg={
                 pathname.includes(Routes[RoutesEnum.DEX])
                   ? 'accent'
-                  : 'textSoft'
+                  : 'transparent'
               }
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
               onClick={() => trackHeaderNavigation(RoutesEnum.DEX)}
             >
+              <DexSVG
+                width="1.1rem"
+                height="1.1rem"
+                maxHeight={'2.5rem'}
+                maxWidth={'auto'}
+                style={{ marginBottom: '8px' }}
+              />
               Dex
             </Button>
           </Link>
@@ -95,22 +108,22 @@ const Footer: FC = () => {
               staticPosition
               title={
                 <Typography
-                  px="1.5rem"
+                  p="0.8rem 1rem"
                   bg={
                     pathname === Routes[RoutesEnum.Farms] ||
                     pathname.includes(Routes[RoutesEnum.Vaults]) ||
                     pathname.includes(Routes[RoutesEnum.DineroVault])
                       ? 'accent'
-                      : 'textSoft'
+                      : 'transparent'
                   }
                   fontSize="M"
-                  height="2.5rem"
                   display="flex"
                   variant="normal"
+                  as="div"
+                  flexDirection="column"
                   borderRadius="M"
                   alignItems="center"
                   justifyContent="center"
-                  boxShadow="0 0 15px rgba(0,0,0,.3)"
                   color={
                     pathname === Routes[RoutesEnum.Farms] ||
                     pathname.includes(Routes[RoutesEnum.Vaults])
@@ -120,6 +133,14 @@ const Footer: FC = () => {
                   hover={{ bg: 'accent', color: 'text' }}
                   active={{ bg: 'accentActive', color: 'text' }}
                 >
+                  <EarnSVG
+                    fill="transparent"
+                    width="1.1rem"
+                    height="1.1rem"
+                    maxHeight={'2.5rem'}
+                    maxWidth={'auto'}
+                    style={{ marginBottom: '8px' }}
+                  />
                   {capitalize(t('common.earn'))}
                 </Typography>
               }
@@ -150,21 +171,21 @@ const Footer: FC = () => {
               staticPosition
               title={
                 <Typography
-                  px="1.5rem"
+                  p="0.8rem 1rem"
                   bg={
                     pathname.includes(Routes[RoutesEnum.DineroMarket]) ||
                     pathname.includes(Routes[RoutesEnum.SyntheticsMarket])
                       ? 'accent'
-                      : 'textSoft'
+                      : 'transparent'
                   }
                   fontSize="M"
-                  height="2.5rem"
                   display="flex"
                   variant="normal"
+                  as="div"
+                  flexDirection="column"
                   borderRadius="M"
                   alignItems="center"
                   justifyContent="center"
-                  boxShadow="0 0 15px rgba(0,0,0,.3)"
                   color={
                     pathname === Routes[RoutesEnum.DineroMarket] ||
                     pathname.includes(Routes[RoutesEnum.SyntheticsMarket])
@@ -174,6 +195,13 @@ const Footer: FC = () => {
                   hover={{ bg: 'accent', color: 'text' }}
                   active={{ bg: 'accentActive', color: 'text' }}
                 >
+                  <MarketSVG
+                    width="1.1rem"
+                    height="1.1rem"
+                    maxHeight={'2.5rem'}
+                    maxWidth={'auto'}
+                    style={{ marginBottom: '8px' }}
+                  />
                   {capitalize(t('common.market'))}
                 </Typography>
               }

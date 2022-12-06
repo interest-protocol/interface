@@ -67,6 +67,16 @@ You must install it in your Editor text
 - [Wagmi](https://wagmi.sh/)
 - [Typechain](https://wagmi.sh/)
 
+## Google Analytics
+
+### logTransactionEvent
+
+A Function that will log to google analytics about all transactions that will come up within the platform. The successful transactions will be registered along with any errors.
+
+### logGenericEvent
+
+Generic events will be registered, events about the most common occurrences that take place inside the platform.
+
 ## Live
 
 Go to [here (Interest Protocol)](https://www.interestprotocol.com/) and see what we have prepared for you

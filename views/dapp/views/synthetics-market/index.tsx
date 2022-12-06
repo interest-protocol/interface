@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
 import { useIdAccount } from '@/hooks';
-import { BinanceUSDSVG, TimesSVG } from '@/svg';
+import { TimesSVG } from '@/svg';
 
 import { SyntheticsFilters, SyntheticsList } from './components';
 import { useGetSyntheticMarketsSummary } from './synthetics-market.hooks';
@@ -28,7 +28,7 @@ const SyntheticsMarket: FC = () => {
 
   const { error, data } = useGetSyntheticMarketsSummary(account, chainId);
 
-  const markets = useMemo(
+  const { markets, loading } = useMemo(
     () => processSyntheticMarketSummaryData(chainId, data),
     [chainId, account, data]
   );
@@ -70,21 +70,17 @@ const SyntheticsMarket: FC = () => {
       display="flex"
       flexDirection="column"
     >
-      <Box
-        py="XL"
-        width="100%"
-        display="flex"
-        alignItems="center"
-        justifyContent={['center', 'flex-start']}
-      >
-        <BinanceUSDSVG
-          width="2rem"
-          height="2rem"
-          maxHeight="2rem"
-          maxWidth="2rem"
-        />
-        <Typography variant="normal" ml="M">
+      <Box py="XL" width="100%">
+        <Typography variant="title3" textAlign="center">
           {t('syntheticsMarket.title')}
+        </Typography>
+        <Typography
+          variant="title4"
+          mt="1rem"
+          fontWeight="400"
+          textAlign="center"
+        >
+          {t('syntheticsMarket.subTitle')}
         </Typography>
       </Box>
       <SyntheticsFilters
@@ -92,7 +88,12 @@ const SyntheticsMarket: FC = () => {
         register={register}
         setValue={setValue}
       />
-      <SyntheticsList chainId={chainId} control={control} markets={markets} />
+      <SyntheticsList
+        chainId={chainId}
+        control={control}
+        markets={markets}
+        loading={loading}
+      />
     </Container>
   );
 };

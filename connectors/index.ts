@@ -1,4 +1,12 @@
-import { chain, configureChains, createClient } from 'wagmi';
+import {
+  FallbackProvider,
+  FallbackProviderConfig,
+  JsonRpcProvider,
+  StaticJsonRpcProvider,
+  WebSocketProvider,
+} from '@ethersproject/providers';
+import { QueryClient } from '@tanstack/query-core';
+import { Chain, chain, Client, configureChains, createClient } from 'wagmi';
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
@@ -59,4 +67,9 @@ export const wagmiClient = createClient({
       options: { shimDisconnect: true },
     }),
   ],
-});
+}) as Client<
+  | (JsonRpcProvider & FallbackProviderConfig & { chains: Chain[] })
+  | (StaticJsonRpcProvider & FallbackProviderConfig & { chains: Chain[] })
+  | (FallbackProvider & { chains: Chain[]; pollingInterval: number }),
+  WebSocketProvider
+> & { queryClient: QueryClient };

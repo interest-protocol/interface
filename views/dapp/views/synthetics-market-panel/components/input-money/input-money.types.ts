@@ -7,7 +7,7 @@ import {
   SyntheticMarketData,
   SyntheticsCurrencyIcons,
   TValidSyntFormFieldNames,
-} from '../../synthetics-market.types';
+} from '../../synthetics-market-panel.types';
 
 export interface InputMoneyProps
   extends Pick<
@@ -17,7 +17,7 @@ export interface InputMoneyProps
   max?: number;
   amount: string;
   currency: string;
-  amountUSD: number;
+  price: number;
   isMint?: boolean;
   data: SyntheticMarketData;
   label: TTranslatedMessage;
@@ -27,10 +27,11 @@ export interface InputMoneyProps
   disabled: boolean;
 }
 
-export interface InputMoneySuffixProps
+export interface InputSuffixProps
   extends Pick<UseFormReturn<ISyntheticForm>, 'control'> {
-  amountUSD: number;
+  price: number;
   name: TValidSyntFormFieldNames;
+  isStable: boolean;
 }
 
 export interface InputMaxButtonProps
@@ -50,8 +51,8 @@ export interface InputErrorMessageProps {
 
 export interface InputMaxTagProps {
   max?: number;
-  isBUSD: boolean;
   isMint: boolean;
   data: SyntheticMarketData;
   control: Control<ISyntheticForm>;
+  isCollateral: boolean;
 }

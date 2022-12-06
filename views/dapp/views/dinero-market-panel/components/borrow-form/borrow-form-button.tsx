@@ -5,6 +5,7 @@ import { useWatch } from 'react-hook-form';
 import { ApproveButton } from '@/components';
 import { Box } from '@/elements';
 import { isValidAccount, isZeroAddress } from '@/utils';
+import { GAPage } from '@/utils/analytics';
 
 import BorrowButton from './borrow-button';
 import { BorrowFormButtonProps } from './borrow-form.types';
@@ -49,6 +50,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
               alignItems: 'center',
               justifyContent: 'center',
             }}
+            pageName={GAPage.DineroMarketPanel}
           />
         ) : (!borrowLoan && !borrowCollateral) ||
           (+borrowCollateral === 0 && +borrowLoan === 0) ? (

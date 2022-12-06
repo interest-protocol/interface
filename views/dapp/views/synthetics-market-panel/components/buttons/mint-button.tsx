@@ -1,10 +1,10 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
+import { useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import { ApproveButton } from '@/components';
-import { GAAction } from '@/constants/google-analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -16,25 +16,30 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
-import { logException } from '@/utils/analytics';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
-import { useMint } from '../../synthetics-market.hooks';
+import { useMint } from '../../synthetics-market-panel.hooks';
 import {
   convertCollateralToSynt,
   isFormMintEmpty,
-} from '../../synthetics-market.utils';
-import { MintButtonProps } from './synt-form.types';
+} from '../../synthetics-market-panel.utils';
+import { MintButtonProps } from './buttons.types';
 
-const MintButton: FC<MintButtonProps> = ({
-  refetch,
-  data,
-  form,
-  mintCollateral,
-  mintSynt,
-}) => {
+const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
 
+  const mintSynt = useWatch({ control: form.control, name: 'mint.synt' });
+
+  const mintCollateral = useWatch({
+    control: form.control,
+    name: 'mint.collateral',
+  });
   const { writeAsync: mint } = useMint(data, mintCollateral, mintSynt);
 
   const handleMint = async () => {
@@ -51,13 +56,13 @@ const MintButton: FC<MintButtonProps> = ({
               adjustedCollateralAmount: data.adjustedUserCollateral.add(
                 safeToBigNumber(mintCollateral)
               ),
-              syntUSDPrice: data.syntUSDPrice,
+              syntPrice: data.syntPrice,
             })
           )
       ) {
         form.setError('mint.synt', {
           type: 'max',
-          message: 'You are minting beyond the allowed LTV',
+          message: t('syntheticsMarketAddress.form.ltvError'),
         });
         return;
       }
@@ -70,7 +75,7 @@ const MintButton: FC<MintButtonProps> = ({
           adjustedCollateralAmount: data.adjustedUserCollateral.add(
             safeToBigNumber(mintCollateral)
           ),
-          syntUSDPrice: data.syntUSDPrice,
+          syntPrice: data.syntPrice,
         }).gte(safeToBigNumber(mintSynt).add(data.userSyntMinted))
       )
         form.clearErrors('mint.synt');
@@ -82,7 +87,7 @@ const MintButton: FC<MintButtonProps> = ({
       ) {
         form.setError('mint.collateral', {
           type: 'max',
-          message: 'The Collateral must not to be greater than your balance',
+          message: t('syntheticsMarketAddress.form.collateralError'),
         });
         return;
       }
@@ -101,14 +106,19 @@ const MintButton: FC<MintButtonProps> = ({
       await refetch();
 
       await showTXSuccessToast(tx, data.chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.SyntheticsMarketPanel,
+        functionName: 'handleMint',
+      });
       form.reset();
     } catch (e: unknown) {
-      logException({
-        action: GAAction.SubmitTransaction,
-        label: 'Transaction Error: mint - handleMint',
-        trackerName: [
-          'views/dapp/views/synthetics-market-panel/components/synt-form/mint-button.tsx',
-        ],
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.SyntheticsMarketPanel,
+        functionName: 'handleMint',
       });
       throwContractCallError(e);
     } finally {
@@ -153,6 +163,7 @@ const MintButton: FC<MintButtonProps> = ({
         alignItems: 'center',
         justifyContent: 'center',
       }}
+      pageName={GAPage.SyntheticsMarketPanel}
     />
   ) : (!mintSynt && !mintCollateral) ||
     (+mintSynt === 0 && +mintCollateral === 0) ? (

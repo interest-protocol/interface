@@ -5,6 +5,7 @@ import { useAccount } from 'wagmi';
 import { useNativeBalance } from '@/hooks/use-native-balance';
 import { ZERO_BIG_NUMBER } from '@/sdk';
 import { asyncNoop, getInterestDexRouterAddress, isZeroAddress } from '@/utils';
+import { GAPage } from '@/utils/analytics';
 
 import { useGetUserBalancesAndAllowances } from '../use-get-user-balances-allowances';
 
@@ -24,7 +25,8 @@ export interface useGetDexAllowancesAndBalancesReturn {
 export const useGetDexAllowancesAndBalances = (
   chainId: number,
   tokenA: string,
-  tokenB: string
+  tokenB: string,
+  page: GAPage
 ): useGetDexAllowancesAndBalancesReturn => {
   const filteredTokens = [tokenA, tokenB].filter((x) => !isZeroAddress(x));
 
@@ -43,6 +45,7 @@ export const useGetDexAllowancesAndBalances = (
   } = useGetUserBalancesAndAllowances(
     getInterestDexRouterAddress(chainId),
     filteredTokens,
+    page,
     { enabled: Boolean(address) }
   );
 

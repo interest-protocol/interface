@@ -1,7 +1,8 @@
 {
   "syntheticsMarket": {
     "pageTitle": "Synthetics",
-    "title": "Create synthetics using BUSD",
+    "title": "Create synthetics using Crypto",
+    "subTitle": "Synthetic tokens track the price of an underlying asset",
     "filterSortOptionPrice": "Price",
     "filterSortOptionLiquidationFee": "Liquidation Fee",
     "filterMinted": "Minted only",

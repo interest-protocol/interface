@@ -1,53 +1,121 @@
-import { Result } from '@ethersproject/abi';
+import { BigNumber } from 'ethers';
 import { isAddress } from 'ethers/lib/utils';
 import { always, cond, equals, ifElse, isEmpty, T } from 'ramda';
 import { UseFormSetValue } from 'react-hook-form';
 
 import { ISwitchOption } from '@/components/switch/switch.types';
-import { GAAction, GACategory } from '@/constants/google-analytics';
-import { SYNTHETICS_RESPONSE_MAP } from '@/constants/synthetics';
+import {
+  SyntheticOracleType,
+  SYNTHETICS_RESPONSE_MAP,
+} from '@/constants/synthetics';
 import { adjustDecimals, isSameAddress } from '@/utils';
-import { logEvent } from '@/utils/analytics';
+import { logGenericEvent } from '@/utils/analytics';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
+import { hasKeys } from './../../../../utils/array/index';
 import {
+  FindSyntheticUSDPrice,
   ISyntheticMarketSummary,
   ISyntheticMarketSummaryForm,
+  ProcessSyntheticMarketSummaryData,
   SyntheticMarketSortByFilter,
+  TMarketsDataAttributes,
 } from './synthetics-market.types';
 
-export const processSyntheticMarketSummaryData = (
-  chainId: number,
-  data:
-    | ([InterestViewDinero.SyntheticMarketSummaryStructOutput[]] & {
-        data: InterestViewDinero.SyntheticMarketSummaryStructOutput[];
-      })
-    | undefined
-    | Result
-): ReadonlyArray<ISyntheticMarketSummary> => {
-  if (!chainId || !data) return [];
+const MARKET_DATA_KEYS: ReadonlyArray<TMarketsDataAttributes> = [
+  'LTV',
+  'fee',
+  'TVL',
+  'syntheticUSDPrice',
+  'userSyntMinted',
+];
 
-  const responseMap = SYNTHETICS_RESPONSE_MAP[chainId];
+const isMissingAttribute = (
+  marketData: InterestViewDinero.SyntheticMarketSummaryStructOutput[]
+) =>
+  !marketData.every((data) =>
+    hasKeys<InterestViewDinero.SyntheticMarketSummaryStructOutput>(
+      MARKET_DATA_KEYS,
+      data
+    )
+  );
 
-  if (!responseMap.length) return [];
-
-  return data.map((apiData, index) => {
-    const responseMapData = responseMap[index];
-    return {
-      chainId,
-      marketAddress: responseMapData.marketAddress,
-      LTV: apiData.LTV,
-      symbol: responseMapData.symbol,
-      TVL: adjustDecimals(apiData.TVL, responseMapData.collateralDecimals),
-      syntheticAddress: responseMapData.syntheticAddress,
-      syntheticUSDPrice: apiData.syntheticUSDPrice,
-      userSyntheticMinted: apiData.userSyntMinted,
-      transferFee: apiData.fee,
-      id: index,
-      name: responseMapData.name,
-    };
-  });
+const findSyntheticUSDPrice: FindSyntheticUSDPrice = ({
+  apiPrice,
+  redStonePrices,
+  redStonePriceIndex,
+  oracleType,
+}) => {
+  if (oracleType === SyntheticOracleType.RedStoneConsumer)
+    // RedStone price oracles always have 8 decimals
+    return adjustDecimals(redStonePrices[redStonePriceIndex], 8);
+  return apiPrice;
 };
+
+export const processSyntheticMarketSummaryData: ProcessSyntheticMarketSummaryData =
+  (chainId, data) => {
+    if (!chainId || !data) return { markets: [], loading: false };
+
+    const responseMap = SYNTHETICS_RESPONSE_MAP[chainId];
+    const [marketData, redStonePrices] = data as [
+      InterestViewDinero.SyntheticMarketSummaryStructOutput[],
+      BigNumber[]
+    ] & {
+      data: InterestViewDinero.SyntheticMarketSummaryStructOutput[];
+      redStonePrices: BigNumber[];
+    };
+
+    if (
+      !responseMap.length ||
+      !marketData ||
+      !redStonePrices ||
+      !marketData.length
+    )
+      return { markets: [], loading: false };
+
+    if (isMissingAttribute(marketData)) return { markets: [], loading: true };
+
+    return {
+      markets: marketData.map(
+        ({ LTV, TVL, syntheticUSDPrice, userSyntMinted, fee }, index) => {
+          const {
+            name,
+            symbol,
+            oracleType,
+            marketAddress,
+            syntheticAddress,
+            collateralAddress,
+            collateralDecimals,
+            redStonePriceIndex,
+            dataFeedId,
+          } = responseMap[index];
+
+          return {
+            LTV,
+            name,
+            symbol,
+            chainId,
+            id: index,
+            oracleType,
+            marketAddress,
+            syntheticAddress,
+            transferFee: fee,
+            collateralAddress,
+            dataFeedId,
+            userSyntheticMinted: userSyntMinted,
+            TVL: adjustDecimals(TVL, collateralDecimals),
+            syntheticUSDPrice: findSyntheticUSDPrice({
+              oracleType,
+              redStonePrices,
+              redStonePriceIndex,
+              apiPrice: syntheticUSDPrice,
+            }),
+          };
+        }
+      ),
+      loading: false,
+    };
+  };
 
 export const getFilterSwitchDefaultData = (
   values: ReadonlyArray<string>,
@@ -57,22 +125,14 @@ export const getFilterSwitchDefaultData = (
   {
     value: values[0],
     onSelect: () => {
-      logEvent(
-        GACategory.SyntheticsMarketFilters,
-        GAAction.Switch,
-        'onlyMinted = off'
-      );
+      logGenericEvent(`Filter_SyntheticsMarket_OnlyMinted_off`);
       setValue(name, false);
     },
   },
   {
     value: values[1],
     onSelect: () => {
-      logEvent(
-        GACategory.SyntheticsMarketFilters,
-        GAAction.Switch,
-        'onlyMinted = on'
-      );
+      logGenericEvent(`Filter_SyntheticsMarket_OnlyMinted_on`);
       setValue(name, true);
     },
   },
