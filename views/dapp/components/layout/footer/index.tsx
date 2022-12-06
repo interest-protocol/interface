@@ -84,8 +84,8 @@ const Footer: FC = () => {
               justifyContent="space-between"
               bg={
                 pathname.includes(Routes[RoutesEnum.DEX])
-                  ? 'transparent'
-                  : 'red'
+                  ? 'accent'
+                  : 'transparent'
               }
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
@@ -144,7 +144,7 @@ const Footer: FC = () => {
                   {capitalize(t('common.earn'))}
                 </Typography>
               }
-              mode="select"
+              mode="menu"
               data={[
                 {
                   value: 'Farms',
