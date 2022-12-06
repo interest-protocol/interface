@@ -193,7 +193,7 @@ const Footer: FC = () => {
                       : 'inherit'
                   }
                   hover={{ bg: 'accent', color: 'text' }}
-                  active={{ bg: 'accentActive', color: 'red', fill: 'red' }}
+                  active={{ bg: 'accentActive', color: 'text' }}
                 >
                   <MarketSVG
                     width="1.1rem"
