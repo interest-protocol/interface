@@ -36,7 +36,7 @@ const Advisors: FC = () => {
           gridColumnGap={['3rem', '3rem', '3rem', '7rem']}
           gridTemplateColumns={[
             '1fr',
-            '1fr 1fr',
+            '1fr',
             '1fr 1fr',
             '1fr 1fr',
             '1fr 1fr 1fr',
@@ -45,7 +45,7 @@ const Advisors: FC = () => {
           {ADVISOR_MEMBERS.map(
             ({ name, role, social, image, bio, depsBio }) => (
               <Box key={v4()} as="article">
-                <FlipMemberCard height={['23rem', '22rem']}>
+                <FlipMemberCard height={['26rem', '25rem']}>
                   <Box
                     width="100%"
                     height="100%"
