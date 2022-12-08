@@ -91,7 +91,7 @@ export const TEAM_MEMBERS = [
   },
   {
     name: 'Jaikishan Agarwal',
-    role: 'landingPage.communityManager',
+    role: 'landingPage.marketingManager',
     image: 'jaikishan-agarwal',
     social: {
       telegram: 'https://t.me/Jaikishan98',
