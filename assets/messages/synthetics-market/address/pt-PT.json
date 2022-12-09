@@ -53,7 +53,7 @@
       "getRewards": "Pegar Ganhos",
       "burn": "Queimar Sintético",
       "removeCollateral": "Remover a Garantia",
-      "removeCollateralBurn": "Remover a Garantia e Reembolsar"
+      "removeCollateralBurn": "Reembolsar e Remover a Garantia"
     },
     "form": {
       "ltvError": "Já alcançaste o limite do LTV permitido.",
