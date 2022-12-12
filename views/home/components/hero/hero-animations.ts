@@ -1,8 +1,8 @@
 import { keyframes } from '@emotion/react';
-import styled from '@emotion/styled';
+import { forwardRef } from 'react';
 
-import Box from '@/elements/box';
 import { BoxProps } from '@/elements/box/box.types';
+import stylin from '@/stylin';
 
 const FloatingCoinsAnimation = keyframes`
   0% {
@@ -16,7 +16,22 @@ const FloatingCoinsAnimation = keyframes`
   }
 `;
 
-export const FloatingCoins = styled(Box)<BoxProps & { delay: number }>`
-  animation: ${FloatingCoinsAnimation} ${({ delay }) => 3000 + delay}ms infinite
+interface FloatingProps extends BoxProps {
+  delay: number;
+}
+
+/*export const FloatingCoins =forwardRef(
+  (
+    {
+      delay    }:FloatingProps
+  ) => {
+    const Float=stylin<BoxProps & { delay: number }>('div')({name.})
+
+
+  }
+)
+  stylin<BoxProps & { delay: number }>('div')({name.})`
+  animation: ${FloatingCoinsAnimation} ${3000 + delay}ms infinite
     ease-in-out;
 `;
+*/

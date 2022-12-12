@@ -17,7 +17,7 @@ const FloatingCoinsAnimation = keyframes`
   }
 `;
 
-export const FloatingCoins = styled(Box)<BoxProps & { delay: number }>`
+export const FloatingCoins = styled('div')<BoxProps & { delay: number }>`
   animation: ${FloatingCoinsAnimation} ${({ delay }) => 3000 + delay}ms infinite
     ease-in-out;
 `;
