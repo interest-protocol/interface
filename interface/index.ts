@@ -1,8 +1,14 @@
 import { QueryFunctionContext, UseQueryOptions } from '@tanstack/react-query';
 import type { Ethereum } from '@wagmi/core';
+import { ContractInterface } from 'ethers';
 import { CallOverrides } from 'ethers/lib/ethers';
+import { NextPage } from 'next';
+import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
-export type MaybeArray<T> = T | Array<T>;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IEmptyObj {}
+
+export type MaybeArray<T> = ReadonlyArray<T> | T;
 
 export type UseContractArgs = {
   cacheOnBlock?: boolean;
@@ -39,3 +45,15 @@ declare global {
     } & Ethereum;
   }
 }
+
+export type TTranslatedMessage = MessageKeys<IntlMessages, keyof IntlMessages>;
+
+export interface HandlerData {
+  functionName: string;
+  contractInterface: ContractInterface;
+  args: any[];
+  overrides: CallOverrides;
+  enabled: boolean;
+}
+
+export type NextPageWithAddress = NextPage<{ address: string }>;

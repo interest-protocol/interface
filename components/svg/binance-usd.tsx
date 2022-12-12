@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const BinanceUSD: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 43 43" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const BinanceUSD: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 43 43"
+    fill="none"
+    {...props}
+  >
     <circle cx="21.5" cy="21.5" r="21.5" fill="#000" />
     <path
       d="M21.4348 6L25.259 9.90463L15.6294 19.5054L11.8052 15.6927L21.4348 6Z"

@@ -7,6 +7,7 @@ import { FAUCET_TOKENS } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
 import { useGetUserBalances, useIdAccount, useLocalStorage } from '@/hooks';
 import { flippedAppend, isSameAddress } from '@/utils';
+import { GAPage, logGenericEvent } from '@/utils/analytics';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
@@ -32,7 +33,8 @@ const Faucet: FC = () => {
   );
 
   const { error, data, refetch } = useGetUserBalances(
-    TOKENS.map(prop('address')).concat(localTokens.map(prop('address')))
+    TOKENS.map(prop('address')).concat(localTokens.map(prop('address'))),
+    GAPage.Faucet
   );
 
   const { recommendedData, localData } = useMemo(
@@ -53,7 +55,7 @@ const Faucet: FC = () => {
     [localTokens, setLocalTokens]
   );
 
-  if (error) return <ErrorView message="Error fetching balances" />;
+  if (error) return <ErrorView message={t('error.fetchingBalances')} />;
 
   return (
     <>
@@ -64,7 +66,6 @@ const Faucet: FC = () => {
           width="100%"
           position="relative"
           py={['XL', 'XL', 'XL', 'XXL']}
-          background="specialBackground"
         >
           <Box
             left={['unset', 'unset', '-5rem', 'unset', '-5rem']}
@@ -78,7 +79,10 @@ const Faucet: FC = () => {
             </Typography>
             <Button
               variant="primary"
-              onClick={toggleCreateToken}
+              onClick={() => {
+                toggleCreateToken();
+                logGenericEvent(`Modal_Faucet_CreateNewToken`);
+              }}
               hover={{ bg: 'accentActive' }}
             >
               {t('faucet.modalButton', { isLoading: 0 })}

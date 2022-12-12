@@ -44,7 +44,7 @@ const Team: FC = () => {
           gridColumnGap={['3rem', '3rem', '3rem', '7rem']}
           gridTemplateColumns={[
             '1fr',
-            '1fr 1fr',
+            '1fr',
             '1fr 1fr',
             '1fr 1fr',
             '1fr 1fr 1fr',
@@ -52,7 +52,7 @@ const Team: FC = () => {
         >
           {TEAM_MEMBERS.map(({ name, role, social, image, bio, depsBio }) => (
             <Box key={v4()} as="article">
-              <FlipMemberCard height={['23rem', '22rem']}>
+              <FlipMemberCard height={['26rem', '25rem']}>
                 <Box
                   width="100%"
                   height="100%"
@@ -94,7 +94,7 @@ const Team: FC = () => {
                       position="absolute"
                       backgroundImage="linear-gradient(135deg, #0000 45%, #000A)"
                     >
-                      <LogoSVG width="100%" />
+                      <LogoSVG width="100%" maxHeight="8rem" maxWidth="8rem" />
                     </Box>
                   </Box>
                   <Box
@@ -113,7 +113,7 @@ const Team: FC = () => {
                     borderBottomColor="accent"
                   >
                     <Box width="4rem">
-                      <LogoSVG width="100%" />
+                      <LogoSVG width="100%" maxHeight="4rem" maxWidth="4rem" />
                     </Box>
                     <Typography
                       mt="L"
@@ -156,7 +156,11 @@ const Team: FC = () => {
                           color: 'accent',
                         }}
                       >
-                        <Icon width="100%" />
+                        <Icon
+                          width="100%"
+                          maxHeight="1.6rem"
+                          maxWidth="1.6rem"
+                        />
                       </Box>
                     </a>
                   );

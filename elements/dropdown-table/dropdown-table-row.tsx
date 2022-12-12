@@ -7,6 +7,7 @@ import { ArrowSVG } from '@/svg';
 
 import Box from '../box';
 import Button from '../button';
+import RefBox from '../ref-box';
 import Typography from '../typography';
 import { DropdownTableRowProps } from './dropdown-table.types';
 import DropdownTableCell from './dropdown-table-cell';
@@ -82,14 +83,14 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
                 display="inline-block"
                 style={{ transform: arrowInvert }}
               >
-                <ArrowSVG width="100%" />
+                <ArrowSVG width="100%" maxHeight="0.5rem" maxWidth="0.5rem" />
               </AnimatedBox>
             </Button>
           )}
         </Box>
       </Box>
       <AnimatedBox style={{ height: dHeight }} overflow="hidden">
-        <Box
+        <RefBox
           p={debouncedDropdownValue || isOpenDropdown ? 'M' : 'unset'}
           bg="foreground"
           ref={desktopRef}
@@ -97,7 +98,7 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
           {(debouncedDropdownValue || isOpenDropdown) && (
             <DropdownComponent {...dropdownArgs} />
           )}
-        </Box>
+        </RefBox>
       </AnimatedBox>
     </Box>
   ) : (
@@ -136,7 +137,7 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
                 display="inline-block"
                 style={{ transform: arrowInvert }}
               >
-                <ArrowSVG width="100%" />
+                <ArrowSVG width="100%" maxHeight="0.5rem" maxWidth="0.5rem" />
               </AnimatedBox>
             </Button>
           )}
@@ -192,7 +193,7 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
         </Box>
       </Box>
       <AnimatedBox style={{ height: mHeight }} overflow="hidden">
-        <Box
+        <RefBox
           bg="foreground"
           p={debouncedDropdownValue || isOpenDropdown ? 'M' : 'unset'}
           ref={mobileRef}
@@ -200,7 +201,7 @@ const DropdownTableRow: FC<DropdownTableRowProps> = ({
           {(debouncedDropdownValue || isOpenDropdown) && (
             <DropdownComponent {...dropdownArgs} />
           )}
-        </Box>
+        </RefBox>
       </AnimatedBox>
     </Box>
   );

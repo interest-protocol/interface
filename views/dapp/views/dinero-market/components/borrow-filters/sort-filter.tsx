@@ -7,6 +7,7 @@ import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logGenericEvent } from '@/utils/analytics';
 
 import { BorrowSortByFilter, SortFilterProps } from './borrow-filters.types';
 
@@ -55,7 +56,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
           emptyMessage="Not found Tokens"
           suffix={
             <Box ml="L" width="0.6rem">
-              <ArrowSVG width="100%" />
+              <ArrowSVG width="100%" maxHeight="0.6rem" maxWidth="0.6rem" />
             </Box>
           }
           title={
@@ -84,6 +85,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logGenericEvent('FilterDineroMarket_SortBy_id');
                 setValue('sortBy', BorrowSortByFilter.Default);
               },
             },
@@ -98,6 +100,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logGenericEvent('FilterDineroMarket_SortBy_tvl');
                 setValue('sortBy', BorrowSortByFilter.TVL);
               },
             },
@@ -112,6 +115,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logGenericEvent('FilterDineroMarket_SortBy_ltv');
                 setValue('sortBy', BorrowSortByFilter.LTV);
               },
             },
@@ -128,6 +132,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logGenericEvent('FilterDineroMarket_SortBy_interestRate');
                 setValue('sortBy', BorrowSortByFilter.InterestRate);
               },
             },
@@ -146,6 +151,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logGenericEvent('FilterDineroMarket_SortBy_fee');
                 setValue('sortBy', BorrowSortByFilter.Fee);
               },
             },

@@ -6,6 +6,9 @@ export enum RoutesEnum {
   Home = 'home',
   DApp = 'dapp',
   DineroMarket = 'dinero-market',
+  SyntheticsMarket = 'synthetics-market',
+  SyntheticsMarketMint = 'synthetics-market-mint',
+  SyntheticsMarketBurn = 'synthetics-market-burn',
   DineroMarketBorrow = 'dinero-market-borrow',
   DineroMarketRepay = 'dinero-market-repay',
   Farms = 'farms',
@@ -29,14 +32,17 @@ export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.DEX]: '/dapp/dex',
   [RoutesEnum.DEXPool]: '/dapp/dex/pool',
   [RoutesEnum.DEXFindPool]: '/dapp/dex/pool/find',
-  [RoutesEnum.DEXPoolDetails]: '/dapp/dex/pool/[pairAddress]',
+  [RoutesEnum.DEXPoolDetails]: '/dapp/dex/pool/details',
   [RoutesEnum.DineroMarket]: '/dapp/dinero-market',
-  [RoutesEnum.DineroMarketBorrow]: '/dapp/dinero-market/[address]/borrow',
-  [RoutesEnum.DineroMarketRepay]: '/dapp/dinero-market/[address]/repay',
+  [RoutesEnum.SyntheticsMarket]: '/dapp/synthetics-market',
+  [RoutesEnum.DineroMarketBorrow]: '/dapp/dinero-market/borrow',
+  [RoutesEnum.DineroMarketRepay]: '/dapp/dinero-market/repay',
+  [RoutesEnum.SyntheticsMarketMint]: '/dapp/synthetics-market/mint',
+  [RoutesEnum.SyntheticsMarketBurn]: '/dapp/synthetics-market/burn',
   [RoutesEnum.Farms]: '/dapp/farms',
-  [RoutesEnum.DineroVault]: '/dapp/dinero-vault/[address]',
+  [RoutesEnum.DineroVault]: '/dapp/dinero-vault',
   [RoutesEnum.Vaults]: '/dapp/vaults',
-  [RoutesEnum.FarmDetails]: '/dapp/farms/[tokenAddress]',
+  [RoutesEnum.FarmDetails]: '/dapp/farms/details',
   [RoutesEnum.Faucet]: '/dapp/faucet',
 };
 
@@ -49,6 +55,5 @@ export const RoutesWithFaucet = [
   Routes[RoutesEnum.DEXPoolDetails],
   Routes[RoutesEnum.Vaults],
   Routes[RoutesEnum.DineroVault],
+  Routes[RoutesEnum.SyntheticsMarket],
 ];
-
-export const routesList = Object.keys(Routes) as ReadonlyArray<RoutesEnum>;

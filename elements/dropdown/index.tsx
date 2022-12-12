@@ -16,7 +16,6 @@ const Dropdown: FC<DropdownProps> = ({
   bottom,
   suffix,
   footer,
-  relative,
   callback,
   minWidth,
   fromRight,
@@ -26,6 +25,7 @@ const Dropdown: FC<DropdownProps> = ({
   customItems,
   emptyMessage,
   defaultValue,
+  staticPosition,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState<number>(
@@ -42,8 +42,8 @@ const Dropdown: FC<DropdownProps> = ({
     <Box
       display="flex"
       alignItems="center"
+      position={staticPosition ? 'static' : 'relative'}
       id={dropdownWrapperId}
-      position={relative ? 'relative' : 'static'}
     >
       {mode === 'select' && selectedIndex !== -1 && customTitle ? (
         <Box

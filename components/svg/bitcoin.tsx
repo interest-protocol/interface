@@ -1,7 +1,13 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const Bitcoin: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 4091.27 4091.73" {...props}>
+import { SVGProps } from './svg.types';
+
+const Bitcoin: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 4091.27 4091.73"
+    {...props}
+  >
     <path
       fill="#F7931A"
       fillRule="nonzero"

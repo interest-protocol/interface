@@ -11,6 +11,12 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useRepay } from '../../dinero-market.hooks';
 import { isFormRepayEmpty } from '../../dinero-market.utils';
@@ -40,8 +46,20 @@ const RepayButton: FC<RepayButtonProps> = ({
       const tx = await repay?.();
 
       await showTXSuccessToast(tx, data.chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
+        functionName: 'handleRepay',
+      });
       form.reset();
     } catch (e: unknown) {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
+        functionName: 'handleRepay',
+      });
       throwContractCallError(e);
     } finally {
       setLoading(false);
@@ -52,6 +70,12 @@ const RepayButton: FC<RepayButtonProps> = ({
   const onSubmitRepay = async () => {
     if (isFormRepayEmpty(form)) {
       toast.error(t('dineroMarketAddress.toastError'));
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
+        functionName: 'onSubmitRepay',
+      });
       return;
     }
 
@@ -78,7 +102,7 @@ const RepayButton: FC<RepayButtonProps> = ({
     >
       {loading && (
         <Box as="span" display="inline-block" width="1rem">
-          <LoadingSVG width="100%" />
+          <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
       )}
       <Typography

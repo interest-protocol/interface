@@ -8,6 +8,7 @@ import { Box, Modal, Typography } from '@/elements';
 import { useChainId } from '@/hooks';
 import { TimesSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logGenericEvent } from '@/utils/analytics';
 
 import { ConnectWalletProps, WalletButtonProps } from '../../wallet.types';
 
@@ -32,7 +33,7 @@ const WalletButton: FC<WalletButtonProps> = ({ onClick, name, Icon }) => (
   >
     {name}
     <Box width="2rem" height="2rem" display="flex" alignItems="center">
-      <Icon width="2rem" height="2rem" />
+      <Icon width="2rem" height="2rem" maxHeight="2rem" maxWidth="2rem" />
     </Box>
   </Box>
 );
@@ -86,7 +87,12 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
             onClick={toggleModal}
             hover={{ color: 'text' }}
           >
-            <TimesSVG width="1.8rem" height="1.8rem" />
+            <TimesSVG
+              width="1.8rem"
+              height="1.8rem"
+              maxHeight="1.8rem"
+              maxWidth="1.8rem"
+            />
           </Box>
         </Box>
         <Box maxHeight="100%" overflow="auto">
@@ -97,7 +103,10 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
               <Box mt="S" key={v4()}>
                 <WalletButton
                   name={name}
-                  onClick={() => connect({ connector })}
+                  onClick={() => {
+                    logGenericEvent('WALLET_' + name.toUpperCase());
+                    connect({ connector });
+                  }}
                   Icon={SVG}
                 />
               </Box>

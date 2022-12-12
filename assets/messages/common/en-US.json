@@ -7,6 +7,8 @@
     "pool": "pool",
     "balance": "balance",
     "yourBalance": "your balance",
+    "synthetics": "synthetics",
+    "dinero": "Dinero",
     "volatile": "{count, plural, =1 {volatile} other {volatile}}",
     "stable": "{count, plural, =1 {stable} other {stable}}",
     "liquidity": "liquidity",
@@ -26,6 +28,7 @@
     "collateral": "collateral",
     "market": "market",
     "borrower": "borrower",
+    "poweredBy": "Powered by",
     "minute": "{count, plural, =1 {minute} other {minutes}}",
     "enter": "enter",
     "tvl": "TVL",
@@ -67,11 +70,14 @@
     "error": "error",
     "submit": "{isLoading, plural, =1 {submitting...} other {submit}}",
     "allocation": "allocation",
-    "backHome": "Back Home"
+    "backHome": "Back Home",
+    "soon": "soon"
   },
   "error": {
     "generic": "something went wrong",
-    "wrongParams": "Wrong params"
+    "wrongParams": "Wrong params",
+    "fetchingContract": "Error fetching contract",
+    "fetchingBalances": "Error fetching balances"
   },
   "web3Manager": {
     "title": "{chainName} is not supported",

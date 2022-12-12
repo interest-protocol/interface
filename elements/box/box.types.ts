@@ -1,4 +1,4 @@
-import { SystemStyleObject } from '@styled-system/css';
+import { CSSInterpolation } from '@emotion/serialize';
 import { CSSProperties, HTMLAttributes } from 'react';
 import {
   BackgroundProps,
@@ -9,11 +9,10 @@ import {
   GridProps,
   LayoutProps,
   PositionProps,
+  ResponsiveValue,
   SpaceProps,
   TypographyProps,
 } from 'styled-system';
-
-import { MaybeArray } from '@/interface';
 
 export interface BoxProps
   extends FlexboxProps,
@@ -26,22 +25,23 @@ export interface BoxProps
     BoxShadowProps,
     BorderProps,
     SpaceProps,
-    Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
+    Omit<HTMLAttributes<HTMLDivElement>, 'color' | 'height'> {
   effect?: 'hover';
-  hover?: SystemStyleObject;
-  active?: SystemStyleObject;
+  hover?: CSSInterpolation;
+  active?: CSSInterpolation;
   as?: keyof JSX.IntrinsicElements;
-  rowGap?: MaybeArray<CSSProperties['gap']>;
-  cursor?: MaybeArray<CSSProperties['cursor']>;
-  filter?: MaybeArray<CSSProperties['filter']>;
-  columnGap?: MaybeArray<CSSProperties['gap']>;
-  clipPath?: MaybeArray<CSSProperties['clipPath']>;
-  objectFit?: MaybeArray<CSSProperties['objectFit']>;
-  transform?: MaybeArray<CSSProperties['transform']>;
-  whiteSpace?: MaybeArray<CSSProperties['whiteSpace']>;
-  transition?: MaybeArray<CSSProperties['transition']>;
-  backdropFilter?: MaybeArray<CSSProperties['filter']>;
-  borderSpacing?: MaybeArray<CSSProperties['borderSpacing']>;
-  pointerEvents?: MaybeArray<CSSProperties['pointerEvents']>;
-  borderCollapse?: MaybeArray<CSSProperties['borderCollapse']>;
+  rowGap?: ResponsiveValue<CSSProperties['gap']>;
+  cursor?: ResponsiveValue<CSSProperties['cursor']>;
+  filter?: ResponsiveValue<CSSProperties['filter']>;
+  columnGap?: ResponsiveValue<CSSProperties['gap']>;
+  clipPath?: ResponsiveValue<CSSProperties['clipPath']>;
+  objectFit?: ResponsiveValue<CSSProperties['objectFit']>;
+  transform?: ResponsiveValue<CSSProperties['transform']>;
+  boxSizing?: ResponsiveValue<CSSProperties['boxSizing']>;
+  whiteSpace?: ResponsiveValue<CSSProperties['whiteSpace']>;
+  transition?: ResponsiveValue<CSSProperties['transition']>;
+  backdropFilter?: ResponsiveValue<CSSProperties['filter']>;
+  borderSpacing?: ResponsiveValue<CSSProperties['borderSpacing']>;
+  pointerEvents?: ResponsiveValue<CSSProperties['pointerEvents']>;
+  borderCollapse?: ResponsiveValue<CSSProperties['borderCollapse']>;
 }

@@ -8,6 +8,7 @@ import { useChainId } from '@/hooks';
 import { ZERO_ADDRESS } from '@/sdk';
 import { LoadingSVG } from '@/svg';
 import { shortAccount } from '@/utils';
+import { logGenericEvent } from '@/utils/analytics';
 
 import ConnectWallet from './connect-wallet';
 import AccountModal from './wallet-modal/account-modal';
@@ -48,7 +49,7 @@ const ConnectedWallet: FC = () => {
           `${data.formatted.slice(0, 6)} ${data.symbol}`
         ) : (
           <Box as="span" display="inline-block" width="1rem">
-            <LoadingSVG width="100%" />
+            <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
           </Box>
         )}
       </Typography>
@@ -61,7 +62,10 @@ const ConnectedWallet: FC = () => {
         maxHeight="2.8rem"
         display="inline-flex"
         bg="bottomBackground"
-        onClick={toggleModal}
+        onClick={() => {
+          toggleModal();
+          logGenericEvent('Modal_AccountDetails');
+        }}
         hover={{
           bg: 'accent',
         }}
@@ -78,7 +82,12 @@ const ConnectedWallet: FC = () => {
           borderRadius="50%"
           display="inline-block"
         >
-          <WalletSVG height="100%" width="100%" />
+          <WalletSVG
+            height="100%"
+            width="100%"
+            maxHeight="1.2rem"
+            maxWidth="1.2rem"
+          />
         </Box>
         <Typography variant="normal" color="text" display={['none', 'block']}>
           {shortAccount(address || ZERO_ADDRESS)}

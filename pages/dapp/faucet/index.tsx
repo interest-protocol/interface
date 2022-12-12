@@ -1,9 +1,10 @@
 import { GetStaticProps, NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
-import Faucet from '@/views/dapp/views/faucet';
+const DynamicFaucet = dynamic(() => import('../../../views/dapp/views/faucet'));
 
-const FaucetPage: NextPage = () => <Faucet />;
+const FaucetPage: NextPage = () => <DynamicFaucet />;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, faucetMessages] = await Promise.all([
@@ -19,7 +20,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       messages,
-      now: new Date().getTime(),
+      now: Date.now(),
       pageTitle: 'faucet.pageTitle',
     },
   };

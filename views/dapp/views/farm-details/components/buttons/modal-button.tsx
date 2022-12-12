@@ -5,6 +5,12 @@ import { FC, useCallback, useState } from 'react';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useAction } from './buttons.hooks';
 import { ModalButtonProps } from './buttons.types';
@@ -32,8 +38,20 @@ const ModalButton: FC<ModalButtonProps> = ({
       if (tx) tx.wait(2);
 
       await showTXSuccessToast(tx, farm.chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.FarmsDetails,
+        functionName: 'handleWithdrawTokens',
+      });
       await refetch();
     } catch (e) {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.FarmsDetails,
+        functionName: 'handleWithdrawTokens',
+      });
       throw e || new Error(t('error.generic'));
     } finally {
       setLoading(false);
@@ -55,8 +73,20 @@ const ModalButton: FC<ModalButtonProps> = ({
     try {
       const tx = await action?.();
       await showTXSuccessToast(tx, farm.chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.FarmsDetails,
+        functionName: 'handleDepositTokens',
+      });
       await refetch();
     } catch (e) {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.FarmsDetails,
+        functionName: 'handleDepositTokens',
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);
@@ -90,7 +120,7 @@ const ModalButton: FC<ModalButtonProps> = ({
     >
       {loading && (
         <Box mr="M" width="1rem">
-          <LoadingSVG width="100%" />
+          <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
       )}
       {capitalize(t('common.confirm', { isLoading: Number(loading) }))}

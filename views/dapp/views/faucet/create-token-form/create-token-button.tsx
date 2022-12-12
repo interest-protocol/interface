@@ -13,6 +13,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useCreateToken } from './create-token-form.hooks';
 import { CreateTokenButtonProps } from './create-token-form.types';
@@ -36,6 +42,12 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
       const tx = await createToken?.();
 
       await showTXSuccessToast(tx, chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.Faucet,
+        functionName: 'handleCreateToken',
+      });
 
       if (tx) {
         const receipt = await tx.wait();
@@ -50,6 +62,12 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
           });
       }
     } catch (error) {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.Faucet,
+        functionName: 'handleCreateToken',
+      });
       throwError(t('error.generic'), error);
     } finally {
       setLoading(false);
@@ -77,7 +95,7 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
       {loading ? (
         <Box display="flex" alignItems="center" justifyContent="center">
           <Box as="span" display="inline-block" width="1rem">
-            <LoadingSVG width="100%" />
+            <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
           </Box>
           <Typography
             fontSize="S"

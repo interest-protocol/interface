@@ -60,16 +60,8 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
           disabled={loading || isFetchingQuote || allowance.isZero()}
           currencyPrefix={
             fetchingInitialData ? (
-              <Box
-                display="flex"
-                width="4.5rem"
-                maxHeight="1rem"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <Box width="1rem" height="1rem" borderRadius="2rem">
-                  <Skeleton height="100%" borderRadius="2rem" />
-                </Box>
+              <Box height="1rem" display="flex" borderRadius="2rem">
+                <Skeleton height="1rem" width="1rem" borderRadius="2rem" />
                 <Box width="2.5rem" ml="L">
                   <Skeleton />
                 </Box>

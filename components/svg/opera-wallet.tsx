@@ -1,11 +1,18 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 import { v4 } from 'uuid';
 
-const OperaWallet: FC<SVGAttributes<SVGSVGElement>> = (props) => {
+import { SVGProps } from './svg.types';
+
+const OperaWallet: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => {
   const id = v4();
 
   return (
-    <svg viewBox="0 0 256 256" fill="none" {...props}>
+    <svg
+      style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+      viewBox="0 0 256 256"
+      fill="none"
+      {...props}
+    >
       <g clipPath={`url(#${id}-clip-path)`}>
         <path
           d="M85.9 200.1C71.7 183.4 62.6 158.7 62 131V125C62.6 97.3 71.8 72.6 85.9 55.9C104.3 32.1 131.3 21.4 161.8 21.4C180.6 21.4 198.3 22.7 213.3 32.7C190.8 12.4 161.1 0.1 128.5 0H128C57.3 0 0 57.3 0 128C0 196.6 54 252.7 121.9 255.9C123.9 256 126 256 128 256C160.8 256 190.7 243.7 213.3 223.4C198.3 233.4 181.6 233.8 162.8 233.8C132.4 233.9 104.2 224 85.9 200.1Z"

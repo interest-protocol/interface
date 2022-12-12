@@ -29,9 +29,8 @@ const PoolRow: FC<PoolRowProps> = ({
 
   return (
     <Link
-      shallow
-      href={Routes[RoutesEnum.DEXPoolDetails]}
-      as={`${Routes[RoutesEnum.DEXPool]}/${pairAddress}/`}
+      href={`${Routes[RoutesEnum.DEXPoolDetails]}?address=${pairAddress}`}
+      as={`${Routes[RoutesEnum.DEXPoolDetails]}?address=${pairAddress}`}
     >
       <Box
         py="M"
@@ -47,8 +46,8 @@ const PoolRow: FC<PoolRowProps> = ({
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Box display="flex" mb="M">
             <Box my="M" display="flex" alignItems="center">
-              <FirstIcon width="1.2rem" />
-              <SecondIcon width="1.2rem" />
+              <FirstIcon width="1.2rem" maxHeight="1.2rem" maxWidth="1.2rem" />
+              <SecondIcon width="1.2rem" maxHeight="1.2rem" maxWidth="1.2rem" />
               <Typography mx="M" as="span" variant="normal">
                 {replaceWrappedNativeTokenWithNativeTokenSymbol(symbol0)} /{' '}
                 {replaceWrappedNativeTokenWithNativeTokenSymbol(symbol1)}

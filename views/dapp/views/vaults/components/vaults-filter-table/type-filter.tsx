@@ -7,6 +7,7 @@ import { VaultTypes } from '@/constants';
 import { Box, Dropdown, Typography } from '@/elements';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logGenericEvent } from '@/utils/analytics';
 
 import { FilterProps } from './filter-table.types';
 
@@ -47,7 +48,7 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
           bgSelected="accentAlternativeBackground"
           suffix={
             <Box ml="L" width="0.6rem">
-              <ArrowSVG width="100%" />
+              <ArrowSVG width="100%" maxHeight="0.6rem" maxWidth="0.6rem" />
             </Box>
           }
           title={
@@ -77,6 +78,7 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logGenericEvent(`Filter_Vault_Type_all`);
                 setValue('type', VaultTypes.All);
               },
             },
@@ -95,6 +97,7 @@ const TypeFilter: FC<FilterProps> = ({ control, setValue }) => {
                 </Box>
               ),
               onSelect: () => {
+                logGenericEvent(`Filter_Vault_Type_dv`);
                 setValue('type', VaultTypes.DV);
               },
             },

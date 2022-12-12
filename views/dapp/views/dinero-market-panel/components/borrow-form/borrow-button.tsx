@@ -16,6 +16,12 @@ import {
   showTXSuccessToast,
   throwContractCallError,
 } from '@/utils';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useBorrow } from '../../dinero-market.hooks';
 import {
@@ -63,7 +69,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       ) {
         form.setError('borrow.loan', {
           type: 'max',
-          message: 'The Loan must to be less than LTV',
+          message: t('dineroMarketAddress.form.ltvError'),
         });
         return;
       }
@@ -91,7 +97,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       ) {
         form.setError('borrow.collateral', {
           type: 'max',
-          message: 'The Collateral must not to be more than your balance',
+          message: t('dineroMarketAddress.form.collateralError'),
         });
         return;
       }
@@ -110,8 +116,20 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       await await refetch();
 
       await showTXSuccessToast(tx, data.chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
+        functionName: 'handleBorrow',
+      });
       form.reset();
     } catch (e: unknown) {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
+        functionName: 'handleBorrow',
+      });
       throwContractCallError(e);
     } finally {
       setLoading(false);
@@ -120,7 +138,13 @@ const BorrowButton: FC<BorrowButtonProps> = ({
 
   const onSubmitBorrow = async () => {
     if (isFormBorrowEmpty(form)) {
-      toast.error('Borrow or collateral amount are wrong');
+      toast.error(t('dineroMarketAddress.form.amountError'));
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DineroMarketPanel,
+        functionName: 'onSubmitBorrow',
+      });
       return;
     }
     if (!data.chainId || !account || !data || data.collateralAllowance.isZero())
@@ -150,6 +174,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
         alignItems: 'center',
         justifyContent: 'center',
       }}
+      pageName={GAPage.DineroMarketPanel}
     />
   ) : (!borrowLoan && !borrowCollateral) ||
     (+borrowCollateral === 0 && +borrowLoan === 0) ? (
@@ -177,7 +202,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
     >
       {loading && (
         <Box as="span" display="inline-block" width="1rem">
-          <LoadingSVG width="100%" />
+          <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
       )}
       <Typography

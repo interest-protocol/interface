@@ -5,6 +5,7 @@ import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
+import { GAStatus, GAType, logTransactionEvent } from '@/utils/analytics';
 
 import { ApproveButtonProps } from './approve-button.types';
 
@@ -15,6 +16,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
   chainId,
   refetch,
   buttonProps = { variant: 'primary' },
+  pageName,
 }) => {
   const t = useTranslations();
 
@@ -29,7 +31,19 @@ const ApproveButton: FC<ApproveButtonProps> = ({
 
       await refetch();
       await showTXSuccessToast(tx, chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: pageName,
+        functionName: 'handleAddAllowance',
+      });
     } catch (e) {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: pageName,
+        functionName: 'handleAddAllowance',
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);
@@ -54,7 +68,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
     >
       {loading && (
         <Box as="span" display="inline-block" width="1rem">
-          <LoadingSVG width="100%" />
+          <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
       )}
       <Typography

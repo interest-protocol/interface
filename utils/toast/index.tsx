@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { CHAINS, EXPLORER_MAP } from '@/constants';
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
+import { logGenericEvent } from '@/utils/analytics';
 import { tryCatch } from '@/utils/promise';
 
 import { ToastMsgs, ToastOpts } from './toast.types';
@@ -30,7 +31,12 @@ export const showTXSuccessToast = async (
       {explorer ? (
         <Box display="flex" alignItems="center">
           <Box width="1.5rem" height="1.5rem" mr="M">
-            <SVG width="100%" height="100%" />
+            <SVG
+              width="100%"
+              height="100%"
+              maxHeight="1.5rem"
+              maxWidth="1.5rem"
+            />
           </Box>
           <Typography
             variant="normal"
@@ -58,5 +64,7 @@ export function showToast<T>(
   },
   options: ToastOpts = undefined
 ): Promise<T | undefined> {
-  return tryCatch(toast.promise(fn, msgs, options), console.log);
+  return tryCatch(toast.promise(fn, msgs, options), (x) =>
+    logGenericEvent('E_ShowToast' + propOr('message', 'error', x))
+  );
 }

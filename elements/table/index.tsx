@@ -1,5 +1,5 @@
 import { pathOr } from 'ramda';
-import React, { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
@@ -9,12 +9,13 @@ import useEventListener from '@/hooks/use-event-listener';
 import Box from '../box';
 import Typography from '../typography';
 import {
+  CellProps,
   ResponsiveTableProps,
   TableLoadingProps,
   TableRowProps,
 } from './table.types';
 
-const Cell: FC<{ as: 'td' | 'th'; tip?: string }> = ({ as, tip, children }) => (
+const Cell: FC<CellProps> = ({ as, tip, children }) => (
   <Box
     py="L"
     px="M"

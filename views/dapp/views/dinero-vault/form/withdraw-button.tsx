@@ -7,6 +7,12 @@ import { useWatch } from 'react-hook-form';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useWithdraw } from '../dinero-vault.hooks';
 import { WithdrawButtonProps } from '../dinero-vault.types';
@@ -30,7 +36,19 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
 
       await refetch();
       await showTXSuccessToast(tx, data.chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DineroVault,
+        functionName: 'handleWithdraw',
+      });
     } catch (e) {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DineroVault,
+        functionName: 'handleWithdraw',
+      });
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);
@@ -62,7 +80,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
     >
       {loading && (
         <Box as="span" display="inline-block" width="1rem" mr="M">
-          <LoadingSVG width="100%" />
+          <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
       )}
       {capitalize(t('dineroVault.withdraw', { isLoading: +loading }))}

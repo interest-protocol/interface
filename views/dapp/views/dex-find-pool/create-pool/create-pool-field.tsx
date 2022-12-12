@@ -15,6 +15,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { CreatePoolFieldProps } from '../dex-find-pool.types';
 
@@ -44,8 +50,20 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
       const tx = await addAllowance?.();
       await showTXSuccessToast(tx, chainId);
       if (tx) await tx.wait(2);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexFindPoolCreatePool,
+        functionName: 'approve',
+      });
       await refetch();
     } catch (e) {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexFindPoolCreatePool,
+        functionName: 'approve',
+      });
       throwError(t('error.generic'), e);
     }
   }, [chainId, addAllowance, chainId, refetch]);
@@ -114,7 +132,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
             <Box my="M" display="flex" alignItems="center">
               <>
                 <Box as="span" display="inline-block" width="1rem">
-                  <SVG width="100%" />
+                  <SVG width="100%" maxHeight="1rem" maxWidth="1rem" />
                 </Box>
                 <Typography mx="M" as="span" variant="normal">
                   {symbol.length > 4

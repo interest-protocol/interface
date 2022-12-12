@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const InterestToken: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 257 257" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const InterestToken: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 257 257"
+    fill="none"
+    {...props}
+  >
     <rect width="257" height="257" rx="128.5" fill="#0055FF" />
     <path
       d="M158.722 72.3978H174.072V86.922C174.072 97.7563 165.324 103.922 157.732 103.922H142.548V86.922C142.548 79.4949 151.46 72.3978 158.722 72.3978Z"

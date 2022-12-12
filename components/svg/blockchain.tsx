@@ -1,7 +1,14 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-const Blockchain: FC<SVGAttributes<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 48 48" fill="none" {...props}>
+import { SVGProps } from './svg.types';
+
+const Blockchain: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
+  <svg
+    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    viewBox="0 0 48 48"
+    fill="none"
+    {...props}
+  >
     <path
       d="M40 30.0002V15.0002L27.5 7.96924M20.5 7.96924L8 15.0002V30.0002M11 34.6882L24 42.0002L32 37.5002L37 34.6872M24 17.0002V10.0002M30 27.0002L37 31.0002M18 27.0002L11 31.0002M21 18.7502L18 20.5002V27.5002L21 29.2502L24 31.0002L27 29.2502L30 27.5002V20.5002L27 18.7502L24 17.0002L21 18.7502Z"
       stroke="currentColor"

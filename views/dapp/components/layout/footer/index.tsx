@@ -15,8 +15,17 @@ import {
   SOCIAL_MEDIAS,
 } from '@/constants';
 import { Box, Button, Dropdown, Typography } from '@/elements';
-import { CreditCardSVG, FaucetSVG, GitBookSVG, HorizontalDotsSVG } from '@/svg';
-import { capitalize, noop } from '@/utils';
+import {
+  CreditCardSVG,
+  DexSVG,
+  EarnSVG,
+  FaucetSVG,
+  GitBookSVG,
+  HorizontalDotsSVG,
+  MarketSVG,
+} from '@/svg';
+import { capitalize } from '@/utils';
+import { logGenericEvent } from '@/utils/analytics';
 
 const Footer: FC = () => {
   const t = useTranslations();
@@ -29,6 +38,9 @@ const Footer: FC = () => {
   const supportsFaucet = RoutesWithFaucet.includes(pathname);
   const supportsCreditCard = address && isChainIdSupported(chainId ?? -1);
 
+  const trackHeaderNavigation = (label: string) => () =>
+    logGenericEvent(`Mobile_Header_${label}`);
+
   return (
     <Box
       zIndex={3}
@@ -37,13 +49,8 @@ const Footer: FC = () => {
       width="100%"
       boxShadow="0 0 0.5rem #0003"
       bottom={['0', '0', '0', 'unset']}
-      pt={['NONE', 'NONE', 'NONE', 'XL']}
-      pb={[
-        'env(safe-area-inset-bottom)',
-        'env(safe-area-inset-bottom)',
-        'env(safe-area-inset-bottom)',
-        'XL',
-      ]}
+      pt={['NONE', 'NONE', 'XL']}
+      pb={['env(safe-area-inset-bottom)', 'env(safe-area-inset-bottom)', 'XL']}
       position={['fixed', 'fixed', 'fixed', 'static']}
       bg={['foreground', 'foreground', 'foreground', 'foreground']}
     >
@@ -70,20 +77,27 @@ const Footer: FC = () => {
               ml="S"
               px="0.8rem"
               fontSize="M"
-              height="2.5rem"
               display="flex"
+              flexDirection="column"
               variant="primary"
               alignItems="center"
-              justifyContent="center"
-              boxShadow="0 0 15px rgba(0,0,0,.3)"
+              justifyContent="space-between"
               bg={
                 pathname.includes(Routes[RoutesEnum.DEX])
                   ? 'accent'
-                  : 'textSoft'
+                  : 'transparent'
               }
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
+              onClick={() => trackHeaderNavigation(RoutesEnum.DEX)}
             >
+              <DexSVG
+                width="1.1rem"
+                height="1.1rem"
+                maxHeight={'2.5rem'}
+                maxWidth={'auto'}
+                style={{ marginBottom: '8px' }}
+              />
               Dex
             </Button>
           </Link>
@@ -91,24 +105,25 @@ const Footer: FC = () => {
           <Box ml="S">
             <Dropdown
               bottom
+              staticPosition
               title={
                 <Typography
-                  px="1.5rem"
+                  p="0.8rem 1rem"
                   bg={
                     pathname === Routes[RoutesEnum.Farms] ||
                     pathname.includes(Routes[RoutesEnum.Vaults]) ||
                     pathname.includes(Routes[RoutesEnum.DineroVault])
                       ? 'accent'
-                      : 'textSoft'
+                      : 'transparent'
                   }
                   fontSize="M"
-                  height="2.5rem"
                   display="flex"
                   variant="normal"
+                  as="div"
+                  flexDirection="column"
                   borderRadius="M"
                   alignItems="center"
                   justifyContent="center"
-                  boxShadow="0 0 15px rgba(0,0,0,.3)"
                   color={
                     pathname === Routes[RoutesEnum.Farms] ||
                     pathname.includes(Routes[RoutesEnum.Vaults])
@@ -118,6 +133,14 @@ const Footer: FC = () => {
                   hover={{ bg: 'accent', color: 'text' }}
                   active={{ bg: 'accentActive', color: 'text' }}
                 >
+                  <EarnSVG
+                    fill="transparent"
+                    width="1.1rem"
+                    height="1.1rem"
+                    maxHeight={'2.5rem'}
+                    maxWidth={'auto'}
+                    style={{ marginBottom: '8px' }}
+                  />
                   {capitalize(t('common.earn'))}
                 </Typography>
               }
@@ -126,44 +149,83 @@ const Footer: FC = () => {
                 {
                   value: 'Farms',
                   displayOption: 'Farms',
-                  onSelect: () =>
-                    push(Routes[RoutesEnum.Farms], undefined, {
-                      shallow: true,
-                    }),
+                  onSelect: () => {
+                    trackHeaderNavigation(RoutesEnum.Farms);
+                    push(Routes[RoutesEnum.Farms]);
+                  },
                 },
                 {
                   value: 'Vaults',
                   displayOption: 'Vaults',
-                  onSelect: () =>
-                    push(Routes[RoutesEnum.Vaults], undefined, {
-                      shallow: true,
-                    }),
+                  onSelect: () => {
+                    trackHeaderNavigation(RoutesEnum.Vaults);
+                    push(Routes[RoutesEnum.Vaults]);
+                  },
                 },
               ]}
             />
           </Box>
-          <Link href={Routes[RoutesEnum.DineroMarket]}>
-            <Button
-              ml="S"
-              px="0.8rem"
-              fontSize="M"
-              height="2.5rem"
-              display="flex"
-              variant="primary"
-              alignItems="center"
-              justifyContent="center"
-              boxShadow="0 0 15px rgba(0,0,0,.3)"
-              bg={
-                pathname.includes(Routes[RoutesEnum.DineroMarket])
-                  ? 'accent'
-                  : 'textSoft'
+          <Box ml="S">
+            <Dropdown
+              bottom
+              staticPosition
+              title={
+                <Typography
+                  p="0.8rem 1rem"
+                  bg={
+                    pathname.includes(Routes[RoutesEnum.DineroMarket]) ||
+                    pathname.includes(Routes[RoutesEnum.SyntheticsMarket])
+                      ? 'accent'
+                      : 'transparent'
+                  }
+                  fontSize="M"
+                  display="flex"
+                  variant="normal"
+                  as="div"
+                  flexDirection="column"
+                  borderRadius="M"
+                  alignItems="center"
+                  justifyContent="center"
+                  color={
+                    pathname === Routes[RoutesEnum.DineroMarket] ||
+                    pathname.includes(Routes[RoutesEnum.SyntheticsMarket])
+                      ? 'text'
+                      : 'inherit'
+                  }
+                  hover={{ bg: 'accent', color: 'text' }}
+                  active={{ bg: 'accentActive', color: 'text' }}
+                >
+                  <MarketSVG
+                    width="1.1rem"
+                    height="1.1rem"
+                    maxHeight={'2.5rem'}
+                    maxWidth={'auto'}
+                    style={{ marginBottom: '8px' }}
+                  />
+                  {capitalize(t('common.market'))}
+                </Typography>
               }
-              hover={{ bg: 'accent', color: 'text' }}
-              active={{ bg: 'accentActive', color: 'text' }}
-            >
-              {capitalize(t('common.borrow'))}
-            </Button>
-          </Link>
+              mode="menu"
+              data={[
+                {
+                  value: 'dinero',
+                  displayOption: capitalize(t('common.dinero')),
+                  onSelect: () => {
+                    trackHeaderNavigation(RoutesEnum.DineroMarket);
+                    push(Routes[RoutesEnum.DineroMarket]);
+                  },
+                },
+                {
+                  value: 'synthetics',
+                  displayOption: capitalize(t('common.synthetics')),
+                  onSelect: () => {
+                    trackHeaderNavigation(RoutesEnum.SyntheticsMarket);
+                    push(Routes[RoutesEnum.SyntheticsMarket]);
+                  },
+                },
+              ]}
+            />
+          </Box>
           <Box ml="S">
             {(supportsCreditCard || supportsFaucet) && (
               <Dropdown
@@ -187,7 +249,11 @@ const Footer: FC = () => {
                       alignItems="center"
                       display="inline-flex"
                     >
-                      <HorizontalDotsSVG width="100%" />
+                      <HorizontalDotsSVG
+                        width="100%"
+                        maxHeight="1.3rem"
+                        maxWidth="1.3rem"
+                      />
                     </Box>
                   </Typography>
                 }
@@ -205,12 +271,17 @@ const Footer: FC = () => {
                               width="1.3rem"
                               display="inline-block"
                             >
-                              <FaucetSVG width="100%" />
+                              <FaucetSVG
+                                width="100%"
+                                maxHeight="1.3rem"
+                                maxWidth="1.3rem"
+                              />
                             </Box>
                             <Typography variant="normal">Faucet</Typography>
                           </>
                         ),
                         onSelect: () => {
+                          trackHeaderNavigation(RoutesEnum.Faucet);
                           push(Routes[RoutesEnum.Faucet]);
                         },
                       },
@@ -235,7 +306,11 @@ const Footer: FC = () => {
                                   width="1.3rem"
                                   display="inline-block"
                                 >
-                                  <CreditCardSVG width="100%" />
+                                  <CreditCardSVG
+                                    width="100%"
+                                    maxHeight="1.3rem"
+                                    maxWidth="1.3rem"
+                                  />
                                 </Box>
                                 <Typography variant="normal">
                                   Credit Card
@@ -243,7 +318,9 @@ const Footer: FC = () => {
                               </Box>
                             </a>
                           ),
-                          onSelect: noop,
+                          onSelect: trackHeaderNavigation(
+                            makeFIATWidgetURL(chainId, address)
+                          ),
                         },
                       ]
                     : []

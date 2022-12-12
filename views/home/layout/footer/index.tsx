@@ -30,7 +30,12 @@ const Footer: FC = () => {
         >
           <Link href={Routes[RoutesEnum.Home]}>
             <Box width="2rem">
-              <LogoSVG width="100%" fill="white" />
+              <LogoSVG
+                width="100%"
+                fill="white"
+                maxHeight="2rem"
+                maxWidth="2rem"
+              />
             </Box>
           </Link>
           <Typography

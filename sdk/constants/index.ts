@@ -37,6 +37,15 @@ export enum TOKEN_SYMBOL {
   WETH = 'WETH',
   USDC = 'USDC',
   USDT = 'USDT',
+  iBTC = 'iBTC',
+  iETH = 'iETH',
+  iXAU = 'iXAU',
+  iGBP = 'iGBP',
+  iJPY = 'iJPY',
+  iBRL = 'iBRL',
+  iTSLA = 'iTSLA',
+  iBAYC = 'iBAYC',
+  iAAPL = 'iAAPL',
 }
 
 export const MAX_NUMBER_INPUT_VALUE = 9000000000000000;
@@ -137,7 +146,7 @@ export const CONTRACTS = {
     [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
-      '0xCBda3668853636BBBB652b874e8535a02096C916'
+      '0xAd4E739f6eA66337D9c2E31bcFe302D27C10403d'
     ),
   },
   INTEREST_VIEW_EARN: {
@@ -303,6 +312,69 @@ export const CONTRACTS = {
     [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
       '0x4bd17003473389a42daf6a0a729f6fdb328bbbd7'
+    ),
+  },
+  iBTC: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0x9FC30ec4dC3b01735d989A5386e3fBF92Cf4Fc34'
+    ),
+  },
+  iBRL: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0xb0eFf131660FFcb4F513Ea90b89BBe664726A95D'
+    ),
+  },
+  iETH: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0x4D9Ca8fF5A0415D6d0435a487f0c3Ad90FE9d431'
+    ),
+  },
+  iGBP: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0x49B542cd9C0416Bb0071bb79F71863bce66DDae5'
+    ),
+  },
+  iXAU: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0x5e1FbC8e681ff33426c0124BC0D73664008ccff2'
+    ),
+  },
+  iJPY: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0x8921c7351bd80C3b58e0d92C66Cd23CdBC3c2cD7'
+    ),
+  },
+  iBAYC: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0x77a4F526C17466e394F0B2aBeB1d04AB372eec19'
+    ),
+  },
+  iAAPL: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0x67666AAbb73212712519494B9BeE5c7E700dcBDa'
+    ),
+  },
+  iTSLA: {
+    [CHAIN_ID.RINKEBY]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
+    [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
+      '0x1711b0e70819Cb96fBfF4Eb2d2b6E42A9650f8FF'
     ),
   },
 };

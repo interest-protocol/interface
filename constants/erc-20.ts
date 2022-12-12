@@ -1,7 +1,8 @@
 import { ethers } from 'ethers';
 import { pathOr, reduce } from 'ramda';
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
+import { SVGProps } from '@/components/svg/svg.types';
 import { CHAIN_ID, CONTRACTS, NativeCurrency, TOKEN_SYMBOL } from '@/sdk';
 import { ERC20 } from '@/sdk/entities/erc-20';
 import {
@@ -18,6 +19,15 @@ import {
   ManaSVG,
   PaxDollarSVG,
   ShibaInuSVG,
+  SynthAppleSVG,
+  SynthBAYCSVG,
+  SynthBitcoinSVG,
+  SynthBRLSVG,
+  SynthEthereumSVG,
+  SynthGBPSVG,
+  SynthJPYSVG,
+  SynthTeslaSVG,
+  SynthXAUSVG,
   TetherSVG,
   TrueUSDSVG,
   UniSwapSVG,
@@ -35,6 +45,7 @@ import {
   getAPEAddress,
   getBTCAddress,
   getBUSDAddress,
+  getDineroAddress,
   getDNRAddress,
   getETHERC20Address,
   getIntAddress,
@@ -136,6 +147,15 @@ export const TOKENS_SVG_MAP = {
     [CONTRACTS.SHIB[CHAIN_ID.BNB_TEST_NET]]: ShibaInuSVG,
     [CONTRACTS.INT[CHAIN_ID.BNB_TEST_NET]]: InterestTokenSVG,
     [CONTRACTS.WETH[CHAIN_ID.BNB_TEST_NET]]: WBNBCoinSVG,
+    [CONTRACTS.iAAPL[CHAIN_ID.BNB_TEST_NET]]: SynthAppleSVG,
+    [CONTRACTS.iBAYC[CHAIN_ID.BNB_TEST_NET]]: SynthBAYCSVG,
+    [CONTRACTS.iBTC[CHAIN_ID.BNB_TEST_NET]]: SynthBitcoinSVG,
+    [CONTRACTS.iBRL[CHAIN_ID.BNB_TEST_NET]]: SynthBRLSVG,
+    [CONTRACTS.iETH[CHAIN_ID.BNB_TEST_NET]]: SynthEthereumSVG,
+    [CONTRACTS.iGBP[CHAIN_ID.BNB_TEST_NET]]: SynthGBPSVG,
+    [CONTRACTS.iXAU[CHAIN_ID.BNB_TEST_NET]]: SynthXAUSVG,
+    [CONTRACTS.iJPY[CHAIN_ID.BNB_TEST_NET]]: SynthJPYSVG,
+    [CONTRACTS.iTSLA[CHAIN_ID.BNB_TEST_NET]]: SynthTeslaSVG,
     [ethers.constants.AddressZero]: BNBSVG,
   },
   [CHAIN_ID.RINKEBY]: {
@@ -158,10 +178,18 @@ export const TOKENS_SVG_MAP = {
     [CONTRACTS.LINK[CHAIN_ID.RINKEBY]]: ChainLinkSVG,
     [CONTRACTS.SHIB[CHAIN_ID.RINKEBY]]: ShibaInuSVG,
     [CONTRACTS.INT[CHAIN_ID.RINKEBY]]: InterestTokenSVG,
+    [CONTRACTS.iBTC[CHAIN_ID.RINKEBY]]: SynthBitcoinSVG,
+    [CONTRACTS.iBRL[CHAIN_ID.RINKEBY]]: SynthBRLSVG,
+    [CONTRACTS.iETH[CHAIN_ID.RINKEBY]]: SynthEthereumSVG,
+    [CONTRACTS.iGBP[CHAIN_ID.RINKEBY]]: SynthGBPSVG,
+    [CONTRACTS.iXAU[CHAIN_ID.RINKEBY]]: SynthXAUSVG,
+    [CONTRACTS.iJPY[CHAIN_ID.RINKEBY]]: SynthJPYSVG,
     [ethers.constants.AddressZero]: EtherSVG,
   },
 } as {
-  [chain: number]: { [address: string]: FC<SVGAttributes<SVGSVGElement>> };
+  [chain: number]: {
+    [address: string]: FC<SVGProps>;
+  };
 };
 
 export const getFarmsSVGByToken = (
@@ -169,7 +197,7 @@ export const getFarmsSVGByToken = (
   token0: string,
   token1: string
 ): ReadonlyArray<{
-  SVG: FC<SVGAttributes<SVGSVGElement>>;
+  SVG: FC<SVGProps>;
   highZIndex: boolean;
 }> => {
   const Token0 = pathOr(
@@ -418,4 +446,16 @@ export const STABLE_COIN_ADDRESSES = {
     ethers.utils.getAddress(CONTRACTS.VAI[CHAIN_ID.BNB_MAIN_NET]),
   ],
   [CHAIN_ID.RINKEBY]: [],
+};
+
+export const IS_STABLE_COIN_MAP = {
+  [CHAIN_ID.BNB_TEST_NET]: {
+    [getBUSDAddress(CHAIN_ID.BNB_TEST_NET)]: true,
+    [getUSDCAddress(CHAIN_ID.BNB_TEST_NET)]: true,
+    [getUSDTAddress(CHAIN_ID.BNB_TEST_NET)]: true,
+    [getDineroAddress(CHAIN_ID.BNB_TEST_NET)]: true,
+  },
+  [CHAIN_ID.BNB_MAIN_NET]: {},
+  [CHAIN_ID.UNSUPPORTED]: {},
+  [CHAIN_ID.RINKEBY]: {},
 };

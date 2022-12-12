@@ -55,6 +55,11 @@
       "repay": "Repay Loan",
       "removeCollateral": "Remove Collateral",
       "removeCollateralRepay": "Remove Collateral and Repay Loan"
+    },
+    "form": {
+      "ltvError": "Your LTV is too high",
+      "collateralError": "The Collateral must not to be more than your balance",
+      "amountError": "Borrow or collateral amount are wrong"
     }
   }
 }

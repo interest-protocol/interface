@@ -7,6 +7,7 @@ import { ISwitchOption } from '@/components/switch/switch.types';
 import { VAULTS_RESPONSE_MAP, VaultTypes } from '@/constants/vaults';
 import { TOKEN_SYMBOL, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
 import { isSameAddress } from '@/utils';
+import { logGenericEvent } from '@/utils/analytics';
 
 import {
   IVaultForm,
@@ -27,17 +28,19 @@ export const parseVaultType = (x: VaultTypes) => {
 export const getFilterSwitchDefaultData = (
   values: ReadonlyArray<string>,
   setValue: UseFormSetValue<IVaultForm>,
-  name: 'type' | 'onlyDeposit'
+  name: 'onlyDeposit'
 ): [ISwitchOption, ISwitchOption] => [
   {
     value: values[0],
     onSelect: () => {
+      logGenericEvent(`Filter_Vault_OnlyDeposit_off`);
       setValue(name, false);
     },
   },
   {
     value: values[1],
     onSelect: () => {
+      logGenericEvent(`Filter_Vault_OnlyDeposit_on`);
       setValue(name, true);
     },
   },
@@ -93,15 +96,13 @@ export const handleFilterVaults = (
   type: VaultTypes,
   onlyDeposit: boolean
 ): ReadonlyArray<VaultData> =>
-  data
-    ? data.filter((x) =>
-        [
-          typeOperation(type),
-          searchOperation(search.trim()),
-          onlyDepositOperation(onlyDeposit),
-        ].every((pred) => pred(x))
-      )
-    : data;
+  data.filter((x) =>
+    [
+      typeOperation(type),
+      searchOperation(search.trim()),
+      onlyDepositOperation(onlyDeposit),
+    ].every((pred) => pred(x))
+  );
 
 const DEFAULT_VAULT_INFO = {
   vaultAddress: ZERO_ADDRESS,

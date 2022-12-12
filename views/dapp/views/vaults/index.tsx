@@ -1,11 +1,12 @@
 import { useTranslations } from 'next-intl';
-import { FC, useMemo } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
 import { VaultTypes } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useIdAccount } from '@/hooks';
+import useEventListener from '@/hooks/use-event-listener';
 import { TimesSVG } from '@/svg';
 
 import { VaultFilterTable, VaultHeader, VaultTable } from './components';
@@ -31,6 +32,15 @@ const Vault: FC = () => {
     [chainId, data]
   );
 
+  const [isDesktop, setDesktop] = useState(false);
+
+  const handleSetDesktop = useCallback(() => {
+    const mediaIsDesktop = window.matchMedia('(min-width: 64em)').matches;
+    setDesktop(mediaIsDesktop);
+  }, []);
+
+  useEventListener('resize', handleSetDesktop, true);
+
   if (error)
     return (
       <Box
@@ -49,7 +59,12 @@ const Vault: FC = () => {
           borderRadius="50%"
           border="0.3rem solid"
         >
-          <TimesSVG width="100%" height="100%" />
+          <TimesSVG
+            width="100%"
+            height="100%"
+            maxHeight="10rem"
+            maxWidth="10rem"
+          />
         </Box>
         <Typography variant="title3">{t('error.generic')}</Typography>
       </Box>
@@ -57,36 +72,35 @@ const Vault: FC = () => {
 
   return (
     <Box
+      mx="auto"
       height="100%"
       display="flex"
       position="relative"
       flexDirection="column"
       justifyContent="space-between"
       width={['100%', '100%', '100%', '60rem']}
-      mx="auto"
     >
       <Container
         dapp
-        width="100%"
         py="XL"
+        width="100%"
         display="flex"
         flexDirection="column"
         justifyContent={['center', 'flex-start']}
       >
         <VaultHeader size={processedData.data.length} />
-        <Box width="100%">
-          <VaultFilterTable
-            register={register}
-            setValue={setValue}
-            getValues={getValues}
-            control={control}
-          />
-          <VaultTable
-            data={processedData.data}
-            control={control}
-            loading={processedData.loading}
-          />
-        </Box>
+        <VaultFilterTable
+          register={register}
+          setValue={setValue}
+          getValues={getValues}
+          control={control}
+        />
+        <VaultTable
+          isDesktop={isDesktop}
+          data={processedData.data}
+          control={control}
+          loading={processedData.loading}
+        />
       </Container>
     </Box>
   );

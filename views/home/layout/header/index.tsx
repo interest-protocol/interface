@@ -6,18 +6,19 @@ import { v4 } from 'uuid';
 
 import { Container, SocialMediaCard, SwitchLang } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
-import { Box, Button, Typography } from '@/elements';
+import { Box, Button, RefBox, Typography } from '@/elements';
 import { useLocale } from '@/hooks';
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
 import useEventListener from '@/hooks/use-event-listener';
 import { BarsLPSVG, LogoSVG, TimesSVG } from '@/svg';
 import { getSafeLocaleSVG } from '@/utils';
+import { logGenericEvent } from '@/utils/analytics';
 
 import { HeaderProps } from './header.types';
 import LangList from './lang-list';
 import MenuList from './menu-list';
 
-const AnimatedBox = animated(Box);
+const AnimatedBox = animated(RefBox);
 const menuButtonId = 'landing-menu-wrapper-id';
 const menuLangId = 'landing-switch-lang-id';
 
@@ -118,7 +119,7 @@ const Header: FC<HeaderProps> = ({ empty }) => {
         alignItems="center"
         justifyContent="space-between"
       >
-        <Link href={Routes[RoutesEnum.Home]} shallow>
+        <Link href={Routes[RoutesEnum.Home]}>
           <Box
             cursor="pointer"
             display="flex"
@@ -126,7 +127,7 @@ const Header: FC<HeaderProps> = ({ empty }) => {
             my={['L', 'M']}
           >
             <Box width="2rem">
-              <LogoSVG width="100%" />
+              <LogoSVG width="2rem" maxHeight="2rem" maxWidth="2rem" />
             </Box>
             <Typography
               variant="normal"
@@ -172,7 +173,10 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                   effect="hover"
                   variant="secondary"
                   mr="0.75rem"
-                  onClick={() => push(Routes[RoutesEnum.DApp])}
+                  onClick={() => {
+                    logGenericEvent(`Header_AccessDAppFromHome`);
+                    push(Routes[RoutesEnum.DApp]);
+                  }}
                 >
                   DApp
                 </Button>
@@ -190,7 +194,11 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                 id={menuLangId}
               >
                 {switchLang ? (
-                  <TimesSVG width="100%" />
+                  <TimesSVG
+                    width="100%"
+                    maxWidth={switchLang ? '2rem' : '1.25rem'}
+                    maxHeight={switchLang ? '2rem' : '1.25rem'}
+                  />
                 ) : (
                   <Box pointerEvents="none">
                     {getSafeLocaleSVG(currentLocale)}
@@ -200,9 +208,14 @@ const Header: FC<HeaderProps> = ({ empty }) => {
               <Box id={menuButtonId} cursor="pointer" onClick={toggleMenu}>
                 <Box width="2rem" p="S" pointerEvents="none">
                   {mobileMenu ? (
-                    <TimesSVG width="100%" height="100%" />
+                    <TimesSVG
+                      width="100%"
+                      height="100%"
+                      maxHeight="2rem"
+                      maxWidth="2rem"
+                    />
                   ) : (
-                    <BarsLPSVG width="100%" />
+                    <BarsLPSVG width="100%" maxHeight="2rem" maxWidth="2rem" />
                   )}
                 </Box>
               </Box>

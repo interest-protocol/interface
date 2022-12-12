@@ -1,10 +1,11 @@
 import { isBigNumberish } from '@ethersproject/bignumber/lib/bignumber';
 import { BigNumber, BigNumberish, utils } from 'ethers';
 
+import { MAX_NUMBER_INPUT_VALUE } from '../../constants';
 import { parseToPositiveStringNumber, ZERO_BIG_NUMBER } from '../../utils';
 import { Fraction } from '../fraction';
+
 const { parseEther } = utils;
-import { MAX_NUMBER_INPUT_VALUE } from '../../constants';
 
 const ONE_ETHER = parseEther('1');
 
@@ -81,30 +82,27 @@ export class FixedPointMath {
 
   public div(x: BigNumberish | FixedPointMath): FixedPointMath {
     if (this.isZero(x)) return FixedPointMath.from(0);
-    this._value = this._value.mul(ONE_ETHER).div(this.parseValue(x));
-    return this;
+    return new FixedPointMath(
+      this._value.mul(ONE_ETHER).div(this.parseValue(x))
+    );
   }
 
   public mul(x: BigNumberish | FixedPointMath): FixedPointMath {
-    this._value = this._value
-      .mul(this.parseValue(this.parseValue(x)))
-      .div(ONE_ETHER);
-    return this;
+    return new FixedPointMath(
+      this._value.mul(this.parseValue(this.parseValue(x))).div(ONE_ETHER)
+    );
   }
 
   public add(x: BigNumberish | FixedPointMath): FixedPointMath {
-    this._value = this._value.add(this.parseValue(x));
-    return this;
+    return new FixedPointMath(this._value.add(this.parseValue(x)));
   }
 
   public sub(x: BigNumberish | FixedPointMath): FixedPointMath {
-    this._value = this._value.sub(this.parseValue(x));
-    return this;
+    return new FixedPointMath(this._value.sub(this.parseValue(x)));
   }
 
   public pow(x: BigNumberish | FixedPointMath): FixedPointMath {
-    this._value = this._value.pow(this.parseValue(x));
-    return this;
+    return new FixedPointMath(this._value.pow(this.parseValue(x)));
   }
 
   public toPercentage(toSignificant = 2): string {

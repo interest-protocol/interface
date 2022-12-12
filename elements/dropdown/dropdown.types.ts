@@ -28,7 +28,6 @@ export interface DropdownProps {
   suffix?: ReactNode;
   header?: ReactNode;
   footer?: ReactNode;
-  relative?: boolean;
   bgSelected?: string;
   fromRight?: boolean;
   buttonMode?: boolean;
@@ -36,6 +35,7 @@ export interface DropdownProps {
   customItems?: boolean;
   customTitle?: boolean;
   mode: 'select' | 'menu';
+  staticPosition?: boolean;
   defaultValue?: ReactNode;
   data: ReadonlyArray<IDropdownData>;
   callback?: (isOpen: boolean) => void;

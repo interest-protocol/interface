@@ -18,6 +18,7 @@ import {
 } from '@/sdk';
 import { CogsSVG } from '@/svg';
 import { isSameAddressZ, numberToString } from '@/utils';
+import { GAPage } from '@/utils/analytics';
 
 import SwapSelectCurrency from '../components/swap-select-currency';
 import InputBalance from './input-balance';
@@ -81,7 +82,8 @@ const Swap: FC = () => {
     useGetDexAllowancesAndBalances(
       chainId,
       tokenInAddress || ZERO_ADDRESS,
-      tokenOutAddress || ZERO_ADDRESS
+      tokenOutAddress || ZERO_ADDRESS,
+      GAPage.DexSwap
     );
 
   const needsApproval = loading
@@ -169,7 +171,7 @@ const Swap: FC = () => {
               }}
               onClick={toggleSettings}
             >
-              <CogsSVG width="1.5rem" />
+              <CogsSVG width="1.5rem" maxHeight="1.5rem" maxWidth="1.5rem" />
             </Box>
             {showSettings && (
               <Settings

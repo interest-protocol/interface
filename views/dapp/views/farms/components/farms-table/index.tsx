@@ -125,7 +125,7 @@ const FarmsTable: FC<FarmsTableProps> = ({
                     <Link
                       href={{
                         pathname: Routes[RoutesEnum.FarmDetails],
-                        query: { tokenAddress: farm.stakingTokenAddress },
+                        query: { address: farm.stakingTokenAddress },
                       }}
                     >
                       <Button variant="primary" hover={{ bg: 'accentActive' }}>
@@ -149,7 +149,11 @@ const FarmsTable: FC<FarmsTableProps> = ({
                               index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'
                             }
                           >
-                            <SVG width="100%" />
+                            <SVG
+                              width="100%"
+                              maxHeight="1.6rem"
+                              maxWidth="1.6rem"
+                            />
                           </Box>
                         ))}
                       </Box>
@@ -279,7 +283,11 @@ const FarmsTable: FC<FarmsTableProps> = ({
                                   : 'unset'
                               }
                             >
-                              <SVG width="100%" />
+                              <SVG
+                                width="100%"
+                                maxHeight="1.6rem"
+                                maxWidth="1.6rem"
+                              />
                             </Box>
                           ))}
                         </Box>
@@ -303,7 +311,7 @@ const FarmsTable: FC<FarmsTableProps> = ({
                       <Link
                         href={{
                           pathname: Routes[RoutesEnum.FarmDetails],
-                          query: { tokenAddress: farm.stakingTokenAddress },
+                          query: { address: farm.stakingTokenAddress },
                         }}
                       >
                         <Button

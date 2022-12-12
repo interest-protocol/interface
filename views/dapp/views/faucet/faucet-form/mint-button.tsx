@@ -12,6 +12,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 
 import { useMint } from './faucet-form.hooks';
 import { MintButtonProps } from './faucet-form.types';
@@ -41,8 +47,20 @@ const MintButton: FC<MintButtonProps> = ({
       const tx = await mint?.();
 
       await showTXSuccessToast(tx, chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.Faucet,
+        functionName: 'handleOnMint',
+      });
       await refetch();
     } catch (error) {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.Faucet,
+        functionName: 'handleOnMint',
+      });
       throwError(t('error.generic'), error);
     } finally {
       setLoading(false);
@@ -75,7 +93,7 @@ const MintButton: FC<MintButtonProps> = ({
       {loading ? (
         <Box as="span" display="flex" justifyContent="center">
           <Box as="span" display="inline-block" width="1rem">
-            <LoadingSVG width="100%" />
+            <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
           </Box>
           <Typography
             as="span"

@@ -1,4 +1,3 @@
-import { SystemStyleObject } from '@styled-system/css';
 import { CSSProperties, HTMLAttributes } from 'react';
 import {
   BorderProps,
@@ -7,12 +6,13 @@ import {
   FlexboxProps,
   LayoutProps,
   PositionProps,
+  ResponsiveValue,
   SpaceProps,
   TextShadowProps,
   TypographyProps as TypoProps,
 } from 'styled-system';
 
-import { MaybeArray } from '@/interface';
+import { TStyles } from '@/stylin/stylin.types';
 
 export interface TypographyProps
   extends LayoutProps,
@@ -25,14 +25,19 @@ export interface TypographyProps
     BoxShadowProps,
     TextShadowProps,
     Omit<HTMLAttributes<HTMLElement>, 'color'> {
-  hover?: SystemStyleObject;
-  active?: SystemStyleObject;
+  hover?: TStyles;
+  active?: TStyles;
   as?: keyof JSX.IntrinsicElements;
-  cursor?: MaybeArray<CSSProperties['cursor']>;
-  whiteSpace?: MaybeArray<CSSProperties['whiteSpace']>;
-  textTransform?: MaybeArray<CSSProperties['textTransform']>;
-  textDecoration?: MaybeArray<CSSProperties['textDecoration']>;
-  variant: MaybeArray<
-    'title1' | 'title2' | 'title3' | 'title4' | 'normal' | 'large' | 'button'
-  >;
+  cursor?: ResponsiveValue<CSSProperties['cursor']>;
+  whiteSpace?: ResponsiveValue<CSSProperties['whiteSpace']>;
+  textTransform?: ResponsiveValue<CSSProperties['textTransform']>;
+  textDecoration?: ResponsiveValue<CSSProperties['textDecoration']>;
+  variant:
+    | 'title1'
+    | 'title2'
+    | 'title3'
+    | 'title4'
+    | 'normal'
+    | 'large'
+    | 'button';
 }

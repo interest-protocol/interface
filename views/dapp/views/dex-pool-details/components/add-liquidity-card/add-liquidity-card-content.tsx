@@ -16,6 +16,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import AddLiquidityButton from './add-liquidity-button';
@@ -73,7 +79,19 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
         : await approveToken1?.();
 
       await showTXSuccessToast(tx, chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexPoolDetailsAddLiquidity,
+        functionName: 'approveToken',
+      });
     } catch {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexPoolDetailsAddLiquidity,
+        functionName: 'approveToken',
+      });
       throwError(t('error.generic'));
     } finally {
       setLoading(false);

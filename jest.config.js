@@ -1,11 +1,15 @@
-module.exports = {
-  roots: ['<rootDir>'],
+const nextJest = require('next/jest')
+
+// Providing the path to your Next.js app which will enable loading next.config.js and .env files
+const createJestConfig = nextJest({ dir: './' })
+
+const customJestConfig = {
+  rootDir: './',
+  setupFilesAfterEnv: ["<rootDir>/.jest/setup.ts"],
+  moduleDirectories: ["node_modules", "<rootDir>/"],
   moduleFileExtensions: ['js', 'ts', 'tsx', 'json'],
   testPathIgnorePatterns: ['<rootDir>[/\\\\](node_modules|.next)[/\\\\]'],
   transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(ts|tsx)$'],
-  transform: {
-    '^.+\\.(ts|tsx)$': 'babel-jest'
-  },
   moduleNameMapper: {
     '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
     '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/__test__/__mocks__/fileMock.js',
@@ -13,6 +17,7 @@ module.exports = {
     "@/api": "<rootDir>/api/index",
     "@/api/(.*)$": "<rootDir>/api/$1",
     "@/sdk": "<rootDir>/sdk/index",
+    "@/HOC": "<rootDir>/components/hoc/index",
     "@/components": "<rootDir>/components/index",
     "@/connectors": "<rootDir>/connectors/index",
     "@/connectors/(.*)$": "<rootDir>/connectors/$1",
@@ -21,6 +26,8 @@ module.exports = {
     "@/design-system": "<rootDir>/design-system",
     "@/design-system/(.*)$": "<rootDir>/design-system/$1",
     "@/state/(.*)$": "<rootDir>/state/$1",
+    "@/stylin": "<rootDir>/stylin",
+    "@/stylin/(.*)$": "<rootDir>/stylin/$1",
     "@/svg/(.*)$": "<rootDir>/components/svg/$1",
     "@/svg": "<rootDir>/components/svg/index",
     "@/utils/(.*)$": "<rootDir>/utils/$1",
@@ -32,5 +39,6 @@ module.exports = {
     "@/interface": "<rootDir>/interface/index",
     "@/views/(.*)$": "<rootDir>/views/$1",
   },
-  moduleDirectories: ['node_modules']
 };
+
+module.exports = createJestConfig(customJestConfig);

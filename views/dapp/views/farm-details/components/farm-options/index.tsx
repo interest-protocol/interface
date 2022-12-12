@@ -14,6 +14,7 @@ import {
   formatMoney,
   makeFarmSymbol,
 } from '@/utils';
+import { logGenericEvent } from '@/utils/analytics';
 
 import ApproveButton from '../buttons/approve-button';
 import HarvestButton from '../buttons/harvest-button';
@@ -38,7 +39,13 @@ const FarmOptions: FC<FarmOptionsProps> = ({
 
   const handleCloseModal = () => setModal(undefined);
 
-  const handleChangeModal = (target: StakeState) => () => setModal(target);
+  const handleChangeModal = (target: StakeState) => () => {
+    logGenericEvent(
+      'Modal_FarmDetailsCard_' +
+        (target === StakeState.Stake ? 'StakedToken' : 'UnstakedToken')
+    );
+    setModal(target);
+  };
 
   return (
     <Box
@@ -69,7 +76,7 @@ const FarmOptions: FC<FarmOptionsProps> = ({
                 ? push({ pathname: Routes[RoutesEnum.DEX] }).then()
                 : push({
                     pathname: Routes[RoutesEnum.DEXPoolDetails],
-                    query: { pairAddress: farm.stakingTokenAddress },
+                    query: { address: farm.stakingTokenAddress },
                   }).then()
             }
             hover={{

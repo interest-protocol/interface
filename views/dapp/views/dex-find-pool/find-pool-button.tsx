@@ -22,6 +22,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 import CreatePoolPopup from '@/views/dapp/views/dex-find-pool/create-pool-popup';
 import { useAddLiquidity } from '@/views/dapp/views/dex-find-pool/dex-find-pool.hooks';
@@ -84,11 +90,24 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       if (doesPairExist)
         return await push({
           pathname: Routes[RoutesEnum.DEXPoolDetails],
-          query: { pairAddress: address },
-        }).then();
+          query: { address: address },
+        }).then(() =>
+          logTransactionEvent({
+            status: GAStatus.Success,
+            type: GAType.Write,
+            page: GAPage.DexFindPool,
+            functionName: 'enterPool',
+          })
+        );
 
       setCreatingPair(true);
     } catch {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexFindPool,
+        functionName: 'enterPool',
+      });
       throwError('Error connecting');
       setLoading(false);
     }
@@ -128,12 +147,23 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
         token1.address,
         isStable
       );
-
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexFindPool,
+        functionName: 'createPair',
+      });
       return push({
         pathname: Routes[RoutesEnum.DEXPoolDetails],
-        query: { pairAddress: address },
+        query: { address: address },
       }).then();
     } catch (e) {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexFindPool,
+        functionName: 'createPair',
+      });
       throwError(t('error.generic'));
     } finally {
       setLoading(false);

@@ -74,7 +74,7 @@ const FarmStakeModal: FC<FarmStakeModalProps> = ({
               }}
             >
               <Box as="span" display="inline-block" width="1rem">
-                <TimesSVG width="100%" />
+                <TimesSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
               </Box>
             </Button>
           </Box>
@@ -107,7 +107,7 @@ const FarmStakeModal: FC<FarmStakeModalProps> = ({
                       ml={index != 0 ? '-0.5rem' : 'NONE'}
                       zIndex={index == 0 ? (highZIndex ? 3 : 'unset') : 'unset'}
                     >
-                      <SVG width="100%" />
+                      <SVG width="100%" maxHeight="1.6rem" maxWidth="1.6rem" />
                     </Box>
                   ))}
                 </Box>
@@ -126,7 +126,14 @@ const FarmStakeModal: FC<FarmStakeModalProps> = ({
         </Box>
         <Box mt="XL">
           <Typography variant="normal" textTransform="uppercase">
-            {t(isStake ? 'common.yourBalance' : 'farmsDetails.modalLabelInput')}
+            {t(
+              isStake ? 'common.yourBalance' : 'farmsDetails.modalLabelInput',
+              {
+                type: t(isStake ? 'common.stake' : 'common.unstake', {
+                  isLoading: 0,
+                }),
+              }
+            )}
           </Typography>
           <Box display="flex" justifyContent="space-between">
             <Typography variant="normal" my="L">

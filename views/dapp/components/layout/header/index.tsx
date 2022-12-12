@@ -15,6 +15,7 @@ import { Box, Dropdown, Typography } from '@/elements';
 import useEventListener from '@/hooks/use-event-listener';
 import { CreditCardSVG, LogoSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logGenericEvent } from '@/utils/analytics';
 
 import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
@@ -36,6 +37,9 @@ const Header: FC = () => {
 
   useEventListener('resize', handleSetDesktop, true);
 
+  const trackHeaderNavigation = (label: string) => () =>
+    logGenericEvent(`Desktop_Header_${label}`);
+
   return (
     <Box
       py="M"
@@ -48,17 +52,28 @@ const Header: FC = () => {
       gridTemplateColumns="repeat(3, 1fr)"
     >
       <Box display="flex" alignItems="center">
-        <Link href={Routes[RoutesEnum.Home]}>
+        <Link
+          href={Routes[RoutesEnum.Home]}
+          onClick={trackHeaderNavigation(RoutesEnum.Home)}
+        >
           <Box
             mr="L"
             color="text"
             width="2.5rem"
             height="2.5rem"
+            maxWidth="50px"
+            maxHeight="50px"
             cursor="pointer"
             hover={{ color: 'accent' }}
             active={{ color: 'accentSecondary' }}
           >
-            <LogoSVG width="100%" aria-label="Logo" fill="currentColor" />
+            <LogoSVG
+              maxHeight="2.5rem"
+              maxWidth="2.5rem"
+              width="100%"
+              aria-label="Logo"
+              fill="currentColor"
+            />
           </Box>
         </Link>
         <a
@@ -90,7 +105,10 @@ const Header: FC = () => {
         justifyContent="center"
         display={['none', 'none', 'flex']}
       >
-        <Link href={Routes[RoutesEnum.DEX]}>
+        <Link
+          href={Routes[RoutesEnum.DEX]}
+          onClick={trackHeaderNavigation(RoutesEnum.DEX)}
+        >
           <Typography
             px="XL"
             cursor="pointer"
@@ -129,38 +147,49 @@ const Header: FC = () => {
               {
                 value: 'Farms',
                 displayOption: 'Farms',
-                onSelect: () =>
-                  push(Routes[RoutesEnum.Farms], undefined, {
-                    shallow: true,
-                  }),
+                onSelect: () => push(Routes[RoutesEnum.Farms]),
               },
               {
                 value: 'Vaults',
                 displayOption: 'Vaults',
-                onSelect: () =>
-                  push(Routes[RoutesEnum.Vaults], undefined, {
-                    shallow: true,
-                  }),
+                onSelect: () => push(Routes[RoutesEnum.Vaults]),
               },
             ]}
           />
         </Box>
-        <Link href={Routes[RoutesEnum.DineroMarket]}>
-          <Typography
-            px="XL"
-            cursor="pointer"
-            variant="normal"
-            color={
-              pathname.includes(Routes[RoutesEnum.DineroMarket])
-                ? 'accent'
-                : 'inherit'
+        <Box pl="XL">
+          <Dropdown
+            title={
+              <Typography
+                textAlign="center"
+                cursor="pointer"
+                variant="normal"
+                color={
+                  pathname.includes(Routes[RoutesEnum.DineroMarket]) ||
+                  pathname.includes(Routes[RoutesEnum.SyntheticsMarket])
+                    ? 'accent'
+                    : 'inherit'
+                }
+                hover={{ color: 'accentActive' }}
+              >
+                {capitalize(t('common.market'))}
+              </Typography>
             }
-            hover={{ color: 'accentActive' }}
-            textTransform="capitalize"
-          >
-            {t('common.borrow')}
-          </Typography>
-        </Link>
+            mode="menu"
+            data={[
+              {
+                value: 'dinero',
+                displayOption: capitalize(t('common.dinero')),
+                onSelect: () => push(Routes[RoutesEnum.DineroMarket]),
+              },
+              {
+                value: 'synths',
+                displayOption: capitalize(t('common.synthetics')),
+                onSelect: () => push(Routes[RoutesEnum.SyntheticsMarket]),
+              },
+            ]}
+          />
+        </Box>
       </Box>
       <Box display="flex" justifyContent="flex-end" alignItems="stretch">
         {address && isChainIdSupported(chainId ?? -1) && (
@@ -168,6 +197,9 @@ const Header: FC = () => {
             <a
               href={makeFIATWidgetURL(chainId, address)}
               target="__blank"
+              onClick={trackHeaderNavigation(
+                makeFIATWidgetURL(chainId, address)
+              )}
               rel="noopener noreferrer"
             >
               <Box
@@ -182,7 +214,7 @@ const Header: FC = () => {
                 bg="bottomBackground"
                 justifyContent="center"
               >
-                <CreditCardSVG width="100%" />
+                <CreditCardSVG width="100%" maxHeight="3rem" maxWidth="3rem" />
               </Box>
             </a>
           </Box>

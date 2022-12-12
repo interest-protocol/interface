@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useTranslations } from 'next-intl';
+import { propOr } from 'ramda';
 import { FC } from 'react';
 import toast from 'react-hot-toast';
 
 import { LogoSVG, ShieldSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logGenericEvent } from '@/utils/analytics';
 
 import { Box, Button, Input, Typography } from '../../../../elements';
 
@@ -14,28 +16,30 @@ const Subscribe: FC = () => {
     event.preventDefault();
     // @ts-ignore
     const email = event.target[0].value;
-    toast
-      .promise(
-        fetch(`/api/v1/mail/subscribe?email=${email}`)
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.httpStatus >= 400) throw data;
-            if (data.httpStatus == 200) return data;
-          }),
-        {
-          loading: t('landingPage.subscribeButton', { isLoading: 1 }),
-          success: capitalize(t('common.success')),
-          error: (error) =>
-            capitalize(
-              t(
-                error.code == 1008
-                  ? 'landingPage.subscribeErrors.1008'
-                  : 'error.generic'
-              )
-            ),
-        }
-      )
-      .catch(console.log);
+    toast.promise(
+      fetch(`/api/v1/mail/subscribe?email=${email}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.httpStatus >= 400) throw data;
+          if (data.httpStatus == 200) return data;
+        })
+        .catch((x) => {
+          logGenericEvent(propOr('code', 'email subscription error', x));
+          throw x;
+        }),
+      {
+        loading: t('landingPage.subscribeButton', { isLoading: 1 }),
+        success: capitalize(t('common.success')),
+        error: (error) =>
+          capitalize(
+            t(
+              error.code == 1008
+                ? 'landingPage.subscribeErrors.1008'
+                : 'error.generic'
+            )
+          ),
+      }
+    );
   };
 
   return (
@@ -48,7 +52,7 @@ const Subscribe: FC = () => {
       bg="background"
     >
       <Box width="5rem">
-        <LogoSVG width="100%" />
+        <LogoSVG width="100%" maxHeight="5rem" maxWidth="5rem" />
       </Box>
       <Typography
         mt="M"
@@ -92,7 +96,7 @@ const Subscribe: FC = () => {
           </Button>
           <Box display="flex" alignItems="center" mt="M" px="L">
             <Box width="0.7rem">
-              <ShieldSVG width="100%" />
+              <ShieldSVG width="100%" maxHeight="5rem" maxWidth="5rem" />
             </Box>
             <Typography variant="normal" ml="S" fontSize="XS">
               {t('landingPage.subscribeDescription')}

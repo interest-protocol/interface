@@ -5,6 +5,7 @@ import { Box, Button, Typography } from '@/elements';
 import { useIsMounted } from '@/hooks/use-is-mounted';
 import { LoadingSVG } from '@/svg';
 import { capitalize } from '@/utils';
+import { logGenericEvent } from '@/utils/analytics';
 
 import { ConnectWalletButtonProps } from './wallet.types';
 import { ConnectWalletModal } from './wallet-modal';
@@ -27,7 +28,10 @@ const ConnectWallet: FC<ConnectWalletButtonProps> = ({ loading }) => {
         alignItems="center"
         display="inline-flex"
         bg="bottomBackground"
-        onClick={toggleModal}
+        onClick={() => {
+          toggleModal();
+          logGenericEvent('Modal_ConnectWallet');
+        }}
         justifyContent="center"
         hover={{ bg: 'accent' }}
         active={{ bg: 'accentActive' }}
@@ -35,7 +39,7 @@ const ConnectWallet: FC<ConnectWalletButtonProps> = ({ loading }) => {
         {loading ? (
           <>
             <Box as="span" display="inline-block" width="1rem" mr="M">
-              <LoadingSVG width="100%" />
+              <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
             </Box>
             <Typography
               as="span"

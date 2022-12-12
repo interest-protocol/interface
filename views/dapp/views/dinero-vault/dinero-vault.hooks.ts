@@ -7,6 +7,12 @@ import { useSafeContractRead } from '@/hooks';
 import DineroVaultABI from '@/sdk/abi/dinero-vault.abi.json';
 import InterestViewEarnABI from '@/sdk/abi/interest-view-earn.abi.json';
 import { getInterestViewEarnAddress, safeToBigNumber } from '@/utils';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 import { VaultData } from '@/views/dapp/views/dinero-vault/dinero-vault.types';
 
 export const useGetUserDineroVault = (
@@ -26,6 +32,20 @@ export const useGetUserDineroVault = (
     functionName: 'getUserDineroVault',
     enabled: !!vaultAddress && !!underlying && isValidAddress,
     args: [vaultAddress, underlying, account || DEFAULT_ACCOUNT],
+    onError: () =>
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Read,
+        page: GAPage.DineroVault,
+        functionName: 'getUserDineroVault',
+      }),
+    onSuccess: () =>
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Read,
+        page: GAPage.DineroVault,
+        functionName: 'getUserDineroVault',
+      }),
   });
 };
 

@@ -16,6 +16,12 @@ import {
   showTXSuccessToast,
   throwError,
 } from '@/utils';
+import {
+  GAPage,
+  GAStatus,
+  GAType,
+  logTransactionEvent,
+} from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
 import { useSwap, useWETHDeposit, useWETHWithdraw } from './swap.hooks';
@@ -42,7 +48,7 @@ const SwapViewButton: FC<SwapViewButtonProps> = ({
     {loadingText ? (
       <Box as="span" display="flex" justifyContent="center">
         <Box as="span" display="inline-block" width="1rem">
-          <LoadingSVG width="100%" />
+          <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
         <Typography as="span" variant="normal" ml="M" fontSize="S">
           {loadingText}
@@ -110,16 +116,35 @@ const SwapButton: FC<SwapButtonProps> = ({
   });
 
   const handleAddAllowance = useCallback(async () => {
-    if (isZeroAddress(tokenInAddress)) return;
+    if (isZeroAddress(tokenInAddress)) {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleAddAllowance',
+      });
+      return;
+    }
     setButtonLoadingText(t('common.approve', { isLoading: 1 }));
     try {
       const tx = await approve?.();
 
       await showTXSuccessToast(tx, chainId);
-
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleAddAllowance',
+      });
       if (tx) await tx.wait(5);
       await refetch();
     } catch (e) {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleAddAllowance',
+      });
       throwError(t('error.generic'), e);
     } finally {
       setButtonLoadingText(null);
@@ -141,7 +166,19 @@ const SwapButton: FC<SwapButtonProps> = ({
       if (tx) await tx.wait(1);
       await refetch();
       await showTXSuccessToast(tx, chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleSwap',
+      });
     } catch {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleSwap',
+      });
       throwError(t('dexSwap.swapMessage.error'));
     } finally {
       setButtonLoadingText(null);
@@ -159,8 +196,15 @@ const SwapButton: FC<SwapButtonProps> = ({
     if (
       isSameAddress(tokenIn.address, tokenOut.address) ||
       !isZeroAddress(tokenIn.address)
-    )
+    ) {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleWETHDeposit',
+      });
       return;
+    }
 
     setButtonLoadingText(t('common.wrap', { isLoading: 1 }));
     try {
@@ -171,8 +215,20 @@ const SwapButton: FC<SwapButtonProps> = ({
 
       if (tx) await tx.wait(1);
       await showTXSuccessToast(tx, chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleWETHDeposit',
+      });
       await refetch();
     } catch (e) {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleWETHDeposit',
+      });
       throwError(t('dexSwap.error.wethDeposit'));
     } finally {
       setButtonLoadingText(null);
@@ -190,8 +246,15 @@ const SwapButton: FC<SwapButtonProps> = ({
     if (
       isSameAddress(tokenIn.address, tokenOut.address) ||
       !isZeroAddress(tokenOut.address)
-    )
+    ) {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleWETHWithdraw',
+      });
       return;
+    }
 
     setButtonLoadingText(t('common.unwrap', { isLoading: 1 }));
     try {
@@ -205,8 +268,20 @@ const SwapButton: FC<SwapButtonProps> = ({
 
       if (tx) await tx.wait(1);
       await showTXSuccessToast(tx, chainId);
+      logTransactionEvent({
+        status: GAStatus.Success,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleWETHWithdraw',
+      });
       await refetch();
     } catch {
+      logTransactionEvent({
+        status: GAStatus.Error,
+        type: GAType.Write,
+        page: GAPage.DexSwap,
+        functionName: 'handleWETHWithdraw',
+      });
       throwError(t('dexSwap.error.wethWithdraw'));
     } finally {
       setButtonLoadingText(null);

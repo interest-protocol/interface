@@ -7,6 +7,8 @@
     "pool": "pool",
     "balance": "saldo",
     "yourBalance": "saldo",
+    "synthetics": "sintéticos",
+    "dinero": "Dinero",
     "volatile": "{count, plural, =1 {volátil} other {voláteis}}",
     "stable": "{count, plural, =1 {estável} other {estáveis}}",
     "liquidity": "liquidez",
@@ -26,6 +28,7 @@
     "collateral": "garantia",
     "market": "mercado",
     "borrower": "usuário",
+    "poweredBy": "Construído com",
     "minute": "{count, plural, =1 {minuto} other {minutos}}",
     "enter": "aceder",
     "tvl": "TVL",
@@ -67,11 +70,14 @@
     "error": "erro",
     "submit": "{isLoading, plural, =1 {processando...} other {processe}}",
     "allocation": "alocação",
-    "backHome": "Voltar ao Início"
+    "backHome": "Voltar ao Início",
+    "soon": "em breve"
   },
   "error": {
     "generic": "algo deu errado",
-    "wrongParams": "Parâmetros errados"
+    "wrongParams": "Parâmetros errados",
+    "fetchingContract": "Erro ao obter os contractos",
+    "fetchingBalances": "Erro ao obter os saldos"
   },
   "web3Manager": {
     "title": "{chainName} não é suportada",
