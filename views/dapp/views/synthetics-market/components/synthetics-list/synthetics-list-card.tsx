@@ -159,7 +159,7 @@ const SyntheticsListCard: FC<SyntheticsListCardProps> = ({ chainId, data }) => {
             <Typography as="span" variant="normal" fontSize="inherit">
               LTV
             </Typography>
-            : {FixedPointMath.from(data.LTV).toPercentage(0)}
+            : {FixedPointMath.from(data.LTV).toPercentage(4)}
           </Box>
           <Box my="S" fontSize="S" display="flex" alignItems="center">
             <Box
