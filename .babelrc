@@ -30,7 +30,7 @@
           "@emotion",
           {
             "sourceMap": true,
-            "autoLabel": "never",
+            "autoLabel": "always",
             "labelFormat": "[local]--[filename]",
             "cssPropOptimization": false
           }

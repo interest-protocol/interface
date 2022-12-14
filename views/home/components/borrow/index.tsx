@@ -107,7 +107,6 @@ const Borrow: FC = () => {
                 width="52%"
                 position="absolute"
                 delay={~~(Math.random() * 1500)}
-                key={v4()}
               >
                 <ResponsiveImage
                   width="100%"
@@ -120,7 +119,6 @@ const Borrow: FC = () => {
                 position="absolute"
                 left="60%"
                 delay={~~(Math.random() * 1500)}
-                key={v4()}
               >
                 <ResponsiveImage
                   width="100%"
@@ -134,7 +132,6 @@ const Borrow: FC = () => {
                 top="40%"
                 left="48%"
                 delay={~~(Math.random() * 1500)}
-                key={v4()}
               >
                 <ResponsiveImage
                   width="100%"
@@ -147,7 +144,6 @@ const Borrow: FC = () => {
                 position="absolute"
                 top="50%"
                 delay={~~(Math.random() * 1500)}
-                key={v4()}
               >
                 <ResponsiveImage
                   width="100%"
@@ -318,7 +314,6 @@ const Borrow: FC = () => {
                 width="45%"
                 position="absolute"
                 delay={~~(Math.random() * 1500)}
-                key={v4()}
               >
                 <ResponsiveImage
                   width="100%"
@@ -331,7 +326,6 @@ const Borrow: FC = () => {
                 width="45%"
                 position="absolute"
                 delay={~~(Math.random() * 1500)}
-                key={v4()}
               >
                 <ResponsiveImage
                   width="100%"
@@ -345,7 +339,6 @@ const Borrow: FC = () => {
                 width="45%"
                 position="absolute"
                 delay={~~(Math.random() * 1500)}
-                key={v4()}
               >
                 <ResponsiveImage
                   width="100%"

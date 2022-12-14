@@ -75,7 +75,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
                 justifyContent="center"
               >
                 {Icon}
-                <Typography variant="normal" ml="M" maxHeight="100%">
+                <Typography variant="normal" ml="M" maxHeight="1rem">
                   {symbol}
                 </Typography>
               </Box>
