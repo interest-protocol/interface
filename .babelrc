@@ -10,15 +10,32 @@
       }
     ]
   ],
-  "plugins": [
-    "@emotion/babel-plugin",
-    [
-      "styled-components",
-      {
-        "ssr": true,
-        "displayName": true,
-        "preprocess": false
-      }
-    ]
-  ]
+  "env": {
+    "production": {
+      "plugins": [
+        [
+          "@emotion",
+          {
+            "sourceMap": true,
+            "autoLabel": "never",
+            "labelFormat": true,
+            "cssPropOptimization": true
+          }
+        ]
+      ]
+    },
+    "development": {
+      "plugins": [
+        [
+          "@emotion",
+          {
+            "sourceMap": true,
+            "autoLabel": "never",
+            "labelFormat": "[local]--[filename]",
+            "cssPropOptimization": false
+          }
+        ]
+      ]
+    }
+  }
 }

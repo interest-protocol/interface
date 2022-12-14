@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
+import { v4 } from 'uuid';
 
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
@@ -106,6 +107,7 @@ const Borrow: FC = () => {
                 width="52%"
                 position="absolute"
                 delay={~~(Math.random() * 1500)}
+                key={v4()}
               >
                 <ResponsiveImage
                   width="100%"
@@ -118,6 +120,7 @@ const Borrow: FC = () => {
                 position="absolute"
                 left="60%"
                 delay={~~(Math.random() * 1500)}
+                key={v4()}
               >
                 <ResponsiveImage
                   width="100%"
@@ -131,6 +134,7 @@ const Borrow: FC = () => {
                 top="40%"
                 left="48%"
                 delay={~~(Math.random() * 1500)}
+                key={v4()}
               >
                 <ResponsiveImage
                   width="100%"
@@ -143,6 +147,7 @@ const Borrow: FC = () => {
                 position="absolute"
                 top="50%"
                 delay={~~(Math.random() * 1500)}
+                key={v4()}
               >
                 <ResponsiveImage
                   width="100%"
@@ -285,6 +290,7 @@ const Borrow: FC = () => {
                   width="40%"
                   ml={['NONE', 'XXL']}
                   delay={~~(Math.random() * 1500)}
+                  key={v4()}
                 >
                   <ResponsiveImage
                     width="100%"
@@ -312,6 +318,7 @@ const Borrow: FC = () => {
                 width="45%"
                 position="absolute"
                 delay={~~(Math.random() * 1500)}
+                key={v4()}
               >
                 <ResponsiveImage
                   width="100%"
@@ -324,6 +331,7 @@ const Borrow: FC = () => {
                 width="45%"
                 position="absolute"
                 delay={~~(Math.random() * 1500)}
+                key={v4()}
               >
                 <ResponsiveImage
                   width="100%"
@@ -337,6 +345,7 @@ const Borrow: FC = () => {
                 width="45%"
                 position="absolute"
                 delay={~~(Math.random() * 1500)}
+                key={v4()}
               >
                 <ResponsiveImage
                   width="100%"

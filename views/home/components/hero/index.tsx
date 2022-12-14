@@ -97,6 +97,7 @@ const Hero: FC = () => {
             width="20%"
             position="absolute"
             delay={~~(Math.random() * 1500)}
+            key={v4()}
           >
             <ResponsiveImage
               width="100%"
@@ -111,6 +112,7 @@ const Hero: FC = () => {
             width="20%"
             position="absolute"
             delay={~~(Math.random() * 1500)}
+            key={v4()}
           >
             <ResponsiveImage
               width="100%"
@@ -125,6 +127,7 @@ const Hero: FC = () => {
             width="14%"
             position="absolute"
             delay={~~(Math.random() * 1500)}
+            key={v4()}
           >
             <ResponsiveImage
               width="100%"
@@ -139,6 +142,7 @@ const Hero: FC = () => {
             width="20%"
             position="absolute"
             delay={~~(Math.random() * 1500)}
+            key={v4()}
           >
             <ResponsiveImage
               width="100%"
@@ -153,6 +157,7 @@ const Hero: FC = () => {
             width="22%"
             position="absolute"
             delay={~~(Math.random() * 1500)}
+            key={v4()}
           >
             <ResponsiveImage
               width="100%"
@@ -167,6 +172,7 @@ const Hero: FC = () => {
             width="12%"
             position="absolute"
             delay={~~(Math.random() * 1500)}
+            key={v4()}
           >
             <ResponsiveImage
               width="100%"
