@@ -37,6 +37,7 @@ const MobileMenu: FC = () => {
             },
           ].map(({ title, link }) => ({
             value: title,
+            onSelect: () => parent.open(link),
             displayOption: (
               <a href={link} target="__blank" rel="noopener noreferrer">
                 <Typography
@@ -54,6 +55,7 @@ const MobileMenu: FC = () => {
           })),
           {
             value: 'feedback',
+            onSelect: () => parent.open('https://forms.gle/aDP4wHvshLPKkKv97'),
             displayOption: (
               <Box width="100%">
                 <a
