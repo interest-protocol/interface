@@ -1,9 +1,10 @@
-import { keyframes } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import Box from '@/elements/box';
 import { BoxProps } from '@/elements/box/box.types';
+import stylin from '@/stylin';
 
 const FloatingCoinsAnimation = keyframes`
   0% {
@@ -17,10 +18,11 @@ const FloatingCoinsAnimation = keyframes`
   }
 `;
 
-export const FloatingCoins = styled(Box)<BoxProps & { delay: number }>`
-  animation: ${FloatingCoinsAnimation} ${({ delay }) => 3000 + delay}ms infinite
-    ease-in-out;
-`;
+export const FloatingCoins = stylin<BoxProps & { delay: number }>('div')(
+  ({ delay }) => css`
+    animation: ${FloatingCoinsAnimation} ${3000 + delay}ms infinite ease-in-out;
+  `
+);
 
 const OrbitAnimation = (x: string, y: string) => keyframes`
     0% {
