@@ -85,3 +85,4 @@ export { default as VaiSVG } from './vai';
 export { default as WalletConnectSVG } from './wallet-connect';
 export { default as WarningSVG } from './warning';
 export { default as WBNBCoinSVG } from './wbnb-coin';
+export { default as YoutubeSVG } from './youtube';

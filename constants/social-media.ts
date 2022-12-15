@@ -4,6 +4,7 @@ import {
   MediumSVG,
   TelegramSVG,
   TwitterSVG,
+  YoutubeSVG,
 } from '@/svg';
 
 export const SOCIAL_MEDIAS = [
@@ -31,5 +32,10 @@ export const SOCIAL_MEDIAS = [
     title: 'Discord',
     link: 'https://discord.gg/PJEkqM4Crk',
     Logo: DiscordSVG,
+  },
+  {
+    title: 'Youtube',
+    link: 'https://www.youtube.com/@interestprotocol',
+    Logo: YoutubeSVG,
   },
 ];
