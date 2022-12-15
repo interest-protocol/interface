@@ -58,7 +58,11 @@ const Hero: FC = () => {
           >
             {t('landingPage.headerSubtitle')}
           </Typography>
-          <a href="https://docs.interestprotocol.com/" target="__blank">
+          <a
+            href="https://docs.interestprotocol.com/"
+            target="__blank"
+            rel="noopener noreferrer"
+          >
             <Button type="button" variant="primary" effect="hover">
               {t('landingPage.headerButton')}
             </Button>
