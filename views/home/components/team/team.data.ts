@@ -1,11 +1,11 @@
-import { GithubSVG, LinkedInSVG, TelegramSVG, TwitterSVG } from '@/svg';
+import { DiscordSVG, GithubSVG, LinkedInSVG, TwitterSVG } from '@/svg';
 import { getYearOrMonth } from '@/utils';
 
 export const SOCIAL_SVG = {
   github: GithubSVG,
   linkedin: LinkedInSVG,
   twitter: TwitterSVG,
-  telegram: TelegramSVG,
+  discord: DiscordSVG,
 };
 
 export const TEAM_MEMBERS = [
@@ -90,17 +90,17 @@ export const TEAM_MEMBERS = [
     },
   },
   {
-    name: 'Jaikishan Agarwal',
+    name: 'Nilam Jaiswal',
     role: 'landingPage.marketingManager',
-    image: 'jaikishan-agarwal',
+    image: 'nilam-jaiswal',
     social: {
-      telegram: 'https://t.me/Jaikishan98',
-      linkedin: 'https://www.linkedin.com/in/jaikishan-agarwal-8307a6170/',
-      twitter: 'https://twitter.com/jk_talks_',
+      discord: 'http://discordapp.com/users/851547717163024437',
+      linkedin: 'https://www.linkedin.com/in/nilam-jjaiswal/',
+      twitter: 'https://twitter.com/crypto_wife1',
     },
-    bio: 'landingPage.bioJaikishan',
+    bio: 'landingPage.bioNilam',
     depsBio: {
-      year1: getYearOrMonth({ month: 1, year: 2018 }, false),
+      year1: getYearOrMonth({ month: 1, year: 2017 }, false),
     },
   },
 ];
