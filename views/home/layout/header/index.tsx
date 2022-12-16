@@ -137,7 +137,7 @@ const Header: FC<HeaderProps> = ({ empty }) => {
               fontSize="1.25rem"
               lineHeight="1.524rem"
               fontWeight="900"
-              display={['none', 'block']}
+              display={['none', 'none', 'block', 'block']}
             >
               Interest Protocol
             </Typography>
@@ -148,8 +148,8 @@ const Header: FC<HeaderProps> = ({ empty }) => {
             <Box
               as="nav"
               alignItems="center"
-              display={['none', 'flex']}
-              flexDirection={['column-reverse', 'row']}
+              display={['none', 'none', 'flex', 'flex']}
+              flexDirection={['column-reverse', 'column-reverse', 'row', 'row']}
             >
               <Box
                 display="flex"
@@ -182,10 +182,9 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                 </Button>
               </Box>
             </Box>
-            <Box display={['flex', 'none']} alignItems="center">
+            <Box display={['flex', 'flex', 'NONE', 'none']} alignItems="center">
               <Box
-                ml={['L', '0.75rem']}
-                mr={['L', '0.75rem']}
+                mx={['L', 'L', '0.75rem', '0.75rem']}
                 width={switchLang ? '2rem' : '1.25rem'}
                 height={switchLang ? '2rem' : '1.25rem'}
                 borderRadius="2rem"

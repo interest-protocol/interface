@@ -16,9 +16,9 @@ const MenuList: FC<MenuListProps> = ({ id }) => {
   return (
     <Box
       as="nav"
-      display={['flex', 'none']}
+      display={['flex', 'flex', 'none', 'none']}
       bg="textInverted"
-      flexDirection={['column', 'row']}
+      flexDirection={['column', 'column', 'row', 'row']}
       pt="2.5rem"
       pb="1.875rem"
       width="100%"
@@ -37,7 +37,7 @@ const MenuList: FC<MenuListProps> = ({ id }) => {
       <Box
         width="100%"
         display="flex"
-        my={['L', 'NONE']}
+        my={['L', 'L', 'NONE', 'NONE']}
         alignItems="center"
         justifyContent="space-between"
         px="1.625rem"
