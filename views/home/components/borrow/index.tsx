@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
+import { v4 } from 'uuid';
 
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
@@ -285,6 +286,7 @@ const Borrow: FC = () => {
                   width="40%"
                   ml={['NONE', 'XXL']}
                   delay={~~(Math.random() * 1500)}
+                  key={v4()}
                 >
                   <ResponsiveImage
                     width="100%"

@@ -40,7 +40,8 @@ const InputMaxTag: FC<InputMaxTagProps> = ({
     [mintCollateral, burnSynt, isMint]
   );
 
-  const format = data.isCollateralStable ? formatDollars : formatMoney;
+  const format =
+    data.isCollateralStable && isCollateral ? formatDollars : formatMoney;
 
   return (
     <Box

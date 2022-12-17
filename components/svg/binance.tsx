@@ -1,9 +1,8 @@
 import { FC } from 'react';
-import { v4 } from 'uuid';
 
 import { SVGProps } from './svg.types';
 
-const id = v4();
+const id = 'binance-id';
 
 const Binance: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg

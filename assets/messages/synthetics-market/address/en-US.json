@@ -53,7 +53,7 @@
       "getRewards": "Get Rewards",
       "burn": "Burn Synthetic",
       "removeCollateral": "Remove Collateral",
-      "removeCollateralBurn": "Remove Collateral and Burn Synthetic"
+      "removeCollateralBurn": "Burn Synthetic and Remove Collateral"
     },
     "form": {
       "ltvError": "You are minting beyond the allowed LTV",
