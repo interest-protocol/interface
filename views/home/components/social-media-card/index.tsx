@@ -10,7 +10,7 @@ const SocialMediaCard: FC<SocialMediaCardProps> = ({
   title,
   isMenu,
 }) => (
-  <a href={link} target="__blank" title={title}>
+  <a href={link} target="__blank" title={title} rel="noopener noreferrer">
     <Box
       width={isMenu ? '1.667rem' : '1rem'}
       display="flex"

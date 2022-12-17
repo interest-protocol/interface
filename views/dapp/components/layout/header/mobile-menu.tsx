@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { FC } from 'react';
 
 import { SOCIAL_MEDIAS } from '@/constants/social-media';
@@ -38,8 +37,9 @@ const MobileMenu: FC = () => {
             },
           ].map(({ title, link }) => ({
             value: title,
+            onSelect: () => parent.open(link),
             displayOption: (
-              <Link href={link}>
+              <a href={link} target="__blank" rel="noopener noreferrer">
                 <Typography
                   px="M"
                   py="L"
@@ -50,16 +50,18 @@ const MobileMenu: FC = () => {
                 >
                   {title}
                 </Typography>
-              </Link>
+              </a>
             ),
           })),
           {
             value: 'feedback',
+            onSelect: () => parent.open('https://forms.gle/aDP4wHvshLPKkKv97'),
             displayOption: (
               <Box width="100%">
                 <a
                   href="https://forms.gle/aDP4wHvshLPKkKv97"
                   target="__blank"
+                  rel="noopener noreferrer"
                   onClick={trackHeaderNavigation('feedback')}
                 >
                   <Typography

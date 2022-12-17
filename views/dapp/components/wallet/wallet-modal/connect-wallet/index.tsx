@@ -95,7 +95,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
             />
           </Box>
         </Box>
-        <Box maxHeight="100%" overflow="auto">
+        <Box maxHeight="80vh" overflow="auto">
           {WALLETS_MAP[chainId].map(({ SVG, id, name }) => {
             const connector = CONNECTOR_MAP[id];
 
