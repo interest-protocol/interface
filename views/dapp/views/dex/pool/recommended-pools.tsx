@@ -16,8 +16,8 @@ const RecommendedPools: FC<RecommendedPoolsProps> = ({ type }) => {
   const chainId = useChainId();
 
   return (
-    <Box pb="L" pt="M" mb="L" px="L" bg="foreground" borderRadius="M">
-      <Typography variant="normal" width="100%" my="L">
+    <Box pb="L" pt="M" mb="L" px="L" bg="foreground" borderRadius="2rem">
+      <Typography variant="normal" width="100%" my="L" color="textSecondary">
         {t('dexPool.recommendedTitle', {
           currentLocale,
           type: capitalize(

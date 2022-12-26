@@ -11,7 +11,7 @@ import {
 
 import { Routes, SUPPORTED_CHAINS_RECORD } from '@/constants';
 import { CHAINS } from '@/constants/chains';
-import { DAppTheme, LandingPageTheme } from '@/design-system';
+import { LandingPageTheme, SuiLightTheme } from '@/design-system';
 import { TimesSVG } from '@/svg';
 import { capitalize } from '@/utils';
 import { Layout, Loading } from '@/views/dapp/components';
@@ -78,7 +78,7 @@ const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
   children,
 }) =>
   pathname !== Routes.home ? (
-    <ThemeProvider theme={DAppTheme}>
+    <ThemeProvider theme={SuiLightTheme}>
       <Web3Manager
         pageTitle={pageTitle}
         supportedChains={SUPPORTED_CHAINS_RECORD[pathname]}

@@ -15,7 +15,12 @@ const AutoFetch: FC<AutoFetchProps> = ({ setter, control }) => {
 
   return (
     <Box mx="M">
-      <Typography variant="normal" fontSize="0.9rem" mb="M">
+      <Typography
+        variant="normal"
+        fontSize="0.9rem"
+        mb="M"
+        color="textSecondary"
+      >
         {t('dexSwap.priceLabel')}
       </Typography>
       <Switch

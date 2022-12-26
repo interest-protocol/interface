@@ -65,7 +65,7 @@ const InputBalance: FC<InputBalanceProps> = ({
           width: '100%',
           display: 'grid',
           bg: 'background',
-          borderRadius: 'M',
+          borderRadius: '2.5rem',
           overflow: 'visible',
           border: '1px solid',
           borderColor: 'transparent',

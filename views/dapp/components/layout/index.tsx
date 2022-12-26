@@ -4,9 +4,8 @@ import { Toaster } from 'react-hot-toast';
 
 import { SEO, Tooltip } from '@/components';
 import { RoutesWithFaucet } from '@/constants';
-import { DAppTheme } from '@/design-system';
 import radii from '@/design-system/common/radii';
-import colors from '@/design-system/dapp-theme/colors';
+import colors from '@/design-system/dapp-theme/dark-mode/colors';
 import { Box } from '@/elements';
 
 import ErrorBoundary from '../error-boundary';
@@ -41,10 +40,7 @@ const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
           flexDirection="column"
           pb="calc(env(safe-area-inset-bottom) + 4rem)"
           justifyContent="stretch"
-          background={[
-            DAppTheme.colors.background,
-            DAppTheme.colors.specialBackground,
-          ]}
+          background={['background', 'specialBackground']}
         >
           {children}
           <Box

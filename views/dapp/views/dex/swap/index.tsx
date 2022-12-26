@@ -148,7 +148,7 @@ const Swap: FC = () => {
         color="text"
         width="100%"
         bg="foreground"
-        borderRadius="M"
+        borderRadius="2rem"
         minWidth={['20rem', '40rem']}
       >
         <Box
@@ -165,6 +165,7 @@ const Swap: FC = () => {
               justifyContent="center"
               transform="rotate(0deg)"
               transition="all 300ms ease-in-out"
+              color="textSecondary"
               hover={{
                 color: 'accent',
                 transform: 'rotate(90deg)',

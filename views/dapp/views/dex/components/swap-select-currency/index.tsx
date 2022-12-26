@@ -42,7 +42,7 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
         px="M"
         py="S"
         display="flex"
-        borderRadius="M"
+        borderRadius="2rem"
         cursor="pointer"
         alignItems="center"
         bg="bottomBackground"
@@ -68,8 +68,13 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
             </Typography>
           </>
         </Box>
-        <Box as="span" display="inline-block" width="0.5rem">
-          <ArrowSVG width="100%" maxHeight="0.5rem" maxWidth="0.5rem" />
+        <Box as="span" display="inline-block" color="text" width="0.5rem">
+          <ArrowSVG
+            width="100%"
+            maxHeight="0.5rem"
+            maxWidth="0.5rem"
+            fill="currentColor"
+          />
         </Box>
       </Box>
       <SwapTokensModal

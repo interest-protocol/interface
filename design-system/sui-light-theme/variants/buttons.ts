@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 
-import radii from '../../common/radii';
 import space from '../../common/space';
 import colors from '../colors';
 
@@ -11,7 +10,7 @@ const primary = css`
   position: relative;
   color: ${colors.text};
   display: inline-block;
-  border-radius: ${radii.M};
+  border-radius: 2rem;
   padding: 0.8rem ${space.XL};
   background: ${colors.accent};
 `;
@@ -24,7 +23,7 @@ const secondary = css`
   padding: ${space.M};
   color: ${colors.text};
   display: inline-block;
-  border-radius: ${radii.M};
+  border-radius: 2rem;
   background: ${colors.bottomBackground};
 `;
 
@@ -35,7 +34,7 @@ const tertiary = css`
   display: inline-block;
   color: ${colors.accent};
   background: transparent;
-  border-radius: ${radii.L};
+  border-radius: 2rem;
   padding: ${space.S} ${space.L};
   border: 1px solid ${colors.accent};
 `;
@@ -47,7 +46,7 @@ const neutral = css`
   position: relative;
   color: ${colors.text};
   display: inline-block;
-  border-radius: ${radii.S};
+  border-radius: 2rem;-
   background: ${colors.outline};
   padding: ${space.L} ${space.XL};
 `;
@@ -59,7 +58,7 @@ const special = css`
   position: relative;
   color: ${colors.text};
   display: inline-block;
-  border-radius: ${radii.M};
+  border-radius: 2rem;
   padding: 0.8rem ${space.XL};
   background-image: linear-gradient(
     ${colors.accentSecondary},

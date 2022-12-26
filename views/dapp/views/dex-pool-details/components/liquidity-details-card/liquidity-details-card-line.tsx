@@ -38,7 +38,7 @@ const LiquidityDetailsCardLine: FC<LiquidityDetailsCardLineProps> = ({
               as="span"
               variant="normal"
               fontWeight="500"
-              color="textSecondary"
+              color="text"
             >
               {symbol}
             </Typography>{' '}

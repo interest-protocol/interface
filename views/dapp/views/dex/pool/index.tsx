@@ -25,7 +25,7 @@ const Pool: FC = () => {
           display="grid"
           gridGap="1rem"
           bg="foreground"
-          borderRadius="M"
+          borderRadius="2.5rem"
           alignItems="center"
           justifyItems="center"
           gridTemplateColumns={['1fr', '1fr 1fr 1fr']}
@@ -34,6 +34,7 @@ const Pool: FC = () => {
             variant="normal"
             mr={['unset', 'auto']}
             textTransform="capitalize"
+            color="textSecondary"
           >
             {t('dexPool.title')}
           </Typography>

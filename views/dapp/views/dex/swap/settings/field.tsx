@@ -14,7 +14,7 @@ const Field: FC<FieldProps> = ({
   type,
 }) => (
   <Box mt="L">
-    <Typography variant="normal" fontSize="0.9rem">
+    <Typography variant="normal" fontSize="0.9rem" color="textSecondary">
       {label}
     </Typography>
     <Input
@@ -29,7 +29,7 @@ const Field: FC<FieldProps> = ({
         my: 'M',
         height: '3rem',
         bg: 'background',
-        borderRadius: 'M',
+        borderRadius: '2.5rem',
         overflow: 'visible',
         border: '1px solid',
         borderColor: 'transparent',
