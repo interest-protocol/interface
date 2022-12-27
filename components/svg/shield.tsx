@@ -6,7 +6,6 @@ const Shield: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
     style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
     viewBox="0 0 11 12"
-    fill="none"
     {...props}
   >
     <path

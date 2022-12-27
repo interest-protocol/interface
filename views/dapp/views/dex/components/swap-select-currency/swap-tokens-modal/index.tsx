@@ -194,7 +194,9 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
             onClick={toggleModal}
             hover={{
               bg: 'accentActive',
+              color: 'disabled',
             }}
+            color="text"
           >
             <TimesSVG width="1rem" maxHeight="1rem" maxWidth="1rem" />
           </Button>

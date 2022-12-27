@@ -165,7 +165,7 @@ const Swap: FC = () => {
               justifyContent="center"
               transform="rotate(0deg)"
               transition="all 300ms ease-in-out"
-              color="textSecondary"
+              color="text"
               hover={{
                 color: 'accent',
                 transform: 'rotate(90deg)',

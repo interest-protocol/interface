@@ -44,15 +44,13 @@ const PoolRow: FC<PoolRowProps> = ({
         hover={{ bg: 'textSoft' }}
       >
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Box display="flex" mb="M">
-            <Box my="M" display="flex" alignItems="center">
-              <FirstIcon width="1.2rem" maxHeight="1.2rem" maxWidth="1.2rem" />
-              <SecondIcon width="1.2rem" maxHeight="1.2rem" maxWidth="1.2rem" />
-              <Typography mx="M" as="span" variant="normal">
-                {replaceWrappedNativeTokenWithNativeTokenSymbol(symbol0)} /{' '}
-                {replaceWrappedNativeTokenWithNativeTokenSymbol(symbol1)}
-              </Typography>
-            </Box>
+          <Box my="M" display="flex" alignItems="center">
+            <FirstIcon width="1.2rem" maxHeight="1.2rem" maxWidth="1.2rem" />
+            <SecondIcon width="1.2rem" maxHeight="1.2rem" maxWidth="1.2rem" />
+            <Typography mx="M" as="span" variant="normal">
+              {replaceWrappedNativeTokenWithNativeTokenSymbol(symbol0)} /{' '}
+              {replaceWrappedNativeTokenWithNativeTokenSymbol(symbol1)}
+            </Typography>
           </Box>
         </Box>
       </Box>

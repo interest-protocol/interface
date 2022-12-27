@@ -1,6 +1,7 @@
+import { useTheme } from '@emotion/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useTranslations } from 'next-intl';
+import { not } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 import { useAccount, useNetwork } from 'wagmi';
 
@@ -13,14 +14,14 @@ import {
 } from '@/constants';
 import { Box, Typography } from '@/elements';
 import useEventListener from '@/hooks/use-event-listener';
-import { CreditCardSVG, LogoSVG } from '@/svg';
+import { CreditCardSVG, LogoSVG, MoonSVG, SunSVG } from '@/svg';
 import { logGenericEvent } from '@/utils/analytics';
 
 import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {
-  const t = useTranslations();
+  const { setDark, dark } = useTheme() as any;
   const { pathname } = useRouter();
   const { chain } = useNetwork();
   const { address } = useAccount();
@@ -38,6 +39,8 @@ const Header: FC = () => {
 
   const trackHeaderNavigation = (label: string) => () =>
     logGenericEvent(`Desktop_Header_${label}`);
+
+  const handleChangeTheme = () => setDark(not);
 
   return (
     <Box
@@ -57,14 +60,14 @@ const Header: FC = () => {
         >
           <Box
             mr="L"
-            color="accent"
+            color="logo"
             width="2.5rem"
             height="2.5rem"
             maxWidth="50px"
             maxHeight="50px"
             cursor="pointer"
-            hover={{ color: 'accent' }}
-            active={{ color: 'accentSecondary' }}
+            hover={{ color: 'accentSecondary' }}
+            active={{ color: 'accentActive' }}
           >
             <LogoSVG
               maxHeight="2.5rem"
@@ -87,7 +90,7 @@ const Header: FC = () => {
             width="100%"
             fontSize="S"
             variant="normal"
-            borderRadius="M"
+            borderRadius="2rem"
             textAlign="center"
             bg="accentAlternative"
             display={['none', 'none', 'none', 'block']}
@@ -138,7 +141,7 @@ const Header: FC = () => {
                 p="0.7rem"
                 width="3rem"
                 height="2.8rem"
-                borderRadius="M"
+                borderRadius="2rem"
                 alignItems="center"
                 display="inline-flex"
                 bg="bottomBackground"
@@ -152,6 +155,34 @@ const Header: FC = () => {
         <Wallet />
         <Box display="flex" alignItems="stretch">
           <SwitchLang />
+          <Box
+            mr="S"
+            width="3rem"
+            height="2.8rem"
+            borderRadius="M"
+            alignItems="center"
+            display="inline-flex"
+            bg="transparent"
+            justifyContent="center"
+            onClick={handleChangeTheme}
+            color="text"
+          >
+            {!dark ? (
+              <MoonSVG
+                width="1rem"
+                maxHeight="3rem"
+                maxWidth="3rem"
+                fill="currentColor"
+              />
+            ) : (
+              <SunSVG
+                width="1rem"
+                maxHeight="3rem"
+                maxWidth="3rem"
+                fill="currentColor"
+              />
+            )}
+          </Box>
         </Box>
         {isMobile && <MobileMenu />}
       </Box>

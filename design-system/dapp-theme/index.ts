@@ -15,8 +15,9 @@ import {
   typography as lightTypography,
 } from './light-mode/variants';
 
-export const LightTheme = {
+export const DAppLightTheme = {
   radii,
+  dark: false,
   space,
   colors: lightColors,
   buttons: lightButtons,
@@ -26,8 +27,9 @@ export const LightTheme = {
   breakpoints,
 };
 
-export const DarkTheme = {
+export const DAppDarkTheme = {
   radii,
+  dark: true,
   space,
   colors: darkColors,
   buttons: darkButtons,
@@ -37,4 +39,4 @@ export const DarkTheme = {
   breakpoints,
 };
 
-export type Theme = typeof LightTheme;
+export type Theme = typeof DAppLightTheme;

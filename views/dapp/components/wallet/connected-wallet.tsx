@@ -34,7 +34,7 @@ const ConnectedWallet: FC = () => {
     <Box
       bg="textSoft"
       display="flex"
-      borderRadius="M"
+      borderRadius="2rem"
       maxHeight="2.8rem"
       alignItems="center"
     >
@@ -57,7 +57,7 @@ const ConnectedWallet: FC = () => {
         px="L"
         fontSize="M"
         border="none"
-        borderRadius="M"
+        borderRadius="2rem"
         variant="primary"
         maxHeight="2.8rem"
         display="inline-flex"

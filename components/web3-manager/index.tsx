@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@emotion/react';
 import { useTranslations } from 'next-intl';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import {
   allChains,
   useAccount,
@@ -11,7 +11,8 @@ import {
 
 import { Routes, SUPPORTED_CHAINS_RECORD } from '@/constants';
 import { CHAINS } from '@/constants/chains';
-import { LandingPageTheme, SuiLightTheme } from '@/design-system';
+import { LandingPageTheme } from '@/design-system';
+import { DAppDarkTheme, DAppLightTheme } from '@/design-system/dapp-theme';
 import { TimesSVG } from '@/svg';
 import { capitalize } from '@/utils';
 import { Layout, Loading } from '@/views/dapp/components';
@@ -76,9 +77,13 @@ const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
   pathname,
   pageTitle,
   children,
-}) =>
-  pathname !== Routes.home ? (
-    <ThemeProvider theme={SuiLightTheme}>
+}) => {
+  const [dark, setDark] = useState(false);
+
+  return pathname !== Routes.home ? (
+    <ThemeProvider
+      theme={{ setDark, ...(dark ? DAppDarkTheme : DAppLightTheme) }}
+    >
       <Web3Manager
         pageTitle={pageTitle}
         supportedChains={SUPPORTED_CHAINS_RECORD[pathname]}
@@ -91,5 +96,6 @@ const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
       <HomePageLayout pageTitle={pageTitle}>{children}</HomePageLayout>
     </ThemeProvider>
   );
+};
 
 export default Web3ManagerWrapper;
