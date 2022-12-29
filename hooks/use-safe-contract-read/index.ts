@@ -1,6 +1,4 @@
-import { parseContractResult, ReadContractConfig } from '@wagmi/core';
 import { useMemo } from 'react';
-import { deepEqual, useQuery } from 'wagmi';
 
 import { useChainId } from '../use-chain-id';
 import { UseContractReadConfig } from './use-contract-read.types';

@@ -69,7 +69,7 @@ const ConnectWalletModal: FC<ConnectWalletProps> = ({
         bg="foreground"
         borderRadius="L"
         maxHeight="80vh"
-        minHeight="20rem"
+        minHeight="15rem"
         flexDirection="column"
       >
         <Box

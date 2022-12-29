@@ -15,11 +15,8 @@
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@hookform/resolvers": "^2.8.8",
-    "@redstone-finance/evm-connector": "^0.0.12",
     "@vercel/analytics": "^0.1.5",
-    "api-getresponse": "^1.0.0",
     "decimal.js-light": "^2.5.1",
-    "ethers": "^5.7.1",
     "next": "^12.2.0",
     "next-intl": "^2.7.4",
     "next-progress": "^2.0.1",
@@ -35,11 +32,9 @@
     "react-spring": "^9.5.0",
     "react-switch": "^6.0.0",
     "react-tooltip": "^4.2.21",
-    "redstone-evm-connector": "^2.1.26",
     "toformat": "^2.0.0",
     "use-debounce": "^8.0.4",
     "uuid": "^8.3.2",
-    "wagmi": "^0.6.6",
     "web-vitals": "^1.0.1",
     "yup": "^0.32.11"
   },
@@ -50,9 +45,7 @@
     "build": "next build",
     "start": "next start",
     "format": "prettier --write **/*.{js,ts,tsx}",
-    "lint": "eslint . --fix --ext ts --ext tsx --ext js",
-    "typechain": "rimraf types && typechain --target=ethers-v5 'sdk/abi/**/*.abi.json'",
-    "postinstall": "yarn typechain"
+    "lint": "eslint . --fix --ext ts --ext tsx --ext js"
   },
   "eslintConfig": {
     "extends": [
@@ -80,7 +73,6 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "@typechain/ethers-v5": "^10.0.0",
     "@types/jest": "^26.0.13",
     "@types/node": "^12.0.0",
     "@types/ramda": "^0.28.11",
@@ -109,7 +101,6 @@
     "prettier": "^2.3.0",
     "pretty-quick": "^3.1.0",
     "rimraf": "^3.0.2",
-    "typechain": "^8.0.0",
     "typescript": "^4.8.3",
     "vercel": "^24.0.1"
   },

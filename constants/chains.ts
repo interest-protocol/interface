@@ -1,6 +1,4 @@
-import { rinkeby } from '@wagmi/core/chains';
 import { __, includes } from 'ramda';
-import { Chain } from 'wagmi';
 
 import { RoutesEnum } from '@/constants/routes';
 import { CHAIN_ID } from '@/sdk/constants';
@@ -8,21 +6,11 @@ import { CHAIN_ID } from '@/sdk/constants';
 import { Routes } from './routes';
 
 export const SUPPORTED_CHAINS_RECORD = {
-  [Routes[RoutesEnum.Farms]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.FarmDetails]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.Faucet]]: [CHAIN_ID.RINKEBY, CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.DineroMarket]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.DineroMarketRepay]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.DineroMarketBorrow]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.SyntheticsMarket]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.SyntheticsMarketMint]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.SyntheticsMarketBurn]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DEX]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DEXPool]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DEXFindPool]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DEXPoolDetails]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.Vaults]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.DineroVault]]: [CHAIN_ID.BNB_TEST_NET],
 };
 
 export const BNB: Chain['nativeCurrency'] = {

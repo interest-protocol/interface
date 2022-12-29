@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
