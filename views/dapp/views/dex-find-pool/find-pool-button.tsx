@@ -1,27 +1,9 @@
-import { getAddress } from 'ethers/lib/utils';
-import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
-import { pathOr, prop } from 'ramda';
+import { prop } from 'ramda';
 import { FC, useState } from 'react';
 
-import { isInterestDexPair } from '@/api';
-import {
-  Routes,
-  RoutesEnum,
-  STABLE_COIN_ADDRESSES,
-  WRAPPED_NATIVE_TOKEN,
-} from '@/constants';
 import { Box, Button } from '@/elements';
-import { getIPXPairAddress, sortTokens, ZERO_BIG_NUMBER } from '@/sdk';
-import {
-  capitalize,
-  handleZeroWrappedToken,
-  isSameAddressZ,
-  isZeroAddress,
-  showToast,
-  showTXSuccessToast,
-  throwError,
-} from '@/utils';
+import { capitalize, isSameAddressZ, showToast, throwError } from '@/utils';
 import {
   GAPage,
   GAStatus,
@@ -30,75 +12,26 @@ import {
 } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 import CreatePoolPopup from '@/views/dapp/views/dex-find-pool/create-pool-popup';
-import { useAddLiquidity } from '@/views/dapp/views/dex-find-pool/dex-find-pool.hooks';
 
 import { FindPoolButtonProps } from './dex-find-pool.types';
 
 const FindPoolButton: FC<FindPoolButtonProps> = ({
-  chainId,
-  account,
-  balancesData,
   getValues,
-  nativeBalance,
   tokenBAddress,
   tokenAAddress,
   isStable,
-  control,
   isCreatingPair,
   setCreatingPair,
 }) => {
   const [loading, setLoading] = useState(false);
   const [createPoolPopup, setCreatePoolPopup] = useState(false);
   const t = useTranslations();
-  const { push } = useRouter();
-
-  const { writeAsync: addLiquidity } = useAddLiquidity({
-    control,
-    account,
-    chainId,
-    nativeBalance,
-    balancesData,
-    isStable,
-  });
-
-  const tokenANeedsAllowance = pathOr(
-    ZERO_BIG_NUMBER,
-    [getAddress(tokenAAddress), 'allowance'],
-    balancesData
-  ).isZero();
-
-  const tokenBNeedsAllowance = pathOr(
-    ZERO_BIG_NUMBER,
-    [getAddress(tokenBAddress), 'allowance'],
-    balancesData
-  ).isZero();
 
   const enterPool = async () => {
     setLoading(true);
 
     try {
-      const address = getIPXPairAddress(
-        chainId,
-        handleZeroWrappedToken(chainId, tokenAAddress),
-        handleZeroWrappedToken(chainId, tokenBAddress),
-        isStable
-      );
-
-      const doesPairExist = await isInterestDexPair(chainId, address);
       setLoading(false);
-
-      if (doesPairExist)
-        return await push({
-          pathname: Routes[RoutesEnum.DEXPoolDetails],
-          query: { address: address },
-        }).then(() =>
-          logTransactionEvent({
-            status: GAStatus.Success,
-            type: GAType.Write,
-            page: GAPage.DexFindPool,
-            functionName: 'enterPool',
-          })
-        );
 
       setCreatingPair(true);
     } catch {
@@ -121,42 +54,16 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
     });
 
   const createPair = async () => {
-    const { tokenA, tokenB, isStable } = getValues();
-
     try {
       setLoading(true);
       setCreatePoolPopup(false);
 
-      const [token0Address] = sortTokens(tokenA.address, tokenB.address);
-
-      const token1 = isSameAddressZ(token0Address, tokenA.address)
-        ? tokenB
-        : tokenA;
-
-      const tx = await addLiquidity?.();
-
-      if (tx) await tx.wait(3);
-
-      await showTXSuccessToast(tx, chainId);
-
-      const address = getIPXPairAddress(
-        chainId,
-        isZeroAddress(token0Address)
-          ? WRAPPED_NATIVE_TOKEN[chainId].address
-          : token0Address,
-        token1.address,
-        isStable
-      );
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,
         page: GAPage.DexFindPool,
         functionName: 'createPair',
       });
-      return push({
-        pathname: Routes[RoutesEnum.DEXPoolDetails],
-        query: { address: address },
-      }).then();
     } catch (e) {
       logTransactionEvent({
         status: GAStatus.Error,
@@ -177,20 +84,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       error: prop('message'),
     });
 
-  const bothTokensAreStableCoins = () => {
-    const { tokenA, tokenB } = getValues();
-
-    return (
-      STABLE_COIN_ADDRESSES[chainId].includes(getAddress(tokenA.address)) &&
-      STABLE_COIN_ADDRESSES[chainId].includes(getAddress(tokenB.address))
-    );
-  };
-
   const handleValidateCreatePair = async () => {
-    if (isStable && bothTokensAreStableCoins()) return await handleCreatePair();
-    if (!isStable && !bothTokensAreStableCoins())
-      return await handleCreatePair();
-
     return setCreatePoolPopup(true);
   };
 
@@ -213,33 +107,12 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
           <Button
             width="100%"
             variant="primary"
-            disabled={
-              loading ||
-              tokenANeedsAllowance ||
-              tokenBNeedsAllowance ||
-              !addLiquidity
-            }
-            bg={
-              tokenANeedsAllowance || tokenBNeedsAllowance
-                ? 'disabled'
-                : loading
-                ? 'accentActive'
-                : 'accent'
-            }
+            disabled={loading}
+            bg={loading ? 'accentActive' : 'accent'}
             hover={{
-              bg:
-                loading ||
-                tokenANeedsAllowance ||
-                tokenBNeedsAllowance ||
-                !addLiquidity
-                  ? 'disabled'
-                  : 'accentActive',
+              bg: loading ? 'disabled' : 'accentActive',
             }}
-            onClick={
-              loading || tokenANeedsAllowance || tokenBNeedsAllowance
-                ? undefined
-                : handleValidateCreatePair
-            }
+            onClick={loading ? undefined : handleValidateCreatePair}
           >
             {t('dexPoolFind.buttonPool', { isLoading: Number(loading) })}
           </Button>

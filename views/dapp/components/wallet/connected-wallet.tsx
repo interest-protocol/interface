@@ -2,10 +2,7 @@ import { not } from 'ramda';
 import { FC, useState } from 'react';
 import { useAccount, useBalance } from 'wagmi';
 
-import { WALLETS_MAP } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
-import { useChainId } from '@/hooks';
-import { ZERO_ADDRESS } from '@/sdk';
 import { LoadingSVG } from '@/svg';
 import { shortAccount } from '@/utils';
 import { logGenericEvent } from '@/utils/analytics';
@@ -16,9 +13,8 @@ import AccountModal from './wallet-modal/account-modal';
 const NoWallet = () => <>?</>;
 
 const ConnectedWallet: FC = () => {
-  const chainId = useChainId();
   const [showModal, setShowModal] = useState<boolean>(false);
-  const { address, isConnected, connector } = useAccount();
+  const { address, isConnected } = useAccount();
   const { data, isError, isLoading } = useBalance({
     addressOrName: address,
   });
@@ -26,9 +22,7 @@ const ConnectedWallet: FC = () => {
     setShowModal(not);
   };
 
-  const WalletSVG =
-    WALLETS_MAP[chainId].find((wallet) => wallet.name === connector?.name)
-      ?.SVG ?? NoWallet;
+  const WalletSVG = NoWallet;
 
   return isConnected ? (
     <Box
@@ -82,22 +76,17 @@ const ConnectedWallet: FC = () => {
           borderRadius="50%"
           display="inline-block"
         >
-          <WalletSVG
-            height="100%"
-            width="100%"
-            maxHeight="1.2rem"
-            maxWidth="1.2rem"
-          />
+          <WalletSVG />
         </Box>
         <Typography variant="normal" color="text" display={['none', 'block']}>
-          {shortAccount(address || ZERO_ADDRESS)}
+          {shortAccount(address as string)}
         </Typography>
         <Typography variant="normal" color="text" display={['block', 'none']}>
-          {shortAccount(address || ZERO_ADDRESS, true)}
+          {shortAccount(address as string, true)}
         </Typography>
       </Button>
       <AccountModal
-        account={address || ZERO_ADDRESS}
+        account={address as string}
         showModal={showModal}
         toggleModal={toggleModal}
       />

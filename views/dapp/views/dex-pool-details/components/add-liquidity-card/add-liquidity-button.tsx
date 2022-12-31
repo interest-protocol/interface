@@ -3,7 +3,7 @@ import { prop } from 'ramda';
 import { FC } from 'react';
 
 import { Button } from '@/elements';
-import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
+import { capitalize, showToast, throwError } from '@/utils';
 import {
   GAPage,
   GAStatus,
@@ -15,7 +15,6 @@ import { AddLiquidityCardButtonProps } from './add-liquidity-card.types';
 
 const AddLiquidityButton: FC<AddLiquidityCardButtonProps> = ({
   addLiquidity,
-  chainId,
   refetch,
   setLoading,
   loading,
@@ -25,8 +24,6 @@ const AddLiquidityButton: FC<AddLiquidityCardButtonProps> = ({
   const _addLiquidity = async () => {
     try {
       setLoading(true);
-      const tx = await addLiquidity?.();
-      await showTXSuccessToast(tx, chainId);
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

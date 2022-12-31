@@ -34,18 +34,18 @@ export interface AddLiquidityCardContentProps {
   isFetchingQuote: boolean;
   control: Control<IAddLiquidityForm>;
   setValue: UseFormSetValue<IAddLiquidityForm>;
-  chainId: number;
-  account: string;
+  chainId?: number;
+  account?: string;
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface AddLiquidityManagerProps {
-  chainId: number;
+  chainId?: number;
   isFetchingQuote: boolean;
   setIsFetchingQuote: Dispatch<SetStateAction<boolean>>;
   setValue: UseFormSetValue<IAddLiquidityForm>;
-  control: Control<IAddLiquidityForm>;
+  control?: Control<IAddLiquidityForm>;
   tokens: AddLiquidityCardProps['tokens'];
   isStable: boolean;
 }
@@ -59,10 +59,8 @@ export interface BalanceErrorProps {
 }
 
 export interface UseAddLiquidityArgs {
-  chainId: number;
-  account: string;
   tokens: IToken[];
-  control: Control<IAddLiquidityForm>;
+  control?: Control<IAddLiquidityForm>;
   isStable: boolean;
 }
 
@@ -72,7 +70,6 @@ export interface ErrorLiquidityMessageProps {
 
 export interface AddLiquidityCardButtonProps {
   loading: boolean;
-  chainId: number;
   setLoading: Dispatch<SetStateAction<boolean>>;
   refetch: () => Promise<void>;
   addLiquidity?: () => Promise<SendTransactionResult | undefined>;

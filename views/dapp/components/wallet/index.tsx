@@ -2,8 +2,6 @@ import { FC } from 'react';
 import { useAccount, useConnect, useNetwork } from 'wagmi';
 import { useSwitchNetwork } from 'wagmi';
 
-import { isChainIdSupported } from '@/constants';
-
 import ConnectWallet from './connect-wallet';
 import ConnectedWallet from './connected-wallet';
 import SelectNetwork from './select-network';
@@ -25,7 +23,7 @@ const Wallet: FC = () => {
 
   if (error || !chain) return <WalletError />;
 
-  if (!!chain && !isChainIdSupported(chain.id))
+  if (chain)
     return (
       <>
         {switchNetwork && (
@@ -38,10 +36,7 @@ const Wallet: FC = () => {
   return (
     <>
       {switchNetwork && (
-        <SelectNetwork
-          switchNetwork={switchNetwork}
-          chainId={chain?.id || -1}
-        />
+        <SelectNetwork switchNetwork={switchNetwork} chainId={-1} />
       )}
       <ConnectedWallet />
     </>

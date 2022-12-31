@@ -12,16 +12,11 @@ export interface AdviceProps {
   }>;
 }
 
-export interface Web3ManagerProps {
-  supportedChains: ReadonlyArray<number>;
-  pageTitle: string;
-}
-
 export interface ContentProps {
   supportedChains: ReadonlyArray<number>;
 }
 
-export interface Web3ManagerWrapperProps {
+export interface WebManagerWrapperProps {
   pathname: string;
   pageTitle: string;
 }

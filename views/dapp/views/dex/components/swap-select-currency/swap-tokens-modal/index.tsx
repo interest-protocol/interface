@@ -1,32 +1,16 @@
-import { isAddress } from 'ethers/lib/utils';
 import { useTranslations } from 'next-intl';
-import { prop } from 'ramda';
-import { FC, ReactNode, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
-import { v4 } from 'uuid';
 
-import { getInterestDEXViewERC20Metadata } from '@/api';
 import { Switch } from '@/components';
-import {
-  NATIVE_TOKENS,
-  SWAP_BASES,
-  TOKEN_META_DATA_ARRAY,
-  TOKENS_SVG_MAP,
-} from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { useLocalStorage } from '@/hooks';
-import { TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
 import { LineLoaderSVG, TimesSVG } from '@/svg';
-import { capitalize, isSameAddress, isSameAddressZ, noop } from '@/utils';
+import { capitalize } from '@/utils';
 
-import {
-  SwapCurrencyDropdownProps,
-  SwapTokenModalMetadata,
-} from '../../../dex.types';
-import { OnSelectCurrencyData } from '../../../swap/swap.types';
+import { SwapCurrencyDropdownProps } from '../../../dex.types';
 
-const renderData = (
+/* const renderData = (
   tokens: ReadonlyArray<SwapTokenModalMetadata>,
   onSelectCurrency: (data: OnSelectCurrencyData) => void,
   isLocal: boolean,
@@ -98,47 +82,26 @@ const renderData = (
     );
   });
 };
-
+ */
 const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   Input,
   control,
   isSearching,
   toggleModal,
   isModalOpen,
-  currentToken,
-  setIsSearching,
-  onSelectCurrency,
-  chainId,
 }) => {
   const t = useTranslations();
   const [showLocal, setShowLocal] = useState(false);
   const search = useWatch({ control, name: 'search' });
-  const [searchedToken, setSearchedToken] =
-    useState<null | SwapTokenModalMetadata>(null);
-  const [tokensAddedByUser, handleTokensAddedByUser] = useLocalStorage<
-    ReadonlyArray<SwapTokenModalMetadata>
-  >(`${chainId}-interest-dex-custom-tokens`, []);
-
-  const nativeToken = NATIVE_TOKENS[chainId];
 
   const [debouncedSearch] = useDebounce(search, 800);
 
-  const tokenMetaDataArray = TOKEN_META_DATA_ARRAY[chainId];
-
   // is searching debounce
   useEffect(() => {
+    /* 
     if (isSearching || !debouncedSearch) return;
     const parsedDebouncedSearch = debouncedSearch.trim().toLowerCase();
-    const allTokens = tokensAddedByUser.concat(tokenMetaDataArray);
     if (!isAddress(parsedDebouncedSearch)) {
-      const token = allTokens.find(
-        ({ symbol, name }) =>
-          symbol.toLowerCase().startsWith(parsedDebouncedSearch) ||
-          name.toLowerCase().startsWith(parsedDebouncedSearch) ||
-          name.toLowerCase().includes(parsedDebouncedSearch) ||
-          symbol.toLowerCase().includes(parsedDebouncedSearch)
-      );
-
       setSearchedToken(token ? token : null);
       return;
     }
@@ -169,13 +132,8 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
         })
         .catch(() => setSearchedToken(null))
         .finally(() => setIsSearching(false));
-    }
-  }, [debouncedSearch, tokensAddedByUser, tokenMetaDataArray, chainId]);
-
-  const removeUserToken = (x: string) =>
-    handleTokensAddedByUser(
-      tokensAddedByUser.filter(({ address }) => !isSameAddress(address, x))
-    );
+    } */
+  }, [debouncedSearch]);
 
   return (
     <Modal
@@ -206,7 +164,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
         {Input}
         {isSearching && <LineLoaderSVG width="100%" />}
         <Box mt="M" display="flex" flexWrap="wrap" justifyContent="flex-start">
-          {renderData(
+          {/*renderData(
             [
               {
                 name: nativeToken.name,
@@ -221,7 +179,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
             false,
             currentToken,
             chainId
-          )}
+          )*/}
         </Box>
         {debouncedSearch ? (
           <Box my="L" textAlign="center">
@@ -229,16 +187,17 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
               <Typography variant="normal" color="text">
                 {capitalize(t('common.load', { isLoading: 1 }))}
               </Typography>
-            ) : searchedToken ? (
+            ) : (
+              /*  searchedToken ? (
               renderData(
                 [searchedToken],
                 onSelectCurrency,
                 showLocal,
                 currentToken,
                 chainId
-              )
-            ) : (
-              <Typography variant="normal" color="text">
+              ) 
+              '1'
+            ) : */ <Typography variant="normal" color="text">
                 {capitalize(t('common.notFound'))}
               </Typography>
             )}
@@ -270,7 +229,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
               gridGap="0.3rem"
               maxHeight="20rem"
             >
-              {renderData(
+              {/* renderData(
                 (showLocal ? tokensAddedByUser : tokenMetaDataArray).filter(
                   ({ address }) =>
                     !isSameAddress(currentToken, address) &&
@@ -281,7 +240,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
                 currentToken,
                 chainId,
                 removeUserToken
-              )}
+              ) */}
             </Box>
           </>
         )}

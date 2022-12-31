@@ -2,35 +2,25 @@ import { useTranslations } from 'next-intl';
 import React, { FC, useState } from 'react';
 
 import { Box, Button, Typography } from '@/elements';
-import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
-import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
+import { capitalize, showToast, throwError } from '@/utils';
 import { GAStatus, GAType, logTransactionEvent } from '@/utils/analytics';
 
 import { ApproveButtonProps } from './approve-button.types';
 
 const ApproveButton: FC<ApproveButtonProps> = ({
-  enabled,
-  spender,
-  contract,
-  chainId,
   refetch,
   buttonProps = { variant: 'primary' },
   pageName,
 }) => {
   const t = useTranslations();
-
+  const approve = true;
   const [loading, setLoading] = useState(false);
-  const { writeAsync: approve } = useApprove(contract, spender, { enabled });
 
   const handleAddAllowance = async () => {
     setLoading(true);
     try {
-      const tx = await approve?.();
-      if (tx) await tx.wait(2);
-
       await refetch();
-      await showTXSuccessToast(tx, chainId);
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

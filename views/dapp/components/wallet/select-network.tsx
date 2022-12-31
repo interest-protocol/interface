@@ -1,10 +1,8 @@
 import { useTranslations } from 'next-intl';
-import { values } from 'ramda';
 import { FC } from 'react';
 
 import EthereumNetwork from '@/components/svg/ethereum-network';
 import { Box, Dropdown, Typography } from '@/elements';
-import { CHAIN_ID } from '@/sdk';
 import {
   AdaSVG,
   ArrowSVG,
@@ -25,7 +23,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
       mode="select"
       suffix={
         <Box display="flex" alignItems="center">
-          {(!chainId || !values(CHAIN_ID).includes(chainId)) && (
+          {!chainId && (
             <Box
               mr="S"
               as="span"
@@ -52,10 +50,10 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
       defaultValue={`${chainId}`}
       data={[
         {
-          value: `${CHAIN_ID.BNB_TEST_NET}`,
+          value: ``,
           onSelect: () => {
             logGenericEvent('Network_BSCT');
-            switchNetwork(CHAIN_ID.BNB_TEST_NET);
+            switchNetwork(-1);
           },
           displayOption: (
             <Box pl="L" display="flex" alignItems="center">

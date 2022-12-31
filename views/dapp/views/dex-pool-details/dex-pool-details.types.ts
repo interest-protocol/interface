@@ -1,7 +1,3 @@
-import { BigNumber } from 'ethers';
-import { Result } from 'ethers/lib/utils';
-import { PairMetadataStructOutput } from 'types/ethers-contracts/InterestViewDexAbi';
-
 export interface DEXPoolDetailsViewProps {
   pairAddress: string;
 }
@@ -27,17 +23,9 @@ export type TPoolDetailsKeys =
   | 'reserve0'
   | 'reserve1';
 
-export type TDexPoolDetailsData =
-  | ([PairMetadataStructOutput, BigNumber[], BigNumber[]] & {
-      pairMetadata: PairMetadataStructOutput;
-      allowances: BigNumber[];
-      balances: BigNumber[];
-    })
-  | undefined
-  | Result;
+export type TDexPoolDetailsData = undefined;
 
 export type TProcessPairData = (
-  chainId: number,
   data: TDexPoolDetailsData,
   nativeBalance: string
 ) => {
@@ -53,15 +41,4 @@ export type TProcessPairData = (
   };
   loading: boolean;
   pairExists: boolean;
-  token0: string;
-  token1: string;
-  isStable: boolean;
-  reserve0: BigNumber;
-  reserve1: BigNumber;
-  lpAllowance: BigNumber;
-  lpBalance: BigNumber;
-  token0Balance: BigNumber;
-  token0Allowance: BigNumber;
-  token1Balance: BigNumber;
-  token1Allowance: BigNumber;
 };

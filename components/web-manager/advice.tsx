@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 import { Box, Button, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
 
-import { AdviceProps } from './web3-manager.type';
+import { AdviceProps } from './web-manager.type';
 
 const Advice: FC<AdviceProps> = ({ Icon, lines, title, buttons }) => (
   <Box

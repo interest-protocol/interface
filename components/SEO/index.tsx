@@ -6,9 +6,8 @@ import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
 import { Theme } from '@/design-system/landing-page-theme';
 import { capitalize } from '@/utils';
-import { LayoutProps } from '@/views/home/layout/layout.types';
 
-const SEO: FC<LayoutProps> = ({ pageTitle }) => {
+const SEO: FC<{ pageTitle: string }> = ({ pageTitle }) => {
   const t = useTranslations();
   const { colors } = useTheme() as Theme;
 

@@ -7,8 +7,6 @@ import {
   UseFormSetValue,
 } from 'react-hook-form';
 
-import { BalanceData } from '@/hooks';
-
 import { SwapSelectCurrencyProps } from '../dex/dex.types';
 
 interface FormValue {
@@ -58,7 +56,7 @@ export interface PriceProps {
 
 export interface UseAddNativeTokenLiquidityArgs {
   control: Control<DexFindPoolForm>;
-  balancesData: Record<string, BalanceData>;
+  balancesData: Record<string, any>;
   nativeBalance: BigNumber;
   isStable: boolean;
   account: string;
@@ -68,7 +66,7 @@ export interface UseAddNativeTokenLiquidityArgs {
 export interface FindPoolButtonProps {
   chainId: number;
   account: string;
-  balancesData: Record<string, BalanceData>;
+  balancesData: Record<string, any>;
   control: Control<DexFindPoolForm>;
   getValues: UseFormGetValues<DexFindPoolForm>;
   nativeBalance: BigNumber;

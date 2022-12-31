@@ -5,8 +5,6 @@ import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
-import { useIdAccount } from '@/hooks';
-import { FixedPointMath } from '@/sdk';
 
 import {
   AddLiquidityCardProps,
@@ -26,7 +24,6 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
   const [isFetchingQuote, setIsFetchingQuote] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { account, chainId } = useIdAccount();
   const t = useTranslations();
 
   const { register, setValue, control } = useForm<IAddLiquidityForm>({
@@ -50,13 +47,13 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
           {t('dexPoolPairAddress.addLiquidity')}
         </Typography>
       </Box>
-      {tokens.map(({ balance, decimals, allowance, Icon, symbol }, index) => (
+      {tokens.map(({ allowance, Icon, symbol }, index) => (
         <InputBalance
           key={v4()}
           register={register}
           setValue={setValue}
           name={INPUT_NAMES[index]}
-          balance={FixedPointMath.toNumber(balance, decimals)}
+          balance={1}
           disabled={loading || isFetchingQuote || allowance.isZero()}
           currencyPrefix={
             fetchingInitialData ? (
@@ -84,8 +81,6 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
         />
       ))}
       <AddLiquidityCardContent
-        chainId={chainId}
-        account={account}
         loading={loading}
         setLoading={setLoading}
         tokens={tokens}
@@ -97,8 +92,6 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
         fetchingInitialData={fetchingInitialData}
       />
       <AddLiquidityManager
-        chainId={chainId}
-        control={control}
         setValue={setValue}
         isFetchingQuote={isFetchingQuote || loading}
         setIsFetchingQuote={setIsFetchingQuote}

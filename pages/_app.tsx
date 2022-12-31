@@ -7,10 +7,8 @@ import Head from 'next/head';
 import NextProgress from 'next-progress';
 import { ReactNode, StrictMode, useEffect } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
-import { WagmiConfig } from 'wagmi';
 
 import { NextIntlProvider, Web3Manager } from '@/components';
-import { wagmiClient } from '@/connectors';
 import { GlobalStyles } from '@/design-system';
 import { TTranslatedMessage } from '@/interface';
 import { initGA, logPageView } from '@/utils/analytics';
@@ -72,20 +70,18 @@ const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
         now={new Date(pageProps.now)}
         timeZone="UTC"
       >
-        <WagmiConfig client={wagmiClient}>
-          <SkeletonTheme baseColor="#202020" highlightColor="#444">
-            <Global styles={GlobalStyles} />
-            <Web3Manager
-              pageTitle={pageProps.pageTitle}
-              pathname={router.pathname}
-            >
-              <StrictMode>
-                <Component {...pageProps} />
-                <VercelAnalytics />
-              </StrictMode>
-            </Web3Manager>
-          </SkeletonTheme>
-        </WagmiConfig>
+        <SkeletonTheme baseColor="#202020" highlightColor="#444">
+          <Global styles={GlobalStyles} />
+          <Web3Manager
+            pageTitle={pageProps.pageTitle}
+            pathname={router.pathname}
+          >
+            <StrictMode>
+              <Component {...pageProps} />
+              <VercelAnalytics />
+            </StrictMode>
+          </Web3Manager>
+        </SkeletonTheme>
       </NextIntlProvider>
     </>
   );

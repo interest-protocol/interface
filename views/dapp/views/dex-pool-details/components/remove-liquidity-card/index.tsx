@@ -3,7 +3,6 @@ import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Box, Typography } from '@/elements';
-import { FixedPointMath } from '@/sdk';
 
 import InputBalance from './input-balance';
 import {
@@ -53,7 +52,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
         control={control}
         register={register}
         setValue={setValue}
-        balance={FixedPointMath.toNumber(lpBalance)}
+        balance={-1}
         disabled={lpAllowance.isZero() || lpBalance.isZero()}
         currencyPrefix={
           <Box display="flex" width="5rem">

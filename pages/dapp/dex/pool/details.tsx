@@ -2,7 +2,6 @@ import { GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
-import { withAddressGuard } from '@/HOC';
 import { NextPageWithAddress } from '@/interface';
 
 const DynamicDEXPoolDetailsView = dynamic(
@@ -33,4 +32,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default withAddressGuard(DEXPoolDetailsPage);
+export default DEXPoolDetailsPage;
