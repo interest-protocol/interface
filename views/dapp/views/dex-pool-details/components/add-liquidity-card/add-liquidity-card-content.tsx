@@ -6,16 +6,8 @@ import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Box, Button } from '@/elements';
-import { useApprove } from '@/hooks';
 import { LineLoaderSVG } from '@/svg';
-import {
-  capitalize,
-  getInterestDexRouterAddress,
-  isSameAddressZ,
-  showToast,
-  showTXSuccessToast,
-  throwError,
-} from '@/utils';
+import { capitalize, showToast, throwError } from '@/utils';
 import {
   GAPage,
   GAStatus,
@@ -32,7 +24,6 @@ import {
 } from './add-liquidity-card.types';
 import BalanceError from './balance-error';
 import ErrorLiquidityMessage from './error-liquidity-message';
-import { useAddLiquidity } from './use-add-lliquidity-card.hooks';
 
 const filterFn = o<IToken, BigNumber, boolean>(
   (x: BigNumber) => x.isZero(),
@@ -41,44 +32,24 @@ const filterFn = o<IToken, BigNumber, boolean>(
 
 const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
   tokens,
-  isStable,
   fetchingInitialData,
   refetch,
   isFetchingQuote,
   control,
   setValue,
-  chainId,
-  account,
   setLoading,
   loading,
 }) => {
-  const { writeAsync: approveToken0 } = useApprove(
-    tokens[0].address,
-    getInterestDexRouterAddress(chainId),
-    { enabled: tokens[0].allowance.isZero() }
-  );
-
-  const { writeAsync: approveToken1 } = useApprove(
-    tokens[1].address,
-    getInterestDexRouterAddress(chainId),
-    { enabled: tokens[1].allowance.isZero() }
-  );
-
   const t = useTranslations();
 
   const needsAllowance = tokens
     .map(({ allowance }) => allowance.isZero())
     .some(identity);
 
-  const approveToken = async (token: string) => {
+  const approveToken = async () => {
     try {
       setLoading(true);
 
-      const tx = isSameAddressZ(tokens[0].address, token)
-        ? await approveToken0?.()
-        : await approveToken1?.();
-
-      await showTXSuccessToast(tx, chainId);
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,
@@ -100,21 +71,13 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
   };
 
   const handleApproveToken = (token: string, symbol: string) =>
-    showToast(approveToken(token), {
+    showToast(approveToken(), {
       loading: `${symbol}: ${capitalize(
         t('common.approve', { isLoading: 1 })
       )}`,
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
-
-  const { writeAsync: addLiquidity } = useAddLiquidity({
-    chainId,
-    account,
-    isStable,
-    tokens,
-    control,
-  });
 
   return (
     <>
@@ -178,10 +141,7 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
                 {capitalize(t('common.reset'))}
               </Button>
               <AddLiquidityButton
-                addLiquidity={
-                  addLiquidity ? async () => await addLiquidity() : undefined
-                }
-                chainId={chainId}
+                addLiquidity={undefined}
                 refetch={refetch}
                 setLoading={setLoading}
                 loading={loading || fetchingInitialData || isFetchingQuote}

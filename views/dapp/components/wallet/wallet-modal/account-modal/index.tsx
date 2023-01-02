@@ -41,7 +41,7 @@ const AccountModal: FC<AccountModalProps> = ({
             {t('common.account')}
           </Typography>
           <Box
-            color="textSecondary"
+            color="text"
             cursor="pointer"
             onClick={toggleModal}
             hover={{ color: 'text' }}

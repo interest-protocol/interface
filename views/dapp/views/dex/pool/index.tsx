@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
 
 import { Switch } from '@/components';
-import { PoolType, Routes, RoutesEnum } from '@/constants';
+import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { capitalize } from '@/utils';
 
@@ -11,7 +11,7 @@ import RecommendPools from './recommended-pools';
 
 const Pool: FC = () => {
   const t = useTranslations();
-  const [poolType, setPoolType] = useState<PoolType>(PoolType.Volatile);
+  const [poolType, setPoolType] = useState('1');
 
   const { push } = useRouter();
 
@@ -25,7 +25,7 @@ const Pool: FC = () => {
           display="grid"
           gridGap="1rem"
           bg="foreground"
-          borderRadius="M"
+          borderRadius="2.5rem"
           alignItems="center"
           justifyItems="center"
           gridTemplateColumns={['1fr', '1fr 1fr 1fr']}
@@ -34,6 +34,7 @@ const Pool: FC = () => {
             variant="normal"
             mr={['unset', 'auto']}
             textTransform="capitalize"
+            color="textSecondary"
           >
             {t('dexPool.title')}
           </Typography>
@@ -41,16 +42,16 @@ const Pool: FC = () => {
             defaultValue={poolType}
             options={[
               {
-                value: PoolType.Volatile,
+                value: '1',
                 displayValue: capitalize(
                   capitalize(t('common.volatile', { count: 2 }))
                 ),
-                onSelect: () => setPoolType(PoolType.Volatile),
+                onSelect: () => setPoolType('1'),
               },
               {
-                value: PoolType.Stable,
+                value: '1',
                 displayValue: capitalize(t('common.stable', { count: 2 })),
-                onSelect: () => setPoolType(PoolType.Stable),
+                onSelect: () => setPoolType('1'),
               },
             ]}
           />

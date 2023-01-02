@@ -41,13 +41,7 @@ const InputBalance: FC<InputBalanceProps> = ({
         disabled={disabled}
         {...register(name, {
           onChange: (v: ChangeEvent<HTMLInputElement>) => {
-            setValue?.(
-              name,
-              parseInputEventToNumberString(
-                v,
-                balance ? +numberToString(balance) : undefined
-              )
-            );
+            setValue?.(name, parseInputEventToNumberString(v, -1));
           },
         })}
         shieldProps={{
@@ -56,7 +50,7 @@ const InputBalance: FC<InputBalanceProps> = ({
           width: '100%',
           height: '3rem',
           bg: 'background',
-          borderRadius: 'M',
+          borderRadius: '2.5rem',
           position: 'static',
           overflow: 'visible',
           border: '1px solid',

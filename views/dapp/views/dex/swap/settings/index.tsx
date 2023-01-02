@@ -106,7 +106,7 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           setRegister={() =>
             register('slippage', {
               onChange: (v: ChangeEvent<HTMLInputElement>) => {
-                const slippage = parseInputEventToNumberString(v);
+                const slippage = parseInputEventToNumberString(v, -1);
                 const safeSlippage = +slippage >= 30 ? '30' : slippage;
                 setValue('slippage', safeSlippage);
               },

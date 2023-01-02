@@ -35,13 +35,7 @@ const InputBalance: FC<InputBalanceProps> = ({
         disabled={disabled}
         {...register(name, {
           onChange: (v: ChangeEvent<HTMLInputElement>) => {
-            setValue?.(
-              name,
-              parseInputEventToNumberString(
-                v,
-                balance ? +numberToString(balance) : undefined
-              )
-            );
+            setValue?.(name, parseInputEventToNumberString(v, -1));
             setValue('locked', false);
           },
         })}
@@ -50,7 +44,7 @@ const InputBalance: FC<InputBalanceProps> = ({
           my: 'M',
           width: '100%',
           height: '3rem',
-          borderRadius: 'M',
+          borderRadius: '2rem',
           bg: 'background',
           overflow: 'visible',
           border: '1px solid',

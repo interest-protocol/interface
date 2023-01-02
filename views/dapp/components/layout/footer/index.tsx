@@ -3,12 +3,9 @@ import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
-import { useAccount, useNetwork } from 'wagmi';
 
 import { Container, SocialMediaCard } from '@/components';
 import {
-  isChainIdSupported,
-  makeFIATWidgetURL,
   Routes,
   RoutesEnum,
   RoutesWithFaucet,
@@ -16,7 +13,6 @@ import {
 } from '@/constants';
 import { Box, Button, Dropdown, Typography } from '@/elements';
 import {
-  CreditCardSVG,
   DexSVG,
   EarnSVG,
   FaucetSVG,
@@ -29,14 +25,9 @@ import { logGenericEvent } from '@/utils/analytics';
 
 const Footer: FC = () => {
   const t = useTranslations();
-  const { chain } = useNetwork();
-  const { address } = useAccount();
   const { pathname, push } = useRouter();
 
-  const chainId = chain?.id ?? -1;
-
   const supportsFaucet = RoutesWithFaucet.includes(pathname);
-  const supportsCreditCard = address && isChainIdSupported(chainId ?? -1);
 
   const trackHeaderNavigation = (label: string) => () =>
     logGenericEvent(`Mobile_Header_${label}`);
@@ -227,7 +218,7 @@ const Footer: FC = () => {
             />
           </Box>
           <Box ml="S">
-            {(supportsCreditCard || supportsFaucet) && (
+            {supportsFaucet && (
               <Dropdown
                 bottom
                 title={
@@ -258,73 +249,37 @@ const Footer: FC = () => {
                   </Typography>
                 }
                 mode="menu"
-                data={(supportsFaucet
-                  ? [
-                      {
-                        value: 'faucet',
-                        displayOption: (
-                          <>
-                            <Box
-                              mr="M"
-                              ml="L"
-                              as="span"
-                              width="1.3rem"
-                              display="inline-block"
-                            >
-                              <FaucetSVG
-                                width="100%"
-                                maxHeight="1.3rem"
-                                maxWidth="1.3rem"
-                              />
-                            </Box>
-                            <Typography variant="normal">Faucet</Typography>
-                          </>
-                        ),
-                        onSelect: () => {
-                          trackHeaderNavigation(RoutesEnum.Faucet);
-                          push(Routes[RoutesEnum.Faucet]);
-                        },
-                      },
-                    ]
-                  : []
-                ).concat(
-                  supportsCreditCard
+                data={
+                  supportsFaucet
                     ? [
                         {
-                          value: 'credit-card',
+                          value: 'faucet',
                           displayOption: (
-                            <a
-                              href={makeFIATWidgetURL(chainId, address)}
-                              target="__blank"
-                              rel="noopener noreferrer"
-                            >
-                              <Box display="flex">
-                                <Box
-                                  mr="M"
-                                  ml="L"
-                                  as="span"
-                                  width="1.3rem"
-                                  display="inline-block"
-                                >
-                                  <CreditCardSVG
-                                    width="100%"
-                                    maxHeight="1.3rem"
-                                    maxWidth="1.3rem"
-                                  />
-                                </Box>
-                                <Typography variant="normal">
-                                  Credit Card
-                                </Typography>
+                            <>
+                              <Box
+                                mr="M"
+                                ml="L"
+                                as="span"
+                                width="1.3rem"
+                                display="inline-block"
+                              >
+                                <FaucetSVG
+                                  width="100%"
+                                  maxHeight="1.3rem"
+                                  maxWidth="1.3rem"
+                                />
                               </Box>
-                            </a>
+                              <Typography variant="normal">Faucet</Typography>
+                            </>
                           ),
-                          onSelect: trackHeaderNavigation(
-                            makeFIATWidgetURL(chainId, address)
-                          ),
+                          onSelect: () => {
+                            trackHeaderNavigation(RoutesEnum.Faucet);
+                            push(Routes[RoutesEnum.Faucet]);
+                          },
                         },
                       ]
                     : []
-                )}
+                }
               />
             )}
           </Box>

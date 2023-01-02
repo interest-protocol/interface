@@ -41,7 +41,7 @@ const CreatePool: FC<CreatePoolProps> = ({
       <Typography
         p="L"
         variant="normal"
-        borderRadius="M"
+        borderRadius="2.5rem"
         border="1px solid"
         bg="bottomBackground"
         borderColor="textSoft"
@@ -65,7 +65,7 @@ const CreatePool: FC<CreatePoolProps> = ({
         p="L"
         mt="L"
         display="grid"
-        borderRadius="M"
+        borderRadius="2.5rem"
         border="1px solid"
         alignItems="center"
         bg="bottomBackground"

@@ -20,7 +20,7 @@ const DEXView: FC = () => {
         textAlign="center"
         mt="XL"
         p="L"
-        borderRadius="L"
+        borderRadius="2.5rem"
         minWidth={['20rem', '40rem']}
       >
         <Switch

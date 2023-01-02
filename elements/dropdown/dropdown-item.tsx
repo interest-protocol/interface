@@ -30,7 +30,7 @@ const DropdownItem: FC<DropdownItemProps> = ({
         m: 'M',
         display: 'flex',
         minHeight: '3rem',
-        borderRadius: 'M',
+        borderRadius: '2rem',
         alignItems: 'center',
         overflow: 'hidden',
         minWidth: minWidth || '17rem',
@@ -38,7 +38,7 @@ const DropdownItem: FC<DropdownItemProps> = ({
         bg: disabled
           ? 'disabled'
           : isSelected
-          ? bgSelected || 'accentBackground'
+          ? bgSelected || 'accent'
           : 'bottomBackground',
         ...(!isSelected &&
           !disabled && {

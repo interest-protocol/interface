@@ -2,9 +2,7 @@ import { not } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useChainId } from '@/hooks';
 import { ArrowSVG } from '@/svg';
 
 import { SwapSelectCurrencyProps } from '../../dex.types';
@@ -13,7 +11,6 @@ import SwapTokensModal from './swap-tokens-modal';
 
 const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
   symbol,
-  address,
   disabled,
   fromRight,
   isModalOpen,
@@ -21,7 +18,6 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
   setIsModalOpen,
   onSelectCurrency,
 }) => {
-  const chainId = useChainId();
   const [isSearching, setIsSearching] = useState(false);
   const { control, register } = useForm({
     defaultValues: {
@@ -32,9 +28,6 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
 
   const toggleOpenModal = () => setIsModalOpen(not);
 
-  const SVG =
-    TOKENS_SVG_MAP[chainId][address] ?? TOKENS_SVG_MAP[chainId].default;
-
   return (
     <>
       <Box
@@ -42,7 +35,7 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
         px="M"
         py="S"
         display="flex"
-        borderRadius="M"
+        borderRadius="2rem"
         cursor="pointer"
         alignItems="center"
         bg="bottomBackground"
@@ -53,7 +46,7 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
         <Box my="M" display="flex" alignItems="center">
           <>
             <Box as="span" display="inline-block" width="1rem">
-              <SVG width="100%" maxHeight="1rem" maxWidth="1rem" />
+              {/*<SVG width="100%" maxHeight="1rem" maxWidth="1rem" />*/}
             </Box>
             <Typography
               mx="M"
@@ -68,12 +61,16 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
             </Typography>
           </>
         </Box>
-        <Box as="span" display="inline-block" width="0.5rem">
-          <ArrowSVG width="100%" maxHeight="0.5rem" maxWidth="0.5rem" />
+        <Box as="span" display="inline-block" color="text" width="0.5rem">
+          <ArrowSVG
+            width="100%"
+            maxHeight="0.5rem"
+            maxWidth="0.5rem"
+            fill="currentColor"
+          />
         </Box>
       </Box>
       <SwapTokensModal
-        chainId={chainId}
         onSelectCurrency={onSelectCurrency}
         currentToken={currentToken}
         fromRight={fromRight}

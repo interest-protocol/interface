@@ -3,14 +3,7 @@ import { prop } from 'ramda';
 import { FC } from 'react';
 
 import { Box, Button } from '@/elements';
-import { useApprove } from '@/hooks';
-import {
-  capitalize,
-  getInterestDexRouterAddress,
-  showToast,
-  showTXSuccessToast,
-  throwError,
-} from '@/utils';
+import { capitalize, showToast, throwError } from '@/utils';
 import {
   GAPage,
   GAStatus,
@@ -22,51 +15,22 @@ import { WalletGuardButton } from '@/views/dapp/components';
 import ApproveButton from './approve-button';
 import LinearLoader from './linear-loader';
 import RemoveLiquidityButton from './remove-liquidity-button';
-import { useRemoveLiquidity } from './remove-liquidity-card.hooks';
 import { RemoveLiquidityCardContentProps } from './remove-liquidity-card.types';
 import TokenAmount from './token-amount';
 
 const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
-  chainId,
   tokens,
-  isStable,
   lpAllowance,
-  lpBalance,
-  pairAddress,
   isFetchingInitialData,
-  account,
   refetch,
   setValue,
   control,
 }) => {
   const t = useTranslations();
-  const { writeAsync: approve } = useApprove(
-    pairAddress,
-    getInterestDexRouterAddress(chainId)
-  );
-
-  const { writeAsync: removeLiquidity } = useRemoveLiquidity({
-    control,
-    chainId,
-    tokens,
-    account,
-    isStable,
-    lpBalance,
-  });
 
   const approveToken = async () => {
     try {
       setValue('loading', true);
-
-      const tx = await approve?.();
-
-      await showTXSuccessToast(tx, chainId);
-      logTransactionEvent({
-        status: GAStatus.Success,
-        type: GAType.Write,
-        page: GAPage.DexPoolDetailsRemoveLiquidity,
-        functionName: 'approveToken',
-      });
     } catch {
       logTransactionEvent({
         status: GAStatus.Error,
@@ -92,9 +56,6 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
     try {
       setValue('removeLoading', true);
 
-      const tx = await removeLiquidity?.();
-
-      await showTXSuccessToast(tx, chainId);
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,
@@ -155,7 +116,7 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
         >
           {lpAllowance.isZero() ? (
             <ApproveButton
-              disabled={!approve}
+              disabled={true}
               control={control}
               onClick={handleApproveToken}
               symbol0={tokens[0].symbol}
@@ -177,7 +138,7 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
               <RemoveLiquidityButton
                 control={control}
                 onClick={handleRemoveLiquidity}
-                disabled={!removeLiquidity}
+                disabled={!true}
               />
             </>
           )}

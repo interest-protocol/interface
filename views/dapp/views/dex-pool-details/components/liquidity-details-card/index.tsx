@@ -34,9 +34,10 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
         px="L"
         my="XL"
         borderRadius="L"
-        color="textSecondary"
+        color="text"
         bg="bottomBackground"
         border="0.09rem solid"
+        borderColor="textSoft"
       >
         {lines.map((line) => (
           <LiquidityDetailsCardLine

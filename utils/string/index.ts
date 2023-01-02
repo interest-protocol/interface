@@ -1,7 +1,5 @@
 import { ChangeEvent } from 'react';
 
-import { MAX_NUMBER_INPUT_VALUE, TOKEN_SYMBOL } from '@/sdk';
-
 const isExponential = (number: number) => number.toString().includes('e');
 
 export const shortAccount = (account: string, mobile = false): string =>
@@ -92,7 +90,7 @@ export const formatDollars = (money: number): string =>
 
 export const parseInputEventToNumberString = (
   event: ChangeEvent<HTMLInputElement>,
-  max: number = MAX_NUMBER_INPUT_VALUE
+  max: number
 ): string => {
   const value = event.target.value;
 
@@ -109,11 +107,6 @@ export const parseInputEventToNumberString = (
     ? String(Number(x))
     : x;
 };
-
-export const maybeLPTokenName = (symbol0?: string, symbol1?: string): string =>
-  `${symbol0 ?? ''}${
-    symbol1 && symbol1 !== TOKEN_SYMBOL.Unknown ? `-${symbol1}` : ''
-  }`;
 
 export const capitalize = (str: string | undefined): string =>
   str ? str.charAt(0).toUpperCase() + str.slice(1) : '';

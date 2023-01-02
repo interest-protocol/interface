@@ -2,17 +2,12 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { ChangeEvent, FC, useCallback, useMemo } from 'react';
 
-import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
-import { useApprove, useIdAccount } from '@/hooks';
-import { FixedPointMath } from '@/sdk';
 import {
   capitalize,
   formatMoney,
-  getInterestDexRouterAddress,
   parseInputEventToNumberString,
   showToast,
-  showTXSuccessToast,
   throwError,
 } from '@/utils';
 import {
@@ -29,27 +24,14 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   register,
   setValue,
   needAllowance,
-  tokenBalance,
   getValues,
   refetch,
 }) => {
   const t = useTranslations();
-  const { chainId } = useIdAccount();
-  const { address, symbol, decimals } = getValues()[name];
-  const { writeAsync: addAllowance } = useApprove(
-    address,
-    getInterestDexRouterAddress(chainId),
-    { enabled: needAllowance }
-  );
-
-  const SVG =
-    TOKENS_SVG_MAP[chainId][address] ?? TOKENS_SVG_MAP[chainId].default;
+  const { address, symbol } = getValues()[name];
 
   const approve = useCallback(async () => {
     try {
-      const tx = await addAllowance?.();
-      await showTXSuccessToast(tx, chainId);
-      if (tx) await tx.wait(2);
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,
@@ -66,7 +48,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
       });
       throwError(t('error.generic'), e);
     }
-  }, [chainId, addAllowance, chainId, refetch]);
+  }, [refetch]);
 
   const handleApprove = () =>
     showToast(approve(), {
@@ -102,13 +84,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
         color={isDisabled ? 'textSoft' : 'text'}
         {...register(`${name}.value`, {
           onChange: (v: ChangeEvent<HTMLInputElement>) => {
-            setValue?.(
-              `${name}.value`,
-              parseInputEventToNumberString(
-                v,
-                FixedPointMath.toNumber(tokenBalance, decimals)
-              )
-            );
+            setValue?.(`${name}.value`, parseInputEventToNumberString(v, -1));
           },
         })}
         shieldProps={{
@@ -123,7 +99,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
             px="M"
             py="S"
             display="flex"
-            borderRadius="M"
+            borderRadius="2.5rem"
             alignItems="center"
             bg="bottomBackground"
             justifyContent="space-between"
@@ -131,9 +107,6 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           >
             <Box my="M" display="flex" alignItems="center">
               <>
-                <Box as="span" display="inline-block" width="1rem">
-                  <SVG width="100%" maxHeight="1rem" maxWidth="1rem" />
-                </Box>
                 <Typography mx="M" as="span" variant="normal">
                   {symbol.length > 4
                     ? symbol.toUpperCase().slice(0, 4)
@@ -154,19 +127,15 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           <Button
             variant="primary"
             onClick={handleApprove}
-            hover={{ bg: !addAllowance ? 'disabled' : 'accentActive' }}
-            disabled={!addAllowance}
+            // eslint-disable-next-line no-constant-condition
+            hover={{ bg: true ? 'disabled' : 'accentActive' }}
+            disabled={true}
           >
             {capitalize(t('common.approve', { isLoading: 0 }))} Token
           </Button>
         ) : (
           <Button
-            onClick={() =>
-              setValue?.(
-                `${name}.value`,
-                FixedPointMath.toNumber(tokenBalance, decimals).toString()
-              )
-            }
+            onClick={() => setValue?.(`${name}.value`, '-1')}
             height="2.4rem"
             variant="secondary"
             disabled={!address}
@@ -181,8 +150,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           fontSize="0.9rem"
           textTransform="capitalize"
         >
-          {t('common.balance')}:{' '}
-          {formatMoney(FixedPointMath.toNumber(tokenBalance, decimals), 2)}
+          {t('common.balance')}: {' ' + formatMoney(-1, 2)}
         </Typography>
       </Box>
     </Box>

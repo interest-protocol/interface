@@ -7,10 +7,8 @@ import Head from 'next/head';
 import NextProgress from 'next-progress';
 import { ReactNode, StrictMode, useEffect } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
-import { WagmiConfig } from 'wagmi';
 
 import { NextIntlProvider, Web3Manager } from '@/components';
-import { wagmiClient } from '@/connectors';
 import { GlobalStyles } from '@/design-system';
 import { TTranslatedMessage } from '@/interface';
 import { initGA, logPageView } from '@/utils/analytics';
@@ -50,6 +48,12 @@ const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1, viewport-fit=cover"
         />
+        <link href="https://fonts.googleapis.com" />
+        <link href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <NextProgress options={{ showSpinner: false }} />
       <NextIntlProvider
@@ -66,20 +70,18 @@ const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
         now={new Date(pageProps.now)}
         timeZone="UTC"
       >
-        <WagmiConfig client={wagmiClient}>
-          <SkeletonTheme baseColor="#202020" highlightColor="#444">
-            <Global styles={GlobalStyles} />
-            <Web3Manager
-              pageTitle={pageProps.pageTitle}
-              pathname={router.pathname}
-            >
-              <StrictMode>
-                <Component {...pageProps} />
-                <VercelAnalytics />
-              </StrictMode>
-            </Web3Manager>
-          </SkeletonTheme>
-        </WagmiConfig>
+        <SkeletonTheme baseColor="#202020" highlightColor="#444">
+          <Global styles={GlobalStyles} />
+          <Web3Manager
+            pageTitle={pageProps.pageTitle}
+            pathname={router.pathname}
+          >
+            <StrictMode>
+              <Component {...pageProps} />
+              <VercelAnalytics />
+            </StrictMode>
+          </Web3Manager>
+        </SkeletonTheme>
       </NextIntlProvider>
     </>
   );
