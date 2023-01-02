@@ -72,10 +72,7 @@ const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
       >
         <SkeletonTheme baseColor="#202020" highlightColor="#444">
           <Global styles={GlobalStyles} />
-          <Web3Manager
-            pageTitle={pageProps.pageTitle}
-            pathname={router.pathname}
-          >
+          <Web3Manager pageTitle={pageProps.pageTitle}>
             <StrictMode>
               <Component {...pageProps} />
               <VercelAnalytics />

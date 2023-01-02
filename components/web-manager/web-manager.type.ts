@@ -17,6 +17,5 @@ export interface ContentProps {
 }
 
 export interface WebManagerWrapperProps {
-  pathname: string;
   pageTitle: string;
 }
