@@ -1,15 +1,19 @@
+import { Network } from '@mysten/sui.js';
 import { ConnectButton } from '@mysten/wallet-kit';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
+import { pathOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 
 import { SwitchLang } from '@/components';
-import { Routes, RoutesEnum } from '@/constants';
+import { COIN_TYPE, Routes, RoutesEnum } from '@/constants';
 import { Box, Dropdown, Typography } from '@/elements';
+import { useWeb3 } from '@/hooks';
 import useEventListener from '@/hooks/use-event-listener';
+import { FixedPointMath } from '@/sdk';
 import { LogoSVG } from '@/svg';
-import { capitalize } from '@/utils';
+import { capitalize, ZERO_BIG_NUMBER } from '@/utils';
 import { logGenericEvent } from '@/utils/analytics';
 
 import MobileMenu from './mobile-menu';
@@ -19,6 +23,8 @@ const Header: FC = () => {
   const { pathname, push } = useRouter();
 
   const [isMobile, setIsMobile] = useState(false);
+
+  const { coinsMap } = useWeb3();
 
   const handleSetDesktop = useCallback(() => {
     const mediaIsMobile = !window.matchMedia('(min-width: 64em)').matches;
@@ -181,7 +187,17 @@ const Header: FC = () => {
           />
         </Box>
       </Box>
-      <ConnectButton connectText="connect wallet" />
+      <ConnectButton />
+      <div>
+        Sui balance:{' '}
+        {FixedPointMath.toNumber(
+          pathOr(
+            ZERO_BIG_NUMBER,
+            [COIN_TYPE[Network.DEVNET].SUI, 'totalBalance'],
+            coinsMap
+          )
+        )}
+      </div>
       <Box display="flex" justifyContent="flex-end" alignItems="stretch">
         <Box display="flex" alignItems="stretch">
           <SwitchLang />

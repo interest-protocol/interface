@@ -4,6 +4,7 @@ import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
+import { useWeb3 } from '@/hooks';
 import { AddressZero } from '@/sdk';
 
 import { IFaucetForm } from '../faucet.types';
@@ -19,6 +20,8 @@ const FaucetForm: FC<FaucetFormProps> = ({
   isLoadingData,
   refetch,
 }) => {
+  const { coinsMap } = useWeb3();
+  console.log(coinsMap, 'wtf');
   const { register, getValues, setValue, control } = useForm<IFaucetForm>({
     defaultValues: {
       token: tokens?.[0]?.address ?? AddressZero,

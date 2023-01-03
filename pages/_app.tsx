@@ -4,14 +4,25 @@ import { Global } from '@emotion/react';
 import { WalletKitProvider } from '@mysten/wallet-kit';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import { AppProps } from 'next/app';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { ReactNode, StrictMode, useEffect } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
 
-import { Layout, NextIntlProvider, ThemeManager } from '@/components';
+import { NextIntlProvider, ThemeManager } from '@/components';
 import { GlobalStyles } from '@/design-system';
 import { TTranslatedMessage } from '@/interface';
 import { initGA, logPageView } from '@/utils/analytics';
+
+const Layout = dynamic(() => import('../components/layout'), {
+  ssr: false,
+  loading: () => <div>loading...</div>,
+});
+
+const Web3Manager = dynamic(() => import('../components/web3-manager'), {
+  ssr: false,
+  loading: () => <div>loading...</div>,
+});
 
 interface PageProps {
   now: number;
@@ -74,10 +85,12 @@ const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
             <Global styles={GlobalStyles} />
             <ThemeManager>
               <StrictMode>
-                <Layout pageTitle={pageProps.pageTitle}>
-                  <Component {...pageProps} />
-                  <VercelAnalytics />
-                </Layout>
+                <Web3Manager>
+                  <Layout pageTitle={pageProps.pageTitle}>
+                    <Component {...pageProps} />
+                    <VercelAnalytics />
+                  </Layout>
+                </Web3Manager>
               </StrictMode>
             </ThemeManager>
           </SkeletonTheme>

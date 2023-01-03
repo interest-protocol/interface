@@ -11,7 +11,7 @@ import {
 
 import { Fraction } from './fraction';
 
-const ONE_COIN = new BigNumber(100000000);
+const ONE_COIN = new BigNumber(1000000000);
 
 const parse = (_value: BigNumberish) => {
   const value = isBigNumberish(_value) ? _value.toString() : 0;
@@ -44,7 +44,7 @@ export class FixedPointMath {
 
   public static toBigNumber(
     value: number | string,
-    decimals = 8,
+    decimals = 9,
     significant = 6
   ): BigNumber {
     if (value == null || isNaN(+value)) return ZERO_BIG_NUMBER;
@@ -67,7 +67,7 @@ export class FixedPointMath {
 
   public static toNumber(
     value: BigNumber,
-    decimals = 8,
+    decimals = 9,
     significantRounding = 4,
     significant = 6
   ): number {
@@ -80,7 +80,7 @@ export class FixedPointMath {
     );
   }
 
-  public toNumber(decimals = 8, rounding = 4, significant = 6): number {
+  public toNumber(decimals = 9, rounding = 4, significant = 6): number {
     return FixedPointMath.toNumber(
       this._value,
       decimals,
