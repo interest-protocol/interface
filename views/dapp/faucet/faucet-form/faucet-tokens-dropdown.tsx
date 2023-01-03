@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { Box, Dropdown, Typography } from '@/elements';
 import { IDropdownData } from '@/elements/dropdown/dropdown.types';
-import { ArrowSVG } from '@/svg';
+import { ArrowSVG, UnknownCoinSVG } from '@/svg';
 
 import { FaucetCurrencyDropdownProps, IToken } from '../faucet.types';
 
@@ -18,7 +18,6 @@ const renderData = (
       displayOption: symbol,
       displayTitle: (
         <Box
-          py="M"
           px="L"
           display="flex"
           bg="background"
@@ -61,7 +60,6 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
       emptyMessage="Nenhum token encontrado"
       title={
         <Box
-          py="M"
           px="L"
           display="flex"
           bg="background"
@@ -70,6 +68,9 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
           justifyContent="space-between"
         >
           <Box my="M" display="flex" alignItems="center">
+            <Box as="span" display="inline-block" width="1rem">
+              <UnknownCoinSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
+            </Box>
             <Typography
               mx="M"
               as="span"
@@ -78,7 +79,7 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
               active={{ color: 'accentActive' }}
               textTransform="capitalize"
             >
-              Selecione um token
+              ???
             </Typography>
           </Box>
 

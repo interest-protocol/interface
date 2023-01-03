@@ -8,9 +8,8 @@ import { AddressZero } from '@/sdk';
 
 import { IFaucetForm } from '../faucet.types';
 import InputBalance from '../input-balance';
-import CurrencyIdentifier from './faucet-currency-identifier';
 import { FaucetFormProps } from './faucet-form.types';
-import FaucetSelectCurrency from './faucet-select-currency';
+import FaucetTokensDropdown from './faucet-tokens-dropdown';
 import ItemBalance from './item-balance';
 import MintButton from './mint-button';
 
@@ -49,27 +48,20 @@ const FaucetForm: FC<FaucetFormProps> = ({
           px={['L', 'XL']}
           borderRadius="M"
           flexDirection="column"
-          justifyContent="space-evenly"
         >
-          <FaucetSelectCurrency
-            tokens={tokens}
-            label="Escolha o Token"
-            defaultValue={tokens?.[0]?.address ?? AddressZero}
-            onSelectCurrency={onSelectCurrency}
-          />
           <InputBalance
             name="amount"
             register={register}
-            label="O montante"
+            label="Escolha o token"
             setValue={setValue}
             currencyPrefix={
               isLoadingData ? (
                 <Skeleton width="4rem" />
               ) : (
-                <CurrencyIdentifier
-                  chainId={-1}
+                <FaucetTokensDropdown
                   tokens={tokens}
-                  control={control}
+                  defaultValue={tokens?.[0]?.address ?? AddressZero}
+                  onSelectCurrency={onSelectCurrency}
                 />
               )
             }

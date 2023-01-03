@@ -26,18 +26,28 @@ const FaucetPage = () => {
   //   'WTF'
   // );
 
-  return (
-    <div>
-      <Faucet />
-      {/*<h1>Faucet</h1>*/}
-      {/*<button type="button" onClick={getSuiTestToken}>*/}
-      {/*  Get SUI*/}
-      {/*</button>*/}
-      {/*<div>*/}
-      {/*  <p>BNB Balance</p>*/}
-      {/*</div>*/}
-    </div>
-  );
+  return <Faucet />;
+  {
+    /*<h1>Faucet</h1>*/
+  }
+  {
+    /*<button type="button" onClick={getSuiTestToken}>*/
+  }
+  {
+    /*  Get SUI*/
+  }
+  {
+    /*</button>*/
+  }
+  {
+    /*<div>*/
+  }
+  {
+    /*  <p>BNB Balance</p>*/
+  }
+  {
+    /*</div>*/
+  }
 };
 
 export default FaucetPage;

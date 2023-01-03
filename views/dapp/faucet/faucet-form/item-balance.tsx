@@ -54,11 +54,13 @@ const ItemBalance: FC<ItemBalanceProps> = ({
         </Box>
       </Box>
       <Box
-        py="M"
         pl="M"
         bg="background"
         borderRadius="M"
-        display={openDetails ? 'block' : 'none'}
+        height={openDetails ? 'auto' : '0px'}
+        position="relative"
+        overflowY={'hidden'}
+        transition="height 1s"
       >
         {[1, 2, 3, 4].map((item) => (
           <Box

@@ -1,32 +1,18 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
-import { useAccount, useNetwork } from 'wagmi';
 
 import { SwitchLang } from '@/components';
-import {
-  isChainIdSupported,
-  makeFIATWidgetURL,
-  Routes,
-  RoutesEnum,
-} from '@/constants';
-import { Box, Dropdown, Typography } from '@/elements';
+import { Routes, RoutesEnum } from '@/constants';
+import { Box, Typography } from '@/elements';
 import useEventListener from '@/hooks/use-event-listener';
-import { CreditCardSVG, LogoSVG } from '@/svg';
-import { capitalize } from '@/utils';
+import { LogoSVG } from '@/svg';
 import { logGenericEvent } from '@/utils/analytics';
 
-import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {
-  const t = useTranslations();
-  const { pathname, push } = useRouter();
-  const { chain } = useNetwork();
-  const { address } = useAccount();
-
-  const chainId = chain?.id ?? -1;
+  const { pathname } = useRouter();
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -123,103 +109,8 @@ const Header: FC = () => {
             DEX
           </Typography>
         </Link>
-        <Box borderRight="1px solid" borderColor="bottomBackground" px="XL">
-          <Dropdown
-            title={
-              <Typography
-                textAlign="center"
-                cursor="pointer"
-                variant="normal"
-                color={
-                  pathname === Routes[RoutesEnum.Farms] ||
-                  pathname.includes(Routes[RoutesEnum.Vaults]) ||
-                  pathname.includes(Routes[RoutesEnum.DineroVault])
-                    ? 'accent'
-                    : 'inherit'
-                }
-                hover={{ color: 'accentActive' }}
-              >
-                {capitalize(t('common.earn'))}
-              </Typography>
-            }
-            mode="menu"
-            data={[
-              {
-                value: 'Farms',
-                displayOption: 'Farms',
-                onSelect: () => push(Routes[RoutesEnum.Farms]),
-              },
-              {
-                value: 'Vaults',
-                displayOption: 'Vaults',
-                onSelect: () => push(Routes[RoutesEnum.Vaults]),
-              },
-            ]}
-          />
-        </Box>
-        <Box pl="XL">
-          <Dropdown
-            title={
-              <Typography
-                textAlign="center"
-                cursor="pointer"
-                variant="normal"
-                color={
-                  pathname.includes(Routes[RoutesEnum.DineroMarket]) ||
-                  pathname.includes(Routes[RoutesEnum.SyntheticsMarket])
-                    ? 'accent'
-                    : 'inherit'
-                }
-                hover={{ color: 'accentActive' }}
-              >
-                {capitalize(t('common.market'))}
-              </Typography>
-            }
-            mode="menu"
-            data={[
-              {
-                value: 'dinero',
-                displayOption: capitalize(t('common.dinero')),
-                onSelect: () => push(Routes[RoutesEnum.DineroMarket]),
-              },
-              {
-                value: 'synths',
-                displayOption: capitalize(t('common.synthetics')),
-                onSelect: () => push(Routes[RoutesEnum.SyntheticsMarket]),
-              },
-            ]}
-          />
-        </Box>
       </Box>
       <Box display="flex" justifyContent="flex-end" alignItems="stretch">
-        {address && isChainIdSupported(chainId ?? -1) && (
-          <Box display={['none', 'none', 'block']}>
-            <a
-              href={makeFIATWidgetURL(chainId, address)}
-              target="__blank"
-              onClick={trackHeaderNavigation(
-                makeFIATWidgetURL(chainId, address)
-              )}
-              rel="noopener noreferrer"
-            >
-              <Box
-                mr="S"
-                as="span"
-                p="0.7rem"
-                width="3rem"
-                height="2.8rem"
-                borderRadius="M"
-                alignItems="center"
-                display="inline-flex"
-                bg="bottomBackground"
-                justifyContent="center"
-              >
-                <CreditCardSVG width="100%" maxHeight="3rem" maxWidth="3rem" />
-              </Box>
-            </a>
-          </Box>
-        )}
-        <Wallet />
         <Box display="flex" alignItems="stretch">
           <SwitchLang />
         </Box>

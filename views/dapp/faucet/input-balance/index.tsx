@@ -42,7 +42,6 @@ const InputBalance: FC<InputBalanceProps> = ({
         }}
         Prefix={
           <Box
-            px="L"
             display="flex"
             alignItems="center"
             borderRight="1px solid"
