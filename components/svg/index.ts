@@ -54,6 +54,7 @@ export { default as PTFlagSVG } from './pt-flag';
 export { default as RightArrowSVG } from './right-arrow';
 export { default as ShibaInuSVG } from './shiba-inu';
 export { default as ShieldSVG } from './shield';
+export { default as SuiSVG } from './sui';
 export { default as SunSVG } from './sun';
 export { default as TelegramSVG } from './telegram';
 export { default as TetherSVG } from './tether';

@@ -1,8 +1,9 @@
-import { getObjectT } from '@mysten/sui.js';
+// import { getObjectT } from '@mysten/sui.js';
 
-import { useGetCoinBalancesOwnedByAddress } from '@/hooks/use-get-coin-balances-owned-by-address';
-import { provider } from '@/utils';
-const Faucet = () => {
+// import { useGetCoinBalancesOwnedByAddress } from '@/hooks/use-get-coin-balances-owned-by-address';
+// import { provider } from '@/utils';
+import Faucet from '@/views/dapp/faucet';
+const FaucetPage = () => {
   // const getSuiTestToken = async () => {
   //   try {
   //     const response = await provider.requestSuiFromFaucet(
@@ -27,6 +28,7 @@ const Faucet = () => {
 
   return (
     <div>
+      <Faucet />
       {/*<h1>Faucet</h1>*/}
       {/*<button type="button" onClick={getSuiTestToken}>*/}
       {/*  Get SUI*/}
@@ -38,4 +40,4 @@ const Faucet = () => {
   );
 };
 
-export default Faucet;
+export default FaucetPage;

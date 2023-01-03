@@ -29,7 +29,7 @@ const CopyToClipboard: FC<CopyToClipboardProps> = ({
       <Box
         as="span"
         cursor="pointer"
-        data-tip={capitalize(t('common.copyAddress'))}
+        data-tip="Copy Address"
         hover={{ color: 'accent' }}
         onClick={copyToClipboard}
         {...props}
@@ -39,7 +39,7 @@ const CopyToClipboard: FC<CopyToClipboardProps> = ({
         </Box>
         {children}
       </Box>
-      {isMounted && (
+      {!isMounted && (
         <ReactTooltip place="top" type="dark" effect="solid" multiline />
       )}
     </>
