@@ -31,6 +31,7 @@ const parseData = (data: GetObjectDataResponse[]) => {
     const currentCoinBalance = parseBigNumberish(
       propOr(ZERO_BIG_NUMBER, 'balance', currentCoin)
     );
+
     return currentCoin
       ? acc.map((coin) => {
           return coin.type === currentCoin.type
@@ -57,6 +58,7 @@ const parseData = (data: GetObjectDataResponse[]) => {
     parsedData,
   };
 };
+
 export const useGetCoinBalancesOwnedByAddress = (account: string) => {
   const { data, ...rest } = useSWR(
     makeSWRKey([account], 'getCoinBalancesOwnedByAddress'),

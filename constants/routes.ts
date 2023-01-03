@@ -45,15 +45,3 @@ export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.FarmDetails]: '/dapp/farms/details',
   [RoutesEnum.Faucet]: '/dapp/faucet',
 };
-
-export const RoutesWithFaucet = [
-  Routes[RoutesEnum.Farms],
-  Routes[RoutesEnum.DineroMarket],
-  Routes[RoutesEnum.DEX],
-  Routes[RoutesEnum.DEXPool],
-  Routes[RoutesEnum.DEXFindPool],
-  Routes[RoutesEnum.DEXPoolDetails],
-  Routes[RoutesEnum.Vaults],
-  Routes[RoutesEnum.DineroVault],
-  Routes[RoutesEnum.SyntheticsMarket],
-];

@@ -19,8 +19,6 @@ const MintButton: FC<MintButtonProps> = ({ getValues }) => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
 
-  console.log(getValues);
-
   const handleOnMint = useCallback(async () => {
     try {
       setLoading(true);

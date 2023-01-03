@@ -61,7 +61,7 @@
     "finished": "finished",
     "select": "select",
     "check": "{isLoading, plural, =1 {checking...} other {check}}",
-    "seoDescription": "Use your crypto to borrow our stablecoin, Dinero, for free.",
+    "seoDescription": "AMM DEX on Sui. Swap your tokens!",
     "stake": "{isLoading, plural, =1 {staking...} other {stake}}",
     "unstake": "{isLoading, plural, =1 {unstaking...} other {unstake}}",
     "network": "{count, plural, =1 {network} other {networks}}",

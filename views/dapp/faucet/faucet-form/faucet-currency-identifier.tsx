@@ -12,8 +12,6 @@ const CurrencyIdentifier: FC<CurrencyIdentifierProps> = ({
 }) => {
   const tokenAddress = useWatch({ control, name: 'token' });
 
-  console.log(tokens, tokenAddress);
-
   const symbol = '???';
 
   const Icon = FAUCET_TOKENS['DEVNET'][0].Icon;

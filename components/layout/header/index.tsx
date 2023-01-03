@@ -1,32 +1,22 @@
+import { ConnectButton } from '@mysten/wallet-kit';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
-import { useAccount, useNetwork } from 'wagmi';
 
 import { SwitchLang } from '@/components';
-import {
-  isChainIdSupported,
-  makeFIATWidgetURL,
-  Routes,
-  RoutesEnum,
-} from '@/constants';
+import { Routes, RoutesEnum } from '@/constants';
 import { Box, Dropdown, Typography } from '@/elements';
 import useEventListener from '@/hooks/use-event-listener';
-import { CreditCardSVG, LogoSVG } from '@/svg';
+import { LogoSVG } from '@/svg';
 import { capitalize } from '@/utils';
 import { logGenericEvent } from '@/utils/analytics';
 
-import { Wallet } from '../..';
 import MobileMenu from './mobile-menu';
 
 const Header: FC = () => {
   const t = useTranslations();
   const { pathname, push } = useRouter();
-  const { chain } = useNetwork();
-  const { address } = useAccount();
-
-  const chainId = chain?.id ?? -1;
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -191,35 +181,8 @@ const Header: FC = () => {
           />
         </Box>
       </Box>
+      <ConnectButton connectText="connect wallet" />
       <Box display="flex" justifyContent="flex-end" alignItems="stretch">
-        {address && isChainIdSupported(chainId ?? -1) && (
-          <Box display={['none', 'none', 'block']}>
-            <a
-              href={makeFIATWidgetURL(chainId, address)}
-              target="__blank"
-              onClick={trackHeaderNavigation(
-                makeFIATWidgetURL(chainId, address)
-              )}
-              rel="noopener noreferrer"
-            >
-              <Box
-                mr="S"
-                as="span"
-                p="0.7rem"
-                width="3rem"
-                height="2.8rem"
-                borderRadius="M"
-                alignItems="center"
-                display="inline-flex"
-                bg="bottomBackground"
-                justifyContent="center"
-              >
-                <CreditCardSVG width="100%" maxHeight="3rem" maxWidth="3rem" />
-              </Box>
-            </a>
-          </Box>
-        )}
-        <Wallet />
         <Box display="flex" alignItems="stretch">
           <SwitchLang />
         </Box>

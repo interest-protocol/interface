@@ -1,23 +1,18 @@
 import { ThemeProvider } from '@emotion/react';
+import { ThemeProviderProps } from '@emotion/react/types/theming';
 import { FC, useState } from 'react';
 
 import { DAppDarkTheme, DAppLightTheme } from '@/design-system/dapp-theme';
 
-import { WebManagerWrapperProps } from './web-manager.type';
-
-const WebManagerWrapper: FC<WebManagerWrapperProps> = ({
-  pageTitle,
-  children,
-}) => {
+const ThemeManager: FC<Omit<ThemeProviderProps, 'theme'>> = (props) => {
   const [dark, setDark] = useState(false);
 
   return (
     <ThemeProvider
+      {...props}
       theme={{ setDark, ...(dark ? DAppDarkTheme : DAppLightTheme) }}
-    >
-      {children}
-    </ThemeProvider>
+    />
   );
 };
 
-export default WebManagerWrapper;
+export default ThemeManager;
