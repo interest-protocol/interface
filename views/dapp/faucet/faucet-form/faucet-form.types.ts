@@ -27,7 +27,7 @@ export interface CurrencyIdentifierProps {
 
 export interface MintButtonProps {
   control?: Control<IFaucetForm>;
-  getValues: UseFormGetValues<IFaucetForm>;
+  getValues?: UseFormGetValues<IFaucetForm>;
   refetch?: () => Promise<void>;
 }
 

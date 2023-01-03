@@ -15,11 +15,9 @@ import {
 
 import { MintButtonProps } from './faucet-form.types';
 
-const MintButton: FC<MintButtonProps> = ({ getValues }) => {
+const MintButton: FC<MintButtonProps> = () => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
-
-  console.log(getValues);
 
   const handleOnMint = useCallback(async () => {
     try {
@@ -55,10 +53,9 @@ const MintButton: FC<MintButtonProps> = ({ getValues }) => {
       onClick={onMint}
       variant="primary"
       disabled={loading}
-      hover={{ bg: 'accentAlternativeActive' }}
-      bg={!loading ? 'accentAlternativeActive' : 'disabled'}
+      hover={{ bg: 'accentAlternativeActive', color: 'textSecondary' }}
+      bg={!loading ? 'accent' : 'disabled'}
       cursor={loading ? 'not-allowed' : 'pointer'}
-      color="textSecondary"
     >
       {loading ? (
         <Box as="span" display="flex" justifyContent="center">

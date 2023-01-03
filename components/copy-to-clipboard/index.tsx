@@ -39,7 +39,7 @@ const CopyToClipboard: FC<CopyToClipboardProps> = ({
         </Box>
         {children}
       </Box>
-      {!isMounted && (
+      {isMounted && (
         <ReactTooltip place="top" type="dark" effect="solid" multiline />
       )}
     </>

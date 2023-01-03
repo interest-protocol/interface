@@ -104,9 +104,27 @@ const Header: FC = () => {
             color={
               pathname.includes(Routes[RoutesEnum.DEX]) ? 'accent' : 'inherit'
             }
-            hover={{ color: 'accentActive' }}
+            hover={{ color: 'accentSecondary' }}
           >
             DEX
+          </Typography>
+        </Link>
+        <Link
+          href={Routes[RoutesEnum.DEX]}
+          onClick={trackHeaderNavigation(RoutesEnum.Faucet)}
+        >
+          <Typography
+            px="XL"
+            cursor="pointer"
+            variant="normal"
+            color={
+              pathname.includes(Routes[RoutesEnum.Faucet])
+                ? 'accent'
+                : 'inherit'
+            }
+            hover={{ color: 'accentSecondary' }}
+          >
+            FAUCET
           </Typography>
         </Link>
       </Box>

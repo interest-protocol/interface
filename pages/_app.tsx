@@ -1,14 +1,14 @@
 import 'react-loading-skeleton/dist/skeleton.css';
 
 import { Global } from '@emotion/react';
+import { WalletKitProvider } from '@mysten/wallet-kit';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import NextProgress from 'next-progress';
 import { ReactNode, StrictMode, useEffect } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
 
-import { NextIntlProvider, Web3Manager } from '@/components';
+import { Layout, NextIntlProvider, ThemeManager } from '@/components';
 import { GlobalStyles } from '@/design-system';
 import { TTranslatedMessage } from '@/interface';
 import { initGA, logPageView } from '@/utils/analytics';
@@ -55,7 +55,6 @@ const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
           rel="stylesheet"
         />
       </Head>
-      <NextProgress options={{ showSpinner: false }} />
       <NextIntlProvider
         formats={{
           dateTime: {
@@ -70,15 +69,19 @@ const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
         now={new Date(pageProps.now)}
         timeZone="UTC"
       >
-        <SkeletonTheme baseColor="#202020" highlightColor="#444">
-          <Global styles={GlobalStyles} />
-          <Web3Manager pageTitle={pageProps.pageTitle}>
-            <StrictMode>
-              <Component {...pageProps} />
-              <VercelAnalytics />
-            </StrictMode>
-          </Web3Manager>
-        </SkeletonTheme>
+        <WalletKitProvider>
+          <SkeletonTheme baseColor="#202020" highlightColor="#444">
+            <Global styles={GlobalStyles} />
+            <ThemeManager>
+              <Layout pageTitle={pageProps.pageTitle}>
+                <StrictMode>
+                  <Component {...pageProps} />
+                  <VercelAnalytics />
+                </StrictMode>
+              </Layout>
+            </ThemeManager>
+          </SkeletonTheme>
+        </WalletKitProvider>
       </NextIntlProvider>
     </>
   );
