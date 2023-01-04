@@ -11,7 +11,7 @@ import { capitalize } from '@/utils';
 import { CopyToClipboardProps } from './copy-to-clipboard';
 
 const CopyToClipboard: FC<CopyToClipboardProps> = ({
-  address,
+  data,
   onClick,
   children,
   ...props
@@ -19,7 +19,7 @@ const CopyToClipboard: FC<CopyToClipboardProps> = ({
   const t = useTranslations();
   const isMounted = useIsMounted();
   const copyToClipboard = (e: ReactMouseEvent<HTMLDivElement, MouseEvent>) => {
-    window.navigator.clipboard.writeText(address || '');
+    window.navigator.clipboard.writeText(data || '');
     onClick?.(e);
     toast(capitalize(t('common.copyClipboard')));
   };

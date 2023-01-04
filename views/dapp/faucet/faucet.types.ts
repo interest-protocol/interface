@@ -5,8 +5,9 @@ import { SVGProps } from '@/components/svg/svg.types';
 export interface IToken {
   name: string;
   symbol: string;
-  address: string;
+  type: string;
   Icon: FC<SVGProps>;
+  decimals: number;
 }
 
 export interface FaucetCurrencyDropdownProps {
@@ -14,11 +15,8 @@ export interface FaucetCurrencyDropdownProps {
   tokens: ReadonlyArray<IToken>;
   onSelectCurrency: (currency: string) => void;
 }
-export type AddLocalToken = (item: IToken) => void;
-
-export type RemoveLocalToken = (address: string) => void;
 
 export interface IFaucetForm {
   amount: number;
-  token: string;
+  type: string;
 }

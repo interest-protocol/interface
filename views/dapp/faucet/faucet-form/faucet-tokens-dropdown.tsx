@@ -10,11 +10,11 @@ const renderData = (
   data: ReadonlyArray<IToken>,
   onSelectCurrency: (address: string) => void
 ): ReadonlyArray<IDropdownData> =>
-  data.map(({ symbol, address, Icon }) => {
+  data.map(({ symbol, type, Icon }) => {
     const SVG = Icon;
 
     return {
-      onSelect: () => onSelectCurrency(address),
+      onSelect: () => onSelectCurrency(type),
       displayOption: symbol,
       displayTitle: (
         <Box

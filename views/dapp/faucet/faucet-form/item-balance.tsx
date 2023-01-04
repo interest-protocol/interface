@@ -3,7 +3,7 @@ import { v4 } from 'uuid';
 
 import { CopyToClipboard, Tooltip } from '@/components';
 import { Box, Typography } from '@/elements';
-import { AddressZero } from '@/sdk';
+import { FixedPointMath } from '@/sdk';
 import { ArrowSVG } from '@/svg';
 
 import { ItemBalanceProps } from './faucet-form.types';
@@ -11,8 +11,9 @@ import { ItemBalanceProps } from './faucet-form.types';
 const ItemBalance: FC<ItemBalanceProps> = ({
   SVG,
   symbol,
-  objectNumbers,
+  objectsData,
   totalBalance,
+  decimals,
 }) => {
   const [openDetails, setOpenDetails] = useState(false);
   return (
@@ -22,7 +23,7 @@ const ItemBalance: FC<ItemBalanceProps> = ({
           <Box display="flex" alignItems="center">
             <SVG width="1rem" maxHeight="1rem" maxWidth="1rem" />
             <Typography ml="M" variant="normal">
-              {totalBalance}
+              {FixedPointMath.toNumber(totalBalance, decimals)}
             </Typography>
           </Box>
           <Box
@@ -34,7 +35,7 @@ const ItemBalance: FC<ItemBalanceProps> = ({
               {symbol}
             </Typography>
             <Typography variant="normal" color="textSecondary">
-              ({objectNumbers})
+              ({objectsData.length})
             </Typography>
             <Box
               as="span"
@@ -70,7 +71,7 @@ const ItemBalance: FC<ItemBalanceProps> = ({
           overflowY={'hidden'}
           transition="height 1s"
         >
-          {[1, 2, 3, 4].map((item) => (
+          {objectsData.map(({ balance, id }, index) => (
             <Box
               display="flex"
               justifyContent="space-between"
@@ -78,10 +79,10 @@ const ItemBalance: FC<ItemBalanceProps> = ({
               py="XS"
             >
               <Typography variant="normal" fontSize="S">
-                Coin {item}: 0.00034
+                Coin {index}: {FixedPointMath.from(balance).toNumber(decimals)}
               </Typography>
               <Box as="span">
-                <CopyToClipboard address={AddressZero} />
+                <CopyToClipboard data={id} />
               </Box>
             </Box>
           ))}

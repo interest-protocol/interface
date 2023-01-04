@@ -1,14 +1,11 @@
 import { Network } from '@mysten/sui.js';
 import { GetObjectDataResponse } from '@mysten/sui.js/src/types';
-import { path, pathOr } from 'ramda';
+import { pathOr } from 'ramda';
 
-import { COIN_TYPE_TO_NAME } from '@/constants';
-import { parseBigNumberish } from '@/utils';
+import { COIN_DECIMALS, COIN_TYPE_TO_NAME } from '@/constants';
+import { getCoinBalance, getCoinType, parseBigNumberish } from '@/utils';
 
 import { Web3ManagerSuiObject } from './web3-manager.types';
-
-const getType = path<string>(['details', 'data', 'type']);
-const getBalance = path<string>(['details', 'data', 'fields', 'balance']);
 
 export const parseCoins = (data: GetObjectDataResponse[] | undefined) => {
   if (!data)
@@ -16,13 +13,13 @@ export const parseCoins = (data: GetObjectDataResponse[] | undefined) => {
       ReadonlyArray<Web3ManagerSuiObject>,
       Record<string, Web3ManagerSuiObject>
     ];
+
   return data.reduce(
     (acc, object) => {
-      const type = getType(object);
+      const type = getCoinType(object);
       const list = acc[0];
       const map = acc[1];
-      const currentCoinBalance = parseBigNumberish(getBalance(object));
-
+      const currentCoinBalance = parseBigNumberish(getCoinBalance(object));
       if (type) {
         const currentCoin = map[type];
 
@@ -32,7 +29,7 @@ export const parseCoins = (data: GetObjectDataResponse[] | undefined) => {
             [type]: {
               ...currentCoin,
               totalBalance: currentCoin.totalBalance.plus(currentCoinBalance),
-              object: [...currentCoin.objects, object],
+              objects: [...currentCoin.objects, object],
             },
           };
 
@@ -41,7 +38,7 @@ export const parseCoins = (data: GetObjectDataResponse[] | undefined) => {
               return {
                 ...elem,
                 totalBalance: elem.totalBalance.plus(currentCoinBalance),
-                object: [...elem.objects, object],
+                objects: [...elem.objects, object],
               };
             }
             return elem;
@@ -53,13 +50,15 @@ export const parseCoins = (data: GetObjectDataResponse[] | undefined) => {
           ];
         }
         const name = pathOr(type, [Network.DEVNET, type], COIN_TYPE_TO_NAME);
+        const decimals = pathOr(0, [Network.DEVNET, type], COIN_DECIMALS);
         const updatedMap = {
           ...map,
           [type]: {
             type,
             name,
+            decimals,
             totalBalance: currentCoinBalance,
-            object: [object],
+            objects: [object],
           },
         };
 
@@ -68,8 +67,9 @@ export const parseCoins = (data: GetObjectDataResponse[] | undefined) => {
           {
             type,
             name,
+            decimals,
             totalBalance: currentCoinBalance,
-            object: [object],
+            objects: [object],
           },
         ];
 

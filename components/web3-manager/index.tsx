@@ -20,7 +20,7 @@ export const Web3ManagerContext = createContext<Web3ManagerState>(
 );
 
 const Web3Manager: FC<Web3ManagerProps> = ({ children }) => {
-  const { getAccounts, connected, connecting, isError, status } = useWallet();
+  const { getAccounts, connected, connecting, isError } = useWallet();
 
   const [account, setAccount] = useState<null | string>(null);
 
@@ -31,11 +31,17 @@ const Web3Manager: FC<Web3ManagerProps> = ({ children }) => {
         setAccount(accounts[0]);
       }
     })();
-  }, [connected, connecting, isError, status]);
+  }, [connected, connecting, isError]);
 
   const { data, error } = useSWR(
     makeSWRKey([account], 'getCoinBalancesOwnedByAddress'),
-    async () => (account ? provider.getCoinBalancesOwnedByAddress(account) : [])
+    async () =>
+      account ? provider.getCoinBalancesOwnedByAddress(account) : [],
+    {
+      revalidateOnFocus: false,
+      revalidateOnMount: true,
+      refreshWhenHidden: true,
+    }
   );
 
   const [coins, coinsMap] = parseCoins(data);

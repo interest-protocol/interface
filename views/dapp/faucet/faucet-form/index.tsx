@@ -1,35 +1,41 @@
+import { Network } from '@mysten/sui.js';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
-import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
+import { FAUCET_TOKENS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useWeb3 } from '@/hooks';
-import { AddressZero } from '@/sdk';
+import { getCoinBalance, ZERO_BIG_NUMBER } from '@/utils';
 
 import { IFaucetForm } from '../faucet.types';
 import InputBalance from '../input-balance';
-import { FaucetFormProps } from './faucet-form.types';
 import FaucetTokensDropdown from './faucet-tokens-dropdown';
 import ItemBalance from './item-balance';
 import MintButton from './mint-button';
 
-const FaucetForm: FC<FaucetFormProps> = ({
-  tokens,
-  isLoadingData,
-  refetch,
-}) => {
+const tokens = FAUCET_TOKENS[Network.DEVNET];
+
+const DEFAULT_COIN = {
+  type: 'Unkown',
+  name: 'Unkown',
+  totalBalance: ZERO_BIG_NUMBER,
+  objects: [],
+  id: 'Unknown',
+};
+
+const FaucetForm: FC = () => {
   const { coinsMap } = useWeb3();
-  console.log(coinsMap, 'wtf');
-  const { register, getValues, setValue, control } = useForm<IFaucetForm>({
+  const { register, getValues, setValue } = useForm<IFaucetForm>({
     defaultValues: {
-      token: tokens?.[0]?.address ?? AddressZero,
+      type: tokens?.[0]?.type ?? '',
       amount: 0,
     },
   });
+  console.log(coinsMap);
 
-  const onSelectCurrency = (token: string) => {
-    setValue('token', token);
+  const onSelectCurrency = (type: string) => {
+    setValue('type', type);
     setValue('amount', 0);
   };
 
@@ -58,23 +64,15 @@ const FaucetForm: FC<FaucetFormProps> = ({
             label="Escolha o token"
             setValue={setValue}
             currencyPrefix={
-              isLoadingData ? (
-                <Skeleton width="4rem" />
-              ) : (
-                <FaucetTokensDropdown
-                  tokens={tokens}
-                  defaultValue={tokens?.[0]?.address ?? AddressZero}
-                  onSelectCurrency={onSelectCurrency}
-                />
-              )
+              <FaucetTokensDropdown
+                tokens={tokens}
+                defaultValue={tokens?.[0]?.type ?? ''}
+                onSelectCurrency={onSelectCurrency}
+              />
             }
           />
           <Box display="flex" justifyContent="center">
-            <MintButton
-              control={control}
-              getValues={getValues}
-              refetch={refetch}
-            />
+            <MintButton getValues={getValues} />
           </Box>
         </Box>
         <Box
@@ -94,24 +92,25 @@ const FaucetForm: FC<FaucetFormProps> = ({
             gridGap="0.25rem"
             alignItems="start"
           >
-            {isLoadingData
-              ? Array.from({ length: 5 }).map(() => (
-                  <Box mb="L" key={v4()}>
-                    <Skeleton />
-                  </Box>
-                ))
-              : tokens.map(({ symbol, Icon }) => {
-                  const SVG = Icon;
-                  return (
-                    <ItemBalance
-                      SVG={SVG}
-                      objectNumbers={3}
-                      totalBalance={'0.00345'}
-                      key={v4()}
-                      symbol={symbol}
-                    />
-                  );
-                })}
+            {tokens.map(({ symbol, Icon, type, decimals }) => {
+              const SVG = Icon;
+              const coin = coinsMap[type]?.objects
+                ? coinsMap[type]
+                : DEFAULT_COIN;
+              return (
+                <ItemBalance
+                  SVG={SVG}
+                  totalBalance={coin.totalBalance}
+                  objectsData={coin.objects.map((elem) => ({
+                    id: coin.id,
+                    balance: getCoinBalance(elem)!,
+                  }))}
+                  key={v4()}
+                  symbol={symbol}
+                  decimals={decimals}
+                />
+              );
+            })}
           </Box>
         </Box>
       </Box>

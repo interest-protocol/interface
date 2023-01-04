@@ -7,6 +7,8 @@ export interface Web3ManagerSuiObject {
   name: string;
   totalBalance: BigNumber;
   objects: ReadonlyArray<SuiObject>;
+  id: string;
+  decimals: number;
 }
 
 export interface Web3ManagerState {

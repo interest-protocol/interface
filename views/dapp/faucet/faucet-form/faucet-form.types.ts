@@ -1,16 +1,10 @@
+import BigNumber from 'bignumber.js';
 import { FC } from 'react';
 import { Control, UseFormGetValues } from 'react-hook-form';
 
 import { SVGProps } from '@/components/svg/svg.types';
 
-import { IFaucetForm, IToken, RemoveLocalToken } from '../faucet.types';
-
-export interface FaucetFormProps {
-  isLoadingData?: boolean;
-  removeLocalToken?: RemoveLocalToken;
-  tokens: ReadonlyArray<IToken>;
-  refetch?: () => Promise<void>;
-}
+import { IFaucetForm, IToken } from '../faucet.types';
 
 export interface FaucetSelectCurrencyProps {
   label: string;
@@ -20,14 +14,18 @@ export interface FaucetSelectCurrencyProps {
 }
 
 export interface MintButtonProps {
-  control?: Control<IFaucetForm>;
-  getValues?: UseFormGetValues<IFaucetForm>;
-  refetch?: () => Promise<void>;
+  getValues: UseFormGetValues<IFaucetForm>;
+}
+
+interface ObjectData {
+  id: string;
+  balance: string;
 }
 
 export interface ItemBalanceProps {
   SVG: FC<SVGProps>;
-  objectNumbers: number;
+  objectsData: ReadonlyArray<ObjectData>;
   symbol: string;
-  totalBalance: string;
+  totalBalance: BigNumber;
+  decimals: number;
 }

@@ -2,7 +2,8 @@ import { Network } from '@mysten/sui.js';
 import { FC } from 'react';
 
 import { SVGProps } from '@/components/svg/svg.types';
-import { AddressZero, TOKEN_SYMBOL } from '@/sdk';
+import { COIN_TYPE } from '@/constants/coins';
+import { TOKEN_SYMBOL } from '@/sdk';
 import {
   BinanceSVG,
   BitcoinSVG,
@@ -12,67 +13,66 @@ import {
   USDCoinSVG,
 } from '@/svg';
 
-export const FAUCET_OBJECT_ID = '0x4111d1f611de2934334bcc74d06ac9d8babe2f05';
+export const FAUCET_PACKAGE_ID = '0x94785845b39ec036fba4954a543a5f71c0860f35';
 
-export const FAUCET_TOKENS_TYPE = {
-  [Network.DEVNET]: {
-    BTC: '',
-    BNB: '0x1779c675c240f9659f4738fbac69eb6f0bd98b12::coins::BNB',
-    USDT: '',
-    USDC: '',
-    DAI: '',
-    SUI: '0x2::coin::Coin<0x2::sui::SUI>',
-  },
-};
+export const FAUCET_OBJECT_ID = '0x291c544584a13f754b81a0c641343d5408abc60b';
 
 export const FAUCET_TOKENS = {
   [Network.DEVNET]: [
     {
+      symbol: TOKEN_SYMBOL.SUI,
+      type: COIN_TYPE[Network.DEVNET].SUI,
+      Icon: SuiSVG,
+      name: 'SUI',
+      decimals: 9,
+    },
+    {
       symbol: TOKEN_SYMBOL.BTC,
-      address: AddressZero,
+      type: COIN_TYPE[Network.DEVNET].BTC,
       Icon: BitcoinSVG,
       name: 'Bitcoin',
+      decimals: 0,
     },
     {
       symbol: TOKEN_SYMBOL.BNB,
-      address: AddressZero,
+      type: COIN_TYPE[Network.DEVNET].BNB,
       Icon: BinanceSVG,
       name: 'Binance Coin',
-    },
-    {
-      symbol: TOKEN_SYMBOL.DAI,
-      address: AddressZero,
-      Icon: DAISVG,
-      name: 'DAI',
+      decimals: 0,
     },
     {
       symbol: TOKEN_SYMBOL.ETH,
-      address: AddressZero,
+      type: COIN_TYPE[Network.DEVNET].ETH,
       Icon: EtherSVG,
       name: 'ETHER',
+      decimals: 0,
     },
     {
       symbol: TOKEN_SYMBOL.USDC,
-      address: AddressZero,
+      type: COIN_TYPE[Network.DEVNET].USDC,
       Icon: USDCoinSVG,
       name: 'USDC',
+      decimals: 0,
     },
     {
       symbol: TOKEN_SYMBOL.USDT,
-      address: AddressZero,
+      type: COIN_TYPE[Network.DEVNET].USDT,
       Icon: USDCoinSVG,
       name: 'USDT',
+      decimals: 0,
     },
     {
-      symbol: TOKEN_SYMBOL.SUI,
-      address: AddressZero,
-      Icon: SuiSVG,
-      name: 'SUI',
+      symbol: TOKEN_SYMBOL.DAI,
+      type: COIN_TYPE[Network.DEVNET].DAI,
+      Icon: DAISVG,
+      name: 'DAI',
+      decimals: 0,
     },
   ] as ReadonlyArray<{
     symbol: TOKEN_SYMBOL.SUI;
-    address: string;
+    type: string;
     Icon: FC<SVGProps>;
     name: string;
+    decimals: number;
   }>,
 };

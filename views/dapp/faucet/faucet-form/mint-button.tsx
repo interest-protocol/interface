@@ -1,11 +1,15 @@
+import { Network } from '@mysten/sui.js';
+import { useWallet } from '@mysten/wallet-kit';
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { useCallback, useState } from 'react';
 import { FC } from 'react';
 
+import { COIN_TYPE, FAUCET_OBJECT_ID, FAUCET_PACKAGE_ID } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
+import { useWeb3 } from '@/hooks';
 import { LoadingSVG } from '@/svg';
-import { capitalize, showToast } from '@/utils';
+import { capitalize, provider, showToast } from '@/utils';
 import {
   GAPage,
   GAStatus,
@@ -15,18 +19,37 @@ import {
 
 import { MintButtonProps } from './faucet-form.types';
 
-const MintButton: FC<MintButtonProps> = () => {
+const MintButton: FC<MintButtonProps> = ({ getValues }) => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
-
+  const { signAndExecuteTransaction } = useWallet();
+  const { account } = useWeb3();
   const handleOnMint = useCallback(async () => {
     try {
       setLoading(true);
+      const type = getValues('type');
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,
         page: GAPage.Faucet,
         functionName: 'handleOnMint',
+      });
+
+      if (type === COIN_TYPE[Network.DEVNET].SUI) {
+        if (!account) throw new Error('No account found');
+        const tx = await provider.requestSuiFromFaucet(account);
+        return;
+      }
+      const tx = await signAndExecuteTransaction({
+        kind: 'moveCall',
+        data: {
+          function: 'mint',
+          gasBudget: 1000,
+          module: 'faucet',
+          packageObjectId: FAUCET_PACKAGE_ID,
+          typeArguments: [type.split('<')[1].slice(0, -1)],
+          arguments: [FAUCET_OBJECT_ID, 1],
+        },
       });
     } catch (error) {
       logTransactionEvent({

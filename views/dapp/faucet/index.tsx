@@ -1,7 +1,6 @@
 import { FC } from 'react';
 
 import { Container, Tooltip } from '@/components';
-import { FAUCET_TOKENS } from '@/constants';
 import { Box, Typography } from '@/elements';
 
 import GoBack from '../components/go-back';
@@ -29,10 +28,7 @@ const Faucet: FC = () => {
               Tokens Recomendados
             </Typography>
           </Box>
-          <FaucetForm
-            tokens={FAUCET_TOKENS['DEVNET']}
-            isLoadingData={!FAUCET_TOKENS['DEVNET'].length}
-          />
+          <FaucetForm />
         </Container>
       </Box>
       <Tooltip />
