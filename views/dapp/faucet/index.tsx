@@ -10,7 +10,7 @@ import FaucetForm from './faucet-form';
 const Faucet: FC = () => {
   return (
     <>
-      <Box flex="1" display="flex" flexDirection="column">
+      <Box display="flex" flexDirection="column">
         <Container
           dapp
           px="M"

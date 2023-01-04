@@ -12,10 +12,12 @@ import {
   USDCoinSVG,
 } from '@/svg';
 
+export const FAUCET_OBJECT_ID = '0x4111d1f611de2934334bcc74d06ac9d8babe2f05';
+
 export const FAUCET_TOKENS_TYPE = {
   [Network.DEVNET]: {
     BTC: '',
-    BNB: 'dynamic_field::Field<0x1::ascii::String, 0x2::balance::Supply<0x44f8cf5a3d0c63db4f899794cd9eee5c499736ab::coins::BNB>>',
+    BNB: '0x1779c675c240f9659f4738fbac69eb6f0bd98b12::coins::BNB',
     USDT: '',
     USDC: '',
     DAI: '',

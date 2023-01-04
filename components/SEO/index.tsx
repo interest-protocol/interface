@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
-import { Theme } from '@/design-system/landing-page-theme';
+import { Theme } from '@/design-system';
 import { capitalize } from '@/utils';
 
 const SEO: FC<{ pageTitle: string }> = ({ pageTitle }) => {

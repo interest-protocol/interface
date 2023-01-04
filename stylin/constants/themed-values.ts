@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 
-import { Theme } from '@/design-system/landing-page-theme';
+import { Theme } from '@/design-system';
 
 export const THEMED_VALUES_MAP: Partial<
   Record<

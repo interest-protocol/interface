@@ -10,6 +10,7 @@ import { LogoSVG } from '@/svg';
 import { logGenericEvent } from '@/utils/analytics';
 
 import MobileMenu from './mobile-menu';
+import Wallet from './wallet';
 
 const Header: FC = () => {
   const { pathname } = useRouter();
@@ -62,29 +63,6 @@ const Header: FC = () => {
             />
           </Box>
         </Link>
-        <a
-          href="https://forms.gle/aDP4wHvshLPKkKv97"
-          target="__blank"
-          rel="noopener noreferrer"
-        >
-          <Typography
-            ml="L"
-            px="L"
-            py="M"
-            width="100%"
-            fontSize="S"
-            variant="normal"
-            borderRadius="M"
-            textAlign="center"
-            bg="accentAlternative"
-            display={['none', 'none', 'none', 'block']}
-            hover={{
-              bg: 'warning',
-            }}
-          >
-            Feedback
-          </Typography>
-        </a>
       </Box>
       <Box
         alignItems="center"
@@ -110,7 +88,7 @@ const Header: FC = () => {
           </Typography>
         </Link>
         <Link
-          href={Routes[RoutesEnum.DEX]}
+          href={Routes[RoutesEnum.Faucet]}
           onClick={trackHeaderNavigation(RoutesEnum.Faucet)}
         >
           <Typography
@@ -128,12 +106,15 @@ const Header: FC = () => {
           </Typography>
         </Link>
       </Box>
-      <Box display="flex" justifyContent="flex-end" alignItems="stretch">
-        <Box display="flex" alignItems="stretch">
-          <SwitchLang />
+      <Box display="flex" justifyContent="flex-end" alignItems="center">
+        <Wallet />
+        <Box display="flex" justifyContent="flex-end" alignItems="stretch">
+          <Box display="flex" alignItems="stretch">
+            <SwitchLang />
+          </Box>
         </Box>
-        {isMobile && <MobileMenu />}
       </Box>
+      {isMobile && <MobileMenu />}
     </Box>
   );
 };

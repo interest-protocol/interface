@@ -19,12 +19,6 @@ export interface FaucetSelectCurrencyProps {
   onSelectCurrency: (currency: string, callback?: () => void) => void;
 }
 
-export interface CurrencyIdentifierProps {
-  control: Control<IFaucetForm>;
-  tokens: ReadonlyArray<IToken>;
-  chainId: number;
-}
-
 export interface MintButtonProps {
   control?: Control<IFaucetForm>;
   getValues?: UseFormGetValues<IFaucetForm>;

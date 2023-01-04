@@ -55,6 +55,7 @@ const Footer: FC = () => {
               flexDirection="column"
               variant="primary"
               alignItems="center"
+              borderRadius="M"
               justifyContent="space-between"
               bg={
                 pathname.includes(Routes[RoutesEnum.DEX])
@@ -64,10 +65,14 @@ const Footer: FC = () => {
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
               onClick={() => trackHeaderNavigation(RoutesEnum.DEX)}
+              color={
+                pathname.includes(Routes[RoutesEnum.DEX]) ? 'textSoft' : 'text'
+              }
             >
               <DexSVG
                 width="1.1rem"
                 height="1.1rem"
+                fill="currentColor"
                 maxHeight={'2.5rem'}
                 maxWidth={'auto'}
                 style={{ marginBottom: '8px' }}
@@ -75,7 +80,7 @@ const Footer: FC = () => {
               Dex
             </Button>
           </Link>
-          <Link href={Routes[RoutesEnum.DEX]}>
+          <Link href={Routes[RoutesEnum.Faucet]}>
             <Button
               ml="S"
               px="0.8rem"
@@ -85,14 +90,20 @@ const Footer: FC = () => {
               variant="primary"
               alignItems="center"
               justifyContent="space-between"
+              borderRadius="M"
               bg={
-                pathname.includes(Routes[RoutesEnum.DEX])
+                pathname.includes(Routes[RoutesEnum.Faucet])
                   ? 'accent'
                   : 'transparent'
               }
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
-              onClick={() => trackHeaderNavigation(RoutesEnum.DEX)}
+              onClick={() => trackHeaderNavigation(RoutesEnum.Faucet)}
+              color={
+                pathname.includes(Routes[RoutesEnum.Faucet])
+                  ? 'textSoft'
+                  : 'text'
+              }
             >
               <FaucetSVG
                 width="1.1rem"
