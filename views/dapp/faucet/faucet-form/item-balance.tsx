@@ -45,7 +45,7 @@ const ItemBalance: FC<ItemBalanceProps> = ({
             <Typography variant="normal" color="textSecondary">
               ({objectsData.length})
             </Typography>
-            {objectsData.length != 0 && (
+            {objectsData.length == 0 && (
               <Box
                 as="span"
                 cursor="pointer"
@@ -81,6 +81,34 @@ const ItemBalance: FC<ItemBalanceProps> = ({
           overflowY={'hidden'}
           transition="height 1s"
         >
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            key={v4()}
+            py="XS"
+            alignItems="center"
+          >
+            <Typography variant="normal" fontSize="S">
+              Coin #1: 0.0432
+            </Typography>
+            <Box as="span">
+              <CopyToClipboard data={'id'} />
+            </Box>
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            key={v4()}
+            py="XS"
+            alignItems="center"
+          >
+            <Typography variant="normal" fontSize="S">
+              Coin #1: 0.0432
+            </Typography>
+            <Box as="span">
+              <CopyToClipboard data={'id'} />
+            </Box>
+          </Box>
           {objectsData.map(({ balance, id }, index) => (
             <Box
               display="flex"

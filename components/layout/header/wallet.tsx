@@ -11,10 +11,15 @@ import { FixedPointMath } from '@/sdk';
 import { SuiSVG } from '@/svg';
 import { ZERO_BIG_NUMBER } from '@/utils';
 
-const ConnectWallet = styled(ConnectButton)({
-  background: 'transparent',
-  width: '100%',
-});
+const ConnectWallet = styled(ConnectButton)`
+  background: #4282a8 !important;
+  width: 100%;
+  color: #fff !important;
+  transition: background-color 1s;
+  &:hover {
+    background: #6fbcf0 !important;
+  }
+`;
 
 const Wallet: FC = () => {
   const { coinsMap } = useWeb3();
@@ -62,12 +67,6 @@ const Wallet: FC = () => {
         padding={'unset'}
         display="inline-flex"
         bg="bottomBackground"
-        hover={{
-          bg: 'accent',
-        }}
-        active={{
-          bg: 'accentActive',
-        }}
       >
         <ConnectWallet />
       </Button>
