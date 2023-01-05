@@ -1,20 +1,18 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { SOCIAL_MEDIAS } from '@/constants/social-media';
 import { Box, Dropdown, Typography } from '@/elements';
 import { BarsSVG, GitBookSVG } from '@/svg';
-import { logGenericEvent } from '@/utils/analytics';
 
 const MobileMenu: FC = () => {
-  const trackHeaderNavigation = (label: string) => () =>
-    logGenericEvent(`Mobile_Header_${label}`);
-
+  const t = useTranslations();
   return (
     <>
       <Dropdown
         buttonMode
         mode="menu"
-        header="FOLLOW US:"
+        header={t('common.followUs')}
         title={
           <Box
             display="flex"
@@ -62,7 +60,6 @@ const MobileMenu: FC = () => {
                   href="https://forms.gle/aDP4wHvshLPKkKv97"
                   target="__blank"
                   rel="noopener noreferrer"
-                  onClick={trackHeaderNavigation('feedback')}
                 >
                   <Typography
                     px="M"

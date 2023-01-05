@@ -10,12 +10,6 @@ import { Box, Button, Typography } from '@/elements';
 import { useWeb3 } from '@/hooks';
 import { LoadingSVG } from '@/svg';
 import { capitalize, provider, showToast } from '@/utils';
-import {
-  GAPage,
-  GAStatus,
-  GAType,
-  logTransactionEvent,
-} from '@/utils/analytics';
 
 import { MintButtonProps } from './faucet-form.types';
 
@@ -28,12 +22,6 @@ const MintButton: FC<MintButtonProps> = ({ getValues }) => {
     try {
       setLoading(true);
       const type = getValues('type');
-      logTransactionEvent({
-        status: GAStatus.Success,
-        type: GAType.Write,
-        page: GAPage.Faucet,
-        functionName: 'handleOnMint',
-      });
 
       if (type === COIN_TYPE[Network.DEVNET].SUI) {
         if (!account) throw new Error('No account found');
@@ -50,13 +38,6 @@ const MintButton: FC<MintButtonProps> = ({ getValues }) => {
           typeArguments: [type.split('<')[1].slice(0, -1)],
           arguments: [FAUCET_OBJECT_ID, 1],
         },
-      });
-    } catch (error) {
-      logTransactionEvent({
-        status: GAStatus.Error,
-        type: GAType.Write,
-        page: GAPage.Faucet,
-        functionName: 'handleOnMint',
       });
     } finally {
       setLoading(false);
@@ -76,9 +57,10 @@ const MintButton: FC<MintButtonProps> = ({ getValues }) => {
       onClick={onMint}
       variant="primary"
       disabled={loading}
-      hover={{ bg: 'accentAlternativeActive', color: 'textSecondary' }}
-      bg={!loading ? 'accent' : 'disabled'}
+      hover={{ bg: 'accent' }}
+      bg={!loading ? 'accentSecondary' : 'disabled'}
       cursor={loading ? 'not-allowed' : 'pointer'}
+      color="textLight"
     >
       {loading ? (
         <Box as="span" display="flex" justifyContent="center">

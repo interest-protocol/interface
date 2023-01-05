@@ -12,7 +12,8 @@ const primary = css`
   display: inline-block;
   border-radius: 2rem;
   padding: 0.8rem ${space.XL};
-  background: ${colors.accent};
+  background: ${colors.accentSecondary};
+  transition: background-color 1s, color 1s;
 `;
 
 const secondary = css`

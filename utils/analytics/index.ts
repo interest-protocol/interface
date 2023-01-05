@@ -1,4 +1,4 @@
-import ReactGA from 'react-ga4';
+/* import ReactGA from 'react-ga4';
 
 export const initGA = (): void => {
   ReactGA.initialize(
@@ -28,15 +28,7 @@ export enum GAPage {
   DexPoolDetails = 'DexPoolDetails',
   DexPoolDetailsRemoveLiquidity = 'DexPoolDetailsRemoveLiquidity',
   DexPoolDetailsAddLiquidity = 'DexPoolDetailsAddLiquidity',
-  DineroMarket = 'DineroMarket',
-  DineroMarketPanel = 'DineroMarketPanel',
-  DineroVault = 'DineroVault',
-  Vault = 'Vault',
-  Farms = 'Farms',
-  FarmsDetails = 'FarmsDetails',
   Faucet = 'Faucet',
-  SyntheticsMarket = 'SyntheticsMarket',
-  SyntheticsMarketPanel = 'SyntheticsMarketPanel',
 }
 
 interface LogProps {
@@ -58,3 +50,6 @@ export const logTransactionEvent = ({
 export const logGenericEvent = (action: string): void => {
   ReactGA.event(action);
 };
+ */
+
+export {};

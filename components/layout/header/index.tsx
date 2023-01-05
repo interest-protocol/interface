@@ -1,18 +1,20 @@
+import { useTheme } from '@emotion/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { not } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 
 import { SwitchLang } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
 import useEventListener from '@/hooks/use-event-listener';
-import { LogoSVG } from '@/svg';
-import { logGenericEvent } from '@/utils/analytics';
+import { LogoSVG, MoonSVG, SunSVG } from '@/svg';
 
 import MobileMenu from './mobile-menu';
 import Wallet from './wallet';
 
 const Header: FC = () => {
+  const { setDark, dark } = useTheme() as any;
   const { pathname } = useRouter();
 
   const [isMobile, setIsMobile] = useState(false);
@@ -24,9 +26,7 @@ const Header: FC = () => {
 
   useEventListener('resize', handleSetDesktop, true);
 
-  const trackHeaderNavigation = (label: string) => () =>
-    logGenericEvent(`Desktop_Header_${label}`);
-
+  const handleChangeTheme = () => setDark(not);
   return (
     <Box
       py="M"
@@ -39,10 +39,7 @@ const Header: FC = () => {
       gridTemplateColumns="repeat(3, 1fr)"
     >
       <Box display="flex" alignItems="center">
-        <Link
-          href={Routes[RoutesEnum.Home]}
-          onClick={trackHeaderNavigation(RoutesEnum.Home)}
-        >
+        <Link href={Routes[RoutesEnum.Home]}>
           <Box
             mr="L"
             color="text"
@@ -69,10 +66,7 @@ const Header: FC = () => {
         justifyContent="center"
         display={['none', 'none', 'flex']}
       >
-        <Link
-          href={Routes[RoutesEnum.DEX]}
-          onClick={trackHeaderNavigation(RoutesEnum.DEX)}
-        >
+        <Link href={Routes[RoutesEnum.DEX]}>
           <Typography
             px="XL"
             cursor="pointer"
@@ -87,10 +81,7 @@ const Header: FC = () => {
             DEX
           </Typography>
         </Link>
-        <Link
-          href={Routes[RoutesEnum.Faucet]}
-          onClick={trackHeaderNavigation(RoutesEnum.Faucet)}
-        >
+        <Link href={Routes[RoutesEnum.Faucet]}>
           <Typography
             px="XL"
             cursor="pointer"
@@ -111,6 +102,34 @@ const Header: FC = () => {
         <Box display="flex" justifyContent="flex-end" alignItems="stretch">
           <Box display="flex" alignItems="stretch">
             <SwitchLang />
+            <Box
+              mr="S"
+              width="3rem"
+              height="2.8rem"
+              borderRadius="M"
+              alignItems="center"
+              display="inline-flex"
+              bg="transparent"
+              justifyContent="center"
+              onClick={handleChangeTheme}
+              color="text"
+            >
+              {!dark ? (
+                <MoonSVG
+                  width="1rem"
+                  maxHeight="3rem"
+                  maxWidth="3rem"
+                  fill="currentColor"
+                />
+              ) : (
+                <SunSVG
+                  width="1rem"
+                  maxHeight="3rem"
+                  maxWidth="3rem"
+                  fill="currentColor"
+                />
+              )}
+            </Box>
           </Box>
         </Box>
       </Box>

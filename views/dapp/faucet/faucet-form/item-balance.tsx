@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
 import { v4 } from 'uuid';
 
@@ -5,6 +6,7 @@ import { CopyToClipboard, Tooltip } from '@/components';
 import { Box, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { ArrowSVG } from '@/svg';
+import { capitalize } from '@/utils';
 
 import { ItemBalanceProps } from './faucet-form.types';
 
@@ -15,13 +17,19 @@ const ItemBalance: FC<ItemBalanceProps> = ({
   totalBalance,
   decimals,
 }) => {
+  const t = useTranslations();
   const [openDetails, setOpenDetails] = useState(false);
   return (
     <>
       <Box py="XS">
         <Box mr="M" display="flex" justifyContent="space-between">
-          <Box display="flex" alignItems="center">
-            <SVG width="1rem" maxHeight="1rem" maxWidth="1rem" />
+          <Box display="flex" alignItems="center" color="text">
+            <SVG
+              width="1rem"
+              maxHeight="1rem"
+              maxWidth="1rem"
+              fill="currentColor"
+            />
             <Typography ml="M" variant="normal">
               {FixedPointMath.toNumber(totalBalance, decimals)}
             </Typography>
@@ -37,28 +45,30 @@ const ItemBalance: FC<ItemBalanceProps> = ({
             <Typography variant="normal" color="textSecondary">
               ({objectsData.length})
             </Typography>
-            <Box
-              as="span"
-              cursor="pointer"
-              onClick={() => setOpenDetails(!openDetails)}
-            >
+            {objectsData.length != 0 && (
               <Box
                 as="span"
-                ml="1rem"
-                display="inline-block"
-                width="0.5rem"
-                color="text"
-                data-tip="More Details"
-                hover={{ color: 'accent' }}
+                cursor="pointer"
+                onClick={() => setOpenDetails(!openDetails)}
               >
-                <ArrowSVG
-                  width="100%"
-                  maxWidth="1rem"
-                  maxHeight="1rem"
-                  fill="currentColor"
-                />
+                <Box
+                  as="span"
+                  ml="1rem"
+                  display="inline-block"
+                  width="0.5rem"
+                  color="text"
+                  data-tip={capitalize(t('common.moreDetails'))}
+                  hover={{ color: 'accent' }}
+                >
+                  <ArrowSVG
+                    width="100%"
+                    maxWidth="1rem"
+                    maxHeight="1rem"
+                    fill="currentColor"
+                  />
+                </Box>
               </Box>
-            </Box>
+            )}
           </Box>
         </Box>
         <Box
@@ -77,6 +87,7 @@ const ItemBalance: FC<ItemBalanceProps> = ({
               justifyContent="space-between"
               key={v4()}
               py="XS"
+              alignItems="center"
             >
               <Typography variant="normal" fontSize="S">
                 Coin {index}: {FixedPointMath.from(balance).toNumber(decimals)}

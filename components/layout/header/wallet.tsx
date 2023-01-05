@@ -43,12 +43,14 @@ const Wallet: FC = () => {
           overflow="hidden"
           borderRadius="50%"
           display="inline-block"
+          color="text"
         >
           <SuiSVG
             height="100%"
             width="100%"
             maxHeight="1.2rem"
             maxWidth="1.2rem"
+            fill="currentColor"
           />
         </Box>
       </Typography>

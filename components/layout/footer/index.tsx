@@ -7,14 +7,9 @@ import { Container, SocialMediaCard } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Button } from '@/elements';
 import { DexSVG, FaucetSVG, GitBookSVG } from '@/svg';
-import { logGenericEvent } from '@/utils/analytics';
 
 const Footer: FC = () => {
   const { pathname } = useRouter();
-
-  const trackHeaderNavigation = (label: string) => () =>
-    logGenericEvent(`Mobile_Header_${label}`);
-
   return (
     <Box
       zIndex={3}
@@ -64,7 +59,6 @@ const Footer: FC = () => {
               }
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
-              onClick={() => trackHeaderNavigation(RoutesEnum.DEX)}
               color={
                 pathname.includes(Routes[RoutesEnum.DEX]) ? 'textSoft' : 'text'
               }
@@ -98,7 +92,6 @@ const Footer: FC = () => {
               }
               hover={{ bg: 'accent', color: 'text' }}
               active={{ bg: 'accentActive', color: 'text' }}
-              onClick={() => trackHeaderNavigation(RoutesEnum.Faucet)}
               color={
                 pathname.includes(Routes[RoutesEnum.Faucet])
                   ? 'textSoft'

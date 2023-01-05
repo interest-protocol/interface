@@ -1,4 +1,5 @@
 import { Network } from '@mysten/sui.js';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
@@ -25,6 +26,7 @@ const DEFAULT_COIN = {
 };
 
 const FaucetForm: FC = () => {
+  const t = useTranslations();
   const { coinsMap } = useWeb3();
   const { register, getValues, setValue } = useForm<IFaucetForm>({
     defaultValues: {
@@ -61,7 +63,7 @@ const FaucetForm: FC = () => {
           <InputBalance
             name="amount"
             register={register}
-            label="Escolha o token"
+            label={t('common.chooseToken')}
             setValue={setValue}
             currencyPrefix={
               <FaucetTokensDropdown
@@ -84,7 +86,7 @@ const FaucetForm: FC = () => {
           flexDirection="column"
         >
           <Typography variant="normal" textTransform="uppercase" my="L">
-            Balance
+            {t('common.balance')}
           </Typography>
           <Box
             display="grid"

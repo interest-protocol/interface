@@ -8,5 +8,5 @@ export interface InputBalanceProps {
   currencyPrefix: ReactNode;
   register: UseFormRegister<IFaucetForm>;
   setValue?: UseFormSetValue<IFaucetForm>;
-  name: 'amount' | 'token';
+  name: 'amount' | 'type';
 }

@@ -1,7 +1,7 @@
 const primitiveColors = {
   PRIMARY_100: '#6fbcf0',
   PRIMARY_200: '#EBF0FF',
-  PRIMARY_300: '#007195',
+  PRIMARY_300: '#4282A8',
   PRIMARY_400: '#e1f3ff',
   SECONDARY_100: '#E36D00',
   SECONDARY_200: '#AE5400',

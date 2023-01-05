@@ -22,6 +22,7 @@ const Layout: FC<LayoutProps> = ({ pageTitle = '', children }) => {
           flexDirection="column"
           pb="calc(env(safe-area-inset-bottom) + 4rem)"
           justifyContent="stretch"
+          bg="textSoft"
         >
           {children}
         </Box>

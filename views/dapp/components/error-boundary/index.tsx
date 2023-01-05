@@ -1,6 +1,4 @@
-import { Component, ErrorInfo, ReactNode } from 'react';
-
-import { logGenericEvent } from '@/utils/analytics';
+import { Component, ReactNode } from 'react';
 
 import { Props, State } from './error-boundary.types';
 import BoundaryMessage from './error-boundary-message';
@@ -12,12 +10,6 @@ class ErrorBoundary extends Component<Props, State> {
 
   static getDerivedStateFromError(error: Error): { error: Error } {
     return { error };
-  }
-
-  componentDidCatch(error: Error, info: ErrorInfo): void {
-    logGenericEvent(
-      `${error.name}: ${error.message}; Stack: ${info.componentStack}`
-    );
   }
 
   render = (): ReactNode =>

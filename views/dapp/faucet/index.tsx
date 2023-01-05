@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Container, Tooltip } from '@/components';
@@ -7,6 +8,7 @@ import GoBack from '../components/go-back';
 import FaucetForm from './faucet-form';
 
 const Faucet: FC = () => {
+  const t = useTranslations();
   return (
     <>
       <Box display="flex" flexDirection="column">
@@ -25,7 +27,7 @@ const Faucet: FC = () => {
           </Box>
           <Box display="flex" justifyContent="space-between">
             <Typography variant="normal" textTransform="capitalize">
-              Tokens Recomendados
+              {t('common.recommendedToken')}
             </Typography>
           </Box>
           <FaucetForm />
