@@ -104,7 +104,7 @@ const ItemBalance: FC<ItemBalanceProps> = ({
             <Typography variant="normal" color="textSecondary">
               ({objectsData.length})
             </Typography>
-            {objectsData.length == 0 && (
+            {objectsData.length != 0 && (
               <OpenDetails
                 isOpen={openDetails}
                 tip={capitalize(t('common.moreDetails'))}
