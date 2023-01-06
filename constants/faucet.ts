@@ -11,7 +11,7 @@ import {
   EtherSVG,
   SuiSVG,
   USDCoinSVG,
-  USDDSVG,
+  USDTSVG,
 } from '@/svg';
 
 export const FAUCET_PACKAGE_ID = '0x94785845b39ec036fba4954a543a5f71c0860f35';
@@ -58,7 +58,7 @@ export const FAUCET_TOKENS = {
     {
       symbol: TOKEN_SYMBOL.USDT,
       type: COIN_TYPE[Network.DEVNET].USDT,
-      Icon: USDDSVG,
+      Icon: USDTSVG,
       name: 'USDT',
       decimals: 0,
     },

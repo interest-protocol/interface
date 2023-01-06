@@ -11,6 +11,7 @@ import useEventListener from '@/hooks/use-event-listener';
 import { LogoSVG, MoonSVG, SunSVG } from '@/svg';
 
 import MobileMenu from './mobile-menu';
+import SelectNetwork from './select-network';
 import Wallet from './wallet';
 
 const Header: FC = () => {
@@ -98,6 +99,9 @@ const Header: FC = () => {
         </Link>
       </Box>
       <Box display="flex" justifyContent="flex-end" alignItems="center">
+        <Box display={['none', 'none', 'none', 'block']}>
+          <SelectNetwork />
+        </Box>
         <Wallet />
         <Box display="flex" justifyContent="flex-end" alignItems="stretch">
           <Box display="flex" alignItems="stretch">
@@ -113,6 +117,8 @@ const Header: FC = () => {
               justifyContent="center"
               onClick={handleChangeTheme}
               color="text"
+              cursor="pointer"
+              hover={{ color: 'accent' }}
             >
               {!dark ? (
                 <MoonSVG

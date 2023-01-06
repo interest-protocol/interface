@@ -15,6 +15,7 @@ const ConnectWallet = styled(ConnectButton)`
   background: #4282a8 !important;
   width: 100%;
   color: #fff !important;
+  border-radius: 2.5rem !important;
   transition: background-color 1s;
   &:hover {
     background: #6fbcf0 !important;
@@ -25,7 +26,7 @@ const Wallet: FC = () => {
   const { coinsMap } = useWeb3();
 
   return (
-    <Box bg="textSoft" display="flex" borderRadius="M" alignItems="center">
+    <Box bg="textSoft" display="flex" borderRadius="2.5rem" alignItems="center">
       <Typography
         px="L"
         as="span"
@@ -62,11 +63,11 @@ const Wallet: FC = () => {
       <Button
         fontSize="M"
         border="none"
-        borderRadius="M"
         variant="primary"
         padding={'unset'}
         display="inline-flex"
         bg="bottomBackground"
+        borderRadius="2.5rem !important"
       >
         <ConnectWallet />
       </Button>

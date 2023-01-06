@@ -37,9 +37,10 @@
     "submit": "{isLoading, plural, =1 {processando...} other {processe}}",
     "backHome": "Voltar ao Início",
     "chooseToken": "Escolha o Token",
+    "chooseNetwork": "Escolha a Rede",
     "recommendedToken": "Tokens Recomendados",
     "moreDetails": "ver detalhes",
-    "copyObjectNumber": "copiar número do objecto",
+    "copyObjectNumber": "copiar o id do objecto",
     "followUs": "SIGA-NOS"
   },
   "error": {
