@@ -1,10 +1,8 @@
-import { FC } from 'react';
-
 import { Box } from '@/elements';
 import { LogoSVG } from '@/svg';
 import Loading from '@/views/dapp/components/loading';
 
-const LoadingPage: FC = () => (
+const LoadingPage = () => (
   <Box
     width="100vw"
     height="100vh"
