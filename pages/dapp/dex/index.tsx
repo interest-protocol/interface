@@ -7,8 +7,8 @@ const FaucetPage = () => <DEX />;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dexMessages] = await Promise.all([
-    import(`../../assets/messages/common/${locale}.json`),
-    import(`../../assets/messages/dex/swap/${locale}.json`),
+    import(`../../../assets/messages/common/${locale}.json`),
+    import(`../../../assets/messages/dex/swap/${locale}.json`),
   ]);
 
   const messages = mergeDeepRight(commonMessages.default, dexMessages.default);

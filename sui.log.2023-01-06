@@ -12,3 +12,4 @@
 2023-01-06T18:52:39.103636Z  INFO sui::client_commands:                  Object ID                  |  Gas Value 
 2023-01-06T18:52:39.103736Z  INFO sui::client_commands: ----------------------------------------------------------------------
 2023-01-06T18:52:39.103743Z  INFO sui::client_commands:  0x69113649bfd30fb30861c480b8cbe1624cc78b49 |   4974463  
+2023-01-06T21:51:19.383770Z  INFO sui::client_commands: 0x9b9e952e61265be040dcf24ce1822ec06a3a81d8
