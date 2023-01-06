@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { FC } from 'react';
-import { Control, UseFormGetValues } from 'react-hook-form';
+import { UseFormGetValues } from 'react-hook-form';
 
 import { SVGProps } from '@/components/svg/svg.types';
 

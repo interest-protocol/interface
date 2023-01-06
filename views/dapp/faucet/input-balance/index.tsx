@@ -45,7 +45,7 @@ const InputBalance: FC<InputBalanceProps> = ({
             display="flex"
             alignItems="center"
             borderRight="1px solid"
-            borderColor="bottomBackground"
+            borderColor="red"
           >
             {currencyPrefix}
           </Box>

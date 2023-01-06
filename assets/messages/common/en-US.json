@@ -47,7 +47,9 @@
     "generic": "something went wrong",
     "wrongParams": "Wrong params",
     "fetchingContract": "Error fetching contract",
-    "fetchingBalances": "Error fetching balances"
+    "fetchingBalances": "Error fetching balances",
+    "accountNotFound": "No account found",
+    "tokenNotFound": "token not found"
   },
   "wallet": {
     "wrongNetwork": {

@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { Box, Typography } from '@/elements';
+import { capitalize } from '@/utils';
 
 import { FaucetSelectCurrencyProps } from './faucet-form.types';
 import FaucetTokensDropdown from './faucet-tokens-dropdown';
@@ -13,7 +14,7 @@ const FaucetSelectCurrency: FC<FaucetSelectCurrencyProps> = ({
 }) => (
   <Box my="M">
     <Typography as="label" fontSize="S" variant="normal" display="inline-block">
-      {label}:
+      {capitalize(label)}:
     </Typography>
     <Box my="M" display="flex" flexDirection="column" alignItems="stretch">
       <FaucetTokensDropdown
