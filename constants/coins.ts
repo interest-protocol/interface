@@ -12,7 +12,7 @@ export const COIN_TYPE = {
   },
 };
 
-export const COIN_TYPE_TO_NAME = {
+export const COIN_TYPE_TO_SYMBOL = {
   [Network.DEVNET]: {
     [COIN_TYPE[Network.DEVNET].BTC]: 'BTC',
     [COIN_TYPE[Network.DEVNET].ETH]: 'ETH',

@@ -1,3 +1,14 @@
 2023-01-06T13:37:13.104571Z  INFO sui::client_commands: localnet
 2023-01-06T13:37:31.302296Z  INFO sui::client_commands: 0x9b9e952e61265be040dcf24ce1822ec06a3a81d8
 2023-01-06T13:37:54.449135Z  INFO sui::client_commands: Active environment switched to [devnet]
+2023-01-06T18:09:26.958944Z  INFO sui::client_commands: 0x9b9e952e61265be040dcf24ce1822ec06a3a81d8
+2023-01-06T18:49:36.864664Z  INFO sui::client_commands:                  Object ID                  |  Gas Value 
+2023-01-06T18:49:36.864754Z  INFO sui::client_commands: ----------------------------------------------------------------------
+2023-01-06T18:49:36.864761Z  INFO sui::client_commands:  0x69113649bfd30fb30861c480b8cbe1624cc78b49 |   4995919  
+2023-01-06T18:49:36.864767Z  INFO sui::client_commands:  0xfc1c72dc20fcf2822de360dd734ce9464e83aa82 |   4986585  
+2023-01-06T18:52:31.309360Z  INFO sui::client_commands:                  Object ID                  |  Gas Value 
+2023-01-06T18:52:31.309388Z  INFO sui::client_commands: ----------------------------------------------------------------------
+2023-01-06T18:52:31.309390Z  INFO sui::client_commands:  0x69113649bfd30fb30861c480b8cbe1624cc78b49 |   4986919  
+2023-01-06T18:52:39.103636Z  INFO sui::client_commands:                  Object ID                  |  Gas Value 
+2023-01-06T18:52:39.103736Z  INFO sui::client_commands: ----------------------------------------------------------------------
+2023-01-06T18:52:39.103743Z  INFO sui::client_commands:  0x69113649bfd30fb30861c480b8cbe1624cc78b49 |   4974463  
