@@ -1,6 +1,7 @@
 import { Network } from '@mysten/sui.js';
 
 export * from './coins';
+export * from './dex';
 export * from './faucet';
 export * from './routes';
 export * from './social-media';

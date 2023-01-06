@@ -1,3 +1,24 @@
-const DEXPage = () => <div>DEX</div>;
+import { GetStaticProps } from 'next';
+import { mergeDeepRight } from 'ramda';
 
-export default DEXPage;
+import DEX from '@/views/dapp/dex';
+
+const FaucetPage = () => <DEX />;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  const [commonMessages, dexMessages] = await Promise.all([
+    import(`../../../assets/messages/common/${locale}.json`),
+    import(`../../../assets/messages/dex/swap/${locale}.json`),
+  ]);
+
+  const messages = mergeDeepRight(commonMessages.default, dexMessages.default);
+  return {
+    props: {
+      messages,
+      now: Date.now(),
+      pageTitle: 'dex.pageTitle',
+    },
+  };
+};
+
+export default FaucetPage;
