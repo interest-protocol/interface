@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
-import { Container, Tooltip } from '@/components';
+import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
 
 import GoBack from '../components/go-back';
@@ -9,6 +9,7 @@ import FaucetForm from './faucet-form';
 
 const Faucet: FC = () => {
   const t = useTranslations();
+
   return (
     <>
       <Box display="flex" flexDirection="column">
@@ -33,7 +34,6 @@ const Faucet: FC = () => {
           <FaucetForm />
         </Container>
       </Box>
-      <Tooltip />
     </>
   );
 };

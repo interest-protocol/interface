@@ -3,7 +3,6 @@ import { FC, useCallback, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
-import { Tooltip } from '@/components';
 import useEventListener from '@/hooks/use-event-listener';
 
 import Box from '../box';
@@ -298,7 +297,6 @@ const Table: FC<ResponsiveTableProps> = ({
           ))}
         </Box>
       )}
-      <Tooltip />
     </>
   );
 };

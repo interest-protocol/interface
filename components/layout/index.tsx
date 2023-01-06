@@ -1,12 +1,13 @@
 import { useTheme } from '@emotion/react';
 import { FC } from 'react';
 import { Toaster } from 'react-hot-toast';
+import { Tooltip } from 'react-tooltip';
 
 import { Theme } from '@/design-system';
 import { Box } from '@/elements';
 import ErrorBoundary from '@/views/dapp/components/error-boundary';
 
-import { SEO, Tooltip } from '..';
+import { SEO } from '..';
 import Footer from './footer';
 import Header from './header';
 import { LayoutProps } from './layout.types';

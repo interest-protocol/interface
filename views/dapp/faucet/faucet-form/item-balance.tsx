@@ -1,14 +1,60 @@
 import { useTranslations } from 'next-intl';
-import { FC, useState } from 'react';
+import { FC, useRef, useState } from 'react';
+import { animated, useSpring } from 'react-spring';
+import { TooltipWrapper } from 'react-tooltip';
 import { v4 } from 'uuid';
 
-import { CopyToClipboard, Tooltip } from '@/components';
-import { Box, Typography } from '@/elements';
+import { CopyToClipboard } from '@/components';
+import space from '@/design-system/common/space';
+import { Box, RefBox, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
 import { ItemBalanceProps } from './faucet-form.types';
+
+const AnimatedBox = animated(Box);
+
+const OpenDetails: FC<{
+  tip: string;
+  isOpen: boolean;
+  handleClick: () => void;
+}> = ({ tip, isOpen, handleClick }) => {
+  const { transform } = useSpring({
+    from: {
+      transform: 'rotate(0deg)',
+    },
+    to: {
+      transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+    },
+    config: {
+      duration: 300,
+    },
+  });
+
+  return (
+    <Box as="span" cursor="pointer" onClick={handleClick}>
+      <TooltipWrapper content={tip}>
+        <AnimatedBox
+          as="span"
+          ml="1rem"
+          color="text"
+          width="0.5rem"
+          display="inline-block"
+          hover={{ color: 'accent' }}
+          style={{ transform }}
+        >
+          <ArrowSVG
+            width="100%"
+            maxWidth="1rem"
+            maxHeight="1rem"
+            fill="currentColor"
+          />
+        </AnimatedBox>
+      </TooltipWrapper>
+    </Box>
+  );
+};
 
 const ItemBalance: FC<ItemBalanceProps> = ({
   SVG,
@@ -18,7 +64,19 @@ const ItemBalance: FC<ItemBalanceProps> = ({
   decimals,
 }) => {
   const t = useTranslations();
+  const containerRef = useRef<HTMLDivElement>(null);
   const [openDetails, setOpenDetails] = useState(false);
+
+  const style = useSpring({
+    from: { height: '0px', margin: '0rem 0' },
+    to: {
+      margin: `${openDetails ? space.M : '0rem'} 0`,
+      height: `${openDetails ? containerRef.current?.clientHeight : 0}px`,
+    },
+    config: {
+      duration: 300,
+    },
+  });
 
   return (
     <>
@@ -47,61 +105,36 @@ const ItemBalance: FC<ItemBalanceProps> = ({
               ({objectsData.length})
             </Typography>
             {objectsData.length != 0 && (
-              <Box
-                as="span"
-                cursor="pointer"
-                onClick={() => setOpenDetails(!openDetails)}
-              >
-                <Box
-                  as="span"
-                  ml="1rem"
-                  display="inline-block"
-                  width="0.5rem"
-                  color="text"
-                  data-tip={capitalize(t('common.moreDetails'))}
-                  hover={{ color: 'accent' }}
-                >
-                  <ArrowSVG
-                    width="100%"
-                    maxWidth="1rem"
-                    maxHeight="1rem"
-                    fill="currentColor"
-                  />
-                </Box>
-              </Box>
+              <OpenDetails
+                isOpen={openDetails}
+                tip={capitalize(t('common.moreDetails'))}
+                handleClick={() => setOpenDetails(!openDetails)}
+              />
             )}
           </Box>
         </Box>
-        <Box
-          px="M"
-          py={openDetails ? 'M' : 'unset'}
-          bg="background"
-          borderRadius="M"
-          height={openDetails ? 'auto' : '0px'}
-          position="relative"
-          overflowY={'hidden'}
-          transition="height 1s"
-        >
-          {objectsData.map(({ balance, id }) => (
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              key={v4()}
-              py="XS"
-              alignItems="center"
-            >
-              <Typography variant="normal" fontSize="S">
-                Coin ...{id?.slice(-4)}:{' '}
-                {FixedPointMath.from(balance).toNumber(decimals)}
-              </Typography>
-              <Box as="span">
-                <CopyToClipboard data={id} />
+        <AnimatedBox style={style} overflow="hidden">
+          <RefBox p="M" bg="background" borderRadius="M" ref={containerRef}>
+            {objectsData.map(({ balance, id }) => (
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                key={v4()}
+                py="XS"
+                alignItems="center"
+              >
+                <Typography variant="normal" fontSize="S">
+                  Coin ...{id?.slice(-4)}:{' '}
+                  {FixedPointMath.from(balance).toNumber(decimals)}
+                </Typography>
+                <Box as="span">
+                  <CopyToClipboard data={id} />
+                </Box>
               </Box>
-            </Box>
-          ))}
-        </Box>
+            ))}
+          </RefBox>
+        </AnimatedBox>
       </Box>
-      <Tooltip />
     </>
   );
 };

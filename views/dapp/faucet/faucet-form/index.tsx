@@ -18,8 +18,8 @@ import MintButton from './mint-button';
 const tokens = FAUCET_TOKENS[Network.DEVNET];
 
 const DEFAULT_COIN = {
-  type: 'Unkown',
-  name: 'Unkown',
+  type: 'Unknown',
+  name: 'Unknown',
   totalBalance: ZERO_BIG_NUMBER,
   objects: [],
   id: 'Unknown',
@@ -39,7 +39,7 @@ const FaucetForm: FC = () => {
     setValue('type', type);
     setValue('amount', 0);
   };
-  console.log(coinsMap);
+
   return (
     <>
       <Box
@@ -101,14 +101,14 @@ const FaucetForm: FC = () => {
               return (
                 <ItemBalance
                   SVG={SVG}
+                  key={v4()}
+                  symbol={symbol}
+                  decimals={decimals}
                   totalBalance={coin.totalBalance}
                   objectsData={coin.objects.map((elem) => ({
                     id: getCoinObjectId(elem)!,
                     balance: getCoinBalance(elem)!,
                   }))}
-                  key={v4()}
-                  symbol={symbol}
-                  decimals={decimals}
                 />
               );
             })}
