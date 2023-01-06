@@ -41,7 +41,9 @@
     "recommendedToken": "Recommended Token",
     "moreDetails": "more details",
     "copyObjectNumber": "copy objectId",
-    "followUs": "FOLLOW US"
+    "followUs": "FOLLOW US",
+    "coin": "coin",
+    "bannerHeader": "This is an alpha product deployed on a Devnet. It might be down because of version updates or unexpected issues."
   },
   "error": {
     "generic": "something went wrong",

@@ -1,5 +1,6 @@
 /* eslint-disable react/display-name */
 import 'react-loading-skeleton/dist/skeleton.css';
+import 'react-tooltip/dist/react-tooltip.css';
 
 import { Global } from '@emotion/react';
 import { WalletKitProvider } from '@mysten/wallet-kit';
@@ -9,6 +10,7 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { ReactNode, StrictMode } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
+import { TooltipProvider } from 'react-tooltip';
 
 import { LoadingPage, NextIntlProvider, ThemeManager } from '@/components';
 import { GlobalStyles } from '@/design-system';
@@ -43,12 +45,6 @@ const MyApp = ({ Component, pageProps }: Props): ReactNode => {
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1, viewport-fit=cover"
         />
-        <link href="https://fonts.googleapis.com" />
-        <link href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap"
-          rel="stylesheet"
-        />
       </Head>
       <NextIntlProvider
         formats={{
@@ -69,12 +65,14 @@ const MyApp = ({ Component, pageProps }: Props): ReactNode => {
             <Global styles={GlobalStyles} />
             <ThemeManager>
               <StrictMode>
-                <Web3Manager>
-                  <Layout pageTitle={pageProps.pageTitle}>
-                    <Component {...pageProps} />
-                    <VercelAnalytics />
-                  </Layout>
-                </Web3Manager>
+                <TooltipProvider>
+                  <Web3Manager>
+                    <Layout pageTitle={pageProps.pageTitle}>
+                      <Component {...pageProps} />
+                      <VercelAnalytics />
+                    </Layout>
+                  </Web3Manager>
+                </TooltipProvider>
               </StrictMode>
             </ThemeManager>
           </SkeletonTheme>

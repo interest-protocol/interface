@@ -1,6 +1,7 @@
 import { useTheme } from '@emotion/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 import { not } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 
@@ -15,6 +16,7 @@ import SelectNetwork from './select-network';
 import Wallet from './wallet';
 
 const Header: FC = () => {
+  const t = useTranslations();
   const { setDark, dark } = useTheme() as any;
   const { pathname } = useRouter();
 
@@ -38,8 +40,7 @@ const Header: FC = () => {
           fontSize="S"
           fontWeight="600"
         >
-          This is an alpha product deployed on a Devnet. It might be down
-          because of version updates or unexpected issues.
+          {t('common.bannerHeader')}
         </Typography>
       </Box>
       <Box
