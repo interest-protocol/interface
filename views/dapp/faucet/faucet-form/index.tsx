@@ -7,7 +7,7 @@ import { v4 } from 'uuid';
 import { FAUCET_TOKENS } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useWeb3 } from '@/hooks';
-import { getCoinBalance, ZERO_BIG_NUMBER } from '@/utils';
+import { getCoinBalance, getCoinObjectId, ZERO_BIG_NUMBER } from '@/utils';
 
 import { IFaucetForm } from '../faucet.types';
 import InputBalance from '../input-balance';
@@ -34,13 +34,12 @@ const FaucetForm: FC = () => {
       amount: 0,
     },
   });
-  console.log(coinsMap);
 
   const onSelectCurrency = (type: string) => {
     setValue('type', type);
     setValue('amount', 0);
   };
-
+  console.log(coinsMap);
   return (
     <>
       <Box
@@ -104,7 +103,7 @@ const FaucetForm: FC = () => {
                   SVG={SVG}
                   totalBalance={coin.totalBalance}
                   objectsData={coin.objects.map((elem) => ({
-                    id: coin.id,
+                    id: getCoinObjectId(elem)!,
                     balance: getCoinBalance(elem)!,
                   }))}
                   key={v4()}

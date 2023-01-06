@@ -7,12 +7,16 @@ import { makeSWRKey, provider } from '@/utils';
 import { Web3ManagerProps, Web3ManagerState } from './web3-manager.types';
 import { parseCoins } from './web3-manager.utils';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const defaultMutate: any = () => {};
+
 const CONTEXT_DE_DEFAULT_STATE = {
   account: null,
   coins: [],
   coinsMap: {},
   connected: false,
   error: false,
+  mutate: defaultMutate,
 };
 
 export const Web3ManagerContext = createContext<Web3ManagerState>(
@@ -33,7 +37,7 @@ const Web3Manager: FC<Web3ManagerProps> = ({ children }) => {
     })();
   }, [connected, connecting, isError]);
 
-  const { data, error } = useSWR(
+  const { data, error, mutate } = useSWR(
     makeSWRKey([account], 'getCoinBalancesOwnedByAddress'),
     async () =>
       account ? provider.getCoinBalancesOwnedByAddress(account) : [],
@@ -48,7 +52,14 @@ const Web3Manager: FC<Web3ManagerProps> = ({ children }) => {
 
   return (
     <Web3ManagerContext.Provider
-      value={{ account, error: isError || !!error, connected, coins, coinsMap }}
+      value={{
+        account,
+        error: isError || !!error,
+        connected,
+        coins,
+        coinsMap,
+        mutate,
+      }}
     >
       {children}
     </Web3ManagerContext.Provider>

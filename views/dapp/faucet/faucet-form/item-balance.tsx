@@ -19,6 +19,7 @@ const ItemBalance: FC<ItemBalanceProps> = ({
 }) => {
   const t = useTranslations();
   const [openDetails, setOpenDetails] = useState(false);
+
   return (
     <>
       <Box py="XS">
@@ -81,7 +82,7 @@ const ItemBalance: FC<ItemBalanceProps> = ({
           overflowY={'hidden'}
           transition="height 1s"
         >
-          {objectsData.map(({ balance, id }, index) => (
+          {objectsData.map(({ balance, id }) => (
             <Box
               display="flex"
               justifyContent="space-between"
@@ -90,7 +91,8 @@ const ItemBalance: FC<ItemBalanceProps> = ({
               alignItems="center"
             >
               <Typography variant="normal" fontSize="S">
-                Coin {index}: {FixedPointMath.from(balance).toNumber(decimals)}
+                Coin ...{id?.slice(-4)}:{' '}
+                {FixedPointMath.from(balance).toNumber(decimals)}
               </Typography>
               <Box as="span">
                 <CopyToClipboard data={id} />

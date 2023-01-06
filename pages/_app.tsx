@@ -10,35 +10,9 @@ import Head from 'next/head';
 import { ReactNode, StrictMode } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
 
-import { NextIntlProvider, ThemeManager } from '@/components';
+import { LoadingPage, NextIntlProvider, ThemeManager } from '@/components';
 import { GlobalStyles } from '@/design-system';
 import { TTranslatedMessage } from '@/interface';
-import { LogoSVG } from '@/svg';
-import Loading from '@/views/dapp/components/loading';
-
-import { Box } from '../elements';
-
-const LoadingPage = () => (
-  <Box
-    width="100vw"
-    height="100vh"
-    display="flex"
-    flexDirection="column"
-    justifyContent="center"
-    alignItems="center"
-  >
-    <Box mr="L" color="accent" width="7.5rem" height="7.5rem" cursor="pointer">
-      <LogoSVG
-        maxHeight="7.5rem"
-        maxWidth="7.5rem"
-        width="100%"
-        aria-label="Logo"
-        fill="currentColor"
-      />
-    </Box>
-    <Loading />
-  </Box>
-);
 
 const Layout = dynamic(() => import('../components/layout'), {
   ssr: false,
@@ -61,22 +35,6 @@ type Props = Omit<AppProps<PageProps>, 'pageProps'> & {
 };
 
 const MyApp = ({ Component, pageProps }: Props): ReactNode => {
-  // useEffect(() => {
-  //   initGA();
-  //   // `routeChangeComplete` won't run for the first page load unless the query string is
-  //   // hydrated later on, so here we log a page view if this is the first render and
-  //   // there's no query string
-  //   if (!router.asPath.includes('?')) logPageView();
-  // }, []);
-
-  // useEffect(() => {
-  //   // Listen for page changes after a navigation or when the query changes
-  //   router.events.on('routeChangeComplete', logPageView);
-  //   return () => {
-  //     router.events.off('routeChangeComplete', logPageView);
-  //   };
-  // }, [router.events]);
-
   return (
     <>
       <Head>

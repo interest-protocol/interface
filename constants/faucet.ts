@@ -14,9 +14,9 @@ import {
   USDTSVG,
 } from '@/svg';
 
-export const FAUCET_PACKAGE_ID = '0x94785845b39ec036fba4954a543a5f71c0860f35';
+export const FAUCET_PACKAGE_ID = '0xc9271388be7944a2a2d7e5862233210cf2d3d0cf';
 
-export const FAUCET_OBJECT_ID = '0x291c544584a13f754b81a0c641343d5408abc60b';
+export const FAUCET_OBJECT_ID = '0x68e93d09bd219e43b0f6b4568b9a5c09b3b812bb';
 
 export const FAUCET_TOKENS = {
   [Network.DEVNET]: [

@@ -9,7 +9,7 @@ import { COIN_TYPE, FAUCET_OBJECT_ID, FAUCET_PACKAGE_ID } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { useWeb3 } from '@/hooks';
 import { LoadingSVG } from '@/svg';
-import { capitalize, provider, showToast } from '@/utils';
+import { capitalize, provider, showToast, showTXSuccessToast } from '@/utils';
 
 import { MintButtonProps } from './faucet-form.types';
 
@@ -17,7 +17,8 @@ const MintButton: FC<MintButtonProps> = ({ getValues }) => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
   const { signAndExecuteTransaction } = useWallet();
-  const { account } = useWeb3();
+  const { account, mutate } = useWeb3();
+
   const handleOnMint = useCallback(async () => {
     try {
       setLoading(true);
@@ -25,8 +26,7 @@ const MintButton: FC<MintButtonProps> = ({ getValues }) => {
 
       if (type === COIN_TYPE[Network.DEVNET].SUI) {
         if (!account) throw new Error('No account found');
-        const tx = await provider.requestSuiFromFaucet(account);
-        return;
+        return await provider.requestSuiFromFaucet(account);
       }
       const tx = await signAndExecuteTransaction({
         kind: 'moveCall',
@@ -36,11 +36,13 @@ const MintButton: FC<MintButtonProps> = ({ getValues }) => {
           module: 'faucet',
           packageObjectId: FAUCET_PACKAGE_ID,
           typeArguments: [type.split('<')[1].slice(0, -1)],
-          arguments: [FAUCET_OBJECT_ID, 1],
+          arguments: [FAUCET_OBJECT_ID, '1'],
         },
       });
+      await showTXSuccessToast(tx);
     } finally {
       setLoading(false);
+      await mutate();
     }
   }, []);
 

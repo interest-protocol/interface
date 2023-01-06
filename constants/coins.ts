@@ -3,12 +3,12 @@ import { Network } from '@mysten/sui.js';
 export const COIN_TYPE = {
   [Network.DEVNET]: {
     SUI: '0x2::coin::Coin<0x2::sui::SUI>',
-    BNB: '0x2::coin::Coin<0x94785845b39ec036fba4954a543a5f71c0860f35::coins::BNB>',
-    ETH: '0x2::coin::Coin<0x94785845b39ec036fba4954a543a5f71c0860f35::coins::ETH>',
-    BTC: '0x2::coin::Coin<0x94785845b39ec036fba4954a543a5f71c0860f35::coins::BTC>',
-    USDT: '0x2::coin::Coin<0x94785845b39ec036fba4954a543a5f71c0860f35::coins::USDT>',
-    USDC: '0x2::coin::Coin<0x94785845b39ec036fba4954a543a5f71c0860f35::coins::USDC>',
-    DAI: '0x2::coin::Coin<0x94785845b39ec036fba4954a543a5f71c0860f35::coins::DAI>',
+    BNB: '0x2::coin::Coin<0xc9271388be7944a2a2d7e5862233210cf2d3d0cf::coins::BNB>',
+    ETH: '0x2::coin::Coin<0xc9271388be7944a2a2d7e5862233210cf2d3d0cf::coins::ETH>',
+    BTC: '0x2::coin::Coin<0xc9271388be7944a2a2d7e5862233210cf2d3d0cf::coins::BTC>',
+    USDT: '0x2::coin::Coin<0xc9271388be7944a2a2d7e5862233210cf2d3d0cf::coins::USDT>',
+    USDC: '0x2::coin::Coin<0xc9271388be7944a2a2d7e5862233210cf2d3d0cf::coins::USDC>',
+    DAI: '0x2::coin::Coin<0xc9271388be7944a2a2d7e5862233210cf2d3d0cf::coins::DAI>',
   },
 };
 
