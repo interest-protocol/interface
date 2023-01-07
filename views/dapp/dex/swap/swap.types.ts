@@ -1,9 +1,8 @@
-import { BigNumber } from 'ethers';
 import { Dispatch, FC, SetStateAction } from 'react';
 import { Control, UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 
 import { SVGProps } from '@/components/svg/svg.types';
-import { SwapFormTokenData } from '@/views/dapp/views/dex/dex.types';
+import { SwapFormTokenData } from '@/views/dapp/dex/dex.types';
 
 export interface ISwapForm {
   tokenIn: SwapFormTokenData;
@@ -29,14 +28,11 @@ export interface SwapButtonProps {
   tokenInAddress: string;
   getValues: UseFormGetValues<ISwapForm>;
   setSwapBase: Dispatch<SetStateAction<string | null>>;
-  account: string;
-  chainId: number;
   localSettings: LocalSwapSettings;
-  parsedTokenInBalance: BigNumber;
+  parsedTokenInBalance: number;
   swapBase: string | null;
   needsApproval: boolean;
   control: Control<ISwapForm>;
-  refetch: () => Promise<void>;
 }
 
 export interface SwapManagerProps {

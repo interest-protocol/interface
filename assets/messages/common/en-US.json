@@ -2,6 +2,7 @@
   "common": {
     "dex": "dex",
     "pool": "pool",
+    "swap": "{isLoading, plural, =1 {swapping} other {swap}}",
     "balance": "balance",
     "success": "success",
     "notFound": "not found",
@@ -10,6 +11,7 @@
     "load": "{isLoading, plural, =1 {loading...} other {load}}",
     "back": "back",
     "connectWallet": "connect wallet",
+    "fetchingBalances": "fetching balances",
     "poweredBy": "Powered by",
     "minute": "{count, plural, =1 {minute} other {minutes}}",
     "enter": "enter",

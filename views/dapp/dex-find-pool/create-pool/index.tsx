@@ -18,9 +18,7 @@ const CreatePool: FC<CreatePoolProps> = ({
   register,
   needAllowance,
   setValue,
-  tokenBalances,
   getValues,
-  refetch,
 }) => {
   const t = useTranslations();
   return (
@@ -57,8 +55,6 @@ const CreatePool: FC<CreatePoolProps> = ({
           name={name}
           register={register}
           needAllowance={needAllowance[index]}
-          tokenBalance={tokenBalances[index]}
-          refetch={refetch}
         />
       ))}
       <Box

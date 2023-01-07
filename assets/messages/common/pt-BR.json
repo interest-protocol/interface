@@ -2,6 +2,7 @@
   "common": {
     "dex": "dex",
     "pool": "pool",
+    "swap": "{isLoading, plural, =1 {trocando...} other {trocar}}",
     "balance": "saldo",
     "success": "sucesso",
     "notFound": "não encontrado",
@@ -11,6 +12,7 @@
     "back": "voltar",
     "connectWallet": "conetar à carteira",
     "poweredBy": "Construído com",
+    "fetchingBalances": "procurando saldos",
     "minute": "{count, plural, =1 {minuto} other {minutos}}",
     "enter": "aceder",
     "type": "tipo",

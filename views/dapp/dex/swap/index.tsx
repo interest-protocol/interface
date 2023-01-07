@@ -1,23 +1,10 @@
-import { getAddress } from 'ethers/lib/utils';
-import { not, pathOr } from 'ramda';
-import { FC, useMemo, useState } from 'react';
+import { FC, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 
 import { Box } from '@/elements';
-import {
-  useGetDexAllowancesAndBalances,
-  useIdAccount,
-  useLocalStorage,
-} from '@/hooks';
-import {
-  FixedPointMath,
-  TOKEN_SYMBOL,
-  ZERO_ADDRESS,
-  ZERO_BIG_NUMBER,
-} from '@/sdk';
+import { useLocalStorage } from '@/hooks';
+import { AddressZero } from '@/sdk';
 import { CogsSVG } from '@/svg';
-import { isSameAddressZ, numberToString } from '@/utils';
-import { GAPage } from '@/utils/analytics';
 
 import SwapSelectCurrency from '../components/swap-select-currency';
 import InputBalance from './input-balance';
@@ -28,70 +15,44 @@ import {
   OnSelectCurrencyData,
 } from './swap.types';
 import SwapButton from './swap-button';
-import SwapManager from './swap-manager';
 import SwapMessage from './swap-message';
 
 const Swap: FC = () => {
-  const { chainId, account } = useIdAccount();
-  const [localSettings, setLocalSettings] = useLocalStorage<LocalSwapSettings>(
+  const [localSettings] = useLocalStorage<LocalSwapSettings>(
     'interest-swap-settings',
     { slippage: '1', deadline: 5, autoFetch: true }
   );
 
-  const INT = pathOr(UNKNOWN_ERC_20, [chainId, TOKEN_SYMBOL.INT], ERC_20_DATA);
-
-  const ETH = pathOr(UNKNOWN_ERC_20, [chainId, TOKEN_SYMBOL.ETH], ERC_20_DATA);
-
   const { register, control, setValue, getValues } = useForm<ISwapForm>({
     defaultValues: {
       tokenIn: {
-        address: INT.address,
+        address: AddressZero,
         value: '0',
-        decimals: INT.decimals,
-        symbol: INT.symbol,
+        decimals: 0,
+        symbol: '???',
         setByUser: false,
       },
       tokenOut: {
-        address: ETH.address,
+        address: AddressZero,
         value: '0',
-        decimals: ETH.decimals,
-        symbol: ETH.symbol,
+        decimals: 0,
+        symbol: '???',
         setByUser: false,
       },
     },
   });
 
   const [hasNoMarket, setHasNoMarket] = useState(false);
-  const [isFetchingAmountOutTokenIn, setFetchingAmountOutTokenIn] =
-    useState(false);
-  const [isFetchingAmountOutTokenOut, setFetchingAmountOutTokenOut] =
-    useState(false);
+  const [isFetchingAmountOutTokenIn] = useState(false);
+  const [isFetchingAmountOutTokenOut] = useState(false);
   const [isTokenInOpenModal, setTokenInIsOpenModal] = useState(false);
   const [isTokenOutOpenModal, setTokenOutIsOpenModal] = useState(false);
   const [swapBase, setSwapBase] = useState<string | null>(null);
-  const [amountOutError, setAmountOutError] = useState<null | string>(null);
+  const [amountOutError] = useState<null | string>(null);
 
   // We want the form to re-render if addresses change
   const tokenInAddress = useWatch({ control, name: 'tokenIn.address' });
   const tokenOutAddress = useWatch({ control, name: 'tokenOut.address' });
-
-  const { balancesError, balancesData, loading, refetch } =
-    useGetDexAllowancesAndBalances(
-      chainId,
-      tokenInAddress || ZERO_ADDRESS,
-      tokenOutAddress || ZERO_ADDRESS,
-      GAPage.DexSwap
-    );
-
-  const needsApproval = loading
-    ? false
-    : pathOr(
-        ZERO_BIG_NUMBER,
-        [getAddress(tokenInAddress), 'allowance'],
-        balancesData
-      ).isZero();
-
-  const toggleSettings = () => setShowSettings(not);
 
   const flipTokens = () => {
     const { tokenOut, tokenIn } = getValues();
@@ -114,28 +75,7 @@ const Swap: FC = () => {
       setTokenOutIsOpenModal(false);
     };
 
-  const isDisabled = useMemo(
-    () =>
-      !!(
-        isSameAddressZ(tokenInAddress, tokenOutAddress) ||
-        isFetchingAmountOutTokenOut ||
-        isFetchingAmountOutTokenIn ||
-        amountOutError ||
-        balancesError ||
-        hasNoMarket ||
-        loading
-      ),
-    [
-      tokenInAddress,
-      tokenOutAddress,
-      isFetchingAmountOutTokenIn,
-      isFetchingAmountOutTokenOut,
-      amountOutError,
-      balancesError,
-      hasNoMarket,
-      loading,
-    ]
-  );
+  const isDisabled = false;
   return (
     <>
       <Box
@@ -166,7 +106,6 @@ const Swap: FC = () => {
                 color: 'accent',
                 transform: 'rotate(90deg)',
               }}
-              onClick={toggleSettings}
             >
               <CogsSVG width="1.5rem" maxHeight="1.5rem" maxWidth="1.5rem" />
             </Box>
@@ -181,28 +120,8 @@ const Swap: FC = () => {
             justifyContent="space-evenly"
           >
             <InputBalance
-              balance={FixedPointMath.toNumber(
-                pathOr(
-                  ZERO_BIG_NUMBER,
-                  [getAddress(tokenInAddress), 'balance'],
-                  balancesData
-                ),
-                getValues('tokenIn.decimals'),
-                0,
-                12
-              )}
-              max={numberToString(
-                FixedPointMath.toNumber(
-                  pathOr(
-                    ZERO_BIG_NUMBER,
-                    [getAddress(tokenInAddress), 'balance'],
-                    balancesData
-                  ),
-                  getValues('tokenIn.decimals'),
-                  0,
-                  12
-                )
-              )}
+              balance={12}
+              max={'12'}
               name="tokenIn"
               register={register}
               setValue={setValue}
@@ -249,16 +168,7 @@ const Swap: FC = () => {
               register={register}
               setValue={setValue}
               disabled={isFetchingAmountOutTokenOut}
-              balance={FixedPointMath.toNumber(
-                pathOr(
-                  ZERO_BIG_NUMBER,
-                  [getAddress(tokenOutAddress), 'balance'],
-                  balancesData
-                ),
-                getValues().tokenOut.decimals,
-                0,
-                12
-              )}
+              balance={12}
               handleSelectedByUser={() => {
                 setValue(`tokenIn.setByUser`, false);
                 setValue(`tokenOut.setByUser`, true);
@@ -283,50 +193,28 @@ const Swap: FC = () => {
         {amountOutError && (
           <SwapMessage {...SWAP_MESSAGES['error-amount-out']} />
         )}
-        {balancesError && <SwapMessage {...SWAP_MESSAGES['error-balances']} />}
+        {/* {balancesError && <SwapMessage {...SWAP_MESSAGES['error-balances']} />}
         {isSameAddressZ(tokenInAddress, tokenOutAddress) && (
           <SwapMessage {...SWAP_MESSAGES['error-same-token']} />
-        )}
+        )} */}
         {hasNoMarket && <SwapMessage {...SWAP_MESSAGES['info-no-pool']} />}
         <SwapButton
-          chainId={chainId}
-          account={account}
           control={control}
           swapBase={swapBase}
           disabled={isDisabled}
           getValues={getValues}
           setSwapBase={setSwapBase}
-          needsApproval={needsApproval}
+          needsApproval={true}
           localSettings={localSettings}
-          fetchingBalancesData={loading}
+          fetchingBalancesData={false}
           tokenInAddress={tokenInAddress}
-          fetchingBaseData={!balancesData && !balancesError}
+          fetchingBaseData={false}
           fetchingAmount={
             isFetchingAmountOutTokenOut || isFetchingAmountOutTokenIn
           }
-          parsedTokenInBalance={pathOr(
-            ZERO_BIG_NUMBER,
-            [getAddress(tokenInAddress), 'balance'],
-            balancesData
-          )}
-          refetch={refetch}
+          parsedTokenInBalance={123}
         />
       </Box>
-      {localSettings.autoFetch && (
-        <SwapManager
-          control={control}
-          chainId={chainId}
-          setValue={setValue}
-          isFetchingAmountOutTokenIn={isFetchingAmountOutTokenIn}
-          isFetchingAmountOutTokenOut={isFetchingAmountOutTokenOut}
-          hasNoMarket={hasNoMarket}
-          setHasNoMarket={setHasNoMarket}
-          setFetchingAmountOutTokenIn={setFetchingAmountOutTokenIn}
-          setFetchingAmountOutTokenOut={setFetchingAmountOutTokenOut}
-          setSwapBase={setSwapBase}
-          setAmountOutError={setAmountOutError}
-        />
-      )}
     </>
   );
 };

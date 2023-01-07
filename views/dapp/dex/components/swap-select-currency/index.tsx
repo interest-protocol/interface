@@ -2,10 +2,8 @@ import { not } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useChainId } from '@/hooks';
-import { ArrowSVG } from '@/svg';
+import { ArrowSVG, UnknownCoinSVG } from '@/svg';
 
 import { SwapSelectCurrencyProps } from '../../dex.types';
 import SwapSearchToken from './swap-search-token';
@@ -13,7 +11,6 @@ import SwapTokensModal from './swap-tokens-modal';
 
 const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
   symbol,
-  address,
   disabled,
   fromRight,
   isModalOpen,
@@ -21,7 +18,6 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
   setIsModalOpen,
   onSelectCurrency,
 }) => {
-  const chainId = useChainId();
   const [isSearching, setIsSearching] = useState(false);
   const { control, register } = useForm({
     defaultValues: {
@@ -32,8 +28,7 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
 
   const toggleOpenModal = () => setIsModalOpen(not);
 
-  const SVG =
-    TOKENS_SVG_MAP[chainId][address] ?? TOKENS_SVG_MAP[chainId].default;
+  const SVG = UnknownCoinSVG;
 
   return (
     <>
@@ -73,7 +68,6 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
         </Box>
       </Box>
       <SwapTokensModal
-        chainId={chainId}
         onSelectCurrency={onSelectCurrency}
         currentToken={currentToken}
         fromRight={fromRight}

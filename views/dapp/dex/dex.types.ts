@@ -1,14 +1,13 @@
 import { Dispatch, ReactNode, SetStateAction } from 'react';
 import { Control, UseFormRegister } from 'react-hook-form';
 
-import { OnSelectCurrencyData } from '@/views/dapp/views/dex/swap/swap.types';
+import { OnSelectCurrencyData } from '@/views/dapp/dex/swap/swap.types';
 
 export interface SwapTokenModalMetadata {
   name: string;
   symbol: string;
   address: string;
   decimals: number;
-  chainId?: number;
 }
 
 export interface SwapFormTokenData {
@@ -41,7 +40,6 @@ export interface SwapCurrencyDropdownProps {
   control: Control<{ search: string }>;
   onSelectCurrency: SwapSelectCurrencyProps['onSelectCurrency'];
   setIsSearching: Dispatch<SetStateAction<boolean>>;
-  chainId: number;
 }
 
 export interface SwapSearchTokenProps {

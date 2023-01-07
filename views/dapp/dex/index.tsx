@@ -5,7 +5,6 @@ import { Container, Switch } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box } from '@/elements';
 
-import Pool from './pool';
 import Swap from './swap';
 
 const DEXView: FC = () => {
@@ -31,7 +30,7 @@ const DEXView: FC = () => {
           ]}
         />
       </Box>
-      {isSwap ? <Swap /> : <Pool />}
+      <Swap />
     </Container>
   );
 };

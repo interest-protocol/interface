@@ -1,5 +1,7 @@
 import { ChangeEvent } from 'react';
 
+import { MAX_NUMBER_INPUT_VALUE } from '@/sdk';
+
 const isExponential = (number: number) => number.toString().includes('e');
 
 export const shortAccount = (account: string, mobile = false): string =>
@@ -90,7 +92,7 @@ export const formatDollars = (money: number): string =>
 
 export const parseInputEventToNumberString = (
   event: ChangeEvent<HTMLInputElement>,
-  max: number
+  max: number = MAX_NUMBER_INPUT_VALUE
 ): string => {
   const value = event.target.value;
 
