@@ -1,9 +1,9 @@
-import { GetStaticProps } from 'next';
+import { GetStaticProps, NextPage } from 'next';
 import { mergeDeepRight } from 'ramda';
 
 import DEX from '@/views/dapp/dex';
 
-const FaucetPage = () => <DEX />;
+const DexPage: NextPage = () => <DEX />;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dexMessages] = await Promise.all([
@@ -21,4 +21,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default FaucetPage;
+export default DexPage;
