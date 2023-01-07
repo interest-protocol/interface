@@ -55,6 +55,7 @@ const CreatePool: FC<CreatePoolProps> = ({
           name={name}
           register={register}
           needAllowance={needAllowance[index]}
+          tokenBalance={0}
         />
       ))}
       <Box

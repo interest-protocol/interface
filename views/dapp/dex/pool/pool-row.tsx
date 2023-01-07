@@ -1,31 +1,15 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { Routes, RoutesEnum, TOKENS_SVG_MAP } from '@/constants';
+import { Routes, RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
-import {
-  replaceWrappedNativeTokenAddressWithZero,
-  replaceWrappedNativeTokenWithNativeTokenSymbol,
-} from '@/utils';
+import { UnknownCoinSVG } from '@/svg';
 
 import { PoolRowProps } from './pool.types';
 
-const PoolRow: FC<PoolRowProps> = ({
-  chainId,
-  symbol0,
-  symbol1,
-  address0,
-  address1,
-  pairAddress,
-}) => {
-  const FirstIcon =
-    TOKENS_SVG_MAP[chainId][
-      replaceWrappedNativeTokenAddressWithZero(chainId, address0)
-    ] ?? TOKENS_SVG_MAP[chainId].default;
-  const SecondIcon =
-    TOKENS_SVG_MAP[chainId][
-      replaceWrappedNativeTokenAddressWithZero(chainId, address1)
-    ] ?? TOKENS_SVG_MAP[chainId].default;
+const PoolRow: FC<PoolRowProps> = ({ symbol0, symbol1, pairAddress }) => {
+  const FirstIcon = UnknownCoinSVG;
+  const SecondIcon = UnknownCoinSVG;
 
   return (
     <Link
@@ -49,8 +33,7 @@ const PoolRow: FC<PoolRowProps> = ({
               <FirstIcon width="1.2rem" maxHeight="1.2rem" maxWidth="1.2rem" />
               <SecondIcon width="1.2rem" maxHeight="1.2rem" maxWidth="1.2rem" />
               <Typography mx="M" as="span" variant="normal">
-                {replaceWrappedNativeTokenWithNativeTokenSymbol(symbol0)} /{' '}
-                {replaceWrappedNativeTokenWithNativeTokenSymbol(symbol1)}
+                {symbol0} / {symbol1}
               </Typography>
             </Box>
           </Box>

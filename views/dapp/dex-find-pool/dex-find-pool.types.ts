@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers';
 import { Dispatch, SetStateAction } from 'react';
 import {
   Control,
@@ -6,8 +5,6 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from 'react-hook-form';
-
-import { BalanceData } from '@/hooks';
 
 import { SwapSelectCurrencyProps } from '../dex/dex.types';
 
@@ -37,9 +34,8 @@ export interface CreatePoolProps {
   control: Control<DexFindPoolForm>;
   register: UseFormRegister<DexFindPoolForm>;
   setValue: UseFormSetValue<DexFindPoolForm>;
-  tokenBalances: [BigNumber, BigNumber];
+  tokenBalances: [number, number];
   getValues: UseFormGetValues<DexFindPoolForm>;
-  refetch: () => Promise<void>;
 }
 
 export interface CreatePoolFieldProps {
@@ -47,9 +43,8 @@ export interface CreatePoolFieldProps {
   name: 'tokenA' | 'tokenB';
   register: UseFormRegister<DexFindPoolForm>;
   setValue: UseFormSetValue<DexFindPoolForm>;
-  tokenBalance: BigNumber;
+  tokenBalance: number;
   getValues: UseFormGetValues<DexFindPoolForm>;
-  refetch: () => Promise<void>;
 }
 
 export interface PriceProps {
@@ -58,20 +53,15 @@ export interface PriceProps {
 
 export interface UseAddNativeTokenLiquidityArgs {
   control: Control<DexFindPoolForm>;
-  balancesData: Record<string, BalanceData>;
-  nativeBalance: BigNumber;
+  nativeBalance: number;
   isStable: boolean;
   account: string;
   chainId: number;
 }
 
 export interface FindPoolButtonProps {
-  chainId: number;
-  account: string;
-  balancesData: Record<string, BalanceData>;
-  control: Control<DexFindPoolForm>;
+  control?: Control<DexFindPoolForm>;
   getValues: UseFormGetValues<DexFindPoolForm>;
-  nativeBalance: BigNumber;
   tokenAAddress: string;
   tokenBAddress: string;
   isStable: boolean;

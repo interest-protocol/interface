@@ -1,5 +1,4 @@
 import { useTranslations } from 'next-intl';
-import { pathOr } from 'ramda';
 import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 
@@ -25,12 +24,12 @@ const FindPoolView = () => {
       tokenA: {
         address: AddressZero,
         decimals: 0.0023,
-        symbol: 'BTC',
+        symbol: '???',
       },
       tokenB: {
         address: AddressZero,
         decimals: 0.0023,
-        symbol: 'BTC',
+        symbol: '???',
       },
       isStable: false,
     },
@@ -90,18 +89,15 @@ const FindPoolView = () => {
           register={register}
           needAllowance={[tokenANeedsAllowance, tokenBNeedsAllowance]}
           setValue={setValue}
+          tokenBalances={[12, 21]}
         />
       )}
       <FindPoolButton
-        chainId={chainId}
-        account={account}
         control={control}
         getValues={getValues}
         tokenAAddress={tokenAAddress}
         tokenBAddress={tokenBAddress}
         isStable={isStable}
-        nativeBalance={nativeBalance}
-        balancesData={balancesData}
         setCreatingPair={setCreatingPair}
         isCreatingPair={isCreatingPair}
       />

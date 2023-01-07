@@ -5,8 +5,6 @@ import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
-import { useIdAccount } from '@/hooks';
-import { FixedPointMath } from '@/sdk';
 
 import {
   AddLiquidityCardProps,
@@ -14,19 +12,16 @@ import {
   INPUT_NAMES,
 } from './add-liquidity-card.types';
 import AddLiquidityCardContent from './add-liquidity-card-content';
-import AddLiquidityManager from './add-liquidity-manager';
 import InputBalance from './input-balance';
 
 const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
   tokens,
   isStable,
   fetchingInitialData,
-  refetch,
 }) => {
-  const [isFetchingQuote, setIsFetchingQuote] = useState(false);
+  const [isFetchingQuote] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { account, chainId } = useIdAccount();
   const t = useTranslations();
 
   const { register, setValue, control } = useForm<IAddLiquidityForm>({
@@ -56,8 +51,8 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
           register={register}
           setValue={setValue}
           name={INPUT_NAMES[index]}
-          balance={FixedPointMath.toNumber(balance, decimals)}
-          disabled={loading || isFetchingQuote || allowance.isZero()}
+          balance={balance}
+          disabled={loading || isFetchingQuote || allowance === 0}
           currencyPrefix={
             fetchingInitialData ? (
               <Box height="1rem" display="flex" borderRadius="2rem">
@@ -84,26 +79,14 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
         />
       ))}
       <AddLiquidityCardContent
-        chainId={chainId}
-        account={account}
         loading={loading}
         setLoading={setLoading}
         tokens={tokens}
         isStable={isStable}
-        refetch={refetch}
         control={control}
         setValue={setValue}
         isFetchingQuote={isFetchingQuote}
         fetchingInitialData={fetchingInitialData}
-      />
-      <AddLiquidityManager
-        chainId={chainId}
-        control={control}
-        setValue={setValue}
-        isFetchingQuote={isFetchingQuote || loading}
-        setIsFetchingQuote={setIsFetchingQuote}
-        tokens={tokens}
-        isStable={isStable}
       />
     </Box>
   );
