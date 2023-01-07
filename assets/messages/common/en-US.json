@@ -49,7 +49,10 @@
     "recommendedToken": "Recommended Token",
     "moreDetails": "more details",
     "copyObjectNumber": "copy objectId",
-    "followUs": "FOLLOW US"
+    "followUs": "FOLLOW US",
+    "switchOption1": "Recommended",
+    "switchOption2": "Added By Me",
+    "searchTokenInputDescription": "search by name, symbol or address..."
   },
   "error": {
     "generic": "something went wrong",

@@ -5,7 +5,7 @@ import { pathOr } from 'ramda';
 import { FC } from 'react';
 
 import { COIN_TYPE } from '@/constants';
-import { Box, Button, Typography } from '@/elements';
+import { Box, Typography } from '@/elements';
 import { useWeb3 } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
 import { SuiSVG } from '@/svg';
@@ -60,17 +60,16 @@ const Wallet: FC = () => {
           />
         </Box>
       </Typography>
-      <Button
+      <Box
         fontSize="M"
         border="none"
-        variant="primary"
         padding={'unset'}
         display="inline-flex"
         bg="bottomBackground"
         borderRadius="2.5rem !important"
       >
         <ConnectWallet />
-      </Button>
+      </Box>
     </Box>
   );
 };

@@ -16,7 +16,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     props: {
       messages,
       now: Date.now(),
-      pageTitle: 'dex.pageTitle',
+      pageTitle: 'dexSwap.pageTitle',
     },
   };
 };
