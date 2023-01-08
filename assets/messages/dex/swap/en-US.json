@@ -1,11 +1,7 @@
 {
   "dexSwap": {
     "pageTitle": "DEX",
-    "settingsTransactionTitle": "Transaction Settings",
-    "toleranceLabel": "Slippage tolerance?",
-    "deadlineLabel": "Transaction deadline",
-    "settingsPanelTitle": "Panel Settings",
-    "priceLabel": "Automated Price",
+    "buttonText": "Swap",
     "swapMessage": {
       "fetchingAmounts": "Fetching amounts",
       "amountOut": "Failed to fetch the amount out",
