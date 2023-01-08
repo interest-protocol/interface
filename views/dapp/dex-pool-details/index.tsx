@@ -14,7 +14,6 @@ import {
   LiquidityDetailsCard,
   RemoveLiquidityCard,
 } from './components';
-import HeaderSkeleton from './components/skeleton/header';
 import { DEXPoolDetailsViewProps } from './dex-pool-details.types';
 
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {

@@ -1,15 +1,21 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { Routes, RoutesEnum } from '@/constants';
+import { Routes, RoutesEnum, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { UnknownCoinSVG } from '@/svg';
 
 import { PoolRowProps } from './pool.types';
 
-const PoolRow: FC<PoolRowProps> = ({ symbol0, symbol1, pairAddress }) => {
-  const FirstIcon = UnknownCoinSVG;
-  const SecondIcon = UnknownCoinSVG;
+const PoolRow: FC<PoolRowProps> = ({
+  symbol0,
+  symbol1,
+  type0,
+  type1,
+  pairAddress,
+}) => {
+  const FirstIcon = TOKENS_SVG_MAP[type0] ?? UnknownCoinSVG;
+  const SecondIcon = TOKENS_SVG_MAP[type1] ?? UnknownCoinSVG;
 
   return (
     <Link
