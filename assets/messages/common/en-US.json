@@ -50,15 +50,16 @@
     "moreDetails": "more details",
     "copyObjectNumber": "copy objectId",
     "followUs": "FOLLOW US",
-    "switchOption1": "Recommended",
-    "switchOption2": "Added By Me",
-    "searchTokenInputDescription": "search by name, symbol or address..."
+    "coin": "coin",
+    "bannerHeader": "This is an alpha product deployed on a Devnet. It might be down because of version updates or unexpected issues."
   },
   "error": {
     "generic": "something went wrong",
     "wrongParams": "Wrong params",
     "fetchingContract": "Error fetching contract",
-    "fetchingBalances": "Error fetching balances"
+    "fetchingBalances": "Error fetching balances",
+    "accountNotFound": "No account found",
+    "tokenNotFound": "token not found"
   },
   "wallet": {
     "wrongNetwork": {

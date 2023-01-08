@@ -25,7 +25,7 @@ const MintButton: FC<MintButtonProps> = ({ getValues }) => {
       const type = getValues('type');
 
       if (type === COIN_TYPE[Network.DEVNET].SUI) {
-        if (!account) throw new Error('No account found');
+        if (!account) throw new Error(t('error.accountNotFound'));
         return await provider.requestSuiFromFaucet(account);
       }
       const tx = await signAndExecuteTransaction({
@@ -76,11 +76,11 @@ const MintButton: FC<MintButtonProps> = ({ getValues }) => {
             fontSize="S"
             textTransform="capitalize"
           >
-            Minting
+            {capitalize(t('faucet.mint', { isLoading: +loading }))}
           </Typography>
         </Box>
       ) : (
-        'Mint'
+        capitalize(t('faucet.mint', { isLoading: +loading }))
       )}
     </Button>
   );

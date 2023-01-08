@@ -9,7 +9,7 @@ import {
 import { SwapSelectCurrencyProps } from '../dex/dex.types';
 
 interface FormValue {
-  address: string;
+  type: string;
   decimals: number;
   symbol: string;
   value: string;
@@ -18,7 +18,6 @@ interface FormValue {
 export interface DexFindPoolForm {
   tokenA: FormValue;
   tokenB: FormValue;
-  isStable: boolean;
 }
 
 export interface FindPoolProps {
@@ -62,9 +61,8 @@ export interface UseAddNativeTokenLiquidityArgs {
 export interface FindPoolButtonProps {
   control?: Control<DexFindPoolForm>;
   getValues: UseFormGetValues<DexFindPoolForm>;
-  tokenAAddress: string;
-  tokenBAddress: string;
-  isStable: boolean;
+  tokenAType: string;
+  tokenBType: string;
   isCreatingPair: boolean;
   setCreatingPair: Dispatch<SetStateAction<boolean>>;
 }

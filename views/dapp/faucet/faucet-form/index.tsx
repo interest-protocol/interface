@@ -10,8 +10,7 @@ import { useWeb3 } from '@/hooks';
 import { getCoinBalance, getCoinObjectId, ZERO_BIG_NUMBER } from '@/utils';
 
 import { IFaucetForm } from '../faucet.types';
-import InputBalance from '../input-balance';
-import FaucetTokensDropdown from './faucet-tokens-dropdown';
+import FaucetSelectCurrency from './faucet-select-currency';
 import ItemBalance from './item-balance';
 import MintButton from './mint-button';
 
@@ -28,7 +27,7 @@ const DEFAULT_COIN = {
 const FaucetForm: FC = () => {
   const t = useTranslations();
   const { coinsMap } = useWeb3();
-  const { register, getValues, setValue } = useForm<IFaucetForm>({
+  const { getValues, setValue } = useForm<IFaucetForm>({
     defaultValues: {
       type: tokens?.[0]?.type ?? '',
       amount: 0,
@@ -59,18 +58,11 @@ const FaucetForm: FC = () => {
           borderRadius="M"
           flexDirection="column"
         >
-          <InputBalance
-            name="amount"
-            register={register}
-            label={t('common.chooseToken')}
-            setValue={setValue}
-            currencyPrefix={
-              <FaucetTokensDropdown
-                tokens={tokens}
-                defaultValue={tokens?.[0]?.type ?? ''}
-                onSelectCurrency={onSelectCurrency}
-              />
-            }
+          <FaucetSelectCurrency
+            label={t('faucet.tokenInput')}
+            tokens={tokens}
+            defaultValue={tokens?.[0]?.type ?? ''}
+            onSelectCurrency={onSelectCurrency}
           />
           <Box display="flex" justifyContent="center">
             <MintButton getValues={getValues} />

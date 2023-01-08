@@ -7,6 +7,11 @@ export enum PoolType {
   Volatile,
   Stable,
 }
+export const DEX_PACKAGE_ID = '0xebe071664df1f5dbcc36368b0ec92840199a7e17';
+
+export const POOLS_OBJECT_ID = '0xe76fb7250f46cb909581333082374dc48eb06d9c';
+
+export const DEX_OBJECT_ID = '0xebe071664df1f5dbcc36368b0ec92840199a7e17';
 
 export const DEX_TOKENS_DATA = [
   {

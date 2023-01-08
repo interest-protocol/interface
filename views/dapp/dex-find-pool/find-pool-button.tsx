@@ -15,7 +15,6 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
   getValues /*
   tokenBAddress,
   tokenAAddress,*/,
-  isStable,
   isCreatingPair,
   setCreatingPair,
 }) => {
@@ -77,13 +76,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       error: prop('message'),
     });
 
-  const bothTokensAreStableCoins = () => true;
-
   const handleValidateCreatePair = async () => {
-    if (isStable && bothTokensAreStableCoins()) return await handleCreatePair();
-    if (!isStable && !bothTokensAreStableCoins())
-      return await handleCreatePair();
-
     return setCreatePoolPopup(true);
   };
 
@@ -141,7 +134,6 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
         </Button>
       )}
       <CreatePoolPopup
-        isStable={isStable}
         isOpen={createPoolPopup}
         symbol0={getValues('tokenA.symbol')}
         symbol1={getValues('tokenB.symbol')}

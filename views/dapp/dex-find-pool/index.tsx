@@ -22,23 +22,21 @@ const FindPoolView = () => {
   const { setValue, control, getValues, register } = useForm<DexFindPoolForm>({
     defaultValues: {
       tokenA: {
-        address: AddressZero,
+        type: AddressZero,
         decimals: 0.0023,
         symbol: '???',
       },
       tokenB: {
-        address: AddressZero,
+        type: AddressZero,
         decimals: 0.0023,
         symbol: '???',
       },
-      isStable: false,
     },
   });
 
   // We want the form to re-render if addresses change
-  const tokenAAddress = useWatch({ control, name: 'tokenA.address' });
-  const isStable = useWatch({ control, name: 'isStable' });
-  const tokenBAddress = useWatch({ control, name: 'tokenB.address' });
+  const tokenAType = useWatch({ control, name: 'tokenA.type' });
+  const tokenBType = useWatch({ control, name: 'tokenB.type' });
 
   const tokenANeedsAllowance = false;
 
@@ -46,8 +44,8 @@ const FindPoolView = () => {
 
   const onSelectCurrency =
     (name: 'tokenA' | 'tokenB') =>
-    ({ address, decimals, symbol }: OnSelectCurrencyData) => {
-      setValue(`${name}.address`, address);
+    ({ type, decimals, symbol }: OnSelectCurrencyData) => {
+      setValue(`${name}.type`, type);
       setValue(`${name}.decimals`, decimals);
       setValue(`${name}.symbol`, symbol);
       setValue('tokenA.value', '0.0');
@@ -69,14 +67,14 @@ const FindPoolView = () => {
         currencyASelectArgs={{
           isModalOpen: isTokenAOpenModal,
           symbol: getValues('tokenA.symbol'),
-          address: getValues('tokenA.address'),
+          type: getValues('tokenA.type'),
           setIsModalOpen: setTokenAIsOpenModal,
           onSelectCurrency: onSelectCurrency('tokenA'),
         }}
         currencyBSelectArgs={{
           isModalOpen: isTokenBOpenModal,
           symbol: getValues('tokenB.symbol'),
-          address: getValues('tokenB.address'),
+          type: getValues('tokenB.type'),
           setIsModalOpen: setTokenBIsOpenModal,
           onSelectCurrency: onSelectCurrency('tokenB'),
         }}
@@ -95,9 +93,8 @@ const FindPoolView = () => {
       <FindPoolButton
         control={control}
         getValues={getValues}
-        tokenAAddress={tokenAAddress}
-        tokenBAddress={tokenBAddress}
-        isStable={isStable}
+        tokenAType={tokenAType}
+        tokenBType={tokenBType}
         setCreatingPair={setCreatingPair}
         isCreatingPair={isCreatingPair}
       />

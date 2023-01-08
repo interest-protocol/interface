@@ -50,15 +50,16 @@
     "moreDetails": "ver detalhes",
     "copyObjectNumber": "copiar o id do objecto",
     "followUs": "SIGA-NOS",
-    "switchOption1": "Recomendado",
-    "switchOption2": "Adicionados por mim",
-    "searchTokenInputDescription": "pesquise por nome, símbolo ou endereço..."
+    "coin": "moeda",
+    "bannerHeader": "Este é um produto alfa implantado num Devnet. Pode estar em baixo por causa de actualizações de versões ou problemas inesperados."
   },
   "error": {
     "generic": "algo deu errado",
     "wrongParams": "Parâmetros errados",
     "fetchingContract": "Erro ao obter os contractos",
-    "fetchingBalances": "Erro ao obter os saldos"
+    "fetchingBalances": "Erro ao obter os saldos",
+    "accountNotFound": "Nenhuma conta encontrada",
+    "tokenNotFound": "nenhum token encontrado"
   },
   "wallet": {
     "wrongNetwork": {

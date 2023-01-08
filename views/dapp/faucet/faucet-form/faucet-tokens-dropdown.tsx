@@ -1,8 +1,10 @@
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Box, Dropdown, Typography } from '@/elements';
 import { IDropdownData } from '@/elements/dropdown/dropdown.types';
-import { ArrowSVG, UnknownCoinSVG } from '@/svg';
+import { ArrowSVG } from '@/svg';
+import { capitalize } from '@/utils';
 
 import { FaucetCurrencyDropdownProps, IToken } from '../faucet.types';
 
@@ -24,6 +26,7 @@ const renderData = (
           borderRadius="M"
           alignItems="center"
           justifyContent="space-between"
+          height="3rem"
         >
           <Box my="M" display="flex" alignItems="center">
             <Box as="span" display="inline-block" width="1rem">
@@ -39,8 +42,13 @@ const renderData = (
               {symbol}
             </Typography>
           </Box>
-          <Box as="span" display="inline-block" width="0.5rem">
-            <ArrowSVG width="100%" maxHeight="0.5rem" maxWidth="0.5rem" />
+          <Box as="span" display="inline-block" width="0.5rem" color="text">
+            <ArrowSVG
+              width="100%"
+              maxHeight="0.5rem"
+              maxWidth="0.5rem"
+              fill="currentColor"
+            />
           </Box>
         </Box>
       ),
@@ -53,11 +61,14 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
   defaultValue,
   onSelectCurrency,
 }) => {
+  const t = useTranslations();
+  const SVG = tokens?.[0]?.Icon;
+
   return (
     <Dropdown
       mode="select"
       defaultValue={defaultValue}
-      emptyMessage="Nenhum token encontrado"
+      emptyMessage={capitalize(t('error.tokenNotFound'))}
       title={
         <Box
           px="L"
@@ -66,10 +77,16 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
           borderRadius="M"
           alignItems="center"
           justifyContent="space-between"
+          height="3rem"
         >
           <Box my="M" display="flex" alignItems="center">
-            <Box as="span" display="inline-block" width="1rem">
-              <UnknownCoinSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
+            <Box as="span" display="inline-block" width="1rem" color="text">
+              <SVG
+                width="100%"
+                maxHeight="1rem"
+                maxWidth="1rem"
+                fill="currentColor"
+              />
             </Box>
             <Typography
               mx="M"
@@ -79,12 +96,17 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
               active={{ color: 'accentActive' }}
               textTransform="capitalize"
             >
-              ???
+              {tokens?.[0]?.symbol}
             </Typography>
           </Box>
 
-          <Box as="span" display="inline-block" width="0.5rem">
-            <ArrowSVG width="100%" maxHeight="0.5rem" maxWidth="0.5rem" />
+          <Box as="span" display="inline-block" width="0.5rem" color="text">
+            <ArrowSVG
+              width="100%"
+              maxHeight="0.5rem"
+              maxWidth="0.5rem"
+              fill="currentColor"
+            />
           </Box>
         </Box>
       }

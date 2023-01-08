@@ -80,7 +80,7 @@ const ItemBalance: FC<ItemBalanceProps> = ({
 
   return (
     <>
-      <Box py="XS">
+      <Box py="XS" overflow="hidden">
         <Box mr="M" display="flex" justifyContent="space-between">
           <Box display="flex" alignItems="center" color="text">
             <SVG
@@ -124,7 +124,7 @@ const ItemBalance: FC<ItemBalanceProps> = ({
                 alignItems="center"
               >
                 <Typography variant="normal" fontSize="S">
-                  Coin ...{id?.slice(-4)}:{' '}
+                  {capitalize(t('common.coin'))} ...{id?.slice(-4)}:{' '}
                   {FixedPointMath.from(balance).toNumber(decimals)}
                 </Typography>
                 <Box as="span">
