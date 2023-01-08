@@ -25,8 +25,8 @@ const BinanceTest: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => {
           y2="22"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="white"></stop>
-          <stop offset="1" stopColor="white"></stop>
+          <stop stopColor={props?.fill || 'white'}></stop>
+          <stop offset="1" stopColor={props?.fill || 'white'}></stop>
         </linearGradient>
       </defs>
     </svg>

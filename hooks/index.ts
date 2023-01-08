@@ -3,6 +3,6 @@ export * from './use-event-listener';
 export * from './use-is-mounted';
 export * from './use-local-storage';
 export * from './use-locale';
-export * from './use-native-balance';
 export * from './use-previous';
 export * from './use-router-query';
+export * from './use-web3';

@@ -65,7 +65,7 @@ const DropdownList: FC<DropdownListProps> = ({
   return isOpen ? (
     <RefBox
       p="M"
-      zIndex={1}
+      zIndex={4}
       bg="foreground"
       borderRadius="M"
       position="absolute"
