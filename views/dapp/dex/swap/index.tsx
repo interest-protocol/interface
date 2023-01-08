@@ -44,8 +44,8 @@ const Swap: FC = () => {
       tokenOut: {
         type: ETH.type,
         value: '0',
-        decimals: ETH.decimals,
-        symbol: ETH.symbol,
+        decimals: 0,
+        symbol: '???',
         setByUser: false,
       },
     },

@@ -1,9 +1,8 @@
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 
-import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useChainId } from '@/hooks';
+import { UnknownCoinSVG } from '@/svg';
 
 import { LiquidityDetailsCardLineProps } from '../../dex-pool-details.types';
 
@@ -13,10 +12,7 @@ const LiquidityDetailsCardLine: FC<LiquidityDetailsCardLineProps> = ({
   address,
   isFetchingInitialData,
 }) => {
-  const chainId = useChainId();
-
-  const TokenSVG =
-    TOKENS_SVG_MAP[chainId][address] ?? TOKENS_SVG_MAP[chainId].default;
+  const TokenSVG = UnknownCoinSVG;
 
   return (
     <Box display="flex" justifyContent="space-between" my="M">

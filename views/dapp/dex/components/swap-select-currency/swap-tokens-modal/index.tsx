@@ -72,7 +72,6 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   currentToken,
   // setIsSearching,
   onSelectCurrency,
-  // chainId,
 }) => {
   const t = useTranslations();
   const search = useWatch({ control, name: 'search' });
@@ -108,7 +107,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
       <Box bg="foreground" p="L" borderRadius="M" maxWidth="27rem">
         {Input}
         {isSearching && <LineLoaderSVG width="100%" />}
-        {debouncedSearch ? (
+        {debouncedSearch && (
           <Box my="L" textAlign="center">
             {isSearching ? (
               <Typography variant="normal" color="text">
@@ -122,25 +121,24 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
               </Typography>
             )}
           </Box>
-        ) : (
-          <Box
-            mt="M"
-            display="grid"
-            overflowY="auto"
-            gridGap="0.3rem"
-            maxHeight="20rem"
-          >
-            {renderData(
-              tokenMetaDataArray.filter(
-                ({ type }) =>
-                  currentToken == type &&
-                  !DEX_TOKENS_DATA.map(prop('type')).includes(type)
-              ) as ReadonlyArray<SwapTokenModalMetadata>,
-              onSelectCurrency,
-              currentToken
-            )}
-          </Box>
         )}
+        <Box
+          mt="M"
+          display="grid"
+          overflowY="auto"
+          gridGap="0.3rem"
+          maxHeight="20rem"
+        >
+          {renderData(
+            tokenMetaDataArray.filter(
+              ({ type }) =>
+                currentToken == type &&
+                !DEX_TOKENS_DATA.map(prop('type')).includes(type)
+            ) as ReadonlyArray<SwapTokenModalMetadata>,
+            onSelectCurrency,
+            currentToken
+          )}
+        </Box>
       </Box>
     </Modal>
   );

@@ -1,26 +1,9 @@
 import { useTranslations } from 'next-intl';
-import { prop } from 'ramda';
-import { ChangeEvent, FC, useCallback, useMemo } from 'react';
+import { ChangeEvent, FC, useMemo } from 'react';
 
-import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
-import { useApprove, useIdAccount } from '@/hooks';
-import { FixedPointMath } from '@/sdk';
-import {
-  capitalize,
-  formatMoney,
-  getInterestDexRouterAddress,
-  parseInputEventToNumberString,
-  showToast,
-  showTXSuccessToast,
-  throwError,
-} from '@/utils';
-import {
-  GAPage,
-  GAStatus,
-  GAType,
-  logTransactionEvent,
-} from '@/utils/analytics';
+import { UnknownCoinSVG } from '@/svg';
+import { capitalize, parseInputEventToNumberString } from '@/utils';
 
 import { CreatePoolFieldProps } from '../dex-find-pool.types';
 
@@ -31,49 +14,23 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   needAllowance,
   tokenBalance,
   getValues,
-  refetch,
 }) => {
   const t = useTranslations();
-  const { chainId } = useIdAccount();
-  const { address, symbol, decimals } = getValues()[name];
-  const { writeAsync: addAllowance } = useApprove(
-    address,
-    getInterestDexRouterAddress(chainId),
-    { enabled: needAllowance }
-  );
+  const { address, symbol } = getValues()[name];
 
-  const SVG =
-    TOKENS_SVG_MAP[chainId][address] ?? TOKENS_SVG_MAP[chainId].default;
+  const SVG = UnknownCoinSVG;
 
-  const approve = useCallback(async () => {
-    try {
-      const tx = await addAllowance?.();
-      await showTXSuccessToast(tx, chainId);
-      if (tx) await tx.wait(2);
-      logTransactionEvent({
-        status: GAStatus.Success,
-        type: GAType.Write,
-        page: GAPage.DexFindPoolCreatePool,
-        functionName: 'approve',
-      });
-      await refetch();
-    } catch (e) {
-      logTransactionEvent({
-        status: GAStatus.Error,
-        type: GAType.Write,
-        page: GAPage.DexFindPoolCreatePool,
-        functionName: 'approve',
-      });
-      throwError(t('error.generic'), e);
-    }
-  }, [chainId, addAllowance, chainId, refetch]);
+  const addAllowance = true;
 
-  const handleApprove = () =>
-    showToast(approve(), {
-      loading: capitalize(t('common.approve', { isLoading: 1 })),
-      success: capitalize(t('common.success')),
-      error: prop('message'),
-    });
+  const handleApprove = () => {
+    console.log('approve');
+
+    // showToast(approve(), {
+    //   loading: capitalize(t('common.approve', { isLoading: 1 })),
+    //   success: capitalize(t('common.success')),
+    //   error: prop('message'),
+    // });}
+  };
 
   const isDisabled = useMemo(
     () => !address || needAllowance,
@@ -104,10 +61,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           onChange: (v: ChangeEvent<HTMLInputElement>) => {
             setValue?.(
               `${name}.value`,
-              parseInputEventToNumberString(
-                v,
-                FixedPointMath.toNumber(tokenBalance, decimals)
-              )
+              parseInputEventToNumberString(v, tokenBalance)
             );
           },
         })}
@@ -161,12 +115,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           </Button>
         ) : (
           <Button
-            onClick={() =>
-              setValue?.(
-                `${name}.value`,
-                FixedPointMath.toNumber(tokenBalance, decimals).toString()
-              )
-            }
+            onClick={() => setValue?.(`${name}.value`, tokenBalance.toString())}
             height="2.4rem"
             variant="secondary"
             disabled={!address}
@@ -181,8 +130,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           fontSize="0.9rem"
           textTransform="capitalize"
         >
-          {t('common.balance')}:{' '}
-          {formatMoney(FixedPointMath.toNumber(tokenBalance, decimals), 2)}
+          {t('common.balance')}: 100
         </Typography>
       </Box>
     </Box>

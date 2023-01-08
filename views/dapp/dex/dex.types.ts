@@ -8,7 +8,6 @@ export interface SwapTokenModalMetadata {
   symbol: string;
   type: string;
   decimals: number;
-  chainId?: number;
 }
 
 export interface SwapFormTokenData {

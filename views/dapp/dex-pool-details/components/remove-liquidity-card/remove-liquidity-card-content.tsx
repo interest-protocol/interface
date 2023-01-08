@@ -1,126 +1,46 @@
 import { useTranslations } from 'next-intl';
-import { prop } from 'ramda';
 import { FC } from 'react';
 
 import { Box, Button } from '@/elements';
-import { useApprove } from '@/hooks';
-import {
-  capitalize,
-  getInterestDexRouterAddress,
-  showToast,
-  showTXSuccessToast,
-  throwError,
-} from '@/utils';
-import {
-  GAPage,
-  GAStatus,
-  GAType,
-  logTransactionEvent,
-} from '@/utils/analytics';
-import { WalletGuardButton } from '@/views/dapp/components';
+import { capitalize } from '@/utils';
 
 import ApproveButton from './approve-button';
 import LinearLoader from './linear-loader';
 import RemoveLiquidityButton from './remove-liquidity-button';
-import { useRemoveLiquidity } from './remove-liquidity-card.hooks';
 import { RemoveLiquidityCardContentProps } from './remove-liquidity-card.types';
 import TokenAmount from './token-amount';
 
 const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
-  chainId,
   tokens,
   isStable,
   lpAllowance,
   lpBalance,
   pairAddress,
   isFetchingInitialData,
-  account,
-  refetch,
   setValue,
   control,
 }) => {
   const t = useTranslations();
-  const { writeAsync: approve } = useApprove(
-    pairAddress,
-    getInterestDexRouterAddress(chainId)
-  );
 
-  const { writeAsync: removeLiquidity } = useRemoveLiquidity({
-    control,
-    chainId,
-    tokens,
-    account,
-    isStable,
-    lpBalance,
-  });
+  const handleApproveToken = async () => {
+    console.log('approveToken');
 
-  const approveToken = async () => {
-    try {
-      setValue('loading', true);
-
-      const tx = await approve?.();
-
-      await showTXSuccessToast(tx, chainId);
-      logTransactionEvent({
-        status: GAStatus.Success,
-        type: GAType.Write,
-        page: GAPage.DexPoolDetailsRemoveLiquidity,
-        functionName: 'approveToken',
-      });
-    } catch {
-      logTransactionEvent({
-        status: GAStatus.Error,
-        type: GAType.Write,
-        page: GAPage.DexPoolDetailsRemoveLiquidity,
-        functionName: 'approveToken',
-      });
-      throwError(t('error.generic'));
-    } finally {
-      setValue('loading', false);
-      await refetch();
-    }
+    // showToast(approveToken(), {
+    //   loading: `${capitalize(t('common.approve', { isLoading: 1 }))}`,
+    //   success: capitalize(t('common.success')),
+    //   error: prop('message'),
+    // });
   };
 
-  const handleApproveToken = () =>
-    showToast(approveToken(), {
-      loading: `${capitalize(t('common.approve', { isLoading: 1 }))}`,
-      success: capitalize(t('common.success')),
-      error: prop('message'),
-    });
+  const handleRemoveLiquidity = async () => {
+    console.log('remove');
 
-  const remove = async () => {
-    try {
-      setValue('removeLoading', true);
-
-      const tx = await removeLiquidity?.();
-
-      await showTXSuccessToast(tx, chainId);
-      logTransactionEvent({
-        status: GAStatus.Success,
-        type: GAType.Write,
-        page: GAPage.DexPoolDetailsRemoveLiquidity,
-        functionName: 'remove',
-      });
-    } catch {
-      logTransactionEvent({
-        status: GAStatus.Error,
-        type: GAType.Write,
-        page: GAPage.DexPoolDetailsRemoveLiquidity,
-        functionName: 'remove',
-      });
-      throwError(t('error.generic'));
-    } finally {
-      setValue('removeLoading', false);
-      await refetch();
-    }
+    // showToast(remove(), {
+    //   loading: capitalize(`${t('common.remove', { isLoading: 1 })}`),
+    //   success: capitalize(t('common.success')),
+    //   error: prop('message'),
+    // });
   };
-
-  const handleRemoveLiquidity = async () =>
-    showToast(remove(), {
-      loading: capitalize(`${t('common.remove', { isLoading: 1 })}`),
-      success: capitalize(t('common.success')),
-      error: prop('message'),
-    });
 
   return (
     <>
@@ -146,43 +66,41 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
           isFetchingInitialData={isFetchingInitialData}
         />
       </Box>
-      <WalletGuardButton>
-        <Box
-          mt="L"
-          display="grid"
-          gridColumnGap="1rem"
-          gridTemplateColumns={lpAllowance.isZero() ? '1fr' : '1fr 1fr'}
-        >
-          {lpAllowance.isZero() ? (
-            <ApproveButton
-              disabled={!approve}
+      <Box
+        mt="L"
+        display="grid"
+        gridColumnGap="1rem"
+        gridTemplateColumns={lpAllowance === 0 ? '1fr' : '1fr 1fr'}
+      >
+        {lpAllowance === 0 ? (
+          <ApproveButton
+            disabled={false}
+            control={control}
+            onClick={handleApproveToken}
+            symbol0={tokens[0].symbol}
+            symbol1={tokens[1].symbol}
+          />
+        ) : (
+          <>
+            <Button
+              width="100%"
+              variant="primary"
+              bg="bottomBackground"
+              hover={{ bg: 'disabled' }}
+              onClick={() => {
+                setValue('lpAmount', '0.0');
+              }}
+            >
+              {capitalize(t('common.reset'))}
+            </Button>
+            <RemoveLiquidityButton
               control={control}
-              onClick={handleApproveToken}
-              symbol0={tokens[0].symbol}
-              symbol1={tokens[1].symbol}
+              onClick={handleRemoveLiquidity}
+              disabled={false}
             />
-          ) : (
-            <>
-              <Button
-                width="100%"
-                variant="primary"
-                bg="bottomBackground"
-                hover={{ bg: 'disabled' }}
-                onClick={() => {
-                  setValue('lpAmount', '0.0');
-                }}
-              >
-                {capitalize(t('common.reset'))}
-              </Button>
-              <RemoveLiquidityButton
-                control={control}
-                onClick={handleRemoveLiquidity}
-                disabled={!removeLiquidity}
-              />
-            </>
-          )}
-        </Box>
-      </WalletGuardButton>
+          </>
+        )}
+      </Box>
     </>
   );
 };

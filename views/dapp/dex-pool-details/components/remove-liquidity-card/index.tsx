@@ -3,7 +3,6 @@ import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Box, Typography } from '@/elements';
-import { FixedPointMath } from '@/sdk';
 
 import InputBalance from './input-balance';
 import {
@@ -11,18 +10,14 @@ import {
   RemoveLiquidityCardProps,
 } from './remove-liquidity-card.types';
 import RemoveLiquidityCardContent from './remove-liquidity-card-content';
-import RemoveLiquidityManager from './remove-liquidity-manager';
 
 const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
-  chainId,
   tokens,
   isStable,
   lpAllowance,
   lpBalance,
   pairAddress,
   isFetchingInitialData,
-  account,
-  refetch,
 }) => {
   const t = useTranslations();
 
@@ -53,8 +48,8 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
         control={control}
         register={register}
         setValue={setValue}
-        balance={FixedPointMath.toNumber(lpBalance)}
-        disabled={lpAllowance.isZero() || lpBalance.isZero()}
+        balance={12}
+        disabled={false}
         currencyPrefix={
           <Box display="flex" width="5rem">
             {tokens[0].Icon}
@@ -66,27 +61,14 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
         }
       />
       <RemoveLiquidityCardContent
-        chainId={chainId}
-        account={account}
         setValue={setValue}
         isStable={isStable}
         control={control}
-        refetch={refetch}
         tokens={tokens}
         isFetchingInitialData={isFetchingInitialData}
         lpAllowance={lpAllowance}
         lpBalance={lpBalance}
         pairAddress={pairAddress}
-      />
-      <RemoveLiquidityManager
-        chainId={chainId || 0}
-        control={control}
-        setValue={setValue}
-        isStable={isStable}
-        token0Address={tokens[0].address}
-        token1Address={tokens[1].address}
-        token0Decimals={tokens[0].decimals}
-        token1Decimals={tokens[1].decimals}
       />
     </Box>
   );

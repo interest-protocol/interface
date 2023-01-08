@@ -3,48 +3,18 @@ import { prop } from 'ramda';
 import { FC } from 'react';
 
 import { Button } from '@/elements';
-import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
-import {
-  GAPage,
-  GAStatus,
-  GAType,
-  logTransactionEvent,
-} from '@/utils/analytics';
+import { capitalize, showToast } from '@/utils';
 
 import { AddLiquidityCardButtonProps } from './add-liquidity-card.types';
 
 const AddLiquidityButton: FC<AddLiquidityCardButtonProps> = ({
-  addLiquidity,
-  chainId,
-  refetch,
   setLoading,
   loading,
 }) => {
   const t = useTranslations();
 
   const _addLiquidity = async () => {
-    try {
-      setLoading(true);
-      const tx = await addLiquidity?.();
-      await showTXSuccessToast(tx, chainId);
-      logTransactionEvent({
-        status: GAStatus.Success,
-        type: GAType.Write,
-        page: GAPage.DexPoolDetails,
-        functionName: '_addLiquidity',
-      });
-    } catch {
-      logTransactionEvent({
-        status: GAStatus.Error,
-        type: GAType.Write,
-        page: GAPage.DexPoolDetails,
-        functionName: '_addLiquidity',
-      });
-      throwError(t('error.generic'));
-    } finally {
-      setLoading(false);
-      await refetch();
-    }
+    console.log('addLiquidity');
   };
 
   const handleAddLiquidity = () => {
@@ -57,12 +27,12 @@ const AddLiquidityButton: FC<AddLiquidityCardButtonProps> = ({
 
   return (
     <Button
-      bg={!addLiquidity || loading ? 'disabled' : 'accent'}
+      bg={loading ? 'disabled' : 'accent'}
       width="100%"
       variant="primary"
-      disabled={loading || !addLiquidity}
+      disabled={loading}
       onClick={handleAddLiquidity}
-      hover={{ bg: loading || !addLiquidity ? 'disabled' : 'accentActive' }}
+      hover={{ bg: loading ? 'disabled' : 'accentActive' }}
     >
       {capitalize(t('common.add', { isLoading: Number(loading) }))}
     </Button>
