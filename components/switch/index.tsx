@@ -39,7 +39,7 @@ const Switch: FC<SwitchProps> = ({
           justifyContent="center"
           hover={{ color: 'text' }}
           textTransform="capitalize"
-          color={value === selected ? 'outline' : 'textSecondary'}
+          color={value === selected ? 'textLight' : 'textSecondary'}
           onClick={() => {
             if (value !== selected) {
               switcher(value);
@@ -47,9 +47,7 @@ const Switch: FC<SwitchProps> = ({
             }
           }}
           bg={
-            value === selected
-              ? bgSelected || 'bottomBackground'
-              : 'transparent'
+            value === selected ? bgSelected || 'accentSecondary' : 'transparent'
           }
         >
           {displayValue ?? value}

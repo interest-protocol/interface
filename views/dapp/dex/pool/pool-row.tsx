@@ -28,13 +28,14 @@ const PoolRow: FC<PoolRowProps> = ({
         mb="M"
         display="flex"
         cursor="pointer"
-        borderRadius="0.8rem"
+        borderRadius="2.5rem"
         bg="bottomBackground"
         flexDirection="column"
+        transition="background-color 1s"
         hover={{ bg: 'textSoft' }}
       >
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Box display="flex" mb="M">
+          <Box display="flex">
             <Box my="M" display="flex" alignItems="center">
               <FirstIcon width="1.2rem" maxHeight="1.2rem" maxWidth="1.2rem" />
               <SecondIcon width="1.2rem" maxHeight="1.2rem" maxWidth="1.2rem" />

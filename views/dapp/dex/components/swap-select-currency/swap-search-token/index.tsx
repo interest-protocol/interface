@@ -20,7 +20,7 @@ const SwapSearchToken: FC<SwapSearchTokenProps> = ({
       placeholder={capitalize(t('common.searchTokenInputDescription'))}
       shieldProps={{
         py: 'M',
-        borderRadius: 'S',
+        borderRadius: '2rem',
         minWidth: ['20rem', '25rem'],
         bg: isSearching ? 'disabled' : 'background',
       }}

@@ -39,24 +39,36 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
         px="M"
         py="S"
         display="flex"
-        borderRadius="M"
+        borderRadius="2.5rem"
         cursor="pointer"
         alignItems="center"
-        bg="bottomBackground"
+        bg="accentSecondary"
+        transition="background-color 1s"
+        hover={{ bg: 'accent' }}
         justifyContent="space-between"
         onClick={disabled ? undefined : toggleOpenModal}
         filter={disabled ? 'grayscale(1)' : 'unset'}
       >
         <Box my="M" display="flex" alignItems="center">
           <>
-            <Box as="span" display="inline-block" width="1rem">
-              <SVG width="100%" maxHeight="1rem" maxWidth="1rem" />
+            <Box
+              as="span"
+              display="inline-block"
+              width="1rem"
+              color="textLight"
+            >
+              <SVG
+                width="100%"
+                maxHeight="1rem"
+                maxWidth="1rem"
+                fill="currentColor"
+              />
             </Box>
             <Typography
               mx="M"
               as="span"
               variant="normal"
-              hover={{ color: 'accent' }}
+              color="textLight"
               active={{ color: 'accentActive' }}
             >
               {symbol.length > 4

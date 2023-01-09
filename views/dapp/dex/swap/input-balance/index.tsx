@@ -30,9 +30,10 @@ const InputBalance: FC<InputBalanceProps> = ({
         py="S"
         px="M"
         mb="-1rem"
-        bg="bottomBackground"
+        bg="accentSecondary"
         borderRadius="M"
         position="relative"
+        color="textLight"
       >
         <Typography fontSize="S" variant="normal" textTransform="capitalize">
           {t('common.balance')}:{' '}
@@ -82,7 +83,8 @@ const InputBalance: FC<InputBalanceProps> = ({
               fontSize="S"
               height="100%"
               variant="secondary"
-              bg="bottomBackground"
+              bg="accentSecondary"
+              color="textLight"
               hover={{ bg: 'accent' }}
               active={{ bg: 'accentActive' }}
               onClick={() => {
