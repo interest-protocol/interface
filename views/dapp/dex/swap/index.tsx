@@ -44,8 +44,8 @@ const Swap: FC = () => {
       tokenOut: {
         type: ETH.type,
         value: '0',
-        decimals: 0,
-        symbol: '???',
+        decimals: ETH.decimals,
+        symbol: ETH.symbol,
         setByUser: false,
       },
     },
@@ -65,6 +65,8 @@ const Swap: FC = () => {
       setValue(`${name}.symbol`, symbol);
       setValue('tokenOut.value', '0.0');
       setValue('tokenIn.value', '0.0');
+      isTokenInOpenModal && setTokenInIsOpenModal(false);
+      isTokenOutOpenModal && setTokenOutIsOpenModal(false);
     };
 
   return (

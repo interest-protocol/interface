@@ -1,5 +1,4 @@
 import { useTranslations } from 'next-intl';
-import { prop } from 'ramda';
 import { FC, ReactNode, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
@@ -107,7 +106,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
       <Box bg="foreground" p="L" borderRadius="M" maxWidth="27rem">
         {Input}
         {isSearching && <LineLoaderSVG width="100%" />}
-        {debouncedSearch && (
+        {debouncedSearch ? (
           <Box my="L" textAlign="center">
             {isSearching ? (
               <Typography variant="normal" color="text">
@@ -121,24 +120,21 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
               </Typography>
             )}
           </Box>
+        ) : (
+          <Box
+            mt="M"
+            display="grid"
+            overflowY="auto"
+            gridGap="0.3rem"
+            maxHeight="20rem"
+          >
+            {renderData(
+              tokenMetaDataArray as ReadonlyArray<SwapTokenModalMetadata>,
+              onSelectCurrency,
+              currentToken
+            )}
+          </Box>
         )}
-        <Box
-          mt="M"
-          display="grid"
-          overflowY="auto"
-          gridGap="0.3rem"
-          maxHeight="20rem"
-        >
-          {renderData(
-            tokenMetaDataArray.filter(
-              ({ type }) =>
-                currentToken == type &&
-                !DEX_TOKENS_DATA.map(prop('type')).includes(type)
-            ) as ReadonlyArray<SwapTokenModalMetadata>,
-            onSelectCurrency,
-            currentToken
-          )}
-        </Box>
       </Box>
     </Modal>
   );
