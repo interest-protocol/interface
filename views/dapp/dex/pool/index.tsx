@@ -1,16 +1,12 @@
-import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
-import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 
 import RecommendPools from './recommended-pools';
 
 const Pool: FC = () => {
   const t = useTranslations();
-
-  const { push } = useRouter();
 
   return (
     <>
@@ -32,15 +28,34 @@ const Pool: FC = () => {
           >
             {t('dexPool.title')}
           </Typography>
-          <Button
-            px="XL"
-            type="button"
-            variant="primary"
-            onClick={() => push(Routes[RoutesEnum.DEXFindPool])}
-            ml={['unset', 'auto']}
-          >
-            {t('dexPool.button')}
-          </Button>
+          <Box position="relative">
+            <Button
+              px="XL"
+              disabled
+              type="button"
+              variant="primary"
+              // onClick={() => push(Routes[RoutesEnum.DEXFindPool])}
+              ml={['unset', 'auto']}
+            >
+              {t('dexPool.button')}
+            </Button>
+            <Typography
+              px="M"
+              py="S"
+              ml="M"
+              as="span"
+              bg="warning"
+              top="-.5rem"
+              right="-.5rem"
+              variant="small"
+              borderRadius="S"
+              color="background"
+              position="absolute"
+              display="inline-block"
+            >
+              {t('common.soon')}
+            </Typography>
+          </Box>
         </Box>
         <RecommendPools />
       </Box>

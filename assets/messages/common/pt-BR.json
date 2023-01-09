@@ -1,6 +1,7 @@
 {
   "common": {
     "dex": "dex",
+    "soon": "em breve",
     "pool": "pool",
     "swap": "{isLoading, plural, =1 {trocando...} other {trocar}}",
     "balance": "saldo",

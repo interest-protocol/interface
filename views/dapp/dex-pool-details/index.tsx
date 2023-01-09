@@ -9,14 +9,10 @@ import { UnknownCoinSVG } from '@/svg';
 import { formatMoney } from '@/utils';
 
 import GoBack from '../components/go-back';
-import {
-  AddLiquidityCard,
-  LiquidityDetailsCard,
-  RemoveLiquidityCard,
-} from './components';
+import { LiquidityDetailsCard } from './components';
 import { DEXPoolDetailsViewProps } from './dex-pool-details.types';
 
-const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
+const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = () => {
   const t = useTranslations();
 
   const { currentLocale } = useLocale();
@@ -66,49 +62,6 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
               symbol: '???',
               value: formatMoney(123),
               isFetchingInitialData: false,
-            },
-          ]}
-        />
-        <AddLiquidityCard
-          fetchingInitialData={false}
-          isStable={true}
-          tokens={[
-            {
-              symbol: '???',
-              Icon: UnknownCoinSVG,
-              decimals: 123,
-              balance: 12,
-              allowance: 12,
-              address: AddressZero,
-            },
-            {
-              symbol: '???',
-              Icon: UnknownCoinSVG,
-              decimals: 123,
-              balance: 12,
-              allowance: 12,
-              address: AddressZero,
-            },
-          ]}
-        />
-        <RemoveLiquidityCard
-          pairAddress={pairAddress}
-          isFetchingInitialData={false}
-          isStable={true}
-          lpAllowance={12}
-          lpBalance={13}
-          tokens={[
-            {
-              symbol: '???',
-              Icon: UnknownCoinSVG,
-              decimals: 123,
-              address: AddressZero,
-            },
-            {
-              symbol: '???',
-              Icon: UnknownCoinSVG,
-              decimals: 123,
-              address: AddressZero,
             },
           ]}
         />
