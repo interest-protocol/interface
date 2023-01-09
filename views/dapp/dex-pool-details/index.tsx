@@ -24,47 +24,43 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = () => {
   const SecondIcon = DefaultIcon;
 
   return (
-    <Container dapp mt="XXL" width="100%">
-      <GoBack routeBack />
-      <Box display="flex" alignItems="center">
-        {
-          <>
-            <FirstIcon width="2rem" maxHeight="2rem" maxWidth="2rem" />
-            <SecondIcon width="2rem" maxHeight="2rem" maxWidth="2rem" />
-            <Typography variant="normal" ml="L" textTransform="capitalize">
-              {'??? - ??? ' +
-                t('dexPoolPairAddress.title', {
-                  currentLocale,
-                  type: t('common.stable', { count: 1 }),
-                })}
-            </Typography>
-          </>
-        }
-      </Box>
-      <Box
-        mt="XL"
-        color="text"
-        display="grid"
-        gridGap="1rem"
-        gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
-      >
-        <LiquidityDetailsCard
-          isStable={true}
-          lines={[
-            {
-              address: AddressZero,
-              symbol: '???',
-              value: formatMoney(123),
-              isFetchingInitialData: false,
-            },
-            {
-              address: AddressZero,
-              symbol: '???',
-              value: formatMoney(123),
-              isFetchingInitialData: false,
-            },
-          ]}
-        />
+    <Container width={['100%', '100%', '100%', 'auto']}>
+      <Box mt="XL" p="L" borderRadius="L" minWidth={['20rem', '40rem']}>
+        <GoBack routeBack />
+        <Box display="flex" alignItems="center">
+          {
+            <>
+              <FirstIcon width="2rem" maxHeight="2rem" maxWidth="2rem" />
+              <SecondIcon width="2rem" maxHeight="2rem" maxWidth="2rem" />
+              <Typography variant="normal" ml="L" textTransform="capitalize">
+                {'??? - ??? ' +
+                  t('dexPoolPairAddress.title', {
+                    currentLocale,
+                    type: t('common.stable', { count: 1 }),
+                  })}
+              </Typography>
+            </>
+          }
+        </Box>
+        <Box mt="XL" color="text" display="grid" gridGap="1rem" width="100%">
+          <LiquidityDetailsCard
+            isStable={true}
+            lines={[
+              {
+                address: AddressZero,
+                symbol: '???',
+                value: formatMoney(123),
+                isFetchingInitialData: false,
+              },
+              {
+                address: AddressZero,
+                symbol: '???',
+                value: formatMoney(123),
+                isFetchingInitialData: false,
+              },
+            ]}
+          />
+        </Box>
       </Box>
     </Container>
   );
