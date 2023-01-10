@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC } from 'react';
 
 import { Box, Button, Input, Typography } from '@/elements';
-import { formatMoney, parseInputEventToNumberString } from '@/utils';
+import { parseInputEventToNumberString } from '@/utils';
 
 import { InputBalanceProps } from './input-balance.types';
 
@@ -38,7 +38,7 @@ const InputBalance: FC<InputBalanceProps> = ({
         <Typography fontSize="S" variant="normal" textTransform="capitalize">
           {t('common.balance')}:{' '}
           <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
-            {formatMoney(balance)}
+            {balance}
           </Typography>
         </Typography>
       </Box>

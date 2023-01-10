@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
@@ -5,7 +6,7 @@ import { ISwapForm } from '../swap.types';
 
 export interface InputBalanceProps {
   max?: string;
-  balance: number;
+  balance: string;
   disabled?: boolean;
   currencySelector: ReactNode;
   name: 'tokenIn' | 'tokenOut';

@@ -1,10 +1,12 @@
-import { find, propEq } from 'ramda';
+import { find, pathOr, propEq } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { DEX_TOKENS_DATA } from '@/constants';
 import { Box } from '@/elements';
-import { TOKEN_SYMBOL } from '@/sdk';
+import { useWeb3 } from '@/hooks';
+import { FixedPointMath, TOKEN_SYMBOL } from '@/sdk';
+import { formatMoney, ZERO_BIG_NUMBER } from '@/utils';
 
 import SwapSelectCurrency from '../components/swap-select-currency';
 import InputBalance from './input-balance';
@@ -18,14 +20,16 @@ const DEFAULT_UNKNOWN_DATA = {
   decimals: 0,
 };
 
-const Swap: FC = () => {
-  const SUI =
-    find(propEq('symbol', TOKEN_SYMBOL.SUI), DEX_TOKENS_DATA) ??
-    DEFAULT_UNKNOWN_DATA;
+const SUI =
+  find(propEq('symbol', TOKEN_SYMBOL.SUI), DEX_TOKENS_DATA) ??
+  DEFAULT_UNKNOWN_DATA;
 
-  const ETH =
-    find(propEq('symbol', TOKEN_SYMBOL.ETH), DEX_TOKENS_DATA) ??
-    DEFAULT_UNKNOWN_DATA;
+const ETH =
+  find(propEq('symbol', TOKEN_SYMBOL.ETH), DEX_TOKENS_DATA) ??
+  DEFAULT_UNKNOWN_DATA;
+
+const Swap: FC = () => {
+  const { coinsMap } = useWeb3();
 
   const [tokenInType, setTokenInType] = useState(SUI.type);
   const [tokenOutType, setTokenOutType] = useState(ETH.type);
@@ -90,7 +94,16 @@ const Swap: FC = () => {
             justifyContent="space-evenly"
           >
             <InputBalance
-              balance={0}
+              balance={formatMoney(
+                FixedPointMath.toNumber(
+                  pathOr(
+                    ZERO_BIG_NUMBER,
+                    [tokenInType, 'totalBalance'],
+                    coinsMap
+                  ),
+                  pathOr(0, [tokenInType, 'decimals'], coinsMap)
+                )
+              )}
               max="1000"
               name="tokenIn"
               register={register}
@@ -134,7 +147,16 @@ const Swap: FC = () => {
               ⥯
             </Box>
             <InputBalance
-              balance={0}
+              balance={formatMoney(
+                FixedPointMath.toNumber(
+                  pathOr(
+                    ZERO_BIG_NUMBER,
+                    [tokenOutType, 'totalBalance'],
+                    coinsMap
+                  ),
+                  pathOr(0, [tokenOutType, 'decimals'], coinsMap)
+                )
+              )}
               name="tokenOut"
               register={register}
               setValue={setValue}
