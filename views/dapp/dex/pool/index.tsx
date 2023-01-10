@@ -34,6 +34,7 @@ const Pool: FC = () => {
               disabled
               type="button"
               variant="primary"
+              cursor="not-allowed"
               // onClick={() => push(Routes[RoutesEnum.DEXFindPool])}
               ml={['unset', 'auto']}
             >

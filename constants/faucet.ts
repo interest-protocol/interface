@@ -22,18 +22,18 @@ export const FAUCET_OBJECT_ID = '0x49fb8aeea64923d9677077c0f6b1c64f6803e3d6';
 export const FAUCET_TOKENS = {
   [Network.DEVNET]: [
     {
-      symbol: TOKEN_SYMBOL.SUI,
-      type: COIN_TYPE[Network.DEVNET].SUI,
-      Icon: SuiSVG,
-      name: 'SUI',
-      decimals: 9,
-    },
-    {
       symbol: TOKEN_SYMBOL.BTC,
       type: COIN_TYPE[Network.DEVNET].BTC,
       Icon: BitcoinSVG,
       name: 'Bitcoin',
       decimals: 0,
+    },
+    {
+      symbol: TOKEN_SYMBOL.SUI,
+      type: COIN_TYPE[Network.DEVNET].SUI,
+      Icon: SuiSVG,
+      name: 'SUI',
+      decimals: 9,
     },
     {
       symbol: TOKEN_SYMBOL.BNB,
