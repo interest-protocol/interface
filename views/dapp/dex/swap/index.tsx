@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 
 import { DEX_TOKENS_DATA } from '@/constants';
 import { Box } from '@/elements';
-import { AddressZero, TOKEN_SYMBOL } from '@/sdk';
+import { TOKEN_SYMBOL } from '@/sdk';
 
 import SwapSelectCurrency from '../components/swap-select-currency';
 import InputBalance from './input-balance';
@@ -12,7 +12,7 @@ import { ISwapForm, OnSelectCurrencyData } from './swap.types';
 import SwapButton from './swap-button';
 
 const DEFAULT_UNKNOWN_DATA = {
-  type: AddressZero,
+  type: '',
   symbol: '???',
   name: 'Unknown',
   decimals: 0,

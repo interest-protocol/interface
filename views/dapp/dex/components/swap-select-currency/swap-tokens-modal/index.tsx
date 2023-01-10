@@ -69,7 +69,6 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   toggleModal,
   isModalOpen,
   currentToken,
-  // setIsSearching,
   onSelectCurrency,
 }) => {
   const t = useTranslations();
@@ -77,8 +76,6 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   const [searchedToken] = useState<null | SwapTokenModalMetadata>(null);
 
   const [debouncedSearch] = useDebounce(search, 800);
-
-  const tokenMetaDataArray = DEX_TOKENS_DATA;
 
   return (
     <Modal
@@ -129,7 +126,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
             maxHeight="20rem"
           >
             {renderData(
-              tokenMetaDataArray as ReadonlyArray<SwapTokenModalMetadata>,
+              DEX_TOKENS_DATA as ReadonlyArray<SwapTokenModalMetadata>,
               onSelectCurrency,
               currentToken
             )}
