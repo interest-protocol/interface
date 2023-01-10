@@ -104,7 +104,14 @@ const Swap: FC = () => {
                   pathOr(0, [tokenInType, 'decimals'], coinsMap)
                 )
               )}
-              max="1000"
+              max={FixedPointMath.toNumber(
+                pathOr(
+                  ZERO_BIG_NUMBER,
+                  [tokenInType, 'totalBalance'],
+                  coinsMap
+                ),
+                pathOr(0, [tokenInType, 'decimals'], coinsMap)
+              ).toString()}
               name="tokenIn"
               register={register}
               setValue={setValue}
