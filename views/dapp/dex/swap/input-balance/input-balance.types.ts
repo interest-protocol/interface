@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
