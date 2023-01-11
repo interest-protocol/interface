@@ -1,3 +1,4 @@
+import { useTheme } from '@emotion/react';
 import { Network } from '@mysten/sui.js';
 import { useWallet } from '@mysten/wallet-kit';
 import { useTranslations } from 'next-intl';
@@ -15,6 +16,7 @@ import { MintButtonProps } from './faucet-form.types';
 
 const MintButton: FC<MintButtonProps> = ({ getValues }) => {
   const t = useTranslations();
+  const { dark } = useTheme() as { dark: boolean };
   const [loading, setLoading] = useState(false);
   const { signAndExecuteTransaction } = useWallet();
   const { account, mutate } = useWeb3();
@@ -62,7 +64,7 @@ const MintButton: FC<MintButtonProps> = ({ getValues }) => {
       hover={{ bg: 'accent' }}
       bg={!loading ? 'accentSecondary' : 'disabled'}
       cursor={loading ? 'not-allowed' : 'pointer'}
-      color="textLight"
+      color={dark ? 'text' : 'textInverted'}
     >
       {loading ? (
         <Box as="span" display="flex" justifyContent="center">

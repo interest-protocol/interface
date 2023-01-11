@@ -1,3 +1,4 @@
+import { useTheme } from '@emotion/react';
 import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC } from 'react';
 
@@ -17,6 +18,7 @@ const InputBalance: FC<InputBalanceProps> = ({
   handleSelectedByUser,
 }) => {
   const t = useTranslations();
+  const { dark } = useTheme() as { dark: boolean };
 
   const onFocus = (v: ChangeEvent<HTMLInputElement>) => {
     const value = v.target.value;
@@ -33,7 +35,7 @@ const InputBalance: FC<InputBalanceProps> = ({
         bg="accentSecondary"
         borderRadius="M"
         position="relative"
-        color="textLight"
+        color={dark ? 'text' : 'textInverted'}
       >
         <Typography fontSize="S" variant="normal" textTransform="capitalize">
           {t('common.balance')}:{' '}
@@ -81,10 +83,11 @@ const InputBalance: FC<InputBalanceProps> = ({
             <Button
               px="M"
               fontSize="S"
-              height="100%"
+              width="2.7rem"
+              height="2.7rem"
               variant="secondary"
               bg="accentSecondary"
-              color="textLight"
+              color={dark ? 'text' : 'textInverted'}
               hover={{ bg: 'accent' }}
               active={{ bg: 'accentActive' }}
               onClick={() => {

@@ -1,5 +1,7 @@
 import { css } from '@emotion/react';
 
+import fontSizes from '@/design-system/common/font-sizes';
+
 const title1 = css`
   font-family: 'Montserrat';
   font-style: normal;
@@ -39,10 +41,15 @@ const normal = css`
   font-size: 1rem;
 `;
 
+const small = css`
+  font-size: ${fontSizes.S};
+`;
+
 export default {
   title1,
   title2,
   title3,
   title4,
   normal,
+  small,
 };

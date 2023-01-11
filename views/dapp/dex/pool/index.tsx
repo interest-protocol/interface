@@ -1,3 +1,4 @@
+import { useTheme } from '@emotion/react';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
@@ -7,6 +8,7 @@ import RecommendPools from './recommended-pools';
 
 const Pool: FC = () => {
   const t = useTranslations();
+  const { dark } = useTheme() as { dark: boolean };
 
   return (
     <>
@@ -51,9 +53,9 @@ const Pool: FC = () => {
               right="-.5rem"
               variant="small"
               borderRadius="S"
-              color="textLight"
               position="absolute"
               display="inline-block"
+              color={dark ? 'text' : 'textInverted'}
             >
               {t('common.soon')}
             </Typography>

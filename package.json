@@ -22,7 +22,7 @@
     "decimal.js-light": "^2.5.1",
     "next": "12.2.0",
     "next-intl": "^2.7.4",
-    "next-progress": "^2.0.1",
+    "next-progress": "^2.2.0",
     "ramda": "^0.28.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

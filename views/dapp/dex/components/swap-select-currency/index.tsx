@@ -1,3 +1,4 @@
+import { useTheme } from '@emotion/react';
 import { not } from 'ramda';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -20,6 +21,7 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
   setIsModalOpen,
   onSelectCurrency,
 }) => {
+  const { dark } = useTheme() as { dark: boolean };
   const [isSearching, setIsSearching] = useState(false);
   const { control, register } = useForm({
     defaultValues: {
@@ -51,12 +53,7 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
       >
         <Box my="M" display="flex" alignItems="center">
           <>
-            <Box
-              as="span"
-              display="inline-block"
-              width="1rem"
-              color="textLight"
-            >
+            <Box as="span" display="inline-block" width="1rem" color="text">
               <SVG
                 width="100%"
                 maxHeight="1rem"
@@ -68,7 +65,7 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
               mx="M"
               as="span"
               variant="normal"
-              color="textLight"
+              color={dark ? 'text' : 'textInverted'}
               active={{ color: 'accentActive' }}
             >
               {symbol.length > 4
