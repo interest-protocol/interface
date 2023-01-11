@@ -12,6 +12,18 @@ export const COIN_TYPE = {
   },
 };
 
+export const COIN_TYPE_TO_NAME = {
+  [Network.DEVNET]: {
+    [COIN_TYPE[Network.DEVNET].BTC]: 'Bitcoin',
+    [COIN_TYPE[Network.DEVNET].ETH]: 'Ethers',
+    [COIN_TYPE[Network.DEVNET].BTC]: 'Bitcoin',
+    [COIN_TYPE[Network.DEVNET].USDT]: 'Tether',
+    [COIN_TYPE[Network.DEVNET].USDC]: 'USD Coin',
+    [COIN_TYPE[Network.DEVNET].DAI]: 'Dai',
+    [COIN_TYPE[Network.DEVNET].SUI]: 'Sui',
+  },
+};
+
 export const COIN_TYPE_TO_SYMBOL = {
   [Network.DEVNET]: {
     [COIN_TYPE[Network.DEVNET].BTC]: 'BTC',

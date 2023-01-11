@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Network } from '@mysten/sui.js';
 import { ConnectButton } from '@mysten/wallet-kit';
-import { pathOr } from 'ramda';
+import { always, pathOr } from 'ramda';
 import { FC } from 'react';
 
 import { COIN_TYPE } from '@/constants';
@@ -11,7 +11,7 @@ import { FixedPointMath } from '@/sdk';
 import { SuiSVG } from '@/svg';
 import { ZERO_BIG_NUMBER } from '@/utils';
 
-export const ConnectWallet = styled(ConnectButton)`
+const StyledConnectButton = styled(ConnectButton)`
   background: #4282a8 !important;
   width: 100%;
   color: #fff !important;
@@ -21,6 +21,8 @@ export const ConnectWallet = styled(ConnectButton)`
     background: #6fbcf0 !important;
   }
 `;
+
+export const ConnectWallet: FC = always(<StyledConnectButton />);
 
 const Wallet: FC = () => {
   const { coinsMap } = useWeb3();
