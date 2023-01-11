@@ -33,6 +33,7 @@ const Pool: FC = () => {
               px="XL"
               disabled
               type="button"
+              bg="disabled"
               variant="primary"
               cursor="not-allowed"
               // onClick={() => push(Routes[RoutesEnum.DEXFindPool])}
@@ -50,7 +51,7 @@ const Pool: FC = () => {
               right="-.5rem"
               variant="small"
               borderRadius="S"
-              color="background"
+              color="textLight"
               position="absolute"
               display="inline-block"
             >
