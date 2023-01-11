@@ -15,7 +15,6 @@ export interface SwapFormTokenData {
   type: string;
   decimals: number;
   symbol: string;
-  setByUser: boolean;
 }
 
 export interface SwapSelectCurrencyProps {

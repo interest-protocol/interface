@@ -41,7 +41,7 @@ const Pool: FC = () => {
               // onClick={() => push(Routes[RoutesEnum.DEXFindPool])}
               ml={['unset', 'auto']}
             >
-              {t('dexPool.swap-button')}
+              {t('dexPool.button')}
             </Button>
             <Typography
               px="M"

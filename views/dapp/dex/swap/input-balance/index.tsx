@@ -15,7 +15,6 @@ const InputBalance: FC<InputBalanceProps> = ({
   setValue,
   disabled,
   currencySelector,
-  handleSelectedByUser,
 }) => {
   const t = useTranslations();
   const { dark } = useTheme() as { dark: boolean };
@@ -52,14 +51,11 @@ const InputBalance: FC<InputBalanceProps> = ({
         onFocus={onFocus}
         disabled={!!disabled}
         {...register(`${name}.value`, {
-          onChange: (v: ChangeEvent<HTMLInputElement>) => {
+          onChange: (v: ChangeEvent<HTMLInputElement>) =>
             setValue?.(
               `${name}.value`,
               parseInputEventToNumberString(v, max ? +max : undefined)
-            );
-
-            handleSelectedByUser();
-          },
+            ),
         })}
         shieldProps={{
           px: 'S',
@@ -90,10 +86,7 @@ const InputBalance: FC<InputBalanceProps> = ({
               color={dark ? 'text' : 'textInverted'}
               hover={{ bg: 'accent' }}
               active={{ bg: 'accentActive' }}
-              onClick={() => {
-                setValue?.(`${name}.value`, max);
-                handleSelectedByUser();
-              }}
+              onClick={() => setValue?.(`${name}.value`, max)}
             >
               max
             </Button>

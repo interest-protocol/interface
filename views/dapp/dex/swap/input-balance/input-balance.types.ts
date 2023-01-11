@@ -11,5 +11,4 @@ export interface InputBalanceProps {
   name: 'tokenIn' | 'tokenOut';
   register: UseFormRegister<ISwapForm>;
   setValue?: UseFormSetValue<ISwapForm>;
-  handleSelectedByUser: () => void;
 }

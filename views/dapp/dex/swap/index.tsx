@@ -43,14 +43,12 @@ const Swap: FC = () => {
         value: '0',
         decimals: SUI.decimals,
         symbol: SUI.symbol,
-        setByUser: false,
       },
       tokenOut: {
         type: ETH.type,
         value: '0',
         decimals: ETH.decimals,
         symbol: ETH.symbol,
-        setByUser: false,
       },
     },
   });
@@ -58,7 +56,16 @@ const Swap: FC = () => {
   const flipTokens = () => {
     const aux = tokenOutType;
     setTokenOutType(tokenInType);
+    setValue('tokenOut', {
+      ...(find(propEq('type', tokenInType), DEX_TOKENS_DATA) ??
+        DEFAULT_UNKNOWN_DATA),
+      value: '0',
+    });
     setTokenInType(aux);
+    setValue('tokenIn', {
+      ...(find(propEq('type', aux), DEX_TOKENS_DATA) ?? DEFAULT_UNKNOWN_DATA),
+      value: '0',
+    });
   };
 
   const onSelectCurrency =
@@ -116,10 +123,6 @@ const Swap: FC = () => {
               register={register}
               setValue={setValue}
               disabled={false}
-              handleSelectedByUser={() => {
-                setValue(`tokenIn.setByUser`, true);
-                setValue(`tokenOut.setByUser`, false);
-              }}
               currencySelector={
                 <SwapSelectCurrency
                   currentToken={tokenInType}
@@ -167,10 +170,6 @@ const Swap: FC = () => {
               name="tokenOut"
               register={register}
               setValue={setValue}
-              handleSelectedByUser={() => {
-                setValue(`tokenIn.setByUser`, false);
-                setValue(`tokenOut.setByUser`, true);
-              }}
               currencySelector={
                 <SwapSelectCurrency
                   currentToken={tokenOutType}
