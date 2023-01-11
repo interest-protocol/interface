@@ -23,7 +23,7 @@ const Header: FC = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   const handleSetDesktop = useCallback(() => {
-    const mediaIsMobile = !window.matchMedia('(min-width: 64em)').matches;
+    const mediaIsMobile = !window.matchMedia('(min-width: 55em)').matches;
     setIsMobile(mediaIsMobile);
   }, []);
 
@@ -50,7 +50,7 @@ const Header: FC = () => {
         px={['M', 'L']}
         alignItems="center"
         justifyContent="space-between"
-        display={['flex', 'flex', 'grid']}
+        display={['flex', 'flex', 'flex', 'grid']}
         gridTemplateColumns="repeat(3, 1fr)"
       >
         <Box display="flex" alignItems="center">

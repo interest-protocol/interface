@@ -13,7 +13,12 @@ const FaucetSelectCurrency: FC<FaucetSelectCurrencyProps> = ({
   onSelectCurrency,
 }) => (
   <Box my="M">
-    <Typography as="label" fontSize="S" variant="normal" display="inline-block">
+    <Typography
+      as="label"
+      fontSize="1rem"
+      variant="normal"
+      display="inline-block"
+    >
       {capitalize(label)}:
     </Typography>
     <Box my="M" display="flex" flexDirection="column" alignItems="stretch">

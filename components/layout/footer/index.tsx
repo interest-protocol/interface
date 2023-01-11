@@ -54,7 +54,7 @@ const Footer: FC = () => {
               justifyContent="space-between"
               bg={
                 pathname.includes(Routes[RoutesEnum.DEX])
-                  ? 'accent'
+                  ? 'accentSecondary'
                   : 'transparent'
               }
               hover={{ bg: 'accent', color: 'text' }}
@@ -87,7 +87,7 @@ const Footer: FC = () => {
               borderRadius="M"
               bg={
                 pathname.includes(Routes[RoutesEnum.Faucet])
-                  ? 'accent'
+                  ? 'accentSecondary'
                   : 'transparent'
               }
               hover={{ bg: 'accent', color: 'text' }}
