@@ -107,7 +107,6 @@ const SwapButton: FC<SwapButtonProps> = ({
           },
         });
         await showTXSuccessToast(tx);
-      } else {
       }
     } catch (error) {
       throw new Error('Failed to swap');

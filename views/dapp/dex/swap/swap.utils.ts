@@ -1,5 +1,4 @@
 import { Network, SuiObjectInfo } from '@mysten/sui.js';
-import BigNumber from 'bignumber.js';
 import { isEmpty, pathOr } from 'ramda';
 
 import { Web3ManagerState } from '@/components/web3-manager/web3-manager.types';
