@@ -4,9 +4,6 @@ import { MAX_NUMBER_INPUT_VALUE } from '@/sdk';
 
 const isExponential = (number: number) => number.toString().includes('e');
 
-export const shortAccount = (account: string, mobile = false): string =>
-  `${account.slice(0, mobile ? 2 : 6)}...${account.slice(-4)}`;
-
 const removeZero = (array: ReadonlyArray<string>): string => {
   if (!array.length) return '';
 

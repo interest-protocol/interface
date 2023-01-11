@@ -1,5 +1,5 @@
 import { useWallet } from '@mysten/wallet-kit';
-import { createContext, FC, useEffect, useState } from 'react';
+import { createContext, FC, useEffect, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
 import { makeSWRKey, provider } from '@/utils';
@@ -33,6 +33,8 @@ const Web3Manager: FC<Web3ManagerProps> = ({ children }) => {
       if (connected) {
         const accounts = await getAccounts();
         setAccount(accounts[0]);
+      } else {
+        setAccount(null);
       }
     })();
   }, [connected, connecting, isError]);
@@ -45,10 +47,11 @@ const Web3Manager: FC<Web3ManagerProps> = ({ children }) => {
       revalidateOnFocus: false,
       revalidateOnMount: true,
       refreshWhenHidden: true,
+      refreshInterval: 5000,
     }
   );
 
-  const [coins, coinsMap] = parseCoins(data);
+  const [coins, coinsMap] = useMemo(() => parseCoins(data), [data]);
 
   return (
     <Web3ManagerContext.Provider

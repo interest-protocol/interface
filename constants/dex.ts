@@ -1,17 +1,14 @@
 import { Network } from '@mysten/sui.js';
 
-import { COIN_TYPE } from '@/constants/coins';
 import { TOKEN_SYMBOL } from '@/sdk';
 
-export enum PoolType {
-  Volatile,
-  Stable,
-}
-export const DEX_PACKAGE_ID = '0xebe071664df1f5dbcc36368b0ec92840199a7e17';
+import { COIN_TYPE } from './coins';
 
-export const POOLS_OBJECT_ID = '0xe76fb7250f46cb909581333082374dc48eb06d9c';
+export const DEX_PACKAGE_ID = '0xbf2e525f1e11069e6d6d3aff723d5de47f5e09ab';
 
-export const DEX_OBJECT_ID = '0xebe071664df1f5dbcc36368b0ec92840199a7e17';
+export const POOLS_OBJECT_ID = '0xf50b66c9487bc32b301b299ab3145305020d521f';
+
+export const DEX_BASE_TOKEN_ARRAY = [COIN_TYPE[Network.DEVNET].ETH];
 
 export const DEX_TOKENS_DATA = [
   {

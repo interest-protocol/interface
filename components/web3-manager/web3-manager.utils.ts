@@ -2,7 +2,7 @@ import { Network } from '@mysten/sui.js';
 import { GetObjectDataResponse } from '@mysten/sui.js/src/types';
 import { pathOr } from 'ramda';
 
-import { COIN_DECIMALS, COIN_TYPE_TO_NAME } from '@/constants';
+import { COIN_DECIMALS, COIN_TYPE_TO_SYMBOL } from '@/constants';
 import { getCoinBalance, getCoinType, parseBigNumberish } from '@/utils';
 
 import { Web3ManagerSuiObject } from './web3-manager.types';
@@ -49,13 +49,17 @@ export const parseCoins = (data: GetObjectDataResponse[] | undefined) => {
             Record<string, Web3ManagerSuiObject>
           ];
         }
-        const name = pathOr(type, [Network.DEVNET, type], COIN_TYPE_TO_NAME);
+        const symbol = pathOr(
+          type,
+          [Network.DEVNET, type],
+          COIN_TYPE_TO_SYMBOL
+        );
         const decimals = pathOr(0, [Network.DEVNET, type], COIN_DECIMALS);
         const updatedMap = {
           ...map,
           [type]: {
             type,
-            name,
+            symbol,
             decimals,
             totalBalance: currentCoinBalance,
             objects: [object],
@@ -66,7 +70,7 @@ export const parseCoins = (data: GetObjectDataResponse[] | undefined) => {
           ...list,
           {
             type,
-            name,
+            symbol,
             decimals,
             totalBalance: currentCoinBalance,
             objects: [object],

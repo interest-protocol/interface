@@ -11,7 +11,7 @@ import { FixedPointMath } from '@/sdk';
 import { SuiSVG } from '@/svg';
 import { ZERO_BIG_NUMBER } from '@/utils';
 
-export const ConnectWallet = styled(ConnectButton)`
+export const ConnectWallet: any = styled(ConnectButton)`
   background: #4282a8 !important;
   width: 100%;
   color: #fff !important;

@@ -130,7 +130,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
           bg={loading ? 'accentActive' : 'accent'}
           hover={{ bg: loading ? 'disabled' : 'accentActive' }}
         >
-          {t('dexPoolFind.button', { isLoading: Number(loading) })}
+          {t('dexPoolFind.swap-button', { isLoading: Number(loading) })}
         </Button>
       )}
       <CreatePoolPopup

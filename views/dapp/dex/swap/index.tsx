@@ -29,14 +29,14 @@ const ETH =
   DEFAULT_UNKNOWN_DATA;
 
 const Swap: FC = () => {
-  const { coinsMap } = useWeb3();
+  const { coinsMap, mutate } = useWeb3();
 
   const [tokenInType, setTokenInType] = useState(SUI.type);
   const [tokenOutType, setTokenOutType] = useState(ETH.type);
   const [isTokenInOpenModal, setTokenInIsOpenModal] = useState(false);
   const [isTokenOutOpenModal, setTokenOutIsOpenModal] = useState(false);
 
-  const { register, setValue, getValues } = useForm<ISwapForm>({
+  const { register, setValue, getValues, control } = useForm<ISwapForm>({
     defaultValues: {
       tokenIn: {
         type: SUI.type,
@@ -184,32 +184,15 @@ const Swap: FC = () => {
             />
           </Box>
         </Box>
-        {/* {(isFetchingAmountOutTokenOut || isFetchingAmountOutTokenIn) && (
-          <SwapMessage {...SWAP_MESSAGES['loading-amount']} />
-        )}
-        {amountOutError && (
-          <SwapMessage {...SWAP_MESSAGES['error-amount-out']} />
-        )} */}
-        {/* {balancesError && <SwapMessage {...SWAP_MESSAGES['error-balances']} />} */}
-        {/* {tokenInType == tokenOutType && (
-          <SwapMessage {...SWAP_MESSAGES['error-same-token']} />
-        )}
-        {hasNoMarket && <SwapMessage {...SWAP_MESSAGES['info-no-pool']} />} */}
-        <SwapButton />
+        <SwapButton
+          control={control}
+          mutate={mutate}
+          getValues={getValues}
+          tokenInType={tokenInType}
+          tokenOutType={tokenOutType}
+          coinsMap={coinsMap}
+        />
       </Box>
-
-      {/* <SwapManager
-        control={control}
-        setValue={setValue}
-        isFetchingAmountOutTokenIn={isFetchingAmountOutTokenIn}
-        isFetchingAmountOutTokenOut={isFetchingAmountOutTokenOut}
-        hasNoMarket={hasNoMarket}
-        setHasNoMarket={setHasNoMarket}
-        setFetchingAmountOutTokenIn={setFetchingAmountOutTokenIn}
-        setFetchingAmountOutTokenOut={setFetchingAmountOutTokenOut}
-        setSwapBase={setSwapBase}
-        setAmountOutError={setAmountOutError}
-      /> */}
     </>
   );
 };
