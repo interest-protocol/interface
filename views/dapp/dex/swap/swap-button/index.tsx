@@ -110,7 +110,6 @@ const SwapButton: FC<SwapButtonProps> = ({
       } else {
       }
     } catch (error) {
-      console.log('error', error);
       throw new Error('Failed to swap');
     } finally {
       setLoading(false);
