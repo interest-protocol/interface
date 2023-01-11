@@ -65,32 +65,26 @@ const getSUIDevNetData = (token: TOKEN_SYMBOL) =>
 
 export const RECOMMENDED_POOLS = [
   {
-    pairAddress: '0xD4a22921a4A642AA653595f5530abd358F7f0842',
     token0: getSUIDevNetData(TOKEN_SYMBOL.BNB),
     token1: getSUIDevNetData(TOKEN_SYMBOL.ETH),
   },
   {
-    pairAddress: '0xD4a22921a4A642AA653595f5530abd358F7f0842',
     token0: getSUIDevNetData(TOKEN_SYMBOL.BTC),
     token1: getSUIDevNetData(TOKEN_SYMBOL.ETH),
   },
   {
-    pairAddress: '0xb8AF44a4eD047F6137aC148b0D1197913222993d',
     token0: getSUIDevNetData(TOKEN_SYMBOL.DAI),
     token1: getSUIDevNetData(TOKEN_SYMBOL.ETH),
   },
   {
-    pairAddress: '0xb8AF44a4eD047F6137aC148b0D1197913222993d',
     token0: getSUIDevNetData(TOKEN_SYMBOL.ETH),
     token1: getSUIDevNetData(TOKEN_SYMBOL.USDT),
   },
   {
-    pairAddress: '0x8309E5d16Ade1A46e959Ec50e2D58f7f386273B0',
     token0: getSUIDevNetData(TOKEN_SYMBOL.ETH),
     token1: getSUIDevNetData(TOKEN_SYMBOL.USDC),
   },
   {
-    pairAddress: '0x8309E5d16Ade1A46e959Ec50e2D58f7f386273B0',
     token0: getSUIDevNetData(TOKEN_SYMBOL.ETH),
     token1: getSUIDevNetData(TOKEN_SYMBOL.SUI),
   },

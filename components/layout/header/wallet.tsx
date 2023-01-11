@@ -28,7 +28,14 @@ const Wallet: FC = () => {
   const { coinsMap } = useWeb3();
 
   return (
-    <Box bg="textSoft" display="flex" borderRadius="2.5rem" alignItems="center">
+    <Box
+      bg="textSoft"
+      display="flex"
+      borderRadius="2.5rem"
+      alignItems="center"
+      justifyContent="space-between"
+      minWidth={['unset', 'unset', 'unset', '13.5rem']}
+    >
       <Typography
         px="L"
         as="span"
@@ -68,6 +75,7 @@ const Wallet: FC = () => {
         padding={'unset'}
         display="inline-flex"
         bg="bottomBackground"
+        width="auto"
         borderRadius="2.5rem !important"
       >
         <ConnectWallet />
