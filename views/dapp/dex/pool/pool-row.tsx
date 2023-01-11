@@ -20,6 +20,7 @@ const PoolRow: FC<PoolRowProps> = ({ symbol0, symbol1, type0, type1 }) => {
       bg="bottomBackground"
       flexDirection="column"
       transition="background-color 1s"
+      cursor="not-allowed"
       hover={{ bg: 'textSoft' }}
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">
