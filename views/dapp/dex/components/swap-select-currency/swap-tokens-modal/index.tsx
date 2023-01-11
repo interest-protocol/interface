@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { FC, ReactNode, useState } from 'react';
+import { FC, ReactNode, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
 import { v4 } from 'uuid';
@@ -50,7 +50,7 @@ const renderData = (
         }}
       >
         <Box my="M" display="flex" alignItems="center">
-          <Box as="span" display="inline-block" width="1rem">
+          <Box as="span" display="inline-flex" width="1rem" alignItems="center">
             <SVG width="100%" maxHeight="1rem" maxWidth="1rem" />
           </Box>
           <Typography mx="M" as="span" variant="normal">
@@ -77,6 +77,19 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
 
   const [debouncedSearch] = useDebounce(search, 800);
 
+  const filteredTokens = useMemo(
+    () => [
+      ...(searchedToken ? [searchedToken] : []),
+      ...(DEX_TOKENS_DATA.filter(
+        ({ name, type, symbol }) =>
+          name.toLowerCase().startsWith(debouncedSearch.toLowerCase()) ||
+          symbol.toLowerCase().startsWith(debouncedSearch.toLowerCase()) ||
+          type == debouncedSearch
+      ) as ReadonlyArray<SwapTokenModalMetadata>),
+    ],
+    [debouncedSearch, searchedToken]
+  );
+
   return (
     <Modal
       modalProps={{
@@ -90,6 +103,8 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
         <Box display="flex" textAlign="right" justifyContent="flex-end" mb="M">
           <Button
             px="L"
+            width="3rem"
+            height="3rem"
             variant="primary"
             onClick={toggleModal}
             hover={{
@@ -109,8 +124,8 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
               <Typography variant="normal" color="text">
                 {capitalize(t('common.load', { isLoading: 1 }))}
               </Typography>
-            ) : searchedToken ? (
-              renderData([searchedToken], onSelectCurrency, currentToken)
+            ) : filteredTokens.length ? (
+              renderData(filteredTokens, onSelectCurrency, currentToken)
             ) : (
               <Typography variant="normal" color="text">
                 {capitalize(t('common.notFound'))}
@@ -125,11 +140,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
             gridGap="0.3rem"
             maxHeight="20rem"
           >
-            {renderData(
-              DEX_TOKENS_DATA as ReadonlyArray<SwapTokenModalMetadata>,
-              onSelectCurrency,
-              currentToken
-            )}
+            {renderData(DEX_TOKENS_DATA, onSelectCurrency, currentToken)}
           </Box>
         )}
       </Box>

@@ -11,6 +11,7 @@ const SwapSearchToken: FC<SwapSearchTokenProps> = ({
   isSearching,
 }) => {
   const t = useTranslations();
+
   return (
     <Input
       // eslint-disable-next-line jsx-a11y/no-autofocus
