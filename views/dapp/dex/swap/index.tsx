@@ -55,16 +55,22 @@ const Swap: FC = () => {
 
   const flipTokens = () => {
     const aux = tokenOutType;
-    setTokenOutType(tokenInType);
-    setValue('tokenOut', {
-      ...(find(propEq('type', tokenInType), DEX_TOKENS_DATA) ??
-        DEFAULT_UNKNOWN_DATA),
-      value: '0',
+
+    setTokenOutType(() => {
+      setValue('tokenOut', {
+        ...(find(propEq('type', tokenInType), DEX_TOKENS_DATA) ??
+          DEFAULT_UNKNOWN_DATA),
+        value: '0.0',
+      });
+      return tokenInType;
     });
-    setTokenInType(aux);
-    setValue('tokenIn', {
-      ...(find(propEq('type', aux), DEX_TOKENS_DATA) ?? DEFAULT_UNKNOWN_DATA),
-      value: '0',
+
+    setTokenInType(() => {
+      setValue('tokenIn', {
+        ...(find(propEq('type', aux), DEX_TOKENS_DATA) ?? DEFAULT_UNKNOWN_DATA),
+        value: '0.0',
+      });
+      return aux;
     });
   };
 
@@ -78,6 +84,9 @@ const Swap: FC = () => {
       setValue('tokenIn.value', '0.0');
       isTokenInOpenModal && setTokenInIsOpenModal(false);
       isTokenOutOpenModal && setTokenOutIsOpenModal(false);
+
+      if (name == 'tokenIn') setTokenInType(type);
+      if (name == 'tokenOut') setTokenOutType(type);
     };
 
   return (
@@ -184,12 +193,12 @@ const Swap: FC = () => {
           </Box>
         </Box>
         <SwapButton
-          control={control}
           mutate={mutate}
+          control={control}
+          coinsMap={coinsMap}
           getValues={getValues}
           tokenInType={tokenInType}
           tokenOutType={tokenOutType}
-          coinsMap={coinsMap}
         />
       </Box>
     </>

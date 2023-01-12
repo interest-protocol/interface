@@ -1,7 +1,10 @@
 import { FC } from 'react';
 
+import { TimesSVG } from '@/svg';
+
 import { SwapManagerProps } from '../swap.types';
 import { findMarket } from '../swap.utils';
+import SwapMessage from '../swap-message';
 
 const SwapManager: FC<SwapManagerProps> = ({
   tokenInType,
@@ -11,10 +14,22 @@ const SwapManager: FC<SwapManagerProps> = ({
   const hasNoMarket = !findMarket(poolsMap, tokenInType, tokenOutType).length;
 
   return (
-    <div>
-      {tokenInType === tokenOutType && <p>Same token error</p>}
-      {hasNoMarket && <p>Token has no market</p>}
-    </div>
+    <>
+      {tokenInType === tokenOutType && (
+        <SwapMessage
+          color="error"
+          Icon={TimesSVG}
+          message="dexSwap.swapMessage.sameOut"
+        />
+      )}
+      {hasNoMarket && (
+        <SwapMessage
+          color="error"
+          Icon={TimesSVG}
+          message="dexSwap.swapMessage.noMarket"
+        />
+      )}
+    </>
   );
 };
 

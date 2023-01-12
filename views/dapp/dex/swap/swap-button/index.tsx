@@ -23,12 +23,12 @@ import { findMarket, getCoinIds } from '../swap.utils';
 import SwapManager from './swap-manager';
 
 const SwapButton: FC<SwapButtonProps> = ({
-  control,
   mutate,
-  getValues,
-  tokenOutType,
-  tokenInType,
+  control,
   coinsMap,
+  getValues,
+  tokenInType,
+  tokenOutType,
 }) => {
   const { signAndExecuteTransaction } = useWallet();
   const { data } = useGetPools();
@@ -111,7 +111,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
       // TODO if a market has more than two paths, we need to fetch their reserves to assess the better option
     } catch (error) {
-      throw new Error('Failed to swap');
+      throw new Error(t('dexSwap.error.failedToSwap'));
     } finally {
       setLoading(false);
       await mutate();
@@ -127,6 +127,11 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   return (
     <>
+      <SwapManager
+        poolsMap={data}
+        tokenInType={tokenInType}
+        tokenOutType={tokenOutType}
+      />
       <WalletGuardButton>
         <Button
           mt="L"
@@ -154,11 +159,6 @@ const SwapButton: FC<SwapButtonProps> = ({
           )}
         </Button>
       </WalletGuardButton>
-      <SwapManager
-        poolsMap={data}
-        tokenOutType={tokenOutType}
-        tokenInType={tokenInType}
-      />
     </>
   );
 };
