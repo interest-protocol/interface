@@ -47,13 +47,14 @@ const SwapButton: FC<SwapButtonProps> = ({
       const tokenIn = getValues('tokenIn');
       const tokenOut = getValues('tokenOut');
 
-      if (!tokenIn || !tokenOut) throw new Error('Select two tokens');
+      if (!tokenIn || !tokenOut)
+        throw new Error(t('dexSwap.error.select2Tokens'));
 
-      if (!+tokenIn.value) throw new Error('Cannot sell 0 tokens');
+      if (!+tokenIn.value) throw new Error(t('dexSwap.error.cannotSell0'));
 
       const path = findMarket(data, tokenIn.type, tokenOut.type);
 
-      if (!path.length) throw new Error('No market found');
+      if (!path.length) throw new Error(t('dexSwap.error.noMarket'));
 
       // no hop swap
       if (path.length === 1 && path[0].pools.length === 1) {
@@ -77,7 +78,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
         const pool = await provider.getObject(poolStruct);
 
-        if (isEmpty(pool)) throw new Error('no pool found');
+        if (isEmpty(pool)) throw new Error(t('dexSwap.error.noPool'));
 
         const tx = await signAndExecuteTransaction({
           kind: 'moveCall',
