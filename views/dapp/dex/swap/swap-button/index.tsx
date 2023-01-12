@@ -47,17 +47,17 @@ const SwapButton: FC<SwapButtonProps> = ({
       const tokenIn = getValues('tokenIn');
       const tokenOut = getValues('tokenOut');
 
-      if (!tokenIn || !tokenOut) return;
+      if (!tokenIn || !tokenOut) throw new Error('Select two tokens');
+
+      if (!+tokenIn.value) throw new Error('Cannot sell 0 tokens');
 
       const path = findMarket(data, tokenIn.type, tokenOut.type);
 
-      if (!path.length) return;
+      if (!path.length) throw new Error('No market found');
 
       // no hop swap
-      if (path.length === 1) {
-        const sortedTypeArray = [tokenIn.type, tokenOut.type].sort((a, b) =>
-          a.split('coins::')[1] > b.split('coins::')[1] ? -1 : 1
-        );
+      if (path.length === 1 && path[0].pools.length === 1) {
+        const sortedTypeArray = [tokenIn.type, tokenOut.type].sort();
 
         const tokenVectorX =
           sortedTypeArray[0] === tokenIn.type
@@ -106,8 +106,10 @@ const SwapButton: FC<SwapButtonProps> = ({
             ],
           },
         });
-        await showTXSuccessToast(tx);
+        return await showTXSuccessToast(tx);
       }
+
+      // TODO if a market has more than two paths, we need to fetch their reserves to assess the better option
     } catch (error) {
       throw new Error('Failed to swap');
     } finally {
