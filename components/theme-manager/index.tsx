@@ -6,7 +6,7 @@ import { DAppDarkTheme, DAppLightTheme } from '@/design-system/dapp-theme';
 import { useLocalStorage } from '@/hooks';
 
 const ThemeManager: FC<Omit<ThemeProviderProps, 'theme'>> = (props) => {
-  const [dark, setDark] = useLocalStorage('interest-theme', false);
+  const [dark, setDark] = useLocalStorage('sui-interest-theme', false);
 
   return (
     <ThemeProvider
