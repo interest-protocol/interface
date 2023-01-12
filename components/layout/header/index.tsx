@@ -2,7 +2,6 @@ import { useTheme } from '@emotion/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
-import { not } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 
 import { SwitchLang } from '@/components';
@@ -29,7 +28,7 @@ const Header: FC = () => {
 
   useEventListener('resize', handleSetDesktop, true);
 
-  const handleChangeTheme = () => setDark(not);
+  const handleChangeTheme = () => setDark(!dark);
   return (
     <Box>
       <Box bg={dark ? 'bottomBackground' : 'accentSecondary'} p="L">
