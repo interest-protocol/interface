@@ -1,44 +1,37 @@
-import { CHAIN_ID } from '@/sdk';
+import { Network } from '@mysten/sui.js';
+
 import {
-  BscScanSVG,
-  ChainLinkSVG,
-  EtherScanSVG,
-  RedStoneSVG,
+  BinanceSVG,
+  BitcoinSVG,
+  DAISVG,
+  EtherSVG,
+  SuiSVG,
   UnknownCoinSVG,
+  USDCoinSVG,
+  USDTSVG,
 } from '@/svg';
 
-import { SyntheticOracleType } from './synthetics';
+import { COIN_TYPE } from './coins';
 
-export * from './chains';
+export * from './coins';
 export * from './dex';
-export * from './dinero-markets';
-export * from './erc-20';
-export * from './farms';
-export * from './fiat-ramp';
+export * from './faucet';
 export * from './routes';
 export * from './social-media';
-export * from './synthetics';
-export * from './vaults';
-export * from './wallets';
 
-export enum StakeState {
-  Stake,
-  Unstake,
-}
+export const MAX_NUMBER_INPUT_VALUE = 9000000000000000;
 
-export const DEFAULT_ERC_20_DECIMALS = 18;
-
-export const DEFAULT_ACCOUNT = '0x000000000000000000000000000000000000dEaD';
-
-export const EXPLORER_MAP = {
-  [CHAIN_ID.RINKEBY]: EtherScanSVG,
-  [CHAIN_ID.BNB_MAIN_NET]: BscScanSVG,
-  [CHAIN_ID.BNB_TEST_NET]: BscScanSVG,
-  [CHAIN_ID.UNSUPPORTED]: UnknownCoinSVG,
+export const SUI_EXPLORER = {
+  [Network.DEVNET]: 'https://explorer.sui.io',
 };
 
-export const ORACLE_SVG_MAP = {
-  [SyntheticOracleType.ChainLink]: ChainLinkSVG,
-  [SyntheticOracleType.RedStoneConsumer]: RedStoneSVG,
-  [SyntheticOracleType.RedStonePriceAware]: RedStoneSVG,
+export const TOKENS_SVG_MAP = {
+  default: UnknownCoinSVG,
+  [COIN_TYPE[Network.DEVNET].BNB]: BinanceSVG,
+  [COIN_TYPE[Network.DEVNET].BTC]: BitcoinSVG,
+  [COIN_TYPE[Network.DEVNET].DAI]: DAISVG,
+  [COIN_TYPE[Network.DEVNET].ETH]: EtherSVG,
+  [COIN_TYPE[Network.DEVNET].SUI]: SuiSVG,
+  [COIN_TYPE[Network.DEVNET].USDC]: USDCoinSVG,
+  [COIN_TYPE[Network.DEVNET].USDT]: USDTSVG,
 };

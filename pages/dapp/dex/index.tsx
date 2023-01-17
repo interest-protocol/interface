@@ -1,24 +1,17 @@
 import { GetStaticProps, NextPage } from 'next';
-import dynamic from 'next/dynamic';
 import { mergeDeepRight } from 'ramda';
 
-const DynamicDEX = dynamic(() => import('../../../views/dapp/views/dex'));
+import DEX from '@/views/dapp/dex';
 
-const DEXPage: NextPage = () => <DynamicDEX />;
+const DexPage: NextPage = () => <DEX />;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const [commonMessages, dexSwapMessages, dexPoolFindMessages] =
-    await Promise.all([
-      import(`../../../assets/messages/common/${locale}.json`),
-      import(`../../../assets/messages/dex/swap/${locale}.json`),
-      import(`../../../assets/messages/dex/pool/find/${locale}.json`),
-    ]);
+  const [commonMessages, dexMessages] = await Promise.all([
+    import(`../../../assets/messages/common/${locale}.json`),
+    import(`../../../assets/messages/dex/swap/${locale}.json`),
+  ]);
 
-  const messages = mergeDeepRight(
-    mergeDeepRight(commonMessages.default, dexPoolFindMessages.default),
-    dexSwapMessages.default
-  );
-
+  const messages = mergeDeepRight(commonMessages.default, dexMessages.default);
   return {
     props: {
       messages,
@@ -28,4 +21,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default DEXPage;
+export default DexPage;

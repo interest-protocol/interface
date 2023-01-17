@@ -1,11 +1,8 @@
 import { ChangeEvent } from 'react';
 
-import { MAX_NUMBER_INPUT_VALUE, TOKEN_SYMBOL } from '@/sdk';
+import { MAX_NUMBER_INPUT_VALUE } from '@/sdk';
 
 const isExponential = (number: number) => number.toString().includes('e');
-
-export const shortAccount = (account: string, mobile = false): string =>
-  `${account.slice(0, mobile ? 2 : 6)}...${account.slice(-4)}`;
 
 const removeZero = (array: ReadonlyArray<string>): string => {
   if (!array.length) return '';
@@ -110,10 +107,15 @@ export const parseInputEventToNumberString = (
     : x;
 };
 
-export const maybeLPTokenName = (symbol0?: string, symbol1?: string): string =>
-  `${symbol0 ?? ''}${
-    symbol1 && symbol1 !== TOKEN_SYMBOL.Unknown ? `-${symbol1}` : ''
-  }`;
-
 export const capitalize = (str: string | undefined): string =>
   str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+
+export function isHexString(value: any, length?: number): boolean {
+  if (typeof value !== 'string' || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+    return false;
+  }
+  if (length && value.length !== 2 + 2 * length) {
+    return false;
+  }
+  return true;
+}

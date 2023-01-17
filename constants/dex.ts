@@ -1,73 +1,91 @@
-import { CHAIN_ID, TOKEN_SYMBOL } from '@/sdk';
-import { getWETHAddress } from '@/utils';
+import { Network } from '@mysten/sui.js';
 
-import { ERC_20_DATA } from './erc-20';
+import { TOKEN_SYMBOL } from '@/sdk';
 
-export enum PoolType {
-  Volatile,
-  Stable,
-}
+import { COIN_TYPE } from './coins';
 
-const getBNBTestNetData = (tokenSymbol: TOKEN_SYMBOL) => ({
-  symbol: ERC_20_DATA[CHAIN_ID.BNB_TEST_NET][tokenSymbol].symbol,
-  decimals: ERC_20_DATA[CHAIN_ID.BNB_TEST_NET][tokenSymbol].decimals,
-  name: ERC_20_DATA[CHAIN_ID.BNB_TEST_NET][tokenSymbol].name,
-  address: ERC_20_DATA[CHAIN_ID.BNB_TEST_NET][tokenSymbol].address,
-  chainId: ERC_20_DATA[CHAIN_ID.BNB_TEST_NET][tokenSymbol].chainId,
-});
+export const DEX_PACKAGE_ID = '0x83e6b8d4a1257f8b1050875a30c70f74b6976ad4';
 
-export const SWAP_BASES = {
-  [CHAIN_ID.BNB_MAIN_NET]: [],
-  [CHAIN_ID.RINKEBY]: [],
-  [CHAIN_ID.BNB_TEST_NET]: [
-    getBNBTestNetData(TOKEN_SYMBOL.ETH),
-    getBNBTestNetData(TOKEN_SYMBOL.USDC),
-  ],
-};
+export const POOLS_OBJECT_ID = '0xca9e961e73d0b755d1e432da07c6450f73260fba';
 
-export const RECOMMENDED_POOLS = {
-  [CHAIN_ID.BNB_MAIN_NET]: {
-    [PoolType.Volatile]: [],
-    [PoolType.Stable]: [],
+export const DEX_BASE_TOKEN_ARRAY = [COIN_TYPE[Network.DEVNET].ETH];
+
+export const DEX_TOKENS_DATA = [
+  {
+    symbol: TOKEN_SYMBOL.SUI,
+    decimals: 9,
+    type: COIN_TYPE[Network.DEVNET].SUI,
+    name: 'Sui',
   },
-  [CHAIN_ID.RINKEBY]: {
-    [PoolType.Volatile]: [],
-    [PoolType.Stable]: [],
+  {
+    symbol: TOKEN_SYMBOL.BTC,
+    decimals: 0,
+    type: COIN_TYPE[Network.DEVNET].BTC,
+    name: 'Bitcoin',
   },
-  [CHAIN_ID.BNB_TEST_NET]: {
-    [PoolType.Volatile]: [
-      {
-        pairAddress: '0xD4a22921a4A642AA653595f5530abd358F7f0842',
-        token0: getBNBTestNetData(TOKEN_SYMBOL.INT),
-        token1: getBNBTestNetData(TOKEN_SYMBOL.WBNB),
-      },
-      {
-        pairAddress: '0xb8AF44a4eD047F6137aC148b0D1197913222993d',
-        token0: getBNBTestNetData(TOKEN_SYMBOL.WBNB),
-        token1: getBNBTestNetData(TOKEN_SYMBOL.USDT),
-      },
-      {
-        pairAddress: '0x8309E5d16Ade1A46e959Ec50e2D58f7f386273B0',
-        token0: getBNBTestNetData(TOKEN_SYMBOL.INT),
-        token1: getBNBTestNetData(TOKEN_SYMBOL.ETH),
-      },
-    ],
-    [PoolType.Stable]: [
-      {
-        pairAddress: '0xEAd84c099eb2ad7f9714AfE3Ee8939986c3D5691',
-        token0: getBNBTestNetData(TOKEN_SYMBOL.DNR),
-        token1: getBNBTestNetData(TOKEN_SYMBOL.USDC),
-      },
-    ],
+  {
+    symbol: TOKEN_SYMBOL.BNB,
+    decimals: 0,
+    type: COIN_TYPE[Network.DEVNET].BNB,
+    name: 'BNB Coin',
   },
-};
+  {
+    symbol: TOKEN_SYMBOL.DAI,
+    decimals: 0,
+    type: COIN_TYPE[Network.DEVNET].DAI,
+    name: 'DAI',
+  },
+  {
+    symbol: TOKEN_SYMBOL.ETH,
+    decimals: 0,
+    type: COIN_TYPE[Network.DEVNET].ETH,
+    name: 'Ether',
+  },
+  {
+    symbol: TOKEN_SYMBOL.USDT,
+    decimals: 0,
+    type: COIN_TYPE[Network.DEVNET].USDT,
+    name: 'USD Tether',
+  },
+  {
+    symbol: TOKEN_SYMBOL.USDC,
+    decimals: 0,
+    type: COIN_TYPE[Network.DEVNET].USDC,
+    name: 'USD Coin',
+  },
+];
 
-export const WRAPPED_NATIVE_TOKEN = {
-  [CHAIN_ID.BNB_TEST_NET]: {
-    symbol: TOKEN_SYMBOL.WBNB,
-    decimals: 18,
-    name: 'Wrapped Binance Coin',
-    address: getWETHAddress(CHAIN_ID.BNB_TEST_NET),
-    chainId: CHAIN_ID.BNB_TEST_NET,
+const getSUIDevNetData = (token: TOKEN_SYMBOL) =>
+  DEX_TOKENS_DATA.find(({ symbol }) => symbol == token) ?? {
+    symbol: TOKEN_SYMBOL.SUI,
+    decimals: 9,
+    type: COIN_TYPE[Network.DEVNET].SUI,
+    name: 'Sui',
+  };
+
+export const RECOMMENDED_POOLS = [
+  {
+    token0: getSUIDevNetData(TOKEN_SYMBOL.BNB),
+    token1: getSUIDevNetData(TOKEN_SYMBOL.ETH),
   },
-};
+  {
+    token0: getSUIDevNetData(TOKEN_SYMBOL.BTC),
+    token1: getSUIDevNetData(TOKEN_SYMBOL.ETH),
+  },
+  {
+    token0: getSUIDevNetData(TOKEN_SYMBOL.DAI),
+    token1: getSUIDevNetData(TOKEN_SYMBOL.ETH),
+  },
+  {
+    token0: getSUIDevNetData(TOKEN_SYMBOL.ETH),
+    token1: getSUIDevNetData(TOKEN_SYMBOL.USDT),
+  },
+  {
+    token0: getSUIDevNetData(TOKEN_SYMBOL.ETH),
+    token1: getSUIDevNetData(TOKEN_SYMBOL.USDC),
+  },
+  {
+    token0: getSUIDevNetData(TOKEN_SYMBOL.ETH),
+    token1: getSUIDevNetData(TOKEN_SYMBOL.SUI),
+  },
+];

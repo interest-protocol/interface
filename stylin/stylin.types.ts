@@ -4,7 +4,7 @@ import { StyledComponent } from '@emotion/styled';
 import { CSSProperties } from 'react';
 import { ResponsiveValue } from 'styled-system';
 
-import { Theme } from '@/design-system/landing-page-theme';
+import { Theme } from '@/design-system';
 import { IEmptyObj } from '@/interface';
 
 import { CSSPseudoSelectors, StylinCustomPropertiesType } from './constants';

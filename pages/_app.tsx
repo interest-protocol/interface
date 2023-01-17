@@ -1,19 +1,31 @@
+/* eslint-disable react/display-name */
 import 'react-loading-skeleton/dist/skeleton.css';
+import 'react-tooltip/dist/react-tooltip.css';
 
 import { Global } from '@emotion/react';
+import { WalletKitProvider } from '@mysten/wallet-kit';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import { AppProps } from 'next/app';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import NextProgress from 'next-progress';
-import { ReactNode, StrictMode, useEffect } from 'react';
+import { ReactNode, StrictMode } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
-import { WagmiConfig } from 'wagmi';
+import { TooltipProvider } from 'react-tooltip';
 
-import { NextIntlProvider, Web3Manager } from '@/components';
-import { wagmiClient } from '@/connectors';
+import { LoadingPage, NextIntlProvider, ThemeManager } from '@/components';
 import { GlobalStyles } from '@/design-system';
 import { TTranslatedMessage } from '@/interface';
-import { initGA, logPageView } from '@/utils/analytics';
+
+const Layout = dynamic(() => import('../components/layout'), {
+  ssr: false,
+  loading: LoadingPage,
+});
+
+const Web3Manager = dynamic(() => import('../components/web3-manager'), {
+  ssr: false,
+  loading: LoadingPage,
+});
 
 interface PageProps {
   now: number;
@@ -25,23 +37,7 @@ type Props = Omit<AppProps<PageProps>, 'pageProps'> & {
   pageProps: PageProps;
 };
 
-const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
-  useEffect(() => {
-    initGA();
-    // `routeChangeComplete` won't run for the first page load unless the query string is
-    // hydrated later on, so here we log a page view if this is the first render and
-    // there's no query string
-    if (!router.asPath.includes('?')) logPageView();
-  }, []);
-
-  useEffect(() => {
-    // Listen for page changes after a navigation or when the query changes
-    router.events.on('routeChangeComplete', logPageView);
-    return () => {
-      router.events.off('routeChangeComplete', logPageView);
-    };
-  }, [router.events]);
-
+const MyApp = ({ Component, pageProps }: Props): ReactNode => {
   return (
     <>
       <Head>
@@ -66,20 +62,23 @@ const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
         now={new Date(pageProps.now)}
         timeZone="UTC"
       >
-        <WagmiConfig client={wagmiClient}>
+        <WalletKitProvider>
           <SkeletonTheme baseColor="#202020" highlightColor="#444">
             <Global styles={GlobalStyles} />
-            <Web3Manager
-              pageTitle={pageProps.pageTitle}
-              pathname={router.pathname}
-            >
+            <ThemeManager>
               <StrictMode>
-                <Component {...pageProps} />
-                <VercelAnalytics />
+                <TooltipProvider>
+                  <Web3Manager>
+                    <Layout pageTitle={pageProps.pageTitle}>
+                      <Component {...pageProps} />
+                      <VercelAnalytics />
+                    </Layout>
+                  </Web3Manager>
+                </TooltipProvider>
               </StrictMode>
-            </Web3Manager>
+            </ThemeManager>
           </SkeletonTheme>
-        </WagmiConfig>
+        </WalletKitProvider>
       </NextIntlProvider>
     </>
   );

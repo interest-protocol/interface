@@ -1,95 +1,72 @@
-import { ThemeProvider } from '@emotion/react';
-import { useTranslations } from 'next-intl';
-import { FC, useEffect } from 'react';
-import {
-  allChains,
-  useAccount,
-  useConnect,
-  useNetwork,
-  useSwitchNetwork,
-} from 'wagmi';
+import { useWallet } from '@mysten/wallet-kit';
+import { createContext, FC, useEffect, useMemo, useState } from 'react';
+import useSWR from 'swr';
 
-import { Routes, SUPPORTED_CHAINS_RECORD } from '@/constants';
-import { CHAINS } from '@/constants/chains';
-import { DAppTheme, LandingPageTheme } from '@/design-system';
-import { TimesSVG } from '@/svg';
-import { capitalize } from '@/utils';
-import { Layout, Loading } from '@/views/dapp/components';
-import HomePageLayout from '@/views/home/layout';
+import { makeSWRKey, provider } from '@/utils';
 
-import Advice from './advice';
-import {
-  ContentProps,
-  Web3ManagerProps,
-  Web3ManagerWrapperProps,
-} from './web3-manager.type';
+import { Web3ManagerProps, Web3ManagerState } from './web3-manager.types';
+import { parseCoins } from './web3-manager.utils';
 
-const Content: FC<ContentProps> = ({ supportedChains = [], children }) => {
-  const { error, isLoading } = useConnect();
-  const { chain } = useNetwork();
-  const { switchNetwork } = useSwitchNetwork();
-  const { isConnected } = useAccount();
-  const t = useTranslations();
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const defaultMutate: any = () => {};
 
-  const isUnsupported = !supportedChains.includes(chain?.id || -1);
-
-  useEffect(() => {
-    if (isUnsupported) switchNetwork?.(supportedChains[0]);
-  }, [chain, isUnsupported]);
-
-  if (!error && isLoading) return <Loading />;
-
-  if (isUnsupported && isConnected)
-    return (
-      <Advice
-        Icon={TimesSVG}
-        title={t('web3Manager.title', {
-          chainName:
-            allChains.find(({ id }) => id === chain?.id)?.name ||
-            chain?.name ||
-            capitalize(t('common.network', { count: 1 })),
-        })}
-        lines={[t('web3Manager.advice')]}
-        buttons={supportedChains.map((id) => ({
-          text: t('web3Manager.button', {
-            chainName: CHAINS[id].name,
-          }),
-          action: () => switchNetwork?.(id),
-        }))}
-      />
-    );
-
-  return <>{children}</>;
+const CONTEXT_DE_DEFAULT_STATE = {
+  account: null,
+  coins: [],
+  coinsMap: {},
+  connected: false,
+  error: false,
+  mutate: defaultMutate,
 };
 
-const Web3Manager: FC<Web3ManagerProps> = ({
-  children,
-  supportedChains,
-  pageTitle,
-}) => (
-  <Layout pageTitle={pageTitle}>
-    <Content supportedChains={supportedChains}>{children}</Content>
-  </Layout>
+export const Web3ManagerContext = createContext<Web3ManagerState>(
+  CONTEXT_DE_DEFAULT_STATE
 );
 
-const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
-  pathname,
-  pageTitle,
-  children,
-}) =>
-  pathname !== Routes.home ? (
-    <ThemeProvider theme={DAppTheme}>
-      <Web3Manager
-        pageTitle={pageTitle}
-        supportedChains={SUPPORTED_CHAINS_RECORD[pathname]}
-      >
-        {children}
-      </Web3Manager>
-    </ThemeProvider>
-  ) : (
-    <ThemeProvider theme={LandingPageTheme}>
-      <HomePageLayout pageTitle={pageTitle}>{children}</HomePageLayout>
-    </ThemeProvider>
+const Web3Manager: FC<Web3ManagerProps> = ({ children }) => {
+  const { getAccounts, connected, connecting, isError } = useWallet();
+
+  const [account, setAccount] = useState<null | string>(null);
+
+  useEffect(() => {
+    (async () => {
+      if (connected) {
+        const accounts = await getAccounts();
+        setAccount(accounts[0]);
+      } else {
+        setAccount(null);
+      }
+    })();
+  }, [connected, connecting, isError]);
+
+  const { data, error, mutate } = useSWR(
+    makeSWRKey([account], 'getCoinBalancesOwnedByAddress'),
+    async () =>
+      account ? provider.getCoinBalancesOwnedByAddress(account) : [],
+    {
+      revalidateOnFocus: false,
+      revalidateOnMount: true,
+      refreshWhenHidden: true,
+      refreshInterval: 5000,
+    }
   );
 
-export default Web3ManagerWrapper;
+  const [coins, coinsMap] = useMemo(() => parseCoins(data), [data]);
+
+  return (
+    <Web3ManagerContext.Provider
+      value={{
+        account,
+        error: isError || !!error,
+        connected,
+        coins,
+        coinsMap,
+        mutate,
+      }}
+    >
+      {children}
+    </Web3ManagerContext.Provider>
+  );
+};
+
+export default Web3Manager;

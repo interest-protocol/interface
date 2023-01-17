@@ -3,9 +3,8 @@ import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
 
-import { isValidAccount } from '@/utils';
-import { Loading } from '@/views/dapp/components';
-import ErrorView from '@/views/dapp/views/error';
+import ErrorView from '@/views/dapp/components/error';
+import Loading from '@/views/dapp/components/loading';
 
 type TWithParamsGuard = (
   paramsKeys: ReadonlyArray<string>,
@@ -35,7 +34,7 @@ const withParamsGuard: TWithParamsGuard = (paramsKeys, Component) => () => {
   const hasAddress = addressIndex >= 0;
   const address = params[addressIndex];
 
-  if (!params.length || (hasAddress && !isValidAccount(String(address))))
+  if (!params.length || hasAddress)
     return <ErrorView message={t('error.wrongParams')} />;
 
   return (
@@ -44,6 +43,7 @@ const withParamsGuard: TWithParamsGuard = (paramsKeys, Component) => () => {
         (acc, key, index) => ({ ...acc, [key]: params[index] }),
         {}
       )}
+      address={address}
     />
   );
 };

@@ -8,10 +8,4 @@ Decimal.format = {
   groupSeparator: '',
 };
 
-export const toFixedToPrecision = (
-  x: string | number,
-  fixedArg = 2,
-  precisionArg = 2
-): string => (+(+x).toFixed(fixedArg)).toPrecision(precisionArg);
-
 export const numberToString = (x: number): string => new Decimal(x).toFormat();

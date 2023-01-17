@@ -1,7 +1,7 @@
 import { SerializedStyles } from '@emotion/serialize';
 import styled from '@emotion/styled';
 
-import { Theme } from '@/design-system/landing-page-theme';
+import { Theme } from '@/design-system';
 import { IEmptyObj } from '@/interface';
 
 import renderStyles from './render-styles';

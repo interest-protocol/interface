@@ -1,12 +1,11 @@
 import { FC } from 'react';
 
+import { ConnectWallet } from '@/components';
 import { Box } from '@/elements';
-import { useIdAccount } from '@/hooks/use-id-account';
-
-import ConnectWallet from '../wallet/connect-wallet';
+import { useWeb3 } from '@/hooks';
 
 const WalletGuardButton: FC = ({ children }) =>
-  useIdAccount().account ? (
+  useWeb3().connected ? (
     <>{children}</>
   ) : (
     <Box display="flex" flexDirection="column" my="M">

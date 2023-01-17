@@ -16,8 +16,6 @@
       "title": "Recomendação",
       "description": "Recomendamos que crie um mercado {type} para {symbol0} e {symbol1}.",
       "submit": "Continuar"
-    },
-    "switchOption1": "Recomendado",
-    "switchOption2": "Adicionados por mim"
+    }
   }
 }

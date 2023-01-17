@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+import { useTheme } from '@emotion/react';
 import { FC, useState } from 'react';
 import { v4 } from 'uuid';
 
@@ -13,6 +14,7 @@ const Switch: FC<SwitchProps> = ({
   bg,
   bgSelected,
 }) => {
+  const { dark } = useTheme() as { dark: boolean };
   const [selected, setSelected] = useState(defaultValue);
 
   const switcher = (value: string | number) => () => setSelected(value);
@@ -37,9 +39,15 @@ const Switch: FC<SwitchProps> = ({
           borderRadius="1.5rem"
           fontSize="S"
           justifyContent="center"
-          hover={{ color: 'text' }}
+          hover={{ color: 'textSecondary' }}
           textTransform="capitalize"
-          color={value === selected ? 'outline' : 'textSecondary'}
+          color={
+            value === selected
+              ? dark
+                ? 'text'
+                : 'textInverted'
+              : 'textSecondary'
+          }
           onClick={() => {
             if (value !== selected) {
               switcher(value);
@@ -47,9 +55,7 @@ const Switch: FC<SwitchProps> = ({
             }
           }}
           bg={
-            value === selected
-              ? bgSelected || 'bottomBackground'
-              : 'transparent'
+            value === selected ? bgSelected || 'accentSecondary' : 'transparent'
           }
         >
           {displayValue ?? value}

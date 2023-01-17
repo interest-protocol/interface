@@ -2,20 +2,41 @@ import breakpoints from '../common/breakpoints';
 import fontSizes from '../common/font-sizes';
 import radii from '../common/radii';
 import space from '../common/space';
-import colors from './colors';
-import { buttons, effects, typography } from './variants';
+import darkColors from './dark-mode/colors';
+import {
+  buttons as darkButtons,
+  effects as darkEffects,
+  typography as darkTypography,
+} from './dark-mode/variants';
+import lightColors from './light-mode/colors';
+import {
+  buttons as lightButtons,
+  effects as lightEffects,
+  typography as lightTypography,
+} from './light-mode/variants';
 
-const LightTheme = {
+export const DAppLightTheme = {
   radii,
+  dark: false,
   space,
-  colors,
-  buttons,
-  effects,
+  colors: lightColors,
+  buttons: lightButtons,
+  effects: lightEffects,
   fontSizes,
-  typography,
+  typography: lightTypography,
   breakpoints,
 };
 
-export type Theme = typeof LightTheme;
+export const DAppDarkTheme = {
+  radii,
+  dark: true,
+  space,
+  colors: darkColors,
+  buttons: darkButtons,
+  effects: darkEffects,
+  fontSizes,
+  typography: darkTypography,
+  breakpoints,
+};
 
-export default LightTheme;
+export type Theme = typeof DAppLightTheme;

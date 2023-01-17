@@ -4,11 +4,10 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
-import { Theme } from '@/design-system/landing-page-theme';
+import { Theme } from '@/design-system';
 import { capitalize } from '@/utils';
-import { LayoutProps } from '@/views/home/layout/layout.types';
 
-const SEO: FC<LayoutProps> = ({ pageTitle }) => {
+const SEO: FC<{ pageTitle: string }> = ({ pageTitle }) => {
   const t = useTranslations();
   const { colors } = useTheme() as Theme;
 

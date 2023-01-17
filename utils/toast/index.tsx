@@ -1,56 +1,44 @@
-import { SendTransactionResult } from '@wagmi/core';
+import { Network, SuiTransactionResponse } from '@mysten/sui.js';
 import { propOr } from 'ramda';
 import toast from 'react-hot-toast';
 
-import { CHAINS, EXPLORER_MAP } from '@/constants';
-import Box from '@/elements/box';
-import Typography from '@/elements/typography';
-import { logGenericEvent } from '@/utils/analytics';
+import { SUI_EXPLORER } from '@/constants';
+import { Box, Typography } from '@/elements';
+import { SuiSVG } from '@/svg';
 import { tryCatch } from '@/utils/promise';
 
 import { ToastMsgs, ToastOpts } from './toast.types';
 
 export const showTXSuccessToast = async (
-  tx: SendTransactionResult | undefined,
-  chainId: number
+  tx: SuiTransactionResponse
 ): Promise<void> => {
-  if (!tx) return;
-  const receipt = await tx.wait(2);
-
-  const explorer = CHAINS[chainId].blockExplorers;
-
-  const SVG = EXPLORER_MAP[chainId];
   toast(
     <a
       target="__black"
       rel="noreferrer nofollow"
-      href={`${explorer ? explorer.default.url : ''}/tx/${
-        receipt.transactionHash
+      href={`${SUI_EXPLORER[Network.DEVNET]}/transaction/${
+        tx.certificate.transactionDigest
       }`}
     >
-      {explorer ? (
-        <Box display="flex" alignItems="center">
-          <Box width="1.5rem" height="1.5rem" mr="M">
-            <SVG
-              width="100%"
-              height="100%"
-              maxHeight="1.5rem"
-              maxWidth="1.5rem"
-            />
-          </Box>
-          <Typography
-            variant="normal"
-            color="accent"
-            textDecoration="underline"
-            fontWeight="700"
-            cursor="pointer"
-          >
-            {explorer?.default.name}
-          </Typography>
+      <Box display="flex" alignItems="center">
+        <Box width="1.5rem" height="1.5rem" mr="M">
+          <SuiSVG
+            width="100%"
+            height="100%"
+            maxHeight="1.5rem"
+            maxWidth="1.5rem"
+          />
         </Box>
-      ) : (
-        'Check Explorer'
-      )}
+        <Typography
+          variant="normal"
+          color="accent"
+          textDecoration="underline"
+          fontWeight="700"
+          cursor="pointer"
+        >
+          Sui Explorer
+        </Typography>
+      </Box>
     </a>
   );
 };
@@ -64,7 +52,5 @@ export function showToast<T>(
   },
   options: ToastOpts = undefined
 ): Promise<T | undefined> {
-  return tryCatch(toast.promise(fn, msgs, options), (x) =>
-    logGenericEvent('E_ShowToast' + propOr('message', 'error', x))
-  );
+  return tryCatch(toast.promise(fn, msgs, options), (x) => x);
 }
