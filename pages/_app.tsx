@@ -8,6 +8,7 @@ import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import NextProgress from 'next-progress';
 import { ReactNode, StrictMode } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import { TooltipProvider } from 'react-tooltip';
@@ -46,6 +47,7 @@ const MyApp = ({ Component, pageProps }: Props): ReactNode => {
           content="width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1, viewport-fit=cover"
         />
       </Head>
+      <NextProgress options={{ showSpinner: false }} />
       <NextIntlProvider
         formats={{
           dateTime: {

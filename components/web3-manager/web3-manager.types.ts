@@ -1,14 +1,13 @@
 import { GetObjectDataResponse } from '@mysten/sui.js';
-import { SuiObject } from '@mysten/sui.js/src/types/objects';
 import BigNumber from 'bignumber.js';
 import { ReactNode } from 'react';
 import { KeyedMutator } from 'swr';
 
 export interface Web3ManagerSuiObject {
   type: string;
-  name: string;
+  symbol: string;
   totalBalance: BigNumber;
-  objects: ReadonlyArray<SuiObject>;
+  objects: ReadonlyArray<GetObjectDataResponse>;
   decimals: number;
 }
 

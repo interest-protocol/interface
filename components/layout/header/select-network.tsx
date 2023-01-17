@@ -7,6 +7,7 @@ import { capitalize } from '@/utils';
 
 const SelectNetwork: FC = () => {
   const t = useTranslations();
+
   return (
     <Dropdown
       buttonMode

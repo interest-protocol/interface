@@ -1,13 +1,14 @@
 import { Network } from '@mysten/sui.js';
 
-import { COIN_TYPE } from '@/constants/coins';
 import { TOKEN_SYMBOL } from '@/sdk';
 
-export const DEX_PACKAGE_ID = '0xebe071664df1f5dbcc36368b0ec92840199a7e17';
+import { COIN_TYPE } from './coins';
 
-export const POOLS_OBJECT_ID = '0xe76fb7250f46cb909581333082374dc48eb06d9c';
+export const DEX_PACKAGE_ID = '0x83e6b8d4a1257f8b1050875a30c70f74b6976ad4';
 
-export const DEX_OBJECT_ID = '0xebe071664df1f5dbcc36368b0ec92840199a7e17';
+export const POOLS_OBJECT_ID = '0xca9e961e73d0b755d1e432da07c6450f73260fba';
+
+export const DEX_BASE_TOKEN_ARRAY = [COIN_TYPE[Network.DEVNET].ETH];
 
 export const DEX_TOKENS_DATA = [
   {
@@ -23,16 +24,22 @@ export const DEX_TOKENS_DATA = [
     name: 'Bitcoin',
   },
   {
-    symbol: TOKEN_SYMBOL.ETH,
-    decimals: 0,
-    type: COIN_TYPE[Network.DEVNET].ETH,
-    name: 'Ether',
-  },
-  {
     symbol: TOKEN_SYMBOL.BNB,
     decimals: 0,
     type: COIN_TYPE[Network.DEVNET].BNB,
     name: 'BNB Coin',
+  },
+  {
+    symbol: TOKEN_SYMBOL.DAI,
+    decimals: 0,
+    type: COIN_TYPE[Network.DEVNET].DAI,
+    name: 'DAI',
+  },
+  {
+    symbol: TOKEN_SYMBOL.ETH,
+    decimals: 0,
+    type: COIN_TYPE[Network.DEVNET].ETH,
+    name: 'Ether',
   },
   {
     symbol: TOKEN_SYMBOL.USDT,
@@ -46,10 +53,39 @@ export const DEX_TOKENS_DATA = [
     type: COIN_TYPE[Network.DEVNET].USDC,
     name: 'USD Coin',
   },
+];
+
+const getSUIDevNetData = (token: TOKEN_SYMBOL) =>
+  DEX_TOKENS_DATA.find(({ symbol }) => symbol == token) ?? {
+    symbol: TOKEN_SYMBOL.SUI,
+    decimals: 9,
+    type: COIN_TYPE[Network.DEVNET].SUI,
+    name: 'Sui',
+  };
+
+export const RECOMMENDED_POOLS = [
   {
-    symbol: TOKEN_SYMBOL.DAI,
-    decimals: 0,
-    type: COIN_TYPE[Network.DEVNET].DAI,
-    name: 'DAI',
+    token0: getSUIDevNetData(TOKEN_SYMBOL.BNB),
+    token1: getSUIDevNetData(TOKEN_SYMBOL.ETH),
+  },
+  {
+    token0: getSUIDevNetData(TOKEN_SYMBOL.BTC),
+    token1: getSUIDevNetData(TOKEN_SYMBOL.ETH),
+  },
+  {
+    token0: getSUIDevNetData(TOKEN_SYMBOL.DAI),
+    token1: getSUIDevNetData(TOKEN_SYMBOL.ETH),
+  },
+  {
+    token0: getSUIDevNetData(TOKEN_SYMBOL.ETH),
+    token1: getSUIDevNetData(TOKEN_SYMBOL.USDT),
+  },
+  {
+    token0: getSUIDevNetData(TOKEN_SYMBOL.ETH),
+    token1: getSUIDevNetData(TOKEN_SYMBOL.USDC),
+  },
+  {
+    token0: getSUIDevNetData(TOKEN_SYMBOL.ETH),
+    token1: getSUIDevNetData(TOKEN_SYMBOL.SUI),
   },
 ];

@@ -2,7 +2,6 @@ import { useTheme } from '@emotion/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
-import { not } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 
 import { SwitchLang } from '@/components';
@@ -23,13 +22,13 @@ const Header: FC = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   const handleSetDesktop = useCallback(() => {
-    const mediaIsMobile = !window.matchMedia('(min-width: 64em)').matches;
+    const mediaIsMobile = !window.matchMedia('(min-width: 55em)').matches;
     setIsMobile(mediaIsMobile);
   }, []);
 
   useEventListener('resize', handleSetDesktop, true);
 
-  const handleChangeTheme = () => setDark(not);
+  const handleChangeTheme = () => setDark(!dark);
   return (
     <Box>
       <Box bg={dark ? 'bottomBackground' : 'accentSecondary'} p="L">
@@ -50,7 +49,7 @@ const Header: FC = () => {
         px={['M', 'L']}
         alignItems="center"
         justifyContent="space-between"
-        display={['flex', 'flex', 'grid']}
+        display={['flex', 'flex', 'flex', 'grid']}
         gridTemplateColumns="repeat(3, 1fr)"
       >
         <Box display="flex" alignItems="center">

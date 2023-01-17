@@ -1,17 +1,17 @@
 import styled from '@emotion/styled';
 import { Network } from '@mysten/sui.js';
 import { ConnectButton } from '@mysten/wallet-kit';
-import { pathOr } from 'ramda';
+import { always, pathOr } from 'ramda';
 import { FC } from 'react';
 
 import { COIN_TYPE } from '@/constants';
-import { Box, Button, Typography } from '@/elements';
+import { Box, Typography } from '@/elements';
 import { useWeb3 } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
 import { SuiSVG } from '@/svg';
 import { ZERO_BIG_NUMBER } from '@/utils';
 
-const ConnectWallet = styled(ConnectButton)`
+const StyledConnectButton = styled(ConnectButton)`
   background: #4282a8 !important;
   width: 100%;
   color: #fff !important;
@@ -22,11 +22,20 @@ const ConnectWallet = styled(ConnectButton)`
   }
 `;
 
+export const ConnectWallet: FC = always(<StyledConnectButton />);
+
 const Wallet: FC = () => {
   const { coinsMap } = useWeb3();
 
   return (
-    <Box bg="textSoft" display="flex" borderRadius="2.5rem" alignItems="center">
+    <Box
+      bg="textSoft"
+      display="flex"
+      borderRadius="2.5rem"
+      alignItems="center"
+      justifyContent="space-between"
+      minWidth={['unset', 'unset', 'unset', '13.5rem']}
+    >
       <Typography
         px="L"
         as="span"
@@ -60,17 +69,17 @@ const Wallet: FC = () => {
           />
         </Box>
       </Typography>
-      <Button
+      <Box
         fontSize="M"
         border="none"
-        variant="primary"
         padding={'unset'}
         display="inline-flex"
         bg="bottomBackground"
+        width="auto"
         borderRadius="2.5rem !important"
       >
         <ConnectWallet />
-      </Button>
+      </Box>
     </Box>
   );
 };

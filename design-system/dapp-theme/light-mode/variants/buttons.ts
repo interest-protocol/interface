@@ -8,12 +8,15 @@ const primary = css`
   outline: none;
   cursor: pointer;
   position: relative;
-  color: ${colors.text};
   display: inline-block;
   border-radius: 2rem;
+  color: ${colors.background};
   padding: 0.8rem ${space.XL};
   background: ${colors.accentSecondary};
   transition: background-color 1s, color 1s;
+  &:disabled {
+    background: ${colors.disabled};
+  }
 `;
 
 const secondary = css`

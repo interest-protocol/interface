@@ -6,6 +6,8 @@ export enum Rounding {
   ROUND_UP,
 }
 
+export const MAX_NUMBER_INPUT_VALUE = 9000000000000000;
+
 export enum TOKEN_SYMBOL {
   BTC = 'BTC',
   ETH = 'ETH',

@@ -3,12 +3,24 @@ import { Network } from '@mysten/sui.js';
 export const COIN_TYPE = {
   [Network.DEVNET]: {
     SUI: '0x2::coin::Coin<0x2::sui::SUI>',
-    BNB: '0x2::coin::Coin<0x6f16b2b7619d07fea1af9d1059fc7e4bd2bbb830::coins::BNB>',
-    ETH: '0x2::coin::Coin<0x6f16b2b7619d07fea1af9d1059fc7e4bd2bbb830::coins::ETH>',
-    BTC: '0x2::coin::Coin<0x6f16b2b7619d07fea1af9d1059fc7e4bd2bbb830::coins::BTC>',
-    USDT: '0x2::coin::Coin<0x6f16b2b7619d07fea1af9d1059fc7e4bd2bbb830::coins::USDT>',
-    USDC: '0x2::coin::Coin<0x6f16b2b7619d07fea1af9d1059fc7e4bd2bbb830::coins::USDC>',
-    DAI: '0x2::coin::Coin<0x6f16b2b7619d07fea1af9d1059fc7e4bd2bbb830::coins::DAI>',
+    BNB: '0x2::coin::Coin<0x83e6b8d4a1257f8b1050875a30c70f74b6976ad4::coins::BNB>',
+    ETH: '0x2::coin::Coin<0x83e6b8d4a1257f8b1050875a30c70f74b6976ad4::coins::ETH>',
+    BTC: '0x2::coin::Coin<0x83e6b8d4a1257f8b1050875a30c70f74b6976ad4::coins::BTC>',
+    USDT: '0x2::coin::Coin<0x83e6b8d4a1257f8b1050875a30c70f74b6976ad4::coins::USDT>',
+    USDC: '0x2::coin::Coin<0x83e6b8d4a1257f8b1050875a30c70f74b6976ad4::coins::USDC>',
+    DAI: '0x2::coin::Coin<0x83e6b8d4a1257f8b1050875a30c70f74b6976ad4::coins::DAI>',
+  },
+};
+
+export const COIN_TYPE_TO_NAME = {
+  [Network.DEVNET]: {
+    [COIN_TYPE[Network.DEVNET].BTC]: 'Bitcoin',
+    [COIN_TYPE[Network.DEVNET].ETH]: 'Ethers',
+    [COIN_TYPE[Network.DEVNET].BTC]: 'Bitcoin',
+    [COIN_TYPE[Network.DEVNET].USDT]: 'Tether',
+    [COIN_TYPE[Network.DEVNET].USDC]: 'USD Coin',
+    [COIN_TYPE[Network.DEVNET].DAI]: 'Dai',
+    [COIN_TYPE[Network.DEVNET].SUI]: 'Sui',
   },
 };
 

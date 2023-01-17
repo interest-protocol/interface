@@ -16,3 +16,12 @@ export const getCoinObjectId = path<string>([
   'id',
   'id',
 ]);
+
+export const getTokenTypeFromCoinType = (x: string): string => {
+  const array = x.split('<');
+  const sndElem = array[1];
+  return sndElem.substring(0, sndElem.length - 1);
+};
+
+export const addCoinTypeToTokenType = (x: string): string =>
+  `0x2::coin::Coin<${x}>`;

@@ -9,6 +9,7 @@ import { Box, Typography } from '@/elements';
 import { useWeb3 } from '@/hooks';
 import { getCoinBalance, getCoinObjectId, ZERO_BIG_NUMBER } from '@/utils';
 
+import { WalletGuardButton } from '../../components';
 import { IFaucetForm } from '../faucet.types';
 import FaucetSelectCurrency from './faucet-select-currency';
 import ItemBalance from './item-balance';
@@ -64,9 +65,9 @@ const FaucetForm: FC = () => {
             defaultValue={tokens?.[0]?.type ?? ''}
             onSelectCurrency={onSelectCurrency}
           />
-          <Box display="flex" justifyContent="center">
+          <WalletGuardButton>
             <MintButton getValues={getValues} />
-          </Box>
+          </WalletGuardButton>
         </Box>
         <Box
           py="L"

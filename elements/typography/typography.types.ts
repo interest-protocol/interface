@@ -39,5 +39,6 @@ export interface TypographyProps
     | 'title4'
     | 'normal'
     | 'large'
-    | 'button';
+    | 'button'
+    | 'small';
 }
