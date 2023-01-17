@@ -112,7 +112,7 @@ const Header: FC = () => {
           </Link>
         </Box>
         <Box display="flex" justifyContent="flex-end" alignItems="center">
-          <Box display={['none', 'none', 'none', 'block']}>
+          <Box>
             <SelectNetwork />
           </Box>
           <Wallet />
@@ -120,13 +120,10 @@ const Header: FC = () => {
             <Box display="flex" alignItems="stretch">
               <SwitchLang />
               <Box
-                mr="S"
-                width="3rem"
+                px="S"
                 height="2.8rem"
-                borderRadius="M"
                 alignItems="center"
                 display="inline-flex"
-                bg="transparent"
                 justifyContent="center"
                 onClick={handleChangeTheme}
                 color="text"
