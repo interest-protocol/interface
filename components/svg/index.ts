@@ -57,6 +57,7 @@ export { default as RedStoneSVG } from './red-stone';
 export { default as RightArrowSVG } from './right-arrow';
 export { default as ShibaInuSVG } from './shiba-inu';
 export { default as ShieldSVG } from './shield';
+export { default as SuiSVG } from './sui';
 export { default as SynthAppleSVG } from './synth-apple';
 export { default as SynthAUDSVG } from './synth-aud';
 export { default as SynthBAYCSVG } from './synth-bayc';

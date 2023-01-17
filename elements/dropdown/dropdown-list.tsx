@@ -10,6 +10,7 @@ import { DropdownListProps } from './dropdown.types';
 import DropdownItem from './dropdown-item';
 
 const DropdownList: FC<DropdownListProps> = ({
+  bg,
   data,
   isOpen,
   footer,
@@ -19,6 +20,7 @@ const DropdownList: FC<DropdownListProps> = ({
   minWidth,
   setIsOpen,
   fromRight,
+  bgSelected,
   customItems,
   customTitle,
   emptyMessage,
@@ -26,8 +28,6 @@ const DropdownList: FC<DropdownListProps> = ({
   toggleDropdown,
   setSelectedIndex,
   dropdownWrapperId,
-  bg,
-  bgSelected,
 }) => {
   const [safeMarginLeft, setSafeMarginLeft] = useState<boolean>(false);
   const [safeMarginRight, setSafeMarginRight] = useState<boolean>(false);
@@ -59,7 +59,9 @@ const DropdownList: FC<DropdownListProps> = ({
   }, [isOpen]);
 
   const target = data.filter(({ value }) =>
-    value.toLocaleLowerCase().match(`^${search?.toLocaleLowerCase() ?? ''}`)
+    (value ?? '')
+      .toLocaleLowerCase()
+      .match(`^${search?.toLocaleLowerCase() ?? ''}`)
   );
 
   return isOpen ? (
@@ -90,7 +92,7 @@ const DropdownList: FC<DropdownListProps> = ({
             <DropdownItem
               key={v4()}
               minWidth={minWidth}
-              setter={handleSelect(index)}
+              setter={handleSelect(item.value ? index : selectedIndex)}
               customItem={customItems}
               isSelected={index === selectedIndex}
               {...(index === selectedIndex && {
