@@ -100,7 +100,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
         {
           onSelect: () => {
             logGenericEvent('Network_Sui');
-            window.open(
+            window?.open(
               'https://sui.interestprotocol.com',
               '_blank',
               'noopener,noreferrer'
