@@ -112,10 +112,11 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
             >
               <Box display="flex" alignItems="center">
                 <SuiSVG
+                  fill="white"
                   width="1.5rem"
                   height="1.5rem"
-                  maxHeight="1.5rem"
                   maxWidth="1.5rem"
+                  maxHeight="1.5rem"
                 />
                 <Typography variant="normal" mx="M" whiteSpace="nowrap">
                   SUI Dev
@@ -138,10 +139,11 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               pl={['NONE', 'NONE', 'NONE', 'S']}
             >
               <SuiSVG
+                fill="white"
                 width="1.5rem"
                 height="1.5rem"
-                maxHeight="1.5rem"
                 maxWidth="1.5rem"
+                maxHeight="1.5rem"
               />
               <Typography
                 mx="M"
