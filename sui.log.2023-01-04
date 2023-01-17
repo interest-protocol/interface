@@ -1,0 +1,23 @@
+2023-01-04T19:00:32.749901Z  INFO sui::client_commands:                  Object ID                  |  Version   |                    Digest                    |   Owner Type    |               Object Type               
+2023-01-04T19:00:32.749917Z  INFO sui::client_commands: ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2023-01-04T19:00:32.749935Z  INFO sui::client_commands:  0x2230784ff523ead5e3dccf41c99533fe08aa5798 |     1      | cWrX/3ppjHcM8xPlYuZ+oyBzfX2L4XBK/TQDrL46jyg= |  AddressOwner   |      0x2::coin::Coin<0x2::sui::SUI>     
+2023-01-04T19:00:32.749939Z  INFO sui::client_commands:  0x2d192642c22c1dacf62a398cb9b1675f311f0424 |     1      | uiw69K7olB11B9SCd3T31rS5iiuvbfDbnaydXIxznb4= |  AddressOwner   |      0x2::coin::Coin<0x2::sui::SUI>     
+2023-01-04T19:00:32.749940Z  INFO sui::client_commands:  0x4b976596bfc2236c620883bff54dd0944160fcf2 |     1      | UFF/1fukq5kHxN4QrdTOBbP7nbY3qshG5SZUfv6ShWE= |  AddressOwner   |      0x2::coin::Coin<0x2::sui::SUI>     
+2023-01-04T19:00:32.749941Z  INFO sui::client_commands:  0x964064100685012149fb4b467067024be92a5524 |     1      | H85sLs+TxLIG2KrH972i/X035bV7eoq1rIdIWGfRVag= |  AddressOwner   |      0x2::coin::Coin<0x2::sui::SUI>     
+2023-01-04T19:00:32.749995Z  INFO sui::client_commands:  0xa27a756aae7b3bf069d26e0226ce7c7603d12329 |     1      | ++tYHVy3cXrWXj0Pav3+QadDmMf9tZh4qC5AjduXS8k= |  AddressOwner   |      0x2::coin::Coin<0x2::sui::SUI>     
+2023-01-04T19:00:32.750000Z  INFO sui::client_commands: Showing 5 results.
+2023-01-04T19:01:18.937565Z  INFO sui::client_commands: Transfer confirmed after 20373 us
+2023-01-04T19:01:18.937581Z  INFO sui::client_commands: [1m----- Certificate ----[0m
+2023-01-04T19:01:18.937582Z  INFO sui::client_commands: Transaction Hash: CkxXjQQivsCEajqiyqgcuprkQZVZNL6G6qHq5AskgW6W
+2023-01-04T19:01:18.937584Z  INFO sui::client_commands: Transaction Signature: AQ==@PzOI2gmZr3NUFdwsx2zNM12eSKuaTJ3rjKtBBFx6KnFsfKS2Lmr5xODZacZlrX1AXlNN+dEiiXU3gSeirV4OpgE=@Au11VyGso3DJvuT07fEkFKl1YlaTyVR25QWPXf3+VME5
+2023-01-04T19:01:18.937585Z  INFO sui::client_commands: Signed Authorities Bitmap: RoaringBitmap<[1, 2, 3]>
+2023-01-04T19:01:18.937586Z  INFO sui::client_commands: Transaction Kind : Transfer Object
+2023-01-04T19:01:18.937587Z  INFO sui::client_commands: Recipient : 0xff8d9e72bd0d2ea58101e38da9b17308d0149db2
+2023-01-04T19:01:18.937588Z  INFO sui::client_commands: Object ID : 0xa27a756aae7b3bf069d26e0226ce7c7603d12329
+2023-01-04T19:01:18.937589Z  INFO sui::client_commands: Version : SequenceNumber(1)
+2023-01-04T19:01:18.937590Z  INFO sui::client_commands: Object Digest : ++tYHVy3cXrWXj0Pav3+QadDmMf9tZh4qC5AjduXS8k=
+2023-01-04T19:01:18.937591Z  INFO sui::client_commands: [1m----- Transaction Effects ----[0m
+2023-01-04T19:01:18.937592Z  INFO sui::client_commands: Status : Success
+2023-01-04T19:01:18.937592Z  INFO sui::client_commands: Mutated Objects:
+2023-01-04T19:01:18.937594Z  INFO sui::client_commands:   - ID: 0x2230784ff523ead5e3dccf41c99533fe08aa5798 , Owner: Account Address ( 0xc6e037c5dcd9611062522a2ef126a19d2317ca49 )
+2023-01-04T19:01:18.937595Z  INFO sui::client_commands:   - ID: 0xa27a756aae7b3bf069d26e0226ce7c7603d12329 , Owner: Account Address ( 0xff8d9e72bd0d2ea58101e38da9b17308d0149db2 )
