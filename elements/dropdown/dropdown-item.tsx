@@ -5,17 +5,17 @@ import Typography from '../typography';
 import { DropdownItemProps } from './dropdown.types';
 
 const DropdownItem: FC<DropdownItemProps> = ({
+  bg,
   setter,
   onSelect,
   minWidth,
   disabled,
   isSelected,
   customItem,
+  bgSelected,
   noSelectable,
   closeDropdown,
   displayOption,
-  bg,
-  bgSelected,
 }) => {
   const handleSelect = () => {
     if (!isSelected) {
