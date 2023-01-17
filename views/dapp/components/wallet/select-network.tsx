@@ -103,11 +103,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
             window?.open(
               'https://sui.interestprotocol.com',
               '_blank',
-<<<<<<< HEAD
               'noopener,noreferrer'
-=======
-              'rel="noopener noreferrer"'
->>>>>>> 70fe571976a7a3d859441e72589efd9a8ea79bcc
             );
           },
           displayOption: (
