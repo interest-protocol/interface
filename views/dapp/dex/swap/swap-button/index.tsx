@@ -70,13 +70,13 @@ const SwapButton: FC<SwapButtonProps> = ({
             ? []
             : getCoinIds(coinsMap, tokenIn.type);
 
-        const poolStruct = pathOr(
+        const poolId = pathOr(
           '',
           [tokenIn.type, tokenOut.type, 'objectId'],
           data
         );
 
-        const pool = await provider.getObject(poolStruct);
+        const pool = await provider.getObject(poolId);
 
         if (isEmpty(pool)) throw new Error(t('dexSwap.error.noPool'));
 
@@ -110,7 +110,7 @@ const SwapButton: FC<SwapButtonProps> = ({
         return await showTXSuccessToast(tx);
       }
 
-      // TODO if a market has more than two paths, we need to fetch their reserves to assess the better option
+      throw new Error(t('dexSwap.error.soonFeature'));
     } catch (error) {
       throw new Error(t('dexSwap.error.failedToSwap'));
     } finally {

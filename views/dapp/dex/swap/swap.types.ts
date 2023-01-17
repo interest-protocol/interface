@@ -1,9 +1,7 @@
 import { GetObjectDataResponse, SuiObjectInfo } from '@mysten/sui.js';
-import { FC } from 'react';
 import { Control, UseFormGetValues } from 'react-hook-form';
 import { KeyedMutator } from 'swr';
 
-import { SVGProps } from '@/components/svg/svg.types';
 import { Web3ManagerState } from '@/components/web3-manager/web3-manager.types';
 
 import { SwapFormTokenData } from '../dex.types';
@@ -17,12 +15,6 @@ export interface OnSelectCurrencyData {
   type: string;
   symbol: string;
   decimals: number;
-}
-
-export interface SwapMessageProps {
-  color?: string;
-  message: string;
-  Icon: FC<SVGProps>;
 }
 
 export type PoolsMap = Record<string, Record<string, SuiObjectInfo>>;

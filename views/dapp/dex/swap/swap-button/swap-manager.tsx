@@ -4,7 +4,7 @@ import { TimesSVG } from '@/svg';
 
 import { SwapManagerProps } from '../swap.types';
 import { findMarket } from '../swap.utils';
-import SwapMessage from '../swap-message';
+import SwapMessage from './swap-message';
 
 const SwapManager: FC<SwapManagerProps> = ({
   tokenInType,

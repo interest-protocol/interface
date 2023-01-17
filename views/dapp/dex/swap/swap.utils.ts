@@ -17,11 +17,11 @@ export const parsePools = (data: undefined | SuiObjectInfo[]) => {
     const tokenInType = tokensTypes[0].substring(1);
     const tokenOutType = tokensTypes[1].substring(1, tokensTypes[1].length - 2);
 
-    if (!acc[tokenInType]) acc[tokenInType] = {};
-    if (!acc[tokenOutType]) acc[tokenOutType] = {};
-
     const parsedTokenIn = addCoinTypeToTokenType(tokenInType);
     const parsedTokenOut = addCoinTypeToTokenType(tokenOutType);
+
+    if (!acc[parsedTokenIn]) acc[parsedTokenIn] = {};
+    if (!acc[parsedTokenOut]) acc[parsedTokenOut] = {};
 
     return {
       ...acc,
@@ -60,15 +60,15 @@ export const findMarket = (
   const result: Array<SwapPathObject> = [];
 
   for (const elem of DEX_BASE_TOKEN_ARRAY) {
-    const firstPool = data[tokenInType][elem];
-    const secondPool = data[tokenOutType][elem];
+    const firstPool = pathOr(null, [tokenInType, elem], data);
+    const secondPool = pathOr(null, [tokenOutType, elem], data);
 
     if (firstPool && secondPool)
       result.push({
         baseToken: elem,
         tokenOutType,
         tokenInType,
-        pools: [firstPool, secondPool],
+        pools: [firstPool!, secondPool!],
       });
   }
 

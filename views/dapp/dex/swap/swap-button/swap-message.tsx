@@ -4,7 +4,7 @@ import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
 import { Box, Typography } from '@/elements';
 
-import { SwapMessageProps } from './swap.types';
+import { SwapMessageProps } from './swap-button.types';
 
 const SwapMessage: FC<SwapMessageProps> = ({ color, Icon, message }) => {
   const t = useTranslations();

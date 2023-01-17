@@ -18,7 +18,8 @@
       "select2Tokens": "Selecione 2 tokens",
       "failedToSwap": "Falha na troca",
       "wethDeposit": "Erro a depositar",
-      "wethWithdraw": "Erro a retirar"
+      "wethWithdraw": "Erro a retirar",
+      "soonFeature": "Esta funcionalidade estará disponível na próxima versão"
     }
   }
 }

@@ -18,7 +18,8 @@
       "select2Tokens": "Select two tokens",
       "failedToSwap": "Failed to Swap",
       "wethDeposit": "Failed to deposit",
-      "wethWithdraw": "Failed to withdraw"
+      "wethWithdraw": "Failed to withdraw",
+      "soonFeature": "This feature will be available in the next version"
     }
   }
 }
