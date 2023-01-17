@@ -6,7 +6,6 @@ import { Box, Dropdown, Typography } from '@/elements';
 import { CHAIN_ID } from '@/sdk';
 import {
   ArrowSVG,
-  BinanceSVG,
   BinanceTestSVG,
   BlockchainSVG,
   LinkSVG,
@@ -80,7 +79,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               alignItems="center"
               pl={['NONE', 'NONE', 'NONE', 'S']}
             >
-              <SuiSVG
+              <BinanceTestSVG
                 width="1.5rem"
                 height="1.5rem"
                 fill="white"
@@ -112,7 +111,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               justifyContent="space-between"
             >
               <Box display="flex" alignItems="center">
-                <BinanceSVG
+                <SuiSVG
                   width="1.5rem"
                   height="1.5rem"
                   maxHeight="1.5rem"
@@ -138,7 +137,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
               alignItems="center"
               pl={['NONE', 'NONE', 'NONE', 'S']}
             >
-              <BinanceSVG
+              <SuiSVG
                 width="1.5rem"
                 height="1.5rem"
                 maxHeight="1.5rem"
