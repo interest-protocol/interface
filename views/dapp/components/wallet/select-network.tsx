@@ -92,7 +92,7 @@ const SelectNetwork: FC<SelectNetworkProps> = ({ switchNetwork, chainId }) => {
                 whiteSpace="nowrap"
                 display={['none', 'none', 'none', 'block']}
               >
-                BNBTest
+                BNBT
               </Typography>
             </Box>
           ),
