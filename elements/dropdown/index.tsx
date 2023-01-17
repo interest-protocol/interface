@@ -101,6 +101,7 @@ const Dropdown: FC<DropdownProps> = ({
         </Box>
       )}
       <DropdownList
+        bg={bg}
         data={data}
         isOpen={isOpen}
         header={header}
@@ -110,14 +111,13 @@ const Dropdown: FC<DropdownProps> = ({
         minWidth={minWidth}
         fromRight={fromRight}
         setIsOpen={setIsOpen}
+        bgSelected={bgSelected}
         customItems={customItems}
         emptyMessage={emptyMessage}
         selectedIndex={selectedIndex}
         toggleDropdown={toggleDropdown}
         setSelectedIndex={setSelectedIndex}
         dropdownWrapperId={dropdownWrapperId}
-        bg={bg}
-        bgSelected={bgSelected}
       />
     </Box>
   );
