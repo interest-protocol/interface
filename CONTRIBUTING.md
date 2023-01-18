@@ -7,14 +7,11 @@ Feel free to contribute in any way you like, and if you feel comfortable doing s
 - **api** contains all the external requests to our application
 - **assets** contains the system's multi-language files
 - **components** contains the generic components used inside the application
-- **connectors** contains the the logic to connect to web3 wallets
 - **constants** contains the constant values and settings
 - **design-system** contains the files that standardize the design system used in the app, from breakpoints to the color system
 - **elements** contains the atomic components used within the generic components
 - **hooks** contains generic React hooks
 - **pages** contains page components for next.js
-- **server** contains the server API logic
-- **types** contains application wise types and interfaces
 - **utils** contains generic utility functions used in the application
 - **Views** contains the view building blocks for each page.
 
