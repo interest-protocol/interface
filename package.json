@@ -5,9 +5,10 @@
   "keywords": [
     "DeFi",
     "smart contracts",
-    "ethereum",
+    "sui",
     "web3",
-    "interest protocol"
+    "interest protocol",
+    "move"
   ],
   "version": "0.1.0",
   "private": false,
