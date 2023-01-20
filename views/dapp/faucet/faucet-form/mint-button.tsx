@@ -38,7 +38,7 @@ const MintButton: FC<MintButtonProps> = ({ getValues }) => {
           module: 'faucet',
           packageObjectId: FAUCET_PACKAGE_ID,
           typeArguments: [type.split('<')[1].slice(0, -1)],
-          arguments: [FAUCET_OBJECT_ID, '1'],
+          arguments: [FAUCET_OBJECT_ID, '5'],
         },
       });
       await showTXSuccessToast(tx);
