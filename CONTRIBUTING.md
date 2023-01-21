@@ -4,7 +4,6 @@ Feel free to contribute in any way you like, and if you feel comfortable doing s
 
 ## Project structure
 
-- **api** contains all the external requests to our application
 - **assets** contains the system's multi-language files
 - **components** contains the generic components used inside the application
 - **constants** contains the constant values and settings
