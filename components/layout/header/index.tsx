@@ -53,7 +53,11 @@ const Header: FC = () => {
         gridTemplateColumns="repeat(3, 1fr)"
       >
         <Box display="flex" alignItems="center">
-          <Link href={Routes[RoutesEnum.Home]}>
+          <a
+            href="https://interestprotocol.com"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             <Box
               mr="L"
               color="text"
@@ -73,7 +77,7 @@ const Header: FC = () => {
                 fill="currentColor"
               />
             </Box>
-          </Link>
+          </a>
         </Box>
         <Box
           alignItems="center"
