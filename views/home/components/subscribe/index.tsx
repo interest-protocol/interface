@@ -4,7 +4,7 @@ import { propOr } from 'ramda';
 import { FC } from 'react';
 import toast from 'react-hot-toast';
 
-import { LogoSVG, ShieldSVG } from '@/svg';
+import { Container } from '@/components';
 import { capitalize } from '@/utils';
 import { logGenericEvent } from '@/utils/analytics';
 
@@ -12,6 +12,7 @@ import { Box, Button, Input, Typography } from '../../../../elements';
 
 const Subscribe: FC = () => {
   const t = useTranslations();
+
   const handleSubscribe = async (event: Event) => {
     event.preventDefault();
     // @ts-ignore
@@ -43,67 +44,67 @@ const Subscribe: FC = () => {
   };
 
   return (
-    <Box
-      py="XXXL"
-      as="section"
-      display="flex"
-      alignItems="center"
-      flexDirection="column"
-      bg="background"
-    >
-      <Box width="5rem">
-        <LogoSVG width="100%" maxHeight="5rem" maxWidth="5rem" />
-      </Box>
-      <Typography
-        mt="M"
-        as="h2"
-        maxWidth="40rem"
-        variant="title2"
-        textAlign="center"
-        fontSize={['L', 'XXL']}
-      >
-        {t('landingPage.subscribeSectionTitle')}
-      </Typography>
-      <Box
-        mt="XXL"
-        as="form"
+    <Box bg="text">
+      <Container
+        py="XXXL"
+        as="section"
         display="flex"
-        // @ts-ignore
-        onSubmit={handleSubscribe}
-        flexDirection={['column', 'row']}
-        alignItems={['center', 'flex-start']}
+        alignItems="center"
+        justifyContent="space-between"
+        flexDirection={['column', 'column', 'column', 'row']}
       >
-        <Input
-          p="L"
-          mr="S"
-          type="email"
-          bg="outline"
-          width="15rem"
-          border="none"
-          outline="none"
-          borderRadius="S"
-          mb={['L', 'NONE']}
-          placeholder={t('landingPage.subscribeInputDescription')}
-        />
-        <Box
-          display="flex"
-          mt={['L', 'NONE']}
-          alignItems="stretch"
-          flexDirection="column"
+        <Typography
+          mt="M"
+          as="h2"
+          variant="title1"
+          maxWidth="40rem"
+          color="textInverted"
+          textTransform="capitalize"
+          fontSize={['1.9rem', 'XXXL']}
+          textAlign={['center', 'center', 'center', 'left']}
         >
-          <Button ml="S" px="L" type="submit" variant="tertiary" effect="hover">
+          {t('landingPage.subscribeSectionText')}
+        </Typography>
+        <Box
+          as="form"
+          width="100%"
+          display="flex"
+          alignItems="stretch"
+          // @ts-ignore
+          onSubmit={handleSubscribe}
+          mt={['XL', 'XL', 'XL', 'NONE']}
+          flexDirection={['column', 'row']}
+          justifyContent={['center', 'center', 'center', 'flex-end']}
+        >
+          <Input
+            p="L"
+            type="email"
+            bg="outline"
+            border="none"
+            outline="none"
+            borderRadius="S"
+            mr={['NONE', 'S']}
+            width={['100%', '20rem']}
+            backgroundColor="#262626"
+            placeholder={t('landingPage.subscribeInputPlaceholder')}
+          />
+          <Button
+            p="L"
+            type="submit"
+            effect="hover"
+            variant="tertiary"
+            fontWeight="bold"
+            mt={['M', 'NONE']}
+            ml={['NONE', 'S']}
+            lineHeight="1.7rem"
+            letterSpacing={1.09}
+            width={['100%', '10rem']}
+            textTransform="uppercase"
+          >
             {t('landingPage.subscribeButton', { isLoading: 0 })}
           </Button>
-          <Box display="flex" alignItems="center" mt="M" px="L">
-            <Box width="0.7rem">
-              <ShieldSVG width="100%" maxHeight="5rem" maxWidth="5rem" />
-            </Box>
-            <Typography variant="normal" ml="S" fontSize="XS">
-              {t('landingPage.subscribeDescription')}
-            </Typography>
-          </Box>
         </Box>
-      </Box>
+      </Container>
     </Box>
   );
 };
