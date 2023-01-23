@@ -14,7 +14,7 @@
     "borrowSectionINTTokensDescription": "Ganhe $INT Tokens",
     "vaultSectionTitle": "Automatize",
     "vaultSectionSubtitle": "Maximize os seus lucros através de estratégias automatizadas.",
-    "subscribeSectionText": "Receber notificações antecipadas sobre novas funcionalidades",
+    "subscribeSectionText": "Receba as últimas novidades",
     "subscribeInputPlaceholder": "Endereço de email",
     "subscribeButton": "{isLoading, plural, =1 {Subscrevendo} other {Subscreva}}",
     "stablePairTitle": "Mercados Estáveis",
