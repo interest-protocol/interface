@@ -3,11 +3,7 @@ import { FC } from 'react';
 import { SVGProps } from './svg.types';
 
 const Tether: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
-  <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
-    viewBox="0 0 2000 2000"
-    {...props}
-  >
+  <svg style={{ maxWidth, maxHeight }} viewBox="0 0 2000 2000" {...props}>
     <path
       d="M1000,0c552.26,0,1000,447.74,1000,1000S1552.24,2000,1000,2000,0,1552.38,0,1000,447.68,0,1000,0"
       fill="#53ae94"

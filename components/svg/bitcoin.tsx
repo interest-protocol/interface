@@ -3,11 +3,7 @@ import { FC } from 'react';
 import { SVGProps } from './svg.types';
 
 const Bitcoin: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
-  <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
-    viewBox="0 0 4091.27 4091.73"
-    {...props}
-  >
+  <svg style={{ maxWidth, maxHeight }} viewBox="0 0 4091.27 4091.73" {...props}>
     <path
       fill="#F7931A"
       fillRule="nonzero"

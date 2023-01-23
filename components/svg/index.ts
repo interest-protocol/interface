@@ -29,6 +29,7 @@ export { default as EarnSVG } from './earn';
 export { default as EtherSVG } from './ether';
 export { default as EtherGraySVG } from './ether-gray';
 export { default as EtherScanSVG } from './ether-scan';
+export { default as EthosSVG } from './ethos';
 export { default as FaucetSVG } from './faucet';
 export { default as FraxSVG } from './frax';
 export { default as GitBookSVG } from './git-book';

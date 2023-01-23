@@ -7,7 +7,7 @@ import { SVGProps } from './svg.types';
 const Loading: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <Rotate display="flex">
     <svg
-      style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+      style={{ maxWidth, maxHeight }}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

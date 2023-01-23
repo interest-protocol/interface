@@ -8,7 +8,7 @@ const OperaWallet: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => {
 
   return (
     <svg
-      style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+      style={{ maxWidth, maxHeight }}
       viewBox="0 0 256 256"
       fill="none"
       {...props}

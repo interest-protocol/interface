@@ -4,7 +4,7 @@ import { SVGProps } from './svg.types';
 
 const Sui: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    style={{ maxWidth, maxHeight }}
     viewBox="0 0 185 269"
     fill="none"
     {...props}

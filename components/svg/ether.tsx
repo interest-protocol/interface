@@ -3,11 +3,7 @@ import { FC } from 'react';
 import { SVGProps } from './svg.types';
 
 const Ether: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
-  <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
-    viewBox="0 0 731.58 731.58"
-    {...props}
-  >
+  <svg style={{ maxWidth, maxHeight }} viewBox="0 0 731.58 731.58" {...props}>
     <circle id="Oval" fill="#627eea" cx="365.79" cy="365.79" r="365.79" />
     <polygon
       id="Path"
