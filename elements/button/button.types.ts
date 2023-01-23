@@ -30,6 +30,7 @@ export interface ButtonProps
   hover?: TStyles;
   active?: TStyles;
   cursor?: CSSProperties['cursor'];
+  textTransform?: CSSProperties['textTransform'];
   variant: 'primary' | 'secondary' | 'tertiary' | 'neutral' | 'special';
   as?: ElementType;
 }
