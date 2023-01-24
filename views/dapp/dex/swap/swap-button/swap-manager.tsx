@@ -1,3 +1,4 @@
+import { isEmpty } from 'ramda';
 import { FC } from 'react';
 
 import { TimesSVG } from '@/svg';
@@ -15,6 +16,8 @@ const SwapManager: FC<SwapManagerProps> = ({
   const hasNoMarket = !markets.length;
 
   const hasNotPool = !poolsMap[tokenInType]?.[tokenOutType];
+
+  if (isEmpty(poolsMap)) return null;
 
   return (
     <>
