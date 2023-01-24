@@ -1,4 +1,3 @@
-import { isEmpty } from 'ramda';
 import { FC } from 'react';
 
 import { TimesSVG } from '@/svg';
@@ -12,9 +11,10 @@ const SwapManager: FC<SwapManagerProps> = ({
   tokenOutType,
   poolsMap,
 }) => {
-  const hasNoMarket =
-    !findMarket(poolsMap, tokenInType, tokenOutType).length &&
-    !isEmpty(poolsMap);
+  const markets = findMarket(poolsMap, tokenInType, tokenOutType);
+  const hasNoMarket = !markets.length;
+
+  const hasNotPool = !poolsMap[tokenInType][tokenOutType];
 
   return (
     <>
@@ -30,6 +30,13 @@ const SwapManager: FC<SwapManagerProps> = ({
           color="error"
           Icon={TimesSVG}
           message="dexSwap.swapMessage.noMarket"
+        />
+      )}
+      {hasNotPool && (
+        <SwapMessage
+          color="error"
+          Icon={TimesSVG}
+          message="dexSwap.error.noPool"
         />
       )}
     </>

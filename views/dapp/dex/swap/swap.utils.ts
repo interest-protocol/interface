@@ -41,7 +41,7 @@ export const findMarket = (
   data: PoolsMap,
   tokenInType: string,
   tokenOutType: string
-): Array<SwapPathObject> => {
+): ReadonlyArray<SwapPathObject> => {
   if (isEmpty(data)) return [];
 
   const pool = data[tokenInType][tokenOutType];
@@ -57,20 +57,26 @@ export const findMarket = (
       },
     ];
 
-  const result: Array<SwapPathObject> = [];
+  const result = DEX_BASE_TOKEN_ARRAY.reduce(
+    (acc, element): ReadonlyArray<SwapPathObject> => {
+      const firstPool = pathOr(null, [tokenInType, element], data);
+      const secondPool = pathOr(null, [tokenOutType, element], data);
 
-  for (const elem of DEX_BASE_TOKEN_ARRAY) {
-    const firstPool = pathOr(null, [tokenInType, elem], data);
-    const secondPool = pathOr(null, [tokenOutType, elem], data);
+      if (firstPool && secondPool)
+        return [
+          ...acc,
+          {
+            baseToken: element,
+            tokenOutType,
+            tokenInType,
+            pools: [firstPool!, secondPool!],
+          },
+        ];
 
-    if (firstPool && secondPool)
-      result.push({
-        baseToken: elem,
-        tokenOutType,
-        tokenInType,
-        pools: [firstPool!, secondPool!],
-      });
-  }
+      return acc;
+    },
+    [] as ReadonlyArray<SwapPathObject>
+  );
 
   return result;
 };
