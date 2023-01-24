@@ -14,7 +14,7 @@ const SwapManager: FC<SwapManagerProps> = ({
   const markets = findMarket(poolsMap, tokenInType, tokenOutType);
   const hasNoMarket = !markets.length;
 
-  const hasNotPool = !poolsMap[tokenInType][tokenOutType];
+  const hasNotPool = !poolsMap[tokenInType]?.[tokenOutType];
 
   return (
     <>
