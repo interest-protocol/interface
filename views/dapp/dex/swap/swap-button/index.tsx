@@ -37,7 +37,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const tokenInValue = useWatch({ control, name: 'tokenIn.value' });
 
-  const disabled = !+tokenInValue;
+  const disabled = !+tokenInValue || !data[tokenInType]?.[tokenOutType];
 
   const handleSwap = async () => {
     try {
