@@ -5,8 +5,6 @@ import { SVGProps } from './svg.types';
 const Ethos: FC<SVGProps> = ({ maxWidth, maxHeight, ...props }) => (
   <svg
     style={{ maxWidth, maxHeight }}
-    width="136"
-    height="41"
     viewBox="0 0 136 41"
     fill="none"
     {...props}

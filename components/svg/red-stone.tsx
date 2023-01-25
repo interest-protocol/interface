@@ -1,12 +1,19 @@
-import { FC, SVGAttributes } from 'react';
+import { FC } from 'react';
 
-interface RedStoneProps extends SVGAttributes<SVGSVGElement> {
+import { SVGProps } from './svg.types';
+
+interface RedStoneProps extends SVGProps {
   full?: boolean;
 }
 
-const RedStone: FC<RedStoneProps> = ({ full, ...props }) =>
+const RedStone: FC<RedStoneProps> = ({ maxWidth, maxHeight, full, ...props }) =>
   full ? (
-    <svg viewBox="0 0 138 26" fill="none" {...props}>
+    <svg
+      style={{ maxWidth, maxHeight }}
+      viewBox="0 0 138 26"
+      fill="none"
+      {...props}
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -51,7 +58,12 @@ const RedStone: FC<RedStoneProps> = ({ full, ...props }) =>
       />
     </svg>
   ) : (
-    <svg viewBox="0 0 150 126" fill="none" {...props}>
+    <svg
+      style={{ maxWidth, maxHeight }}
+      viewBox="0 0 150 126"
+      fill="none"
+      {...props}
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"

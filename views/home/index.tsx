@@ -9,6 +9,7 @@ import {
   DEX,
   Earn,
   Hero,
+  Integrations,
   Subscribe,
   Team,
 } from './components';
@@ -29,6 +30,7 @@ const Home: FC = () => (
     <Automate />
     <Team />
     <Advisors />
+    <Integrations />
     <Subscribe />
   </>
 );
