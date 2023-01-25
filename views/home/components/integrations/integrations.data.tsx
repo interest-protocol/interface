@@ -2,7 +2,7 @@ import { ChainLinkSVG, EthosSVG, MartianSVG, RedStoneSVG } from '@/svg';
 
 export const INTEGRATIONS_DATA = [
   {
-    name: 'ChainLink',
+    link: 'https://chain.link',
     icon: (
       <ChainLinkSVG
         full
@@ -14,17 +14,17 @@ export const INTEGRATIONS_DATA = [
     ),
   },
   {
-    name: 'Martian',
+    link: 'https://martianwallet.xyz ',
     icon: (
       <MartianSVG maxHeight={''} maxWidth={''} height="100%" width="100%" />
     ),
   },
   {
-    name: 'Ethos',
+    link: 'https://ethoswallet.xyz',
     icon: <EthosSVG maxHeight={''} maxWidth={''} height="100%" width="100%" />,
   },
   {
-    name: 'RedStone',
+    link: 'https://redstone.finance',
     icon: (
       <RedStoneSVG
         full

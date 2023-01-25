@@ -64,10 +64,10 @@ const Integrations: FC = () => {
             'repeat(4, 1fr)',
           ]}
         >
-          {INTEGRATIONS_DATA.map(({ icon }) => (
-            <Box key={v4()} height={['2.5rem', '3.5rem']}>
-              {icon}
-            </Box>
+          {INTEGRATIONS_DATA.map(({ icon, link }) => (
+            <a href={link} key={v4()} target="_blank" rel="noreferrer">
+              <Box height={['2.5rem', '3.5rem']}>{icon}</Box>
+            </a>
           ))}
         </Box>
         <Box

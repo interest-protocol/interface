@@ -84,6 +84,7 @@ const Subscribe: FC = () => {
             outline="none"
             borderRadius="S"
             mr={['NONE', 'S']}
+            color="textInverted"
             width={['100%', '20rem']}
             backgroundColor="#262626"
             placeholder={t('landingPage.subscribeInputPlaceholder')}
