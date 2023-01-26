@@ -32,8 +32,7 @@ const Hero: FC = () => {
           position="relative"
           flexDirection="column"
           ml={['none', 'none', 'none', '8.438rem']}
-          width={['100%', '100%', '100%', '35rem']}
-          alignItems={['center', 'center', 'center', 'unset']}
+          width={['20.313rem', '20.313rem', '100%', '40rem']}
           key={v4()}
         >
           <Typography
@@ -42,19 +41,33 @@ const Hero: FC = () => {
             fontWeight="900"
             fontStyle="normal"
             textTransform="capitalize"
-            textAlign={['center', 'center', 'center', 'unset']}
-            fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
-            lineHeight={['3.353rem', '3.353rem', '4.876rem', '4.876rem']}
+            fontSize={['2.75rem', '2.75rem', '2.75rem', '2.75rem']}
+            lineHeight={['3.353rem', '3.353rem', '3.75rem', '3.75rem']}
           >
-            {t('landingPage.headerTitle')}
+            {t.rich('landingPage.headerTitle', {
+              // eslint-disable-next-line react/display-name
+              special: (chunks) => (
+                <Typography
+                  as="span"
+                  color="accent"
+                  variant="normal"
+                  fontWeight="900"
+                  fontStyle="normal"
+                  textTransform="capitalize"
+                  fontSize={['2.75rem', '2.75rem', '2.75rem', '2.75rem']}
+                  lineHeight={['3.353rem', '3.353rem', '3.75rem', '3.75rem']}
+                >
+                  {chunks}
+                </Typography>
+              ),
+            })}
           </Typography>
           <Typography
             mt="0.625rem"
             mb="1.875rem"
             variant="normal"
             lineHeight="30px"
-            textAlign={['center', 'unset']}
-            fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
+            fontSize={['1rem', '1rem', '1.125rem', '1.125rem']}
           >
             {t('landingPage.headerSubtitle')}
           </Typography>
