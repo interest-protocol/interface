@@ -4,7 +4,7 @@ import { SVGProps } from './svg.types';
 
 const BusinessBag: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    style={{ maxWidth, maxHeight }}
     fill="currentColor"
     {...props}
     viewBox="0 0 612 612"

@@ -43,6 +43,10 @@
     "bioNilam": "A Nilam trabalhou no The Times Group por {year1, plural, =1 {# ano} other {# anos}} na área de marketing digital. Nos últimos três anos, ela liderou o marketing de mais de 20 projetos na indústria de crypto.",
     "subscribeErrors": {
       "1008": "contato já foi adicionado"
+    },
+    "integrations": {
+      "title": "Integrações",
+      "poweredBy": "Desenvolvido no"
     }
   }
 }

@@ -4,7 +4,7 @@ import { SVGProps } from './svg.types';
 
 const SynthAUD: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    style={{ maxWidth, maxHeight }}
     viewBox="65 20 88 90"
     fill="none"
     {...props}

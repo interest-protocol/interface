@@ -4,7 +4,7 @@ import { SVGProps } from './svg.types';
 
 const Times: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    style={{ maxWidth, maxHeight }}
     viewBox="0 0 35 35"
     fill="none"
     {...props}

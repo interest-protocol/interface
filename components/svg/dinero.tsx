@@ -7,7 +7,7 @@ const Dinero: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => {
 
   return (
     <svg
-      style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+      style={{ maxWidth, maxHeight }}
       viewBox="0 0 25 25"
       fill="none"
       {...props}

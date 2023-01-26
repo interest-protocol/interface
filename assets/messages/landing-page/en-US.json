@@ -43,6 +43,10 @@
     "bioNilam": "Associated with The Times Group for {year1, plural, =1 {# year} other {# years}} at the start of my career in the field of Digital Marketing. I’ve been active in the crypto market for the past three years and have handled end-to-end marketing for more than 20 projects.",
     "subscribeErrors": {
       "1008": "contact already added"
+    },
+    "integrations": {
+      "title": "Integrations",
+      "poweredBy": "Powered By"
     }
   }
 }

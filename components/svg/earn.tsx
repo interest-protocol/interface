@@ -3,11 +3,7 @@ import { FC } from 'react';
 import { SVGProps } from './svg.types';
 
 const Earn: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
-  <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
-    viewBox="0 0 28 28"
-    {...props}
-  >
+  <svg style={{ maxWidth, maxHeight }} viewBox="0 0 28 28" {...props}>
     <path
       d="M18.3341 12.5561V12.5706M4.13989 8.76892C3.50638 8.28201 3.01982 7.62943 2.734 6.88329C2.44818 6.13715 2.37422 5.32651 2.52031 4.54097C2.66639 3.75542 3.02683 3.02557 3.56178 2.43206C4.09673 1.83856 4.78536 1.40452 5.55156 1.17792C6.31777 0.951313 7.13171 0.940971 7.90342 1.14803C8.67514 1.35509 9.37458 1.7715 9.92444 2.35122C10.4743 2.93094 10.8532 3.6514 11.0192 4.43298C11.1852 5.21455 11.1318 6.02681 10.865 6.77997"
       stroke="white"

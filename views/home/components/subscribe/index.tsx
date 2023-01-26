@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { Container } from '@/components';
+import { LoadingSVG } from '@/svg';
 import { capitalize } from '@/utils';
 import { logGenericEvent } from '@/utils/analytics';
 
@@ -12,11 +13,13 @@ import { Box, Button, Input, Typography } from '../../../../elements';
 
 const Subscribe: FC = () => {
   const t = useTranslations();
+  const [loading, setLoading] = useState(false);
 
   const handleSubscribe = async (event: Event) => {
     event.preventDefault();
     // @ts-ignore
     const email = event.target[0].value;
+    setLoading(true);
     toast.promise(
       fetch(`/api/v1/mail/subscribe?email=${email}`)
         .then((response) => response.json())
@@ -27,7 +30,8 @@ const Subscribe: FC = () => {
         .catch((x) => {
           logGenericEvent(propOr('code', 'email subscription error', x));
           throw x;
-        }),
+        })
+        .finally(() => setLoading(false)),
       {
         loading: t('landingPage.subscribeButton', { isLoading: 1 }),
         success: capitalize(t('common.success')),
@@ -84,6 +88,7 @@ const Subscribe: FC = () => {
             outline="none"
             borderRadius="S"
             mr={['NONE', 'S']}
+            color="textInverted"
             width={['100%', '20rem']}
             backgroundColor="#262626"
             placeholder={t('landingPage.subscribeInputPlaceholder')}
@@ -92,16 +97,36 @@ const Subscribe: FC = () => {
             p="L"
             type="submit"
             effect="hover"
+            display="flex"
+            disabled={loading}
             variant="tertiary"
             fontWeight="bold"
             mt={['M', 'NONE']}
             ml={['NONE', 'S']}
             lineHeight="1.7rem"
             letterSpacing={1.09}
-            width={['100%', '10rem']}
+            justifyContent="center"
+            minWidth={['100%', '10rem']}
             textTransform="uppercase"
+            alignItems="center"
           >
-            {t('landingPage.subscribeButton', { isLoading: 0 })}
+            {t('landingPage.subscribeButton', { isLoading: loading ? 1 : 0 })}
+            {loading && (
+              <Box
+                ml="L"
+                display="inline-flex"
+                position="relative"
+                height="1rem"
+                width="1rem"
+              >
+                <LoadingSVG
+                  maxHeight="1rem"
+                  maxWidth="1rem"
+                  height="100%"
+                  width="100%"
+                />
+              </Box>
+            )}
           </Button>
         </Box>
       </Container>

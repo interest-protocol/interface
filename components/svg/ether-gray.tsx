@@ -4,7 +4,7 @@ import { SVGProps } from './svg.types';
 
 const EtherGray: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    style={{ maxWidth, maxHeight }}
     viewBox="0 0 52 52"
     fill="none"
     {...props}
