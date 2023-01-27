@@ -1,11 +1,10 @@
 # [Interest Protocol](https://www.interestprotocol.com/)
 
- <p> <img width="50px"height="50px" src="./public/logo.png" /></p> 一个可以交换或借贷数字货币，大宗商品，金子和法定货币的协议 
+ <p> <img width="50px"height="50px" src="./public/logo.png" /></p> 一个可以交换或借贷数字货币，大宗商品，金子和法定货币的协议
 
 ## 贡献
 
 我们想要变得更好。欢迎大家按照[CONTRIBUTING.md](./CONTRIBUTING.md)的指示给予我们帮助。
-
 
 ## 环境变量
 
@@ -21,7 +20,7 @@
 
 ## 快速开始
 
-用yarn下载项目前置需求
+用 yarn 下载项目前置需求
 
 ```bash
   yarn
@@ -70,7 +69,7 @@
 
 ### logTransactionEvent
 
-一个可以将所有平台上的交易录入Google Analytics的函数。所有成功的交易会与任何错误一起被记录
+一个可以将所有平台上的交易录入 Google Analytics 的函数。所有成功的交易会与任何错误一起被记录
 
 ### logGenericEvent
 
@@ -87,7 +86,7 @@
 ## 联系方式
 
 - Twitter: [@interest_dinero](https://twitter.com/interest_dinero)
-- Discord: https://discord.gg/PJEkqM4Crk
+- Discord: https://discord.gg/interestprotocol
 - Telegram: https://t.me/interestprotocol
 - Email: [contact@interestprotocol.com](mailto:contact@interestprotocol.com)
 - Medium: [@interestprotocol](https://medium.com/@interestprotocol)
