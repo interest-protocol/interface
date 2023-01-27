@@ -7,11 +7,13 @@ import {
   Automate,
   Borrow,
   DEX,
+  Diversity,
   Earn,
   Hero,
   Integrations,
   Subscribe,
   Team,
+  WhyUs,
 } from './components';
 
 const Home: FC = () => (
@@ -23,6 +25,15 @@ const Home: FC = () => (
       ]}
     >
       <Hero />
+    </Box>
+    <Box
+      backgroundImage={[
+        'none',
+        'linear-gradient(114.19deg, #FFFFFF 10.09%, #EBEBEB 95.77%);',
+      ]}
+    >
+      <WhyUs />
+      <Diversity />
       <Earn />
     </Box>
     <Borrow />

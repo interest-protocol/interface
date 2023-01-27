@@ -47,6 +47,21 @@
     "integrations": {
       "title": "Integrations",
       "poweredBy": "Powered By"
+    },
+    "diversity": {
+      "title": "Diversify your crypto portfolio with RWA",
+      "subtitle": "Be an investor or a minter",
+      "description": "Use our DEX to buy synthetic real-world financial assets and NFTs without the fungibility issues . You also can be a minter of these assets and earn from it."
+    },
+    "whyUs": {
+      "title": "Why Interest Protocol?",
+      "list": {
+        "risk": "Manage the risk of your portfolio with crypto and RWA",
+        "lpCollateral": "Use LP and Interest-Bearing tokens as collateral",
+        "earn": "Earn from liquidity pools and farms",
+        "swapFee": "Swap tokens with low fees",
+        "autoPilot": "Invest on auto-pilot"
+      }
     }
   }
 }

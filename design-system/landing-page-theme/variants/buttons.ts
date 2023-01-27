@@ -42,14 +42,15 @@ const secondary = css`
 `;
 
 const tertiary = css`
-  border: none;
+  border: 1px solid;
   outline: none;
   cursor: pointer;
   position: relative;
   display: inline-block;
   border-radius: ${radii.S};
-  color: ${colors.foreground};
-  background: ${colors.accent};
+  color: ${colors.accent};
+  background: transparent;
+  transition: all 0.3s ease-in-out;
   padding: ${space.L} ${space.XL};
 `;
 

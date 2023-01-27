@@ -6,8 +6,9 @@ import { v4 } from 'uuid';
 import Container from '@/components/container';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
+import { TTranslatedMessage } from '@/interface';
+import { TickSVG } from '@/svg';
 
-import { LEND_AND_BORROW_TOKENS } from './earn.data';
 import {
   BinanceOrbit,
   BitcoinOrbit,
@@ -15,9 +16,9 @@ import {
   TetherOrbit,
   USDCxETHOrbit,
 } from './earn-animations';
-import LendAndBorrowTokens from './earn-tokens';
+import { REASONS_LIST } from './why-us.data';
 
-const Earn: FC = () => {
+const WhyUs: FC = () => {
   const { push } = useRouter();
   const t = useTranslations();
 
@@ -115,8 +116,6 @@ const Earn: FC = () => {
           <Box
             pr="1.5rem"
             display="flex"
-            bg="foreground"
-            borderRadius="M"
             flexDirection="column"
             pl={['1.25rem', '1.25rem', '3.75rem', '3.75rem']}
             pt={['1.875rem', '1.875rem', '1.875rem', '5rem']}
@@ -134,41 +133,21 @@ const Earn: FC = () => {
               lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
               textTransform="capitalize"
             >
-              {t('common.earn')}
+              {t('landingPage.whyUs.title')}
             </Typography>
-            <Typography
-              as="h3"
-              variant="normal"
-              fontWeight="500"
-              textAlign={['center', 'center', 'center', 'unset']}
-              fontSize={['1.125rem', '1.125rem', '1.5rem', '1.5rem']}
-              lineHeight={['1.625rem', '1.625rem', '2.125rem', '2.125rem']}
-            >
-              {t('landingPage.earnSectionSubtitle')}
-            </Typography>
-            <Typography
-              variant="normal"
-              textAlign={['center', 'unset']}
-              lineHeight={['1.5rem', '2.125rem']}
-              mt={['0.625rem', '0.625rem', '1rem', '1rem']}
-              mb={['1.25rem', '1.25rem', '1.75rem', '1.75rem']}
-              fontSize={['0.875rem', '0.875rem', '1rem', '1rem']}
-            >
-              {t('landingPage.earnSectionH3')}
-            </Typography>
-            <Typography variant="normal" fontWeight="700" mb="0.625rem">
-              {t('landingPage.earnSectionBody')}
-            </Typography>
-            <Box
-              display="flex"
-              flexWrap="wrap"
-              width={['18rem', '100%']}
-              justifyContent={['center', 'center', 'center', 'unset']}
-            >
-              {LEND_AND_BORROW_TOKENS.map((icons) => (
-                <LendAndBorrowTokens icons={icons} key={v4()} />
-              ))}
-            </Box>
+            {REASONS_LIST.map((item) => (
+              <Box key={v4()} display="flex" alignItems="center">
+                <TickSVG maxWidth="1.5rem" maxHeight="1.5rem" />
+                <Typography
+                  ml="L"
+                  variant="normal"
+                  fontWeight="600"
+                  fontSize="1.125rem"
+                >
+                  {t(item as TTranslatedMessage)}
+                </Typography>
+              </Box>
+            ))}
             <Button
               effect="hover"
               variant="primary"
@@ -191,4 +170,4 @@ const Earn: FC = () => {
   );
 };
 
-export default Earn;
+export default WhyUs;
