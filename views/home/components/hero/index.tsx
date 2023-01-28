@@ -109,31 +109,31 @@ const Hero: FC = () => {
             />
           </Box>
           <FloatingCoins
-            top="55%"
-            left="19.8%"
-            width="20%"
+            top="58%"
+            left="22.8%"
+            width="12%"
             position="absolute"
             delay={~~(Math.random() * 1500)}
           >
             <ResponsiveImage
               width="100%"
               height="100%"
-              alt="Interest Protocol BNBxSUSHI"
-              path="home/hero-BNBxSUSHI"
+              alt="Interest Protocol XAU"
+              path="home/hero-iXAU"
             />
           </FloatingCoins>
           <FloatingCoins
-            top="23%"
-            left="68%"
-            width="20%"
+            top="25%"
+            left="70.5%"
+            width="12%"
             position="absolute"
             delay={~~(Math.random() * 1500)}
           >
             <ResponsiveImage
               width="100%"
               height="100%"
-              alt="Interest Protocol DAIxUSDC"
-              path="home/hero-DAIxUSDC"
+              alt="Interest Protocol GBP"
+              path="home/hero-iGBP"
             />
           </FloatingCoins>
           <FloatingCoins
@@ -151,31 +151,31 @@ const Hero: FC = () => {
             />
           </FloatingCoins>
           <FloatingCoins
-            top="23%"
-            left="14%"
-            width="20%"
+            top="27%"
+            left="18%"
+            width="12%"
             position="absolute"
             delay={~~(Math.random() * 1500)}
           >
             <ResponsiveImage
               width="100%"
               height="100%"
-              alt="Interest Protocol ETHxUSDT"
-              path="home/hero-ETHxUSDT"
+              alt="Interest Protocol TSLA"
+              path="home/hero-iTSLA"
             />
           </FloatingCoins>
           <FloatingCoins
-            top="4%"
-            left="39%"
-            width="22%"
+            top="8%"
+            left="44%"
+            width="12%"
             position="absolute"
             delay={~~(Math.random() * 1500)}
           >
             <ResponsiveImage
               width="100%"
               height="100%"
-              path="home/hero-WBTCxETH"
-              alt="Interest Protocol WBTCxETH"
+              path="home/hero-iAAPL"
+              alt="Interest Protocol Apple"
             />
           </FloatingCoins>
           <FloatingCoins
@@ -188,8 +188,8 @@ const Hero: FC = () => {
             <ResponsiveImage
               width="100%"
               height="100%"
-              path="home/hero-vUSDC"
-              alt="Interest Protocol vUSDC"
+              path="home/hero-iBAYC"
+              alt="Interest Protocol BAYC"
             />
           </FloatingCoins>
         </Box>
