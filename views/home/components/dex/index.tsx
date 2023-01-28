@@ -61,7 +61,7 @@ const DEX: FC = () => {
             fontWeight="900"
             fontStyle="normal"
             lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
-            fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
+            fontSize={['2.25rem', '2.25rem', '2.25rem', '2.75rem']}
             textTransform="capitalize"
           >
             {t('common.dex')}

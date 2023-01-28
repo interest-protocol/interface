@@ -64,7 +64,7 @@ const Subscribe: FC = () => {
           maxWidth="40rem"
           color="textInverted"
           textTransform="capitalize"
-          fontSize={['1.9rem', 'XXXL']}
+          fontSize={['1.9rem', '2.75rem']}
           textAlign={['center', 'center', 'center', 'left']}
         >
           {t('landingPage.subscribeSectionText')}
@@ -99,7 +99,7 @@ const Subscribe: FC = () => {
             effect="hover"
             display="flex"
             disabled={loading}
-            variant="tertiary"
+            variant="primary"
             fontWeight="bold"
             mt={['M', 'NONE']}
             ml={['NONE', 'S']}

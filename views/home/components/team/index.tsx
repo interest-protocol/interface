@@ -23,7 +23,7 @@ const Team: FC = () => {
           fontWeight="900"
           textAlign="center"
           lineHeight="4.876rem"
-          fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
+          fontSize="2.75rem"
         >
           {t('landingPage.teamTitle')}
         </Typography>

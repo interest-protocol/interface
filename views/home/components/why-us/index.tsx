@@ -9,14 +9,14 @@ import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 import { TTranslatedMessage } from '@/interface';
 import { TickSVG } from '@/svg';
 
+import { REASONS_LIST } from './why-us.data';
 import {
   BinanceOrbit,
   BitcoinOrbit,
   EtherOrbit,
   TetherOrbit,
   USDCxETHOrbit,
-} from './earn-animations';
-import { REASONS_LIST } from './why-us.data';
+} from './why-us-animations';
 
 const WhyUs: FC = () => {
   const { push } = useRouter();
@@ -42,7 +42,7 @@ const WhyUs: FC = () => {
             height="100%"
             position="relative"
             mt={['XXXL', 'XXXL', 'XXXL', 'unset']}
-            mr={['unset', 'unset', 'unset', 'XXL']}
+            mr={['unset', 'unset', 'unset', 'XL']}
             width={['100%', '100%', '100%', '50%']}
           >
             <Box
@@ -117,9 +117,9 @@ const WhyUs: FC = () => {
             pr="1.5rem"
             display="flex"
             flexDirection="column"
+            width={['100%', '100%', '28rem']}
             pl={['1.25rem', '1.25rem', '3.75rem', '3.75rem']}
             pt={['1.875rem', '1.875rem', '1.875rem', '5rem']}
-            width={['100%', '100%', '41.625rem', '41.625rem']}
             pb={['1.875rem', '1.875rem', '1.875rem', '6.063rem']}
             alignItems={['center', 'center', 'center', 'unset']}
           >
@@ -129,15 +129,18 @@ const WhyUs: FC = () => {
               fontStyle="normal"
               fontWeight="900"
               textAlign={['center', 'unset']}
-              fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
+              fontSize={['2.25rem', '2.25rem', '2.25rem', '2.75rem']}
               lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
               textTransform="capitalize"
+              mb="XL"
             >
               {t('landingPage.whyUs.title')}
             </Typography>
             {REASONS_LIST.map((item) => (
               <Box key={v4()} display="flex" alignItems="center">
-                <TickSVG maxWidth="1.5rem" maxHeight="1.5rem" />
+                <Box minWidth="1.5rem">
+                  <TickSVG maxWidth="1.5rem" maxHeight="1.5rem" />
+                </Box>
                 <Typography
                   ml="L"
                   variant="normal"

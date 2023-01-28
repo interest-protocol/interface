@@ -12,7 +12,7 @@ import {
   EtherOrbit,
   TetherOrbit,
   USDCxETHOrbit,
-} from './earn-animations';
+} from './diversity-animations';
 
 const Diversity: FC = () => {
   const { push } = useRouter();
@@ -50,7 +50,7 @@ const Diversity: FC = () => {
               fontStyle="normal"
               fontWeight="900"
               textAlign={['center', 'unset']}
-              fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
+              fontSize={['2.25rem', '2.25rem', '2.25rem', '2.75rem']}
               lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
               textTransform="capitalize"
             >
