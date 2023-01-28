@@ -52,6 +52,17 @@
       "title": "Diversifique o seu Portfolio Crypto com RWA",
       "subtitle": "Seja investidor ou minter",
       "description": ""
+    },
+    "whyUs": {
+      "title": "Why Interest Protocol?",
+      "learn": "Learn more",
+      "list": {
+        "risk": "Manage the risk of your portfolio with crypto and RWA",
+        "lpCollateral": "Use LP and Interest-Bearing tokens as collateral",
+        "earn": "Earn from liquidity pools and farms",
+        "swapFee": "Swap tokens with low fees",
+        "autoPilot": "Invest on auto-pilot"
+      }
     }
   }
 }

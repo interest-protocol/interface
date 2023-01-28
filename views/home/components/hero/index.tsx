@@ -184,4 +184,5 @@ const Hero: FC = () => {
     </Box>
   );
 };
+
 export default Hero;

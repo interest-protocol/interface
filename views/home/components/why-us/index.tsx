@@ -10,152 +10,145 @@ import { TTranslatedMessage } from '@/interface';
 import { TickSVG } from '@/svg';
 
 import { REASONS_LIST } from './why-us.data';
-import {
-  BinanceOrbit,
-  BitcoinOrbit,
-  EtherOrbit,
-  TetherOrbit,
-  USDCxETHOrbit,
-} from './why-us-animations';
+import { FloatingCoins } from './why-us-animations';
 
 const WhyUs: FC = () => {
-  const { push } = useRouter();
   const t = useTranslations();
 
   return (
-    <Box as="section" position="relative" mt={['-4rem', 'L', 'XL', 'NONE']}>
-      <Container>
+    <Box as="section" position="relative">
+      <Container
+        alignItems="center"
+        py={['XXL', 'XXL', 'XXL', 'XXXL']}
+        mt={['-5rem', '-5rem', '-5rem', 'NONE']}
+        display={['flex', 'flex', 'flex', 'grid']}
+        justifyItems={['center', 'center', 'center', 'start']}
+        gridTemplateColumns={['unset', 'unset', 'unset', '1fr 1fr']}
+        flexDirection={[
+          'column-reverse',
+          'column-reverse',
+          'column-reverse',
+          'unset',
+        ]}
+      >
         <Box
-          display="flex"
-          alignItems="center"
-          py={['XXL', 'XXL', 'XXL', 'XXXL']}
-          mt={['-5rem', '-5rem', '-5rem', 'NONE']}
-          justifyContent="space-around"
-          flexDirection={[
-            'column-reverse',
-            'column-reverse',
-            'column-reverse',
-            'row',
-          ]}
+          position="relative"
+          mt={['XXXL', 'XXXL', 'XXXL', 'unset']}
+          mr={['unset', 'unset', 'unset', 'XL']}
+          maxWidth={['30rem', '30rem', '30rem', 'unset']}
         >
-          <Box
-            height="100%"
-            position="relative"
-            mt={['XXXL', 'XXXL', 'XXXL', 'unset']}
-            mr={['unset', 'unset', 'unset', 'XL']}
-            width={['100%', '100%', '100%', '50%']}
-          >
-            <Box
-              transform="translateZ(0)"
-              filter="drop-shadow(-2px 50px 10px #0002)"
-            >
-              <ResponsiveImage
-                width="100%"
-                alt="Platform"
-                path="home/earn-base"
-              />
-            </Box>
-            <BitcoinOrbit
-              top="32%"
-              left="39%"
-              width="24%"
-              position="absolute"
-              filter="drop-shadow(-2px 50px 10px #0002)"
-            >
-              <ResponsiveImage
-                alt="BTC"
-                width="100%"
-                path="home/earn-bitcoin"
-              />
-            </BitcoinOrbit>
-            <BinanceOrbit
-              top="34%"
-              left="39%"
-              width="22%"
-              position="absolute"
-              filter="drop-shadow(-2px 50px 10px #0002)"
-            >
-              <ResponsiveImage alt="BNB" width="100%" path="home/earn-bnb" />
-            </BinanceOrbit>
-            <EtherOrbit
-              top="30%"
-              left="37%"
-              width="24%"
-              position="absolute"
-              filter="drop-shadow(-2px 50px 10px #0002)"
-            >
-              <ResponsiveImage alt="ETH" width="100%" path="home/earn-eth" />
-            </EtherOrbit>
-            <TetherOrbit
-              top="32%"
-              left="40%"
-              width="20%"
-              position="absolute"
-              filter="drop-shadow(-2px 50px 10px #0002)"
-            >
-              <ResponsiveImage
-                alt="USDT"
-                width="100%"
-                path="home/earn-tether"
-              />
-            </TetherOrbit>
-            <USDCxETHOrbit
-              top="30%"
-              width="35%"
-              left="37.5%"
-              position="absolute"
-              filter="drop-shadow(-2px 50px 10px #0002)"
-            >
-              <ResponsiveImage
-                width="100%"
-                alt="USDC-ETH"
-                path="home/earn-usdc-eth"
-              />
-            </USDCxETHOrbit>
+          <Box width="45%" mx="auto">
+            <ResponsiveImage
+              width="100%"
+              alt="Interest Protocol User"
+              path="home/why-us-user"
+            />
           </Box>
-          <Box
-            pr="1.5rem"
-            display="flex"
-            flexDirection="column"
-            width={['100%', '100%', '28rem']}
-            pl={['1.25rem', '1.25rem', '3.75rem', '3.75rem']}
-            pt={['1.875rem', '1.875rem', '1.875rem', '5rem']}
-            pb={['1.875rem', '1.875rem', '1.875rem', '6.063rem']}
-            alignItems={['center', 'center', 'center', 'unset']}
+          <FloatingCoins
+            top="10%"
+            left="17%"
+            width="11%"
+            position="absolute"
+            delay={~~(Math.random() * 1500)}
           >
-            <Typography
-              as="h2"
-              variant="normal"
-              fontStyle="normal"
-              fontWeight="900"
-              textAlign={['center', 'unset']}
-              fontSize={['2.25rem', '2.25rem', '2.25rem', '2.75rem']}
-              lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
-              textTransform="capitalize"
-              mb="XL"
-            >
-              {t('landingPage.whyUs.title')}
-            </Typography>
-            {REASONS_LIST.map((item) => (
-              <Box key={v4()} display="flex" alignItems="center">
-                <Box minWidth="1.5rem">
-                  <TickSVG maxWidth="1.5rem" maxHeight="1.5rem" />
-                </Box>
-                <Typography
-                  ml="L"
-                  variant="normal"
-                  fontWeight="600"
-                  fontSize="1.125rem"
-                >
-                  {t(item as TTranslatedMessage)}
-                </Typography>
+            <ResponsiveImage width="100%" alt="ETH" path="home/why-us-ETH" />
+          </FloatingCoins>
+          <FloatingCoins
+            top="32%"
+            left="24%"
+            width="10%"
+            position="absolute"
+            delay={~~(Math.random() * 1500)}
+          >
+            <ResponsiveImage width="100%" alt="iJPY" path="home/why-us-iJPY" />
+          </FloatingCoins>
+          <FloatingCoins
+            top="58%"
+            left="16%"
+            width="12%"
+            position="absolute"
+            delay={~~(Math.random() * 1500)}
+          >
+            <ResponsiveImage width="100%" alt="BTC" path="home/why-us-BTC" />
+          </FloatingCoins>
+          <FloatingCoins
+            top="5%"
+            left="75%"
+            width="11%"
+            position="absolute"
+            delay={~~(Math.random() * 1500)}
+          >
+            <ResponsiveImage width="100%" alt="BNB" path="home/why-us-BNB" />
+          </FloatingCoins>
+          <FloatingCoins
+            top="35%"
+            left="72%"
+            width="12.5%"
+            position="absolute"
+            delay={~~(Math.random() * 1500)}
+          >
+            <ResponsiveImage width="100%" alt="USDT" path="home/why-us-USDT" />
+          </FloatingCoins>
+          <FloatingCoins
+            top="62%"
+            left="78%"
+            width="10%"
+            position="absolute"
+            delay={~~(Math.random() * 1500)}
+          >
+            <ResponsiveImage
+              width="100%"
+              alt="iTSLA"
+              path="home/why-us-iTSLA"
+            />
+          </FloatingCoins>
+        </Box>
+        <Box
+          pr="1.5rem"
+          display="flex"
+          flexDirection="column"
+          width={['100%', '100%', '28rem']}
+          pl={['1.25rem', '1.25rem', '3.75rem', '3.75rem']}
+          pt={['1.875rem', '1.875rem', '1.875rem', '5rem']}
+          pb={['1.875rem', '1.875rem', '1.875rem', '6.063rem']}
+        >
+          <Typography
+            as="h2"
+            variant="normal"
+            fontStyle="normal"
+            fontWeight="900"
+            textAlign={['center', 'unset']}
+            fontSize={['2.25rem', '2.25rem', '2.25rem', '2.75rem']}
+            lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
+            textTransform="capitalize"
+            mb="XL"
+          >
+            {t('landingPage.whyUs.title')}
+          </Typography>
+          {REASONS_LIST.map((item) => (
+            <Box key={v4()} display="flex" alignItems="center">
+              <Box minWidth="1.5rem">
+                <TickSVG maxWidth="1.5rem" maxHeight="1.5rem" />
               </Box>
-            ))}
+              <Typography
+                ml="L"
+                variant="normal"
+                fontWeight="600"
+                fontSize="1.125rem"
+              >
+                {t(item as TTranslatedMessage)}
+              </Typography>
+            </Box>
+          ))}
+          <a
+            href="https://docs.interestprotocol.com/"
+            target="__blank"
+            rel="noreferrer"
+          >
             <Button
               effect="hover"
               variant="primary"
               mt={['1.25rem', '1.25rem', '1.25rem', '3rem']}
-              onClick={() => push(Routes[RoutesEnum.DEXPool])}
             >
               <Typography
                 variant="normal"
@@ -163,10 +156,10 @@ const WhyUs: FC = () => {
                 fontWeight="inherit"
                 textTransform="uppercase"
               >
-                {t('landingPage.earnSectionButton')}
+                {t('landingPage.whyUs.learn')}
               </Typography>
             </Button>
-          </Box>
+          </a>
         </Box>
       </Container>
     </Box>

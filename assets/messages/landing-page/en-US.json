@@ -55,6 +55,7 @@
     },
     "whyUs": {
       "title": "Why Interest Protocol?",
+      "learn": "Learn more",
       "list": {
         "risk": "Manage the risk of your portfolio with crypto and RWA",
         "lpCollateral": "Use LP and Interest-Bearing tokens as collateral",
