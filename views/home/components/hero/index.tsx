@@ -1,13 +1,16 @@
+import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
+import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 
 import { FloatingCoins } from './hero-animations';
 
 const Hero: FC = () => {
+  const { push } = useRouter();
   const t = useTranslations();
 
   return (
@@ -71,15 +74,14 @@ const Hero: FC = () => {
           >
             {t('landingPage.headerSubtitle')}
           </Typography>
-          <a
-            href="https://docs.interestprotocol.com/"
-            target="__blank"
-            rel="noopener noreferrer"
+          <Button
+            type="button"
+            variant="primary"
+            effect="hover"
+            onClick={() => push(Routes[RoutesEnum.DEX])}
           >
-            <Button type="button" variant="primary" effect="hover">
-              {t('landingPage.headerButton')}
-            </Button>
-          </a>
+            {t('landingPage.headerButton')}
+          </Button>
         </Box>
       </Container>
       <Box
