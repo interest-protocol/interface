@@ -223,7 +223,6 @@ const DEX: FC = () => {
             variant="large"
             fontWeight="700"
             textAlign="center"
-            textTransform="uppercase"
             fontSize={['0.875rem', '1.5rem']}
             px={['unset', 'unset', 'unset', '3.6rem']}
           >
@@ -235,7 +234,6 @@ const DEX: FC = () => {
               as="span"
               fontWeight="700"
               my={['unset', 'unset', '1rem', '1rem']}
-              textTransform="uppercase"
             >
               {t('landingPage.volatilePairDescription')}
             </Typography>
