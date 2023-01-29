@@ -22,7 +22,7 @@ const Earn: FC = () => {
   const t = useTranslations();
 
   return (
-    <Box as="section" position="relative" mt={['-4rem', 'L', 'XL', 'NONE']}>
+    <Box as="section" position="relative" mt={['XL', 'XL', 'XL', 'NONE']}>
       <Container
         py="XL"
         display="flex"
@@ -110,6 +110,7 @@ const Earn: FC = () => {
           bg="foreground"
           borderRadius="M"
           flexDirection="column"
+          boxShadow="0 0 2rem #0003"
           pl={['1.25rem', '1.25rem', '3.75rem', '3.75rem']}
           pt={['1.875rem', '1.875rem', '1.875rem', '5rem']}
           width={['100%', '100%', '41.625rem', '41.625rem']}
