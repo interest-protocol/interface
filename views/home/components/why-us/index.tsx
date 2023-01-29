@@ -1,10 +1,8 @@
-import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import Container from '@/components/container';
-import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 import { TTranslatedMessage } from '@/interface';
 import { TickSVG } from '@/svg';

@@ -28,8 +28,9 @@ const Orbit = (
   }
 `;
 
-export const USDCxETHOrbit = Orbit(OrbitAnimation, '50%', '40%');
-export const TetherOrbit = Orbit(OrbitAnimation, '-160%', '-160%');
-export const BitcoinOrbit = Orbit(OrbitAnimation, '10%', '-220%');
-export const EtherOrbit = Orbit(OrbitAnimation, '-160%', '20%');
-export const BinanceOrbit = Orbit(OrbitAnimation, '-50%', '110%');
+export const TSLAOrbit = Orbit(OrbitAnimation, '180%', '-10%');
+export const EUROrbit = Orbit(OrbitAnimation, '-170%', '0%');
+export const BAYCOrbit = Orbit(OrbitAnimation, '-80%', '-220%');
+export const BRLOrbit = Orbit(OrbitAnimation, '90%', '250%');
+export const OILOrbit = Orbit(OrbitAnimation, '-80%', '220%');
+export const XAUOrbit = Orbit(OrbitAnimation, '90%', '-200%');
