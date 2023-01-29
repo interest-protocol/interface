@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
-import { v4 } from 'uuid';
 
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
@@ -25,6 +24,7 @@ const Hero: FC = () => {
         display="flex"
         position="relative"
         alignItems="center"
+        justifyContent={['center', 'center', 'center', 'flex-start']}
         height={['unset', 'unset', 'unset', '100vh']}
         minHeight={['unset', 'unset', 'unset', '45rem']}
         pt={['11.813rem', '11.813rem', '11.813rem', 'XXXL']}
@@ -35,8 +35,9 @@ const Hero: FC = () => {
           position="relative"
           flexDirection="column"
           ml={['none', 'none', 'none', '8.438rem']}
+          textAlign={['center', 'center', 'center', 'left']}
           width={['20.313rem', '20.313rem', '100%', '40rem']}
-          key={v4()}
+          alignItems={['center', 'center', 'center', 'flex-start']}
         >
           <Typography
             as="h2"
