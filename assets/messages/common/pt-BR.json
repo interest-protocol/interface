@@ -9,6 +9,8 @@
     "yourBalance": "saldo",
     "synthetics": "sintéticos",
     "dinero": "Dinero",
+    "buy": "Comprar",
+    "mint": "Mint",
     "volatile": "{count, plural, =1 {volátil} other {voláteis}}",
     "stable": "{count, plural, =1 {estável} other {estáveis}}",
     "liquidity": "liquidez",

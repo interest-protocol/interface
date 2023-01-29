@@ -76,6 +76,7 @@ export { default as SynthTeslaSVG } from './synth-tesla';
 export { default as SynthXAUSVG } from './synth-xau';
 export { default as TelegramSVG } from './telegram';
 export { default as TetherSVG } from './tether';
+export { default as TickSVG } from './tick';
 export { default as TimesSVG } from './times';
 export { default as TrueUSDSVG } from './true-usd';
 export { default as TrustWalletSVG } from './trust-wallet';

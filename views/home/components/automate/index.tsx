@@ -24,7 +24,7 @@ const Automate: FC = () => {
           textAlign="center"
           lineHeight="4.876rem"
           mb={['0.875rem', '0.875rem', '0.625rem', '0.625rem']}
-          fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
+          fontSize={['2.75rem', '2.75rem', '2.75rem']}
           textTransform="capitalize"
         >
           {t('landingPage.vaultSectionTitle')}

@@ -9,6 +9,8 @@
     "yourBalance": "your balance",
     "synthetics": "synthetics",
     "dinero": "Dinero",
+    "buy": "Buy",
+    "mint": "Mint",
     "volatile": "{count, plural, =1 {volatile} other {volatile}}",
     "stable": "{count, plural, =1 {stable} other {stable}}",
     "liquidity": "liquidity",
