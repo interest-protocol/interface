@@ -16,8 +16,8 @@ const WhyUs: FC = () => {
   return (
     <Box as="section" position="relative">
       <Container
+        py="XL"
         alignItems="center"
-        py={['XXL', 'XXL', 'XXL', 'XXXL']}
         mt={['-5rem', '-5rem', '-5rem', 'NONE']}
         display={['flex', 'flex', 'flex', 'grid']}
         justifyItems={['center', 'center', 'center', 'start']}
@@ -108,10 +108,10 @@ const WhyUs: FC = () => {
           width={['100%', '100%', '28rem']}
           pl={['1.25rem', '1.25rem', '3.75rem', '3.75rem']}
           pt={['1.875rem', '1.875rem', '1.875rem', '5rem']}
-          pb={['1.875rem', '1.875rem', '1.875rem', '6.063rem']}
         >
           <Typography
             as="h2"
+            mb="XL"
             variant="normal"
             fontStyle="normal"
             fontWeight="900"
@@ -119,7 +119,6 @@ const WhyUs: FC = () => {
             fontSize={['2.25rem', '2.25rem', '2.25rem', '2.75rem']}
             lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
             textTransform="capitalize"
-            mb="XL"
           >
             {t('landingPage.whyUs.title')}
           </Typography>

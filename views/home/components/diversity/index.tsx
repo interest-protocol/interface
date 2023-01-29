@@ -22,10 +22,10 @@ const Diversity: FC = () => {
   return (
     <Box as="section" position="relative">
       <Container
+        py="XL"
         gridGap="2rem"
         alignItems="center"
         justifyItems="center"
-        py={['XXL', 'XXL', 'XXL', 'XXXL']}
         display={['flex', 'flex', 'flex', 'grid']}
         flexDirection={['column', 'column', 'column', 'unset']}
         gridTemplateColumns={['unset', 'unset', 'unset', '1fr 1fr']}
