@@ -13,12 +13,15 @@ const Hero: FC = () => {
   return (
     <Box
       as="section"
+      display="flex"
+      position="relative"
       backgroundImage={[
         'linear-gradient(105.71deg, #EEEEEE -1.51%, #E8E8E8 20.1%, #DBDBDA 72.59%);',
         'none',
       ]}
     >
       <Container
+        width="100%"
         display="flex"
         position="relative"
         alignItems="center"

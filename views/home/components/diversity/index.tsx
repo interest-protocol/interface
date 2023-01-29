@@ -77,7 +77,7 @@ const Diversity: FC = () => {
               width="10rem"
               effect="hover"
               variant="primary"
-              onClick={() => push(Routes[RoutesEnum.DEXPool])}
+              onClick={() => push(Routes[RoutesEnum.DEX])}
             >
               <Typography
                 variant="normal"
@@ -93,7 +93,7 @@ const Diversity: FC = () => {
               width="10rem"
               effect="hover"
               variant="tertiary"
-              onClick={() => push(Routes[RoutesEnum.DEXPool])}
+              onClick={() => push(Routes[RoutesEnum.SyntheticsMarket])}
             >
               <Typography
                 variant="normal"

@@ -14,7 +14,11 @@ const WhyUs: FC = () => {
   const t = useTranslations();
 
   return (
-    <Box as="section" position="relative">
+    <Box
+      as="section"
+      position="relative"
+      backgroundImage="linear-gradient(180deg, #fff0 0%, #F0F0F0 5.5rem)"
+    >
       <Container
         py="XL"
         alignItems="center"
