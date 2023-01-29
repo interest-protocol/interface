@@ -4,7 +4,7 @@ import { SVGProps } from './svg.types';
 
 const HorizontalDots: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    style={{ maxWidth, maxHeight }}
     viewBox="0 0 34 8"
     fill="none"
     {...props}

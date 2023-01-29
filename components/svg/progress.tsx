@@ -9,7 +9,7 @@ const Progress: FC<
   }
 > = ({ progress, custom, maxWidth, maxHeight, ...props }) => (
   <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    style={{ maxWidth, maxHeight }}
     {...(!custom && { viewBox: '0 0 330 10' })}
     fill="none"
     {...props}

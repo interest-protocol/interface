@@ -4,7 +4,7 @@ import { SVGProps } from './svg.types';
 
 const ShibaInu: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    style={{ maxWidth, maxHeight }}
     viewBox="0 0 642 649"
     fill="none"
     {...props}

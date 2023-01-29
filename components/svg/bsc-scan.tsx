@@ -3,11 +3,7 @@ import { FC } from 'react';
 import { SVGProps } from './svg.types';
 
 const BscScan: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
-  <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
-    viewBox="0 0 121.378 121.333"
-    {...props}
-  >
+  <svg style={{ maxWidth, maxHeight }} viewBox="0 0 121.378 121.333" {...props}>
     <g id="bscscan-logo-circle" transform="translate(-219.378 -213.334)">
       <path
         id="Path_1"

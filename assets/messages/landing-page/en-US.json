@@ -43,6 +43,26 @@
     "bioNilam": "Associated with The Times Group for {year1, plural, =1 {# year} other {# years}} at the start of my career in the field of Digital Marketing. I’ve been active in the crypto market for the past three years and have handled end-to-end marketing for more than 20 projects.",
     "subscribeErrors": {
       "1008": "contact already added"
+    },
+    "integrations": {
+      "title": "Integrations",
+      "poweredBy": "Powered By"
+    },
+    "diversity": {
+      "title": "Diversify your crypto portfolio with RWA",
+      "subtitle": "Be an investor or a minter",
+      "description": "Use our DEX to buy synthetic real-world financial assets and NFTs without the fungibility issues . You also can be a minter of these assets and earn from it."
+    },
+    "whyUs": {
+      "title": "Why Interest Protocol?",
+      "learn": "Learn more",
+      "list": {
+        "risk": "Manage the risk of your portfolio with crypto and RWA",
+        "lpCollateral": "Use LP and Interest-Bearing tokens as collateral",
+        "earn": "Earn from liquidity pools and farms",
+        "swapFee": "Swap tokens with low fees",
+        "autoPilot": "Invest on auto-pilot"
+      }
     }
   }
 }

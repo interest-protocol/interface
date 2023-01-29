@@ -23,11 +23,11 @@ export const FAUCET_TOKEN_MAX_AMOUNT = {
     [getAddress(getAPEAddress(CHAIN_ID.RINKEBY))]: 10_000,
   },
   [CHAIN_ID.BNB_TEST_NET]: {
-    [getAddress(getBTCAddress(CHAIN_ID.BNB_TEST_NET))]: 10,
-    [getAddress(getDNRAddress(CHAIN_ID.BNB_TEST_NET))]: 250_000,
-    [getAddress(getUSDTAddress(CHAIN_ID.BNB_TEST_NET))]: 1_000_000,
-    [getAddress(getUSDCAddress(CHAIN_ID.BNB_TEST_NET))]: 1_000_000,
-    [getAddress(getETHERC20Address(CHAIN_ID.BNB_TEST_NET))]: 50,
-    [getAddress(getBUSDAddress(CHAIN_ID.BNB_TEST_NET))]: 250_000,
+    [getAddress(getBTCAddress(CHAIN_ID.BNB_TEST_NET))]: 5,
+    [getAddress(getDNRAddress(CHAIN_ID.BNB_TEST_NET))]: 100_000,
+    [getAddress(getUSDTAddress(CHAIN_ID.BNB_TEST_NET))]: 100_000,
+    [getAddress(getUSDCAddress(CHAIN_ID.BNB_TEST_NET))]: 100_000,
+    [getAddress(getETHERC20Address(CHAIN_ID.BNB_TEST_NET))]: 5,
+    [getAddress(getBUSDAddress(CHAIN_ID.BNB_TEST_NET))]: 100_000,
   },
 };

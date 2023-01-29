@@ -1,3 +1,6 @@
+import { FC } from 'react';
+
+import { SVGProps } from '@/components/svg/svg.types';
 import { CHAIN_ID } from '@/sdk';
 import {
   BscScanSVG,
@@ -37,7 +40,7 @@ export const EXPLORER_MAP = {
   [CHAIN_ID.UNSUPPORTED]: UnknownCoinSVG,
 };
 
-export const ORACLE_SVG_MAP = {
+export const ORACLE_SVG_MAP: Record<SyntheticOracleType, FC<SVGProps>> = {
   [SyntheticOracleType.ChainLink]: ChainLinkSVG,
   [SyntheticOracleType.RedStoneConsumer]: RedStoneSVG,
   [SyntheticOracleType.RedStonePriceAware]: RedStoneSVG,

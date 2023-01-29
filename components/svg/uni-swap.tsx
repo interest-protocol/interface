@@ -7,7 +7,7 @@ const id = v4();
 
 const UniSwap: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    style={{ maxWidth, maxHeight }}
     viewBox="17 17 86 86"
     fill="none"
     {...props}
