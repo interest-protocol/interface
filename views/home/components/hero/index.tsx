@@ -44,8 +44,8 @@ const Hero: FC = () => {
             variant="normal"
             fontWeight="900"
             fontStyle="normal"
+            fontSize="2.75rem"
             textTransform="capitalize"
-            fontSize={['2.75rem', '2.75rem', '2.75rem', '2.75rem']}
             lineHeight={['3.353rem', '3.353rem', '3.75rem', '3.75rem']}
           >
             {t.rich('landingPage.headerTitle', {

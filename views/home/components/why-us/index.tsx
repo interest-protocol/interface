@@ -109,7 +109,6 @@ const WhyUs: FC = () => {
           pr="1.5rem"
           display="flex"
           flexDirection="column"
-          width={['100%', '100%', '28rem']}
           pl={['1.25rem', '1.25rem', '3.75rem', '3.75rem']}
           pt={['1.875rem', '1.875rem', '1.875rem', '5rem']}
           alignItems={['center', 'center', 'center', 'flex-start']}
@@ -123,12 +122,11 @@ const WhyUs: FC = () => {
             textAlign={['center', 'unset']}
             fontSize={['2.25rem', '2.25rem', '2.25rem', '2.75rem']}
             lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
-            textTransform="capitalize"
           >
             {t('landingPage.whyUs.title')}
           </Typography>
           {REASONS_LIST.map((item) => (
-            <Box key={v4()} display="flex" width="100%">
+            <Box key={v4()} display="flex" width={['100%', '100%', '28rem']}>
               <Box minWidth="1.5rem" mt="M">
                 <TickSVG maxWidth="1.5rem" maxHeight="1.5rem" />
               </Box>
