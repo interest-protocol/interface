@@ -112,6 +112,7 @@ const WhyUs: FC = () => {
           width={['100%', '100%', '28rem']}
           pl={['1.25rem', '1.25rem', '3.75rem', '3.75rem']}
           pt={['1.875rem', '1.875rem', '1.875rem', '5rem']}
+          alignItems={['center', 'center', 'center', 'flex-start']}
         >
           <Typography
             as="h2"
@@ -127,8 +128,8 @@ const WhyUs: FC = () => {
             {t('landingPage.whyUs.title')}
           </Typography>
           {REASONS_LIST.map((item) => (
-            <Box key={v4()} display="flex" alignItems="center">
-              <Box minWidth="1.5rem">
+            <Box key={v4()} display="flex" width="100%">
+              <Box minWidth="1.5rem" mt="M">
                 <TickSVG maxWidth="1.5rem" maxHeight="1.5rem" />
               </Box>
               <Typography

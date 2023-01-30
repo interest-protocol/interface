@@ -2,7 +2,7 @@
   "landingPage": {
     "pageTitle": "Home",
     "headerTitle": "Use <special>crypto</special> to buy stocks, commodities & NFT Tokens",
-    "headerSubtitle": "Invest in real-world asset via derivatives",
+    "headerSubtitle": "Invest in real-world assets via derivatives",
     "headerButton": "ENTER",
     "earnSectionSubtitle": "Get LP Tokens by providing liquidity to our DEX",
     "earnSectionH3": "Use LP Tokens to earn trading fees and farm $Int Tokens.",
@@ -57,7 +57,7 @@
       "title": "Why Interest Protocol?",
       "learn": "Learn more",
       "list": {
-        "risk": "Manage the risk of your portfolio with crypto and RWA",
+        "risk": "Manage the risk of your portfolio with crypto and RWAs",
         "lpCollateral": "Use LP and Interest-Bearing tokens as collateral",
         "earn": "Earn from liquidity pools and farms",
         "swapFee": "Swap tokens with low fees",
