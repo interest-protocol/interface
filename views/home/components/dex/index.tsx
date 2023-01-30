@@ -130,7 +130,7 @@ const DEX: FC = () => {
             fontSize={['0.875rem', '1.5rem']}
             px={['unset', 'unset', 'unset', '3.6rem']}
           >
-            K = 3XY + 3XY
+            K = X<sup>3</sup>Y + XY<sup>3</sup>
             <br />
             <Typography
               variant="large"
