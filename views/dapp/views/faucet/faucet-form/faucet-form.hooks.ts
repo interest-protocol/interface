@@ -15,7 +15,7 @@ import { getTokenMinter } from '@/views/dapp/views/faucet/utilts';
 import { IFaucetForm } from '../faucet.types';
 
 const MINT_FN_RECORD = {
-  [getAddress(CONTRACTS.DINERO_FAUCET[CHAIN_ID.BNB_TEST_NET])]: true,
+  [getAddress(CONTRACTS.DNR[CHAIN_ID.BNB_TEST_NET])]: true,
   [getAddress(CONTRACTS.BTC[CHAIN_ID.BNB_TEST_NET])]: true,
   [getAddress(CONTRACTS.BUSD[CHAIN_ID.BNB_TEST_NET])]: true,
 };
