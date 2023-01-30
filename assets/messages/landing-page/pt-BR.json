@@ -1,7 +1,7 @@
 {
   "landingPage": {
     "pageTitle": "Início",
-    "headerTitle": "Use <special>crypto</special> para Comprar Ações, Mercadorias e NFT Tokens",
+    "headerTitle": "Use <special>Cripto</special> para Comprar Ações, Mercadorias e NFT Tokens",
     "headerSubtitle": "Invista em ativos do mundo real através de derivados",
     "headerButton": "Entre",
     "earnSectionSubtitle": "Adquira LP Tokens fornecendo liquidez a nossa DEX",
@@ -34,7 +34,7 @@
     "roleCEO": "Co-Fundador & CEO",
     "developer": "Desenvolvedor",
     "marketingManager": "Gestor de Marketing",
-    "teamDescription": "Somos uma equipa de tecno-empresários baseada na Europa com uma experiência combinada de 10 anos na indústria de crypto. Damos prioridade à segurança acima de tudo. Preferimos embarcar devagar mas em segurança ao contrário do mantra do Facebook Move fast and break things.",
+    "teamDescription": "Somos uma equipa de empresários de tech baseada na Europa com uma experiência combinada de 10 anos na indústria de cripto. Damos prioridade à segurança acima de tudo. Preferimos lançar devagar, mas em segurança ao contrário do mantra que defende Move fast and Break Things.",
     "bioCerqueira": "Anteriormente no Banco EuroBIC. {year1, plural, =1 {# ano} other {# anos}} de desenvolvimento de software. {year2, plural, =1 {# ano} other {# anos}} na indústria de crypto. Responsável pelo desenvolvimento dos smart contracts da Interest Protocol.",
     "bioNelumba": "Evangelista de crypto desde 2017. Co-fundador de uma empresa de tecnologia de emergência médica que já salvou mais de 1000 vidas. Responsável pela angariação de fundos e gestão das finanças da Interest Protocol.",
     "bioPitra": "{year1, plural, =1 {# ano} other {# anos}} a desenvolver software para a web2. {year2, plural, =1 {# ano} other {# anos}} em crypto. Um ninja de React trabalhando na interface da Interest Protocol.",
@@ -49,7 +49,7 @@
       "poweredBy": "Desenvolvido no"
     },
     "diversity": {
-      "title": "Diversifique o seu Portfolio Crypto com RWA",
+      "title": "Diversifica o teu portfolio de cripto com activos do mundo real",
       "subtitle": "Seja investidor ou minter",
       "description": "Use o nosso DEX para comprar ativos financeiros do mundo real sintetizados e NFTs sem problemas de fungibilidade. Também podes ser um minter desses ativos e ganhar com isso."
     },
@@ -57,11 +57,11 @@
       "title": "Porquê a Interest Protocol?",
       "learn": "Saiba mais",
       "list": {
-        "risk": "Gerir o risco do teu portfolio com crypto e RWAs",
-        "lpCollateral": "Uso de LP e Interest-Bearing tokens como garantia",
-        "earn": "Ganhar de liquidity pools e farms",
-        "swapFee": "Tokens com baixas taxas de troca",
-        "autoPilot": "Investimento em piloto-automático"
+        "risk": "Gera o risco do seu portfolio com cripto e activos do mundo real",
+        "lpCollateral": "Use LP e Interest-Bearing tokens como garantia",
+        "earn": "Lucre através de liquidity pools e farms",
+        "swapFee": "Troque tokens com taxas baixas",
+        "autoPilot": "Invista em modo de piloto automático"
       }
     }
   }

@@ -45,7 +45,7 @@ const Integrations: FC = () => {
           textAlign="center"
           lineHeight="4.876rem"
           mb={['0.875rem', '0.875rem', '0.625rem', '0.625rem']}
-          fontSize="2.75rem"
+          fontSize={['2.25rem', '2.25rem', '2.25rem', '2.75rem']}
           textTransform="capitalize"
         >
           {t('landingPage.integrations.title')}
