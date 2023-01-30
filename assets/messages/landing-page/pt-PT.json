@@ -1,8 +1,8 @@
 {
   "landingPage": {
     "pageTitle": "Início",
-    "headerTitle": "Utilize <special>crypto</special> para Comprar Acções, Mercadorias e NFT Tokens",
-    "headerSubtitle": "Invista em activos do mundo real através de derivados",
+    "headerTitle": "Utilize <special>crypto</special> para Comprar Ações, Mercadorias e NFT Tokens",
+    "headerSubtitle": "Invista em ativos do mundo real através de derivados",
     "headerButton": "Entre",
     "earnSectionSubtitle": "Forneça liquidez a nossa DEX para obter LP Tokens.",
     "earnSectionH3": "Ponha os seus LP Tokens nas nossas farms para obter rendimentos.",
@@ -58,7 +58,7 @@
       "title": "Porquê a Interest Protocol?",
       "learn": "Saiba mais",
       "list": {
-        "risk": "Gerir o risco do teu portfolio com crypto e RWA",
+        "risk": "Gerir o risco do teu portfolio com crypto e RWAs",
         "lpCollateral": "Uso de LP e Interest-Bearing tokens como garantia",
         "earn": "Ganhar de liquidity pools e farms",
         "swapFee": "Tokens com baixas taxas de troca",
