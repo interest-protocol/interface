@@ -61,7 +61,7 @@ const DEX: FC = () => {
             fontWeight="900"
             fontStyle="normal"
             lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
-            fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
+            fontSize={['2.25rem', '2.25rem', '2.25rem', '2.75rem']}
             textTransform="capitalize"
           >
             {t('common.dex')}
@@ -130,7 +130,7 @@ const DEX: FC = () => {
             fontSize={['0.875rem', '1.5rem']}
             px={['unset', 'unset', 'unset', '3.6rem']}
           >
-            K = 3XY + 3XY
+            K = X<sup>3</sup>Y + XY<sup>3</sup>
             <br />
             <Typography
               variant="large"
@@ -223,7 +223,6 @@ const DEX: FC = () => {
             variant="large"
             fontWeight="700"
             textAlign="center"
-            textTransform="uppercase"
             fontSize={['0.875rem', '1.5rem']}
             px={['unset', 'unset', 'unset', '3.6rem']}
           >
@@ -235,7 +234,6 @@ const DEX: FC = () => {
               as="span"
               fontWeight="700"
               my={['unset', 'unset', '1rem', '1rem']}
-              textTransform="uppercase"
             >
               {t('landingPage.volatilePairDescription')}
             </Typography>

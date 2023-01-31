@@ -1,9 +1,9 @@
 {
   "landingPage": {
     "pageTitle": "Home",
-    "headerTitle": "Borrow Dinero For Free",
-    "headerSubtitle": "Dinero is an overcollateralized stablecoin",
-    "headerButton": "Read docs",
+    "headerTitle": "Use <special>crypto</special> to buy stocks, commodities & NFT Tokens",
+    "headerSubtitle": "Invest in real-world assets via derivatives",
+    "headerButton": "ENTER",
     "earnSectionSubtitle": "Get LP Tokens by providing liquidity to our DEX",
     "earnSectionH3": "Use LP Tokens to earn trading fees and farm $Int Tokens.",
     "earnSectionBody": "Supported tokens",
@@ -14,9 +14,8 @@
     "borrowSectionINTTokensDescription": "Earn $INT Tokens",
     "vaultSectionTitle": "Automate",
     "vaultSectionSubtitle": "Maximize your profits through automated strategies.",
-    "subscribeSectionTitle": "Subscribe for Interest Protocol updates",
-    "subscribeInputDescription": "Drop your e-mail",
-    "subscribeDescription": "Your data is safe",
+    "subscribeSectionText": "Get early notifications on new features",
+    "subscribeInputPlaceholder": "Email Address",
     "subscribeButton": "{isLoading, plural, =1 {Subscribing} other {Subscribe}}",
     "stablePairTitle": "Stablecoin Markets",
     "stablePairDescription": "Low slippage",
@@ -35,7 +34,7 @@
     "roleCEO": "Co-Founder & CEO",
     "developer": "Developer",
     "marketingManager": "Marketing Manager",
-    "teamDescription": "We are a team of techno-entrepreneurs based in Europe with a combined experience of 10 years in crypto. We prioritize security above all else. We prefer to ship slow but secure as opposed to Facebook's mantra of Move fast and break things.",
+    "teamDescription": "We are a team of tech entrepreneurs based in Europe with a combined experience of 10 years in crypto. We prioritize security above all else. We prefer to ship slowly but securely as opposed to the mantra of Move fast and Break Things.",
     "bioCerqueira": "Previously at Banco EuroBIC. {year1, plural, =1 {# year} other {# years}} of software development. {year2, plural, =1 {# year} other {# years}} in the crypto industry. Responsible for the smart contract development of Interest Protocol.",
     "bioNelumba": "Crypto advocate since 2017. Co-founder of a medical emergency tech company that has saved over 1000 lives. Responsible for fundraising and managing the Interest Protocol finances.",
     "bioPitra": "{year1, plural, =1 {# year} other {# years}} in web development. {year2, plural, =1 {# year} other {# years}} in crypto. A React ninja working on Interest Protocol's interface.",
@@ -44,6 +43,26 @@
     "bioNilam": "Associated with The Times Group for {year1, plural, =1 {# year} other {# years}} at the start of my career in the field of Digital Marketing. I’ve been active in the crypto market for the past three years and have handled end-to-end marketing for more than 20 projects.",
     "subscribeErrors": {
       "1008": "contact already added"
+    },
+    "integrations": {
+      "title": "Integrations",
+      "poweredBy": "Powered By"
+    },
+    "diversity": {
+      "title": "Diversify your crypto portfolio with RWA",
+      "subtitle": "Be an investor or a minter",
+      "description": "Use our DEX to buy synthetic real-world financial assets and NFTs without the fungibility issues . You also can be a minter of these assets and earn from it."
+    },
+    "whyUs": {
+      "title": "Why Interest Protocol?",
+      "learn": "Learn more",
+      "list": {
+        "risk": "Manage the risk of your portfolio with crypto and RWAs",
+        "lpCollateral": "Use LP and Interest-Bearing tokens as collateral",
+        "earn": "Earn from liquidity pools and farms",
+        "swapFee": "Swap tokens with low fees",
+        "autoPilot": "Invest on auto-pilot"
+      }
     }
   }
 }

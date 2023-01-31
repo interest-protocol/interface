@@ -7,7 +7,7 @@ const id = v4();
 
 const ApeCoin: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
   <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
+    style={{ maxWidth, maxHeight }}
     viewBox="0 0 151 144"
     fill="none"
     {...props}

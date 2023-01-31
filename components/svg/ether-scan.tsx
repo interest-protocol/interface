@@ -3,11 +3,7 @@ import { FC } from 'react';
 import { SVGProps } from './svg.types';
 
 const Etherscan: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
-  <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
-    viewBox="0 0 293.775 293.671"
-    {...props}
-  >
+  <svg style={{ maxWidth, maxHeight }} viewBox="0 0 293.775 293.671" {...props}>
     <g id="etherscan-logo-circle" transform="translate(-219.378 -213.33)">
       <path
         id="Path_1"

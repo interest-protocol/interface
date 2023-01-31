@@ -3,11 +3,7 @@ import { FC } from 'react';
 import { SVGProps } from './svg.types';
 
 const Youtube: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
-  <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
-    viewBox="0 0 310 310"
-    {...props}
-  >
+  <svg style={{ maxWidth, maxHeight }} viewBox="0 0 310 310" {...props}>
     <g id="XMLID_822_">
       <path
         id="XMLID_823_"

@@ -1,9 +1,9 @@
 {
   "landingPage": {
     "pageTitle": "Início",
-    "headerTitle": "Peça Dinero emprestado sem custos",
-    "headerSubtitle": "Dinero é uma stablecoin sobrecolateralizada",
-    "headerButton": "Documentação",
+    "headerTitle": "Utilize <special>Cripto</special> para Comprar Ações, Mercadorias e NFT Tokens",
+    "headerSubtitle": "Invista em ativos do mundo real através de derivados",
+    "headerButton": "Entre",
     "earnSectionSubtitle": "Forneça liquidez a nossa DEX para obter LP Tokens.",
     "earnSectionH3": "Ponha os seus LP Tokens nas nossas farms para obter rendimentos.",
     "earnSectionBody": "Moedas suportadas:",
@@ -14,9 +14,8 @@
     "borrowSectionINTTokensDescription": "Ganhe $INT Tokens",
     "vaultSectionTitle": "Automatize",
     "vaultSectionSubtitle": "Maximize os seus lucros através de estratégias automatizadas.",
-    "subscribeSectionTitle": "Subscreva para receber actualizações da Interest Protocol",
-    "subscribeInputDescription": "Partilhe o seu email",
-    "subscribeDescription": "Os seus dados estão seguros",
+    "subscribeSectionText": "Receba as últimas novidades",
+    "subscribeInputPlaceholder": "Endereço de email",
     "subscribeButton": "{isLoading, plural, =1 {Subscrevendo} other {Subscreva}}",
     "stablePairTitle": "Mercados Estáveis",
     "stablePairDescription": "Custos baixos de slippage",
@@ -36,7 +35,7 @@
     "roleCEO": "Co-Fundador & CEO",
     "developer": "Desenvolvedor",
     "marketingManager": "Gestor de Marketing",
-    "teamDescription": "Somos uma equipa de tecno-empresários baseada na Europa com uma experiência combinada de 10 anos na indústria de crypto. Damos prioridade à segurança acima de tudo. Preferimos embarcar devagar mas em segurança ao contrário do mantra do Facebook Move fast and break things.",
+    "teamDescription": "Somos uma equipa de empresários de tech baseada na Europa com uma experiência combinada de 10 anos na indústria de cripto. Damos prioridade à segurança acima de tudo. Preferimos lançar devagar, mas em segurança ao contrário do mantra que defende Move fast and Break Things.",
     "bioCerqueira": "Anteriormente no Banco EuroBIC. {year1, plural, =1 {# ano} other {# anos}} de desenvolvimento de software. {year2, plural, =1 {# ano} other {# anos}} na indústria de crypto. Responsável pelo desenvolvimento dos smart contracts da Interest Protocol.",
     "bioNelumba": "Evangelista de crypto desde 2017. Co-fundador de uma empresa de tecnologia de emergência médica que já salvou mais de 1000 vidas. Responsável pela angariação de fundos e gestão das finanças da Interest Protocol.",
     "bioPitra": "{year1, plural, =1 {# ano} other {# anos}} a desenvolver software para a web2. {year2, plural, =1 {# ano} other {# anos}} em crypto. Um ninja de React trabalhando na interface da Interest Protocol.",
@@ -45,6 +44,26 @@
     "bioNilam": "A Nilam trabalhou no The Times Group por {year1, plural, =1 {# ano} other {# anos}} na área de marketing digital. Nos últimos três anos, ela liderou o marketing de mais de 20 projetos na indústria de crypto.",
     "subscribeErrors": {
       "1008": "contacto já foi adicionado"
+    },
+    "integrations": {
+      "title": "Integrações",
+      "poweredBy": "Desenvolvido no"
+    },
+    "diversity": {
+      "title": "Diversifica o tua carteira de cripto com ativos do mundo real",
+      "subtitle": "Seja investidor ou minter",
+      "description": "Use o nosso DEX para comprar ativos financeiros do mundo real sintetizados e NFTs sem problemas de fungibilidade. Também podes ser um minter desses ativos e ganhar com isso."
+    },
+    "whyUs": {
+      "title": "Porquê a Interest Protocol?",
+      "learn": "Saiba mais",
+      "list": {
+        "risk": "Gera o risco da sua carteira com cripto e activos do mundo real",
+        "lpCollateral": "Use LP e Interest-Bearing Tokens como garantia",
+        "earn": "Lucre através de liquidity pools e farms",
+        "swapFee": "Troque tokens com taxas baixas",
+        "autoPilot": "Invista em modo de piloto automático"
+      }
     }
   }
 }

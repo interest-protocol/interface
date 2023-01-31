@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { LogoSVG, ShieldSVG } from '@/svg';
+import { Container } from '@/components';
+import { LoadingSVG } from '@/svg';
 import { capitalize } from '@/utils';
 import { logGenericEvent } from '@/utils/analytics';
 
@@ -12,10 +13,13 @@ import { Box, Button, Input, Typography } from '../../../../elements';
 
 const Subscribe: FC = () => {
   const t = useTranslations();
+  const [loading, setLoading] = useState(false);
+
   const handleSubscribe = async (event: Event) => {
     event.preventDefault();
     // @ts-ignore
     const email = event.target[0].value;
+    setLoading(true);
     toast.promise(
       fetch(`/api/v1/mail/subscribe?email=${email}`)
         .then((response) => response.json())
@@ -26,7 +30,8 @@ const Subscribe: FC = () => {
         .catch((x) => {
           logGenericEvent(propOr('code', 'email subscription error', x));
           throw x;
-        }),
+        })
+        .finally(() => setLoading(false)),
       {
         loading: t('landingPage.subscribeButton', { isLoading: 1 }),
         success: capitalize(t('common.success')),
@@ -43,67 +48,88 @@ const Subscribe: FC = () => {
   };
 
   return (
-    <Box
-      py="XXXL"
-      as="section"
-      display="flex"
-      alignItems="center"
-      flexDirection="column"
-      bg="background"
-    >
-      <Box width="5rem">
-        <LogoSVG width="100%" maxHeight="5rem" maxWidth="5rem" />
-      </Box>
-      <Typography
-        mt="M"
-        as="h2"
-        maxWidth="40rem"
-        variant="title2"
-        textAlign="center"
-        fontSize={['L', 'XXL']}
-      >
-        {t('landingPage.subscribeSectionTitle')}
-      </Typography>
-      <Box
-        mt="XXL"
-        as="form"
+    <Box bg="text">
+      <Container
+        py="XXXL"
+        as="section"
         display="flex"
-        // @ts-ignore
-        onSubmit={handleSubscribe}
-        flexDirection={['column', 'row']}
-        alignItems={['center', 'flex-start']}
+        alignItems="center"
+        justifyContent="space-between"
+        flexDirection={['column', 'column', 'column', 'row']}
       >
-        <Input
-          p="L"
-          mr="S"
-          type="email"
-          bg="outline"
-          width="15rem"
-          border="none"
-          outline="none"
-          borderRadius="S"
-          mb={['L', 'NONE']}
-          placeholder={t('landingPage.subscribeInputDescription')}
-        />
-        <Box
-          display="flex"
-          mt={['L', 'NONE']}
-          alignItems="stretch"
-          flexDirection="column"
+        <Typography
+          mt="M"
+          as="h2"
+          variant="title1"
+          maxWidth="40rem"
+          color="textInverted"
+          textTransform="capitalize"
+          fontSize={['1.9rem', '2.75rem']}
+          textAlign={['center', 'center', 'center', 'left']}
         >
-          <Button ml="S" px="L" type="submit" variant="tertiary" effect="hover">
-            {t('landingPage.subscribeButton', { isLoading: 0 })}
+          {t('landingPage.subscribeSectionText')}
+        </Typography>
+        <Box
+          as="form"
+          width="100%"
+          display="flex"
+          alignItems="stretch"
+          // @ts-ignore
+          onSubmit={handleSubscribe}
+          mt={['XL', 'XL', 'XL', 'NONE']}
+          flexDirection={['column', 'row']}
+          justifyContent={['center', 'center', 'center', 'flex-end']}
+        >
+          <Input
+            p="L"
+            type="email"
+            bg="outline"
+            border="none"
+            outline="none"
+            borderRadius="S"
+            mr={['NONE', 'S']}
+            color="textInverted"
+            width={['100%', '20rem']}
+            backgroundColor="#262626"
+            placeholder={t('landingPage.subscribeInputPlaceholder')}
+          />
+          <Button
+            p="L"
+            type="submit"
+            effect="hover"
+            display="flex"
+            disabled={loading}
+            variant="primary"
+            fontWeight="bold"
+            mt={['M', 'NONE']}
+            ml={['NONE', 'S']}
+            lineHeight="1.7rem"
+            letterSpacing={1.09}
+            justifyContent="center"
+            minWidth={['100%', '10rem']}
+            textTransform="uppercase"
+            alignItems="center"
+          >
+            {t('landingPage.subscribeButton', { isLoading: loading ? 1 : 0 })}
+            {loading && (
+              <Box
+                ml="L"
+                display="inline-flex"
+                position="relative"
+                height="1rem"
+                width="1rem"
+              >
+                <LoadingSVG
+                  maxHeight="1rem"
+                  maxWidth="1rem"
+                  height="100%"
+                  width="100%"
+                />
+              </Box>
+            )}
           </Button>
-          <Box display="flex" alignItems="center" mt="M" px="L">
-            <Box width="0.7rem">
-              <ShieldSVG width="100%" maxHeight="5rem" maxWidth="5rem" />
-            </Box>
-            <Typography variant="normal" ml="S" fontSize="XS">
-              {t('landingPage.subscribeDescription')}
-            </Typography>
-          </Box>
         </Box>
-      </Box>
+      </Container>
     </Box>
   );
 };

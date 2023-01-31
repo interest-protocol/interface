@@ -1,13 +1,15 @@
+import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
-import { v4 } from 'uuid';
 
 import { Container } from '@/components';
+import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
 
 import { FloatingCoins } from './hero-animations';
 
 const Hero: FC = () => {
+  const { push } = useRouter();
   const t = useTranslations();
 
   return (
@@ -22,6 +24,7 @@ const Hero: FC = () => {
         display="flex"
         position="relative"
         alignItems="center"
+        justifyContent={['center', 'center', 'center', 'flex-start']}
         height={['unset', 'unset', 'unset', '100vh']}
         minHeight={['unset', 'unset', 'unset', '45rem']}
         pt={['11.813rem', '11.813rem', '11.813rem', 'XXXL']}
@@ -32,41 +35,54 @@ const Hero: FC = () => {
           position="relative"
           flexDirection="column"
           ml={['none', 'none', 'none', '8.438rem']}
-          width={['100%', '100%', '100%', '35rem']}
-          alignItems={['center', 'center', 'center', 'unset']}
-          key={v4()}
+          textAlign={['center', 'center', 'center', 'left']}
+          width={['20.313rem', '20.313rem', '100%', '40rem']}
+          alignItems={['center', 'center', 'center', 'flex-start']}
         >
           <Typography
             as="h2"
             variant="normal"
             fontWeight="900"
             fontStyle="normal"
+            fontSize="2.75rem"
             textTransform="capitalize"
-            textAlign={['center', 'center', 'center', 'unset']}
-            fontSize={['2.75rem', '2.75rem', '4rem', '4rem']}
-            lineHeight={['3.353rem', '3.353rem', '4.876rem', '4.876rem']}
+            lineHeight={['3.353rem', '3.353rem', '3.75rem', '3.75rem']}
           >
-            {t('landingPage.headerTitle')}
+            {t.rich('landingPage.headerTitle', {
+              // eslint-disable-next-line react/display-name
+              special: (chunks) => (
+                <Typography
+                  as="span"
+                  color="accent"
+                  variant="normal"
+                  fontWeight="900"
+                  fontStyle="normal"
+                  textTransform="capitalize"
+                  fontSize={['2.75rem', '2.75rem', '2.75rem', '2.75rem']}
+                  lineHeight={['3.353rem', '3.353rem', '3.75rem', '3.75rem']}
+                >
+                  {chunks}
+                </Typography>
+              ),
+            })}
           </Typography>
           <Typography
             mt="0.625rem"
             mb="1.875rem"
             variant="normal"
             lineHeight="30px"
-            textAlign={['center', 'unset']}
-            fontSize={['1rem', '1rem', '1.5rem', '1.5rem']}
+            fontSize={['1rem', '1rem', '1.125rem', '1.125rem']}
           >
             {t('landingPage.headerSubtitle')}
           </Typography>
-          <a
-            href="https://docs.interestprotocol.com/"
-            target="__blank"
-            rel="noopener noreferrer"
+          <Button
+            type="button"
+            variant="primary"
+            effect="hover"
+            onClick={() => push(Routes[RoutesEnum.DEX])}
           >
-            <Button type="button" variant="primary" effect="hover">
-              {t('landingPage.headerButton')}
-            </Button>
-          </a>
+            {t('landingPage.headerButton')}
+          </Button>
         </Box>
       </Container>
       <Box
@@ -96,31 +112,31 @@ const Hero: FC = () => {
             />
           </Box>
           <FloatingCoins
-            top="55%"
-            left="19.8%"
-            width="20%"
+            top="58%"
+            left="22.8%"
+            width="12%"
             position="absolute"
             delay={~~(Math.random() * 1500)}
           >
             <ResponsiveImage
               width="100%"
               height="100%"
-              alt="Interest Protocol BNBxSUSHI"
-              path="home/hero-BNBxSUSHI"
+              alt="Interest Protocol XAU"
+              path="home/hero-iXAU"
             />
           </FloatingCoins>
           <FloatingCoins
-            top="23%"
-            left="68%"
-            width="20%"
+            top="25%"
+            left="70.5%"
+            width="12%"
             position="absolute"
             delay={~~(Math.random() * 1500)}
           >
             <ResponsiveImage
               width="100%"
               height="100%"
-              alt="Interest Protocol DAIxUSDC"
-              path="home/hero-DAIxUSDC"
+              alt="Interest Protocol GBP"
+              path="home/hero-iGBP"
             />
           </FloatingCoins>
           <FloatingCoins
@@ -138,31 +154,31 @@ const Hero: FC = () => {
             />
           </FloatingCoins>
           <FloatingCoins
-            top="23%"
-            left="14%"
-            width="20%"
+            top="27%"
+            left="18%"
+            width="12%"
             position="absolute"
             delay={~~(Math.random() * 1500)}
           >
             <ResponsiveImage
               width="100%"
               height="100%"
-              alt="Interest Protocol ETHxUSDT"
-              path="home/hero-ETHxUSDT"
+              alt="Interest Protocol TSLA"
+              path="home/hero-iTSLA"
             />
           </FloatingCoins>
           <FloatingCoins
-            top="4%"
-            left="39%"
-            width="22%"
+            top="8%"
+            left="44%"
+            width="12%"
             position="absolute"
             delay={~~(Math.random() * 1500)}
           >
             <ResponsiveImage
               width="100%"
               height="100%"
-              path="home/hero-WBTCxETH"
-              alt="Interest Protocol WBTCxETH"
+              path="home/hero-iAAPL"
+              alt="Interest Protocol Apple"
             />
           </FloatingCoins>
           <FloatingCoins
@@ -175,8 +191,8 @@ const Hero: FC = () => {
             <ResponsiveImage
               width="100%"
               height="100%"
-              path="home/hero-vUSDC"
-              alt="Interest Protocol vUSDC"
+              path="home/hero-iBAYC"
+              alt="Interest Protocol BAYC"
             />
           </FloatingCoins>
         </Box>
@@ -184,4 +200,5 @@ const Hero: FC = () => {
     </Box>
   );
 };
+
 export default Hero;

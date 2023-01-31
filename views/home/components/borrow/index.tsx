@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
-import { v4 } from 'uuid';
 
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
@@ -23,6 +22,7 @@ const Borrow: FC = () => {
   return (
     <Box
       as="section"
+      pt={['XXL', 'XXL', 'XXL', 'L']}
       pb={['5.25rem', '5.25rem', '5.25rem', '2.75rem']}
       bg={['#F0F0F0', '#F0F0F0', '#F0F0F0', 'background']}
     >
@@ -51,7 +51,7 @@ const Borrow: FC = () => {
             fontWeight="900"
             fontStyle="normal"
             lineHeight={['2.743rem', '2.743rem', '2.743rem', '4.876rem']}
-            fontSize={['2.25rem', '2.25rem', '2.25rem', '4rem']}
+            fontSize={['2.25rem', '2.25rem', '2.25rem', '2.75rem']}
             textTransform="capitalize"
           >
             {t('landingPage.borrowSectionTitle')}
@@ -156,15 +156,17 @@ const Borrow: FC = () => {
               variant="normal"
               textAlign="center"
               textTransform="capitalize"
+              fontWeight="bold"
             >
               {t('common.collateral')}
             </Typography>
             <Box color="textSecondary" width="40%" mx="auto" mt="XL">
-              <svg viewBox="0 0 162 43" fill="none" width="100%">
+              <svg viewBox="0 0 245 56" fill="none" width="100%">
+                <path d="M0 43.6428L12 55.6428H0V43.6428Z" fill="#0055FF" />
                 <path
-                  d="M161.618 37.9092C134.465 9.28866 64.4184 -30.0096 1.45312 41.762M1.45312 41.762V33.6475M1.45312 41.762H9.66195"
-                  stroke="currentColor"
-                  strokeWidth="1.05192"
+                  d="M243 51.1428C171.5 -11.8572 88 -16.8572 4.5 51.1428"
+                  stroke="#0055FF"
+                  strokeWidth="4"
                 />
               </svg>
             </Box>
@@ -175,6 +177,7 @@ const Borrow: FC = () => {
                   variant="normal"
                   mb="XL"
                   textTransform="capitalize"
+                  fontWeight="bold"
                 >
                   {t('common.market')}
                 </Typography>
@@ -252,17 +255,19 @@ const Borrow: FC = () => {
                   textAlign="center"
                   variant="normal"
                   textTransform="capitalize"
+                  fontWeight="bold"
                 >
                   {t('common.borrower')}
                 </Typography>
               </Box>
             </Box>
             <Box color="textSecondary" width="40%" mx="auto">
-              <svg viewBox="0 0 162 43" fill="none" width="100%">
+              <svg viewBox="0 0 245 56" fill="none" width="100%">
+                <path d="M245 12L233 0H245V12Z" fill="#0055FF" />
                 <path
-                  d="M0.836679 4.7276C27.9896 33.3482 98.0367 72.6464 161.002 0.87484M161.002 0.87484L161.002 8.98934M161.002 0.87484L152.793 0.874839"
-                  stroke="currentColor"
-                  strokeWidth="1.05192"
+                  d="M2 4.5C73.5 67.5 157 72.5 240.5 4.5"
+                  stroke="#0055FF"
+                  strokeWidth="4"
                 />
               </svg>
             </Box>
@@ -272,88 +277,97 @@ const Borrow: FC = () => {
               color="textSecondary"
               justifyContent="space-evenly"
             >
-              <Box width="10%">
-                <svg viewBox="0 0 53 224" fill="none" width="100%">
+              <Box width="25%">
+                <svg viewBox="0 0 136 247" fill="none" width="100%">
                   <path
-                    d="M25.3606 0.264832C-3.15053 58.9641 -17.8796 122.76 49.0531 222.972M49.0531 222.972L39.1602 220.321M49.0531 222.972L51.7348 212.964"
-                    stroke="black"
-                    strokeWidth="1.05192"
+                    d="M123.851 231.902L130.907 216.467L135.096 227.713L123.851 231.902Z"
+                    fill="#0055FF"
+                  />
+                  <path
+                    d="M46.0508 1.57079C11.9741 90.5654 36.4378 170.558 129.309 225.067"
+                    stroke="#0055FF"
+                    strokeWidth="4"
                   />
                 </svg>
               </Box>
-              <Box width="40%" display="flex" alignItems="center">
-                <FloatingCoins
-                  width="40%"
-                  ml={['NONE', 'XXL']}
-                  delay={~~(Math.random() * 1500)}
-                  key={v4()}
+              <Box width="40%" mt="10%">
+                <Box display="flex" alignItems="center" justifyContent="center">
+                  <FloatingCoins
+                    width="4.5rem"
+                    delay={~~(Math.random() * 1500)}
+                  >
+                    <ResponsiveImage
+                      width="100%"
+                      alt="Borrow Dinero"
+                      path="home/dinero-DNR"
+                    />
+                  </FloatingCoins>
+                  <Typography variant="normal" ml="L" fontWeight="bold">
+                    Dinero
+                  </Typography>
+                </Box>
+                <Box mx="auto" position="relative" height="100%" mt="25%">
+                  <FloatingCoins
+                    left="30%"
+                    width="45%"
+                    position="absolute"
+                    delay={~~(Math.random() * 1500)}
+                  >
+                    <ResponsiveImage
+                      width="100%"
+                      alt="Interest Token"
+                      path="home/dinero-INT-top"
+                    />
+                  </FloatingCoins>
+                  <FloatingCoins
+                    top="40%"
+                    width="45%"
+                    position="absolute"
+                    delay={~~(Math.random() * 1500)}
+                  >
+                    <ResponsiveImage
+                      width="100%"
+                      alt="Interest Token"
+                      path="home/dinero-INT-left"
+                    />
+                  </FloatingCoins>
+                  <FloatingCoins
+                    top="40%"
+                    left="60%"
+                    width="45%"
+                    position="absolute"
+                    delay={~~(Math.random() * 1500)}
+                  >
+                    <ResponsiveImage
+                      width="100%"
+                      alt="Interest Token"
+                      path="home/dinero-INT-right"
+                    />
+                  </FloatingCoins>
+                </Box>
+                <Typography
+                  variant="normal"
+                  textAlign="center"
+                  textTransform="capitalize"
+                  fontWeight="bold"
                 >
-                  <ResponsiveImage
-                    width="100%"
-                    alt="Borrow Dinero"
-                    path="home/dinero-DNR"
-                  />
-                </FloatingCoins>
-                <Typography variant="normal" ml="L">
-                  Dinero
+                  {t('landingPage.borrowSectionINTTokensDescription')}
                 </Typography>
               </Box>
-              <Box width="10%">
-                <svg viewBox="0 0 54 224" fill="none" widths="100%">
+              <Box width="25%">
+                <svg viewBox="0 0 136 247" fill="none" width="100%">
                   <path
-                    d="M0.953139 222.878C43.7044 173.575 74.4657 115.776 35.7946 1.64096M35.7946 1.64096L44.6624 6.76537M35.7946 1.64096L30.6106 10.6119"
-                    stroke="black"
-                    strokeWidth="1.05192"
+                    d="M11.2454 231.902L4.18945 216.468L0.000366569 227.713L11.2454 231.902Z"
+                    fill="#0055FF"
+                  />
+                  <path
+                    d="M89.0459 1.57091C123.123 90.5655 98.6589 170.558 5.7878 225.067"
+                    stroke="#0055FF"
+                    strokeWidth="4"
                   />
                 </svg>
               </Box>
             </Box>
-            <Box mx="auto" position="relative" width="40%" height="40%">
-              <FloatingCoins
-                left="30%"
-                width="45%"
-                position="absolute"
-                delay={~~(Math.random() * 1500)}
-              >
-                <ResponsiveImage
-                  width="100%"
-                  alt="Interest Token"
-                  path="home/dinero-INT-top"
-                />
-              </FloatingCoins>
-              <FloatingCoins
-                top="40%"
-                width="45%"
-                position="absolute"
-                delay={~~(Math.random() * 1500)}
-              >
-                <ResponsiveImage
-                  width="100%"
-                  alt="Interest Token"
-                  path="home/dinero-INT-left"
-                />
-              </FloatingCoins>
-              <FloatingCoins
-                top="40%"
-                left="60%"
-                width="45%"
-                position="absolute"
-                delay={~~(Math.random() * 1500)}
-              >
-                <ResponsiveImage
-                  width="100%"
-                  alt="Interest Token"
-                  path="home/dinero-INT-right"
-                />
-              </FloatingCoins>
-            </Box>
-            <Typography
-              variant="normal"
-              textAlign="center"
-              textTransform="capitalize"
-            >
-              {t('landingPage.borrowSectionINTTokensDescription')}
-            </Typography>
           </Box>
         </Box>
       </Container>

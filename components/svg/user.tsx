@@ -3,11 +3,7 @@ import { FC } from 'react';
 import { SVGProps } from './svg.types';
 
 const User: FC<SVGProps> = ({ maxHeight, maxWidth, ...props }) => (
-  <svg
-    style={{ maxWidth: maxWidth, maxHeight: maxHeight }}
-    viewBox="0 0 473.931 473.931"
-    {...props}
-  >
+  <svg style={{ maxWidth, maxHeight }} viewBox="0 0 473.931 473.931" {...props}>
     <circle fill="#A3D5E0" cx="236.966" cy="236.966" r="236.966" />
     <path
       fill="#CEA272"
