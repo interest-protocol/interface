@@ -6,8 +6,9 @@ import { v4 } from 'uuid';
 
 import { DEX_TOKENS_DATA, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
+import { FixedPointMath } from '@/sdk';
 import { LineLoaderSVG, TimesSVG } from '@/svg';
-import { capitalize } from '@/utils';
+import { capitalize, formatMoney } from '@/utils';
 
 import {
   SwapCurrencyDropdownProps,
@@ -22,12 +23,12 @@ const renderData = (
 ): ReadonlyArray<ReactNode> => {
   const DefaultTokenSVG = TOKENS_SVG_MAP.default;
 
-  return tokens.map(({ type, symbol, decimals }) => {
+  return tokens.map(({ type, symbol, decimals, totalBalance }) => {
     const SVG = TOKENS_SVG_MAP[type] ?? DefaultTokenSVG;
 
     const isDisabled = type == currentToken;
     const handleSelectCurrency = () =>
-      isDisabled ? {} : onSelectCurrency({ type, symbol, decimals });
+      !isDisabled && onSelectCurrency({ type, symbol, decimals });
 
     return (
       <Box
@@ -37,14 +38,14 @@ const renderData = (
         key={v4()}
         color="text"
         display="flex"
-        cursor={isDisabled ? 'not-allowed' : 'pointer'}
-        borderRadius="2.5rem"
         border="1px solid"
         alignItems="center"
-        bg={isDisabled ? 'disabled' : 'bottomBackground'}
+        borderRadius="2.5rem"
         borderColor="transparent"
         justifyContent="space-between"
         onClick={handleSelectCurrency}
+        cursor={isDisabled ? 'not-allowed' : 'pointer'}
+        bg={isDisabled ? 'textSoft' : 'bottomBackground'}
         hover={{
           borderColor: isDisabled ? 'transparent' : 'accent',
         }}
@@ -57,6 +58,9 @@ const renderData = (
             {symbol?.toUpperCase()}
           </Typography>
         </Box>
+        <Typography variant="normal">
+          {formatMoney(FixedPointMath.toNumber(totalBalance, decimals))}
+        </Typography>
       </Box>
     );
   });
@@ -64,6 +68,7 @@ const renderData = (
 
 const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
   Input,
+  tokens,
   control,
   isSearching,
   toggleModal,
@@ -77,12 +82,21 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
 
   const [debouncedSearch] = useDebounce(search, 800);
 
+  const allTokens: ReadonlyArray<SwapTokenModalMetadata> = useMemo(
+    () =>
+      DEX_TOKENS_DATA.map((item) => ({
+        ...item,
+        totalBalance:
+          tokens[item.type]?.totalBalance ?? FixedPointMath.toBigNumber(0),
+      })),
+    [tokens]
+  );
+
   const filteredTokens = useMemo(
     () => [
       ...(searchedToken ? [searchedToken] : []),
-      ...(DEX_TOKENS_DATA.filter(
-        ({ name, type, symbol }) =>
-          name.toLowerCase().startsWith(debouncedSearch.toLowerCase()) ||
+      ...(allTokens.filter(
+        ({ type, symbol }) =>
           symbol.toLowerCase().startsWith(debouncedSearch.toLowerCase()) ||
           type == debouncedSearch
       ) as ReadonlyArray<SwapTokenModalMetadata>),
@@ -102,16 +116,18 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
       <Box display="flex" justifyContent="flex-end">
         <Box display="flex" textAlign="right" justifyContent="flex-end" mb="M">
           <Button
-            px="L"
-            width="3rem"
-            height="3rem"
+            p="NONE"
+            width="2.5rem"
+            height="2.5rem"
             variant="primary"
             onClick={toggleModal}
-            hover={{
-              bg: 'accentActive',
-            }}
           >
-            <TimesSVG width="1rem" maxHeight="1rem" maxWidth="1rem" />
+            <TimesSVG
+              width="1.4rem"
+              strokeWidth={3}
+              maxWidth="1.4rem"
+              maxHeight="1.4rem"
+            />
           </Button>
         </Box>
       </Box>
@@ -140,7 +156,7 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
             gridGap="0.3rem"
             maxHeight="20rem"
           >
-            {renderData(DEX_TOKENS_DATA, onSelectCurrency, currentToken)}
+            {renderData(allTokens, onSelectCurrency, currentToken)}
           </Box>
         )}
       </Box>

@@ -26,13 +26,13 @@ const InputBalance: FC<InputBalanceProps> = ({
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="flex-end">
+    <Box display="flex" alignItems="flex-end" flexDirection="column">
       <Box
         py="S"
         px="M"
         mb="-1rem"
-        bg="accentSecondary"
-        borderRadius="M"
+        borderRadius="L"
+        bg="accentActive"
         position="relative"
         color={dark ? 'text' : 'textInverted'}
       >
@@ -58,31 +58,36 @@ const InputBalance: FC<InputBalanceProps> = ({
             ),
         })}
         shieldProps={{
-          px: 'S',
-          py: 'L',
+          p: 'L',
           my: 'M',
           width: '100%',
           display: 'grid',
-          bg: 'background',
-          borderRadius: 'M',
           overflow: 'visible',
           border: '1px solid',
+          borderRadius: '5rem',
           borderColor: 'transparent',
           gridTemplateColumns: '6.9rem 1fr auto',
-          hover: {
-            borderColor: 'accentBackground',
+          bg: disabled
+            ? dark
+              ? 'background'
+              : 'bottomBackground'
+            : dark
+            ? 'bottomBackground'
+            : 'background',
+          hover: !disabled && {
+            borderColor: 'accentActive',
           },
         }}
         Prefix={currencySelector}
         Suffix={
           !!max && (
             <Button
-              px="M"
+              p="M"
               fontSize="S"
-              minWidth="2.7rem"
               height="2.7rem"
+              minWidth="2.7rem"
               variant="secondary"
-              bg="accentSecondary"
+              bg="accentActive"
               color={dark ? 'text' : 'textInverted'}
               hover={{ bg: 'accent' }}
               active={{ bg: 'accentActive' }}

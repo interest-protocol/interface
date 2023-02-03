@@ -1,5 +1,5 @@
-import { useWallet } from '@mysten/wallet-kit';
-import { createContext, FC, useEffect, useMemo, useState } from 'react';
+import { useWalletKit } from '@mysten/wallet-kit';
+import { createContext, FC, useMemo } from 'react';
 import useSWR from 'swr';
 
 import { makeSWRKey, provider } from '@/utils';
@@ -17,6 +17,7 @@ const CONTEXT_DE_DEFAULT_STATE = {
   connected: false,
   error: false,
   mutate: defaultMutate,
+  isFetchingCoinBalances: false,
 };
 
 export const Web3ManagerContext = createContext<Web3ManagerState>(
@@ -24,29 +25,18 @@ export const Web3ManagerContext = createContext<Web3ManagerState>(
 );
 
 const Web3Manager: FC<Web3ManagerProps> = ({ children }) => {
-  const { getAccounts, connected, connecting, isError } = useWallet();
+  const { isError, currentAccount, isConnected } = useWalletKit();
 
-  const [account, setAccount] = useState<null | string>(null);
-
-  useEffect(() => {
-    (async () => {
-      if (connected) {
-        const accounts = await getAccounts();
-        setAccount(accounts[0]);
-      } else {
-        setAccount(null);
-      }
-    })();
-  }, [connected, connecting, isError]);
-
-  const { data, error, mutate } = useSWR(
-    makeSWRKey([account], 'getCoinBalancesOwnedByAddress'),
-    async () =>
-      account ? provider.getCoinBalancesOwnedByAddress(account) : [],
+  const { data, error, mutate, isLoading } = useSWR(
+    makeSWRKey([currentAccount], provider.getAllCoins.name),
+    async () => {
+      if (!currentAccount) return;
+      return await provider.getAllCoins(currentAccount!);
+    },
     {
       revalidateOnFocus: false,
       revalidateOnMount: true,
-      refreshWhenHidden: true,
+      refreshWhenHidden: false,
       refreshInterval: 5000,
     }
   );
@@ -56,12 +46,13 @@ const Web3Manager: FC<Web3ManagerProps> = ({ children }) => {
   return (
     <Web3ManagerContext.Provider
       value={{
-        account,
+        account: currentAccount,
         error: isError || !!error,
-        connected,
+        connected: isConnected,
         coins,
         coinsMap,
         mutate,
+        isFetchingCoinBalances: isLoading,
       }}
     >
       {children}

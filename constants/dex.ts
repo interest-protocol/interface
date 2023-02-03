@@ -4,11 +4,17 @@ import { TOKEN_SYMBOL } from '@/sdk';
 
 import { COIN_TYPE } from './coins';
 
-export const DEX_PACKAGE_ID = '0x3c84fa90931ca85c49211b2f48cd0ff2e2362af6';
+export const DEX_PACKAGE_ID = '0x913e6be0ef93fb9a498b77ff7312f9428bb342de';
 
-export const POOLS_OBJECT_ID = '0x72c7d297a6208dad992eae278494d90df63bbec4';
+export const VOLATILE_POOLS_OBJECT_ID =
+  '0x5722ba76a75bacb0b065c045c3c7df157c6fc0a7';
 
 export const DEX_BASE_TOKEN_ARRAY = [COIN_TYPE[Network.DEVNET].ETH];
+
+export const DEX_STORAGE_VOLATILE =
+  '0x249ab4c4e64befa787bdf28791cf44aeb67d784c';
+
+export const DEX_STORAGE_STABLE = '0xf25a6c6c5d9be33494d622d35fa10cd4e8db47c0';
 
 export const DEX_TOKENS_DATA = [
   {
@@ -52,40 +58,5 @@ export const DEX_TOKENS_DATA = [
     decimals: 0,
     type: COIN_TYPE[Network.DEVNET].USDC,
     name: 'USD Coin',
-  },
-];
-
-const getSUIDevNetData = (token: TOKEN_SYMBOL) =>
-  DEX_TOKENS_DATA.find(({ symbol }) => symbol == token) ?? {
-    symbol: TOKEN_SYMBOL.SUI,
-    decimals: 9,
-    type: COIN_TYPE[Network.DEVNET].SUI,
-    name: 'Sui',
-  };
-
-export const RECOMMENDED_POOLS = [
-  {
-    token0: getSUIDevNetData(TOKEN_SYMBOL.BNB),
-    token1: getSUIDevNetData(TOKEN_SYMBOL.ETH),
-  },
-  {
-    token0: getSUIDevNetData(TOKEN_SYMBOL.BTC),
-    token1: getSUIDevNetData(TOKEN_SYMBOL.ETH),
-  },
-  {
-    token0: getSUIDevNetData(TOKEN_SYMBOL.DAI),
-    token1: getSUIDevNetData(TOKEN_SYMBOL.ETH),
-  },
-  {
-    token0: getSUIDevNetData(TOKEN_SYMBOL.ETH),
-    token1: getSUIDevNetData(TOKEN_SYMBOL.USDT),
-  },
-  {
-    token0: getSUIDevNetData(TOKEN_SYMBOL.ETH),
-    token1: getSUIDevNetData(TOKEN_SYMBOL.USDC),
-  },
-  {
-    token0: getSUIDevNetData(TOKEN_SYMBOL.ETH),
-    token1: getSUIDevNetData(TOKEN_SYMBOL.SUI),
   },
 ];

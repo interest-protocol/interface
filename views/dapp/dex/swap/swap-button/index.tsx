@@ -1,43 +1,47 @@
-import { useWallet } from '@mysten/wallet-kit';
+import { useWalletKit } from '@mysten/wallet-kit';
+import BigNumber from 'bignumber.js';
 import { useTranslations } from 'next-intl';
-import { isEmpty, pathOr, prop } from 'ramda';
+import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { DEX_PACKAGE_ID } from '@/constants';
+import {
+  DEX_PACKAGE_ID,
+  DEX_STORAGE_STABLE,
+  DEX_STORAGE_VOLATILE,
+} from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { LoadingSVG } from '@/svg';
-import {
-  capitalize,
-  getTokenTypeFromCoinType,
-  provider,
-  showToast,
-  showTXSuccessToast,
-} from '@/utils';
+import { capitalize, showToast, showTXSuccessToast } from '@/utils';
+import { getCoinIds } from '@/utils';
 import { WalletGuardButton } from '@/views/dapp/components';
 
-import { useGetPools } from '../swap.hooks';
+import { useGetVolatilePools } from '../swap.hooks';
 import { SwapButtonProps } from '../swap.types';
-import { findMarket, getCoinIds } from '../swap.utils';
-import SwapManager from './swap-manager';
+import { findMarket, getAmountMinusSlippage } from '../swap.utils';
 
 const SwapButton: FC<SwapButtonProps> = ({
   mutate,
   control,
   coinsMap,
+  slippage,
+  disabled,
   getValues,
   tokenInType,
   tokenOutType,
 }) => {
-  const { signAndExecuteTransaction } = useWallet();
-  const { data } = useGetPools();
   const t = useTranslations();
+  const { data } = useGetVolatilePools();
   const [loading, setLoading] = useState(false);
+  const { signAndExecuteTransaction } = useWalletKit();
 
   const tokenInValue = useWatch({ control, name: 'tokenIn.value' });
 
-  const disabled = !+tokenInValue || !data[tokenInType]?.[tokenOutType];
+  const isDisabled =
+    disabled ||
+    !+tokenInValue ||
+    !findMarket(data, tokenInType, tokenOutType).length;
 
   const handleSwap = async () => {
     try {
@@ -56,30 +60,22 @@ const SwapButton: FC<SwapButtonProps> = ({
 
       if (!path.length) throw new Error(t('dexSwap.error.noMarket'));
 
+      const firstSwapObject = path[0];
+
+      const amount = FixedPointMath.toBigNumber(
+        tokenIn.value,
+        tokenIn.decimals
+      ).decimalPlaces(0, BigNumber.ROUND_DOWN);
+
+      const amountOut = FixedPointMath.toBigNumber(
+        tokenOut.value,
+        tokenOut.decimals
+      ).decimalPlaces(0, BigNumber.ROUND_DOWN);
+
+      const minAmountOut = getAmountMinusSlippage(amountOut, slippage);
+
       // no hop swap
-      if (path.length === 1 && path[0].pools.length === 1) {
-        const sortedTypeArray = [tokenIn.type, tokenOut.type].sort();
-
-        const tokenVectorX =
-          sortedTypeArray[0] === tokenIn.type
-            ? getCoinIds(coinsMap, tokenIn.type)
-            : [];
-
-        const tokenVectorY =
-          sortedTypeArray[0] === tokenIn.type
-            ? []
-            : getCoinIds(coinsMap, tokenIn.type);
-
-        const poolId = pathOr(
-          '',
-          [tokenIn.type, tokenOut.type, 'objectId'],
-          data
-        );
-
-        const pool = await provider.getObject(poolId);
-
-        if (isEmpty(pool)) throw new Error(t('dexSwap.error.noPool'));
-
+      if (!firstSwapObject.baseTokens.length) {
         const tx = await signAndExecuteTransaction({
           kind: 'moveCall',
           data: {
@@ -88,22 +84,45 @@ const SwapButton: FC<SwapButtonProps> = ({
             module: 'interface',
             packageObjectId: DEX_PACKAGE_ID,
             typeArguments: [
-              getTokenTypeFromCoinType(sortedTypeArray[0]),
-              getTokenTypeFromCoinType(sortedTypeArray[1]),
+              firstSwapObject.tokenInType,
+              firstSwapObject.tokenOutType,
             ],
             arguments: [
-              pathOr(
-                '',
-                ['details', 'data', 'fields', 'value', 'fields', 'id'],
-                pool
-              ),
-              tokenVectorX,
-              tokenVectorY,
-              FixedPointMath.toBigNumber(
-                tokenIn.value,
-                tokenIn.decimals
-              ).toString(),
+              DEX_STORAGE_VOLATILE,
+              DEX_STORAGE_STABLE,
+              getCoinIds(coinsMap, firstSwapObject.tokenInType),
+              [],
+              amount.toString(),
               '0',
+              minAmountOut.toString(),
+            ],
+          },
+        });
+        return await showTXSuccessToast(tx);
+      }
+
+      // One Hop Swap
+      if (firstSwapObject?.baseTokens.length === 1) {
+        const tx = await signAndExecuteTransaction({
+          kind: 'moveCall',
+          data: {
+            function: 'one_hop_swap',
+            gasBudget: 9000,
+            module: 'interface',
+            packageObjectId: DEX_PACKAGE_ID,
+            typeArguments: [
+              firstSwapObject.tokenInType,
+              firstSwapObject.tokenOutType,
+              firstSwapObject.baseTokens[0],
+            ],
+            arguments: [
+              DEX_STORAGE_VOLATILE,
+              DEX_STORAGE_STABLE,
+              getCoinIds(coinsMap, firstSwapObject.tokenInType),
+              [],
+              amount.toString(),
+              '0',
+              minAmountOut.toString(),
             ],
           },
         });
@@ -127,40 +146,33 @@ const SwapButton: FC<SwapButtonProps> = ({
     });
 
   return (
-    <>
-      <SwapManager
-        poolsMap={data}
-        tokenInType={tokenInType}
-        tokenOutType={tokenOutType}
-      />
-      <WalletGuardButton>
-        <Button
-          mt="L"
-          width="100%"
-          variant="primary"
-          onClick={swap}
-          disabled={loading || disabled}
-          hover={{
-            bg: loading || disabled ? 'disabled' : 'accentAlternativeActive',
-          }}
-          cursor={loading ? 'progress' : disabled ? 'not-allowed' : 'pointer'}
-          bg={loading || disabled ? 'disabled' : 'accentAlternative'}
-        >
-          {loading ? (
-            <Box as="span" display="flex" justifyContent="center">
-              <Box as="span" display="inline-block" width="1rem">
-                <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
-              </Box>
-              <Typography as="span" variant="normal" ml="M" fontSize="S">
-                {capitalize(t('common.loading'))}
-              </Typography>
+    <WalletGuardButton>
+      <Button
+        mt="L"
+        width="100%"
+        variant="primary"
+        onClick={swap}
+        disabled={loading || isDisabled}
+        hover={{
+          bg: loading || isDisabled ? 'disabled' : 'accentAlternativeActive',
+        }}
+        cursor={loading ? 'progress' : isDisabled ? 'not-allowed' : 'pointer'}
+        bg={loading || isDisabled ? 'disabled' : 'accentAlternative'}
+      >
+        {loading ? (
+          <Box as="span" display="flex" justifyContent="center">
+            <Box as="span" display="inline-block" width="1rem">
+              <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
             </Box>
-          ) : (
-            t('dexSwap.buttonText')
-          )}
-        </Button>
-      </WalletGuardButton>
-    </>
+            <Typography as="span" variant="normal" ml="M" fontSize="S">
+              {capitalize(t('common.loading'))}
+            </Typography>
+          </Box>
+        ) : (
+          t('dexSwap.buttonText')
+        )}
+      </Button>
+    </WalletGuardButton>
   );
 };
 
