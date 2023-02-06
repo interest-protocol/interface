@@ -1,7 +1,7 @@
 import { Network } from '@mysten/sui.js';
 import { BigNumber } from 'bignumber.js';
 import { pathOr } from 'ramda';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
 import useSWR from 'swr';
 import { useDebounce } from 'use-debounce';

@@ -1,6 +1,6 @@
 import { SuiObjectInfo } from '@mysten/sui.js';
 import { PaginatedCoins } from '@mysten/sui.js/src/types/coin';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import {
   Control,
   UseFormGetValues,
