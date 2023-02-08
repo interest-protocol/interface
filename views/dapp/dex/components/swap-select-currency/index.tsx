@@ -12,8 +12,9 @@ import SwapSearchToken from './swap-search-token';
 import SwapTokensModal from './swap-tokens-modal';
 
 const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
-  symbol,
   type,
+  tokens,
+  symbol,
   disabled,
   fromRight,
   isModalOpen,
@@ -43,15 +44,20 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
         borderRadius="2.5rem"
         cursor="pointer"
         alignItems="center"
-        bg="accentSecondary"
+        bg="accentActive"
         transition="background-color 1s"
         hover={{ bg: 'accent' }}
         justifyContent="space-between"
         onClick={disabled ? undefined : toggleOpenModal}
         filter={disabled ? 'grayscale(1)' : 'unset'}
       >
-        <Box my="M" display="flex" alignItems="center">
-          <Box as="span" display="inline-block" minWidth="1.3rem" color="text">
+        <Box
+          my="M"
+          display="flex"
+          alignItems="center"
+          color={dark ? 'text' : 'textInverted'}
+        >
+          <Box as="span" minWidth="1.3rem" display="inline-block">
             <SVG
               width="100%"
               maxHeight="1.3rem"
@@ -63,7 +69,6 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
             mx="M"
             as="span"
             variant="normal"
-            color={dark ? 'text' : 'textInverted'}
             active={{ color: 'accentActive' }}
           >
             {symbol.length > 4
@@ -75,19 +80,22 @@ const SwapSelectCurrency: FC<SwapSelectCurrencyProps> = ({
           <ArrowSVG width="100%" maxHeight="0.5rem" maxWidth="0.5rem" />
         </Box>
       </Box>
-      <SwapTokensModal
-        onSelectCurrency={onSelectCurrency}
-        currentToken={currentToken}
-        fromRight={fromRight}
-        control={control}
-        isSearching={isSearching}
-        isModalOpen={isModalOpen}
-        toggleModal={toggleOpenModal}
-        setIsSearching={setIsSearching}
-        Input={
-          <SwapSearchToken register={register} isSearching={isSearching} />
-        }
-      />
+      {isModalOpen && (
+        <SwapTokensModal
+          onSelectCurrency={onSelectCurrency}
+          currentToken={currentToken}
+          fromRight={fromRight}
+          control={control}
+          tokens={tokens}
+          isSearching={isSearching}
+          isModalOpen={isModalOpen}
+          toggleModal={toggleOpenModal}
+          setIsSearching={setIsSearching}
+          Input={
+            <SwapSearchToken register={register} isSearching={isSearching} />
+          }
+        />
+      )}
     </>
   );
 };
