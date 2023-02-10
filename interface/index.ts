@@ -63,3 +63,5 @@ export interface HandlerData {
 }
 
 export type NextPageWithAddress = NextPage<{ address: `0x${string}` }>;
+
+export type Address = `0x${string}`;

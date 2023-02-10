@@ -24,8 +24,8 @@ export interface useGetDexAllowancesAndBalancesReturn {
 
 export const useGetDexAllowancesAndBalances = (
   chainId: number,
-  tokenA: string,
-  tokenB: string,
+  tokenA: `0x${string}`,
+  tokenB: `0x${string}`,
   page: GAPage
 ): useGetDexAllowancesAndBalancesReturn => {
   const filteredTokens = [tokenA, tokenB].filter((x) => !isZeroAddress(x));

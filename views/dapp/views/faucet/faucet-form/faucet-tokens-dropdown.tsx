@@ -5,13 +5,14 @@ import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Dropdown, Typography } from '@/elements';
 import { IDropdownData } from '@/elements/dropdown/dropdown.types';
 import { useChainId } from '@/hooks';
+import { Address } from '@/interface';
 import { ArrowSVG } from '@/svg';
 
 import { FaucetCurrencyDropdownProps, IToken } from '../faucet.types';
 
 const renderData = (
   data: ReadonlyArray<IToken>,
-  onSelectCurrency: (address: string) => void,
+  onSelectCurrency: (address: Address) => void,
   chainId: number
 ): ReadonlyArray<IDropdownData> =>
   data.map(({ symbol, address }) => {

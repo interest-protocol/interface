@@ -13,7 +13,10 @@ export const replaceWrappedNativeTokenWithNativeTokenSymbol = cond<
   [T, identity],
 ]);
 
-export const handleZeroWrappedToken = (chainId: number, token: string) => {
+export const handleZeroWrappedToken = (
+  chainId: number,
+  token: `0x${string}`
+) => {
   const wrappedNativeTokenAddress = WRAPPED_NATIVE_TOKEN[chainId]
     ? WRAPPED_NATIVE_TOKEN[chainId].address
     : WRAPPED_NATIVE_TOKEN[CHAIN_ID.BNB_TEST_NET].address;

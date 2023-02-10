@@ -5,7 +5,7 @@ import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
 import { SVGProps } from '@/components/svg/svg.types';
 import { SyntheticOracleType } from '@/constants';
-import { TTranslatedMessage } from '@/interface';
+import { Address, TTranslatedMessage } from '@/interface';
 import { FixedPointMath } from '@/sdk';
 
 import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestViewDineroV2Abi';
@@ -79,7 +79,7 @@ export interface SyntheticMarketData {
   collateralAddress: `0x${string}`;
   chainId: number;
   loading: boolean;
-  account: string;
+  account: Address;
   collateralName: string;
   collateralSymbol: string;
   dataFeedId: string;

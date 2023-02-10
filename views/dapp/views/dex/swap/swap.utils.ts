@@ -1,10 +1,11 @@
+import { Address } from '@/interface';
 import { handleZeroWrappedToken, isZeroAddress } from '@/utils';
 
 export const handleRoute = (
   chainId: number,
-  tokenInAddress: string,
-  tokenOutAddress: string,
-  base: string
+  tokenInAddress: Address,
+  tokenOutAddress: Address,
+  base: Address
 ) =>
   isZeroAddress(base)
     ? [

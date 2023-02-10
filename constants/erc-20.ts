@@ -129,8 +129,8 @@ export const TOKENS_SVG_MAP = {
 
 export const getFarmsSVGByToken = (
   chainId: number,
-  token0: string,
-  token1: string
+  token0: `0x${string}`,
+  token1: `0x${string}`
 ): ReadonlyArray<{
   SVG: FC<SVGProps>;
   highZIndex: boolean;

@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 import { always, curryN, equals, not, tryCatch } from 'ramda';
 
 import { WRAPPED_NATIVE_TOKEN } from '@/constants';
+import { Address } from '@/interface';
 import { CHAIN_ID, ZERO_ADDRESS } from '@/sdk';
 
 export const isValidAccount = (x: string): boolean =>
@@ -43,7 +44,7 @@ export const processWrappedNativeTokenAddress = (
 
 export const replaceWrappedNativeTokenAddressWithZero = (
   chainId: number,
-  address: string
+  address: Address
 ) => {
   const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId]
     ? WRAPPED_NATIVE_TOKEN[chainId]

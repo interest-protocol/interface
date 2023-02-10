@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 
 import { ApproveButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
+import { Address } from '@/interface';
 import { LoadingSVG } from '@/svg';
 import {
   capitalize,
@@ -134,7 +135,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
     if (
       !data ||
       !data.chainId ||
-      isZeroAddress(data.account) ||
+      isZeroAddress(data.account as Address) ||
       data.collateralAllowance.isZero()
     )
       return;

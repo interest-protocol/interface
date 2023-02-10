@@ -5,6 +5,7 @@ import { useDebounce } from 'use-debounce';
 
 import { getAmountsOut } from '@/api';
 import { SWAP_BASES, WRAPPED_NATIVE_TOKEN } from '@/constants';
+import { Address } from '@/interface';
 import { CHAIN_ID, FixedPointMath } from '@/sdk';
 import {
   getWETHAddress,
@@ -103,10 +104,10 @@ const SwapManager: FC<SwapManagerProps> = ({
     )
       .then((data) => {
         setAmountOutError(null);
-        if (isZeroAddress(data.base) && data.amountOut.isZero()) {
+        if (isZeroAddress(data.base as Address) && data.amountOut.isZero()) {
           setValue('tokenIn.value', '0');
           setHasNoMarket(true);
-          setSwapBase(data.base);
+          setSwapBase(data.base as Address);
           AMOUNT_OUT_CACHE.set(key, {
             amountOut: '0',
             timestamp: Date.now(),
@@ -117,7 +118,7 @@ const SwapManager: FC<SwapManagerProps> = ({
         const value = numberToString(
           FixedPointMath.toNumber(data.amountOut, tokenIn.decimals, 0, 12)
         );
-        setSwapBase(data.base);
+        setSwapBase(data.base as Address);
         setValue('tokenIn.value', value);
         setHasNoMarket(false);
         AMOUNT_OUT_CACHE.set(key, {
@@ -195,10 +196,10 @@ const SwapManager: FC<SwapManagerProps> = ({
     )
       .then((data) => {
         setAmountOutError(null);
-        if (isZeroAddress(data.base) && data.amountOut.isZero()) {
+        if (isZeroAddress(data.base as Address) && data.amountOut.isZero()) {
           setValue('tokenOut.value', '0');
           setHasNoMarket(true);
-          setSwapBase(data.base);
+          setSwapBase(data.base as Address);
           AMOUNT_OUT_CACHE.set(key, {
             amountOut: '0',
             timestamp: Date.now(),
@@ -209,7 +210,7 @@ const SwapManager: FC<SwapManagerProps> = ({
         const value = numberToString(
           FixedPointMath.toNumber(data.amountOut, tokenOut.decimals, 0, 12)
         );
-        setSwapBase(data.base);
+        setSwapBase(data.base as Address);
         setHasNoMarket(false);
         setValue('tokenOut.value', value);
         AMOUNT_OUT_CACHE.set(key, {
