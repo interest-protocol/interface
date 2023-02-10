@@ -108,7 +108,9 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
       error: prop('message'),
     });
 
-  const { writeAsync: addLiquidity } = useAddLiquidity({
+  const {
+    useContractWriteReturn: { writeAsync: addLiquidity },
+  } = useAddLiquidity({
     chainId,
     account,
     isStable,
