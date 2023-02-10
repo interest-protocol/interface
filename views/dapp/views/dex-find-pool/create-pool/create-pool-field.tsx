@@ -36,11 +36,11 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   const t = useTranslations();
   const { chainId } = useIdAccount();
   const { address, symbol, decimals } = getValues()[name];
-  const { writeAsync: addAllowance } = useApprove(
-    address,
-    getInterestDexRouterAddress(chainId),
-    { enabled: needAllowance }
-  );
+  const {
+    useContractWriteReturn: { writeAsync: addAllowance },
+  } = useApprove(address, getInterestDexRouterAddress(chainId), {
+    enabled: needAllowance,
+  });
 
   const SVG =
     TOKENS_SVG_MAP[chainId][address] ?? TOKENS_SVG_MAP[chainId].default;

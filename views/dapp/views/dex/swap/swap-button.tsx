@@ -80,7 +80,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     useState<string | null>(null);
 
   const {
-    useWriteReturn: { writeAsync: approve },
+    useContractWriteReturn: { writeAsync: approve },
   } = useApprove(tokenInAddress, getInterestDexRouterAddress(chainId), {
     enabled: needsApproval,
   });
