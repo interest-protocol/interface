@@ -36,7 +36,7 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
     {
       dataFeedId: '',
       oracleType: SyntheticOracleType.ChainLink,
-      collateralAddress: '',
+      collateralAddress: '' as `0x${string}`,
     },
     [chainId.toString(), ethers.utils.getAddress(address)],
     SYNTHETICS_MARKET_PANEL_CALL_MAP

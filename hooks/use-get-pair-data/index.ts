@@ -1,3 +1,5 @@
+import { Abi, Narrow } from 'abitype';
+
 import { DEFAULT_ACCOUNT } from '@/constants';
 import { useIdAccount } from '@/hooks/use-id-account';
 import InterestViewDexABI from '@/sdk/abi/interest-view-dex.abi.json';
@@ -15,8 +17,8 @@ export const useGetPairData = (pairAddress: string) => {
   const { chainId, account } = useIdAccount();
 
   return useSafeContractRead({
-    addressOrName: getInterestViewDexAddress(chainId),
-    contractInterface: InterestViewDexABI,
+    address: getInterestViewDexAddress(chainId),
+    abi: InterestViewDexABI as Narrow<Abi>,
     functionName: 'getPairData',
     args: [pairAddress, account || DEFAULT_ACCOUNT],
     onError: () =>

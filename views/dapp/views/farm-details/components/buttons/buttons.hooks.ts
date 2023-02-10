@@ -12,10 +12,10 @@ import { SafeUserFarmData } from '../../farm-details.types';
 
 export const useHarvest = (farm: SafeUserFarmData) => {
   const { config } = usePrepareContractWrite({
-    addressOrName: getCasaDePapelAddress(farm.chainId),
+    address: getCasaDePapelAddress(farm.chainId),
     enabled: !farm.pendingRewards.isZero(),
     functionName: 'stake',
-    contractInterface: CasaDePapelABI,
+    abi: CasaDePapelABI,
     args: [farm.id, ZERO_BIG_NUMBER],
   });
 
@@ -37,8 +37,8 @@ export const useAction = (
     modal === StakeState.Stake ? farm.balance : farm.stakingAmount;
 
   const { config } = usePrepareContractWrite({
-    addressOrName: getCasaDePapelAddress(farm.chainId),
-    contractInterface: CasaDePapelABI,
+    address: getCasaDePapelAddress(farm.chainId),
+    abi: CasaDePapelABI,
     functionName: modal === StakeState.Stake ? 'stake' : 'unstake',
     args: [
       farm.id,

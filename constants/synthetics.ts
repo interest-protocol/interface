@@ -47,7 +47,6 @@ const SYNTHETIC_MARKETS = {
   },
   [CHAIN_ID.BNB_MAIN_NET]: {},
   [CHAIN_ID.UNSUPPORTED]: {},
-  [CHAIN_ID.RINKEBY]: {},
 };
 
 export enum SyntheticOracleType {
@@ -68,11 +67,6 @@ export const REDSTONE_CORE_CONSUMER_DATA = {
     url: 'https://d33trozg86ya9x.cloudfront.net',
   },
   [CHAIN_ID.UNSUPPORTED]: {
-    dataServiceId: 'redstone-main-demo',
-    uniqueSignersCount: 1,
-    url: 'https://d33trozg86ya9x.cloudfront.net',
-  },
-  [CHAIN_ID.RINKEBY]: {
     dataServiceId: 'redstone-main-demo',
     uniqueSignersCount: 1,
     url: 'https://d33trozg86ya9x.cloudfront.net',
@@ -128,7 +122,6 @@ export const SYNTHETICS_MARKET_PANEL_CALL_MAP = {
       collateralAddress: getBUSDAddress(CHAIN_ID.BNB_TEST_NET),
     },
   },
-  [CHAIN_ID.RINKEBY]: {},
   [CHAIN_ID.UNSUPPORTED]: {},
 };
 
@@ -174,12 +167,6 @@ export const SYNTHETICS_CALL_MAP = {
     redStoneWrapper: {},
   },
   [CHAIN_ID.UNSUPPORTED]: {
-    markets: [],
-    marketTypes: [],
-    redStoneSymbols: [],
-    redStoneWrapper: {},
-  },
-  [CHAIN_ID.RINKEBY]: {
     markets: [],
     marketTypes: [],
     redStoneSymbols: [],
@@ -291,7 +278,6 @@ export const SYNTHETICS_RESPONSE_MAP = {
   ],
   [CHAIN_ID.BNB_MAIN_NET]: [],
   [CHAIN_ID.UNSUPPORTED]: [],
-  [CHAIN_ID.RINKEBY]: [],
 };
 
 const getBSCTestNetSyntheticsMarkets = () =>
@@ -516,5 +502,4 @@ export const SYNTHETIC_PANEL_RESPONSE_MAP = {
     },
   },
   [CHAIN_ID.UNSUPPORTED]: {},
-  [CHAIN_ID.RINKEBY]: {},
 };

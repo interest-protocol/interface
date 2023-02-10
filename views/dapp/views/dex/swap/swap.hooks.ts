@@ -1,4 +1,5 @@
-import { BigNumber, CallOverrides } from 'ethers';
+import { PrepareWriteContractConfig } from '@wagmi/core';
+import { BigNumber } from 'ethers';
 import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
@@ -117,7 +118,7 @@ export const useSwap = ({
     parsedDeadline,
   ];
   let functionName = 'swapExactTokensForTokens';
-  let overrides: CallOverrides = {};
+  let overrides: PrepareWriteContractConfig['overrides'] = {};
 
   if (isZeroAddress(tokenIn.address)) {
     functionName = 'swapExactNativeTokenForTokens';
@@ -131,8 +132,8 @@ export const useSwap = ({
   }
 
   const { config } = usePrepareContractWrite({
-    addressOrName: getInterestDexRouterAddress(chainId),
-    contractInterface: InterestDexRouterABI,
+    address: getInterestDexRouterAddress(chainId),
+    abi: InterestDexRouterABI,
     functionName,
     args,
     overrides,
@@ -174,9 +175,9 @@ export const useWETHDeposit = ({
     : bnAMount;
 
   const { config } = usePrepareContractWrite({
-    addressOrName: getWETHAddress(chainId),
+    address: getWETHAddress(chainId),
     functionName: 'deposit',
-    contractInterface: WETHABI,
+    abi: WETHABI,
     overrides: { value: safeAmount },
     enabled:
       !needsApproval &&
@@ -209,9 +210,9 @@ export const useWETHWithdraw = ({
     : bnAMount;
 
   const { config } = usePrepareContractWrite({
-    addressOrName: getWETHAddress(chainId),
+    address: getWETHAddress(chainId),
     functionName: 'withdraw',
-    contractInterface: WETHABI,
+    abi: WETHABI,
     args: [safeAmount],
     enabled:
       !needsApproval &&

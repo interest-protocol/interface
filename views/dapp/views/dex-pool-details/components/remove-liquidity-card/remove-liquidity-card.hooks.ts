@@ -49,9 +49,9 @@ export const useRemoveLiquidity = ({
   );
 
   const { config } = usePrepareContractWrite({
-    addressOrName: getInterestDexRouterAddress(chainId),
+    address: getInterestDexRouterAddress(chainId),
     functionName: 'removeLiquidity',
-    contractInterface: InterestDexRouterABI,
+    abi: InterestDexRouterABI,
     args: [
       processWrappedNativeTokenAddress(chainId, tokens[0].address),
       processWrappedNativeTokenAddress(chainId, tokens[1].address),

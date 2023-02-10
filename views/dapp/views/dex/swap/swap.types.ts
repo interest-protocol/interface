@@ -26,7 +26,7 @@ export interface SwapButtonProps {
   fetchingAmount: boolean;
   fetchingBaseData: boolean;
   fetchingBalancesData: boolean;
-  tokenInAddress: string;
+  tokenInAddress: `0x${string}`;
   getValues: UseFormGetValues<ISwapForm>;
   setSwapBase: Dispatch<SetStateAction<string | null>>;
   account: string;
@@ -61,7 +61,7 @@ export interface SwapViewButtonProps {
 }
 
 export interface OnSelectCurrencyData {
-  address: string;
+  address: `0x${string}`;
   symbol: string;
   decimals: number;
 }

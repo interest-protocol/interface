@@ -45,7 +45,7 @@ export const processGetUserBalances = (
   };
 };
 
-export const getTokenMinter = (chainId: number, token: string) => {
+export const getTokenMinter = (chainId: number, token: `0x${string}`) => {
   const dnr = getDNRAddress(chainId);
 
   return isSameAddress(token, dnr) ? CONTRACTS.DINERO_FAUCET[chainId] : token;

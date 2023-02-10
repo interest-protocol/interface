@@ -1,3 +1,4 @@
+import { Abi, Narrow } from 'abitype';
 import { BigNumber } from 'ethers';
 
 import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
@@ -21,8 +22,8 @@ export const useQuoteRemoveLiquidity = (
   const chainId = useChainId();
 
   return useSafeContractRead({
-    addressOrName: getInterestDexRouterAddress(chainId),
-    contractInterface: InterestDexRouterABI,
+    address: getInterestDexRouterAddress(chainId),
+    abi: InterestDexRouterABI as Narrow<Abi>,
     functionName: 'quoteRemoveLiquidity',
     args: [token0, token1, isStable, amount],
     onError: () =>

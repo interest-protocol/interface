@@ -42,55 +42,18 @@ import {
   replaceWrappedNativeTokenAddressWithZero,
 } from '@/utils';
 import {
-  getAPEAddress,
   getBTCAddress,
   getBUSDAddress,
   getDineroAddress,
   getDNRAddress,
   getETHERC20Address,
   getIntAddress,
-  getLINKAddress,
-  getMANAAddress,
-  getSHIBAddress,
-  getUNIAddress,
   getUSDCAddress,
   getUSDTAddress,
   getWETHAddress,
 } from '@/utils/contracts';
 
 export const FAUCET_TOKENS = {
-  [CHAIN_ID.RINKEBY]: [
-    {
-      symbol: TOKEN_SYMBOL.BTC,
-      address: getBTCAddress(CHAIN_ID.RINKEBY),
-      name: 'Bitcoin',
-    },
-    {
-      symbol: TOKEN_SYMBOL.WETH,
-      address: getWETHAddress(CHAIN_ID.RINKEBY),
-      name: 'Wrapper Ether',
-    },
-    {
-      symbol: TOKEN_SYMBOL.USDT,
-      address: getUSDTAddress(CHAIN_ID.RINKEBY),
-      name: 'USD Tether',
-    },
-    {
-      symbol: TOKEN_SYMBOL.USDC,
-      address: getUSDCAddress(CHAIN_ID.RINKEBY),
-      name: 'USD Coin',
-    },
-    {
-      symbol: TOKEN_SYMBOL.UNI,
-      address: getUNIAddress(CHAIN_ID.RINKEBY),
-      name: 'Uniswap',
-    },
-    {
-      symbol: TOKEN_SYMBOL.APE,
-      address: getAPEAddress(CHAIN_ID.RINKEBY),
-      name: 'ApeCoin',
-    },
-  ],
   [CHAIN_ID.BNB_TEST_NET]: [
     {
       symbol: TOKEN_SYMBOL.BTC,
@@ -158,34 +121,6 @@ export const TOKENS_SVG_MAP = {
     [CONTRACTS.iTSLA[CHAIN_ID.BNB_TEST_NET]]: SynthTeslaSVG,
     [ethers.constants.AddressZero]: BNBSVG,
   },
-  [CHAIN_ID.RINKEBY]: {
-    default: UnknownCoinSVG,
-    [CONTRACTS.WETH[CHAIN_ID.RINKEBY]]: EtherSVG,
-    [CONTRACTS.BUSD[CHAIN_ID.RINKEBY]]: BinanceUSDSVG,
-    [CONTRACTS.DAI[CHAIN_ID.RINKEBY]]: DAISVG,
-    [CONTRACTS.FRAX[CHAIN_ID.RINKEBY]]: FraxSVG,
-    [CONTRACTS.TUSD[CHAIN_ID.RINKEBY]]: TrueUSDSVG,
-    [CONTRACTS.USDD[CHAIN_ID.RINKEBY]]: USDDSVG,
-    [CONTRACTS.USDP[CHAIN_ID.RINKEBY]]: PaxDollarSVG,
-    [CONTRACTS.VAI[CHAIN_ID.RINKEBY]]: VaiSVG,
-    [CONTRACTS.DNR[CHAIN_ID.RINKEBY]]: DineroSVG,
-    [CONTRACTS.USDT[CHAIN_ID.RINKEBY]]: TetherSVG,
-    [CONTRACTS.BTC[CHAIN_ID.RINKEBY]]: BitcoinSVG,
-    [CONTRACTS.USDC[CHAIN_ID.RINKEBY]]: USDCoinSVG,
-    [CONTRACTS.UNI[CHAIN_ID.RINKEBY]]: UniSwapSVG,
-    [CONTRACTS.APE[CHAIN_ID.RINKEBY]]: ApeCoinSVG,
-    [CONTRACTS.MANA[CHAIN_ID.RINKEBY]]: ManaSVG,
-    [CONTRACTS.LINK[CHAIN_ID.RINKEBY]]: ChainLinkSVG,
-    [CONTRACTS.SHIB[CHAIN_ID.RINKEBY]]: ShibaInuSVG,
-    [CONTRACTS.INT[CHAIN_ID.RINKEBY]]: InterestTokenSVG,
-    [CONTRACTS.iBTC[CHAIN_ID.RINKEBY]]: SynthBitcoinSVG,
-    [CONTRACTS.iBRL[CHAIN_ID.RINKEBY]]: SynthBRLSVG,
-    [CONTRACTS.iETH[CHAIN_ID.RINKEBY]]: SynthEthereumSVG,
-    [CONTRACTS.iGBP[CHAIN_ID.RINKEBY]]: SynthGBPSVG,
-    [CONTRACTS.iXAU[CHAIN_ID.RINKEBY]]: SynthXAUSVG,
-    [CONTRACTS.iJPY[CHAIN_ID.RINKEBY]]: SynthJPYSVG,
-    [ethers.constants.AddressZero]: EtherSVG,
-  },
 } as {
   [chain: number]: {
     [address: string]: FC<SVGProps>;
@@ -246,76 +181,6 @@ export const getFarmsSVGByToken = (
     },
   ];
 };
-
-const RINKEBY_MAIL_BRIDGE_ERC20_ARRAY = [
-  {
-    symbol: TOKEN_SYMBOL.BTC,
-    decimals: 18,
-    name: 'Bitcoin',
-    address: getBTCAddress(CHAIN_ID.RINKEBY),
-    chainId: CHAIN_ID.RINKEBY,
-  },
-  {
-    symbol: TOKEN_SYMBOL.WETH,
-    decimals: 18,
-    name: 'Wrapped Ether',
-    address: getWETHAddress(CHAIN_ID.RINKEBY),
-    chainId: CHAIN_ID.RINKEBY,
-  },
-  {
-    symbol: TOKEN_SYMBOL.USDC,
-    decimals: 6,
-    name: 'USD Coin',
-    address: getUSDCAddress(CHAIN_ID.RINKEBY),
-    chainId: CHAIN_ID.RINKEBY,
-  },
-  {
-    symbol: TOKEN_SYMBOL.USDT,
-    decimals: 6,
-    name: 'USD Tether',
-    address: getUSDTAddress(CHAIN_ID.RINKEBY),
-    chainId: CHAIN_ID.RINKEBY,
-  },
-];
-
-const RINKEBY_ERC20_ARRAY = [
-  ...RINKEBY_MAIL_BRIDGE_ERC20_ARRAY,
-  {
-    symbol: TOKEN_SYMBOL.LINK,
-    decimals: 18,
-    name: 'Chainlink',
-    address: getLINKAddress(CHAIN_ID.RINKEBY),
-    chainId: CHAIN_ID.RINKEBY,
-  },
-  {
-    symbol: TOKEN_SYMBOL.APE,
-    decimals: 18,
-    name: 'ApeCoin',
-    address: getAPEAddress(CHAIN_ID.RINKEBY),
-    chainId: CHAIN_ID.RINKEBY,
-  },
-  {
-    symbol: TOKEN_SYMBOL.MANA,
-    decimals: 18,
-    name: 'Decentraland',
-    address: getMANAAddress(CHAIN_ID.RINKEBY),
-    chainId: CHAIN_ID.RINKEBY,
-  },
-  {
-    symbol: TOKEN_SYMBOL.SHIB,
-    decimals: 18,
-    name: 'SHIBA INU',
-    address: getSHIBAddress(CHAIN_ID.RINKEBY),
-    chainId: CHAIN_ID.RINKEBY,
-  },
-  {
-    symbol: TOKEN_SYMBOL.UNI,
-    address: getUNIAddress(CHAIN_ID.RINKEBY),
-    name: 'Uniswap',
-    chainId: CHAIN_ID.RINKEBY,
-    decimals: 18,
-  },
-];
 
 const BNB_TEST_ERC20_ARRAY = [
   {
@@ -399,25 +264,15 @@ export const makeERC20Record = reduce(
 
 const BNB_TEST_ERC_20_DATA = makeERC20Record(BNB_TEST_ERC20_ARRAY);
 
-const RINKEBY_ERC_20_DATA = makeERC20Record(RINKEBY_ERC20_ARRAY);
-
 export const TOKEN_META_DATA_ARRAY = {
   [CHAIN_ID.BNB_TEST_NET]: BNB_TEST_ERC20_ARRAY,
-  [CHAIN_ID.RINKEBY]: RINKEBY_ERC20_ARRAY,
 };
 
 export const ERC_20_DATA = {
-  [CHAIN_ID.BNB_TEST_NET]: BNB_TEST_ERC_20_DATA,
-  [CHAIN_ID.RINKEBY]: RINKEBY_ERC_20_DATA,
+  [CHAIN_ID.BNB_TEST_NET as number]: BNB_TEST_ERC_20_DATA,
 };
 
 export const NATIVE_TOKENS = {
-  [CHAIN_ID.RINKEBY]: NativeCurrency.from(
-    'Ether',
-    TOKEN_SYMBOL.ETH,
-    18,
-    CHAIN_ID.RINKEBY
-  ),
   [CHAIN_ID.BNB_TEST_NET]: NativeCurrency.from(
     'Binance Coin',
     TOKEN_SYMBOL.BNB,
@@ -445,7 +300,6 @@ export const STABLE_COIN_ADDRESSES = {
     ethers.utils.getAddress(CONTRACTS.USDT[CHAIN_ID.BNB_MAIN_NET]),
     ethers.utils.getAddress(CONTRACTS.VAI[CHAIN_ID.BNB_MAIN_NET]),
   ],
-  [CHAIN_ID.RINKEBY]: [],
 };
 
 export const IS_STABLE_COIN_MAP = {
@@ -457,5 +311,4 @@ export const IS_STABLE_COIN_MAP = {
   },
   [CHAIN_ID.BNB_MAIN_NET]: {},
   [CHAIN_ID.UNSUPPORTED]: {},
-  [CHAIN_ID.RINKEBY]: {},
 };

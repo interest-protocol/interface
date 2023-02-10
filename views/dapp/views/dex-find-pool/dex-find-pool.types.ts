@@ -12,7 +12,7 @@ import { BalanceData } from '@/hooks';
 import { SwapSelectCurrencyProps } from '../dex/dex.types';
 
 interface FormValue {
-  address: string;
+  address: `0x${string}`;
   decimals: number;
   symbol: string;
   value: string;

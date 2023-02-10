@@ -164,7 +164,7 @@ export const BASE_TOKENS_FARM_MAP = {
 export const FARM_METADATA_MAP = {
   [CHAIN_ID.BNB_TEST_NET]: {
     [ethers.utils.getAddress('0x0D7747F1686d67824dc5a299AAc09F438dD6aef2')]: {
-      token0: ethers.constants.AddressZero,
+      token0: ethers.constants.AddressZero as `0x${string}`,
       token1: ethers.utils.getAddress(
         '0x0D7747F1686d67824dc5a299AAc09F438dD6aef2'
       ),

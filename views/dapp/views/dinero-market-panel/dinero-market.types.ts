@@ -12,7 +12,7 @@ import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestV
 export type TDineroMarketMode = 'borrow' | 'repay';
 
 export interface DineroMarketPanelProps {
-  address: string;
+  address: `0x${string}`;
   mode: TDineroMarketMode;
 }
 
@@ -63,9 +63,9 @@ export interface DineroMarketData {
   symbol1: string;
   name: string;
   stable: boolean;
-  marketAddress: string;
+  marketAddress: `0x${string}`;
   collateralDecimals: number;
-  collateralAddress: string;
+  collateralAddress: `0x${string}`;
   intUSDPrice: BigNumber;
   chainId: number;
   maxBorrowAmount: BigNumber;
@@ -128,7 +128,7 @@ export type TDineroMarketPanelData =
 export type GetSafeDineroMarketData = (
   chainId: number,
   now: number,
-  market: string,
+  market: `0x${string}`,
   data: TDineroMarketPanelData
 ) => DineroMarketData;
 

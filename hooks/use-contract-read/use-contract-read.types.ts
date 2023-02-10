@@ -1,4 +1,4 @@
-import { ReadContractResult } from '@wagmi/core';
+import { ReadContractConfig, ReadContractResult } from '@wagmi/core';
 
 import { QueryConfig } from '@/interface';
 

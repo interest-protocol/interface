@@ -11,11 +11,11 @@ import {
 } from './dinero-vault.types';
 
 const DEFAULT_DATA = {
-  vaultAddress: ZERO_ADDRESS,
+  vaultAddress: ZERO_ADDRESS as `0x${string}`,
   depositTokenSymbol: TOKEN_SYMBOL.Unknown,
-  depositTokenAddress: ZERO_ADDRESS,
+  depositTokenAddress: ZERO_ADDRESS as `0x${string}`,
   depositTokenDecimals: 18,
-  dineroAddress: ZERO_ADDRESS,
+  dineroAddress: ZERO_ADDRESS as `0x${string}`,
   dineroDecimals: 18,
   maxDineroAmount: ZERO_BIG_NUMBER,
   mintedDineroAmount: ZERO_BIG_NUMBER,

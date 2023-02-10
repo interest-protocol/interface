@@ -29,7 +29,7 @@ export interface ISyntheticForm {
   };
 }
 export interface SyntheticsMarketPanelProps {
-  address: string;
+  address: `0x${string}`;
   mode: TSyntheticsMarketMode;
 }
 
@@ -38,7 +38,7 @@ export interface SyntheticsMarketPanelBranchProps
   form: UseFormReturn<ISyntheticForm>;
   oracleType: SyntheticOracleType;
   dataFeedId: string;
-  collateralAddress: string;
+  collateralAddress: `0x${string}`;
 }
 
 export interface SyntheticsMarketSwitchProps
@@ -70,13 +70,13 @@ export interface SyntheticMarketData {
   adjustedCollateralBalance: BigNumber;
   syntBalance: BigNumber;
   syntPrice: BigNumber;
-  syntAddress: string;
+  syntAddress: `0x${string}`;
   pendingRewards: BigNumber;
   syntSymbol: string;
   syntName: string;
-  marketAddress: string;
+  marketAddress: `0x${string}`;
   collateralDecimals: number;
-  collateralAddress: string;
+  collateralAddress: `0x${string}`;
   chainId: number;
   loading: boolean;
   account: string;

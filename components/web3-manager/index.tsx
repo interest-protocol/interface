@@ -1,13 +1,8 @@
 import { ThemeProvider } from '@emotion/react';
+import * as allChains from '@wagmi/core/chains';
 import { useTranslations } from 'next-intl';
 import { FC, useEffect } from 'react';
-import {
-  allChains,
-  useAccount,
-  useConnect,
-  useNetwork,
-  useSwitchNetwork,
-} from 'wagmi';
+import { useAccount, useConnect, useNetwork, useSwitchNetwork } from 'wagmi';
 
 import { Routes, SUPPORTED_CHAINS_RECORD } from '@/constants';
 import { CHAINS } from '@/constants/chains';
@@ -45,7 +40,7 @@ const Content: FC<ContentProps> = ({ supportedChains = [], children }) => {
         Icon={TimesSVG}
         title={t('web3Manager.title', {
           chainName:
-            allChains.find(({ id }) => id === chain?.id)?.name ||
+            Object.values(allChains).find(({ id }) => id === chain?.id)?.name ||
             chain?.name ||
             capitalize(t('common.network', { count: 1 })),
         })}

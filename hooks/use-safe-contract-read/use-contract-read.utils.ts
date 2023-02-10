@@ -1,18 +1,18 @@
 import { readContract, ReadContractConfig } from '@wagmi/core';
 
-import { QueryFunctionArgs } from '@/interface';
+import { QueryFunctionArgs, QueryKeyArgs } from '@/interface';
 
 export const queryKey = ({
-  addressOrName,
+  address,
   args,
   chainId,
   functionName,
   overrides,
-}: Omit<ReadContractConfig, 'contractInterface'>) =>
+}: QueryKeyArgs) =>
   [
     {
       entity: 'readContract',
-      addressOrName,
+      address,
       args,
       chainId,
       functionName,
@@ -21,16 +21,16 @@ export const queryKey = ({
   ] as const;
 
 export const queryFn =
-  ({ contractInterface }: Pick<ReadContractConfig, 'contractInterface'>) =>
+  ({ abi }: Pick<ReadContractConfig, 'abi'>) =>
   async ({
-    queryKey: [{ addressOrName, args, chainId, functionName, overrides }],
+    queryKey: [{ address, args, chainId, functionName, overrides }],
   }: QueryFunctionArgs<typeof queryKey>) => {
     return (
       (await readContract({
-        addressOrName,
+        address,
         args,
         chainId,
-        contractInterface,
+        abi,
         functionName,
         overrides,
       })) ?? null

@@ -1,3 +1,4 @@
+import { Abi, Narrow } from 'abitype';
 import { ethers } from 'ethers';
 import { path } from 'ramda';
 
@@ -32,8 +33,8 @@ export const useGetUserFarmData = (pairAddress: string) => {
   );
 
   return useSafeContractRead({
-    addressOrName: getInterestViewEarnAddress(chainId),
-    contractInterface: InterestViewEarnABI,
+    address: getInterestViewEarnAddress(chainId),
+    abi: InterestViewEarnABI as Narrow<Abi>,
     functionName: 'getUserFarmData',
     args: [pairAddress, account || DEFAULT_ACCOUNT, poolId, baseTokens],
     onError: () =>

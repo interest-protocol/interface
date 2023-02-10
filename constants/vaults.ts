@@ -13,9 +13,6 @@ export const VAULTS_CALL_MAP = {
   [CHAIN_ID.UNSUPPORTED]: {
     dineroVaults: [],
   },
-  [CHAIN_ID.RINKEBY]: {
-    dineroVaults: [],
-  },
 };
 
 export enum VaultTypes {
@@ -27,7 +24,8 @@ export const VAULTS_RESPONSE_MAP = {
   [CHAIN_ID.BNB_TEST_NET]: {
     dineroVaults: [
       {
-        vaultAddress: '0x10f3c9debac2398d5c791641c8847459353233b4',
+        vaultAddress:
+          '0x10f3c9debac2398d5c791641c8847459353233b4' as `0x${string}`,
         depositTokenSymbol: TOKEN_SYMBOL.BUSD,
         depositTokenAddress: CONTRACTS.BUSD[CHAIN_ID.BNB_TEST_NET],
         depositTokenDecimals: 18,
@@ -43,9 +41,6 @@ export const VAULTS_RESPONSE_MAP = {
   [CHAIN_ID.UNSUPPORTED]: {
     dineroVaults: [],
   },
-  [CHAIN_ID.RINKEBY]: {
-    dineroVaults: [],
-  },
 };
 
 export const DV_VAULT_DETAILS_CALL_MAP = {
@@ -55,13 +50,13 @@ export const DV_VAULT_DETAILS_CALL_MAP = {
   },
   [CHAIN_ID.BNB_MAIN_NET]: {},
   [CHAIN_ID.UNSUPPORTED]: {},
-  [CHAIN_ID.RINKEBY]: {},
 };
 
 export const DV_VAULT_RESPONSE_MAP = {
   [CHAIN_ID.BNB_TEST_NET]: {
     [ethers.utils.getAddress('0x10f3c9debac2398d5c791641c8847459353233b4')]: {
-      vaultAddress: '0x10f3c9debac2398d5c791641c8847459353233b4',
+      vaultAddress:
+        '0x10f3c9debac2398d5c791641c8847459353233b4' as `0x${string}`,
       depositTokenSymbol: TOKEN_SYMBOL.BUSD,
       depositTokenAddress: CONTRACTS.BUSD[CHAIN_ID.BNB_TEST_NET],
       depositTokenDecimals: 18,
@@ -71,5 +66,4 @@ export const DV_VAULT_RESPONSE_MAP = {
   },
   [CHAIN_ID.BNB_MAIN_NET]: {},
   [CHAIN_ID.UNSUPPORTED]: {},
-  [CHAIN_ID.RINKEBY]: {},
 };

@@ -12,7 +12,7 @@ export class ERC20 extends BaseCurrency {
     name: string,
     symbol: string,
     decimals: number,
-    _address: string,
+    _address: `0x${string}`,
     chainId: number
   ) {
     super(name, symbol, decimals);
@@ -21,7 +21,7 @@ export class ERC20 extends BaseCurrency {
   }
 
   public static from(
-    address: string,
+    address: `0x${string}`,
     chainId: number,
     name = '???',
     symbol = '???',

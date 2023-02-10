@@ -1,3 +1,5 @@
+import { Abi, Narrow } from 'abitype';
+
 import { DEFAULT_ACCOUNT } from '@/constants';
 import { DINERO_MARKET_SUMMARY_CALL_MAP } from '@/constants/dinero-markets';
 import InterestViewDineroV2ABI from '@/sdk/abi/interest-view-dinero-v2.abi.json';
@@ -18,8 +20,8 @@ export const useGetDineroMarketsSummaryV2 = () => {
   const callMap = DINERO_MARKET_SUMMARY_CALL_MAP[chainId] || {};
 
   return useSafeContractRead({
-    addressOrName: getInterestViewDineroV2Address(chainId),
-    contractInterface: InterestViewDineroV2ABI,
+    address: getInterestViewDineroV2Address(chainId),
+    abi: InterestViewDineroV2ABI as Narrow<Abi>,
     functionName: 'getDineroMarketsSummary',
     args: [
       account || DEFAULT_ACCOUNT,

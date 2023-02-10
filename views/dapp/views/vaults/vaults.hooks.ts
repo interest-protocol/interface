@@ -1,3 +1,5 @@
+import { Abi, Narrow } from 'abitype';
+
 import { DEFAULT_ACCOUNT } from '@/constants';
 import { VAULTS_CALL_MAP } from '@/constants/vaults';
 import { useSafeContractRead } from '@/hooks';
@@ -17,8 +19,8 @@ export const useGetVaultsSummary = (
   const dineroVaultsArray = VAULTS_CALL_MAP[chainId].dineroVaults;
 
   return useSafeContractRead({
-    addressOrName: getInterestViewEarnAddress(chainId),
-    contractInterface: InterestViewEarnABI,
+    address: getInterestViewEarnAddress(chainId),
+    abi: InterestViewEarnABI as Narrow<Abi>,
     functionName: 'getVaultsSummary',
     args: [account || DEFAULT_ACCOUNT, dineroVaultsArray],
     enabled: !!dineroVaultsArray.length,
