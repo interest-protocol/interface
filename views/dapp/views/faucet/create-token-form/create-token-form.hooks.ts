@@ -18,7 +18,7 @@ export const useCreateToken = (
 
   const bnAmount = safeToBigNumber(amount || '0');
 
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: getTokenMinterAddress(chainId),
     abi: TokenMinterABI,
     functionName: 'createToken',
@@ -26,5 +26,8 @@ export const useCreateToken = (
     enabled: !!name && !!symbol && !!amount && !bnAmount.isZero(),
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };

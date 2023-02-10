@@ -43,12 +43,9 @@ const BorrowButton: FC<BorrowButtonProps> = ({
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
 
-  const { writeAsync: borrow } = useBorrow(
-    data,
-    account,
-    borrowCollateral,
-    borrowLoan
-  );
+  const {
+    useContractWriteReturn: { writeAsync: borrow },
+  } = useBorrow(data, account, borrowCollateral, borrowLoan);
 
   const handleBorrow = async () => {
     setLoading(true);

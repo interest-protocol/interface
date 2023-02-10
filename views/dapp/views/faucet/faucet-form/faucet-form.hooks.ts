@@ -46,7 +46,7 @@ export const useMint = (
 
   const args = isOld ? [value] : [account, value];
 
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: getTokenMinter(chainId, token),
     functionName: 'mint',
     abi,
@@ -54,5 +54,8 @@ export const useMint = (
     enabled: !value.isZero() && isValidAccount(token),
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };

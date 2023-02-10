@@ -52,17 +52,17 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
   setLoading,
   loading,
 }) => {
-  const { writeAsync: approveToken0 } = useApprove(
-    tokens[0].address,
-    getInterestDexRouterAddress(chainId),
-    { enabled: tokens[0].allowance.isZero() }
-  );
+  const {
+    useContractWriteReturn: { writeAsync: approveToken0 },
+  } = useApprove(tokens[0].address, getInterestDexRouterAddress(chainId), {
+    enabled: tokens[0].allowance.isZero(),
+  });
 
-  const { writeAsync: approveToken1 } = useApprove(
-    tokens[1].address,
-    getInterestDexRouterAddress(chainId),
-    { enabled: tokens[1].allowance.isZero() }
-  );
+  const {
+    useContractWriteReturn: { writeAsync: approveToken1 },
+  } = useApprove(tokens[1].address, getInterestDexRouterAddress(chainId), {
+    enabled: tokens[1].allowance.isZero(),
+  });
 
   const t = useTranslations();
 

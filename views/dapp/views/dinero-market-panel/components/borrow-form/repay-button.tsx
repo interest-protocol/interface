@@ -33,12 +33,9 @@ const RepayButton: FC<RepayButtonProps> = ({
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
 
-  const { writeAsync: repay } = useRepay(
-    data,
-    account,
-    repayCollateral,
-    repayLoan
-  );
+  const {
+    useContractWriteReturn: { writeAsync: repay },
+  } = useRepay(data, account, repayCollateral, repayLoan);
 
   const handleRepay = async () => {
     try {

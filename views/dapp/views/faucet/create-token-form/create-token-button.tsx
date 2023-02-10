@@ -32,7 +32,9 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
   const [loading, setLoading] = useState(false);
   const t = useTranslations();
 
-  const { writeAsync: createToken } = useCreateToken(chainId, control);
+  const {
+    useContractWriteReturn: { writeAsync: createToken },
+  } = useCreateToken(chainId, control);
 
   const handleCreateToken = async () => {
     try {

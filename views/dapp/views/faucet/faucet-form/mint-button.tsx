@@ -32,7 +32,9 @@ const MintButton: FC<MintButtonProps> = ({
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
 
-  const { writeAsync: mint } = useMint(chainId, account, control);
+  const {
+    useContractWriteReturn: { writeAsync: mint },
+  } = useMint(chainId, account, control);
 
   const handleOnMint = useCallback(async () => {
     try {

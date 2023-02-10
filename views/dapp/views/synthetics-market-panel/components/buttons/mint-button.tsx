@@ -41,7 +41,9 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
     control: form.control,
     name: 'mint.collateral',
   });
-  const { writeAsync: mint } = useMint(data, mintCollateral, mintSynt);
+  const {
+    useContractWriteReturn: { writeAsync: mint },
+  } = useMint(data, mintCollateral, mintSynt);
 
   const handleMint = async () => {
     setLoading(true);

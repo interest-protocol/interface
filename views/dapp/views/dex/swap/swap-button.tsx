@@ -79,16 +79,18 @@ const SwapButton: FC<SwapButtonProps> = ({
   const [buttonLoadingText, setButtonLoadingText] =
     useState<string | null>(null);
 
-  const { writeAsync: approve } = useApprove(
-    tokenInAddress,
-    getInterestDexRouterAddress(chainId),
-    { enabled: needsApproval }
-  );
+  const {
+    useWriteReturn: { writeAsync: approve },
+  } = useApprove(tokenInAddress, getInterestDexRouterAddress(chainId), {
+    enabled: needsApproval,
+  });
 
   const tokenIn = useWatch({ control, name: 'tokenIn' });
   const tokenOut = useWatch({ control, name: 'tokenOut' });
 
-  const { writeAsync: swapTokens } = useSwap({
+  const {
+    useContractWriteReturn: { writeAsync: swapTokens },
+  } = useSwap({
     tokenIn,
     tokenOut,
     swapBase,
@@ -99,7 +101,9 @@ const SwapButton: FC<SwapButtonProps> = ({
     needsApproval,
   });
 
-  const { writeAsync: wethDeposit } = useWETHDeposit({
+  const {
+    useContractWriteReturn: { writeAsync: wethDeposit },
+  } = useWETHDeposit({
     tokenIn,
     tokenOut,
     chainId,
@@ -107,7 +111,9 @@ const SwapButton: FC<SwapButtonProps> = ({
     needsApproval,
   });
 
-  const { writeAsync: wethWithdraw } = useWETHWithdraw({
+  const {
+    useContractWriteReturn: { writeAsync: wethWithdraw },
+  } = useWETHWithdraw({
     tokenIn,
     tokenOut,
     chainId,

@@ -48,7 +48,7 @@ export const useRemoveLiquidity = ({
     10000
   );
 
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: getInterestDexRouterAddress(chainId),
     functionName: 'removeLiquidity',
     abi: InterestDexRouterABI,
@@ -65,5 +65,8 @@ export const useRemoveLiquidity = ({
     enabled: !debouncedLPAmount.isZero(),
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };

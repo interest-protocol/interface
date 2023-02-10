@@ -21,7 +21,9 @@ const ApproveButton: FC<ApproveButtonProps> = ({
   const t = useTranslations();
 
   const [loading, setLoading] = useState(false);
-  const { writeAsync: approve } = useApprove(contract, spender, { enabled });
+  const {
+    useContractWriteReturn: { writeAsync: approve },
+  } = useApprove(contract, spender, { enabled });
 
   const handleAddAllowance = async () => {
     setLoading(true);

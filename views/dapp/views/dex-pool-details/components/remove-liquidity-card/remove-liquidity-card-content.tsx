@@ -40,12 +40,13 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
   control,
 }) => {
   const t = useTranslations();
-  const { writeAsync: approve } = useApprove(
-    pairAddress,
-    getInterestDexRouterAddress(chainId)
-  );
+  const {
+    useContractWriteReturn: { writeAsync: approve },
+  } = useApprove(pairAddress, getInterestDexRouterAddress(chainId));
 
-  const { writeAsync: removeLiquidity } = useRemoveLiquidity({
+  const {
+    useContractWriteReturn: { writeAsync: removeLiquidity },
+  } = useRemoveLiquidity({
     control,
     chainId,
     tokens,

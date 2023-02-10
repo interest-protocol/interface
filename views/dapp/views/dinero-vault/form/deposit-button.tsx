@@ -22,7 +22,9 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
   const [loading, setLoading] = useState(false);
   const value = useWatch({ control, name: 'value' });
 
-  const { writeAsync } = useDeposit(data, value);
+  const {
+    useContractWriteReturn: { writeAsync },
+  } = useDeposit(data, value);
 
   const handleDeposit = async () => {
     setLoading(true);

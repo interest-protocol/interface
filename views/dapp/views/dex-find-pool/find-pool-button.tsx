@@ -52,7 +52,9 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
   const t = useTranslations();
   const { push } = useRouter();
 
-  const { writeAsync: addLiquidity } = useAddLiquidity({
+  const {
+    useContractWriteReturn: { writeAsync: addLiquidity },
+  } = useAddLiquidity({
     control,
     account,
     chainId,

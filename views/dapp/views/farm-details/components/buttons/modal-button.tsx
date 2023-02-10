@@ -23,7 +23,9 @@ const ModalButton: FC<ModalButtonProps> = ({
   refetch,
   isStake,
 }) => {
-  const { writeAsync: action } = useAction(farm, control, modal);
+  const {
+    useContractWriteReturn: { writeAsync: action },
+  } = useAction(farm, control, modal);
   const t = useTranslations();
 
   const [loading, setLoading] = useState<boolean>(false);

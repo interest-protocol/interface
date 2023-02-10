@@ -9,7 +9,7 @@ export const useApprove = (
   spender: string,
   args = {} as UseContractArgs
 ) => {
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address,
     abi: ERC20ABI,
     functionName: 'approve',
@@ -17,5 +17,8 @@ export const useApprove = (
     ...args,
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };

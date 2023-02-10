@@ -131,7 +131,7 @@ export const useSwap = ({
     args = [safeAmountIn, minAmountOut, route, account, parsedDeadline];
   }
 
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: getInterestDexRouterAddress(chainId),
     abi: InterestDexRouterABI,
     functionName,
@@ -151,7 +151,10 @@ export const useSwap = ({
       ),
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };
 
 export const useWETHDeposit = ({
@@ -174,7 +177,7 @@ export const useWETHDeposit = ({
     ? parsedTokenInBalance
     : bnAMount;
 
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: getWETHAddress(chainId),
     functionName: 'deposit',
     abi: WETHABI,
@@ -186,7 +189,10 @@ export const useWETHDeposit = ({
       isZeroAddress(tokenIn.address),
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };
 
 export const useWETHWithdraw = ({
@@ -209,7 +215,7 @@ export const useWETHWithdraw = ({
     ? parsedTokenInBalance
     : bnAMount;
 
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: getWETHAddress(chainId),
     functionName: 'withdraw',
     abi: WETHABI,
@@ -221,5 +227,8 @@ export const useWETHWithdraw = ({
       isZeroAddress(tokenOut.address),
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };

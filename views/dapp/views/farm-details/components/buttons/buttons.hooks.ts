@@ -11,7 +11,7 @@ import { getCasaDePapelAddress, safeToBigNumber } from '@/utils';
 import { SafeUserFarmData } from '../../farm-details.types';
 
 export const useHarvest = (farm: SafeUserFarmData) => {
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: getCasaDePapelAddress(farm.chainId),
     enabled: !farm.pendingRewards.isZero(),
     functionName: 'stake',
@@ -19,7 +19,10 @@ export const useHarvest = (farm: SafeUserFarmData) => {
     args: [farm.id, ZERO_BIG_NUMBER],
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };
 
 export const useAction = (
@@ -36,7 +39,7 @@ export const useAction = (
   const balanceLimit =
     modal === StakeState.Stake ? farm.balance : farm.stakingAmount;
 
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: getCasaDePapelAddress(farm.chainId),
     abi: CasaDePapelABI,
     functionName: modal === StakeState.Stake ? 'stake' : 'unstake',
@@ -50,5 +53,8 @@ export const useAction = (
       !balanceLimit.isZero() && !amount.isZero() && typeof modal === 'number',
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };

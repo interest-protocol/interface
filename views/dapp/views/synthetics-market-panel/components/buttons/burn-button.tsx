@@ -36,7 +36,9 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
     name: 'burn.collateral',
   });
 
-  const { writeAsync: burn } = useBurn(data, burnCollateral, burnSynt);
+  const {
+    useContractWriteReturn: { writeAsync: burn },
+  } = useBurn(data, burnCollateral, burnSynt);
 
   const handleBurn = async () => {
     try {
