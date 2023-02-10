@@ -19,6 +19,7 @@ import {
   TOKEN_FARM_ID_MAP,
   UNKNOWN_ERC_20,
 } from '@/constants';
+import { Address } from '@/interface';
 import { CHAIN_ID, FixedPointMath, ZERO_BIG_NUMBER } from '@/sdk';
 import {
   calculateAllocation,
@@ -73,10 +74,10 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
           chainId: CHAIN_ID.UNSUPPORTED,
           reserve0: ZERO_BIG_NUMBER,
           reserve1: ZERO_BIG_NUMBER,
-          stakingTokenAddress: ethers.constants.AddressZero,
+          stakingTokenAddress: ethers.constants.AddressZero as Address,
           id: 1,
-          token1: ethers.constants.AddressZero,
-          token0: ethers.constants.AddressZero,
+          token1: ethers.constants.AddressZero as Address,
+          token0: ethers.constants.AddressZero as Address,
           totalStakedAmount: ZERO_BIG_NUMBER,
           allocation: FixedPointMath.from(0),
           tvl: 0,
@@ -103,11 +104,11 @@ export const getSafeFarmSummaryData: GetSafeFarmSummaryData = (
           chainId: CHAIN_ID.UNSUPPORTED,
           reserve0: ZERO_BIG_NUMBER,
           reserve1: ZERO_BIG_NUMBER,
-          stakingTokenAddress: ethers.constants.AddressZero,
+          stakingTokenAddress: ethers.constants.AddressZero as Address,
           stakingTokenPrice: ZERO_BIG_NUMBER,
           id: 1,
-          token1: ethers.constants.AddressZero,
-          token0: ethers.constants.AddressZero,
+          token1: ethers.constants.AddressZero as Address,
+          token0: ethers.constants.AddressZero as Address,
           totalStakedAmount: ZERO_BIG_NUMBER,
           allocation: FixedPointMath.from(0),
           tvl: 0,

@@ -16,7 +16,7 @@ export interface IToken {
   decimals: number;
   balance: BigNumber;
   allowance: BigNumber;
-  address: string;
+  address: `0x${string}`;
 }
 
 export interface AddLiquidityCardProps {

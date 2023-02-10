@@ -105,9 +105,9 @@ export const handleFilterVaults = (
   );
 
 const DEFAULT_VAULT_INFO = {
-  vaultAddress: ZERO_ADDRESS,
+  vaultAddress: ZERO_ADDRESS as `0x${string}`,
   depositTokenSymbol: TOKEN_SYMBOL.Unknown as string,
-  depositTokenAddress: ethers.constants.AddressZero,
+  depositTokenAddress: ethers.constants.AddressZero as `0x${string}`,
   depositAmount: ZERO_BIG_NUMBER,
   depositTokenDecimals: 18,
   apr: null,

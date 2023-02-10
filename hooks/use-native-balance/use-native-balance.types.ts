@@ -1,5 +1,6 @@
 import { BigNumber } from 'ethers';
-import { QueryConfig } from 'wagmi/dist/declarations/src/types';
+
+import { QueryConfig } from '@/interface';
 
 export type UseNativeBalanceConfig = QueryConfig<BigNumber, Error>;
 

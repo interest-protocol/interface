@@ -1,3 +1,4 @@
+import { Abi, Narrow } from 'abitype';
 import { pathOr } from 'ramda';
 
 import { DEFAULT_ACCOUNT } from '@/constants';
@@ -24,8 +25,8 @@ export const useGetDineroMarketDataV2 = (market: string) => {
   );
 
   return useSafeContractRead({
-    addressOrName: getInterestViewDineroV2Address(chainId),
-    contractInterface: InterestViewDineroV2ABI,
+    address: getInterestViewDineroV2Address(chainId),
+    abi: InterestViewDineroV2ABI as Narrow<Abi>,
     functionName: 'getDineroMarketData',
     args: [account || DEFAULT_ACCOUNT, market, data.baseToken, data.kind],
     onError: () =>

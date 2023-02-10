@@ -11,6 +11,7 @@ import { useSigner } from 'wagmi';
 import { ApproveButton } from '@/components';
 import { REDSTONE_CORE_CONSUMER_DATA, SyntheticOracleType } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
+import { Address } from '@/interface';
 import SyntheticMinterABI from '@/sdk/abi/synthetics-minter.abi.json';
 import { LoadingSVG } from '@/svg';
 import {
@@ -175,7 +176,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
     if (
       !data ||
       !data.chainId ||
-      isZeroAddress(data.account) ||
+      isZeroAddress(data.account as Address) ||
       data.collateralAllowance.isZero()
     )
       return;

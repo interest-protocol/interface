@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 import { always, curryN, equals, not, tryCatch } from 'ramda';
 
 import { WRAPPED_NATIVE_TOKEN } from '@/constants';
+import { Address } from '@/interface';
 import { CHAIN_ID, ZERO_ADDRESS } from '@/sdk';
 
 export const isValidAccount = (x: string): boolean =>
@@ -9,9 +10,9 @@ export const isValidAccount = (x: string): boolean =>
     ? not(equals(ethers.constants.AddressZero, ethers.utils.getAddress(x)))
     : false;
 
-export const safeGetAddress = tryCatch(
+export const safeGetAddress: (x: `0x${string}`) => `0x${string}` = tryCatch(
   ethers.utils.getAddress,
-  always(ethers.constants.AddressZero)
+  always(ethers.constants.AddressZero as `0x${string}`)
 );
 
 export const isSameAddress = curryN(2, (x: string, y: string) => {
@@ -25,7 +26,7 @@ export const isSameAddressZ = curryN(2, (x: string, y: string) => {
   return ethers.utils.getAddress(x) === ethers.utils.getAddress(y);
 });
 
-export const isZeroAddress = (x: string) =>
+export const isZeroAddress = (x: `0x${string}`) =>
   safeGetAddress(x) === safeGetAddress(ethers.constants.AddressZero);
 
 export const processWrappedNativeTokenAddress = (
@@ -43,7 +44,7 @@ export const processWrappedNativeTokenAddress = (
 
 export const replaceWrappedNativeTokenAddressWithZero = (
   chainId: number,
-  address: string
+  address: Address
 ) => {
   const wrappedNativeToken = WRAPPED_NATIVE_TOKEN[chainId]
     ? WRAPPED_NATIVE_TOKEN[chainId]

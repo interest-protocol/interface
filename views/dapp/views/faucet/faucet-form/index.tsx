@@ -42,7 +42,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
     },
   });
 
-  const onSelectCurrency = (token: string) => {
+  const onSelectCurrency = (token: `0x${string}`) => {
     setValue('token', token);
     setValue('amount', 0);
   };

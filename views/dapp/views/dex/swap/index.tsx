@@ -10,6 +10,7 @@ import {
   useIdAccount,
   useLocalStorage,
 } from '@/hooks';
+import { Address } from '@/interface';
 import {
   FixedPointMath,
   TOKEN_SYMBOL,
@@ -71,7 +72,7 @@ const Swap: FC = () => {
     useState(false);
   const [isTokenInOpenModal, setTokenInIsOpenModal] = useState(false);
   const [isTokenOutOpenModal, setTokenOutIsOpenModal] = useState(false);
-  const [swapBase, setSwapBase] = useState<string | null>(null);
+  const [swapBase, setSwapBase] = useState<Address | null>(null);
   const [amountOutError, setAmountOutError] = useState<null | string>(null);
 
   // We want the form to re-render if addresses change

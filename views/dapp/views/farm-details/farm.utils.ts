@@ -70,7 +70,7 @@ export const getSafeUserFarmData: GetSafeUserFarmData = (
         chainId,
         reserve0: ZERO_BIG_NUMBER,
         reserve1: ZERO_BIG_NUMBER,
-        stakingTokenAddress: ZERO_ADDRESS,
+        stakingTokenAddress: ZERO_ADDRESS as `0x${string}`,
         stakingTokenPrice: ZERO_BIG_NUMBER,
         id: 0,
         token1: ZERO_ADDRESS,

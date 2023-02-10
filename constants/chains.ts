@@ -1,4 +1,4 @@
-import { rinkeby } from '@wagmi/core/chains';
+import { bsc, bscTestnet } from '@wagmi/core/chains';
 import { __, includes } from 'ramda';
 import { Chain } from 'wagmi';
 
@@ -10,7 +10,7 @@ import { Routes } from './routes';
 export const SUPPORTED_CHAINS_RECORD = {
   [Routes[RoutesEnum.Farms]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.FarmDetails]]: [CHAIN_ID.BNB_TEST_NET],
-  [Routes[RoutesEnum.Faucet]]: [CHAIN_ID.RINKEBY, CHAIN_ID.BNB_TEST_NET],
+  [Routes[RoutesEnum.Faucet]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DineroMarket]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DineroMarketRepay]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DineroMarketBorrow]]: [CHAIN_ID.BNB_TEST_NET],
@@ -23,7 +23,7 @@ export const SUPPORTED_CHAINS_RECORD = {
   [Routes[RoutesEnum.DEXPoolDetails]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.Vaults]]: [CHAIN_ID.BNB_TEST_NET],
   [Routes[RoutesEnum.DineroVault]]: [CHAIN_ID.BNB_TEST_NET],
-};
+} as Record<string, ReadonlyArray<number>>;
 
 export const BNB: Chain['nativeCurrency'] = {
   name: 'Binance Coin',
@@ -34,41 +34,15 @@ export const BNB: Chain['nativeCurrency'] = {
 export const RPC_URL = {
   [CHAIN_ID.BNB_TEST_NET]: process.env.NEXT_PUBLIC_BSC_TEST_NET_JSON_RPC
     ? process.env.NEXT_PUBLIC_BSC_TEST_NET_JSON_RPC
-    : 'https://data-seed-prebsc-2-s1.binance.org:8545/',
+    : bscTestnet.rpcUrls.public.http[0],
   [CHAIN_ID.BNB_MAIN_NET]: process.env.NEXT_PUBLIC_BSC_RPC_URL
     ? process.env.NEXT_PUBLIC_BSC_RPC_URL
-    : 'https://bsc-dataseed.binance.org/',
-  [CHAIN_ID.RINKEBY]: process.env.NEXT_PUBLIC_RINKEBY_URL
-    ? process.env.NEXT_PUBLIC_RINKEBY_URL
-    : 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+    : bsc.rpcUrls.public.http[0],
 };
 
 export const CHAINS = {
-  [CHAIN_ID.RINKEBY]: rinkeby,
-  [CHAIN_ID.BNB_TEST_NET]: {
-    id: CHAIN_ID.BNB_TEST_NET,
-    name: 'BNBT',
-    network: 'bnbt',
-    nativeCurrency: BNB,
-    rpcUrls: { default: 'https://data-seed-prebsc-1-s1.binance.org:8545/' },
-    blockExplorers: {
-      default: { url: 'https://testnet.bscscan.com', name: 'BSCScan' },
-    },
-    testnet: true,
-  },
-  [CHAIN_ID.BNB_MAIN_NET]: {
-    id: CHAIN_ID.BNB_MAIN_NET,
-    name: 'BNB',
-    network: 'bnb',
-    nativeCurrency: BNB,
-    rpcUrls: {
-      default: 'https://bsc-dataseed.binance.org/',
-    },
-    blockExplorers: {
-      default: { url: 'https://bscscan.com', name: 'BSCScan' },
-    },
-    testnet: false,
-  },
+  [CHAIN_ID.BNB_TEST_NET]: bscTestnet,
+  [CHAIN_ID.BNB_MAIN_NET]: bsc,
   [CHAIN_ID.UNSUPPORTED]: {
     id: CHAIN_ID.UNSUPPORTED,
     name: 'Unsupported Network',
@@ -78,14 +52,23 @@ export const CHAINS = {
       symbol: '???',
       decimals: 18,
     },
-    rpcUrls: { default: '' },
+    rpcUrls: {
+      default: {
+        http: [],
+        webSocket: [],
+      },
+      public: {
+        http: [],
+        webSocket: [],
+      },
+    },
     blockExplorers: {
       default: { url: '', name: '' },
+      public: { url: '', name: '' },
     },
   },
 } as Record<string, Chain>;
 
 export const isChainIdSupported = includes(__, [
-  CHAIN_ID.BNB_TEST_NET,
-  CHAIN_ID.RINKEBY,
+  CHAIN_ID.BNB_TEST_NET as number,
 ]);

@@ -1,10 +1,16 @@
 import { WrapperBuilder } from '@redstone-finance/evm-connector';
+import { Abi, Narrow } from 'abitype';
 import { ethers } from 'ethers';
 import { isEmpty } from 'ramda';
 import { useMemo } from 'react';
 import { WrapperBuilder as OldWrapperBuilder } from 'redstone-evm-connector';
 import { useDebounce } from 'use-debounce';
-import { useContractWrite, usePrepareContractWrite, useQuery } from 'wagmi';
+import {
+  useContractWrite,
+  UseContractWriteConfig,
+  usePrepareContractWrite,
+  useQuery,
+} from 'wagmi';
 
 import {
   DEFAULT_ACCOUNT,
@@ -60,8 +66,8 @@ export const useWagmiGetSyntheticUserMarketData = ({
     ethers.utils.isAddress(collateralAddress);
 
   return useSafeContractRead({
-    addressOrName: getInterestViewDineroV2Address(chainId),
-    contractInterface: InterestViewDineroV2ABI,
+    address: getInterestViewDineroV2Address(chainId),
+    abi: InterestViewDineroV2ABI as Narrow<Abi>,
     functionName: 'getSyntheticUserMarketData',
     args: [
       account || DEFAULT_ACCOUNT,
@@ -133,14 +139,14 @@ const handleBurnRequest = (
 
   const enabled = !safeBNSynt.isZero() && !safeBNCollateral.isZero();
   const overrides = {};
-  const contractInterface = SyntheticMinterABI;
+  const abi = SyntheticMinterABI as Narrow<Abi>;
 
   return {
     functionName,
     args,
     enabled,
     overrides,
-    contractInterface,
+    abi,
   };
 };
 
@@ -162,14 +168,14 @@ const handleWithdrawCollateral = (
   const args = [market.account, safeBNCollateral];
   const enabled = !safeBNCollateral.isZero();
   const overrides = {};
-  const contractInterface = SyntheticMinterABI;
+  const abi = SyntheticMinterABI as Narrow<Abi>;
 
   return {
     functionName,
     args,
     enabled,
     overrides,
-    contractInterface,
+    abi,
   };
 };
 
@@ -191,14 +197,14 @@ const handleBurnSynt = (
   const args = [market.account, maxAmount];
   const enabled = !maxAmount.isZero();
   const overrides = {};
-  const contractInterface = SyntheticMinterABI;
+  const abi = SyntheticMinterABI as Narrow<Abi>;
 
   return {
     functionName,
     args,
     enabled,
     overrides,
-    contractInterface,
+    abi,
   };
 };
 
@@ -224,7 +230,7 @@ export const useBurn = (
   if (safeSynt && !safeCollateral) data = handleBurnSynt(market, safeSynt);
 
   const { config } = usePrepareContractWrite({
-    addressOrName: market.marketAddress,
+    address: market.marketAddress,
     ...data,
     enabled:
       data.enabled &&
@@ -233,7 +239,7 @@ export const useBurn = (
       !isZeroAddress(market.marketAddress),
   });
 
-  return useContractWrite(config);
+  return useContractWrite(config as UseContractWriteConfig);
 };
 
 const handleMintRequest = (
@@ -259,12 +265,12 @@ const handleMintRequest = (
   ];
   const enabled = !safeCollateral.isZero() && !syntBN.isZero();
   const overrides = {};
-  const contractInterface = SyntheticMinterABI;
+  const abi = SyntheticMinterABI as Narrow<Abi>;
 
   return {
     functionName,
     args,
-    contractInterface,
+    abi,
     overrides,
     enabled,
   };
@@ -288,14 +294,14 @@ const handleDepositCollateral = (
   const args = [market.account, safeCollateral];
   const enabled = !safeCollateral.isZero();
   const overrides = {};
-  const contractInterface = SyntheticMinterABI;
+  const abi = SyntheticMinterABI as Narrow<Abi>;
 
   return {
     functionName,
     args,
     enabled,
     overrides,
-    contractInterface,
+    abi,
   };
 };
 
@@ -309,14 +315,14 @@ const handleMintSynt = (
   const args = [market.account, syntBN];
   const enabled = !syntBN.isZero();
   const overrides = {};
-  const contractInterface = SyntheticMinterABI;
+  const abi = SyntheticMinterABI as Narrow<Abi>;
 
   return {
     functionName,
     args,
     enabled,
     overrides,
-    contractInterface,
+    abi,
   };
 };
 
@@ -342,7 +348,7 @@ export const useMint = (
   if (safeSynt && !safeCollateral) data = handleMintSynt(market, safeSynt);
 
   const { config } = usePrepareContractWrite({
-    addressOrName: market.marketAddress,
+    address: market.marketAddress,
     ...data,
     enabled:
       data.enabled &&
@@ -351,14 +357,14 @@ export const useMint = (
       !isZeroAddress(market.marketAddress),
   });
 
-  return useContractWrite(config);
+  return useContractWrite(config as UseContractWriteConfig);
 };
 
 export const useGetRewards = (market: SyntheticMarketData) => {
   const { config } = usePrepareContractWrite({
-    addressOrName: market.marketAddress,
+    address: market.marketAddress,
     functionName: 'getRewards',
-    contractInterface: SyntheticMinterABI,
+    abi: SyntheticMinterABI,
     enabled:
       isValidAccount(market.account) &&
       !isZeroAddress(market.marketAddress) &&

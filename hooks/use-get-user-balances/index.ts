@@ -1,3 +1,4 @@
+import { Abi, Narrow } from 'abitype';
 import { useMemo } from 'react';
 
 import { DEFAULT_ACCOUNT } from '@/constants';
@@ -24,8 +25,8 @@ export const useGetUserBalances = (
   const args = useMemo(() => [user, tokens], [user, tokens]);
 
   return useSafeContractRead({
-    addressOrName: getInterestViewBalancesAddress(chainId),
-    contractInterface: InterestViewBalancesABI,
+    address: getInterestViewBalancesAddress(chainId),
+    abi: InterestViewBalancesABI as Narrow<Abi>,
     functionName: 'getUserBalances',
     args: args,
     enabled: !!tokens.length,

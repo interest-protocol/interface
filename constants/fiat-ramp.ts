@@ -3,13 +3,12 @@ import { CHAIN_ID } from '@/sdk';
 const TRANSAK_NETWORK_MAP = {
   [CHAIN_ID.BNB_TEST_NET]: 'BSC',
   [CHAIN_ID.BNB_MAIN_NET]: 'BSC',
-  [CHAIN_ID.RINKEBY]: 'ethereum',
-};
+} as Record<number, string>;
+
 const TRANSAK_CURRENCY_MAP = {
   [CHAIN_ID.BNB_TEST_NET]: 'BNB',
   [CHAIN_ID.BNB_MAIN_NET]: 'BNB',
-  [CHAIN_ID.RINKEBY]: 'ETH',
-};
+} as Record<number, string>;
 
 export const makeFIATWidgetURL = (chainId: number, address: string): string =>
   `${process.env.NEXT_PUBLIC_TRANSAK_WIDGET_URL}&exchangeScreenTitle=Buy%20${

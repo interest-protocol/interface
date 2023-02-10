@@ -90,7 +90,7 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
       onClick={safeCreateToken}
       hover={{ bg: 'accentAlternativeActive' }}
       bg={loading || !createToken ? 'disabled' : 'accentAlternative'}
-      cursor={loading || !createToken ? 'not-allowed' : 'default'}
+      cursor={loading || !createToken ? 'not-allowed' : 'pointer'}
     >
       {loading ? (
         <Box display="flex" alignItems="center" justifyContent="center">

@@ -6,7 +6,8 @@ import {
   WebSocketProvider,
 } from '@ethersproject/providers';
 import { QueryClient } from '@tanstack/query-core';
-import { Chain, chain, Client, configureChains, createClient } from 'wagmi';
+import { bscTestnet } from '@wagmi/core/chains';
+import { Chain, Client, configureChains, createClient } from 'wagmi';
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
@@ -14,28 +15,20 @@ import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 import { publicProvider } from 'wagmi/providers/public';
 
-import { CHAINS, RPC_URL } from '@/constants';
+import { RPC_URL } from '@/constants';
 import { CHAIN_ID } from '@/sdk';
 
 import { BinanceWalletConnector } from './binance-wallet-connector';
 
-const bnbTestNet = CHAINS[CHAIN_ID.BNB_TEST_NET];
-
-const defaultChains = [chain.rinkeby, bnbTestNet];
+const defaultChains = [bscTestnet];
 
 const { provider } = configureChains(defaultChains, [
   jsonRpcProvider({
     rpc: (_chain) => {
-      if (_chain.id === bnbTestNet.id)
+      if (_chain.id === bscTestnet.id)
         return {
           http: RPC_URL[CHAIN_ID.BNB_TEST_NET],
           webSocket: process.env.NEXT_PUBLIC_BSC_TEST_NET_WEB_SOCKET,
-        };
-
-      if (_chain.id === chain.rinkeby.id)
-        return {
-          http: RPC_URL[CHAIN_ID.RINKEBY],
-          webSocket: process.env.NEXT_PUBLIC_RINKEY_WEB_SOCKET,
         };
       return null;
     },

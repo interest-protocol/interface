@@ -51,7 +51,7 @@ export class BinanceWalletConnector extends InjectedConnector {
   }
 
   async connect({ chainId }: { chainId?: number }): Promise<{
-    account: string;
+    account: `0x${string}`;
     chain: {
       id: number;
       unsupported: boolean;
@@ -110,7 +110,12 @@ export class BinanceWalletConnector extends InjectedConnector {
             id: chainId,
             name: `Chain ${id}`,
             network: `${id}`,
-            rpcUrls: { default: '' },
+            rpcUrls: { default: { http: [''] }, public: { http: [''] } },
+            nativeCurrency: {
+              decimals: 18,
+              name: 'Unknown',
+              symbol: 'Unknown',
+            },
           }
         );
       } catch (error) {

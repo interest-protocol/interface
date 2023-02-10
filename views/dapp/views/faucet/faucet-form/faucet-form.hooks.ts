@@ -40,16 +40,16 @@ export const useMint = (
 
   const isOld = MINT_FN_RECORD[getAddress(token)] || false;
 
-  const contractInterface = isOld ? MintOldABI : MintABI;
+  const abi = isOld ? MintOldABI : MintABI;
 
   const value = FixedPointMath.toBigNumber(safeAmount, decimals);
 
   const args = isOld ? [value] : [account, value];
 
   const { config } = usePrepareContractWrite({
-    addressOrName: getTokenMinter(chainId, token),
+    address: getTokenMinter(chainId, token),
     functionName: 'mint',
-    contractInterface,
+    abi,
     args,
     enabled: !value.isZero() && isValidAccount(token),
   });

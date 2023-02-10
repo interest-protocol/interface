@@ -18,9 +18,9 @@ export interface DineroMarketSummary {
   symbol1: string;
   name: string;
   stable: boolean;
-  marketAddress: string;
+  marketAddress: `0x${string}`;
   collateralDecimals: number;
-  collateralAddress: string;
+  collateralAddress: `0x${string}`;
 }
 
 export type TDineroMarketDataKeys =

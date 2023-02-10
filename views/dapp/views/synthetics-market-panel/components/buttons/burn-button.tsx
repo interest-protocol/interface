@@ -5,6 +5,7 @@ import { useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import { Box, Button, Typography } from '@/elements';
+import { Address } from '@/interface';
 import { LoadingSVG } from '@/svg';
 import {
   capitalize,
@@ -72,7 +73,8 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
       return;
     }
 
-    if (!data || !data.chainId || isZeroAddress(data.account)) return;
+    if (!data || !data.chainId || isZeroAddress(data.account as Address))
+      return;
 
     await showToast(handleBurn(), {
       success: capitalize(t('common.success')),

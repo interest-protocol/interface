@@ -1,9 +1,12 @@
-import { CallOverrides } from 'ethers';
 import { getAddress } from 'ethers/lib/utils';
 import { pathOr } from 'ramda';
 import { useWatch } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
-import { useContractWrite, usePrepareContractWrite } from 'wagmi';
+import {
+  useContractWrite,
+  usePrepareContractWrite,
+  UsePrepareContractWriteConfig,
+} from 'wagmi';
 
 import { sortTokens, ZERO_BIG_NUMBER } from '@/sdk';
 import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
@@ -81,7 +84,7 @@ export const useAddLiquidity = ({
 
   let args: Array<any> = [];
   let functionName = '';
-  let overrides: CallOverrides = {};
+  let overrides: UsePrepareContractWriteConfig['overrides'] = {};
   let enabled = false;
 
   if (isZeroAddress(token0.address)) {
@@ -116,8 +119,8 @@ export const useAddLiquidity = ({
   }
 
   const { config } = usePrepareContractWrite({
-    addressOrName: getInterestDexRouterAddress(chainId),
-    contractInterface: InterestDexRouterABI,
+    address: getInterestDexRouterAddress(chainId),
+    abi: InterestDexRouterABI,
     chainId,
     functionName,
     args,

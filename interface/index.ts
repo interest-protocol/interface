@@ -1,18 +1,16 @@
 import { QueryFunctionContext, UseQueryOptions } from '@tanstack/react-query';
 import type { Ethereum } from '@wagmi/core';
-import { ContractInterface } from 'ethers';
-import { CallOverrides } from 'ethers/lib/ethers';
+import { PrepareWriteContractConfig } from '@wagmi/core';
 import { NextPage } from 'next';
 import MessageKeys from 'use-intl/dist/utils/MessageKeys';
+import { UsePrepareContractWriteConfig } from 'wagmi';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IEmptyObj {}
 
-export type MaybeArray<T> = ReadonlyArray<T> | T;
-
 export type UseContractArgs = {
   cacheOnBlock?: boolean;
-  overrides?: CallOverrides;
+  overrides?: PrepareWriteContractConfig['overrides'];
   enabled?: boolean;
   staleTime?: number;
 };
@@ -34,6 +32,14 @@ export declare type QueryConfig<Data, Error> = Pick<
   | 'onSuccess'
 >;
 
+export interface QueryKeyArgs {
+  address: `0x${string}`;
+  args: ReadonlyArray<unknown> | undefined;
+  chainId: number;
+  functionName: string;
+  overrides: any;
+}
+
 declare global {
   interface Window {
     BinanceChain?: {
@@ -49,11 +55,13 @@ declare global {
 export type TTranslatedMessage = MessageKeys<IntlMessages, keyof IntlMessages>;
 
 export interface HandlerData {
-  functionName: string;
-  contractInterface: ContractInterface;
+  functionName: UsePrepareContractWriteConfig['functionName'];
+  abi: UsePrepareContractWriteConfig['abi'];
   args: any[];
-  overrides: CallOverrides;
+  overrides?: UsePrepareContractWriteConfig['overrides'] | undefined;
   enabled: boolean;
 }
 
-export type NextPageWithAddress = NextPage<{ address: string }>;
+export type NextPageWithAddress = NextPage<{ address: `0x${string}` }>;
+
+export type Address = `0x${string}`;

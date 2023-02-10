@@ -6,7 +6,7 @@ import { FixedPointMath } from '@/sdk';
 import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestViewEarnAbi';
 
 export interface FarmDetailsProps {
-  address: string;
+  address: `0x${string}`;
 }
 
 export interface SafeUserFarmData {
@@ -14,11 +14,11 @@ export interface SafeUserFarmData {
   chainId: number;
   reserve0: BigNumber;
   reserve1: BigNumber;
-  stakingTokenAddress: string;
+  stakingTokenAddress: `0x${string}`;
   stakingTokenPrice: BigNumber;
   id: number;
-  token1: string;
-  token0: string;
+  token1: `0x${string}`;
+  token0: `0x${string}`;
   totalStakedAmount: BigNumber;
   allocation: FixedPointMath;
   tvl: number;
@@ -77,6 +77,6 @@ export type TFarmData =
 
 export type GetSafeUserFarmData = (
   chainId: number,
-  pairAddress: string,
+  pairAddress: `0x${string}`,
   data: TFarmData
 ) => SafeUserFarmSummaryData;

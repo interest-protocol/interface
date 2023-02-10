@@ -74,13 +74,5 @@ export const WALLETS_MAP = {
     WALLET_RECORD.MathWallet,
     WALLET_RECORD.OperaWallet,
   ],
-  [CHAIN_ID.RINKEBY]: [
-    WALLET_RECORD.Metamask,
-    WALLET_RECORD.CoinbaseWallet,
-    WALLET_RECORD.WalletConnect,
-    WALLET_RECORD.TrustWallet,
-    WALLET_RECORD.MathWallet,
-    WALLET_RECORD.OperaWallet,
-  ],
   [CHAIN_ID.UNSUPPORTED]: [],
 };

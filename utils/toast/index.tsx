@@ -1,4 +1,5 @@
 import { SendTransactionResult } from '@wagmi/core';
+import { ContractTransaction } from 'ethers';
 import { propOr } from 'ramda';
 import toast from 'react-hot-toast';
 
@@ -11,11 +12,11 @@ import { tryCatch } from '@/utils/promise';
 import { ToastMsgs, ToastOpts } from './toast.types';
 
 export const showTXSuccessToast = async (
-  tx: SendTransactionResult | undefined,
+  tx: SendTransactionResult | undefined | ContractTransaction,
   chainId: number
 ): Promise<void> => {
   if (!tx) return;
-  const receipt = await tx.wait(2);
+  const receipt = await tx.wait(1);
 
   const explorer = CHAINS[chainId].blockExplorers;
 
