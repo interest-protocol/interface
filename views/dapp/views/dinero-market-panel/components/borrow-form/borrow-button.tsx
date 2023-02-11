@@ -154,38 +154,46 @@ const BorrowButton: FC<BorrowButtonProps> = ({
     });
   };
 
-  return data.collateralAllowance.isZero() ? (
-    <ApproveButton
-      enabled={
-        data.collateralAllowance.isZero() &&
-        isValidAccount(account) &&
-        !isZeroAddress(data.marketAddress)
-      }
-      refetch={refetch}
-      chainId={data.chainId}
-      contract={data.collateralAddress}
-      spender={data.marketAddress}
-      buttonProps={{
-        display: 'flex',
-        variant: 'primary',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      pageName={GAPage.DineroMarketPanel}
-    />
-  ) : (!borrowLoan && !borrowCollateral) ||
-    (+borrowCollateral === 0 && +borrowLoan === 0) ? (
-    <Box
-      py="L"
-      px="XL"
-      fontSize="S"
-      bg="disabled"
-      borderRadius="M"
-      cursor="not-allowed"
-    >
-      {t('dineroMarketAddress.button.default')}
-    </Box>
-  ) : (
+  if (!data.collateralAllowance.isZero())
+    return (
+      <ApproveButton
+        enabled={
+          data.collateralAllowance.isZero() &&
+          isValidAccount(account) &&
+          !isZeroAddress(data.marketAddress)
+        }
+        refetch={refetch}
+        chainId={data.chainId}
+        contract={data.collateralAddress}
+        spender={data.marketAddress}
+        buttonProps={{
+          display: 'flex',
+          variant: 'primary',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        pageName={GAPage.DineroMarketPanel}
+      />
+    );
+
+  if (
+    (!borrowLoan && !borrowCollateral) ||
+    (+borrowCollateral === 0 && +borrowLoan === 0)
+  )
+    return (
+      <Box
+        py="L"
+        px="XL"
+        fontSize="S"
+        bg="disabled"
+        borderRadius="M"
+        cursor="not-allowed"
+      >
+        {t('dineroMarketAddress.button.default')}
+      </Box>
+    );
+
+  return (
     <Button
       display="flex"
       variant="primary"

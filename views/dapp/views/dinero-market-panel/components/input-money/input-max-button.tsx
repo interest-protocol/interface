@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import { FC, useCallback, useEffect, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useAccount } from 'wagmi';
 
 import { Button } from '@/elements';
 import { FixedPointMath } from '@/sdk';
@@ -19,10 +20,11 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
   control,
   setValue,
 }) => {
-  const borrowCollateral = useWatch({ control, name: 'borrow.collateral' });
-  const borrowLoan = useWatch({ control, name: 'borrow.loan' });
+  const { isConnected } = useAccount();
   const repayLoan = useWatch({ control, name: 'repay.loan' });
+  const borrowLoan = useWatch({ control, name: 'borrow.loan' });
   const repayCollateral = useWatch({ control, name: 'repay.collateral' });
+  const borrowCollateral = useWatch({ control, name: 'borrow.collateral' });
 
   const maxBorrowLoan = numberToString(
     calculateDineroLeftToBorrow({
@@ -49,37 +51,41 @@ const InputMaxButton: FC<InputMaxButtonProps> = ({
   }, [repayCollateral]);
 
   useEffect(() => {
-    if (FixedPointMath.toBigNumber(repayLoan).gt(data.dnrBalance))
-      setValue(
-        'repay.loan',
-        numberToString(FixedPointMath.from(data.dnrBalance).toNumber())
-      );
+    if (isConnected) {
+      if (FixedPointMath.toBigNumber(repayLoan).gt(data.dnrBalance))
+        setValue(
+          'repay.loan',
+          numberToString(FixedPointMath.from(data.dnrBalance).toNumber())
+        );
 
-    if (
-      FixedPointMath.toBigNumber(borrowCollateral).gt(
-        data.adjustedCollateralBalance
-      )
-    )
-      setValue(
-        'borrow.collateral',
-        numberToString(
-          FixedPointMath.from(data.adjustedCollateralBalance).toNumber()
+      if (
+        FixedPointMath.toBigNumber(borrowCollateral).gt(
+          data.adjustedCollateralBalance
         )
-      );
+      )
+        setValue(
+          'borrow.collateral',
+          numberToString(
+            FixedPointMath.from(data.adjustedCollateralBalance).toNumber()
+          )
+        );
+    }
   }, [repayLoan, borrowCollateral]);
 
   const handleSetInnerMax = useCallback(() => {
-    if (name === 'borrow.loan') {
-      setValue(name, maxBorrowLoan);
-      return;
+    if (isConnected) {
+      if (name === 'borrow.loan') {
+        setValue(name, maxBorrowLoan);
+        return;
+      }
+
+      if (name === 'repay.collateral') {
+        setValue(name, maxRepayCollateral);
+        return;
+      }
     }
 
-    if (name === 'repay.collateral') {
-      setValue(name, maxRepayCollateral);
-      return;
-    }
-
-    setValue(name, max ? numberToString(max) : '0');
+    setValue(name, max && isConnected ? numberToString(max) : '0');
   }, [repayLoan, borrowCollateral, data]);
 
   const isDisabled = useMemo(() => {

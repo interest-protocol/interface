@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import { FC, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useAccount } from 'wagmi';
 
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
@@ -19,8 +20,9 @@ const InputMaxTag: FC<InputMaxTagProps> = ({
   control,
   isBorrow,
 }) => {
-  const depositCollateral = useWatch({ control, name: 'borrow.collateral' });
+  const { isConnected } = useAccount();
   const repayLoan = useWatch({ control, name: 'repay.loan' });
+  const depositCollateral = useWatch({ control, name: 'borrow.collateral' });
 
   const recalculatedMax = useMemo(
     () =>
@@ -40,6 +42,8 @@ const InputMaxTag: FC<InputMaxTagProps> = ({
     [depositCollateral, repayLoan, isBorrow]
   );
 
+  console.log('>> isConnected ::: ', isConnected);
+
   return (
     <Box
       py="S"
@@ -53,9 +57,11 @@ const InputMaxTag: FC<InputMaxTagProps> = ({
         Max:{' '}
         <Typography fontSize="S" variant="normal" fontWeight="bold" as="span">
           {formatMoney(
-            ((isDNR && isBorrow) || (!isDNR && !isBorrow)
-              ? recalculatedMax
-              : max) ?? 0
+            isConnected
+              ? ((isDNR && isBorrow) || (!isDNR && !isBorrow)
+                  ? recalculatedMax
+                  : max) ?? 0
+              : 0
           )}
         </Typography>
       </Typography>
