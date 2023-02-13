@@ -19,6 +19,7 @@ import {
   logTransactionEvent,
 } from '@/utils/analytics';
 
+import ErrorButton from '../error-button';
 import { useMint } from './faucet-form.hooks';
 import { MintButtonProps } from './faucet-form.types';
 
@@ -33,7 +34,8 @@ const MintButton: FC<MintButtonProps> = ({
   const [loading, setLoading] = useState(false);
 
   const {
-    useContractWriteReturn: { writeAsync: mint },
+    useContractWriteReturn: { writeAsync: mint, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
   } = useMint(chainId, account, control);
 
   const handleOnMint = useCallback(async () => {
@@ -75,6 +77,13 @@ const MintButton: FC<MintButtonProps> = ({
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
+
+  if (!(isWriteError || isPrepareError))
+    <ErrorButton
+      error={t(
+        isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+      )}
+    />;
 
   return (
     <Button

@@ -16,6 +16,7 @@ import {
 
 import { useWithdraw } from '../dinero-vault.hooks';
 import { WithdrawButtonProps } from '../dinero-vault.types';
+import ErrorButton from '../error-button';
 
 const WithdrawButton: FC<WithdrawButtonProps> = ({
   control,
@@ -27,7 +28,8 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
   const value = useWatch({ control, name: 'value' });
 
   const {
-    useContractWriteReturn: { writeAsync },
+    useContractWriteReturn: { writeAsync, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
   } = useWithdraw(data, value);
 
   const handleWithdraw = async () => {
@@ -66,6 +68,13 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       loading: capitalize(t('common.submit', { isLoading: 1 })),
     });
   };
+
+  if (!(isWriteError || isPrepareError))
+    <ErrorButton
+      error={t(
+        isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+      )}
+    />;
 
   return (
     <Button

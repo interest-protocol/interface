@@ -24,6 +24,7 @@ import {
 } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
+import ErrorView from '../../error';
 import { useSwap, useWETHDeposit, useWETHWithdraw } from './swap.hooks';
 import { SwapButtonProps, SwapViewButtonProps } from './swap.types';
 
@@ -80,7 +81,11 @@ const SwapButton: FC<SwapButtonProps> = ({
     useState<string | null>(null);
 
   const {
-    useContractWriteReturn: { writeAsync: approve },
+    useContractWriteReturn: {
+      writeAsync: approve,
+      isError: isWriteErrorApprove,
+    },
+    usePrepareContractReturn: { isError: isPrepareErrorApprove },
   } = useApprove(tokenInAddress, getInterestDexRouterAddress(chainId), {
     enabled: needsApproval,
   });
@@ -89,7 +94,11 @@ const SwapButton: FC<SwapButtonProps> = ({
   const tokenOut = useWatch({ control, name: 'tokenOut' });
 
   const {
-    useContractWriteReturn: { writeAsync: swapTokens },
+    useContractWriteReturn: {
+      writeAsync: swapTokens,
+      isError: isWriteErrorSwap,
+    },
+    usePrepareContractReturn: { isError: isPrepareErrorSwap },
   } = useSwap({
     tokenIn,
     tokenOut,
@@ -102,7 +111,11 @@ const SwapButton: FC<SwapButtonProps> = ({
   });
 
   const {
-    useContractWriteReturn: { writeAsync: wethDeposit },
+    useContractWriteReturn: {
+      writeAsync: wethDeposit,
+      isError: isWriteErrorDeposit,
+    },
+    usePrepareContractReturn: { isError: isPrepareErrorDeposit },
   } = useWETHDeposit({
     tokenIn,
     tokenOut,
@@ -112,7 +125,11 @@ const SwapButton: FC<SwapButtonProps> = ({
   });
 
   const {
-    useContractWriteReturn: { writeAsync: wethWithdraw },
+    useContractWriteReturn: {
+      writeAsync: wethWithdraw,
+      isError: isWriteErrorDraw,
+    },
+    usePrepareContractReturn: { isError: isPrepareErrorDraw },
   } = useWETHWithdraw({
     tokenIn,
     tokenOut,
@@ -376,6 +393,20 @@ const SwapButton: FC<SwapButtonProps> = ({
 
     return false;
   };
+
+  if (
+    !(
+      isWriteErrorApprove ||
+      isPrepareErrorApprove ||
+      isWriteErrorDraw ||
+      isPrepareErrorDraw ||
+      isWriteErrorDeposit ||
+      isPrepareErrorDeposit ||
+      isWriteErrorSwap ||
+      isPrepareErrorSwap
+    )
+  )
+    return <ErrorView message={t('error.fetchingBalances')} />;
 
   return (
     <WalletGuardButton>

@@ -21,6 +21,7 @@ import {
 import { useRepay } from '../../dinero-market.hooks';
 import { isFormRepayEmpty } from '../../dinero-market.utils';
 import { RepayButtonProps } from './borrow-form.types';
+import ErrorButton from './error-button';
 
 const RepayButton: FC<RepayButtonProps> = ({
   data,
@@ -34,7 +35,8 @@ const RepayButton: FC<RepayButtonProps> = ({
   const [loading, setLoading] = useState(false);
 
   const {
-    useContractWriteReturn: { writeAsync: repay },
+    useContractWriteReturn: { writeAsync: repay, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
   } = useRepay(data, account, repayCollateral, repayLoan);
 
   const handleRepay = async () => {
@@ -84,6 +86,13 @@ const RepayButton: FC<RepayButtonProps> = ({
       loading: capitalize(t('common.submit', { isLoading: 1 })),
     });
   };
+
+  if (!(isWriteError || isPrepareError))
+    <ErrorButton
+      error={t(
+        isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+      )}
+    />;
 
   return (
     <Button

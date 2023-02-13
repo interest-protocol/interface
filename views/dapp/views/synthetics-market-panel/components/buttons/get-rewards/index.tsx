@@ -19,6 +19,7 @@ import {
 } from '@/utils/analytics';
 import { useGetRewards } from '@/views/dapp/views/synthetics-market-panel/synthetics-market-panel.hooks';
 
+import ErrorButton from '../../../error-button';
 import { GetRewardsProps } from './get-rewards.types';
 
 const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
@@ -26,7 +27,8 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
   const [loading, setLoading] = useState(false);
 
   const {
-    useContractWriteReturn: { writeAsync: getRewards },
+    useContractWriteReturn: { writeAsync: getRewards, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
   } = useGetRewards(market);
 
   const disabled = market.pendingRewards.isZero() || !getRewards;
@@ -65,6 +67,13 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
       error: prop('message'),
       loading: capitalize(t('common.submit', { isLoading: 1 })),
     });
+
+  if (!(isWriteError || isPrepareError))
+    <ErrorButton
+      error={t(
+        isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+      )}
+    />;
 
   return (
     <Box p="XL" order={4} gridArea="g" bg="foreground" borderRadius="L">

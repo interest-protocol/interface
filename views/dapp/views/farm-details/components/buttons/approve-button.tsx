@@ -21,11 +21,13 @@ import {
   logTransactionEvent,
 } from '@/utils/analytics';
 
+import ErrorButton from '../error-button';
 import { ApproveButtonProps } from './buttons.types';
 
 const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
   const {
-    useContractWriteReturn: { writeAsync: _approve },
+    useContractWriteReturn: { writeAsync: _approve, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
   } = useApprove(
     farm.stakingTokenAddress,
     getCasaDePapelAddress(farm.chainId),
@@ -72,6 +74,13 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
       }),
     [approve]
   );
+
+  if (!(isWriteError || isPrepareError))
+    <ErrorButton
+      error={t(
+        isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+      )}
+    />;
 
   return (
     <Button

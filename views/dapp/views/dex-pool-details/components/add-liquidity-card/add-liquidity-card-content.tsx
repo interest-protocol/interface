@@ -24,6 +24,7 @@ import {
 } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
+import ErrorView from '../../../error';
 import AddLiquidityButton from './add-liquidity-button';
 import {
   AddLiquidityCardContentProps,
@@ -31,6 +32,7 @@ import {
   IToken,
 } from './add-liquidity-card.types';
 import BalanceError from './balance-error';
+import ErrorButton from './error-button';
 import ErrorLiquidityMessage from './error-liquidity-message';
 import { useAddLiquidity } from './use-add-lliquidity-card.hooks';
 
@@ -53,13 +55,21 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
   loading,
 }) => {
   const {
-    useContractWriteReturn: { writeAsync: approveToken0 },
+    useContractWriteReturn: {
+      writeAsync: approveToken0,
+      isError: isWriteErrorApprove0,
+    },
+    usePrepareContractReturn: { isError: isPrepareErrorApprove0 },
   } = useApprove(tokens[0].address, getInterestDexRouterAddress(chainId), {
     enabled: tokens[0].allowance.isZero(),
   });
 
   const {
-    useContractWriteReturn: { writeAsync: approveToken1 },
+    useContractWriteReturn: {
+      writeAsync: approveToken1,
+      isError: isWriteErrorApprove1,
+    },
+    usePrepareContractReturn: { isError: isPrepareErrorApprove1 },
   } = useApprove(tokens[1].address, getInterestDexRouterAddress(chainId), {
     enabled: tokens[1].allowance.isZero(),
   });
@@ -109,7 +119,8 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
     });
 
   const {
-    useContractWriteReturn: { writeAsync: addLiquidity },
+    useContractWriteReturn: { writeAsync: addLiquidity, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
   } = useAddLiquidity({
     chainId,
     account,
@@ -117,6 +128,16 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
     tokens,
     control,
   });
+
+  if (
+    !(
+      isWriteErrorApprove0 ||
+      isPrepareErrorApprove0 ||
+      isWriteErrorApprove1 ||
+      isPrepareErrorApprove1
+    )
+  )
+    return <ErrorView message={t('error.fetchingBalances')} />;
 
   return (
     <>
@@ -179,15 +200,25 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
               >
                 {capitalize(t('common.reset'))}
               </Button>
-              <AddLiquidityButton
-                addLiquidity={
-                  addLiquidity ? async () => await addLiquidity() : undefined
-                }
-                chainId={chainId}
-                refetch={refetch}
-                setLoading={setLoading}
-                loading={loading || fetchingInitialData || isFetchingQuote}
-              />
+              {!(isWriteError || isPrepareError) ? (
+                <ErrorButton
+                  error={t(
+                    isPrepareError
+                      ? 'error.contract.prepare'
+                      : 'error.contract.write'
+                  )}
+                />
+              ) : (
+                <AddLiquidityButton
+                  addLiquidity={
+                    addLiquidity ? async () => await addLiquidity() : undefined
+                  }
+                  chainId={chainId}
+                  refetch={refetch}
+                  setLoading={setLoading}
+                  loading={loading || fetchingInitialData || isFetchingQuote}
+                />
+              )}
             </>
           )}
         </Box>

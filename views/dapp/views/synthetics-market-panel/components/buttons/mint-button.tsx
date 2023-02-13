@@ -24,6 +24,7 @@ import {
   logTransactionEvent,
 } from '@/utils/analytics';
 
+import ErrorButton from '../../error-button';
 import { useMint } from '../../synthetics-market-panel.hooks';
 import {
   convertCollateralToSynt,
@@ -42,7 +43,8 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
     name: 'mint.collateral',
   });
   const {
-    useContractWriteReturn: { writeAsync: mint },
+    useContractWriteReturn: { writeAsync: mint, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
   } = useMint(data, mintCollateral, mintSynt);
 
   const handleMint = async () => {
@@ -148,6 +150,13 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
       loading: capitalize(t('common.submit', { isLoading: 1 })),
     });
   };
+
+  if (!(isWriteError || isPrepareError))
+    <ErrorButton
+      error={t(
+        isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+      )}
+    />;
 
   return data.collateralAllowance.isZero() ? (
     <ApproveButton

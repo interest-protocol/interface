@@ -16,6 +16,7 @@ import {
 
 import { useDeposit } from '../dinero-vault.hooks';
 import { DepositButtonProps } from '../dinero-vault.types';
+import ErrorButton from '../error-button';
 
 const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
   const t = useTranslations();
@@ -23,7 +24,8 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
   const value = useWatch({ control, name: 'value' });
 
   const {
-    useContractWriteReturn: { writeAsync },
+    useContractWriteReturn: { writeAsync, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
   } = useDeposit(data, value);
 
   const handleDeposit = async () => {
@@ -62,6 +64,13 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
       loading: capitalize(t('common.submit', { isLoading: 1 })),
     });
   };
+
+  if (!(isWriteError || isPrepareError))
+    <ErrorButton
+      error={t(
+        isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+      )}
+    />;
 
   return (
     <Button

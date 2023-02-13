@@ -21,6 +21,7 @@ import {
   logTransactionEvent,
 } from '@/utils/analytics';
 
+import ErrorButton from '../../error-button';
 import { useBurn } from '../../synthetics-market-panel.hooks';
 import { isFormBurnEmpty } from '../../synthetics-market-panel.utils';
 import { BurnButtonProps } from './buttons.types';
@@ -37,7 +38,8 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
   });
 
   const {
-    useContractWriteReturn: { writeAsync: burn },
+    useContractWriteReturn: { writeAsync: burn, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
   } = useBurn(data, burnCollateral, burnSynt);
 
   const handleBurn = async () => {
@@ -84,6 +86,13 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
       loading: capitalize(t('common.submit', { isLoading: 1 })),
     });
   };
+
+  if (!(isWriteError || isPrepareError))
+    <ErrorButton
+      error={t(
+        isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+      )}
+    />;
 
   return (
     <Button

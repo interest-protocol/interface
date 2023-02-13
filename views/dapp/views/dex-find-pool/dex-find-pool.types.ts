@@ -79,3 +79,7 @@ export interface FindPoolButtonProps {
   isCreatingPair: boolean;
   setCreatingPair: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface ErrorButtonProps {
+  error: string;
+}

@@ -29,6 +29,7 @@ import {
   isFormBorrowEmpty,
 } from '../../dinero-market.utils';
 import { BorrowButtonProps } from './borrow-form.types';
+import ErrorButton from './error-button';
 
 const { parseEther } = ethers.utils;
 
@@ -44,7 +45,8 @@ const BorrowButton: FC<BorrowButtonProps> = ({
   const [loading, setLoading] = useState(false);
 
   const {
-    useContractWriteReturn: { writeAsync: borrow },
+    useContractWriteReturn: { writeAsync: borrow, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
   } = useBorrow(data, account, borrowCollateral, borrowLoan);
 
   const handleBorrow = async () => {
@@ -154,7 +156,14 @@ const BorrowButton: FC<BorrowButtonProps> = ({
     });
   };
 
-  if (!data.collateralAllowance.isZero())
+  if (!(isWriteError || isPrepareError))
+    <ErrorButton
+      error={t(
+        isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+      )}
+    />;
+
+  if (data.collateralAllowance.isZero())
     return (
       <ApproveButton
         enabled={

@@ -11,6 +11,7 @@ import {
   logTransactionEvent,
 } from '@/utils/analytics';
 
+import ErrorButton from '../error-button';
 import { useHarvest } from './buttons.hooks';
 import { HarvestButtonProps } from './buttons.types';
 
@@ -19,7 +20,8 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
   const [loadingPool, setLoadingPool] = useState<boolean>(false);
 
   const {
-    useContractWriteReturn: { writeAsync: _harvest },
+    useContractWriteReturn: { writeAsync: _harvest, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
   } = useHarvest(farm);
 
   const harvest = async () => {
@@ -58,6 +60,13 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
       error: propOr(capitalize(t('common.error')), 'message'),
       loading: t('farmsDetails.thirdCardButton', { isLoading: 1 }),
     });
+
+  if (!(isWriteError || isPrepareError))
+    <ErrorButton
+      error={t(
+        isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+      )}
+    />;
 
   return (
     <Button

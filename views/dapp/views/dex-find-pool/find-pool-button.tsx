@@ -33,6 +33,7 @@ import CreatePoolPopup from '@/views/dapp/views/dex-find-pool/create-pool-popup'
 import { useAddLiquidity } from '@/views/dapp/views/dex-find-pool/dex-find-pool.hooks';
 
 import { FindPoolButtonProps } from './dex-find-pool.types';
+import ErrorButton from './error-button';
 
 const FindPoolButton: FC<FindPoolButtonProps> = ({
   chainId,
@@ -53,7 +54,8 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
   const { push } = useRouter();
 
   const {
-    useContractWriteReturn: { writeAsync: addLiquidity },
+    useContractWriteReturn: { writeAsync: addLiquidity, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
   } = useAddLiquidity({
     control,
     account,
@@ -212,39 +214,49 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
             {t('dexPoolFind.buttonSameToken')}
           </Button>
         ) : isCreatingPair ? (
-          <Button
-            width="100%"
-            variant="primary"
-            disabled={
-              loading ||
-              tokenANeedsAllowance ||
-              tokenBNeedsAllowance ||
-              !addLiquidity
-            }
-            bg={
-              tokenANeedsAllowance || tokenBNeedsAllowance
-                ? 'disabled'
-                : loading
-                ? 'accentActive'
-                : 'accent'
-            }
-            hover={{
-              bg:
+          !(isWriteError || isPrepareError) ? (
+            <ErrorButton
+              error={t(
+                isPrepareError
+                  ? 'error.contract.prepare'
+                  : 'error.contract.write'
+              )}
+            />
+          ) : (
+            <Button
+              width="100%"
+              variant="primary"
+              disabled={
                 loading ||
                 tokenANeedsAllowance ||
                 tokenBNeedsAllowance ||
                 !addLiquidity
+              }
+              bg={
+                tokenANeedsAllowance || tokenBNeedsAllowance
                   ? 'disabled'
-                  : 'accentActive',
-            }}
-            onClick={
-              loading || tokenANeedsAllowance || tokenBNeedsAllowance
-                ? undefined
-                : handleValidateCreatePair
-            }
-          >
-            {t('dexPoolFind.buttonPool', { isLoading: Number(loading) })}
-          </Button>
+                  : loading
+                  ? 'accentActive'
+                  : 'accent'
+              }
+              hover={{
+                bg:
+                  loading ||
+                  tokenANeedsAllowance ||
+                  tokenBNeedsAllowance ||
+                  !addLiquidity
+                    ? 'disabled'
+                    : 'accentActive',
+              }}
+              onClick={
+                loading || tokenANeedsAllowance || tokenBNeedsAllowance
+                  ? undefined
+                  : handleValidateCreatePair
+              }
+            >
+              {t('dexPoolFind.buttonPool', { isLoading: Number(loading) })}
+            </Button>
+          )
         ) : (
           <Button
             width="100%"

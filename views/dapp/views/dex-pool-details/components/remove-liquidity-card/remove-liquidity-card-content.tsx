@@ -19,6 +19,7 @@ import {
 } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
+import ErrorView from '../../../error';
 import ApproveButton from './approve-button';
 import LinearLoader from './linear-loader';
 import RemoveLiquidityButton from './remove-liquidity-button';
@@ -41,11 +42,16 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
 }) => {
   const t = useTranslations();
   const {
-    useContractWriteReturn: { writeAsync: approve },
+    useContractWriteReturn: { writeAsync: approve, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
   } = useApprove(pairAddress, getInterestDexRouterAddress(chainId));
 
   const {
-    useContractWriteReturn: { writeAsync: removeLiquidity },
+    useContractWriteReturn: {
+      writeAsync: removeLiquidity,
+      isError: isWriteErrorRemove,
+    },
+    usePrepareContractReturn: { isError: isPrepareErrorRemove },
   } = useRemoveLiquidity({
     control,
     chainId,
@@ -122,6 +128,16 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
+
+  if (
+    !(
+      isWriteError ||
+      isPrepareError ||
+      isWriteErrorRemove ||
+      isPrepareErrorRemove
+    )
+  )
+    return <ErrorView message={t('error.fetchingBalances')} />;
 
   return (
     <>

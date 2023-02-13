@@ -239,3 +239,7 @@ export interface UseWagmiGetSyntheticUserMarketDataArgs {
   dataFeedId: string;
   collateralAddress: string;
 }
+
+export interface ErrorButtonProps {
+  error: string;
+}

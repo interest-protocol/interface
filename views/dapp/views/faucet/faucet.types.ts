@@ -17,3 +17,7 @@ export interface IFaucetForm {
   amount: number;
   token: `0x${string}`;
 }
+
+export interface ErrorButtonProps {
+  error: string;
+}

@@ -52,3 +52,7 @@ export interface RepayButtonProps {
   repayLoan: string;
   repayCollateral: string;
 }
+
+export interface ErrorButtonProps {
+  error: string;
+}

@@ -20,6 +20,7 @@ import {
   logTransactionEvent,
 } from '@/utils/analytics';
 
+import ErrorButton from '../error-button';
 import { useCreateToken } from './create-token-form.hooks';
 import { CreateTokenButtonProps } from './create-token-form.types';
 
@@ -33,7 +34,8 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
   const t = useTranslations();
 
   const {
-    useContractWriteReturn: { writeAsync: createToken },
+    useContractWriteReturn: { writeAsync: createToken, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
   } = useCreateToken(chainId, control);
 
   const handleCreateToken = async () => {
@@ -82,6 +84,13 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
+
+  if (!(isWriteError || isPrepareError))
+    <ErrorButton
+      error={t(
+        isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+      )}
+    />;
 
   return (
     <Button

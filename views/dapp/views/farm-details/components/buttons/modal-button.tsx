@@ -12,6 +12,7 @@ import {
   logTransactionEvent,
 } from '@/utils/analytics';
 
+import ErrorButton from '../error-button';
 import { useAction } from './buttons.hooks';
 import { ModalButtonProps } from './buttons.types';
 
@@ -24,7 +25,8 @@ const ModalButton: FC<ModalButtonProps> = ({
   isStake,
 }) => {
   const {
-    useContractWriteReturn: { writeAsync: action },
+    useContractWriteReturn: { writeAsync: action, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
   } = useAction(farm, control, modal);
   const t = useTranslations();
 
@@ -106,6 +108,13 @@ const ModalButton: FC<ModalButtonProps> = ({
   const onSubmit = async () => {
     isStake ? await handleStake() : await handleUnstake();
   };
+
+  if (!(isWriteError || isPrepareError))
+    <ErrorButton
+      error={t(
+        isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+      )}
+    />;
 
   return (
     <Button

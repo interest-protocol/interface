@@ -22,6 +22,7 @@ import {
   logTransactionEvent,
 } from '@/utils/analytics';
 
+import ErrorView from '../../error';
 import { CreatePoolFieldProps } from '../dex-find-pool.types';
 
 const CreatePoolField: FC<CreatePoolFieldProps> = ({
@@ -37,7 +38,8 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   const { chainId } = useIdAccount();
   const { address, symbol, decimals } = getValues()[name];
   const {
-    useContractWriteReturn: { writeAsync: addAllowance },
+    useContractWriteReturn: { writeAsync: addAllowance, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
   } = useApprove(address, getInterestDexRouterAddress(chainId), {
     enabled: needAllowance,
   });
@@ -79,6 +81,9 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
     () => !address || needAllowance,
     [address, needAllowance]
   );
+
+  if (!(isWriteError || isPrepareError))
+    return <ErrorView message={t('error.fetchingBalances')} />;
 
   return (
     <Box
