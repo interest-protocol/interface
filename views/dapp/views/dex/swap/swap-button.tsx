@@ -24,7 +24,7 @@ import {
 } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
-import ErrorView from '../../error';
+import ErrorButton from './error-button';
 import { useSwap, useWETHDeposit, useWETHWithdraw } from './swap.hooks';
 import { SwapButtonProps, SwapViewButtonProps } from './swap.types';
 
@@ -394,27 +394,35 @@ const SwapButton: FC<SwapButtonProps> = ({
     return false;
   };
 
-  if (
-    !(
-      isWriteErrorApprove ||
-      isPrepareErrorApprove ||
-      isWriteErrorDraw ||
-      isPrepareErrorDraw ||
-      isWriteErrorDeposit ||
-      isPrepareErrorDeposit ||
-      isWriteErrorSwap ||
-      isPrepareErrorSwap
-    )
-  )
-    return <ErrorView message={t('error.fetchingBalances')} />;
-
   return (
     <WalletGuardButton>
-      <SwapViewButton
-        {...handleProps()}
-        disabled={handleIsDisabled()}
-        loadingText={capitalize(handleLoadingText())}
-      />
+      {!(
+        isWriteErrorApprove ||
+        isPrepareErrorApprove ||
+        isWriteErrorDraw ||
+        isPrepareErrorDraw ||
+        isWriteErrorDeposit ||
+        isPrepareErrorDeposit ||
+        isWriteErrorSwap ||
+        isPrepareErrorSwap
+      ) ? (
+        <ErrorButton
+          error={t(
+            isPrepareErrorApprove ||
+              isPrepareErrorDraw ||
+              isPrepareErrorDeposit ||
+              isPrepareErrorSwap
+              ? 'error.contract.prepare'
+              : 'error.contract.write'
+          )}
+        />
+      ) : (
+        <SwapViewButton
+          {...handleProps()}
+          disabled={handleIsDisabled()}
+          loadingText={capitalize(handleLoadingText())}
+        />
+      )}
     </WalletGuardButton>
   );
 };

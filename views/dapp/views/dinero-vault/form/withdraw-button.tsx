@@ -70,11 +70,13 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
   };
 
   if (!(isWriteError || isPrepareError))
-    <ErrorButton
-      error={t(
-        isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
-      )}
-    />;
+    return (
+      <ErrorButton
+        error={t(
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+        )}
+      />
+    );
 
   return (
     <Button

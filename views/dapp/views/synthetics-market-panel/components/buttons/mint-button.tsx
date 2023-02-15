@@ -152,11 +152,13 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
   };
 
   if (!(isWriteError || isPrepareError))
-    <ErrorButton
-      error={t(
-        isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
-      )}
-    />;
+    return (
+      <ErrorButton
+        error={t(
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+        )}
+      />
+    );
 
   return data.collateralAllowance.isZero() ? (
     <ApproveButton

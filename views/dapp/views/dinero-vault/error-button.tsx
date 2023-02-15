@@ -13,7 +13,7 @@ const ErrorButton: FC<ErrorButtonProps> = ({ error }) => (
       px="0"
       mr="S"
       bg="error"
-      width="3rem"
+      width="100%"
       cursor="help"
       data-tip={error}
       variant="primary"

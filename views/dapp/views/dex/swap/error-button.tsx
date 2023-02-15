@@ -5,7 +5,7 @@ import Box from '@/elements/box';
 import Button from '@/elements/button';
 import { TimesSVG } from '@/svg';
 
-import { ErrorButtonProps } from './synthetics-market-panel.types';
+import { ErrorButtonProps } from './swap.types';
 
 const ErrorButton: FC<ErrorButtonProps> = ({ error }) => (
   <>
@@ -13,6 +13,7 @@ const ErrorButton: FC<ErrorButtonProps> = ({ error }) => (
       px="0"
       mr="S"
       bg="error"
+      mt="L"
       width="100%"
       cursor="help"
       data-tip={error}

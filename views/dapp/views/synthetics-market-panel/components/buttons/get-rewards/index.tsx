@@ -69,11 +69,13 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
     });
 
   if (!(isWriteError || isPrepareError))
-    <ErrorButton
-      error={t(
-        isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
-      )}
-    />;
+    return (
+      <ErrorButton
+        error={t(
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+        )}
+      />
+    );
 
   return (
     <Box p="XL" order={4} gridArea="g" bg="foreground" borderRadius="L">
