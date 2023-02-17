@@ -2,8 +2,15 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
-import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
+import {
+  Routes,
+  RoutesEnum,
+  SOCIAL_MEDIAS,
+  SOCIAL_MEDIAS_PT,
+} from '@/constants';
+import { LocalesEnum } from '@/constants/locale';
 import { Box } from '@/elements';
+import { useLocale } from '@/hooks';
 import { capitalize } from '@/utils';
 
 import SocialMediaCard from '../../components/social-media-card';
@@ -12,6 +19,7 @@ import { ItemsNetwork } from './items';
 import MenuItem from './menu-item';
 
 const MenuList: FC<MenuListProps> = ({ id }) => {
+  const { currentLocale } = useLocale();
   const t = useTranslations();
   return (
     <Box
@@ -43,7 +51,10 @@ const MenuList: FC<MenuListProps> = ({ id }) => {
         px="1.625rem"
         flexWrap="wrap"
       >
-        {SOCIAL_MEDIAS.map((socialMediaData) => (
+        {(currentLocale === LocalesEnum.EN
+          ? SOCIAL_MEDIAS
+          : SOCIAL_MEDIAS_PT
+        ).map((socialMediaData) => (
           <SocialMediaCard {...socialMediaData} isMenu key={v4()} />
         ))}
       </Box>

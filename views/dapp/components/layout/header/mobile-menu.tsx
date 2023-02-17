@@ -1,11 +1,14 @@
 import { FC } from 'react';
 
-import { SOCIAL_MEDIAS } from '@/constants/social-media';
+import { LocalesEnum } from '@/constants/locale';
+import { SOCIAL_MEDIAS, SOCIAL_MEDIAS_PT } from '@/constants/social-media';
 import { Box, Dropdown, Typography } from '@/elements';
+import { useLocale } from '@/hooks';
 import { BarsSVG, GitBookSVG } from '@/svg';
 import { logGenericEvent } from '@/utils/analytics';
 
 const MobileMenu: FC = () => {
+  const { currentLocale } = useLocale();
   const trackHeaderNavigation = (label: string) => () =>
     logGenericEvent(`Mobile_Header_${label}`);
 
@@ -29,7 +32,9 @@ const MobileMenu: FC = () => {
         }
         data={[
           ...[
-            ...SOCIAL_MEDIAS,
+            ...(currentLocale === LocalesEnum.EN
+              ? SOCIAL_MEDIAS
+              : SOCIAL_MEDIAS_PT),
             {
               title: 'GitBook',
               Logo: GitBookSVG,

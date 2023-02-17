@@ -4,13 +4,22 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
-import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
+import {
+  Routes,
+  RoutesEnum,
+  SOCIAL_MEDIAS,
+  SOCIAL_MEDIAS_PT,
+} from '@/constants';
+import { LocalesEnum } from '@/constants/locale';
 import { Box, Typography } from '@/elements';
+import { useLocale } from '@/hooks';
 import { LogoSVG } from '@/svg';
 
 import SocialMediaCard from '../../components/social-media-card';
 
 const Footer: FC = () => {
+  const { currentLocale } = useLocale();
+
   const t = useTranslations();
   return (
     <Box as="footer" bg="text" height={['unset', 'unset', 'unset', '3.75rem']}>
@@ -72,7 +81,10 @@ const Footer: FC = () => {
           color="textInverted"
           justifyContent="space-around"
         >
-          {SOCIAL_MEDIAS.map((socialMediaData) => (
+          {(currentLocale === LocalesEnum.EN
+            ? SOCIAL_MEDIAS
+            : SOCIAL_MEDIAS_PT
+          ).map((socialMediaData) => (
             <SocialMediaCard {...socialMediaData} key={v4()} />
           ))}
         </Box>
