@@ -28,6 +28,7 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
   getValues,
   control,
   addLocalToken,
+  handleCloseModal,
 }) => {
   const [loading, setLoading] = useState(false);
   const t = useTranslations();
@@ -71,6 +72,7 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
       throwError(t('error.generic'), error);
     } finally {
       setLoading(false);
+      handleCloseModal();
     }
   };
 

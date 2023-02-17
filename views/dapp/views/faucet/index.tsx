@@ -95,17 +95,21 @@ const Faucet: FC = () => {
               await refetch();
             }}
           />
-          <Typography variant="normal" textTransform="capitalize">
-            {t('faucet.secondSectionTitle')}
-          </Typography>
-          <FaucetForm
-            isLoadingData={!recommendedData.length}
-            tokens={localData}
-            removeLocalToken={removeLocalToken}
-            refetch={async () => {
-              await refetch();
-            }}
-          />
+          {localData.length != 0 && (
+            <>
+              <Typography variant="normal" textTransform="capitalize">
+                {t('faucet.secondSectionTitle')}
+              </Typography>
+              <FaucetForm
+                isLoadingData={!recommendedData.length}
+                tokens={localData}
+                removeLocalToken={removeLocalToken}
+                refetch={async () => {
+                  await refetch();
+                }}
+              />
+            </>
+          )}
         </Container>
       </Box>
       <Modal
@@ -120,6 +124,7 @@ const Faucet: FC = () => {
         <CreateTokenForm
           addLocalToken={addLocalToken}
           handleClose={toggleCreateToken}
+          handleCloseModal={toggleCreateToken}
         />
       </Modal>
     </>
