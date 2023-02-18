@@ -1,4 +1,4 @@
-import { Control } from 'react-hook-form';
+import { Control, UseFormGetValues } from 'react-hook-form';
 
 import { StakeState } from '@/constants';
 
@@ -21,4 +21,7 @@ export interface ModalButtonProps {
   handleClose: () => void;
   refetch: () => Promise<void>;
   isStake: boolean;
+  getValues: UseFormGetValues<{
+    value: string;
+  }>;
 }
