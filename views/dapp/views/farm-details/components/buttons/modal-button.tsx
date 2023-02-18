@@ -115,8 +115,16 @@ const ModalButton: FC<ModalButtonProps> = ({
       variant="primary"
       alignItems="center"
       justifyContent="center"
-      bg={!action ? 'disabled' : loading ? 'accentActive' : 'accent'}
-      hover={{ bg: inputValue != '0' ? 'accentActive' : 'accent' }}
+      bg={
+        inputValue == '0'
+          ? 'disabled'
+          : !action
+          ? 'disabled'
+          : loading
+          ? 'accentActive'
+          : 'accent'
+      }
+      hover={{ bg: inputValue != '0' ? 'accentActive' : 'disabled' }}
       onClick={onSubmit}
       disabled={!action || loading || inputValue == '0'}
     >
