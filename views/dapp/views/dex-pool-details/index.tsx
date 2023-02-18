@@ -193,6 +193,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
       </Box>
       <Box
         mt="XL"
+        mb="XXL"
         color="text"
         display="grid"
         gridGap="1rem"
