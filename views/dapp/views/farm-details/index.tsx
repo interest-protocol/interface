@@ -25,7 +25,7 @@ const FarmDetails: FC<FarmDetailsProps> = ({ address }) => {
   if (error) return <ErrorView message={t('error.fetchingContract')} />;
 
   return (
-    <Container dapp width="100%" mt="XL">
+    <Container dapp width="100%" mt="XL" mb="XXL">
       <GoBack route={RoutesEnum.Farms} />
       <Details farm={data.farm} />
       <FarmOptions

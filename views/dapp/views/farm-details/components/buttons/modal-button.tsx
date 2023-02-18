@@ -22,9 +22,11 @@ const ModalButton: FC<ModalButtonProps> = ({
   handleClose,
   refetch,
   isStake,
+  getValues,
 }) => {
   const { writeAsync: action } = useAction(farm, control, modal);
   const t = useTranslations();
+  const inputValue = getValues('value');
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -114,9 +116,9 @@ const ModalButton: FC<ModalButtonProps> = ({
       alignItems="center"
       justifyContent="center"
       bg={!action ? 'disabled' : loading ? 'accentActive' : 'accent'}
-      hover={{ bg: 'accentActive' }}
+      hover={{ bg: inputValue != '0' ? 'accentActive' : 'accent' }}
       onClick={onSubmit}
-      disabled={!action || loading}
+      disabled={!action || loading || inputValue == '0'}
     >
       {loading && (
         <Box mr="M" width="1rem">

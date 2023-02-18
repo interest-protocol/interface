@@ -23,7 +23,7 @@ const FarmStakeModal: FC<FarmStakeModalProps> = ({
 }) => {
   const t = useTranslations();
   const { currentLocale } = useLocale();
-  const { setValue, register, control } = useForm({
+  const { setValue, register, control, getValues } = useForm({
     defaultValues: { value: '0' },
   });
 
@@ -160,6 +160,7 @@ const FarmStakeModal: FC<FarmStakeModalProps> = ({
             isStake={isStake}
             refetch={refetch}
             farm={farm}
+            getValues={getValues}
           />
         </Box>
       </Box>
