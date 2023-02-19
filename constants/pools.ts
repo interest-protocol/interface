@@ -38,7 +38,6 @@ export const RECOMMENDED_POOLS = [
   {
     token0: networkDevNetCoins.SUI,
     token1: networkDevNetCoins.ETH,
-
     poolObjectId: '0x28a5707bd2a4678ea1265baa02787e776fea4f94',
     lpCoinType: `${COINS_PACKAGE_ID}::dex_volatile::VLPCoin<0x2::sui::SUI, ${COINS_PACKAGE_ID}::coins::ETH>`,
   },
