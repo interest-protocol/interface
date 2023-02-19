@@ -78,7 +78,7 @@ const MintButton: FC<MintButtonProps> = ({
       error: prop('message'),
     });
 
-  if (!(isWriteError || isPrepareError))
+  if (isWriteError || isPrepareError)
     return (
       <ErrorButton
         error={t(

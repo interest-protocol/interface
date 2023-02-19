@@ -87,7 +87,7 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
     });
   };
 
-  if (!(isWriteError || isPrepareError))
+  if (isWriteError || isPrepareError)
     return (
       <ErrorButton
         error={t(

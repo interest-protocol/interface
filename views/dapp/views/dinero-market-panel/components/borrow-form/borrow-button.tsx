@@ -156,7 +156,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
     });
   };
 
-  if (!(isWriteError || isPrepareError))
+  if (isWriteError || isPrepareError)
     return (
       <ErrorButton
         error={t(

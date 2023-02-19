@@ -85,7 +85,7 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
       error: prop('message'),
     });
 
-  if (!(isWriteError || isPrepareError))
+  if (isWriteError || isPrepareError)
     return (
       <ErrorButton
         error={t(

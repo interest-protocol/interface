@@ -65,13 +65,15 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
     });
   };
 
-  if (!(isWriteError || isPrepareError))
+  if (isWriteError || isPrepareError)
     return (
-      <ErrorButton
-        error={t(
-          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
-        )}
-      />
+      <Box width="100%" py="L">
+        <ErrorButton
+          error={t(
+            isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+          )}
+        />
+      </Box>
     );
 
   return (

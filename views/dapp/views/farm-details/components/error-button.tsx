@@ -10,7 +10,7 @@ import { ErrorButtonProps } from '../farm-details.types';
 const ErrorButton: FC<ErrorButtonProps> = ({ error }) => (
   <>
     <Button
-      px="0"
+      px="L"
       mr="S"
       bg="error"
       width="100%"

@@ -61,7 +61,7 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
       loading: t('farmsDetails.thirdCardButton', { isLoading: 1 }),
     });
 
-  if (!(isWriteError || isPrepareError))
+  if (isWriteError || isPrepareError)
     return (
       <ErrorButton
         error={t(

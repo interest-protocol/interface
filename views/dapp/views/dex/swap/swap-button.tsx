@@ -396,16 +396,14 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   return (
     <WalletGuardButton>
-      {!(
-        isWriteErrorApprove ||
-        isPrepareErrorApprove ||
-        isWriteErrorDraw ||
-        isPrepareErrorDraw ||
-        isWriteErrorDeposit ||
-        isPrepareErrorDeposit ||
-        isWriteErrorSwap ||
-        isPrepareErrorSwap
-      ) ? (
+      {isWriteErrorApprove ||
+      isPrepareErrorApprove ||
+      isWriteErrorDraw ||
+      isPrepareErrorDraw ||
+      isWriteErrorDeposit ||
+      isPrepareErrorDeposit ||
+      isWriteErrorSwap ||
+      isPrepareErrorSwap ? (
         <ErrorButton
           error={t(
             isPrepareErrorApprove ||

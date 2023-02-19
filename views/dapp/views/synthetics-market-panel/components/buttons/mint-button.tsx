@@ -151,7 +151,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
     });
   };
 
-  if (!(isWriteError || isPrepareError))
+  if (isWriteError || isPrepareError)
     return (
       <ErrorButton
         error={t(

@@ -63,7 +63,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
 
   return (
     <Box display="flex">
-      {!(isWriteError || isPrepareError) ? (
+      {isWriteError || isPrepareError ? (
         <ErrorButton
           error={t(
             isPrepareError ? 'error.contract.prepare' : 'error.contract.write'

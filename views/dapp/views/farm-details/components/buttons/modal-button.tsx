@@ -109,7 +109,7 @@ const ModalButton: FC<ModalButtonProps> = ({
     isStake ? await handleStake() : await handleUnstake();
   };
 
-  if (!(isWriteError || isPrepareError))
+  if (isWriteError || isPrepareError)
     return (
       <ErrorButton
         error={t(

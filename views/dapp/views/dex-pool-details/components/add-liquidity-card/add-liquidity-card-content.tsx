@@ -24,7 +24,6 @@ import {
 } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
-import ErrorView from '../../../error';
 import AddLiquidityButton from './add-liquidity-button';
 import {
   AddLiquidityCardContentProps,
@@ -130,14 +129,20 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
   });
 
   if (
-    !(
-      isWriteErrorApprove0 ||
-      isPrepareErrorApprove0 ||
-      isWriteErrorApprove1 ||
-      isPrepareErrorApprove1
-    )
+    isWriteErrorApprove0 ||
+    isPrepareErrorApprove0 ||
+    isWriteErrorApprove1 ||
+    isPrepareErrorApprove1
   )
-    return <ErrorView message={t('error.fetchingBalances')} />;
+    return (
+      <ErrorButton
+        error={t(
+          isPrepareErrorApprove0 || isPrepareErrorApprove1
+            ? 'error.contract.prepare'
+            : 'error.contract.write'
+        )}
+      />
+    );
 
   return (
     <>
@@ -200,7 +205,7 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
               >
                 {capitalize(t('common.reset'))}
               </Button>
-              {!(isWriteError || isPrepareError) ? (
+              {isWriteError || isPrepareError ? (
                 <ErrorButton
                   error={t(
                     isPrepareError

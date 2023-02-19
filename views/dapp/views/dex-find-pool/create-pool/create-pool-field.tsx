@@ -22,8 +22,8 @@ import {
   logTransactionEvent,
 } from '@/utils/analytics';
 
-import ErrorView from '../../error';
 import { CreatePoolFieldProps } from '../dex-find-pool.types';
+import ErrorButton from '../error-button';
 
 const CreatePoolField: FC<CreatePoolFieldProps> = ({
   name,
@@ -81,9 +81,6 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
     () => !address || needAllowance,
     [address, needAllowance]
   );
-
-  if (!(isWriteError || isPrepareError))
-    return <ErrorView message={t('error.fetchingBalances')} />;
 
   return (
     <Box
@@ -156,14 +153,24 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
         justifyContent="space-between"
       >
         {needAllowance ? (
-          <Button
-            variant="primary"
-            onClick={handleApprove}
-            hover={{ bg: !addAllowance ? 'disabled' : 'accentActive' }}
-            disabled={!addAllowance}
-          >
-            {capitalize(t('common.approve', { isLoading: 0 }))} Token
-          </Button>
+          isWriteError || isPrepareError ? (
+            <ErrorButton
+              error={t(
+                isPrepareError
+                  ? 'error.contract.prepare'
+                  : 'error.contract.write'
+              )}
+            />
+          ) : (
+            <Button
+              variant="primary"
+              onClick={handleApprove}
+              hover={{ bg: !addAllowance ? 'disabled' : 'accentActive' }}
+              disabled={!addAllowance}
+            >
+              {capitalize(t('common.approve', { isLoading: 0 }))} Token
+            </Button>
+          )
         ) : (
           <Button
             onClick={() =>

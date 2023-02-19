@@ -75,7 +75,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
     [approve]
   );
 
-  if (!(isWriteError || isPrepareError))
+  if (isWriteError || isPrepareError)
     return (
       <ErrorButton
         error={t(

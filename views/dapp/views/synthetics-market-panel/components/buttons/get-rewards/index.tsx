@@ -68,13 +68,15 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
       loading: capitalize(t('common.submit', { isLoading: 1 })),
     });
 
-  if (!(isWriteError || isPrepareError))
+  if (isWriteError || isPrepareError)
     return (
-      <ErrorButton
-        error={t(
-          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
-        )}
-      />
+      <Box p="XL" order={4} gridArea="g" bg="foreground" borderRadius="L">
+        <ErrorButton
+          error={t(
+            isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+          )}
+        />
+      </Box>
     );
 
   return (

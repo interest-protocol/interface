@@ -214,7 +214,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
             {t('dexPoolFind.buttonSameToken')}
           </Button>
         ) : isCreatingPair ? (
-          !(isWriteError || isPrepareError) ? (
+          isWriteError || isPrepareError ? (
             <ErrorButton
               error={t(
                 isPrepareError

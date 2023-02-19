@@ -81,8 +81,8 @@
     "fetchingContract": "Erro ao obter os contractos",
     "fetchingBalances": "Erro ao obter os saldos",
     "contract": {
-      "write": "Falha ao escrever no contrato",
-      "prepare": "Falha ao preparar contrato"
+      "write": "Erro a construir a transação",
+      "prepare": "Erro a calcular o gás necessário para a tx"
     }
   },
   "web3Manager": {
