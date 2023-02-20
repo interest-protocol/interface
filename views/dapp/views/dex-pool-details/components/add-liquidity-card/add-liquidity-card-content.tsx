@@ -167,6 +167,7 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
             tokens.filter(filterFn).map(({ symbol, address }, index) =>
               LIST_ERROR[index].write || LIST_ERROR[index].prepare ? (
                 <ErrorButton
+                  key={v4()}
                   styleProps={{ width: '100%', variant: 'primary' }}
                   error={t(
                     LIST_ERROR[index].prepare
