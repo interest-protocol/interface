@@ -42,8 +42,6 @@ const InputMaxTag: FC<InputMaxTagProps> = ({
     [depositCollateral, repayLoan, isBorrow]
   );
 
-  console.log('>> isConnected ::: ', isConnected);
-
   return (
     <Box
       py="S"
