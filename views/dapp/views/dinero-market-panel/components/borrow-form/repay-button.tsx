@@ -87,7 +87,7 @@ const RepayButton: FC<RepayButtonProps> = ({
     });
   };
 
-  if (!(isWriteError || isPrepareError))
+  if (isWriteError || isPrepareError)
     return (
       <ErrorButton
         styleProps={{ width: '7rem', variant: 'primary' }}

@@ -34,24 +34,27 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
     <Box display="flex" justifyContent="center" mt="XXL">
       {isBorrow ? (
         data.collateralAllowance.isZero() ? (
-          <ApproveButton
-            enabled={
-              data.collateralAllowance.isZero() &&
-              isValidAccount(account) &&
-              !isZeroAddress(data.marketAddress)
-            }
-            refetch={refetch}
-            chainId={data.chainId}
-            contract={data.collateralAddress}
-            spender={data.marketAddress}
-            buttonProps={{
-              display: 'flex',
-              variant: 'primary',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            pageName={GAPage.DineroMarketPanel}
-          />
+          <Box width="10rem">
+            <ApproveButton
+              enabled={
+                data.collateralAllowance.isZero() &&
+                isValidAccount(account) &&
+                !isZeroAddress(data.marketAddress)
+              }
+              refetch={refetch}
+              chainId={data.chainId}
+              contract={data.collateralAddress}
+              spender={data.marketAddress}
+              buttonProps={{
+                display: 'flex',
+                variant: 'primary',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+              }}
+              pageName={GAPage.DineroMarketPanel}
+            />
+          </Box>
         ) : (!borrowLoan && !borrowCollateral) ||
           (+borrowCollateral === 0 && +borrowLoan === 0) ? (
           <Box

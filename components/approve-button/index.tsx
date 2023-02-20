@@ -66,7 +66,8 @@ const ApproveButton: FC<ApproveButtonProps> = ({
       {isWriteError || isPrepareError ? (
         <ErrorButton
           styleProps={{
-            width: '7rem',
+            width: '100%',
+            mb: 'M',
             variant: 'primary',
           }}
           error={t(
