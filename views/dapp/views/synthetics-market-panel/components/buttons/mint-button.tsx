@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import { ApproveButton } from '@/components';
+import { ApproveButton, ErrorButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { Address } from '@/interface';
 import { LoadingSVG } from '@/svg';
@@ -41,7 +41,10 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
     control: form.control,
     name: 'mint.collateral',
   });
-  const { writeAsync: mint } = useMint(data, mintCollateral, mintSynt);
+  const {
+    useContractWriteReturn: { writeAsync: mint, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
+  } = useMint(data, mintCollateral, mintSynt);
 
   const handleMint = async () => {
     setLoading(true);
@@ -147,25 +150,38 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
     });
   };
 
+  if (isWriteError || isPrepareError)
+    return (
+      <ErrorButton
+        styleProps={{ width: '7rem', variant: 'primary' }}
+        error={t(
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+        )}
+      />
+    );
+
   return data.collateralAllowance.isZero() ? (
-    <ApproveButton
-      enabled={
-        data.collateralAllowance.isZero() &&
-        isValidAccount(data.account) &&
-        !isZeroAddress(data.marketAddress)
-      }
-      refetch={refetch}
-      chainId={data.chainId}
-      contract={data.collateralAddress}
-      spender={data.marketAddress}
-      buttonProps={{
-        display: 'flex',
-        variant: 'primary',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      pageName={GAPage.SyntheticsMarketPanel}
-    />
+    <Box width="7.5rem">
+      <ApproveButton
+        enabled={
+          data.collateralAllowance.isZero() &&
+          isValidAccount(data.account) &&
+          !isZeroAddress(data.marketAddress)
+        }
+        refetch={refetch}
+        chainId={data.chainId}
+        contract={data.collateralAddress}
+        spender={data.marketAddress}
+        buttonProps={{
+          display: 'flex',
+          variant: 'primary',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+        }}
+        pageName={GAPage.SyntheticsMarketPanel}
+      />
+    </Box>
   ) : (!mintSynt && !mintCollateral) ||
     (+mintSynt === 0 && +mintCollateral === 0) ? (
     <Box

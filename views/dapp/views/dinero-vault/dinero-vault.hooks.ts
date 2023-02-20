@@ -55,7 +55,7 @@ export const useDeposit = (data: VaultData, value: string) => {
 
   const valueBN = safeToBigNumber(debouncedValue, data.depositTokenDecimals);
 
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: data.vaultAddress,
     abi: DineroVaultABI,
     args: [valueBN],
@@ -68,7 +68,10 @@ export const useDeposit = (data: VaultData, value: string) => {
       data.underlyingBalance.gte(valueBN),
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };
 
 export const useWithdraw = (data: VaultData, value: string) => {
@@ -76,7 +79,7 @@ export const useWithdraw = (data: VaultData, value: string) => {
 
   const valueBN = safeToBigNumber(debouncedValue, data.depositTokenDecimals);
 
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: data.vaultAddress,
     abi: DineroVaultABI,
     args: [valueBN],
@@ -89,5 +92,8 @@ export const useWithdraw = (data: VaultData, value: string) => {
       !data.depositAmount.isZero(),
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };

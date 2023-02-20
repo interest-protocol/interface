@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 
+import { ErrorButton } from '@/components';
 import { Typography } from '@/elements';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
@@ -24,7 +25,10 @@ import {
 import { ApproveButtonProps } from './buttons.types';
 
 const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
-  const { writeAsync: _approve } = useApprove(
+  const {
+    useContractWriteReturn: { writeAsync: _approve, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
+  } = useApprove(
     farm.stakingTokenAddress,
     getCasaDePapelAddress(farm.chainId),
     { enabled: farm.allowance.isZero() }
@@ -70,6 +74,16 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
       }),
     [approve]
   );
+
+  if (isWriteError || isPrepareError)
+    return (
+      <ErrorButton
+        styleProps={{ width: '7rem', variant: 'primary' }}
+        error={t(
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+        )}
+      />
+    );
 
   return (
     <Button

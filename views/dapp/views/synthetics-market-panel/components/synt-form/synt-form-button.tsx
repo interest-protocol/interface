@@ -36,24 +36,27 @@ const SyntFormButton: FC<SyntFormButtonProps> = ({
     <Box display="flex" justifyContent="center" mt="XXL">
       {isMint ? (
         data.collateralAllowance.isZero() ? (
-          <ApproveButton
-            enabled={
-              data.collateralAllowance.isZero() &&
-              isValidAccount(data.account) &&
-              !isZeroAddress(data.marketAddress)
-            }
-            refetch={refetch}
-            chainId={data.chainId}
-            contract={data.collateralAddress}
-            spender={data.marketAddress}
-            buttonProps={{
-              display: 'flex',
-              variant: 'primary',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            pageName={GAPage.SyntheticsMarketPanel}
-          />
+          <Box width="7.5rem">
+            <ApproveButton
+              enabled={
+                data.collateralAllowance.isZero() &&
+                isValidAccount(data.account) &&
+                !isZeroAddress(data.marketAddress)
+              }
+              refetch={refetch}
+              chainId={data.chainId}
+              contract={data.collateralAddress}
+              spender={data.marketAddress}
+              buttonProps={{
+                display: 'flex',
+                variant: 'primary',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+              }}
+              pageName={GAPage.SyntheticsMarketPanel}
+            />
+          </Box>
         ) : (!mintSynt && !mintCollateral) ||
           (+mintCollateral === 0 && +mintSynt === 0) ? (
           <Box

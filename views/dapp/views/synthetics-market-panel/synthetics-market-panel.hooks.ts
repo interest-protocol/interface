@@ -229,7 +229,7 @@ export const useBurn = (
 
   if (safeSynt && !safeCollateral) data = handleBurnSynt(market, safeSynt);
 
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: market.marketAddress,
     ...data,
     enabled:
@@ -239,7 +239,10 @@ export const useBurn = (
       !isZeroAddress(market.marketAddress),
   });
 
-  return useContractWrite(config as UseContractWriteConfig);
+  return {
+    useContractWriteReturn: useContractWrite(config as UseContractWriteConfig),
+    usePrepareContractReturn,
+  };
 };
 
 const handleMintRequest = (
@@ -347,7 +350,7 @@ export const useMint = (
 
   if (safeSynt && !safeCollateral) data = handleMintSynt(market, safeSynt);
 
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: market.marketAddress,
     ...data,
     enabled:
@@ -357,11 +360,14 @@ export const useMint = (
       !isZeroAddress(market.marketAddress),
   });
 
-  return useContractWrite(config as UseContractWriteConfig);
+  return {
+    useContractWriteReturn: useContractWrite(config as UseContractWriteConfig),
+    usePrepareContractReturn,
+  };
 };
 
 export const useGetRewards = (market: SyntheticMarketData) => {
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: market.marketAddress,
     functionName: 'getRewards',
     abi: SyntheticMinterABI,
@@ -371,7 +377,10 @@ export const useGetRewards = (market: SyntheticMarketData) => {
       !market.pendingRewards.isZero(),
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };
 
 export const useRedstoneSynthsPanel = ({

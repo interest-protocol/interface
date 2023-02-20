@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useState } from 'react';
 
+import { ErrorButton } from '@/components';
 import Button from '@/elements/button';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
 import {
@@ -18,7 +19,10 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
   const t = useTranslations();
   const [loadingPool, setLoadingPool] = useState<boolean>(false);
 
-  const { writeAsync: _harvest } = useHarvest(farm);
+  const {
+    useContractWriteReturn: { writeAsync: _harvest, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
+  } = useHarvest(farm);
 
   const harvest = async () => {
     if (farm.pendingRewards.isZero()) return;
@@ -56,6 +60,16 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
       error: propOr(capitalize(t('common.error')), 'message'),
       loading: t('farmsDetails.thirdCardButton', { isLoading: 1 }),
     });
+
+  if (isWriteError || isPrepareError)
+    return (
+      <ErrorButton
+        styleProps={{ width: '7rem', variant: 'primary' }}
+        error={t(
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+        )}
+      />
+    );
 
   return (
     <Button

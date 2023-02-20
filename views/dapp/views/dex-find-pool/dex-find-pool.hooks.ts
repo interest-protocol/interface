@@ -118,7 +118,7 @@ export const useAddLiquidity = ({
     enabled = !debouncedAmount0.isZero() && !debouncedAmount1.isZero();
   }
 
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: getInterestDexRouterAddress(chainId),
     abi: InterestDexRouterABI,
     chainId,
@@ -128,5 +128,8 @@ export const useAddLiquidity = ({
     enabled,
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };

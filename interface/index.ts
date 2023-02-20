@@ -18,6 +18,11 @@ export type UseContractArgs = {
 export declare type QueryFunctionArgs<T extends (...args: any) => any> =
   QueryFunctionContext<ReturnType<T>>;
 
+export interface ContractHookError {
+  prepare: boolean;
+  write: boolean;
+}
+
 export declare type QueryConfig<Data, Error> = Pick<
   UseQueryOptions<Data, Error>,
   | 'cacheTime'

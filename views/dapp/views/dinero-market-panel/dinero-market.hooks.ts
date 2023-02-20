@@ -254,7 +254,7 @@ export const useRepay = (
   if (safeLoan && !safeCollateral)
     data = handleRepayLoan(market, account, safeLoan);
 
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: market.marketAddress,
     ...data,
     enabled:
@@ -264,7 +264,10 @@ export const useRepay = (
       !isZeroAddress(market.marketAddress),
   });
 
-  return useContractWrite(config as UseContractWriteConfig);
+  return {
+    useContractWriteReturn: useContractWrite(config as UseContractWriteConfig),
+    usePrepareContractReturn,
+  };
 };
 
 const handleBorrowRequest = (
@@ -481,7 +484,7 @@ export const useBorrow = (
   if (safeLoan && !safeCollateral)
     data = handleBorrowLoan(market, account, safeLoan);
 
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: market.marketAddress,
     ...data,
     enabled:
@@ -492,5 +495,8 @@ export const useBorrow = (
     overrides: isEmpty(data.overrides) ? undefined : data.overrides,
   });
 
-  return useContractWrite(config as UseContractWriteConfig);
+  return {
+    useContractWriteReturn: useContractWrite(config as UseContractWriteConfig),
+    usePrepareContractReturn,
+  };
 };

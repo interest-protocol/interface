@@ -3,6 +3,7 @@ import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
+import { ErrorButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -33,12 +34,10 @@ const RepayButton: FC<RepayButtonProps> = ({
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
 
-  const { writeAsync: repay } = useRepay(
-    data,
-    account,
-    repayCollateral,
-    repayLoan
-  );
+  const {
+    useContractWriteReturn: { writeAsync: repay, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
+  } = useRepay(data, account, repayCollateral, repayLoan);
 
   const handleRepay = async () => {
     try {
@@ -87,6 +86,16 @@ const RepayButton: FC<RepayButtonProps> = ({
       loading: capitalize(t('common.submit', { isLoading: 1 })),
     });
   };
+
+  if (isWriteError || isPrepareError)
+    return (
+      <ErrorButton
+        styleProps={{ width: '7rem', variant: 'primary' }}
+        error={t(
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+        )}
+      />
+    );
 
   return (
     <Button

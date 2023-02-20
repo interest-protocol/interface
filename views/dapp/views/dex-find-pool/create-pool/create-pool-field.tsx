@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { ChangeEvent, FC, useCallback, useMemo } from 'react';
 
+import { ErrorButton } from '@/components';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
 import { useApprove, useIdAccount } from '@/hooks';
@@ -36,11 +37,12 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   const t = useTranslations();
   const { chainId } = useIdAccount();
   const { address, symbol, decimals } = getValues()[name];
-  const { writeAsync: addAllowance } = useApprove(
-    address,
-    getInterestDexRouterAddress(chainId),
-    { enabled: needAllowance }
-  );
+  const {
+    useContractWriteReturn: { writeAsync: addAllowance, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
+  } = useApprove(address, getInterestDexRouterAddress(chainId), {
+    enabled: needAllowance,
+  });
 
   const SVG =
     TOKENS_SVG_MAP[chainId][address] ?? TOKENS_SVG_MAP[chainId].default;
@@ -151,14 +153,28 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
         justifyContent="space-between"
       >
         {needAllowance ? (
-          <Button
-            variant="primary"
-            onClick={handleApprove}
-            hover={{ bg: !addAllowance ? 'disabled' : 'accentActive' }}
-            disabled={!addAllowance}
-          >
-            {capitalize(t('common.approve', { isLoading: 0 }))} Token
-          </Button>
+          isWriteError || isPrepareError ? (
+            <ErrorButton
+              styleProps={{
+                width: '7rem',
+                variant: 'primary',
+              }}
+              error={t(
+                isPrepareError
+                  ? 'error.contract.prepare'
+                  : 'error.contract.write'
+              )}
+            />
+          ) : (
+            <Button
+              variant="primary"
+              onClick={handleApprove}
+              hover={{ bg: !addAllowance ? 'disabled' : 'accentActive' }}
+              disabled={!addAllowance}
+            >
+              {capitalize(t('common.approve', { isLoading: 0 }))} Token
+            </Button>
+          )
         ) : (
           <Button
             onClick={() =>

@@ -1,4 +1,5 @@
 import { useWatch } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
 import {
   useContractWrite,
   usePrepareContractWrite,
@@ -14,11 +15,9 @@ import {
   stringToBigNumber,
 } from '@/utils';
 
-const get90Percent = getBNPercent(90);
-
-import { useDebounce } from 'use-debounce';
-
 import { UseAddLiquidityArgs } from './add-liquidity-card.types';
+
+const get90Percent = getBNPercent(90);
 
 export const useAddLiquidity = ({
   chainId,
@@ -103,7 +102,7 @@ export const useAddLiquidity = ({
     ];
   }
 
-  const { config } = usePrepareContractWrite({
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: getInterestDexRouterAddress(chainId),
     abi: InterestDexRouterABI,
     functionName,
@@ -112,5 +111,8 @@ export const useAddLiquidity = ({
     overrides,
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };

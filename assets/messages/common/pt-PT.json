@@ -79,7 +79,11 @@
     "generic": "algo deu errado",
     "wrongParams": "Parâmetros errados",
     "fetchingContract": "Erro ao obter os contractos",
-    "fetchingBalances": "Erro ao obter os saldos"
+    "fetchingBalances": "Erro ao obter os saldos",
+    "contract": {
+      "write": "Erro a construir a transação",
+      "prepare": "Erro a calcular o gás necessário para a tx"
+    }
   },
   "web3Manager": {
     "title": "{chainName} não é suportada",

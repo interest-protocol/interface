@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
 
+import { ErrorButton } from '@/components';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import {
@@ -40,12 +41,18 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
   control,
 }) => {
   const t = useTranslations();
-  const { writeAsync: approve } = useApprove(
-    pairAddress,
-    getInterestDexRouterAddress(chainId)
-  );
+  const {
+    useContractWriteReturn: { writeAsync: approve, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
+  } = useApprove(pairAddress, getInterestDexRouterAddress(chainId));
 
-  const { writeAsync: removeLiquidity } = useRemoveLiquidity({
+  const {
+    useContractWriteReturn: {
+      writeAsync: removeLiquidity,
+      isError: isWriteErrorRemove,
+    },
+    usePrepareContractReturn: { isError: isPrepareErrorRemove },
+  } = useRemoveLiquidity({
     control,
     chainId,
     tokens,
@@ -121,6 +128,23 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
+
+  if (
+    isWriteError ||
+    isPrepareError ||
+    isWriteErrorRemove ||
+    isPrepareErrorRemove
+  )
+    return (
+      <ErrorButton
+        styleProps={{ width: '100%', variant: 'primary' }}
+        error={t(
+          isPrepareError || isPrepareErrorRemove
+            ? 'error.contract.prepare'
+            : 'error.contract.write'
+        )}
+      />
+    );
 
   return (
     <>

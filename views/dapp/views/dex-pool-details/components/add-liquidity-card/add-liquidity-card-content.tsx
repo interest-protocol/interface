@@ -5,6 +5,7 @@ import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
+import { ErrorButton } from '@/components';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LineLoaderSVG } from '@/svg';
@@ -32,7 +33,7 @@ import {
 } from './add-liquidity-card.types';
 import BalanceError from './balance-error';
 import ErrorLiquidityMessage from './error-liquidity-message';
-import { useAddLiquidity } from './use-add-lliquidity-card.hooks';
+import { useAddLiquidity } from './use-add-liquidity-card.hooks';
 
 const filterFn = o<IToken, BigNumber, boolean>(
   (x: BigNumber) => x.isZero(),
@@ -52,17 +53,25 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
   setLoading,
   loading,
 }) => {
-  const { writeAsync: approveToken0 } = useApprove(
-    tokens[0].address,
-    getInterestDexRouterAddress(chainId),
-    { enabled: tokens[0].allowance.isZero() }
-  );
+  const {
+    useContractWriteReturn: {
+      writeAsync: approveToken0,
+      isError: isWriteErrorApprove0,
+    },
+    usePrepareContractReturn: { isError: isPrepareErrorApprove0 },
+  } = useApprove(tokens[0].address, getInterestDexRouterAddress(chainId), {
+    enabled: tokens[0].allowance.isZero(),
+  });
 
-  const { writeAsync: approveToken1 } = useApprove(
-    tokens[1].address,
-    getInterestDexRouterAddress(chainId),
-    { enabled: tokens[1].allowance.isZero() }
-  );
+  const {
+    useContractWriteReturn: {
+      writeAsync: approveToken1,
+      isError: isWriteErrorApprove1,
+    },
+    usePrepareContractReturn: { isError: isPrepareErrorApprove1 },
+  } = useApprove(tokens[1].address, getInterestDexRouterAddress(chainId), {
+    enabled: tokens[1].allowance.isZero(),
+  });
 
   const t = useTranslations();
 
@@ -108,13 +117,21 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
       error: prop('message'),
     });
 
-  const { writeAsync: addLiquidity } = useAddLiquidity({
+  const {
+    useContractWriteReturn: { writeAsync: addLiquidity, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
+  } = useAddLiquidity({
     chainId,
     account,
     isStable,
     tokens,
     control,
   });
+
+  const LIST_ERROR = [
+    { write: isWriteErrorApprove0, prepare: isPrepareErrorApprove0 },
+    { write: isWriteErrorApprove1, prepare: isPrepareErrorApprove1 },
+  ];
 
   return (
     <>
@@ -147,19 +164,31 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
               <Skeleton height="2rem" width="100%" borderRadius="L" />
             </Box>
           ) : (
-            tokens.filter(filterFn).map(({ symbol, address }) => (
-              <Button
-                key={v4()}
-                width="100%"
-                variant="primary"
-                disabled={loading}
-                bg="bottomBackground"
-                hover={{ bg: 'accentActive' }}
-                onClick={() => handleApproveToken(address, symbol)}
-              >
-                {capitalize(t('common.approve', { isLoading: 0 }))} {symbol}
-              </Button>
-            ))
+            tokens.filter(filterFn).map(({ symbol, address }, index) =>
+              LIST_ERROR[index].write || LIST_ERROR[index].prepare ? (
+                <ErrorButton
+                  key={v4()}
+                  styleProps={{ width: '100%', variant: 'primary' }}
+                  error={t(
+                    LIST_ERROR[index].prepare
+                      ? 'error.contract.prepare'
+                      : 'error.contract.write'
+                  )}
+                />
+              ) : (
+                <Button
+                  key={v4()}
+                  width="100%"
+                  variant="primary"
+                  disabled={loading}
+                  bg="bottomBackground"
+                  hover={{ bg: 'accentActive' }}
+                  onClick={() => handleApproveToken(address, symbol)}
+                >
+                  {capitalize(t('common.approve', { isLoading: 0 }))} {symbol}
+                </Button>
+              )
+            )
           )}
           {!needsAllowance && (
             <>
@@ -177,15 +206,26 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
               >
                 {capitalize(t('common.reset'))}
               </Button>
-              <AddLiquidityButton
-                addLiquidity={
-                  addLiquidity ? async () => await addLiquidity() : undefined
-                }
-                chainId={chainId}
-                refetch={refetch}
-                setLoading={setLoading}
-                loading={loading || fetchingInitialData || isFetchingQuote}
-              />
+              {isWriteError || isPrepareError ? (
+                <ErrorButton
+                  styleProps={{ width: '100%', variant: 'primary' }}
+                  error={t(
+                    isPrepareError
+                      ? 'error.contract.prepare'
+                      : 'error.contract.write'
+                  )}
+                />
+              ) : (
+                <AddLiquidityButton
+                  addLiquidity={
+                    addLiquidity ? async () => await addLiquidity() : undefined
+                  }
+                  chainId={chainId}
+                  refetch={refetch}
+                  setLoading={setLoading}
+                  loading={loading || fetchingInitialData || isFetchingQuote}
+                />
+              )}
             </>
           )}
         </Box>

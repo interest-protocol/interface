@@ -189,24 +189,27 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
   };
 
   return data.collateralAllowance.isZero() ? (
-    <ApproveButton
-      enabled={
-        data.collateralAllowance.isZero() &&
-        isValidAccount(data.account) &&
-        !isZeroAddress(data.marketAddress)
-      }
-      refetch={refetch}
-      chainId={data.chainId}
-      contract={data.collateralAddress}
-      spender={data.marketAddress}
-      buttonProps={{
-        display: 'flex',
-        variant: 'primary',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      pageName={GAPage.SyntheticsMarketPanel}
-    />
+    <Box width="7.5rem">
+      <ApproveButton
+        enabled={
+          data.collateralAllowance.isZero() &&
+          isValidAccount(data.account) &&
+          !isZeroAddress(data.marketAddress)
+        }
+        refetch={refetch}
+        chainId={data.chainId}
+        contract={data.collateralAddress}
+        spender={data.marketAddress}
+        buttonProps={{
+          display: 'flex',
+          variant: 'primary',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+        }}
+        pageName={GAPage.SyntheticsMarketPanel}
+      />
+    </Box>
   ) : (!mintSynt && !mintCollateral) ||
     (+mintSynt === 0 && +mintCollateral === 0) ? (
     <Box

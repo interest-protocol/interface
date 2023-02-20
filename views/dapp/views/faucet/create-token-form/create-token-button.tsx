@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 
+import { ErrorButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -33,7 +34,10 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
   const [loading, setLoading] = useState(false);
   const t = useTranslations();
 
-  const { writeAsync: createToken } = useCreateToken(chainId, control);
+  const {
+    useContractWriteReturn: { writeAsync: createToken, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
+  } = useCreateToken(chainId, control);
 
   const handleCreateToken = async () => {
     try {
@@ -82,6 +86,16 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
+
+  if (isWriteError || isPrepareError)
+    return (
+      <ErrorButton
+        styleProps={{ width: '100%', variant: 'primary' }}
+        error={t(
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+        )}
+      />
+    );
 
   return (
     <Button

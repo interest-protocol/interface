@@ -4,7 +4,7 @@ import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { ApproveButton } from '@/components';
+import { ApproveButton, ErrorButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { LoadingSVG } from '@/svg';
@@ -43,12 +43,10 @@ const BorrowButton: FC<BorrowButtonProps> = ({
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
 
-  const { writeAsync: borrow } = useBorrow(
-    data,
-    account,
-    borrowCollateral,
-    borrowLoan
-  );
+  const {
+    useContractWriteReturn: { writeAsync: borrow, isError: isWriteError },
+    usePrepareContractReturn: { isError: isPrepareError },
+  } = useBorrow(data, account, borrowCollateral, borrowLoan);
 
   const handleBorrow = async () => {
     setLoading(true);
@@ -157,38 +155,58 @@ const BorrowButton: FC<BorrowButtonProps> = ({
     });
   };
 
-  return data.collateralAllowance.isZero() ? (
-    <ApproveButton
-      enabled={
-        data.collateralAllowance.isZero() &&
-        isValidAccount(account) &&
-        !isZeroAddress(data.marketAddress)
-      }
-      refetch={refetch}
-      chainId={data.chainId}
-      contract={data.collateralAddress}
-      spender={data.marketAddress}
-      buttonProps={{
-        display: 'flex',
-        variant: 'primary',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      pageName={GAPage.DineroMarketPanel}
-    />
-  ) : (!borrowLoan && !borrowCollateral) ||
-    (+borrowCollateral === 0 && +borrowLoan === 0) ? (
-    <Box
-      py="L"
-      px="XL"
-      fontSize="S"
-      bg="disabled"
-      borderRadius="M"
-      cursor="not-allowed"
-    >
-      {t('dineroMarketAddress.button.default')}
-    </Box>
-  ) : (
+  if (isWriteError || isPrepareError)
+    return (
+      <ErrorButton
+        styleProps={{ width: '7rem', variant: 'primary' }}
+        error={t(
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+        )}
+      />
+    );
+
+  if (data.collateralAllowance.isZero())
+    return (
+      <Box width="10rem">
+        <ApproveButton
+          enabled={
+            data.collateralAllowance.isZero() &&
+            isValidAccount(account) &&
+            !isZeroAddress(data.marketAddress)
+          }
+          refetch={refetch}
+          chainId={data.chainId}
+          contract={data.collateralAddress}
+          spender={data.marketAddress}
+          buttonProps={{
+            display: 'flex',
+            variant: 'primary',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          pageName={GAPage.DineroMarketPanel}
+        />
+      </Box>
+    );
+
+  if (
+    (!borrowLoan && !borrowCollateral) ||
+    (+borrowCollateral === 0 && +borrowLoan === 0)
+  )
+    return (
+      <Box
+        py="L"
+        px="XL"
+        fontSize="S"
+        bg="disabled"
+        borderRadius="M"
+        cursor="not-allowed"
+      >
+        {t('dineroMarketAddress.button.default')}
+      </Box>
+    );
+
+  return (
     <Button
       display="flex"
       variant="primary"

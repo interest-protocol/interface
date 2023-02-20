@@ -69,7 +69,6 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
         symbol={isStake ? data.depositTokenSymbol : TOKEN_SYMBOL.DNR}
         address={isStake ? data.depositTokenAddress : data.dineroAddress}
       />
-
       <WalletGuardButton>
         {data.underlyingAllowance.isZero() ? (
           <ApproveButton

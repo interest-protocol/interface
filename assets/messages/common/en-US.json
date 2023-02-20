@@ -79,7 +79,11 @@
     "generic": "something went wrong",
     "wrongParams": "Wrong params",
     "fetchingContract": "Error fetching contract",
-    "fetchingBalances": "Error fetching balances"
+    "fetchingBalances": "Error fetching balances",
+    "contract": {
+      "write": "Failed to construct the TX",
+      "prepare": "Failed to estimate the gas for the TX"
+    }
   },
   "web3Manager": {
     "title": "{chainName} is not supported",
