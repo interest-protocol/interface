@@ -33,7 +33,7 @@ import {
 } from './add-liquidity-card.types';
 import BalanceError from './balance-error';
 import ErrorLiquidityMessage from './error-liquidity-message';
-import { useAddLiquidity } from './use-add-lliquidity-card.hooks';
+import { useAddLiquidity } from './use-add-liquidity-card.hooks';
 
 const filterFn = o<IToken, BigNumber, boolean>(
   (x: BigNumber) => x.isZero(),
