@@ -128,22 +128,10 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
     control,
   });
 
-  if (
-    isWriteErrorApprove0 ||
-    isPrepareErrorApprove0 ||
-    isWriteErrorApprove1 ||
-    isPrepareErrorApprove1
-  )
-    return (
-      <ErrorButton
-        styleProps={{ width: '100%', variant: 'primary' }}
-        error={t(
-          isPrepareErrorApprove0 || isPrepareErrorApprove1
-            ? 'error.contract.prepare'
-            : 'error.contract.write'
-        )}
-      />
-    );
+  const LIST_ERROR = [
+    { write: isWriteErrorApprove0, prepare: isPrepareErrorApprove0 },
+    { write: isWriteErrorApprove1, prepare: isPrepareErrorApprove1 },
+  ];
 
   return (
     <>
@@ -176,19 +164,30 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
               <Skeleton height="2rem" width="100%" borderRadius="L" />
             </Box>
           ) : (
-            tokens.filter(filterFn).map(({ symbol, address }) => (
-              <Button
-                key={v4()}
-                width="100%"
-                variant="primary"
-                disabled={loading}
-                bg="bottomBackground"
-                hover={{ bg: 'accentActive' }}
-                onClick={() => handleApproveToken(address, symbol)}
-              >
-                {capitalize(t('common.approve', { isLoading: 0 }))} {symbol}
-              </Button>
-            ))
+            tokens.filter(filterFn).map(({ symbol, address }, index) =>
+              LIST_ERROR[index].write || LIST_ERROR[index].prepare ? (
+                <ErrorButton
+                  styleProps={{ width: '100%', variant: 'primary' }}
+                  error={t(
+                    LIST_ERROR[index].prepare
+                      ? 'error.contract.prepare'
+                      : 'error.contract.write'
+                  )}
+                />
+              ) : (
+                <Button
+                  key={v4()}
+                  width="100%"
+                  variant="primary"
+                  disabled={loading}
+                  bg="bottomBackground"
+                  hover={{ bg: 'accentActive' }}
+                  onClick={() => handleApproveToken(address, symbol)}
+                >
+                  {capitalize(t('common.approve', { isLoading: 0 }))} {symbol}
+                </Button>
+              )
+            )
           )}
           {!needsAllowance && (
             <>
