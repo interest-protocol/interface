@@ -3,6 +3,7 @@ import { prop } from 'ramda';
 import { useCallback, useState } from 'react';
 import { FC } from 'react';
 
+import { ErrorButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -19,7 +20,6 @@ import {
   logTransactionEvent,
 } from '@/utils/analytics';
 
-import ErrorButton from '../error-button';
 import { useMint } from './faucet-form.hooks';
 import { MintButtonProps } from './faucet-form.types';
 
@@ -81,6 +81,7 @@ const MintButton: FC<MintButtonProps> = ({
   if (isWriteError || isPrepareError)
     return (
       <ErrorButton
+        styleProps={{ width: '100%', variant: 'primary' }}
         error={t(
           isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
         )}

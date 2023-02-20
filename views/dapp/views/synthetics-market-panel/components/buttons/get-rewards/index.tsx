@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 
+import { ErrorButton } from '@/components';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
 import { LoadingSVG } from '@/svg';
@@ -19,7 +20,6 @@ import {
 } from '@/utils/analytics';
 import { useGetRewards } from '@/views/dapp/views/synthetics-market-panel/synthetics-market-panel.hooks';
 
-import ErrorButton from '../../../error-button';
 import { GetRewardsProps } from './get-rewards.types';
 
 const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
@@ -72,6 +72,7 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
     return (
       <Box p="XL" order={4} gridArea="g" bg="foreground" borderRadius="L">
         <ErrorButton
+          styleProps={{ width: '100%', variant: 'primary' }}
           error={t(
             isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
           )}

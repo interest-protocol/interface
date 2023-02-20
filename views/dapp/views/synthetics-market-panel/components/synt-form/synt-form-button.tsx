@@ -35,7 +35,7 @@ const SyntFormButton: FC<SyntFormButtonProps> = ({
   return (
     <Box display="flex" justifyContent="center" mt="XXL">
       {isMint ? (
-        data.collateralAllowance.isZero() ? (
+        !data.collateralAllowance.isZero() ? (
           <ApproveButton
             enabled={
               data.collateralAllowance.isZero() &&

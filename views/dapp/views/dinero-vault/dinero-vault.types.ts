@@ -108,7 +108,3 @@ export interface WithdrawButtonProps {
   refetch: () => Promise<void>;
   control: Control<IVaultForm>;
 }
-
-export interface ErrorButtonProps {
-  error: string;
-}

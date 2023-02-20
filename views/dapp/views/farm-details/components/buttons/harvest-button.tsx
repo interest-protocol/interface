@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useState } from 'react';
 
+import { ErrorButton } from '@/components';
 import Button from '@/elements/button';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
 import {
@@ -11,7 +12,6 @@ import {
   logTransactionEvent,
 } from '@/utils/analytics';
 
-import ErrorButton from '../error-button';
 import { useHarvest } from './buttons.hooks';
 import { HarvestButtonProps } from './buttons.types';
 
@@ -64,6 +64,7 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
   if (isWriteError || isPrepareError)
     return (
       <ErrorButton
+        styleProps={{ width: '7rem', variant: 'primary' }}
         error={t(
           isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
         )}

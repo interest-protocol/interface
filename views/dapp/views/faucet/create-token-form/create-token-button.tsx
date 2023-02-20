@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 
+import { ErrorButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -20,7 +21,6 @@ import {
   logTransactionEvent,
 } from '@/utils/analytics';
 
-import ErrorButton from '../error-button';
 import { useCreateToken } from './create-token-form.hooks';
 import { CreateTokenButtonProps } from './create-token-form.types';
 
@@ -88,6 +88,7 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
   if (isWriteError || isPrepareError)
     return (
       <ErrorButton
+        styleProps={{ width: '100%', variant: 'primary' }}
         error={t(
           isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
         )}

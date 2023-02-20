@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 
+import { ErrorButton } from '@/components';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
@@ -12,7 +13,6 @@ import {
   logTransactionEvent,
 } from '@/utils/analytics';
 
-import ErrorButton from '../error-button';
 import { useAction } from './buttons.hooks';
 import { ModalButtonProps } from './buttons.types';
 
@@ -112,6 +112,15 @@ const ModalButton: FC<ModalButtonProps> = ({
   if (isWriteError || isPrepareError)
     return (
       <ErrorButton
+        styleProps={{
+          ml: 'L',
+          flex: 'flex',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          variant: 'primary',
+        }}
         error={t(
           isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
         )}

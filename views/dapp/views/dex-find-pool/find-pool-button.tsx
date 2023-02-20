@@ -5,6 +5,7 @@ import { pathOr, prop } from 'ramda';
 import { FC, useState } from 'react';
 
 import { isInterestDexPair } from '@/api';
+import { ErrorButton } from '@/components';
 import {
   Routes,
   RoutesEnum,
@@ -33,7 +34,6 @@ import CreatePoolPopup from '@/views/dapp/views/dex-find-pool/create-pool-popup'
 import { useAddLiquidity } from '@/views/dapp/views/dex-find-pool/dex-find-pool.hooks';
 
 import { FindPoolButtonProps } from './dex-find-pool.types';
-import ErrorButton from './error-button';
 
 const FindPoolButton: FC<FindPoolButtonProps> = ({
   chainId,
@@ -216,6 +216,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
         ) : isCreatingPair ? (
           isWriteError || isPrepareError ? (
             <ErrorButton
+              styleProps={{ width: '100%', variant: 'primary' }}
               error={t(
                 isPrepareError
                   ? 'error.contract.prepare'

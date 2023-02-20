@@ -10,6 +10,3 @@ export interface ApproveButtonProps {
   buttonProps?: ButtonProps;
   refetch: () => Promise<void>;
 }
-export interface ErrorButtonProps {
-  error: string;
-}

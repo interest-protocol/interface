@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { ChangeEvent, FC, useCallback, useMemo } from 'react';
 
+import { ErrorButton } from '@/components';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
 import { useApprove, useIdAccount } from '@/hooks';
@@ -23,7 +24,6 @@ import {
 } from '@/utils/analytics';
 
 import { CreatePoolFieldProps } from '../dex-find-pool.types';
-import ErrorButton from '../error-button';
 
 const CreatePoolField: FC<CreatePoolFieldProps> = ({
   name,
@@ -155,6 +155,10 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
         {needAllowance ? (
           isWriteError || isPrepareError ? (
             <ErrorButton
+              styleProps={{
+                width: '7rem',
+                variant: 'primary',
+              }}
               error={t(
                 isPrepareError
                   ? 'error.contract.prepare'

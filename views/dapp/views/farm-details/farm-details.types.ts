@@ -80,7 +80,3 @@ export type GetSafeUserFarmData = (
   pairAddress: `0x${string}`,
   data: TFarmData
 ) => SafeUserFarmSummaryData;
-
-export interface ErrorButtonProps {
-  error: string;
-}

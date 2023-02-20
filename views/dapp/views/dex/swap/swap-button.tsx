@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
+import { ErrorButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
@@ -24,7 +25,6 @@ import {
 } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
-import ErrorButton from './error-button';
 import { useSwap, useWETHDeposit, useWETHWithdraw } from './swap.hooks';
 import { SwapButtonProps, SwapViewButtonProps } from './swap.types';
 
@@ -405,6 +405,11 @@ const SwapButton: FC<SwapButtonProps> = ({
       isWriteErrorSwap ||
       isPrepareErrorSwap ? (
         <ErrorButton
+          styleProps={{
+            mt: 'L',
+            width: '100%',
+            variant: 'primary',
+          }}
           error={t(
             isPrepareErrorApprove ||
               isPrepareErrorDraw ||

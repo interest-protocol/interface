@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
+import { ErrorButton } from '@/components';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
@@ -16,7 +17,6 @@ import {
 
 import { useDeposit } from '../dinero-vault.hooks';
 import { DepositButtonProps } from '../dinero-vault.types';
-import ErrorButton from '../error-button';
 
 const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
   const t = useTranslations();
@@ -67,11 +67,12 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
 
   if (isWriteError || isPrepareError)
     return (
-      <Box width="100%" py="L">
+      <Box width="100%" pb="L">
         <ErrorButton
           error={t(
             isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
           )}
+          styleProps={{ width: '100%', variant: 'primary' }}
         />
       </Box>
     );

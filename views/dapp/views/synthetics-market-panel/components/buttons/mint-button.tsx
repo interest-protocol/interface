@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import { ApproveButton } from '@/components';
+import { ApproveButton, ErrorButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { Address } from '@/interface';
 import { LoadingSVG } from '@/svg';
@@ -24,7 +24,6 @@ import {
   logTransactionEvent,
 } from '@/utils/analytics';
 
-import ErrorButton from '../../error-button';
 import { useMint } from '../../synthetics-market-panel.hooks';
 import {
   convertCollateralToSynt,
@@ -154,6 +153,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
   if (isWriteError || isPrepareError)
     return (
       <ErrorButton
+        styleProps={{ width: '7rem', variant: 'primary' }}
         error={t(
           isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
         )}

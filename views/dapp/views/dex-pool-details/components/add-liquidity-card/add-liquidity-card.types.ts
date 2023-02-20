@@ -81,7 +81,3 @@ export interface AddLiquidityCardButtonProps {
 export const INPUT_NAMES = ['token0Amount', 'token1Amount'] as Array<
   Exclude<keyof IAddLiquidityForm, 'error' | 'locked'>
 >;
-
-export interface ErrorButtonProps {
-  error: string;
-}

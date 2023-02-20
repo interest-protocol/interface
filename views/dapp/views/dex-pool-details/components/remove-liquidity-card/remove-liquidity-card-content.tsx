@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
 
+import { ErrorButton } from '@/components';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import {
@@ -19,7 +20,6 @@ import {
 } from '@/utils/analytics';
 import { WalletGuardButton } from '@/views/dapp/components';
 
-import ErrorButton from '../add-liquidity-card/error-button';
 import ApproveButton from './approve-button';
 import LinearLoader from './linear-loader';
 import RemoveLiquidityButton from './remove-liquidity-button';
@@ -137,6 +137,7 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
   )
     return (
       <ErrorButton
+        styleProps={{ width: '100%', variant: 'primary' }}
         error={t(
           isPrepareError || isPrepareErrorRemove
             ? 'error.contract.prepare'

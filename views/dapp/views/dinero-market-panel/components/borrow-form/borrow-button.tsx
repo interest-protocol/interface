@@ -4,7 +4,7 @@ import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { ApproveButton } from '@/components';
+import { ApproveButton, ErrorButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { LoadingSVG } from '@/svg';
@@ -29,7 +29,6 @@ import {
   isFormBorrowEmpty,
 } from '../../dinero-market.utils';
 import { BorrowButtonProps } from './borrow-form.types';
-import ErrorButton from './error-button';
 
 const { parseEther } = ethers.utils;
 
@@ -159,6 +158,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
   if (isWriteError || isPrepareError)
     return (
       <ErrorButton
+        styleProps={{ width: '7rem', variant: 'primary' }}
         error={t(
           isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
         )}

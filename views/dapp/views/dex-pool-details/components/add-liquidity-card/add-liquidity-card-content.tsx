@@ -5,6 +5,7 @@ import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
+import { ErrorButton } from '@/components';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LineLoaderSVG } from '@/svg';
@@ -31,7 +32,6 @@ import {
   IToken,
 } from './add-liquidity-card.types';
 import BalanceError from './balance-error';
-import ErrorButton from './error-button';
 import ErrorLiquidityMessage from './error-liquidity-message';
 import { useAddLiquidity } from './use-add-lliquidity-card.hooks';
 
@@ -136,6 +136,7 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
   )
     return (
       <ErrorButton
+        styleProps={{ width: '100%', variant: 'primary' }}
         error={t(
           isPrepareErrorApprove0 || isPrepareErrorApprove1
             ? 'error.contract.prepare'
@@ -207,6 +208,7 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
               </Button>
               {isWriteError || isPrepareError ? (
                 <ErrorButton
+                  styleProps={{ width: '100%', variant: 'primary' }}
                   error={t(
                     isPrepareError
                       ? 'error.contract.prepare'

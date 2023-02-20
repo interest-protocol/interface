@@ -99,7 +99,3 @@ export interface UseWETHWithdrawArgs {
   parsedTokenInBalance: SwapButtonProps['parsedTokenInBalance'];
   needsApproval: boolean;
 }
-
-export interface ErrorButtonProps {
-  error: string;
-}

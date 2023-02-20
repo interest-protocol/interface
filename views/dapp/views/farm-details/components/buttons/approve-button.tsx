@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 
+import { ErrorButton } from '@/components';
 import { Typography } from '@/elements';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
@@ -21,7 +22,6 @@ import {
   logTransactionEvent,
 } from '@/utils/analytics';
 
-import ErrorButton from '../error-button';
 import { ApproveButtonProps } from './buttons.types';
 
 const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
@@ -78,6 +78,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
   if (isWriteError || isPrepareError)
     return (
       <ErrorButton
+        styleProps={{ width: '7rem', variant: 'primary' }}
         error={t(
           isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
         )}

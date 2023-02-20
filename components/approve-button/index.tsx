@@ -7,8 +7,8 @@ import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
 import { GAStatus, GAType, logTransactionEvent } from '@/utils/analytics';
 
+import ErrorButton from '../error-button';
 import { ApproveButtonProps } from './approve-button.types';
-import ErrorButton from './error-button';
 
 const ApproveButton: FC<ApproveButtonProps> = ({
   enabled,
@@ -65,6 +65,10 @@ const ApproveButton: FC<ApproveButtonProps> = ({
     <Box display="flex">
       {isWriteError || isPrepareError ? (
         <ErrorButton
+          styleProps={{
+            width: '7rem',
+            variant: 'primary',
+          }}
           error={t(
             isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
           )}
