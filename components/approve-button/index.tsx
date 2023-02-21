@@ -63,7 +63,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
 
   return (
     <Box display="flex">
-      {!(isWriteError || isPrepareError) ? (
+      {isWriteError || isPrepareError ? (
         <ErrorButton
           styleProps={{
             width: '100%',
