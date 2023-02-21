@@ -158,16 +158,18 @@ const BorrowButton: FC<BorrowButtonProps> = ({
   if (isWriteError || isPrepareError)
     return (
       <ErrorButton
-        styleProps={{ width: '7rem', variant: 'primary' }}
+        styleProps={{ minWidth: '7rem', variant: 'primary' }}
+        functionName="borrow"
         error={t(
-          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
+          { functionName: 'borrow' }
         )}
       />
     );
 
   if (data.collateralAllowance.isZero())
     return (
-      <Box width="10rem">
+      <Box minWidth="10rem">
         <ApproveButton
           enabled={
             data.collateralAllowance.isZero() &&

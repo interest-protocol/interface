@@ -3,6 +3,7 @@ import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
 
 import { ErrorButton } from '@/components';
+import { StakeState } from '@/constants';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
@@ -123,8 +124,10 @@ const ModalButton: FC<ModalButtonProps> = ({
           width: '100%',
           variant: 'primary',
         }}
+        functionName={modal === StakeState.Stake ? 'stake' : 'unstake'}
         error={t(
-          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
+          { functionName: modal === StakeState.Stake ? 'stake' : 'unstake' }
         )}
       />
     );

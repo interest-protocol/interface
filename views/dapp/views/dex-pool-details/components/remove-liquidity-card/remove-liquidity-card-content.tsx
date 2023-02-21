@@ -129,19 +129,30 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
       error: prop('message'),
     });
 
-  if (
-    isWriteError ||
-    isPrepareError ||
-    isWriteErrorRemove ||
-    isPrepareErrorRemove
-  )
+  if (isWriteError || isPrepareError)
     return (
       <ErrorButton
         styleProps={{ width: '100%', variant: 'primary' }}
+        functionName="approve"
         error={t(
-          isPrepareError || isPrepareErrorRemove
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
+          { functionName: 'approve' }
+        )}
+      />
+    );
+
+  if (isWriteErrorRemove || isPrepareErrorRemove)
+    return (
+      <ErrorButton
+        styleProps={{ width: '100%', variant: 'primary' }}
+        functionName="removeLiquidity"
+        error={t(
+          isPrepareErrorRemove
             ? 'error.contract.prepare'
-            : 'error.contract.write'
+            : 'error.contract.write',
+          {
+            functionName: 'removeLiquidity',
+          }
         )}
       />
     );

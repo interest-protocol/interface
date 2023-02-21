@@ -394,29 +394,41 @@ const SwapButton: FC<SwapButtonProps> = ({
     return false;
   };
 
+  const hasError = [
+    isWriteErrorApprove ||
+      isWriteErrorDraw ||
+      isWriteErrorDeposit ||
+      isWriteErrorSwap,
+    isPrepareErrorApprove ||
+      isPrepareErrorDraw ||
+      isPrepareErrorDeposit ||
+      isPrepareErrorSwap,
+  ];
+
+  const functionNameError =
+    isWriteErrorApprove || isPrepareErrorApprove
+      ? 'approve'
+      : isWriteErrorDraw || isPrepareErrorDraw
+      ? 'withdraw'
+      : isWriteErrorSwap || isPrepareErrorSwap
+      ? 'swapExactTokensForTokens'
+      : isWriteErrorDeposit || isPrepareErrorDeposit
+      ? 'deposit'
+      : '';
+
   return (
     <WalletGuardButton>
-      {isWriteErrorApprove ||
-      isPrepareErrorApprove ||
-      isWriteErrorDraw ||
-      isPrepareErrorDraw ||
-      isWriteErrorDeposit ||
-      isPrepareErrorDeposit ||
-      isWriteErrorSwap ||
-      isPrepareErrorSwap ? (
+      {hasError[0] || hasError[1] ? (
         <ErrorButton
           styleProps={{
             mt: 'L',
             width: '100%',
             variant: 'primary',
           }}
+          functionName={functionNameError}
           error={t(
-            isPrepareErrorApprove ||
-              isPrepareErrorDraw ||
-              isPrepareErrorDeposit ||
-              isPrepareErrorSwap
-              ? 'error.contract.prepare'
-              : 'error.contract.write'
+            hasError[1] ? 'error.contract.prepare' : 'error.contract.write',
+            { functionName: functionNameError }
           )}
         />
       ) : (

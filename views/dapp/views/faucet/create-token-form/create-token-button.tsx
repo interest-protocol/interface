@@ -91,8 +91,10 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
     return (
       <ErrorButton
         styleProps={{ width: '100%', variant: 'primary' }}
+        functionName="createToken"
         error={t(
-          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
+          { functionName: 'createToken' }
         )}
       />
     );

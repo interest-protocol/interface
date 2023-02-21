@@ -81,8 +81,8 @@
     "fetchingContract": "Error fetching contract",
     "fetchingBalances": "Error fetching balances",
     "contract": {
-      "write": "Failed to construct the TX",
-      "prepare": "Failed to estimate the gas for the TX"
+      "write": "Failed to construct the {functionName} TX",
+      "prepare": "Failed to estimate the gas for the {functionName} TX"
     }
   },
   "web3Manager": {

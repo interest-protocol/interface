@@ -82,8 +82,10 @@ const MintButton: FC<MintButtonProps> = ({
     return (
       <ErrorButton
         styleProps={{ width: '100%', variant: 'primary' }}
+        functionName="mint"
         error={t(
-          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
+          { functionName: 'mint' }
         )}
       />
     );

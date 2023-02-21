@@ -90,9 +90,11 @@ const RepayButton: FC<RepayButtonProps> = ({
   if (isWriteError || isPrepareError)
     return (
       <ErrorButton
-        styleProps={{ width: '7rem', variant: 'primary' }}
+        styleProps={{ minWidth: '7rem', variant: 'primary' }}
+        functionName="repay"
         error={t(
-          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
+          { functionName: 'repay' }
         )}
       />
     );

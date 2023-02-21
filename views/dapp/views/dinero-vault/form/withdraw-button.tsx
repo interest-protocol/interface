@@ -73,8 +73,10 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
     return (
       <Box width="100%" pb="L">
         <ErrorButton
+          functionName="withdraw"
           error={t(
-            isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+            isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
+            { functionName: 'withdraw' }
           )}
           styleProps={{ width: '100%', variant: 'primary' }}
         />

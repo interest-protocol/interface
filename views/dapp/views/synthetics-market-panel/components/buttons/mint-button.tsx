@@ -153,15 +153,17 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
   if (isWriteError || isPrepareError)
     return (
       <ErrorButton
-        styleProps={{ width: '7rem', variant: 'primary' }}
+        styleProps={{ minWidth: '7rem', variant: 'primary' }}
+        functionName="mint"
         error={t(
-          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
+          { functionName: 'mint' }
         )}
       />
     );
 
   return data.collateralAllowance.isZero() ? (
-    <Box width="7.5rem">
+    <Box minWidth="7.5rem">
       <ApproveButton
         enabled={
           data.collateralAllowance.isZero() &&

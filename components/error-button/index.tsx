@@ -9,13 +9,17 @@ import { capitalize } from '@/utils';
 import Tooltip from '../tooltip';
 import { ErrorButtonProps } from './error-button.types';
 
-const ErrorButton: FC<ErrorButtonProps> = ({ error, styleProps }) => {
+const ErrorButton: FC<ErrorButtonProps> = ({
+  error,
+  styleProps,
+  functionName,
+}) => {
   const t = useTranslations();
   return (
     <>
       <Button
         {...styleProps}
-        px="M"
+        px="L"
         mr="S"
         bg="error"
         cursor="help"
@@ -34,8 +38,8 @@ const ErrorButton: FC<ErrorButtonProps> = ({ error, styleProps }) => {
             maxHeight="1rem"
             strokeWidth="2px"
           />
-          <Box as="span" ml="S">
-            {capitalize(t('common.error'))}
+          <Box as="span" ml="S" fontSize="S">
+            {capitalize(t('common.error')) + ': ' + functionName}
           </Box>
         </Box>
       </Button>

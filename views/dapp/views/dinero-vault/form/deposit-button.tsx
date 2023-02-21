@@ -69,8 +69,10 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
     return (
       <Box width="100%" pb="L">
         <ErrorButton
+          functionName="deposit"
           error={t(
-            isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+            isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
+            { functionName: 'deposit' }
           )}
           styleProps={{ width: '100%', variant: 'primary' }}
         />

@@ -73,8 +73,10 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
       <Box p="XL" order={4} gridArea="g" bg="foreground" borderRadius="L">
         <ErrorButton
           styleProps={{ width: '100%', variant: 'primary' }}
+          functionName="getRewards"
           error={t(
-            isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+            isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
+            { functionName: 'getRewards' }
           )}
         />
       </Box>
