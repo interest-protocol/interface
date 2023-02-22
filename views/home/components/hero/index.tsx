@@ -83,6 +83,7 @@ const Hero: FC = () => {
           >
             {t('landingPage.headerButton')}
           </Button>
+          <button>HELLO WORLD</button>
         </Box>
       </Container>
       <Box
