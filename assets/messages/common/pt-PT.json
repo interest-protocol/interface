@@ -63,7 +63,7 @@
     "finished": "terminado",
     "select": "selecione",
     "check": "{isLoading, plural, =1 {verificando...} other {verificar}}",
-    "seoDescription": "Troque e peça emprestado a seu criptomoeda na BSC e Sui.",
+    "seoDescription": "Troque crypto e peça empréstimos na BSC e Sui.",
     "stake": "{isLoading, plural, =1 {staking...} other {stake}}",
     "unstake": "{isLoading, plural, =1 {unstaking...} other {unstake}}",
     "network": "{count, plural, =1 {rede} other {redes}}",
