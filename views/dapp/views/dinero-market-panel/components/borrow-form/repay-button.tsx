@@ -118,7 +118,7 @@ const RepayButton: FC<RepayButtonProps> = ({
       )}
       <Typography
         as="span"
-        fontSize="M"
+        fontSize="S"
         variant="normal"
         ml={loading ? 'L' : 'NONE'}
       >

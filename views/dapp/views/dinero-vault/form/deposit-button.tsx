@@ -67,7 +67,7 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
 
   if (isWriteError || isPrepareError)
     return (
-      <Box width="100%" pb="L">
+      <Box width="100%" mb="1.5rem">
         <ErrorButton
           functionName="deposit"
           error={t(

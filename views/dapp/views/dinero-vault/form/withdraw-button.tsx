@@ -71,7 +71,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
 
   if (isWriteError || isPrepareError)
     return (
-      <Box width="100%" pb="L">
+      <Box width="100%" mb="1.5rem">
         <ErrorButton
           functionName="withdraw"
           error={t(

@@ -52,7 +52,7 @@ const SyntFormButton: FC<SyntFormButtonProps> = ({
                 variant: 'primary',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 'M',
+                fontSize: 'S',
                 width: '100%',
               }}
               pageName={GAPage.SyntheticsMarketPanel}
@@ -63,7 +63,7 @@ const SyntFormButton: FC<SyntFormButtonProps> = ({
           <Button
             variant="primary"
             px="XL"
-            fontSize="M"
+            fontSize="S"
             bg="disabled"
             borderRadius="M"
             cursor="not-allowed"

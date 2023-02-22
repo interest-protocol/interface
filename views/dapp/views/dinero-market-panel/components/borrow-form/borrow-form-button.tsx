@@ -50,7 +50,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
                 variant: 'primary',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 'M',
+                fontSize: 'S',
                 width: '100%',
               }}
               pageName={GAPage.DineroMarketPanel}
@@ -61,7 +61,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
           <Button
             px="XL"
             bg="disabled"
-            fontSize="M"
+            fontSize="S"
             borderRadius="M"
             cursor="not-allowed"
             variant="primary"
@@ -83,7 +83,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
           variant="primary"
           px="XL"
           bg="disabled"
-          fontSize="M"
+          fontSize="S"
           borderRadius="M"
           cursor="not-allowed"
         >

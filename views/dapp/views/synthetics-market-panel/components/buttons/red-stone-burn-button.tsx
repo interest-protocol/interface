@@ -140,7 +140,12 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
           <LoadingSVG width="100%" maxWidth="1rem" maxHeight="1rem" />
         </Box>
       )}
-      <Typography as="span" variant="normal" ml={loading ? 'L' : 'NONE'}>
+      <Typography
+        as="span"
+        variant="normal"
+        ml={loading ? 'L' : 'NONE'}
+        fontSize="S"
+      >
         {t(
           !!+burnSynt && !!+burnCollateral
             ? 'syntheticsMarketAddress.button.removeCollateralBurn'

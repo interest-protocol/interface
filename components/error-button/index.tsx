@@ -18,12 +18,12 @@ const ErrorButton: FC<ErrorButtonProps> = ({
   return (
     <>
       <Button
-        {...styleProps}
         px="L"
         mr="S"
         bg="error"
         cursor="help"
         data-tip={error}
+        {...styleProps}
       >
         <Box
           as="span"
@@ -34,11 +34,11 @@ const ErrorButton: FC<ErrorButtonProps> = ({
         >
           <InfoSVG
             width="100%"
-            maxWidth="1rem"
-            maxHeight="1rem"
+            maxWidth="0.8rem"
+            maxHeight="0.8rem"
             strokeWidth="2px"
           />
-          <Box as="span" ml="S">
+          <Box as="span" ml="S" fontSize="S">
             {capitalize(t('common.error')) + ': ' + functionName}
           </Box>
         </Box>
