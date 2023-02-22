@@ -3,7 +3,7 @@
     "pageTitle": "Início",
     "headerTitle": "Use <special>Cripto</special> para Comprar Ações, Mercadorias e NFT Tokens",
     "headerSubtitle": "Invista em ativos do mundo real através de derivados",
-    "headerButton": "Entre",
+    "headerButton": "Entre {network} DAPP",
     "earnSectionSubtitle": "Adquira LP Tokens fornecendo liquidez a nossa DEX",
     "earnSectionH3": "Ponha os seus LP Tokens nas nossas farms para obter rendimentos.",
     "earnSectionBody": "Moedas suportadas:",

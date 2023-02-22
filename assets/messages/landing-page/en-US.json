@@ -3,7 +3,7 @@
     "pageTitle": "Home",
     "headerTitle": "Use <special>crypto</special> to buy stocks, commodities & NFT Tokens",
     "headerSubtitle": "Invest in real-world assets via derivatives",
-    "headerButton": "ENTER",
+    "headerButton": "ENTER {network} DAPP",
     "earnSectionSubtitle": "Get LP Tokens by providing liquidity to our DEX",
     "earnSectionH3": "Use LP Tokens to earn trading fees and farm $Int Tokens.",
     "earnSectionBody": "Supported tokens",

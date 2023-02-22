@@ -20,6 +20,7 @@ export enum RoutesEnum {
   DEXFindPool = 'dex-find-pool',
   DEXPoolDetails = 'dex-pool-details',
   Faucet = 'faucet',
+  SUI = 'SUI',
 }
 
 /**
@@ -44,6 +45,7 @@ export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.Vaults]: '/dapp/vaults',
   [RoutesEnum.FarmDetails]: '/dapp/farms/details',
   [RoutesEnum.Faucet]: '/dapp/faucet',
+  [RoutesEnum.SUI]: 'https://sui.interestprotocol.com',
 };
 
 export const RoutesWithFaucet = [
