@@ -5,6 +5,7 @@ import { FC } from 'react';
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
+import { BNBSVG, SuiSVG } from '@/svg';
 
 import { FloatingCoins } from './hero-animations';
 
@@ -75,14 +76,60 @@ const Hero: FC = () => {
           >
             {t('landingPage.headerSubtitle')}
           </Typography>
-          <Button
-            type="button"
-            variant="primary"
-            effect="hover"
-            onClick={() => push(Routes[RoutesEnum.DEX])}
-          >
-            {t('landingPage.headerButton')}
-          </Button>
+          <Box mt="M" display="flex">
+            <Button
+              type="button"
+              variant="primary"
+              effect="hover"
+              onClick={() => push(Routes[RoutesEnum.DEX])}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              mr="L"
+            >
+              {t('landingPage.headerButton')}
+              <Box
+                maxHeight="1.2rem"
+                maxWidth="1.2rem"
+                width="1.2rem"
+                height="1.2rem"
+                ml="S"
+              >
+                <BNBSVG
+                  maxHeight="100%"
+                  maxWidth="100%"
+                  width="100%"
+                  height="100%"
+                />
+              </Box>
+            </Button>
+            <Button
+              type="button"
+              variant="primary"
+              effect="hover"
+              onClick={() => push(Routes[RoutesEnum.Sui])}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              {t('landingPage.headerButton')}
+              <Box
+                maxHeight="1.2rem"
+                maxWidth="1.2rem"
+                width="1.2rem"
+                height="1.2rem"
+                ml="S"
+              >
+                <SuiSVG
+                  maxHeight="100%"
+                  maxWidth="100%"
+                  width="100%"
+                  height="100%"
+                  fill="#fff"
+                />
+              </Box>
+            </Button>
+          </Box>
         </Box>
       </Container>
       <Box
