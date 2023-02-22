@@ -5,6 +5,7 @@ import { FC } from 'react';
 import { Container } from '@/components';
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button, ResponsiveImage, Typography } from '@/elements';
+import { BNBSVG, SuiSVG } from '@/svg';
 
 import { FloatingCoins } from './hero-animations';
 
@@ -75,14 +76,47 @@ const Hero: FC = () => {
           >
             {t('landingPage.headerSubtitle')}
           </Typography>
-          <Button
-            type="button"
-            variant="primary"
-            effect="hover"
-            onClick={() => push(Routes[RoutesEnum.DEX])}
-          >
-            {t('landingPage.headerButton')}
-          </Button>
+          <Box display="flex">
+            <Button
+              mr="L"
+              width="auto"
+              type="button"
+              effect="hover"
+              display="flex"
+              variant="primary"
+              alignItems="center"
+              onClick={() => push(Routes[RoutesEnum.DEX])}
+            >
+              {t('landingPage.headerButton', { network: 'BSC' })}
+              <Box as="span" ml="M" display="inline-flex" alignItems="center">
+                <BNBSVG
+                  width="100%"
+                  height="100%"
+                  maxWidth="1.5rem"
+                  maxHeight="1.5rem"
+                />
+              </Box>
+            </Button>
+            <Button
+              width="auto"
+              type="button"
+              effect="hover"
+              display="flex"
+              variant="primary"
+              alignItems="center"
+              onClick={() => push(Routes[RoutesEnum.SUI])}
+            >
+              {t('landingPage.headerButton', { network: 'SUI' })}
+              <Box as="span" ml="M" display="inline-flex" alignItems="center">
+                <SuiSVG
+                  width="100%"
+                  height="100%"
+                  maxWidth="1.5rem"
+                  maxHeight="1.5rem"
+                />
+              </Box>
+            </Button>
+          </Box>
         </Box>
       </Container>
       <Box
