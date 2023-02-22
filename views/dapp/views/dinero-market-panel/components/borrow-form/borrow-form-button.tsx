@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { ApproveButton } from '@/components';
-import { Box } from '@/elements';
+import { Box, Button } from '@/elements';
 import { isValidAccount, isZeroAddress } from '@/utils';
 import { GAPage } from '@/utils/analytics';
 
@@ -50,6 +50,7 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
                 variant: 'primary',
                 alignItems: 'center',
                 justifyContent: 'center',
+                fontSize: 'M',
                 width: '100%',
               }}
               pageName={GAPage.DineroMarketPanel}
@@ -57,16 +58,16 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
           </Box>
         ) : (!borrowLoan && !borrowCollateral) ||
           (+borrowCollateral === 0 && +borrowLoan === 0) ? (
-          <Box
-            py="L"
+          <Button
             px="XL"
-            fontSize="S"
             bg="disabled"
+            fontSize="M"
             borderRadius="M"
             cursor="not-allowed"
+            variant="primary"
           >
             {t('dineroMarketAddress.button.default')}
-          </Box>
+          </Button>
         ) : (
           <BorrowButton
             borrowLoan={borrowLoan}
@@ -78,16 +79,16 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
           />
         )
       ) : !+repayLoan && !+repayCollateral ? (
-        <Box
-          py="L"
+        <Button
+          variant="primary"
           px="XL"
-          fontSize="S"
           bg="disabled"
+          fontSize="M"
           borderRadius="M"
           cursor="not-allowed"
         >
           {t('dineroMarketAddress.button.default')}
-        </Box>
+        </Button>
       ) : (
         <RepayButton
           repayLoan={repayLoan}

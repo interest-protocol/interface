@@ -205,6 +205,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
           variant: 'primary',
           alignItems: 'center',
           justifyContent: 'center',
+          fontSize: 'M',
           width: '100%',
         }}
         pageName={GAPage.SyntheticsMarketPanel}
@@ -212,8 +213,8 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
     </Box>
   ) : (!mintSynt && !mintCollateral) ||
     (+mintSynt === 0 && +mintCollateral === 0) ? (
-    <Box
-      py="L"
+    <Button
+      variant="primary"
       px="XL"
       fontSize="S"
       bg="disabled"
@@ -221,7 +222,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
       cursor="not-allowed"
     >
       {t('syntheticsMarketAddress.button.default')}
-    </Box>
+    </Button>
   ) : (
     <Button
       display="flex"
@@ -239,12 +240,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
           <LoadingSVG width="100%" maxWidth="1rem" maxHeight="1rem" />
         </Box>
       )}
-      <Typography
-        fontSize="S"
-        as="span"
-        variant="normal"
-        ml={loading ? 'L' : 'NONE'}
-      >
+      <Typography as="span" variant="normal" ml={loading ? 'L' : 'NONE'}>
         {t(
           !!+mintSynt && !!+mintCollateral
             ? 'syntheticsMarketAddress.button.addCollateralMint'

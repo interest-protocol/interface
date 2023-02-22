@@ -91,8 +91,8 @@ const ApproveButton: FC<ApproveButtonProps> = ({
             </Box>
           )}
           <Typography
-            fontSize="S"
             as="span"
+            fontSize="inherit"
             variant="normal"
             ml={loading ? 'L' : 'NONE'}
           >

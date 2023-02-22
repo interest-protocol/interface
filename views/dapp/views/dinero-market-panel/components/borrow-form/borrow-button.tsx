@@ -185,6 +185,8 @@ const BorrowButton: FC<BorrowButtonProps> = ({
             variant: 'primary',
             alignItems: 'center',
             justifyContent: 'center',
+            fontSize: 'M',
+            width: '100%',
           }}
           pageName={GAPage.DineroMarketPanel}
         />
@@ -196,16 +198,16 @@ const BorrowButton: FC<BorrowButtonProps> = ({
     (+borrowCollateral === 0 && +borrowLoan === 0)
   )
     return (
-      <Box
-        py="L"
+      <Button
         px="XL"
-        fontSize="S"
         bg="disabled"
+        fontSize="M"
         borderRadius="M"
         cursor="not-allowed"
+        variant="primary"
       >
         {t('dineroMarketAddress.button.default')}
-      </Box>
+      </Button>
     );
 
   return (
@@ -226,8 +228,8 @@ const BorrowButton: FC<BorrowButtonProps> = ({
         </Box>
       )}
       <Typography
-        fontSize="S"
         as="span"
+        fontSize="S"
         variant="normal"
         ml={loading ? 'L' : 'NONE'}
       >

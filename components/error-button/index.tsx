@@ -38,7 +38,7 @@ const ErrorButton: FC<ErrorButtonProps> = ({
             maxHeight="1rem"
             strokeWidth="2px"
           />
-          <Box as="span" ml="S" fontSize="S">
+          <Box as="span" ml="S">
             {capitalize(t('common.error')) + ': ' + functionName}
           </Box>
         </Box>

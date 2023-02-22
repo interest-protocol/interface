@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { ApproveButton } from '@/components';
-import { Box } from '@/elements';
+import { Box, Button } from '@/elements';
 import { isValidAccount, isZeroAddress } from '@/utils';
 import { GAPage } from '@/utils/analytics';
 
@@ -52,6 +52,7 @@ const SyntFormButton: FC<SyntFormButtonProps> = ({
                 variant: 'primary',
                 alignItems: 'center',
                 justifyContent: 'center',
+                fontSize: 'M',
                 width: '100%',
               }}
               pageName={GAPage.SyntheticsMarketPanel}
@@ -59,22 +60,22 @@ const SyntFormButton: FC<SyntFormButtonProps> = ({
           </Box>
         ) : (!mintSynt && !mintCollateral) ||
           (+mintCollateral === 0 && +mintSynt === 0) ? (
-          <Box
-            py="L"
+          <Button
+            variant="primary"
             px="XL"
-            fontSize="S"
+            fontSize="M"
             bg="disabled"
             borderRadius="M"
             cursor="not-allowed"
           >
             {t('syntheticsMarketAddress.button.default')}
-          </Box>
+          </Button>
         ) : (
           mintButton
         )
       ) : !+burnSynt && !+burnCollateral ? (
-        <Box
-          py="L"
+        <Button
+          variant="primary"
           px="XL"
           fontSize="S"
           bg="disabled"
@@ -82,7 +83,7 @@ const SyntFormButton: FC<SyntFormButtonProps> = ({
           cursor="not-allowed"
         >
           {t('syntheticsMarketAddress.button.default')}
-        </Box>
+        </Button>
       ) : (
         burnButton
       )}
