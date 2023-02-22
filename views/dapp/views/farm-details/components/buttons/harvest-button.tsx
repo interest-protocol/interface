@@ -65,10 +65,10 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
     return (
       <ErrorButton
         styleProps={{ minWidth: '7rem', variant: 'primary' }}
-        functionName="stake"
+        functionName="getRewards"
         error={t(
           isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
-          { functionName: 'stake' }
+          { functionName: 'getRewards' }
         )}
       />
     );
