@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { ErrorButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
@@ -81,11 +80,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     useState<string | null>(null);
 
   const {
-    useContractWriteReturn: {
-      writeAsync: approve,
-      isError: isWriteErrorApprove,
-    },
-    usePrepareContractReturn: { isError: isPrepareErrorApprove },
+    useContractWriteReturn: { writeAsync: approve },
   } = useApprove(tokenInAddress, getInterestDexRouterAddress(chainId), {
     enabled: needsApproval,
   });
@@ -94,11 +89,7 @@ const SwapButton: FC<SwapButtonProps> = ({
   const tokenOut = useWatch({ control, name: 'tokenOut' });
 
   const {
-    useContractWriteReturn: {
-      writeAsync: swapTokens,
-      isError: isWriteErrorSwap,
-    },
-    usePrepareContractReturn: { isError: isPrepareErrorSwap },
+    useContractWriteReturn: { writeAsync: swapTokens },
   } = useSwap({
     tokenIn,
     tokenOut,
@@ -111,11 +102,7 @@ const SwapButton: FC<SwapButtonProps> = ({
   });
 
   const {
-    useContractWriteReturn: {
-      writeAsync: wethDeposit,
-      isError: isWriteErrorDeposit,
-    },
-    usePrepareContractReturn: { isError: isPrepareErrorDeposit },
+    useContractWriteReturn: { writeAsync: wethDeposit },
   } = useWETHDeposit({
     tokenIn,
     tokenOut,
@@ -125,11 +112,7 @@ const SwapButton: FC<SwapButtonProps> = ({
   });
 
   const {
-    useContractWriteReturn: {
-      writeAsync: wethWithdraw,
-      isError: isWriteErrorDraw,
-    },
-    usePrepareContractReturn: { isError: isPrepareErrorDraw },
+    useContractWriteReturn: { writeAsync: wethWithdraw },
   } = useWETHWithdraw({
     tokenIn,
     tokenOut,
@@ -394,50 +377,13 @@ const SwapButton: FC<SwapButtonProps> = ({
     return false;
   };
 
-  const hasError = [
-    isWriteErrorApprove ||
-      isWriteErrorDraw ||
-      isWriteErrorDeposit ||
-      isWriteErrorSwap,
-    isPrepareErrorApprove ||
-      isPrepareErrorDraw ||
-      isPrepareErrorDeposit ||
-      isPrepareErrorSwap,
-  ];
-
-  const functionNameError =
-    isWriteErrorApprove || isPrepareErrorApprove
-      ? 'approve'
-      : isWriteErrorDraw || isPrepareErrorDraw
-      ? 'withdraw'
-      : isWriteErrorSwap || isPrepareErrorSwap
-      ? 'swapExactTokensForTokens'
-      : isWriteErrorDeposit || isPrepareErrorDeposit
-      ? 'deposit'
-      : '';
-
   return (
     <WalletGuardButton>
-      {hasError[0] || hasError[1] ? (
-        <ErrorButton
-          styleProps={{
-            mt: 'L',
-            width: '100%',
-            variant: 'primary',
-          }}
-          functionName={functionNameError}
-          error={t(
-            hasError[1] ? 'error.contract.prepare' : 'error.contract.write',
-            { functionName: functionNameError }
-          )}
-        />
-      ) : (
-        <SwapViewButton
-          {...handleProps()}
-          disabled={handleIsDisabled()}
-          loadingText={capitalize(handleLoadingText())}
-        />
-      )}
+      <SwapViewButton
+        {...handleProps()}
+        disabled={handleIsDisabled()}
+        loadingText={capitalize(handleLoadingText())}
+      />
     </WalletGuardButton>
   );
 };

@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { ChangeEvent, FC, useCallback, useMemo } from 'react';
 
-import { ErrorButton } from '@/components';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
 import { useApprove, useIdAccount } from '@/hooks';
@@ -38,8 +37,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   const { chainId } = useIdAccount();
   const { address, symbol, decimals } = getValues()[name];
   const {
-    useContractWriteReturn: { writeAsync: addAllowance, isError: isWriteError },
-    usePrepareContractReturn: { isError: isPrepareError },
+    useContractWriteReturn: { writeAsync: addAllowance },
   } = useApprove(address, getInterestDexRouterAddress(chainId), {
     enabled: needAllowance,
   });
@@ -153,30 +151,14 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
         justifyContent="space-between"
       >
         {needAllowance ? (
-          isWriteError || isPrepareError ? (
-            <ErrorButton
-              styleProps={{
-                minWidth: '7rem',
-                variant: 'primary',
-              }}
-              functionName="approve"
-              error={t(
-                isPrepareError
-                  ? 'error.contract.prepare'
-                  : 'error.contract.write',
-                { functionName: 'approve' }
-              )}
-            />
-          ) : (
-            <Button
-              variant="primary"
-              onClick={handleApprove}
-              hover={{ bg: !addAllowance ? 'disabled' : 'accentActive' }}
-              disabled={!addAllowance}
-            >
-              {capitalize(t('common.approve', { isLoading: 0 }))} Token
-            </Button>
-          )
+          <Button
+            variant="primary"
+            onClick={handleApprove}
+            hover={{ bg: !addAllowance ? 'disabled' : 'accentActive' }}
+            disabled={!addAllowance}
+          >
+            {capitalize(t('common.approve', { isLoading: 0 }))} Token
+          </Button>
         ) : (
           <Button
             onClick={() =>

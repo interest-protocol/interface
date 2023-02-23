@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 
-import { ErrorButton } from '@/components';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
 import { LoadingSVG } from '@/svg';
@@ -27,8 +26,7 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
   const [loading, setLoading] = useState(false);
 
   const {
-    useContractWriteReturn: { writeAsync: getRewards, isError: isWriteError },
-    usePrepareContractReturn: { isError: isPrepareError },
+    useContractWriteReturn: { writeAsync: getRewards },
   } = useGetRewards(market);
 
   const disabled = market.pendingRewards.isZero() || !getRewards;
@@ -67,20 +65,6 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
       error: prop('message'),
       loading: capitalize(t('common.submit', { isLoading: 1 })),
     });
-
-  if (isWriteError || isPrepareError)
-    return (
-      <Box p="XL" order={4} gridArea="g" bg="foreground" borderRadius="L">
-        <ErrorButton
-          styleProps={{ width: '100%', variant: 'primary' }}
-          functionName="getRewards"
-          error={t(
-            isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
-            { functionName: 'getRewards' }
-          )}
-        />
-      </Box>
-    );
 
   return (
     <Box p="XL" order={4} gridArea="g" bg="foreground" borderRadius="L">

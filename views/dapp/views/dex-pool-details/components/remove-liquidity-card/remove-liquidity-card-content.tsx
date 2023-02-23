@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
 
-import { ErrorButton } from '@/components';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import {
@@ -42,16 +41,11 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
 }) => {
   const t = useTranslations();
   const {
-    useContractWriteReturn: { writeAsync: approve, isError: isWriteError },
-    usePrepareContractReturn: { isError: isPrepareError },
+    useContractWriteReturn: { writeAsync: approve },
   } = useApprove(pairAddress, getInterestDexRouterAddress(chainId));
 
   const {
-    useContractWriteReturn: {
-      writeAsync: removeLiquidity,
-      isError: isWriteErrorRemove,
-    },
-    usePrepareContractReturn: { isError: isPrepareErrorRemove },
+    useContractWriteReturn: { writeAsync: removeLiquidity },
   } = useRemoveLiquidity({
     control,
     chainId,
@@ -153,73 +147,43 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
           isFetchingInitialData={isFetchingInitialData}
         />
       </Box>
-      {isWriteError || isPrepareError ? (
-        <Box mt="L">
-          <ErrorButton
-            styleProps={{ width: '100%', variant: 'primary' }}
-            functionName="approve"
-            error={t(
-              isPrepareError
-                ? 'error.contract.prepare'
-                : 'error.contract.write',
-              { functionName: 'approve' }
-            )}
-          />
-        </Box>
-      ) : isWriteErrorRemove || isPrepareErrorRemove ? (
-        <Box my="L">
-          <ErrorButton
-            styleProps={{ width: '100%', variant: 'primary' }}
-            functionName="removeLiquidity"
-            error={t(
-              isPrepareErrorRemove
-                ? 'error.contract.prepare'
-                : 'error.contract.write',
-              {
-                functionName: 'removeLiquidity',
-              }
-            )}
-          />
-        </Box>
-      ) : (
-        <WalletGuardButton>
-          <Box
-            mt="L"
-            display="grid"
-            gridColumnGap="1rem"
-            gridTemplateColumns={lpAllowance.isZero() ? '1fr' : '1fr 1fr'}
-          >
-            {lpAllowance.isZero() ? (
-              <ApproveButton
-                disabled={!approve}
+      <WalletGuardButton>
+        <Box
+          mt="L"
+          display="grid"
+          gridColumnGap="1rem"
+          gridTemplateColumns={lpAllowance.isZero() ? '1fr' : '1fr 1fr'}
+        >
+          {lpAllowance.isZero() ? (
+            <ApproveButton
+              disabled={!approve}
+              control={control}
+              onClick={handleApproveToken}
+              symbol0={tokens[0].symbol}
+              symbol1={tokens[1].symbol}
+            />
+          ) : (
+            <>
+              <Button
+                width="100%"
+                variant="primary"
+                bg="bottomBackground"
+                hover={{ bg: 'disabled' }}
+                onClick={() => {
+                  setValue('lpAmount', '0.0');
+                }}
+              >
+                {capitalize(t('common.reset'))}
+              </Button>
+              <RemoveLiquidityButton
                 control={control}
-                onClick={handleApproveToken}
-                symbol0={tokens[0].symbol}
-                symbol1={tokens[1].symbol}
+                onClick={handleRemoveLiquidity}
+                disabled={!removeLiquidity}
               />
-            ) : (
-              <>
-                <Button
-                  width="100%"
-                  variant="primary"
-                  bg="bottomBackground"
-                  hover={{ bg: 'disabled' }}
-                  onClick={() => {
-                    setValue('lpAmount', '0.0');
-                  }}
-                >
-                  {capitalize(t('common.reset'))}
-                </Button>
-                <RemoveLiquidityButton
-                  control={control}
-                  onClick={handleRemoveLiquidity}
-                  disabled={!removeLiquidity}
-                />
-              </>
-            )}
-          </Box>
-        </WalletGuardButton>
-      )}
+            </>
+          )}
+        </Box>
+      </WalletGuardButton>
     </>
   );
 };

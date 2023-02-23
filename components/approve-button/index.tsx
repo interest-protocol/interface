@@ -7,7 +7,6 @@ import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
 import { GAStatus, GAType, logTransactionEvent } from '@/utils/analytics';
 
-import ErrorButton from '../error-button';
 import { ApproveButtonProps } from './approve-button.types';
 
 const ApproveButton: FC<ApproveButtonProps> = ({
@@ -23,8 +22,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
 
   const [loading, setLoading] = useState(false);
   const {
-    useContractWriteReturn: { writeAsync: approve, isError: isWriteError },
-    usePrepareContractReturn: { isError: isPrepareError },
+    useContractWriteReturn: { writeAsync: approve },
   } = useApprove(contract, spender, { enabled });
 
   const handleAddAllowance = async () => {
@@ -63,43 +61,28 @@ const ApproveButton: FC<ApproveButtonProps> = ({
 
   return (
     <Box display="flex">
-      {isWriteError || isPrepareError ? (
-        <ErrorButton
-          styleProps={{
-            width: '100%',
-            mb: 'M',
-            variant: 'primary',
-          }}
-          functionName="approve"
-          error={t(
-            isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
-            { functionName: 'approve' }
-          )}
-        />
-      ) : (
-        <Button
-          onClick={submitAllowance}
-          disabled={loading || !approve}
-          hover={{ bg: !approve ? 'disabled' : 'accentActive' }}
-          cursor={loading || !approve ? 'not-allowed' : 'pointer'}
-          bg={!approve ? 'disabled' : loading ? 'accentActive' : 'accent'}
-          {...buttonProps}
+      <Button
+        onClick={submitAllowance}
+        disabled={loading || !approve}
+        hover={{ bg: !approve ? 'disabled' : 'accentActive' }}
+        cursor={loading || !approve ? 'not-allowed' : 'pointer'}
+        bg={!approve ? 'disabled' : loading ? 'accentActive' : 'accent'}
+        {...buttonProps}
+      >
+        {loading && (
+          <Box as="span" display="inline-block" width="1rem">
+            <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
+          </Box>
+        )}
+        <Typography
+          as="span"
+          fontSize="inherit"
+          variant="normal"
+          ml={loading ? 'L' : 'NONE'}
         >
-          {loading && (
-            <Box as="span" display="inline-block" width="1rem">
-              <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
-            </Box>
-          )}
-          <Typography
-            as="span"
-            fontSize="inherit"
-            variant="normal"
-            ml={loading ? 'L' : 'NONE'}
-          >
-            {capitalize(t('common.approve', { isLoading: +loading }))}
-          </Typography>
-        </Button>
-      )}
+          {capitalize(t('common.approve', { isLoading: +loading }))}
+        </Typography>
+      </Button>
     </Box>
   );
 };

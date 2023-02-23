@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import { ApproveButton, ErrorButton } from '@/components';
+import { ApproveButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { Address } from '@/interface';
 import { LoadingSVG } from '@/svg';
@@ -42,8 +42,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
     name: 'mint.collateral',
   });
   const {
-    useContractWriteReturn: { writeAsync: mint, isError: isWriteError },
-    usePrepareContractReturn: { isError: isPrepareError },
+    useContractWriteReturn: { writeAsync: mint },
   } = useMint(data, mintCollateral, mintSynt);
 
   const handleMint = async () => {
@@ -149,18 +148,6 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
       loading: capitalize(t('common.submit', { isLoading: 1 })),
     });
   };
-
-  if (isWriteError || isPrepareError)
-    return (
-      <ErrorButton
-        styleProps={{ minWidth: '7rem', variant: 'primary' }}
-        functionName="mint"
-        error={t(
-          isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
-          { functionName: 'mint' }
-        )}
-      />
-    );
 
   return data.collateralAllowance.isZero() ? (
     <Box minWidth="7.5rem">
