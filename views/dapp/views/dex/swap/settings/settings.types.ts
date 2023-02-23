@@ -17,6 +17,7 @@ export interface FieldProps {
   setRegister: () => UseFormRegisterReturn;
   max: string;
   type: string;
+  hasBorder?: boolean;
 }
 
 export interface SwapSettingsProps {

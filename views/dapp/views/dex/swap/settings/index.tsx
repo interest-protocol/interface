@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { ChangeEvent, FC, useEffect } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Box, Button, RefBox, Typography } from '@/elements';
@@ -16,6 +16,8 @@ const SettingsModal: FC<SwapSettingsProps> = ({
   localSettings,
   setLocalSettings,
 }) => {
+  const SLIPPAGE_VALUE = '0.1';
+  const [customSlippage, setCustomSlippage] = useState(localSettings.slippage);
   const t = useTranslations();
 
   const { register, setValue, getValues, control } = useForm<ISwapSettingsForm>(
@@ -103,12 +105,14 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           type="text"
           placeholder="0.5"
           label={t('dexSwap.toleranceLabel')}
+          hasBorder={SLIPPAGE_VALUE != customSlippage}
           setRegister={() =>
             register('slippage', {
               onChange: (v: ChangeEvent<HTMLInputElement>) => {
                 const slippage = parseInputEventToNumberString(v);
                 const safeSlippage = +slippage >= 30 ? '30' : slippage;
                 setValue('slippage', safeSlippage);
+                setCustomSlippage(safeSlippage);
               },
             })
           }
@@ -118,11 +122,14 @@ const SettingsModal: FC<SwapSettingsProps> = ({
               fontSize="S"
               height="100%"
               variant="secondary"
-              bg="accent"
+              bg={
+                SLIPPAGE_VALUE != customSlippage ? 'bottomBackground' : 'accent'
+              }
               hover={{ bg: 'accent' }}
               active={{ bg: 'accentActive' }}
               onClick={() => {
-                setValue('slippage', '0.1');
+                setValue('slippage', SLIPPAGE_VALUE);
+                setCustomSlippage(SLIPPAGE_VALUE);
               }}
             >
               Auto

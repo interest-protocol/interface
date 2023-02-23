@@ -12,6 +12,7 @@ const Field: FC<FieldProps> = ({
   placeholder,
   max,
   type,
+  hasBorder,
 }) => (
   <Box mt="L">
     <Typography variant="normal" fontSize="0.9rem">
@@ -32,9 +33,9 @@ const Field: FC<FieldProps> = ({
         borderRadius: 'M',
         overflow: 'visible',
         border: '1px solid',
-        borderColor: 'transparent',
+        borderColor: hasBorder ? 'accent' : 'transparent',
         hover: {
-          borderColor: 'accentBackground',
+          borderColor: hasBorder ? 'accent' : 'accentBackground',
         },
       }}
       Prefix={prefix}
