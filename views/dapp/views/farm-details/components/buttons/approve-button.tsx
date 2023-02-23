@@ -78,9 +78,11 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
   if (isWriteError || isPrepareError)
     return (
       <ErrorButton
-        styleProps={{ width: '7rem', variant: 'primary' }}
+        styleProps={{ minWidth: '7rem', variant: 'primary' }}
+        functionName="approve"
         error={t(
-          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
+          { functionName: 'approve' }
         )}
       />
     );

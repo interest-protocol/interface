@@ -158,16 +158,18 @@ const BorrowButton: FC<BorrowButtonProps> = ({
   if (isWriteError || isPrepareError)
     return (
       <ErrorButton
-        styleProps={{ width: '7rem', variant: 'primary' }}
+        styleProps={{ minWidth: '7rem', variant: 'primary' }}
+        functionName="borrow"
         error={t(
-          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
+          { functionName: 'borrow' }
         )}
       />
     );
 
   if (data.collateralAllowance.isZero())
     return (
-      <Box width="10rem">
+      <Box minWidth="10rem">
         <ApproveButton
           enabled={
             data.collateralAllowance.isZero() &&
@@ -183,6 +185,8 @@ const BorrowButton: FC<BorrowButtonProps> = ({
             variant: 'primary',
             alignItems: 'center',
             justifyContent: 'center',
+            fontSize: 'S',
+            width: '100%',
           }}
           pageName={GAPage.DineroMarketPanel}
         />
@@ -194,16 +198,16 @@ const BorrowButton: FC<BorrowButtonProps> = ({
     (+borrowCollateral === 0 && +borrowLoan === 0)
   )
     return (
-      <Box
-        py="L"
+      <Button
         px="XL"
-        fontSize="S"
         bg="disabled"
+        fontSize="S"
         borderRadius="M"
         cursor="not-allowed"
+        variant="primary"
       >
         {t('dineroMarketAddress.button.default')}
-      </Box>
+      </Button>
     );
 
   return (
@@ -224,8 +228,8 @@ const BorrowButton: FC<BorrowButtonProps> = ({
         </Box>
       )}
       <Typography
-        fontSize="S"
         as="span"
+        fontSize="S"
         variant="normal"
         ml={loading ? 'L' : 'NONE'}
       >

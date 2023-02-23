@@ -169,10 +169,12 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
                 <ErrorButton
                   key={v4()}
                   styleProps={{ width: '100%', variant: 'primary' }}
+                  functionName="approve"
                   error={t(
                     LIST_ERROR[index].prepare
                       ? 'error.contract.prepare'
-                      : 'error.contract.write'
+                      : 'error.contract.write',
+                    { functionName: 'approve' }
                   )}
                 />
               ) : (
@@ -209,10 +211,12 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
               {isWriteError || isPrepareError ? (
                 <ErrorButton
                   styleProps={{ width: '100%', variant: 'primary' }}
+                  functionName="addLiquidity"
                   error={t(
                     isPrepareError
                       ? 'error.contract.prepare'
-                      : 'error.contract.write'
+                      : 'error.contract.write',
+                    { functionName: 'addLiquidity' }
                   )}
                 />
               ) : (

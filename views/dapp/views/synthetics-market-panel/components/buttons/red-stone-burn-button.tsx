@@ -142,9 +142,9 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
       )}
       <Typography
         as="span"
-        fontSize="S"
         variant="normal"
         ml={loading ? 'L' : 'NONE'}
+        fontSize="S"
       >
         {t(
           !!+burnSynt && !!+burnCollateral

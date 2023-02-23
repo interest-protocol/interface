@@ -76,6 +76,7 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
               variant: 'primary',
               width: '100%',
               py: 'L',
+              fontSize: 'S',
               mb: '1.5rem',
             }}
             refetch={refetch}

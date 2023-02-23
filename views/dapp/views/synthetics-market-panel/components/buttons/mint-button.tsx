@@ -153,15 +153,17 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
   if (isWriteError || isPrepareError)
     return (
       <ErrorButton
-        styleProps={{ width: '7rem', variant: 'primary' }}
+        styleProps={{ minWidth: '7rem', variant: 'primary' }}
+        functionName="mint"
         error={t(
-          isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+          isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
+          { functionName: 'mint' }
         )}
       />
     );
 
   return data.collateralAllowance.isZero() ? (
-    <Box width="7.5rem">
+    <Box minWidth="7.5rem">
       <ApproveButton
         enabled={
           data.collateralAllowance.isZero() &&
@@ -177,6 +179,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
           variant: 'primary',
           alignItems: 'center',
           justifyContent: 'center',
+          fontSize: 'S',
           width: '100%',
         }}
         pageName={GAPage.SyntheticsMarketPanel}
@@ -184,8 +187,8 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
     </Box>
   ) : (!mintSynt && !mintCollateral) ||
     (+mintSynt === 0 && +mintCollateral === 0) ? (
-    <Box
-      py="L"
+    <Button
+      variant="primary"
       px="XL"
       fontSize="S"
       bg="disabled"
@@ -193,7 +196,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
       cursor="not-allowed"
     >
       {t('syntheticsMarketAddress.button.default')}
-    </Box>
+    </Button>
   ) : (
     <Button
       display="flex"
@@ -212,10 +215,10 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
         </Box>
       )}
       <Typography
-        fontSize="S"
         as="span"
         variant="normal"
         ml={loading ? 'L' : 'NONE'}
+        fontSize="S"
       >
         {t(
           !!+mintSynt && !!+mintCollateral

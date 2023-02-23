@@ -156,13 +156,15 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           isWriteError || isPrepareError ? (
             <ErrorButton
               styleProps={{
-                width: '7rem',
+                minWidth: '7rem',
                 variant: 'primary',
               }}
+              functionName="approve"
               error={t(
                 isPrepareError
                   ? 'error.contract.prepare'
-                  : 'error.contract.write'
+                  : 'error.contract.write',
+                { functionName: 'approve' }
               )}
             />
           ) : (

@@ -217,10 +217,12 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
           isWriteError || isPrepareError ? (
             <ErrorButton
               styleProps={{ width: '100%', variant: 'primary' }}
+              functionName="addLiquidity"
               error={t(
                 isPrepareError
                   ? 'error.contract.prepare'
-                  : 'error.contract.write'
+                  : 'error.contract.write',
+                { functionName: 'addLiquidity' }
               )}
             />
           ) : (

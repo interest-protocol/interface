@@ -70,8 +70,10 @@ const ApproveButton: FC<ApproveButtonProps> = ({
             mb: 'M',
             variant: 'primary',
           }}
+          functionName="approve"
           error={t(
-            isPrepareError ? 'error.contract.prepare' : 'error.contract.write'
+            isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
+            { functionName: 'approve' }
           )}
         />
       ) : (
@@ -89,8 +91,8 @@ const ApproveButton: FC<ApproveButtonProps> = ({
             </Box>
           )}
           <Typography
-            fontSize="S"
             as="span"
+            fontSize="inherit"
             variant="normal"
             ml={loading ? 'L' : 'NONE'}
           >
