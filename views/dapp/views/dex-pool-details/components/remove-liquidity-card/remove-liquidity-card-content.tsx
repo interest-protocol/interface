@@ -129,38 +129,6 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
       error: prop('message'),
     });
 
-  if (isWriteError || isPrepareError)
-    return (
-      <Box my="L">
-        <ErrorButton
-          styleProps={{ width: '100%', variant: 'primary' }}
-          functionName="approve"
-          error={t(
-            isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
-            { functionName: 'approve' }
-          )}
-        />
-      </Box>
-    );
-
-  if (isWriteErrorRemove || isPrepareErrorRemove)
-    return (
-      <Box my="L">
-        <ErrorButton
-          styleProps={{ width: '100%', variant: 'primary' }}
-          functionName="removeLiquidity"
-          error={t(
-            isPrepareErrorRemove
-              ? 'error.contract.prepare'
-              : 'error.contract.write',
-            {
-              functionName: 'removeLiquidity',
-            }
-          )}
-        />
-      </Box>
-    );
-
   return (
     <>
       <LinearLoader control={control} />
