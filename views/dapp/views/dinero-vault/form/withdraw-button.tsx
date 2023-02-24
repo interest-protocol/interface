@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { ErrorButton } from '@/components';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
@@ -28,8 +27,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
   const value = useWatch({ control, name: 'value' });
 
   const {
-    useContractWriteReturn: { writeAsync, isError: isWriteError },
-    usePrepareContractReturn: { isError: isPrepareError },
+    useContractWriteReturn: { writeAsync },
   } = useWithdraw(data, value);
 
   const handleWithdraw = async () => {
@@ -68,20 +66,6 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       loading: capitalize(t('common.submit', { isLoading: 1 })),
     });
   };
-
-  if (isWriteError || isPrepareError)
-    return (
-      <Box width="100%" mb="1.5rem">
-        <ErrorButton
-          functionName="withdraw"
-          error={t(
-            isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
-            { functionName: 'withdraw' }
-          )}
-          styleProps={{ width: '100%', variant: 'primary' }}
-        />
-      </Box>
-    );
 
   return (
     <Button

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { ErrorButton } from '@/components';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
@@ -24,8 +23,7 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
   const value = useWatch({ control, name: 'value' });
 
   const {
-    useContractWriteReturn: { writeAsync, isError: isWriteError },
-    usePrepareContractReturn: { isError: isPrepareError },
+    useContractWriteReturn: { writeAsync },
   } = useDeposit(data, value);
 
   const handleDeposit = async () => {
@@ -64,20 +62,6 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
       loading: capitalize(t('common.submit', { isLoading: 1 })),
     });
   };
-
-  if (isWriteError || isPrepareError)
-    return (
-      <Box width="100%" mb="1.5rem">
-        <ErrorButton
-          functionName="deposit"
-          error={t(
-            isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
-            { functionName: 'deposit' }
-          )}
-          styleProps={{ width: '100%', variant: 'primary' }}
-        />
-      </Box>
-    );
 
   return (
     <Button

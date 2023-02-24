@@ -3,7 +3,6 @@ import { prop } from 'ramda';
 import { useCallback, useState } from 'react';
 import { FC } from 'react';
 
-import { ErrorButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -34,8 +33,7 @@ const MintButton: FC<MintButtonProps> = ({
   const [loading, setLoading] = useState(false);
 
   const {
-    useContractWriteReturn: { writeAsync: mint, isError: isWriteError },
-    usePrepareContractReturn: { isError: isPrepareError },
+    useContractWriteReturn: { writeAsync: mint },
   } = useMint(chainId, account, control);
 
   const handleOnMint = useCallback(async () => {
@@ -77,18 +75,6 @@ const MintButton: FC<MintButtonProps> = ({
       success: capitalize(t('common.success')),
       error: prop('message'),
     });
-
-  if (isWriteError || isPrepareError)
-    return (
-      <ErrorButton
-        styleProps={{ width: '100%', variant: 'primary' }}
-        functionName="mint"
-        error={t(
-          isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
-          { functionName: 'mint' }
-        )}
-      />
-    );
 
   return (
     <Button

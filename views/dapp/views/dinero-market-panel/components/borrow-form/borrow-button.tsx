@@ -4,7 +4,7 @@ import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { ApproveButton, ErrorButton } from '@/components';
+import { ApproveButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 import { LoadingSVG } from '@/svg';
@@ -44,8 +44,7 @@ const BorrowButton: FC<BorrowButtonProps> = ({
   const [loading, setLoading] = useState(false);
 
   const {
-    useContractWriteReturn: { writeAsync: borrow, isError: isWriteError },
-    usePrepareContractReturn: { isError: isPrepareError },
+    useContractWriteReturn: { writeAsync: borrow },
   } = useBorrow(data, account, borrowCollateral, borrowLoan);
 
   const handleBorrow = async () => {
@@ -154,18 +153,6 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       loading: capitalize(t('common.submit', { isLoading: 1 })),
     });
   };
-
-  if (isWriteError || isPrepareError)
-    return (
-      <ErrorButton
-        styleProps={{ minWidth: '7rem', variant: 'primary' }}
-        functionName="borrow"
-        error={t(
-          isPrepareError ? 'error.contract.prepare' : 'error.contract.write',
-          { functionName: 'borrow' }
-        )}
-      />
-    );
 
   if (data.collateralAllowance.isZero())
     return (

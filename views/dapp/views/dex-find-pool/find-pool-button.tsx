@@ -5,7 +5,6 @@ import { pathOr, prop } from 'ramda';
 import { FC, useState } from 'react';
 
 import { isInterestDexPair } from '@/api';
-import { ErrorButton } from '@/components';
 import {
   Routes,
   RoutesEnum,
@@ -54,8 +53,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
   const { push } = useRouter();
 
   const {
-    useContractWriteReturn: { writeAsync: addLiquidity, isError: isWriteError },
-    usePrepareContractReturn: { isError: isPrepareError },
+    useContractWriteReturn: { writeAsync: addLiquidity },
   } = useAddLiquidity({
     control,
     account,
@@ -214,52 +212,39 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
             {t('dexPoolFind.buttonSameToken')}
           </Button>
         ) : isCreatingPair ? (
-          isWriteError || isPrepareError ? (
-            <ErrorButton
-              styleProps={{ width: '100%', variant: 'primary' }}
-              functionName="addLiquidity"
-              error={t(
-                isPrepareError
-                  ? 'error.contract.prepare'
-                  : 'error.contract.write',
-                { functionName: 'addLiquidity' }
-              )}
-            />
-          ) : (
-            <Button
-              width="100%"
-              variant="primary"
-              disabled={
+          <Button
+            width="100%"
+            variant="primary"
+            disabled={
+              loading ||
+              tokenANeedsAllowance ||
+              tokenBNeedsAllowance ||
+              !addLiquidity
+            }
+            bg={
+              tokenANeedsAllowance || tokenBNeedsAllowance
+                ? 'disabled'
+                : loading
+                ? 'accentActive'
+                : 'accent'
+            }
+            hover={{
+              bg:
                 loading ||
                 tokenANeedsAllowance ||
                 tokenBNeedsAllowance ||
                 !addLiquidity
-              }
-              bg={
-                tokenANeedsAllowance || tokenBNeedsAllowance
                   ? 'disabled'
-                  : loading
-                  ? 'accentActive'
-                  : 'accent'
-              }
-              hover={{
-                bg:
-                  loading ||
-                  tokenANeedsAllowance ||
-                  tokenBNeedsAllowance ||
-                  !addLiquidity
-                    ? 'disabled'
-                    : 'accentActive',
-              }}
-              onClick={
-                loading || tokenANeedsAllowance || tokenBNeedsAllowance
-                  ? undefined
-                  : handleValidateCreatePair
-              }
-            >
-              {t('dexPoolFind.buttonPool', { isLoading: Number(loading) })}
-            </Button>
-          )
+                  : 'accentActive',
+            }}
+            onClick={
+              loading || tokenANeedsAllowance || tokenBNeedsAllowance
+                ? undefined
+                : handleValidateCreatePair
+            }
+          >
+            {t('dexPoolFind.buttonPool', { isLoading: Number(loading) })}
+          </Button>
         ) : (
           <Button
             width="100%"
