@@ -1,77 +1,76 @@
 import { useTranslations } from 'next-intl';
-import { ChangeEvent, FC, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { ChangeEvent, FC, useState } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 
-import { Box, Button, RefBox, Typography } from '@/elements';
-import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
+import { Box, Button, Modal, Typography } from '@/elements';
 import { TimesSVG } from '@/svg';
 import { parseInputEventToNumberString } from '@/utils';
 
 import AutoFetch from './auto-fetch';
 import Field from './field';
-import { ISwapSettingsForm, SwapSettingsProps } from './settings.types';
+import {
+  ISwapSettingsForm,
+  ModalSettingsBody,
+  SettingsAutoButton,
+  SettingsDropdownProps,
+} from './settings.types';
 
-const SettingsModal: FC<SwapSettingsProps> = ({
-  toggle,
-  localSettings,
-  setLocalSettings,
-}) => {
-  const SLIPPAGE_VALUE = '0.1';
-  const [customSlippage, setCustomSlippage] = useState(localSettings.slippage);
-  const t = useTranslations();
+const SLIPPAGE_AUTO_VALUE = '0.1';
 
-  const { register, setValue, getValues, control } = useForm<ISwapSettingsForm>(
-    {
-      defaultValues: {
-        slippage: localSettings.slippage,
-        deadline: localSettings.deadline,
-        autoFetch: localSettings.autoFetch,
-      },
-    }
-  );
-
-  const dropdownContainerRef =
-    useClickOutsideListenerRef<HTMLDivElement>(toggle);
-
-  useEffect(
-    () => () => {
-      const {
-        deadline: newDeadline,
-        slippage: newSlippage,
-        autoFetch,
-      } = getValues();
-
-      const deadline =
-        !!newDeadline && newDeadline !== localSettings.deadline
-          ? newDeadline
-          : localSettings.deadline;
-
-      const slippage =
-        !!newSlippage && newSlippage !== localSettings.slippage
-          ? newSlippage
-          : localSettings.slippage;
-
-      setLocalSettings({
-        slippage,
-        deadline,
-        autoFetch,
-      });
-    },
-    []
-  );
-
+const AutoButton: FC<SettingsAutoButton> = ({ control, setValue, setAuto }) => {
+  const currentSlippage = useWatch({ control, name: 'slippage' });
   return (
-    <RefBox
+    <Button
+      px="M"
+      fontSize="S"
+      height="100%"
+      variant="primary"
+      fontWeight="normal"
+      py="S"
+      bg={SLIPPAGE_AUTO_VALUE != currentSlippage ? 'transparent' : 'accent'}
+      border="1px solid"
+      borderColor={
+        SLIPPAGE_AUTO_VALUE != currentSlippage ? 'bottomBackground' : 'blue'
+      }
+      hover={{
+        bg:
+          SLIPPAGE_AUTO_VALUE != currentSlippage
+            ? 'bottomBackground'
+            : 'accent',
+      }}
+      onClick={() => {
+        setValue('slippage', SLIPPAGE_AUTO_VALUE);
+        setAuto(true);
+      }}
+    >
+      Auto
+    </Button>
+  );
+};
+
+const ModalBody: FC<ModalSettingsBody> = ({
+  onRequestClose,
+  register,
+  setValue,
+  getValues,
+  control,
+  localSettings,
+}) => {
+  const [isAuto, setAuto] = useState(
+    getValues('slippage') == SLIPPAGE_AUTO_VALUE
+  );
+  const t = useTranslations();
+  return (
+    <Box
       pb="L"
       zIndex={1}
       color="text"
       bg="foreground"
       minWidth="20rem"
       borderRadius="M"
-      position="absolute"
-      ref={dropdownContainerRef}
       boxShadow="0 0 0.5rem #0006"
       width={['80%', '80%', '80%', 'unset']}
+      maxWidth="20rem"
     >
       <Box display="flex" justifyContent="space-between" p="S">
         <Typography
@@ -88,13 +87,13 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           p="S"
           display="flex"
           bg="transparent"
-          onClick={toggle}
           variant="secondary"
           alignItems="center"
           justifyContent="center"
           hover={{
             bg: 'background',
           }}
+          onClick={onRequestClose}
         >
           <TimesSVG width="1.5rem" maxHeight="1.5rem" maxWidth="1.5rem" />
         </Button>
@@ -105,35 +104,23 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           type="text"
           placeholder="0.5"
           label={t('dexSwap.toleranceLabel')}
-          hasBorder={SLIPPAGE_VALUE != customSlippage}
+          hasBorder={!isAuto}
           setRegister={() =>
             register('slippage', {
               onChange: (v: ChangeEvent<HTMLInputElement>) => {
                 const slippage = parseInputEventToNumberString(v);
                 const safeSlippage = +slippage >= 30 ? '30' : slippage;
                 setValue('slippage', safeSlippage);
-                setCustomSlippage(safeSlippage);
+                setAuto(false);
               },
             })
           }
           prefix={
-            <Button
-              px="M"
-              fontSize="S"
-              height="100%"
-              variant="secondary"
-              bg={
-                SLIPPAGE_VALUE != customSlippage ? 'bottomBackground' : 'accent'
-              }
-              hover={{ bg: 'accent' }}
-              active={{ bg: 'accentActive' }}
-              onClick={() => {
-                setValue('slippage', SLIPPAGE_VALUE);
-                setCustomSlippage(SLIPPAGE_VALUE);
-              }}
-            >
-              Auto
-            </Button>
+            <AutoButton
+              setAuto={setAuto}
+              setValue={setValue}
+              control={control}
+            />
           }
           suffix={<Typography variant="normal">%</Typography>}
         />
@@ -174,8 +161,51 @@ const SettingsModal: FC<SwapSettingsProps> = ({
           setter={(value: boolean) => setValue('autoFetch', value)}
         />
       </Box>
-    </RefBox>
+    </Box>
   );
 };
 
-export default SettingsModal;
+const SettingsDropdown: FC<SettingsDropdownProps> = ({
+  isOpen,
+  onClose,
+  localSettings,
+  setLocalSettings,
+}) => {
+  const { register, setValue, getValues, control } = useForm<ISwapSettingsForm>(
+    {
+      defaultValues: {
+        slippage: localSettings.slippage,
+        deadline: localSettings.deadline,
+        autoFetch: localSettings.autoFetch,
+      },
+    }
+  );
+
+  const onRequestClose = () => {
+    setLocalSettings(getValues());
+    onClose();
+  };
+
+  return (
+    <Modal
+      background="#0003"
+      modalProps={{
+        isOpen,
+        onRequestClose,
+        shouldCloseOnEsc: true,
+        shouldCloseOnOverlayClick: true,
+      }}
+    >
+      <ModalBody
+        setValue={setValue}
+        getValues={getValues}
+        register={register}
+        onRequestClose={onRequestClose}
+        localSettings={localSettings}
+        control={control}
+      />
+    </Modal>
+  );
+};
+
+export default SettingsDropdown;

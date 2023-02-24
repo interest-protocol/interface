@@ -23,7 +23,7 @@ import { GAPage } from '@/utils/analytics';
 
 import SwapSelectCurrency from '../components/swap-select-currency';
 import InputBalance from './input-balance';
-import Settings from './settings';
+import SettingsDropdown from './settings/settings-dropdown';
 import { SWAP_MESSAGES } from './swap.data';
 import {
   ISwapForm,
@@ -175,10 +175,11 @@ const Swap: FC = () => {
               <CogsSVG width="1.5rem" maxHeight="1.5rem" maxWidth="1.5rem" />
             </Box>
             {showSettings && (
-              <Settings
-                toggle={toggleSettings}
-                setLocalSettings={setLocalSettings}
+              <SettingsDropdown
+                isOpen={showSettings}
+                onClose={toggleSettings}
                 localSettings={localSettings}
+                setLocalSettings={setLocalSettings}
               />
             )}
           </Box>
