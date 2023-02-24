@@ -103,4 +103,17 @@ export const TEAM_MEMBERS = [
       year1: getYearOrMonth({ month: 1, year: 2017 }, false),
     },
   },
+  {
+    name: 'Leonardo Hernandez',
+    role: 'landingPage.designer',
+    image: 'leonardo-hernandez',
+    social: {
+      linkedin:
+        'https://www.linkedin.com/in/leonardo-hernandez-celli-81499093/',
+    },
+    bio: 'landingPage.bioLeonardo',
+    depsBio: {
+      year1: getYearOrMonth({ month: 1, year: 2017 }, false),
+    },
+  },
 ];

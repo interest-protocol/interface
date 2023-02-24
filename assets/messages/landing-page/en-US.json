@@ -34,6 +34,7 @@
     "roleCEO": "Co-Founder & CEO",
     "developer": "Developer",
     "marketingManager": "Marketing Manager",
+    "designer": "Designer",
     "teamDescription": "We are a team of tech entrepreneurs based in Europe with a combined experience of 10 years in crypto. We prioritize security above all else. We prefer to ship slowly but securely as opposed to the mantra of Move fast and Break Things.",
     "bioCerqueira": "Previously at Banco EuroBIC. {year1, plural, =1 {# year} other {# years}} of software development. {year2, plural, =1 {# year} other {# years}} in the crypto industry. Responsible for the smart contract development of Interest Protocol.",
     "bioNelumba": "Crypto advocate since 2017. Co-founder of a medical emergency tech company that has saved over 1000 lives. Responsible for fundraising and managing the Interest Protocol finances.",
@@ -41,6 +42,7 @@
     "bioKipanda": "{year1, plural, =1 {# year} other {# years}} of software development. Working as a frontend developer at Interest Protocol.",
     "bioJoao": "João is a skilled fintech and fund manager with more than seven years of experience. His master's thesis entitled \"Crypto-Currencies: Does Sentiment Play a Role?\" won a prize from the Ministry of Culture in Portugal.",
     "bioNilam": "Associated with The Times Group for {year1, plural, =1 {# year} other {# years}} at the start of my career in the field of Digital Marketing. I’ve been active in the crypto market for the past three years and have handled end-to-end marketing for more than 20 projects.",
+    "bioLeonardo": "I'm a visual storyteller with experience in design-related projects such as branding, digital marketing, data visualization, infographics, and product design. Also, I like to draw stuff.",
     "subscribeErrors": {
       "1008": "contact already added"
     },
