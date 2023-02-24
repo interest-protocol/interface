@@ -13,11 +13,8 @@ import {
   RoutesEnum,
   RoutesWithFaucet,
   SOCIAL_MEDIAS,
-  SOCIAL_MEDIAS_PT,
 } from '@/constants';
-import { LocalesEnum } from '@/constants/locale';
 import { Box, Button, Dropdown, Typography } from '@/elements';
-import { useLocale } from '@/hooks';
 import {
   CreditCardSVG,
   DexSVG,
@@ -32,7 +29,6 @@ import { logGenericEvent } from '@/utils/analytics';
 
 const Footer: FC = () => {
   const t = useTranslations();
-  const { currentLocale } = useLocale();
   const { chain } = useNetwork();
   const { address } = useAccount();
   const { pathname, push } = useRouter();
@@ -61,9 +57,7 @@ const Footer: FC = () => {
       <Container dapp width="100%">
         <Box display={['none', 'none', 'flex']} justifyContent="center">
           {[
-            ...(currentLocale === LocalesEnum.EN
-              ? SOCIAL_MEDIAS
-              : SOCIAL_MEDIAS_PT),
+            ...SOCIAL_MEDIAS,
             {
               title: 'Docs',
               Logo: GitBookSVG,
