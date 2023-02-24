@@ -74,6 +74,7 @@ const SwapButton: FC<SwapButtonProps> = ({
   localSettings,
   control,
   refetch,
+  setValue,
 }) => {
   const t = useTranslations();
   const [buttonLoadingText, setButtonLoadingText] =
@@ -144,6 +145,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       });
       if (tx) await tx.wait(5);
       await refetch();
+      resetInput();
     } catch (e) {
       logTransactionEvent({
         status: GAStatus.Error,
@@ -178,6 +180,7 @@ const SwapButton: FC<SwapButtonProps> = ({
         page: GAPage.DexSwap,
         functionName: 'handleSwap',
       });
+      resetInput();
     } catch {
       logTransactionEvent({
         status: GAStatus.Error,
@@ -228,6 +231,7 @@ const SwapButton: FC<SwapButtonProps> = ({
         functionName: 'handleWETHDeposit',
       });
       await refetch();
+      resetInput();
     } catch (e) {
       logTransactionEvent({
         status: GAStatus.Error,
@@ -281,6 +285,7 @@ const SwapButton: FC<SwapButtonProps> = ({
         functionName: 'handleWETHWithdraw',
       });
       await refetch();
+      resetInput();
     } catch {
       logTransactionEvent({
         status: GAStatus.Error,
@@ -377,6 +382,10 @@ const SwapButton: FC<SwapButtonProps> = ({
     return false;
   };
 
+  const resetInput = () => {
+    setValue('tokenIn.value', '0.0');
+    setValue('tokenOut.value', '0.0');
+  };
   return (
     <WalletGuardButton>
       <SwapViewButton

@@ -305,6 +305,7 @@ const Swap: FC = () => {
           control={control}
           swapBase={swapBase}
           disabled={isDisabled}
+          setValue={setValue}
           getValues={getValues}
           setSwapBase={setSwapBase}
           needsApproval={needsApproval}
