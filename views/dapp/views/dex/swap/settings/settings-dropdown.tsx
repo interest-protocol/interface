@@ -30,13 +30,10 @@ const AutoButton: FC<SettingsAutoButton> = ({ control, setValue, setAuto }) => {
       bg={SLIPPAGE_AUTO_VALUE != currentSlippage ? 'transparent' : 'accent'}
       border="1px solid"
       borderColor={
-        SLIPPAGE_AUTO_VALUE != currentSlippage ? 'bottomBackground' : 'blue'
+        SLIPPAGE_AUTO_VALUE != currentSlippage ? 'accentActive' : 'transparent'
       }
       hover={{
-        bg:
-          SLIPPAGE_AUTO_VALUE != currentSlippage
-            ? 'bottomBackground'
-            : 'accent',
+        bg: SLIPPAGE_AUTO_VALUE != currentSlippage ? 'accentActive' : 'accent',
       }}
       onClick={() => {
         setValue('slippage', SLIPPAGE_AUTO_VALUE);
