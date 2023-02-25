@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { SOCIAL_MEDIAS } from '@/constants/social-media';
 import { Box, Dropdown, Typography } from '@/elements';
-import { BarsSVG, GitBookSVG } from '@/svg';
+import { BarsSVG } from '@/svg';
 import { logGenericEvent } from '@/utils/analytics';
 
 const MobileMenu: FC = () => {
@@ -28,14 +28,7 @@ const MobileMenu: FC = () => {
           </Box>
         }
         data={[
-          ...[
-            ...SOCIAL_MEDIAS,
-            {
-              title: 'GitBook',
-              Logo: GitBookSVG,
-              link: 'https://docs.interestprotocol.com/',
-            },
-          ].map(({ title, link }) => ({
+          ...[...SOCIAL_MEDIAS].map(({ title, link }) => ({
             value: title,
             onSelect: () => parent.open(link),
             displayOption: (
