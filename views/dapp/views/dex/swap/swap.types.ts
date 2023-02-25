@@ -28,6 +28,7 @@ export interface SwapButtonProps {
   fetchingBaseData: boolean;
   fetchingBalancesData: boolean;
   tokenInAddress: `0x${string}`;
+  setValue: UseFormSetValue<ISwapForm>;
   getValues: UseFormGetValues<ISwapForm>;
   setSwapBase: Dispatch<SetStateAction<Address | null>>;
   account: string;
