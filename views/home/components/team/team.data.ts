@@ -1,4 +1,11 @@
-import { DiscordSVG, GithubSVG, LinkedInSVG, TwitterSVG } from '@/svg';
+import {
+  BehanceSVG,
+  DiscordSVG,
+  DribbbleSVG,
+  GithubSVG,
+  LinkedInSVG,
+  TwitterSVG,
+} from '@/svg';
 import { getYearOrMonth } from '@/utils';
 
 export const SOCIAL_SVG = {
@@ -6,6 +13,8 @@ export const SOCIAL_SVG = {
   linkedin: LinkedInSVG,
   twitter: TwitterSVG,
   discord: DiscordSVG,
+  dribbble: DribbbleSVG,
+  behance: BehanceSVG,
 };
 
 export const TEAM_MEMBERS = [
@@ -99,6 +108,21 @@ export const TEAM_MEMBERS = [
       twitter: 'https://twitter.com/crypto_wife1',
     },
     bio: 'landingPage.bioNilam',
+    depsBio: {
+      year1: getYearOrMonth({ month: 1, year: 2017 }, false),
+    },
+  },
+  {
+    name: 'Leonardo Hernandez',
+    role: 'landingPage.designer',
+    image: 'leonardo-hernandez',
+    social: {
+      linkedin:
+        'https://www.linkedin.com/in/leonardo-hernandez-celli-81499093/',
+      dribbble: 'https://dribbble.com/lhcelli',
+      behance: 'https://dribbble.com/lhcelli',
+    },
+    bio: 'landingPage.bioLeonardo',
     depsBio: {
       year1: getYearOrMonth({ month: 1, year: 2017 }, false),
     },
