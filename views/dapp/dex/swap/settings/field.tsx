@@ -12,6 +12,7 @@ const Field: FC<FieldProps> = ({
   placeholder,
   max,
   type,
+  hasBorder,
 }) => (
   <Box mt="L">
     <Typography variant="normal" fontSize="0.9rem">
@@ -24,16 +25,19 @@ const Field: FC<FieldProps> = ({
       {...setRegister()}
       max={max}
       textAlign="right"
+      color={hasBorder ? 'text' : 'disabled'}
+      fontWeight={hasBorder ? 'bold' : 'unset'}
       shieldProps={{
         p: 'S',
         my: 'M',
         bg: 'background',
         overflow: 'visible',
-        border: '1px solid',
+        border: hasBorder ? '2px solid' : '1px',
         borderRadius: '2rem',
-        borderColor: 'transparent',
+        fontWeight: hasBorder ? 'bold' : 'unset',
+        borderColor: hasBorder ? 'accent' : 'transparent',
         hover: {
-          borderColor: 'accentActive',
+          borderColor: hasBorder ? 'accent' : 'accentActive',
         },
       }}
       Prefix={prefix}
