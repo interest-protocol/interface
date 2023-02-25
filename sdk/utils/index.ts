@@ -1,5 +1,7 @@
 import { BigNumber, BigNumberish, ethers } from 'ethers';
 
+import { Address } from '@/interface';
+
 import { CONTRACTS, INIT_CODE_HASH } from '../constants';
 
 export const ZERO_BIG_NUMBER = BigNumber.from(0);
@@ -23,7 +25,10 @@ export const parseToPositiveStringNumber = (x: string): string => {
   return x;
 };
 
-export const sortTokens = (tokenA: string, tokenB: string): [string, string] =>
+export const sortTokens = (
+  tokenA: Address,
+  tokenB: Address
+): [Address, Address] =>
   BigNumber.from(tokenB).gt(BigNumber.from(tokenA))
     ? [tokenA, tokenB]
     : [tokenB, tokenA];
@@ -39,8 +44,8 @@ export const quote = (
 
 export const getIPXPairAddress = (
   chainId: number,
-  tokenAAddress: string,
-  tokenBAddress: string,
+  tokenAAddress: Address,
+  tokenBAddress: Address,
   isStable: boolean
 ) =>
   ethers.utils.getCreate2Address(

@@ -32,7 +32,9 @@ const MintButton: FC<MintButtonProps> = ({
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
 
-  const { writeAsync: mint } = useMint(chainId, account, control);
+  const {
+    useContractWriteReturn: { writeAsync: mint },
+  } = useMint(chainId, account, control);
 
   const handleOnMint = useCallback(async () => {
     try {
@@ -80,6 +82,7 @@ const MintButton: FC<MintButtonProps> = ({
       onClick={onMint}
       variant="primary"
       disabled={loading || !mint}
+      cursor={loading || !mint ? 'not-allowed' : 'pointer'}
       hover={{ bg: 'accentAlternativeActive' }}
       bg={
         loading
@@ -88,7 +91,6 @@ const MintButton: FC<MintButtonProps> = ({
           ? 'disabled'
           : 'accentAlternative'
       }
-      cursor={loading || !mint ? 'not-allowed' : 'pointer'}
     >
       {loading ? (
         <Box as="span" display="flex" justifyContent="center">

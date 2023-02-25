@@ -1,3 +1,4 @@
+import { Abi, Narrow } from 'abitype';
 import { ethers } from 'ethers';
 import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
@@ -27,8 +28,8 @@ export const useGetUserDineroVault = (
     : ethers.constants.AddressZero;
 
   return useSafeContractRead({
-    addressOrName: getInterestViewEarnAddress(chainId),
-    contractInterface: InterestViewEarnABI,
+    address: getInterestViewEarnAddress(chainId),
+    abi: InterestViewEarnABI as Narrow<Abi>,
     functionName: 'getUserDineroVault',
     enabled: !!vaultAddress && !!underlying && isValidAddress,
     args: [vaultAddress, underlying, account || DEFAULT_ACCOUNT],
@@ -54,9 +55,9 @@ export const useDeposit = (data: VaultData, value: string) => {
 
   const valueBN = safeToBigNumber(debouncedValue, data.depositTokenDecimals);
 
-  const { config } = usePrepareContractWrite({
-    addressOrName: data.vaultAddress,
-    contractInterface: DineroVaultABI,
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
+    address: data.vaultAddress,
+    abi: DineroVaultABI,
     args: [valueBN],
     functionName: 'deposit',
     enabled:
@@ -67,7 +68,10 @@ export const useDeposit = (data: VaultData, value: string) => {
       data.underlyingBalance.gte(valueBN),
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };
 
 export const useWithdraw = (data: VaultData, value: string) => {
@@ -75,9 +79,9 @@ export const useWithdraw = (data: VaultData, value: string) => {
 
   const valueBN = safeToBigNumber(debouncedValue, data.depositTokenDecimals);
 
-  const { config } = usePrepareContractWrite({
-    addressOrName: data.vaultAddress,
-    contractInterface: DineroVaultABI,
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
+    address: data.vaultAddress,
+    abi: DineroVaultABI,
     args: [valueBN],
     functionName: 'withdraw',
     enabled:
@@ -88,5 +92,8 @@ export const useWithdraw = (data: VaultData, value: string) => {
       !data.depositAmount.isZero(),
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };

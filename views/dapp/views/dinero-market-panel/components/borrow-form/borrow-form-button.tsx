@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { ApproveButton } from '@/components';
-import { Box } from '@/elements';
+import { Box, Button } from '@/elements';
 import { isValidAccount, isZeroAddress } from '@/utils';
 import { GAPage } from '@/utils/analytics';
 
@@ -34,36 +34,40 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
     <Box display="flex" justifyContent="center" mt="XXL">
       {isBorrow ? (
         data.collateralAllowance.isZero() ? (
-          <ApproveButton
-            enabled={
-              data.collateralAllowance.isZero() &&
-              isValidAccount(account) &&
-              !isZeroAddress(data.marketAddress)
-            }
-            refetch={refetch}
-            chainId={data.chainId}
-            contract={data.collateralAddress}
-            spender={data.marketAddress}
-            buttonProps={{
-              display: 'flex',
-              variant: 'primary',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            pageName={GAPage.DineroMarketPanel}
-          />
+          <Box width="10rem">
+            <ApproveButton
+              enabled={
+                data.collateralAllowance.isZero() &&
+                isValidAccount(account) &&
+                !isZeroAddress(data.marketAddress)
+              }
+              refetch={refetch}
+              chainId={data.chainId}
+              contract={data.collateralAddress}
+              spender={data.marketAddress}
+              buttonProps={{
+                display: 'flex',
+                variant: 'primary',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 'S',
+                width: '100%',
+              }}
+              pageName={GAPage.DineroMarketPanel}
+            />
+          </Box>
         ) : (!borrowLoan && !borrowCollateral) ||
           (+borrowCollateral === 0 && +borrowLoan === 0) ? (
-          <Box
-            py="L"
+          <Button
             px="XL"
-            fontSize="S"
             bg="disabled"
+            fontSize="S"
             borderRadius="M"
             cursor="not-allowed"
+            variant="primary"
           >
             {t('dineroMarketAddress.button.default')}
-          </Box>
+          </Button>
         ) : (
           <BorrowButton
             borrowLoan={borrowLoan}
@@ -75,16 +79,16 @@ const BorrowFormButton: FC<BorrowFormButtonProps> = ({
           />
         )
       ) : !+repayLoan && !+repayCollateral ? (
-        <Box
-          py="L"
+        <Button
+          variant="primary"
           px="XL"
-          fontSize="S"
           bg="disabled"
+          fontSize="S"
           borderRadius="M"
           cursor="not-allowed"
         >
           {t('dineroMarketAddress.button.default')}
-        </Box>
+        </Button>
       ) : (
         <RepayButton
           repayLoan={repayLoan}

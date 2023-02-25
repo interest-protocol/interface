@@ -7,8 +7,7 @@ import { useChainId, useGetUserFarmData } from '@/hooks';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
-import Details from './components/farm-details';
-import FarmOptions from './components/farm-options';
+import { Details, FarmOptions } from './components';
 import { getSafeUserFarmData } from './farm.utils';
 import { FarmDetailsProps } from './farm-details.types';
 
@@ -26,7 +25,7 @@ const FarmDetails: FC<FarmDetailsProps> = ({ address }) => {
   if (error) return <ErrorView message={t('error.fetchingContract')} />;
 
   return (
-    <Container dapp width="100%" mt="XL">
+    <Container dapp width="100%" mt="XL" mb="XXL">
       <GoBack route={RoutesEnum.Farms} />
       <Details farm={data.farm} />
       <FarmOptions

@@ -20,7 +20,7 @@ const ConnectedWallet: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const { address, isConnected, connector } = useAccount();
   const { data, isError, isLoading } = useBalance({
-    addressOrName: address,
+    address,
   });
   const toggleModal = () => {
     setShowModal(not);

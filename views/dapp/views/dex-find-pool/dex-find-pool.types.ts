@@ -8,11 +8,12 @@ import {
 } from 'react-hook-form';
 
 import { BalanceData } from '@/hooks';
+import { Address } from '@/interface';
 
 import { SwapSelectCurrencyProps } from '../dex/dex.types';
 
 interface FormValue {
-  address: string;
+  address: `0x${string}`;
   decimals: number;
   symbol: string;
   value: string;
@@ -72,8 +73,8 @@ export interface FindPoolButtonProps {
   control: Control<DexFindPoolForm>;
   getValues: UseFormGetValues<DexFindPoolForm>;
   nativeBalance: BigNumber;
-  tokenAAddress: string;
-  tokenBAddress: string;
+  tokenAAddress: Address;
+  tokenBAddress: Address;
   isStable: boolean;
   isCreatingPair: boolean;
   setCreatingPair: Dispatch<SetStateAction<boolean>>;

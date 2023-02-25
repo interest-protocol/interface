@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 
 import { ApproveButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
+import { Address } from '@/interface';
 import { LoadingSVG } from '@/svg';
 import {
   capitalize,
@@ -40,7 +41,9 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
     control: form.control,
     name: 'mint.collateral',
   });
-  const { writeAsync: mint } = useMint(data, mintCollateral, mintSynt);
+  const {
+    useContractWriteReturn: { writeAsync: mint },
+  } = useMint(data, mintCollateral, mintSynt);
 
   const handleMint = async () => {
     setLoading(true);
@@ -134,7 +137,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
     if (
       !data ||
       !data.chainId ||
-      isZeroAddress(data.account) ||
+      isZeroAddress(data.account as Address) ||
       data.collateralAllowance.isZero()
     )
       return;
@@ -147,28 +150,32 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
   };
 
   return data.collateralAllowance.isZero() ? (
-    <ApproveButton
-      enabled={
-        data.collateralAllowance.isZero() &&
-        isValidAccount(data.account) &&
-        !isZeroAddress(data.marketAddress)
-      }
-      refetch={refetch}
-      chainId={data.chainId}
-      contract={data.collateralAddress}
-      spender={data.marketAddress}
-      buttonProps={{
-        display: 'flex',
-        variant: 'primary',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      pageName={GAPage.SyntheticsMarketPanel}
-    />
+    <Box minWidth="7.5rem">
+      <ApproveButton
+        enabled={
+          data.collateralAllowance.isZero() &&
+          isValidAccount(data.account) &&
+          !isZeroAddress(data.marketAddress)
+        }
+        refetch={refetch}
+        chainId={data.chainId}
+        contract={data.collateralAddress}
+        spender={data.marketAddress}
+        buttonProps={{
+          display: 'flex',
+          variant: 'primary',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: 'S',
+          width: '100%',
+        }}
+        pageName={GAPage.SyntheticsMarketPanel}
+      />
+    </Box>
   ) : (!mintSynt && !mintCollateral) ||
     (+mintSynt === 0 && +mintCollateral === 0) ? (
-    <Box
-      py="L"
+    <Button
+      variant="primary"
       px="XL"
       fontSize="S"
       bg="disabled"
@@ -176,7 +183,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
       cursor="not-allowed"
     >
       {t('syntheticsMarketAddress.button.default')}
-    </Box>
+    </Button>
   ) : (
     <Button
       display="flex"
@@ -195,10 +202,10 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
         </Box>
       )}
       <Typography
-        fontSize="S"
         as="span"
         variant="normal"
         ml={loading ? 'L' : 'NONE'}
+        fontSize="S"
       >
         {t(
           !!+mintSynt && !!+mintCollateral

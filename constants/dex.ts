@@ -18,7 +18,6 @@ const getBNBTestNetData = (tokenSymbol: TOKEN_SYMBOL) => ({
 
 export const SWAP_BASES = {
   [CHAIN_ID.BNB_MAIN_NET]: [],
-  [CHAIN_ID.RINKEBY]: [],
   [CHAIN_ID.BNB_TEST_NET]: [
     getBNBTestNetData(TOKEN_SYMBOL.ETH),
     getBNBTestNetData(TOKEN_SYMBOL.USDC),
@@ -27,10 +26,6 @@ export const SWAP_BASES = {
 
 export const RECOMMENDED_POOLS = {
   [CHAIN_ID.BNB_MAIN_NET]: {
-    [PoolType.Volatile]: [],
-    [PoolType.Stable]: [],
-  },
-  [CHAIN_ID.RINKEBY]: {
     [PoolType.Volatile]: [],
     [PoolType.Stable]: [],
   },
@@ -63,7 +58,7 @@ export const RECOMMENDED_POOLS = {
 };
 
 export const WRAPPED_NATIVE_TOKEN = {
-  [CHAIN_ID.BNB_TEST_NET]: {
+  [CHAIN_ID.BNB_TEST_NET as number]: {
     symbol: TOKEN_SYMBOL.WBNB,
     decimals: 18,
     name: 'Wrapped Binance Coin',

@@ -28,16 +28,16 @@ export interface IVaultForm {
 export interface DineroVaultDetailsTitleProps {
   token1: {
     symbol: string;
-    address: string;
+    address: `0x${string}`;
   };
   token2: {
     symbol: string;
-    address: string;
+    address: `0x${string}`;
   };
 }
 
 export interface DineroVaultProps {
-  vault: string;
+  vault: `0x${string}`;
 }
 
 export interface DineroVaultFormProps {
@@ -54,11 +54,11 @@ export interface DineroVaultFooterProps {
 }
 
 export interface VaultData {
-  vaultAddress: string;
+  vaultAddress: `0x${string}`;
   depositTokenSymbol: string;
-  depositTokenAddress: string;
+  depositTokenAddress: `0x${string}`;
   depositTokenDecimals: number;
-  dineroAddress: string;
+  dineroAddress: `0x${string}`;
   dineroDecimals: number;
   maxDineroAmount: BigNumber;
   mintedDineroAmount: BigNumber;
@@ -85,7 +85,7 @@ export type TDineroVaultData =
 
 export type ProcessDineroVault = (
   chainId: number,
-  vaultAddress: string,
+  vaultAddress: `0x${string}`,
   data: TDineroVaultData
 ) => {
   loading: boolean;

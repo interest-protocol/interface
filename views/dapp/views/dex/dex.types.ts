@@ -1,19 +1,20 @@
 import { Dispatch, ReactNode, SetStateAction } from 'react';
 import { Control, UseFormRegister } from 'react-hook-form';
 
+import { Address } from '@/interface';
 import { OnSelectCurrencyData } from '@/views/dapp/views/dex/swap/swap.types';
 
 export interface SwapTokenModalMetadata {
   name: string;
   symbol: string;
-  address: string;
+  address: Address;
   decimals: number;
   chainId?: number;
 }
 
 export interface SwapFormTokenData {
   value: string;
-  address: string;
+  address: Address;
   decimals: number;
   symbol: string;
   setByUser: boolean;

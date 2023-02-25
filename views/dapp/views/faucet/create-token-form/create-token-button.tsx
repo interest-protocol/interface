@@ -28,11 +28,14 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
   getValues,
   control,
   addLocalToken,
+  handleCloseModal,
 }) => {
   const [loading, setLoading] = useState(false);
   const t = useTranslations();
 
-  const { writeAsync: createToken } = useCreateToken(chainId, control);
+  const {
+    useContractWriteReturn: { writeAsync: createToken },
+  } = useCreateToken(chainId, control);
 
   const handleCreateToken = async () => {
     try {
@@ -71,6 +74,7 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
       throwError(t('error.generic'), error);
     } finally {
       setLoading(false);
+      handleCloseModal();
     }
   };
 
@@ -90,7 +94,7 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
       onClick={safeCreateToken}
       hover={{ bg: 'accentAlternativeActive' }}
       bg={loading || !createToken ? 'disabled' : 'accentAlternative'}
-      cursor={loading || !createToken ? 'not-allowed' : 'default'}
+      cursor={loading || !createToken ? 'not-allowed' : 'pointer'}
     >
       {loading ? (
         <Box display="flex" alignItems="center" justifyContent="center">

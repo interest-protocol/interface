@@ -14,7 +14,7 @@ export interface RemoveLiquidityCardProps {
   tokens: TokenData[];
   lpBalance: BigNumber;
   lpAllowance: BigNumber;
-  pairAddress: string;
+  pairAddress: `0x${string}`;
   isFetchingInitialData: boolean;
   chainId: number;
   refetch: () => Promise<void>;
@@ -26,7 +26,7 @@ export interface RemoveLiquidityCardContentProps {
   tokens: TokenData[];
   lpBalance: BigNumber;
   lpAllowance: BigNumber;
-  pairAddress: string;
+  pairAddress: `0x${string}`;
   isFetchingInitialData: boolean;
   chainId: number;
   refetch: () => Promise<void>;

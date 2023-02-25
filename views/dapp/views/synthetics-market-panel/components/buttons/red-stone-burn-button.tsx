@@ -10,6 +10,7 @@ import { useSigner } from 'wagmi';
 
 import { REDSTONE_CORE_CONSUMER_DATA, SyntheticOracleType } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
+import { Address } from '@/interface';
 import SyntheticMinterABI from '@/sdk/abi/synthetics-minter.abi.json';
 import { LoadingSVG } from '@/svg';
 import {
@@ -112,7 +113,8 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
       return;
     }
 
-    if (!data || !data.chainId || isZeroAddress(data.account)) return;
+    if (!data || !data.chainId || isZeroAddress(data.account as Address))
+      return;
 
     await showToast(handleBurn(), {
       success: capitalize(t('common.success')),
@@ -140,9 +142,9 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
       )}
       <Typography
         as="span"
-        fontSize="S"
         variant="normal"
         ml={loading ? 'L' : 'NONE'}
+        fontSize="S"
       >
         {t(
           !!+burnSynt && !!+burnCollateral

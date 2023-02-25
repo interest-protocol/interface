@@ -268,17 +268,27 @@ const SwapCurrencyDropdown: FC<SwapCurrencyDropdownProps> = ({
               gridGap="0.3rem"
               maxHeight="20rem"
             >
-              {renderData(
-                (showLocal ? tokensAddedByUser : tokenMetaDataArray).filter(
-                  ({ address }) =>
-                    !isSameAddress(currentToken, address) &&
-                    !SWAP_BASES[chainId].map(prop('address')).includes(address)
-                ) as ReadonlyArray<SwapTokenModalMetadata>,
-                onSelectCurrency,
-                showLocal,
-                currentToken,
-                chainId,
-                removeUserToken
+              {(showLocal ? tokensAddedByUser : tokenMetaDataArray).length ? (
+                renderData(
+                  (showLocal ? tokensAddedByUser : tokenMetaDataArray).filter(
+                    ({ address }) =>
+                      !isSameAddress(currentToken, address) &&
+                      !SWAP_BASES[chainId]
+                        .map(prop('address'))
+                        .includes(address)
+                  ) as ReadonlyArray<SwapTokenModalMetadata>,
+                  onSelectCurrency,
+                  showLocal,
+                  currentToken,
+                  chainId,
+                  removeUserToken
+                )
+              ) : (
+                <Box my="L" textAlign="center">
+                  <Typography variant="normal" color="text">
+                    {capitalize(t('common.notFound'))}
+                  </Typography>
+                </Box>
               )}
             </Box>
           </>

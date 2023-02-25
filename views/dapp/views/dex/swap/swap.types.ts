@@ -3,6 +3,7 @@ import { Dispatch, FC, SetStateAction } from 'react';
 import { Control, UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 
 import { SVGProps } from '@/components/svg/svg.types';
+import { Address } from '@/interface';
 import { SwapFormTokenData } from '@/views/dapp/views/dex/dex.types';
 
 export interface ISwapForm {
@@ -26,14 +27,15 @@ export interface SwapButtonProps {
   fetchingAmount: boolean;
   fetchingBaseData: boolean;
   fetchingBalancesData: boolean;
-  tokenInAddress: string;
+  tokenInAddress: `0x${string}`;
+  setValue: UseFormSetValue<ISwapForm>;
   getValues: UseFormGetValues<ISwapForm>;
-  setSwapBase: Dispatch<SetStateAction<string | null>>;
+  setSwapBase: Dispatch<SetStateAction<Address | null>>;
   account: string;
   chainId: number;
   localSettings: LocalSwapSettings;
   parsedTokenInBalance: BigNumber;
-  swapBase: string | null;
+  swapBase: Address | null;
   needsApproval: boolean;
   control: Control<ISwapForm>;
   refetch: () => Promise<void>;
@@ -50,7 +52,7 @@ export interface SwapManagerProps {
   setFetchingAmountOutTokenIn: Dispatch<SetStateAction<boolean>>;
   setHasNoMarket: Dispatch<SetStateAction<boolean>>;
   setAmountOutError: Dispatch<SetStateAction<string | null>>;
-  setSwapBase: Dispatch<SetStateAction<string | null>>;
+  setSwapBase: Dispatch<SetStateAction<Address | null>>;
 }
 
 export interface SwapViewButtonProps {
@@ -61,7 +63,7 @@ export interface SwapViewButtonProps {
 }
 
 export interface OnSelectCurrencyData {
-  address: string;
+  address: `0x${string}`;
   symbol: string;
   decimals: number;
 }

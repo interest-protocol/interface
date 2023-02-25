@@ -5,17 +5,20 @@ import { UseContractArgs } from '@/interface';
 import ERC20ABI from '@/sdk/abi/erc-20.abi.json';
 
 export const useApprove = (
-  addressOrName: string,
+  address: `0x${string}`,
   spender: string,
   args = {} as UseContractArgs
 ) => {
-  const { config } = usePrepareContractWrite({
-    addressOrName,
-    contractInterface: ERC20ABI,
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
+    address,
+    abi: ERC20ABI,
     functionName: 'approve',
     args: [spender, ethers.constants.MaxUint256],
     ...args,
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };

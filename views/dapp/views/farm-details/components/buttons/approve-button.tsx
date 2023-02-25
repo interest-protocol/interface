@@ -24,7 +24,9 @@ import {
 import { ApproveButtonProps } from './buttons.types';
 
 const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
-  const { writeAsync: _approve } = useApprove(
+  const {
+    useContractWriteReturn: { writeAsync: _approve },
+  } = useApprove(
     farm.stakingTokenAddress,
     getCasaDePapelAddress(farm.chainId),
     { enabled: farm.allowance.isZero() }

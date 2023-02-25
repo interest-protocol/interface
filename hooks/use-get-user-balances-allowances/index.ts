@@ -1,3 +1,5 @@
+import { Abi, Narrow } from 'abitype';
+
 import { DEFAULT_ACCOUNT } from '@/constants';
 import { UseContractArgs } from '@/interface';
 import InterestViewBalancesABI from '@/sdk/abi/interest-view-balances.abi.json';
@@ -21,8 +23,8 @@ export const useGetUserBalancesAndAllowances = (
   const { chainId, account } = useIdAccount();
 
   return useSafeContractRead({
-    addressOrName: getInterestViewBalancesAddress(chainId),
-    contractInterface: InterestViewBalancesABI,
+    address: getInterestViewBalancesAddress(chainId),
+    abi: InterestViewBalancesABI as Narrow<Abi>,
     functionName: 'getUserBalancesAndAllowances',
     args: [account || DEFAULT_ACCOUNT, spender, tokens],
     onError: () =>

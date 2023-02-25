@@ -69,7 +69,6 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
         symbol={isStake ? data.depositTokenSymbol : TOKEN_SYMBOL.DNR}
         address={isStake ? data.depositTokenAddress : data.dineroAddress}
       />
-
       <WalletGuardButton>
         {data.underlyingAllowance.isZero() ? (
           <ApproveButton
@@ -77,6 +76,7 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
               variant: 'primary',
               width: '100%',
               py: 'L',
+              fontSize: 'S',
               mb: '1.5rem',
             }}
             refetch={refetch}

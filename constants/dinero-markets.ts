@@ -43,21 +43,28 @@ export const DINERO_MARKET_SUMMARY_CALL_MAP = {
     ],
     lpFreeMarkets: [getBSCTestNetDineroMarkets().USDT_WBNB_VOLATILE],
   },
-};
+} as Record<
+  number,
+  {
+    nativeMarket: `0x${string}`;
+    erc20Markets: ReadonlyArray<`0x${string}`>;
+    lpFreeMarkets: ReadonlyArray<`0x${string}`>;
+  }
+>;
 
 export const DINERO_MARKET_DATA_CALL_MAP = {
   [CHAIN_ID.BNB_TEST_NET]: {
     [DINERO_MARKETS_MAP[CHAIN_ID.BNB_TEST_NET].BTC]: {
       kind: DineroMarketKind.ERC20,
-      baseToken: ethers.constants.AddressZero,
+      baseToken: ethers.constants.AddressZero as `0x${string}`,
     },
     [DINERO_MARKETS_MAP[CHAIN_ID.BNB_TEST_NET].ETH]: {
       kind: DineroMarketKind.ERC20,
-      baseToken: ethers.constants.AddressZero,
+      baseToken: ethers.constants.AddressZero as `0x${string}`,
     },
     [DINERO_MARKETS_MAP[CHAIN_ID.BNB_TEST_NET].NATIVE_TOKEN]: {
       kind: DineroMarketKind.Native,
-      baseToken: ethers.constants.AddressZero,
+      baseToken: ethers.constants.AddressZero as `0x${string}`,
     },
     [DINERO_MARKETS_MAP[CHAIN_ID.BNB_TEST_NET].USDT_WBNB_VOLATILE]: {
       kind: DineroMarketKind.LpFreeMarket,
@@ -107,7 +114,21 @@ export const DINERO_MARKET_METADATA = {
       ),
     },
   },
-};
+} as Record<
+  number,
+  Record<
+    `0x${string}`,
+    {
+      kind: DineroMarketKind;
+      symbol0: string;
+      symbol1: string;
+      name: string;
+      stable: boolean;
+      collateralDecimals: number;
+      collateralAddress: `0x${string}`;
+    }
+  >
+>;
 
 const DINERO_MARKET_SVG_MAP = {
   [CHAIN_ID.BNB_TEST_NET]: {

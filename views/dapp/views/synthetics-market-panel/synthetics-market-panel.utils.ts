@@ -9,7 +9,7 @@ import {
   SYNTHETIC_PANEL_RESPONSE_MAP,
   SyntheticOracleType,
 } from '@/constants';
-import { TTranslatedMessage } from '@/interface';
+import { Address, TTranslatedMessage } from '@/interface';
 import {
   CHAIN_ID,
   FixedPointMath,
@@ -158,7 +158,7 @@ export const processSyntheticData: ProcessSyntheticData = (
     collateralAddress: responseMap.collateralAddress,
     chainId,
     loading: false,
-    account: account || ZERO_ADDRESS,
+    account: (account as Address) || ZERO_ADDRESS,
     collateralName: responseMap.collateralName,
     collateralSymbol: responseMap.collateralSymbol,
     dataFeedId: responseMap.dataFeedId,

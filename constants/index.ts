@@ -2,13 +2,7 @@ import { FC } from 'react';
 
 import { SVGProps } from '@/components/svg/svg.types';
 import { CHAIN_ID } from '@/sdk';
-import {
-  BscScanSVG,
-  ChainLinkSVG,
-  EtherScanSVG,
-  RedStoneSVG,
-  UnknownCoinSVG,
-} from '@/svg';
+import { BscScanSVG, ChainLinkSVG, RedStoneSVG, UnknownCoinSVG } from '@/svg';
 
 import { SyntheticOracleType } from './synthetics';
 
@@ -34,7 +28,6 @@ export const DEFAULT_ERC_20_DECIMALS = 18;
 export const DEFAULT_ACCOUNT = '0x000000000000000000000000000000000000dEaD';
 
 export const EXPLORER_MAP = {
-  [CHAIN_ID.RINKEBY]: EtherScanSVG,
   [CHAIN_ID.BNB_MAIN_NET]: BscScanSVG,
   [CHAIN_ID.BNB_TEST_NET]: BscScanSVG,
   [CHAIN_ID.UNSUPPORTED]: UnknownCoinSVG,

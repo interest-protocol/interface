@@ -21,7 +21,9 @@ const ApproveButton: FC<ApproveButtonProps> = ({
   const t = useTranslations();
 
   const [loading, setLoading] = useState(false);
-  const { writeAsync: approve } = useApprove(contract, spender, { enabled });
+  const {
+    useContractWriteReturn: { writeAsync: approve },
+  } = useApprove(contract, spender, { enabled });
 
   const handleAddAllowance = async () => {
     setLoading(true);
@@ -58,28 +60,30 @@ const ApproveButton: FC<ApproveButtonProps> = ({
     });
 
   return (
-    <Button
-      disabled={loading || !approve}
-      hover={{ bg: !approve ? 'disabled' : 'accentActive' }}
-      onClick={submitAllowance}
-      bg={!approve ? 'disabled' : loading ? 'accentActive' : 'accent'}
-      cursor={loading || !approve ? 'not-allowed' : 'pointer'}
-      {...buttonProps}
-    >
-      {loading && (
-        <Box as="span" display="inline-block" width="1rem">
-          <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
-        </Box>
-      )}
-      <Typography
-        fontSize="S"
-        as="span"
-        variant="normal"
-        ml={loading ? 'L' : 'NONE'}
+    <Box display="flex">
+      <Button
+        onClick={submitAllowance}
+        disabled={loading || !approve}
+        hover={{ bg: !approve ? 'disabled' : 'accentActive' }}
+        cursor={loading || !approve ? 'not-allowed' : 'pointer'}
+        bg={!approve ? 'disabled' : loading ? 'accentActive' : 'accent'}
+        {...buttonProps}
       >
-        {capitalize(t('common.approve', { isLoading: +loading }))}
-      </Typography>
-    </Button>
+        {loading && (
+          <Box as="span" display="inline-block" width="1rem">
+            <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
+          </Box>
+        )}
+        <Typography
+          as="span"
+          fontSize="inherit"
+          variant="normal"
+          ml={loading ? 'L' : 'NONE'}
+        >
+          {capitalize(t('common.approve', { isLoading: +loading }))}
+        </Typography>
+      </Button>
+    </Box>
   );
 };
 

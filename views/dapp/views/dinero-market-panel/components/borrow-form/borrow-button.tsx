@@ -43,12 +43,9 @@ const BorrowButton: FC<BorrowButtonProps> = ({
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
 
-  const { writeAsync: borrow } = useBorrow(
-    data,
-    account,
-    borrowCollateral,
-    borrowLoan
-  );
+  const {
+    useContractWriteReturn: { writeAsync: borrow },
+  } = useBorrow(data, account, borrowCollateral, borrowLoan);
 
   const handleBorrow = async () => {
     setLoading(true);
@@ -157,38 +154,50 @@ const BorrowButton: FC<BorrowButtonProps> = ({
     });
   };
 
-  return data.collateralAllowance.isZero() ? (
-    <ApproveButton
-      enabled={
-        data.collateralAllowance.isZero() &&
-        isValidAccount(account) &&
-        !isZeroAddress(data.marketAddress)
-      }
-      refetch={refetch}
-      chainId={data.chainId}
-      contract={data.collateralAddress}
-      spender={data.marketAddress}
-      buttonProps={{
-        display: 'flex',
-        variant: 'primary',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      pageName={GAPage.DineroMarketPanel}
-    />
-  ) : (!borrowLoan && !borrowCollateral) ||
-    (+borrowCollateral === 0 && +borrowLoan === 0) ? (
-    <Box
-      py="L"
-      px="XL"
-      fontSize="S"
-      bg="disabled"
-      borderRadius="M"
-      cursor="not-allowed"
-    >
-      {t('dineroMarketAddress.button.default')}
-    </Box>
-  ) : (
+  if (data.collateralAllowance.isZero())
+    return (
+      <Box minWidth="10rem">
+        <ApproveButton
+          enabled={
+            data.collateralAllowance.isZero() &&
+            isValidAccount(account) &&
+            !isZeroAddress(data.marketAddress)
+          }
+          refetch={refetch}
+          chainId={data.chainId}
+          contract={data.collateralAddress}
+          spender={data.marketAddress}
+          buttonProps={{
+            display: 'flex',
+            variant: 'primary',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: 'S',
+            width: '100%',
+          }}
+          pageName={GAPage.DineroMarketPanel}
+        />
+      </Box>
+    );
+
+  if (
+    (!borrowLoan && !borrowCollateral) ||
+    (+borrowCollateral === 0 && +borrowLoan === 0)
+  )
+    return (
+      <Button
+        px="XL"
+        bg="disabled"
+        fontSize="S"
+        borderRadius="M"
+        cursor="not-allowed"
+        variant="primary"
+      >
+        {t('dineroMarketAddress.button.default')}
+      </Button>
+    );
+
+  return (
     <Button
       display="flex"
       variant="primary"
@@ -206,8 +215,8 @@ const BorrowButton: FC<BorrowButtonProps> = ({
         </Box>
       )}
       <Typography
-        fontSize="S"
         as="span"
+        fontSize="S"
         variant="normal"
         ml={loading ? 'L' : 'NONE'}
       >

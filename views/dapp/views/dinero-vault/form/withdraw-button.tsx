@@ -26,7 +26,9 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
   const [loading, setLoading] = useState(false);
   const value = useWatch({ control, name: 'value' });
 
-  const { writeAsync } = useWithdraw(data, value);
+  const {
+    useContractWriteReturn: { writeAsync },
+  } = useWithdraw(data, value);
 
   const handleWithdraw = async () => {
     setLoading(true);

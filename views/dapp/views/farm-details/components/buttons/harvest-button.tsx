@@ -18,7 +18,9 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
   const t = useTranslations();
   const [loadingPool, setLoadingPool] = useState<boolean>(false);
 
-  const { writeAsync: _harvest } = useHarvest(farm);
+  const {
+    useContractWriteReturn: { writeAsync: _harvest },
+  } = useHarvest(farm);
 
   const harvest = async () => {
     if (farm.pendingRewards.isZero()) return;

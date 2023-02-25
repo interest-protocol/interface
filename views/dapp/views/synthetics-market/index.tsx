@@ -69,6 +69,7 @@ const SyntheticsMarket: FC = () => {
       height="100%"
       display="flex"
       flexDirection="column"
+      pb={['XXL', 'XXL', 'XXL', 'unset']}
     >
       <Box py="XL" width="100%">
         <Typography variant="title3" textAlign="center">

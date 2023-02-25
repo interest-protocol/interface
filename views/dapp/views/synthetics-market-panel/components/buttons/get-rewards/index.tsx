@@ -25,7 +25,9 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
 
-  const { writeAsync: getRewards } = useGetRewards(market);
+  const {
+    useContractWriteReturn: { writeAsync: getRewards },
+  } = useGetRewards(market);
 
   const disabled = market.pendingRewards.isZero() || !getRewards;
 

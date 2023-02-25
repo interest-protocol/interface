@@ -1,5 +1,10 @@
 import { useWatch } from 'react-hook-form';
-import { useContractWrite, usePrepareContractWrite } from 'wagmi';
+import { useDebounce } from 'use-debounce';
+import {
+  useContractWrite,
+  usePrepareContractWrite,
+  UsePrepareContractWriteConfig,
+} from 'wagmi';
 
 import { ZERO_ADDRESS } from '@/sdk';
 import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
@@ -10,12 +15,9 @@ import {
   stringToBigNumber,
 } from '@/utils';
 
-const get90Percent = getBNPercent(90);
-
-import { CallOverrides } from 'ethers';
-import { useDebounce } from 'use-debounce';
-
 import { UseAddLiquidityArgs } from './add-liquidity-card.types';
+
+const get90Percent = getBNPercent(90);
 
 export const useAddLiquidity = ({
   chainId,
@@ -62,7 +64,7 @@ export const useAddLiquidity = ({
     account,
     deadline,
   ];
-  let overrides: CallOverrides = {};
+  let overrides: UsePrepareContractWriteConfig['overrides'] = {};
   const enabled =
     !tokens[0].allowance.isZero() &&
     !tokens[1].allowance.isZero() &&
@@ -100,14 +102,17 @@ export const useAddLiquidity = ({
     ];
   }
 
-  const { config } = usePrepareContractWrite({
-    addressOrName: getInterestDexRouterAddress(chainId),
-    contractInterface: InterestDexRouterABI,
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
+    address: getInterestDexRouterAddress(chainId),
+    abi: InterestDexRouterABI,
     functionName,
     args,
     enabled,
     overrides,
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };

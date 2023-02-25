@@ -3,7 +3,7 @@ import { Result } from 'ethers/lib/utils';
 import { PairMetadataStructOutput } from 'types/ethers-contracts/InterestViewDexAbi';
 
 export interface DEXPoolDetailsViewProps {
-  pairAddress: string;
+  pairAddress: `0x${string}`;
 }
 
 export interface LiquidityDetailsCardLineProps {
@@ -53,8 +53,8 @@ export type TProcessPairData = (
   };
   loading: boolean;
   pairExists: boolean;
-  token0: string;
-  token1: string;
+  token0: `0x${string}`;
+  token1: `0x${string}`;
   isStable: boolean;
   reserve0: BigNumber;
   reserve1: BigNumber;

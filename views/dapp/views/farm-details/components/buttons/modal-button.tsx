@@ -22,9 +22,13 @@ const ModalButton: FC<ModalButtonProps> = ({
   handleClose,
   refetch,
   isStake,
+  getValues,
 }) => {
-  const { writeAsync: action } = useAction(farm, control, modal);
+  const {
+    useContractWriteReturn: { writeAsync: action },
+  } = useAction(farm, control, modal);
   const t = useTranslations();
+  const inputValue = getValues('value') == '' ? '0' : getValues('value');
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -113,10 +117,19 @@ const ModalButton: FC<ModalButtonProps> = ({
       variant="primary"
       alignItems="center"
       justifyContent="center"
-      bg={!action ? 'disabled' : loading ? 'accentActive' : 'accent'}
-      hover={{ bg: 'accentActive' }}
+      bg={
+        inputValue == '0'
+          ? 'disabled'
+          : !action
+          ? 'disabled'
+          : loading
+          ? 'accentActive'
+          : 'accent'
+      }
+      hover={{ bg: inputValue != '0' ? 'accentActive' : 'disabled' }}
       onClick={onSubmit}
-      disabled={!action || loading}
+      disabled={!action || loading || inputValue == '0'}
+      cursor={inputValue == '0' ? 'not-allowed' : 'pointer'}
     >
       {loading && (
         <Box mr="M" width="1rem">

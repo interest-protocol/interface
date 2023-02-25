@@ -32,7 +32,7 @@ import {
 } from './add-liquidity-card.types';
 import BalanceError from './balance-error';
 import ErrorLiquidityMessage from './error-liquidity-message';
-import { useAddLiquidity } from './use-add-lliquidity-card.hooks';
+import { useAddLiquidity } from './use-add-liquidity-card.hooks';
 
 const filterFn = o<IToken, BigNumber, boolean>(
   (x: BigNumber) => x.isZero(),
@@ -52,17 +52,17 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
   setLoading,
   loading,
 }) => {
-  const { writeAsync: approveToken0 } = useApprove(
-    tokens[0].address,
-    getInterestDexRouterAddress(chainId),
-    { enabled: tokens[0].allowance.isZero() }
-  );
+  const {
+    useContractWriteReturn: { writeAsync: approveToken0 },
+  } = useApprove(tokens[0].address, getInterestDexRouterAddress(chainId), {
+    enabled: tokens[0].allowance.isZero(),
+  });
 
-  const { writeAsync: approveToken1 } = useApprove(
-    tokens[1].address,
-    getInterestDexRouterAddress(chainId),
-    { enabled: tokens[1].allowance.isZero() }
-  );
+  const {
+    useContractWriteReturn: { writeAsync: approveToken1 },
+  } = useApprove(tokens[1].address, getInterestDexRouterAddress(chainId), {
+    enabled: tokens[1].allowance.isZero(),
+  });
 
   const t = useTranslations();
 
@@ -108,7 +108,9 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
       error: prop('message'),
     });
 
-  const { writeAsync: addLiquidity } = useAddLiquidity({
+  const {
+    useContractWriteReturn: { writeAsync: addLiquidity },
+  } = useAddLiquidity({
     chainId,
     account,
     isStable,

@@ -1,7 +1,12 @@
-import { ContractInterface, ethers } from 'ethers';
+import { Abi, Narrow } from 'abitype';
+import { ethers } from 'ethers';
 import { isEmpty } from 'ramda';
 import { useDebounce } from 'use-debounce';
-import { useContractWrite, usePrepareContractWrite } from 'wagmi';
+import {
+  useContractWrite,
+  UseContractWriteConfig,
+  usePrepareContractWrite,
+} from 'wagmi';
 
 import { DineroMarketKind } from '@/constants';
 import { HandlerData } from '@/interface';
@@ -46,7 +51,7 @@ const handleRepayRequest = (
   let args: any[] = [];
   let enabled = false;
   const overrides = {};
-  let contractInterface: ContractInterface = '';
+  let abi: Narrow<Abi> = [];
 
   /**
    * @description We do not need to calculate the elastic loan, because this market does not have any interest rate.
@@ -65,7 +70,7 @@ const handleRepayRequest = (
       ],
     ];
     enabled = !safePrincipal.isZero() && !safePrincipal.isZero();
-    contractInterface = DineroLpFreeMarketABI;
+    abi = DineroLpFreeMarketABI as Narrow<Abi>;
   }
 
   if (market.kind === DineroMarketKind.ERC20) {
@@ -90,7 +95,7 @@ const handleRepayRequest = (
       ],
     ];
     enabled = !safePrincipal.isZero() && !safePrincipal.isZero();
-    contractInterface = DineroERC20MarketABI;
+    abi = DineroERC20MarketABI as Narrow<Abi>;
   }
 
   if (market.kind === DineroMarketKind.Native) {
@@ -115,7 +120,7 @@ const handleRepayRequest = (
       ],
     ];
     enabled = !safePrincipal.isZero() && !safePrincipal.isZero();
-    contractInterface = DineroNativeMarketABI;
+    abi = DineroNativeMarketABI as Narrow<Abi>;
   }
 
   return {
@@ -123,7 +128,7 @@ const handleRepayRequest = (
     args,
     enabled,
     overrides,
-    contractInterface,
+    abi,
   };
 };
 
@@ -149,14 +154,14 @@ const handleRepayCollateral = (
   /**
    * @description The withdraw interface should be the same for all contracts.
    */
-  const contractInterface = DineroNativeMarketABI;
+  const abi = DineroNativeMarketABI as Narrow<Abi>;
 
   return {
     functionName,
     args,
     enabled,
     overrides,
-    contractInterface,
+    abi,
   };
 };
 
@@ -175,7 +180,7 @@ const handleRepayLoan = (
   /**
    * @description The repay interface should be the same for all contracts.
    */
-  const contractInterface = DineroNativeMarketABI;
+  const abi = DineroNativeMarketABI as Narrow<Abi>;
 
   if (market.kind === DineroMarketKind.LpFreeMarket) {
     args = [
@@ -223,7 +228,7 @@ const handleRepayLoan = (
     args,
     enabled,
     overrides,
-    contractInterface,
+    abi,
   };
 };
 
@@ -249,8 +254,8 @@ export const useRepay = (
   if (safeLoan && !safeCollateral)
     data = handleRepayLoan(market, account, safeLoan);
 
-  const { config } = usePrepareContractWrite({
-    addressOrName: market.marketAddress,
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
+    address: market.marketAddress,
     ...data,
     enabled:
       data.enabled &&
@@ -259,7 +264,10 @@ export const useRepay = (
       !isZeroAddress(market.marketAddress),
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config as UseContractWriteConfig),
+    usePrepareContractReturn,
+  };
 };
 
 const handleBorrowRequest = (
@@ -280,7 +288,7 @@ const handleBorrowRequest = (
   let args: any[] = [];
   let enabled = false;
   let overrides = {};
-  let contractInterface: ContractInterface = '';
+  let abi: Narrow<Abi> = [];
 
   if (market.kind === DineroMarketKind.ERC20) {
     args = [
@@ -288,7 +296,7 @@ const handleBorrowRequest = (
       [encodeData(account, safeCollateral), encodeData(account, loanBN)],
     ];
     enabled = !safeCollateral.isZero() || !loanBN.isZero();
-    contractInterface = DineroERC20MarketABI;
+    abi = DineroERC20MarketABI as Narrow<Abi>;
   }
 
   if (market.kind === DineroMarketKind.LpFreeMarket) {
@@ -297,7 +305,7 @@ const handleBorrowRequest = (
       [encodeData(account, safeCollateral), encodeData(account, loanBN)],
     ];
     enabled = !safeCollateral.isZero() || !loanBN.isZero();
-    contractInterface = DineroLpFreeMarketABI;
+    abi = DineroLpFreeMarketABI as Narrow<Abi>;
   }
 
   if (market.kind === DineroMarketKind.Native) {
@@ -320,13 +328,13 @@ const handleBorrowRequest = (
     overrides = {
       value: amountToSend,
     };
-    contractInterface = DineroNativeMarketABI;
+    abi = DineroNativeMarketABI as Narrow<Abi>;
   }
 
   return {
     functionName,
     args,
-    contractInterface,
+    abi,
     overrides,
     enabled,
   };
@@ -351,18 +359,18 @@ const handleBorrowDeposit = (
   let args: any[] = [];
   let enabled = false;
   let overrides = {};
-  let contractInterface: ContractInterface = '';
+  let abi: Narrow<Abi> = [];
 
   if (market.kind === DineroMarketKind.ERC20) {
     args = [account, safeCollateral];
     enabled = !safeCollateral.isZero();
-    contractInterface = DineroERC20MarketABI;
+    abi = DineroERC20MarketABI as Narrow<Abi>;
   }
 
   if (market.kind === DineroMarketKind.LpFreeMarket) {
     args = [account, safeCollateral];
     enabled = !safeCollateral.isZero();
-    contractInterface = DineroLpFreeMarketABI;
+    abi = DineroLpFreeMarketABI as Narrow<Abi>;
   }
 
   if (market.kind === DineroMarketKind.Native) {
@@ -378,7 +386,7 @@ const handleBorrowDeposit = (
 
     args = [account];
     enabled = !amountToSend.isZero();
-    contractInterface = DineroNativeMarketABI;
+    abi = DineroNativeMarketABI as Narrow<Abi>;
     overrides = {
       value: amountToSend,
     };
@@ -389,7 +397,7 @@ const handleBorrowDeposit = (
     args,
     enabled,
     overrides,
-    contractInterface,
+    abi,
   };
 };
 
@@ -409,7 +417,7 @@ const handleBorrowLoan = (
   /**
    * @description The borrow interface should be the same for all contracts.
    */
-  const contractInterface = DineroNativeMarketABI;
+  const abi = DineroNativeMarketABI as Narrow<Abi>;
 
   if (market.kind === DineroMarketKind.ERC20) {
     const safeLoanBN = loanBN.gte(amountLeftToBorrow)
@@ -450,7 +458,7 @@ const handleBorrowLoan = (
     args,
     enabled,
     overrides,
-    contractInterface,
+    abi,
   };
 };
 
@@ -476,15 +484,19 @@ export const useBorrow = (
   if (safeLoan && !safeCollateral)
     data = handleBorrowLoan(market, account, safeLoan);
 
-  const { config } = usePrepareContractWrite({
-    addressOrName: market.marketAddress,
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
+    address: market.marketAddress,
     ...data,
     enabled:
       data.enabled &&
       !isEmpty(data) &&
       isValidAccount(account) &&
       !isZeroAddress(market.marketAddress),
+    overrides: isEmpty(data.overrides) ? undefined : data.overrides,
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config as UseContractWriteConfig),
+    usePrepareContractReturn,
+  };
 };

@@ -5,6 +5,7 @@ import { useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import { Box, Button, Typography } from '@/elements';
+import { Address } from '@/interface';
 import { LoadingSVG } from '@/svg';
 import {
   capitalize,
@@ -35,7 +36,9 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
     name: 'burn.collateral',
   });
 
-  const { writeAsync: burn } = useBurn(data, burnCollateral, burnSynt);
+  const {
+    useContractWriteReturn: { writeAsync: burn },
+  } = useBurn(data, burnCollateral, burnSynt);
 
   const handleBurn = async () => {
     try {
@@ -72,7 +75,8 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
       return;
     }
 
-    if (!data || !data.chainId || isZeroAddress(data.account)) return;
+    if (!data || !data.chainId || isZeroAddress(data.account as Address))
+      return;
 
     await showToast(handleBurn(), {
       success: capitalize(t('common.success')),
@@ -100,9 +104,9 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
       )}
       <Typography
         as="span"
-        fontSize="S"
         variant="normal"
         ml={loading ? 'L' : 'NONE'}
+        fontSize="S"
       >
         {t(
           !!+burnSynt && !!+burnCollateral

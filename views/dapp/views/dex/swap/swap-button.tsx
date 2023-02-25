@@ -74,21 +74,24 @@ const SwapButton: FC<SwapButtonProps> = ({
   localSettings,
   control,
   refetch,
+  setValue,
 }) => {
   const t = useTranslations();
   const [buttonLoadingText, setButtonLoadingText] =
     useState<string | null>(null);
 
-  const { writeAsync: approve } = useApprove(
-    tokenInAddress,
-    getInterestDexRouterAddress(chainId),
-    { enabled: needsApproval }
-  );
+  const {
+    useContractWriteReturn: { writeAsync: approve },
+  } = useApprove(tokenInAddress, getInterestDexRouterAddress(chainId), {
+    enabled: needsApproval,
+  });
 
   const tokenIn = useWatch({ control, name: 'tokenIn' });
   const tokenOut = useWatch({ control, name: 'tokenOut' });
 
-  const { writeAsync: swapTokens } = useSwap({
+  const {
+    useContractWriteReturn: { writeAsync: swapTokens },
+  } = useSwap({
     tokenIn,
     tokenOut,
     swapBase,
@@ -99,7 +102,9 @@ const SwapButton: FC<SwapButtonProps> = ({
     needsApproval,
   });
 
-  const { writeAsync: wethDeposit } = useWETHDeposit({
+  const {
+    useContractWriteReturn: { writeAsync: wethDeposit },
+  } = useWETHDeposit({
     tokenIn,
     tokenOut,
     chainId,
@@ -107,7 +112,9 @@ const SwapButton: FC<SwapButtonProps> = ({
     needsApproval,
   });
 
-  const { writeAsync: wethWithdraw } = useWETHWithdraw({
+  const {
+    useContractWriteReturn: { writeAsync: wethWithdraw },
+  } = useWETHWithdraw({
     tokenIn,
     tokenOut,
     chainId,
@@ -138,6 +145,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       });
       if (tx) await tx.wait(5);
       await refetch();
+      resetInput();
     } catch (e) {
       logTransactionEvent({
         status: GAStatus.Error,
@@ -172,6 +180,7 @@ const SwapButton: FC<SwapButtonProps> = ({
         page: GAPage.DexSwap,
         functionName: 'handleSwap',
       });
+      resetInput();
     } catch {
       logTransactionEvent({
         status: GAStatus.Error,
@@ -222,6 +231,7 @@ const SwapButton: FC<SwapButtonProps> = ({
         functionName: 'handleWETHDeposit',
       });
       await refetch();
+      resetInput();
     } catch (e) {
       logTransactionEvent({
         status: GAStatus.Error,
@@ -275,6 +285,7 @@ const SwapButton: FC<SwapButtonProps> = ({
         functionName: 'handleWETHWithdraw',
       });
       await refetch();
+      resetInput();
     } catch {
       logTransactionEvent({
         status: GAStatus.Error,
@@ -371,6 +382,10 @@ const SwapButton: FC<SwapButtonProps> = ({
     return false;
   };
 
+  const resetInput = () => {
+    setValue('tokenIn.value', '0.0');
+    setValue('tokenOut.value', '0.0');
+  };
   return (
     <WalletGuardButton>
       <SwapViewButton

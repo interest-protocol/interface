@@ -1,4 +1,5 @@
-import { BigNumber, CallOverrides } from 'ethers';
+import { PrepareWriteContractConfig } from '@wagmi/core';
+import { BigNumber } from 'ethers';
 import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
@@ -117,7 +118,7 @@ export const useSwap = ({
     parsedDeadline,
   ];
   let functionName = 'swapExactTokensForTokens';
-  let overrides: CallOverrides = {};
+  let overrides: PrepareWriteContractConfig['overrides'] = {};
 
   if (isZeroAddress(tokenIn.address)) {
     functionName = 'swapExactNativeTokenForTokens';
@@ -130,9 +131,9 @@ export const useSwap = ({
     args = [safeAmountIn, minAmountOut, route, account, parsedDeadline];
   }
 
-  const { config } = usePrepareContractWrite({
-    addressOrName: getInterestDexRouterAddress(chainId),
-    contractInterface: InterestDexRouterABI,
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
+    address: getInterestDexRouterAddress(chainId),
+    abi: InterestDexRouterABI,
     functionName,
     args,
     overrides,
@@ -150,7 +151,10 @@ export const useSwap = ({
       ),
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };
 
 export const useWETHDeposit = ({
@@ -173,10 +177,10 @@ export const useWETHDeposit = ({
     ? parsedTokenInBalance
     : bnAMount;
 
-  const { config } = usePrepareContractWrite({
-    addressOrName: getWETHAddress(chainId),
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
+    address: getWETHAddress(chainId),
     functionName: 'deposit',
-    contractInterface: WETHABI,
+    abi: WETHABI,
     overrides: { value: safeAmount },
     enabled:
       !needsApproval &&
@@ -185,7 +189,10 @@ export const useWETHDeposit = ({
       isZeroAddress(tokenIn.address),
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };
 
 export const useWETHWithdraw = ({
@@ -208,10 +215,10 @@ export const useWETHWithdraw = ({
     ? parsedTokenInBalance
     : bnAMount;
 
-  const { config } = usePrepareContractWrite({
-    addressOrName: getWETHAddress(chainId),
+  const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
+    address: getWETHAddress(chainId),
     functionName: 'withdraw',
-    contractInterface: WETHABI,
+    abi: WETHABI,
     args: [safeAmount],
     enabled:
       !needsApproval &&
@@ -220,5 +227,8 @@ export const useWETHWithdraw = ({
       isZeroAddress(tokenOut.address),
   });
 
-  return useContractWrite(config);
+  return {
+    useContractWriteReturn: useContractWrite(config),
+    usePrepareContractReturn,
+  };
 };

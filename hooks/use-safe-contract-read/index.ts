@@ -7,8 +7,8 @@ import { UseContractReadConfig } from './use-contract-read.types';
 import { queryFn, queryKey } from './use-contract-read.utils';
 
 export function useSafeContractRead({
-  addressOrName,
-  contractInterface,
+  address,
+  abi,
   functionName,
   args,
   overrides,
@@ -27,26 +27,26 @@ export function useSafeContractRead({
   const queryKey_ = useMemo(
     () =>
       queryKey({
-        addressOrName,
+        address,
         args,
         chainId,
         functionName,
         overrides,
       }),
-    [addressOrName, args, chainId, functionName, overrides]
+    [address, args, chainId, functionName, overrides]
   );
 
   const enabled = useMemo(() => {
-    return Boolean(enabled_ && addressOrName && functionName);
-  }, [addressOrName, enabled_, functionName]);
+    return Boolean(enabled_ && address && functionName);
+  }, [address, enabled_, functionName]);
 
-  return useQuery(queryKey_, queryFn({ contractInterface }), {
+  return useQuery(queryKey_, queryFn({ abi }), {
     cacheTime,
     enabled,
     isDataEqual,
     select: (data) => {
       const result = parseContractResult({
-        contractInterface,
+        abi,
         data,
         functionName,
       });

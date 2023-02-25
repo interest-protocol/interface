@@ -18,6 +18,7 @@ import CreateTokenSupplyField from './create-token-supply-field';
 const CreateTokenForm: FC<CreateTokenFormProps> = ({
   handleClose,
   addLocalToken,
+  handleCloseModal,
 }) => {
   const t = useTranslations();
   const { setValue, register, control, getValues } = useForm<TCreateTokenForm>({
@@ -83,6 +84,7 @@ const CreateTokenForm: FC<CreateTokenFormProps> = ({
             control={control}
             getValues={getValues}
             addLocalToken={addLocalToken}
+            handleCloseModal={handleCloseModal}
           />
         ) : (
           <Box display="flex" justifyContent="center">

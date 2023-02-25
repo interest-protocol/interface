@@ -19,14 +19,14 @@ export interface ISyntheticMarketSummary {
   transferFee: BigNumber;
   syntheticUSDPrice: BigNumber;
   userSyntheticMinted: BigNumber;
-  syntheticAddress: string;
-  marketAddress: string;
+  syntheticAddress: `0x${string}`;
+  marketAddress: `0x${string}`;
   symbol: string;
   chainId: number;
   id: number;
   name: string;
   oracleType: SyntheticOracleType;
-  collateralAddress: string;
+  collateralAddress: `0x${string}`;
   dataFeedId: string;
 }
 

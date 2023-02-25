@@ -26,6 +26,7 @@ export interface CreateTokenSupplyFieldProps {
 export interface CreateTokenFormProps {
   handleClose: () => void;
   addLocalToken: AddLocalToken;
+  handleCloseModal: () => void;
 }
 
 export interface CreateTokenButtonProps {
@@ -33,4 +34,5 @@ export interface CreateTokenButtonProps {
   getValues: UseFormGetValues<TCreateTokenForm>;
   control: Control<TCreateTokenForm>;
   addLocalToken: CreateTokenFormProps['addLocalToken'];
+  handleCloseModal: () => void;
 }

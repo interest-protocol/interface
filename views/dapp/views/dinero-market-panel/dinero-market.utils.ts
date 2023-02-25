@@ -102,9 +102,9 @@ const DEFAULT_MARKET_DATA = {
   symbol1: '',
   name: '',
   stable: false,
-  marketAddress: ZERO_ADDRESS,
+  marketAddress: ZERO_ADDRESS as `0x${string}`,
   collateralDecimals: 18,
-  collateralAddress: ZERO_ADDRESS,
+  collateralAddress: ZERO_ADDRESS as `0x${string}`,
   intUSDPrice: ZERO_BIG_NUMBER,
   chainId: CHAIN_ID.BNB_TEST_NET,
   maxBorrowAmount: ZERO_BIG_NUMBER,
@@ -458,7 +458,7 @@ export const safeAmountToWithdrawRepay: TSafeAmountToWithdrawRepay = (
     return FixedPointMath.from(adjustedUserCollateral);
 
   const userNeededCollateralInUSD = FixedPointMath.from(
-    loanElastic.sub(repayLoan)
+    userLoanElastic.value().sub(repayLoan)
   ).div(ltv);
 
   const collateralInUSD = FixedPointMath.from(adjustedUserCollateral).mul(

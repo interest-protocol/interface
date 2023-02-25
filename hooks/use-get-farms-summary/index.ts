@@ -1,3 +1,4 @@
+import { Abi, Narrow } from 'abitype';
 import { propOr } from 'ramda';
 
 import { CASA_DE_PAPEL_FARM_CALL_MAP, DEFAULT_ACCOUNT } from '@/constants';
@@ -21,8 +22,8 @@ export const useGetFarmsSummary = () => {
   const data = propOr({}, chainId.toString(), CASA_DE_PAPEL_FARM_CALL_MAP);
 
   return useSafeContractRead({
-    addressOrName: getInterestViewEarnAddress(chainId),
-    contractInterface: InterestViewEarnABI,
+    address: getInterestViewEarnAddress(chainId),
+    abi: InterestViewEarnABI as Narrow<Abi>,
     functionName: 'getFarmsSummary',
     args: [
       account || DEFAULT_ACCOUNT,

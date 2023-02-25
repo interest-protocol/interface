@@ -14,7 +14,7 @@ export interface FaucetSelectCurrencyProps {
   label: string;
   defaultValue: string;
   tokens: ReadonlyArray<IToken>;
-  onSelectCurrency: (currency: string, callback?: () => void) => void;
+  onSelectCurrency: (currency: `0x${string}`, callback?: () => void) => void;
 }
 
 export interface CurrencyIdentifierProps {
