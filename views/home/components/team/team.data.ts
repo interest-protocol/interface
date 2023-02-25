@@ -1,4 +1,11 @@
-import { DiscordSVG, GithubSVG, LinkedInSVG, TwitterSVG } from '@/svg';
+import {
+  BehanceSVG,
+  DiscordSVG,
+  DribbbleSVG,
+  GithubSVG,
+  LinkedInSVG,
+  TwitterSVG,
+} from '@/svg';
 import { getYearOrMonth } from '@/utils';
 
 export const SOCIAL_SVG = {
@@ -6,6 +13,8 @@ export const SOCIAL_SVG = {
   linkedin: LinkedInSVG,
   twitter: TwitterSVG,
   discord: DiscordSVG,
+  dribbble: DribbbleSVG,
+  behance: BehanceSVG,
 };
 
 export const TEAM_MEMBERS = [
@@ -110,6 +119,8 @@ export const TEAM_MEMBERS = [
     social: {
       linkedin:
         'https://www.linkedin.com/in/leonardo-hernandez-celli-81499093/',
+      dribbble: 'https://dribbble.com/lhcelli',
+      behance: 'https://dribbble.com/lhcelli',
     },
     bio: 'landingPage.bioLeonardo',
     depsBio: {
