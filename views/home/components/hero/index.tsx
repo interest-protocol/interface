@@ -76,56 +76,43 @@ const Hero: FC = () => {
           >
             {t('landingPage.headerSubtitle')}
           </Typography>
-          <Box mt="M" display="flex">
+          <Box display="flex">
             <Button
-              type="button"
-              variant="primary"
-              effect="hover"
-              onClick={() => push(Routes[RoutesEnum.DEX])}
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
               mr="L"
+              width="auto"
+              type="button"
+              effect="hover"
+              display="flex"
+              variant="primary"
+              alignItems="center"
+              onClick={() => push(Routes[RoutesEnum.DEX])}
             >
-              {t('landingPage.headerButton')}
-              <Box
-                maxHeight="1.2rem"
-                maxWidth="1.2rem"
-                width="1.2rem"
-                height="1.2rem"
-                ml="S"
-              >
+              {t('landingPage.headerButton', { network: 'BSC' })}
+              <Box as="span" ml="M" display="inline-flex" alignItems="center">
                 <BNBSVG
-                  maxHeight="100%"
-                  maxWidth="100%"
                   width="100%"
                   height="100%"
+                  maxWidth="1.5rem"
+                  maxHeight="1.5rem"
                 />
               </Box>
             </Button>
             <Button
+              width="auto"
               type="button"
-              variant="primary"
               effect="hover"
-              onClick={() => push(Routes[RoutesEnum.Sui])}
               display="flex"
+              variant="primary"
               alignItems="center"
-              justifyContent="center"
+              onClick={() => push(Routes[RoutesEnum.SUI])}
             >
-              {t('landingPage.headerButton')}
-              <Box
-                maxHeight="1.2rem"
-                maxWidth="1.2rem"
-                width="1.2rem"
-                height="1.2rem"
-                ml="S"
-              >
+              {t('landingPage.headerButton', { network: 'SUI' })}
+              <Box as="span" ml="M" display="inline-flex" alignItems="center">
                 <SuiSVG
-                  maxHeight="100%"
-                  maxWidth="100%"
                   width="100%"
                   height="100%"
-                  fill="#fff"
+                  maxWidth="1.5rem"
+                  maxHeight="1.5rem"
                 />
               </Box>
             </Button>
