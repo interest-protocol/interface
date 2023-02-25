@@ -5,13 +5,7 @@ import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
 
 import { Container, SocialMediaCard, SwitchLang } from '@/components';
-import {
-  Routes,
-  RoutesEnum,
-  SOCIAL_MEDIAS,
-  SOCIAL_MEDIAS_PT,
-} from '@/constants';
-import { LocalesEnum } from '@/constants/locale';
+import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Button, RefBox, Typography } from '@/elements';
 import { useLocale } from '@/hooks';
 import useClickOutsideListenerRef from '@/hooks/use-click-outside-listener-ref';
@@ -163,10 +157,7 @@ const Header: FC<HeaderProps> = ({ empty }) => {
                 alignItems="center"
                 mr="1.938rem"
               >
-                {(currentLocale === LocalesEnum.EN
-                  ? SOCIAL_MEDIAS
-                  : SOCIAL_MEDIAS_PT
-                ).map((socialMediaData) => (
+                {SOCIAL_MEDIAS.map((socialMediaData) => (
                   <SocialMediaCard {...socialMediaData} key={v4()} />
                 ))}
                 <SwitchLang />
