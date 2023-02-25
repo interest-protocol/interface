@@ -3,21 +3,15 @@ import { FC } from 'react';
 import { v4 } from 'uuid';
 
 import { Container } from '@/components';
-import { SOCIAL_MEDIAS, SOCIAL_MEDIAS_PT } from '@/constants';
-import { LocalesEnum } from '@/constants/locale';
+import { SOCIAL_MEDIAS } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useLocale } from '@/hooks';
 import { capitalize } from '@/utils';
 
 export const ItemsCommunity: FC = () => {
-  const { currentLocale } = useLocale();
   return (
     <Box bg="background" pt="1.625rem" mt="1.5rem">
       <Container display="grid" cursor="pointer" gridTemplateColumns="1fr 1fr">
-        {(currentLocale === LocalesEnum.EN
-          ? SOCIAL_MEDIAS
-          : SOCIAL_MEDIAS_PT
-        ).map((socialMediaData) => (
+        {SOCIAL_MEDIAS.map((socialMediaData) => (
           <a
             href={socialMediaData.link}
             target="__blank"
