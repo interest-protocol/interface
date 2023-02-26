@@ -120,7 +120,7 @@ export const TEAM_MEMBERS = [
       linkedin:
         'https://www.linkedin.com/in/leonardo-hernandez-celli-81499093/',
       dribbble: 'https://dribbble.com/lhcelli',
-      behance: 'https://dribbble.com/lhcelli',
+      behance: 'https://www.behance.net/lhcelli',
     },
     bio: 'landingPage.bioLeonardo',
     depsBio: {
