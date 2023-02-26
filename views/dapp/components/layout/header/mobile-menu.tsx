@@ -27,25 +27,24 @@ const MobileMenu: FC = () => {
             </Box>
           </Box>
         }
-        data={[
-          ...[...SOCIAL_MEDIAS].map(({ title, link }) => ({
-            value: title,
-            onSelect: () => parent.open(link),
-            displayOption: (
-              <a href={link} target="__blank" rel="noopener noreferrer">
-                <Typography
-                  px="M"
-                  py="L"
-                  width="100%"
-                  variant="normal"
-                  textAlign="center"
-                  textTransform="uppercase"
-                >
-                  {title}
-                </Typography>
-              </a>
-            ),
-          })),
+        data={SOCIAL_MEDIAS.map(({ title, link }) => ({
+          value: title,
+          onSelect: () => parent.open(link),
+          displayOption: (
+            <a href={link} target="__blank" rel="noopener noreferrer">
+              <Typography
+                px="M"
+                py="L"
+                width="100%"
+                variant="normal"
+                textAlign="center"
+                textTransform="uppercase"
+              >
+                {title}
+              </Typography>
+            </a>
+          ),
+        })).concat([
           {
             value: 'feedback',
             onSelect: () => parent.open('https://forms.gle/aDP4wHvshLPKkKv97'),
@@ -75,7 +74,7 @@ const MobileMenu: FC = () => {
               </Box>
             ),
           },
-        ]}
+        ])}
       />
     </>
   );

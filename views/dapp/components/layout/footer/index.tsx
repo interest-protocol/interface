@@ -55,7 +55,7 @@ const Footer: FC = () => {
     >
       <Container dapp width="100%">
         <Box display={['none', 'none', 'flex']} justifyContent="center">
-          {[...SOCIAL_MEDIAS].map((item) => (
+          {SOCIAL_MEDIAS.map((item) => (
             <SocialMediaCard key={v4()} {...item} />
           ))}
         </Box>
