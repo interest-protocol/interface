@@ -20,7 +20,6 @@ import {
   DexSVG,
   EarnSVG,
   FaucetSVG,
-  GitBookSVG,
   HorizontalDotsSVG,
   MarketSVG,
 } from '@/svg';
@@ -56,14 +55,7 @@ const Footer: FC = () => {
     >
       <Container dapp width="100%">
         <Box display={['none', 'none', 'flex']} justifyContent="center">
-          {[
-            ...SOCIAL_MEDIAS,
-            {
-              title: 'Docs',
-              Logo: GitBookSVG,
-              link: 'https://docs.interestprotocol.com/',
-            },
-          ].map((item) => (
+          {SOCIAL_MEDIAS.map((item) => (
             <SocialMediaCard key={v4()} {...item} />
           ))}
         </Box>

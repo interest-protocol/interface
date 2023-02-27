@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { SOCIAL_MEDIAS } from '@/constants/social-media';
 import { Box, Dropdown, Typography } from '@/elements';
-import { BarsSVG, GitBookSVG } from '@/svg';
+import { BarsSVG } from '@/svg';
 import { logGenericEvent } from '@/utils/analytics';
 
 const MobileMenu: FC = () => {
@@ -27,32 +27,24 @@ const MobileMenu: FC = () => {
             </Box>
           </Box>
         }
-        data={[
-          ...[
-            ...SOCIAL_MEDIAS,
-            {
-              title: 'GitBook',
-              Logo: GitBookSVG,
-              link: 'https://docs.interestprotocol.com/',
-            },
-          ].map(({ title, link }) => ({
-            value: title,
-            onSelect: () => parent.open(link),
-            displayOption: (
-              <a href={link} target="__blank" rel="noopener noreferrer">
-                <Typography
-                  px="M"
-                  py="L"
-                  width="100%"
-                  variant="normal"
-                  textAlign="center"
-                  textTransform="uppercase"
-                >
-                  {title}
-                </Typography>
-              </a>
-            ),
-          })),
+        data={SOCIAL_MEDIAS.map(({ title, link }) => ({
+          value: title,
+          onSelect: () => parent.open(link),
+          displayOption: (
+            <a href={link} target="__blank" rel="noopener noreferrer">
+              <Typography
+                px="M"
+                py="L"
+                width="100%"
+                variant="normal"
+                textAlign="center"
+                textTransform="uppercase"
+              >
+                {title}
+              </Typography>
+            </a>
+          ),
+        })).concat([
           {
             value: 'feedback',
             onSelect: () => parent.open('https://forms.gle/aDP4wHvshLPKkKv97'),
@@ -82,7 +74,7 @@ const MobileMenu: FC = () => {
               </Box>
             ),
           },
-        ]}
+        ])}
       />
     </>
   );

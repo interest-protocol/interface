@@ -1,5 +1,6 @@
 import {
   DiscordSVG,
+  GitBookSVG,
   GithubSVG,
   MediumSVG,
   TelegramSVG,
@@ -37,5 +38,10 @@ export const SOCIAL_MEDIAS = [
     title: 'Youtube',
     link: 'https://www.youtube.com/@interestprotocol',
     Logo: YoutubeSVG,
+  },
+  {
+    title: 'GitBook',
+    link: 'https://docs.interestprotocol.com/',
+    Logo: GitBookSVG,
   },
 ];

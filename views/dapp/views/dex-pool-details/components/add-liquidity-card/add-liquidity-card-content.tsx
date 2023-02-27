@@ -155,7 +155,7 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
                 width="100%"
                 variant="primary"
                 disabled={loading}
-                bg="bottomBackground"
+                bg="accent"
                 hover={{ bg: 'accentActive' }}
                 onClick={() => handleApproveToken(address, symbol)}
               >

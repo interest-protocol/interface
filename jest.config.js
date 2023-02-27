@@ -1,15 +1,19 @@
-const nextJest = require('next/jest')
+const nextJest = require('next/jest');
 
 // Providing the path to your Next.js app which will enable loading next.config.js and .env files
-const createJestConfig = nextJest({ dir: './' })
+const createJestConfig = nextJest({ dir: './' });
 
 const customJestConfig = {
   rootDir: './',
-  setupFilesAfterEnv: ["<rootDir>/.jest/setup.ts"],
   moduleDirectories: ["node_modules", "<rootDir>/"],
+  setupFilesAfterEnv: ["<rootDir>/.jest/setup.ts"],
   moduleFileExtensions: ['js', 'ts', 'tsx', 'json'],
-  testPathIgnorePatterns: ['<rootDir>[/\\\\](node_modules|.next)[/\\\\]'],
-  transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(ts|tsx)$'],
+  testMatch: [
+     "**/__tests__/**/*.+(ts|tsx|js)",
+    "**/?(*.)+(spec|test).+(ts|tsx|js)"
+  ],
+  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
+  testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
     '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
     '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/__test__/__mocks__/fileMock.js',
@@ -41,4 +45,17 @@ const customJestConfig = {
   },
 };
 
-module.exports = createJestConfig(customJestConfig);
+module.exports = async () => ({
+  /**
+   * Using ...(await createJestConfig(customJestConfig)()) to override transformIgnorePatterns
+   * provided byt next/jest.
+   *
+   * @link https://github.com/vercel/next.js/issues/36077#issuecomment-1096635363
+   */
+  ...(await createJestConfig(customJestConfig)()),
+  /**
+   * @link https://github.com/vercel/next.js/issues/36077#issuecomment-1096698456
+   * @link https://jestjs.io/docs/ecmascript-modules
+   */
+  transformIgnorePatterns: ['/node_modules/(?!(wagmi|@wagmi)/)'],
+});
