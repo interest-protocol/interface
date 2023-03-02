@@ -4,17 +4,17 @@ import { TOKEN_SYMBOL } from '@/sdk';
 
 import { COIN_TYPE } from './coins';
 
-export const DEX_PACKAGE_ID = '0x2a8850755229ca0d939a2f1df3311838053015d4';
+export const DEX_PACKAGE_ID = '0x4abf249feb6d6f7262b0dbbe61ae03e67a63193a';
 
 export const VOLATILE_POOLS_OBJECT_ID =
-  '0x250d9b6853184d963305345001f85bd280c39409';
+  '0x8dc36a084b6aa80561b151f641aaadb637bc9c83';
 
 export const DEX_BASE_TOKEN_ARRAY = [COIN_TYPE[Network.DEVNET].ETH];
 
 export const DEX_STORAGE_VOLATILE =
-  '0x797e8ff495ff149eaf57cb051b547d041845e830';
+  '0xf950c59befd41bd5d7b455fac242e6aba451b60f';
 
-export const DEX_STORAGE_STABLE = '0x5071e835d741ab2be0efeac58719fcb1b58b9b22';
+export const DEX_STORAGE_STABLE = '0x91e2506c05fc0c0294aad40c3b3cf73f008f107e';
 
 export const DEX_TOKENS_DATA = [
   {
@@ -58,5 +58,11 @@ export const DEX_TOKENS_DATA = [
     decimals: 0,
     type: COIN_TYPE[Network.DEVNET].USDC,
     name: 'USD Coin',
+  },
+  {
+    symbol: TOKEN_SYMBOL.IPX,
+    decimals: 9,
+    type: COIN_TYPE[Network.DEVNET].IPX,
+    name: 'Interest Protocol Coin',
   },
 ];
