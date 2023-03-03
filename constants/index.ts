@@ -36,5 +36,5 @@ export const EXPLORER_MAP = {
 export const ORACLE_SVG_MAP: Record<SyntheticOracleType, FC<SVGProps>> = {
   [SyntheticOracleType.ChainLink]: ChainLinkSVG,
   [SyntheticOracleType.RedStoneConsumer]: RedStoneSVG,
-  [SyntheticOracleType.RedStonePriceAware]: RedStoneSVG,
+  [SyntheticOracleType.RedstoneCustomUrl]: RedStoneSVG,
 };

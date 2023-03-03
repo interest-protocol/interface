@@ -1,6 +1,5 @@
 import { WrapperBuilder } from '@redstone-finance/evm-connector';
 import { ethers } from 'ethers';
-import { WrapperBuilder as OldWrapperBuilder } from 'redstone-evm-connector';
 import { useQuery } from 'wagmi';
 
 import { DEFAULT_ACCOUNT } from '@/constants';
@@ -71,21 +70,27 @@ export const useGetSyntheticMarketsSummary = (
   );
 };
 
-export const useGetTokenUSDPrice = ({
+export const useGetCustomURLTokenUSDPrice = ({
   chainId,
   account,
   marketAddress,
   dataFeedId,
 }: UseGetTokenUsdPriceArgs) => {
-  const contract = OldWrapperBuilder.wrapLite(
+  const callData = SYNTHETICS_CALL_MAP[chainId] || [];
+  const contract = WrapperBuilder.wrap(
     new ethers.Contract(
       marketAddress,
       GetTokenUsdPriceABI,
       getStaticWeb3Provider(chainId)
     ).connect(account || DEFAULT_ACCOUNT)
-  ).usingPriceFeed('redstone-custom-urls-demo', {
-    asset: dataFeedId,
-  }) as GetTokenUsdPriceAbi;
+  ).usingDataService(
+    {
+      dataServiceId: callData.redStoneCustomUrlWrapper.dataServiceId!,
+      uniqueSignersCount: callData.redStoneCustomUrlWrapper.uniqueSignersCount!,
+      dataFeeds: callData.redStoneCustomUrlWrapper.dataFeeds,
+    },
+    [callData.redStoneCustomUrlWrapper.url!]
+  ) as GetTokenUsdPriceAbi;
 
   const queryFn = () => contract.getTokenUSDPrice();
 
