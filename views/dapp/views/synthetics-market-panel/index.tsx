@@ -44,7 +44,7 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelProps> = ({
 
   if (
     oracleType === SyntheticOracleType.RedStoneConsumer ||
-    oracleType === SyntheticOracleType.RedStonePriceAware
+    oracleType === SyntheticOracleType.RedstoneCustomUrl
   )
     return (
       <SyntheticsMarketPanelRedStone
