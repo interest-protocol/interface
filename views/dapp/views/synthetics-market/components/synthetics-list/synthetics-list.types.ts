@@ -16,7 +16,7 @@ export interface SyntheticsListCardProps {
   data: ISyntheticMarketSummary;
 }
 
-export interface PriceAwareProps {
+export interface CustomUrlProps {
   market: ISyntheticMarketSummary;
   collateralSymbol: string;
 }

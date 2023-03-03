@@ -23,13 +23,13 @@ import {
   isSameAddress,
 } from '@/utils';
 
-import PriceAware from './price-aware';
+import CustomUrl from './custom-url';
 import { SyntheticsListCardProps } from './synthetics-list.types';
 
 const ORACLE_NAME = {
   [SyntheticOracleType.ChainLink]: 'ChainLink',
   [SyntheticOracleType.RedStoneConsumer]: 'RedStone',
-  [SyntheticOracleType.RedStonePriceAware]: 'RedStone',
+  [SyntheticOracleType.RedstoneCustomUrl]: 'RedStone',
 };
 
 const SyntheticsListCard: FC<SyntheticsListCardProps> = ({ chainId, data }) => {
@@ -104,11 +104,8 @@ const SyntheticsListCard: FC<SyntheticsListCardProps> = ({ chainId, data }) => {
           fontWeight="600"
           variant="normal"
         >
-          {SyntheticOracleType.RedStonePriceAware == data.oracleType ? (
-            <PriceAware
-              market={data}
-              collateralSymbol={collateralData.symbol}
-            />
+          {SyntheticOracleType.RedstoneCustomUrl == data.oracleType ? (
+            <CustomUrl market={data} collateralSymbol={collateralData.symbol} />
           ) : collateralIsEthers ? (
             `${formatMoney(FixedPointMath.toNumber(data.syntheticUSDPrice))} ${
               collateralData.symbol
