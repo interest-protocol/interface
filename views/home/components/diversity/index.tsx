@@ -33,7 +33,7 @@ const Diversity: FC = () => {
       <Box
         display="flex"
         flexDirection="column"
-        pl={['1.25rem', '1.25rem', '3.75rem', '3.75rem']}
+        pl={['unset', 'unset', '3.75rem', '3.75rem']}
         pt={['1.875rem', '1.875rem', '1.875rem', '5rem']}
         width={['100%', '100%', '41.625rem', '41.625rem']}
         pb={['1.875rem', '1.875rem', '1.875rem', '6.063rem']}
@@ -72,9 +72,9 @@ const Diversity: FC = () => {
         >
           {t('landingPage.diversity.description')}
         </Typography>
-        <Box mt="M">
+        <Box mt="M" display="flex" width="100%">
           <Button
-            width="10rem"
+            width={['100%', '100%', '10rem', '10rem']}
             effect="hover"
             variant="primary"
             onClick={() => push(Routes[RoutesEnum.DEX])}
@@ -90,7 +90,7 @@ const Diversity: FC = () => {
           </Button>
           <Button
             ml="L"
-            width="10rem"
+            width={['100%', '100%', '10rem', '10rem']}
             effect="hover"
             variant="tertiary"
             onClick={() => push(Routes[RoutesEnum.SyntheticsMarket])}
