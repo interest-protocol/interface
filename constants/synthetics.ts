@@ -42,7 +42,7 @@ const SYNTHETIC_MARKETS = {
       '0xf3EF86417a8170ad92B2F9A89631141D046B433C'
     ),
     iBAYC: ethers.utils.getAddress(
-      '0x4701aCa58DFDC7714fe6e6aC0a4a936F4E7d2FFd'
+      '0x8609CBC5e01976b3cF05c3D82E6E105B921Be903'
     ),
   },
   [CHAIN_ID.BNB_MAIN_NET]: {},
@@ -52,7 +52,7 @@ const SYNTHETIC_MARKETS = {
 export enum SyntheticOracleType {
   ChainLink,
   RedStoneConsumer,
-  RedStonePriceAware,
+  RedstoneCustomUrl,
 }
 
 export const REDSTONE_CORE_CONSUMER_DATA = {
@@ -73,12 +73,30 @@ export const REDSTONE_CORE_CONSUMER_DATA = {
   },
 };
 
+export const REDSTONE_CORE_CUSTOM_URL_CONSUMER_DATA = {
+  [CHAIN_ID.BNB_TEST_NET]: {
+    dataServiceId: 'redstone-custom-urls-demo',
+    uniqueSignersCount: 2,
+    url: 'https://d1zm8lxy9v2ddd.cloudfront.net',
+  },
+  [CHAIN_ID.BNB_MAIN_NET]: {
+    dataServiceId: 'redstone-custom-urls-demo',
+    uniqueSignersCount: 2,
+    url: 'https://d1zm8lxy9v2ddd.cloudfront.net',
+  },
+  [CHAIN_ID.UNSUPPORTED]: {
+    dataServiceId: 'redstone-custom-urls-demo',
+    uniqueSignersCount: 2,
+    url: 'https://d1zm8lxy9v2ddd.cloudfront.net',
+  },
+};
+
 export const SYNTHETICS_MARKET_PANEL_CALL_MAP = {
   [CHAIN_ID.BNB_MAIN_NET]: {},
   [CHAIN_ID.BNB_TEST_NET]: {
     [SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iBAYC!]: {
       dataFeedId: '0x60cbe6b18347697f',
-      oracleType: SyntheticOracleType.RedStonePriceAware,
+      oracleType: SyntheticOracleType.RedstoneCustomUrl,
       collateralAddress: getETHERC20Address(CHAIN_ID.BNB_TEST_NET),
     },
     [SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iTSLA!]: {
@@ -139,7 +157,7 @@ export const SYNTHETICS_CALL_MAP = {
       SYNTHETIC_MARKETS[CHAIN_ID.BNB_TEST_NET].iBRL!,
     ],
     marketTypes: [
-      SyntheticOracleType.RedStonePriceAware,
+      SyntheticOracleType.RedstoneCustomUrl,
       SyntheticOracleType.RedStoneConsumer,
       SyntheticOracleType.RedStoneConsumer,
       SyntheticOracleType.ChainLink,
@@ -159,18 +177,26 @@ export const SYNTHETICS_CALL_MAP = {
       dataFeeds: ['TSLA', 'AAPL'],
       url: 'https://d33trozg86ya9x.cloudfront.net',
     },
+    redStoneCustomUrlWrapper: {
+      dataServiceId: 'redstone-custom-urls-demo',
+      uniqueSignersCount: 2,
+      dataFeeds: ['0x60cbe6b18347697f'],
+      url: 'https://d1zm8lxy9v2ddd.cloudfront.net',
+    },
   },
   [CHAIN_ID.BNB_MAIN_NET]: {
     markets: [],
     marketTypes: [],
     redStoneSymbols: [],
     redStoneWrapper: {},
+    redStoneCustomUrlWrapper: {},
   },
   [CHAIN_ID.UNSUPPORTED]: {
     markets: [],
     marketTypes: [],
     redStoneSymbols: [],
     redStoneWrapper: {},
+    redStoneCustomUrlWrapper: {},
   },
 };
 
@@ -182,7 +208,7 @@ export const SYNTHETICS_RESPONSE_MAP = {
       symbol: TOKEN_SYMBOL.iBAYC,
       name: 'Interest Bored Ape Yatch Club',
       collateralDecimals: 18,
-      oracleType: SyntheticOracleType.RedStonePriceAware,
+      oracleType: SyntheticOracleType.RedstoneCustomUrl,
       redStonePriceIndex: 0,
       collateralAddress: getETHERC20Address(CHAIN_ID.BNB_TEST_NET),
       dataFeedId: '0x60cbe6b18347697f',
@@ -402,7 +428,7 @@ export const SYNTHETIC_PANEL_RESPONSE_MAP = {
       collateralName: 'Ether',
       collateralSymbol: TOKEN_SYMBOL.ETH,
       dataFeedId: '0x60cbe6b18347697f',
-      oracleType: SyntheticOracleType.RedStonePriceAware,
+      oracleType: SyntheticOracleType.RedstoneCustomUrl,
     },
     [getBSCTestNetSyntheticsMarkets().iAPPL!]: {
       syntSymbol: TOKEN_SYMBOL.iAAPL,

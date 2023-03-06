@@ -6,11 +6,11 @@ import Box from '@/elements/box';
 import { FixedPointMath, ZERO_BIG_NUMBER } from '@/sdk';
 import { capitalize, formatMoney } from '@/utils';
 
-import { useGetTokenUSDPrice } from '../../synthetics-market.hooks';
-import { PriceAwareProps } from './synthetics-list.types';
+import { useGetCustomURLTokenUSDPrice } from '../../synthetics-market.hooks';
+import { CustomUrlProps } from './synthetics-list.types';
 
-const PriceAware: FC<PriceAwareProps> = ({ market, collateralSymbol }) => {
-  const { isLoading, data, error } = useGetTokenUSDPrice({
+const CustomUrl: FC<CustomUrlProps> = ({ market, collateralSymbol }) => {
+  const { isLoading, data, error } = useGetCustomURLTokenUSDPrice({
     chainId: market.chainId,
     account: '',
     marketAddress: market.marketAddress,
@@ -37,4 +37,4 @@ const PriceAware: FC<PriceAwareProps> = ({ market, collateralSymbol }) => {
   );
 };
 
-export default PriceAware;
+export default CustomUrl;
