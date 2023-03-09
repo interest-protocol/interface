@@ -1,8 +1,7 @@
-import { Network } from '@mysten/sui.js';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
-import { FAUCET_TOKENS } from '@/constants';
+import { FAUCET_TOKENS, Network } from '@/constants';
 import { Box, Typography } from '@/elements';
 
 import { WalletGuardButton } from '../../components';
