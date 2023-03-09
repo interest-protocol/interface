@@ -47,7 +47,8 @@ const MintButton: FC<MintButtonProps> = ({ getValues }) => {
 
       if (type === COIN_TYPE[Network.DEVNET].SUI) {
         if (!account) throw new Error(t('error.accountNotFound'));
-        return await mystenLabsProvider.requestSuiFromFaucet(account);
+        await mystenLabsProvider.requestSuiFromFaucet(account);
+        return;
       }
 
       const tx = await signAndExecuteTransaction({
@@ -62,10 +63,10 @@ const MintButton: FC<MintButtonProps> = ({ getValues }) => {
         },
       });
       await showTXSuccessToast(tx);
+      incrementTX(account ?? '');
     } finally {
       setLoading(false);
       await mutate();
-      incrementTX(account || '');
     }
   }, []);
 
