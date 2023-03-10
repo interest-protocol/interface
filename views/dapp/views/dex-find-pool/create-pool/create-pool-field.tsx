@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { ChangeEvent, FC, useCallback, useMemo } from 'react';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Button, Input, Typography } from '@/elements';
 import { useApprove, useIdAccount } from '@/hooks';
@@ -34,21 +36,24 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   refetch,
 }) => {
   const t = useTranslations();
+  const { address } = useAccount();
   const { chainId } = useIdAccount();
-  const { address, symbol, decimals } = getValues()[name];
+  const token = getValues()[name];
   const {
     useContractWriteReturn: { writeAsync: addAllowance },
-  } = useApprove(address, getInterestDexRouterAddress(chainId), {
+  } = useApprove(token.address, getInterestDexRouterAddress(chainId), {
     enabled: needAllowance,
   });
 
   const SVG =
-    TOKENS_SVG_MAP[chainId][address] ?? TOKENS_SVG_MAP[chainId].default;
+    TOKENS_SVG_MAP[chainId][token.address] ?? TOKENS_SVG_MAP[chainId].default;
 
   const approve = useCallback(async () => {
     try {
       const tx = await addAllowance?.();
       await showTXSuccessToast(tx, chainId);
+      incrementTX(address ?? '');
+
       if (tx) await tx.wait(2);
       logTransactionEvent({
         status: GAStatus.Success,
@@ -76,8 +81,8 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
     });
 
   const isDisabled = useMemo(
-    () => !address || needAllowance,
-    [address, needAllowance]
+    () => !token.address || needAllowance,
+    [token.address, needAllowance]
   );
 
   return (
@@ -87,7 +92,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
       bg="background"
       borderRadius="1.1rem"
       border="0.02rem solid"
-      opacity={address ? 1 : 0.7}
+      opacity={token.address ? 1 : 0.7}
       borderColor="bottomBackground"
       hover={{
         borderColor: 'textSoft',
@@ -106,7 +111,7 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
               `${name}.value`,
               parseInputEventToNumberString(
                 v,
-                FixedPointMath.toNumber(tokenBalance, decimals)
+                FixedPointMath.toNumber(tokenBalance, token.decimals)
               )
             );
           },
@@ -135,9 +140,9 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
                   <SVG width="100%" maxHeight="1rem" maxWidth="1rem" />
                 </Box>
                 <Typography mx="M" as="span" variant="normal">
-                  {symbol.length > 4
-                    ? symbol.toUpperCase().slice(0, 4)
-                    : symbol.toUpperCase()}
+                  {token.symbol.length > 4
+                    ? token.symbol.toUpperCase().slice(0, 4)
+                    : token.symbol.toUpperCase()}
                 </Typography>
               </>
             </Box>
@@ -164,12 +169,12 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
             onClick={() =>
               setValue?.(
                 `${name}.value`,
-                FixedPointMath.toNumber(tokenBalance, decimals).toString()
+                FixedPointMath.toNumber(tokenBalance, token.decimals).toString()
               )
             }
             height="2.4rem"
             variant="secondary"
-            disabled={!address}
+            disabled={!token.address}
           >
             max
           </Button>
@@ -182,7 +187,10 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
           textTransform="capitalize"
         >
           {t('common.balance')}:{' '}
-          {formatMoney(FixedPointMath.toNumber(tokenBalance, decimals), 2)}
+          {formatMoney(
+            FixedPointMath.toNumber(tokenBalance, token.decimals),
+            2
+          )}
         </Typography>
       </Box>
     </Box>
