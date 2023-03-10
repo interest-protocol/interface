@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useState } from 'react';
 
+import { incrementTX } from '@/api/analytics';
 import {
   FARMS_PACKAGE_ID,
   IPX_ACCOUNT_STORAGE,
@@ -36,7 +37,7 @@ const ModalButton: FC<ModalButtonProps> = ({
   const t = useTranslations();
   const [loading, setLoading] = useState<boolean>(false);
   const { signAndExecuteTransaction } = useWalletKit();
-  const { coinsMap } = useWeb3();
+  const { coinsMap, account } = useWeb3();
 
   const handleWithdrawTokens = async () => {
     try {
@@ -46,7 +47,7 @@ const ModalButton: FC<ModalButtonProps> = ({
         !+value ||
         farm.accountBalance.lt(+value)
       ) {
-        throw new Error('Cannot withdraw 0 tokens');
+        throw new Error(t('farmsDetails.errors.noTokens'));
       }
       setLoading(true);
 
@@ -71,7 +72,8 @@ const ModalButton: FC<ModalButtonProps> = ({
         },
       });
       await showTXSuccessToast(tx);
-      await sleep(2000);
+      incrementTX(account ?? '');
+      await sleep(3000);
       await Promise.all([
         mutateFarms((data) =>
           data
@@ -137,7 +139,8 @@ const ModalButton: FC<ModalButtonProps> = ({
         },
       });
       await showTXSuccessToast(tx);
-      await sleep(2000);
+      incrementTX(account ?? '');
+      await sleep(3000);
       await Promise.all([
         mutateFarms((data) =>
           data
@@ -165,9 +168,7 @@ const ModalButton: FC<ModalButtonProps> = ({
       success: capitalize(t('common.success')),
     });
 
-  const onSubmit = async () => {
-    isStake ? await handleStake() : await handleUnstake();
-  };
+  const onSubmit = async () => await (isStake ? handleStake : handleUnstake)();
 
   return (
     <Button

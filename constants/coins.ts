@@ -1,6 +1,6 @@
-import { Network } from '@mysten/sui.js';
-
 import { TOKEN_SYMBOL } from '@/sdk';
+
+import { Network } from './network';
 
 export const COINS_PACKAGE_ID = '0x8f65e0e3d27ca57e7d66bc76832c366e49f043a2';
 
