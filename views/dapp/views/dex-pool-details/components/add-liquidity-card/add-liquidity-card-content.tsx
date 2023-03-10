@@ -4,7 +4,9 @@ import { identity, o, prop } from 'ramda';
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LineLoaderSVG } from '@/svg';
@@ -52,6 +54,8 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
   setLoading,
   loading,
 }) => {
+  const { address } = useAccount();
+
   const {
     useContractWriteReturn: { writeAsync: approveToken0 },
   } = useApprove(tokens[0].address, getInterestDexRouterAddress(chainId), {
@@ -79,6 +83,8 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
         : await approveToken1?.();
 
       await showTXSuccessToast(tx, chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

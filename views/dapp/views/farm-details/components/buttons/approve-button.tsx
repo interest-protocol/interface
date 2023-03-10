@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { Typography } from '@/elements';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
@@ -24,6 +26,7 @@ import {
 import { ApproveButtonProps } from './buttons.types';
 
 const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
+  const { address } = useAccount();
   const {
     useContractWriteReturn: { writeAsync: _approve },
   } = useApprove(
@@ -40,6 +43,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({ farm, refetch }) => {
       setLoadingPool(true);
       const tx = await _approve?.();
       await showTXSuccessToast(tx, farm.chainId);
+      incrementTX(address ?? '');
 
       if (tx) await tx.wait(2);
       logTransactionEvent({

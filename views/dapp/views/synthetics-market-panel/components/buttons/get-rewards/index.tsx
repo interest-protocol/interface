@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
 import { LoadingSVG } from '@/svg';
@@ -23,6 +25,7 @@ import { GetRewardsProps } from './get-rewards.types';
 
 const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
   const t = useTranslations();
+  const { address } = useAccount();
   const [loading, setLoading] = useState(false);
 
   const {
@@ -40,6 +43,8 @@ const GetRewards: FC<GetRewardsProps> = ({ market, refetch }) => {
 
       await refetch();
       await showTXSuccessToast(tx, market.chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

@@ -5,8 +5,9 @@ import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useSigner } from 'wagmi';
+import { useAccount, useSigner } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { ApproveButton } from '@/components';
 import {
   REDSTONE_CORE_CONSUMER_DATA,
@@ -44,6 +45,7 @@ import { makeRedStoneMintCall } from './buttons.utils';
 
 const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
   const t = useTranslations();
+  const { address } = useAccount();
   const [loading, setLoading] = useState(false);
 
   const mintSynt = useWatch({ control: form.control, name: 'mint.synt' });
@@ -158,6 +160,8 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
       await refetch();
 
       await showTXSuccessToast(tx, data.chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

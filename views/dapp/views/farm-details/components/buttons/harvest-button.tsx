@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useState } from 'react';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import Button from '@/elements/button';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
 import {
@@ -16,6 +18,7 @@ import { HarvestButtonProps } from './buttons.types';
 
 const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
   const t = useTranslations();
+  const { address } = useAccount();
   const [loadingPool, setLoadingPool] = useState<boolean>(false);
 
   const {
@@ -33,6 +36,8 @@ const HarvestButton: FC<HarvestButtonProps> = ({ farm, refetch }) => {
       await refetch();
 
       await showTXSuccessToast(tx, farm.chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

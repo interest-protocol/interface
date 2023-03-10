@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -32,7 +34,7 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const t = useTranslations();
-
+  const { address } = useAccount();
   const {
     useContractWriteReturn: { writeAsync: createToken },
   } = useCreateToken(chainId, control);
@@ -45,6 +47,8 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
       const tx = await createToken?.();
 
       await showTXSuccessToast(tx, chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

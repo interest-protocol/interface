@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { propOr } from 'ramda';
 import { FC, useCallback, useState } from 'react';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
@@ -28,6 +30,7 @@ const ModalButton: FC<ModalButtonProps> = ({
     useContractWriteReturn: { writeAsync: action },
   } = useAction(farm, control, modal);
   const t = useTranslations();
+  const { address } = useAccount();
   const inputValue = getValues('value') == '' ? '0' : getValues('value');
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -42,6 +45,8 @@ const ModalButton: FC<ModalButtonProps> = ({
       if (tx) tx.wait(2);
 
       await showTXSuccessToast(tx, farm.chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,
@@ -77,6 +82,8 @@ const ModalButton: FC<ModalButtonProps> = ({
     try {
       const tx = await action?.();
       await showTXSuccessToast(tx, farm.chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,
