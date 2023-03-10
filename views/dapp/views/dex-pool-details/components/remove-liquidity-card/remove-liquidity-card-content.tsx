@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { Box, Button } from '@/elements';
 import { useApprove } from '@/hooks';
 import {
@@ -40,6 +42,8 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
   control,
 }) => {
   const t = useTranslations();
+  const { address } = useAccount();
+
   const {
     useContractWriteReturn: { writeAsync: approve },
   } = useApprove(pairAddress, getInterestDexRouterAddress(chainId));
@@ -62,6 +66,8 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
       const tx = await approve?.();
 
       await showTXSuccessToast(tx, chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,
@@ -96,6 +102,8 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
       const tx = await removeLiquidity?.();
 
       await showTXSuccessToast(tx, chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

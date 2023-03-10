@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { FC, useCallback, useState } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
@@ -77,6 +79,8 @@ const SwapButton: FC<SwapButtonProps> = ({
   setValue,
 }) => {
   const t = useTranslations();
+  const { address } = useAccount();
+
   const [buttonLoadingText, setButtonLoadingText] =
     useState<string | null>(null);
 
@@ -137,6 +141,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       const tx = await approve?.();
 
       await showTXSuccessToast(tx, chainId);
+      incrementTX(address ?? '');
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,
@@ -174,6 +179,7 @@ const SwapButton: FC<SwapButtonProps> = ({
       if (tx) await tx.wait(1);
       await refetch();
       await showTXSuccessToast(tx, chainId);
+      incrementTX(address ?? '');
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,
@@ -224,6 +230,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
       if (tx) await tx.wait(1);
       await showTXSuccessToast(tx, chainId);
+      incrementTX(address ?? '');
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,
@@ -278,6 +285,8 @@ const SwapButton: FC<SwapButtonProps> = ({
 
       if (tx) await tx.wait(1);
       await showTXSuccessToast(tx, chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

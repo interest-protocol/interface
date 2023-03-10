@@ -3,7 +3,9 @@ import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { Box, Button, Typography } from '@/elements';
 import { Address } from '@/interface';
 import { LoadingSVG } from '@/svg';
@@ -27,6 +29,7 @@ import { BurnButtonProps } from './buttons.types';
 
 const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
   const t = useTranslations();
+  const { address } = useAccount();
   const [loading, setLoading] = useState(false);
 
   const burnSynt = useWatch({ control: form.control, name: 'burn.synt' });
@@ -48,6 +51,8 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
       await tx?.wait(2);
 
       await showTXSuccessToast(tx, data.chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

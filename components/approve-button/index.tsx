@@ -1,6 +1,8 @@
 import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { Box, Button, Typography } from '@/elements';
 import { useApprove } from '@/hooks';
 import { LoadingSVG } from '@/svg';
@@ -19,6 +21,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
   pageName,
 }) => {
   const t = useTranslations();
+  const { address } = useAccount();
 
   const [loading, setLoading] = useState(false);
   const {
@@ -33,6 +36,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({
 
       await refetch();
       await showTXSuccessToast(tx, chainId);
+      incrementTX(address ?? '');
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

@@ -5,8 +5,9 @@ import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useSigner } from 'wagmi';
+import { useAccount, useSigner } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import {
   REDSTONE_CORE_CONSUMER_DATA,
   REDSTONE_CORE_CUSTOM_URL_CONSUMER_DATA,
@@ -38,6 +39,7 @@ import { makeRedStoneBurnCall } from './buttons.utils';
 
 const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
   const t = useTranslations();
+  const { address } = useAccount();
   const [loading, setLoading] = useState(false);
 
   const burnSynt = useWatch({ control: form.control, name: 'burn.synt' });
@@ -96,6 +98,8 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
       await tx?.wait(2);
 
       await showTXSuccessToast(tx, data.chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,
