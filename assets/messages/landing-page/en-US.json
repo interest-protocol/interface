@@ -46,9 +46,8 @@
     "subscribeErrors": {
       "1008": "contact already added"
     },
-    "integrations": {
-      "title": "Integrations",
-      "poweredBy": "Powered By"
+    "partners": {
+      "title": "Partners"
     },
     "diversity": {
       "title": "Diversify your crypto portfolio with RWA",
