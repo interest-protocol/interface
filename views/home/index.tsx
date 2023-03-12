@@ -10,7 +10,7 @@ import {
   Diversity,
   Earn,
   Hero,
-  Integrations,
+  Partners,
   Subscribe,
   Team,
   WhyUs,
@@ -41,7 +41,7 @@ const Home: FC = () => (
     <Automate />
     <Team />
     <Advisors />
-    <Integrations />
+    <Partners />
     <Subscribe />
   </>
 );
