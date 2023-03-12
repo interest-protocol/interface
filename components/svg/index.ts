@@ -41,6 +41,7 @@ export { default as GithubSVG } from './github';
 export { default as HorizontalDotsSVG } from './horizontal-dots';
 export { default as InfoSVG } from './info';
 export { default as InfoLightSVG } from './info-light';
+export { default as InstagramSVG } from './instagram';
 export { default as InterestTokenSVG } from './interest-token';
 export { default as LineLoaderSVG } from './line-loader';
 export { default as LinkSVG } from './link';
