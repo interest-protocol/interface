@@ -27,7 +27,7 @@ export const SOCIAL_MEDIAS = [
   },
   {
     title: 'Instagram',
-    link: 'https://instagram.com/interest.protocol?igshid=YmMyMTA2M2Y=',
+    link: 'https://instagram.com/interest.protocol',
     Logo: InstagramSVG,
   },
   {
