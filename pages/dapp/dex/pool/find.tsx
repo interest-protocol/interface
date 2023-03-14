@@ -26,7 +26,7 @@ const DEXFindPoolPage: NextPage<{ pageTitle: string }> = ({ pageTitle }) => (
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dexPoolPairMessages] = await Promise.all([
     import(`../../../../assets/messages/common/${locale}.json`),
-    import(`../../../../assets/messages/dex/pool/details/${locale}.json`),
+    import(`../../../../assets/messages/dex/pool/find/${locale}.json`),
   ]);
 
   const messages = mergeDeepRight(
