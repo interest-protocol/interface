@@ -115,6 +115,10 @@ const Swap: FC<SwapProps> = ({
             justifyContent="space-evenly"
           >
             <InputBalance
+              max
+              name="tokenIn.value"
+              register={formSwap.register}
+              setValue={formSwap.setValue}
               balance={formatMoney(
                 FixedPointMath.toNumber(
                   pathOr(
@@ -125,18 +129,6 @@ const Swap: FC<SwapProps> = ({
                   pathOr(0, [tokenInType, 'decimals'], coinsMap)
                 )
               )}
-              max={FixedPointMath.toNumber(
-                pathOr(
-                  ZERO_BIG_NUMBER,
-                  [tokenInType, 'totalBalance'],
-                  coinsMap
-                ),
-                pathOr(0, [tokenInType, 'decimals'], coinsMap)
-              ).toString()}
-              name="tokenIn.value"
-              register={formSwap.register}
-              setValue={formSwap.setValue}
-              disabled={false}
               Suffix={
                 <SelectCurrency
                   tokens={coinsMap}
@@ -148,7 +140,6 @@ const Swap: FC<SwapProps> = ({
                 />
               }
               isLarge={true}
-              buttonMaxPosition="right"
             />
             <Box
               zIndex={1}

@@ -18,10 +18,10 @@ const CreatePoolField: FC<CreatePoolFieldProps> = ({
   const { coinsMap } = useWeb3();
 
   const SVG = TOKENS_SVG_MAP[token.type] ?? TOKENS_SVG_MAP.default;
-  const balance =
-    FixedPointMath.from(
-      coinsMap[token.type]?.totalBalance ?? BigNumber(0)
-    ).toNumber() + '';
+  const balance = FixedPointMath.toNumber(
+    coinsMap[token.type]?.totalBalance ?? BigNumber(0),
+    token.decimals
+  ).toString();
 
   return (
     <InputBalance

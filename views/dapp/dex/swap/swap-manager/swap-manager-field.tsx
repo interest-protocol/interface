@@ -96,19 +96,20 @@ const SwapManagerField: FC<SwapManagerProps> = ({
     tokenOutValue,
     isFetchingSwapAmount,
   ]);
-
+  const balance = formatMoney(
+    FixedPointMath.toNumber(
+      pathOr(ZERO_BIG_NUMBER, [tokenOutType, 'totalBalance'], coinsMap),
+      pathOr(0, [tokenOutType, 'decimals'], coinsMap)
+    )
+  );
   return (
     <InputBalance
-      balance={formatMoney(
-        FixedPointMath.toNumber(
-          pathOr(ZERO_BIG_NUMBER, [tokenOutType, 'totalBalance'], coinsMap),
-          pathOr(0, [tokenOutType, 'decimals'], coinsMap)
-        )
-      )}
-      name="tokenOut.value"
+      isLarge
+      disabled
+      balance={balance}
       register={register}
       setValue={setValue}
-      disabled
+      name="tokenOut.value"
       Suffix={
         <SwapSelectCurrency
           tokens={coinsMap}
@@ -119,8 +120,6 @@ const SwapManagerField: FC<SwapManagerProps> = ({
           searchTokenModalState={searchTokenModalState}
         />
       }
-      isLarge={true}
-      buttonMaxPosition="right"
     />
   );
 };
