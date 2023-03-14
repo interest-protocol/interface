@@ -9,7 +9,7 @@ import InputBalance from '@/elements/input-balance';
 import { FixedPointMath } from '@/sdk';
 import { formatMoney, makeSWRKey, provider, ZERO_BIG_NUMBER } from '@/utils';
 
-import SwapSelectCurrency from '../../components/swap-select-currency';
+import SwapSelectCurrency from '../../../components/select-currency';
 import { SwapManagerProps } from '../swap.types';
 import { findSwapAmountOutput, getSwapPayload } from '../swap.utils';
 
@@ -25,16 +25,12 @@ const SwapManagerField: FC<SwapManagerProps> = ({
   tokenOutType,
   onSelectCurrency,
   volatilePoolsMap,
-  isTokenOutOpenModal,
-  setTokenOutIsOpenModal,
   setIsFetchingSwapAmount,
   setIsZeroSwapAmount,
   isFetchingSwapAmount,
   tokenIn,
   hasNoMarket,
   setError,
-  searchingState,
-  formSearch,
   searchTokenModalState,
 }) => {
   const tokenOutValue = useWatch({ control, name: 'tokenOut.value' });
@@ -117,13 +113,9 @@ const SwapManagerField: FC<SwapManagerProps> = ({
         <SwapSelectCurrency
           tokens={coinsMap}
           currentToken={tokenOutType}
-          isModalOpen={isTokenOutOpenModal}
           type={getValues('tokenOut.type')}
           onSelectCurrency={onSelectCurrency}
           symbol={getValues('tokenOut.symbol')}
-          setIsModalOpen={setTokenOutIsOpenModal}
-          searchingState={searchingState}
-          formSearch={formSearch}
           searchTokenModalState={searchTokenModalState}
         />
       }
