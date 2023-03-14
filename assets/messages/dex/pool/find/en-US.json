@@ -16,6 +16,8 @@
       "title": "Recommendation",
       "description": "We recommend making a {type} market for {symbol0} and {symbol1}.",
       "submit": "Create Anyway"
-    }
+    },
+    "switchOption1": "Recommended",
+    "switchOption2": "Added By Me"
   }
 }
