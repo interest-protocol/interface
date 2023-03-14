@@ -15,10 +15,10 @@ const TOKEN_NAMES = ['tokenA', 'tokenB'] as ReadonlyArray<
 
 const CreatePool: FC<CreatePoolProps> = ({
   control,
+  refetch,
   register,
   setValue,
   getValues,
-  refetch,
 }) => {
   const t = useTranslations();
 

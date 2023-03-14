@@ -5,6 +5,7 @@ import { FC, useState } from 'react';
 
 import { Routes, RoutesEnum } from '@/constants';
 import { Box, Button } from '@/elements';
+import { useModal } from '@/hooks/use-modal';
 import { capitalize, showToast } from '@/utils';
 import { WalletGuardButton } from '@/views/dapp/components';
 
@@ -23,7 +24,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
   const t = useTranslations();
   const { push } = useRouter();
   const [loading, setLoading] = useState(false);
-  const [createPoolPopup, setCreatePoolPopup] = useState(false);
+  const { setModal, handleClose } = useModal();
 
   const enterPool = async () => {
     setLoading(true);
@@ -60,6 +61,18 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       error: prop('message'),
     });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const openModal = () =>
+    setModal(
+      <CreatePoolPopup
+        isStable={isStable}
+        onCancel={handleClose}
+        onContinue={handleCreatePair}
+        symbol0={getValues('tokenA.symbol')}
+        symbol1={getValues('tokenB.symbol')}
+      />
+    );
+
   return (
     <Box
       p="L"
@@ -92,14 +105,6 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
           </Button>
         )}
       </WalletGuardButton>
-      <CreatePoolPopup
-        isStable={isStable}
-        isOpen={createPoolPopup}
-        symbol0={getValues('tokenA.symbol')}
-        symbol1={getValues('tokenB.symbol')}
-        onCancel={() => setCreatePoolPopup(false)}
-        onContinue={handleCreatePair}
-      />
     </Box>
   );
 };
