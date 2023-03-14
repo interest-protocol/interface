@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import { useTranslations } from 'next-intl';
 import { FC, ReactNode, useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
@@ -92,8 +93,7 @@ const CurrencyDropdown: FC<CurrencyDropdownProps> = ({
     () =>
       DEX_TOKENS_DATA.map((item) => ({
         ...item,
-        totalBalance:
-          tokens[item.type]?.totalBalance ?? FixedPointMath.toBigNumber(0),
+        totalBalance: tokens[item.type]?.totalBalance ?? BigNumber(0),
       })),
     [tokens]
   );

@@ -7,7 +7,7 @@ import { InfoSVG } from '@/svg';
 
 import { CreatePoolProps, DexFindPoolForm } from '../dex-find-pool.types';
 import CreatePoolField from './create-pool-field';
-import Price from './price';
+import Price from './create-pool-price';
 
 const TOKEN_NAMES = ['tokenA', 'tokenB'] as ReadonlyArray<
   keyof Omit<DexFindPoolForm, 'isStable'>

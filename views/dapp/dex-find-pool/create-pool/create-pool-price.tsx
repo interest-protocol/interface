@@ -8,7 +8,7 @@ import { PriceProps } from '../dex-find-pool.types';
 
 const toNumber = (x: string) => (isNaN(+x) ? 0 : x ? +x : 0);
 
-const Price: FC<PriceProps> = ({ control }) => {
+const CreatePoolPrice: FC<PriceProps> = ({ control }) => {
   const tokenA = useWatch({ control, name: 'tokenA' });
   const tokenB = useWatch({ control, name: 'tokenB' });
 
@@ -25,4 +25,4 @@ const Price: FC<PriceProps> = ({ control }) => {
   );
 };
 
-export default Price;
+export default CreatePoolPrice;

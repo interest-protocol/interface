@@ -19,7 +19,6 @@ const InputBalance: FC<InputBalanceProps> = ({
   register,
   setValue,
   customFunction,
-  buttonMaxPosition,
 }) => {
   const t = useTranslations();
   const { dark } = useTheme() as { dark: boolean };
@@ -75,14 +74,15 @@ const InputBalance: FC<InputBalanceProps> = ({
         }}
         Prefix={Prefix}
         Bottom={
-          <MaxButton
-            max={max}
-            name={name}
-            disabled={disabled}
-            setValue={setValue}
-            customFunction={customFunction}
-            left={buttonMaxPosition == 'left'}
-          />
+          max && (
+            <MaxButton
+              name={name}
+              max={balance}
+              disabled={disabled}
+              setValue={setValue}
+              customFunction={customFunction}
+            />
+          )
         }
         Suffix={Suffix}
       />
