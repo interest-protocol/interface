@@ -12,6 +12,7 @@ import { capitalize, formatMoney } from '@/utils';
 
 import {
   CurrencyDropdownProps,
+  OnSelectCurrency,
   OnSelectCurrencyData,
   TokenModalMetadata,
 } from './select-currency.types';
@@ -82,6 +83,11 @@ const CurrencyDropdown: FC<CurrencyDropdownProps> = ({
 
   const [debouncedSearch] = useDebounce(search, 800);
 
+  const handleSelectCurrency: OnSelectCurrency = (args) => {
+    onSelectCurrency(args);
+    toggleModal?.();
+  };
+
   const allTokens: ReadonlyArray<TokenModalMetadata> = useMemo(
     () =>
       DEX_TOKENS_DATA.map((item) => ({
@@ -134,7 +140,7 @@ const CurrencyDropdown: FC<CurrencyDropdownProps> = ({
                 {capitalize(t('common.load', { isLoading: 1 }))}
               </Typography>
             ) : filteredTokens.length ? (
-              renderData(filteredTokens, onSelectCurrency, currentToken)
+              renderData(filteredTokens, handleSelectCurrency, currentToken)
             ) : (
               <Typography variant="normal" color="text">
                 {capitalize(t('common.notFound'))}
@@ -149,7 +155,7 @@ const CurrencyDropdown: FC<CurrencyDropdownProps> = ({
             gridGap="0.3rem"
             maxHeight="20rem"
           >
-            {renderData(allTokens, onSelectCurrency, currentToken)}
+            {renderData(allTokens, handleSelectCurrency, currentToken)}
           </Box>
         )}
       </Box>

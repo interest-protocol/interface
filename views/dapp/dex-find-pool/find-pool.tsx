@@ -84,7 +84,7 @@ const FindPool: FC<FindPoolProps> = ({
           searchTokenModalState={null}
           type={getValues('tokenB.type')}
           symbol={getValues('tokenB.symbol')}
-          onSelectCurrency={onSelectCurrency('tokenA')}
+          onSelectCurrency={onSelectCurrency('tokenB')}
         />
       </Box>
     </Box>

@@ -36,12 +36,12 @@ const SelectCurrency: FC<SelectCurrencyProps> = ({
     setModal(
       <TokensModal
         tokens={tokens}
+        control={control}
         fromRight={fromRight}
+        isSearching={loading}
         toggleModal={handleClose}
         currentToken={currentToken}
-        control={control}
         onSelectCurrency={onSelectCurrency}
-        isSearching={loading}
         setIsSearching={setIsLoading}
         searchTokenModalState={searchTokenModalState}
         Input={<SearchToken isSearching={loading} register={register} />}
