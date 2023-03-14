@@ -1,4 +1,3 @@
-import { useTheme } from '@emotion/react';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
@@ -11,7 +10,6 @@ import Pools from './pools';
 const Pool: FC = () => {
   const t = useTranslations();
   const { push } = useRouter();
-  const { dark } = useTheme() as { dark: boolean };
 
   return (
     <>
