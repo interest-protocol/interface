@@ -30,6 +30,9 @@
     "footerCopyrights": "Todos os direitos reservados.",
     "teamTitle": "Conheça a nossa equipa",
     "advisorTitle": "Orientadores",
+    "followUs": "Siga-nos no",
+    "aboutUs": "Sobre nós",
+    "mediaKit": "Kit de mídia",
     "roleCFO": "Co-Fundador & CFO",
     "roleCEO": "Co-Fundador & CEO",
     "developer": "Desenvolvedor",
@@ -46,9 +49,8 @@
     "subscribeErrors": {
       "1008": "contato já foi adicionado"
     },
-    "integrations": {
-      "title": "Integrações",
-      "poweredBy": "Desenvolvido no"
+    "partners": {
+      "title": "Parceiros"
     },
     "diversity": {
       "title": "Diversifica o teu portfolio de cripto com activos do mundo real",
