@@ -2,59 +2,24 @@ import { useTheme } from '@emotion/react';
 import { useTranslations } from 'next-intl';
 import { ChangeEvent, FC } from 'react';
 
-import { Box, Button, Input, Typography } from '@/elements';
+import { Box, Input, Typography } from '@/elements';
 import { parseInputEventToNumberString } from '@/utils';
 
-import { ButtonMaxProps, InputBalanceProps } from './input-balance.types';
-
-const ButtonMax: FC<ButtonMaxProps> = ({
-  max,
-  disabled,
-  setValue,
-  customFunction,
-  name,
-}) => {
-  const { dark } = useTheme() as { dark: boolean };
-
-  return max ? (
-    <Button
-      p="NONE"
-      fontSize="S"
-      width="2.4rem"
-      height="2.4rem"
-      variant="primary"
-      bg="accentActive"
-      disabled={disabled || false}
-      color={dark ? 'text' : 'textInverted'}
-      hover={{ bg: 'accent' }}
-      active={{ bg: 'accentActive' }}
-      onClick={() => {
-        if (disabled || !setValue) return;
-
-        setValue?.(name, max);
-
-        customFunction && customFunction(name);
-      }}
-    >
-      max
-    </Button>
-  ) : (
-    <></>
-  );
-};
+import { InputBalanceProps } from './input-balance.types';
+import MaxButton from './max-button';
 
 const InputBalance: FC<InputBalanceProps> = ({
-  name,
-  balance,
   max,
+  name,
+  Prefix,
+  Suffix,
+  isLarge,
+  balance,
   disabled,
   register,
   setValue,
-  Prefix,
-  Suffix,
-  buttonMaxPosition,
-  isLarge,
   customFunction,
+  buttonMaxPosition,
 }) => {
   const t = useTranslations();
   const { dark } = useTheme() as { dark: boolean };
@@ -65,13 +30,19 @@ const InputBalance: FC<InputBalanceProps> = ({
   };
 
   return (
-    <Box display="flex" flexDirection="column-reverse" alignItems="flex-end">
+    <Box
+      display="flex"
+      position="relative"
+      alignItems="flex-end"
+      flexDirection="column-reverse"
+    >
       <Input
-        max={balance}
         type="text"
+        max={balance}
         onFocus={onFocus}
         placeholder="0.0"
         disabled={disabled || false}
+        fontSize={isLarge ? 'L' : 'M'}
         {...register(name, {
           onChange: (v: ChangeEvent<HTMLInputElement>) => {
             setValue?.(
@@ -84,9 +55,9 @@ const InputBalance: FC<InputBalanceProps> = ({
         shieldProps={{
           p: isLarge ? 'L' : 'S',
           my: 'M',
+          pl: isLarge ? 'XL' : 'M',
           width: '100%',
-          display: 'grid',
-          gridTemplateColumns: '6.9rem 1fr auto',
+          overflow: 'hidden',
           bg: disabled
             ? dark
               ? 'background'
@@ -94,7 +65,6 @@ const InputBalance: FC<InputBalanceProps> = ({
             : dark
             ? 'bottomBackground'
             : 'background',
-          overflow: 'visible',
           border: '1px solid',
           borderRadius: isLarge ? '5rem' : '2rem',
           borderColor: 'transparent',
@@ -103,34 +73,18 @@ const InputBalance: FC<InputBalanceProps> = ({
             borderColor: 'accentActive',
           },
         }}
-        Prefix={
-          <>
-            {buttonMaxPosition == 'left' && (
-              <ButtonMax
-                name={name}
-                disabled={disabled}
-                setValue={setValue}
-                customFunction={customFunction}
-                max={max}
-              />
-            )}
-            {Prefix && Prefix}
-          </>
+        Prefix={Prefix}
+        Bottom={
+          <MaxButton
+            max={max}
+            name={name}
+            disabled={disabled}
+            setValue={setValue}
+            customFunction={customFunction}
+            left={buttonMaxPosition == 'left'}
+          />
         }
-        Suffix={
-          <>
-            {buttonMaxPosition == 'right' && (
-              <ButtonMax
-                name={name}
-                disabled={disabled}
-                setValue={setValue}
-                customFunction={customFunction}
-                max={max}
-              />
-            )}
-            {Suffix && Suffix}
-          </>
-        }
+        Suffix={Suffix}
       />
       <Box
         py="S"
