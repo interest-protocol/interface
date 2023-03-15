@@ -1,81 +1,109 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
-import { v4 } from 'uuid';
 
 import { Container } from '@/components';
-import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
+import { Routes, RoutesEnum } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { LogoSVG } from '@/svg';
-
-import SocialMediaCard from '../../components/social-media-card';
 
 const Footer: FC = () => {
   const t = useTranslations();
   return (
-    <Box as="footer" bg="text" height={['unset', 'unset', 'unset', '3.75rem']}>
-      <Container
-        display="flex"
-        height="100%"
-        alignItems="center"
-        flexDirection={['column', 'column', 'column', 'row']}
-        justifyContent={['center', 'space-between']}
-      >
+    <Box
+      as="footer"
+      bg="text"
+      height={['unset', 'unset', 'unset', 'unset']}
+      pb="M"
+      pt={['L', 'L', 'L', 'unset']}
+    >
+      <Container>
         <Box
           display="flex"
+          height="100%"
           flexDirection={['column', 'column', 'column', 'row']}
-          alignItems="center"
-          justifyContent="center"
-          pt={['2rem', '2rem', '2rem', 'unset']}
+          justifyContent={['center', 'space-between']}
         >
-          <Link href={Routes[RoutesEnum.Home]}>
-            <Box width="2rem">
-              <LogoSVG
-                width="100%"
-                fill="white"
-                maxHeight="2rem"
-                maxWidth="2rem"
-              />
-            </Box>
-          </Link>
+          <Box
+            display="flex"
+            flexDirection={['column', 'column', 'column', 'row']}
+            alignItems={['unset', 'unset', 'unset', 'center']}
+            pb={['M', 'M', 'M', 'unset']}
+          >
+            <Link href={Routes[RoutesEnum.Home]}>
+              <Box width="2rem">
+                <LogoSVG
+                  width="100%"
+                  fill="white"
+                  maxHeight="2rem"
+                  maxWidth="2rem"
+                />
+              </Box>
+            </Link>
+          </Box>
+          <Box>
+            <Typography
+              variant="normal"
+              as="p"
+              fontWeight="600"
+              letterSpacing="1.5px"
+              color="textInverted"
+              textTransform="uppercase"
+            >
+              {t('landingPage.aboutUs')}
+            </Typography>
+            <a
+              href="https://drive.google.com/drive/folders/176q4-80OZaHCJEfBiZHsHYHIH0Z_ipgf?usp=share_link"
+              target="__blank"
+              title={t('landingPage.mediaKit')}
+              rel="noopener noreferrer"
+            >
+              <Box
+                display={['flex', 'flex', 'flex', 'flex']}
+                height={'1rem'}
+                transition="all 0.3s ease-in-out"
+                hover={{
+                  transform: 'scale(1.1)',
+                }}
+                color="#fff"
+              >
+                <Typography
+                  as="span"
+                  fontSize="S"
+                  variant="normal"
+                  lineHeight="normal"
+                  color="textInverted"
+                >
+                  {t('landingPage.mediaKit')}
+                </Typography>
+              </Box>
+            </a>
+          </Box>
+        </Box>
+        <Box as="hr" color="#262626" mt="XL" mb="L" />
+        <Typography
+          fontSize="XS"
+          variant="normal"
+          lineHeight="normal"
+          color="textInverted"
+          ml="M"
+          textAlign="center"
+        >
+          © {new Date().getFullYear()}. Interest Protocol from Interest Labs
+          Inc. - 6820994.{' '}
           <Typography
-            px="M"
-            fontSize="S"
+            as="span"
+            fontSize="XS"
             variant="normal"
             textAlign="center"
             lineHeight="normal"
             color="textInverted"
-            mt={['L', 'L', 'L', 'unset']}
+            display={['block', 'inline-block']}
           >
-            © {new Date().getFullYear()}. Interest Protocol from Interest Labs
-            Inc. - 6820994.{' '}
-            <Typography
-              as="span"
-              fontSize="S"
-              variant="normal"
-              textAlign="center"
-              lineHeight="normal"
-              color="textInverted"
-              display={['block', 'inline-block']}
-            >
-              {t('landingPage.footerCopyrights')}
-            </Typography>
+            {t('landingPage.footerCopyrights')}
           </Typography>
-        </Box>
-        <Box
-          as="nav"
-          display="flex"
-          width={['100%', '100%', '100%', 'auto']}
-          mb={['3.313rem', '3.313rem', '3.313rem', 'NONE']}
-          mt={['2.688rem', '2.688rem', '2.688rem', 'NONE']}
-          alignItems="center"
-          color="textInverted"
-          justifyContent="space-around"
-        >
-          {SOCIAL_MEDIAS.map((socialMediaData) => (
-            <SocialMediaCard {...socialMediaData} key={v4()} />
-          ))}
-        </Box>
+        </Typography>
       </Container>
     </Box>
   );
