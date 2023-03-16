@@ -4,7 +4,6 @@ import 'react-tooltip/dist/react-tooltip.css';
 
 import { Global } from '@emotion/react';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
-import { ModalProvider } from 'context/modal';
 import { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
@@ -58,11 +57,9 @@ const MyApp = ({ Component, pageProps }: Props): ReactNode => {
           <ThemeManager>
             <StrictMode>
               <TooltipProvider>
-                <ModalProvider>
-                  <Component {...pageProps} />
-                </ModalProvider>
+                <Component {...pageProps} />
+                <VercelAnalytics />
               </TooltipProvider>
-              <VercelAnalytics />
             </StrictMode>
           </ThemeManager>
         </WalletKitProvider>

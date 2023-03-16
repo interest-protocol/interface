@@ -23,15 +23,12 @@ interface FormValue {
 export interface DexFindPoolForm {
   tokenA: FormValue;
   tokenB: FormValue;
-  isStable: boolean;
 }
 
 export interface FindPoolProps {
   control: Control<DexFindPoolForm>;
   formSearch?: UseFormReturn<SearchFieldForm>;
-  setValue: UseFormSetValue<DexFindPoolForm>;
   getValues: UseFormGetValues<DexFindPoolForm>;
-  setCreatingPair: Dispatch<SetStateAction<boolean>>;
   onSelectCurrency: (name: 'tokenA' | 'tokenB') => OnSelectCurrency;
 }
 
@@ -40,7 +37,6 @@ export interface CreatePoolProps {
   register: UseFormRegister<DexFindPoolForm>;
   setValue: UseFormSetValue<DexFindPoolForm>;
   getValues: UseFormGetValues<DexFindPoolForm>;
-  refetch: () => Promise<void>;
 }
 
 export interface CreatePoolFieldProps {
@@ -48,26 +44,18 @@ export interface CreatePoolFieldProps {
   register: UseFormRegister<DexFindPoolForm>;
   setValue: UseFormSetValue<DexFindPoolForm>;
   getValues: UseFormGetValues<DexFindPoolForm>;
-  refetch: () => Promise<void>;
 }
 
 export interface PriceProps {
   control: Control<DexFindPoolForm>;
 }
 
-export interface UseAddNativeTokenLiquidityArgs {
-  control: Control<DexFindPoolForm>;
-  isStable: boolean;
-  account: string;
-}
-
 export interface FindPoolButtonProps {
   account: string;
-  isStable: boolean;
   tokenAType: string;
   tokenBType: string;
   isCreatingPair: boolean;
   control: Control<DexFindPoolForm>;
-  getValues: UseFormGetValues<DexFindPoolForm>;
   setCreatingPair: Dispatch<SetStateAction<boolean>>;
+  getValues: UseFormGetValues<DexFindPoolForm>;
 }

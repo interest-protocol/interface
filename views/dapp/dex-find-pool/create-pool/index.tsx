@@ -1,7 +1,9 @@
+import { useTheme } from '@emotion/react';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { v4 } from 'uuid';
 
+import { Theme } from '@/design-system';
 import { Box, Typography } from '@/elements';
 import { InfoSVG } from '@/svg';
 
@@ -15,12 +17,12 @@ const TOKEN_NAMES = ['tokenA', 'tokenB'] as ReadonlyArray<
 
 const CreatePool: FC<CreatePoolProps> = ({
   control,
-  refetch,
   register,
   setValue,
   getValues,
 }) => {
   const t = useTranslations();
+  const { dark } = useTheme() as Theme;
 
   return (
     <Box
@@ -33,17 +35,15 @@ const CreatePool: FC<CreatePoolProps> = ({
       borderRadius="M"
     >
       <Typography variant="normal" textTransform="uppercase" mb="L">
-        {t('dexPoolFind.createPoolTitle', {
-          isStable: Number(getValues('isStable')),
-        })}
+        {t('dexPoolFind.createPoolTitle')}
       </Typography>
       <Typography
         p="L"
         variant="normal"
         borderRadius="M"
         border="1px solid"
-        bg="bottomBackground"
         borderColor="textSoft"
+        bg={dark ? 'bottomBackground' : 'background'}
       >
         {t('dexPoolFind.createPoolAdvice')}
       </Typography>
@@ -52,7 +52,6 @@ const CreatePool: FC<CreatePoolProps> = ({
         <CreatePoolField
           key={v4()}
           name={name}
-          refetch={refetch}
           register={register}
           setValue={setValue}
           getValues={getValues}
@@ -65,19 +64,15 @@ const CreatePool: FC<CreatePoolProps> = ({
         borderRadius="M"
         border="1px solid"
         alignItems="center"
-        bg="bottomBackground"
         borderColor="textSoft"
         gridTemplateColumns="3rem auto"
+        bg={dark ? 'bottomBackground' : 'background'}
       >
         <Box as="span" width="1.5rem" display="inline-block">
           <InfoSVG width="100%" maxHeight="1.5rem" maxWidth="1.5rem" />
         </Box>
         <Typography variant="normal" fontSize="0.85rem">
-          {t(
-            `dexPoolFind.createPoolInfo.${
-              getValues('isStable') ? 'stable' : 'volatile'
-            }`
-          )}
+          {t('dexPoolFind.createPoolInfo')}
         </Typography>
       </Box>
     </Box>

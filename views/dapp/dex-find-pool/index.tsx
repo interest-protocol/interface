@@ -6,9 +6,9 @@ import { Container } from '@/components';
 import { DEX_TOKENS_DATA } from '@/constants';
 import { Typography } from '@/elements';
 import { useWeb3 } from '@/hooks';
+import { AddressZero } from '@/sdk';
 
 import { GoBack } from '../components';
-import ErrorView from '../components/error';
 import { OnSelectCurrency } from '../components/select-currency/select-currency.types';
 import CreatePool from './create-pool';
 import { DexFindPoolForm } from './dex-find-pool.types';
@@ -19,18 +19,15 @@ const DEXFindPool: FC = () => {
   const { account } = useWeb3();
   const t = useTranslations();
   const [isCreatingPair, setCreatingPair] = useState(false);
-
   const { setValue, control, getValues, register } = useForm<DexFindPoolForm>({
     defaultValues: {
       tokenA: { ...DEX_TOKENS_DATA[0], value: '0' },
       tokenB: { ...DEX_TOKENS_DATA[1], value: '0' },
-      isStable: false,
     },
   });
 
   // We want the form to re-render if types change
   const tokenAType = useWatch({ control, name: 'tokenA.type' });
-  const isStable = useWatch({ control, name: 'isStable' });
   const tokenBType = useWatch({ control, name: 'tokenB.type' });
 
   const onSelectCurrency =
@@ -44,14 +41,6 @@ const DEXFindPool: FC = () => {
       setCreatingPair(false);
     };
 
-  // TODO: replace to data fetcher
-  const error = false;
-  // TODO: Remove this ignore
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const refetch = async () => {};
-
-  if (error) return <ErrorView message={t('dexPoolFind.balanceError')} />;
-
   return (
     <Container py="XL" dapp>
       <GoBack routeBack />
@@ -60,9 +49,7 @@ const DEXFindPool: FC = () => {
       </Typography>
       <FindPool
         control={control}
-        setValue={setValue}
         getValues={getValues}
-        setCreatingPair={setCreatingPair}
         onSelectCurrency={onSelectCurrency}
       />
       {isCreatingPair && (
@@ -71,18 +58,16 @@ const DEXFindPool: FC = () => {
           control={control}
           register={register}
           setValue={setValue}
-          refetch={refetch}
         />
       )}
       <FindPoolButton
-        account={account ?? ''}
+        account={account ?? AddressZero}
         control={control}
-        getValues={getValues}
         tokenAType={tokenAType}
         tokenBType={tokenBType}
-        isStable={isStable}
         setCreatingPair={setCreatingPair}
         isCreatingPair={isCreatingPair}
+        getValues={getValues}
       />
     </Container>
   );
