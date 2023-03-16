@@ -44,39 +44,28 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
       </Box>
       {tokens.map(({ balance, Icon, symbol, decimals }, index) => (
         <InputBalance
+          max
           key={v4()}
+          name={INPUT_NAMES[index]}
           register={formAddLiquidity.register}
           setValue={formAddLiquidity.setValue}
-          name={INPUT_NAMES[index]}
+          customFunction={customInputFunction}
           balance={FixedPointMath.toNumber(balance, decimals).toString()}
-          max={FixedPointMath.toNumber(balance, decimals).toString()}
           Suffix={
-            <Box
-              px="M"
-              width="4.5rem"
-              lineHeight="0"
-              display="flex"
-              alignItems="center"
-              borderLeft="1px solid"
-              borderColor="bottomBackground"
-            >
+            <Box px="M" lineHeight="0" display="flex" alignItems="center">
               <Box
                 display="flex"
-                width="4.5rem"
                 maxHeight="1rem"
                 alignItems="center"
                 justifyContent="center"
               >
-                {Icon}
-                <Typography variant="normal" ml="M" maxHeight="1rem">
+                <Typography variant="normal" mr="M" maxHeight="1rem">
                   {symbol}
                 </Typography>
+                {Icon}
               </Box>
             </Box>
           }
-          isLarge={false}
-          buttonMaxPosition="left"
-          customFunction={customInputFunction}
         />
       ))}
       <AddLiquidityCardContent

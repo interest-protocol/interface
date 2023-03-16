@@ -58,8 +58,8 @@ const MyApp = ({ Component, pageProps }: Props): ReactNode => {
             <StrictMode>
               <TooltipProvider>
                 <Component {...pageProps} />
-                <VercelAnalytics />
               </TooltipProvider>
+              <VercelAnalytics />
             </StrictMode>
           </ThemeManager>
         </WalletKitProvider>

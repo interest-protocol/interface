@@ -3,11 +3,11 @@ import { CoinData } from '@/interface';
 import { COIN_POOL, COIN_TYPE, COINS } from './coins';
 import { Network } from './network';
 
-export const IPX_STORAGE = '0x41387016e877ee45a8a527c2c6a042c1b5fe9608';
+export const IPX_STORAGE = '0xedb55018461586c9414881d5d013fce2f344180a';
 
-export const IPX_ACCOUNT_STORAGE = '0xec50fb46ffb23f0ba3f8ad644ecdb2c634873716';
+export const IPX_ACCOUNT_STORAGE = '0xa76791de9bff6678116c13d8eeb003165b2281fd';
 
-export const FARMS_PACKAGE_ID = '0x8f65e0e3d27ca57e7d66bc76832c366e49f043a2';
+export const FARMS_PACKAGE_ID = '0x7519197dd8e31b375b4550017e64dc640743fcdd';
 
 export const FARMS_RECORD = {
   [Network.DEVNET]: {
