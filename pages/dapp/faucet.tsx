@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 
 import { LoadingPage } from '@/components';
 import { FAUCET_TOKENS, Network } from '@/constants';
+import { ModalProvider } from '@/context/modal';
 import { NextPageWithProps } from '@/interface';
 import Faucet from '@/views/dapp/faucet';
 
@@ -28,11 +29,13 @@ const FaucetPage: NextPageWithProps = ({ pageTitle }) => {
     },
   });
   return (
-    <Web3Manager>
-      <Layout pageTitle={pageTitle}>
-        <Faucet form={form} />
-      </Layout>
-    </Web3Manager>
+    <ModalProvider>
+      <Web3Manager>
+        <Layout pageTitle={pageTitle}>
+          <Faucet form={form} />
+        </Layout>
+      </Web3Manager>
+    </ModalProvider>
   );
 };
 

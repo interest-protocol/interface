@@ -2,14 +2,21 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 import { Container } from '@/components';
-import { Box, Typography } from '@/elements';
+import { Box, Button, Typography } from '@/elements';
+import { useModal } from '@/hooks/use-modal';
 
 import GoBack from '../components/go-back';
+import CreateTokenForm from './create-token-form';
 import { FaucetProps } from './faucet.types';
 import FaucetForm from './faucet-form';
 
 const Faucet: FC<FaucetProps> = ({ form }) => {
   const t = useTranslations();
+
+  const { setModal, handleClose } = useModal();
+
+  const openModal = () =>
+    setModal(<CreateTokenForm handleCloseModal={handleClose} />);
 
   return (
     <Box display="flex" flexDirection="column">
@@ -30,6 +37,9 @@ const Faucet: FC<FaucetProps> = ({ form }) => {
           <Typography variant="normal" textTransform="capitalize">
             {t('common.recommendedToken')}
           </Typography>
+          <Button variant="primary" onClick={openModal}>
+            {t('faucet.modalButton', { isLoading: Number(false) })}
+          </Button>
         </Box>
         <FaucetForm form={form} />
       </Container>
