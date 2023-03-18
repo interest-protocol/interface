@@ -5,12 +5,7 @@ import Skeleton from 'react-loading-skeleton';
 import { Container } from '@/components';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import {
-  useGetPairData,
-  useIdAccount,
-  useLocale,
-  useNativeBalance,
-} from '@/hooks';
+import { useGetPairData, useLocale, useNativeBalance } from '@/hooks';
 import { ZERO_BIG_NUMBER } from '@/sdk';
 import { FixedPointMath } from '@/sdk';
 import { TimesSVG } from '@/svg';
@@ -26,13 +21,21 @@ import HeaderSkeleton from './components/skeleton/header';
 import { DEXPoolDetailsViewProps } from './dex-pool-details.types';
 import { processPairData } from './dex-pool-details.utils';
 
-const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
+const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
+  pairAddress,
+  chainId,
+  account,
+  loadingState,
+  isFetchingQuoteState,
+  formAddLiquidity,
+  formRemoveLiquidity,
+  lastDebouncedAmountState,
+}) => {
   const t = useTranslations();
 
   const { currentLocale } = useLocale();
 
   const { error, data, refetch } = useGetPairData(pairAddress);
-  const { chainId, account } = useIdAccount();
   const { data: balanceData, refetch: refetchNativeBalance } =
     useNativeBalance();
 
@@ -212,6 +215,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
                 )
               ),
               isFetchingInitialData: processedData.loading,
+              chainId: chainId,
             },
             {
               address: processedData.token1,
@@ -223,11 +227,17 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
                 )
               ),
               isFetchingInitialData: processedData.loading,
+              chainId: chainId,
             },
           ]}
         />
         <AddLiquidityCard
+          loadingState={loadingState}
+          chainId={chainId}
+          account={account}
+          formAddLiquidity={formAddLiquidity}
           fetchingInitialData={processedData.loading}
+          isFetchingQuoteState={isFetchingQuoteState}
           isStable={processedData.isStable}
           tokens={addLiquidityTokens}
           refetch={async () =>
@@ -238,6 +248,8 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({ pairAddress }) => {
           chainId={chainId}
           account={account}
           pairAddress={pairAddress}
+          formRemoveLiquidity={formRemoveLiquidity}
+          lastDebouncedAmountState={lastDebouncedAmountState}
           isFetchingInitialData={processedData.loading}
           isStable={processedData.isStable}
           lpAllowance={processedData.lpAllowance}

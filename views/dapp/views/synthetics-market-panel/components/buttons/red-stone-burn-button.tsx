@@ -2,7 +2,7 @@ import { WrapperBuilder } from '@redstone-finance/evm-connector';
 import { ethers } from 'ethers';
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { WrapperBuilder as OldWrapperBuilder } from 'redstone-evm-connector';
@@ -33,9 +33,13 @@ import { isFormBurnEmpty } from '../../synthetics-market-panel.utils';
 import { BurnButtonProps } from './buttons.types';
 import { makeRedStoneBurnCall } from './buttons.utils';
 
-const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
+const BurnButton: FC<BurnButtonProps> = ({
+  data,
+  form,
+  refetch,
+  loadingState,
+}) => {
   const t = useTranslations();
-  const [loading, setLoading] = useState(false);
 
   const burnSynt = useWatch({ control: form.control, name: 'burn.synt' });
 
@@ -49,7 +53,7 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
   const handleBurn = async () => {
     try {
       if (!signer) return;
-      setLoading(true);
+      loadingState.setLoading(true);
       const provider = getStaticWeb3Provider(data.chainId);
 
       const contract = new ethers.Contract(
@@ -102,7 +106,7 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
       }),
         throwContractCallError(e);
     } finally {
-      setLoading(false);
+      loadingState.setLoading(false);
       await refetch();
     }
   };
@@ -128,14 +132,14 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
       display="flex"
       variant="primary"
       alignItems="center"
-      disabled={loading}
+      disabled={loadingState.loading}
       justifyContent="center"
       onClick={onSubmitBurn}
       hover={{ bg: 'accentActive' }}
-      bg={loading ? 'accentActive' : 'accent'}
-      cursor={loading ? 'not-allowed' : 'pointer'}
+      bg={loadingState.loading ? 'accentActive' : 'accent'}
+      cursor={loadingState.loading ? 'not-allowed' : 'pointer'}
     >
-      {loading && (
+      {loadingState.loading && (
         <Box as="span" display="inline-block" width="1rem">
           <LoadingSVG width="100%" maxWidth="1rem" maxHeight="1rem" />
         </Box>
@@ -143,7 +147,7 @@ const BurnButton: FC<BurnButtonProps> = ({ data, form, refetch }) => {
       <Typography
         as="span"
         variant="normal"
-        ml={loading ? 'L' : 'NONE'}
+        ml={loadingState.loading ? 'L' : 'NONE'}
         fontSize="S"
       >
         {t(

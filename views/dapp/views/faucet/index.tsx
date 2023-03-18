@@ -1,31 +1,33 @@
 import { useTranslations } from 'next-intl';
 import { o, prop } from 'ramda';
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 
 import { Container } from '@/components';
 import { FAUCET_TOKENS } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { useGetUserBalances, useIdAccount, useLocalStorage } from '@/hooks';
+import { useGetUserBalances } from '@/hooks';
 import { flippedAppend, isSameAddress } from '@/utils';
 import { GAPage, logGenericEvent } from '@/utils/analytics';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
 import CreateTokenForm from './create-token-form';
-import { AddLocalToken, IToken, RemoveLocalToken } from './faucet.types';
+import { AddLocalToken, FaucetProps, RemoveLocalToken } from './faucet.types';
 import FaucetForm from './faucet-form';
 import { processGetUserBalances } from './utilts';
 
-const Faucet: FC = () => {
+const Faucet: FC<FaucetProps> = ({
+  chainId,
+  account,
+  formFaucet,
+  localTokensStorage,
+  loadingState,
+  isCreatingTokenState,
+}) => {
   const t = useTranslations();
-  const { chainId } = useIdAccount();
-  const [isCreatingToken, setIsCreatingToken] = useState(false);
-  const [localTokens, setLocalTokens] = useLocalStorage<ReadonlyArray<IToken>>(
-    `${chainId}-interest-protocol-faucet-tokens`,
-    []
-  );
 
-  const toggleCreateToken = () => setIsCreatingToken((e) => !e);
+  const toggleCreateToken = () =>
+    isCreatingTokenState.setIsCreatingToken((e) => !e);
 
   const TOKENS = useMemo(
     () => (chainId && FAUCET_TOKENS[chainId] ? FAUCET_TOKENS[chainId] : []),
@@ -33,26 +35,33 @@ const Faucet: FC = () => {
   );
 
   const { error, data, refetch } = useGetUserBalances(
-    TOKENS.map(prop('address')).concat(localTokens.map(prop('address'))),
+    TOKENS.map(prop('address')).concat(
+      localTokensStorage.localTokens.map(prop('address'))
+    ),
     GAPage.Faucet
   );
 
   const { recommendedData, localData } = useMemo(
-    () => processGetUserBalances(TOKENS, localTokens, data),
-    [TOKENS, data, localTokens]
+    () => processGetUserBalances(TOKENS, localTokensStorage.localTokens, data),
+    [TOKENS, data, localTokensStorage.localTokens]
   );
 
   const addLocalToken: AddLocalToken = useCallback(
-    o(setLocalTokens, flippedAppend(localTokens)),
-    [localTokens, setLocalTokens]
+    o(
+      localTokensStorage.setLocalTokens,
+      flippedAppend(localTokensStorage.localTokens)
+    ),
+    [localTokensStorage.localTokens, localTokensStorage.setLocalTokens]
   );
 
   const removeLocalToken: RemoveLocalToken = useCallback(
     (address: string) =>
-      setLocalTokens(
-        localTokens.filter((item) => !isSameAddress(item.address, address))
+      localTokensStorage.setLocalTokens(
+        localTokensStorage.localTokens.filter(
+          (item) => !isSameAddress(item.address, address)
+        )
       ),
-    [localTokens, setLocalTokens]
+    [localTokensStorage.localTokens, localTokensStorage.setLocalTokens]
   );
 
   if (error) return <ErrorView message={t('error.fetchingBalances')} />;
@@ -94,6 +103,10 @@ const Faucet: FC = () => {
             refetch={async () => {
               await refetch();
             }}
+            loadingState={loadingState}
+            formFaucet={formFaucet}
+            chainId={chainId}
+            account={account}
           />
           {localData.length != 0 && (
             <>
@@ -107,6 +120,10 @@ const Faucet: FC = () => {
                 refetch={async () => {
                   await refetch();
                 }}
+                loadingState={loadingState}
+                formFaucet={formFaucet}
+                chainId={chainId}
+                account={account}
               />
             </>
           )}
@@ -116,7 +133,7 @@ const Faucet: FC = () => {
         background="#0004"
         modalProps={{
           shouldCloseOnEsc: true,
-          isOpen: isCreatingToken,
+          isOpen: isCreatingTokenState.isCreatingToken,
           shouldCloseOnOverlayClick: true,
           onRequestClose: toggleCreateToken,
         }}

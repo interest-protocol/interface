@@ -1,30 +1,21 @@
 import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
-import { useIdAccount } from '@/hooks';
 import { TimesSVG } from '@/svg';
 
 import { SyntheticsFilters, SyntheticsList } from './components';
 import { useGetSyntheticMarketsSummary } from './synthetics-market.hooks';
-import {
-  ISyntheticMarketSummaryForm,
-  SyntheticMarketSortByFilter,
-} from './synthetics-market.types';
+import { SyntheticsMarketProps } from './synthetics-market.types';
 import { processSyntheticMarketSummaryData } from './synthetics-market.utils';
 
-const SyntheticsMarket: FC = () => {
-  const { register, setValue, control } = useForm<ISyntheticMarketSummaryForm>({
-    defaultValues: {
-      search: '',
-      sortBy: SyntheticMarketSortByFilter.Default,
-      onlyMinted: false,
-    },
-  });
+const SyntheticsMarket: FC<SyntheticsMarketProps> = ({
+  chainId,
+  account,
+  formSyntheticMarketSummary,
+}) => {
   const t = useTranslations();
-  const { chainId, account } = useIdAccount();
 
   const { error, data } = useGetSyntheticMarketsSummary(account, chainId);
 
@@ -85,13 +76,13 @@ const SyntheticsMarket: FC = () => {
         </Typography>
       </Box>
       <SyntheticsFilters
-        control={control}
-        register={register}
-        setValue={setValue}
+        control={formSyntheticMarketSummary.control}
+        register={formSyntheticMarketSummary.register}
+        setValue={formSyntheticMarketSummary.setValue}
       />
       <SyntheticsList
         chainId={chainId}
-        control={control}
+        control={formSyntheticMarketSummary.control}
         markets={markets}
         loading={loading}
       />

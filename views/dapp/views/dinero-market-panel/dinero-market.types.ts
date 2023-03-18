@@ -11,12 +11,18 @@ import { InterestViewDinero } from '../../../../types/ethers-contracts/InterestV
 
 export type TDineroMarketMode = 'borrow' | 'repay';
 
-export interface DineroMarketPanelProps {
+export interface DineroMarketProps {
   address: `0x${string}`;
   mode: TDineroMarketMode;
 }
 
-export interface DineroMarketSwitchProps extends DineroMarketPanelProps {
+export interface DineroMarketPanelProps extends DineroMarketProps {
+  chainId: number;
+  account: string;
+  form: UseFormReturn<IBorrowForm>;
+}
+
+export interface DineroMarketSwitchProps extends DineroMarketProps {
   resetField: UseFormResetField<IBorrowForm>;
 }
 

@@ -1,6 +1,6 @@
 import 'react-loading-skeleton/dist/skeleton.css';
 
-import { Global } from '@emotion/react';
+import { Global, ThemeProvider } from '@emotion/react';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -9,11 +9,13 @@ import { ReactNode, StrictMode, useEffect } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import { WagmiConfig } from 'wagmi';
 
-import { NextIntlProvider, Web3Manager } from '@/components';
+import { NextIntlProvider } from '@/components';
 import { wagmiClient } from '@/connectors';
-import { GlobalStyles } from '@/design-system';
+import { Routes } from '@/constants';
+import { DAppTheme, GlobalStyles, LandingPageTheme } from '@/design-system';
 import { TTranslatedMessage } from '@/interface';
 import { initGA, logPageView } from '@/utils/analytics';
+import HomePageLayout from '@/views/home/layout';
 
 interface PageProps {
   now: number;
@@ -69,15 +71,23 @@ const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
         <WagmiConfig client={wagmiClient}>
           <SkeletonTheme baseColor="#202020" highlightColor="#444">
             <Global styles={GlobalStyles} />
-            <Web3Manager
-              pageTitle={pageProps.pageTitle}
-              pathname={router.pathname}
-            >
-              <StrictMode>
-                <Component {...pageProps} />
-                <VercelAnalytics />
-              </StrictMode>
-            </Web3Manager>
+            {router.pathname !== Routes.home ? (
+              <ThemeProvider theme={DAppTheme}>
+                <StrictMode>
+                  <Component {...pageProps} />
+                  <VercelAnalytics />
+                </StrictMode>
+              </ThemeProvider>
+            ) : (
+              <ThemeProvider theme={LandingPageTheme}>
+                <HomePageLayout pageTitle={pageProps.pageTitle}>
+                  <StrictMode>
+                    <Component {...pageProps} />
+                    <VercelAnalytics />
+                  </StrictMode>
+                </HomePageLayout>
+              </ThemeProvider>
+            )}
           </SkeletonTheme>
         </WagmiConfig>
       </NextIntlProvider>

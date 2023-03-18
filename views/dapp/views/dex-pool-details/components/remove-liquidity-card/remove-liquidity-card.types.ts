@@ -1,6 +1,11 @@
 import { BigNumber } from 'ethers';
-import { ReactNode } from 'react';
-import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
+import {
+  Control,
+  UseFormRegister,
+  UseFormReturn,
+  UseFormSetValue,
+} from 'react-hook-form';
 
 interface TokenData {
   symbol: string;
@@ -19,6 +24,11 @@ export interface RemoveLiquidityCardProps {
   chainId: number;
   refetch: () => Promise<void>;
   account: string;
+  formRemoveLiquidity: UseFormReturn<IRemoveLiquidityForm>;
+  lastDebouncedAmountState: {
+    lastDebouncedAmount: string;
+    setLastDebouncedAmount: Dispatch<SetStateAction<string>>;
+  };
 }
 
 export interface RemoveLiquidityCardContentProps {
@@ -88,6 +98,10 @@ export interface RemoveLiquidityManagerProps {
   token0Decimals: number;
   token1Decimals: number;
   chainId: number;
+  lastDebouncedAmountState: {
+    lastDebouncedAmount: string;
+    setLastDebouncedAmount: Dispatch<SetStateAction<string>>;
+  };
 }
 
 export interface UseRemoveLiquidityArgs {

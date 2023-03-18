@@ -1,6 +1,5 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
-import { useState } from 'react';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -17,9 +16,13 @@ import {
 import { useDeposit } from '../dinero-vault.hooks';
 import { DepositButtonProps } from '../dinero-vault.types';
 
-const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
+const DepositButton: FC<DepositButtonProps> = ({
+  control,
+  data,
+  refetch,
+  loadinDepositState,
+}) => {
   const t = useTranslations();
-  const [loading, setLoading] = useState(false);
   const value = useWatch({ control, name: 'value' });
 
   const {
@@ -27,7 +30,7 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
   } = useDeposit(data, value);
 
   const handleDeposit = async () => {
-    setLoading(true);
+    loadinDepositState.setLoading(true);
     try {
       const tx = await writeAsync?.();
       if (tx) await tx.wait(2);
@@ -49,7 +52,7 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
       });
       throwError(t('error.generic'), e);
     } finally {
-      setLoading(false);
+      loadinDepositState.setLoading(false);
     }
   };
 
@@ -66,7 +69,7 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
   return (
     <Button
       onClick={onSubmitDeposit}
-      disabled={!writeAsync || loading}
+      disabled={!writeAsync || loadinDepositState.loading}
       variant="primary"
       width="100%"
       py="L"
@@ -76,12 +79,14 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
       justifyContent="center"
       bg={!writeAsync ? 'disabled' : 'primary'}
     >
-      {loading && (
+      {loadinDepositState.loading && (
         <Box as="span" display="inline-block" width="1rem" mr="M">
           <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
       )}
-      {capitalize(t('dineroVault.deposit', { isLoading: +loading }))}
+      {capitalize(
+        t('dineroVault.deposit', { isLoading: +loadinDepositState.loading })
+      )}
     </Button>
   );
 };

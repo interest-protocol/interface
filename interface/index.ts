@@ -69,4 +69,19 @@ export interface HandlerData {
 
 export type NextPageWithAddress = NextPage<{ address: `0x${string}` }>;
 
+export interface NextPageDefaultProps {
+  messages: TTranslatedMessage;
+  now: number;
+  pageTitle: string;
+}
+
+export type NextPagePropsWithAddress = NextPage<{
+  address: `0x${string}`;
+  messages: TTranslatedMessage;
+  now: number;
+  pageTitle: string;
+}>;
+
+export type NextPageWithProps = NextPage<NextPageDefaultProps>;
+
 export type Address = `0x${string}`;

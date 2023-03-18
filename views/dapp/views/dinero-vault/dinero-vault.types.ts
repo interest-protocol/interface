@@ -1,7 +1,7 @@
 import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
 import { Dispatch, SetStateAction } from 'react';
-import { Control } from 'react-hook-form';
+import { Control, UseFormReturn } from 'react-hook-form';
 
 import { StakeState } from '@/constants';
 
@@ -38,12 +38,40 @@ export interface DineroVaultDetailsTitleProps {
 
 export interface DineroVaultProps {
   vault: `0x${string}`;
+  chainId: number;
+  account: string;
+  stakeDVState: {
+    stakeState: StakeState;
+    setStakeState: Dispatch<SetStateAction<StakeState>>;
+  };
+  formVault: UseFormReturn<IVaultForm>;
+  loadinDepositState: {
+    loading: boolean;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+  };
+  loadinWithdrawState: {
+    loading: boolean;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+  };
+  openDetailsState: {
+    openDetails: boolean;
+    setOpenDetails: Dispatch<SetStateAction<boolean>>;
+  };
 }
 
 export interface DineroVaultFormProps {
   data: VaultData;
   refetch: () => Promise<void>;
   stakeState: StakeState;
+  formVault: UseFormReturn<IVaultForm>;
+  loadinDepositState: {
+    loading: boolean;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+  };
+  loadinWithdrawState: {
+    loading: boolean;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+  };
 }
 
 export interface DineroVaultInfoProps {
@@ -51,6 +79,10 @@ export interface DineroVaultInfoProps {
 }
 export interface DineroVaultFooterProps {
   dineroVaultDetailsFooterItems: ReadonlyArray<DineroVault>;
+  openDetailsState: {
+    openDetails: boolean;
+    setOpenDetails: Dispatch<SetStateAction<boolean>>;
+  };
 }
 
 export interface VaultData {
@@ -101,10 +133,18 @@ export interface DepositButtonProps {
   data: VaultData;
   refetch: () => Promise<void>;
   control: Control<IVaultForm>;
+  loadinDepositState: {
+    loading: boolean;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+  };
 }
 
 export interface WithdrawButtonProps {
   data: VaultData;
   refetch: () => Promise<void>;
   control: Control<IVaultForm>;
+  loadinWithdrawState: {
+    loading: boolean;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+  };
 }

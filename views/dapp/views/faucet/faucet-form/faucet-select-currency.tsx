@@ -10,6 +10,7 @@ const FaucetSelectCurrency: FC<FaucetSelectCurrencyProps> = ({
   tokens,
   defaultValue,
   onSelectCurrency,
+  chainId,
 }) => (
   <Box my="M">
     <Typography as="label" fontSize="S" variant="normal" display="inline-block">
@@ -17,6 +18,7 @@ const FaucetSelectCurrency: FC<FaucetSelectCurrencyProps> = ({
     </Typography>
     <Box my="M" display="flex" flexDirection="column" alignItems="stretch">
       <FaucetTokensDropdown
+        chainId={chainId}
         tokens={tokens}
         defaultValue={defaultValue}
         onSelectCurrency={onSelectCurrency}

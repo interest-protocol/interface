@@ -1,18 +1,17 @@
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import { Switch } from '@/components';
 import { PoolType, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { capitalize } from '@/utils';
 
+import { PoolProps } from './pool.types';
 import RecommendPools from './recommended-pools';
 
-const Pool: FC = () => {
+const Pool: FC<PoolProps> = ({ poolTypeState, chainId }) => {
   const t = useTranslations();
-  const [poolType, setPoolType] = useState<PoolType>(PoolType.Volatile);
-
   const { push } = useRouter();
 
   return (
@@ -38,19 +37,19 @@ const Pool: FC = () => {
             {t('dexPool.title')}
           </Typography>
           <Switch
-            defaultValue={poolType}
+            defaultValue={poolTypeState.poolType}
             options={[
               {
                 value: PoolType.Volatile,
                 displayValue: capitalize(
                   capitalize(t('common.volatile', { count: 2 }))
                 ),
-                onSelect: () => setPoolType(PoolType.Volatile),
+                onSelect: () => poolTypeState.setPoolType(PoolType.Volatile),
               },
               {
                 value: PoolType.Stable,
                 displayValue: capitalize(t('common.stable', { count: 2 })),
-                onSelect: () => setPoolType(PoolType.Stable),
+                onSelect: () => poolTypeState.setPoolType(PoolType.Stable),
               },
             ]}
           />
@@ -64,7 +63,7 @@ const Pool: FC = () => {
             {t('dexPool.button')}
           </Button>
         </Box>
-        <RecommendPools type={poolType} />
+        <RecommendPools type={poolTypeState.poolType} chainId={chainId} />
       </Box>
     </>
   );

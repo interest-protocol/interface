@@ -1,9 +1,7 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { ethers } from 'ethers';
 import { useTranslations } from 'next-intl';
 import { pathOr } from 'ramda';
 import { FC, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
 import { useNow } from 'use-intl';
 
 import { Container, Tooltip } from '@/components';
@@ -15,17 +13,14 @@ import {
 } from '@/constants';
 import { Box } from '@/elements';
 import { useGetDineroMarketDataV2 } from '@/hooks';
-import { useIdAccount } from '@/hooks/use-id-account';
 
 import GoBack from '../../components/go-back';
 import ErrorPage from '../error';
-import { borrowFormValidation } from './components/borrow-form/borrow-form.validator';
 import LoanInfo from './components/loan-info';
 import MyOpenPosition from './components/my-open-position';
 import UserLTV from './components/user-ltv';
 import YourBalance from './components/your-balance';
-import { BORROW_DEFAULT_VALUES } from './dinero-market.data';
-import { DineroMarketPanelProps, IBorrowForm } from './dinero-market.types';
+import { DineroMarketPanelProps } from './dinero-market.types';
 import {
   calculatePositionHealth,
   getLoanInfoData,
@@ -36,9 +31,14 @@ import {
 import DineroMarketForm from './dinero-market-form';
 import DineroMarketSwitch from './dinero-market-switch';
 
-const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
+const DineroMarketPanel: FC<DineroMarketPanelProps> = ({
+  address,
+  mode,
+  account,
+  chainId,
+  form,
+}) => {
   const t = useTranslations();
-  const { chainId, account } = useIdAccount();
 
   const {
     data: marketRawData,
@@ -63,13 +63,6 @@ const DineroMarketPanel: FC<DineroMarketPanelProps> = ({ address, mode }) => {
       getSafeDineroMarketData(chainId, now.getTime(), address, marketRawData),
     [marketRawData, address, chainId]
   );
-
-  const form = useForm<IBorrowForm>({
-    mode: 'onChange',
-    reValidateMode: 'onChange',
-    defaultValues: BORROW_DEFAULT_VALUES,
-    resolver: yupResolver(borrowFormValidation),
-  });
 
   const loanInfoData = useMemo(
     () => getLoanInfoData(market, kind),

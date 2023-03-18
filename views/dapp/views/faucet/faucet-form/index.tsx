@@ -2,7 +2,6 @@ import { ethers } from 'ethers';
 import { useTranslations } from 'next-intl';
 import { pathOr } from 'ramda';
 import { FC } from 'react';
-import { useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
@@ -13,13 +12,11 @@ import {
   TOKENS_SVG_MAP,
 } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useIdAccount } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
 import { TimesSVG } from '@/svg';
 import { formatMoney, safeGetAddress } from '@/utils';
 import ConnectWallet from '@/views/dapp/components/wallet/connect-wallet';
 
-import { IFaucetForm } from '../faucet.types';
 import InputBalance from '../input-balance';
 import CurrencyIdentifier from './faucet-currency-identifier';
 import { FaucetFormProps } from './faucet-form.types';
@@ -31,20 +28,16 @@ const FaucetForm: FC<FaucetFormProps> = ({
   isLoadingData,
   removeLocalToken,
   refetch,
+  formFaucet,
+  chainId,
+  account,
+  loadingState,
 }) => {
   const t = useTranslations();
-  const { chainId, account } = useIdAccount();
-
-  const { register, getValues, setValue, control } = useForm<IFaucetForm>({
-    defaultValues: {
-      token: tokens?.[0]?.address ?? ethers.constants.AddressZero,
-      amount: 0,
-    },
-  });
 
   const onSelectCurrency = (token: `0x${string}`) => {
-    setValue('token', token);
-    setValue('amount', 0);
+    formFaucet.setValue('token', token);
+    formFaucet.setValue('amount', 0);
   };
 
   return (
@@ -68,6 +61,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
           justifyContent="space-evenly"
         >
           <FaucetSelectCurrency
+            chainId={chainId}
             tokens={tokens}
             label={t('faucet.tokenInput')}
             defaultValue={tokens?.[0]?.address ?? ethers.constants.AddressZero}
@@ -75,11 +69,11 @@ const FaucetForm: FC<FaucetFormProps> = ({
           />
           <InputBalance
             name="amount"
-            register={register}
+            register={formFaucet.register}
             label={t('faucet.amountInput')}
-            setValue={setValue}
+            setValue={formFaucet.setValue}
             chainId={chainId}
-            control={control}
+            control={formFaucet.control}
             currencyPrefix={
               isLoadingData ? (
                 <Skeleton width="4rem" />
@@ -87,7 +81,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
                 <CurrencyIdentifier
                   chainId={chainId}
                   tokens={tokens}
-                  control={control}
+                  control={formFaucet.control}
                 />
               )
             }
@@ -95,11 +89,12 @@ const FaucetForm: FC<FaucetFormProps> = ({
           <Box display="flex" justifyContent="center">
             {account ? (
               <MintButton
-                control={control}
+                control={formFaucet.control}
                 chainId={chainId}
                 account={account}
-                getValues={getValues}
+                getValues={formFaucet.getValues}
                 refetch={refetch}
+                loadingState={loadingState}
               />
             ) : (
               <ConnectWallet />

@@ -1,6 +1,11 @@
 import { BigNumber } from 'ethers';
 import { Dispatch, FC, SetStateAction } from 'react';
-import { Control, UseFormGetValues, UseFormSetValue } from 'react-hook-form';
+import {
+  Control,
+  UseFormGetValues,
+  UseFormReturn,
+  UseFormSetValue,
+} from 'react-hook-form';
 
 import { SVGProps } from '@/components/svg/svg.types';
 import { Address } from '@/interface';
@@ -99,4 +104,44 @@ export interface UseWETHWithdrawArgs {
   tokenOut: SwapFormTokenData;
   parsedTokenInBalance: SwapButtonProps['parsedTokenInBalance'];
   needsApproval: boolean;
+}
+
+export interface SwapProps {
+  chainId: number;
+  account: string;
+  setLocalSettings: (x: LocalSwapSettings) => void;
+  localSettings: LocalSwapSettings;
+  formSwap: UseFormReturn<ISwapForm>;
+  showSettingsState: {
+    showSettings: boolean;
+    setShowSettings: Dispatch<SetStateAction<boolean>>;
+  };
+  hasNoMarketState: {
+    hasNoMarket: boolean;
+    setHasNoMarket: Dispatch<SetStateAction<boolean>>;
+  };
+  isFetchingAmountOutTokenInState: {
+    isFetchingAmountOutTokenIn: boolean;
+    setFetchingAmountOutTokenIn: Dispatch<SetStateAction<boolean>>;
+  };
+  isFetchingAmountOutTokenOutState: {
+    isFetchingAmountOutTokenOut: boolean;
+    setFetchingAmountOutTokenOut: Dispatch<SetStateAction<boolean>>;
+  };
+  isTokenInOpenModalState: {
+    isTokenInOpenModal: boolean;
+    setTokenInIsOpenModal: Dispatch<SetStateAction<boolean>>;
+  };
+  isTokenOutOpenModalState: {
+    isTokenOutOpenModal: boolean;
+    setTokenOutIsOpenModal: Dispatch<SetStateAction<boolean>>;
+  };
+  swapBaseState: {
+    swapBase: `0x${string}` | null;
+    setSwapBase: Dispatch<SetStateAction<`0x${string}` | null>>;
+  };
+  amountOutErrorState: {
+    amountOutError: string | null;
+    setAmountOutError: Dispatch<SetStateAction<string | null>>;
+  };
 }

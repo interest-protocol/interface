@@ -4,6 +4,7 @@ import {
   Control,
   UseFormGetValues,
   UseFormRegister,
+  UseFormReturn,
   UseFormSetValue,
 } from 'react-hook-form';
 
@@ -78,4 +79,38 @@ export interface FindPoolButtonProps {
   isStable: boolean;
   isCreatingPair: boolean;
   setCreatingPair: Dispatch<SetStateAction<boolean>>;
+  loadingState: {
+    loading: boolean;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+  };
+  createPoolPopupState: {
+    createPoolPopup: boolean;
+    setCreatePoolPopup: Dispatch<SetStateAction<boolean>>;
+  };
+}
+
+export interface FindPoolViewProps {
+  chainId: number;
+  account: string;
+  isCreatingPairState: {
+    isCreatingPair: boolean;
+    setCreatingPair: Dispatch<SetStateAction<boolean>>;
+  };
+  isTokenAOpenModalState: {
+    isTokenAOpenModal: boolean;
+    setTokenAIsOpenModal: Dispatch<SetStateAction<boolean>>;
+  };
+  isTokenBOpenModalState: {
+    isTokenBOpenModal: boolean;
+    setTokenBIsOpenModal: Dispatch<SetStateAction<boolean>>;
+  };
+  loadingState: {
+    loading: boolean;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+  };
+  createPoolPopupState: {
+    createPoolPopup: boolean;
+    setCreatePoolPopup: Dispatch<SetStateAction<boolean>>;
+  };
+  formFindPool: UseFormReturn<DexFindPoolForm>;
 }

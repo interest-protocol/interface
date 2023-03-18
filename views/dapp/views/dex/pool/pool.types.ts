@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 import { PoolType } from '@/constants';
 import { Address } from '@/interface';
 
@@ -12,4 +14,13 @@ export interface PoolRowProps {
 
 export interface RecommendedPoolsProps {
   type: PoolType;
+  chainId: number;
+}
+
+export interface PoolProps {
+  poolTypeState: {
+    poolType: PoolType;
+    setPoolType: Dispatch<SetStateAction<PoolType>>;
+  };
+  chainId: number;
 }

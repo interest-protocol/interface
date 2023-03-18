@@ -59,9 +59,9 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
   tokens,
   defaultValue,
   onSelectCurrency,
+  chainId,
 }) => {
   const t = useTranslations();
-  const chainId = useChainId();
 
   return (
     <Dropdown

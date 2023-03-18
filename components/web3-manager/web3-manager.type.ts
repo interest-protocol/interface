@@ -13,7 +13,7 @@ export interface AdviceProps {
 }
 
 export interface Web3ManagerProps {
-  supportedChains: ReadonlyArray<number>;
+  pathname: string;
   pageTitle: string;
 }
 

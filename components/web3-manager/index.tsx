@@ -1,23 +1,16 @@
-import { ThemeProvider } from '@emotion/react';
 import * as allChains from '@wagmi/core/chains';
 import { useTranslations } from 'next-intl';
 import { FC, useEffect } from 'react';
 import { useAccount, useConnect, useNetwork, useSwitchNetwork } from 'wagmi';
 
-import { Routes, SUPPORTED_CHAINS_RECORD } from '@/constants';
+import { SUPPORTED_CHAINS_RECORD } from '@/constants';
 import { CHAINS } from '@/constants/chains';
-import { DAppTheme, LandingPageTheme } from '@/design-system';
 import { TimesSVG } from '@/svg';
 import { capitalize } from '@/utils';
 import { Layout, Loading } from '@/views/dapp/components';
-import HomePageLayout from '@/views/home/layout';
 
 import Advice from './advice';
-import {
-  ContentProps,
-  Web3ManagerProps,
-  Web3ManagerWrapperProps,
-} from './web3-manager.type';
+import { ContentProps, Web3ManagerProps } from './web3-manager.type';
 
 const Content: FC<ContentProps> = ({ supportedChains = [], children }) => {
   const { error, isLoading } = useConnect();
@@ -59,32 +52,14 @@ const Content: FC<ContentProps> = ({ supportedChains = [], children }) => {
 
 const Web3Manager: FC<Web3ManagerProps> = ({
   children,
-  supportedChains,
+  pathname,
   pageTitle,
 }) => (
   <Layout pageTitle={pageTitle}>
-    <Content supportedChains={supportedChains}>{children}</Content>
+    <Content supportedChains={SUPPORTED_CHAINS_RECORD[pathname]}>
+      {children}
+    </Content>
   </Layout>
 );
 
-const Web3ManagerWrapper: FC<Web3ManagerWrapperProps> = ({
-  pathname,
-  pageTitle,
-  children,
-}) =>
-  pathname !== Routes.home ? (
-    <ThemeProvider theme={DAppTheme}>
-      <Web3Manager
-        pageTitle={pageTitle}
-        supportedChains={SUPPORTED_CHAINS_RECORD[pathname]}
-      >
-        {children}
-      </Web3Manager>
-    </ThemeProvider>
-  ) : (
-    <ThemeProvider theme={LandingPageTheme}>
-      <HomePageLayout pageTitle={pageTitle}>{children}</HomePageLayout>
-    </ThemeProvider>
-  );
-
-export default Web3ManagerWrapper;
+export default Web3Manager;
