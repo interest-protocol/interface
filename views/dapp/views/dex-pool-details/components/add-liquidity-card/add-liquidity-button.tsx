@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { Button } from '@/elements';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
 import {
@@ -21,12 +23,15 @@ const AddLiquidityButton: FC<AddLiquidityCardButtonProps> = ({
   loading,
 }) => {
   const t = useTranslations();
+  const { address } = useAccount();
 
   const _addLiquidity = async () => {
     try {
       setLoading(true);
       const tx = await addLiquidity?.();
       await showTXSuccessToast(tx, chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

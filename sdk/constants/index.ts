@@ -284,7 +284,7 @@ export const CONTRACTS = {
   iBAYC: {
     [CHAIN_ID.BNB_MAIN_NET]: ethers.constants.AddressZero,
     [CHAIN_ID.BNB_TEST_NET]: ethers.utils.getAddress(
-      '0x77a4F526C17466e394F0B2aBeB1d04AB372eec19'
+      '0x05F0a612575af542c06f6d80D119cC405AbadC16'
     ),
   },
   iAAPL: {

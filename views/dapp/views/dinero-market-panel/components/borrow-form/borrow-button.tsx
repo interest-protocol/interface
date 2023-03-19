@@ -3,7 +3,9 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { ApproveButton } from '@/components';
 import { Box, Button, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
@@ -41,6 +43,8 @@ const BorrowButton: FC<BorrowButtonProps> = ({
   borrowCollateral,
 }) => {
   const t = useTranslations();
+  const { address } = useAccount();
+
   const [loading, setLoading] = useState(false);
 
   const {
@@ -113,6 +117,8 @@ const BorrowButton: FC<BorrowButtonProps> = ({
       await await refetch();
 
       await showTXSuccessToast(tx, data.chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

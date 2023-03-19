@@ -3,8 +3,10 @@ import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { pathOr, prop } from 'ramda';
 import { FC } from 'react';
+import { useAccount } from 'wagmi';
 
 import { isInterestDexPair } from '@/api';
+import { incrementTX } from '@/api/analytics';
 import {
   Routes,
   RoutesEnum,
@@ -51,6 +53,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
 }) => {
   const t = useTranslations();
   const { push } = useRouter();
+  const { address } = useAccount();
 
   const {
     useContractWriteReturn: { writeAsync: addLiquidity },
@@ -140,8 +143,9 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       if (tx) await tx.wait(3);
 
       await showTXSuccessToast(tx, chainId);
+      incrementTX(address ?? '');
 
-      const address = getIPXPairAddress(
+      const pairAddress = getIPXPairAddress(
         chainId,
         isZeroAddress(token0Address)
           ? WRAPPED_NATIVE_TOKEN[chainId].address
@@ -157,7 +161,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       });
       return push({
         pathname: Routes[RoutesEnum.DEXPoolDetails],
-        query: { address: address },
+        query: { address: pairAddress },
       }).then();
     } catch (e) {
       logTransactionEvent({

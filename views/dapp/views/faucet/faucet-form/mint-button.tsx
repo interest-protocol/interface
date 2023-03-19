@@ -2,7 +2,9 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { useCallback } from 'react';
 import { FC } from 'react';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -31,6 +33,7 @@ const MintButton: FC<MintButtonProps> = ({
   loadingState,
 }) => {
   const t = useTranslations();
+  const { address } = useAccount();
 
   const {
     useContractWriteReturn: { writeAsync: mint },
@@ -49,6 +52,8 @@ const MintButton: FC<MintButtonProps> = ({
       const tx = await mint?.();
 
       await showTXSuccessToast(tx, chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

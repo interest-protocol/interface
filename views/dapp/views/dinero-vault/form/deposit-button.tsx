@@ -2,7 +2,9 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
@@ -24,6 +26,7 @@ const DepositButton: FC<DepositButtonProps> = ({
 }) => {
   const t = useTranslations();
   const value = useWatch({ control, name: 'value' });
+  const { address } = useAccount();
 
   const {
     useContractWriteReturn: { writeAsync },
@@ -37,6 +40,8 @@ const DepositButton: FC<DepositButtonProps> = ({
 
       await refetch();
       await showTXSuccessToast(tx, data.chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

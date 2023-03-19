@@ -44,6 +44,7 @@ const Dropdown: FC<DropdownProps> = ({
       alignItems="center"
       position={staticPosition ? 'static' : 'relative'}
       id={dropdownWrapperId}
+      zIndex={4}
     >
       {mode === 'select' && selectedIndex !== -1 && customTitle ? (
         <Box

@@ -30,6 +30,9 @@
     "footerCopyrights": "All rights reserved.",
     "teamTitle": "Meet Our Team",
     "advisorTitle": "Advisors",
+    "followUs": "Follow us on",
+    "aboutUs": "About Us",
+    "mediaKit": "Media Kit",
     "roleCFO": "Co-Founder & CFO",
     "roleCEO": "Co-Founder & CEO",
     "developer": "Developer",
@@ -46,9 +49,8 @@
     "subscribeErrors": {
       "1008": "contact already added"
     },
-    "integrations": {
-      "title": "Integrations",
-      "poweredBy": "Powered By"
+    "partners": {
+      "title": "Partners"
     },
     "diversity": {
       "title": "Diversify your crypto portfolio with RWA",

@@ -5,7 +5,7 @@ export { default as DEX } from './dex';
 export { default as Diversity } from './diversity';
 export { default as Earn } from './earn';
 export { default as Hero } from './hero';
-export { default as Integrations } from './integrations';
+export { default as Partners } from './partners';
 export { default as Subscribe } from './subscribe';
 export { default as Team } from './team';
 export { default as WhyUs } from './why-us';

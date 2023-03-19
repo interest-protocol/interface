@@ -2,7 +2,9 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { Box, Button, Typography } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import {
@@ -31,6 +33,7 @@ const RepayButton: FC<RepayButtonProps> = ({
   refetch,
 }) => {
   const t = useTranslations();
+  const { address } = useAccount();
   const [loading, setLoading] = useState(false);
 
   const {
@@ -43,6 +46,8 @@ const RepayButton: FC<RepayButtonProps> = ({
       const tx = await repay?.();
 
       await showTXSuccessToast(tx, data.chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

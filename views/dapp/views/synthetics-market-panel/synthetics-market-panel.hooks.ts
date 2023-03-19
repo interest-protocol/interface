@@ -3,7 +3,6 @@ import { Abi, Narrow } from 'abitype';
 import { ethers } from 'ethers';
 import { isEmpty } from 'ramda';
 import { useMemo } from 'react';
-import { WrapperBuilder as OldWrapperBuilder } from 'redstone-evm-connector';
 import { useDebounce } from 'use-debounce';
 import {
   useContractWrite,
@@ -15,6 +14,7 @@ import {
 import {
   DEFAULT_ACCOUNT,
   REDSTONE_CORE_CONSUMER_DATA,
+  REDSTONE_CORE_CUSTOM_URL_CONSUMER_DATA,
   SyntheticOracleType,
   SyntheticRequestActions,
 } from '@/constants';
@@ -436,15 +436,22 @@ export const useRedstoneSynthsPanel = ({
       ethers.utils.formatBytes32String('')
     );
 
-    const marketContract = OldWrapperBuilder.wrapLite(
+    const customUrlCallData = REDSTONE_CORE_CUSTOM_URL_CONSUMER_DATA[chainId];
+
+    const marketContract = WrapperBuilder.wrap(
       new ethers.Contract(
         address,
         GetTokenUsdPriceABI,
         getStaticWeb3Provider(chainId)
       ).connect(account || DEFAULT_ACCOUNT)
-    ).usingPriceFeed('redstone-custom-urls-demo', {
-      asset: dataFeedId,
-    }) as GetTokenUsdPriceAbi;
+    ).usingDataService(
+      {
+        dataServiceId: customUrlCallData.dataServiceId,
+        uniqueSignersCount: customUrlCallData.uniqueSignersCount,
+        dataFeeds: [dataFeedId],
+      },
+      [customUrlCallData.url]
+    ) as GetTokenUsdPriceAbi;
 
     const syntheticUSDPrice = await marketContract.getTokenUSDPrice();
 

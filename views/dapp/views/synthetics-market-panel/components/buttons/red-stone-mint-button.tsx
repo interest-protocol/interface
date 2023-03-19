@@ -5,11 +5,15 @@ import { prop } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { WrapperBuilder as OldWrapperBuilder } from 'redstone-evm-connector';
-import { useSigner } from 'wagmi';
+import { useAccount, useSigner } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { ApproveButton } from '@/components';
-import { REDSTONE_CORE_CONSUMER_DATA, SyntheticOracleType } from '@/constants';
+import {
+  REDSTONE_CORE_CONSUMER_DATA,
+  REDSTONE_CORE_CUSTOM_URL_CONSUMER_DATA,
+  SyntheticOracleType,
+} from '@/constants';
 import { Box, Button, Typography } from '@/elements';
 import { Address } from '@/interface';
 import SyntheticMinterABI from '@/sdk/abi/synthetics-minter.abi.json';
@@ -46,6 +50,7 @@ const MintButton: FC<MintButtonProps> = ({
   loadingState,
 }) => {
   const t = useTranslations();
+  const { address } = useAccount();
 
   const mintSynt = useWatch({ control: form.control, name: 'mint.synt' });
 
@@ -125,6 +130,9 @@ const MintButton: FC<MintButtonProps> = ({
       const coreRedStoneConsumerData =
         REDSTONE_CORE_CONSUMER_DATA[data.chainId];
 
+      const customUrlRedstoneData =
+        REDSTONE_CORE_CUSTOM_URL_CONSUMER_DATA[data.chainId];
+
       const wrappedContract =
         data.oracleType === SyntheticOracleType.RedStoneConsumer
           ? (WrapperBuilder.wrap(contract).usingDataService(
@@ -135,9 +143,13 @@ const MintButton: FC<MintButtonProps> = ({
               },
               [coreRedStoneConsumerData.url]
             ) as SyntheticsMinterAbi)
-          : (OldWrapperBuilder.wrapLite(contract).usingPriceFeed(
-              'redstone-custom-urls-demo',
-              { asset: data.dataFeedId }
+          : (WrapperBuilder.wrap(contract).usingDataService(
+              {
+                dataServiceId: customUrlRedstoneData.dataServiceId,
+                uniqueSignersCount: customUrlRedstoneData.uniqueSignersCount,
+                dataFeeds: [data.dataFeedId],
+              },
+              [customUrlRedstoneData.url]
             ) as SyntheticsMinterAbi);
 
       const tx = await makeRedStoneMintCall({
@@ -152,6 +164,8 @@ const MintButton: FC<MintButtonProps> = ({
       await refetch();
 
       await showTXSuccessToast(tx, data.chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,

@@ -2,7 +2,9 @@ import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useAccount } from 'wagmi';
 
+import { incrementTX } from '@/api/analytics';
 import { Box, Button } from '@/elements';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast, throwError } from '@/utils';
@@ -23,6 +25,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
   loadinWithdrawState,
 }) => {
   const t = useTranslations();
+  const { address } = useAccount();
   const value = useWatch({ control, name: 'value' });
 
   const {
@@ -37,6 +40,8 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
 
       await refetch();
       await showTXSuccessToast(tx, data.chainId);
+      incrementTX(address ?? '');
+
       logTransactionEvent({
         status: GAStatus.Success,
         type: GAType.Write,
