@@ -34,9 +34,9 @@ const LoanInfo: FC<LoanInfoProps> = ({ kind, isLoading, loanInfoData }) => {
   return (
     <Box p="XL" order={4} gridArea="d" bg="foreground" borderRadius="L">
       {propOr<
-        typeof LOAN_INFO_MAP[keyof typeof LOAN_INFO_MAP],
+        (typeof LOAN_INFO_MAP)[keyof typeof LOAN_INFO_MAP],
         typeof LOAN_INFO_MAP,
-        typeof LOAN_INFO_MAP[keyof typeof LOAN_INFO_MAP]
+        (typeof LOAN_INFO_MAP)[keyof typeof LOAN_INFO_MAP]
       >([], kind.toString(), LOAN_INFO_MAP).map(({ name, tip }, i) => (
         <Box
           my="L"

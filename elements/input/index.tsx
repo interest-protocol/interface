@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import React, { forwardRef, RefAttributes } from 'react';
+import { forwardRef, RefAttributes } from 'react';
 
 import stylin from '@/stylin';
 

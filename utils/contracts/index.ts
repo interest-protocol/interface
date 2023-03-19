@@ -132,18 +132,20 @@ export const getInterestViewDexContract: GetContract<InterestViewDexAbi> = (
     provider
   ) as InterestViewDexAbi;
 
-export const getInterestDexFactoryContract: GetContract<InterestDexFactoryAbi> =
-  (chainId, provider) =>
-    new ethers.Contract(
-      getInterestDexFactoryAddress(chainId),
-      InterestDexFactoryABI,
-      provider
-    ) as InterestDexFactoryAbi;
+export const getInterestDexFactoryContract: GetContract<
+  InterestDexFactoryAbi
+> = (chainId, provider) =>
+  new ethers.Contract(
+    getInterestDexFactoryAddress(chainId),
+    InterestDexFactoryABI,
+    provider
+  ) as InterestDexFactoryAbi;
 
-export const getInterestViewDineroContract: GetContract<InterestViewDineroV2Abi> =
-  (chainId, provider) =>
-    new ethers.Contract(
-      getInterestViewDineroV2Address(chainId),
-      InterestViewDineroV2ABI,
-      provider
-    ) as InterestViewDineroV2Abi;
+export const getInterestViewDineroContract: GetContract<
+  InterestViewDineroV2Abi
+> = (chainId, provider) =>
+  new ethers.Contract(
+    getInterestViewDineroV2Address(chainId),
+    InterestViewDineroV2ABI,
+    provider
+  ) as InterestViewDineroV2Abi;
