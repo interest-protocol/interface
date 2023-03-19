@@ -1,6 +1,6 @@
 import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, RefObject, SetStateAction } from 'react';
 import { Control, UseFormReturn } from 'react-hook-form';
 
 import { StakeState } from '@/constants';
@@ -57,6 +57,7 @@ export interface DineroVaultProps {
     openDetails: boolean;
     setOpenDetails: Dispatch<SetStateAction<boolean>>;
   };
+  detailRef: RefObject<HTMLDivElement>;
 }
 
 export interface DineroVaultFormProps {
@@ -83,6 +84,7 @@ export interface DineroVaultFooterProps {
     openDetails: boolean;
     setOpenDetails: Dispatch<SetStateAction<boolean>>;
   };
+  detailRef: RefObject<HTMLDivElement>;
 }
 
 export interface VaultData {

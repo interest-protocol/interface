@@ -27,6 +27,7 @@ const DineroVault: FC<DineroVaultProps> = ({
   loadinDepositState,
   loadinWithdrawState,
   openDetailsState,
+  detailRef,
 }) => {
   const t = useTranslations();
 
@@ -193,6 +194,7 @@ const DineroVault: FC<DineroVaultProps> = ({
                   ),
                 },
               ]}
+              detailRef={detailRef}
             />
           </Box>
         </Box>

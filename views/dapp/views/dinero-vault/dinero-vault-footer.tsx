@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { FC, useRef } from 'react';
+import { FC } from 'react';
 import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
 
@@ -14,9 +14,9 @@ const AnimatedBox = animated(Box);
 const DineroVaultFooter: FC<DineroVaultFooterProps> = ({
   dineroVaultDetailsFooterItems,
   openDetailsState,
+  detailRef,
 }) => {
   const t = useTranslations();
-  const detailRef = useRef<HTMLDivElement>(null);
 
   const { mHeight, arrowInvert } = useSpring({
     from: {

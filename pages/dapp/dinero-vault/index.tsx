@@ -2,7 +2,7 @@ import { GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { StakeState } from '@/constants';
@@ -22,6 +22,7 @@ const DineroVaultPage: NextPagePropsWithAddress = ({ pageTitle, address }) => {
   const [loadingDeposit, setLoadingDeposit] = useState(false);
   const [loadingWithdraw, setLoadingWithdraw] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
+  const detailRef = useRef<HTMLDivElement>(null);
 
   const { chainId, account } = useIdAccount();
 
@@ -48,6 +49,7 @@ const DineroVaultPage: NextPagePropsWithAddress = ({ pageTitle, address }) => {
           setLoading: setLoadingWithdraw,
         }}
         openDetailsState={{ openDetails, setOpenDetails }}
+        detailRef={detailRef}
       />
     </Web3Manager>
   );
