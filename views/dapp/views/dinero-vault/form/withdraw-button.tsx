@@ -1,6 +1,5 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
-import { useState } from 'react';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useAccount } from 'wagmi';
@@ -23,10 +22,10 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
   control,
   data,
   refetch,
+  loadinWithdrawState,
 }) => {
   const t = useTranslations();
   const { address } = useAccount();
-  const [loading, setLoading] = useState(false);
   const value = useWatch({ control, name: 'value' });
 
   const {
@@ -34,7 +33,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
   } = useWithdraw(data, value);
 
   const handleWithdraw = async () => {
-    setLoading(true);
+    loadinWithdrawState.setLoading(true);
     try {
       const tx = await writeAsync?.();
       if (tx) await tx.wait(2);
@@ -58,7 +57,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       });
       throwError(t('error.generic'), e);
     } finally {
-      setLoading(false);
+      loadinWithdrawState.setLoading(false);
     }
   };
 
@@ -75,7 +74,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
   return (
     <Button
       onClick={onSubmitWithdraw}
-      disabled={!writeAsync || loading}
+      disabled={!writeAsync || loadinWithdrawState.loading}
       variant="primary"
       width="100%"
       py="L"
@@ -85,12 +84,14 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       justifyContent="center"
       bg={!writeAsync ? 'disabled' : 'primary'}
     >
-      {loading && (
+      {loadinWithdrawState.loading && (
         <Box as="span" display="inline-block" width="1rem" mr="M">
           <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
       )}
-      {capitalize(t('dineroVault.withdraw', { isLoading: +loading }))}
+      {capitalize(
+        t('dineroVault.withdraw', { isLoading: +loadinWithdrawState.loading })
+      )}
     </Button>
   );
 };

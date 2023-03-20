@@ -7,4 +7,5 @@ export interface FarmCardProps {
   loading: boolean;
   amountUSD: string;
   button: ReactNode;
+  address: `0x${string}` | undefined;
 }

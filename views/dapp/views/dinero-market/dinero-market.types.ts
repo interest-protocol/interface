@@ -1,5 +1,6 @@
 import { BigNumber } from 'ethers';
 import { Result } from 'ethers/lib/utils';
+import { UseFormReturn } from 'react-hook-form';
 import { InterestViewDinero } from 'types/ethers-contracts/InterestViewDineroV2Abi';
 
 import { DineroMarketKind } from '@/constants';
@@ -53,4 +54,8 @@ export interface IDineroMarketForm {
   search: string;
   onlyBorrowing: boolean;
   sortBy: BorrowSortByFilter;
+}
+
+export interface DineroMarketProps {
+  formDineroMarket: UseFormReturn<IDineroMarketForm>;
 }

@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { FC } from 'react';
 import { useAccount } from 'wagmi';
 
@@ -30,10 +30,10 @@ const MintButton: FC<MintButtonProps> = ({
   account,
   getValues,
   refetch,
+  loadingState,
 }) => {
   const t = useTranslations();
   const { address } = useAccount();
-  const [loading, setLoading] = useState(false);
 
   const {
     useContractWriteReturn: { writeAsync: mint },
@@ -41,7 +41,7 @@ const MintButton: FC<MintButtonProps> = ({
 
   const handleOnMint = useCallback(async () => {
     try {
-      setLoading(true);
+      loadingState.setLoading(true);
 
       const amount = getValues('amount');
       const token = getValues('token');
@@ -70,7 +70,7 @@ const MintButton: FC<MintButtonProps> = ({
       });
       throwError(t('error.generic'), error);
     } finally {
-      setLoading(false);
+      loadingState.setLoading(false);
     }
   }, [chainId, account, mint]);
 
@@ -86,18 +86,18 @@ const MintButton: FC<MintButtonProps> = ({
       width="100%"
       onClick={onMint}
       variant="primary"
-      disabled={loading || !mint}
-      cursor={loading || !mint ? 'not-allowed' : 'pointer'}
+      disabled={loadingState.loading || !mint}
+      cursor={loadingState.loading || !mint ? 'not-allowed' : 'pointer'}
       hover={{ bg: 'accentAlternativeActive' }}
       bg={
-        loading
+        loadingState.loading
           ? 'accentAlternativeActive'
           : !mint
           ? 'disabled'
           : 'accentAlternative'
       }
     >
-      {loading ? (
+      {loadingState.loading ? (
         <Box as="span" display="flex" justifyContent="center">
           <Box as="span" display="inline-block" width="1rem">
             <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />

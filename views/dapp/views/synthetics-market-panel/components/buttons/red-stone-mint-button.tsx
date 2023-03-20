@@ -2,7 +2,7 @@ import { WrapperBuilder } from '@redstone-finance/evm-connector';
 import { ethers } from 'ethers';
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useAccount, useSigner } from 'wagmi';
@@ -43,10 +43,14 @@ import {
 import { MintButtonProps } from './buttons.types';
 import { makeRedStoneMintCall } from './buttons.utils';
 
-const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
+const MintButton: FC<MintButtonProps> = ({
+  refetch,
+  data,
+  form,
+  loadingState,
+}) => {
   const t = useTranslations();
   const { address } = useAccount();
-  const [loading, setLoading] = useState(false);
 
   const mintSynt = useWatch({ control: form.control, name: 'mint.synt' });
 
@@ -58,7 +62,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
   });
 
   const handleMint = async () => {
-    setLoading(true);
+    loadingState.setLoading(true);
     try {
       if (!signer) return;
       if (
@@ -178,7 +182,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
       });
       throwContractCallError(e);
     } finally {
-      setLoading(false);
+      loadingState.setLoading(false);
     }
   };
 
@@ -242,14 +246,16 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
       display="flex"
       variant="primary"
       alignItems="center"
-      disabled={loading}
+      disabled={loadingState.loading}
       justifyContent="center"
       onClick={onSubmitMint}
       hover={{ bg: 'accentActive' }}
-      bg={!signer ? 'disabled' : loading ? 'accentActive' : 'accent'}
-      cursor={loading || !signer ? 'not-allowed' : 'pointer'}
+      bg={
+        !signer ? 'disabled' : loadingState.loading ? 'accentActive' : 'accent'
+      }
+      cursor={loadingState.loading || !signer ? 'not-allowed' : 'pointer'}
     >
-      {loading && (
+      {loadingState.loading && (
         <Box as="span" display="inline-block" width="1rem">
           <LoadingSVG width="100%" maxWidth="1rem" maxHeight="1rem" />
         </Box>
@@ -257,7 +263,7 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
       <Typography
         as="span"
         variant="normal"
-        ml={loading ? 'L' : 'NONE'}
+        ml={loadingState.loading ? 'L' : 'NONE'}
         fontSize="S"
       >
         {t(

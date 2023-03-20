@@ -1,28 +1,22 @@
 import 'react-loading-skeleton/dist/skeleton.css';
 
-import { Global } from '@emotion/react';
+import { Global, ThemeProvider } from '@emotion/react';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextProgress from 'next-progress';
 import { ReactNode, StrictMode, useEffect } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
-import { WagmiConfig } from 'wagmi';
 
-import { NextIntlProvider, Web3Manager } from '@/components';
-import { wagmiClient } from '@/connectors';
-import { GlobalStyles } from '@/design-system';
-import { TTranslatedMessage } from '@/interface';
+import { NextIntlProvider } from '@/components';
+import { Routes } from '@/constants';
+import { DAppTheme, GlobalStyles, LandingPageTheme } from '@/design-system';
+import { NextPageDefaultProps } from '@/interface';
 import { initGA, logPageView } from '@/utils/analytics';
+import HomePageLayout from '@/views/home/layout';
 
-interface PageProps {
-  now: number;
-  pageTitle: string;
-  messages: TTranslatedMessage;
-}
-
-type Props = Omit<AppProps<PageProps>, 'pageProps'> & {
-  pageProps: PageProps;
+type Props = Omit<AppProps<NextPageDefaultProps>, 'pageProps'> & {
+  pageProps: NextPageDefaultProps;
 };
 
 const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
@@ -66,20 +60,23 @@ const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
         now={new Date(pageProps.now)}
         timeZone="UTC"
       >
-        <WagmiConfig client={wagmiClient}>
-          <SkeletonTheme baseColor="#202020" highlightColor="#444">
+        <SkeletonTheme baseColor="#202020" highlightColor="#444">
+          <StrictMode>
             <Global styles={GlobalStyles} />
-            <Web3Manager
-              pageTitle={pageProps.pageTitle}
-              pathname={router.pathname}
-            >
-              <StrictMode>
+            {router.pathname !== Routes.home ? (
+              <ThemeProvider theme={DAppTheme}>
                 <Component {...pageProps} />
-                <VercelAnalytics />
-              </StrictMode>
-            </Web3Manager>
-          </SkeletonTheme>
-        </WagmiConfig>
+              </ThemeProvider>
+            ) : (
+              <ThemeProvider theme={LandingPageTheme}>
+                <HomePageLayout pageTitle={pageProps.pageTitle}>
+                  <Component {...pageProps} />
+                </HomePageLayout>
+              </ThemeProvider>
+            )}
+            <VercelAnalytics />
+          </StrictMode>
+        </SkeletonTheme>
       </NextIntlProvider>
     </>
   );

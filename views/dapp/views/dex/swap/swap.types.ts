@@ -100,3 +100,21 @@ export interface UseWETHWithdrawArgs {
   parsedTokenInBalance: SwapButtonProps['parsedTokenInBalance'];
   needsApproval: boolean;
 }
+
+export interface SwapProps {
+  setLocalSettings: (x: LocalSwapSettings) => void;
+  localSettings: LocalSwapSettings;
+  showSettingsState: {
+    showSettings: boolean;
+    setShowSettings: Dispatch<SetStateAction<boolean>>;
+  };
+
+  isTokenInOpenModalState: {
+    isTokenInOpenModal: boolean;
+    setTokenInIsOpenModal: Dispatch<SetStateAction<boolean>>;
+  };
+  isTokenOutOpenModalState: {
+    isTokenOutOpenModal: boolean;
+    setTokenOutIsOpenModal: Dispatch<SetStateAction<boolean>>;
+  };
+}

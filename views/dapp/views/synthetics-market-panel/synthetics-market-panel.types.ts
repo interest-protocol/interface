@@ -1,6 +1,6 @@
 import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
-import { FC, ReactNode } from 'react';
+import { Dispatch, FC, ReactNode, SetStateAction } from 'react';
 import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
 import { SVGProps } from '@/components/svg/svg.types';
@@ -33,12 +33,33 @@ export interface SyntheticsMarketPanelProps {
   mode: TSyntheticsMarketMode;
 }
 
+export interface SyntheticsMarketPanelPageProps
+  extends SyntheticsMarketPanelProps {
+  formSynthetics: UseFormReturn<ISyntheticForm>;
+  loadingBurnState: {
+    loading: boolean;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+  };
+  loadingMintState: {
+    loading: boolean;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+  };
+}
+
 export interface SyntheticsMarketPanelBranchProps
   extends SyntheticsMarketPanelProps {
   form: UseFormReturn<ISyntheticForm>;
   oracleType: SyntheticOracleType;
   dataFeedId: string;
   collateralAddress: `0x${string}`;
+  loadingBurnState: {
+    loading: boolean;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+  };
+  loadingMintState: {
+    loading: boolean;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+  };
 }
 
 export interface SyntheticsMarketSwitchProps

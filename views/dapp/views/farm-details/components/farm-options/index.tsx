@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
-import { FC, useState } from 'react';
+import { FC } from 'react';
+import { useAccount } from 'wagmi';
 
 import { Routes, RoutesEnum, StakeState } from '@/constants';
 import { Typography } from '@/elements';
@@ -27,24 +28,25 @@ const FarmOptions: FC<FarmOptionsProps> = ({
   refetch,
   loading,
   intUSDPrice,
+  modalState,
 }) => {
   const t = useTranslations();
+  const { address } = useAccount();
   const { push } = useRouter();
-  const [modal, setModal] = useState<StakeState | undefined>();
 
   const farmSymbol =
     farm.id === 0
       ? TOKEN_SYMBOL.INT
       : makeFarmSymbol(farm.chainId, farm.token0, farm.token1);
 
-  const handleCloseModal = () => setModal(undefined);
+  const handleCloseModal = () => modalState.setModal(undefined);
 
   const handleChangeModal = (target: StakeState) => () => {
     logGenericEvent(
       'Modal_FarmDetailsCard_' +
         (target === StakeState.Stake ? 'StakedToken' : 'UnstakedToken')
     );
-    setModal(target);
+    modalState.setModal(target);
   };
 
   return (
@@ -58,6 +60,7 @@ const FarmOptions: FC<FarmOptionsProps> = ({
       flexDirection={['column', 'column', 'column', 'unset']}
     >
       <EarnCard
+        address={address}
         loading={loading}
         title={capitalize(t('common.yourBalance'))}
         amountUSD={formatDollars(
@@ -99,6 +102,7 @@ const FarmOptions: FC<FarmOptionsProps> = ({
         }
       />
       <EarnCard
+        address={address}
         title={t('farmsDetails.secondCardTitle')}
         loading={loading}
         amountUSD={formatDollars(
@@ -157,6 +161,7 @@ const FarmOptions: FC<FarmOptionsProps> = ({
         }
       />
       <EarnCard
+        address={address}
         title={t('farmsDetails.thirdCardTitle')}
         loading={loading}
         shadow={!farm.pendingRewards.isZero()}
@@ -170,10 +175,12 @@ const FarmOptions: FC<FarmOptionsProps> = ({
       />
       <FarmStakeModal
         farm={farm}
-        modal={modal}
+        modal={modalState.modal}
         handleClose={handleCloseModal}
         amount={FixedPointMath.toNumber(
-          modal === StakeState.Stake ? farm.balance : farm.stakingAmount
+          modalState.modal === StakeState.Stake
+            ? farm.balance
+            : farm.stakingAmount
         )}
         farmSymbol={farmSymbol}
         refetch={refetch}

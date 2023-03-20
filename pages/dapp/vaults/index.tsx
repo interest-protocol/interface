@@ -1,10 +1,32 @@
-import { GetStaticProps, NextPage } from 'next';
-import dynamic from 'next/dynamic';
+import { GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-const DynamicVault = dynamic(() => import('../../../views/dapp/views/vaults'));
+import { Web3Manager } from '@/components';
+import { VaultTypes } from '@/constants';
+import { NextPageWithProps } from '@/interface';
+import Vault from '@/views/dapp/views/vaults';
+import { IVaultForm } from '@/views/dapp/views/vaults/vaults.types';
 
-const VaultPage: NextPage = () => <DynamicVault />;
+const VaultPage: NextPageWithProps = ({ pageTitle }) => {
+  const { pathname } = useRouter();
+  const [isDesktop, setDesktop] = useState(false);
+
+  const formVault = useForm<IVaultForm>({
+    defaultValues: {
+      search: '',
+      type: VaultTypes.All,
+      onlyDeposit: false,
+    },
+  });
+  return (
+    <Web3Manager pageTitle={pageTitle} pathname={pathname}>
+      <Vault desktopState={{ isDesktop, setDesktop }} formVault={formVault} />
+    </Web3Manager>
+  );
+};
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, vaultsMessages] = await Promise.all([

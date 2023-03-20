@@ -1,7 +1,7 @@
 import { SendTransactionResult } from '@wagmi/core';
 import { BigNumber } from 'ethers';
 import { Dispatch, ReactNode, SetStateAction } from 'react';
-import { Control, UseFormSetValue } from 'react-hook-form';
+import { Control, UseFormReturn, UseFormSetValue } from 'react-hook-form';
 
 export interface IAddLiquidityForm {
   token0Amount: string;
@@ -22,6 +22,17 @@ export interface IToken {
 export interface AddLiquidityCardProps {
   isStable: boolean;
   tokens: IToken[];
+  chainId: number;
+  account: string;
+  isFetchingQuoteState: {
+    isFetchingQuote: boolean;
+    setIsFetchingQuote: Dispatch<SetStateAction<boolean>>;
+  };
+  loadingState: {
+    loading: boolean;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+  };
+  formAddLiquidity: UseFormReturn<IAddLiquidityForm>;
   fetchingInitialData: boolean;
   refetch: () => Promise<void>;
 }

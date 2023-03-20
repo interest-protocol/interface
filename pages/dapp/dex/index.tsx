@@ -1,10 +1,40 @@
-import { GetStaticProps, NextPage } from 'next';
-import dynamic from 'next/dynamic';
+import { GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
+import { useState } from 'react';
 
-const DynamicDEX = dynamic(() => import('../../../views/dapp/views/dex'));
+import { Web3Manager } from '@/components';
+import { useLocalStorage } from '@/hooks';
+import { NextPageWithProps } from '@/interface';
+import { LocalSwapSettings } from '@/views/dapp/views/dex/swap/swap.types';
+import DEXSwapView from '@/views/dapp/views/dex/swap-view';
 
-const DEXPage: NextPage = () => <DynamicDEX />;
+const DEXPage: NextPageWithProps = ({ pageTitle }) => {
+  const [showSettings, setShowSettings] = useState(false);
+  const [isTokenInOpenModal, setTokenInIsOpenModal] = useState(false);
+  const [isTokenOutOpenModal, setTokenOutIsOpenModal] = useState(false);
+
+  const { pathname } = useRouter();
+  const [localSettings, setLocalSettings] = useLocalStorage<LocalSwapSettings>(
+    'interest-swap-settings',
+    { slippage: '1', deadline: 5, autoFetch: true }
+  );
+
+  return (
+    <Web3Manager pageTitle={pageTitle} pathname={pathname}>
+      <DEXSwapView
+        setLocalSettings={setLocalSettings}
+        localSettings={localSettings}
+        showSettingsState={{ showSettings, setShowSettings }}
+        isTokenInOpenModalState={{ isTokenInOpenModal, setTokenInIsOpenModal }}
+        isTokenOutOpenModalState={{
+          isTokenOutOpenModal,
+          setTokenOutIsOpenModal,
+        }}
+      />
+    </Web3Manager>
+  );
+};
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dexSwapMessages, dexPoolFindMessages] =

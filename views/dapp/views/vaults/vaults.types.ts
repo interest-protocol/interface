@@ -1,9 +1,11 @@
 import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
+import { Dispatch, SetStateAction } from 'react';
 import {
   Control,
   UseFormGetValues,
   UseFormRegister,
+  UseFormReturn,
   UseFormSetValue,
 } from 'react-hook-form';
 
@@ -58,3 +60,11 @@ export type ProcessVaultsSummaryData = (
         dineroVaults: InterestViewEarn.DineroVaultSummaryStructOutput[];
       })
 ) => { loading: boolean; data: ReadonlyArray<VaultData> };
+
+export interface VaultProps {
+  formVault: UseFormReturn<IVaultForm>;
+  desktopState: {
+    isDesktop: boolean;
+    setDesktop: Dispatch<SetStateAction<boolean>>;
+  };
+}

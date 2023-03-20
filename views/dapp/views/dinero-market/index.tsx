@@ -1,6 +1,5 @@
 import { useTranslations } from 'next-intl';
 import { FC, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
@@ -9,21 +8,12 @@ import { DineroSVG, TimesSVG } from '@/svg';
 import BorrowFilters from '@/views/dapp/views/dinero-market/components/borrow-filters';
 
 import { BorrowTable } from './components';
-import { BorrowSortByFilter } from './components/borrow-filters/borrow-filters.types';
-import { IDineroMarketForm } from './dinero-market.types';
+import { DineroMarketProps } from './dinero-market.types';
 import { getSafeDineroMarketSummaryData } from './dinero-market.utils';
 
-const DineroMarket: FC = () => {
-  const { register, setValue, control } = useForm<IDineroMarketForm>({
-    defaultValues: {
-      search: '',
-      sortBy: BorrowSortByFilter.Default,
-      onlyBorrowing: false,
-    },
-  });
+const DineroMarket: FC<DineroMarketProps> = ({ formDineroMarket }) => {
   const t = useTranslations();
   const chainId = useChainId();
-
   const { data, error } = useGetDineroMarketsSummaryV2();
 
   const markets = useMemo(
@@ -86,11 +76,15 @@ const DineroMarket: FC = () => {
         </Typography>
       </Box>
       <BorrowFilters
-        control={control}
-        register={register}
-        setValue={setValue}
+        control={formDineroMarket.control}
+        register={formDineroMarket.register}
+        setValue={formDineroMarket.setValue}
       />
-      <BorrowTable chainId={chainId} control={control} markets={markets} />
+      <BorrowTable
+        chainId={chainId}
+        control={formDineroMarket.control}
+        markets={markets}
+      />
     </Container>
   );
 };

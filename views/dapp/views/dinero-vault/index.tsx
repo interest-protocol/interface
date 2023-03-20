@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { FC, useMemo, useState } from 'react';
+import { FC, useMemo } from 'react';
 
 import { Container, Tooltip } from '@/components';
 import { RoutesEnum, StakeState } from '@/constants';
@@ -19,10 +19,16 @@ import DineroVaultFooter from './dinero-vault-footer';
 import DineroVaultTitle from './dinero-vault-title';
 import DineroVaultForm from './form/dinero-vault-form';
 
-const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
+const DineroVault: FC<DineroVaultProps> = ({
+  vault,
+  stakeDVState,
+  formVault,
+  loadinDepositState,
+  loadinWithdrawState,
+  openDetailsState,
+  detailRef,
+}) => {
   const t = useTranslations();
-  const [stakeState, setStakeState] = useState(StakeState.Stake);
-
   const { chainId, account } = useIdAccount();
   const { data, error, refetch } = useGetUserDineroVault(
     chainId,
@@ -79,7 +85,7 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
       </Box>
     );
 
-  const isStake = stakeState === StakeState.Stake;
+  const isStake = stakeDVState.stakeState === StakeState.Stake;
 
   const dnrAddress = getDNRAddress(chainId ? chainId : -1);
 
@@ -106,7 +112,10 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
           <GoBack route={RoutesEnum.Vaults} />
         </Box>
         <Box mb="XL">
-          <ButtonTabSelect state={stakeState} setState={setStakeState} />
+          <ButtonTabSelect
+            state={stakeDVState.stakeState}
+            setState={stakeDVState.setStakeState}
+          />
           <Box
             bg="foreground"
             borderBottomLeftRadius="M"
@@ -164,12 +173,16 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
               ]}
             />
             <DineroVaultForm
-              stakeState={stakeState}
+              stakeState={stakeDVState.stakeState}
               data={processedData.data}
               refetch={async () => void (await refetch())}
+              formVault={formVault}
+              loadinDepositState={loadinDepositState}
+              loadinWithdrawState={loadinWithdrawState}
             />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
             <DineroVaultFooter
+              openDetailsState={openDetailsState}
               dineroVaultDetailsFooterItems={[
                 {
                   title: 'common.tvl',
@@ -180,6 +193,7 @@ const DineroVault: FC<DineroVaultProps> = ({ vault }) => {
                   ),
                 },
               ]}
+              detailRef={detailRef}
             />
           </Box>
         </Box>

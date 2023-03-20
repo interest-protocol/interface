@@ -1,5 +1,6 @@
 import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
+import { UseFormReturn } from 'react-hook-form';
 import { InterestViewDinero } from 'types/ethers-contracts/InterestViewDineroV2Abi';
 
 import { SyntheticOracleType } from '@/constants';
@@ -73,4 +74,8 @@ export interface UseGetTokenUsdPriceArgs {
   account: string;
   marketAddress: string;
   dataFeedId: string;
+}
+
+export interface SyntheticsMarketProps {
+  formSyntheticMarketSummary: UseFormReturn<ISyntheticMarketSummaryForm>;
 }

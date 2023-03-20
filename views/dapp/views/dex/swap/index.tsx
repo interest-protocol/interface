@@ -5,11 +5,7 @@ import { useForm, useWatch } from 'react-hook-form';
 
 import { ERC_20_DATA, UNKNOWN_ERC_20 } from '@/constants';
 import { Box } from '@/elements';
-import {
-  useGetDexAllowancesAndBalances,
-  useIdAccount,
-  useLocalStorage,
-} from '@/hooks';
+import { useGetDexAllowancesAndBalances, useIdAccount } from '@/hooks';
 import { Address } from '@/interface';
 import {
   FixedPointMath,
@@ -25,27 +21,31 @@ import SwapSelectCurrency from '../components/swap-select-currency';
 import InputBalance from './input-balance';
 import SettingsDropdown from './settings/settings-dropdown';
 import { SWAP_MESSAGES } from './swap.data';
-import {
-  ISwapForm,
-  LocalSwapSettings,
-  OnSelectCurrencyData,
-} from './swap.types';
+import { ISwapForm, OnSelectCurrencyData, SwapProps } from './swap.types';
 import SwapButton from './swap-button';
 import SwapManager from './swap-manager';
 import SwapMessage from './swap-message';
 
-const Swap: FC = () => {
-  const { chainId, account } = useIdAccount();
-  const [localSettings, setLocalSettings] = useLocalStorage<LocalSwapSettings>(
-    'interest-swap-settings',
-    { slippage: '1', deadline: 5, autoFetch: true }
-  );
-
+const Swap: FC<SwapProps> = ({
+  setLocalSettings,
+  localSettings,
+  showSettingsState,
+  isTokenInOpenModalState,
+  isTokenOutOpenModalState,
+}) => {
+  const { account, chainId } = useIdAccount();
+  const [swapBase, setSwapBase] = useState<Address | null>(null);
+  const [amountOutError, setAmountOutError] = useState<null | string>(null);
+  const [hasNoMarket, setHasNoMarket] = useState(false);
+  const [isFetchingAmountOutTokenIn, setFetchingAmountOutTokenIn] =
+    useState(false);
+  const [isFetchingAmountOutTokenOut, setFetchingAmountOutTokenOut] =
+    useState(false);
   const INT = pathOr(UNKNOWN_ERC_20, [chainId, TOKEN_SYMBOL.INT], ERC_20_DATA);
 
   const ETH = pathOr(UNKNOWN_ERC_20, [chainId, TOKEN_SYMBOL.ETH], ERC_20_DATA);
 
-  const { register, control, setValue, getValues } = useForm<ISwapForm>({
+  const formSwap = useForm<ISwapForm>({
     defaultValues: {
       tokenIn: {
         address: INT.address,
@@ -63,21 +63,15 @@ const Swap: FC = () => {
       },
     },
   });
-
-  const [showSettings, setShowSettings] = useState(false);
-  const [hasNoMarket, setHasNoMarket] = useState(false);
-  const [isFetchingAmountOutTokenIn, setFetchingAmountOutTokenIn] =
-    useState(false);
-  const [isFetchingAmountOutTokenOut, setFetchingAmountOutTokenOut] =
-    useState(false);
-  const [isTokenInOpenModal, setTokenInIsOpenModal] = useState(false);
-  const [isTokenOutOpenModal, setTokenOutIsOpenModal] = useState(false);
-  const [swapBase, setSwapBase] = useState<Address | null>(null);
-  const [amountOutError, setAmountOutError] = useState<null | string>(null);
-
   // We want the form to re-render if addresses change
-  const tokenInAddress = useWatch({ control, name: 'tokenIn.address' });
-  const tokenOutAddress = useWatch({ control, name: 'tokenOut.address' });
+  const tokenInAddress = useWatch({
+    control: formSwap.control,
+    name: 'tokenIn.address',
+  });
+  const tokenOutAddress = useWatch({
+    control: formSwap.control,
+    name: 'tokenOut.address',
+  });
 
   const { balancesError, balancesData, loading, refetch } =
     useGetDexAllowancesAndBalances(
@@ -95,27 +89,27 @@ const Swap: FC = () => {
         balancesData
       ).isZero();
 
-  const toggleSettings = () => setShowSettings(not);
+  const toggleSettings = () => showSettingsState.setShowSettings(not);
 
   const flipTokens = () => {
-    const { tokenOut, tokenIn } = getValues();
+    const { tokenOut, tokenIn } = formSwap.getValues();
     const prevTokenOut = tokenOut;
     const prevTokenIn = tokenIn;
-    setValue('tokenIn', prevTokenOut);
-    setValue('tokenOut', prevTokenIn);
+    formSwap.setValue('tokenIn', prevTokenOut);
+    formSwap.setValue('tokenOut', prevTokenIn);
   };
 
   const onSelectCurrency =
     (name: 'tokenIn' | 'tokenOut') =>
     ({ address, decimals, symbol }: OnSelectCurrencyData) => {
-      setValue(`${name}.address`, address);
-      setValue(`${name}.decimals`, decimals);
-      setValue(`${name}.symbol`, symbol);
-      setValue('tokenOut.value', '0.0');
-      setValue('tokenIn.value', '0.0');
+      formSwap.setValue(`${name}.address`, address);
+      formSwap.setValue(`${name}.decimals`, decimals);
+      formSwap.setValue(`${name}.symbol`, symbol);
+      formSwap.setValue('tokenOut.value', '0.0');
+      formSwap.setValue('tokenIn.value', '0.0');
       setHasNoMarket(false);
-      setTokenInIsOpenModal(false);
-      setTokenOutIsOpenModal(false);
+      isTokenInOpenModalState.setTokenInIsOpenModal(false);
+      isTokenOutOpenModalState.setTokenOutIsOpenModal(false);
     };
 
   const isDisabled = useMemo(
@@ -174,9 +168,9 @@ const Swap: FC = () => {
             >
               <CogsSVG width="1.5rem" maxHeight="1.5rem" maxWidth="1.5rem" />
             </Box>
-            {showSettings && (
+            {showSettingsState.showSettings && (
               <SettingsDropdown
-                isOpen={showSettings}
+                isOpen={showSettingsState.showSettings}
                 onClose={toggleSettings}
                 localSettings={localSettings}
                 setLocalSettings={setLocalSettings}
@@ -199,7 +193,7 @@ const Swap: FC = () => {
                   [getAddress(tokenInAddress), 'balance'],
                   balancesData
                 ),
-                getValues('tokenIn.decimals'),
+                formSwap.getValues('tokenIn.decimals'),
                 0,
                 12
               )}
@@ -210,26 +204,26 @@ const Swap: FC = () => {
                     [getAddress(tokenInAddress), 'balance'],
                     balancesData
                   ),
-                  getValues('tokenIn.decimals'),
+                  formSwap.getValues('tokenIn.decimals'),
                   0,
                   12
                 )
               )}
               name="tokenIn"
-              register={register}
-              setValue={setValue}
+              register={formSwap.register}
+              setValue={formSwap.setValue}
               disabled={isFetchingAmountOutTokenIn}
               handleSelectedByUser={() => {
-                setValue(`tokenIn.setByUser`, true);
-                setValue(`tokenOut.setByUser`, false);
+                formSwap.setValue(`tokenIn.setByUser`, true);
+                formSwap.setValue(`tokenOut.setByUser`, false);
               }}
               currencySelector={
                 <SwapSelectCurrency
                   currentToken={tokenInAddress}
-                  isModalOpen={isTokenInOpenModal}
-                  symbol={getValues('tokenIn.symbol')}
-                  address={getValues('tokenIn.address')}
-                  setIsModalOpen={setTokenInIsOpenModal}
+                  isModalOpen={isTokenInOpenModalState.isTokenInOpenModal}
+                  symbol={formSwap.getValues('tokenIn.symbol')}
+                  address={formSwap.getValues('tokenIn.address')}
+                  setIsModalOpen={isTokenInOpenModalState.setTokenInIsOpenModal}
                   onSelectCurrency={onSelectCurrency('tokenIn')}
                 />
               }
@@ -258,8 +252,8 @@ const Swap: FC = () => {
             </Box>
             <InputBalance
               name="tokenOut"
-              register={register}
-              setValue={setValue}
+              register={formSwap.register}
+              setValue={formSwap.setValue}
               disabled={isFetchingAmountOutTokenOut}
               balance={FixedPointMath.toNumber(
                 pathOr(
@@ -267,22 +261,24 @@ const Swap: FC = () => {
                   [getAddress(tokenOutAddress), 'balance'],
                   balancesData
                 ),
-                getValues().tokenOut.decimals,
+                formSwap.getValues().tokenOut.decimals,
                 0,
                 12
               )}
               handleSelectedByUser={() => {
-                setValue(`tokenIn.setByUser`, false);
-                setValue(`tokenOut.setByUser`, true);
+                formSwap.setValue(`tokenIn.setByUser`, false);
+                formSwap.setValue(`tokenOut.setByUser`, true);
               }}
               currencySelector={
                 <SwapSelectCurrency
                   currentToken={tokenOutAddress}
-                  isModalOpen={isTokenOutOpenModal}
-                  symbol={getValues('tokenOut.symbol')}
+                  isModalOpen={isTokenOutOpenModalState.isTokenOutOpenModal}
+                  symbol={formSwap.getValues('tokenOut.symbol')}
                   disabled={isFetchingAmountOutTokenOut}
-                  address={getValues('tokenOut.address')}
-                  setIsModalOpen={setTokenOutIsOpenModal}
+                  address={formSwap.getValues('tokenOut.address')}
+                  setIsModalOpen={
+                    isTokenOutOpenModalState.setTokenOutIsOpenModal
+                  }
                   onSelectCurrency={onSelectCurrency('tokenOut')}
                 />
               }
@@ -303,11 +299,11 @@ const Swap: FC = () => {
         <SwapButton
           chainId={chainId}
           account={account}
-          control={control}
+          control={formSwap.control}
           swapBase={swapBase}
           disabled={isDisabled}
-          setValue={setValue}
-          getValues={getValues}
+          setValue={formSwap.setValue}
+          getValues={formSwap.getValues}
           setSwapBase={setSwapBase}
           needsApproval={needsApproval}
           localSettings={localSettings}
@@ -327,9 +323,9 @@ const Swap: FC = () => {
       </Box>
       {localSettings.autoFetch && (
         <SwapManager
-          control={control}
+          control={formSwap.control}
           chainId={chainId}
-          setValue={setValue}
+          setValue={formSwap.setValue}
           isFetchingAmountOutTokenIn={isFetchingAmountOutTokenIn}
           isFetchingAmountOutTokenOut={isFetchingAmountOutTokenOut}
           hasNoMarket={hasNoMarket}
