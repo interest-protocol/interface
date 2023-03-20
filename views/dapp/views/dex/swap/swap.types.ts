@@ -108,18 +108,7 @@ export interface SwapProps {
     showSettings: boolean;
     setShowSettings: Dispatch<SetStateAction<boolean>>;
   };
-  hasNoMarketState: {
-    hasNoMarket: boolean;
-    setHasNoMarket: Dispatch<SetStateAction<boolean>>;
-  };
-  isFetchingAmountOutTokenInState: {
-    isFetchingAmountOutTokenIn: boolean;
-    setFetchingAmountOutTokenIn: Dispatch<SetStateAction<boolean>>;
-  };
-  isFetchingAmountOutTokenOutState: {
-    isFetchingAmountOutTokenOut: boolean;
-    setFetchingAmountOutTokenOut: Dispatch<SetStateAction<boolean>>;
-  };
+
   isTokenInOpenModalState: {
     isTokenInOpenModal: boolean;
     setTokenInIsOpenModal: Dispatch<SetStateAction<boolean>>;
@@ -127,13 +116,5 @@ export interface SwapProps {
   isTokenOutOpenModalState: {
     isTokenOutOpenModal: boolean;
     setTokenOutIsOpenModal: Dispatch<SetStateAction<boolean>>;
-  };
-  swapBaseState: {
-    swapBase: `0x${string}` | null;
-    setSwapBase: Dispatch<SetStateAction<`0x${string}` | null>>;
-  };
-  amountOutErrorState: {
-    amountOutError: string | null;
-    setAmountOutError: Dispatch<SetStateAction<string | null>>;
   };
 }

@@ -1,11 +1,12 @@
 import { getAddress } from 'ethers/lib/utils';
 import { not, pathOr } from 'ramda';
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 
 import { ERC_20_DATA, UNKNOWN_ERC_20 } from '@/constants';
 import { Box } from '@/elements';
 import { useGetDexAllowancesAndBalances, useIdAccount } from '@/hooks';
+import { Address } from '@/interface';
 import {
   FixedPointMath,
   TOKEN_SYMBOL,
@@ -29,16 +30,17 @@ const Swap: FC<SwapProps> = ({
   setLocalSettings,
   localSettings,
   showSettingsState,
-  hasNoMarketState,
-  isFetchingAmountOutTokenInState,
-  isFetchingAmountOutTokenOutState,
   isTokenInOpenModalState,
   isTokenOutOpenModalState,
-  swapBaseState,
-  amountOutErrorState,
 }) => {
   const { account, chainId } = useIdAccount();
-
+  const [swapBase, setSwapBase] = useState<Address | null>(null);
+  const [amountOutError, setAmountOutError] = useState<null | string>(null);
+  const [hasNoMarket, setHasNoMarket] = useState(false);
+  const [isFetchingAmountOutTokenIn, setFetchingAmountOutTokenIn] =
+    useState(false);
+  const [isFetchingAmountOutTokenOut, setFetchingAmountOutTokenOut] =
+    useState(false);
   const INT = pathOr(UNKNOWN_ERC_20, [chainId, TOKEN_SYMBOL.INT], ERC_20_DATA);
 
   const ETH = pathOr(UNKNOWN_ERC_20, [chainId, TOKEN_SYMBOL.ETH], ERC_20_DATA);
@@ -105,7 +107,7 @@ const Swap: FC<SwapProps> = ({
       formSwap.setValue(`${name}.symbol`, symbol);
       formSwap.setValue('tokenOut.value', '0.0');
       formSwap.setValue('tokenIn.value', '0.0');
-      hasNoMarketState.setHasNoMarket(false);
+      setHasNoMarket(false);
       isTokenInOpenModalState.setTokenInIsOpenModal(false);
       isTokenOutOpenModalState.setTokenOutIsOpenModal(false);
     };
@@ -114,21 +116,21 @@ const Swap: FC<SwapProps> = ({
     () =>
       !!(
         isSameAddressZ(tokenInAddress, tokenOutAddress) ||
-        isFetchingAmountOutTokenOutState.isFetchingAmountOutTokenOut ||
-        isFetchingAmountOutTokenInState.isFetchingAmountOutTokenIn ||
-        amountOutErrorState.amountOutError ||
+        isFetchingAmountOutTokenOut ||
+        isFetchingAmountOutTokenIn ||
+        amountOutError ||
         balancesError ||
-        hasNoMarketState.hasNoMarket ||
+        hasNoMarket ||
         loading
       ),
     [
       tokenInAddress,
       tokenOutAddress,
-      isFetchingAmountOutTokenInState.isFetchingAmountOutTokenIn,
-      isFetchingAmountOutTokenOutState.isFetchingAmountOutTokenOut,
-      amountOutErrorState.amountOutError,
+      isFetchingAmountOutTokenIn,
+      isFetchingAmountOutTokenOut,
+      amountOutError,
       balancesError,
-      hasNoMarketState.hasNoMarket,
+      hasNoMarket,
       loading,
     ]
   );
@@ -210,9 +212,7 @@ const Swap: FC<SwapProps> = ({
               name="tokenIn"
               register={formSwap.register}
               setValue={formSwap.setValue}
-              disabled={
-                isFetchingAmountOutTokenInState.isFetchingAmountOutTokenIn
-              }
+              disabled={isFetchingAmountOutTokenIn}
               handleSelectedByUser={() => {
                 formSwap.setValue(`tokenIn.setByUser`, true);
                 formSwap.setValue(`tokenOut.setByUser`, false);
@@ -254,9 +254,7 @@ const Swap: FC<SwapProps> = ({
               name="tokenOut"
               register={formSwap.register}
               setValue={formSwap.setValue}
-              disabled={
-                isFetchingAmountOutTokenOutState.isFetchingAmountOutTokenOut
-              }
+              disabled={isFetchingAmountOutTokenOut}
               balance={FixedPointMath.toNumber(
                 pathOr(
                   ZERO_BIG_NUMBER,
@@ -276,9 +274,7 @@ const Swap: FC<SwapProps> = ({
                   currentToken={tokenOutAddress}
                   isModalOpen={isTokenOutOpenModalState.isTokenOutOpenModal}
                   symbol={formSwap.getValues('tokenOut.symbol')}
-                  disabled={
-                    isFetchingAmountOutTokenOutState.isFetchingAmountOutTokenOut
-                  }
+                  disabled={isFetchingAmountOutTokenOut}
                   address={formSwap.getValues('tokenOut.address')}
                   setIsModalOpen={
                     isTokenOutOpenModalState.setTokenOutIsOpenModal
@@ -289,37 +285,33 @@ const Swap: FC<SwapProps> = ({
             />
           </Box>
         </Box>
-        {(isFetchingAmountOutTokenOutState.isFetchingAmountOutTokenOut ||
-          isFetchingAmountOutTokenInState.isFetchingAmountOutTokenIn) && (
+        {(isFetchingAmountOutTokenOut || isFetchingAmountOutTokenIn) && (
           <SwapMessage {...SWAP_MESSAGES['loading-amount']} />
         )}
-        {amountOutErrorState.amountOutError && (
+        {amountOutError && (
           <SwapMessage {...SWAP_MESSAGES['error-amount-out']} />
         )}
         {balancesError && <SwapMessage {...SWAP_MESSAGES['error-balances']} />}
         {isSameAddressZ(tokenInAddress, tokenOutAddress) && (
           <SwapMessage {...SWAP_MESSAGES['error-same-token']} />
         )}
-        {hasNoMarketState.hasNoMarket && (
-          <SwapMessage {...SWAP_MESSAGES['info-no-pool']} />
-        )}
+        {hasNoMarket && <SwapMessage {...SWAP_MESSAGES['info-no-pool']} />}
         <SwapButton
           chainId={chainId}
           account={account}
           control={formSwap.control}
-          swapBase={swapBaseState.swapBase}
+          swapBase={swapBase}
           disabled={isDisabled}
           setValue={formSwap.setValue}
           getValues={formSwap.getValues}
-          setSwapBase={swapBaseState.setSwapBase}
+          setSwapBase={setSwapBase}
           needsApproval={needsApproval}
           localSettings={localSettings}
           fetchingBalancesData={loading}
           tokenInAddress={tokenInAddress}
           fetchingBaseData={!balancesData && !balancesError}
           fetchingAmount={
-            isFetchingAmountOutTokenOutState.isFetchingAmountOutTokenOut ||
-            isFetchingAmountOutTokenInState.isFetchingAmountOutTokenIn
+            isFetchingAmountOutTokenOut || isFetchingAmountOutTokenIn
           }
           parsedTokenInBalance={pathOr(
             ZERO_BIG_NUMBER,
@@ -334,22 +326,14 @@ const Swap: FC<SwapProps> = ({
           control={formSwap.control}
           chainId={chainId}
           setValue={formSwap.setValue}
-          isFetchingAmountOutTokenIn={
-            isFetchingAmountOutTokenInState.isFetchingAmountOutTokenIn
-          }
-          isFetchingAmountOutTokenOut={
-            isFetchingAmountOutTokenOutState.isFetchingAmountOutTokenOut
-          }
-          hasNoMarket={hasNoMarketState.hasNoMarket}
-          setHasNoMarket={hasNoMarketState.setHasNoMarket}
-          setFetchingAmountOutTokenIn={
-            isFetchingAmountOutTokenInState.setFetchingAmountOutTokenIn
-          }
-          setFetchingAmountOutTokenOut={
-            isFetchingAmountOutTokenOutState.setFetchingAmountOutTokenOut
-          }
-          setSwapBase={swapBaseState.setSwapBase}
-          setAmountOutError={amountOutErrorState.setAmountOutError}
+          isFetchingAmountOutTokenIn={isFetchingAmountOutTokenIn}
+          isFetchingAmountOutTokenOut={isFetchingAmountOutTokenOut}
+          hasNoMarket={hasNoMarket}
+          setHasNoMarket={setHasNoMarket}
+          setFetchingAmountOutTokenIn={setFetchingAmountOutTokenIn}
+          setFetchingAmountOutTokenOut={setFetchingAmountOutTokenOut}
+          setSwapBase={setSwapBase}
+          setAmountOutError={setAmountOutError}
         />
       )}
     </>

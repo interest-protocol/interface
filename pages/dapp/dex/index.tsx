@@ -11,15 +11,8 @@ import DEXSwapView from '@/views/dapp/views/dex/swap-view';
 
 const DEXPage: NextPageWithProps = ({ pageTitle }) => {
   const [showSettings, setShowSettings] = useState(false);
-  const [hasNoMarket, setHasNoMarket] = useState(false);
-  const [isFetchingAmountOutTokenIn, setFetchingAmountOutTokenIn] =
-    useState(false);
-  const [isFetchingAmountOutTokenOut, setFetchingAmountOutTokenOut] =
-    useState(false);
   const [isTokenInOpenModal, setTokenInIsOpenModal] = useState(false);
   const [isTokenOutOpenModal, setTokenOutIsOpenModal] = useState(false);
-  const [swapBase, setSwapBase] = useState<Address | null>(null);
-  const [amountOutError, setAmountOutError] = useState<null | string>(null);
 
   const { pathname } = useRouter();
   const [localSettings, setLocalSettings] = useLocalStorage<LocalSwapSettings>(
@@ -33,22 +26,11 @@ const DEXPage: NextPageWithProps = ({ pageTitle }) => {
         setLocalSettings={setLocalSettings}
         localSettings={localSettings}
         showSettingsState={{ showSettings, setShowSettings }}
-        hasNoMarketState={{ hasNoMarket, setHasNoMarket }}
-        isFetchingAmountOutTokenInState={{
-          isFetchingAmountOutTokenIn,
-          setFetchingAmountOutTokenIn,
-        }}
-        isFetchingAmountOutTokenOutState={{
-          isFetchingAmountOutTokenOut,
-          setFetchingAmountOutTokenOut,
-        }}
         isTokenInOpenModalState={{ isTokenInOpenModal, setTokenInIsOpenModal }}
         isTokenOutOpenModalState={{
           isTokenOutOpenModal,
           setTokenOutIsOpenModal,
         }}
-        swapBaseState={{ swapBase, setSwapBase }}
-        amountOutErrorState={{ amountOutError, setAmountOutError }}
       />
     </Web3Manager>
   );
