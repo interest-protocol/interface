@@ -3,6 +3,7 @@ import { FC, useCallback, useMemo } from 'react';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
+import { useIdAccount } from '@/hooks';
 import useEventListener from '@/hooks/use-event-listener';
 import { TimesSVG } from '@/svg';
 
@@ -11,15 +12,10 @@ import { useGetVaultsSummary } from './vaults.hooks';
 import { VaultProps } from './vaults.types';
 import { processVaultsSummaryData } from './vaults.utils';
 
-const Vault: FC<VaultProps> = ({
-  chainId,
-  account,
-  formVault,
-  desktopState,
-}) => {
+const Vault: FC<VaultProps> = ({ formVault, desktopState }) => {
   const t = useTranslations();
+  const { chainId, account } = useIdAccount();
   const { error, data } = useGetVaultsSummary(chainId, account);
-
   const processedData = useMemo(
     () => processVaultsSummaryData(chainId, data),
     [chainId, data]

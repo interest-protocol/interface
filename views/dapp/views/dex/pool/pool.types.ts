@@ -22,5 +22,4 @@ export interface PoolProps {
     poolType: PoolType;
     setPoolType: Dispatch<SetStateAction<PoolType>>;
   };
-  chainId: number;
 }

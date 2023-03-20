@@ -3,6 +3,7 @@ import { FC, useMemo } from 'react';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
+import { useIdAccount } from '@/hooks';
 import { TimesSVG } from '@/svg';
 
 import { SyntheticsFilters, SyntheticsList } from './components';
@@ -11,12 +12,10 @@ import { SyntheticsMarketProps } from './synthetics-market.types';
 import { processSyntheticMarketSummaryData } from './synthetics-market.utils';
 
 const SyntheticsMarket: FC<SyntheticsMarketProps> = ({
-  chainId,
-  account,
   formSyntheticMarketSummary,
 }) => {
   const t = useTranslations();
-
+  const { chainId, account } = useIdAccount();
   const { error, data } = useGetSyntheticMarketsSummary(account, chainId);
 
   const { markets, loading } = useMemo(

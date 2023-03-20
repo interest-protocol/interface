@@ -38,8 +38,6 @@ export interface DineroVaultDetailsTitleProps {
 
 export interface DineroVaultProps {
   vault: `0x${string}`;
-  chainId: number;
-  account: string;
   stakeDVState: {
     stakeState: StakeState;
     setStakeState: Dispatch<SetStateAction<StakeState>>;

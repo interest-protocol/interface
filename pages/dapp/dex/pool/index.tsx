@@ -5,7 +5,6 @@ import { mergeDeepRight } from 'ramda';
 import { useState } from 'react';
 
 import { PoolType } from '@/constants';
-import { useChainId } from '@/hooks';
 import { NextPageWithProps } from '@/interface';
 import DEXPoolView from '@/views/dapp/views/dex/pool-view';
 
@@ -15,15 +14,12 @@ const Web3Manager = dynamic(() => import('@/components/web3-manager'), {
 
 const DEXPoolPage: NextPageWithProps = ({ pageTitle }) => {
   const { pathname } = useRouter();
-  const chainId = useChainId();
+
   const [poolType, setPoolType] = useState<PoolType>(PoolType.Volatile);
 
   return (
     <Web3Manager pageTitle={pageTitle} pathname={pathname}>
-      <DEXPoolView
-        poolTypeState={{ poolType, setPoolType }}
-        chainId={chainId}
-      />
+      <DEXPoolView poolTypeState={{ poolType, setPoolType }} />
     </Web3Manager>
   );
 };

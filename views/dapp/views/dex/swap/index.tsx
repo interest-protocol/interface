@@ -1,11 +1,17 @@
 import { getAddress } from 'ethers/lib/utils';
 import { not, pathOr } from 'ramda';
 import { FC, useMemo } from 'react';
-import { useWatch } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 
+import { ERC_20_DATA, UNKNOWN_ERC_20 } from '@/constants';
 import { Box } from '@/elements';
-import { useGetDexAllowancesAndBalances } from '@/hooks';
-import { FixedPointMath, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
+import { useGetDexAllowancesAndBalances, useIdAccount } from '@/hooks';
+import {
+  FixedPointMath,
+  TOKEN_SYMBOL,
+  ZERO_ADDRESS,
+  ZERO_BIG_NUMBER,
+} from '@/sdk';
 import { CogsSVG } from '@/svg';
 import { isSameAddressZ, numberToString } from '@/utils';
 import { GAPage } from '@/utils/analytics';
@@ -14,17 +20,14 @@ import SwapSelectCurrency from '../components/swap-select-currency';
 import InputBalance from './input-balance';
 import SettingsDropdown from './settings/settings-dropdown';
 import { SWAP_MESSAGES } from './swap.data';
-import { OnSelectCurrencyData, SwapProps } from './swap.types';
+import { ISwapForm, OnSelectCurrencyData, SwapProps } from './swap.types';
 import SwapButton from './swap-button';
 import SwapManager from './swap-manager';
 import SwapMessage from './swap-message';
 
 const Swap: FC<SwapProps> = ({
-  chainId,
-  account,
   setLocalSettings,
   localSettings,
-  formSwap,
   showSettingsState,
   hasNoMarketState,
   isFetchingAmountOutTokenInState,
@@ -34,6 +37,30 @@ const Swap: FC<SwapProps> = ({
   swapBaseState,
   amountOutErrorState,
 }) => {
+  const { account, chainId } = useIdAccount();
+
+  const INT = pathOr(UNKNOWN_ERC_20, [chainId, TOKEN_SYMBOL.INT], ERC_20_DATA);
+
+  const ETH = pathOr(UNKNOWN_ERC_20, [chainId, TOKEN_SYMBOL.ETH], ERC_20_DATA);
+
+  const formSwap = useForm<ISwapForm>({
+    defaultValues: {
+      tokenIn: {
+        address: INT.address,
+        value: '0',
+        decimals: INT.decimals,
+        symbol: INT.symbol,
+        setByUser: false,
+      },
+      tokenOut: {
+        address: ETH.address,
+        value: '0',
+        decimals: ETH.decimals,
+        symbol: ETH.symbol,
+        setByUser: false,
+      },
+    },
+  });
   // We want the form to re-render if addresses change
   const tokenInAddress = useWatch({
     control: formSwap.control,

@@ -4,6 +4,7 @@ import { FC, useMemo } from 'react';
 import { Container, Tooltip } from '@/components';
 import { RoutesEnum, StakeState } from '@/constants';
 import { Box, Typography } from '@/elements';
+import { useIdAccount } from '@/hooks';
 import { FixedPointMath, TOKEN_SYMBOL, ZERO_ADDRESS } from '@/sdk';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import { formatMoney, getDNRAddress } from '@/utils';
@@ -20,8 +21,6 @@ import DineroVaultForm from './form/dinero-vault-form';
 
 const DineroVault: FC<DineroVaultProps> = ({
   vault,
-  chainId,
-  account,
   stakeDVState,
   formVault,
   loadinDepositState,
@@ -30,7 +29,7 @@ const DineroVault: FC<DineroVaultProps> = ({
   detailRef,
 }) => {
   const t = useTranslations();
-
+  const { chainId, account } = useIdAccount();
   const { data, error, refetch } = useGetUserDineroVault(
     chainId,
     account,

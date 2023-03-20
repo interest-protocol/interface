@@ -12,7 +12,7 @@ import {
   RoutesEnum,
 } from '@/constants';
 import { Box } from '@/elements';
-import { useGetDineroMarketDataV2 } from '@/hooks';
+import { useGetDineroMarketDataV2, useIdAccount } from '@/hooks';
 
 import GoBack from '../../components/go-back';
 import ErrorPage from '../error';
@@ -34,12 +34,10 @@ import DineroMarketSwitch from './dinero-market-switch';
 const DineroMarketPanel: FC<DineroMarketPanelProps> = ({
   address,
   mode,
-  account,
-  chainId,
   form,
 }) => {
   const t = useTranslations();
-
+  const { chainId, account } = useIdAccount();
   const {
     data: marketRawData,
     error,

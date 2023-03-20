@@ -58,5 +58,4 @@ export interface IDineroMarketForm {
 
 export interface DineroMarketProps {
   formDineroMarket: UseFormReturn<IDineroMarketForm>;
-  chainId: number;
 }

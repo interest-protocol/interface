@@ -1,27 +1,21 @@
 import { GetStaticProps } from 'next';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { Web3Manager } from '@/components';
 import { withAddressGuard } from '@/HOC';
-import { useIdAccount } from '@/hooks';
 import { NextPagePropsWithAddress } from '@/interface';
 import DEXPoolDetailsView from '@/views/dapp/views/dex-pool-details';
 import { IAddLiquidityForm } from '@/views/dapp/views/dex-pool-details/components/add-liquidity-card/add-liquidity-card.types';
 import { IRemoveLiquidityForm } from '@/views/dapp/views/dex-pool-details/components/remove-liquidity-card/remove-liquidity-card.types';
-
-const Web3Manager = dynamic(() => import('@/components/web3-manager'), {
-  ssr: false,
-});
 
 const DEXPoolDetailsPage: NextPagePropsWithAddress = ({
   pageTitle,
   address,
 }) => {
   const { pathname } = useRouter();
-  const { chainId, account } = useIdAccount();
   const [isFetchingQuote, setIsFetchingQuote] = useState(false);
   const [loading, setLoading] = useState(false);
   const [lastDebouncedAmount, setLastDebouncedAmount] = useState('0.0');
@@ -49,8 +43,6 @@ const DEXPoolDetailsPage: NextPagePropsWithAddress = ({
     <Web3Manager pageTitle={pageTitle} pathname={pathname}>
       <DEXPoolDetailsView
         pairAddress={address}
-        chainId={chainId}
-        account={account}
         formAddLiquidity={formAddLiquidity}
         formRemoveLiquidity={formRemoveLiquidity}
         loadingState={{ loading, setLoading }}

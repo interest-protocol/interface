@@ -3,7 +3,7 @@ import { FC, useCallback, useMemo } from 'react';
 
 import { Container } from '@/components';
 import { Box, InfiniteScroll, Typography } from '@/elements';
-import { useGetFarmsSummary } from '@/hooks';
+import { useGetFarmsSummary, useIdAccount } from '@/hooks';
 import useEventListener from '@/hooks/use-event-listener';
 import { LoadingSVG, TimesSVG } from '@/svg';
 import { noop } from '@/utils';
@@ -13,9 +13,9 @@ import FarmsTable from './components/farms-table';
 import { FarmsProps } from './farms.types';
 import { getSafeFarmSummaryData } from './farms.utils';
 
-const Farms: FC<FarmsProps> = ({ chainId, desktopState, formFarm }) => {
+const Farms: FC<FarmsProps> = ({ desktopState, formFarm }) => {
   const t = useTranslations();
-
+  const { chainId } = useIdAccount();
   const { error, data: rawData } = useGetFarmsSummary();
 
   const data = useMemo(

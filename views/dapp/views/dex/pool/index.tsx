@@ -5,14 +5,16 @@ import { FC } from 'react';
 import { Switch } from '@/components';
 import { PoolType, Routes, RoutesEnum } from '@/constants';
 import { Box, Button, Typography } from '@/elements';
+import { useChainId } from '@/hooks';
 import { capitalize } from '@/utils';
 
 import { PoolProps } from './pool.types';
 import RecommendPools from './recommended-pools';
 
-const Pool: FC<PoolProps> = ({ poolTypeState, chainId }) => {
+const Pool: FC<PoolProps> = ({ poolTypeState }) => {
   const t = useTranslations();
   const { push } = useRouter();
+  const chainId = useChainId();
 
   return (
     <>

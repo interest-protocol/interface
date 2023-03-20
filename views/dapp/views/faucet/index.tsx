@@ -5,27 +5,34 @@ import { FC, useCallback, useMemo } from 'react';
 import { Container } from '@/components';
 import { FAUCET_TOKENS } from '@/constants';
 import { Box, Button, Modal, Typography } from '@/elements';
-import { useGetUserBalances } from '@/hooks';
+import { useGetUserBalances, useIdAccount, useLocalStorage } from '@/hooks';
 import { flippedAppend, isSameAddress } from '@/utils';
 import { GAPage, logGenericEvent } from '@/utils/analytics';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
 import CreateTokenForm from './create-token-form';
-import { AddLocalToken, FaucetProps, RemoveLocalToken } from './faucet.types';
+import {
+  AddLocalToken,
+  FaucetProps,
+  IToken,
+  RemoveLocalToken,
+} from './faucet.types';
 import FaucetForm from './faucet-form';
 import { processGetUserBalances } from './utilts';
 
 const Faucet: FC<FaucetProps> = ({
-  chainId,
-  account,
   formFaucet,
-  localTokensStorage,
   loadingState,
   isCreatingTokenState,
 }) => {
   const t = useTranslations();
+  const { chainId, account } = useIdAccount();
 
+  const [localTokens, setLocalTokens] = useLocalStorage<ReadonlyArray<IToken>>(
+    `${chainId}-interest-protocol-faucet-tokens`,
+    []
+  );
   const toggleCreateToken = () =>
     isCreatingTokenState.setIsCreatingToken((e) => !e);
 
@@ -35,33 +42,26 @@ const Faucet: FC<FaucetProps> = ({
   );
 
   const { error, data, refetch } = useGetUserBalances(
-    TOKENS.map(prop('address')).concat(
-      localTokensStorage.localTokens.map(prop('address'))
-    ),
+    TOKENS.map(prop('address')).concat(localTokens.map(prop('address'))),
     GAPage.Faucet
   );
 
   const { recommendedData, localData } = useMemo(
-    () => processGetUserBalances(TOKENS, localTokensStorage.localTokens, data),
-    [TOKENS, data, localTokensStorage.localTokens]
+    () => processGetUserBalances(TOKENS, localTokens, data),
+    [TOKENS, data, localTokens]
   );
 
   const addLocalToken: AddLocalToken = useCallback(
-    o(
-      localTokensStorage.setLocalTokens,
-      flippedAppend(localTokensStorage.localTokens)
-    ),
-    [localTokensStorage.localTokens, localTokensStorage.setLocalTokens]
+    o(setLocalTokens, flippedAppend(localTokens)),
+    [localTokens, setLocalTokens]
   );
 
   const removeLocalToken: RemoveLocalToken = useCallback(
     (address: string) =>
-      localTokensStorage.setLocalTokens(
-        localTokensStorage.localTokens.filter(
-          (item) => !isSameAddress(item.address, address)
-        )
+      setLocalTokens(
+        localTokens.filter((item) => !isSameAddress(item.address, address))
       ),
-    [localTokensStorage.localTokens, localTokensStorage.setLocalTokens]
+    [localTokens, setLocalTokens]
   );
 
   if (error) return <ErrorView message={t('error.fetchingBalances')} />;

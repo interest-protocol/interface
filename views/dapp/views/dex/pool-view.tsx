@@ -4,9 +4,9 @@ import DEXViewWrapper from './dex-wrapper';
 import Pool from './pool';
 import { PoolProps } from './pool/pool.types';
 
-const DEXPoolView: FC<PoolProps> = ({ poolTypeState, chainId }) => (
+const DEXPoolView: FC<PoolProps> = ({ poolTypeState }) => (
   <DEXViewWrapper>
-    <Pool poolTypeState={poolTypeState} chainId={chainId} />
+    <Pool poolTypeState={poolTypeState} />
   </DEXViewWrapper>
 );
 

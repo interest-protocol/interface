@@ -1,22 +1,16 @@
 import { GetStaticProps } from 'next';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
 import { useForm } from 'react-hook-form';
 
-import { useChainId } from '@/hooks';
+import { Web3Manager } from '@/components';
 import { NextPageWithProps } from '@/interface';
 import DineroMarket from '@/views/dapp/views/dinero-market';
 import { BorrowSortByFilter } from '@/views/dapp/views/dinero-market/components/borrow-filters/borrow-filters.types';
 import { IDineroMarketForm } from '@/views/dapp/views/dinero-market/dinero-market.types';
 
-const Web3Manager = dynamic(() => import('@/components/web3-manager'), {
-  ssr: false,
-});
-
 const DineroMarketPage: NextPageWithProps = ({ pageTitle }) => {
   const { pathname } = useRouter();
-  const chainId = useChainId();
 
   const formDineroMarket = useForm<IDineroMarketForm>({
     defaultValues: {
@@ -28,7 +22,7 @@ const DineroMarketPage: NextPageWithProps = ({ pageTitle }) => {
 
   return (
     <Web3Manager pageTitle={pageTitle} pathname={pathname}>
-      <DineroMarket chainId={chainId} formDineroMarket={formDineroMarket} />
+      <DineroMarket formDineroMarket={formDineroMarket} />
     </Web3Manager>
   );
 };

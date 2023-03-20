@@ -1,23 +1,13 @@
 import { GetStaticProps } from 'next';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 
-import { ERC_20_DATA } from '@/constants';
-import { useIdAccount } from '@/hooks';
+import { Web3Manager } from '@/components';
 import { NextPageWithProps } from '@/interface';
-import { TOKEN_SYMBOL } from '@/sdk';
 import FindPoolView from '@/views/dapp/views/dex-find-pool';
-import { DexFindPoolForm } from '@/views/dapp/views/dex-find-pool/dex-find-pool.types';
-
-const Web3Manager = dynamic(() => import('@/components/web3-manager'), {
-  ssr: false,
-});
 
 const FindPoolPage: NextPageWithProps = ({ pageTitle }) => {
-  const { chainId, account } = useIdAccount();
   const { pathname } = useRouter();
 
   const [isCreatingPair, setCreatingPair] = useState(false);
@@ -26,33 +16,14 @@ const FindPoolPage: NextPageWithProps = ({ pageTitle }) => {
   const [loading, setLoading] = useState(false);
   const [createPoolPopup, setCreatePoolPopup] = useState(false);
 
-  const formFindPool = useForm<DexFindPoolForm>({
-    defaultValues: {
-      tokenA: {
-        address: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].address,
-        decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].decimals,
-        symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].symbol,
-      },
-      tokenB: {
-        address: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].address,
-        decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].decimals,
-        symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].symbol,
-      },
-      isStable: false,
-    },
-  });
-
   return (
     <Web3Manager pageTitle={pageTitle} pathname={pathname}>
       <FindPoolView
-        chainId={chainId}
-        account={account}
         isCreatingPairState={{ isCreatingPair, setCreatingPair }}
         isTokenAOpenModalState={{ isTokenAOpenModal, setTokenAIsOpenModal }}
         isTokenBOpenModalState={{ isTokenBOpenModal, setTokenBIsOpenModal }}
         loadingState={{ loading, setLoading }}
         createPoolPopupState={{ createPoolPopup, setCreatePoolPopup }}
-        formFindPool={formFindPool}
       />
     </Web3Manager>
   );

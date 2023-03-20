@@ -1,25 +1,18 @@
 import { GetStaticProps } from 'next';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { Web3Manager } from '@/components';
 import { VaultTypes } from '@/constants';
-import { useIdAccount } from '@/hooks';
 import { NextPageWithProps } from '@/interface';
 import Vault from '@/views/dapp/views/vaults';
 import { IVaultForm } from '@/views/dapp/views/vaults/vaults.types';
 
-const Web3Manager = dynamic(() => import('@/components/web3-manager'), {
-  ssr: false,
-});
-
 const VaultPage: NextPageWithProps = ({ pageTitle }) => {
   const { pathname } = useRouter();
   const [isDesktop, setDesktop] = useState(false);
-
-  const { chainId, account } = useIdAccount();
 
   const formVault = useForm<IVaultForm>({
     defaultValues: {
@@ -30,12 +23,7 @@ const VaultPage: NextPageWithProps = ({ pageTitle }) => {
   });
   return (
     <Web3Manager pageTitle={pageTitle} pathname={pathname}>
-      <Vault
-        desktopState={{ isDesktop, setDesktop }}
-        chainId={chainId}
-        account={account}
-        formVault={formVault}
-      />
+      <Vault desktopState={{ isDesktop, setDesktop }} formVault={formVault} />
     </Web3Manager>
   );
 };

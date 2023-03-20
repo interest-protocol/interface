@@ -2,26 +2,24 @@ import { getAddress } from 'ethers/lib/utils';
 import { useTranslations } from 'next-intl';
 import { pathOr } from 'ramda';
 import { FC } from 'react';
-import { useWatch } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 
 import { Container } from '@/components';
+import { ERC_20_DATA } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useGetDexAllowancesAndBalances } from '@/hooks';
-import { ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
+import { useGetDexAllowancesAndBalances, useIdAccount } from '@/hooks';
+import { TOKEN_SYMBOL, ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
 import { TimesSVG } from '@/svg';
 import { GAPage } from '@/utils/analytics';
 
 import GoBack from '../../components/go-back';
 import { OnSelectCurrencyData } from '../dex/swap/swap.types';
 import CreatePool from './create-pool';
-import { FindPoolViewProps } from './dex-find-pool.types';
+import { DexFindPoolForm, FindPoolViewProps } from './dex-find-pool.types';
 import FindPool from './find-pool';
 import FindPoolButton from './find-pool-button';
 
 const FindPoolView: FC<FindPoolViewProps> = ({
-  chainId,
-  account,
-  formFindPool,
   isCreatingPairState,
   isTokenAOpenModalState,
   isTokenBOpenModalState,
@@ -29,6 +27,24 @@ const FindPoolView: FC<FindPoolViewProps> = ({
   createPoolPopupState,
 }) => {
   const t = useTranslations();
+
+  const { chainId, account } = useIdAccount();
+
+  const formFindPool = useForm<DexFindPoolForm>({
+    defaultValues: {
+      tokenA: {
+        address: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].address,
+        decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].decimals,
+        symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.INT].symbol,
+      },
+      tokenB: {
+        address: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].address,
+        decimals: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].decimals,
+        symbol: ERC_20_DATA[chainId][TOKEN_SYMBOL.BTC].symbol,
+      },
+      isStable: false,
+    },
+  });
 
   // We want the form to re-render if addresses change
   const tokenAAddress = useWatch({

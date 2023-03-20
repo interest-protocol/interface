@@ -77,7 +77,5 @@ export interface UseGetTokenUsdPriceArgs {
 }
 
 export interface SyntheticsMarketProps {
-  chainId: number;
-  account: string;
   formSyntheticMarketSummary: UseFormReturn<ISyntheticMarketSummaryForm>;
 }

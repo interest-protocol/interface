@@ -5,11 +5,8 @@ import Swap from './swap';
 import { SwapProps } from './swap/swap.types';
 
 const DEXSwapView: FC<SwapProps> = ({
-  chainId,
-  account,
   setLocalSettings,
   localSettings,
-  formSwap,
   showSettingsState,
   hasNoMarketState,
   isFetchingAmountOutTokenInState,
@@ -21,11 +18,8 @@ const DEXSwapView: FC<SwapProps> = ({
 }) => (
   <DEXViewWrapper>
     <Swap
-      chainId={chainId}
-      account={account}
       setLocalSettings={setLocalSettings}
       localSettings={localSettings}
-      formSwap={formSwap}
       showSettingsState={showSettingsState}
       hasNoMarketState={hasNoMarketState}
       isFetchingAmountOutTokenInState={isFetchingAmountOutTokenInState}

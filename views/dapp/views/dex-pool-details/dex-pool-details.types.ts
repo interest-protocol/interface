@@ -9,8 +9,6 @@ import { IRemoveLiquidityForm } from './components/remove-liquidity-card/remove-
 
 export interface DEXPoolDetailsViewProps {
   pairAddress: `0x${string}`;
-  chainId: number;
-  account: string;
   isFetchingQuoteState: {
     isFetchingQuote: boolean;
     setIsFetchingQuote: Dispatch<SetStateAction<boolean>>;

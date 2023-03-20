@@ -9,7 +9,6 @@ import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestVie
 
 export interface FarmDetailsProps {
   address: `0x${string}`;
-  chainId: number;
   modalState: {
     modal: StakeState | undefined;
     setModal: Dispatch<SetStateAction<StakeState | undefined>>;

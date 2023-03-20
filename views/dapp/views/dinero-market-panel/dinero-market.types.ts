@@ -17,8 +17,6 @@ export interface DineroMarketProps {
 }
 
 export interface DineroMarketPanelProps extends DineroMarketProps {
-  chainId: number;
-  account: string;
   form: UseFormReturn<IBorrowForm>;
 }
 

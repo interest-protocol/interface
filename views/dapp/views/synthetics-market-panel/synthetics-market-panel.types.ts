@@ -35,7 +35,6 @@ export interface SyntheticsMarketPanelProps {
 
 export interface SyntheticsMarketPanelPageProps
   extends SyntheticsMarketPanelProps {
-  chainId: number;
   formSynthetics: UseFormReturn<ISyntheticForm>;
   loadingBurnState: {
     loading: boolean;

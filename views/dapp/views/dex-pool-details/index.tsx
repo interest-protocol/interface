@@ -5,7 +5,12 @@ import Skeleton from 'react-loading-skeleton';
 import { Container } from '@/components';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useGetPairData, useLocale, useNativeBalance } from '@/hooks';
+import {
+  useGetPairData,
+  useIdAccount,
+  useLocale,
+  useNativeBalance,
+} from '@/hooks';
 import { ZERO_BIG_NUMBER } from '@/sdk';
 import { FixedPointMath } from '@/sdk';
 import { TimesSVG } from '@/svg';
@@ -23,8 +28,6 @@ import { processPairData } from './dex-pool-details.utils';
 
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
   pairAddress,
-  chainId,
-  account,
   loadingState,
   isFetchingQuoteState,
   formAddLiquidity,
@@ -32,6 +35,8 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
   lastDebouncedAmountState,
 }) => {
   const t = useTranslations();
+
+  const { account, chainId } = useIdAccount();
 
   const { currentLocale } = useLocale();
 

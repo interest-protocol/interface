@@ -1,28 +1,23 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { GetStaticProps } from 'next';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
 import { useForm } from 'react-hook-form';
 
+import { Web3Manager } from '@/components';
 import { withAddressGuard } from '@/HOC';
-import { useIdAccount } from '@/hooks';
 import { NextPagePropsWithAddress } from '@/interface';
 import DineroMarketMode from '@/views/dapp/views/dinero-market-panel';
 import { borrowFormValidation } from '@/views/dapp/views/dinero-market-panel/components/borrow-form/borrow-form.validator';
 import { BORROW_DEFAULT_VALUES } from '@/views/dapp/views/dinero-market-panel/dinero-market.data';
 import { IBorrowForm } from '@/views/dapp/views/dinero-market-panel/dinero-market.types';
 
-const Web3Manager = dynamic(() => import('@/components/web3-manager'), {
-  ssr: false,
-});
-
 const DineroMarketBorrowPage: NextPagePropsWithAddress = ({
   pageTitle,
   address,
 }) => {
   const { pathname } = useRouter();
-  const { chainId, account } = useIdAccount();
+
   const form = useForm<IBorrowForm>({
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -32,13 +27,7 @@ const DineroMarketBorrowPage: NextPagePropsWithAddress = ({
 
   return (
     <Web3Manager pageTitle={pageTitle} pathname={pathname}>
-      <DineroMarketMode
-        address={address}
-        mode="borrow"
-        chainId={chainId}
-        account={account}
-        form={form}
-      />
+      <DineroMarketMode address={address} mode="borrow" form={form} />
     </Web3Manager>
   );
 };

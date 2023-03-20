@@ -3,7 +3,7 @@ import { FC, useMemo } from 'react';
 
 import { Container } from '@/components';
 import { Box, Typography } from '@/elements';
-import { useGetDineroMarketsSummaryV2 } from '@/hooks';
+import { useChainId, useGetDineroMarketsSummaryV2 } from '@/hooks';
 import { DineroSVG, TimesSVG } from '@/svg';
 import BorrowFilters from '@/views/dapp/views/dinero-market/components/borrow-filters';
 
@@ -11,9 +11,9 @@ import { BorrowTable } from './components';
 import { DineroMarketProps } from './dinero-market.types';
 import { getSafeDineroMarketSummaryData } from './dinero-market.utils';
 
-const DineroMarket: FC<DineroMarketProps> = ({ chainId, formDineroMarket }) => {
+const DineroMarket: FC<DineroMarketProps> = ({ formDineroMarket }) => {
   const t = useTranslations();
-
+  const chainId = useChainId();
   const { data, error } = useGetDineroMarketsSummaryV2();
 
   const markets = useMemo(

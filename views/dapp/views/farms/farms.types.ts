@@ -101,7 +101,6 @@ export type GetSafeFarmSummaryData = (
 ) => SafeFarmSummaryData;
 
 export interface FarmsProps {
-  chainId: number;
   desktopState: {
     isDesktop: boolean;
     setDesktop: Dispatch<SetStateAction<boolean>>;

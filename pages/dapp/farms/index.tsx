@@ -1,11 +1,10 @@
 import { GetStaticProps } from 'next';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useIdAccount } from '@/hooks';
+import { Web3Manager } from '@/components';
 import { NextPageWithProps } from '@/interface';
 import Farms from '@/views/dapp/views/farms';
 import {
@@ -14,13 +13,9 @@ import {
   IFarmsForm,
 } from '@/views/dapp/views/farms/farms.types';
 
-const Web3Manager = dynamic(() => import('@/components/web3-manager'), {
-  ssr: false,
-});
-
 const FarmsPage: NextPageWithProps = ({ pageTitle }) => {
   const { pathname } = useRouter();
-  const { chainId } = useIdAccount();
+
   const [isDesktop, setDesktop] = useState(false);
 
   const formFarm = useForm<IFarmsForm>({
@@ -35,11 +30,7 @@ const FarmsPage: NextPageWithProps = ({ pageTitle }) => {
 
   return (
     <Web3Manager pageTitle={pageTitle} pathname={pathname}>
-      <Farms
-        chainId={chainId}
-        desktopState={{ isDesktop, setDesktop }}
-        formFarm={formFarm}
-      />
+      <Farms desktopState={{ isDesktop, setDesktop }} formFarm={formFarm} />
     </Web3Manager>
   );
 };

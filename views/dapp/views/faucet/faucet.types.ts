@@ -24,8 +24,7 @@ export interface IFaucetForm {
 
 export interface FaucetProps {
   formFaucet: UseFormReturn<IFaucetForm>;
-  chainId: number;
-  account: string;
+
   loadingState: {
     loading: boolean;
     setLoading: Dispatch<SetStateAction<boolean>>;
@@ -33,9 +32,5 @@ export interface FaucetProps {
   isCreatingTokenState: {
     isCreatingToken: boolean;
     setIsCreatingToken: Dispatch<SetStateAction<boolean>>;
-  };
-  localTokensStorage: {
-    localTokens: readonly IToken[];
-    setLocalTokens: (value: readonly IToken[]) => void;
   };
 }

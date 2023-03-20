@@ -1,32 +1,21 @@
 import { ethers } from 'ethers';
 import { GetStaticProps } from 'next';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useIdAccount, useLocalStorage } from '@/hooks';
+import { Web3Manager } from '@/components';
 import { NextPageWithProps } from '@/interface';
-import { IFaucetForm, IToken } from '@/views/dapp/views/faucet/faucet.types';
+import { IFaucetForm } from '@/views/dapp/views/faucet/faucet.types';
 
 import Faucet from '../../../views/dapp/views/faucet';
 
-const Web3Manager = dynamic(() => import('@/components/web3-manager'), {
-  ssr: false,
-});
-
 const FaucetPage: NextPageWithProps = ({ pageTitle }) => {
   const { pathname } = useRouter();
-  const { chainId, account } = useIdAccount();
 
   const [isCreatingToken, setIsCreatingToken] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const [localTokens, setLocalTokens] = useLocalStorage<ReadonlyArray<IToken>>(
-    `${chainId}-interest-protocol-faucet-tokens`,
-    []
-  );
 
   const formFaucet = useForm<IFaucetForm>({
     defaultValues: {
@@ -38,10 +27,7 @@ const FaucetPage: NextPageWithProps = ({ pageTitle }) => {
   return (
     <Web3Manager pageTitle={pageTitle} pathname={pathname}>
       <Faucet
-        chainId={chainId}
-        account={account}
         isCreatingTokenState={{ isCreatingToken, setIsCreatingToken }}
-        localTokensStorage={{ localTokens, setLocalTokens }}
         formFaucet={formFaucet}
         loadingState={{ loading, setLoading }}
       />

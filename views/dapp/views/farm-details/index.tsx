@@ -3,7 +3,7 @@ import { FC, useMemo } from 'react';
 
 import { Container } from '@/components';
 import { RoutesEnum } from '@/constants';
-import { useGetUserFarmData } from '@/hooks';
+import { useChainId, useGetUserFarmData } from '@/hooks';
 
 import GoBack from '../../components/go-back';
 import ErrorView from '../error';
@@ -11,15 +11,11 @@ import { Details, FarmOptions } from './components';
 import { getSafeUserFarmData } from './farm.utils';
 import { FarmDetailsProps } from './farm-details.types';
 
-const FarmDetails: FC<FarmDetailsProps> = ({
-  address,
-  chainId,
-  modalState,
-}) => {
+const FarmDetails: FC<FarmDetailsProps> = ({ address, modalState }) => {
   const t = useTranslations();
 
   const { error, data: rawData, refetch } = useGetUserFarmData(address);
-
+  const chainId = useChainId();
   const data = useMemo(
     () => getSafeUserFarmData(chainId, address, rawData),
     [rawData, chainId, address]

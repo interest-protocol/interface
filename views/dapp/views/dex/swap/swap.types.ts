@@ -107,11 +107,8 @@ export interface UseWETHWithdrawArgs {
 }
 
 export interface SwapProps {
-  chainId: number;
-  account: string;
   setLocalSettings: (x: LocalSwapSettings) => void;
   localSettings: LocalSwapSettings;
-  formSwap: UseFormReturn<ISwapForm>;
   showSettingsState: {
     showSettings: boolean;
     setShowSettings: Dispatch<SetStateAction<boolean>>;

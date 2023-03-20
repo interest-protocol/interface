@@ -6,6 +6,7 @@ import {
   SyntheticOracleType,
   SYNTHETICS_MARKET_PANEL_CALL_MAP,
 } from '@/constants';
+import { useChainId } from '@/hooks';
 
 import { SyntheticsMarketPanelPageProps } from './synthetics-market-panel.types';
 import SyntheticsMarketPanelRedStone from './synthetics-market-panel-red-stone';
@@ -14,11 +15,12 @@ import SyntheticsMarketPanelWagmi from './synthetics-market-panel-wagmi';
 const SyntheticsMarketPanel: FC<SyntheticsMarketPanelPageProps> = ({
   mode,
   address,
-  chainId,
   formSynthetics,
   loadingBurnState,
   loadingMintState,
 }) => {
+  const chainId = useChainId();
+
   const { dataFeedId, oracleType, collateralAddress } = pathOr(
     {
       dataFeedId: '',

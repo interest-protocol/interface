@@ -2,7 +2,9 @@ import * as allChains from '@wagmi/core/chains';
 import { useTranslations } from 'next-intl';
 import { FC, useEffect } from 'react';
 import { useAccount, useConnect, useNetwork, useSwitchNetwork } from 'wagmi';
+import { WagmiConfig } from 'wagmi';
 
+import { wagmiClient } from '@/connectors';
 import { SUPPORTED_CHAINS_RECORD } from '@/constants';
 import { CHAINS } from '@/constants/chains';
 import { TimesSVG } from '@/svg';
@@ -55,11 +57,13 @@ const Web3Manager: FC<Web3ManagerProps> = ({
   pathname,
   pageTitle,
 }) => (
-  <Layout pageTitle={pageTitle}>
-    <Content supportedChains={SUPPORTED_CHAINS_RECORD[pathname]}>
-      {children}
-    </Content>
-  </Layout>
+  <WagmiConfig client={wagmiClient}>
+    <Layout pageTitle={pageTitle}>
+      <Content supportedChains={SUPPORTED_CHAINS_RECORD[pathname]}>
+        {children}
+      </Content>
+    </Layout>
+  </WagmiConfig>
 );
 
 export default Web3Manager;

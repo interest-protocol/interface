@@ -4,7 +4,6 @@ import {
   Control,
   UseFormGetValues,
   UseFormRegister,
-  UseFormReturn,
   UseFormSetValue,
 } from 'react-hook-form';
 
@@ -90,8 +89,6 @@ export interface FindPoolButtonProps {
 }
 
 export interface FindPoolViewProps {
-  chainId: number;
-  account: string;
   isCreatingPairState: {
     isCreatingPair: boolean;
     setCreatingPair: Dispatch<SetStateAction<boolean>>;
@@ -112,5 +109,4 @@ export interface FindPoolViewProps {
     createPoolPopup: boolean;
     setCreatePoolPopup: Dispatch<SetStateAction<boolean>>;
   };
-  formFindPool: UseFormReturn<DexFindPoolForm>;
 }

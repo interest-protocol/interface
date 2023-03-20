@@ -7,24 +7,16 @@ import Head from 'next/head';
 import NextProgress from 'next-progress';
 import { ReactNode, StrictMode, useEffect } from 'react';
 import { SkeletonTheme } from 'react-loading-skeleton';
-import { WagmiConfig } from 'wagmi';
 
 import { NextIntlProvider } from '@/components';
-import { wagmiClient } from '@/connectors';
 import { Routes } from '@/constants';
 import { DAppTheme, GlobalStyles, LandingPageTheme } from '@/design-system';
-import { TTranslatedMessage } from '@/interface';
+import { NextPageDefaultProps } from '@/interface';
 import { initGA, logPageView } from '@/utils/analytics';
 import HomePageLayout from '@/views/home/layout';
 
-interface PageProps {
-  now: number;
-  pageTitle: string;
-  messages: TTranslatedMessage;
-}
-
-type Props = Omit<AppProps<PageProps>, 'pageProps'> & {
-  pageProps: PageProps;
+type Props = Omit<AppProps<NextPageDefaultProps>, 'pageProps'> & {
+  pageProps: NextPageDefaultProps;
 };
 
 const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
@@ -68,28 +60,23 @@ const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
         now={new Date(pageProps.now)}
         timeZone="UTC"
       >
-        <WagmiConfig client={wagmiClient}>
-          <SkeletonTheme baseColor="#202020" highlightColor="#444">
+        <SkeletonTheme baseColor="#202020" highlightColor="#444">
+          <StrictMode>
             <Global styles={GlobalStyles} />
             {router.pathname !== Routes.home ? (
               <ThemeProvider theme={DAppTheme}>
-                <StrictMode>
-                  <Component {...pageProps} />
-                  <VercelAnalytics />
-                </StrictMode>
+                <Component {...pageProps} />
               </ThemeProvider>
             ) : (
               <ThemeProvider theme={LandingPageTheme}>
                 <HomePageLayout pageTitle={pageProps.pageTitle}>
-                  <StrictMode>
-                    <Component {...pageProps} />
-                    <VercelAnalytics />
-                  </StrictMode>
+                  <Component {...pageProps} />
                 </HomePageLayout>
               </ThemeProvider>
             )}
-          </SkeletonTheme>
-        </WagmiConfig>
+            <VercelAnalytics />
+          </StrictMode>
+        </SkeletonTheme>
       </NextIntlProvider>
     </>
   );

@@ -62,8 +62,6 @@ export type ProcessVaultsSummaryData = (
 ) => { loading: boolean; data: ReadonlyArray<VaultData> };
 
 export interface VaultProps {
-  chainId: number;
-  account: string;
   formVault: UseFormReturn<IVaultForm>;
   desktopState: {
     isDesktop: boolean;
