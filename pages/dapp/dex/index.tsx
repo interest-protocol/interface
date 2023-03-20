@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import { Web3Manager } from '@/components';
 import { useLocalStorage } from '@/hooks';
-import { Address, NextPageWithProps } from '@/interface';
+import { NextPageWithProps } from '@/interface';
 import { LocalSwapSettings } from '@/views/dapp/views/dex/swap/swap.types';
 import DEXSwapView from '@/views/dapp/views/dex/swap-view';
 
