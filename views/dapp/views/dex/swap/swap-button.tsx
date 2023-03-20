@@ -81,9 +81,8 @@ const SwapButton: FC<SwapButtonProps> = ({
   const t = useTranslations();
   const { address } = useAccount();
 
-  const [buttonLoadingText, setButtonLoadingText] = useState<string | null>(
-    null
-  );
+  const [buttonLoadingText, setButtonLoadingText] =
+    useState<string | null>(null);
 
   const {
     useContractWriteReturn: { writeAsync: approve },

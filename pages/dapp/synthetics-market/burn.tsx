@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 
 import { Web3Manager } from '@/components';
 import { withAddressGuard } from '@/HOC';
-import { useChainId } from '@/hooks';
 import { NextPagePropsWithAddress } from '@/interface';
 import { syntheticsFormValidation } from '@/views/dapp/views/synthetics-market-panel/synthetics-form.validator';
 import { SYNT_FORM_DEFAULT_VALUES } from '@/views/dapp/views/synthetics-market-panel/synthetics-market-panel.data';
