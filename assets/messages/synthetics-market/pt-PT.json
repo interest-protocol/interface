@@ -6,6 +6,7 @@
     "filterSortOptionPrice": "Preço",
     "filterSortOptionLiquidationFee": "Taxa de liquidação",
     "filterMinted": "Apenas Criados",
+    "filterSortOptionId": "Id",
     "tableHeading": {
       "collateral": "Garantia",
       "TVL": "TVL",

@@ -19,8 +19,6 @@ const SyntheticsMintPage: NextPagePropsWithAddress = ({
   address,
 }) => {
   const { pathname } = useRouter();
-  const [loadingBurn, setLoadingBurn] = useState(false);
-  const [loadingMint, setLoadingMint] = useState(false);
 
   const formSynthetics = useForm<ISyntheticForm>({
     mode: 'onChange',
@@ -35,8 +33,6 @@ const SyntheticsMintPage: NextPagePropsWithAddress = ({
         address={address}
         mode="mint"
         formSynthetics={formSynthetics}
-        loadingBurnState={{ loading: loadingBurn, setLoading: setLoadingBurn }}
-        loadingMintState={{ loading: loadingMint, setLoading: setLoadingMint }}
       />
     </Web3Manager>
   );

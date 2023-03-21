@@ -1,7 +1,7 @@
 import { getAddress } from 'ethers/lib/utils';
 import { useTranslations } from 'next-intl';
 import { pathOr } from 'ramda';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 
 import { Container } from '@/components';
@@ -15,20 +15,18 @@ import { GAPage } from '@/utils/analytics';
 import GoBack from '../../components/go-back';
 import { OnSelectCurrencyData } from '../dex/swap/swap.types';
 import CreatePool from './create-pool';
-import { DexFindPoolForm, FindPoolViewProps } from './dex-find-pool.types';
+import { DexFindPoolForm } from './dex-find-pool.types';
 import FindPool from './find-pool';
 import FindPoolButton from './find-pool-button';
 
-const FindPoolView: FC<FindPoolViewProps> = ({
-  isCreatingPairState,
-  isTokenAOpenModalState,
-  isTokenBOpenModalState,
-  loadingState,
-  createPoolPopupState,
-}) => {
+const FindPoolView: FC = () => {
   const t = useTranslations();
 
   const { chainId, account } = useIdAccount();
+
+  const [isTokenAOpenModal, setTokenAIsOpenModal] = useState(false);
+  const [isTokenBOpenModal, setTokenBIsOpenModal] = useState(false);
+  const [isCreatingPair, setCreatingPair] = useState(false);
 
   const formFindPool = useForm<DexFindPoolForm>({
     defaultValues: {
@@ -88,9 +86,9 @@ const FindPoolView: FC<FindPoolViewProps> = ({
       formFindPool.setValue(`${name}.symbol`, symbol);
       formFindPool.setValue('tokenA.value', '0.0');
       formFindPool.setValue('tokenB.value', '0.0');
-      isTokenAOpenModalState.setTokenAIsOpenModal(false);
-      isTokenBOpenModalState.setTokenBIsOpenModal(false);
-      isCreatingPairState.setCreatingPair(false);
+      setTokenAIsOpenModal(false);
+      setTokenBIsOpenModal(false);
+      setCreatingPair(false);
     };
 
   if (balancesError)
@@ -115,22 +113,22 @@ const FindPoolView: FC<FindPoolViewProps> = ({
         control={formFindPool.control}
         setValue={formFindPool.setValue}
         currencyASelectArgs={{
-          isModalOpen: isTokenAOpenModalState.isTokenAOpenModal,
+          isModalOpen: isTokenAOpenModal,
           symbol: formFindPool.getValues('tokenA.symbol'),
           address: formFindPool.getValues('tokenA.address'),
-          setIsModalOpen: isTokenAOpenModalState.setTokenAIsOpenModal,
+          setIsModalOpen: setTokenAIsOpenModal,
           onSelectCurrency: onSelectCurrency('tokenA'),
         }}
         currencyBSelectArgs={{
-          isModalOpen: isTokenBOpenModalState.isTokenBOpenModal,
+          isModalOpen: isTokenBOpenModal,
           symbol: formFindPool.getValues('tokenB.symbol'),
           address: formFindPool.getValues('tokenB.address'),
-          setIsModalOpen: isTokenBOpenModalState.setTokenBIsOpenModal,
+          setIsModalOpen: setTokenBIsOpenModal,
           onSelectCurrency: onSelectCurrency('tokenB'),
         }}
-        setCreatingPair={isCreatingPairState.setCreatingPair}
+        setCreatingPair={setCreatingPair}
       />
-      {isCreatingPairState.isCreatingPair && (
+      {isCreatingPair && (
         <CreatePool
           getValues={formFindPool.getValues}
           tokenBalances={[
@@ -162,10 +160,8 @@ const FindPoolView: FC<FindPoolViewProps> = ({
         isStable={isStable}
         nativeBalance={nativeBalance}
         balancesData={balancesData}
-        setCreatingPair={isCreatingPairState.setCreatingPair}
-        isCreatingPair={isCreatingPairState.isCreatingPair}
-        loadingState={loadingState}
-        createPoolPopupState={createPoolPopupState}
+        isCreatingPair={isCreatingPair}
+        setCreatingPair={setCreatingPair}
       />
     </Container>
   );

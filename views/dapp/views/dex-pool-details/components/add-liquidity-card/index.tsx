@@ -85,6 +85,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
         setValue={formAddLiquidity.setValue}
         isFetchingQuote={isFetchingQuoteState.isFetchingQuote}
         fetchingInitialData={fetchingInitialData}
+        resetForm={formAddLiquidity.reset}
       />
       <AddLiquidityManager
         chainId={chainId}

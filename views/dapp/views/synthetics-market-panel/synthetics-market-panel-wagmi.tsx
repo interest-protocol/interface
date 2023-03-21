@@ -15,8 +15,6 @@ const SyntheticsMarketPanelWagmi: FC<SyntheticsMarketPanelBranchProps> = ({
   oracleType,
   dataFeedId,
   collateralAddress,
-  loadingBurnState,
-  loadingMintState,
 }) => {
   const t = useTranslations();
   const { error, market, refetch, rewardsInfo, myPositionData } =
@@ -38,20 +36,10 @@ const SyntheticsMarketPanelWagmi: FC<SyntheticsMarketPanelBranchProps> = ({
       myPositionData={myPositionData}
       refetch={handleRefetch}
       burnButton={
-        <BurnButton
-          form={form}
-          data={market}
-          refetch={handleRefetch}
-          loadingState={loadingBurnState}
-        />
+        <BurnButton form={form} data={market} refetch={handleRefetch} />
       }
       mintButton={
-        <MintButton
-          form={form}
-          data={market}
-          refetch={handleRefetch}
-          loadingState={loadingMintState}
-        />
+        <MintButton form={form} data={market} refetch={handleRefetch} />
       }
     />
   );

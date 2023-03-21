@@ -3,6 +3,7 @@ import { Dispatch, ReactNode, SetStateAction } from 'react';
 import {
   Control,
   UseFormRegister,
+  UseFormReset,
   UseFormReturn,
   UseFormSetValue,
 } from 'react-hook-form';
@@ -43,6 +44,7 @@ export interface RemoveLiquidityCardContentProps {
   account: string;
   control: Control<IRemoveLiquidityForm>;
   setValue: UseFormSetValue<IRemoveLiquidityForm>;
+  resetForm: UseFormReset<IRemoveLiquidityForm>;
 }
 
 export interface IRemoveLiquidityForm {

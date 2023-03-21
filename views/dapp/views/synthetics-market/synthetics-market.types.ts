@@ -7,6 +7,7 @@ import { SyntheticOracleType } from '@/constants';
 
 export enum SyntheticMarketSortByFilter {
   Default,
+  Id,
   TVL,
   LTV,
   TransferFee,

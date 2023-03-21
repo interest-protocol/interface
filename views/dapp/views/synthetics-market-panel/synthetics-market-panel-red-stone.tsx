@@ -15,8 +15,6 @@ const SyntheticsMarketPanelRedStone: FC<SyntheticsMarketPanelBranchProps> = ({
   oracleType,
   dataFeedId,
   collateralAddress,
-  loadingBurnState,
-  loadingMintState,
 }) => {
   const t = useTranslations();
 
@@ -44,20 +42,10 @@ const SyntheticsMarketPanelRedStone: FC<SyntheticsMarketPanelBranchProps> = ({
       myPositionData={myPositionData}
       refetch={handleRefetch}
       burnButton={
-        <RedStoneBurnButton
-          form={form}
-          data={market}
-          refetch={handleRefetch}
-          loadingState={loadingBurnState}
-        />
+        <RedStoneBurnButton form={form} data={market} refetch={handleRefetch} />
       }
       mintButton={
-        <RedStoneMintButton
-          form={form}
-          data={market}
-          refetch={handleRefetch}
-          loadingState={loadingMintState}
-        />
+        <RedStoneMintButton form={form} data={market} refetch={handleRefetch} />
       }
     />
   );

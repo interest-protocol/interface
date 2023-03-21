@@ -65,6 +65,7 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
         lpAllowance={lpAllowance}
         lpBalance={lpBalance}
         pairAddress={pairAddress}
+        resetForm={formRemoveLiquidity.reset}
       />
       <RemoveLiquidityManager
         chainId={chainId || 0}

@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { pathOr } from 'ramda';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import {
   SyntheticOracleType,
@@ -16,11 +16,8 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelPageProps> = ({
   mode,
   address,
   formSynthetics,
-  loadingBurnState,
-  loadingMintState,
 }) => {
   const chainId = useChainId();
-
   const { dataFeedId, oracleType, collateralAddress } = pathOr(
     {
       dataFeedId: '',
@@ -43,8 +40,6 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelPageProps> = ({
         oracleType={oracleType}
         dataFeedId={dataFeedId}
         collateralAddress={collateralAddress}
-        loadingBurnState={loadingBurnState}
-        loadingMintState={loadingMintState}
       />
     );
 
@@ -56,8 +51,6 @@ const SyntheticsMarketPanel: FC<SyntheticsMarketPanelPageProps> = ({
       oracleType={oracleType}
       dataFeedId={dataFeedId}
       collateralAddress={collateralAddress}
-      loadingBurnState={loadingBurnState}
-      loadingMintState={loadingMintState}
     />
   );
 };

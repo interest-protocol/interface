@@ -5,6 +5,7 @@
     "subTitle": "Synthetic tokens track the price of an underlying asset",
     "filterSortOptionPrice": "Price",
     "filterSortOptionLiquidationFee": "Liquidation Fee",
+    "filterSortOptionId": "Id",
     "filterMinted": "Minted only",
     "tableHeading": {
       "collateral": "Collateral",

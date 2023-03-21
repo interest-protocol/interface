@@ -15,6 +15,10 @@ import { SortFilterProps } from './synthetics-filters.types';
 const parseFarmSortByEnum = cond([
   [equals(SyntheticMarketSortByFilter.Default), always('common.select')],
   [
+    equals(SyntheticMarketSortByFilter.Id),
+    always('syntheticsMarket.filterSortOptionId'),
+  ],
+  [
     equals(SyntheticMarketSortByFilter.TVL),
     always('syntheticsMarket.tableHeading.TVL'),
   ],
@@ -88,7 +92,7 @@ const SortFilter: FC<SortFilterProps> = ({ control, setValue }) => {
               ),
               onSelect: () => {
                 logGenericEvent(`Filter_SyntheticsMarket_SortBy_id`);
-                setValue('sortBy', SyntheticMarketSortByFilter.Default);
+                setValue('sortBy', SyntheticMarketSortByFilter.Id);
               },
             },
             {

@@ -1,3 +1,4 @@
+import { ethers } from 'ethers';
 import { useWatch } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
@@ -28,7 +29,11 @@ export const useRemoveLiquidity = ({
 
   const lpBNAmount = stringToBigNumber(lpAmount, 18);
 
-  const safeLPAmount = lpBNAmount.gt(lpBalance) ? lpBalance : lpBNAmount;
+  const safeLPAmount = lpBNAmount
+    .add(ethers.utils.parseEther('0.0001'))
+    .gt(lpBalance)
+    ? lpBalance
+    : lpBNAmount;
   const token0BNAmount = stringToBigNumber(token0Amount, tokens[0].decimals);
   const token1BNAmount = stringToBigNumber(token1Amount, tokens[1].decimals);
 

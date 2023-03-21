@@ -36,14 +36,6 @@ export interface SyntheticsMarketPanelProps {
 export interface SyntheticsMarketPanelPageProps
   extends SyntheticsMarketPanelProps {
   formSynthetics: UseFormReturn<ISyntheticForm>;
-  loadingBurnState: {
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-  };
-  loadingMintState: {
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-  };
 }
 
 export interface SyntheticsMarketPanelBranchProps
@@ -52,14 +44,6 @@ export interface SyntheticsMarketPanelBranchProps
   oracleType: SyntheticOracleType;
   dataFeedId: string;
   collateralAddress: `0x${string}`;
-  loadingBurnState: {
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-  };
-  loadingMintState: {
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-  };
 }
 
 export interface SyntheticsMarketSwitchProps
