@@ -21,6 +21,7 @@ const AddLiquidityButton: FC<AddLiquidityCardButtonProps> = ({
   refetch,
   setLoading,
   loading,
+  reset,
 }) => {
   const t = useTranslations();
   const { address } = useAccount();
@@ -49,6 +50,7 @@ const AddLiquidityButton: FC<AddLiquidityCardButtonProps> = ({
     } finally {
       setLoading(false);
       await refetch();
+      reset();
     }
   };
 

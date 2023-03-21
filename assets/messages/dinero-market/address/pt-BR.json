@@ -60,6 +60,9 @@
       "ltvError": "Reduz o teu LTV",
       "collateralError": "A garantia não deve ser superior ao seu saldo",
       "amountError": "O empréstimo ou a garantia estão incorretos"
+    },
+    "error": {
+      "zeroRepay": "Não tens nenhum empréstimo por pagar"
     }
   }
 }

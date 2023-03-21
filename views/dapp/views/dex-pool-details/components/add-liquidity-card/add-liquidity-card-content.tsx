@@ -53,6 +53,7 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
   account,
   setLoading,
   loading,
+  resetForm,
 }) => {
   const { address } = useAccount();
 
@@ -193,6 +194,7 @@ const AddLiquidityCardContent: FC<AddLiquidityCardContentProps> = ({
                 refetch={refetch}
                 setLoading={setLoading}
                 loading={loading || fetchingInitialData || isFetchingQuote}
+                reset={resetForm}
               />
             </>
           )}

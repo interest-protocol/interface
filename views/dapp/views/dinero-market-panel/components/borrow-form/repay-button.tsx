@@ -42,6 +42,8 @@ const RepayButton: FC<RepayButtonProps> = ({
 
   const handleRepay = async () => {
     try {
+      if (data.userPrincipal.isZero())
+        throw new Error(t('dineroMarketAddress.error.zeroRepay'));
       setLoading(true);
       const tx = await repay?.();
 

@@ -2,7 +2,7 @@ import { getAddress } from 'ethers/lib/utils';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
 import { pathOr, prop } from 'ramda';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useAccount } from 'wagmi';
 
 import { isInterestDexPair } from '@/api';
@@ -48,13 +48,12 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
   control,
   isCreatingPair,
   setCreatingPair,
-  loadingState,
-  createPoolPopupState,
 }) => {
   const t = useTranslations();
   const { push } = useRouter();
   const { address } = useAccount();
-
+  const [loading, setLoading] = useState(false);
+  const [createPoolPopup, setCreatePoolPopup] = useState(false);
   const {
     useContractWriteReturn: { writeAsync: addLiquidity },
   } = useAddLiquidity({
@@ -79,7 +78,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
   ).isZero();
 
   const enterPool = async () => {
-    loadingState.setLoading(true);
+    setLoading(true);
 
     try {
       const address = getIPXPairAddress(
@@ -90,7 +89,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       );
 
       const doesPairExist = await isInterestDexPair(chainId, address);
-      loadingState.setLoading(false);
+      setLoading(false);
 
       if (doesPairExist)
         return await push({
@@ -114,7 +113,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
         functionName: 'enterPool',
       });
       throwError('Error connecting');
-      loadingState.setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -129,8 +128,8 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
     const { tokenA, tokenB, isStable } = getValues();
 
     try {
-      loadingState.setLoading(true);
-      createPoolPopupState.setCreatePoolPopup(false);
+      setLoading(true);
+      setCreatePoolPopup(false);
 
       const [token0Address] = sortTokens(tokenA.address, tokenB.address);
 
@@ -172,7 +171,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
       });
       throwError(t('error.generic'));
     } finally {
-      loadingState.setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -197,7 +196,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
     if (!isStable && !bothTokensAreStableCoins())
       return await handleCreatePair();
 
-    return createPoolPopupState.setCreatePoolPopup(true);
+    return setCreatePoolPopup(true);
   };
 
   return (
@@ -220,7 +219,7 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
             width="100%"
             variant="primary"
             disabled={
-              loadingState.loading ||
+              loading ||
               tokenANeedsAllowance ||
               tokenBNeedsAllowance ||
               !addLiquidity
@@ -228,13 +227,13 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
             bg={
               tokenANeedsAllowance || tokenBNeedsAllowance
                 ? 'disabled'
-                : loadingState.loading
+                : loading
                 ? 'accentActive'
                 : 'accent'
             }
             hover={{
               bg:
-                loadingState.loading ||
+                loading ||
                 tokenANeedsAllowance ||
                 tokenBNeedsAllowance ||
                 !addLiquidity
@@ -242,38 +241,36 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
                   : 'accentActive',
             }}
             onClick={
-              loadingState.loading ||
-              tokenANeedsAllowance ||
-              tokenBNeedsAllowance
+              loading || tokenANeedsAllowance || tokenBNeedsAllowance
                 ? undefined
                 : handleValidateCreatePair
             }
           >
             {t('dexPoolFind.buttonPool', {
-              isLoading: Number(loadingState.loading),
+              isLoading: Number(loading),
             })}
           </Button>
         ) : (
           <Button
             width="100%"
             variant="primary"
-            disabled={loadingState.loading}
+            disabled={loading}
             onClick={handleEnterPool}
-            bg={loadingState.loading ? 'accentActive' : 'accent'}
-            hover={{ bg: loadingState.loading ? 'disabled' : 'accentActive' }}
+            bg={loading ? 'accentActive' : 'accent'}
+            hover={{ bg: loading ? 'disabled' : 'accentActive' }}
           >
             {t('dexPoolFind.button', {
-              isLoading: Number(loadingState.loading),
+              isLoading: Number(loading),
             })}
           </Button>
         )}
       </WalletGuardButton>
       <CreatePoolPopup
         isStable={isStable}
-        isOpen={createPoolPopupState.createPoolPopup}
+        isOpen={createPoolPopup}
         symbol0={getValues('tokenA.symbol')}
         symbol1={getValues('tokenB.symbol')}
-        onCancel={() => createPoolPopupState.setCreatePoolPopup(false)}
+        onCancel={() => setCreatePoolPopup(false)}
         onContinue={handleCreatePair}
       />
     </Box>

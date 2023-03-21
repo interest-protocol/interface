@@ -156,9 +156,10 @@ const sortByTVLFn = (x: ISyntheticMarketSummary, y: ISyntheticMarketSummary) =>
   x.TVL.lt(y.TVL) ? 1 : -1;
 
 const sortById = (x: ISyntheticMarketSummary, y: ISyntheticMarketSummary) =>
-  x.id < y.id ? 1 : -1;
+  x.id < y.id ? -1 : 1;
 
 const sortByOperation = cond([
+  [equals(SyntheticMarketSortByFilter.Id), always(sortById)],
   [equals(SyntheticMarketSortByFilter.Default), always(sortById)],
   [equals(SyntheticMarketSortByFilter.LTV), always(sortByLTV)],
   [equals(SyntheticMarketSortByFilter.Price), always(sortByPrice)],

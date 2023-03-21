@@ -1,7 +1,12 @@
 import { SendTransactionResult } from '@wagmi/core';
 import { BigNumber } from 'ethers';
 import { Dispatch, ReactNode, SetStateAction } from 'react';
-import { Control, UseFormReturn, UseFormSetValue } from 'react-hook-form';
+import {
+  Control,
+  UseFormReset,
+  UseFormReturn,
+  UseFormSetValue,
+} from 'react-hook-form';
 
 export interface IAddLiquidityForm {
   token0Amount: string;
@@ -49,6 +54,7 @@ export interface AddLiquidityCardContentProps {
   account: string;
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
+  resetForm: UseFormReset<IAddLiquidityForm>;
 }
 
 export interface AddLiquidityManagerProps {
@@ -87,6 +93,7 @@ export interface AddLiquidityCardButtonProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   refetch: () => Promise<void>;
   addLiquidity?: () => Promise<SendTransactionResult | undefined>;
+  reset: UseFormReset<IAddLiquidityForm>;
 }
 
 export const INPUT_NAMES = ['token0Amount', 'token1Amount'] as Array<

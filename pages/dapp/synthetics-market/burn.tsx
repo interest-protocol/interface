@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Web3Manager } from '@/components';
@@ -19,8 +18,6 @@ const SyntheticsBurnPage: NextPagePropsWithAddress = ({
   address,
 }) => {
   const { pathname } = useRouter();
-  const [loadingBurn, setLoadingBurn] = useState(false);
-  const [loadingMint, setLoadingMint] = useState(false);
 
   const formSynthetics = useForm<ISyntheticForm>({
     mode: 'onChange',
@@ -35,8 +32,6 @@ const SyntheticsBurnPage: NextPagePropsWithAddress = ({
         address={address}
         mode="burn"
         formSynthetics={formSynthetics}
-        loadingBurnState={{ loading: loadingBurn, setLoading: setLoadingBurn }}
-        loadingMintState={{ loading: loadingMint, setLoading: setLoadingMint }}
       />
     </Web3Manager>
   );
