@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Web3Manager } from '@/components';

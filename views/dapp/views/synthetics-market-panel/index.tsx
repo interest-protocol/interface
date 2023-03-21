@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { pathOr } from 'ramda';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import {
   SyntheticOracleType,

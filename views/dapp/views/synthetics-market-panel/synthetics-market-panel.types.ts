@@ -1,6 +1,6 @@
 import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
-import { Dispatch, FC, ReactNode, SetStateAction } from 'react';
+import { FC, ReactNode } from 'react';
 import { UseFormResetField, UseFormReturn } from 'react-hook-form';
 
 import { SVGProps } from '@/components/svg/svg.types';

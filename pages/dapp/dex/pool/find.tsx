@@ -1,7 +1,6 @@
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
-import { useState } from 'react';
 
 import { Web3Manager } from '@/components';
 import { NextPageWithProps } from '@/interface';
