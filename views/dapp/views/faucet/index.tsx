@@ -23,6 +23,7 @@ import { processGetUserBalances } from './utilts';
 
 const Faucet: FC<FaucetProps> = ({
   formFaucet,
+  formLocalFaucet,
   loadingState,
   isCreatingTokenState,
 }) => {
@@ -121,7 +122,7 @@ const Faucet: FC<FaucetProps> = ({
                   await refetch();
                 }}
                 loadingState={loadingState}
-                formFaucet={formFaucet}
+                formFaucet={formLocalFaucet}
                 chainId={chainId}
                 account={account}
               />

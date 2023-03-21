@@ -24,11 +24,19 @@ const FaucetPage: NextPageWithProps = ({ pageTitle }) => {
     },
   });
 
+  const formLocalFaucet = useForm<IFaucetForm>({
+    defaultValues: {
+      token: ethers.constants.AddressZero,
+      amount: 0,
+    },
+  });
+
   return (
     <Web3Manager pageTitle={pageTitle} pathname={pathname}>
       <Faucet
         isCreatingTokenState={{ isCreatingToken, setIsCreatingToken }}
         formFaucet={formFaucet}
+        formLocalFaucet={formLocalFaucet}
         loadingState={{ loading, setLoading }}
       />
     </Web3Manager>

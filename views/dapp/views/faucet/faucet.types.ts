@@ -24,6 +24,7 @@ export interface IFaucetForm {
 
 export interface FaucetProps {
   formFaucet: UseFormReturn<IFaucetForm>;
+  formLocalFaucet: UseFormReturn<IFaucetForm>;
 
   loadingState: {
     loading: boolean;
