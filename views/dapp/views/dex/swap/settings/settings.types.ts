@@ -11,7 +11,7 @@ import { LocalSwapSettings } from '../swap.types';
 
 export interface ISwapSettingsForm {
   slippage: string;
-  deadline: number;
+  deadline: string;
   autoFetch: boolean;
 }
 
