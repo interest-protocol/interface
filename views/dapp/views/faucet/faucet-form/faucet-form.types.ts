@@ -12,10 +12,6 @@ export interface FaucetFormProps {
   formFaucet: UseFormReturn<IFaucetForm>;
   chainId: number;
   account: string;
-  loadingState: {
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-  };
 }
 
 export interface FaucetSelectCurrencyProps {
@@ -38,8 +34,4 @@ export interface MintButtonProps {
   account: string;
   getValues: UseFormGetValues<IFaucetForm>;
   refetch: () => Promise<void>;
-  loadingState: {
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-  };
 }

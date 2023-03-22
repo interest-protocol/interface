@@ -15,7 +15,6 @@ const FaucetPage: NextPageWithProps = ({ pageTitle }) => {
   const { pathname } = useRouter();
 
   const [isCreatingToken, setIsCreatingToken] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const formFaucet = useForm<IFaucetForm>({
     defaultValues: {
@@ -37,7 +36,6 @@ const FaucetPage: NextPageWithProps = ({ pageTitle }) => {
         isCreatingTokenState={{ isCreatingToken, setIsCreatingToken }}
         formFaucet={formFaucet}
         formLocalFaucet={formLocalFaucet}
-        loadingState={{ loading, setLoading }}
       />
     </Web3Manager>
   );
