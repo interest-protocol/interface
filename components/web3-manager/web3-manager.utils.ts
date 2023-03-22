@@ -2,11 +2,15 @@ import { PaginatedCoins } from '@mysten/sui.js/src/types/coin';
 import { pathOr } from 'ramda';
 
 import { COIN_DECIMALS, COIN_TYPE_TO_SYMBOL, Network } from '@/constants';
-import { parseBigNumberish } from '@/utils';
+import { CoinData } from '@/interface';
+import { parseBigNumberish, safeSymbol } from '@/utils';
 
 import { Web3ManagerSuiObject } from './web3-manager.types';
 
-export const parseCoins = (data: PaginatedCoins | undefined | never[]) => {
+export const parseCoins = (
+  data: PaginatedCoins | undefined | never[],
+  localTokens: Record<string, CoinData>
+) => {
   if (!data)
     return [[], {}] as [
       ReadonlyArray<Web3ManagerSuiObject>,
@@ -54,12 +58,16 @@ export const parseCoins = (data: PaginatedCoins | undefined | never[]) => {
             Record<string, Web3ManagerSuiObject>
           ];
         }
-        const symbol = pathOr(
-          type,
-          [Network.DEVNET, type],
-          COIN_TYPE_TO_SYMBOL
-        );
-        const decimals = pathOr(0, [Network.DEVNET, type], COIN_DECIMALS);
+        const symbol =
+          pathOr(null, [Network.DEVNET, type], COIN_TYPE_TO_SYMBOL) ??
+          pathOr(null, [type, 'symbol'], localTokens) ??
+          safeSymbol(type, type) ??
+          type.slice(-4);
+
+        const decimals =
+          pathOr(null, [Network.DEVNET, type], COIN_DECIMALS) ??
+          pathOr(-1, [type, 'decimals'], localTokens);
+
         const updatedMap = {
           ...map,
           [type]: {

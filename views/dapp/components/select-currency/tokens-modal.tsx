@@ -1,87 +1,41 @@
-import BigNumber from 'bignumber.js';
 import { useTranslations } from 'next-intl';
-import { FC, ReactNode, useMemo } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
-import { v4 } from 'uuid';
 
-import { DEX_TOKENS_DATA, TOKENS_SVG_MAP } from '@/constants';
-import { Box, Button, Typography } from '@/elements';
-import { FixedPointMath } from '@/sdk';
+import { Switch } from '@/components';
+import { Web3ManagerSuiObject } from '@/components/web3-manager/web3-manager.types';
+import {
+  BASE_TOKENS_TYPES,
+  Network,
+  RECOMMENDED_TOKENS_TYPES,
+} from '@/constants';
+import { Box, Button, InfiniteScroll, Typography } from '@/elements';
 import { LineLoaderSVG, TimesSVG } from '@/svg';
-import { capitalize, formatMoney } from '@/utils';
+import { capitalize, getSymbolByType, noop } from '@/utils';
 
 import {
   CurrencyDropdownProps,
   OnSelectCurrency,
-  OnSelectCurrencyData,
-  TokenModalMetadata,
 } from './select-currency.types';
-
-const renderData = (
-  tokens: ReadonlyArray<TokenModalMetadata>,
-  onSelectCurrency: (data: OnSelectCurrencyData) => void,
-  currentToken: string
-): ReadonlyArray<ReactNode> => {
-  const DefaultTokenSVG = TOKENS_SVG_MAP.default;
-
-  return tokens.map(({ type, symbol, decimals, totalBalance }) => {
-    const SVG = TOKENS_SVG_MAP[type] ?? DefaultTokenSVG;
-
-    const isDisabled = type == currentToken;
-    const handleSelectCurrency = () =>
-      !isDisabled && onSelectCurrency({ type, symbol, decimals });
-
-    return (
-      <Box
-        m="XS"
-        px="M"
-        py="S"
-        key={v4()}
-        color="text"
-        display="flex"
-        border="1px solid"
-        alignItems="center"
-        borderRadius="2.5rem"
-        borderColor="transparent"
-        justifyContent="space-between"
-        onClick={handleSelectCurrency}
-        cursor={isDisabled ? 'not-allowed' : 'pointer'}
-        bg={isDisabled ? 'textSoft' : 'bottomBackground'}
-        nHover={{
-          borderColor: isDisabled ? 'transparent' : 'accent',
-        }}
-      >
-        <Box my="M" display="flex" alignItems="center">
-          <Box as="span" display="inline-flex" width="1rem" alignItems="center">
-            <SVG width="100%" maxHeight="1rem" maxWidth="1rem" />
-          </Box>
-          <Typography mx="M" as="span" variant="normal">
-            {symbol?.toUpperCase()}
-          </Typography>
-        </Box>
-        <Typography variant="normal">
-          {formatMoney(FixedPointMath.toNumber(totalBalance, decimals))}
-        </Typography>
-      </Box>
-    );
-  });
-};
+import { renderData } from './select-currency.utils';
 
 const CurrencyDropdown: FC<CurrencyDropdownProps> = ({
   Input,
-  tokens,
   control,
   isSearching,
   toggleModal,
   currentToken,
   onSelectCurrency,
   searchTokenModalState,
+  coinsMap,
+  coins,
+  addLocalToken,
 }) => {
   const t = useTranslations();
   const search = useWatch({ control, name: 'search' });
   const searchedToken = searchTokenModalState;
-
+  const [isRecommended, setRecommended] = useState(true);
   const [debouncedSearch] = useDebounce(search, 800);
 
   const handleSelectCurrency: OnSelectCurrency = (args) => {
@@ -89,26 +43,66 @@ const CurrencyDropdown: FC<CurrencyDropdownProps> = ({
     toggleModal?.();
   };
 
-  const allTokens: ReadonlyArray<TokenModalMetadata> = useMemo(
-    () =>
-      DEX_TOKENS_DATA.map((item) => ({
-        ...item,
-        totalBalance: tokens[item.type]?.totalBalance ?? BigNumber(0),
-      })),
-    [tokens]
-  );
+  const [baseTokens, recommendedTokens, otherTokens] = useMemo(() => {
+    const baseTokens = BASE_TOKENS_TYPES[Network.DEVNET].reduce((acc, type) => {
+      const coin = coinsMap[type];
 
-  const filteredTokens = useMemo(
-    () => [
-      ...(searchedToken ? [searchedToken] : []),
-      ...(allTokens.filter(
-        ({ type, symbol }) =>
-          symbol.toLowerCase().startsWith(debouncedSearch.toLowerCase()) ||
-          type == debouncedSearch
-      ) as ReadonlyArray<TokenModalMetadata>),
-    ],
-    [debouncedSearch, searchedToken]
-  );
+      return coin ? acc.concat([coin]) : acc;
+    }, [] as ReadonlyArray<Web3ManagerSuiObject>);
+
+    const recommendedTokens = RECOMMENDED_TOKENS_TYPES[Network.DEVNET].reduce(
+      (acc, type) => {
+        const coin = coinsMap[type];
+
+        return coin ? acc.concat([coin]) : acc;
+      },
+      [] as ReadonlyArray<Web3ManagerSuiObject>
+    );
+
+    const otherTokens = coins
+      .filter(
+        ({ type }) =>
+          !BASE_TOKENS_TYPES[Network.DEVNET].includes(type) &&
+          !RECOMMENDED_TOKENS_TYPES[Network.DEVNET].includes(type)
+      )
+      .map((token) => ({
+        ...token,
+        symbol: getSymbolByType(token.type) ?? token.symbol,
+      }));
+
+    return [baseTokens, recommendedTokens, otherTokens] as [
+      ReadonlyArray<Web3ManagerSuiObject>,
+      ReadonlyArray<Web3ManagerSuiObject>,
+      ReadonlyArray<Web3ManagerSuiObject>
+    ];
+  }, [coinsMap, coins.length]);
+
+  const filteredTokens = useMemo(() => {
+    const array =
+      searchedToken && searchedToken.type && coinsMap[searchedToken.type]
+        ? [coinsMap[searchedToken.type]]
+        : [];
+
+    const filteredTokensArray = isRecommended
+      ? recommendedTokens.filter(
+          ({ type, symbol }) =>
+            symbol.toLowerCase().startsWith(debouncedSearch.toLowerCase()) ||
+            type == debouncedSearch
+        )
+      : otherTokens.filter(
+          ({ type, symbol }) =>
+            symbol.toLowerCase().startsWith(debouncedSearch.toLowerCase()) ||
+            type == debouncedSearch
+        );
+
+    return array.concat(filteredTokensArray);
+  }, [
+    debouncedSearch,
+    searchedToken,
+    isRecommended,
+    otherTokens,
+    recommendedTokens,
+  ]);
 
   return (
     <>
@@ -148,14 +142,61 @@ const CurrencyDropdown: FC<CurrencyDropdownProps> = ({
             )}
           </Box>
         ) : (
-          <Box
-            mt="M"
-            display="grid"
-            overflowY="auto"
-            gridGap="0.3rem"
-            maxHeight="20rem"
-          >
-            {renderData(allTokens, handleSelectCurrency, currentToken)}
+          <Box>
+            <Box display="flex" my="L">
+              {renderData(baseTokens, handleSelectCurrency, currentToken, true)}
+            </Box>
+            <Box display="flex" justifyContent="center">
+              <Switch
+                defaultValue={isRecommended ? 'recommended' : 'added'}
+                options={[
+                  {
+                    value: 'recommended',
+                    displayValue: t('common.recommended'),
+                    onSelect: () => setRecommended(true),
+                  },
+                  {
+                    value: 'added',
+                    displayValue: t('common.addedByUser'),
+                    onSelect: () => setRecommended(false),
+                  },
+                ]}
+              />
+            </Box>
+            {isRecommended ? (
+              <Box
+                mt="M"
+                display="grid"
+                overflowY="auto"
+                gridGap="0.3rem"
+                maxHeight="20rem"
+              >
+                {renderData(
+                  recommendedTokens,
+                  handleSelectCurrency,
+                  currentToken
+                )}
+              </Box>
+            ) : (
+              <InfiniteScroll
+                mt="M"
+                hasMore={false}
+                display="grid"
+                gridGap="0.3rem"
+                maxHeight="20rem"
+                loader={<LineLoaderSVG />}
+                dataLength={otherTokens.length}
+                next={noop}
+              >
+                {renderData(
+                  otherTokens,
+                  handleSelectCurrency,
+                  currentToken,
+                  false,
+                  addLocalToken
+                )}
+              </InfiniteScroll>
+            )}
           </Box>
         )}
       </Box>
