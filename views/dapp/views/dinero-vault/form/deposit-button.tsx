@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useAccount } from 'wagmi';
 
@@ -18,22 +18,17 @@ import {
 import { useDeposit } from '../dinero-vault.hooks';
 import { DepositButtonProps } from '../dinero-vault.types';
 
-const DepositButton: FC<DepositButtonProps> = ({
-  control,
-  data,
-  refetch,
-  loadinDepositState,
-}) => {
+const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
   const t = useTranslations();
   const value = useWatch({ control, name: 'value' });
   const { address } = useAccount();
-
+  const [loading, setLoading] = useState(false);
   const {
     useContractWriteReturn: { writeAsync },
   } = useDeposit(data, value);
 
   const handleDeposit = async () => {
-    loadinDepositState.setLoading(true);
+    setLoading(true);
     try {
       const tx = await writeAsync?.();
       if (tx) await tx.wait(2);
@@ -57,7 +52,7 @@ const DepositButton: FC<DepositButtonProps> = ({
       });
       throwError(t('error.generic'), e);
     } finally {
-      loadinDepositState.setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -74,7 +69,7 @@ const DepositButton: FC<DepositButtonProps> = ({
   return (
     <Button
       onClick={onSubmitDeposit}
-      disabled={!writeAsync || loadinDepositState.loading}
+      disabled={!writeAsync || loading}
       variant="primary"
       width="100%"
       py="L"
@@ -84,14 +79,12 @@ const DepositButton: FC<DepositButtonProps> = ({
       justifyContent="center"
       bg={!writeAsync ? 'disabled' : 'primary'}
     >
-      {loadinDepositState.loading && (
+      {loading && (
         <Box as="span" display="inline-block" width="1rem" mr="M">
           <LoadingSVG width="100%" maxHeight="1rem" maxWidth="1rem" />
         </Box>
       )}
-      {capitalize(
-        t('dineroVault.deposit', { isLoading: +loadinDepositState.loading })
-      )}
+      {capitalize(t('dineroVault.deposit', { isLoading: +loading }))}
     </Button>
   );
 };

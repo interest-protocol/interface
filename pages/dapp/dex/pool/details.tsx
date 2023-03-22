@@ -1,7 +1,6 @@
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Web3Manager } from '@/components';
@@ -16,9 +15,6 @@ const DEXPoolDetailsPage: NextPagePropsWithAddress = ({
   address,
 }) => {
   const { pathname } = useRouter();
-  const [isFetchingQuote, setIsFetchingQuote] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [lastDebouncedAmount, setLastDebouncedAmount] = useState('0.0');
 
   const formAddLiquidity = useForm<IAddLiquidityForm>({
     defaultValues: {
@@ -45,12 +41,6 @@ const DEXPoolDetailsPage: NextPagePropsWithAddress = ({
         pairAddress={address}
         formAddLiquidity={formAddLiquidity}
         formRemoveLiquidity={formRemoveLiquidity}
-        loadingState={{ loading, setLoading }}
-        isFetchingQuoteState={{ isFetchingQuote, setIsFetchingQuote }}
-        lastDebouncedAmountState={{
-          lastDebouncedAmount,
-          setLastDebouncedAmount,
-        }}
       />
     </Web3Manager>
   );

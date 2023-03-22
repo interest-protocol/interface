@@ -1,5 +1,6 @@
 import { useWatch } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
+import { useNow } from 'use-intl';
 import {
   useContractWrite,
   usePrepareContractWrite,
@@ -36,10 +37,9 @@ export const useAddLiquidity = ({
   const amount1 = stringToBigNumber(token1Amount || '0', token1.decimals);
 
   // 5 minutes
-  const [deadline] = useDebounce(
-    Math.ceil((Date.now() + 5 * 60 * 1000) / 1000),
-    10000
-  );
+  const now = useNow({ updateInterval: 30000 });
+
+  const deadline = Math.floor((now.getTime() + 8 * 60 * 1000) / 1000);
 
   const [safeAmount0] = useDebounce(
     amount0.gt(token0.balance) ? token0.balance : amount0,

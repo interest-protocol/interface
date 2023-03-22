@@ -28,11 +28,8 @@ import { processPairData } from './dex-pool-details.utils';
 
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
   pairAddress,
-  loadingState,
-  isFetchingQuoteState,
   formAddLiquidity,
   formRemoveLiquidity,
-  lastDebouncedAmountState,
 }) => {
   const t = useTranslations();
 
@@ -237,12 +234,10 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
           ]}
         />
         <AddLiquidityCard
-          loadingState={loadingState}
           chainId={chainId}
           account={account}
           formAddLiquidity={formAddLiquidity}
           fetchingInitialData={processedData.loading}
-          isFetchingQuoteState={isFetchingQuoteState}
           isStable={processedData.isStable}
           tokens={addLiquidityTokens}
           refetch={async () =>
@@ -254,7 +249,6 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
           account={account}
           pairAddress={pairAddress}
           formRemoveLiquidity={formRemoveLiquidity}
-          lastDebouncedAmountState={lastDebouncedAmountState}
           isFetchingInitialData={processedData.loading}
           isStable={processedData.isStable}
           lpAllowance={processedData.lpAllowance}

@@ -6,11 +6,14 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextProgress from 'next-progress';
 import { ReactNode, StrictMode, useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { SkeletonTheme } from 'react-loading-skeleton';
 
 import { NextIntlProvider } from '@/components';
 import { Routes } from '@/constants';
 import { DAppTheme, GlobalStyles, LandingPageTheme } from '@/design-system';
+import radii from '@/design-system/common/radii';
+import colors from '@/design-system/dapp-theme/colors';
 import { NextPageDefaultProps } from '@/interface';
 import { initGA, logPageView } from '@/utils/analytics';
 import HomePageLayout from '@/views/home/layout';
@@ -66,6 +69,17 @@ const MyApp = ({ Component, pageProps, router }: Props): ReactNode => {
             {router.pathname !== Routes.home ? (
               <ThemeProvider theme={DAppTheme}>
                 <Component {...pageProps} />
+                <Toaster
+                  position="bottom-right"
+                  reverseOrder={false}
+                  toastOptions={{
+                    style: {
+                      color: colors.text,
+                      borderRadius: radii.M,
+                      background: colors.foreground,
+                    },
+                  }}
+                />
               </ThemeProvider>
             ) : (
               <ThemeProvider theme={LandingPageTheme}>

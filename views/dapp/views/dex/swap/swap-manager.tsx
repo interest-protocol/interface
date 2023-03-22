@@ -2,6 +2,7 @@ import { prop } from 'ramda';
 import { FC, useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
+import { useNow } from 'use-intl';
 
 import { getAmountsOut } from '@/api';
 import { SWAP_BASES, WRAPPED_NATIVE_TOKEN } from '@/constants';
@@ -50,6 +51,10 @@ const SwapManager: FC<SwapManagerProps> = ({
     ? wrappedNativeToken.address
     : tokenOut.address;
 
+  const now = useNow({ updateInterval: 30000 });
+
+  const currentTime = Math.floor(now.getTime());
+
   // User is typing a value in the tokenOut input
   // We need to disable tokenOut input and fetch a value
   useEffect(() => {
@@ -76,8 +81,6 @@ const SwapManager: FC<SwapManagerProps> = ({
     }
 
     const value = AMOUNT_OUT_CACHE.get(key);
-
-    const currentTime = Date.now();
 
     // Value is valid
     if (value && value.timestamp + 30000 >= currentTime) {
@@ -141,6 +144,7 @@ const SwapManager: FC<SwapManagerProps> = ({
     chainId,
     hasNoMarket,
     wrappedNativeToken,
+    currentTime,
   ]);
 
   // User is typing a value in the tokenIn input
@@ -169,8 +173,6 @@ const SwapManager: FC<SwapManagerProps> = ({
     }
 
     const value = AMOUNT_OUT_CACHE.get(key);
-
-    const currentTime = Date.now();
 
     // Value is valid
     if (value && value.timestamp + 30000 >= currentTime) {
@@ -231,6 +233,7 @@ const SwapManager: FC<SwapManagerProps> = ({
     tokenOutAddress,
     chainId,
     hasNoMarket,
+    currentTime,
   ]);
 
   return null;

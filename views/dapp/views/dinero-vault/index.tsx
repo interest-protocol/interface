@@ -23,9 +23,6 @@ const DineroVault: FC<DineroVaultProps> = ({
   vault,
   stakeDVState,
   formVault,
-  loadinDepositState,
-  loadinWithdrawState,
-  openDetailsState,
   detailRef,
 }) => {
   const t = useTranslations();
@@ -177,12 +174,9 @@ const DineroVault: FC<DineroVaultProps> = ({
               data={processedData.data}
               refetch={async () => void (await refetch())}
               formVault={formVault}
-              loadinDepositState={loadinDepositState}
-              loadinWithdrawState={loadinWithdrawState}
             />
             <Typography variant="normal" as="hr" color="#44484C" mb="M" />
             <DineroVaultFooter
-              openDetailsState={openDetailsState}
               dineroVaultDetailsFooterItems={[
                 {
                   title: 'common.tvl',
