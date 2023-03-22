@@ -106,9 +106,9 @@ export const useSwap = ({
     swapBase || ZERO_ADDRESS
   );
 
-  const now = useNow({ updateInterval: 30000 });
+  const now = useNow({ updateInterval: 20000 });
 
-  const extraTime = (+deadline + 3) * 60;
+  const extraTime = (+deadline + 6) * 60;
 
   const parsedDeadline = Math.floor(now.getTime() / 1000) + extraTime;
 
