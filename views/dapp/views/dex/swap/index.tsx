@@ -53,7 +53,7 @@ const Swap: FC = () => {
 
   const [localSettings, setLocalSettings] = useLocalStorage<LocalSwapSettings>(
     'interest-swap-settings',
-    { slippage: '1', deadline: 5, autoFetch: true }
+    { slippage: '1', deadline: '5', autoFetch: true }
   );
 
   const formSwap = useForm<ISwapForm>({

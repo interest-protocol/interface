@@ -83,7 +83,7 @@ const SwapManager: FC<SwapManagerProps> = ({
     const value = AMOUNT_OUT_CACHE.get(key);
 
     // Value is valid
-    if (value && value.timestamp + 30000 >= currentTime) {
+    if (value && value.timestamp + 60000 >= currentTime) {
       setValue('tokenIn.value', value.amountOut);
       return;
     }
@@ -113,7 +113,7 @@ const SwapManager: FC<SwapManagerProps> = ({
           setSwapBase(data.base as Address);
           AMOUNT_OUT_CACHE.set(key, {
             amountOut: '0',
-            timestamp: Date.now(),
+            timestamp: Math.floor(Date.now()),
           });
           return;
         }
@@ -126,7 +126,7 @@ const SwapManager: FC<SwapManagerProps> = ({
         setHasNoMarket(false);
         AMOUNT_OUT_CACHE.set(key, {
           amountOut: value,
-          timestamp: Date.now(),
+          timestamp: Math.floor(Date.now()),
         });
       })
       .catch(() => {
@@ -204,7 +204,7 @@ const SwapManager: FC<SwapManagerProps> = ({
           setSwapBase(data.base as Address);
           AMOUNT_OUT_CACHE.set(key, {
             amountOut: '0',
-            timestamp: Date.now(),
+            timestamp: Math.floor(Date.now()),
           });
           return;
         }
@@ -217,7 +217,7 @@ const SwapManager: FC<SwapManagerProps> = ({
         setValue('tokenOut.value', value);
         AMOUNT_OUT_CACHE.set(key, {
           amountOut: value,
-          timestamp: Date.now(),
+          timestamp: Math.floor(Date.now()),
         });
       })
       .catch(() => {

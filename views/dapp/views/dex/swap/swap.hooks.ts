@@ -108,9 +108,9 @@ export const useSwap = ({
 
   const now = useNow({ updateInterval: 30000 });
 
-  const parsedDeadline = Math.floor(
-    (now.getTime() + (deadline + 3) * 60 * 1000) / 1000
-  );
+  const extraTime = (+deadline + 3) * 60;
+
+  const parsedDeadline = Math.floor(now.getTime() / 1000) + extraTime;
 
   let args: Array<any> = [
     safeAmountIn,
