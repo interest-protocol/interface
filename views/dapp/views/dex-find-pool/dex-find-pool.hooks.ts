@@ -2,6 +2,7 @@ import { getAddress } from 'ethers/lib/utils';
 import { pathOr } from 'ramda';
 import { useWatch } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
+import { useNow } from 'use-intl';
 import {
   useContractWrite,
   usePrepareContractWrite,
@@ -64,11 +65,9 @@ export const useAddLiquidity = ({
     ? token1UserBalance
     : amount1;
 
-  // 5 minutes
-  const [deadline] = useDebounce(
-    Math.ceil((Date.now() + 5 * 60 * 1000) / 1000),
-    10000
-  );
+  const now = useNow({ updateInterval: 30000 });
+
+  const deadline = Math.floor((now.getTime() + 8 * 60 * 1000) / 1000);
 
   const safeAmount0Native = amount0.gt(nativeBalance) ? nativeBalance : amount0;
 

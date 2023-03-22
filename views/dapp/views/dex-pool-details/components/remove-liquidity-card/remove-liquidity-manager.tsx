@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
 
@@ -22,9 +22,10 @@ const RemoveLiquidityManager: FC<RemoveLiquidityManagerProps> = ({
   token0Decimals,
   token1Decimals,
   chainId,
-  lastDebouncedAmountState,
 }) => {
   const amount = useWatch({ control, name: 'lpAmount' });
+
+  const [lastDebouncedAmount, setLastDebouncedAmount] = useState('0.0');
 
   const [debouncedAmount] = useDebounce(amount, 1500);
 
@@ -38,9 +39,9 @@ const RemoveLiquidityManager: FC<RemoveLiquidityManagerProps> = ({
   useEffect(() => {
     if (error) setValue('loading', false);
     if (+debouncedAmount === 0) setValue('loading', false);
-    if (+debouncedAmount !== +lastDebouncedAmountState.lastDebouncedAmount) {
+    if (+debouncedAmount !== +lastDebouncedAmount) {
       setValue('loading', true);
-      lastDebouncedAmountState.setLastDebouncedAmount(debouncedAmount);
+      setLastDebouncedAmount(debouncedAmount);
     }
   }, [debouncedAmount, error]);
 

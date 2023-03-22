@@ -14,9 +14,7 @@ import { IVaultForm } from '@/views/dapp/views/dinero-vault/dinero-vault.types';
 const DineroVaultPage: NextPagePropsWithAddress = ({ pageTitle, address }) => {
   const { pathname } = useRouter();
   const [stakeState, setStakeState] = useState(StakeState.Stake);
-  const [loadingDeposit, setLoadingDeposit] = useState(false);
-  const [loadingWithdraw, setLoadingWithdraw] = useState(false);
-  const [openDetails, setOpenDetails] = useState(false);
+
   const detailRef = useRef<HTMLDivElement>(null);
 
   const formVault = useForm<IVaultForm>({
@@ -31,15 +29,6 @@ const DineroVaultPage: NextPagePropsWithAddress = ({ pageTitle, address }) => {
         vault={address}
         stakeDVState={{ stakeState, setStakeState }}
         formVault={formVault}
-        loadinDepositState={{
-          loading: loadingDeposit,
-          setLoading: setLoadingDeposit,
-        }}
-        loadinWithdrawState={{
-          loading: loadingWithdraw,
-          setLoading: setLoadingWithdraw,
-        }}
-        openDetailsState={{ openDetails, setOpenDetails }}
         detailRef={detailRef}
       />
     </Web3Manager>

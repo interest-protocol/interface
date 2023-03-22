@@ -20,8 +20,6 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
   refetch,
   stakeState,
   formVault,
-  loadinDepositState,
-  loadinWithdrawState,
 }) => {
   const t = useTranslations();
   const isStake = stakeState === StakeState.Stake;
@@ -87,14 +85,14 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
             data={data}
             refetch={refetch}
             control={formVault.control}
-            loadinDepositState={loadinDepositState}
+            reset={formVault.reset}
           />
         ) : (
           <WithdrawButton
             data={data}
             refetch={refetch}
             control={formVault.control}
-            loadinWithdrawState={loadinWithdrawState}
+            reset={formVault.reset}
           />
         )}
       </WalletGuardButton>

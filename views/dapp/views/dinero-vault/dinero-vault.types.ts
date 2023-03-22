@@ -1,7 +1,7 @@
 import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
 import { Dispatch, RefObject, SetStateAction } from 'react';
-import { Control, UseFormReturn } from 'react-hook-form';
+import { Control, UseFormReset, UseFormReturn } from 'react-hook-form';
 
 import { StakeState } from '@/constants';
 
@@ -43,18 +43,6 @@ export interface DineroVaultProps {
     setStakeState: Dispatch<SetStateAction<StakeState>>;
   };
   formVault: UseFormReturn<IVaultForm>;
-  loadinDepositState: {
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-  };
-  loadinWithdrawState: {
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-  };
-  openDetailsState: {
-    openDetails: boolean;
-    setOpenDetails: Dispatch<SetStateAction<boolean>>;
-  };
   detailRef: RefObject<HTMLDivElement>;
 }
 
@@ -63,14 +51,6 @@ export interface DineroVaultFormProps {
   refetch: () => Promise<void>;
   stakeState: StakeState;
   formVault: UseFormReturn<IVaultForm>;
-  loadinDepositState: {
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-  };
-  loadinWithdrawState: {
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-  };
 }
 
 export interface DineroVaultInfoProps {
@@ -78,10 +58,6 @@ export interface DineroVaultInfoProps {
 }
 export interface DineroVaultFooterProps {
   dineroVaultDetailsFooterItems: ReadonlyArray<DineroVault>;
-  openDetailsState: {
-    openDetails: boolean;
-    setOpenDetails: Dispatch<SetStateAction<boolean>>;
-  };
   detailRef: RefObject<HTMLDivElement>;
 }
 
@@ -133,18 +109,12 @@ export interface DepositButtonProps {
   data: VaultData;
   refetch: () => Promise<void>;
   control: Control<IVaultForm>;
-  loadinDepositState: {
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-  };
+  reset: UseFormReset<IVaultForm>;
 }
 
 export interface WithdrawButtonProps {
   data: VaultData;
   refetch: () => Promise<void>;
   control: Control<IVaultForm>;
-  loadinWithdrawState: {
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-  };
+  reset: UseFormReset<IVaultForm>;
 }

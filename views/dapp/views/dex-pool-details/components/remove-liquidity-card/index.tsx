@@ -20,7 +20,6 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
   account,
   refetch,
   formRemoveLiquidity,
-  lastDebouncedAmountState,
 }) => {
   const t = useTranslations();
 
@@ -76,7 +75,6 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
         token1Address={tokens[1].address}
         token0Decimals={tokens[0].decimals}
         token1Decimals={tokens[1].decimals}
-        lastDebouncedAmountState={lastDebouncedAmountState}
       />
     </Box>
   );

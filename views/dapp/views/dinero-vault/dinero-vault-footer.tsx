@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
 
@@ -13,10 +13,11 @@ const AnimatedBox = animated(Box);
 
 const DineroVaultFooter: FC<DineroVaultFooterProps> = ({
   dineroVaultDetailsFooterItems,
-  openDetailsState,
   detailRef,
 }) => {
   const t = useTranslations();
+
+  const [openDetails, setOpenDetails] = useState(false);
 
   const { mHeight, arrowInvert } = useSpring({
     from: {
@@ -24,10 +25,8 @@ const DineroVaultFooter: FC<DineroVaultFooterProps> = ({
       arrowInvert: 'scaleY(1)',
     },
     to: {
-      mHeight: `${
-        openDetailsState.openDetails ? detailRef.current?.offsetHeight ?? 0 : 0
-      }px`,
-      arrowInvert: !openDetailsState.openDetails ? 'scaleY(1)' : 'scaleY(-1)',
+      mHeight: `${openDetails ? detailRef.current?.offsetHeight ?? 0 : 0}px`,
+      arrowInvert: !openDetails ? 'scaleY(1)' : 'scaleY(-1)',
     },
     config: {
       duration: 500,
@@ -42,9 +41,7 @@ const DineroVaultFooter: FC<DineroVaultFooterProps> = ({
         justifyContent="center"
         alignItems="center"
         cursor="pointer"
-        onClick={() =>
-          openDetailsState.setOpenDetails(!openDetailsState.openDetails)
-        }
+        onClick={() => setOpenDetails(!openDetails)}
       >
         <Typography
           variant="normal"
@@ -53,7 +50,7 @@ const DineroVaultFooter: FC<DineroVaultFooterProps> = ({
           fontSize="0.9rem"
         >
           {t('dineroVault.openButton', {
-            isOpen: +!openDetailsState.openDetails,
+            isOpen: +!openDetails,
           })}
         </Typography>
         <AnimatedBox style={{ transform: arrowInvert }}>

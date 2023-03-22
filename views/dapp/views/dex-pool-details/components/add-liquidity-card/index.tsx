@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
@@ -18,12 +18,11 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
   formAddLiquidity,
   chainId,
   account,
-  loadingState,
-  isFetchingQuoteState,
   refetch,
 }) => {
   const t = useTranslations();
-
+  const [isFetchingQuote, setIsFetchingQuote] = useState(false);
+  const [loading, setLoading] = useState(false);
   return (
     <Box bg="foreground" p="L" borderRadius="M" width="100%">
       <Box mb="L">
@@ -43,11 +42,7 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
           setValue={formAddLiquidity.setValue}
           name={INPUT_NAMES[index]}
           balance={FixedPointMath.toNumber(balance, decimals)}
-          disabled={
-            loadingState.loading ||
-            isFetchingQuoteState.isFetchingQuote ||
-            allowance.isZero()
-          }
+          disabled={loading || isFetchingQuote || allowance.isZero()}
           currencyPrefix={
             fetchingInitialData ? (
               <Box height="1rem" display="flex" borderRadius="2rem">
@@ -76,14 +71,14 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
       <AddLiquidityCardContent
         chainId={chainId}
         account={account}
-        loading={loadingState.loading}
-        setLoading={loadingState.setLoading}
+        loading={loading}
+        setLoading={setLoading}
         tokens={tokens}
         isStable={isStable}
         refetch={refetch}
         control={formAddLiquidity.control}
         setValue={formAddLiquidity.setValue}
-        isFetchingQuote={isFetchingQuoteState.isFetchingQuote}
+        isFetchingQuote={isFetchingQuote}
         fetchingInitialData={fetchingInitialData}
         resetForm={formAddLiquidity.reset}
       />
@@ -91,10 +86,8 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
         chainId={chainId}
         control={formAddLiquidity.control}
         setValue={formAddLiquidity.setValue}
-        isFetchingQuote={
-          isFetchingQuoteState.isFetchingQuote || loadingState.loading
-        }
-        setIsFetchingQuote={isFetchingQuoteState.setIsFetchingQuote}
+        isFetchingQuote={isFetchingQuote || loading}
+        setIsFetchingQuote={setIsFetchingQuote}
         tokens={tokens}
         isStable={isStable}
       />

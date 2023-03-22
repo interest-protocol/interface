@@ -29,14 +29,7 @@ export interface AddLiquidityCardProps {
   tokens: IToken[];
   chainId: number;
   account: string;
-  isFetchingQuoteState: {
-    isFetchingQuote: boolean;
-    setIsFetchingQuote: Dispatch<SetStateAction<boolean>>;
-  };
-  loadingState: {
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-  };
+
   formAddLiquidity: UseFormReturn<IAddLiquidityForm>;
   fetchingInitialData: boolean;
   refetch: () => Promise<void>;
