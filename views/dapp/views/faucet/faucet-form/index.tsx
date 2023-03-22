@@ -31,7 +31,6 @@ const FaucetForm: FC<FaucetFormProps> = ({
   formFaucet,
   chainId,
   account,
-  loadingState,
 }) => {
   const t = useTranslations();
 
@@ -94,7 +93,6 @@ const FaucetForm: FC<FaucetFormProps> = ({
                 account={account}
                 getValues={formFaucet.getValues}
                 refetch={refetch}
-                loadingState={loadingState}
               />
             ) : (
               <ConnectWallet />

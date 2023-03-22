@@ -1,5 +1,4 @@
 import { BigNumber } from 'ethers';
-import { Dispatch, SetStateAction } from 'react';
 import { Control, UseFormGetValues, UseFormReturn } from 'react-hook-form';
 
 import { IFaucetForm, IToken, RemoveLocalToken } from '../faucet.types';
@@ -12,10 +11,6 @@ export interface FaucetFormProps {
   formFaucet: UseFormReturn<IFaucetForm>;
   chainId: number;
   account: string;
-  loadingState: {
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-  };
 }
 
 export interface FaucetSelectCurrencyProps {
@@ -38,8 +33,4 @@ export interface MintButtonProps {
   account: string;
   getValues: UseFormGetValues<IFaucetForm>;
   refetch: () => Promise<void>;
-  loadingState: {
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-  };
 }
