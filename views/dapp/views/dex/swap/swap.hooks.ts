@@ -1,6 +1,7 @@
 import { PrepareWriteContractConfig } from '@wagmi/core';
 import { BigNumber } from 'ethers';
 import { useDebounce } from 'use-debounce';
+import { useNow } from 'use-intl';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
 import { ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
@@ -105,9 +106,10 @@ export const useSwap = ({
     swapBase || ZERO_ADDRESS
   );
 
-  const [parsedDeadline] = useDebounce(
-    Math.floor((Date.now() + deadline * 60 * 1000) / 1000),
-    500
+  const now = useNow({ updateInterval: 30000 });
+
+  const parsedDeadline = Math.floor(
+    (now.getTime() + (deadline + 3) * 60 * 1000) / 1000
   );
 
   let args: Array<any> = [
