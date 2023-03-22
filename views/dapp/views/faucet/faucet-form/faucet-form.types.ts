@@ -1,5 +1,4 @@
 import { BigNumber } from 'ethers';
-import { Dispatch, SetStateAction } from 'react';
 import { Control, UseFormGetValues, UseFormReturn } from 'react-hook-form';
 
 import { IFaucetForm, IToken, RemoveLocalToken } from '../faucet.types';
