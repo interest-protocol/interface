@@ -18,7 +18,12 @@ import {
 import { useDeposit } from '../dinero-vault.hooks';
 import { DepositButtonProps } from '../dinero-vault.types';
 
-const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
+const DepositButton: FC<DepositButtonProps> = ({
+  control,
+  data,
+  refetch,
+  reset,
+}) => {
   const t = useTranslations();
   const value = useWatch({ control, name: 'value' });
   const { address } = useAccount();
@@ -53,6 +58,7 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);
+      reset();
     }
   };
 

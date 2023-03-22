@@ -22,6 +22,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
   control,
   data,
   refetch,
+  reset,
 }) => {
   const t = useTranslations();
   const { address } = useAccount();
@@ -57,6 +58,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);
+      reset();
     }
   };
 

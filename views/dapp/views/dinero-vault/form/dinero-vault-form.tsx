@@ -85,12 +85,14 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
             data={data}
             refetch={refetch}
             control={formVault.control}
+            reset={formVault.reset}
           />
         ) : (
           <WithdrawButton
             data={data}
             refetch={refetch}
             control={formVault.control}
+            reset={formVault.reset}
           />
         )}
       </WalletGuardButton>

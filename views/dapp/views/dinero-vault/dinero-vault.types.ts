@@ -1,7 +1,7 @@
 import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
 import { Dispatch, RefObject, SetStateAction } from 'react';
-import { Control, UseFormReturn } from 'react-hook-form';
+import { Control, UseFormReset, UseFormReturn } from 'react-hook-form';
 
 import { StakeState } from '@/constants';
 
@@ -109,10 +109,12 @@ export interface DepositButtonProps {
   data: VaultData;
   refetch: () => Promise<void>;
   control: Control<IVaultForm>;
+  reset: UseFormReset<IVaultForm>;
 }
 
 export interface WithdrawButtonProps {
   data: VaultData;
   refetch: () => Promise<void>;
   control: Control<IVaultForm>;
+  reset: UseFormReset<IVaultForm>;
 }
