@@ -1,7 +1,6 @@
 import { PrepareWriteContractConfig } from '@wagmi/core';
 import { BigNumber } from 'ethers';
 import { useDebounce } from 'use-debounce';
-import { useNow } from 'use-intl';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
 import { ZERO_ADDRESS, ZERO_BIG_NUMBER } from '@/sdk';
@@ -33,6 +32,7 @@ export const useSwap = ({
   account,
   chainId,
   needsApproval,
+  timestamp,
 }: UseSwapArgs) => {
   const [debouncedTokenIn] = useDebounce(tokenIn, 500, {
     equalityFn: (x, y) =>
@@ -106,11 +106,9 @@ export const useSwap = ({
     swapBase || ZERO_ADDRESS
   );
 
-  const now = useNow({ updateInterval: 30000 });
+  const extraTime = (+deadline + 2) * 60;
 
-  const parsedDeadline = Math.floor(
-    (now.getTime() + (deadline + 3) * 60 * 1000) / 1000
-  );
+  const parsedDeadline = Math.floor(timestamp / 1000) + extraTime;
 
   let args: Array<any> = [
     safeAmountIn,

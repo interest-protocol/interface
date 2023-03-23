@@ -3,6 +3,7 @@ import { not, pathOr } from 'ramda';
 import { FC, useMemo, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 
+import { TimestampProvider } from '@/components';
 import { ERC_20_DATA, UNKNOWN_ERC_20 } from '@/constants';
 import { Box } from '@/elements';
 import {
@@ -53,7 +54,7 @@ const Swap: FC = () => {
 
   const [localSettings, setLocalSettings] = useLocalStorage<LocalSwapSettings>(
     'interest-swap-settings',
-    { slippage: '1', deadline: 5, autoFetch: true }
+    { slippage: '1', deadline: '5', autoFetch: true }
   );
 
   const formSwap = useForm<ISwapForm>({
@@ -305,45 +306,49 @@ const Swap: FC = () => {
           <SwapMessage {...SWAP_MESSAGES['error-same-token']} />
         )}
         {hasNoMarket && <SwapMessage {...SWAP_MESSAGES['info-no-pool']} />}
-        <SwapButton
-          chainId={chainId}
-          account={account}
-          control={formSwap.control}
-          swapBase={swapBase}
-          disabled={isDisabled}
-          setValue={formSwap.setValue}
-          getValues={formSwap.getValues}
-          setSwapBase={setSwapBase}
-          needsApproval={needsApproval}
-          localSettings={localSettings}
-          fetchingBalancesData={loading}
-          tokenInAddress={tokenInAddress}
-          fetchingBaseData={!balancesData && !balancesError}
-          fetchingAmount={
-            isFetchingAmountOutTokenOut || isFetchingAmountOutTokenIn
-          }
-          parsedTokenInBalance={pathOr(
-            ZERO_BIG_NUMBER,
-            [getAddress(tokenInAddress), 'balance'],
-            balancesData
-          )}
-          refetch={refetch}
-        />
+        <TimestampProvider>
+          <SwapButton
+            chainId={chainId}
+            account={account}
+            control={formSwap.control}
+            swapBase={swapBase}
+            disabled={isDisabled}
+            setValue={formSwap.setValue}
+            getValues={formSwap.getValues}
+            setSwapBase={setSwapBase}
+            needsApproval={needsApproval}
+            localSettings={localSettings}
+            fetchingBalancesData={loading}
+            tokenInAddress={tokenInAddress}
+            fetchingBaseData={!balancesData && !balancesError}
+            fetchingAmount={
+              isFetchingAmountOutTokenOut || isFetchingAmountOutTokenIn
+            }
+            parsedTokenInBalance={pathOr(
+              ZERO_BIG_NUMBER,
+              [getAddress(tokenInAddress), 'balance'],
+              balancesData
+            )}
+            refetch={refetch}
+          />
+        </TimestampProvider>
       </Box>
       {localSettings.autoFetch && (
-        <SwapManager
-          control={formSwap.control}
-          chainId={chainId}
-          setValue={formSwap.setValue}
-          isFetchingAmountOutTokenIn={isFetchingAmountOutTokenIn}
-          isFetchingAmountOutTokenOut={isFetchingAmountOutTokenOut}
-          hasNoMarket={hasNoMarket}
-          setHasNoMarket={setHasNoMarket}
-          setFetchingAmountOutTokenIn={setFetchingAmountOutTokenIn}
-          setFetchingAmountOutTokenOut={setFetchingAmountOutTokenOut}
-          setSwapBase={setSwapBase}
-          setAmountOutError={setAmountOutError}
-        />
+        <TimestampProvider>
+          <SwapManager
+            control={formSwap.control}
+            chainId={chainId}
+            setValue={formSwap.setValue}
+            isFetchingAmountOutTokenIn={isFetchingAmountOutTokenIn}
+            isFetchingAmountOutTokenOut={isFetchingAmountOutTokenOut}
+            hasNoMarket={hasNoMarket}
+            setHasNoMarket={setHasNoMarket}
+            setFetchingAmountOutTokenIn={setFetchingAmountOutTokenIn}
+            setFetchingAmountOutTokenOut={setFetchingAmountOutTokenOut}
+            setSwapBase={setSwapBase}
+            setAmountOutError={setAmountOutError}
+          />
+        </TimestampProvider>
       )}
     </>
   );

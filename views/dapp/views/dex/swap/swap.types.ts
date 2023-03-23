@@ -13,7 +13,7 @@ export interface ISwapForm {
 
 export interface LocalSwapSettings {
   slippage: string; // 20 equals 20%
-  deadline: number; // minutes
+  deadline: string; // minutes
   autoFetch: boolean; // minutes
 }
 
@@ -83,6 +83,7 @@ export interface UseSwapArgs {
   account: string;
   chainId: number;
   needsApproval: boolean;
+  timestamp: number;
 }
 
 export interface UseWETHDepositArgs {

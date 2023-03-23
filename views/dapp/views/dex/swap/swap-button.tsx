@@ -5,7 +5,7 @@ import { useAccount } from 'wagmi';
 
 import { incrementTX } from '@/api/analytics';
 import { Box, Button, Typography } from '@/elements';
-import { useApprove } from '@/hooks';
+import { useApprove, useTimestamp } from '@/hooks';
 import { LoadingSVG } from '@/svg';
 import {
   capitalize,
@@ -83,6 +83,7 @@ const SwapButton: FC<SwapButtonProps> = ({
 
   const [buttonLoadingText, setButtonLoadingText] =
     useState<string | null>(null);
+  const { timestamp } = useTimestamp();
 
   const {
     useContractWriteReturn: { writeAsync: approve },
@@ -104,6 +105,7 @@ const SwapButton: FC<SwapButtonProps> = ({
     parsedTokenInBalance,
     localSettings,
     needsApproval,
+    timestamp,
   });
 
   const {
