@@ -2,10 +2,10 @@ import { prop } from 'ramda';
 import { FC, useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
-import { useNow } from 'use-intl';
 
 import { getAmountsOut } from '@/api';
 import { SWAP_BASES, WRAPPED_NATIVE_TOKEN } from '@/constants';
+import { useTimestamp } from '@/hooks';
 import { Address } from '@/interface';
 import { CHAIN_ID, FixedPointMath } from '@/sdk';
 import {
@@ -37,6 +37,8 @@ const SwapManager: FC<SwapManagerProps> = ({
   const tokenIn = useWatch({ control, name: 'tokenIn' });
   const tokenOut = useWatch({ control, name: 'tokenOut' });
 
+  const { timestamp } = useTimestamp();
+
   const [debouncedTokenInValue] = useDebounce(tokenIn.value, 1500);
   const [debouncedTokenOutValue] = useDebounce(tokenOut.value, 1500);
 
@@ -51,9 +53,7 @@ const SwapManager: FC<SwapManagerProps> = ({
     ? wrappedNativeToken.address
     : tokenOut.address;
 
-  const now = useNow({ updateInterval: 30000 });
-
-  const currentTime = Math.floor(now.getTime());
+  const currentTime = Math.floor(timestamp);
 
   // User is typing a value in the tokenOut input
   // We need to disable tokenOut input and fetch a value

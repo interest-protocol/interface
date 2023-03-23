@@ -8,7 +8,6 @@ import DEXSwapView from '@/views/dapp/views/dex/swap-view';
 
 const DEXPage: NextPageWithProps = ({ pageTitle }) => {
   const { pathname } = useRouter();
-
   return (
     <Web3Manager pageTitle={pageTitle} pathname={pathname}>
       <DEXSwapView />

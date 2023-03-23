@@ -83,6 +83,7 @@ export interface UseSwapArgs {
   account: string;
   chainId: number;
   needsApproval: boolean;
+  timestamp: number;
 }
 
 export interface UseWETHDepositArgs {

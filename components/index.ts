@@ -7,5 +7,6 @@ export { default as SEO } from './SEO';
 export { default as SocialMediaCard } from './social-media-card';
 export { default as Switch } from './switch';
 export { default as SwitchLang } from './switch-lang';
+export { default as TimestampProvider } from './timestamp-provider';
 export { default as Tooltip } from './tooltip';
 export { default as Web3Manager } from './web3-manager';
