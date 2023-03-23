@@ -110,6 +110,8 @@ export const useSwap = ({
 
   const parsedDeadline = Math.floor(timestamp / 1000) + extraTime;
 
+  console.log(parsedDeadline, 'INSIDE HOOK');
+
   let args: Array<any> = [
     safeAmountIn,
     minAmountOut,

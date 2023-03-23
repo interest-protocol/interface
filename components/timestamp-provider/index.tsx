@@ -15,7 +15,7 @@ export const TimestampProviderContext = createContext<TimestampProviderState>(
 );
 
 const TimestampProvider: FC<TimestampProviderProps> = ({
-  updateInterval = 60000,
+  updateInterval = 15000,
   children,
 }) => {
   const now = useNow({ updateInterval });
