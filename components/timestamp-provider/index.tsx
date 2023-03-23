@@ -15,13 +15,19 @@ export const TimestampProviderContext = createContext<TimestampProviderState>(
 );
 
 const TimestampProvider: FC<TimestampProviderProps> = ({
-  updateInterval = 15000,
+  updateInterval = 20000,
   children,
 }) => {
   const now = useNow({ updateInterval });
 
+  const currentTime = new Date().getTime();
+
   return (
-    <TimestampProviderContext.Provider value={{ timestamp: now.getTime() }}>
+    <TimestampProviderContext.Provider
+      value={{
+        timestamp: currentTime > now.getTime() ? currentTime : now.getTime(),
+      }}
+    >
       {children}
     </TimestampProviderContext.Provider>
   );
