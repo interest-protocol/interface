@@ -84,7 +84,7 @@ const SwapButton: FC<SwapButtonProps> = ({
   const [buttonLoadingText, setButtonLoadingText] =
     useState<string | null>(null);
   const { timestamp } = useTimestamp();
-  console.log('BUTTON', timestamp);
+
   const {
     useContractWriteReturn: { writeAsync: approve },
   } = useApprove(tokenInAddress, getInterestDexRouterAddress(chainId), {
