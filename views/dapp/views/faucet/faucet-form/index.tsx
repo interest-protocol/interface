@@ -31,6 +31,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
   formFaucet,
   chainId,
   account,
+  zIndex,
 }) => {
   const t = useTranslations();
 
@@ -58,6 +59,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
           borderRadius="M"
           flexDirection="column"
           justifyContent="space-evenly"
+          zIndex={zIndex}
         >
           <FaucetSelectCurrency
             chainId={chainId}
@@ -92,6 +94,7 @@ const FaucetForm: FC<FaucetFormProps> = ({
                 chainId={chainId}
                 account={account}
                 getValues={formFaucet.getValues}
+                setValues={formFaucet.setValue}
                 refetch={refetch}
               />
             ) : (

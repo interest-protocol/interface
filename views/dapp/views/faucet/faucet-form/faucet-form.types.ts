@@ -1,5 +1,10 @@
 import { BigNumber } from 'ethers';
-import { Control, UseFormGetValues, UseFormReturn } from 'react-hook-form';
+import {
+  Control,
+  UseFormGetValues,
+  UseFormReturn,
+  UseFormSetValue,
+} from 'react-hook-form';
 
 import { IFaucetForm, IToken, RemoveLocalToken } from '../faucet.types';
 
@@ -11,6 +16,7 @@ export interface FaucetFormProps {
   formFaucet: UseFormReturn<IFaucetForm>;
   chainId: number;
   account: string;
+  zIndex: number;
 }
 
 export interface FaucetSelectCurrencyProps {
@@ -32,5 +38,6 @@ export interface MintButtonProps {
   chainId: number;
   account: string;
   getValues: UseFormGetValues<IFaucetForm>;
+  setValues: UseFormSetValue<IFaucetForm>;
   refetch: () => Promise<void>;
 }

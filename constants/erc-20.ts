@@ -9,7 +9,6 @@ import {
   ApeCoinSVG,
   BinanceUSDSVG,
   BitcoinSVG,
-  BNBSVG,
   ChainLinkSVG,
   DAISVG,
   DineroSVG,
@@ -119,7 +118,7 @@ export const TOKENS_SVG_MAP = {
     [CONTRACTS.iXAU[CHAIN_ID.BNB_TEST_NET]]: SynthXAUSVG,
     [CONTRACTS.iJPY[CHAIN_ID.BNB_TEST_NET]]: SynthJPYSVG,
     [CONTRACTS.iTSLA[CHAIN_ID.BNB_TEST_NET]]: SynthTeslaSVG,
-    [ethers.constants.AddressZero]: BNBSVG,
+    [ethers.constants.AddressZero]: UnknownCoinSVG,
   },
 } as {
   [chain: number]: {
