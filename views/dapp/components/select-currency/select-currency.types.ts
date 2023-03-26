@@ -1,7 +1,8 @@
 import BigNumber from 'bignumber.js';
-import { Dispatch, ReactNode, SetStateAction } from 'react';
-import { Control, UseFormRegister } from 'react-hook-form';
+import { FC, ReactNode } from 'react';
+import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
+import { SVGProps } from '@/components/svg/svg.types';
 import { Web3ManagerSuiObject } from '@/components/web3-manager/web3-manager.types';
 import { CoinData } from '@/interface';
 
@@ -9,10 +10,33 @@ export interface SearchFieldForm {
   search: string;
 }
 
-export interface OnSelectCurrencyData {
-  type: string;
-  symbol: string;
-  decimals: number;
+export type CurrencyModalTabKeys = 'recommended' | 'wallet' | 'favorites';
+
+type AddLocaToken = (x: CoinData) => Promise<void>;
+
+export interface StaringProps {
+  unStar?: boolean;
+  onClick: () => void;
+  isDisabled?: boolean;
+}
+
+export interface RenderDataArgs {
+  noBalance?: boolean;
+  currentToken: string;
+  addLocalToken?: AddLocaToken;
+  handleRemoveFromFavorite?: (x: string) => void;
+  onSelectCurrency: (data: CoinData) => Promise<void>;
+  tokens: ReadonlyArray<Web3ManagerSuiObject>;
+  setFavoriteTokens: (type: string) => void;
+  favoriteTokensMap?: Record<string, true>;
+}
+
+export type RenderData = (ags: RenderDataArgs) => ReadonlyArray<ReactNode>;
+
+export interface CurrencyTokenItemProps
+  extends Omit<RenderDataArgs, 'tokens' | 'addLocalToken'>,
+    Web3ManagerSuiObject {
+  DefaultTokenSVG: FC<SVGProps>;
 }
 
 export interface TokenModalMetadata {
@@ -23,7 +47,7 @@ export interface TokenModalMetadata {
   totalBalance: BigNumber;
 }
 
-export type OnSelectCurrency = (data: OnSelectCurrencyData) => void;
+export type OnSelectCurrency = (data: CoinData) => void;
 
 export interface SelectCurrencyProps {
   type: string;
@@ -37,22 +61,31 @@ export interface SelectCurrencyProps {
 }
 
 export interface CurrencyDropdownProps {
-  Input: ReactNode;
   fromRight?: boolean;
-  isSearching: boolean;
-  toggleModal: () => void;
-  control: Control<SearchFieldForm>;
-  coinsMap: Record<string, Web3ManagerSuiObject>;
-  coins: ReadonlyArray<Web3ManagerSuiObject>;
-  setIsSearching: Dispatch<SetStateAction<boolean>>;
   currentToken: string;
+  toggleModal: () => void;
+  coins: ReadonlyArray<Web3ManagerSuiObject>;
+  coinsMap: Record<string, Web3ManagerSuiObject>;
   searchTokenModalState: TokenModalMetadata | null;
   onSelectCurrency: SelectCurrencyProps['onSelectCurrency'];
-
-  addLocalToken: (x: CoinData) => Promise<void>;
 }
 
 export interface SearchTokenProps {
-  isSearching: boolean;
+  setValue: UseFormSetValue<SearchFieldForm>;
   register: UseFormRegister<SearchFieldForm>;
+}
+
+export interface CurrencyDropdownBodyProps {
+  currentToken: string;
+  fetchingMetaData: boolean;
+  tab: CurrencyModalTabKeys;
+  favoriteTokens: ReadonlyArray<string>;
+  control: Control<SearchFieldForm>;
+  handleRemoveFromFavorite: (x: string) => void;
+  askedToken: Web3ManagerSuiObject | null;
+  coins: ReadonlyArray<Web3ManagerSuiObject>;
+  coinsMap: Record<string, Web3ManagerSuiObject>;
+  searchTokenModalState: TokenModalMetadata | null;
+  setFavoriteTokens: (data: string) => void;
+  handleSelectCurrency: (data: CoinData) => Promise<void>;
 }

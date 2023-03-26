@@ -3,14 +3,11 @@ import { createContext, FC, useMemo } from 'react';
 import useSWR from 'swr';
 import { useReadLocalStorage } from 'usehooks-ts';
 
-import { CoinData } from '@/interface';
-import { makeSWRKey, provider } from '@/utils';
+import { LocalTokenMetadataRecord } from '@/interface';
+import { makeSWRKey, noop, provider } from '@/utils';
 
 import { Web3ManagerProps, Web3ManagerState } from './web3-manager.types';
 import { parseCoins } from './web3-manager.utils';
-
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-const defaultMutate: any = () => {};
 
 const CONTEXT_DE_DEFAULT_STATE = {
   account: null,
@@ -18,7 +15,7 @@ const CONTEXT_DE_DEFAULT_STATE = {
   coinsMap: {},
   connected: false,
   error: false,
-  mutate: defaultMutate,
+  mutate: noop,
   isFetchingCoinBalances: false,
 };
 
@@ -42,12 +39,14 @@ const Web3Manager: FC<Web3ManagerProps> = ({ children }) => {
       refreshInterval: 10000,
     }
   );
-  const localTokens = useReadLocalStorage<Record<string, CoinData>>(
-    'sui-interest-tokens'
+
+  const tokensMetadataRecord = useReadLocalStorage<LocalTokenMetadataRecord>(
+    'sui-interest-tokens-metadata'
   );
+
   const [coins, coinsMap] = useMemo(
-    () => parseCoins(data, localTokens ?? {}),
-    [data, localTokens]
+    () => parseCoins(data, tokensMetadataRecord ?? {}),
+    [data, tokensMetadataRecord]
   );
 
   return (

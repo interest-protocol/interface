@@ -8,6 +8,7 @@ import { incrementCreatedCoins } from '@/api/analytics';
 import { getTokenByteCode } from '@/api/token';
 import { Box, Button, Typography } from '@/elements';
 import { useLocalStorage, useWeb3 } from '@/hooks';
+import { LocalTokenMetadataRecord } from '@/interface';
 import { AddressZero } from '@/sdk';
 import { LoadingSVG } from '@/svg';
 import { capitalize, showToast, showTXSuccessToast } from '@/utils';
@@ -23,14 +24,16 @@ const CreateTokenButton: FC<CreateTokenButtonProps> = ({
 }) => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
-  const [localTokens, setLocalTokens] = useLocalStorage(
-    'sui-interest-tokens',
-    {}
-  );
   const { name, symbol, amount } = useWatch({ control });
   const { signAndExecuteTransaction } = useWalletKit();
   const { account } = useWeb3();
   const isValid = name && symbol && amount && +amount > 0;
+
+  const [localTokens, setLocalTokens] =
+    useLocalStorage<LocalTokenMetadataRecord>(
+      'sui-interest-tokens-metadata',
+      {}
+    );
 
   const createToken = async () => {
     try {
