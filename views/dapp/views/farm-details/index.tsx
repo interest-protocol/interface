@@ -11,12 +11,11 @@ import { Details, FarmOptions } from './components';
 import { getSafeUserFarmData } from './farm.utils';
 import { FarmDetailsProps } from './farm-details.types';
 
-const FarmDetails: FC<FarmDetailsProps> = ({ address }) => {
+const FarmDetails: FC<FarmDetailsProps> = ({ address, modalState }) => {
   const t = useTranslations();
+
   const { error, data: rawData, refetch } = useGetUserFarmData(address);
-
   const chainId = useChainId();
-
   const data = useMemo(
     () => getSafeUserFarmData(chainId, address, rawData),
     [rawData, chainId, address]
@@ -35,6 +34,7 @@ const FarmDetails: FC<FarmDetailsProps> = ({ address }) => {
           await refetch();
         }}
         loading={data.loading}
+        modalState={modalState}
       />
     </Container>
   );

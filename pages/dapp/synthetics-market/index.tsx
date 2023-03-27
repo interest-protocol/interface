@@ -1,12 +1,35 @@
-import { GetStaticProps, NextPage } from 'next';
-import dynamic from 'next/dynamic';
+import { GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
+import { useForm } from 'react-hook-form';
 
-const DynamicSyntheticsMarket = dynamic(
-  () => import('../../../views/dapp/views/synthetics-market')
-);
+import { Web3Manager } from '@/components';
+import { NextPageWithProps } from '@/interface';
+import {
+  ISyntheticMarketSummaryForm,
+  SyntheticMarketSortByFilter,
+} from '@/views/dapp/views/synthetics-market/synthetics-market.types';
 
-const SyntheticsMarketPage: NextPage = () => <DynamicSyntheticsMarket />;
+import SyntheticsMarket from '../../../views/dapp/views/synthetics-market';
+
+const SyntheticsMarketPage: NextPageWithProps = ({ pageTitle }) => {
+  const { pathname } = useRouter();
+
+  const formSyntheticMarketSummary = useForm<ISyntheticMarketSummaryForm>({
+    defaultValues: {
+      search: '',
+      sortBy: SyntheticMarketSortByFilter.Default,
+      onlyMinted: false,
+    },
+  });
+  return (
+    <Web3Manager pageTitle={pageTitle} pathname={pathname}>
+      <SyntheticsMarket
+        formSyntheticMarketSummary={formSyntheticMarketSummary}
+      />
+    </Web3Manager>
+  );
+};
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, syntheticsMarketMessages] = await Promise.all([

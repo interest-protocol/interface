@@ -40,6 +40,7 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
   refetch,
   setValue,
   control,
+  resetForm,
 }) => {
   const t = useTranslations();
   const { address } = useAccount();
@@ -121,6 +122,7 @@ const RemoveLiquidityCardContent: FC<RemoveLiquidityCardContentProps> = ({
     } finally {
       setValue('removeLoading', false);
       await refetch();
+      resetForm();
     }
   };
 

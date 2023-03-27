@@ -18,11 +18,6 @@ export type UseContractArgs = {
 export declare type QueryFunctionArgs<T extends (...args: any) => any> =
   QueryFunctionContext<ReturnType<T>>;
 
-export interface ContractHookError {
-  prepare: boolean;
-  write: boolean;
-}
-
 export declare type QueryConfig<Data, Error> = Pick<
   UseQueryOptions<Data, Error>,
   | 'cacheTime'
@@ -67,6 +62,19 @@ export interface HandlerData {
   enabled: boolean;
 }
 
-export type NextPageWithAddress = NextPage<{ address: `0x${string}` }>;
+export interface NextPageDefaultProps {
+  messages: TTranslatedMessage;
+  now: number;
+  pageTitle: string;
+}
+
+export type NextPagePropsWithAddress = NextPage<{
+  address: `0x${string}`;
+  messages: TTranslatedMessage;
+  now: number;
+  pageTitle: string;
+}>;
+
+export type NextPageWithProps = NextPage<NextPageDefaultProps>;
 
 export type Address = `0x${string}`;

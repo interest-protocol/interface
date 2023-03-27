@@ -1,17 +1,39 @@
 import { GetStaticProps } from 'next';
-import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
+import { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
+import { Web3Manager } from '@/components';
+import { StakeState } from '@/constants';
 import { withAddressGuard } from '@/HOC';
-import { NextPageWithAddress } from '@/interface';
+import { NextPagePropsWithAddress } from '@/interface';
+import DineroVault from '@/views/dapp/views/dinero-vault';
+import { IVaultForm } from '@/views/dapp/views/dinero-vault/dinero-vault.types';
 
-const DynamicDineroVault = dynamic(
-  () => import('../../../views/dapp/views/dinero-vault')
-);
+const DineroVaultPage: NextPagePropsWithAddress = ({ pageTitle, address }) => {
+  const { pathname } = useRouter();
+  const [stakeState, setStakeState] = useState(StakeState.Stake);
 
-const DineroVaultPage: NextPageWithAddress = ({ address }) => (
-  <DynamicDineroVault vault={address} />
-);
+  const detailRef = useRef<HTMLDivElement>(null);
+
+  const formVault = useForm<IVaultForm>({
+    defaultValues: {
+      value: '',
+    },
+  });
+
+  return (
+    <Web3Manager pageTitle={pageTitle} pathname={pathname}>
+      <DineroVault
+        vault={address}
+        stakeDVState={{ stakeState, setStakeState }}
+        formVault={formVault}
+        detailRef={detailRef}
+      />
+    </Web3Manager>
+  );
+};
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dineroVaultMessages] = await Promise.all([

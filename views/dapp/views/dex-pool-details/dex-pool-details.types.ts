@@ -1,9 +1,16 @@
 import { BigNumber } from 'ethers';
 import { Result } from 'ethers/lib/utils';
+import { UseFormReturn } from 'react-hook-form';
 import { PairMetadataStructOutput } from 'types/ethers-contracts/InterestViewDexAbi';
+
+import { IAddLiquidityForm } from './components/add-liquidity-card/add-liquidity-card.types';
+import { IRemoveLiquidityForm } from './components/remove-liquidity-card/remove-liquidity-card.types';
 
 export interface DEXPoolDetailsViewProps {
   pairAddress: `0x${string}`;
+
+  formAddLiquidity: UseFormReturn<IAddLiquidityForm>;
+  formRemoveLiquidity: UseFormReturn<IRemoveLiquidityForm>;
 }
 
 export interface LiquidityDetailsCardLineProps {
@@ -11,6 +18,7 @@ export interface LiquidityDetailsCardLineProps {
   symbol: string;
   address: string;
   isFetchingInitialData: boolean;
+  chainId: number;
 }
 
 export interface LiquidityDetailsCardProps {

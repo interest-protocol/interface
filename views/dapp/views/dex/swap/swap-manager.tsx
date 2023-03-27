@@ -5,6 +5,7 @@ import { useDebounce } from 'use-debounce';
 
 import { getAmountsOut } from '@/api';
 import { SWAP_BASES, WRAPPED_NATIVE_TOKEN } from '@/constants';
+import { useTimestamp } from '@/hooks';
 import { Address } from '@/interface';
 import { CHAIN_ID, FixedPointMath } from '@/sdk';
 import {
@@ -36,6 +37,8 @@ const SwapManager: FC<SwapManagerProps> = ({
   const tokenIn = useWatch({ control, name: 'tokenIn' });
   const tokenOut = useWatch({ control, name: 'tokenOut' });
 
+  const { timestamp } = useTimestamp();
+
   const [debouncedTokenInValue] = useDebounce(tokenIn.value, 1500);
   const [debouncedTokenOutValue] = useDebounce(tokenOut.value, 1500);
 
@@ -49,6 +52,8 @@ const SwapManager: FC<SwapManagerProps> = ({
   const tokenOutAddress = isZeroAddress(tokenOut.address)
     ? wrappedNativeToken.address
     : tokenOut.address;
+
+  const currentTime = Math.floor(timestamp);
 
   // User is typing a value in the tokenOut input
   // We need to disable tokenOut input and fetch a value
@@ -77,10 +82,8 @@ const SwapManager: FC<SwapManagerProps> = ({
 
     const value = AMOUNT_OUT_CACHE.get(key);
 
-    const currentTime = Date.now();
-
     // Value is valid
-    if (value && value.timestamp + 30000 >= currentTime) {
+    if (value && value.timestamp + 60000 >= currentTime) {
       setValue('tokenIn.value', value.amountOut);
       return;
     }
@@ -110,7 +113,7 @@ const SwapManager: FC<SwapManagerProps> = ({
           setSwapBase(data.base as Address);
           AMOUNT_OUT_CACHE.set(key, {
             amountOut: '0',
-            timestamp: Date.now(),
+            timestamp: Math.floor(Date.now()),
           });
           return;
         }
@@ -123,7 +126,7 @@ const SwapManager: FC<SwapManagerProps> = ({
         setHasNoMarket(false);
         AMOUNT_OUT_CACHE.set(key, {
           amountOut: value,
-          timestamp: Date.now(),
+          timestamp: Math.floor(Date.now()),
         });
       })
       .catch(() => {
@@ -141,6 +144,7 @@ const SwapManager: FC<SwapManagerProps> = ({
     chainId,
     hasNoMarket,
     wrappedNativeToken,
+    currentTime,
   ]);
 
   // User is typing a value in the tokenIn input
@@ -169,8 +173,6 @@ const SwapManager: FC<SwapManagerProps> = ({
     }
 
     const value = AMOUNT_OUT_CACHE.get(key);
-
-    const currentTime = Date.now();
 
     // Value is valid
     if (value && value.timestamp + 30000 >= currentTime) {
@@ -202,7 +204,7 @@ const SwapManager: FC<SwapManagerProps> = ({
           setSwapBase(data.base as Address);
           AMOUNT_OUT_CACHE.set(key, {
             amountOut: '0',
-            timestamp: Date.now(),
+            timestamp: Math.floor(Date.now()),
           });
           return;
         }
@@ -215,7 +217,7 @@ const SwapManager: FC<SwapManagerProps> = ({
         setValue('tokenOut.value', value);
         AMOUNT_OUT_CACHE.set(key, {
           amountOut: value,
-          timestamp: Date.now(),
+          timestamp: Math.floor(Date.now()),
         });
       })
       .catch(() => {
@@ -231,6 +233,7 @@ const SwapManager: FC<SwapManagerProps> = ({
     tokenOutAddress,
     chainId,
     hasNoMarket,
+    currentTime,
   ]);
 
   return null;

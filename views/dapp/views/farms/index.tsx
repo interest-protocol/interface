@@ -1,6 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { FC, useCallback, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FC, useCallback, useMemo } from 'react';
 
 import { Container } from '@/components';
 import { Box, InfiniteScroll, Typography } from '@/elements';
@@ -11,22 +10,12 @@ import { noop } from '@/utils';
 
 import FarmsFilters from './components/farms-filters';
 import FarmsTable from './components/farms-table';
-import { FarmSortByFilter, FarmTypeFilter, IFarmsForm } from './farms.types';
+import { FarmsProps } from './farms.types';
 import { getSafeFarmSummaryData } from './farms.utils';
 
-const Farms: FC = () => {
-  const { chainId } = useIdAccount();
+const Farms: FC<FarmsProps> = ({ desktopState, formFarm }) => {
   const t = useTranslations();
-  const { register, setValue, control } = useForm<IFarmsForm>({
-    defaultValues: {
-      search: '',
-      sortBy: FarmSortByFilter.Default,
-      typeFilter: FarmTypeFilter.All,
-      onlyFinished: false,
-      onlyStaked: false,
-    },
-  });
-
+  const { chainId } = useIdAccount();
   const { error, data: rawData } = useGetFarmsSummary();
 
   const data = useMemo(
@@ -34,11 +23,9 @@ const Farms: FC = () => {
     [rawData, chainId]
   );
 
-  const [isDesktop, setDesktop] = useState(false);
-
   const handleSetDesktop = useCallback(() => {
     const mediaIsDesktop = window.matchMedia('(min-width: 64em)').matches;
-    setDesktop(mediaIsDesktop);
+    desktopState.setDesktop(mediaIsDesktop);
   }, []);
 
   useEventListener('resize', handleSetDesktop, true);
@@ -99,9 +86,9 @@ const Farms: FC = () => {
       >
         <Box>
           <FarmsFilters
-            control={control}
-            register={register}
-            setValue={setValue}
+            control={formFarm.control}
+            register={formFarm.register}
+            setValue={formFarm.setValue}
           />
           <InfiniteScroll
             overflow="visible !important"
@@ -123,9 +110,9 @@ const Farms: FC = () => {
             <Box>
               <FarmsTable
                 loading={data.loading}
-                isDesktop={isDesktop}
+                isDesktop={desktopState.isDesktop}
                 intUSDPrice={data.intUSDPrice}
-                control={control}
+                control={formFarm.control}
                 farms={data.farms}
               />
             </Box>

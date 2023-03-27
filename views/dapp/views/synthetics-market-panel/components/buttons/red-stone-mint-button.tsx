@@ -47,7 +47,6 @@ const MintButton: FC<MintButtonProps> = ({ refetch, data, form }) => {
   const t = useTranslations();
   const { address } = useAccount();
   const [loading, setLoading] = useState(false);
-
   const mintSynt = useWatch({ control: form.control, name: 'mint.synt' });
 
   const { data: signer } = useSigner();

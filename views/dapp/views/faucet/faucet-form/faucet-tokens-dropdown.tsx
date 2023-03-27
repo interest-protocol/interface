@@ -4,7 +4,6 @@ import { FC } from 'react';
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Dropdown, Typography } from '@/elements';
 import { IDropdownData } from '@/elements/dropdown/dropdown.types';
-import { useChainId } from '@/hooks';
 import { Address } from '@/interface';
 import { ArrowSVG } from '@/svg';
 
@@ -59,9 +58,9 @@ const FaucetTokensDropdown: FC<FaucetCurrencyDropdownProps> = ({
   tokens,
   defaultValue,
   onSelectCurrency,
+  chainId,
 }) => {
   const t = useTranslations();
-  const chainId = useChainId();
 
   return (
     <Dropdown

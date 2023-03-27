@@ -44,6 +44,7 @@ const LiquidityDetailsCard: FC<LiquidityDetailsCardProps> = ({
             value={line.value}
             symbol={line.symbol}
             address={line.address}
+            chainId={line.chainId}
             isFetchingInitialData={line.isFetchingInitialData}
           />
         ))}

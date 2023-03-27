@@ -3,7 +3,6 @@ import Skeleton from 'react-loading-skeleton';
 
 import { TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useChainId } from '@/hooks';
 
 import { LiquidityDetailsCardLineProps } from '../../dex-pool-details.types';
 
@@ -12,9 +11,8 @@ const LiquidityDetailsCardLine: FC<LiquidityDetailsCardLineProps> = ({
   symbol,
   address,
   isFetchingInitialData,
+  chainId,
 }) => {
-  const chainId = useChainId();
-
   const TokenSVG =
     TOKENS_SVG_MAP[chainId][address] ?? TOKENS_SVG_MAP[chainId].default;
 

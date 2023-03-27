@@ -45,7 +45,7 @@ export const useAction = (
     functionName: modal === StakeState.Stake ? 'stake' : 'unstake',
     args: [
       farm.id,
-      amount.add(ethers.utils.parseEther('1')).gt(balanceLimit)
+      amount.add(ethers.utils.parseEther('0.0001')).gt(balanceLimit)
         ? balanceLimit
         : amount,
     ],

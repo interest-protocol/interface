@@ -61,7 +61,8 @@ const InputBalance: FC<InputBalanceProps> = ({
                 if (!setValue) return;
                 setValue(
                   name,
-                  FAUCET_TOKEN_MAX_AMOUNT[chainId][getAddress(token)]
+                  FAUCET_TOKEN_MAX_AMOUNT[chainId][getAddress(token)] ||
+                    10_000_000
                 );
               }}
             >

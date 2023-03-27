@@ -1,6 +1,12 @@
 import { BigNumber } from 'ethers';
 import { ReactNode } from 'react';
-import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import {
+  Control,
+  UseFormRegister,
+  UseFormReset,
+  UseFormReturn,
+  UseFormSetValue,
+} from 'react-hook-form';
 
 interface TokenData {
   symbol: string;
@@ -19,6 +25,7 @@ export interface RemoveLiquidityCardProps {
   chainId: number;
   refetch: () => Promise<void>;
   account: string;
+  formRemoveLiquidity: UseFormReturn<IRemoveLiquidityForm>;
 }
 
 export interface RemoveLiquidityCardContentProps {
@@ -33,6 +40,7 @@ export interface RemoveLiquidityCardContentProps {
   account: string;
   control: Control<IRemoveLiquidityForm>;
   setValue: UseFormSetValue<IRemoveLiquidityForm>;
+  resetForm: UseFormReset<IRemoveLiquidityForm>;
 }
 
 export interface IRemoveLiquidityForm {

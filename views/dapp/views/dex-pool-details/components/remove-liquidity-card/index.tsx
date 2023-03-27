@@ -1,15 +1,11 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
-import { useForm } from 'react-hook-form';
 
 import { Box, Typography } from '@/elements';
 import { FixedPointMath } from '@/sdk';
 
 import InputBalance from './input-balance';
-import {
-  IRemoveLiquidityForm,
-  RemoveLiquidityCardProps,
-} from './remove-liquidity-card.types';
+import { RemoveLiquidityCardProps } from './remove-liquidity-card.types';
 import RemoveLiquidityCardContent from './remove-liquidity-card-content';
 import RemoveLiquidityManager from './remove-liquidity-manager';
 
@@ -23,18 +19,9 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
   isFetchingInitialData,
   account,
   refetch,
+  formRemoveLiquidity,
 }) => {
   const t = useTranslations();
-
-  const { register, setValue, control } = useForm<IRemoveLiquidityForm>({
-    defaultValues: {
-      loading: false,
-      removeLoading: false,
-      lpAmount: '0.0',
-      token0Amount: '0.0',
-      token1Amount: '0.0',
-    },
-  });
 
   return (
     <Box bg="foreground" p="L" borderRadius="M" width="100%">
@@ -50,9 +37,9 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
       </Box>
       <InputBalance
         name="lpAmount"
-        control={control}
-        register={register}
-        setValue={setValue}
+        control={formRemoveLiquidity.control}
+        register={formRemoveLiquidity.register}
+        setValue={formRemoveLiquidity.setValue}
         balance={FixedPointMath.toNumber(lpBalance)}
         disabled={lpAllowance.isZero() || lpBalance.isZero()}
         currencyPrefix={
@@ -68,20 +55,21 @@ const RemoveLiquidityCard: FC<RemoveLiquidityCardProps> = ({
       <RemoveLiquidityCardContent
         chainId={chainId}
         account={account}
-        setValue={setValue}
+        setValue={formRemoveLiquidity.setValue}
         isStable={isStable}
-        control={control}
+        control={formRemoveLiquidity.control}
         refetch={refetch}
         tokens={tokens}
         isFetchingInitialData={isFetchingInitialData}
         lpAllowance={lpAllowance}
         lpBalance={lpBalance}
         pairAddress={pairAddress}
+        resetForm={formRemoveLiquidity.reset}
       />
       <RemoveLiquidityManager
         chainId={chainId || 0}
-        control={control}
-        setValue={setValue}
+        control={formRemoveLiquidity.control}
+        setValue={formRemoveLiquidity.setValue}
         isStable={isStable}
         token0Address={tokens[0].address}
         token1Address={tokens[1].address}

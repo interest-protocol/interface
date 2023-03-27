@@ -1,6 +1,5 @@
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
-import { useForm } from 'react-hook-form';
 
 import { ApproveButton } from '@/components';
 import { StakeState } from '@/constants';
@@ -11,7 +10,7 @@ import { capitalize, formatMoney } from '@/utils';
 import { GAPage } from '@/utils/analytics';
 
 import { WalletGuardButton } from '../../../components';
-import { DineroVaultFormProps, IVaultForm } from '../dinero-vault.types';
+import { DineroVaultFormProps } from '../dinero-vault.types';
 import InputBalance from '../input-balance';
 import DepositButton from './deposit-button';
 import WithdrawButton from './withdraw-button';
@@ -20,14 +19,9 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
   data,
   refetch,
   stakeState,
+  formVault,
 }) => {
   const t = useTranslations();
-  const { register, setValue, control } = useForm<IVaultForm>({
-    defaultValues: {
-      value: '',
-    },
-  });
-
   const isStake = stakeState === StakeState.Stake;
 
   return (
@@ -64,8 +58,8 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
             : data.depositAmount,
           isStake ? data.depositTokenDecimals : data.dineroDecimals
         )}
-        register={register}
-        setValue={setValue}
+        register={formVault.register}
+        setValue={formVault.setValue}
         symbol={isStake ? data.depositTokenSymbol : TOKEN_SYMBOL.DNR}
         address={isStake ? data.depositTokenAddress : data.dineroAddress}
       />
@@ -87,9 +81,19 @@ const DineroVaultForm: FC<DineroVaultFormProps> = ({
             pageName={GAPage.DineroVault}
           />
         ) : isStake ? (
-          <DepositButton data={data} refetch={refetch} control={control} />
+          <DepositButton
+            data={data}
+            refetch={refetch}
+            control={formVault.control}
+            reset={formVault.reset}
+          />
         ) : (
-          <WithdrawButton data={data} refetch={refetch} control={control} />
+          <WithdrawButton
+            data={data}
+            refetch={refetch}
+            control={formVault.control}
+            reset={formVault.reset}
+          />
         )}
       </WalletGuardButton>
     </Box>
