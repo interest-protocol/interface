@@ -1,7 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
-import { useState } from 'react';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useAccount } from 'wagmi';
 
@@ -23,12 +22,12 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
   control,
   data,
   refetch,
+  reset,
 }) => {
   const t = useTranslations();
   const { address } = useAccount();
-  const [loading, setLoading] = useState(false);
   const value = useWatch({ control, name: 'value' });
-
+  const [loading, setLoading] = useState(false);
   const {
     useContractWriteReturn: { writeAsync },
   } = useWithdraw(data, value);
@@ -59,6 +58,7 @@ const WithdrawButton: FC<WithdrawButtonProps> = ({
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);
+      reset();
     }
   };
 

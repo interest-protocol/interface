@@ -26,6 +26,7 @@ const RemoveLiquidityManager: FC<RemoveLiquidityManagerProps> = ({
   const amount = useWatch({ control, name: 'lpAmount' });
 
   const [lastDebouncedAmount, setLastDebouncedAmount] = useState('0.0');
+
   const [debouncedAmount] = useDebounce(amount, 1500);
 
   const { error, data } = useQuoteRemoveLiquidity(

@@ -33,6 +33,11 @@ export interface SyntheticsMarketPanelProps {
   mode: TSyntheticsMarketMode;
 }
 
+export interface SyntheticsMarketPanelPageProps
+  extends SyntheticsMarketPanelProps {
+  formSynthetics: UseFormReturn<ISyntheticForm>;
+}
+
 export interface SyntheticsMarketPanelBranchProps
   extends SyntheticsMarketPanelProps {
   form: UseFormReturn<ISyntheticForm>;

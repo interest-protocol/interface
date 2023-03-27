@@ -1,6 +1,12 @@
 import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
-import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { Dispatch, SetStateAction } from 'react';
+import {
+  Control,
+  UseFormRegister,
+  UseFormReturn,
+  UseFormSetValue,
+} from 'react-hook-form';
 
 import { Address } from '@/interface';
 import { FixedPointMath } from '@/sdk';
@@ -93,3 +99,11 @@ export type GetSafeFarmSummaryData = (
   chainId: number | null,
   data: TFarmData
 ) => SafeFarmSummaryData;
+
+export interface FarmsProps {
+  desktopState: {
+    isDesktop: boolean;
+    setDesktop: Dispatch<SetStateAction<boolean>>;
+  };
+  formFarm: UseFormReturn<IFarmsForm>;
+}

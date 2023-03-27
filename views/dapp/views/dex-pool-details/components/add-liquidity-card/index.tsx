@@ -1,18 +1,12 @@
 import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 
 import { Box, Typography } from '@/elements';
-import { useIdAccount } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
 
-import {
-  AddLiquidityCardProps,
-  IAddLiquidityForm,
-  INPUT_NAMES,
-} from './add-liquidity-card.types';
+import { AddLiquidityCardProps, INPUT_NAMES } from './add-liquidity-card.types';
 import AddLiquidityCardContent from './add-liquidity-card-content';
 import AddLiquidityManager from './add-liquidity-manager';
 import InputBalance from './input-balance';
@@ -21,23 +15,14 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
   tokens,
   isStable,
   fetchingInitialData,
+  formAddLiquidity,
+  chainId,
+  account,
   refetch,
 }) => {
+  const t = useTranslations();
   const [isFetchingQuote, setIsFetchingQuote] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const { account, chainId } = useIdAccount();
-  const t = useTranslations();
-
-  const { register, setValue, control } = useForm<IAddLiquidityForm>({
-    defaultValues: {
-      token0Amount: '0.0',
-      token1Amount: '0.0',
-      error: '',
-      locked: false,
-    },
-  });
-
   return (
     <Box bg="foreground" p="L" borderRadius="M" width="100%">
       <Box mb="L">
@@ -53,8 +38,8 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
       {tokens.map(({ balance, decimals, allowance, Icon, symbol }, index) => (
         <InputBalance
           key={v4()}
-          register={register}
-          setValue={setValue}
+          register={formAddLiquidity.register}
+          setValue={formAddLiquidity.setValue}
           name={INPUT_NAMES[index]}
           balance={FixedPointMath.toNumber(balance, decimals)}
           disabled={loading || isFetchingQuote || allowance.isZero()}
@@ -91,15 +76,16 @@ const AddLiquidityCard: FC<AddLiquidityCardProps> = ({
         tokens={tokens}
         isStable={isStable}
         refetch={refetch}
-        control={control}
-        setValue={setValue}
+        control={formAddLiquidity.control}
+        setValue={formAddLiquidity.setValue}
         isFetchingQuote={isFetchingQuote}
         fetchingInitialData={fetchingInitialData}
+        resetForm={formAddLiquidity.reset}
       />
       <AddLiquidityManager
         chainId={chainId}
-        control={control}
-        setValue={setValue}
+        control={formAddLiquidity.control}
+        setValue={formAddLiquidity.setValue}
         isFetchingQuote={isFetchingQuote || loading}
         setIsFetchingQuote={setIsFetchingQuote}
         tokens={tokens}

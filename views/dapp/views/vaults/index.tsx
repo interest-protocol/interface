@@ -1,9 +1,7 @@
 import { useTranslations } from 'next-intl';
-import { FC, useCallback, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FC, useCallback, useMemo } from 'react';
 
 import { Container } from '@/components';
-import { VaultTypes } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useIdAccount } from '@/hooks';
 import useEventListener from '@/hooks/use-event-listener';
@@ -11,32 +9,21 @@ import { TimesSVG } from '@/svg';
 
 import { VaultFilterTable, VaultHeader, VaultTable } from './components';
 import { useGetVaultsSummary } from './vaults.hooks';
-import { IVaultForm } from './vaults.types';
+import { VaultProps } from './vaults.types';
 import { processVaultsSummaryData } from './vaults.utils';
 
-const Vault: FC = () => {
+const Vault: FC<VaultProps> = ({ formVault, desktopState }) => {
   const t = useTranslations();
   const { chainId, account } = useIdAccount();
   const { error, data } = useGetVaultsSummary(chainId, account);
-
-  const { register, control, setValue, getValues } = useForm<IVaultForm>({
-    defaultValues: {
-      search: '',
-      type: VaultTypes.All,
-      onlyDeposit: false,
-    },
-  });
-
   const processedData = useMemo(
     () => processVaultsSummaryData(chainId, data),
     [chainId, data]
   );
 
-  const [isDesktop, setDesktop] = useState(false);
-
   const handleSetDesktop = useCallback(() => {
     const mediaIsDesktop = window.matchMedia('(min-width: 64em)').matches;
-    setDesktop(mediaIsDesktop);
+    desktopState.setDesktop(mediaIsDesktop);
   }, []);
 
   useEventListener('resize', handleSetDesktop, true);
@@ -90,15 +77,15 @@ const Vault: FC = () => {
       >
         <VaultHeader size={processedData.data.length} />
         <VaultFilterTable
-          register={register}
-          setValue={setValue}
-          getValues={getValues}
-          control={control}
+          register={formVault.register}
+          setValue={formVault.setValue}
+          getValues={formVault.getValues}
+          control={formVault.control}
         />
         <VaultTable
-          isDesktop={isDesktop}
+          isDesktop={desktopState.isDesktop}
           data={processedData.data}
-          control={control}
+          control={formVault.control}
           loading={processedData.loading}
         />
       </Container>

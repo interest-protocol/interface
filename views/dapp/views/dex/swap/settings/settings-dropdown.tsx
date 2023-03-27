@@ -129,7 +129,7 @@ const ModalBody: FC<ModalSettingsBody> = ({
             register('deadline', {
               onChange: (v: ChangeEvent<HTMLInputElement>) => {
                 const deadline = isNaN(+v.target.value) ? 0 : +v.target.value;
-                setValue('deadline', deadline);
+                setValue('deadline', deadline.toString());
               },
             })
           }

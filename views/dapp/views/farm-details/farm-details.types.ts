@@ -1,12 +1,18 @@
 import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
+import { Dispatch, SetStateAction } from 'react';
 
+import { StakeState } from '@/constants';
 import { FixedPointMath } from '@/sdk';
 
 import { InterestViewEarn } from '../../../../types/ethers-contracts/InterestViewEarnAbi';
 
 export interface FarmDetailsProps {
   address: `0x${string}`;
+  modalState: {
+    modal: StakeState | undefined;
+    setModal: Dispatch<SetStateAction<StakeState | undefined>>;
+  };
 }
 
 export interface SafeUserFarmData {

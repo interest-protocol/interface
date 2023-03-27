@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { useAccount } from 'wagmi';
 
 import Box from '@/elements/box';
 import Typography from '@/elements/typography';
@@ -15,9 +14,8 @@ const FarmCard: FC<FarmCardProps> = ({
   button,
   loading,
   amountUSD,
+  address,
 }) => {
-  const { address } = useAccount();
-
   return (
     <Box
       p="L"

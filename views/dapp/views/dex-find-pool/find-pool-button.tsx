@@ -49,12 +49,11 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
   isCreatingPair,
   setCreatingPair,
 }) => {
-  const [loading, setLoading] = useState(false);
-  const [createPoolPopup, setCreatePoolPopup] = useState(false);
   const t = useTranslations();
   const { push } = useRouter();
   const { address } = useAccount();
-
+  const [loading, setLoading] = useState(false);
+  const [createPoolPopup, setCreatePoolPopup] = useState(false);
   const {
     useContractWriteReturn: { writeAsync: addLiquidity },
   } = useAddLiquidity({
@@ -247,7 +246,9 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
                 : handleValidateCreatePair
             }
           >
-            {t('dexPoolFind.buttonPool', { isLoading: Number(loading) })}
+            {t('dexPoolFind.buttonPool', {
+              isLoading: Number(loading),
+            })}
           </Button>
         ) : (
           <Button
@@ -258,7 +259,9 @@ const FindPoolButton: FC<FindPoolButtonProps> = ({
             bg={loading ? 'accentActive' : 'accent'}
             hover={{ bg: loading ? 'disabled' : 'accentActive' }}
           >
-            {t('dexPoolFind.button', { isLoading: Number(loading) })}
+            {t('dexPoolFind.button', {
+              isLoading: Number(loading),
+            })}
           </Button>
         )}
       </WalletGuardButton>

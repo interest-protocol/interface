@@ -1,10 +1,19 @@
-import { GetStaticProps, NextPage } from 'next';
-import dynamic from 'next/dynamic';
+import { GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
 import { mergeDeepRight } from 'ramda';
 
-const DynamicDEX = dynamic(() => import('../../../views/dapp/views/dex'));
+import { Web3Manager } from '@/components';
+import { NextPageWithProps } from '@/interface';
+import DEXSwapView from '@/views/dapp/views/dex/swap-view';
 
-const DEXPage: NextPage = () => <DynamicDEX />;
+const DEXPage: NextPageWithProps = ({ pageTitle }) => {
+  const { pathname } = useRouter();
+  return (
+    <Web3Manager pageTitle={pageTitle} pathname={pathname}>
+      <DEXSwapView />
+    </Web3Manager>
+  );
+};
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const [commonMessages, dexSwapMessages, dexPoolFindMessages] =

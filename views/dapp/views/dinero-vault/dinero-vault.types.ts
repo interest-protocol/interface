@@ -1,7 +1,7 @@
 import { Result } from '@ethersproject/abi';
 import { BigNumber } from 'ethers';
-import { Dispatch, SetStateAction } from 'react';
-import { Control } from 'react-hook-form';
+import { Dispatch, RefObject, SetStateAction } from 'react';
+import { Control, UseFormReset, UseFormReturn } from 'react-hook-form';
 
 import { StakeState } from '@/constants';
 
@@ -38,12 +38,19 @@ export interface DineroVaultDetailsTitleProps {
 
 export interface DineroVaultProps {
   vault: `0x${string}`;
+  stakeDVState: {
+    stakeState: StakeState;
+    setStakeState: Dispatch<SetStateAction<StakeState>>;
+  };
+  formVault: UseFormReturn<IVaultForm>;
+  detailRef: RefObject<HTMLDivElement>;
 }
 
 export interface DineroVaultFormProps {
   data: VaultData;
   refetch: () => Promise<void>;
   stakeState: StakeState;
+  formVault: UseFormReturn<IVaultForm>;
 }
 
 export interface DineroVaultInfoProps {
@@ -51,6 +58,7 @@ export interface DineroVaultInfoProps {
 }
 export interface DineroVaultFooterProps {
   dineroVaultDetailsFooterItems: ReadonlyArray<DineroVault>;
+  detailRef: RefObject<HTMLDivElement>;
 }
 
 export interface VaultData {
@@ -101,10 +109,12 @@ export interface DepositButtonProps {
   data: VaultData;
   refetch: () => Promise<void>;
   control: Control<IVaultForm>;
+  reset: UseFormReset<IVaultForm>;
 }
 
 export interface WithdrawButtonProps {
   data: VaultData;
   refetch: () => Promise<void>;
   control: Control<IVaultForm>;
+  reset: UseFormReset<IVaultForm>;
 }

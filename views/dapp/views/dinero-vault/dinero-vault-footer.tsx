@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { FC, useRef, useState } from 'react';
+import { FC, useState } from 'react';
 import { animated, useSpring } from 'react-spring';
 import { v4 } from 'uuid';
 
@@ -13,10 +13,11 @@ const AnimatedBox = animated(Box);
 
 const DineroVaultFooter: FC<DineroVaultFooterProps> = ({
   dineroVaultDetailsFooterItems,
+  detailRef,
 }) => {
   const t = useTranslations();
+
   const [openDetails, setOpenDetails] = useState(false);
-  const detailRef = useRef<HTMLDivElement>(null);
 
   const { mHeight, arrowInvert } = useSpring({
     from: {
@@ -48,7 +49,9 @@ const DineroVaultFooter: FC<DineroVaultFooterProps> = ({
           mr="M"
           fontSize="0.9rem"
         >
-          {t('dineroVault.openButton', { isOpen: +!openDetails })}
+          {t('dineroVault.openButton', {
+            isOpen: +!openDetails,
+          })}
         </Typography>
         <AnimatedBox style={{ transform: arrowInvert }}>
           <ArrowSVG width="0.5rem" maxHeight="0.5rem" maxWidth="0.5rem" />

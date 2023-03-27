@@ -1,5 +1,7 @@
+import { ethers } from 'ethers';
 import { useWatch } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
+import { useNow } from 'use-intl';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
 import InterestDexRouterABI from '@/sdk/abi/interest-dex-router.abi.json';
@@ -28,7 +30,11 @@ export const useRemoveLiquidity = ({
 
   const lpBNAmount = stringToBigNumber(lpAmount, 18);
 
-  const safeLPAmount = lpBNAmount.gt(lpBalance) ? lpBalance : lpBNAmount;
+  const safeLPAmount = lpBNAmount
+    .add(ethers.utils.parseEther('0.0001'))
+    .gt(lpBalance)
+    ? lpBalance
+    : lpBNAmount;
   const token0BNAmount = stringToBigNumber(token0Amount, tokens[0].decimals);
   const token1BNAmount = stringToBigNumber(token1Amount, tokens[1].decimals);
 
@@ -43,10 +49,9 @@ export const useRemoveLiquidity = ({
   });
 
   // 5 minutes
-  const [deadline] = useDebounce(
-    Math.ceil((Date.now() + 5 * 60 * 1000) / 1000),
-    10000
-  );
+  const now = useNow({ updateInterval: 30000 });
+
+  const deadline = Math.floor((now.getTime() + 8 * 60 * 1000) / 1000);
 
   const { config, ...usePrepareContractReturn } = usePrepareContractWrite({
     address: getInterestDexRouterAddress(chainId),

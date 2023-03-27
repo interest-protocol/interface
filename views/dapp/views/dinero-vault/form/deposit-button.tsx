@@ -1,7 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
-import { useState } from 'react';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useAccount } from 'wagmi';
 
@@ -19,12 +18,16 @@ import {
 import { useDeposit } from '../dinero-vault.hooks';
 import { DepositButtonProps } from '../dinero-vault.types';
 
-const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
+const DepositButton: FC<DepositButtonProps> = ({
+  control,
+  data,
+  refetch,
+  reset,
+}) => {
   const t = useTranslations();
-  const [loading, setLoading] = useState(false);
   const value = useWatch({ control, name: 'value' });
   const { address } = useAccount();
-
+  const [loading, setLoading] = useState(false);
   const {
     useContractWriteReturn: { writeAsync },
   } = useDeposit(data, value);
@@ -55,6 +58,7 @@ const DepositButton: FC<DepositButtonProps> = ({ control, data, refetch }) => {
       throwError(t('error.generic'), e);
     } finally {
       setLoading(false);
+      reset();
     }
   };
 
