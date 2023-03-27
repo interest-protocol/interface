@@ -106,6 +106,7 @@ const Faucet: FC<FaucetProps> = ({
             formFaucet={formFaucet}
             chainId={chainId}
             account={account}
+            zIndex={5}
           />
           {localData.length != 0 && (
             <>
@@ -122,6 +123,7 @@ const Faucet: FC<FaucetProps> = ({
                 formFaucet={formLocalFaucet}
                 chainId={chainId}
                 account={account}
+                zIndex={4}
               />
             </>
           )}

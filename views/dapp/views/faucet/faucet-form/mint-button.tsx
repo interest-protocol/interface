@@ -1,3 +1,4 @@
+import { ethers } from 'ethers';
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
 import { useCallback, useState } from 'react';
@@ -29,6 +30,7 @@ const MintButton: FC<MintButtonProps> = ({
   chainId,
   account,
   getValues,
+  setValues,
   refetch,
 }) => {
   const t = useTranslations();
@@ -61,6 +63,8 @@ const MintButton: FC<MintButtonProps> = ({
         functionName: 'handleOnMint',
       });
       await refetch();
+      setValues('amount', 0);
+      setValues('token', ethers.constants.AddressZero);
     } catch (error) {
       logTransactionEvent({
         status: GAStatus.Error,
