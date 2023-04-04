@@ -1,3 +1,4 @@
+import { DevInspectResults } from '@mysten/sui.js/src/types';
 import { PaginatedCoins } from '@mysten/sui.js/src/types/coin';
 import { DynamicFieldInfo } from '@mysten/sui.js/src/types/dynamic_fields';
 import { Dispatch, SetStateAction } from 'react';
@@ -11,19 +12,16 @@ import {
 import { KeyedMutator } from 'swr';
 
 import { Web3ManagerState } from '@/components/web3-manager/web3-manager.types';
+import { DexFunctions, Network } from '@/constants';
+import { CoinData } from '@/interface';
 
-import { SwapFormTokenData, SwapTokenModalMetadata } from '../dex.types';
+import { TokenModalMetadata } from '../../components/select-currency/select-currency.types';
+import { SwapFormTokenData } from '../dex.types';
 import { ISwapSettingsForm } from './settings/settings.types';
 
 export interface ISwapForm {
   tokenIn: SwapFormTokenData;
   tokenOut: SwapFormTokenData;
-}
-
-export interface OnSelectCurrencyData {
-  type: string;
-  symbol: string;
-  decimals: number;
 }
 
 export type PoolsMap = Record<string, Record<string, DynamicFieldInfo>>;
@@ -32,6 +30,8 @@ export interface SwapPathObject {
   baseTokens: ReadonlyArray<string>;
   tokenInType: string;
   tokenOutType: string;
+  functionName: DexFunctions;
+  typeArgs: Array<string>;
 }
 
 export interface SwapButtonProps {
@@ -53,47 +53,33 @@ export interface SwapManagerWrapperProps {
   account: string | null;
   volatilePoolsMap: PoolsMap;
   control: Control<ISwapForm>;
-  isTokenOutOpenModal: boolean;
   register: UseFormRegister<ISwapForm>;
   setValue: UseFormSetValue<ISwapForm>;
   getValues: UseFormGetValues<ISwapForm>;
   coinsMap: Web3ManagerState['coinsMap'];
-  onSelectCurrency: (data: OnSelectCurrencyData) => void;
-  setTokenOutIsOpenModal: Dispatch<SetStateAction<boolean>>;
-  searchingState: {
-    isSearching: boolean;
-    setIsSearching: Dispatch<SetStateAction<boolean>>;
-  };
-  formSearch: UseFormReturn<{ search: string }>;
-  searchTokenModalState: SwapTokenModalMetadata | null;
+  onSelectCurrency: (data: CoinData) => void;
+  searchTokenModalState: TokenModalMetadata | null;
 }
 
 export interface SwapManagerProps {
   tokenInType: string;
   tokenOutType: string;
+  hasNoMarket: boolean;
   account: string | null;
+  tokenIn: SwapFormTokenData;
   volatilePoolsMap: PoolsMap;
   control: Control<ISwapForm>;
-  isTokenOutOpenModal: boolean;
+  isFetchingSwapAmount: boolean;
   register: UseFormRegister<ISwapForm>;
   setValue: UseFormSetValue<ISwapForm>;
   getValues: UseFormGetValues<ISwapForm>;
   coinsMap: Web3ManagerState['coinsMap'];
-  setDisabled: Dispatch<SetStateAction<boolean>>;
-  onSelectCurrency: (data: OnSelectCurrencyData) => void;
-  setTokenOutIsOpenModal: Dispatch<SetStateAction<boolean>>;
-  isFetchingSwapAmount: boolean;
-  setIsFetchingSwapAmount: Dispatch<SetStateAction<boolean>>;
-  setIsZeroSwapAmount: Dispatch<SetStateAction<boolean>>;
-  tokenIn: SwapFormTokenData;
-  hasNoMarket: boolean;
   setError: Dispatch<SetStateAction<boolean>>;
-  searchingState: {
-    isSearching: boolean;
-    setIsSearching: Dispatch<SetStateAction<boolean>>;
-  };
-  formSearch: UseFormReturn<{ search: string }>;
-  searchTokenModalState: SwapTokenModalMetadata | null;
+  setDisabled: Dispatch<SetStateAction<boolean>>;
+  searchTokenModalState: TokenModalMetadata | null;
+  setIsZeroSwapAmount: Dispatch<SetStateAction<boolean>>;
+  onSelectCurrency: (data: CoinData) => void;
+  setIsFetchingSwapAmount: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface GetSwapPayload {
@@ -101,6 +87,7 @@ export interface GetSwapPayload {
   tokenOutType: string;
   coinsMap: Web3ManagerState['coinsMap'];
   volatilesPools: PoolsMap;
+  network: Network;
 }
 
 export interface LocalSwapSettings {
@@ -124,18 +111,17 @@ export interface SwapProps {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
   };
-  tokenInModalState: {
-    isTokenInOpenModal: boolean;
-    setTokenInIsOpenModal: Dispatch<SetStateAction<boolean>>;
-  };
-  tokenOutModalState: {
-    isTokenOutOpenModal: boolean;
-    setTokenOutIsOpenModal: Dispatch<SetStateAction<boolean>>;
-  };
-  searchingState: {
-    isSearching: boolean;
-    setIsSearching: Dispatch<SetStateAction<boolean>>;
-  };
-  formSearch: UseFormReturn<{ search: string }>;
-  searchTokenModalState: SwapTokenModalMetadata | null;
+  searchTokenModalState: TokenModalMetadata | null;
+}
+
+export interface FindMarketArgs {
+  data: PoolsMap;
+  tokenInType: string;
+  tokenOutType: string;
+  network: Network;
+}
+
+export interface FindSwapAmountOutput {
+  packageId: string;
+  data: DevInspectResults | undefined;
 }

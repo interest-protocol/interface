@@ -2,9 +2,9 @@ import { useTranslations } from 'next-intl';
 import { always, cond, equals, T } from 'ramda';
 import { FC } from 'react';
 import { useWatch } from 'react-hook-form';
-import MessageKeys from 'use-intl/dist/utils/MessageKeys';
 
 import { Box, Dropdown, Typography } from '@/elements';
+import { TTranslatedMessage } from '@/interface';
 import { ArrowSVG } from '@/svg';
 import { capitalize } from '@/utils';
 
@@ -44,7 +44,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
         <Dropdown
           buttonMode
           mode="select"
-          bgSelected="accentAlternativeBackground"
+          bgSelected="accentOutline"
           emptyMessage={capitalize(t('common.notFound'))}
           suffix={
             <Box ml="L" width="0.6rem">
@@ -62,10 +62,7 @@ const TypeFilter: FC<TypeFilterProps> = ({ control, setValue }) => {
                   ('common.' +
                     parseFarmTypeByEnum(
                       typeFilter
-                    ).toLowerCase()) as MessageKeys<
-                    IntlMessages,
-                    keyof IntlMessages
-                  >,
+                    ).toLowerCase()) as TTranslatedMessage,
                   {
                     count: 2,
                   }

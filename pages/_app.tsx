@@ -9,9 +9,14 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import NextProgress from 'next-progress';
 import { ReactNode, StrictMode } from 'react';
-import { TooltipProvider } from 'react-tooltip';
+import { Tooltip } from 'react-tooltip';
 
-import { LoadingPage, NextIntlProvider, ThemeManager } from '@/components';
+import {
+  LoadingPage,
+  NetworkProvider,
+  NextIntlProvider,
+  ThemeManager,
+} from '@/components';
 import { GlobalStyles } from '@/design-system';
 import { NextPageDefaultProps } from '@/interface';
 
@@ -52,17 +57,18 @@ const MyApp = ({ Component, pageProps }: Props): ReactNode => {
         now={new Date(pageProps.now)}
         timeZone="UTC"
       >
-        <WalletKitProvider>
-          <Global styles={GlobalStyles} />
-          <ThemeManager>
-            <StrictMode>
-              <TooltipProvider>
+        <NetworkProvider>
+          <WalletKitProvider>
+            <Global styles={GlobalStyles} />
+            <ThemeManager>
+              <StrictMode>
                 <Component {...pageProps} />
+                <Tooltip id="interest-tooltip" />
                 <VercelAnalytics />
-              </TooltipProvider>
-            </StrictMode>
-          </ThemeManager>
-        </WalletKitProvider>
+              </StrictMode>
+            </ThemeManager>
+          </WalletKitProvider>
+        </NetworkProvider>
       </NextIntlProvider>
     </>
   );

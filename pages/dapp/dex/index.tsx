@@ -1,16 +1,18 @@
 import { GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
 import { find, mergeDeepRight, propEq } from 'ramda';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { LoadingPage } from '@/components';
 import { DEX_TOKENS_DATA } from '@/constants';
-import { useLocalStorage } from '@/hooks';
+import { ModalProvider } from '@/context/modal';
+import { useLocalStorage, useNetwork } from '@/hooks';
 import { NextPageWithProps } from '@/interface';
 import { TOKEN_SYMBOL } from '@/sdk';
-import { SwapTokenModalMetadata } from '@/views/dapp/dex/dex.types';
-import { LocalSwapSettings } from '@/views/dapp/dex/swap/swap.types';
+import Loading from '@/views/dapp/components/loading';
+import { TokenModalMetadata } from '@/views/dapp/components/select-currency/select-currency.types';
+import { ISwapForm, LocalSwapSettings } from '@/views/dapp/dex/swap/swap.types';
 import DEXSwapView from '@/views/dapp/dex/swap-view';
 
 const SLIPPAGE_AUTO_VALUE = '0.1';
@@ -21,14 +23,6 @@ const DEFAULT_UNKNOWN_DATA = {
   decimals: 0,
   type: '',
 };
-
-const SUI =
-  find(propEq('symbol', TOKEN_SYMBOL.SUI), DEX_TOKENS_DATA) ??
-  DEFAULT_UNKNOWN_DATA;
-
-const ETH =
-  find(propEq('symbol', TOKEN_SYMBOL.ETH), DEX_TOKENS_DATA) ??
-  DEFAULT_UNKNOWN_DATA;
 
 const Web3Manager = dynamic(() => import('@/components/web3-manager'), {
   ssr: false,
@@ -41,40 +35,40 @@ const Layout = dynamic(() => import('@/components/layout'), {
 });
 
 const DexPage: NextPageWithProps = ({ pageTitle }) => {
-  const [isTokenInOpenModal, setTokenInIsOpenModal] = useState(false);
-  const [isTokenOutOpenModal, setTokenOutIsOpenModal] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchedToken] = useState<null | SwapTokenModalMetadata>(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const { network } = useNetwork();
 
-  const formSearch = useForm({
-    defaultValues: {
-      search: '',
-    },
-    mode: 'onBlur',
-  });
+  const SUI =
+    find(propEq('symbol', TOKEN_SYMBOL.SUI), DEX_TOKENS_DATA[network]) ??
+    DEFAULT_UNKNOWN_DATA;
+
+  const ETH =
+    find(propEq('symbol', TOKEN_SYMBOL.ETH), DEX_TOKENS_DATA[network]) ??
+    DEFAULT_UNKNOWN_DATA;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchedToken] = useState<null | TokenModalMetadata>(null);
 
   const [localSettings, setLocalSettings] = useLocalStorage<LocalSwapSettings>(
     'sui-interest-swap-settings',
     { slippage: '1' }
   );
 
-  const formSwap = useForm({
-    defaultValues: {
-      tokenIn: {
-        type: SUI.type,
-        value: '0.0',
-        decimals: SUI.decimals,
-        symbol: SUI.symbol,
-      },
-      tokenOut: {
-        type: ETH.type,
-        value: '0.0',
-        decimals: ETH.decimals,
-        symbol: ETH.symbol,
-      },
-    },
-  });
+  const formSwap = useForm<ISwapForm>();
+
+  useEffect(() => {
+    formSwap.setValue('tokenIn', {
+      type: SUI.type,
+      value: '0.0',
+      decimals: SUI.decimals,
+      symbol: SUI.symbol,
+    });
+    formSwap.setValue('tokenOut', {
+      type: ETH.type,
+      value: '0.0',
+      decimals: ETH.decimals,
+      symbol: ETH.symbol,
+    });
+  }, [network]);
 
   const formSettingsDropdown = useForm({
     defaultValues: {
@@ -86,24 +80,24 @@ const DexPage: NextPageWithProps = ({ pageTitle }) => {
     formSettingsDropdown.getValues('slippage') == SLIPPAGE_AUTO_VALUE
   );
 
+  if (!formSwap.getValues()) return <Loading />;
+
   return (
-    <Web3Manager>
-      <Layout pageTitle={pageTitle}>
-        <DEXSwapView
-          formSwap={formSwap}
-          tokenInModalState={{ isTokenInOpenModal, setTokenInIsOpenModal }}
-          tokenOutModalState={{ isTokenOutOpenModal, setTokenOutIsOpenModal }}
-          openModalState={{ isOpen, setIsOpen }}
-          setLocalSettings={setLocalSettings}
-          localSettings={localSettings}
-          formSettingsDropdown={formSettingsDropdown}
-          autoButtonState={{ isAuto, setAuto }}
-          formSearch={formSearch}
-          searchingState={{ isSearching, setIsSearching }}
-          searchTokenModalState={searchedToken}
-        />
-      </Layout>
-    </Web3Manager>
+    <ModalProvider>
+      <Web3Manager>
+        <Layout pageTitle={pageTitle}>
+          <DEXSwapView
+            formSwap={formSwap}
+            openModalState={{ isOpen, setIsOpen }}
+            setLocalSettings={setLocalSettings}
+            localSettings={localSettings}
+            formSettingsDropdown={formSettingsDropdown}
+            autoButtonState={{ isAuto, setAuto }}
+            searchTokenModalState={searchedToken}
+          />
+        </Layout>
+      </Web3Manager>
+    </ModalProvider>
   );
 };
 

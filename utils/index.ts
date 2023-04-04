@@ -1,8 +1,6 @@
 export * from './api-middleware';
-export * from './array';
 export * from './big-number';
 export * from './coin';
-export * from './date';
 export * from './farms';
 export * from './locales';
 export * from './number';
@@ -12,3 +10,4 @@ export * from './promise';
 export * from './provider';
 export * from './string';
 export * from './toast';
+export * from './tx';

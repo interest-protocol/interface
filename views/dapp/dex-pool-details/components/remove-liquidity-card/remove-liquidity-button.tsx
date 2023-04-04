@@ -1,15 +1,16 @@
+import { TransactionBlock } from '@mysten/sui.js';
 import { useWalletKit } from '@mysten/wallet-kit';
 import BigNumber from 'bignumber.js';
 import { useTranslations } from 'next-intl';
 import { prop } from 'ramda';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import { incrementTX } from '@/api/analytics';
-import { DEX_PACKAGE_ID, DEX_STORAGE_VOLATILE } from '@/constants';
+import { OBJECT_RECORD } from '@/constants';
 import { Box, Button } from '@/elements';
-import { useWeb3 } from '@/hooks';
+import { useNetwork, useWeb3 } from '@/hooks';
 import { LoadingSVG } from '@/svg';
-import { showToast, showTXSuccessToast } from '@/utils';
+import { showToast, showTXSuccessToast, throwTXIfNotSuccessful } from '@/utils';
 import { capitalize } from '@/utils';
 
 import { RemoveLiquidityButtonProps } from './remove-liquidity-card.types';
@@ -23,50 +24,66 @@ const RemoveLiquidityButton: FC<RemoveLiquidityButtonProps> = ({
   objectIds,
   token0,
   token1,
-  loadingRemoveLiquidityState,
+  resetLpAmount,
 }) => {
   const t = useTranslations();
   const { account } = useWeb3();
-  const { signAndExecuteTransaction } = useWalletKit();
+  const { signAndExecuteTransactionBlock } = useWalletKit();
+  const { network } = useNetwork();
 
-  const disabled = isFetching || loadingRemoveLiquidityState.loading;
+  const [loading, setLoading] = useState(false);
+
+  const disabled = isFetching || loading;
 
   const handleRemoveLiquidity = async () => {
     try {
+      const objects = OBJECT_RECORD[network];
       if (disabled) return;
-      loadingRemoveLiquidityState.setLoading(true);
+      setLoading(true);
 
       const lpAmount = getLpAmount();
 
       if (!+lpAmount || !objectIds.length)
         throw new Error(t('dexPoolPair.error.cannotWithdraw'));
 
-      const tx = await signAndExecuteTransaction({
-        kind: 'moveCall',
-        data: {
-          function: 'remove_v_liquidity',
-          gasBudget: 9000,
-          module: 'interface',
-          packageObjectId: DEX_PACKAGE_ID,
-          typeArguments: [token0.type, token1.type],
-          arguments: [
-            DEX_STORAGE_VOLATILE,
-            objectIds as string[],
+      const txb = new TransactionBlock();
+
+      txb.moveCall({
+        target: `${objects.PACKAGE_ID}::interface::remove_v_liquidity`,
+        typeArguments: [token0.type, token1.type],
+        arguments: [
+          txb.object(objects.DEX_STORAGE_VOLATILE),
+          txb.makeMoveVec({ objects: objectIds.map((x) => txb.object(x)) }),
+          txb.pure(
             new BigNumber(lpAmount)
               .decimalPlaces(0, BigNumber.ROUND_DOWN)
-              .toString(),
-            token0Amount.decimalPlaces(0, BigNumber.ROUND_DOWN).toString(),
-            token1Amount.decimalPlaces(0, BigNumber.ROUND_DOWN).toString(),
-          ],
-        },
+              .toString()
+          ),
+          txb.pure(
+            token0Amount.decimalPlaces(0, BigNumber.ROUND_DOWN).toString()
+          ),
+          txb.pure(
+            token1Amount.decimalPlaces(0, BigNumber.ROUND_DOWN).toString()
+          ),
+        ],
       });
-      await showTXSuccessToast(tx);
+
+      const tx = await signAndExecuteTransactionBlock({
+        transactionBlock: txb,
+        options: { showEffects: true },
+        requestType: 'WaitForEffectsCert',
+      });
+
+      throwTXIfNotSuccessful(tx);
+
+      await showTXSuccessToast(tx, network);
       incrementTX(account ?? '');
       return;
     } catch {
       throw new Error(t('dexPoolPair.error.failedRemove'));
     } finally {
-      loadingRemoveLiquidityState.setLoading(false);
+      resetLpAmount();
+      setLoading(false);
       await refetch();
     }
   };
@@ -85,14 +102,14 @@ const RemoveLiquidityButton: FC<RemoveLiquidityButtonProps> = ({
       disabled={disabled}
       onClick={removeLiquidity}
       bg={disabled ? 'disabled' : 'error'}
-      hover={{ bg: disabled ? 'disabled' : 'errorActive' }}
+      nHover={{ bg: disabled ? 'disabled' : 'errorActive' }}
     >
       {capitalize(
         t('common.remove', {
-          isLoading: Number(loadingRemoveLiquidityState.loading),
+          isLoading: Number(loading),
         })
       )}{' '}
-      {loadingRemoveLiquidityState.loading && (
+      {loading && (
         <Box
           ml="M"
           as="span"

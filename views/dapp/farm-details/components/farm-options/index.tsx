@@ -6,6 +6,7 @@ import { Routes, RoutesEnum, StakeState } from '@/constants';
 import { Typography } from '@/elements';
 import Box from '@/elements/box';
 import Button from '@/elements/button';
+import { useNetwork } from '@/hooks';
 import { TOKEN_SYMBOL } from '@/sdk';
 import { FixedPointMath } from '@/sdk/entities/fixed-point-math';
 import { capitalize, formatDollars, formatMoney } from '@/utils';
@@ -29,11 +30,12 @@ const FarmOptions: FC<FarmOptionsProps> = ({
 }) => {
   const t = useTranslations();
   const { push } = useRouter();
+  const { network } = useNetwork();
 
   const farmSymbol =
     farm.id === 0
       ? TOKEN_SYMBOL.IPX
-      : makeFarmSymbol(farm.coin0.type, farm.coin1.type);
+      : makeFarmSymbol(network, farm.coin0.type, farm.coin1.type);
 
   const handleChangeModal = (target: StakeState) => {
     setModalState({ isOpen: true, state: target });
@@ -81,7 +83,7 @@ const FarmOptions: FC<FarmOptionsProps> = ({
                     query: { objectId: farm.poolObjectId },
                   }).then()
             }
-            hover={{
+            nHover={{
               bg: farm.isLive ? 'accentActive' : 'disabled',
               cursor: farm.isLive ? 'pointer' : 'not-allowed',
             }}
@@ -132,7 +134,7 @@ const FarmOptions: FC<FarmOptionsProps> = ({
                   ? 'not-allowed'
                   : 'pointer'
               }
-              hover={{
+              nHover={{
                 bg:
                   farm.lpCoinData.totalBalance.isZero() || !farm.isLive
                     ? 'disabled'
@@ -147,7 +149,7 @@ const FarmOptions: FC<FarmOptionsProps> = ({
               onClick={() => handleChangeModal(StakeState.Unstake)}
               bg={farm.accountBalance.isZero() ? 'disabled' : 'error'}
               cursor={farm.accountBalance.isZero() ? 'not-allowed' : 'pointer'}
-              hover={{
+              nHover={{
                 bg: farm.accountBalance.isZero() ? 'disabled' : 'errorActive',
               }}
             >
