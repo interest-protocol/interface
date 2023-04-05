@@ -26,6 +26,7 @@ const AddLiquidityButton: FC<AddLiquidityCardButtonProps> = ({
   tokens,
   refetch,
   getValues,
+  stable,
 }) => {
   const t = useTranslations();
   const { coinsMap, account } = useWeb3();
@@ -37,7 +38,7 @@ const AddLiquidityButton: FC<AddLiquidityCardButtonProps> = ({
     try {
       const objects = OBJECT_RECORD[network];
       if (tokens.length !== 2 || isEmpty(coinsMap))
-        throw new Error('Error fetching coins data');
+        throw new Error(t('error.fetchingCoins'));
 
       const [token0, token1] = tokens;
       const token0Amount = getValues('token0Amount');
@@ -96,7 +97,7 @@ const AddLiquidityButton: FC<AddLiquidityCardButtonProps> = ({
           vector1,
           txb.pure(safeAmount0.toString()),
           txb.pure(safeAmount1.toString()),
-          txb.pure(true),
+          txb.pure(!stable),
           txb.pure('0'),
         ],
       });

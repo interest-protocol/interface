@@ -3,7 +3,7 @@ import { CoinData } from '@/interface';
 import { COIN_FARM, COIN_POOL, COIN_TYPE, COINS } from './coins';
 import { Network } from './network';
 
-export const FARMS_RECORD = {
+export const FARMS_RECORD: Record<Network, Record<string, FarmMetadataType>> = {
   [Network.DEVNET]: {
     [COIN_TYPE[Network.DEVNET].IPX]: {
       farmType: COIN_TYPE[Network.DEVNET].IPX,
@@ -100,6 +100,18 @@ export const FARMS_RECORD = {
       id: 7,
       isLive: true,
       stable: false,
+    },
+    [COIN_TYPE[Network.DEVNET].S_LP_USDC_USDT]: {
+      farmType: COIN_TYPE[Network.DEVNET].S_LP_USDC_USDT,
+      poolObjectId: COIN_POOL[Network.DEVNET].S_LP_USDC_USDT,
+      farmObjectId: COIN_FARM[Network.DEVNET].S_LP_USDC_USDT,
+      lpCoin: COINS[Network.DEVNET].S_LP_USDC_USDT,
+      coin0: COINS[Network.DEVNET].USDC,
+      coin1: COINS[Network.DEVNET].USDT,
+      isSingleCoin: false,
+      id: 8,
+      isLive: true,
+      stable: true,
     },
   },
   [Network.TESTNET]: {
@@ -198,6 +210,18 @@ export const FARMS_RECORD = {
       id: 7,
       isLive: true,
       stable: false,
+    },
+    [COIN_TYPE[Network.TESTNET].S_LP_USDC_USDT]: {
+      farmType: COIN_TYPE[Network.TESTNET].S_LP_USDC_USDT,
+      poolObjectId: COIN_POOL[Network.TESTNET].S_LP_USDC_USDT,
+      farmObjectId: COIN_FARM[Network.TESTNET].S_LP_USDC_USDT,
+      lpCoin: COINS[Network.TESTNET].S_LP_USDC_USDT,
+      coin0: COINS[Network.TESTNET].USDC,
+      coin1: COINS[Network.TESTNET].USDT,
+      isSingleCoin: false,
+      id: 8,
+      isLive: true,
+      stable: true,
     },
   },
 };
