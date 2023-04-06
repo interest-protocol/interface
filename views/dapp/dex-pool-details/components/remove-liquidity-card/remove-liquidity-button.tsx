@@ -25,6 +25,7 @@ const RemoveLiquidityButton: FC<RemoveLiquidityButtonProps> = ({
   token0,
   token1,
   resetLpAmount,
+  stable,
 }) => {
   const t = useTranslations();
   const { account } = useWeb3();
@@ -49,10 +50,14 @@ const RemoveLiquidityButton: FC<RemoveLiquidityButtonProps> = ({
       const txb = new TransactionBlock();
 
       txb.moveCall({
-        target: `${objects.PACKAGE_ID}::interface::remove_v_liquidity`,
+        target: `${objects.PACKAGE_ID}::interface::remove_${
+          stable ? 's' : 'v'
+        }_liquidity`,
         typeArguments: [token0.type, token1.type],
         arguments: [
-          txb.object(objects.DEX_STORAGE_VOLATILE),
+          txb.object(
+            stable ? objects.DEX_STORAGE_STABLE : objects.DEX_STORAGE_VOLATILE
+          ),
           txb.makeMoveVec({ objects: objectIds.map((x) => txb.object(x)) }),
           txb.pure(
             new BigNumber(lpAmount)

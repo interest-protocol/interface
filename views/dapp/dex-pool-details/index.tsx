@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import { isNil, propOr } from 'ramda';
 import { FC, useEffect } from 'react';
 
-import { Container, LoadingPage } from '@/components';
+import { Container } from '@/components';
 import { COIN_TYPE_TO_COIN, TOKENS_SVG_MAP } from '@/constants';
 import { Box, Typography } from '@/elements';
 import {
@@ -15,18 +15,19 @@ import {
 } from '@/hooks';
 import { CoinData, LocalTokenMetadataRecord } from '@/interface';
 import { FixedPointMath } from '@/sdk';
-import { TimesSVG } from '@/svg';
+import { LogoSVG, TimesSVG } from '@/svg';
 import { getCoinTypeFromSupply, getSafeTotalBalance } from '@/utils';
 import { makeToken } from '@/views/dapp/dex-pool-details/dex-pool-details.utils';
 
 import GoBack from '../components/go-back';
+import Loading from '../components/loading';
 import {
   AddLiquidityCard,
   LiquidityDetailsCard,
   RemoveLiquidityCard,
 } from './components';
 import { IToken } from './components/add-liquidity-card/add-liquidity-card.types';
-import { useGetVolatilePool } from './dex-pool-details.hooks';
+import { useGetPool } from './dex-pool-details.hooks';
 import { DEXPoolDetailsViewProps } from './dex-pool-details.types';
 
 const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
@@ -53,52 +54,38 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
 
   const {
     error,
-    data: volatilePool,
+    data: pool,
     mutate: updateVolatilePools,
     isLoading,
-  } = useGetVolatilePool(objectId);
+  } = useGetPool(objectId);
 
   const { currentLocale } = useLocale();
 
   const unsafeToken0 =
-    (propOr(
-      null,
-      volatilePool.token0Type,
-      COIN_TYPE_TO_COIN[network]
-    ) as CoinData) ?? propOr(null, volatilePool.token0Type, localTokens);
+    (propOr(null, pool.token0Type, COIN_TYPE_TO_COIN[network]) as CoinData) ??
+    propOr(null, pool.token0Type, localTokens);
 
   const unsafeToken1 =
-    (propOr(
-      null,
-      volatilePool.token1Type,
-      COIN_TYPE_TO_COIN[network]
-    ) as CoinData) ?? propOr(null, volatilePool.token1Type, localTokens);
+    (propOr(null, pool.token1Type, COIN_TYPE_TO_COIN[network]) as CoinData) ??
+    propOr(null, pool.token1Type, localTokens);
 
   const { data: coin0Metadata, error: coin0MetadataError } = useGetCoinMetadata(
-    volatilePool.token0Type,
+    pool.token0Type,
     {
       isPaused: () => !isNil(unsafeToken0),
     }
   );
 
   const { data: coin1Metadata, error: coin1MetadataError } = useGetCoinMetadata(
-    volatilePool.token1Type,
+    pool.token1Type,
     {
       isPaused: () => !isNil(unsafeToken1),
     }
   );
 
-  const token0 = makeToken(
-    volatilePool.token0Type,
-    unsafeToken0,
-    coin0Metadata
-  );
+  const token0 = makeToken(pool.token0Type, unsafeToken0, coin0Metadata);
 
-  const token1 = makeToken(
-    volatilePool.token1Type,
-    unsafeToken1,
-    coin1Metadata
-  );
+  const token1 = makeToken(pool.token1Type, unsafeToken1, coin1Metadata);
 
   useEffect(() => {
     const localToken0 = localTokens[token0.type];
@@ -112,7 +99,34 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
       setLocalTokens({ ...localTokens, [token1.type]: token1 });
   }, [token0.type, token1.type, coin0MetadataError, coin1MetadataError]);
 
-  if (isLoading) return <LoadingPage />;
+  if (isLoading)
+    return (
+      <Box
+        width="100vw"
+        height="100%"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Box
+          mr="L"
+          color="accent"
+          width="7.5rem"
+          height="7.5rem"
+          cursor="pointer"
+        >
+          <LogoSVG
+            maxHeight="7.5rem"
+            maxWidth="7.5rem"
+            width="100%"
+            aria-label="Logo"
+            fill="currentColor"
+          />
+        </Box>
+        <Loading />
+      </Box>
+    );
 
   if (error)
     return (
@@ -213,7 +227,9 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
         <Typography variant="normal" ml="L" textTransform="capitalize">
           {`${token0.symbol}-${token1.symbol} ${t('dexPoolPair.title', {
             currentLocale,
-            type: t('common.volatile', { count: 1 }),
+            type: t(`common.${pool.stable ? 'stable' : 'volatile'}`, {
+              count: 1,
+            }),
           })}`}
         </Typography>
       </Box>
@@ -225,13 +241,13 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
         gridTemplateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
       >
         <LiquidityDetailsCard
-          isStable={false}
+          isStable={pool.stable}
           lines={[
             {
               type: token0.type,
               symbol: token0.symbol,
               value: FixedPointMath.toNumber(
-                new BigNumber(volatilePool.token0Balance),
+                new BigNumber(pool.token0Balance),
                 token0.decimals
               ).toString(),
             },
@@ -239,7 +255,7 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
               type: token1.type,
               symbol: token1.symbol,
               value: FixedPointMath.toNumber(
-                new BigNumber(volatilePool.token1Balance),
+                new BigNumber(pool.token1Balance),
                 token1.decimals
               ).toString(),
             },
@@ -248,18 +264,16 @@ const DEXPoolDetailsView: FC<DEXPoolDetailsViewProps> = ({
         <AddLiquidityCard
           fetchingInitialData={isFetchingCoinBalances}
           tokens={addLiquidityTokens}
-          pool={volatilePool}
+          pool={pool}
           refetch={async () => {
             await Promise.all([updateVolatilePools, mutate]);
           }}
           formAddLiquidity={formAddLiquidity}
         />
         <RemoveLiquidityCard
-          isStable={false}
+          isStable={pool.stable}
           lpToken={
-            coinsMap[
-              getCoinTypeFromSupply(propOr('', 'lpCoin', volatilePool))
-            ] || {}
+            coinsMap[getCoinTypeFromSupply(propOr('', 'lpCoin', pool))] || {}
           }
           tokens={removeLiquidityTokens}
           refetch={async () => {

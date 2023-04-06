@@ -78,6 +78,7 @@
     "wrongParams": "Wrong params",
     "fetchingContract": "Error fetching contract",
     "fetchingBalances": "Error fetching balances",
+    "fetchingCoins": "Error fetching coins data",
     "accountNotFound": "No account found",
     "tokenNotFound": "token not found",
     "chainNotFound": "Missing chain"

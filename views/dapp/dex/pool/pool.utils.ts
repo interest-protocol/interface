@@ -6,11 +6,14 @@ import { IPools } from './pool.types';
 
 export const filterPools = (
   network: Network,
-  coinsMap: Record<string, Web3ManagerSuiObject>
+  coinsMap: Record<string, Web3ManagerSuiObject>,
+  stable: boolean
 ): IPools =>
   RECOMMENDED_POOLS[network].reduce(
     ({ active, inactive }, pool) => {
       const activePool = coinsMap[pool.lpCoin.type];
+
+      if (pool.stable !== stable) return { active, inactive };
 
       return activePool
         ? {

@@ -18,6 +18,7 @@ import { DetailsProps } from './farm-details.types';
 const Details: FC<DetailsProps> = ({ farm, loading }) => {
   const t = useTranslations();
   const { network } = useNetwork();
+
   return (
     <Box>
       <Box display="flex" alignItems="center" px="L">
@@ -34,9 +35,11 @@ const Details: FC<DetailsProps> = ({ farm, loading }) => {
             </Box>
           )
         )}
-        <Typography variant="normal" textTransform="capitalize">
+        <Typography variant="normal" textTransform="capitalize" display="flex">
           {loading ? (
-            <Skeleton />
+            <Box mr="M">
+              <Skeleton width="5rem" />
+            </Box>
           ) : farm.id === 0 ? (
             `${TOKEN_SYMBOL.IPX} ${capitalize(t('common.pool'))} `
           ) : (
@@ -48,28 +51,26 @@ const Details: FC<DetailsProps> = ({ farm, loading }) => {
           )}
           {t('farmsDetails.title')}
         </Typography>
-        <Typography
-          ml="L"
-          px="L"
-          py="XS"
-          fontSize="S"
-          cursor="pointer"
-          borderRadius="M"
-          variant="normal"
-          textAlign="center"
-          color="textInverted"
-          display="inline-block"
-          textTransform="capitalize"
-          bg={farm.stable ? 'accent' : 'accentAlternativeActive'}
-        >
-          {loading ? (
-            <Skeleton />
-          ) : (
-            t(farm.stable ? 'common.stable' : 'common.volatile', {
+        {!loading && (
+          <Typography
+            ml="L"
+            px="L"
+            py="XS"
+            fontSize="S"
+            cursor="pointer"
+            borderRadius="M"
+            variant="normal"
+            textAlign="center"
+            color="textInverted"
+            display="inline-block"
+            textTransform="capitalize"
+            bg={farm.stable ? 'accent' : 'accentAlternativeActive'}
+          >
+            {t(farm.stable ? 'common.stable' : 'common.volatile', {
               count: 1,
-            })
-          )}
-        </Typography>
+            })}
+          </Typography>
+        )}
       </Box>
       <Box
         p="L"
