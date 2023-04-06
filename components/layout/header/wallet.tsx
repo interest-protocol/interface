@@ -1,14 +1,17 @@
 import styled from '@emotion/styled';
 import { ConnectButton } from '@mysten/wallet-kit';
-import { always, pathOr } from 'ramda';
-import { FC } from 'react';
+import { pathOr } from 'ramda';
+import { FC, useEffect, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 
 import { COIN_TYPE, Network } from '@/constants';
 import { Box, Typography } from '@/elements';
-import { useWeb3 } from '@/hooks';
+import { useNetwork, useProvider, useWeb3 } from '@/hooks';
 import { FixedPointMath } from '@/sdk';
 import { LoadingSVG, SuiSVG } from '@/svg';
 import { ZERO_BIG_NUMBER } from '@/utils';
+
+import { ConnectWalletProps } from './header.types';
 
 const StyledConnectButton = styled(ConnectButton)`
   width: 100%;
@@ -24,10 +27,30 @@ const StyledConnectButton = styled(ConnectButton)`
   }
 `;
 
-export const ConnectWallet: FC = always(<StyledConnectButton />);
+export const ConnectWallet: FC<ConnectWalletProps> = (props) => (
+  <StyledConnectButton {...props} />
+);
 
 const Wallet: FC = () => {
-  const { coinsMap, connected, isFetchingCoinBalances } = useWeb3();
+  const { coinsMap, connected, isFetchingCoinBalances, account } = useWeb3();
+  const { network } = useNetwork();
+  const { suiNSProvider } = useProvider();
+  const [loading, setLoading] = useState(false);
+  const [suiNs, setSuiNS] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (network === Network.DEVNET && account && suiNSProvider) {
+      setLoading(true);
+      suiNSProvider
+        .getName(account)
+        .then(setSuiNS)
+        .finally(() => setLoading(false));
+    }
+  }, [network, suiNSProvider, account]);
+
+  useEffect(() => {
+    console.log('>> loading :: ', loading);
+  }, [loading]);
 
   return (
     <Box
@@ -92,7 +115,9 @@ const Wallet: FC = () => {
         bg="bottomBackground"
         borderRadius="2.5rem"
       >
-        <ConnectWallet />
+        <ConnectWallet
+          connectedText={!loading ? suiNs : <Skeleton width="6rem" />}
+        />
       </Box>
     </Box>
   );
