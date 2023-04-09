@@ -1,6 +1,5 @@
 import { DevInspectResults } from '@mysten/sui.js/src/types';
 import { PaginatedCoins } from '@mysten/sui.js/src/types/coin';
-import { DynamicFieldInfo } from '@mysten/sui.js/src/types/dynamic_fields';
 import { Dispatch, SetStateAction } from 'react';
 import {
   Control,
@@ -13,7 +12,7 @@ import { KeyedMutator } from 'swr';
 
 import { Web3ManagerState } from '@/components/web3-manager/web3-manager.types';
 import { DexFunctions, Network } from '@/constants';
-import { CoinData } from '@/interface';
+import { CoinData, DexMarket } from '@/interface';
 
 import { TokenModalMetadata } from '../../components/select-currency/select-currency.types';
 import { SwapFormTokenData } from '../dex.types';
@@ -24,7 +23,7 @@ export interface ISwapForm {
   tokenOut: SwapFormTokenData;
 }
 
-export type PoolsMap = Record<string, Record<string, DynamicFieldInfo>>;
+export type PoolsMap = DexMarket;
 
 export interface SwapPathObject {
   baseTokens: ReadonlyArray<string>;
