@@ -11,7 +11,7 @@ import { BoxProps } from '../box/box.types';
 export type InputElementProps = RefAttributes<unknown> &
   Omit<
     InputHTMLAttributes<HTMLInputElement>,
-    'color' | 'translate' | 'height' | 'width'
+    'color' | 'translate' | 'height' | 'width' | 'content'
   >;
 
 export interface InputFieldProps

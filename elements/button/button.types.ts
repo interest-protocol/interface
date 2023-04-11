@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes, ElementType, RefAttributes } from 'react';
 
 export type ButtonElementProps = Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
-  'color' | 'translate'
+  'color' | 'translate' | 'content'
 > &
   RefAttributes<unknown>;
 
