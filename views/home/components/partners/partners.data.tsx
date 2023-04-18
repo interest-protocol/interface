@@ -55,6 +55,19 @@ export const PARTNERS_DATA = [
     name: 'Ethos Wallet',
   },
   {
+    link: 'https://movebit.xyz',
+    icon: (
+      <Image
+        alt="Movebit"
+        height="100%"
+        loading="lazy"
+        decoding="async"
+        src={`/images/web/partners/movebit.webp`}
+      />
+    ),
+    name: 'Movebit',
+  },
+  {
     link: 'https://redstone.finance',
     icon: <RedStoneSVG maxHeight={''} maxWidth={''} height="100%" />,
     name: 'Redstone',
@@ -76,7 +89,7 @@ export const PARTNERS_DATA = [
     link: 'https://suipiens.com/',
     icon: (
       <Image
-        alt="SUIS"
+        alt="Suipiens"
         height="100%"
         loading="lazy"
         decoding="async"
@@ -89,7 +102,7 @@ export const PARTNERS_DATA = [
     link: 'https://suins.io/',
     icon: (
       <Image
-        alt="SUIS"
+        alt="SuiNS"
         height="100%"
         loading="lazy"
         decoding="async"
@@ -102,7 +115,7 @@ export const PARTNERS_DATA = [
     link: 'https://link3.to/suiwhale',
     icon: (
       <Image
-        alt="SUIS"
+        alt="Sui Whale"
         height="100%"
         loading="lazy"
         decoding="async"
@@ -115,7 +128,7 @@ export const PARTNERS_DATA = [
     link: 'https://suiecosystem.top/',
     icon: (
       <Image
-        alt="SUIS"
+        alt="Sui Ecosystem"
         height="100%"
         loading="lazy"
         decoding="async"
@@ -128,7 +141,7 @@ export const PARTNERS_DATA = [
     link: 'https://www.mises.site/',
     icon: (
       <Image
-        alt="SUIS"
+        alt="Mises Browser"
         height="100%"
         loading="lazy"
         decoding="async"
