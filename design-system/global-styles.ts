@@ -1,6 +1,28 @@
 import { css } from '@emotion/react';
 
-const GlobalStyles = css`
+export const LandingGlobalStyles = css`
+  * {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto Mono', monospace;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body,
+  html {
+    overflow-x: hidden;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+`;
+
+export const DappGlobalStyles = css`
   * {
     margin: 0;
     padding: 0;
@@ -77,5 +99,3 @@ const GlobalStyles = css`
     }
   }
 `;
-
-export default GlobalStyles;
