@@ -695,10 +695,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@interest-protocol/sui-sdk@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@interest-protocol/sui-sdk/-/sui-sdk-0.6.1.tgz#90de2ccb91be9725387c28b5e558371d4fc18380"
-  integrity sha512-5MYZ/5Ef75HU+YI0zHp/H7cEWs404JDAGEaDvI1tZUF8Cb8uP1UKEq/vvlwhEENYiwa0JnHys+H7a9VpZphqTw==
+"@interest-protocol/sui-sdk@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@interest-protocol/sui-sdk/-/sui-sdk-0.8.0.tgz#635109ba91da1e0b411feae5bae5bd7f50d847bb"
+  integrity sha512-OMvo/e9muwEXUJpooYs4ST9k2RPVredbYE9riidQwZ5EqBhZ1jNSvg+ASsfG72/VBafaTBDjeJPjVAHlQaYNjA==
   dependencies:
     "@mysten/bcs" "^0.7.0"
     "@mysten/sui.js" "^0.32.1"
