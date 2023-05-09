@@ -15,7 +15,9 @@ export const devNetProvider = new JsonRpcProvider(
     : devnetConnection
 );
 
-export const suiNSDevNetProvider = new SuinsClient(devNetProvider);
+export const suiNSDevNetProvider = new SuinsClient(new JsonRpcProvider(), {
+  networkType: 'devnet',
+});
 
 export const testNetProvider = new JsonRpcProvider(
   new Connection({
@@ -29,7 +31,9 @@ export const testNetProvider = new JsonRpcProvider(
   })
 );
 
-export const suiNSTestNetProvider = new SuinsClient(testNetProvider);
+export const suiNSTestNetProvider = new SuinsClient(new JsonRpcProvider(), {
+  networkType: 'testnet',
+});
 
 export const devNetIPXSdk = {};
 

@@ -9,7 +9,7 @@ import { COIN_TYPE, Network } from '@/constants';
 import { Box, Typography } from '@/elements';
 import { useNetwork, useProvider, useWeb3 } from '@/hooks';
 import { LoadingSVG, SuiSVG } from '@/svg';
-import { ZERO_BIG_NUMBER } from '@/utils';
+import { noop, ZERO_BIG_NUMBER } from '@/utils';
 
 import { ConnectWalletProps } from './header.types';
 
@@ -44,6 +44,7 @@ const Wallet: FC = () => {
       suiNSProvider
         .getName(account)
         .then(setSuiNS)
+        .catch(noop)
         .finally(() => setLoading(false));
     }
   }, [network, account]);
