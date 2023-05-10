@@ -26,8 +26,6 @@ const SwapManager: FC<SwapManagerWrapperProps> = ({
   );
   const { network } = useNetwork();
 
-  console.log(props.poolsMap);
-
   const markets = findMarket({
     data: props.poolsMap,
     tokenInType: props.tokenInType,

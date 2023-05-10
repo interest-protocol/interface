@@ -6,7 +6,7 @@ import { v4 } from 'uuid';
 import { Container, SocialMediaCard } from '@/components';
 import { Routes, RoutesEnum, SOCIAL_MEDIAS } from '@/constants';
 import { Box, Button } from '@/elements';
-import { BridgeSVG, DexSVG, EarnSVG, FaucetSVG, GitBookSVG } from '@/svg';
+import { DexSVG, EarnSVG, FaucetSVG, GitBookSVG } from '@/svg';
 
 const Footer: FC = () => {
   const { pathname } = useRouter();
