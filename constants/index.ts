@@ -7,6 +7,9 @@ import {
   UnknownCoinSVG,
   USDCoinSVG,
   USDTSVG,
+  WormholeETHSVG,
+  WormholeUSDCSVG,
+  WormholeUSDTSVG,
 } from '@/svg';
 
 import { COIN_TYPE } from './coins';
@@ -28,6 +31,7 @@ export const MAX_NUMBER_INPUT_VALUE = 9000000000000000;
 export const GAS_COST = {
   [Network.TESTNET]: 3_00_000_000,
   [Network.DEVNET]: 3_00_000_000,
+  [Network.MAINNET]: 3_00_000_000,
 };
 
 export enum StakeState {
@@ -52,6 +56,9 @@ export const TOKENS_SVG_MAP = {
   [COIN_TYPE[Network.TESTNET].USDC]: USDCoinSVG,
   [COIN_TYPE[Network.TESTNET].USDT]: USDTSVG,
   [COIN_TYPE[Network.TESTNET].IPX]: InterestTokenSVG,
+  [COIN_TYPE[Network.MAINNET].WORMHOLE_ETH]: WormholeETHSVG,
+  [COIN_TYPE[Network.MAINNET].WORMHOLE_USDC]: WormholeUSDCSVG,
+  [COIN_TYPE[Network.MAINNET].WORMHOLE_USDT]: WormholeUSDTSVG,
 };
 
 export const MILLISECONDS_PER_YEAR = 31540000000;
