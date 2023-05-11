@@ -1,12 +1,13 @@
 import type { GetStaticProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
+import NotFoundPage from 'pages/404';
 import { mergeDeepRight, pathOr } from 'ramda';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { LoadingPage } from '@/components';
-import { FARMS_RECORD, StakeState } from '@/constants';
+import { FARMS_RECORD, Network, StakeState } from '@/constants';
 import { ModalProvider } from '@/context/modal';
 import { Box, Typography } from '@/elements';
 import { withTypeGuard } from '@/HOC';
@@ -30,7 +31,9 @@ interface FarmDetailsPageProps extends NextPageDefaultProps {
 }
 
 const FarmDetailsPage: NextPage<FarmDetailsPageProps> = ({
+  now,
   type,
+  messages,
   pageTitle,
 }) => {
   const { network } = useNetwork();
@@ -46,6 +49,11 @@ const FarmDetailsPage: NextPage<FarmDetailsPageProps> = ({
   });
 
   const t = useTranslations();
+
+  if (network === Network.MAINNET)
+    return (
+      <NotFoundPage messages={messages} now={now} pageTitle="common.error" />
+    );
 
   if (!farmMetadata)
     return (
