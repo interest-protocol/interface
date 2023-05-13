@@ -1,5 +1,6 @@
+import { Network } from '@interest-protocol/sui-sdk';
+
 import { COIN_POOL, COINS } from './coins';
-import { Network } from './network';
 
 const networkDevNetCoins = COINS[Network.DEVNET];
 const networkTestNetCoins = COINS[Network.TESTNET];
@@ -139,6 +140,41 @@ export const RECOMMENDED_POOLS = {
       token1: networkMainNetCoins.WORMHOLE_USDT,
       poolObjectId: networkMainNetCoinPool.V_LP_SUI_WORMHOLE_USDT,
       lpCoin: networkMainNetCoins.V_LP_SUI_WORMHOLE_USDT,
+      stable: false,
+    },
+    {
+      token0: networkMainNetCoins.SUI,
+      token1: networkMainNetCoins.WORMHOLE_WBNB,
+      poolObjectId: networkMainNetCoinPool.V_LP_SUI_WORMHOLE_WBNB,
+      lpCoin: networkMainNetCoins.V_LP_SUI_WORMHOLE_WBNB,
+      stable: false,
+    },
+    {
+      token0: networkMainNetCoins.SUI,
+      token1: networkMainNetCoins.WORMHOLE_WMATIC,
+      poolObjectId: networkMainNetCoinPool.V_LP_SUI_WORMHOLE_WMATIC,
+      lpCoin: networkMainNetCoins.V_LP_SUI_WORMHOLE_WMATIC,
+      stable: false,
+    },
+    {
+      token0: networkMainNetCoins.SUI,
+      token1: networkMainNetCoins.WORMHOLE_WAVAX,
+      poolObjectId: networkMainNetCoinPool.V_LP_SUI_WORMHOLE_WAVAX,
+      lpCoin: networkMainNetCoins.V_LP_SUI_WORMHOLE_WAVAX,
+      stable: false,
+    },
+    {
+      token0: networkMainNetCoins.SUI,
+      token1: networkMainNetCoins.WORMHOLE_WFTM,
+      poolObjectId: networkMainNetCoinPool.V_LP_SUI_WORMHOLE_WFTW,
+      lpCoin: networkMainNetCoins.V_LP_SUI_WORMHOLE_WFTM,
+      stable: false,
+    },
+    {
+      token0: networkMainNetCoins.SUI,
+      token1: networkMainNetCoins.WORMHOLE_CELO,
+      poolObjectId: networkMainNetCoinPool.V_LP_SUI_WORMHOLE_CELO,
+      lpCoin: networkMainNetCoins.V_LP_SUI_WORMHOLE_CELO,
       stable: false,
     },
   ],
