@@ -114,4 +114,4 @@ types
 .vercel
 
 # Husky
-.husky
+.husky/_
