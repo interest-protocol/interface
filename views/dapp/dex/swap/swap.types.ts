@@ -4,14 +4,13 @@ import { Dispatch, SetStateAction } from 'react';
 import {
   Control,
   UseFormGetValues,
-  UseFormRegister,
   UseFormReturn,
   UseFormSetValue,
 } from 'react-hook-form';
 import { KeyedMutator } from 'swr';
 
 import { Web3ManagerState } from '@/components/web3-manager/web3-manager.types';
-import { CoinData, DexMarket } from '@/interface';
+import { DexMarket } from '@/interface';
 
 import { TokenModalMetadata } from '../../components/select-currency/select-currency.types';
 import { SwapFormTokenData } from '../dex.types';
@@ -47,18 +46,15 @@ export interface SwapButtonProps {
 }
 
 export interface SwapManagerWrapperProps {
-  swapButtonProps: Omit<SwapButtonProps, 'disabled'>;
+  autoFetch: boolean;
+  swapButtonProps: Omit<SwapButtonProps, 'disabled' | 'poolsMap'>;
   tokenInType: string;
   tokenOutType: string;
   account: string | null;
-  poolsMap: PoolsMap;
   control: Control<ISwapForm>;
-  register: UseFormRegister<ISwapForm>;
+  poolsMap: PoolsMap;
   setValue: UseFormSetValue<ISwapForm>;
-  getValues: UseFormGetValues<ISwapForm>;
   coinsMap: Web3ManagerState['coinsMap'];
-  onSelectCurrency: (data: CoinData) => void;
-  searchTokenModalState: TokenModalMetadata | null;
 }
 
 export interface SwapManagerProps {
@@ -68,17 +64,12 @@ export interface SwapManagerProps {
   account: string | null;
   tokenIn: SwapFormTokenData;
   poolsMap: PoolsMap;
-  control: Control<ISwapForm>;
   isFetchingSwapAmount: boolean;
-  register: UseFormRegister<ISwapForm>;
   setValue: UseFormSetValue<ISwapForm>;
-  getValues: UseFormGetValues<ISwapForm>;
   coinsMap: Web3ManagerState['coinsMap'];
   setError: Dispatch<SetStateAction<boolean>>;
   setDisabled: Dispatch<SetStateAction<boolean>>;
-  searchTokenModalState: TokenModalMetadata | null;
   setIsZeroSwapAmount: Dispatch<SetStateAction<boolean>>;
-  onSelectCurrency: (data: CoinData) => void;
   setIsFetchingSwapAmount: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -93,6 +84,7 @@ export interface GetSwapCoinOutAmountPayloadArgs {
 export interface LocalSwapSettings {
   slippage: string; // 20 equals 20%
   deadline: string; // 5 equals 5 minutes
+  autoFetch: boolean;
 }
 
 export interface SwapPathProps {
