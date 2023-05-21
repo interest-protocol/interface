@@ -4,14 +4,9 @@ import { FC } from 'react';
 import { Box, Typography } from '@/elements';
 import { TTranslatedMessage } from '@/interface';
 
-import { SwapMessageProps } from './swap-button.types';
+import { MessageProps } from './message.type';
 
-const SwapMessage: FC<SwapMessageProps> = ({
-  Icon,
-  color,
-  message,
-  extraData,
-}) => {
+const Message: FC<MessageProps> = ({ Icon, color, message, extraData }) => {
   const t = useTranslations();
   return (
     <Box
@@ -38,4 +33,4 @@ const SwapMessage: FC<SwapMessageProps> = ({
   );
 };
 
-export default SwapMessage;
+export default Message;

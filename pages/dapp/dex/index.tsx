@@ -49,7 +49,14 @@ const DexPage: NextPageWithProps = ({ pageTitle }) => {
     { slippage: '1', deadline: '30', autoFetch: true }
   );
 
-  const formSwap = useForm<ISwapForm>();
+  const formSwap = useForm<ISwapForm>({
+    defaultValues: {
+      tokenIn: DEFAULT_UNKNOWN_DATA,
+      tokenOut: DEFAULT_UNKNOWN_DATA,
+      inputInLocked: false,
+      inputOutLocked: false,
+    },
+  });
 
   useEffect(() => {
     formSwap.setValue('tokenIn', {
@@ -64,6 +71,7 @@ const DexPage: NextPageWithProps = ({ pageTitle }) => {
       decimals: TokenOut.decimals,
       symbol: TokenOut.symbol,
     });
+    formSwap.setValue('lock', false);
   }, [network]);
 
   const formSettingsDropdown = useForm<ISwapSettingsForm>();

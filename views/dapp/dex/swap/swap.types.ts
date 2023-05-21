@@ -12,13 +12,19 @@ import { KeyedMutator } from 'swr';
 import { Web3ManagerState } from '@/components/web3-manager/web3-manager.types';
 import { DexMarket } from '@/interface';
 
-import { TokenModalMetadata } from '../../components/select-currency/select-currency.types';
+import {
+  OnSelectCurrency,
+  TokenModalMetadata,
+} from '../../components/select-currency/select-currency.types';
 import { SwapFormTokenData } from '../dex.types';
 import { ISwapSettingsForm } from './settings/settings.types';
 
 export interface ISwapForm {
   tokenIn: SwapFormTokenData;
   tokenOut: SwapFormTokenData;
+  lock: boolean;
+  inputInLocked: boolean;
+  inputOutLocked: boolean;
 }
 
 export type PoolsMap = DexMarket;
@@ -45,40 +51,42 @@ export interface SwapButtonProps {
   deadline: string;
 }
 
+interface SwapManagerWrapperButtonProps {
+  slippage: string;
+  getValues: UseFormGetValues<ISwapForm>;
+  mutate: KeyedMutator<PaginatedCoins['data'] | undefined>;
+  deadline: string;
+}
+
 export interface SwapManagerWrapperProps {
   autoFetch: boolean;
-  swapButtonProps: Omit<SwapButtonProps, 'disabled' | 'poolsMap'>;
-  tokenInType: string;
-  tokenOutType: string;
+  swapButtonProps: SwapManagerWrapperButtonProps;
   account: string | null;
   control: Control<ISwapForm>;
   poolsMap: PoolsMap;
   setValue: UseFormSetValue<ISwapForm>;
+  getValues: UseFormGetValues<ISwapForm>;
   coinsMap: Web3ManagerState['coinsMap'];
+  tokenInType: string;
+  tokenOutType: string;
 }
 
 export interface SwapManagerProps {
-  tokenInType: string;
   tokenOutType: string;
   hasNoMarket: boolean;
   account: string | null;
-  tokenIn: SwapFormTokenData;
   poolsMap: PoolsMap;
-  isFetchingSwapAmount: boolean;
   setValue: UseFormSetValue<ISwapForm>;
-  coinsMap: Web3ManagerState['coinsMap'];
   setError: Dispatch<SetStateAction<boolean>>;
+  tokenOutDecimals: number;
   setDisabled: Dispatch<SetStateAction<boolean>>;
   setIsZeroSwapAmount: Dispatch<SetStateAction<boolean>>;
   setIsFetchingSwapAmount: Dispatch<SetStateAction<boolean>>;
-}
-
-export interface GetSwapCoinOutAmountPayloadArgs {
-  tokenIn: SwapFormTokenData;
-  tokenOutType: string;
-  coinsMap: Web3ManagerState['coinsMap'];
-  poolsMap: PoolsMap;
-  account: string | null;
+  isFetchingSwapAmount: boolean;
+  control: Control<ISwapForm>;
+  name: 'tokenIn' | 'tokenOut';
+  setValueName: 'tokenIn.value' | 'tokenOut.value';
+  setValueLockName: 'inputInLocked' | 'inputOutLocked';
 }
 
 export interface LocalSwapSettings {
@@ -105,4 +113,11 @@ export interface SwapProps {
     setIsOpen: Dispatch<SetStateAction<boolean>>;
   };
   searchTokenModalState: TokenModalMetadata | null;
+}
+
+export interface CoinInputProps {
+  coinsMap: Web3ManagerState['coinsMap'];
+  formSwap: UseFormReturn<ISwapForm>;
+  searchTokenModalState: SwapProps['searchTokenModalState'];
+  onSelectCurrency: (name: 'tokenIn' | 'tokenOut') => OnSelectCurrency;
 }
