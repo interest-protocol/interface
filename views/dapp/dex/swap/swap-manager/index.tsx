@@ -35,10 +35,12 @@ const SwapManager: FC<SwapManagerWrapperProps> = ({
     coinOutType: tokenOutType,
     network,
   });
+
   const hasNoMarket = !markets.length;
 
   const tokenInBalance = FixedPointMath.toNumber(
-    pathOr(ZERO_BIG_NUMBER, [tokenInType, 'totalBalance'], coinsMap)
+    pathOr(ZERO_BIG_NUMBER, [tokenInType, 'totalBalance'], coinsMap),
+    getValues('tokenIn.decimals')
   );
 
   return (
