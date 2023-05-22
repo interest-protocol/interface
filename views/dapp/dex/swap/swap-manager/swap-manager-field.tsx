@@ -1,92 +1,109 @@
+import { findMarket } from '@interest-protocol/sui-sdk';
 import { BigNumber } from 'bignumber.js';
 import { FixedPointMath } from 'lib';
-import { pathOr, prop } from 'ramda';
+import { prop } from 'ramda';
 import { FC, useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
 import useSWR from 'swr';
+import { useDebounce } from 'use-debounce';
 
-import { COIN_DECIMALS } from '@/constants';
-import InputBalance from '@/elements/input-balance';
 import { useNetwork, useProvider, useSDK } from '@/hooks';
-import { makeSWRKey, ZERO_BIG_NUMBER } from '@/utils';
+import { makeSWRKey } from '@/utils';
 
-import SwapSelectCurrency from '../../../components/select-currency';
 import { SwapManagerProps } from '../swap.types';
-import { getSwapCoinOutAmountPayload } from '../swap.utils';
 
 const SwapManagerField: FC<SwapManagerProps> = ({
-  control,
   account,
-  coinsMap,
-  register,
   setValue,
-  getValues,
-  tokenInType,
   setDisabled,
   tokenOutType,
-  onSelectCurrency,
   poolsMap,
-  setIsFetchingSwapAmount,
-  setIsZeroSwapAmount,
-  isFetchingSwapAmount,
-  tokenIn,
   hasNoMarket,
   setError,
-  searchTokenModalState,
+  setIsZeroSwapAmount,
+  setIsFetchingSwapAmount,
+  isFetchingSwapAmount,
+  control,
+  name,
+  setValueName,
+  setValueLockName,
+  tokenOutDecimals,
 }) => {
-  const tokenOutValue = useWatch({ control, name: 'tokenOut.value' });
-
   const { provider } = useProvider();
   const { network } = useNetwork();
   const sdk = useSDK();
+  const [tokenIn] = useDebounce(useWatch({ control, name }), 900);
 
-  const payload = getSwapCoinOutAmountPayload({
-    tokenIn,
-    coinsMap,
-    tokenOutType,
-    poolsMap,
-    account,
+  const lock = useWatch({ control, name: 'lock' });
+
+  const path = findMarket({
+    data: poolsMap,
+    coinInType: tokenIn.type,
+    coinOutType: tokenOutType,
+    network,
   });
 
   const { error } = useSWR(
     makeSWRKey(
-      [account, payload, prop('value', tokenIn), prop('type', tokenIn)],
+      [
+        account,
+        tokenOutType,
+        prop('value', tokenIn),
+        prop('type', tokenIn),
+        network,
+      ],
       provider.devInspectTransactionBlock.name
     ),
     async () => {
-      if (!payload || !account || !tokenIn || !+tokenIn.value) return;
       setIsFetchingSwapAmount(true);
+      setValue(setValueLockName, true);
 
-      return sdk.getSwapCoinOutAmount(payload);
+      const amount = FixedPointMath.toBigNumber(
+        tokenIn.value,
+        tokenIn.decimals
+      );
+
+      const safeAmount = amount.decimalPlaces(0, BigNumber.ROUND_DOWN);
+
+      if (!tokenIn || !+tokenIn.value || lock || !path.length) return;
+
+      return sdk.quoteSwap({
+        coinInType: tokenIn.type,
+        coinOutType: tokenOutType,
+        coinInAmount: safeAmount.toString(),
+        dexMarkets: poolsMap,
+      });
     },
     {
       onError: () => {
-        setError(true);
+        setError(false);
+        setIsFetchingSwapAmount(false);
+        setValue(setValueLockName, false);
+        setValue('lock', true);
       },
       onSuccess: (response) => {
         if (!response) {
           setError(false);
-          setValue('tokenOut.value', '0');
-          setIsZeroSwapAmount(true);
+          setIsFetchingSwapAmount(false);
+          setValue(setValueLockName, false);
+          setValue('lock', true);
           return;
         }
-        if (response.data.effects.status.status === 'failure') {
-          setError(true);
-        } else {
-          setError(false);
-          const amountOut = response.parsedData;
 
-          setIsZeroSwapAmount(!amountOut);
-          setValue(
-            'tokenOut.value',
-            FixedPointMath.toNumber(
-              new BigNumber(amountOut),
-              COIN_DECIMALS[network][tokenOutType],
-              COIN_DECIMALS[network][tokenOutType]
-            ).toString()
-          );
-          setIsFetchingSwapAmount(false);
-        }
+        setIsZeroSwapAmount(!response);
+        setValue(
+          setValueName,
+          FixedPointMath.toNumber(
+            new BigNumber(response),
+            tokenOutDecimals,
+            tokenOutDecimals
+          ).toString()
+        );
+
+        setError(false);
+        setValue(setValueLockName, false);
+        setIsFetchingSwapAmount(false);
+        setValue('lock', true);
       },
       revalidateOnFocus: true,
       revalidateOnMount: true,
@@ -96,44 +113,21 @@ const SwapManagerField: FC<SwapManagerProps> = ({
 
   useEffect(() => {
     setDisabled(
-      (error && +tokenIn.value > 0) ||
+      !!(error && +tokenIn.value > 0) ||
         isFetchingSwapAmount ||
-        tokenInType === tokenOutType ||
-        hasNoMarket ||
-        (!+tokenOutValue && !!+tokenIn.value && !isFetchingSwapAmount)
+        tokenIn.type === tokenOutType ||
+        hasNoMarket
     );
   }, [
     error,
     tokenIn,
     hasNoMarket,
-    tokenInType,
+    tokenIn.type,
     tokenOutType,
-    tokenOutValue,
     isFetchingSwapAmount,
   ]);
-  const balance = FixedPointMath.toNumber(
-    pathOr(ZERO_BIG_NUMBER, [tokenOutType, 'totalBalance'], coinsMap),
-    pathOr(0, [tokenOutType, 'decimals'], coinsMap)
-  ).toString();
-  return (
-    <InputBalance
-      isLarge
-      disabled
-      balance={balance}
-      register={register}
-      setValue={setValue}
-      name="tokenOut.value"
-      Suffix={
-        <SwapSelectCurrency
-          currentToken={tokenOutType}
-          type={getValues('tokenOut.type')}
-          onSelectCurrency={onSelectCurrency}
-          symbol={getValues('tokenOut.symbol')}
-          searchTokenModalState={searchTokenModalState}
-        />
-      }
-    />
-  );
+
+  return null;
 };
 
 export default SwapManagerField;

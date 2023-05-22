@@ -73,12 +73,10 @@ const FarmOptions: FC<FarmOptionsProps> = ({
           <Button
             variant="primary"
             onClick={() =>
-              farm.id === 0
-                ? push({ pathname: Routes[RoutesEnum.DEX] }).then()
-                : push({
-                    pathname: Routes[RoutesEnum.DEXPoolDetails],
-                    query: { objectId: farm.poolObjectId },
-                  }).then()
+              push({
+                pathname: Routes[RoutesEnum.DEXPoolDetails],
+                query: { objectId: farm.poolObjectId },
+              }).then()
             }
             nHover={{
               bg: farm.isLive ? 'accentActive' : 'disabled',
@@ -117,7 +115,19 @@ const FarmOptions: FC<FarmOptionsProps> = ({
             px={['NONE', 'NONE', 'NONE', 'XL']}
           >
             <Button
-              mr="S"
+              variant="primary"
+              disabled={farm.totalStakedAmount.isZero()}
+              onClick={() => handleChangeModal(StakeState.Unstake)}
+              bg={farm.accountBalance.isZero() ? 'disabled' : 'error'}
+              cursor={farm.accountBalance.isZero() ? 'not-allowed' : 'pointer'}
+              nHover={{
+                bg: farm.accountBalance.isZero() ? 'disabled' : 'errorActive',
+              }}
+            >
+              -
+            </Button>
+            <Button
+              ml="S"
               variant="primary"
               disabled={farm.lpCoinData.totalBalance.isZero() || !farm.isLive}
               onClick={() => handleChangeModal(StakeState.Stake)}
@@ -139,18 +149,6 @@ const FarmOptions: FC<FarmOptionsProps> = ({
               }}
             >
               +
-            </Button>
-            <Button
-              variant="primary"
-              disabled={farm.totalStakedAmount.isZero()}
-              onClick={() => handleChangeModal(StakeState.Unstake)}
-              bg={farm.accountBalance.isZero() ? 'disabled' : 'error'}
-              cursor={farm.accountBalance.isZero() ? 'not-allowed' : 'pointer'}
-              nHover={{
-                bg: farm.accountBalance.isZero() ? 'disabled' : 'errorActive',
-              }}
-            >
-              -
             </Button>
           </Box>
         }

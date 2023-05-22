@@ -11,6 +11,7 @@ import { useLocalStorage, useNetwork } from '@/hooks';
 import { NextPageWithProps } from '@/interface';
 import Loading from '@/views/dapp/components/loading';
 import { TokenModalMetadata } from '@/views/dapp/components/select-currency/select-currency.types';
+import { ISwapSettingsForm } from '@/views/dapp/dex/swap/settings/settings.types';
 import { ISwapForm, LocalSwapSettings } from '@/views/dapp/dex/swap/swap.types';
 import DEXSwapView from '@/views/dapp/dex/swap-view';
 
@@ -45,10 +46,17 @@ const DexPage: NextPageWithProps = ({ pageTitle }) => {
 
   const [localSettings, setLocalSettings] = useLocalStorage<LocalSwapSettings>(
     'sui-interest-swap-settings',
-    { slippage: '1', deadline: '30' }
+    { slippage: '1', deadline: '30', autoFetch: true }
   );
 
-  const formSwap = useForm<ISwapForm>();
+  const formSwap = useForm<ISwapForm>({
+    defaultValues: {
+      tokenIn: DEFAULT_UNKNOWN_DATA,
+      tokenOut: DEFAULT_UNKNOWN_DATA,
+      inputInLocked: false,
+      inputOutLocked: false,
+    },
+  });
 
   useEffect(() => {
     formSwap.setValue('tokenIn', {
@@ -63,14 +71,16 @@ const DexPage: NextPageWithProps = ({ pageTitle }) => {
       decimals: TokenOut.decimals,
       symbol: TokenOut.symbol,
     });
+    formSwap.setValue('lock', false);
   }, [network]);
 
-  const formSettingsDropdown = useForm({
-    defaultValues: {
-      slippage: localSettings.slippage,
-      deadline: localSettings.deadline,
-    },
-  });
+  const formSettingsDropdown = useForm<ISwapSettingsForm>();
+
+  useEffect(() => {
+    formSettingsDropdown.setValue('slippage', localSettings.slippage);
+    formSettingsDropdown.setValue('autoFetch', localSettings.autoFetch);
+    formSettingsDropdown.setValue('deadline', localSettings.deadline);
+  }, [localSettings]);
 
   const [isAuto, setAuto] = useState(
     formSettingsDropdown.getValues('slippage') == SLIPPAGE_AUTO_VALUE
