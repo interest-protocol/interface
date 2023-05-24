@@ -41,7 +41,7 @@
         },
         "tvl": {
           "title": "TVL (USD)",
-          "description": "Valor total Depositado"
+          "description": "Valor Total Depositado"
         },
         "volume": {
           "title": "Volume (USD)",
