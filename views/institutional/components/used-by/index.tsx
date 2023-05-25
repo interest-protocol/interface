@@ -18,7 +18,7 @@ const UsedBy: FC = () => {
   useEffect(() => {
     (async () => {
       const result = await getMetrics();
-      console.log(result);
+
       if (!isEmpty(result)) setData(result);
     })();
   }, []);
