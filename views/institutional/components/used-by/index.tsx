@@ -1,6 +1,6 @@
 import { Box } from '@interest-protocol/ui-kit';
 import { useTranslations } from 'next-intl';
-import { isEmpty } from 'ramda';
+import { isEmpty, propOr } from 'ramda';
 import { FC, useEffect, useState } from 'react';
 
 import { getMetrics } from '@/api/analytics';
@@ -10,20 +10,15 @@ import { formatNumber } from '@/utils';
 import UsedByCard from './used-by-card';
 import UsedByTitle from './used-by-title';
 
-const DEFAULT_DATA = {
-  totalUsers: 0,
-  tvl: 0,
-  totalVolume: 0,
-};
-
 const UsedBy: FC = () => {
   const t = useTranslations();
 
-  const [{ totalUsers, totalVolume, tvl }, setData] = useState(DEFAULT_DATA);
+  const [data, setData] = useState({});
 
   useEffect(() => {
     (async () => {
       const result = await getMetrics();
+
       if (!isEmpty(result)) setData(result);
     })();
   }, []);
@@ -36,7 +31,7 @@ const UsedBy: FC = () => {
           mobileHalf
           Icon={UserSVG}
           color="#D9F99D"
-          value={formatNumber(totalUsers)}
+          value={formatNumber(propOr(0, 'totalUsers', data))}
           title={t('landingPage.usedBy.metrics.users.title')}
           description={t('landingPage.usedBy.metrics.users.description')}
         />
@@ -44,14 +39,14 @@ const UsedBy: FC = () => {
           mobileHalf
           color="#E9D5FF"
           Icon={TradesSVG}
-          value={formatNumber(tvl)}
+          value={formatNumber(propOr(0, 'tvl', data))}
           title={t('landingPage.usedBy.metrics.tvl.title')}
           description={t('landingPage.usedBy.metrics.tvl.description')}
         />
         <UsedByCard
           color="#FED7AA"
           Icon={ChartSVG}
-          value={formatNumber(totalVolume)}
+          value={formatNumber(propOr(0, 'totalVolume', data))}
           title={t('landingPage.usedBy.metrics.volume.title')}
           description={t('landingPage.usedBy.metrics.volume.description')}
         />
