@@ -2,6 +2,7 @@ import { Global, ThemeProvider } from '@emotion/react';
 import { ThemeProviderProps } from '@emotion/react/types/theming';
 import {
   darkTheme,
+  lightTheme,
   ThemeProvider as InterestThemeProvider,
 } from '@interest-protocol/ui-kit';
 import dynamic from 'next/dynamic';
@@ -14,6 +15,7 @@ import {
   DappGlobalStyles,
   LandingGlobalStyles,
 } from '@/design-system/global-styles';
+import institutionalTheme from '@/design-system/insitutional-theme/dark';
 import { useLocalStorage } from '@/hooks';
 
 import LoadingPage from '../loading-page';
@@ -28,6 +30,10 @@ const WalletKitProvider = dynamic(
   }
 );
 
+// TODO: REMOVE THESE CONSTANTS
+const INSTITUTIONAL_PAGES = ['/', '/team', '/campaign/liquidity'];
+const DAPP_REDESIGN_PAGES = ['/dapp/v2', 'dapp/swap'];
+
 const Theme: FC<PropsWithChildren<ThemeProps>> = ({
   dark,
   setDark,
@@ -35,15 +41,29 @@ const Theme: FC<PropsWithChildren<ThemeProps>> = ({
 }) => {
   const { asPath } = useRouter();
 
-  const isRedesign =
-    asPath === '/' || asPath === '/team' || asPath.startsWith('/campaign');
+  const isInstitutional = INSTITUTIONAL_PAGES.includes(asPath);
+  const isRedesign = DAPP_REDESIGN_PAGES.some((path) => asPath.includes(path));
 
-  if (isRedesign)
+  if (isInstitutional)
     return (
-      <InterestThemeProvider theme={{ setDark, ...darkTheme }}>
+      <InterestThemeProvider theme={{ setDark, ...institutionalTheme }}>
         <Global styles={LandingGlobalStyles} />
         {children}
       </InterestThemeProvider>
+    );
+
+  if (isRedesign)
+    return (
+      <NetworkProvider>
+        <WalletKitProvider>
+          <InterestThemeProvider
+            theme={{ setDark, ...(dark ? darkTheme : lightTheme) }}
+          >
+            <Global styles={LandingGlobalStyles} />
+            {children}
+          </InterestThemeProvider>
+        </WalletKitProvider>
+      </NetworkProvider>
     );
 
   return (

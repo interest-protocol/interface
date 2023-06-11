@@ -1,11 +1,50 @@
 {
   "common": {
     "v2": {
+      "on": "Ativo",
+      "off": "Inativo",
+      "cancel": "cancelar",
+      "confirm": "confirmar",
+      "confirmChanges": "confirmar alterações",
       "languages": {
         "title": "Idioma",
         "en-US": "Inglês",
         "pt-PT": "Português",
         "pt-BR": "Português"
+      },
+      "menu": {
+        "settings": "Definições",
+        "darkMode": "Modo escuro",
+        "dark": "Escuro",
+        "light": "Claro",
+        "languages": "Idiomas"
+      },
+      "navbar": {
+        "swap": "troca",
+        "home": "início",
+        "pool": "pool",
+        "farm": "farm",
+        "createToken": "criar token",
+        "settings": "definições"
+      },
+      "wallet": {
+        "name": "carteira",
+        "connect": "conetar à carteira",
+        "disconnect": "desconectar",
+        "switch": "trocar rede",
+        "error": "erro ao conectar",
+        "connecting": "conectando...",
+        "copy": "Endereço copiado para a clipboard"
+      },
+      "lend": {
+        "title": "Emprestar",
+        "firstSection": {
+          "netAPY": "APY líquido",
+          "supplyBalance": "Saldo de suprimento",
+          "walletBalance": "Saldo da carteira",
+          "borrowLimit": "Limite de empréstimo",
+          "borrowLimitUsed": "Limite de empréstimo utilizado"
+        }
       },
       "banner": {
         "liquidity": {
@@ -29,6 +68,7 @@
       }
     },
     "dex": "dex",
+    "home": "Início",
     "soon": "em breve",
     "pool": "pool",
     "notFoundToken": "Meta dados do token não encontrados",
@@ -101,14 +141,6 @@
     "followUs": "SIGA-NOS",
     "coin": "moeda",
     "createTokenModalButton": "{isLoading, plural, =1 {Criando O Token...} other {Crie Um Token}}",
-    "createTokenModalTitle": "NOVO TOKEN",
-    "createTokenModalInputName": "Nome",
-    "createTokenModalInputSymbol": "Símbolo",
-    "createTokenModalInputIconUrl": "URL do ícone",
-    "createTokenModalInputDescription": "Descrição",
-    "createTokenModalAdvice": "Deves pagar 1 Sui para a criação do Token",
-    "createTokenModalInputAmount": "Montante",
-    "createTokenModalInputPlaceholder": "Escreva o {label}",
     "bannerHeader": "Airdrop: 28M de tokens IPX para ganhar! Clique aqui!"
   },
   "error": {

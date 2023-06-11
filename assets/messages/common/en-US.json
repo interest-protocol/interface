@@ -1,11 +1,50 @@
 {
   "common": {
     "v2": {
+      "on": "On",
+      "off": "Off",
+      "cancel": "cancel",
+      "confirm": "confirm",
+      "confirmChanges": "confirm changes",
       "languages": {
         "title": "language",
         "en-US": "English",
         "pt-PT": "Portuguese",
         "pt-BR": "Portuguese"
+      },
+      "navbar": {
+        "swap": "swap",
+        "home": "home",
+        "pool": "pool",
+        "farm": "farm",
+        "createToken": "create token",
+        "settings": "settings"
+      },
+      "menu": {
+        "settings": "settings",
+        "darkMode": "dark mode",
+        "dark": "Dark",
+        "light": "Light",
+        "languages": "languages"
+      },
+      "wallet": {
+        "name": "wallet",
+        "connect": "connect wallet",
+        "disconnect": "disconnect",
+        "switch": "switch network",
+        "error": "error connecting",
+        "connecting": "connecting",
+        "copy": "address copied to the clipboard"
+      },
+      "lend": {
+        "title": "Lend",
+        "firstSection": {
+          "netAPY": "Net APY",
+          "supplyBalance": "Supply Balance",
+          "walletBalance": "Wallet Balance",
+          "borrowLimit": "Borrow Limit",
+          "borrowLimitUsed": "Borrow Limit Used"
+        }
       },
       "banner": {
         "liquidity": {
@@ -29,6 +68,7 @@
       }
     },
     "dex": "dex",
+    "home": "Home",
     "soon": "soon",
     "pool": "pool",
     "notFoundToken": "Token meta data not found",
@@ -101,14 +141,6 @@
     "followUs": "FOLLOW US",
     "coin": "coin",
     "createTokenModalButton": "{isLoading, plural, =1 {Creating Token...} other {Create Token}}",
-    "createTokenModalTitle": "CREATE NEW TOKEN",
-    "createTokenModalInputName": "Name",
-    "createTokenModalInputSymbol": "Symbol",
-    "createTokenModalInputIconUrl": "Icon URL",
-    "createTokenModalInputDescription": "Description",
-    "createTokenModalAdvice": "You must pay 1 Sui for Token Creation",
-    "createTokenModalInputAmount": "Amount",
-    "createTokenModalInputPlaceholder": "Type {label}",
     "bannerHeader": "Airdrop: 28M IPX tokens up for grabs! Click here!"
   },
   "error": {
