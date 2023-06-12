@@ -65,8 +65,8 @@ export const PARTNER_LIST = [
     link: 'https://foxwallet.com/',
   },
   {
-    name: 'CUBIC GAMES',
-    link: 'https://www.cubicgames.xyz/',
+    name: 'BLOCKVISION',
+    link: 'https://blockvision.org/',
   },
   {
     name: 'PYTH NETWORK',
