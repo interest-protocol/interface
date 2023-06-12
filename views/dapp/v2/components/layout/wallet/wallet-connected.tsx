@@ -1,4 +1,5 @@
-import { Box, Theme, useTheme } from '@interest-protocol/ui-kit';
+import { Box, Theme, Typography, useTheme } from '@interest-protocol/ui-kit';
+import { formatAddress } from '@mysten/sui.js';
 import { FC, useEffect, useState } from 'react';
 
 import { UserSVG } from '@/components/svg/v2';
@@ -55,19 +56,26 @@ const WalletConnected: FC = () => {
       position="relative"
       ref={connectedBoxRef}
     >
-      <Box
-        bg="primary"
-        width="2.5rem"
-        height="2.5rem"
-        cursor="pointer"
-        borderRadius="50%"
-        onClick={() => setIsOpen(true)}
-        transition="transform 300ms ease-in-out"
-        nHover={{
-          transform: 'scale(1.1)',
-        }}
-      >
-        <UserSVG width="100%" maxWidth="2.5rem" maxHeight="2.5rem" />
+      <Box display="flex" gap="m" alignItems="center">
+        {account && (
+          <Typography variant="medium" color="onSurface">
+            {formatAddress(account)}
+          </Typography>
+        )}
+        <Box
+          bg="primary"
+          width="2.5rem"
+          height="2.5rem"
+          cursor="pointer"
+          borderRadius="50%"
+          onClick={() => setIsOpen(true)}
+          transition="transform 300ms ease-in-out"
+          nHover={{
+            transform: 'scale(1.1)',
+          }}
+        >
+          <UserSVG width="100%" maxWidth="2.5rem" maxHeight="2.5rem" />
+        </Box>
       </Box>
       <WalletDropdown
         isOpen={isOpen}
