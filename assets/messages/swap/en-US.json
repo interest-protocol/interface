@@ -54,7 +54,7 @@
       },
       "confirm": {
         "title": "Token Swapped",
-        "description": "You can check you transaction in the Explorer",
+        "description": "You can check your transaction in the Explorer",
         "button": "See on SuiVision"
       },
       "error": {
