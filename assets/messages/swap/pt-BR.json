@@ -57,7 +57,7 @@
       "confirm": {
         "tokenSwapped": "Token Trocado",
         "explorerMessage": "Você pode verificar sua transação no Explorador",
-        "seeOnExplorer": "Ver no Explorador"
+        "seeOnExplorer": "Ver no SuiVision"
       },
       "error": {
         "swapFailed": "Erro",
