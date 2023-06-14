@@ -13,7 +13,6 @@ import Modal from '@/elements/modal';
 export interface ModalContext {
   handleClose: () => void;
   setModal: (node: ReactNode, props?: ModalProps) => void;
-  setCloseModal: (closeFn: (() => void) | null) => void;
 }
 
 const modalContext = createContext({} as ModalContext);
@@ -24,14 +23,11 @@ export const ModalProvider: FC<PropsWithChildren<{ newDesign?: boolean }>> = ({
 }) => {
   const { Provider } = modalContext;
   const [component, setComponent] = useState<ReactNode>(null);
-  const [modalProps, setModalProps] = useState<
-    Omit<ModalProps, 'isOpen' | 'onClose'>
-  >({});
-  const [onClose, setOnClose] = useState<(() => void) | null>(null);
+  const [modalProps, setModalProps] = useState<Omit<ModalProps, 'isOpen'>>({});
 
   const handleClose = () => {
     setComponent(null);
-    onClose?.();
+    modalProps?.onClose?.();
   };
 
   const setModal = (node: ReactNode, props = {} as ModalProps) => {
@@ -42,7 +38,6 @@ export const ModalProvider: FC<PropsWithChildren<{ newDesign?: boolean }>> = ({
   const value: ModalContext = {
     setModal,
     handleClose,
-    setCloseModal: (closeFn) => setOnClose(closeFn),
   };
 
   return (
@@ -50,11 +45,7 @@ export const ModalProvider: FC<PropsWithChildren<{ newDesign?: boolean }>> = ({
       {newDesign ? (
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        <IUIModal
-          {...modalProps}
-          isOpen={!!component}
-          onClose={onClose ?? undefined}
-        >
+        <IUIModal {...modalProps} isOpen={!!component} onClose={handleClose}>
           {component}
         </IUIModal>
       ) : (
