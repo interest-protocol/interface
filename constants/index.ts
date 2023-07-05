@@ -1,9 +1,11 @@
 import { COIN_TYPE, Network } from '@interest-protocol/sui-amm-sdk';
+import BigNumber from 'bignumber.js';
 
 import {
   BNBSVG,
   BTCSVG,
   ETHSVG,
+  SUIDSVG,
   SUISVG,
   UnknownCoinSVG,
   USDTSVG,
@@ -118,7 +120,6 @@ export const TOKENS_SVG_MAP = {
   [COIN_TYPE[Network.MAINNET].NATIVE_WORMHOLE_SOL]: WormholeSOLv1SVG,
 };
 
-// TODO WHAT IS THE NEW DEFAULT UNKNOWN COIN:??
 export const TOKENS_SVG_MAP_V2 = {
   default: UnknownCoinSVG,
   [COIN_TYPE[Network.DEVNET].BNB]: BNBSVG,
@@ -132,6 +133,7 @@ export const TOKENS_SVG_MAP_V2 = {
   [COIN_TYPE[Network.TESTNET].BTC]: BTCSVG,
   [COIN_TYPE[Network.TESTNET].ETH]: ETHSVG,
   [COIN_TYPE[Network.TESTNET].SUI]: SUISVG,
+  [COIN_TYPE[Network.TESTNET].SUID]: SUIDSVG,
   [COIN_TYPE[Network.TESTNET].USDC]: USDCoinSVG,
   [COIN_TYPE[Network.TESTNET].USDT]: USDTSVG,
   [COIN_TYPE[Network.TESTNET].IPX]: InterestTokenSVG,
@@ -166,3 +168,6 @@ export const NETWORK_RECORD = {
   [Network.TESTNET]: 'testnet',
   [Network.MAINNET]: 'mainnet',
 };
+
+export const SCALAR = BigNumber(1e9);
+export const DOUBLE_SCALAR = BigNumber(1e18);
