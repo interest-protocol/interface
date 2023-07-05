@@ -2,7 +2,7 @@ import { Network } from '@interest-protocol/sui-amm-sdk';
 
 import { BridgeSVG, FarmSVG, NewTokenSVG } from '@/components/svg/v2';
 import { Routes, RoutesEnum } from '@/constants';
-import { HomeSVG, PoolSVG, SwapSVG } from '@/svg';
+import { HomeSVG, LendSVG, PoolSVG, SwapSVG } from '@/svg';
 
 export const SIDEBAR_ITEMS = [
   {
@@ -25,6 +25,13 @@ export const SIDEBAR_ITEMS = [
     path: Routes[RoutesEnum.DEXPool],
     disabled: false,
     networks: [Network.MAINNET, Network.TESTNET],
+  },
+  {
+    Icon: LendSVG,
+    name: 'lend',
+    path: Routes[RoutesEnum.Lend],
+    disabled: false,
+    networks: [Network.TESTNET, Network.MAINNET],
   },
   {
     Icon: FarmSVG,

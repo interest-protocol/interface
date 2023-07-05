@@ -25,6 +25,7 @@
         "home": "Inicio",
         "pool": "pool",
         "farm": "farm",
+        "lend": "Préstamo",
         "createToken": "Crear token",
         "settings": "Configuración",
         "bridge": "Bridge"
@@ -44,16 +45,6 @@
         "error": "Error de conexión",
         "connecting": "Conectando",
         "copy": "Dirección copiada"
-      },
-      "lend": {
-        "title": "Préstamo",
-        "firstSection": {
-          "netAPY": "APY neto",
-          "supplyBalance": "Saldo de suministro",
-          "walletBalance": "Saldo de la cartera",
-          "borrowLimit": "Límite de préstamo",
-          "borrowLimitUsed": "Límite de préstamo utilizado"
-        }
       },
       "banner": {
         "liquidity": {
@@ -84,6 +75,7 @@
     "searchTokenInputDescription": "Buscar por nombre, símbolo o tipo...",
     "swap": "{isLoading, plural, =1 {intercambiando} other {intercambiar}}",
     "balance": "Saldo",
+    "plafond": "plafond",
     "success": "éxito",
     "notFound": "no encontrado",
     "pageNotFound": "Página no encontrada",
