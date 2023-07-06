@@ -222,9 +222,9 @@ const SupplyMarketModal: FC<SupplyMarketModalProps> = ({
           </>
         )}
         <MarketTableModalField
-          disabled={!balance}
+          disabled={!checkValue}
           control={supplyForm.control}
-          max={isDeposit ? balance : suppliedAmount}
+          max={checkValue}
           {...supplyForm.register('value', {
             onChange: (v: ChangeEvent<HTMLInputElement>) => {
               const parsedValue = parseInputEventToNumberString(v);
@@ -241,7 +241,7 @@ const SupplyMarketModal: FC<SupplyMarketModalProps> = ({
         />
         <Slider
           max={100}
-          disabled={!balance}
+          disabled={!checkValue}
           onChange={(value) => {
             const parsedValue = Number(
               ((value / 100) * checkValue).toFixed(6)
