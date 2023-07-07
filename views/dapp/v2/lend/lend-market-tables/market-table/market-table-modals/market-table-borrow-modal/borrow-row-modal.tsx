@@ -118,8 +118,12 @@ const BorrowMarketModal: FC<BorrowMarketModalProps> = ({
     marketRecord[marketKey].decimals
   );
 
+  const safeCollateral = userBalancesInUSD.totalCollateral * 0.9;
+
   const maxBorrowAmount =
-    userBalancesInUSD.totalCollateral * 0.9 - userBalancesInUSD.totalLoan;
+    userBalancesInUSD.totalLoan >= safeCollateral
+      ? 0
+      : userBalancesInUSD.totalCollateral - userBalancesInUSD.totalLoan;
 
   const maxBorrowInToken = maxBorrowAmount / priceMap[marketKey].price;
 
@@ -171,7 +175,7 @@ const BorrowMarketModal: FC<BorrowMarketModalProps> = ({
               variant="extraSmall"
               textTransform="capitalize"
             >
-              {t('common.v2.wallet.name')}: {balance}
+              {t('common.v2.wallet.name')}: {balance} {asset.coin.token.symbol}
             </Typography>
             <Typography
               variant="extraSmall"
@@ -182,7 +186,8 @@ const BorrowMarketModal: FC<BorrowMarketModalProps> = ({
               {t('common.plafond')}:{' '}
               {formatMoney(
                 Number((+maxBorrowInToken.toFixed(6)).toPrecision())
-              )}
+              )}{' '}
+              {asset.coin.token.symbol}
             </Typography>
           </>
         ) : (
@@ -206,6 +211,7 @@ const BorrowMarketModal: FC<BorrowMarketModalProps> = ({
           </>
         )}
         <MarketTableModalField
+          symbol={asset.coin.token.symbol}
           control={borrowForm.control}
           max={checkValue}
           disabled={
@@ -234,6 +240,9 @@ const BorrowMarketModal: FC<BorrowMarketModalProps> = ({
           })}
         />
         <Slider
+          disabled={
+            isLoan ? maxBorrowInToken === 0 : market.userPrincipal.isZero()
+          }
           max={100}
           onChange={(value) => {
             const parsedValue = Number(
