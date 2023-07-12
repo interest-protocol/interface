@@ -31,6 +31,7 @@
         "farm": "farm",
         "createToken": "create token",
         "settings": "settings",
+        "faucet": "faucet",
         "bridge": "bridge"
       },
       "menu": {
