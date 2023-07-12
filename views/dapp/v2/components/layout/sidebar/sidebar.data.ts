@@ -2,8 +2,7 @@ import { Network } from '@interest-protocol/sui-amm-sdk';
 
 import { BridgeSVG, FarmSVG, NewTokenSVG } from '@/components/svg/v2';
 import { Routes, RoutesEnum } from '@/constants';
-import { HomeSVG, LendSVG, PoolSVG, SwapSVG } from '@/svg';
-
+import { FaucetSVG, HomeSVG, LendSVG, PoolSVG, SwapSVG } from '@/svg';
 export const SIDEBAR_ITEMS = [
   {
     Icon: HomeSVG,
@@ -54,6 +53,13 @@ export const SIDEBAR_ITEMS = [
     path: Routes[RoutesEnum.CreateToken],
     disabled: false,
     networks: [Network.MAINNET, Network.TESTNET],
+  },
+  {
+    Icon: FaucetSVG,
+    name: 'faucet',
+    path: Routes[RoutesEnum.Faucet],
+    disabled: false,
+    networks: [Network.TESTNET],
   },
   {
     Icon: BridgeSVG,
