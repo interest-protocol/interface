@@ -15,9 +15,8 @@ import { FC, useState } from 'react';
 
 import { LeftArrowSVG } from '@/components/svg/v2';
 import {
-  NETWORK_RECORD,
-  SUI_EXPLORER_URL,
   SUI_VISION_EXPLORER_URL,
+  SUI_VISION_TESTNET_EXPLORER_URL,
 } from '@/constants';
 import { useMoneyMarketSdk, useNetwork, useProvider } from '@/hooks';
 import { FixedPointMath } from '@/lib';
@@ -114,7 +113,7 @@ const SupplyMarketPreviewModal: FC<SupplyMarketModalPreviewProps> = ({
         txLink:
           network === Network.MAINNET
             ? `${SUI_VISION_EXPLORER_URL}/txblock/${tx.digest}`
-            : `${SUI_EXPLORER_URL}/transaction/${tx.digest}?network=${NETWORK_RECORD[network]}`,
+            : `${SUI_VISION_TESTNET_EXPLORER_URL}/txblock/${tx.digest}`,
       });
     } catch {
       openRowMarketResultModal({
@@ -168,7 +167,7 @@ const SupplyMarketPreviewModal: FC<SupplyMarketModalPreviewProps> = ({
         txLink:
           network === Network.MAINNET
             ? `${SUI_VISION_EXPLORER_URL}/txblock/${tx.digest}`
-            : `${SUI_EXPLORER_URL}/transaction/${tx.digest}?network=${NETWORK_RECORD[network]}`,
+            : `${SUI_VISION_TESTNET_EXPLORER_URL}/txblock/${tx.digest}`,
       });
     } catch {
       openRowMarketResultModal({ isSuccess: false, isDeposit });
@@ -234,11 +233,8 @@ const SupplyMarketPreviewModal: FC<SupplyMarketModalPreviewProps> = ({
           <LeftArrowSVG maxWidth="1rem" maxHeight="1rem" width="100%" />
         </Button>
         <Box display="flex" alignItems="center">
-          <Box display="flex" alignItems="center">
-            <MarketTableTokenIcon type={asset.coin.token.type} />
-          </Box>
           <Typography variant="title5" ml="0.5rem" color="onSurface">
-            {asset.coin.token.symbol}
+            {t(isDeposit ? 'lend.supply' : 'lend.withdraw')}
           </Typography>
         </Box>
         <Button variant="icon" onClick={closeModal}>
@@ -291,7 +287,7 @@ const SupplyMarketPreviewModal: FC<SupplyMarketModalPreviewProps> = ({
         )}
         <Box
           as="hr"
-          mx="4xl"
+          mx="s"
           my="1.5rem"
           border="none"
           borderBottom="1px solid"
@@ -312,6 +308,7 @@ const SupplyMarketPreviewModal: FC<SupplyMarketModalPreviewProps> = ({
       </Box>
       <Box
         p="xl"
+        pt="0"
         bg="surface.containerLow"
         display="flex"
         gap="0.5rem"
@@ -320,6 +317,7 @@ const SupplyMarketPreviewModal: FC<SupplyMarketModalPreviewProps> = ({
         <Button
           variant="filled"
           fontSize="s"
+          size="small"
           width="100%"
           display="flex"
           justifyContent="center"
