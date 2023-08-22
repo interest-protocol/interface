@@ -2,7 +2,7 @@ import { Network } from '@interest-protocol/sui-amm-sdk';
 
 import { BridgeSVG } from '@/components/svg/v2';
 import { Routes, RoutesEnum } from '@/constants';
-import { DotsSVG, SwapSVG } from '@/svg';
+import { DotsSVG, SwapSVG, TrendUpSVG } from '@/svg';
 
 import { MenuItemProps } from './sidebar.types';
 
@@ -18,6 +18,13 @@ export const SIDEBAR_ITEMS: ReadonlyArray<
     path: Routes[RoutesEnum.Swap],
     disabled: false,
     networks: [Network.MAINNET, Network.TESTNET],
+  },
+  {
+    Icon: TrendUpSVG,
+    name: 'metrics',
+    path: Routes[RoutesEnum.Metrics],
+    disabled: false,
+    networks: [Network.MAINNET],
   },
   {
     Icon: BridgeSVG,
