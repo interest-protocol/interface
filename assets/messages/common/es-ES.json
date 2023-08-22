@@ -32,7 +32,11 @@
         "createToken": "Crear token",
         "settings": "Configuración",
         "faucet": "faucet",
-        "bridge": "Bridge"
+        "metrics": "métricas",
+        "bridge": "Bridge",
+        "wormhole": "wormhole",
+        "celer": "celer",
+        "more": "otros"
       },
       "menu": {
         "settings": "ajustes globales",

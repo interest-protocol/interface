@@ -1,3 +1,5 @@
+import { Network } from '@interest-protocol/sui-amm-sdk';
+
 /**
  * @RoutesEnum is a custom data type
  * @description this data type will help us to uniformize our route names
@@ -11,9 +13,11 @@ export enum RoutesEnum {
   DEXPool = 'dex-pool',
   DEXFindPool = 'dex-find-pool',
   DEXPoolDetails = 'dex-pool-details',
-  Bridge = 'bridge',
+  Wormhole = 'wormhole',
+  Celer = 'celer',
   Faucet = 'faucet',
   Lend = 'lend',
+  Metrics = 'metrics',
   LiquidityCampaign = 'liquidity-campaign',
   CreateToken = 'create-token',
   LiquidityFarms = 'liquidity-farms',
@@ -36,8 +40,20 @@ export const Routes: Record<RoutesEnum, string> = {
   [RoutesEnum.Faucet]: '/dapp/alpha/faucet',
   [RoutesEnum.CreateToken]: '/dapp/create-token',
   [RoutesEnum.Lend]: '/dapp/alpha/lending',
+  [RoutesEnum.Metrics]: '/dapp/metrics',
   [RoutesEnum.LiquidityCampaign]: '/campaign/liquidity',
-  [RoutesEnum.Bridge]: 'https://wormhole.interestprotocol.com/',
+  [RoutesEnum.Wormhole]: 'https://wormhole.interestprotocol.com/',
+  [RoutesEnum.Celer]: 'https://cbridge.celer.network/1/12370001/USDC',
   [RoutesEnum.LiquidityFarms]: '/dapp/liquidity',
   [RoutesEnum.LiquidityFarmsDetails]: '/dapp/liquidity/details',
+};
+
+export const NETWORK_RESTRICTION: Record<Network, ReadonlyArray<string>> = {
+  [Network.DEVNET]: [],
+  [Network.TESTNET]: [Routes[RoutesEnum.Lend], Routes[RoutesEnum.Faucet]],
+  [Network.MAINNET]: [
+    Routes[RoutesEnum.Metrics],
+    Routes[RoutesEnum.Wormhole],
+    Routes[RoutesEnum.Celer],
+  ],
 };
